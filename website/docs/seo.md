@@ -7,40 +7,36 @@ keywords:
   - positioning
 ---
 
-Docusaurus supports the search engine optimization in a variety of ways:
+Docusaurus supports the search engine optimization in a variety of ways.
 
-- [Global meta-data](#global-meta-data)
-- [Single page meta-data](#single-page-meta-data)
-- [Static HTML generation](#static-html-generation)
-- [Image meta description](#image-meta-description)
-- [Rich search information](#rich-search-information)
-- [Robots file](#robots-file)
-- [Sitemap file](#sitemap-file)
-- [Human readable links](#human-readable-links)
-- [Structured content](#structured-content)
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
 
-## Global meta-data {#global-meta-data}
+<TOCInline toc={toc} />
+```
 
-🥇 Docusaurus provides an easy way for setting up global meta-data. In order to provide global meta attributes the [docusaurus configuration](./configuration.md#site-metadata) file should be used. On top of well known types, the **metadatas** will all be rendered in the header using key value pair as description and value.
+## Global metadata {#global-metadata}
 
-```jsx title="docusaurus.config.js"
+Provide global meta attributes for the entire site through the [site configuration](./configuration.md#site-metadata). The metadatas will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
+
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    // <meta name="keywoards" content="cooking, blog">
     metadatas: [{name: 'keywords', content: 'cooking, blog'}],
+    // This would become <meta name="keywords" content="cooking, blog"> in the generated HTML
   },
 };
 ```
 
-To read more about types of meta tags visit [official firefox site](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta).
+To read more about types of meta tags, visit [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta).
 
-## Single page meta-data {#single-page-meta-data}
+## Single page metadata {#single-page-metadata}
 
-Similarly to [global meta data](#global-meta-data) 🥇 Docusaurus also allows for addition of meta information on single pages. In order to add meta data to single page follow [this guide](./guides/markdown-features/markdown-features-head-metadatas.mdx) for head tag extension.
+Similarly to [global metadata](#global-metadata), Docusaurus also allows for addition of meta information on single pages. In order to add metadata to single page follow [this guide](./guides/markdown-features/markdown-features-head-metadatas.mdx) for head tag extension.
 
 ## Static HTML generation {#static-html-generation}
 
-HTML files are statically generated for every possible path, which helps search engines discover your content easier.
+Docusaurus is a static site generator—HTML files are statically generated for every URL route, which helps search engines discover your content easier.
 
 ## Image meta description {#image-meta-description}
 
@@ -48,24 +44,26 @@ Docusaurus supports alt tags for your images, see [this section](./guides/markdo
 
 ## Rich search information {#rich-search-information}
 
-In order to get ultimate search engine experience, the rich search information is used by Docusaurus by default. The information is created depending on your meta information in blog/global configuration. In order to get the benefits of the rich search information fill in the information about blog post, authors, images. Read more about the meta information [here](./blog.mdx##blog-post-authors), alternatively same information can be filled in globally in configuration files [read more about global configuration](./blog.mdx#global-authors).
+Docusaurus blogs support [rich search results](https://search.google.com/test/rich-results) out-of-the-box in order to get maximum search engine experience. The information is created depending on your meta information in blog/global configuration. In order to get the benefits of the rich search information, fill in the information about the post's publish date, authors, and image, etc. Read more about the meta information [here](./blog.mdx).
 
 ## Robots file {#robots-file}
 
-As there is no good default for robots.txt file, the Docusaurus gives you full freedom of providing one. To add one to the site, you can just provided it as [static asset](./static-assets.md).
+To add a `robots.txt` file which regulates search engines' behavior about which should be displayed and which shouldn't, provide it as [static asset](./static-assets.md). The following would allow access to all sub-pages from all requests:
 
-Probably good starting point could be the following robots.txt allowing access to all sub-pages:
-
-```
+```text title="robots.txt"
 User-agent: *
 Disallow:
 ```
 
-Read more about robots file in [this wikipedia article](https://en.wikipedia.org/wiki/Robots_exclusion_standard).
+Read more about robots file in [the Google documentation](https://developers.google.com/search/docs/advanced/robots/intro).
+
+:::caution
+
+**Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed. Use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata) to prevent it from appearing in search results entirely.
 
 ## Sitemap file {#sitemap-file}
 
-The `sitemap.xml` file will be automatically generated by 🥇 Docusaurus for you! It should be available in `baseUrl/sitemap.xml` after the release build.
+Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) plugin, which is shipped wih `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/<baseUrl>/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
 
 ## Human readable links {#human-readable-links}
 
