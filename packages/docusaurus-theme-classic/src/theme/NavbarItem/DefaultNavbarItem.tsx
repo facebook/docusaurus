@@ -16,6 +16,7 @@ import type {
 } from '@theme/NavbarItem/DefaultNavbarItem';
 import IconExternalLink from '@theme/IconExternalLink';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {getInfimaActiveClassName} from './index';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
@@ -54,7 +55,7 @@ export function NavLink({
               ? {
                   isActive: (_match, location) =>
                     activeBaseRegex
-                      ? new RegExp(activeBaseRegex).test(location.pathname)
+                      ? isRegexpStringMatch(activeBaseRegex, location.pathname)
                       : location.pathname.startsWith(activeBaseUrl),
                 }
               : null),

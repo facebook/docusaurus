@@ -6,6 +6,7 @@
  */
 
 declare module '@generated/client-modules' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clientModules: readonly any[];
   export default clientModules;
 }
@@ -26,6 +27,7 @@ declare module '@generated/site-metadata' {
 
 declare module '@generated/registry' {
   const registry: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly [key: string]: [() => Promise<any>, string, string];
   };
   export default registry;
@@ -50,7 +52,8 @@ declare module '@generated/routesChunkNames' {
 }
 
 declare module '@generated/globalData' {
-  const globalData: Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalData: Record<string, any>;
   export default globalData;
 }
 
@@ -89,7 +92,7 @@ declare module '@theme/Loading' {
 }
 
 declare module '@theme/NotFound' {
-  export default function NotFound(props: any): JSX.Element;
+  export default function NotFound(): JSX.Element;
 }
 
 declare module '@theme/Root' {
@@ -292,6 +295,7 @@ declare module '@docusaurus/useGlobalData' {
     pluginId?: string,
   ): T;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
 }

@@ -22,9 +22,8 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
-import {createSidebarsUtils} from './sidebars/utils';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {readVersionDocs, processDocMetadata} from './docs';
+import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
@@ -35,7 +34,6 @@ import {
   DocMetadata,
   GlobalPluginData,
   VersionMetadata,
-  DocNavLink,
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
@@ -44,7 +42,7 @@ import {
 import {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {keyBy, compact, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp, toVersionMetadataProp} from './props';
 import {
@@ -165,10 +163,6 @@ export default function pluginContentDocs(
         const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
-        const docsBaseById: Record<string, DocMetadataBase> = keyBy(
-          docsBase,
-          (doc) => doc.id,
-        );
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
@@ -180,70 +174,14 @@ export default function pluginContentDocs(
             sidebarCollapsible: options.sidebarCollapsible,
           },
         });
-
-        const {
-          checkSidebarsDocIds,
-          getDocNavigation,
-          getFirstDocIdOfFirstSidebar,
-        } = createSidebarsUtils(sidebars);
-
-        const validDocIds = Object.keys(docsBaseById);
-        checkSidebarsDocIds(
-          validDocIds,
-          versionMetadata.sidebarFilePath as string,
-        );
-
-        // Add sidebar/next/previous to the docs
-        function addNavData(doc: DocMetadataBase): DocMetadata {
-          const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
-          const toDocNavLink = (navDocId: string): DocNavLink => {
-            const {title, permalink, frontMatter} = docsBaseById[navDocId];
-            return {
-              title:
-                frontMatter.pagination_label ??
-                frontMatter.sidebar_label ??
-                title,
-              permalink,
-            };
-          };
-          return {
-            ...doc,
-            sidebar: sidebarName,
-            previous: previousId ? toDocNavLink(previousId) : undefined,
-            next: nextId ? toDocNavLink(nextId) : undefined,
-          };
-        }
-
-        const docs = docsBase.map(addNavData);
-
-        // sort to ensure consistent output for tests
-        docs.sort((a, b) => a.id.localeCompare(b.id));
-
-        // The "main doc" is the "version entry point"
-        // We browse this doc by clicking on a version:
-        // - the "home" doc (at '/docs/')
-        // - the first doc of the first sidebar
-        // - a random doc (if no docs are in any sidebar... edge case)
-        function getMainDoc(): DocMetadata {
-          const versionHomeDoc = docs.find(
-            (doc) =>
-              doc.unversionedId === options.homePageId || doc.slug === '/',
-          );
-          const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
-          if (versionHomeDoc) {
-            return versionHomeDoc;
-          } else if (firstDocIdOfFirstSidebar) {
-            return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
-          } else {
-            return docs[0];
-          }
-        }
-
         return {
           ...versionMetadata,
-          mainDocId: getMainDoc().unversionedId,
+          ...handleNavigation(
+            docsBase,
+            sidebars,
+            versionMetadata.sidebarFilePath as string,
+          ),
           sidebars,
-          docs: docs.map(addNavData),
         };
       }
 
@@ -450,7 +388,7 @@ export default function pluginContentDocs(
           include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
-          use: compact([
+          use: [
             getJSLoader({isServer}),
             {
               loader: require.resolve('@docusaurus/mdx-loader'),
@@ -476,7 +414,7 @@ export default function pluginContentDocs(
               loader: path.resolve(__dirname, './markdown/index.js'),
               options: docsMarkdownOptions,
             },
-          ]),
+          ].filter(Boolean),
         };
       }
 

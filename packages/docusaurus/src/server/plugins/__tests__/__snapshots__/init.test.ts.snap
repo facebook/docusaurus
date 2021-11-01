@@ -82,3 +82,48 @@ Array [
   },
 ]
 `;
+
+exports[`sortConfig should sort route config given a baseURL 1`] = `
+Array [
+  Object {
+    "component": "",
+    "path": "/latest/community",
+  },
+  Object {
+    "component": "",
+    "path": "/latest/example",
+  },
+  Object {
+    "component": "",
+    "path": "/latest/some-page",
+  },
+  Object {
+    "component": "",
+    "path": "/latest/docs",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/latest/docs/someDoc",
+      },
+      Object {
+        "component": "",
+        "path": "/latest/docs/someOtherDoc",
+      },
+    ],
+  },
+  Object {
+    "component": "",
+    "path": "/latest",
+    "routes": Array [
+      Object {
+        "component": "",
+        "path": "/latest/someDoc",
+      },
+      Object {
+        "component": "",
+        "path": "/latest/someOtherDoc",
+      },
+    ],
+  },
+]
+`;

@@ -148,7 +148,7 @@ function DocPage(props: Props): JSX.Element {
     matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
-    return <NotFound {...props} />;
+    return <NotFound />;
   }
   return (
     <>

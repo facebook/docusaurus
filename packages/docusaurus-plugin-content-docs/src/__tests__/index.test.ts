@@ -345,10 +345,11 @@ describe('simple website', () => {
         permalink: '/docs/foo/bar',
       },
       next: {
-        title: 'Hello sidebar_label',
-        permalink: '/docs/',
+        title: 'rootAbsoluteSlug',
+        permalink: '/docs/rootAbsoluteSlug',
       },
       sidebar: 'docs',
+      sidebarPosition: undefined,
       source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, currentVersion.contentPath)),
@@ -391,8 +392,8 @@ describe('simple website', () => {
       permalink: '/docs/',
       slug: '/',
       previous: {
-        title: 'baz pagination_label',
-        permalink: '/docs/foo/bazSlug.html',
+        title: 'My heading as title',
+        permalink: '/docs/headingAsTitle',
       },
       sidebar: 'docs',
       source: path.posix.join(

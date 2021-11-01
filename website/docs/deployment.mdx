@@ -75,6 +75,7 @@ First, modify your `docusaurus.config.js` and add the required params:
 | --- | --- |
 | `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, it is your GitHub username. In the case of Docusaurus, it is "_facebook_" which is the GitHub organization that owns Docusaurus. |
 | `projectName` | The name of the GitHub repository. For example, the repository name for Docusaurus is "docusaurus", so the project name is "docusaurus". |
+| `deploymentBranch` | The name of the branch to deploy the static files to. This defaults to "gh-pages" for non-organization GitHub Pages repos. If the repo name ends in ".github.io", you have to either specify this property or set the environment variable `DEPLOYMENT_BRANCH`. |
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
@@ -127,7 +128,7 @@ Optional parameters, also set as environment variables:
 | Name | Description |
 | --- | --- |
 | `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
-| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages`. For GitHub Pages Organization repos (`config.projectName` ending in `github.io`), this env variable is required. |
+| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages`. For GitHub Pages Organization repos (`config.projectName` ending in `github.io`), you need to either set this env variable or specify the `deploymentBranch` param in `docusaurus.config.js`. |
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `main`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 | `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
 
@@ -354,15 +355,16 @@ trigger:
   commands:
     - mkdir -p $HOME/.ssh
     - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
-    - echo "$GITHUB_PRIVATE_KEY > $HOME/.ssh/id_rsa"
+    - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
     - chmod 0600 $HOME/.ssh/id_rsa
     - cd website
     - npm i
-    - npm run publish-gh-pages
+    - npm run deploy
   environment:
     USE_SSH: true
     GIT_USER: $DRONE_COMMIT_AUTHOR
-    GITHUB_PRIVATE_KEY: git_deploy_private_key
+    GITHUB_PRIVATE_KEY:
+      from_secret: "git_deploy_private_key"
 ```
 
 Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.

@@ -13,18 +13,16 @@ import {
   Footer,
 } from '@docusaurus/theme-common';
 
-import {keyBy, chain, flatten} from 'lodash';
+import {keyBy, chain} from 'lodash';
 import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!
   function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
-    const subItems = flatten(
-      items.map((item) => {
-        const allSubItems = flatten([item.items ?? []]);
-        return flattenNavbarItems(allSubItems);
-      }),
-    );
+    const subItems = items.flatMap((item) => {
+      const allSubItems = [item.items ?? []].flat();
+      return flattenNavbarItems(allSubItems);
+    });
     return [...items, ...subItems];
   }
 
@@ -84,9 +82,7 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
     .value();
 
   const footerLinkLabels: TranslationFileContent = chain(
-    flatten(footer.links.map((link) => link.items)).filter(
-      (link) => !!link.label,
-    ),
+    footer.links.flatMap((link) => link.items).filter((link) => !!link.label),
   )
     .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
     .mapValues((linkItem) => ({

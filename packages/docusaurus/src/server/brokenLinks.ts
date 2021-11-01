@@ -8,7 +8,7 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy, flatten, countBy} from 'lodash';
+import {mapValues, pickBy, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
@@ -110,10 +110,9 @@ export function getBrokenLinksErrorMessage(
   // Add an additional message in such case to help user figure this out.
   // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = flatten(
-      Object.entries(allBrokenLinks).map(([pagePage, brokenLinks]) =>
+    const flatList = Object.entries(allBrokenLinks).flatMap(
+      ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
-      ),
     );
 
     const countedBrokenLinks = countBy(
