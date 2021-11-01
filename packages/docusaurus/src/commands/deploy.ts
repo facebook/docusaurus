@@ -167,7 +167,9 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    if (shellExecLog(`git clone ${remoteBranch} ${toPath}`).code !== 0) {
+    if (
+      shellExecLog(`git clone --depth 1 ${remoteBranch} ${toPath}`).code !== 0
+    ) {
       throw new Error(`Running "git clone" command in "${toPath}" failed.`);
     }
 

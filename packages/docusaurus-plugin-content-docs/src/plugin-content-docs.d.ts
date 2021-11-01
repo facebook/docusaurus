@@ -7,6 +7,7 @@
 
 declare module '@docusaurus/plugin-content-docs' {
   export type Options = Partial<import('./types').PluginOptions>;
+  export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
 }
 
 // TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
@@ -29,30 +30,11 @@ declare module '@docusaurus/plugin-content-docs-types' {
     docsSidebars: PropSidebars;
   };
 
-  type PropsSidebarItemBase = {
-    className?: string;
-    customProps?: Record<string, unknown>;
-  };
-
-  export type PropSidebarItemLink = PropsSidebarItemBase & {
-    type: 'link';
-    href: string;
-    label: string;
-  };
-
-  export type PropSidebarItemCategory = PropsSidebarItemBase & {
-    type: 'category';
-    label: string;
-    items: PropSidebarItem[];
-    collapsed: boolean;
-    collapsible: boolean;
-  };
-
-  export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
-
-  export type PropSidebars = {
-    [sidebarId: string]: PropSidebarItem[];
-  };
+  export type PropSidebarItemLink = import('./sidebars/types').SidebarItemLink;
+  export type PropSidebarItemCategory =
+    import('./sidebars/types').PropSidebarItemCategory;
+  export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebars = import('./sidebars/types').PropSidebars;
 
   export type PropTagDocListDoc = {
     id: string;

@@ -18,7 +18,6 @@ import {
   getMinimizer,
 } from './utils';
 import {STATIC_DIR_NAME} from '../constants';
-import SharedModuleAliases from './sharedModuleAliases';
 import {loadPluginsThemeAliases} from '../server/themes';
 import {md5Hash} from '@docusaurus/utils';
 
@@ -149,8 +148,6 @@ export function createBaseConfig(
         process.cwd(),
       ],
       alias: {
-        ...SharedModuleAliases,
-
         '@site': siteDir,
         '@generated': generatedFilesDir,
 

@@ -269,7 +269,7 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.metadatas),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
-    content: Joi.string(),
+    content: Joi.string().required(),
     backgroundColor: Joi.string(),
     textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),

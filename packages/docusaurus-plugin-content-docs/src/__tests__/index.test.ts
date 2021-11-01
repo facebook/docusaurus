@@ -22,17 +22,16 @@ import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import * as cliDocs from '../cli';
 import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  DocMetadata,
-  LoadedVersion,
+import type {DocMetadata, LoadedVersion} from '../types';
+import type {
   SidebarItem,
   SidebarItemsGeneratorOption,
   SidebarItemsGeneratorOptionArgs,
-} from '../types';
+} from '../sidebars/types';
 import {toSidebarsProp} from '../props';
 
 import {validate} from 'webpack';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {
@@ -346,10 +345,11 @@ describe('simple website', () => {
         permalink: '/docs/foo/bar',
       },
       next: {
-        title: 'Hello sidebar_label',
-        permalink: '/docs/',
+        title: 'rootAbsoluteSlug',
+        permalink: '/docs/rootAbsoluteSlug',
       },
       sidebar: 'docs',
+      sidebarPosition: undefined,
       source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, currentVersion.contentPath)),
@@ -392,8 +392,8 @@ describe('simple website', () => {
       permalink: '/docs/',
       slug: '/',
       previous: {
-        title: 'baz pagination_label',
-        permalink: '/docs/foo/bazSlug.html',
+        title: 'My heading as title',
+        permalink: '/docs/headingAsTitle',
       },
       sidebar: 'docs',
       source: path.posix.join(

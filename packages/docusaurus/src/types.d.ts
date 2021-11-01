@@ -9,7 +9,9 @@ declare module 'remark-admonitions';
 
 declare module 'react-loadable-ssr-addon-v5-slorber';
 
-declare module 'resolve-pathname';
+declare module 'resolve-pathname' {
+  export default function resolvePathname(to: string, from?: string): string;
+}
 
 declare module '@slorber/static-site-generator-webpack-plugin';
 

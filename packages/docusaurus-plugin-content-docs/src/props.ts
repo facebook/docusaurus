@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  LoadedVersion,
+import {LoadedVersion, VersionTag, DocMetadata} from './types';
+import type {
   SidebarItemDoc,
   SidebarItemLink,
   SidebarItem,
-  VersionTag,
-  DocMetadata,
-} from './types';
+} from './sidebars/types';
 import type {
   PropSidebars,
   PropVersionMetadata,

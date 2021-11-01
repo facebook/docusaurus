@@ -203,6 +203,14 @@ const Users: User[] = [
     tags: ['opensource','i18n','large'],
   },
   {
+    title: 'Apex FP',
+    description: 'Functional programming library for Salesforce Apex',
+    preview: require('./showcase/apexfp.png'),
+    website: 'https://www.apexfp.org',
+    source: 'https://github.com/ipavlic/apex-fp/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'AttoBot',
     description:
       'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
@@ -300,7 +308,7 @@ const Users: User[] = [
     website: 'https://cloudywithachanceofbigdata.com/',
     source: 'https://github.com/cloudywithachanceofbigdata/cloudywithachanceofbigdata.github.io',
     tags: ['opensource', 'personal'],
-  },  
+  },
   {
     title: 'Clutch',
     description: 'An extensible API and UI platform for infrastructure tooling',
@@ -464,6 +472,14 @@ const Users: User[] = [
     website: 'https://facebookincubator.github.io/fbt/',
     source: 'https://github.com/facebook/fbt',
     tags: ['opensource', 'facebook'],
+  },
+  {
+    title: 'Fenghua Frontend Developer',
+    description: 'Blogs and videos about frontend development',
+    preview: require('./showcase/zxuqian.png'),
+    website: 'https://zxuqian.cn',
+    source: null,
+    tags: ['personal', 'design'],
   },
   {
     title: 'FireCMS',
@@ -815,6 +831,14 @@ const Users: User[] = [
     website: 'https://www.ocpeasy.org',
     source: 'https://github.com/ocpeasy/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Orca',
+    description: 'Modern, open-source community platform.',
+    preview: require('./showcase/getorca.org-dark.png'),
+    website: 'https://getorca.org',
+    source: 'https://github.com/elevensymbols/getorca.org',
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'Ory Documentation',
@@ -1341,7 +1365,7 @@ const Users: User[] = [
     website: 'https://docs.warrant.dev/',
     source: null,
     tags: ['product'],
-  },  
+  },
   {
     title: 'Wasp',
     description:

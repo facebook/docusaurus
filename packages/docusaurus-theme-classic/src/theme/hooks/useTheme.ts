@@ -68,7 +68,7 @@ const useTheme = (): useThemeReturns => {
     } catch (err) {
       console.error(err);
     }
-  }, [setTheme]);
+  }, [disableSwitch, setTheme]);
 
   useEffect(() => {
     if (disableSwitch && !respectPrefersColorScheme) {
@@ -80,7 +80,7 @@ const useTheme = (): useThemeReturns => {
       .addListener(({matches}) => {
         setTheme(matches ? themes.dark : themes.light);
       });
-  }, []);
+  }, [disableSwitch, respectPrefersColorScheme]);
 
   return {
     isDarkTheme: theme === themes.dark,
