@@ -334,8 +334,8 @@ const config = {
           alt: 'Docusaurus Logo',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
-          width: 50,
-          height: 50,
+          width: 32,
+          height: 32,
         },
         items: [
           {
@@ -489,7 +489,7 @@ const config = {
         logo: {
           alt: 'Facebook Open Source Logo',
           src: 'img/oss_logo.png',
-          width: 256,
+          width: 160,
           height: 51,
           href: 'https://opensource.facebook.com',
         },
