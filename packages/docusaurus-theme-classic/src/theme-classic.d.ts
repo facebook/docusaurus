@@ -18,7 +18,7 @@ declare module '@theme/Admonition' {
     readonly icon?: ReactNode;
     readonly title?: string;
   }
-  export default AnnouncementBar;
+  export default function Admonition(props: Props): JSX.Element;
 }
 
 declare module '@theme/AnnouncementBar' {
