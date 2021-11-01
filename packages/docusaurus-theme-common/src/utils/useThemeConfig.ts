@@ -22,8 +22,8 @@ export type NavbarItem = {
 export type NavbarLogo = {
   src: string;
   srcDark?: string;
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   href?: string;
   target?: string;
   alt?: string;

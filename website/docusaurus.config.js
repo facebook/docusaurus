@@ -332,12 +332,10 @@ const config = {
         title: 'Docusaurus',
         logo: {
           alt: 'Docusaurus Logo',
-          src: {
-            uri: 'img/docusaurus.svg'
-          },
-          srcDark: {
-            uri: 'img/docusaurus_keytar.svg'
-          },
+          src: 'img/docusaurus.svg',
+          srcDark: 'img/docusaurus_keytar.svg',
+          width: 50,
+          height: 50,
         },
         items: [
           {
@@ -490,9 +488,9 @@ const config = {
         ],
         logo: {
           alt: 'Facebook Open Source Logo',
-          src: {
-            uri:'img/oss_logo.png'
-          },
+          src: 'img/oss_logo.png',
+          width: 256,
+          height: 51,
           href: 'https://opensource.facebook.com',
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
