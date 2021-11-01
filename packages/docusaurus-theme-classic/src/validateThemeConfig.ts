@@ -288,16 +288,10 @@ const ThemeConfigSchema = Joi.object({
     title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string().allow(''),
-      src: Joi.object({
-        uri: Joi.string().required(),
-        width: Joi.string(),
-        height: Joi.string(),
-      }),
-      srcDark: Joi.object({
-        uri: Joi.string().required(),
-        width: Joi.string(),
-        height: Joi.string(),
-      }),
+      src: Joi.string().required(),
+      srcDark: Joi.string(),
+      width: Joi.string(),
+      height: Joi.string(),
       href: Joi.string(),
       target: Joi.string(),
     }),
@@ -306,16 +300,11 @@ const ThemeConfigSchema = Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
       alt: Joi.string().allow(''),
-      src: Joi.object({
-        uri: Joi.string().required(),
-        width: Joi.string(),
-        height: Joi.string(),
-      }),
-      srcDark: Joi.object({
-        uri: Joi.string().required(),
-        width: Joi.string(),
-        height: Joi.string(),
-      }),
+      src: Joi.string(),
+      srcDark: Joi.string(),
+      // TODO infer this from reading the image
+      width: Joi.alternatives().try(Joi.string(), Joi.number()),
+      height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
     }),
     copyright: Joi.string(),

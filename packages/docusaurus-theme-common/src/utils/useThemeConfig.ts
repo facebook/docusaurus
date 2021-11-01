@@ -11,12 +11,6 @@ import {DeepPartial} from 'utility-types';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
-export type ImageSettings = {
-  uri: string;
-  width?: string | number;
-  height?: string | number;
-};
-
 // TODO improve types, use unions
 export type NavbarItem = {
   type?: string | undefined;
@@ -26,8 +20,10 @@ export type NavbarItem = {
 } & Record<string, unknown>;
 
 export type NavbarLogo = {
-  src: ImageSettings;
-  srcDark?: ImageSettings;
+  src: string;
+  srcDark?: string;
+  width?: string;
+  height?: string;
   href?: string;
   target?: string;
   alt?: string;
@@ -84,8 +80,10 @@ export type Footer = {
   style: 'light' | 'dark';
   logo?: {
     alt?: string;
-    src?: ImageSettings;
-    srcDark?: ImageSettings;
+    src?: string;
+    srcDark?: string;
+    width?: string | number;
+    height?: string | number;
     href?: string;
   };
   copyright?: string;
