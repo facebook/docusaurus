@@ -3,6 +3,9 @@ tags:
   - b
   - label: d
     permalink: d-custom-permalink
+hide_title:
+  mobile: true
+  desktop: false
 ---
 
 # Standalone doc

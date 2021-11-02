@@ -372,8 +372,8 @@ describe('validateBlogPostFrontMatter hide_table_of_contents', () => {
       [{hide_table_of_contents: 'false'}, {hide_table_of_contents: false}],
     ],
     invalidFrontMatters: [
-      [{hide_table_of_contents: 'yes'}, 'must be a boolean'],
-      [{hide_table_of_contents: 'no'}, 'must be a boolean'],
+      [{hide_table_of_contents: 'yes'}, 'must be one of [boolean, object]'],
+      [{hide_table_of_contents: 'no'}, 'must be one of [boolean, object]'],
     ],
   });
 });
