@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {validateThemeConfig, DEFAULT_CONFIG} = require('../validateThemeConfig');
+import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 function testValidateThemeConfig(themeConfig) {
   function validate(schema, cfg) {
