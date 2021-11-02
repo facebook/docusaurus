@@ -6,10 +6,10 @@
  */
 
 import useWindowSize from '@theme/hooks/useWindowSize';
-import type {PlatformDependant} from '@docusaurus/utils';
+import type {PlatformDependent} from '@docusaurus/utils';
 
 function usePlatformValue<Type>(
-  option: PlatformDependant<Type> | undefined,
+  option: PlatformDependent<Type> | undefined,
 ): Type | undefined {
   const windowSize = useWindowSize();
   if (option === undefined) {
