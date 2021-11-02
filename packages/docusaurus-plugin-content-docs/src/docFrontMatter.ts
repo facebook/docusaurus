@@ -14,6 +14,21 @@ import {
 } from '@docusaurus/utils-validation';
 import {DocFrontMatter} from './types';
 
+// NOTE: This creates a validator from given joi type,
+// that allows the object with any fields, as long as they are
+// of the given type, or just a raw type given
+
+const platformDependant = (joiType: any): any =>
+  Joi.alternatives(
+    joiType,
+    Joi.object()
+      .keys({
+        mobile: joiType,
+        desktop: joiType,
+      })
+      .pattern(/./, joiType),
+  );
+
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadatas and props
 // While the user did not provide those values explicitly
@@ -21,7 +36,7 @@ import {DocFrontMatter} from './types';
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''), // see https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
-  hide_title: Joi.boolean(),
+  hide_title: platformDependant(Joi.boolean()),
   hide_table_of_contents: Joi.boolean(),
   keywords: Joi.array().items(Joi.string().required()),
   image: URISchema,

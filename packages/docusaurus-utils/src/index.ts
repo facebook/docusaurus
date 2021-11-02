@@ -442,3 +442,4 @@ export function parseMarkdownHeadingId(heading: string): {
     return {text: heading, id: undefined};
   }
 }
+export * from './platformDependant';

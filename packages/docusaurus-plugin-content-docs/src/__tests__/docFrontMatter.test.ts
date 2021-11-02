@@ -89,17 +89,26 @@ describe('validateDocFrontMatter title', () => {
 });
 
 describe('validateDocFrontMatter hide_title', () => {
+  const typeString = 'must be one of [boolean, object]';
   testField({
     prefix: 'hide_title',
-    validFrontMatters: [{hide_title: true}, {hide_title: false}],
+    validFrontMatters: [
+      {hide_title: true},
+      {hide_title: false},
+      {hide_title: {desktop: true, mobile: false}},
+    ],
     convertibleFrontMatter: [
       [{hide_title: 'true'}, {hide_title: true}],
       [{hide_title: 'false'}, {hide_title: false}],
+      [
+        {hide_title: {mobile: 'false', desktop: 'true'}},
+        {hide_title: {mobile: false, desktop: true}},
+      ],
     ],
     invalidFrontMatters: [
-      [{hide_title: 'yes'}, 'must be a boolean'],
-      [{hide_title: 'no'}, 'must be a boolean'],
-      [{hide_title: ''}, 'must be a boolean'],
+      [{hide_title: 'yes'}, typeString],
+      [{hide_title: 'no'}, typeString],
+      [{hide_title: ''}, typeString],
     ],
   });
 });

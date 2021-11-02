@@ -8,7 +8,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {Tag, FrontMatterTag, PlatformDependant} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
@@ -117,7 +117,7 @@ export type DocFrontMatter = {
   id?: string;
   title?: string;
   tags?: FrontMatterTag[];
-  hide_title?: boolean;
+  hide_title?: PlatformDependant<boolean>;
   hide_table_of_contents?: boolean;
   keywords?: string[];
   image?: string;

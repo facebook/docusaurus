@@ -8,6 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import useWindowSize from '@theme/hooks/useWindowSize';
+import usePlatformValue from '@theme/hooks/usePlatformValue';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import Seo from '@theme/Seo';
@@ -31,12 +32,13 @@ export default function DocItem(props: Props): JSX.Element {
     toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
+  const platformHideTitle = usePlatformValue<boolean>(hideTitle);
 
   // We only add a title if:
   // - user asks to hide it with frontmatter
   // - the markdown content does not already contain a top-level h1 heading
   const shouldAddTitle =
-    !hideTitle && typeof DocContent.contentTitle === 'undefined';
+    !platformHideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const windowSize = useWindowSize();
 

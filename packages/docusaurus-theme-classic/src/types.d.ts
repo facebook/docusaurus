@@ -275,6 +275,14 @@ declare module '@theme/hooks/useWindowSize' {
   export default function useWindowSize(): WindowSize;
 }
 
+declare module '@theme/hooks/usePlatformValue' {
+  import type {PlatformDependant} from '@docusaurus/utils';
+
+  export default function usePlatformValue<Type>(
+    option: PlatformDependant<Type> | undefined,
+  ): Type | undefined;
+}
+
 declare module '@theme/hooks/useKeyboardNavigation' {
   const useKeyboardNavigation: () => void;
 
