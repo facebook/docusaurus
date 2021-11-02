@@ -670,7 +670,7 @@ const Users: User[] = [
     {
     title: 'K3ai',
     description: 'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
-    preview: require('./showcase/k3ai.png'),
+    preview: require('./showcase/k3ai.jpg'),
     website: 'https://k3ai.in/',
     source: 'https://github.com/k3ai/k3ai',
     tags: ['favorite','opensource','product'],
