@@ -667,6 +667,14 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite','opensource','design','i18n','versioning'],
   },
+    {
+    title: 'K3ai',
+    description: 'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
+    preview: require('./showcase/k3ai.png'),
+    website: 'https://k3ai.in/',
+    source: 'https://github.com/k3ai/k3ai',
+    tags: ['favorite','opensource','product'],
+  },
   {
     title: 'Kosko',
     description: 'Organize Kubernetes manifests in JavaScript',
