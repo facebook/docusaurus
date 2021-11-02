@@ -6,23 +6,29 @@
  */
 
 import useWindowSize from '@theme/hooks/useWindowSize';
-import type {PlatformDependent} from '@docusaurus/utils';
+import type {PlatformDependentConfig} from '@docusaurus/types';
 
-function usePlatformValue<Type>(
-  option: PlatformDependent<Type> | undefined,
-): Type | undefined {
+// TODO I should be able to use generics here...
+function isSimpleValue(
+  option: string | number | boolean | Record<string, string | number | boolean>,
+): option is string | number | boolean {
+  return typeof option !== 'object';
+}
+
+function usePlatformValue<T extends string | number | boolean>(
+  option: PlatformDependentConfig<T> | undefined,
+): T | undefined {
   const windowSize = useWindowSize();
   if (option === undefined) {
     return undefined;
   }
-  if ((option as Record<string, Type>)[`${windowSize}`] !== undefined) {
-    return (option as Record<string, Type>)[`${windowSize}`];
+  if (isSimpleValue(option)) {
+    return option;
   }
-  if ((option as Record<string, Type>).default !== undefined) {
-    return (option as Record<string, Type>).default;
+  if (windowSize === 'ssr') {
+    return option.desktop;
   }
-
-  return option as Type;
+  return option[windowSize];
 }
 
 export default usePlatformValue;

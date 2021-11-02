@@ -26,19 +26,20 @@ export default function DocItem(props: Props): JSX.Element {
   const {
     image,
     keywords,
-    hide_title: hideTitle,
-    hide_table_of_contents: hideTableOfContents,
+    hide_title: hideTitleConfig,
+    hide_table_of_contents: hideTableOfContentsConfig,
     toc_min_heading_level: tocMinHeadingLevel,
     toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
-  const platformHideTitle = usePlatformValue<boolean>(hideTitle);
+  const hideTitle = usePlatformValue(hideTitleConfig);
+  const hideTableOfContents = usePlatformValue(hideTableOfContentsConfig);
 
   // We only add a title if:
   // - user asks to hide it with frontmatter
   // - the markdown content does not already contain a top-level h1 heading
   const shouldAddTitle =
-    !platformHideTitle && typeof DocContent.contentTitle === 'undefined';
+    !hideTitle && typeof DocContent.contentTitle === 'undefined';
 
   const windowSize = useWindowSize();
 

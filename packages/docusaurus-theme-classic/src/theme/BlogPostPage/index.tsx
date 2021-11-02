@@ -13,6 +13,7 @@ import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import TOC from '@theme/TOC';
+import usePlatformValue from '@theme/hooks/usePlatformValue';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
@@ -25,11 +26,12 @@ function BlogPostPage(props: Props): JSX.Element {
   const {title, description, nextItem, prevItem, date, tags, authors} =
     metadata;
   const {
-    hide_table_of_contents: hideTableOfContents,
+    hide_table_of_contents: hideTableOfContentsConfig,
     keywords,
     toc_min_heading_level: tocMinHeadingLevel,
     toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
+  const hideTableOfContents = usePlatformValue(hideTableOfContentsConfig);
 
   const image = assets.image ?? frontMatter.image;
 

@@ -11,8 +11,10 @@ import {
   validateFrontMatter,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
+  PlatformDependentConfigSchema,
 } from '@docusaurus/utils-validation';
 import type {FrontMatterTag} from '@docusaurus/utils';
+import type {PlatformDependentConfig} from '@docusaurus/types';
 
 export type BlogPostFrontMatterAuthor = Record<string, unknown> & {
   key?: string;
@@ -65,7 +67,7 @@ export type BlogPostFrontMatter = {
 
   image?: string;
   keywords?: string[];
-  hide_table_of_contents?: boolean;
+  hide_table_of_contents?: PlatformDependentConfig<boolean>;
   toc_min_heading_level?: number;
   toc_max_heading_level?: number;
   /* eslint-enable camelcase */
@@ -113,7 +115,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   slug: Joi.string(),
   image: URISchema,
   keywords: Joi.array().items(Joi.string().required()),
-  hide_table_of_contents: Joi.boolean(),
+  hide_table_of_contents: PlatformDependentConfigSchema(Joi.boolean()),
 
   ...FrontMatterTOCHeadingLevels,
 }).messages({

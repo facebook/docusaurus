@@ -276,11 +276,11 @@ declare module '@theme/hooks/useWindowSize' {
 }
 
 declare module '@theme/hooks/usePlatformValue' {
-  import type {PlatformDependent} from '@docusaurus/utils';
+  import type {PlatformDependentConfig} from '@docusaurus/types';
 
-  export default function usePlatformValue<Type>(
-    option: PlatformDependent<Type> | undefined,
-  ): Type | undefined;
+  export default function usePlatformValue<T extends string | number | boolean>(
+    option: PlatformDependentConfig<T> | undefined,
+  ): T | undefined;
 }
 
 declare module '@theme/hooks/useKeyboardNavigation' {

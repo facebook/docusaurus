@@ -8,12 +8,13 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag, FrontMatterTag, PlatformDependant} from '@docusaurus/utils';
+import type {Tag, FrontMatterTag} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
 import type {SidebarItemsGeneratorOption, Sidebars} from './sidebars/types';
+import type {PlatformDependentConfig} from '@docusaurus/types';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -117,8 +118,8 @@ export type DocFrontMatter = {
   id?: string;
   title?: string;
   tags?: FrontMatterTag[];
-  hide_title?: PlatformDependant<boolean>;
-  hide_table_of_contents?: boolean;
+  hide_title?: PlatformDependentConfig<boolean>;
+  hide_table_of_contents?: PlatformDependentConfig<boolean>;
   keywords?: string[];
   image?: string;
   description?: string;

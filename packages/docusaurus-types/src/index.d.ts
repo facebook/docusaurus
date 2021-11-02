@@ -435,3 +435,7 @@ export interface TOCItem {
   readonly children: TOCItem[];
   readonly level: number;
 }
+
+export type PlatformDependentConfig<T extends string | number | boolean> =
+  | T
+  | Record<string, T>;

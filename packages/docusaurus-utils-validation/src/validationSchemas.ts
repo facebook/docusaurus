@@ -91,3 +91,8 @@ export const FrontMatterTOCHeadingLevels = {
   }),
   toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
 };
+
+export const PlatformDependentConfigSchema = (
+  joiType: Joi.AnySchema,
+): Joi.AlternativesSchema =>
+  Joi.alternatives(joiType, Joi.object().pattern(/./, joiType));

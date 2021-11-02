@@ -7,27 +7,13 @@
 
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
+  PlatformDependentConfigSchema,
   URISchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
 import {DocFrontMatter} from './types';
-
-// NOTE: This creates a validator from given joi type,
-// that allows the object with any fields, as long as they are
-// of the given type, or just a raw type given
-
-const platformDependant = (joiType: any): any =>
-  Joi.alternatives(
-    joiType,
-    Joi.object()
-      .keys({
-        mobile: joiType,
-        desktop: joiType,
-      })
-      .pattern(/./, joiType),
-  );
 
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadatas and props
@@ -36,8 +22,8 @@ const platformDependant = (joiType: any): any =>
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   id: Joi.string(),
   title: Joi.string().allow(''), // see https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
-  hide_title: platformDependant(Joi.boolean()),
-  hide_table_of_contents: Joi.boolean(),
+  hide_title: PlatformDependentConfigSchema(Joi.boolean()),
+  hide_table_of_contents: PlatformDependentConfigSchema(Joi.boolean()),
   keywords: Joi.array().items(Joi.string().required()),
   image: URISchema,
   description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
