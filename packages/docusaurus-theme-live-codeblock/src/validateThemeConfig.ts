@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {Joi} = require('@docusaurus/utils-validation');
+import {Joi} from '@docusaurus/utils-validation';
+import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
 const DEFAULT_CONFIG = {
   playgroundPosition: 'bottom',
 };
-exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const Schema = Joi.object({
   liveCodeBlock: Joi.object({
@@ -21,8 +21,15 @@ const Schema = Joi.object({
     .label('themeConfig.liveCodeBlock')
     .default(DEFAULT_CONFIG),
 });
-exports.Schema = Schema;
 
-exports.validateThemeConfig = function ({validate, themeConfig}) {
+function validateThemeConfig({
+  validate,
+  themeConfig,
+}: {
+  validate: Validate<ThemeConfig>;
+  themeConfig: ThemeConfig;
+}): ValidationResult<ThemeConfig> {
   return validate(Schema, themeConfig);
-};
+}
+
+export {DEFAULT_CONFIG, Schema, validateThemeConfig};

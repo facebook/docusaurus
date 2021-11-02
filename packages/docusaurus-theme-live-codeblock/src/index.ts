@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const {validateThemeConfig} = require('./validateThemeConfig');
+import path from 'path';
+import {Plugin} from '@docusaurus/types';
 
-function theme() {
+export default function theme(): Plugin {
   return {
     name: 'docusaurus-theme-live-codeblock',
 
@@ -28,6 +28,4 @@ function theme() {
   };
 }
 
-module.exports = theme;
-
-theme.validateThemeConfig = validateThemeConfig;
+export {validateThemeConfig} from './validateThemeConfig';
