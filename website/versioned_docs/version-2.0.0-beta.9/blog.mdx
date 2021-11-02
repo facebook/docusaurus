@@ -335,6 +335,124 @@ website/i18n/<locale>/docusaurus-plugin-content-blog/authors.yml
 
 :::
 
+## Reading time {#reading-time}
+
+Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          showReadingTime: true, // When set to false, the "x min read" won't be shown
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 300}}),
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+The `readingTime` callback receives three parameters: the blog content text as a string, front matter as a record of string keys and their values, and the default reading time function. It returns a number (reading time in minutes) or `undefined` (disable reading time for this page).
+
+The default reading time is able to accept additional options: `wordsPerMinute` as a number (default: 300), and `wordBound` as a function from string to boolean. If the string passed to `wordBound` should be a word bound (spaces, tabs, and line breaks by default), the function should return `true`.
+
+:::tip
+
+Use the callback for all your customization needs:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="disable-per-post" label="Per-post disabling">
+
+**Disable reading time on one page:**
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          showReadingTime: true,
+          // highlight-start
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            frontMatter.hide_reading_time ? undefined : defaultReadingTime({content}),
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+Usage:
+
+```yml "my-blog-post.md"
+---
+hide_reading_time: true
+---
+
+This page will no longer display the reading time stats!
+```
+
+</TabItem>
+<TabItem value="passing-options" label="Passing options">
+
+**Pass options to the default reading time function:**
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-start
+          readingTime: ({content, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 100}}),
+          // highlight-end
+        },
+      },
+    ],
+  ],
+};
+```
+
+</TabItem>
+<TabItem value="using-custom-algo" label="Using custom algorithms">
+
+**Use a custom implementation of reading time:**
+
+```js title="docusaurus.config.js"
+const myReadingTime = require('./myReadingTime');
+
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          // highlight-next-line
+          readingTime: ({content}) => myReadingTime(content),
+        },
+      },
+    ],
+  ],
+};
+```
+
+</TabItem>
+</Tabs>
+````
+
+:::
+
 ## Feed {#feed}
 
 You can generate RSS/Atom feed by passing feedOptions. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.

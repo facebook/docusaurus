@@ -1,8 +1,8 @@
 {
-  "version-2.0.0-beta.7/docs": [
+  "version-2.0.0-beta.9/docs": [
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.7/introduction"
+      "id": "version-2.0.0-beta.9/introduction"
     },
     {
       "type": "category",
@@ -11,19 +11,19 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/installation"
+          "id": "version-2.0.0-beta.9/installation"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/configuration"
+          "id": "version-2.0.0-beta.9/configuration"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/playground"
+          "id": "version-2.0.0-beta.9/playground"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/typescript-support"
+          "id": "version-2.0.0-beta.9/typescript-support"
         }
       ],
       "collapsible": true
@@ -34,7 +34,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/guides/creating-pages"
+          "id": "version-2.0.0-beta.9/guides/creating-pages"
         },
         {
           "type": "category",
@@ -44,33 +44,33 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/introduction"
+              "id": "version-2.0.0-beta.9/guides/docs/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/create-doc"
+              "id": "version-2.0.0-beta.9/guides/docs/create-doc"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/sidebar"
+              "id": "version-2.0.0-beta.9/guides/docs/sidebar"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/versioning"
+              "id": "version-2.0.0-beta.9/guides/docs/versioning"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/markdown-features"
+              "id": "version-2.0.0-beta.9/guides/docs/markdown-features"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/docs/multi-instance"
+              "id": "version-2.0.0-beta.9/guides/docs/multi-instance"
             }
           ]
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/blog"
+          "id": "version-2.0.0-beta.9/blog"
         },
         {
           "type": "category",
@@ -78,47 +78,47 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/introduction"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/react"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/react"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/tabs"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/tabs"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/code-blocks"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/code-blocks"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/admonitions"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/admonitions"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/headings"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/headings"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/inline-toc"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/inline-toc"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/assets"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/assets"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/plugins"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/plugins"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/math-equations"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/math-equations"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/guides/markdown-features/head-metadatas"
+              "id": "version-2.0.0-beta.9/guides/markdown-features/head-metadatas"
             }
           ],
           "collapsible": true,
@@ -126,23 +126,23 @@
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/styling-layout"
+          "id": "version-2.0.0-beta.9/styling-layout"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/static-assets"
+          "id": "version-2.0.0-beta.9/static-assets"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/search"
+          "id": "version-2.0.0-beta.9/search"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/browser-support"
+          "id": "version-2.0.0-beta.9/browser-support"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/deployment"
+          "id": "version-2.0.0-beta.9/deployment"
         },
         {
           "type": "category",
@@ -150,19 +150,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/i18n/introduction"
+              "id": "version-2.0.0-beta.9/i18n/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/i18n/tutorial"
+              "id": "version-2.0.0-beta.9/i18n/tutorial"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/i18n/git"
+              "id": "version-2.0.0-beta.9/i18n/git"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.7/i18n/crowdin"
+              "id": "version-2.0.0-beta.9/i18n/crowdin"
             }
           ],
           "collapsible": true,
@@ -178,15 +178,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/using-plugins"
+          "id": "version-2.0.0-beta.9/using-plugins"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/using-themes"
+          "id": "version-2.0.0-beta.9/using-themes"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/presets"
+          "id": "version-2.0.0-beta.9/presets"
         }
       ],
       "collapsible": true,
@@ -198,45 +198,45 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/migration/migration-overview"
+          "id": "version-2.0.0-beta.9/migration/migration-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/migration/migration-automated"
+          "id": "version-2.0.0-beta.9/migration/migration-automated"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/migration/migration-manual"
+          "id": "version-2.0.0-beta.9/migration/migration-manual"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/migration/migration-versioned-sites"
+          "id": "version-2.0.0-beta.9/migration/migration-versioned-sites"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/migration/migration-translated-sites"
+          "id": "version-2.0.0-beta.9/migration/migration-translated-sites"
         }
       ],
       "collapsible": true,
       "collapsed": true
     }
   ],
-  "version-2.0.0-beta.7/api": [
+  "version-2.0.0-beta.9/api": [
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.7/cli"
+      "id": "version-2.0.0-beta.9/cli"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.7/docusaurus-core"
+      "id": "version-2.0.0-beta.9/docusaurus-core"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.7/api/docusaurus.config.js"
+      "id": "version-2.0.0-beta.9/api/docusaurus.config.js"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.7/lifecycle-apis"
+      "id": "version-2.0.0-beta.9/lifecycle-apis"
     },
     {
       "type": "category",
@@ -244,47 +244,47 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugins-overview"
+          "id": "version-2.0.0-beta.9/api/plugins/plugins-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-content-docs"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-docs"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-content-blog"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-blog"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-content-pages"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-pages"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-client-redirects"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-client-redirects"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-debug"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-debug"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-google-analytics"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-google-analytics"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-google-gtag"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-google-gtag"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-ideal-image"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-ideal-image"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-pwa"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-pwa"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/plugins/plugin-sitemap"
+          "id": "version-2.0.0-beta.9/api/plugins/plugin-sitemap"
         }
       ],
       "collapsible": true,
@@ -296,23 +296,23 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/themes/themes-overview"
+          "id": "version-2.0.0-beta.9/api/themes/themes-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/themes/theme-configuration"
+          "id": "version-2.0.0-beta.9/api/themes/theme-configuration"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/themes/theme-classic"
+          "id": "version-2.0.0-beta.9/api/themes/theme-classic"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/themes/theme-live-codeblock"
+          "id": "version-2.0.0-beta.9/api/themes/theme-live-codeblock"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.7/api/themes/theme-search-algolia"
+          "id": "version-2.0.0-beta.9/api/themes/theme-search-algolia"
         }
       ],
       "collapsible": true,

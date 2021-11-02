@@ -1,6 +1,7 @@
 ---
 id: sidebar
 title: Sidebar
+toc_max_heading_level: 4
 slug: /sidebar
 ---
 
