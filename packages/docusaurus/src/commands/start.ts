@@ -188,6 +188,7 @@ export default async function start(
       stats: 'summary',
     },
     static: {
+      publicPath: baseUrl,
       directory: path.resolve(siteDir, STATIC_DIR_NAME),
       watch: {
         // Useful options for our own monorepo using symlinks!
