@@ -6,12 +6,14 @@
  */
 // @ts-check
 
-import {resolve} from 'path';
 import versions, {slice} from './versions.json';
 import math from 'remark-math';
 import katex from 'rehype-katex';
 import VersionsArchived from './versionsArchived.json';
 import {dogfoodingPluginInstances} from './_dogfooding/dogfooding.config';
+import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
+import lightTheme from 'prism-react-renderer/themes/github';
+import darkTheme from 'prism-react-renderer/themes/dracula';
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -87,7 +89,7 @@ const config = {
   },
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('esbuild-loader'),
+      loader: 'esbuild-loader',
       options: {
         loader: 'tsx',
         format: isServer ? 'cjs' : undefined,
@@ -102,10 +104,10 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
+  clientModules: [new URL('./_dogfooding/clientModuleExample.ts', import.meta.url).pathname],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    require('./src/featureRequests/FeatureRequestsPlugin'),
+    new URL('./src/featureRequests/FeatureRequestsPlugin', import.meta.url).pathname,
     [
       '@docusaurus/plugin-content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -120,7 +122,7 @@ const config = {
           return `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`;
         },
         editCurrentVersion: true,
-        sidebarPath: require.resolve('./sidebarsCommunity.js'),
+        sidebarPath: new URL('./sidebarsCommunity.js', import.meta.url).pathname,
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       }),
@@ -172,7 +174,7 @@ const config = {
           'queryString',
         ],
         // swRegister: false,
-        swCustom: resolve(__dirname, 'src/sw.js'),
+        swCustom: new URL('./src/sw.js', import.meta.url).pathname,
         pwaHead: [
           {
             tagName: 'link',
@@ -250,7 +252,7 @@ const config = {
           showLastUpdateTime: true,
           remarkPlugins: [
             math,
-            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+            [npm2yarn, {sync: true}],
           ],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
@@ -284,10 +286,10 @@ const config = {
           blogSidebarTitle: 'All our posts',
         },
         pages: {
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [new URL('./src/css/custom.css', import.meta.url).pathname],
         },
       }),
     ],
@@ -310,8 +312,8 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
       },
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme: lightTheme,
+        darkTheme,
         additionalLanguages: ['java'],
       },
       image: 'img/docusaurus-soc.png',

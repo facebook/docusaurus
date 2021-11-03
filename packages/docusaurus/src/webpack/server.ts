@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
 import {Props} from '@docusaurus/types';
@@ -48,7 +48,7 @@ export default function createServerConfig({
   const serverConfig = merge(config, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
-      main: path.resolve(__dirname, '../client/serverEntry.js'),
+      main: new URL('../client/serverEntry.js', import.meta.url).pathname,
     },
     output: {
       filename: 'server.bundle.js',

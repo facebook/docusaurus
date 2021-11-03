@@ -4,11 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import {Configuration} from 'webpack';
-
-import path from 'path';
+import type {Configuration} from 'webpack';
 
 export default function (
   _context: LoadContext,
@@ -18,7 +17,7 @@ export default function (
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return new URL('./theme', import.meta.url).pathname;
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {

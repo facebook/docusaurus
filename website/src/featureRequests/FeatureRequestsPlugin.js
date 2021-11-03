@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {normalizeUrl} = require('@docusaurus/utils');
+import {normalizeUrl} from '@docusaurus/utils';
 
 /**
  * @param {import('@docusaurus/types').LoadContext} context
@@ -24,4 +24,4 @@ function FeatureRequestsPlugin(context) {
   };
 }
 
-module.exports = FeatureRequestsPlugin;
+export default FeatureRequestsPlugin;

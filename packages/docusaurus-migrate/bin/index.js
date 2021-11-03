@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-specifier-resolution=node
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -6,12 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
-const semver = require('semver');
-const cli = require('commander');
-const path = require('path');
+import chalk from 'chalk';
+import semver from 'semver';
+import cli from 'commander';
+import path from 'path';
+import {createRequire} from 'module';
 
-const requiredVersion = require('../package.json').engines.node;
+const requiredVersion = createRequire('../package.json').engines.node;
 
 const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
 

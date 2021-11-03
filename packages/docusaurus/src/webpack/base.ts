@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
   getCustomizableJSLoader,
@@ -23,7 +23,7 @@ import {md5Hash} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
-export const clientDir = path.join(__dirname, '..', 'client');
+export const clientDir = new URL('../client', import.meta.url).pathname;
 
 const LibrariesToTranspile = [
   'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
@@ -47,7 +47,7 @@ export function excludeJS(modulePath: string): boolean {
 }
 
 export function getDocusaurusAliases(): Record<string, string> {
-  const dirPath = path.resolve(__dirname, '../client/exports');
+  const dirPath = new URL('../client/exports', import.meta.url).pathname;
   const extensions = ['.js', '.ts', '.tsx'];
 
   const aliases: Record<string, string> = {};
@@ -113,8 +113,9 @@ export function createBaseConfig(
       // When one of those modules/dependencies change (including transitive deps), cache is invalidated
       buildDependencies: {
         config: [
-          __filename,
-          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+          import.meta.url,
+          new URL(isServer ? './server.js' : './client.js', import.meta.url)
+            .pathname,
           // Docusaurus config changes can affect MDX/JSX compilation, so we'd rather evict the cache.
           // See https://github.com/questdb/questdb.io/issues/493
           siteConfigPath,
@@ -154,7 +155,7 @@ export function createBaseConfig(
 
         // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
         // so we use fine-grained aliases instead
-        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        // '@docusaurus': new URL('../client/exports', import.meta.url).pathname,
         ...getDocusaurusAliases(),
         ...themeAliases,
       },
@@ -163,7 +164,7 @@ export function createBaseConfig(
       // Example: if there is core-js@3 in user's own node_modules, but core depends on
       // core-js@2, we should use core-js@2.
       modules: [
-        path.resolve(__dirname, '..', '..', 'node_modules'),
+        new URL('../../node_modules', import.meta.url).pathname,
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],

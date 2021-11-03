@@ -81,7 +81,7 @@ describe('getDocusaurusAliases()', () => {
 describe('base webpack config', () => {
   const props: Props = {
     outDir: '',
-    siteDir: path.resolve(__dirname, '__fixtures__', 'base_test_site'),
+    siteDir: new URL('__fixtures__/base_test_site', import.meta.url).pathname,
     siteConfig: {},
     baseUrl: '',
     generatedFilesDir: '',

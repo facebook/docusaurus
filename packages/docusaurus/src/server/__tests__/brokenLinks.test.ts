@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {
   getBrokenLinksErrorMessage,
   getAllBrokenLinks,
@@ -200,7 +199,8 @@ describe('brokenLinks', () => {
 
     const result = await filterExistingFileLinks({
       baseUrl: '/',
-      outDir: path.resolve(__dirname, '__fixtures__/brokenLinks/outDir'),
+      outDir: new URL('__fixtures__/brokenLinks/outDir', import.meta.url)
+        .pathname,
       allCollectedLinks,
     });
     expect(result).toEqual(allCollectedLinksFiltered);

@@ -6,8 +6,7 @@
  */
 
 import chalk from 'chalk';
-import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
 import {Props} from '@docusaurus/types';
@@ -24,7 +23,7 @@ export default function createClientConfig(
 
   const clientConfig = merge(config, {
     // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
-    entry: path.resolve(__dirname, '../client/clientEntry.js'),
+    entry: new URL('../client/clientEntry.js', import.meta.url).pathname,
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985

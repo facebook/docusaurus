@@ -34,7 +34,7 @@ export default {
           },
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: new URL('./src/css/custom.css', import.meta.url).pathname,
         },
       },
     ],

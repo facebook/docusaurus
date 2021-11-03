@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import chalk from 'chalk';
 import glob from 'glob';

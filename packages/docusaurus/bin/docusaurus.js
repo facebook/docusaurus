@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-modules
+#!/usr/bin/env node --experimental-specifier-resolution=node
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -20,12 +20,13 @@ import {
   writeTranslations,
   writeHeadingIds,
 } from '../lib';
+import packageJSON from '../package.json';
 
 import './beforeCli';
 
 const resolveDir = (dir = '.') => fs.realpathSync(dir);
 
-cli.version(require('../package.json').version).usage('<command> [options]');
+cli.version(packageJSON.version).usage('<command> [options]');
 
 cli
   .command('build [siteDir]')

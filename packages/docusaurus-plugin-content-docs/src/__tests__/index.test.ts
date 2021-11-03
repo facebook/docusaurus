@@ -314,7 +314,7 @@ describe('simple website', () => {
         entry: './src/index.js',
         output: {
           filename: 'main.js',
-          path: path.resolve(__dirname, 'dist'),
+          path: new URL('dist', import.meta.url).pathname,
         },
       },
       false,

@@ -10,7 +10,8 @@ import path from 'path';
 import {THEME_PATH} from '../../constants';
 import themeAlias, {sortAliases} from './alias';
 
-const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
+const ThemeFallbackDir = new URL('../../client/theme-fallback', import.meta.url)
+  .pathname;
 
 function buildThemeAliases(
   themeAliases: ThemeAliases,

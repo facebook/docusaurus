@@ -59,7 +59,7 @@ function plugin(context, options) {
     name: 'docusaurus-plugin-pwa',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return new URL('./theme', import.meta.url).pathname;
     },
 
     getClientModules() {
@@ -123,7 +123,7 @@ function plugin(context, options) {
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig = {
-        entry: path.resolve(__dirname, 'sw.js'),
+        entry: new URL('sw.js', import.meta.url).pathname,
         output: {
           path: outDir,
           filename: 'sw.js',

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-specifier-resolution=node
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *

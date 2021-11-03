@@ -6,7 +6,7 @@
  */
 
 import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
+import path from 'path';
 import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
@@ -38,7 +38,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {mapValues} from 'lodash-es';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 
 export type LoadContextOptions = {
@@ -345,9 +345,9 @@ ${Object.keys(registry)
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
+      new URL('../../package.json', import.meta.url).pathname,
     )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
     pluginVersions: {},
   };
   plugins

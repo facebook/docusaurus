@@ -26,7 +26,7 @@ import {
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -226,7 +226,8 @@ export default function pluginContentPages(
                   },
                 },
                 {
-                  loader: path.resolve(__dirname, './markdownLoader.js'),
+                  loader: new URL('./markdownLoader.js', import.meta.url)
+                    .pathname,
                   options: {
                     // siteDir,
                     // contentPath,

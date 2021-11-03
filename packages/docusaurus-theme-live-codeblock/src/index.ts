@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Plugin} from '@docusaurus/types';
 
 export default function theme(): Plugin {
@@ -13,14 +12,14 @@ export default function theme(): Plugin {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return new URL('./theme', import.meta.url).pathname;
     },
 
     configureWebpack() {
       return {
         resolve: {
           alias: {
-            buble: path.resolve(__dirname, './custom-buble.js'),
+            buble: new URL('./custom-buble.js', import.meta.url).pathname,
           },
         },
       };

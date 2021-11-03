@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
 
@@ -36,7 +35,7 @@ export default function pluginGoogleGtag(context: LoadContext): Plugin {
     name: 'docusaurus-plugin-google-gtag',
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './gtag')] : [];
+      return isProd ? [new URL('./gtag', import.meta.url).pathname] : [];
     },
 
     injectHtmlTags() {

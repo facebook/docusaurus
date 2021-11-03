@@ -45,7 +45,7 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
   getContentPathList,
@@ -501,7 +501,8 @@ export default function pluginContentBlog(
                   },
                 },
                 {
-                  loader: path.resolve(__dirname, './markdownLoader.js'),
+                  loader: new URL('./markdownLoader.js', import.meta.url)
+                    .pathname,
                   options: markdownLoaderOptions,
                 },
               ].filter(Boolean),

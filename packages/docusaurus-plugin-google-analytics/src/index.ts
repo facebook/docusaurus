@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/plugin-google-analytics';
 
@@ -36,7 +35,7 @@ export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
     name: 'docusaurus-plugin-google-analytics',
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './analytics')] : [];
+      return isProd ? [new URL('./analytics', import.meta.url).pathname] : [];
     },
 
     injectHtmlTags() {

@@ -16,7 +16,7 @@ declare module 'resolve-pathname' {
 declare module '@slorber/static-site-generator-webpack-plugin';
 
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
-  import {HotModuleReplacementPlugin} from 'webpack';
+  import type {HotModuleReplacementPlugin} from 'webpack';
 
   export default HotModuleReplacementPlugin;
 }

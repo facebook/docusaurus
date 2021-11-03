@@ -39,7 +39,7 @@ import {
   DocsMarkdownOption,
   VersionTag,
 } from './types';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {keyBy, mapValues} from 'lodash-es';
@@ -75,11 +75,11 @@ export default function pluginContentDocs(
     name: 'docusaurus-plugin-content-docs',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return new URL('./theme', import.meta.url).pathname;
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return new URL('../src/theme', import.meta.url).pathname;
     },
 
     extendCli(cli) {
@@ -411,7 +411,7 @@ export default function pluginContentDocs(
               },
             },
             {
-              loader: path.resolve(__dirname, './markdown/index.js'),
+              loader: new URL('./markdown/index.js', import.meta.url).pathname,
               options: docsMarkdownOptions,
             },
           ].filter(Boolean),
