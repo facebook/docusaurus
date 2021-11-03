@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-modules
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
