@@ -10,9 +10,8 @@ import fs from 'fs-extra';
 
 // Return an ordered list of locales we should try
 export function codeTranslationLocalesToTry(locale: string): string[] {
-  // @ts-expect-error: TODO until available in TS, see https://github.com/microsoft/TypeScript/issues/37326
   const intlLocale = Intl.Locale ? new Intl.Locale(locale) : undefined;
-  if (!intlLocale) {
+  if (!intlLocale || !intlLocale.language) {
     return [locale];
   }
   // if locale is just a simple language like "pt", we want to fallback to pt-BR (not pt-PT!)

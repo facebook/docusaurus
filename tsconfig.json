@@ -5,7 +5,7 @@
     "lib": ["ESNext", "DOM"],
     "declaration": true,
     "declarationMap": false,
-    "jsx": "react",
+    "jsx": "react-native", // Don't transpile but use .js extension
 
     /* Strict Type-Checking Options */
     "strict": true,

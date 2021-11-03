@@ -14,9 +14,7 @@ import chalk from 'chalk';
 function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
   // https://v8.dev/features/intl-displaynames
-  // @ts-expect-error: wait for TS support of ES2021 feature
   if (typeof Intl.DisplayNames !== 'undefined') {
-    // @ts-expect-error: wait for TS support of ES2021 feature
     return new Intl.DisplayNames([locale], {type: 'language'}).of(locale);
   }
   return locale;
