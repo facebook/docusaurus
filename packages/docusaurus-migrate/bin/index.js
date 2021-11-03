@@ -10,9 +10,9 @@ import chalk from 'chalk';
 import semver from 'semver';
 import cli from 'commander';
 import path from 'path';
-import {createRequire} from 'module';
+import packageJSON from '../package.json';
 
-const requiredVersion = createRequire('../package.json').engines.node;
+const requiredVersion = packageJSON.engines.node;
 
 const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
 
