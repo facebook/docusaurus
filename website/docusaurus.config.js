@@ -11,6 +11,10 @@ const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
 // This probably only makes sense for the beta phase, temporary
@@ -364,7 +368,7 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
+              ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
                   href: versionUrl,
