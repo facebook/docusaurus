@@ -7,13 +7,7 @@ keywords:
   - positioning
 ---
 
-Docusaurus supports the search engine optimization in a variety of ways.
-
-```mdx-code-block
-import TOCInline from '@theme/TOCInline';
-
-<TOCInline toc={toc} />
-```
+Docusaurus supports search engine optimization in a variety of ways.
 
 ## Global metadata {#global-metadata}
 
@@ -50,7 +44,7 @@ Docusaurus blogs support [rich search results](https://search.google.com/test/ri
 
 To add a `robots.txt` file which regulates search engines' behavior about which should be displayed and which shouldn't, provide it as [static asset](./static-assets.md). The following would allow access to all sub-pages from all requests:
 
-```text title="robots.txt"
+```text title="static/robots.txt"
 User-agent: *
 Disallow:
 ```
@@ -60,6 +54,8 @@ Read more about robots file in [the Google documentation](https://developers.goo
 :::caution
 
 **Important**: the `robots.txt` file does **not** prevent HTML pages from being indexed. Use `<meta name="robots" content="noindex">` as [page metadata](#single-page-metadata) to prevent it from appearing in search results entirely.
+
+:::
 
 ## Sitemap file {#sitemap-file}
 
