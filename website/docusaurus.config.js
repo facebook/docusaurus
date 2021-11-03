@@ -364,12 +364,17 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
-                ([versionName, versionUrl]) => ({
-                  label: versionName,
-                  href: versionUrl,
-                }),
-              ),
+              ...[
+                // Latest archived beta version
+                Object.entries(VersionsArchived)[0],
+                // Latest archived alpha version
+                Object.entries(VersionsArchived).filter(
+                  ([versionName]) => !versionName.startsWith('2.0.0-beta.'),
+                )[0],
+              ].map(([versionName, versionUrl]) => ({
+                label: versionName,
+                href: versionUrl,
+              })),
               {
                 href: 'https://v1.docusaurus.io',
                 label: '1.x.x',
