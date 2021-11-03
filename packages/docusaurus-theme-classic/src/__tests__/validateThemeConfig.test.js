@@ -345,6 +345,27 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow width and height specification for logo ', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+          srcDark: '/arbitrary-dark-logo.png',
+          width: '20px',
+          height: '20%',
+        },
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
+      },
+    });
+  });
+
   test('should accept valid prism config', () => {
     const prismConfig = {
       prism: {

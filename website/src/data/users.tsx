@@ -644,6 +644,14 @@ const Users: User[] = [
     tags: ['product','design'],
   },
   {
+    title: 'InfraQL Technologies',
+    description: 'InfraQL is a SQL based approach to cloud infrastructure coding, API querying and automation.',
+    preview: require('./showcase/infraql-docs.png'),
+    website: 'https://docs.infraql.io/',
+    source: null,
+    tags: ['product'],
+  },  
+  {
     title: 'IOTA-Wiki',
     description: 'Documantation and wiki for the IOTA project',
     preview: require('./showcase/iota-wiki.png'),
