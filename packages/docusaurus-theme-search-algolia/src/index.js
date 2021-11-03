@@ -5,21 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve, join} from 'path';
-import {writeFileSync} from 'fs';
-import {compile, defaultConfig} from 'eta';
+import fs from 'fs';
+import eta from 'eta';
 import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
-import {trim} from './templates/opensearch';
+import openSearchTemplate from './templates/opensearch';
 import {validateThemeConfig} from './validateThemeConfig';
 import {memoize} from 'lodash-es';
 
 const getCompiledOpenSearchTemplate = memoize(() => {
-  return compile(trim());
+  return eta.compile(openSearchTemplate.trim());
 });
 
 function renderOpenSearchTemplate(data) {
   const compiled = getCompiledOpenSearchTemplate();
-  return compiled(data, defaultConfig);
+  return compiled(data, eta.defaultConfig);
 }
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
@@ -31,13 +30,14 @@ function theme(context) {
   } = context;
   const pageComponent = './theme/SearchPage/index.js';
   const pagePath =
-    getSwizzledComponent(pageComponent) || resolve(__dirname, pageComponent);
+    getSwizzledComponent(pageComponent) ||
+    new URL(pageComponent, import.meta.url).pathname;
 
   return {
     name: 'docusaurus-theme-search-algolia',
 
     getThemePath() {
-      return resolve(__dirname, './theme');
+      return new URL('./theme', import.meta.url).pathname;
     },
 
     getPathsToWatch() {
@@ -54,8 +54,8 @@ function theme(context) {
 
     async postBuild({outDir}) {
       try {
-        writeFileSync(
-          join(outDir, OPEN_SEARCH_FILENAME),
+        fs.writeFileSync(
+          path.join(outDir, OPEN_SEARCH_FILENAME),
           renderOpenSearchTemplate({
             title,
             url: url + baseUrl,
