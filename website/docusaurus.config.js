@@ -11,6 +11,10 @@ const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
 // This probably only makes sense for the beta phase, temporary
@@ -364,17 +368,12 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...[
-                // Latest archived beta version
-                Object.entries(VersionsArchived)[0],
-                // Latest archived alpha version
-                Object.entries(VersionsArchived).filter(
-                  ([versionName]) => !versionName.startsWith('2.0.0-beta.'),
-                )[0],
-              ].map(([versionName, versionUrl]) => ({
-                label: versionName,
-                href: versionUrl,
-              })),
+              ...ArchivedVersionsDropdownItems.map(
+                ([versionName, versionUrl]) => ({
+                  label: versionName,
+                  href: versionUrl,
+                }),
+              ),
               {
                 href: 'https://v1.docusaurus.io',
                 label: '1.x.x',
