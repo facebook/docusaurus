@@ -119,6 +119,7 @@ module.exports = {
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,

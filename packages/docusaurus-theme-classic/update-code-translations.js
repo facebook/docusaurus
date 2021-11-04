@@ -216,7 +216,7 @@ ${logKeys(untranslatedKeys)}`),
 async function updateCodeTranslations() {
   logSection('Will update base file');
 
-  /* eslint-disable no-await-in-loop, no-continue */
+  /* eslint-disable no-continue */
   for (const CodeDirPath of CodeDirPaths) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(
       CodeDirPath[0],
