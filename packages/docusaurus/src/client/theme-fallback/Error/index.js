@@ -8,23 +8,31 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 
+function ErrorDisplay({error, tryAgain}) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50vh',
+        width: '100%',
+        fontSize: '20px',
+      }}>
+      <h1>This page crashed.</h1>
+      <p>{error.message}</p>
+      <button type="button" onClick={tryAgain}>
+        Try again
+      </button>
+    </div>
+  );
+}
+
 function Error({error, tryAgain}) {
   return (
     <Layout title="Page Error">
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '50vh',
-          fontSize: '20px',
-        }}>
-        <h1>This page crashed.</h1>
-        <p>{error.message}</p>
-        <button type="button" onClick={tryAgain}>
-          Try again
-        </button>
-      </div>
+      <ErrorDisplay error={error} tryAgain={tryAgain} />
     </Layout>
   );
 }
