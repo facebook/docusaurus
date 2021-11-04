@@ -34,6 +34,7 @@ export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export * from './slugger';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
 export {
   Globby,

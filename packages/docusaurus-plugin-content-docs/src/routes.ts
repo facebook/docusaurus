@@ -8,9 +8,8 @@
 import {Sidebar, SidebarItemCategory} from './sidebars/types';
 import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {collectSidebarCategories} from './sidebars/utils';
-import {docuHash, normalizeUrl} from '@docusaurus/utils';
+import {docuHash, normalizeUrl, createSlugger} from '@docusaurus/utils';
 import {LoadedVersion} from './types';
-import Slugger from 'github-slugger';
 
 const createSidebarRoutes = async ({
   sidebarName,
@@ -23,7 +22,7 @@ const createSidebarRoutes = async ({
   versionPath: string;
   actions: PluginContentLoadedActions;
 }): Promise<RouteConfig[]> => {
-  const slugs = new Slugger();
+  const slugs = createSlugger();
 
   async function createCategoryRoute(
     category: SidebarItemCategory,

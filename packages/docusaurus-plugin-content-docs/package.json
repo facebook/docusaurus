@@ -36,7 +36,6 @@
     "escape-string-regexp": "^4.0.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
-    "github-slugger": "^1.4.0",
     "globby": "^11.0.2",
     "import-fresh": "^3.2.2",
     "js-yaml": "^4.0.0",

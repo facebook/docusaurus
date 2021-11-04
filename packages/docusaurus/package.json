@@ -81,7 +81,6 @@
     "eta": "^1.12.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
-    "github-slugger": "^1.4.0",
     "globby": "^11.0.2",
     "html-minifier-terser": "^6.0.2",
     "html-tags": "^3.1.0",

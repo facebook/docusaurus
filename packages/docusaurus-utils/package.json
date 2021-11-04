@@ -24,6 +24,7 @@
     "chalk": "^4.1.2",
     "escape-string-regexp": "^4.0.0",
     "fs-extra": "^10.0.0",
+    "github-slugger": "^1.4.0",
     "globby": "^11.0.4",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.20",
