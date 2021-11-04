@@ -8,7 +8,6 @@
 import React, {ReactNode} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import Error from '@theme/Error';
 import type {Props} from '@docusaurus/ErrorBoundary';
 
 interface State {
@@ -29,7 +28,7 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   render(): ReactNode {
-    const {children, fallback = Error} = this.props;
+    const {children, fallback} = this.props;
     const {error} = this.state;
 
     if (error) {

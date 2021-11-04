@@ -15,12 +15,13 @@ import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
 import Root from '@theme/Root';
+import Error from '@theme/Error';
 
 import './client-lifecycles-dispatcher';
 
 function App(): JSX.Element {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>
