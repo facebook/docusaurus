@@ -40,7 +40,7 @@ module.exports = {
             label: 'Test Test test test test test test',
           },
         ],
-        ...generateHugeSidebarItems(4),
+        ...generateHugeSidebarItems(),
       ],
     },
     {
@@ -64,7 +64,7 @@ module.exports = {
 };
 
 function generateHugeSidebarItems() {
-  const maxLevel = 4;
+  const maxLevel = 3;
   const linksCount = 8;
   const categoriesCount = 8;
 
