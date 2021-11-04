@@ -10,9 +10,11 @@ Docusaurus provides some APIs on the clients that can be helpful to you when bui
 
 ### `<ErrorBoundary />` {#errorboundary}
 
-This component creates a reusable error-catcher. Use it to wrap components that might throw, and display a fallback when that happens.
+This component creates a [React error boundary](https://reactjs.org/docs/error-boundaries.html).
 
-```jsx {2,5,10}
+Use it to wrap components that might throw, and display a fallback when that happens instead of crashing the whole app.
+
+```jsx
 import React from 'react';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
@@ -20,14 +22,24 @@ const SafeComponent = () => (
   <ErrorBoundary
     fallback={({error, tryAgain}) => (
       <div>
-        This component crashed because of error: {e.message}.
-        <button onClick={tryAgain}>Try Again</button>
+        <p>This component crashed because of error: {error.message}.</p>
+        <button onClick={tryAgain}>Try Again!</button>
       </div>
     )}>
     <SomeDangerousComponentThatMayThrow />
   </ErrorBoundary>
 );
 ```
+
+```mdx-code-block
+import ErrorBoundaryTestButton from "@site/src/components/ErrorBoundaryTestButton"
+```
+
+:::tip
+
+To see it in action, click here: <ErrorBoundaryTestButton/>
+
+:::
 
 :::info
 
@@ -37,13 +49,13 @@ Docusaurus uses this component to catch errors within the theme's layout, and al
 
 :::note
 
-This component would still throw during build, so you shouldn't use it as a catch-all for badly defined components, but just guard against potential user errors or browser render errors.
+This component doesn't catch build-time errors, and only protects against client-side render errors that can happen when using stateful React components.
 
 :::
 
 #### Props {#errorboundary-props}
 
-- `fallback`: a JSX Element constructor. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
+- `fallback`: an optional callback returning a JSX element. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
 
 ### `<Head/>` {#head}
 
