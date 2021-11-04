@@ -67,14 +67,6 @@ async function readLastUpdateData(
         lastUpdatedAt: showLastUpdateTime ? timestamp : undefined,
         lastUpdatedBy: showLastUpdateAuthor ? author : undefined,
       };
-    } else {
-      const stats = fs.statSync(filePath);
-      return {
-        lastUpdatedAt: showLastUpdateTime
-          ? stats.mtime.getTime() / 1000
-          : undefined,
-        lastUpdatedBy: undefined,
-      };
     }
   }
 
@@ -227,6 +219,12 @@ function doProcessDocMetadata({
 
   const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
 
+  const lastmod =
+    frontMatter.last_modified ??
+    (typeof lastUpdate.lastUpdatedAt !== 'undefined'
+      ? lastUpdate.lastUpdatedAt * 1000
+      : undefined);
+
   function getDocEditUrl() {
     const relativeFilePath = path.relative(contentPath, filePath);
 
@@ -278,6 +276,7 @@ function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
+    lastmod,
   };
 }
 

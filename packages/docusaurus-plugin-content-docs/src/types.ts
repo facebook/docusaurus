@@ -152,6 +152,7 @@ export type DocMetadataBase = LastUpdateData & {
   editUrl?: string | null;
   tags: Tag[];
   frontMatter: DocFrontMatter & Record<string, unknown>;
+  lastmod?: number;
 };
 
 export type DocNavLink = {

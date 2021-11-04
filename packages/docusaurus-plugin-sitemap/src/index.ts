@@ -25,13 +25,9 @@ export default function pluginSitemap(
   return {
     name: 'docusaurus-plugin-sitemap',
 
-    async postBuild({siteConfig, routesPaths, outDir}: Props) {
+    async postBuild({siteConfig, routes, outDir}: Props) {
       // Generate sitemap.
-      const generatedSitemap = await createSitemap(
-        siteConfig,
-        routesPaths,
-        options,
-      );
+      const generatedSitemap = await createSitemap(siteConfig, routes, options);
 
       // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');

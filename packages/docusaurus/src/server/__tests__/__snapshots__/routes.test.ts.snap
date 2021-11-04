@@ -52,12 +52,8 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    Object {
-      "routePath": "/404.html",
-    },
-    Object {
-      "routePath": "/blog",
-    },
+    "/404.html",
+    "/blog",
   ],
 }
 `;
@@ -139,15 +135,9 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    Object {
-      "routePath": "/404.html",
-    },
-    Object {
-      "routePath": "/docs/hello",
-    },
-    Object {
-      "routePath": "docs/foo/baz",
-    },
+    "/404.html",
+    "/docs/hello",
+    "docs/foo/baz",
   ],
 }
 `;
@@ -181,12 +171,8 @@ export default [
 ];
 ",
   "routesPaths": Array [
-    Object {
-      "routePath": "/404.html",
-    },
-    Object {
-      "routePath": "",
-    },
+    "/404.html",
+    "",
   ],
 }
 `;

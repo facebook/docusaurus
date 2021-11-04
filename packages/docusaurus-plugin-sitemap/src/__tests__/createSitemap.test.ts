@@ -15,7 +15,10 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      [{routePath: '/'}, {routePath: '/test'}],
+      [
+        {path: '/', component: ''},
+        {path: '/test', component: ''},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -40,7 +43,11 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      [{routePath: '/'}, {routePath: '/404.html'}, {routePath: '/mypage'}],
+      [
+        {path: '/', component: ''},
+        {path: '/404.html', component: ''},
+        {path: '/mypage', component: ''},
+      ],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
@@ -57,10 +64,10 @@ describe('createSitemap', () => {
         trailingSlash: undefined,
       } as DocusaurusConfig,
       [
-        {routePath: '/'},
-        {routePath: '/test'},
-        {routePath: '/nested/test'},
-        {routePath: '/nested/test2/'},
+        {path: '/', component: ''},
+        {path: '/test', component: ''},
+        {path: '/nested/test', component: ''},
+        {path: '/nested/test2/', component: ''},
       ],
       {
         changefreq: EnumChangefreq.DAILY,
@@ -81,10 +88,10 @@ describe('createSitemap', () => {
         trailingSlash: true,
       } as DocusaurusConfig,
       [
-        {routePath: '/'},
-        {routePath: '/test'},
-        {routePath: '/nested/test'},
-        {routePath: '/nested/test2/'},
+        {path: '/', component: ''},
+        {path: '/test', component: ''},
+        {path: '/nested/test', component: ''},
+        {path: '/nested/test2/', component: ''},
       ],
       {
         changefreq: EnumChangefreq.DAILY,
@@ -105,10 +112,10 @@ describe('createSitemap', () => {
         trailingSlash: false,
       } as DocusaurusConfig,
       [
-        {routePath: '/'},
-        {routePath: '/test'},
-        {routePath: '/nested/test'},
-        {routePath: '/nested/test2/'},
+        {path: '/', component: ''},
+        {path: '/test', component: ''},
+        {path: '/nested/test', component: ''},
+        {path: '/nested/test2/', component: ''},
       ],
       {
         changefreq: EnumChangefreq.DAILY,
@@ -128,10 +135,10 @@ describe('createSitemap', () => {
         url: 'https://example.com',
       } as DocusaurusConfig,
       [
-        {routePath: '/'},
-        {routePath: '/test'},
-        {routePath: '/nested/test'},
-        {routePath: '/nested/test2/'},
+        {path: '/', component: ''},
+        {path: '/test', component: ''},
+        {path: '/nested/test', component: ''},
+        {path: '/nested/test2/', component: ''},
       ],
       {
         changefreq: EnumChangefreq.DAILY,

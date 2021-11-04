@@ -19,7 +19,6 @@ import {
   RouteConfig,
   RouteModule,
   ChunkNames,
-  RoutePathInfo,
 } from '@docusaurus/types';
 
 type RegistryMap = {
@@ -110,7 +109,7 @@ type LoadedRoutes = {
   routesChunkNames: {
     [routePath: string]: ChunkNames;
   };
-  routesPaths: RoutePathInfo[];
+  routesPaths: string[];
 };
 
 export default async function loadRoutes(
@@ -120,9 +119,7 @@ export default async function loadRoutes(
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
-  const routesPaths: RoutePathInfo[] = [
-    {routePath: normalizeUrl([baseUrl, '404.html'])},
-  ];
+  const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
   const routesChunkNames: {
     [routePath: string]: ChunkNames;
   } = {};
@@ -151,16 +148,7 @@ export default async function loadRoutes(
     // This is useful for plugins like sitemaps, redirects etc...
     // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
     if (!subroutes) {
-      if (typeof routeConfig.lastmod === 'number') {
-        routesPaths.push({
-          routePath,
-          lastmod: <number>routeConfig.lastmod,
-        });
-      } else {
-        routesPaths.push({
-          routePath,
-        });
-      }
+      routesPaths.push(routePath);
     }
 
     // We hash the route to generate the key, because 2 routes can conflict with

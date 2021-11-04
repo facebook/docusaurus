@@ -165,11 +165,6 @@ export type ConfigOptions = {
   config: string;
 };
 
-export type RoutePathInfo = {
-  routePath: string;
-  lastmod?: number;
-};
-
 export type StartCLIOptions = HostPortCLIOptions &
   ConfigOptions & {
     hotOnly: boolean;
@@ -218,7 +213,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 export interface Props extends LoadContext, InjectedHtmlTags {
   readonly siteMetadata: DocusaurusSiteMetadata;
   readonly routes: RouteConfig[];
-  readonly routesPaths: RoutePathInfo[];
+  readonly routesPaths: string[];
   readonly plugins: LoadedPlugin[];
 }
 

@@ -224,23 +224,6 @@ export default function pluginContentDocs(
               JSON.stringify(metadataItem, null, 2),
             );
 
-            // returns the update date as a timestamp in milliseconds. (frontmatter | git commit | null)
-            function getUpdateDate(doc: DocMetadata) {
-              // console.log(doc);
-              const frontMatterDate = doc.frontMatter.last_modified;
-              // return frontMatterDate ?? (doc.lastUpdatedAt ? doc.lastUpdatedAt * 1000 : null) ?? fs.stat(doc.source).time ?? null;
-              if (
-                typeof frontMatterDate !== 'undefined' &&
-                frontMatterDate !== null
-              ) {
-                return frontMatterDate;
-              } else if (typeof doc.lastUpdatedAt !== 'undefined') {
-                return doc.lastUpdatedAt * 1000;
-              } else {
-                return null;
-              }
-            }
-
             const docRoute: RouteConfig = {
               path: metadataItem.permalink,
               component: docItemComponent,
@@ -253,9 +236,9 @@ export default function pluginContentDocs(
               ...(metadataItem.sidebar && {
                 sidebar: metadataItem.sidebar,
               }),
-              // Get the frontmatter override for last modified date or Pass lastMod date for routes in milliseconds
-              lastmod: getUpdateDate(metadataItem),
+              lastmod: metadataItem.lastmod,
             };
+
             return docRoute;
           }),
         );

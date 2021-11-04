@@ -45,14 +45,24 @@ Array [
       "title": "Hello sidebar_label",
     },
     Object {
-      "permalink": "/docs/lorem",
-      "title": "lorem",
+      "permalink": "/docs/last_modified",
+      "title": "last_modified",
     },
   ],
   Array [
     Object {
       "permalink": "/docs/ipsum",
       "title": "ipsum",
+    },
+    Object {
+      "permalink": "/docs/lorem",
+      "title": "lorem",
+    },
+  ],
+  Array [
+    Object {
+      "permalink": "/docs/last_modified",
+      "title": "last_modified",
     },
     Object {
       "permalink": "/docs/rootAbsoluteSlug",

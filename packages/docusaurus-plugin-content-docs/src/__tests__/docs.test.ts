@@ -192,6 +192,7 @@ describe('simple site', () => {
       [
         'hello.md',
         'ipsum.md',
+        'last_modified.md',
         'lorem.md',
         'rootAbsoluteSlug.md',
         'rootRelativeSlug.md',
@@ -495,6 +496,8 @@ describe('simple site', () => {
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
+      lastmod: 1539502055000,
+      sidebarPosition: undefined,
       tags: [],
     });
   });
