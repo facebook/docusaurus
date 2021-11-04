@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "کپی شد",
   "theme.CodeBlock.copy": "کپی",
   "theme.CodeBlock.copyButtonAriaLabel": "کپی به کلیپ بورد",
+  "theme.ErrorPageContent.title": "This page crashed.",
+  "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "صفحه ای که دنبال آن بودید پیدا نشد.",
   "theme.NotFound.p2": "لطفا با صاحب وبسایت تماس بگیرید و ایشان را از مشکل پیش آمده مطلع کنید.",
   "theme.NotFound.title": "صفحه ای که دنبال آن بودید پیدا نشد.",
