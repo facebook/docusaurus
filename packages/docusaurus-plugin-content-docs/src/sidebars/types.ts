@@ -45,10 +45,19 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   collapsible: boolean;
 };
 
+export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
+
+export type SidebarItemCategoryLinkIndex = {type: 'index'; slug?: string};
+
+export type SidebarItemCategoryLink =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkIndex;
+
 // The user-given configuration in sidebars.js, before normalization
 export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarItemConfig[];
+    link?: SidebarItemCategoryLink;
   }
 >;
 
@@ -79,6 +88,7 @@ export type SidebarsConfig = {
 export type NormalizedSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: NormalizedSidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
 
@@ -96,6 +106,7 @@ export type NormalizedSidebars = {
 export type SidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: SidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
 
@@ -114,6 +125,7 @@ export type Sidebars = {
 export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
+    href?: string;
   }
 >;
 

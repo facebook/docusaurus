@@ -27,6 +27,10 @@ const createSidebarRoutes = async ({
   async function createCategoryRoute(
     category: SidebarItemCategory,
   ): Promise<RouteConfig | undefined> {
+    if (true) {
+      return undefined;
+    }
+
     // TODO temporary
 
     const categorySlug = slugs.slug(category.label);

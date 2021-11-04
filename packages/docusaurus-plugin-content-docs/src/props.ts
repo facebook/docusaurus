@@ -10,11 +10,14 @@ import type {
   SidebarItemDoc,
   SidebarItemLink,
   SidebarItem,
+  SidebarItemCategory,
+  SidebarItemCategoryLink,
 } from './sidebars/types';
 import type {
   PropSidebars,
   PropVersionMetadata,
   PropSidebarItem,
+  PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
 } from '@docusaurus/plugin-content-docs-types';
@@ -23,8 +26,7 @@ import {compact, keyBy, mapValues} from 'lodash';
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
   const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
 
-  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-    const docId = item.id;
+  function getDocById(docId: string): DocMetadata {
     const docMetadata = docsById[docId];
 
     if (!docMetadata) {
@@ -34,13 +36,16 @@ Available document ids are:
 - ${Object.keys(docsById).sort().join('\n- ')}`,
       );
     }
+    return docMetadata;
+  }
 
+  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
+    const docMetadata = getDocById(item.id);
     const {
       title,
       permalink,
       frontMatter: {sidebar_label: sidebarLabel},
     } = docMetadata;
-
     return {
       type: 'link',
       label: sidebarLabel || item.label || title,
@@ -50,10 +55,32 @@ Available document ids are:
     };
   };
 
-  const normalizeItem = (item: SidebarItem): PropSidebarItem => {
+  function getCategoryLinkHref(
+    link: SidebarItemCategoryLink | undefined,
+  ): string | undefined {
+    switch (link?.type) {
+      case 'doc': {
+        const doc = getDocById(link.id);
+        return doc.permalink;
+      }
+      case 'index': {
+        throw new Error('TODO'); // TODO !!!
+      }
+      default:
+        return undefined;
+    }
+  }
+
+  function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
+    const {link, ...rest} = item;
+    const href = getCategoryLinkHref(link);
+    return {...rest, items: item.items.map(normalizeItem), ...(href && {href})};
+  }
+
+  function normalizeItem(item: SidebarItem): PropSidebarItem {
     switch (item.type) {
       case 'category':
-        return {...item, items: item.items.map(normalizeItem)};
+        return convertCategory(item);
       case 'ref':
       case 'doc':
         return convertDocLink(item);
@@ -61,7 +88,7 @@ Available document ids are:
       default:
         return item;
     }
-  };
+  }
 
   // Transform the sidebar so that all sidebar item will be in the
   // form of 'link' or 'category' only.

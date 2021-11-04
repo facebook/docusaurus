@@ -62,11 +62,18 @@ export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
   return collectSidebarItemsOfType('link', sidebar);
 }
 
+// /!\ docId order matters!
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
   return mapValues(sidebars, (sidebar) => {
-    return collectSidebarDocItems(sidebar).map((docItem) => docItem.id);
+    // TODO does not collect ids in correct order!
+    return [
+      ...collectSidebarDocItems(sidebar).map((docItem) => docItem.id),
+      ...collectSidebarCategories(sidebar).flatMap((category) =>
+        category?.link?.type === 'doc' ? [category.link.id] : [],
+      ),
+    ];
   });
 }
 

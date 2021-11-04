@@ -111,11 +111,12 @@ const sidebars = {
     'docusaurus-core',
     'api/docusaurus.config.js',
     'lifecycle-apis',
+
     {
       type: 'category',
       label: 'Plugins',
+      link: {type: 'doc', id: 'api/plugins/plugins-overview'},
       items: [
-        'api/plugins/plugins-overview',
         'api/plugins/plugin-content-docs',
         'api/plugins/plugin-content-blog',
         'api/plugins/plugin-content-pages',
@@ -131,8 +132,8 @@ const sidebars = {
     {
       type: 'category',
       label: 'Themes',
+      link: {type: 'doc', id: 'api/themes/themes-overview'},
       items: [
-        'api/themes/themes-overview',
         'api/themes/theme-configuration',
         'api/themes/theme-classic',
         'api/themes/theme-live-codeblock',
