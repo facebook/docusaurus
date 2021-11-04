@@ -93,3 +93,5 @@ export {
   useIsomorphicLayoutEffect,
   useDynamicCallback,
 } from './utils/reactUtils';
+
+export {isRegexpStringMatch} from './utils/regexpUtils';

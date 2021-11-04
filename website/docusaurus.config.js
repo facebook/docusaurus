@@ -11,6 +11,10 @@ const versions = require('./versions.json');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 
 // This probably only makes sense for the beta phase, temporary
@@ -334,6 +338,8 @@ const config = {
           alt: 'Docusaurus Logo',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
+          width: 32,
+          height: 32,
         },
         items: [
           {
@@ -362,7 +368,7 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
+              ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
                   href: versionUrl,
@@ -487,6 +493,8 @@ const config = {
         logo: {
           alt: 'Facebook Open Source Logo',
           src: 'img/oss_logo.png',
+          width: 160,
+          height: 51,
           href: 'https://opensource.facebook.com',
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
