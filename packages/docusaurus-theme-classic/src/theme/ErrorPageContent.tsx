@@ -25,13 +25,15 @@ export default function ErrorPageContent({
             </Translate>
           </h1>
           <p>{error.message}</p>
-          <button type="button" style={{display: 'block'}} onClick={tryAgain}>
-            <Translate
-              id="theme.ErrorPageContent.tryAgain"
-              description="The label of the button to try again when the page crashed">
-              Try again
-            </Translate>
-          </button>
+          <div>
+            <button type="button" onClick={tryAgain}>
+              <Translate
+                id="theme.ErrorPageContent.tryAgain"
+                description="The label of the button to try again when the page crashed">
+                Try again
+              </Translate>
+            </button>
+          </div>
         </div>
       </div>
     </main>
