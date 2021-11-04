@@ -22,19 +22,68 @@ module.exports = {
 };
 ```
 
+Docusaurus adds some metadata out-of-the-box. For example, if you have configured [i18n](./i18n/i18n-introduction.md), you will get a [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) alternate link.
+
 To read more about types of meta tags, visit [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta).
 
 ## Single page metadata {#single-page-metadata}
 
-Similar to [global metadata](#global-metadata), Docusaurus also allows for the addition of meta-information to individual pages. Follow [this guide](./guides/markdown-features/markdown-features-head-metadatas.mdx) for configuring the `<head>` tag.
+Similar to [global metadata](#global-metadata), Docusaurus also allows for the addition of meta-information to individual pages. Follow [this guide](./guides/markdown-features/markdown-features-head-metadatas.mdx) for configuring the `<head>` tag. In short:
+
+```md title="my-markdown-page.md"
+# A cooking guide
+
+<head>
+  <meta name="keywords" content="cooking, blog">
+</head>
+
+Some content...
+```
+
+```jsx title="my-react-page.jsx"
+import React from 'react';
+import Head from '@docusaurus/Head';
+
+export default function page() {
+  return (
+    <Layout title="Page" description="A React page demo">
+      <Head>
+        <meta property="og:image" content="image.png" />
+      </Head>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
+Docusaurus automatically adds `description`, `title`, canonical URL links, and other useful metadata to each Markdown page. They are configurable through front matter:
+
+```yml
+---
+title: Title for search engines; can be different from the actual heading
+description: A short description of this page
+image: a thumbnail image to be shown in social media cards
+keywords: [keywords, describing, the main topics]
+---
+```
+
+When creating your React page, adding these fields in `Layout` would also improve SEO.
 
 ## Static HTML generation {#static-html-generation}
 
-Docusaurus is a static site generator—HTML files are statically generated for every URL route, which helps search engines discover your content easier.
+Docusaurus is a static site generator—HTML files are statically generated for every URL route, which helps search engines discover your content more easily.
 
 ## Image meta description {#image-meta-description}
 
-Docusaurus supports alt tags for your images, see [this section](./guides/markdown-features/markdown-features-assets.mdx#images) for more details.
+The alt tag for an image tells the search engine what the image is about, and is used when the image can't be visually seen, e.g. when using a screen reader, or when the image is broken. Alt tags are commonly supported in Markdown.
+
+You may also add a title for your image—this doesn't impact SEO much, but is displayed as tooltip when hovering above the image, usually used to provide hints.
+
+```md
+![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
+```
+
+![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
 
 ## Rich search information {#rich-search-information}
 
