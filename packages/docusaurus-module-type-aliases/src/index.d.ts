@@ -121,7 +121,7 @@ declare module '@docusaurus/ErrorBoundary' {
   import ErrorComponent from '@theme/Error';
 
   export interface Props {
-    readonly fallback: typeof ErrorComponent;
+    readonly fallback?: typeof ErrorComponent;
     readonly children: ReactNode;
   }
   export default function ErrorBoundary(props: Props): JSX.Element;
