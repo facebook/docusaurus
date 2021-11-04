@@ -111,6 +111,15 @@ export function ActiveTeamRow() {
         </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
+        name="Sida Chen"
+        githubUrl="https://github.com/Josh-Cena"
+        twitterUrl="https://twitter.com/SidaChen63">
+        <Translate id="team.profile.Sida Chen.body">
+          Student from Shanghai, China. Enthusiastic open-source project
+          creator, but never actually works hard on those projects he created.
+        </Translate>
+      </TeamProfileCardCol>
+      <TeamProfileCardCol
         name="Yangshun Tay"
         githubUrl="https://github.com/yangshun"
         twitterUrl="https://twitter.com/yangshunz">

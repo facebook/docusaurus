@@ -65,37 +65,31 @@ const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
 async function readCategoryMetadatasFile(
   categoryDirPath: string,
 ): Promise<CategoryMetadatasFile | null> {
-  async function tryReadFile(
-    fileNameWithExtension: string,
-    parse: (content: string) => unknown,
-  ): Promise<CategoryMetadatasFile | null> {
+  async function tryReadFile(filePath: string): Promise<CategoryMetadatasFile> {
+    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
+    const unsafeContent = Yaml.load(contentString);
+    try {
+      return Joi.attempt(unsafeContent, CategoryMetadatasFileSchema);
+    } catch (e) {
+      console.error(
+        chalk.red(
+          `The docs sidebar category metadata file looks invalid!\nPath: ${filePath}`,
+        ),
+      );
+      throw e;
+    }
+  }
+  // eslint-disable-next-line no-restricted-syntax
+  for (const ext of ['.json', '.yml', '.yaml']) {
     // Simpler to use only posix paths for mocking file metadatas in tests
     const filePath = posixPath(
-      path.join(categoryDirPath, fileNameWithExtension),
+      path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
     );
     if (await fs.pathExists(filePath)) {
-      const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-      const unsafeContent = parse(contentString);
-      try {
-        return Joi.attempt(unsafeContent, CategoryMetadatasFileSchema);
-      } catch (e) {
-        console.error(
-          chalk.red(
-            `The docs sidebar category metadata file looks invalid!\nPath: ${filePath}`,
-          ),
-        );
-        throw e;
-      }
+      return tryReadFile(filePath);
     }
-    return null;
   }
-
-  return (
-    (await tryReadFile(`${CategoryMetadataFilenameBase}.json`, JSON.parse)) ??
-    (await tryReadFile(`${CategoryMetadataFilenameBase}.yml`, Yaml.load)) ??
-    // eslint-disable-next-line no-return-await
-    (await tryReadFile(`${CategoryMetadataFilenameBase}.yaml`, Yaml.load))
-  );
+  return null;
 }
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449

@@ -266,6 +266,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'default'` | Optional | Sets the type of this item to a link. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
@@ -325,6 +326,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'dropdown'` | Optional | Sets the type of this item to a dropdown. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -373,6 +375,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'doc'` | **Required** | Sets the type of this item to a doc link. |
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -413,6 +416,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersionDropdown'` | **Required** | Sets the type of this item to a docs version dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
@@ -452,6 +456,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersion'` | **Required** | Sets the type of this item to a doc version link. |
 | `label` | `string` | The active/latest version label. | The name to be shown for this item. |
 | `to` | `string` | The active/latest version. | The internal link that this item points to. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
@@ -492,6 +497,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'localeDropdown'` | **Required** | Sets the type of this item to a locale dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
@@ -533,6 +539,7 @@ However, with this special navbar item type, you can change the default location
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'search'` | **Required** | Sets the type of this item to a search bar. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
 </small>

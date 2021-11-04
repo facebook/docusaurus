@@ -52,8 +52,16 @@ function FooterLink({
 const FooterLogo = ({
   sources,
   alt,
-}: Pick<ThemedImageProps, 'sources' | 'alt'>) => (
-  <ThemedImage className="footer__logo" alt={alt} sources={sources} />
+  width,
+  height,
+}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) => (
+  <ThemedImage
+    className="footer__logo"
+    alt={alt}
+    sources={sources}
+    width={width}
+    height={height}
+  />
 );
 
 function Footer(): JSX.Element | null {
@@ -115,7 +123,12 @@ function Footer(): JSX.Element | null {
               <div className="margin-bottom--sm">
                 {logo.href ? (
                   <Link href={logo.href} className={styles.footerLogoLink}>
-                    <FooterLogo alt={logo.alt} sources={sources} />
+                    <FooterLogo
+                      alt={logo.alt}
+                      sources={sources}
+                      width={logo.width}
+                      height={logo.height}
+                    />
                   </Link>
                 ) : (
                   <FooterLogo alt={logo.alt} sources={sources} />
