@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 function ErrorDisplay({error, tryAgain}) {
   return (
@@ -30,10 +31,14 @@ function ErrorDisplay({error, tryAgain}) {
 }
 
 function Error({error, tryAgain}) {
+  // We wrap the error in its own error boundary because the layout can actually throw too...
+  // Only the ErrorDisplay component is simple enough to be considered safe to never throw
   return (
-    <Layout title="Page Error">
-      <ErrorDisplay error={error} tryAgain={tryAgain} />
-    </Layout>
+    <ErrorBoundary fallback={ErrorDisplay}>
+      <Layout title="Page Error">
+        <ErrorDisplay error={error} tryAgain={tryAgain} />
+      </Layout>
+    </ErrorBoundary>
   );
 }
 
