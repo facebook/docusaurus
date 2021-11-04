@@ -7,10 +7,10 @@
 
 import React, {useState} from 'react';
 
-export default function ErrorBoundaryTestButton() {
+export default function ErrorBoundaryTestButton({children = 'Boom!'}) {
   const [state, setState] = useState(false);
   if (state) {
     throw new Error('Boom!');
   }
-  return <button onClick={() => setState(true)}>Boom!</button>;
+  return <button onClick={() => setState(true)}>{children}</button>;
 }
