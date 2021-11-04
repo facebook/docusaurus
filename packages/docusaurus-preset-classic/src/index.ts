@@ -31,40 +31,42 @@ export default function preset(
   const {themeConfig} = siteConfig;
   const {algolia, googleAnalytics, gtag} = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
+  const {debug, docs, blog, pages, sitemap, theme, ...rest} = opts;
 
   const themes: PluginConfig[] = [];
-  themes.push(makePluginConfig('@docusaurus/theme-classic', opts.theme));
+  themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
   if (algolia) {
     themes.push(require.resolve('@docusaurus/theme-search-algolia'));
   }
 
   const plugins: PluginConfig[] = [];
-  if (opts.docs !== false) {
-    plugins.push(
-      makePluginConfig('@docusaurus/plugin-content-docs', opts.docs),
-    );
+  if (docs !== false) {
+    plugins.push(makePluginConfig('@docusaurus/plugin-content-docs', docs));
   }
-  if (opts.blog !== false) {
-    plugins.push(
-      makePluginConfig('@docusaurus/plugin-content-blog', opts.blog),
-    );
+  if (blog !== false) {
+    plugins.push(makePluginConfig('@docusaurus/plugin-content-blog', blog));
   }
-  if (opts.pages !== false) {
-    plugins.push(
-      makePluginConfig('@docusaurus/plugin-content-pages', opts.pages),
-    );
+  if (pages !== false) {
+    plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
   }
   if (isProd && googleAnalytics) {
     plugins.push(require.resolve('@docusaurus/plugin-google-analytics'));
   }
-  if (opts.debug || (typeof opts.debug === 'undefined' && !isProd)) {
+  if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
   if (isProd && gtag) {
     plugins.push(require.resolve('@docusaurus/plugin-google-gtag'));
   }
-  if (isProd && opts.sitemap !== false) {
-    plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', opts.sitemap));
+  if (isProd && sitemap !== false) {
+    plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
+  }
+  if (Object.keys(rest).length > 0) {
+    throw new Error(
+      `Unrecognized keys ${Object.keys(rest).join(
+        ', ',
+      )} found in preset-classic configuration. The allowed keys are debug, docs, blog, pages, sitemap, theme. Check the documentation: https://docusaurus.io/docs/presets#docusauruspreset-classic for more information on how to configure individual plugins.`,
+    );
   }
 
   return {themes, plugins};

@@ -17,7 +17,7 @@ Let's imagine the following file structure:
 
 # Some assets you want to use
 /website/docs/assets/docusaurus-asset-example-banner.png
-/website/docs/assets/docusaurus-asset-example.xlsx
+/website/docs/assets/docusaurus-asset-example.docx
 ```
 
 ## Images {#images}
@@ -66,22 +66,22 @@ In the same way, you can link to existing assets by requiring them and using the
 
 <a
   target="_blank"
-  href={require('./assets/docusaurus-asset-example.xlsx').default}>
-  Download this xlsx
+  href={require('./assets/docusaurus-asset-example.docx').default}>
+  Download this docx
 </a>
 
 or
 
-[Download this xlsx using Markdown](./assets/docusaurus-asset-example.xlsx)
+[Download this docx using Markdown](./assets/docusaurus-asset-example.docx)
 ```
 
 <a
   target="_blank"
-  href={require('../../assets/docusaurus-asset-example.xlsx').default}>
-  Download this xlsx
+  href={require('../../assets/docusaurus-asset-example.docx').default}>
+  Download this docx
 </a>
 
-[Download this xlsx using Markdown](../../assets/docusaurus-asset-example.xlsx)
+[Download this docx using Markdown](../../assets/docusaurus-asset-example.docx)
 
 ## Inline SVGs {#inline-svgs}
 

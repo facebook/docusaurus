@@ -290,6 +290,8 @@ const ThemeConfigSchema = Joi.object({
       alt: Joi.string().allow(''),
       src: Joi.string().required(),
       srcDark: Joi.string(),
+      width: Joi.alternatives().try(Joi.string(), Joi.number()),
+      height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
       target: Joi.string(),
     }),
@@ -300,6 +302,9 @@ const ThemeConfigSchema = Joi.object({
       alt: Joi.string().allow(''),
       src: Joi.string(),
       srcDark: Joi.string(),
+      // TODO infer this from reading the image
+      width: Joi.alternatives().try(Joi.string(), Joi.number()),
+      height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
     }),
     copyright: Joi.string(),

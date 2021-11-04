@@ -39,6 +39,7 @@ export interface DocusaurusConfig {
   noIndex: boolean;
   organizationName?: string;
   projectName?: string;
+  deploymentBranch?: string;
   githubHost?: string;
   githubPort?: string;
   plugins?: PluginConfig[];

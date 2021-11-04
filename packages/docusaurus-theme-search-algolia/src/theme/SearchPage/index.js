@@ -19,6 +19,7 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
   useTitleFormatter,
   usePluralForm,
+  isRegexpStringMatch,
   useDynamicCallback,
 } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -121,7 +122,7 @@ function SearchPage() {
   const {
     siteConfig: {
       themeConfig: {
-        algolia: {appId, apiKey, indexName},
+        algolia: {appId, apiKey, indexName, externalUrlRegex},
       },
     },
     i18n: {currentLocale},
@@ -205,14 +206,16 @@ function SearchPage() {
           _highlightResult: {hierarchy},
           _snippetResult: snippet = {},
         }) => {
-          const {pathname, hash} = new URL(url);
+          const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) => {
             return sanitizeValue(hierarchy[key].value);
           });
 
           return {
             title: titles.pop(),
-            url: pathname + hash,
+            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
+              ? parsedURL.href
+              : parsedURL.pathname + parsedURL.hash,
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',

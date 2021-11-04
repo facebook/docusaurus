@@ -520,7 +520,7 @@ export default function pluginContentBlog(
       // TODO: we shouldn't need to re-read the posts here!
       // postBuild should receive loadedContent
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
-      if (blogPosts.length) {
+      if (!blogPosts.length) {
         return;
       }
       await createBlogFeedFiles({

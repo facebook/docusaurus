@@ -129,6 +129,7 @@ export function createBaseConfig(
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
       publicPath: baseUrl,
+      hashFunction: 'xxhash64',
     },
     // Don't throw warning when asset created is over 250kb
     performance: {

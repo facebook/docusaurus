@@ -109,13 +109,18 @@ This behavior can have SEO impacts and create relative link issues.
   // - Site url: https://<organization>.github.io
   const isGitHubPagesOrganizationDeploy =
     projectName.indexOf('.github.io') !== -1;
-  if (isGitHubPagesOrganizationDeploy && !process.env.DEPLOYMENT_BRANCH) {
+  if (
+    isGitHubPagesOrganizationDeploy &&
+    !process.env.DEPLOYMENT_BRANCH &&
+    !siteConfig.deploymentBranch
+  ) {
     throw new Error(`For GitHub pages organization deployments, 'docusaurus deploy' does not assume anymore that 'master' is your default Git branch.
-Please provide the branch name to deploy to as an environment variable.
-Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
+Please provide the branch name to deploy to as an environment variable, for example DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master .
+You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
-  const deploymentBranch = process.env.DEPLOYMENT_BRANCH || 'gh-pages';
+  const deploymentBranch =
+    process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
@@ -168,7 +173,9 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
     if (
-      shellExecLog(`git clone --depth 1 ${remoteBranch} ${toPath}`).code !== 0
+      shellExecLog(
+        `git clone --depth 1 --no-single-branch ${remoteBranch} ${toPath}`,
+      ).code !== 0
     ) {
       throw new Error(`Running "git clone" command in "${toPath}" failed.`);
     }
