@@ -20,7 +20,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
@@ -31,7 +31,6 @@ import {
   LoadedContent,
   SourceToPermalink,
   DocMetadataBase,
-  DocMetadata,
   GlobalPluginData,
   VersionMetadata,
   LoadedVersion,
@@ -44,7 +43,7 @@ import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {keyBy, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
-import {toTagDocListProp, toVersionMetadataProp} from './props';
+import {toTagDocListProp} from './props';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
@@ -52,7 +51,7 @@ import {
 import chalk from 'chalk';
 import {getVersionTags} from './tags';
 import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
-import {createSidebarsRoutes} from './routes';
+import {createVersionRoutes} from './routes';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -213,42 +212,10 @@ export default function pluginContentDocs(
       const {docLayoutComponent, docItemComponent} = options;
       const {addRoute, createData, setGlobalData} = actions;
 
-      const createDocRoutes = async (
-        docs: DocMetadata[],
-      ): Promise<RouteConfig[]> => {
-        const routes = await Promise.all(
-          docs.map(async (metadataItem) => {
-            await createData(
-              // Note that this created data path must be in sync with
-              // metadataPath provided to mdx-loader.
-              `${docuHash(metadataItem.source)}.json`,
-              JSON.stringify(metadataItem, null, 2),
-            );
-
-            const docRoute: RouteConfig = {
-              path: metadataItem.permalink,
-              component: docItemComponent,
-              exact: true,
-              modules: {
-                content: metadataItem.source,
-              },
-              // Because the parent (DocPage) comp need to access it easily
-              // This permits to render the sidebar once without unmount/remount when navigating (and preserve sidebar state)
-              ...(metadataItem.sidebar && {
-                sidebar: metadataItem.sidebar,
-              }),
-            };
-
-            return docRoute;
-          }),
-        );
-
-        return routes;
-      };
-
       async function createVersionTagsRoutes(version: LoadedVersion) {
         const versionTags = getVersionTags(version.docs);
 
+        // TODO tags should be a sub route of the version route
         async function createTagsListPage() {
           const tagsProp: PropTagsListPage['tags'] = Object.values(
             versionTags,
@@ -275,6 +242,7 @@ export default function pluginContentDocs(
           }
         }
 
+        // TODO tags should be a sub route of the version route
         async function createTagDocListPage(tag: VersionTag) {
           const tagProps = toTagDocListProp({
             allTagsPath: version.tagsPath,
@@ -299,58 +267,21 @@ export default function pluginContentDocs(
         await Promise.all(Object.values(versionTags).map(createTagDocListPage));
       }
 
-      async function doCreateVersionRoutes(
-        version: LoadedVersion,
-      ): Promise<void> {
-        await createVersionTagsRoutes(version);
+      await Promise.all(
+        loadedVersions.map((loadedVersion) =>
+          createVersionRoutes({
+            loadedVersion,
+            docItemComponent,
+            docLayoutComponent,
+            pluginId,
+            aliasedSource,
+            actions,
+          }),
+        ),
+      );
 
-        const versionMetadata = toVersionMetadataProp(pluginId, version);
-        const versionMetadataPropPath = await createData(
-          `${docuHash(`version-${version.versionName}-metadata-prop`)}.json`,
-          JSON.stringify(versionMetadata, null, 2),
-        );
-
-        async function createVersionSubRoutes() {
-          const [docRoutes, sidebarsRoutes] = await Promise.all([
-            createDocRoutes(version.docs),
-            createSidebarsRoutes({version, actions}),
-          ]);
-
-          const routes = [...docRoutes, ...sidebarsRoutes];
-          return routes.sort((a, b) => a.path.localeCompare(b.path));
-        }
-
-        addRoute({
-          path: version.versionPath,
-          // allow matching /docs/* as well
-          exact: false,
-          // main docs component (DocPage)
-          component: docLayoutComponent,
-          // sub-routes for each doc
-          routes: await createVersionSubRoutes(),
-          modules: {
-            versionMetadata: aliasedSource(versionMetadataPropPath),
-          },
-          priority: version.routePriority,
-        });
-      }
-
-      async function createVersionRoutes(
-        loadedVersion: LoadedVersion,
-      ): Promise<void> {
-        try {
-          return await doCreateVersionRoutes(loadedVersion);
-        } catch (e) {
-          console.error(
-            chalk.red(
-              `Can't create version routes for version "${loadedVersion.versionName}"`,
-            ),
-          );
-          throw e;
-        }
-      }
-
-      await Promise.all(loadedVersions.map(createVersionRoutes));
+      // TODO tags should be a sub route of the version route
+      await Promise.all(loadedVersions.map(createVersionTagsRoutes));
 
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
