@@ -40,6 +40,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
   export type PropTagDocListDoc = {
@@ -124,7 +125,9 @@ declare module '@theme/DocItem' {
 declare module '@theme/DocCategoryGeneratedIndex' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs-types';
 
-  export interface Props extends PropCategoryGeneratedIndex {}
+  export interface Props {
+    categoryIndex: PropCategoryGeneratedIndex;
+  }
 
   export default function DocCategoryGeneratedIndex(props: Props): JSX.Element;
 }

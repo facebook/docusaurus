@@ -30,9 +30,8 @@ function normalizeCategoryLink(
   if (category.link?.type === 'generated-index') {
     // default slug logic can be improved
     function getDefaultSlug() {
-      return params.slugger.slug(
-        `${params.sidebarName}/category/${category.label}`,
-      );
+      const categoryLabelSlug = params.slugger.slug(category.label);
+      return `${params.sidebarName}/category/${categoryLabelSlug}`;
     }
     const slug = category.link.slug ?? getDefaultSlug();
     const permalink = normalizeUrl([params.version.versionPath, slug]);
@@ -81,7 +80,6 @@ function normalizeItem(
   }
   if (item.type === 'category') {
     const link = normalizeCategoryLink(item, options);
-    link && console.log({link});
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
       link,

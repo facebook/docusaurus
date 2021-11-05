@@ -28,6 +28,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Guides',
+      link: {
+        type: 'generated-index',
+      },
       items: [
         'guides/creating-pages',
         {
