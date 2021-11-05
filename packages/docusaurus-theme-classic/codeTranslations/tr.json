@@ -4,6 +4,8 @@
   "theme.CodeBlock.copied": "Kopyalandı",
   "theme.CodeBlock.copy": "Kopyala",
   "theme.CodeBlock.copyButtonAriaLabel": "Kodu panoya kopyala",
+  "theme.ErrorPageContent.title": "This page crashed.",
+  "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Aradığınız şeyi bulamadık.",
   "theme.NotFound.p2": "Lütfen sizi orijinal URL'ye yönlendiren sitenin sahibiyle iletişime geçin ve bağlantısının bozuk olduğunu bildirin.",
   "theme.NotFound.title": "Sayfa Bulunamadı",

@@ -218,7 +218,6 @@ async function updateCodeTranslations() {
   // eslint-disable-next-line no-restricted-syntax
   for (const localeFile of localesFiles) {
     logSection(`Will update ${path.basename(localeFile)}`);
-    // eslint-disable-next-line no-await-in-loop
     await updateLocaleCodeTranslations(localeFile, baseFileMessages);
   }
 }

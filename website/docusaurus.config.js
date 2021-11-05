@@ -16,6 +16,11 @@ import lightTheme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
 import {createRequire} from 'module';
 
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
+
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
   const expectedPrefix = '2.0.0-beta.';
@@ -369,7 +374,7 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
+              ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
                   href: versionUrl,
