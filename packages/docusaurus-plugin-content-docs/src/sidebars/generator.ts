@@ -11,6 +11,7 @@ import type {
   SidebarItemCategory,
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
+  SidebarItemCategoryLinkDoc,
 } from './types';
 import {keyBy, sortBy} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
@@ -23,6 +24,23 @@ import Yaml from 'js-yaml';
 const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
 const docIdPrefix = '$doc$/';
+
+// TODO make this function configurable?
+function isCategoryIndexDoc({
+  folderName,
+  item,
+}: {
+  folderName: string;
+  item: SidebarItemDoc;
+}): boolean {
+  // TODO using the id is not 100% accurate, but good enough for now?
+  const parts = item.id.split('/');
+  const docName = parts[parts.length - 1]!;
+
+  const eligibleDocIndexNames = ['index', 'readme', folderName];
+
+  return eligibleDocIndexNames.includes(docName);
+}
 
 export const CategoryMetadataFilenameBase = '_category_';
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
@@ -60,7 +78,7 @@ const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
 
 // TODO I now believe we should read all the category metadata files ahead of time: we may need this metadata to customize docs metadata
 // Example use-case being able to disable number prefix parsing at the folder level, or customize the default route path segment for an intermediate directory...
-// TODO later if there is `CategoryFolder/index.md`, we may want to read the metadata as yaml on it
+// TODO later if there is `CategoryFolder/with-category-name-doc.md`, we may want to read the metadata as yaml on it
 // see https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
 async function readCategoryMetadatasFile(
   categoryDirPath: string,
@@ -187,6 +205,27 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       const categoryMetadatas = await readCategoryMetadatasFile(categoryPath);
       const className = categoryMetadatas?.className;
       const {filename, numberPrefix} = numberPrefixParser(folderName);
+      const allItems = await Promise.all(
+        Object.entries(dir).map(([key, content]) =>
+          dirToItem(content, key, `${fullPath}/${key}`),
+        ),
+      );
+
+      const categoryIndexDoc = allItems.find(
+        (item) => item.type === 'doc' && isCategoryIndexDoc({folderName, item}),
+      ) as SidebarItemDoc | undefined;
+
+      const link: SidebarItemCategoryLinkDoc | undefined = categoryIndexDoc
+        ? {
+            type: 'doc',
+            id: categoryIndexDoc.id,
+          }
+        : undefined;
+
+      const items = categoryIndexDoc
+        ? allItems.filter((item) => item !== categoryIndexDoc)
+        : allItems;
+
       return {
         type: 'category',
         label: categoryMetadatas?.label ?? filename,
@@ -195,11 +234,8 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         collapsed: categoryMetadatas?.collapsed ?? options.sidebarCollapsed,
         position: categoryMetadatas?.position ?? numberPrefix,
         ...(className !== undefined && {className}),
-        items: await Promise.all(
-          Object.entries(dir).map(([key, content]) =>
-            dirToItem(content, key, `${fullPath}/${key}`),
-          ),
-        ),
+        items,
+        ...(link && {link}),
       };
     }
     async function dirToItem(
