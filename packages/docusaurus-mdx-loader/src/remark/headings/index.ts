@@ -26,7 +26,7 @@ function headings(): Transformer {
       let {id} = properties;
 
       if (id) {
-        id = slugs.slug(id, true);
+        id = slugs.slug(id, {maintainCase: true});
       } else {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
