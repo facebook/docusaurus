@@ -4,6 +4,7 @@ exports[`base webpack config should create webpack aliases 1`] = `
 Object {
   "@docusaurus/BrowserOnly": "../../../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../../../client/exports/ComponentCreator.tsx",
+  "@docusaurus/ErrorBoundary": "../../../../client/exports/ErrorBoundary.tsx",
   "@docusaurus/ExecutionEnvironment": "../../../../client/exports/ExecutionEnvironment.ts",
   "@docusaurus/Head": "../../../../client/exports/Head.tsx",
   "@docusaurus/Interpolate": "../../../../client/exports/Interpolate.tsx",
@@ -23,6 +24,7 @@ Object {
   "@generated": "../../../../../../..",
   "@site": "",
   "@theme-init/PluginThemeComponentOverridden": "pluginThemeFolder/PluginThemeComponentOverridden.js",
+  "@theme-original/Error": "../../../../client/theme-fallback/Error/index.js",
   "@theme-original/Layout": "../../../../client/theme-fallback/Layout/index.js",
   "@theme-original/Loading": "../../../../client/theme-fallback/Loading/index.js",
   "@theme-original/NotFound": "../../../../client/theme-fallback/NotFound/index.js",
@@ -30,6 +32,7 @@ Object {
   "@theme-original/PluginThemeComponentOverridden": "pluginThemeFolder/PluginThemeComponentOverridden.js",
   "@theme-original/Root": "../../../../client/theme-fallback/Root/index.js",
   "@theme-original/subfolder/PluginThemeComponent2": "pluginThemeFolder/subfolder/PluginThemeComponent2.js",
+  "@theme/Error": "../../../../client/theme-fallback/Error/index.js",
   "@theme/Layout": "../../../../client/theme-fallback/Layout/index.js",
   "@theme/Loading": "../../../../client/theme-fallback/Loading/index.js",
   "@theme/NotFound": "../../../../client/theme-fallback/NotFound/index.js",
@@ -46,6 +49,7 @@ exports[`getDocusaurusAliases() return appropriate webpack aliases 1`] = `
 Object {
   "@docusaurus/BrowserOnly": "../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",
+  "@docusaurus/ErrorBoundary": "../../client/exports/ErrorBoundary.tsx",
   "@docusaurus/ExecutionEnvironment": "../../client/exports/ExecutionEnvironment.ts",
   "@docusaurus/Head": "../../client/exports/Head.tsx",
   "@docusaurus/Interpolate": "../../client/exports/Interpolate.tsx",
