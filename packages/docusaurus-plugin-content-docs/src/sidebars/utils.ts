@@ -33,21 +33,24 @@ export function transformSidebarItems(
   return sidebar.map(transformRecursive);
 }
 
+// Flatten sidebar items into a single flat array (containing categories/docs on the same level)
+// /!\ order matters (useful for next/prev nav), top categories appear before their child elements
+function flattenSidebarItems(items: SidebarItem[]): SidebarItem[] {
+  function flattenRecursive(item: SidebarItem): SidebarItem[] {
+    return item.type === 'category'
+      ? [item, ...item.items.flatMap(flattenRecursive)]
+      : [item];
+  }
+  return items.flatMap(flattenRecursive);
+}
+
 function collectSidebarItemsOfType<
   Type extends SidebarItemType,
   Item extends SidebarItem & {type: SidebarItemType},
 >(type: Type, sidebar: Sidebar): Item[] {
-  function collectRecursive(item: SidebarItem): Item[] {
-    const currentItemsCollected: Item[] =
-      item.type === type ? [item as Item] : [];
-
-    const childItemsCollected: Item[] =
-      item.type === 'category' ? item.items.flatMap(collectRecursive) : [];
-
-    return [...currentItemsCollected, ...childItemsCollected];
-  }
-
-  return sidebar.flatMap(collectRecursive);
+  return flattenSidebarItems(sidebar).filter(
+    (item) => item.type === type,
+  ) as Item[];
 }
 
 export function collectSidebarDocItems(sidebar: Sidebar): SidebarItemDoc[] {
@@ -62,19 +65,23 @@ export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
   return collectSidebarItemsOfType('link', sidebar);
 }
 
-// /!\ docId order matters!
+// /!\ docId order matters for navigation!
+export function collectSidebarDocIds(sidebar: Sidebar): string[] {
+  return flattenSidebarItems(sidebar).flatMap((item) => {
+    if (item.type === 'category') {
+      return item.link?.type === 'doc' ? [item.link.id] : [];
+    }
+    if (item.type === 'doc') {
+      return [item.id];
+    }
+    return [];
+  });
+}
+
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
-  return mapValues(sidebars, (sidebar) => {
-    // TODO does not collect ids in correct order!
-    return [
-      ...collectSidebarDocItems(sidebar).map((docItem) => docItem.id),
-      ...collectSidebarCategories(sidebar).flatMap((category) =>
-        category?.link?.type === 'doc' ? [category.link.id] : [],
-      ),
-    ];
-  });
+  return mapValues(sidebars, collectSidebarDocIds);
 }
 
 export function createSidebarsUtils(sidebars: Sidebars): {
