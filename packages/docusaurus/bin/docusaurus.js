@@ -22,7 +22,9 @@ import {
 } from '../lib';
 import packageJSON from '../package.json';
 
-import './beforeCli';
+import {notifyUpdate} from './beforeCli';
+
+await notifyUpdate();
 
 const resolveDir = (dir = '.') => fs.realpathSync(dir);
 

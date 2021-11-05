@@ -66,61 +66,63 @@ function ignoreUpdate(update) {
   return isCanaryRelease;
 }
 
-if (
-  notifier.config &&
-  notifier.update &&
-  semver.lt(notifier.update.current, notifier.update.latest)
-) {
-  // Because notifier clears cached data after reading it, leading to notifier not consistently displaying the update
-  // See https://github.com/yeoman/update-notifier/issues/209
-  notifier.config.set('update', notifier.update);
+export async function notifyUpdate() {
+  if (
+    notifier.config &&
+    notifier.update &&
+    semver.lt(notifier.update.current, notifier.update.latest)
+  ) {
+    // Because notifier clears cached data after reading it, leading to notifier not consistently displaying the update
+    // See https://github.com/yeoman/update-notifier/issues/209
+    notifier.config.set('update', notifier.update);
 
-  if (ignoreUpdate(notifier.update)) {
-    return;
+    if (ignoreUpdate(notifier.update)) {
+      return;
+    }
+
+    const sitePkg = await import(path.resolve(process.cwd(), 'package.json'));
+    const siteDocusaurusPackagesForUpdate = Object.keys({
+      ...sitePkg.dependencies,
+      ...sitePkg.devDependencies,
+    })
+      .filter((p) => p.startsWith('@docusaurus'))
+      .map((p) => p.concat('@latest'))
+      .join(' ');
+    const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
+    const upgradeCommand = isYarnUsed
+      ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
+      : `npm i ${siteDocusaurusPackagesForUpdate}`;
+
+    const boxenOptions = {
+      padding: 1,
+      margin: 1,
+      align: 'center',
+      borderColor: 'yellow',
+      borderStyle: 'round',
+    };
+
+    const docusaurusUpdateMessage = boxen(
+      `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
+        ' → ',
+      )}${chalk.green(
+        `${notifier.update.latest}`,
+      )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
+        `${upgradeCommand}`,
+      )}`,
+      boxenOptions,
+    );
+
+    console.log(docusaurusUpdateMessage);
   }
 
-  const sitePkg = await import(path.resolve(process.cwd(), 'package.json'));
-  const siteDocusaurusPackagesForUpdate = Object.keys({
-    ...sitePkg.dependencies,
-    ...sitePkg.devDependencies,
-  })
-    .filter((p) => p.startsWith('@docusaurus'))
-    .map((p) => p.concat('@latest'))
-    .join(' ');
-  const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
-  const upgradeCommand = isYarnUsed
-    ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-    : `npm i ${siteDocusaurusPackagesForUpdate}`;
-
-  const boxenOptions = {
-    padding: 1,
-    margin: 1,
-    align: 'center',
-    borderColor: 'yellow',
-    borderStyle: 'round',
-  };
-
-  const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(
-      `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
-      `${upgradeCommand}`,
-    )}`,
-    boxenOptions,
-  );
-
-  console.log(docusaurusUpdateMessage);
-}
-
-// notify user if node version needs to be updated
-if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    chalk.red(`\nMinimum Node version not met :(`) +
-      chalk.yellow(
-        `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
-      ),
-  );
-  process.exit(1);
+  // notify user if node version needs to be updated
+  if (!semver.satisfies(process.version, requiredVersion)) {
+    console.log(
+      chalk.red(`\nMinimum Node version not met :(`) +
+        chalk.yellow(
+          `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
+        ),
+    );
+    process.exit(1);
+  }
 }
