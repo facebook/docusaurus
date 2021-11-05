@@ -29,7 +29,7 @@ const dogfoodingPluginInstances = [
       feedOptions: {
         type: 'all',
         title: 'Docusaurus Tests Blog',
-        copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Meta.`,
       },
       readingTime: ({content, frontMatter, defaultReadingTime}) =>
         frontMatter.hide_reading_time

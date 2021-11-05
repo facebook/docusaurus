@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -30,7 +30,7 @@ module.exports = {
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
-            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Meta.`,
           },
         },
         theme: {
@@ -62,7 +62,7 @@ module.exports = {
         src: 'img/oss_logo.png',
         href: 'https://opensource.facebook.com',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Meta. Built with Docusaurus.`,
     },
   },
 };
