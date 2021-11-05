@@ -319,7 +319,7 @@ const config = {
         additionalLanguages: ['java'],
       },
       image: 'img/docusaurus-soc.png',
-      // metadatas: [{name: 'twitter:card', content: 'summary'}],
+      // metadata: [{name: 'twitter:card', content: 'summary'}],
       gtag: !isDeployPreview
         ? {
             trackingID: 'UA-141789564-1',

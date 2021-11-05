@@ -32,7 +32,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
-  metadatas: [],
+  metadata: [],
   prism: {
     additionalLanguages: [],
   },
@@ -264,9 +264,9 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
-  metadatas: Joi.array()
+  metadata: Joi.array()
     .items(HtmlMetadataSchema)
-    .default(DEFAULT_CONFIG.metadatas),
+    .default(DEFAULT_CONFIG.metadata),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string().required(),

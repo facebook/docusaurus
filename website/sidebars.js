@@ -52,7 +52,7 @@ const sidebars = {
             'guides/markdown-features/assets',
             'guides/markdown-features/plugins',
             'guides/markdown-features/math-equations',
-            'guides/markdown-features/head-metadatas',
+            'guides/markdown-features/head-metadata',
           ],
         },
         'styling-layout',
