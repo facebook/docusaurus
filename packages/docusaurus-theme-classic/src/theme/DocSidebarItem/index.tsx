@@ -20,26 +20,39 @@ import IconExternalLink from '@theme/IconExternalLink';
 
 import type {Props, DocSidebarItemsProps} from '@theme/DocSidebarItem';
 import type {
+  PropSidebarItem,
   PropSidebarItemCategory,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs-types';
 
 import styles from './styles.module.css';
 
-const isActiveSidebarItem = (
-  item: Props['item'],
+function containsActiveSidebarItem(
+  items: PropSidebarItem[],
   activePath: string,
-): boolean => {
+): boolean {
+  return items.some((subItem) => isActiveSidebarItem(subItem, activePath));
+}
+
+function isActiveSidebarItem(
+  item: PropSidebarItem,
+  activePath: string,
+): boolean {
+  const isActive = (testedPath: string | undefined) =>
+    typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
+
   if (item.type === 'link') {
-    return isSamePath(item.href, activePath);
+    return isActive(item.href);
   }
+
   if (item.type === 'category') {
-    return item.items.some((subItem) =>
-      isActiveSidebarItem(subItem, activePath),
+    return (
+      isActive(item.href) || containsActiveSidebarItem(item.items, activePath)
     );
   }
+
   return false;
-};
+}
 
 // Optimize sidebar at each "level"
 // TODO this item should probably not receive the "activePath" props
