@@ -227,7 +227,7 @@ module.exports = {
         src: 'https://docusaurus.io/img/oss_logo.png',
         href: 'https://opensource.facebook.com/',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Meta.`, // You can also put own HTML here.
+      copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc.`, // You can also put own HTML here.
     },
     image: 'img/docusaurus.png',
     // ...

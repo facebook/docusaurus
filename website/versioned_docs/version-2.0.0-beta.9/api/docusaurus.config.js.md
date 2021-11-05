@@ -297,7 +297,7 @@ module.exports = {
         width: 160,
         height: 51,
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Meta.`, // You can also put own HTML here
+      copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc.`, // You can also put own HTML here
     },
   },
 };
