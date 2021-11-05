@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadUnprocessedSidebars sidebars link 1`] = `
+exports[`loadNormalizedSidebars sidebars link 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with category.collapsed property 1`] = `
+exports[`loadNormalizedSidebars sidebars with category.collapsed property 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -67,7 +67,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with category.collapsed property at first level 1`] = `
+exports[`loadNormalizedSidebars sidebars with category.collapsed property at first level 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -98,7 +98,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with deep level of category 1`] = `
+exports[`loadNormalizedSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -165,7 +165,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with first level not a category 1`] = `
+exports[`loadNormalizedSidebars sidebars with first level not a category 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -188,7 +188,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with known sidebar item type 1`] = `
+exports[`loadNormalizedSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [
     Object {

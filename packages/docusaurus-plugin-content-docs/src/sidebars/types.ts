@@ -47,17 +47,29 @@ type SidebarItemCategoryBase = SidebarItemBase & {
 
 export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
 
-export type SidebarItemCategoryLinkIndex = {type: 'index'; slug?: string};
+export type SidebarItemCategoryLinkGeneratedIndexConfig = {
+  type: 'generated-index';
+  slug?: string;
+};
+export type SidebarItemCategoryLinkGeneratedIndex = {
+  type: 'generated-index';
+  slug: string;
+  permalink: string;
+};
+
+export type SidebarItemCategoryLinkConfig =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkGeneratedIndexConfig;
 
 export type SidebarItemCategoryLink =
   | SidebarItemCategoryLinkDoc
-  | SidebarItemCategoryLinkIndex;
+  | SidebarItemCategoryLinkGeneratedIndex;
 
 // The user-given configuration in sidebars.js, before normalization
 export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarItemConfig[];
-    link?: SidebarItemCategoryLink;
+    link?: SidebarItemCategoryLinkConfig;
   }
 >;
 

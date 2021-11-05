@@ -8,7 +8,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {Tag, FrontMatterTag, Slugger} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
@@ -84,6 +84,15 @@ export type VersionsOptions = {
 export type SidebarOptions = {
   sidebarCollapsible: boolean;
   sidebarCollapsed: boolean;
+};
+
+export type NormalizeSidebarsParams = SidebarOptions & {
+  version: VersionMetadata;
+};
+
+export type NormalizeSidebarParams = NormalizeSidebarsParams & {
+  sidebarName: string;
+  slugger: Slugger;
 };
 
 export type PluginOptions = MetadataOptions &

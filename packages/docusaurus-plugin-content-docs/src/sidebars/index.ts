@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
-import type {PluginOptions} from '../types';
+import type {NormalizeSidebarsParams, PluginOptions} from '../types';
 import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars, SidebarProcessorProps} from './processor';
@@ -36,7 +36,7 @@ export function resolveSidebarPathOption(
     : sidebarPathOption;
 }
 
-function loadSidebarFile(
+function loadSidebarsFileUnsafe(
   sidebarFilePath: string | false | undefined,
 ): SidebarsConfig {
   // false => no sidebars
@@ -60,15 +60,19 @@ function loadSidebarFile(
   return importFresh(sidebarFilePath);
 }
 
-export function loadUnprocessedSidebars(
+export function loadSidebarsFile(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps['options'],
-): NormalizedSidebars {
-  const sidebarsConfig = loadSidebarFile(sidebarFilePath);
+): SidebarsConfig {
+  const sidebarsConfig = loadSidebarsFileUnsafe(sidebarFilePath);
   validateSidebars(sidebarsConfig);
+  return sidebarsConfig;
+}
 
-  const normalizedSidebars = normalizeSidebars(sidebarsConfig, options);
-  return normalizedSidebars;
+export function loadNormalizedSidebars(
+  sidebarFilePath: string | false | undefined,
+  params: NormalizeSidebarsParams,
+): NormalizedSidebars {
+  return normalizeSidebars(loadSidebarsFile(sidebarFilePath), params);
 }
 
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
@@ -76,9 +80,9 @@ export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorProps,
 ): Promise<Sidebars> {
-  const unprocessedSidebars = loadUnprocessedSidebars(
-    sidebarFilePath,
-    options.options,
-  );
-  return processSidebars(unprocessedSidebars, options);
+  const normalizedSidebars = loadNormalizedSidebars(sidebarFilePath, {
+    ...options.options,
+    version: options.version,
+  });
+  return processSidebars(normalizedSidebars, options);
 }

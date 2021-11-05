@@ -15,7 +15,7 @@ import path from 'path';
 import type {PathOptions, SidebarOptions} from './types';
 import {transformSidebarItems} from './sidebars/utils';
 import type {SidebarItem, NormalizedSidebars, Sidebar} from './sidebars/types';
-import {loadUnprocessedSidebars, resolveSidebarPathOption} from './sidebars';
+import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 function createVersionedSidebarFile({
@@ -23,16 +23,15 @@ function createVersionedSidebarFile({
   pluginId,
   sidebarPath,
   version,
-  options,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
   version: string;
-  options: SidebarOptions;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  const loadedSidebars = loadUnprocessedSidebars(sidebarPath, options);
+  // Note: we don't need the sidebars file to be normalized: it's ok to let plugin option changes to impact versioned sidebars
+  const loadedSidebars = loadSidebarsFile(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile =
@@ -155,7 +154,6 @@ export function cliDocsVersionCommand(
     pluginId,
     version,
     sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
-    options,
   });
 
   // Update versions.json file.

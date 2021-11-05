@@ -5,13 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Sidebar, SidebarItemCategory} from './sidebars/types';
+import {
+  Sidebar,
+  SidebarItemCategory,
+  SidebarItemCategoryLinkGeneratedIndex,
+} from './sidebars/types';
 import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {collectSidebarCategories} from './sidebars/utils';
-import {docuHash, normalizeUrl, createSlugger} from '@docusaurus/utils';
+import {docuHash, createSlugger} from '@docusaurus/utils';
 import {LoadedVersion} from './types';
+import {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs-types';
 
-const createSidebarRoutes = async ({
+async function createSidebarRoutes({
   sidebarName,
   sidebar,
   versionPath,
@@ -21,40 +26,45 @@ const createSidebarRoutes = async ({
   sidebar: Sidebar;
   versionPath: string;
   actions: PluginContentLoadedActions;
-}): Promise<RouteConfig[]> => {
+}): Promise<RouteConfig[]> {
   const slugs = createSlugger();
+
+  async function createCategoryGeneratedIndexRoute(
+    category: SidebarItemCategory,
+    link: SidebarItemCategoryLinkGeneratedIndex,
+  ): Promise<RouteConfig> {
+    const propFileName = slugs.slug(
+      `${versionPath}-${sidebarName}-category-${category.label}`,
+    );
+
+    const prop: PropCategoryGeneratedIndex = {
+      label: category.label,
+      slug: link.slug,
+      permalink: link.permalink,
+    };
+
+    const propData = await actions.createData(
+      `${docuHash(`category/${propFileName}`)}.json`,
+      JSON.stringify(prop, null, 2),
+    );
+
+    return {
+      path: link.permalink,
+      component: '@theme/DocCategoryGeneratedIndex',
+      exact: true,
+      modules: {
+        categoryIndex: propData,
+      },
+    };
+  }
 
   async function createCategoryRoute(
     category: SidebarItemCategory,
   ): Promise<RouteConfig | undefined> {
-    if (true) {
-      return undefined;
+    if (category.link?.type === 'generated-index') {
+      return createCategoryGeneratedIndexRoute(category, category.link);
     }
-
-    // TODO temporary
-
-    const categorySlug = slugs.slug(category.label);
-
-    const slug = normalizeUrl([
-      versionPath,
-      slugs.slug(`${sidebarName}/category/${categorySlug}`),
-    ]);
-    const propFileName = `${versionPath}-${sidebarName}-category-${categorySlug}`;
-
-    const prop: any = category;
-
-    const categoryProp = await actions.createData(
-      `${docuHash(`category/${propFileName}`)}.json`,
-      JSON.stringify(prop, null, 2),
-    );
-    return {
-      path: slug,
-      component: '@theme/DocCategory',
-      exact: true,
-      modules: {
-        category: categoryProp,
-      },
-    };
+    return undefined;
   }
 
   const routes = await Promise.all(
@@ -62,7 +72,7 @@ const createSidebarRoutes = async ({
   );
 
   return routes.filter(Boolean) as RouteConfig[];
-};
+}
 
 export async function createSidebarsRoutes({
   version,

@@ -18,7 +18,7 @@ import {
   SidebarsConfig,
   isCategoriesShorthand,
   SidebarItemCategoryLinkDoc,
-  SidebarItemCategoryLinkIndex,
+  SidebarItemCategoryLinkGeneratedIndex,
 } from './types';
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
@@ -64,7 +64,7 @@ export const sidebarItemCategoryLinkSchema =
         },
         {
           is: 'generated-index',
-          then: Joi.object<SidebarItemCategoryLinkIndex>({
+          then: Joi.object<SidebarItemCategoryLinkGeneratedIndex>({
             type: 'generated-index',
             slug: Joi.string().optional(),
           }),

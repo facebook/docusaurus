@@ -30,6 +30,12 @@ declare module '@docusaurus/plugin-content-docs-types' {
     docsSidebars: PropSidebars;
   };
 
+  export type PropCategoryGeneratedIndex = {
+    label: string;
+    slug: string;
+    permalink: string;
+  };
+
   export type PropSidebarItemLink = import('./sidebars/types').SidebarItemLink;
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
@@ -115,13 +121,12 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
-declare module '@theme/DocCategory' {
-  // TODO
-  export interface Props {
-    readonly category: any;
-  }
+declare module '@theme/DocCategoryGeneratedIndex' {
+  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs-types';
 
-  export default function DocCategory(props: Props): JSX.Element;
+  export interface Props extends PropCategoryGeneratedIndex {}
+
+  export default function DocCategoryGeneratedIndex(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocItemFooter' {

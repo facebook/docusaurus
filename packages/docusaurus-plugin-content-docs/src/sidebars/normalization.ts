@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {SidebarOptions} from '../types';
+import type {NormalizeSidebarsParams, SidebarOptions} from '../types';
 import {
   NormalizedSidebarItem,
   NormalizedSidebar,
@@ -16,8 +16,34 @@ import {
   SidebarConfig,
   SidebarsConfig,
   isCategoriesShorthand,
+  SidebarItemCategoryLink,
+  NormalizedSidebarItemCategory,
 } from './types';
 import {mapValues} from 'lodash';
+import {NormalizeSidebarParams} from '../types';
+import {createSlugger, normalizeUrl} from '@docusaurus/utils';
+
+function normalizeCategoryLink(
+  category: SidebarItemCategoryConfig,
+  params: NormalizeSidebarParams,
+): SidebarItemCategoryLink | undefined {
+  if (category.link?.type === 'generated-index') {
+    // default slug logic can be improved
+    function getDefaultSlug() {
+      return params.slugger.slug(
+        `${params.sidebarName}/category/${category.label}`,
+      );
+    }
+    const slug = category.link.slug ?? getDefaultSlug();
+    const permalink = normalizeUrl([params.version.versionPath, slug]);
+    return {
+      ...category.link,
+      slug,
+      permalink,
+    };
+  }
+  return category.link;
+}
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -38,7 +64,7 @@ function normalizeCategoriesShorthand(
  */
 function normalizeItem(
   item: SidebarItemConfig,
-  options: SidebarOptions,
+  options: NormalizeSidebarParams,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
     return [
@@ -49,40 +75,49 @@ function normalizeItem(
     ];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeCategoriesShorthand(item, options).flatMap((subitem) =>
-      normalizeItem(subitem, options),
+    return normalizeCategoriesShorthand(item, options).flatMap((subItem) =>
+      normalizeItem(subItem, options),
     );
   }
-  return item.type === 'category'
-    ? [
-        {
-          ...item,
-          items: item.items.flatMap((subItem) =>
-            normalizeItem(subItem, options),
-          ),
-          collapsible: item.collapsible ?? options.sidebarCollapsible,
-          collapsed: item.collapsed ?? options.sidebarCollapsed,
-        },
-      ]
-    : [item];
+  if (item.type === 'category') {
+    const link = normalizeCategoryLink(item, options);
+    link && console.log({link});
+    const normalizedCategory: NormalizedSidebarItemCategory = {
+      ...item,
+      link,
+      items: item.items.flatMap((subItem) => normalizeItem(subItem, options)),
+      collapsible: item.collapsible ?? options.sidebarCollapsible,
+      collapsed: item.collapsed ?? options.sidebarCollapsed,
+    };
+    return [normalizedCategory];
+  }
+  return [item];
 }
 
 function normalizeSidebar(
   sidebar: SidebarConfig,
-  options: SidebarOptions,
+  options: NormalizeSidebarParams,
 ): NormalizedSidebar {
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
     : normalizeCategoriesShorthand(sidebar, options);
 
-  return normalizedSidebar.flatMap((subitem) =>
-    normalizeItem(subitem, options),
+  return normalizedSidebar.flatMap((subItem) =>
+    normalizeItem(subItem, options),
   );
 }
 
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
-  options: SidebarOptions,
+  params: NormalizeSidebarsParams,
 ): NormalizedSidebars {
-  return mapValues(sidebars, (subitem) => normalizeSidebar(subitem, options));
+  const slugger = createSlugger();
+
+  return mapValues(sidebars, (items, sidebarName) => {
+    return normalizeSidebar(items, {
+      ...params,
+      sidebarName,
+      slugger,
+    });
+  });
 }

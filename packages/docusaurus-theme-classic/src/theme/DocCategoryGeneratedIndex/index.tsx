@@ -7,13 +7,13 @@
 
 import React from 'react';
 
-import type {Props} from '@theme/DocCategory';
+import type {Props} from '@theme/DocCategoryGeneratedIndex';
 
-export default function DocCategory(props: Props): JSX.Element {
+export default function DocCategoryGeneratedIndex(props: Props): JSX.Element {
   return (
     <>
-      <h1>Category!</h1>
-      <div>{JSON.stringify(props.category)}</div>
+      <h1>{props.categoryIndex.label}</h1>
+      <div>{JSON.stringify(props.categoryIndex)}</div>
     </>
   );
 }

@@ -52,6 +52,7 @@ module.exports = {
       {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
     ],
     'import/extensions': OFF,
+    'no-inner-declarations': OFF,
     'header/header': [
       ERROR,
       'block',

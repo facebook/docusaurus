@@ -14,6 +14,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
+      link: {
+        type: 'generated-index',
+      },
       collapsed: false,
       items: [
         'installation',
