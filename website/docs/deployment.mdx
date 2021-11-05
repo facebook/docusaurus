@@ -148,21 +148,21 @@ Finally, to deploy your site to GitHub Pages, run:
 <TabItem value="bash" label="Bash">
 
 ```bash
-GIT_USER=<GITHUB_USERNAME> yarn deploy
+GIT_USER=<GITHUB_USERNAME> USE_SSH=true yarn deploy
 ```
 
 </TabItem>
 <TabItem value="windows" label="Windows">
 
 ```batch
-cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME> USE_SSH=true" && yarn deploy"
 ```
 
 </TabItem>
 <TabItem value="powershell" label="PowerShell">
 
 ```powershell
-cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME> USE_SSH=true" && yarn deploy'
 ```
 
 </TabItem>
