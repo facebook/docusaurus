@@ -51,32 +51,33 @@ const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
     .messages({'any.unknown': '"label" must be a string'}),
 });
 
-const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
-  .when('.type', {
-    switch: [
-      {
-        is: 'doc',
-        then: Joi.object<SidebarItemCategoryLinkDoc>({
-          type: 'doc',
-          id: Joi.string().required(),
-        }),
-      },
-      {
-        is: 'index',
-        then: Joi.object<SidebarItemCategoryLinkIndex>({
-          type: 'index',
-          slug: Joi.string().optional(),
-        }),
-      },
-      {
-        is: Joi.string().required(),
-        then: Joi.forbidden().messages({
-          'any.unknown': 'Unknown sidebar category link type "{.type}".',
-        }),
-      },
-    ],
-  })
-  .id('sidebarCategoryLinkSchema');
+export const sidebarItemCategoryLinkSchema =
+  Joi.object<SidebarItemCategoryLink>()
+    .when('.type', {
+      switch: [
+        {
+          is: 'doc',
+          then: Joi.object<SidebarItemCategoryLinkDoc>({
+            type: 'doc',
+            id: Joi.string().required(),
+          }),
+        },
+        {
+          is: 'generated-index',
+          then: Joi.object<SidebarItemCategoryLinkIndex>({
+            type: 'generated-index',
+            slug: Joi.string().optional(),
+          }),
+        },
+        {
+          is: Joi.string().required(),
+          then: Joi.forbidden().messages({
+            'any.unknown': 'Unknown sidebar category link type "{.type}".',
+          }),
+        },
+      ],
+    })
+    .id('sidebarCategoryLinkSchema');
 
 const sidebarItemCategorySchema =
   sidebarItemBaseSchema.append<SidebarItemCategoryConfig>({
