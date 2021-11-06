@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable global-require */
+
 import React from 'react';
 import {difference, sortBy} from '../utils/jsUtils';
 
@@ -650,7 +652,7 @@ const Users: User[] = [
     website: 'https://docs.infraql.io/',
     source: null,
     tags: ['product'],
-  },  
+  },
   {
     title: 'IOTA-Wiki',
     description: 'Documantation and wiki for the IOTA project',
