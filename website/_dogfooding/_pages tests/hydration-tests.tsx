@@ -13,15 +13,18 @@ function BuggyText() {
   return (
     <span>
       Built using the{' '}
-      <a href="https://electronjs.org/" target="_blank" rel="noreferrer">
+      <a href="https://www.electronjs.org/" target="_blank" rel="noreferrer">
         Electron
       </a>{' '}
       , based on{' '}
-      <a href="https://chromium.org/" target="_blank" rel="noreferrer">
+      <a href="https://www.chromium.org/" target="_blank" rel="noreferrer">
         Chromium
       </a>
       , and written using{' '}
-      <a href="https://typescriptlang.org/" target="_blank" rel="noreferrer">
+      <a
+        href="https://www.typescriptlang.org/"
+        target="_blank"
+        rel="noreferrer">
         TypeScript
       </a>{' '}
       , Xplorer promises you an unprecedented experience.
