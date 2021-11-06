@@ -67,7 +67,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
-    "@crowdin/cli": "^3.5.3",
+    "@crowdin/cli": "^3.7.1",
     "@formatjs/intl-datetimeformat": "^3.2.12",
     "@formatjs/intl-numberformat": "^6.2.2",
     "@formatjs/intl-pluralrules": "^4.0.11",
