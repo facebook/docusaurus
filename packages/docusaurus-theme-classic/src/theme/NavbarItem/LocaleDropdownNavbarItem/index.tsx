@@ -22,7 +22,7 @@ export default function LocaleDropdownNavbarItem({
   ...props
 }: Props): JSX.Element {
   const {
-    i18n: {currentLocale, locales, localeConfigs},
+    i18n: {currentLocale, locales, localeConfigs, queryString},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
@@ -34,6 +34,7 @@ export default function LocaleDropdownNavbarItem({
     const to = `pathname://${alternatePageUtils.createUrl({
       locale,
       fullyQualified: false,
+      queryString,
     })}`;
     return {
       isNavLink: true,

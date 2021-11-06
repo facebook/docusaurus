@@ -85,6 +85,7 @@ Note: Docusaurus only support running one locale at a time.`,
     locales,
     currentLocale,
     localeConfigs,
+    queryString: i18nConfig.queryString,
   };
 }
 

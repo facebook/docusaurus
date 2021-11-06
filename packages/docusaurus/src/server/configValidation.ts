@@ -104,6 +104,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   localeConfigs: Joi.object()
     .pattern(/.*/, LocaleConfigSchema)
     .default(DEFAULT_I18N_CONFIG.localeConfigs),
+  queryString: Joi.string().optional(),
 })
   .optional()
   .default(DEFAULT_I18N_CONFIG);

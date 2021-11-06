@@ -126,6 +126,7 @@ export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
   localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
+  queryString?: string;
 };
 
 export type I18n = {
@@ -133,6 +134,7 @@ export type I18n = {
   locales: [string, ...string[]];
   currentLocale: string;
   localeConfigs: Record<string, I18nLocaleConfig>;
+  queryString?: string;
 };
 
 export interface DocusaurusContext {

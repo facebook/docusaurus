@@ -15,9 +15,11 @@ export function useAlternatePageUtils(): {
   createUrl: ({
     locale,
     fullyQualified,
+    queryString,
   }: {
     locale: string;
     fullyQualified: boolean;
+    queryString?: string;
   }) => string;
 } {
   const {
@@ -43,15 +45,21 @@ export function useAlternatePageUtils(): {
   function createUrl({
     locale,
     fullyQualified,
+    queryString,
   }: {
     locale: string;
     // For hreflang SEO headers, we need it to be fully qualified (full protocol/domain/path...)
     // For locale dropdown, using a path is good enough
     fullyQualified: boolean;
+    // Appends a query string parameter with the selected locale
+    queryString?: string;
   }) {
+    const queryStringSuffix = queryString
+      ? `?${queryString}=${encodeURIComponent(locale)}`
+      : '';
     return `${fullyQualified ? url : ''}${getLocalizedBaseUrl(
       locale,
-    )}${pathnameSuffix}`;
+    )}${pathnameSuffix}${queryStringSuffix}`;
   }
 
   return {createUrl};
