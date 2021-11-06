@@ -105,9 +105,10 @@ function ShowcaseHeader() {
       <p>{DESCRIPTION}</p>
       <p>
         <a
-          className={'button button--primary'}
+          className="button button--primary"
           href={EDIT_URL}
-          target={'_blank'}>
+          target="_blank"
+          rel="noreferrer">
           🙏 Add your site now!
         </a>
       </p>
@@ -195,7 +196,7 @@ function ShowcaseCards({filteredUsers}: {filteredUsers: User[]}) {
   );
 }
 
-function Showcase() {
+function Showcase(): JSX.Element {
   const {selectedTags, toggleTag} = useSelectedTags();
   const [operator, setOperator] = useState<Operator>('OR');
   const filteredUsers = useFilteredUsers(SortedUsers, selectedTags, operator);

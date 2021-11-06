@@ -6,7 +6,6 @@ build
 coverage
 jest.config.js
 jest.transform.js
-website/
 scripts
 examples/
 

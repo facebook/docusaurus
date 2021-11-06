@@ -5,12 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 
-export default function ErrorBoundaryTestButton({children = 'Boom!'}) {
+export default function ErrorBoundaryTestButton({
+  children = 'Boom!',
+}: {
+  children?: ReactNode;
+}): JSX.Element {
   const [state, setState] = useState(false);
   if (state) {
     throw new Error('Boom!');
   }
-  return <button onClick={() => setState(true)}>{children}</button>;
+  return (
+    <button type="button" onClick={() => setState(true)}>
+      {children}
+    </button>
+  );
 }
