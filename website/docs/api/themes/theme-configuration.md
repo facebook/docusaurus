@@ -126,7 +126,7 @@ Sometimes you want to announce something in your website. Just for such a case, 
 
 Accepted fields:
 
-<APITable>
+<APITable name="announcement-bar">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -161,7 +161,7 @@ module.exports = {
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -181,7 +181,7 @@ To improve dark mode support, you can also set a different logo for this mode.
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-logo">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -268,7 +268,7 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-link">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -328,7 +328,7 @@ Note that the dropdown base item is a clickable link as well, so this item can r
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -377,7 +377,7 @@ If you want to link to a specific doc, this special navbar item type will render
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-doc-link">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -418,7 +418,7 @@ The user will be able to switch from one version to another, while staying on th
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-docs-version-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -458,7 +458,7 @@ If you use docs with versioning, this special navbar item type will link to the 
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-docs-version">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -499,7 +499,7 @@ The user will be able to switch from one locale to another, while staying on the
 
 Accepted fields:
 
-<APITable>
+<APITable name="navbar-locale-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -541,7 +541,7 @@ If you use the [search](../../search.md), the search bar will be the rightmost e
 
 However, with this special navbar item type, you can change the default location.
 
-<APITable>
+<APITable name="navbar-search">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -605,7 +605,7 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 Accepted fields:
 
-<APITable>
+<APITable name="codeblock">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -663,7 +663,7 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
 
 Accepted fields:
 
-<APITable>
+<APITable name="footer">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -701,7 +701,7 @@ You can add links to the footer via `themeConfig.footer.links`.
 
 Accepted fields of each link section:
 
-<APITable>
+<APITable name="footer-links">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -712,7 +712,7 @@ Accepted fields of each link section:
 
 Accepted fields of each item in `items`:
 
-<APITable>
+<APITable name="footer-items">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |

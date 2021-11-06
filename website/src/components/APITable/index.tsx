@@ -14,10 +14,12 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import styles from './styles.module.css';
 
 interface Props {
   readonly children: ReactElement<ComponentProps<'table'>>;
+  readonly name?: string;
 }
 
 // ReactNode equivalent of HTMLElement#innerText
@@ -34,7 +36,8 @@ function getText(node: ReactElement): string {
  * assumptions about how the children looks; however, those assumptions
  * should be generally correct in the MDX context.
  */
-export default function APITable({children}: Props): JSX.Element {
+export default function APITable({children, name}: Props): JSX.Element {
+  const isBrowser = useIsBrowser();
   const [thead, tbody] = Children.toArray(
     children.props.children,
   ) as ReactElement[];
@@ -43,25 +46,26 @@ export default function APITable({children}: Props): JSX.Element {
     tbody.props.children,
     (row: ReactElement<ComponentProps<'tr'>>) => {
       const entryName = getText(row);
-      const anchor = `#${entryName}`;
-      const {props: rowProps} = row;
+      const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
       return (
         <tr
-          {...rowProps}
+          {...row.props}
           id={entryName}
           tabIndex={0}
-          onClick={() => {
-            window.location.href = anchor;
-          }}
           ref={
             window?.location.href.includes(anchor) ? highlightedRow : undefined
           }
+          onClick={() => {
+            if (isBrowser) {
+              window.location.href = anchor;
+            }
+          }}
           onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && isBrowser) {
               window.location.href = anchor;
             }
           }}>
-          {rowProps.children}
+          {row.props.children}
         </tr>
       );
     },
