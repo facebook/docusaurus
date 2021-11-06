@@ -117,6 +117,24 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 
 <DocusaurusSvg className="themedDocusaurus" />
 
+## useBaseUrl {#use-base-url}
+
+Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use html tags like `<img>` instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
+
+```jsx title="my-doc.mdx"
+---
+id: my-doc
+title: My Doc
+---
+
+// Add to the top of the file below the front matter.
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+...
+
+<img alt="Docusaurus with Keytar" src={useBaseUrl('/img/docusaurus_keytar.svg')} />
+```
+
 ## Themed Images {#themed-images}
 
 Docusaurus supports themed images: the `ThemedImage` component (included in the themes) allows you to switch the image source based on the current theme.

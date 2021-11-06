@@ -52,21 +52,7 @@ Markdown links and images referencing assets of the static folder will be conver
 ![Docusaurus](/img/docusaurus.png)
 ```
 
-Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use html tags like `<img>` instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
-
-```jsx title="my-doc.mdx"
----
-id: my-doc
-title: My Doc
----
-
-// Add to the top of the file below the front matter.
-import useBaseUrl from '@docusaurus/useBaseUrl';
-
-...
-
-<img alt="Docusaurus with Keytar" src={useBaseUrl('/img/docusaurus_keytar.svg')} />
-```
+More details about assets in `md` and `mdx` files see in [Guides/Markdown&nbspFeatures/Assets](markdown-features/assets).
 
 ### Caveats {#caveats}
 
