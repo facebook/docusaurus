@@ -36,7 +36,9 @@ const siteConfig = {
   footerIcon: 'img/docusaurus_monochrome.svg',
   favicon: 'img/docusaurus.ico',
   algolia: {
-    apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+    // apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+    appId: 'NHNLQ9RRTP',
+    apiKey: '9fd932b3605878e173f39bf8e2049466',
     indexName: 'docusaurus',
     algoliaOptions: {
       facetFilters: ['language:LANGUAGE', 'version:VERSION'],
