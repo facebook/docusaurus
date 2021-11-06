@@ -53,15 +53,15 @@ export default function APITable({children, name}: Props): JSX.Element {
           id={entryName}
           tabIndex={0}
           ref={
-            window?.location.href.includes(anchor) ? highlightedRow : undefined
+            isBrowser && window.location.href.includes(anchor)
+              ? highlightedRow
+              : undefined
           }
           onClick={() => {
-            if (isBrowser) {
-              window.location.href = anchor;
-            }
+            window.location.href = anchor;
           }}
           onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter' && isBrowser) {
+            if (e.key === 'Enter') {
               window.location.href = anchor;
             }
           }}>
@@ -72,7 +72,7 @@ export default function APITable({children, name}: Props): JSX.Element {
   );
   useEffect(() => {
     highlightedRow.current?.focus();
-  }, []);
+  }, [highlightedRow]);
 
   return (
     <table className={styles.apiTable}>
