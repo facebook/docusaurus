@@ -93,19 +93,6 @@ You can use the full power of React in Markdown pages too, refer to the [MDX](ht
 
 :::
 
-## Available exports
-
-Within a page Node.js variable like __filename and __dirname are available but more usefully the contents of current page frontmatter are exported and available for use in the `frontMatter` variable. So the following will work:
-
-```
----
-goo: Shoe
----
-
-<h1>{frontMatter.goo}</h1>
-```
-
-
 ## Routing {#routing}
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
