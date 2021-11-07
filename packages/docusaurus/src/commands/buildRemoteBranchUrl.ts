@@ -5,44 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function buildUrl(
+export function buildSshUrl(
   githubHost: string,
-  githubPort: string | undefined,
-  gitCredentials: string | undefined,
   organizationName: string,
   projectName: string,
-  useSSH: boolean | undefined,
+  githubPort?: string,
 ): string {
-  return useSSH
-    ? buildSshUrl(githubHost, organizationName, projectName, githubPort)
-    : buildHttpsUrl(
-        gitCredentials,
-        githubHost,
-        organizationName,
-        projectName,
-        githubPort,
-      );
-}
-
-function buildSshUrl(
-  githubHost: string,
-  organizationName: string,
-  projectName: string,
-  githubPort: string | undefined,
-) {
   if (githubPort) {
     return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
   }
   return `git@${githubHost}:${organizationName}/${projectName}.git`;
 }
 
-function buildHttpsUrl(
-  gitCredentials: string | undefined,
+export function buildHttpsUrl(
+  gitCredentials: string,
   githubHost: string,
   organizationName: string,
   projectName: string,
-  githubPort: string | undefined,
-) {
+  githubPort?: string,
+): string {
   if (githubPort) {
     return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
   }

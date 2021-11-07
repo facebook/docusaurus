@@ -13,7 +13,7 @@ import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
-import {buildUrl} from './buildRemoteBranchUrl';
+import {buildSshUrl, buildHttpsUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -68,8 +68,8 @@ This behavior can have SEO impacts and create relative link issues.
     .stdout.trim();
 
   const repoUrlUseSSH =
-    currentRepoUrl.match(/^ssh:\/\//) !== null ||
-    currentRepoUrl.match(/^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/) !== null;
+    /^ssh:\/\//.test(currentRepoUrl) || // ssh://***: explicit protocol
+    /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(currentRepoUrl); // git@github.com:facebook/docusaurus.git
 
   const envUseSSH =
     process.env.USE_SSH !== undefined &&
@@ -79,7 +79,9 @@ This behavior can have SEO impacts and create relative link issues.
 
   const gitUser = process.env.GIT_USER;
   if (!gitUser && !useSSH) {
-    throw new Error('Please set the GIT_USER environment variable!');
+    throw new Error(
+      'Please set the GIT_USER environment variable, or use SSH instead!',
+    );
   }
 
   // The branch that contains the latest docs changes that will be deployed.
@@ -121,8 +123,7 @@ This behavior can have SEO impacts and create relative link issues.
   // Organization deploys looks like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
-  const isGitHubPagesOrganizationDeploy =
-    projectName.indexOf('.github.io') !== -1;
+  const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
   if (
     isGitHubPagesOrganizationDeploy &&
     !process.env.DEPLOYMENT_BRANCH &&
@@ -141,20 +142,25 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
-  const gitPass: string | undefined = process.env.GIT_PASS;
-  let gitCredentials = `${gitUser}`;
-  if (gitPass) {
-    gitCredentials = `${gitCredentials}:${gitPass}`;
+  let remoteBranch: string;
+  if (gitUser) {
+    const gitPass = process.env.GIT_PASS;
+    const gitCredentials = gitPass ? `${gitUser}:${gitPass}` : `${gitUser}`;
+    remoteBranch = buildHttpsUrl(
+      gitCredentials,
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
+  } else {
+    remoteBranch = buildSshUrl(
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
   }
-
-  const remoteBranch = buildUrl(
-    githubHost,
-    githubPort,
-    gitCredentials,
-    organizationName,
-    projectName,
-    useSSH,
-  );
 
   console.log(
     `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,

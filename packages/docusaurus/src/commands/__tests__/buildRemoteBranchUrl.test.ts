@@ -5,50 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {buildUrl} from '../buildRemoteBranchUrl';
+import {buildSshUrl, buildHttpsUrl} from '../buildRemoteBranchUrl';
 
 describe('remoteeBranchUrl', () => {
   test('should build a normal ssh url', async () => {
-    const url = buildUrl(
-      'github.com',
-      undefined,
-      undefined,
-      'facebook',
-      'docusaurus',
-      true,
-    );
+    const url = buildSshUrl('github.com', 'facebook', 'docusaurus');
     expect(url).toEqual('git@github.com:facebook/docusaurus.git');
   });
   test('should build a ssh url with port', async () => {
-    const url = buildUrl(
-      'github.com',
-      '422',
-      undefined,
-      'facebook',
-      'docusaurus',
-      true,
-    );
+    const url = buildSshUrl('github.com', 'facebook', 'docusaurus', '422');
     expect(url).toEqual('ssh://git@github.com:422/facebook/docusaurus.git');
   });
   test('should build a normal http url', async () => {
-    const url = buildUrl(
-      'github.com',
-      undefined,
+    const url = buildHttpsUrl(
       'user:pass',
+      'github.com',
       'facebook',
       'docusaurus',
-      false,
     );
     expect(url).toEqual('https://user:pass@github.com/facebook/docusaurus.git');
   });
   test('should build a normal http url', async () => {
-    const url = buildUrl(
-      'github.com',
-      '5433',
+    const url = buildHttpsUrl(
       'user:pass',
+      'github.com',
       'facebook',
       'docusaurus',
-      false,
+      '5433',
     );
     expect(url).toEqual(
       'https://user:pass@github.com:5433/facebook/docusaurus.git',
