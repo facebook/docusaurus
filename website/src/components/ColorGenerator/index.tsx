@@ -170,7 +170,7 @@ function ColorGenerator(): JSX.Element {
         Replace the variables in <code>src/css/custom.css</code> with these new
         variables.
       </p>
-      <CodeBlock className="css">
+      <CodeBlock className="language-css">
         {adjustedColors
           .sort((a, b) => a.codeOrder - b.codeOrder)
           .map((value) => `${value.variableName}: ${value.hex.toLowerCase()};`)
