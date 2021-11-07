@@ -9,11 +9,12 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
-const {mapValues, pickBy, difference} = require('lodash');
+const {mapValues, pickBy, difference, orderBy} = require('lodash');
 
 const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
   // TODO other themes should rather define their own translations in the future?
+  path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
   path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
@@ -21,9 +22,16 @@ const CodeDirPaths = [
 
 console.log('Will scan folders for code translations:', CodeDirPaths);
 
+function removeDescriptionSuffix(key) {
+  if (key.replace('___DESCRIPTION')) {
+    return key.replace('___DESCRIPTION', '');
+  }
+  return key;
+}
+
 function sortObjectKeys(obj) {
-  const keys = Object.keys(obj);
-  keys.sort();
+  let keys = Object.keys(obj);
+  keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
   return keys.reduce((acc, key) => {
     acc[key] = obj[key];
     return acc;
@@ -38,7 +46,7 @@ function logSection(title) {
 }
 
 function logKeys(keys) {
-  return `Keys:\n- ${keys.join('\n- ')}\``;
+  return `Keys:\n- ${keys.join('\n- ')}`;
 }
 
 async function extractThemeCodeMessages() {
@@ -46,11 +54,12 @@ async function extractThemeCodeMessages() {
   const {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
+    // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const filePaths = (
-    await globSourceCodeFilePaths(CodeDirPaths)
-  ).filter((filePath) => ['.js', '.jsx'].includes(path.extname(filePath)));
+  const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
+    (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
+  );
 
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
@@ -61,7 +70,12 @@ async function extractThemeCodeMessages() {
 
   filesExtractedTranslations.forEach((fileExtractedTranslations) => {
     fileExtractedTranslations.warnings.forEach((warning) => {
-      console.warn(chalk.yellow(warning));
+      throw new Error(`
+Please make sure all theme translations are static!
+Some warnings were found!
+
+${warning}
+      `);
     });
   });
 
@@ -136,10 +150,12 @@ ${logKeys(unknownMessages)}`),
 
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
+      const codeTranslation = codeExtractedTranslations[key];
       return {
         ...acc,
-        [`${key}${DescriptionSuffix}`]: codeExtractedTranslations[key]
-          .description,
+        [`${key}${DescriptionSuffix}`]: codeTranslation
+          ? codeTranslation.description
+          : undefined,
       };
     },
     {},
@@ -197,25 +213,30 @@ async function updateCodeTranslations() {
   const {baseFile, localesFiles} = await getCodeTranslationFiles();
   const baseFileMessages = await updateBaseFile(baseFile);
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const localeFile of localesFiles) {
     logSection(`Will update ${path.basename(localeFile)}`);
-    // eslint-disable-next-line no-await-in-loop
     await updateLocaleCodeTranslations(localeFile, baseFileMessages);
   }
 }
 
-updateCodeTranslations().then(
-  () => {
-    console.log('');
-    console.log(chalk.green('updateCodeTranslations end'));
-    console.log('');
-  },
-  (e) => {
-    console.log('');
-    console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
-    console.log('');
-    console.error(e.stack);
-    console.log('');
-    process.exit(1);
-  },
-);
+function run() {
+  updateCodeTranslations().then(
+    () => {
+      console.log('');
+      console.log(chalk.green('updateCodeTranslations end'));
+      console.log('');
+    },
+    (e) => {
+      console.log('');
+      console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
+      console.log('');
+      console.error(e.stack);
+      console.log('');
+      process.exit(1);
+    },
+  );
+}
+
+exports.run = run;
+exports.extractThemeCodeMessages = extractThemeCodeMessages;

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-alpha.71",
+  "version": "2.0.0-beta.9",
   "description": "Docusaurus module type aliases.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -11,9 +11,10 @@
     "url": "https://github.com/facebook/docusaurus.git",
     "directory": "packages/docusaurus-module-type-aliases"
   },
-  "devDependencies": {
+  "dependencies": {
     "@types/react": "*",
     "@types/react-helmet": "*",
+    "@types/react-router-config": "*",
     "@types/react-router-dom": "*"
   },
   "license": "MIT"

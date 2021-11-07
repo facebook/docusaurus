@@ -1,0 +1,31 @@
+name: Build Time Perf
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - website/docs/**
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          cache: yarn
+      - name: Installation
+        run: yarn
+
+      # Ensure build with a cold cache does not increase too much
+      - name: Build (cold cache)
+        run: yarn workspace website build --locale en
+        timeout-minutes: 8
+
+      # Ensure build with a warm cache does not increase too much
+      - name: Build (warm cache)
+        run: yarn workspace website build --locale en
+        timeout-minutes: 2
+    # TODO post a Github comment with build with perf warnings?

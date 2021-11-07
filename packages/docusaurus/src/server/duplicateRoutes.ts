@@ -14,7 +14,7 @@ export function getAllDuplicateRoutes(
   const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
     (routeConfig) => routeConfig.path,
   );
-  const seenRoutes: Record<string, any> = {};
+  const seenRoutes: Record<string, boolean> = {};
   return allRoutes.filter((route) => {
     if (Object.prototype.hasOwnProperty.call(seenRoutes, route)) {
       return true;

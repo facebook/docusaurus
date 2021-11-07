@@ -6,7 +6,6 @@
  */
 
 .sidebar {
-  display: inherit;
   max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
   overflow-y: auto;
   position: sticky;
@@ -14,32 +13,31 @@
 }
 
 .sidebarItemTitle {
-  margin-bottom: 0.5rem;
+  font-size: var(--ifm-h3-font-size);
+  font-weight: var(--ifm-font-weight-bold);
 }
 
 .sidebarItemList {
-  overflow-y: auto;
+  list-style: none;
   font-size: 0.9rem;
   padding-left: 0;
 }
 
 .sidebarItem {
-  list-style-type: none;
-  margin: 0.8rem 0;
+  margin-top: 0.7rem;
 }
 
 .sidebarItemLink {
   color: var(--ifm-font-color-base);
 }
 .sidebarItemLink:hover {
-  color: var(--ifm-color-primary);
   text-decoration: none;
 }
 .sidebarItemLinkActive {
-  color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary) !important;
 }
 
-@media only screen and (max-width: 996px) {
+@media (max-width: 996px) {
   .sidebar {
     display: none;
   }

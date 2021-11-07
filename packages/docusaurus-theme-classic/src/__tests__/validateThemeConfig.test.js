@@ -10,6 +10,8 @@ import {merge} from 'lodash';
 const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
 
 const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
+const theme = require('prism-react-renderer/themes/github');
+const darkTheme = require('prism-react-renderer/themes/dracula');
 
 function testValidateThemeConfig(partialThemeConfig) {
   return normalizeThemeConfig(ThemeConfigSchema, {
@@ -31,8 +33,8 @@ describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme,
+        darkTheme,
         defaultLanguage: 'javascript',
         additionalLanguages: ['kotlin', 'java'],
       },
@@ -89,6 +91,10 @@ describe('themeConfig', () => {
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
       },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 5,
+      },
     };
     expect(testValidateThemeConfig(userConfig)).toEqual({
       ...DEFAULT_CONFIG,
@@ -106,7 +112,6 @@ describe('themeConfig', () => {
             position: 'left',
             docId: 'intro',
             label: 'Introduction',
-            activeSidebarClassName: 'custom-class',
           },
           // Regular link
           {
@@ -132,6 +137,23 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // Dropdown with name
+          {
+            type: 'dropdown',
+            label: 'Tools',
+            position: 'left',
+            items: [
+              {
+                type: 'doc',
+                docId: 'npm',
+                label: 'NPM',
+              },
+              {
+                to: '/yarn',
+                label: 'Yarn',
+              },
+            ],
+          },
           // Doc version dropdown
           {
             type: 'docsVersionDropdown',
@@ -139,8 +161,7 @@ describe('themeConfig', () => {
             dropdownActiveClassDisabled: true,
             dropdownItemsBefore: [
               {
-                href:
-                  'https://www.npmjs.com/package/docusaurus?activeTab=versions',
+                href: 'https://www.npmjs.com/package/docusaurus?activeTab=versions',
                 label: 'Versions on npm',
                 className: 'npm-styled',
                 target: '_self',
@@ -179,6 +200,112 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should reject unknown navbar item type', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            type: 'joke',
+            position: 'left',
+            label: 'haha',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [
+              {
+                label: 'Still a dropdown',
+                items: [
+                  {
+                    label: 'Should reject this',
+                    to: '/rejected',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject nested dropdowns', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            items: [{type: 'docsVersionDropdown'}],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
+  });
+
+  test('should reject position attribute within dropdown', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Dropdown',
+            items: [
+              {
+                label: 'Hi',
+                position: 'left',
+                to: '/link',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"navbar.items[0].items[0].position\\" is not allowed"`,
+    );
+  });
+
+  test('should give friendly error when href and to coexist', () => {
+    const config = {
+      navbar: {
+        items: [
+          {
+            position: 'left',
+            label: 'Nested',
+            to: '/link',
+            href: 'http://example.com/link',
+          },
+        ],
+      },
+    };
+    expect(() =>
+      testValidateThemeConfig(config),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"One and only one between \\"to\\" and \\"href\\" should be provided"`,
+    );
+  });
+
   test('should allow empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {
@@ -214,6 +341,27 @@ describe('themeConfig', () => {
       footer: {
         ...normalizedConfig.footer,
         ...partialConfig.footer,
+      },
+    });
+  });
+
+  test('should allow width and height specification for logo ', () => {
+    const altTagConfig = {
+      navbar: {
+        logo: {
+          alt: '',
+          src: '/arbitrary-logo.png',
+          srcDark: '/arbitrary-dark-logo.png',
+          width: '20px',
+          height: '20%',
+        },
+      },
+    };
+    expect(testValidateThemeConfig(altTagConfig)).toEqual({
+      ...DEFAULT_CONFIG,
+      navbar: {
+        ...DEFAULT_CONFIG.navbar,
+        ...altTagConfig.navbar,
       },
     });
   });
@@ -327,5 +475,133 @@ describe('themeConfig', () => {
         colorMode: withDefaultValues(colorMode),
       });
     });
+  });
+});
+
+describe('themeConfig tableOfContents', () => {
+  test('toc undefined', () => {
+    const tableOfContents = undefined;
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc empty', () => {
+    const tableOfContents = {};
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc with min', () => {
+    const tableOfContents = {
+      minHeadingLevel: 3,
+    };
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: 3,
+        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+      },
+    });
+  });
+
+  test('toc with max', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 5,
+    };
+    expect(testValidateThemeConfig({tableOfContents})).toEqual({
+      ...DEFAULT_CONFIG,
+      tableOfContents: {
+        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+        maxHeadingLevel: 5,
+      },
+    });
+  });
+
+  test('toc with min 2.5', () => {
+    const tableOfContents = {
+      minHeadingLevel: 2.5,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be an integer"`,
+    );
+  });
+
+  test('toc with max 2.5', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 2.5,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be an integer"`,
+    );
+  });
+
+  test('toc with min 1', () => {
+    const tableOfContents = {
+      minHeadingLevel: 1,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be greater than or equal to 2"`,
+    );
+  });
+
+  test('toc with min 7', () => {
+    const tableOfContents = {
+      minHeadingLevel: 7,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+    );
+  });
+
+  test('toc with max 1', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 1,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be greater than or equal to 2"`,
+    );
+  });
+
+  test('toc with max 7', () => {
+    const tableOfContents = {
+      maxHeadingLevel: 7,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.maxHeadingLevel\\" must be less than or equal to 6"`,
+    );
+  });
+
+  test('toc with bad min 5 + max 3', () => {
+    const tableOfContents = {
+      minHeadingLevel: 5,
+      maxHeadingLevel: 3,
+    };
+    expect(() =>
+      testValidateThemeConfig({tableOfContents}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+    );
   });
 });

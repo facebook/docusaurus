@@ -5,11 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {
+  BrokenMarkdownLink as IBrokenMarkdownLink,
+  ContentPaths,
+} from '@docusaurus/utils/lib/markdownLinks';
+import type {SidebarItemsGeneratorOption, Sidebars} from './sidebars/types';
+
 export type DocFile = {
-  docsDirPath: string; // /!\ may be localized
+  contentPath: string; // /!\ may be localized
   filePath: string; // /!\ may be localized
   source: string;
   content: string;
@@ -18,16 +25,18 @@ export type DocFile = {
 
 export type VersionName = string;
 
-export type VersionMetadata = {
+export type VersionMetadata = ContentPaths & {
   versionName: VersionName; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
+  tagsPath: string;
   versionEditUrl?: string | undefined;
   versionEditUrlLocalized?: string | undefined;
+  versionBanner: VersionBanner | null;
+  versionBadge: boolean;
+  versionClassName: string;
   isLast: boolean;
-  docsDirPath: string; // "versioned_docs/version-1.0.0"
-  docsDirPathLocalized: string; // "i18n/fr/version-1.0.0/default"
-  sidebarFilePath: string; // versioned_sidebars/1.0.0.json
+  sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
 };
 
@@ -47,16 +56,23 @@ export type MetadataOptions = {
   editLocalizedFiles: boolean;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
+  numberPrefixParser: NumberPrefixParser;
 };
 
 export type PathOptions = {
   path: string;
-  sidebarPath: string;
+  sidebarPath?: string | false | undefined;
 };
+
+// TODO support custom version banner? {type: "error", content: "html content"}
+export type VersionBanner = 'unreleased' | 'unmaintained';
 
 export type VersionOptions = {
   path?: string;
   label?: string;
+  banner?: 'none' | VersionBanner;
+  badge?: boolean;
+  className?: string;
 };
 
 export type VersionsOptions = {
@@ -65,71 +81,59 @@ export type VersionsOptions = {
   onlyIncludeVersions?: string[];
 };
 
+export type SidebarOptions = {
+  sidebarCollapsible: boolean;
+  sidebarCollapsed: boolean;
+};
+
 export type PluginOptions = MetadataOptions &
   PathOptions &
-  VersionsOptions & {
+  VersionsOptions &
+  RemarkAndRehypePluginOptions &
+  SidebarOptions & {
     id: string;
     include: string[];
+    exclude: string[];
     docLayoutComponent: string;
     docItemComponent: string;
-    remarkPlugins: ([Function, Record<string, unknown>] | Function)[];
-    rehypePlugins: string[];
-    beforeDefaultRemarkPlugins: (
-      | [Function, Record<string, unknown>]
-      | Function
-    )[];
-    beforeDefaultRehypePlugins: (
-      | [Function, Record<string, unknown>]
-      | Function
-    )[];
+    docTagDocListComponent: string;
+    docTagsListComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
-    excludeNextVersionDocs?: boolean;
     includeCurrentVersion: boolean;
+    sidebarItemsGenerator: SidebarItemsGeneratorOption;
+    tagsBasePath: string;
   };
-
-export type SidebarItemBase = {
-  customProps?: object;
-};
-
-export type SidebarItemDoc = SidebarItemBase & {
-  type: 'doc' | 'ref';
-  id: string;
-};
-
-export type SidebarItemLink = SidebarItemBase & {
-  type: 'link';
-  href: string;
-  label: string;
-};
-
-export type SidebarItemCategory = SidebarItemBase & {
-  type: 'category';
-  label: string;
-  items: SidebarItem[];
-  collapsed: boolean;
-};
-
-export type SidebarItem =
-  | SidebarItemDoc
-  | SidebarItemLink
-  | SidebarItemCategory;
-
-export type Sidebar = SidebarItem[];
-export type SidebarItemType = SidebarItem['type'];
-
-export type Sidebars = Record<string, Sidebar>;
-
-export type OrderMetadata = {
-  previous?: string;
-  next?: string;
-  sidebar?: string;
-};
 
 export type LastUpdateData = {
   lastUpdatedAt?: number;
   formattedLastUpdatedAt?: string;
   lastUpdatedBy?: string;
+};
+
+export type DocFrontMatter = {
+  // Front matter uses snake case
+  /* eslint-disable camelcase */
+  id?: string;
+  title?: string;
+  tags?: FrontMatterTag[];
+  hide_title?: boolean;
+  hide_table_of_contents?: boolean;
+  keywords?: string[];
+  image?: string;
+  description?: string;
+  slug?: string;
+  sidebar_label?: string;
+  sidebar_position?: number;
+  sidebar_class_name?: string;
+  pagination_label?: string;
+  custom_edit_url?: string | null;
+  parse_number_prefixes?: boolean;
+  toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
+  pagination_next?: string | null;
+  pagination_prev?: string | null;
+  /* eslint-enable camelcase */
 };
 
 export type DocMetadataBase = LastUpdateData & {
@@ -140,10 +144,13 @@ export type DocMetadataBase = LastUpdateData & {
   title: string;
   description: string;
   source: string;
+  sourceDirName: string; // relative to the docs folder (can be ".")
   slug: string;
   permalink: string;
-  sidebar_label?: string;
+  sidebarPosition?: number;
   editUrl?: string | null;
+  tags: Tag[];
+  frontMatter: DocFrontMatter & Record<string, unknown>;
 };
 
 export type DocNavLink = {
@@ -160,12 +167,21 @@ export type DocMetadata = DocMetadataBase & {
 export type SourceToPermalink = {
   [source: string]: string;
 };
+
+export type VersionTag = {
+  name: string; // normalized name/label of the tag
+  docIds: string[]; // all doc ids having this tag
+  permalink: string; // pathname of the tag
+};
+export type VersionTags = {
+  [key: string]: VersionTag;
+};
+
 export type LoadedVersion = VersionMetadata & {
   versionPath: string;
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
-  permalinkToSidebar: Record<string, string>;
 };
 
 export type LoadedContent = {
@@ -192,15 +208,16 @@ export type GlobalPluginData = {
   versions: GlobalVersion[];
 };
 
-export type BrokenMarkdownLink = {
-  filePath: string;
-  version: VersionMetadata;
-  link: string;
-};
+export type BrokenMarkdownLink = IBrokenMarkdownLink<VersionMetadata>;
 
 export type DocsMarkdownOption = {
   versionsMetadata: VersionMetadata[];
   siteDir: string;
   sourceToPermalink: SourceToPermalink;
   onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
+};
+
+export type NumberPrefixParser = (filename: string) => {
+  filename: string;
+  numberPrefix?: number;
 };

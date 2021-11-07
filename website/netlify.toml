@@ -1,35 +1,27 @@
 
-# Note: this file's config override the Netlify UI admin config
+# Note: this file's config overrides the Netlify UI admin config
 
-# default/production build
+# /!\ due to using a monorepo it can be a bit messy to configure Netlify
+# See also https://github.com/netlify/build/issues/2483
+
 [build]
-  base = "/"
-  command = "yarn workspace docusaurus-2-website netlify:build:production"
+  command = "yarn --cwd .. build:packages && yarn build"
   publish = "website/build"
 
-# we build deploy previews with a /build/ baseUrl on purpose
-# permits to test that baseUrl works fine (this often breaks!)
+[build.environment]
+  NETLIFY_USE_YARN = "true"
+  YARN_VERSION = "1.22.5"
+  NODE_VERSION = "14"
+
+[context.production]
+  command = "yarn --cwd .. build:packages && yarn netlify:build:production"
+
 [context.deploy-preview]
-  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
-  publish = "website/netlifyDeployPreview"
+  command = "yarn --cwd .. build:packages && yarn netlify:build:deployPreview"
 
-  # TODO this does not seem to work
-  # workaroud: a _redirect file is created in npm/yarn scripts
-  # can't we have context-based redirects with Netlify? :'(
-
-  [[context.deploy-preview.redirects]]
-    from = "/classic/*"
-    to = "/classic/404.html"
-    status = 200
-  [[context.deploy-preview.redirects]]
-    from = "/bootstrap/*"
-    to = "/bootstrap/404.html"
-    status = 200
-  [[context.deploy-preview.redirects]]
-    from = "/blog-only/*"
-    to = "/blog-only/404.html"
-    status = 200
-  [[context.deploy-preview.redirects]]
-    from = "/*"
-    to = "/classic/"
-
+[[plugins]]
+package = "netlify-plugin-cache"
+  [plugins.inputs]
+  paths = [
+    "node_modules/.cache/webpack",
+  ]

@@ -16,7 +16,7 @@ describe('transformMarkdownHeadingLine', () => {
     expect(() =>
       transformMarkdownHeadingLine('ABC', new GithubSlugger()),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Line is not a markdown heading: ABC"`,
+      `"Line is not a Markdown heading: ABC."`,
     );
   });
 
@@ -27,9 +27,9 @@ describe('transformMarkdownHeadingLine', () => {
   });
 
   test('works for simple level-3 heading', () => {
-    expect(transformMarkdownHeadingLine('###ABC', new GithubSlugger())).toEqual(
-      '###ABC {#abc}',
-    );
+    expect(
+      transformMarkdownHeadingLine('### ABC', new GithubSlugger()),
+    ).toEqual('### ABC {#abc}');
   });
 
   test('works for simple level-4 heading', () => {
@@ -61,10 +61,37 @@ describe('transformMarkdownHeadingLine', () => {
   test('does not duplicate duplicate id', () => {
     expect(
       transformMarkdownHeadingLine(
-        '# hello world {#hello-world}',
+        '## hello world {#hello-world}',
         new GithubSlugger(),
       ),
-    ).toEqual('# hello world {#hello-world}');
+    ).toEqual('## hello world {#hello-world}');
+  });
+
+  test('respects existing heading', () => {
+    expect(
+      transformMarkdownHeadingLine(
+        '## New heading {#old-heading}',
+        new GithubSlugger(),
+      ),
+    ).toEqual('## New heading {#old-heading}');
+  });
+
+  test('overwrites heading ID when asked to', () => {
+    expect(
+      transformMarkdownHeadingLine(
+        '## New heading {#old-heading}',
+        new GithubSlugger(),
+        {overwrite: true},
+      ),
+    ).toEqual('## New heading {#new-heading}');
+  });
+
+  test('maintains casing when asked to', () => {
+    expect(
+      transformMarkdownHeadingLine('## getDataFromAPI()', new GithubSlugger(), {
+        maintainCase: true,
+      }),
+    ).toEqual('## getDataFromAPI() {#getDataFromAPI}');
   });
 });
 
@@ -72,9 +99,11 @@ describe('transformMarkdownContent', () => {
   test('transform the headings', () => {
     const input = `
 
-# Hello world
+# Ignored title
 
 ## abc
+
+### Hello world
 
 \`\`\`
 # Heading in code block
@@ -95,9 +124,11 @@ describe('transformMarkdownContent', () => {
     // not sure how to implement that atm
     const expected = `
 
-# Hello world {#hello-world}
+# Ignored title
 
 ## abc {#abc}
+
+### Hello world {#hello-world}
 
 \`\`\`
 # Heading in code block

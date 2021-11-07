@@ -16,7 +16,12 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useTitleFormatter, usePluralForm} from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  usePluralForm,
+  isRegexpStringMatch,
+  useDynamicCallback,
+} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
@@ -117,7 +122,7 @@ function SearchPage() {
   const {
     siteConfig: {
       themeConfig: {
-        algolia: {appId, apiKey, indexName},
+        algolia: {appId, apiKey, indexName, externalUrlRegex},
       },
     },
     i18n: {currentLocale},
@@ -125,8 +130,7 @@ function SearchPage() {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchValue, updateSearchPath} = useSearchQuery();
-  const [searchQuery, setSearchQuery] = useState(searchValue);
+  const {searchQuery, setSearchQuery} = useSearchQuery();
   const initialSearchResultState = {
     items: [],
     query: null,
@@ -173,6 +177,7 @@ function SearchPage() {
     },
     initialSearchResultState,
   );
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
@@ -201,14 +206,16 @@ function SearchPage() {
           _highlightResult: {hierarchy},
           _snippetResult: snippet = {},
         }) => {
-          const {pathname, hash} = new URL(url);
+          const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) => {
             return sanitizeValue(hierarchy[key].value);
           });
 
           return {
             title: titles.pop(),
-            url: pathname + hash,
+            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
+              ? parsedURL.href
+              : parsedURL.pathname + parsedURL.hash,
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',
@@ -271,7 +278,7 @@ function SearchPage() {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = (page = 0) => {
+  const makeSearch = useDynamicCallback((page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
@@ -285,23 +292,19 @@ function SearchPage() {
     );
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
-  };
+  });
 
   useEffect(() => {
     if (!loaderRef) {
       return undefined;
     }
+    const currentObserver = observer.current;
 
-    observer.current.observe(loaderRef);
-
-    return () => {
-      observer.current.unobserve(loaderRef);
-    };
+    currentObserver.observe(loaderRef);
+    return () => currentObserver.unobserve(loaderRef);
   }, [loaderRef]);
 
   useEffect(() => {
-    updateSearchPath(searchQuery);
-
     searchResultStateDispatcher({type: 'reset'});
 
     if (searchQuery) {
@@ -311,7 +314,7 @@ function SearchPage() {
         makeSearch();
       }, 300);
     }
-  }, [searchQuery, docsSearchVersionsHelpers.searchVersions]);
+  }, [searchQuery, docsSearchVersionsHelpers.searchVersions, makeSearch]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -319,13 +322,7 @@ function SearchPage() {
     }
 
     makeSearch(searchResultState.lastPage);
-  }, [searchResultState.lastPage]);
-
-  useEffect(() => {
-    if (searchValue && searchValue !== searchQuery) {
-      setSearchQuery(searchValue);
-    }
-  }, [searchValue]);
+  }, [makeSearch, searchResultState.lastPage]);
 
   return (
     <Layout wrapperClassName="search-page-wrapper">
@@ -375,16 +372,19 @@ function SearchPage() {
           )}
         </form>
 
-        <div className={clsx('row', 'margin-vert--sm')}>
+        <div className="row">
           <div className={clsx('col', 'col--8', styles.searchResultsColumn)}>
-            {!!searchResultState.totalResults && (
-              <strong>
-                {documentsFoundPlural(searchResultState.totalResults)}
-              </strong>
-            )}
+            {!!searchResultState.totalResults &&
+              documentsFoundPlural(searchResultState.totalResults)}
           </div>
 
-          <div className={clsx('col', 'col--4', styles.searchLogoColumn)}>
+          <div
+            className={clsx(
+              'col',
+              'col--4',
+              'text--right',
+              styles.searchLogoColumn,
+            )}>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -394,10 +394,7 @@ function SearchPage() {
                 message: 'Search by Algolia',
                 description: 'The ARIA label for Algolia mention',
               })}>
-              <svg
-                viewBox="0 0 168 24"
-                className={styles.algoliaLogo}
-                xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 168 24" className={styles.algoliaLogo}>
                 <g fill="none">
                   <path
                     className={styles.algoliaLogoPathFill}
@@ -418,34 +415,32 @@ function SearchPage() {
         </div>
 
         {searchResultState.items.length > 0 ? (
-          <section>
+          <main>
             {searchResultState.items.map(
               ({title, url, summary, breadcrumbs}, i) => (
                 <article key={i} className={styles.searchResultItem}>
-                  <Link
-                    to={url}
-                    className={styles.searchResultItemHeading}
-                    dangerouslySetInnerHTML={{__html: title}}
-                  />
+                  <h2 className={styles.searchResultItemHeading}>
+                    <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
+                  </h2>
 
                   {breadcrumbs.length > 0 && (
-                    <span className={styles.searchResultItemPath}>
-                      {breadcrumbs.map((html, index) => (
-                        <React.Fragment key={index}>
-                          {index !== 0 && (
-                            <span
-                              className={styles.searchResultItemPathSeparator}>
-                              ›
-                            </span>
-                          )}
-                          <span
+                    <nav aria-label="breadcrumbs">
+                      <ul
+                        className={clsx(
+                          'breadcrumbs',
+                          styles.searchResultItemPath,
+                        )}>
+                        {breadcrumbs.map((html, index) => (
+                          <li
+                            key={index}
+                            className="breadcrumbs__item"
                             // Developer provided the HTML, so assume it's safe.
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
-                        </React.Fragment>
-                      ))}
-                    </span>
+                        ))}
+                      </ul>
+                    </nav>
                   )}
 
                   {summary && (
@@ -459,7 +454,7 @@ function SearchPage() {
                 </article>
               ),
             )}
-          </section>
+          </main>
         ) : (
           [
             searchQuery && !searchResultState.loading && (
@@ -479,13 +474,11 @@ function SearchPage() {
 
         {searchResultState.hasMore && (
           <div className={styles.loader} ref={setLoaderRef}>
-            <span>
-              <Translate
-                id="theme.SearchPage.fetchingNewResults"
-                description="The paragraph for fetching new search results">
-                Fetching new results...
-              </Translate>
-            </span>
+            <Translate
+              id="theme.SearchPage.fetchingNewResults"
+              description="The paragraph for fetching new search results">
+              Fetching new results...
+            </Translate>
           </div>
         )}
       </div>

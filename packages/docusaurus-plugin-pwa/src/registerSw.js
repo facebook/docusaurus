@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {createStorageSlot} from '@docusaurus/theme-common';
 
 // First: read the env variables (provided by Webpack)
 /* eslint-disable prefer-destructuring */
@@ -17,7 +18,10 @@ const PWA_DEBUG = process.env.PWA_DEBUG;
 const debug = PWA_DEBUG; // shortcut
 
 const MAX_MOBILE_WIDTH = 940;
-const APP_INSTALLED_EVENT_FIRED_KEY = 'docusaurus.pwa.event.appInstalled.fired';
+
+const AppInstalledEventFiredStorage = createStorageSlot(
+  'docusaurus.pwa.event.appInstalled.fired',
+);
 
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
@@ -58,7 +62,7 @@ https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed
 - display-mode: standalone is not exactly the same concept, but looks like a decent fallback https://petelepage.com/blog/2019/07/is-my-pwa-installed/
  */
 async function isAppInstalledEventFired() {
-  return localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY) === 'true';
+  return AppInstalledEventFiredStorage.get() === 'true';
 }
 async function isAppInstalledRelatedApps() {
   if ('getInstalledRelatedApps' in window.navigator) {
@@ -229,10 +233,10 @@ function addLegacyAppInstalledEventsListeners() {
         console.log('[Docusaurus-PWA][registerSw]: event appinstalled', event);
       }
 
-      localStorage.setItem(APP_INSTALLED_EVENT_FIRED_KEY, 'true');
+      AppInstalledEventFiredStorage.set('true');
       if (debug) {
         console.log(
-          "[Docusaurus-PWA][registerSw]: localStorage.setItem(APP_INSTALLED_EVENT_FIRED_KEY, 'true');",
+          "[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.set('true')",
         );
       }
 
@@ -255,15 +259,15 @@ function addLegacyAppInstalledEventsListeners() {
       // event.preventDefault();
       if (debug) {
         console.log(
-          '[Docusaurus-PWA][registerSw]: localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY)',
-          localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY),
+          '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.get()',
+          AppInstalledEventFiredStorage.get(),
         );
       }
-      if (localStorage.getItem(APP_INSTALLED_EVENT_FIRED_KEY)) {
-        localStorage.removeItem(APP_INSTALLED_EVENT_FIRED_KEY);
+      if (AppInstalledEventFiredStorage.get()) {
+        AppInstalledEventFiredStorage.del();
         if (debug) {
           console.log(
-            '[Docusaurus-PWA][registerSw]: localStorage.removeItem(APP_INSTALLED_EVENT_FIRED_KEY)',
+            '[Docusaurus-PWA][registerSw]: AppInstalledEventFiredStorage.del()',
           );
         }
         // After uninstalling the app, if the user doesn't clear all data, then

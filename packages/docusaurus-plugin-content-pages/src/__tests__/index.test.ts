@@ -22,7 +22,7 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = (await plugin.loadContent?.())!;
+    const pagesMetadatas = await plugin.loadContent?.();
 
     expect(pagesMetadatas).toEqual([
       {
@@ -89,7 +89,7 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = (await plugin.loadContent?.())!;
+    const pagesMetadatas = await plugin.loadContent?.();
 
     const frTranslationsPath = path.posix.join(
       '@site',

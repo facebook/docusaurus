@@ -6,9 +6,58 @@ sidebar_label: Client API
 
 Docusaurus provides some APIs on the clients that can be helpful to you when building your site.
 
-## Components
+## Components {#components}
 
-### `<Head/>`
+### `<ErrorBoundary />` {#errorboundary}
+
+This component creates a [React error boundary](https://reactjs.org/docs/error-boundaries.html).
+
+Use it to wrap components that might throw, and display a fallback when that happens instead of crashing the whole app.
+
+```jsx
+import React from 'react';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+
+const SafeComponent = () => (
+  <ErrorBoundary
+    fallback={({error, tryAgain}) => (
+      <div>
+        <p>This component crashed because of error: {error.message}.</p>
+        <button onClick={tryAgain}>Try Again!</button>
+      </div>
+    )}>
+    <SomeDangerousComponentThatMayThrow />
+  </ErrorBoundary>
+);
+```
+
+```mdx-code-block
+import ErrorBoundaryTestButton from "@site/src/components/ErrorBoundaryTestButton"
+```
+
+:::tip
+
+To see it in action, click here: <ErrorBoundaryTestButton/>
+
+:::
+
+:::info
+
+Docusaurus uses this component to catch errors within the theme's layout, and also within the entire app.
+
+:::
+
+:::note
+
+This component doesn't catch build-time errors, and only protects against client-side render errors that can happen when using stateful React components.
+
+:::
+
+#### Props {#errorboundary-props}
+
+- `fallback`: an optional callback returning a JSX element. It will receive two props: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again.
+
+### `<Head/>` {#head}
 
 This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
 
@@ -54,11 +103,13 @@ Outputs:
 </head>
 ```
 
-### `<Link/>`
+### `<Link/>` {#link}
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
 The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
+
+External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
 
 ```jsx {2,7}
 import React from 'react';
@@ -70,14 +121,13 @@ const Page = () => (
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
-      {/* Note that external links still use `a` tags, but automatically opens in new tab. */}
-      Follow me on <a href="https://twitter.com/docusaurus">Twitter</a>!
+      Follow me on <Link to="https://twitter.com/docusaurus">Twitter</Link>!
     </p>
   </div>
 );
 ```
 
-#### `to`: string
+#### `to`: string {#to-string}
 
 The target location to navigate to. Example: `/docs/introduction`.
 
@@ -85,7 +135,7 @@ The target location to navigate to. Example: `/docs/introduction`.
 <Link to="/courses" />
 ```
 
-### `<Redirect/>`
+### `<Redirect/>` {#redirect}
 
 Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
 
@@ -106,32 +156,69 @@ const Home = () => {
 
 :::
 
-### `<BrowserOnly/>`
+### `<BrowserOnly/>` {#browseronly}
 
-The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed). To improve SEO, you can also provide fallback content using the `fallback` prop, which will be prerendered until in the build process and replaced with the client-side only contents when viewed in the browser.
+The `<BrowserOnly>` component permits to render React components only in the browser, after the React app has hydrated.
 
-```jsx {1,5-10}
+:::tip
+
+Use it for integrating with code that can't run in Node.js, because `window` or `document` objects are being accessed.
+
+:::
+
+#### Props {#browseronly-props}
+
+- `children`: render function prop returning browser-only JSX. Will not be executed in Node.js
+- `fallback` (optional): JSX to render on the server (Node.js) and until React hydration completes.
+
+#### Example with code {#browseronly-example-code}
+
+```jsx
+// highlight-start
 import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
 
 const MyComponent = () => {
   return (
-    <BrowserOnly
-      fallback={<div>The fallback content to display on prerendering</div>}>
-      {() => {
-        // Something that should be excluded during build process prerendering.
-      }}
+    // highlight-start
+    <BrowserOnly>
+      {() => (
+        <span>page url = {window.location.href}</span>;
+      )}
     </BrowserOnly>
+    // highlight-end
   );
 };
 ```
 
-### `<Interpolate/>`
+#### Example with a library {#browseronly-example-library}
+
+```jsx
+// highlight-start
+import BrowserOnly from '@docusaurus/BrowserOnly';
+// highlight-end
+
+const MyComponent = (props) => {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent = require('some-lib').LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+};
+```
+
+### `<Interpolate/>` {#interpolate}
 
 A simple interpolation component for text containing dynamic placeholders.
 
 The placeholders will be replaced with the provided dynamic values and JSX elements of your choice (strings, links, styled elements...).
 
-#### Props
+#### Props {#interpolate-props}
 
 - `children`: text containing interpolation placeholders like `{placeholderName}`
 - `values`: object containing interpolation placeholder values
@@ -160,11 +247,11 @@ export default function VisitMyWebsiteMessage() {
 }
 ```
 
-### `<Translate/>`
+### `<Translate/>` {#translate}
 
 When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage. The `<Translate>` component supports [interpolation](#interpolate).
 
-The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations) CLI and create a `code.json` translation file in `website/i18n/<locale>`.
+The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations-sitedir) CLI and create a `code.json` translation file in `website/i18n/<locale>`.
 
 :::note
 
@@ -174,16 +261,16 @@ Apart the `values` prop used for interpolation, it is **not possible to use vari
 
 :::
 
-#### Props
+#### Props {#translate-props}
 
 - `children`: untranslated string in the default site locale (can contain [interpolation placeholders](#interpolate))
 - `id`: optional value to use as key in JSON translation files
 - `description`: optional text to help the translator
 - `values`: optional object containing interpolation placeholder values
 
-#### Example
+#### Example {#example}
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -215,9 +302,19 @@ export default function Home() {
 }
 ```
 
-## Hooks
+:::note
 
-### `useDocusaurusContext`
+You can even omit a children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
+
+```jsx
+<Translate id="homepage.title" />
+```
+
+:::
+
+## Hooks {#hooks}
+
+### `useDocusaurusContext` {#usedocusauruscontext}
 
 React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md), and some additional site metadata.
 
@@ -234,9 +331,24 @@ interface DocusaurusSiteMetadata {
   readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
 }
 
+interface I18nLocaleConfig {
+  label: string;
+  direction: string;
+}
+
+interface I18n {
+  defaultLocale: string;
+  locales: [string, ...string[]];
+  currentLocale: string;
+  localeConfigs: Record<string, I18nLocaleConfig>;
+}
+
 interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
+  globalData: Record<string, unknown>;
+  i18n: I18n;
+  codeTranslations: Record<string, string>;
 }
 ```
 
@@ -258,7 +370,35 @@ const MyComponent = () => {
 };
 ```
 
-### `useBaseUrl`
+### `useIsBrowser` {#useIsBrowser}
+
+Returns `true` when the React app has successfully hydrated in the browser.
+
+:::caution
+
+Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js).
+
+Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+Usage example:
+
+```jsx
+import React from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+
+const MyComponent = () => {
+  // highlight-start
+  const isBrowser = useIsBrowser();
+  // highlight-end
+  return <div>{isBrowser ? 'Client' : 'Server'}</div>;
+};
+```
+
+### `useBaseUrl` {#usebaseurl}
 
 React hook to prepend your site `baseUrl` to a string.
 
@@ -273,7 +413,7 @@ The `/baseUrl/` prefix is automatically added to all **absolute paths** by defau
 
 :::
 
-#### Options
+#### Options {#options}
 
 ```ts
 type BaseUrlOptions = {
@@ -282,7 +422,7 @@ type BaseUrlOptions = {
 };
 ```
 
-#### Example usage:
+#### Example usage: {#example-usage}
 
 ```jsx
 import React from 'react';
@@ -308,7 +448,7 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 :::
 
-### `useBaseUrlUtils`
+### `useBaseUrlUtils` {#usebaseurlutils}
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
@@ -328,7 +468,7 @@ const Component = () => {
 };
 ```
 
-### `useGlobalData`
+### `useGlobalData` {#useglobaldata}
 
 React hook to access Docusaurus global data created by all the plugins.
 
@@ -369,7 +509,7 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 :::
 
-### `usePluginData`
+### `usePluginData` {#useplugindata}
 
 Access global data created by a specific plugin instance.
 
@@ -393,7 +533,7 @@ const MyComponent = () => {
 };
 ```
 
-### `useAllPluginInstancesData`
+### `useAllPluginInstancesData` {#useallplugininstancesdata}
 
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
@@ -414,13 +554,13 @@ const MyComponent = () => {
 };
 ```
 
-## Functions
+## Functions {#functions}
 
-### `interpolate`
+### `interpolate` {#interpolate-1}
 
 The imperative counterpart of the [`<Interpolate>`](#interpolate) component.
 
-#### Signature
+#### Signature {#signature}
 
 ```ts
 // Simple string interpolation
@@ -433,7 +573,7 @@ function interpolate(
 ): ReactNode;
 ```
 
-#### Example
+#### Example {#example-1}
 
 ```jsx
 // highlight-start
@@ -443,7 +583,7 @@ import {interpolate} from '@docusaurus/Interpolate';
 const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
 ```
 
-### `translate`
+### `translate` {#translate-1}
 
 The imperative counterpart of the [`<Translate>`](#translate) component. Also supporting [placeholders interpolation](#interpolate).
 
@@ -457,7 +597,7 @@ Use the imperative API for the **rare cases** where a **component cannot be used
 
 :::
 
-#### Signature
+#### Signature {#signature-1}
 
 ```ts
 function translate(
@@ -466,9 +606,9 @@ function translate(
 ): string;
 ```
 
-#### Example
+#### Example {#example-2}
 
-```jsx title="src/index.js"
+```jsx title="src/pages/index.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -504,30 +644,36 @@ export default function Home() {
 }
 ```
 
-## Modules
+## Modules {#modules}
 
-### `ExecutionEnvironment`
+### `ExecutionEnvironment` {#executionenvironment}
 
-A module which exposes a few boolean variables to check the current rendering environment. Useful if you want to only run certain code on client/server or need to write server-side rendering compatible code.
+A module which exposes a few boolean variables to check the current rendering environment.
 
-```jsx {2,5}
-import React from 'react';
+:::caution
+
+For React rendering logic, use [`useIsBrowser()`](#useIsBrowser) or [`<BrowserOnly>`](#browseronly) instead.
+
+:::
+
+Example:
+
+```jsx
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-const MyPage = () => {
-  const location = ExecutionEnvironment.canUseDOM ? window.location.href : null;
-  return <div>{location}</div>;
-};
+if (ExecutionEnvironment.canUseDOM) {
+  require('lib-that-only-works-client-side');
+}
 ```
 
 | Field | Description |
 | --- | --- |
-| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if prerendering. |
+| `ExecutionEnvironment.canUseDOM` | `true` if on client/browser, `false` on Node.js/prerendering. |
 | `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
 | `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
 | `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |
 
-### `constants`
+### `constants` {#constants}
 
 A module exposing useful constants to client-side theme code.
 

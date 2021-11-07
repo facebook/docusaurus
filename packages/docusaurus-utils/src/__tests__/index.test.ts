@@ -6,26 +6,20 @@
  */
 
 import path from 'path';
-import fs from 'fs-extra';
 import {
   fileToPath,
-  simpleHash,
-  docuHash,
   genComponentName,
   genChunkName,
   idx,
   getSubFolder,
-  normalizeUrl,
   posixPath,
   objectWithKeySorted,
   aliasedSitePath,
-  createExcerpt,
   isValidPathname,
   addTrailingSlash,
   removeTrailingSlash,
   removeSuffix,
   removePrefix,
-  getFilePathForRoutePath,
   addLeadingSlash,
   getElementsAround,
   mergeTranslations,
@@ -34,14 +28,13 @@ import {
   findFolderContainingFile,
   getFolderContainingFile,
   updateTranslationFileMessages,
-  readDefaultCodeTranslationMessages,
   parseMarkdownHeadingId,
 } from '../index';
 import {sum} from 'lodash';
 
 describe('load utils', () => {
   test('aliasedSitePath', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       'user/website/docs/asd.md': '@site/docs/asd.md',
       'user/website/versioned_docs/foo/bar.md':
         '@site/versioned_docs/foo/bar.md',
@@ -54,23 +47,8 @@ describe('load utils', () => {
     });
   });
 
-  test('posixPath', () => {
-    const asserts = {
-      'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
-      '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
-      'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'foo\\bar': 'foo/bar',
-      'foo\\bar/lol': 'foo/bar/lol',
-      'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(posixPath(file)).toBe(asserts[file]);
-    });
-  });
-
   test('genComponentName', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       '/': 'index',
       '/foo-bar': 'FooBar096',
       '/foo/bar': 'FooBar1Df',
@@ -86,39 +64,8 @@ describe('load utils', () => {
     });
   });
 
-  test('simpleHash', () => {
-    const asserts = {
-      '': 'd41',
-      '/foo-bar': '096',
-      '/foo/bar': '1df',
-      '/endi/lie': '9fa',
-      '/endi-lie': 'fd3',
-      '/yangshun/tay': '48d',
-      '/yangshun-tay': 'f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(simpleHash(file, 3)).toBe(asserts[file]);
-    });
-  });
-
-  test('docuHash', () => {
-    const asserts = {
-      '': '-d41',
-      '/': 'index',
-      '/foo-bar': 'foo-bar-096',
-      '/foo/bar': 'foo-bar-1df',
-      '/endi/lie': 'endi-lie-9fa',
-      '/endi-lie': 'endi-lie-fd3',
-      '/yangshun/tay': 'yangshun-tay-48d',
-      '/yangshun-tay': 'yangshun-tay-f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(docuHash(file)).toBe(asserts[file]);
-    });
-  });
-
   test('fileToPath', () => {
-    const asserts = {
+    const asserts: Record<string, string> = {
       'index.md': '/',
       'hello/index.md': '/hello/',
       'foo.md': '/foo',
@@ -169,7 +116,7 @@ describe('load utils', () => {
   });
 
   test('genChunkName', () => {
-    const firstAssert = {
+    const firstAssert: Record<string, string> = {
       '/docs/adding-blog': 'docs-adding-blog-062',
       '/docs/versioning': 'docs-versioning-8a8',
       '/': 'index',
@@ -189,7 +136,7 @@ describe('load utils', () => {
     );
 
     // Even with same preferred name, still different chunk name for different path
-    const secondAssert = {
+    const secondAssert: Record<string, string> = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
@@ -198,7 +145,7 @@ describe('load utils', () => {
     });
 
     // Only generate short unique id
-    const thirdAssert = {
+    const thirdAssert: Record<string, string> = {
       a: '0cc175b9',
       b: '92eb5ffe',
       c: '4a8a08f0',
@@ -248,7 +195,9 @@ describe('load utils', () => {
     });
     expect(idx(obj, ['translation', 'enabled'])).toEqual(true);
     expect(
-      idx(obj, ['translation', variable]).map((lang) => lang.tag),
+      idx(obj, ['translation', variable]).map(
+        (lang: {tag: string}) => lang.tag,
+      ),
     ).toEqual(['en', 'ja']);
     expect(idx(test, ['arr', 0])).toEqual(1);
     expect(idx(undefined)).toBeUndefined();
@@ -266,187 +215,6 @@ describe('load utils', () => {
     expect(getSubFolder(testC, 'folder')).toBe('ja');
     expect(getSubFolder(testD, 'docs')).toBe('ro');
     expect(getSubFolder(testE, 'docs')).toBeNull();
-  });
-
-  test('normalizeUrl', () => {
-    const asserts = [
-      {
-        input: ['/', ''],
-        output: '/',
-      },
-      {
-        input: ['', '/'],
-        output: '/',
-      },
-      {
-        input: ['/'],
-        output: '/',
-      },
-      {
-        input: [''],
-        output: '',
-      },
-      {
-        input: ['/', '/'],
-        output: '/',
-      },
-      {
-        input: ['/', 'docs'],
-        output: '/docs',
-      },
-      {
-        input: ['/', 'docs', 'en', 'next', 'blog'],
-        output: '/docs/en/next/blog',
-      },
-      {
-        input: ['/test/', '/docs', 'ro', 'doc1'],
-        output: '/test/docs/ro/doc1',
-      },
-      {
-        input: ['/test/', '/', 'ro', 'doc1'],
-        output: '/test/ro/doc1',
-      },
-      {
-        input: ['/', '/', '2020/02/29/leap-day'],
-        output: '/2020/02/29/leap-day',
-      },
-      {
-        input: ['', '/', 'ko', 'hello'],
-        output: '/ko/hello',
-      },
-      {
-        input: ['hello', 'world'],
-        output: 'hello/world',
-      },
-      {
-        input: ['http://www.google.com/', 'foo/bar', '?test=123'],
-        output: 'http://www.google.com/foo/bar?test=123',
-      },
-      {
-        input: ['http:', 'www.google.com///', 'foo/bar', '?test=123'],
-        output: 'http://www.google.com/foo/bar?test=123',
-      },
-      {
-        input: ['http://foobar.com', '', 'test'],
-        output: 'http://foobar.com/test',
-      },
-      {
-        input: ['http://foobar.com', '', 'test', '/'],
-        output: 'http://foobar.com/test/',
-      },
-      {
-        input: ['/', '', 'hello', '', '/', '/', '', '/', '/world'],
-        output: '/hello/world',
-      },
-      {
-        input: ['', '', '/tt', 'ko', 'hello'],
-        output: '/tt/ko/hello',
-      },
-      {
-        input: ['', '///hello///', '', '///world'],
-        output: '/hello/world',
-      },
-      {
-        input: ['', '/hello/', ''],
-        output: '/hello/',
-      },
-      {
-        input: ['', '/', ''],
-        output: '/',
-      },
-      {
-        input: ['///', '///'],
-        output: '/',
-      },
-      {
-        input: ['/', '/hello/world/', '///'],
-        output: '/hello/world/',
-      },
-    ];
-    asserts.forEach((testCase) => {
-      expect(normalizeUrl(testCase.input)).toBe(testCase.output);
-    });
-
-    expect(() =>
-      normalizeUrl(['http:example.com', undefined]),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Url must be a string. Received undefined"`,
-    );
-  });
-
-  test('createExcerpt', () => {
-    const asserts = [
-      // Regular content
-      {
-        input: `
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
-      },
-      // Content with imports/exports declarations and Markdown markup, as well as Emoji
-      {
-        input: `
-          import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
-          import './styles.css';
-
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
-
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
-
-          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~molestie~ et sagittis ut, varius ac justo :wink:.
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
-      },
-      // Content beginning with admonitions
-      {
-        input: `
-          import Component from '@site/src/components/Component'
-
-          :::caution
-
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-          :::
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-      // Content beginning with heading
-      {
-        input: `
-          ## Lorem ipsum dolor sit amet
-
-          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
-        `,
-        output: 'Lorem ipsum dolor sit amet',
-      },
-      // Content beginning with blockquote
-      {
-        input: `
-          > Lorem ipsum dolor sit amet
-        `,
-        output: 'Lorem ipsum dolor sit amet',
-      },
-      // Content beginning with image (eg. blog post)
-      {
-        input: `
-          ![Lorem ipsum](/img/lorem-ipsum.svg)
-        `,
-        output: 'Lorem ipsum',
-      },
-    ];
-
-    asserts.forEach((testCase) => {
-      expect(createExcerpt(testCase.input)).toEqual(testCase.output);
-    });
   });
 
   test('isValidPathname', () => {
@@ -524,22 +292,6 @@ describe('removePrefix', () => {
   });
 });
 
-describe('getFilePathForRoutePath', () => {
-  test('works for /', () => {
-    expect(posixPath(getFilePathForRoutePath('/'))).toEqual('/index.html');
-  });
-  test('works for /somePath', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath'))).toEqual(
-      '/somePath/index.html',
-    );
-  });
-  test('works for /somePath/', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath/'))).toEqual(
-      '/somePath/index.html',
-    );
-  });
-});
-
 describe('getElementsAround', () => {
   test('can return elements around', () => {
     expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
@@ -564,12 +316,12 @@ describe('getElementsAround', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=-1"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided -1."`,
     );
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], 4),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided 4."`,
     );
   });
 });
@@ -719,92 +471,6 @@ describe('updateTranslationFileMessages', () => {
         t3: {message: 'prefix t3 message suffix', description: 't3 desc'},
       },
     });
-  });
-});
-
-describe('readDefaultCodeTranslationMessages', () => {
-  const dirPath = path.resolve(
-    __dirname,
-    '__fixtures__',
-    'defaultCodeTranslations',
-  );
-
-  async function readAsJSON(filename: string) {
-    return JSON.parse(
-      await fs.readFile(path.resolve(dirPath, filename), 'utf8'),
-    );
-  }
-
-  test('for empty locale', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: '',
-        dirPath,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for unexisting locale', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'es',
-        dirPath,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for fr but bad folder', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: '',
-        dirPath: __dirname,
-      }),
-    ).resolves.toEqual({});
-  });
-
-  test('for fr', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'fr',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('fr.json'));
-  });
-
-  test('for fr_FR', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'fr_FR',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('fr_FR.json'));
-  });
-
-  test('for en', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
-  });
-
-  test('for en_US', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en_US',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
-  });
-
-  test('for en_WHATEVER', async () => {
-    await expect(
-      readDefaultCodeTranslationMessages({
-        locale: 'en_WHATEVER',
-        dirPath,
-      }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
   });
 });
 

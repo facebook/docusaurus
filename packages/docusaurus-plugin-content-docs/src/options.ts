@@ -4,27 +4,38 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from 'joi';
 import {PluginOptions} from './types';
 import {
+  Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
+
 import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import {ValidationError} from 'joi';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
+import {DefaultSidebarItemsGenerator} from './sidebars/generator';
+import {
+  DefaultNumberPrefixParser,
+  DisabledNumberPrefixParser,
+} from './numberPrefix';
 
-export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
+  tagsBasePath: 'tags', // URL Tags Route.
   homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: 'sidebars.json', // Path to sidebar configuration for showing a list of markdown pages.
+  exclude: GlobExcludeDefault,
+  sidebarItemsGenerator: DefaultSidebarItemsGenerator,
+  numberPrefixParser: DefaultNumberPrefixParser,
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
+  docTagDocListComponent: '@theme/DocTagDocListPage',
+  docTagsListComponent: '@theme/DocTagsListPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -32,18 +43,22 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
-  excludeNextVersionDocs: false,
   includeCurrentVersion: true,
   disableVersioning: false,
   lastVersion: undefined,
   versions: {},
   editCurrentVersion: false,
   editLocalizedFiles: false,
+  sidebarCollapsible: true,
+  sidebarCollapsed: true,
 };
 
 const VersionOptionsSchema = Joi.object({
   path: Joi.string().allow('').optional(),
   label: Joi.string().optional(),
+  banner: Joi.string().equal('none', 'unreleased', 'unmaintained').optional(),
+  badge: Joi.boolean().optional(),
+  className: Joi.string().optional(),
 });
 
 const VersionsOptionsSchema = Joi.object()
@@ -59,11 +74,38 @@ export const OptionsSchema = Joi.object({
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   homePageId: Joi.string().optional(),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
-  sidebarPath: Joi.string().allow('').default(DEFAULT_OPTIONS.sidebarPath),
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
+  sidebarPath: Joi.alternatives().try(
+    Joi.boolean().invalid(true),
+    Joi.string(),
+  ),
+  sidebarItemsGenerator: Joi.function().default(
+    () => DEFAULT_OPTIONS.sidebarItemsGenerator,
+  ),
+  sidebarCollapsible: Joi.boolean().default(DEFAULT_OPTIONS.sidebarCollapsible),
+  sidebarCollapsed: Joi.boolean().default(DEFAULT_OPTIONS.sidebarCollapsed),
+  numberPrefixParser: Joi.alternatives()
+    .try(
+      Joi.function(),
+      // Convert boolean values to functions
+      Joi.alternatives().conditional(Joi.boolean(), {
+        then: Joi.custom((val) =>
+          val ? DefaultNumberPrefixParser : DisabledNumberPrefixParser,
+        ),
+      }),
+    )
+    .default(() => DEFAULT_OPTIONS.numberPrefixParser),
   docLayoutComponent: Joi.string().default(DEFAULT_OPTIONS.docLayoutComponent),
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
+  docTagsListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagsListComponent,
+  ),
+  docTagDocListComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
   beforeDefaultRemarkPlugins: RemarkPluginsSchema.default(
@@ -72,13 +114,12 @@ export const OptionsSchema = Joi.object({
   beforeDefaultRehypePlugins: RehypePluginsSchema.default(
     DEFAULT_OPTIONS.beforeDefaultRehypePlugins,
   ),
-  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
+  admonitions: Joi.alternatives()
+    .try(AdmonitionsSchema, Joi.boolean().invalid(true))
+    .default(DEFAULT_OPTIONS.admonitions),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
     DEFAULT_OPTIONS.showLastUpdateAuthor,
-  ),
-  excludeNextVersionDocs: Joi.bool().default(
-    DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),
   includeCurrentVersion: Joi.bool().default(
     DEFAULT_OPTIONS.includeCurrentVersion,
@@ -89,14 +130,34 @@ export const OptionsSchema = Joi.object({
   versions: VersionsOptionsSchema,
 });
 
-// TODO bad validation function types
 export function validateOptions({
   validate,
-  options,
-}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
-  PluginOptions,
-  ValidationError
-> {
+  options: userOptions,
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+  let options = userOptions;
+
+  if (options.sidebarCollapsible === false) {
+    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't want to have the inconsistency warning
+    // We let options.sidebarCollapsible become the default value for options.sidebarCollapsed
+    if (typeof options.sidebarCollapsed === 'undefined') {
+      options = {
+        ...options,
+        sidebarCollapsed: false,
+      };
+    }
+    if (options.sidebarCollapsed) {
+      console.warn(
+        chalk.yellow(
+          'The docs plugin config is inconsistent. It does not make sense to use sidebarCollapsible=false and sidebarCollapsed=true at the same time. sidebarCollapsed=false will be ignored.',
+        ),
+      );
+      options = {
+        ...options,
+        sidebarCollapsed: false,
+      };
+    }
+  }
+
   // TODO remove homePageId before end of 2020
   // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
@@ -107,19 +168,7 @@ export function validateOptions({
     );
   }
 
-  if (typeof options.excludeNextVersionDocs !== 'undefined') {
-    console.log(
-      chalk.red(
-        `The docs plugin option excludeNextVersionDocs=${
-          options.excludeNextVersionDocs
-        } is deprecated. Use the includeCurrentVersion=${!options.excludeNextVersionDocs} option instead!"`,
-      ),
-    );
-    options.includeCurrentVersion = !options.excludeNextVersionDocs;
-  }
-
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
-  const normalizedOptions: PluginOptions = validate(OptionsSchema, options);
+  const normalizedOptions = validate(OptionsSchema, options);
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([
@@ -127,6 +176,5 @@ export function validateOptions({
     ]);
   }
 
-  // @ts-expect-error: TODO bad OptionValidationContext, need refactor
   return normalizedOptions;
 }

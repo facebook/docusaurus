@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('joi');
+const {Joi} = require('@docusaurus/utils-validation');
 const path = require('path');
 
 const DEFAULT_OPTIONS = {

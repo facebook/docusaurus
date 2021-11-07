@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Joi = require('joi');
+const {Joi} = require('@docusaurus/utils-validation');
 
 const DEFAULT_CONFIG = {
   contextualSearch: false, // future: maybe we want to enable this by default
@@ -22,7 +22,7 @@ const Schema = Joi.object({
   algolia: Joi.object({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
-
+    externalUrlRegex: Joi.string().optional(),
     // Algolia attributes
     appId: Joi.string().default(DEFAULT_CONFIG.appId),
     apiKey: Joi.string().required(),

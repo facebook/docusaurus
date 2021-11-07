@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from 'joi';
+import {Joi} from '@docusaurus/utils-validation';
 import {EnumChangefreq} from 'sitemap';
 import {PluginOptions} from './types';
 
@@ -25,5 +25,10 @@ export const PluginOptionSchema = Joi.object({
     .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
-  trailingSlash: Joi.bool().default(false),
+  trailingSlash: Joi.bool().default(false).warning('deprecate.error', {
+    msg: 'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',
+  }),
+}).messages({
+  'deprecate.error':
+    'Option {#label} of the sitemap plugin is deprecated: {#msg}',
 });
