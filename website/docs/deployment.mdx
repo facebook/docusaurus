@@ -23,6 +23,15 @@ You can deploy your site to static site hosting services such as [Vercel](https:
 
 A Docusaurus site is statically rendered, and it can generally work without JavaScript!
 
+## Configuration {#configuration}
+
+The following parameters are required in `docusaurus.config.js` in order for Docusaurus to optimize routing and serve files from the correct location:
+
+| Name | Description |
+| --- | --- |
+| `url` | URL for your site. For a site deployed at `https://my-org.com/my-project/`, `url` is `https://my-org.com/`. |
+| `baseUrl` | Base URL for your project, with a trailing slash. For a site deployed at `https://my-org.com/my-project/`, `baseUrl` is `/my-project/`. |
+
 ## Testing your Build Locally {#testing-build-locally}
 
 It is important to test your build locally before deploying to production.
@@ -65,27 +74,45 @@ It is not the best option, compared to a static hosting provider / CDN.
 
 :::
 
+:::warning
+
+In the following sections, we will introduce a few common hosting providers and how they should be configured to deploy Docusaurus sites most efficiently. The documentation may not be up-to-date: recent changes in their API may not be reflected on our side. If you see outdated content, PRs are welcome.
+
+For the same concern of up-to-datedness, we have stopped accepting PRs adding new hosting options. You can, however, host your writeup on a separate site (e.g. your blog or the provider's official website), and ask us to include a link to your writeup.
+
+:::
+
 ## Deploying to GitHub Pages {#deploying-to-github-pages}
 
-Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
+Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/), which comes for free with every GitHub repository.
+
+### Overview {#github-pages-overview}
+
+Usually, there are two repositories (at least, two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial they will be referred to as **"source"** and **"target"**, respectively.
+
+Each GitHub repository is associated with a GitHub Pages service. If the target repository is called `my-org/my-project` (where `my-org` can be the organization name or your username if it's a personal repo), the deployed site will appear at `https://my-org.github.io/my-project/`. Specially, if the target repository is called `my-org/my-org.github.io`, the site will appear at `https://my-org.github.io/`.
+
+GitHub Pages picks up deploy-ready files (the output from `docusaurus build`) from the default branch (`master` / `main`, usually) or the `gh-pages` branch, and either from the root or the `/docs` folder. You can configure that through `Settings > Pages` in your repository. This branch will be called the "target branch".
+
+We provide a `docusaurus deploy` command that helps you deploy your site from the source branch to the target branch in one command: clone, build, and commit.
 
 ### `docusaurus.config.js` settings {#docusaurusconfigjs-settings}
 
-First, modify your `docusaurus.config.js` and add the required params:
+First, modify your `docusaurus.config.js` and add the following params:
 
 | Name | Description |
 | --- | --- |
-| `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, it is your GitHub username. In the case of Docusaurus, it is "_facebook_" which is the GitHub organization that owns Docusaurus. |
-| `projectName` | The name of the GitHub repository. For example, the repository name for Docusaurus is "docusaurus", so the project name is "docusaurus". |
-| `deploymentBranch` | The name of the branch to deploy the static files to. This defaults to "gh-pages" for non-organization GitHub Pages repos. If the repo name ends in ".github.io", you have to either specify this property or set the environment variable `DEPLOYMENT_BRANCH`. |
-| `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
-| `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
+| `organizationName` | The GitHub user or organization that owns the target repository. |
+| `projectName` | The name of the target repository. |
+| `deploymentBranch` | The name of target branch. Defaults to `'gh-pages'`. For organization GitHub Pages repos (`projectName` ending in `github.io`), this needs to be explicit as a config field or environment variable (see below). |
+
+These fields also have their environment variable counterparts, which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
 
 :::info
 
 In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
 
-When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`
+When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
 
@@ -123,16 +150,15 @@ Specify the Git user as an environment variable.
 
 | Name | Description |
 | --- | --- |
-| `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
+| `GIT_USER` | The username for a GitHub account that **has push access to the target repo**. For your own repositories, this will usually be your GitHub username. |
 
 Optional parameters, also set as environment variables:
 
 | Name | Description |
 | --- | --- |
 | `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
-| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages`. For GitHub Pages Organization repos (`config.projectName` ending in `github.io`), you need to either set this env variable or specify the `deploymentBranch` param in `docusaurus.config.js`. |
-| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `main`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
-| `GIT_PASS` | Password (or token) of the `git` user (specified by `GIT_USER`). For example, to facilitate non-interactive deployment (e.g. continuous deployment) |
+| `CURRENT_BRANCH` | The source branch. Usually, the branch will be `main` or `master`, but it could be any branch except for `gh-pages`. If nothing is set for this variable, then the current branch from which `docusaurus deploy` is invoked will be used. |
+| `GIT_PASS` | Personal access token of the `git` user (specified by `GIT_USER`), to facilitate non-interactive deployment (e.g. continuous deployment) |
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
 
@@ -183,34 +209,42 @@ Alternatively, you can use SSH (`USE_SSH=true`) to login.
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
-This workflow assumes your documentation resides in the `documentation` branch of your repository and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch.
+This workflow assumes your documentation resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _target branch_ is `gh-pages`).
 
-Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (eg `gh-pages`), choose the relevant tab below:
+Our goal is that:
 
-- The **`same`** repository as your documentation source.
-- A **`remote`** repository different from your documentation source.
+1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
+2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new built output will be served on the GitHub Pages site. This job will be called `deploy`.
+
+Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your target branch (e.g. `gh-pages`), choose the relevant tab below:
+
+- Source repo and target repo are the **`same`** repository.
+- The target repo is a **`remote`** repository, different from the source.
 
 ````mdx-code-block
-<Tabs
-  defaultValue="same"
-  values={[
-    { label: 'Same', value: 'same' },
-    { label: 'Remote', value: 'remote' }
-]}>
-<TabItem value="same">
+<Tabs>
+<TabItem value="same" label="Same">
 
-Add these two workflow files for Github Actions to your project:
+While you can have both jobs defined in the same workflow file, the `deploy` job will always be listed as skipped in the PR check suite status. That's added noise providing no value to the review process, and as you cannot easily share common snippets, it is better to manage them as separate workflows instead.
 
-```yaml title=".github/workflows/documentation-push.yml"
-name: 'Docs (Github Pages)'
+<details>
+
+<summary>GitHub action files</summary>
+
+Add these two workflow files:
+
+:::warning
+
+These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
+```yml title=".github/workflows/deploy.yml"
+name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - documentation
-    paths:
-      - 'website/**'
+    branches: [main]
+    paths: [website/**]
 
 defaults:
   run:
@@ -218,33 +252,21 @@ defaults:
 
 jobs:
   deploy:
-    name: 'Deploy'
-    runs-on: ubuntu-20.04
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-website-
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+          node-version: 14.x
+          cache: yarn
+      - run: |
+          yarn install --frozen-lockfile
+          yarn build
 
       # Popular action to deploy to GitHub Pages:
-      # Docs: https://github.com/peaceiris/actions-gh-pages
-      - name: 'Deploy to GitHub Pages'
+      # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -252,150 +274,128 @@ jobs:
           publish_dir: ./website/build
           # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:
           # https://github.com/actions/checkout/issues/13#issuecomment-724415212
-          user_name: 'github-actions[bot]'
-          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          # The GH actions bot is used by default if you didn't specify the two fields.
+          # You can swap them out with your own user credentials.
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
 ```
 
-While you can have both jobs defined in the same workflow file, the deploy job as configured in the `remote` example will always be listed as skipped in the PR check suite status.
-
-That's added noise providing no value to the review process, and as you cannot easily share common snippets like the build process; it is better to manage as separate workflows instead:
-
-```yaml title=".github/workflows/documentation-pr.yml"
-name: 'Docs (PR)'
+```yml title=".github/workflows/test-deploy.yml"
+name: Test deployment
 
 on:
   pull_request:
-    branches:
-      - documentation
-    paths:
-      - 'website/**'
+    branches: [main]
+    paths: [website/**]
 
 jobs:
-  verify:
-    name: 'Verify Build'
-    runs-on: ubuntu-20.04
+  test-deploy:
+    name: Test deployment
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: 14.x
+          cache: yarn
 
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-website-
-
-      - name: Install dependencies
+      - name: Test build
         working-directory: website
-        run: yarn install --frozen-lockfile
-
-      - name: Verify docs build successfully
-        working-directory: website
-        run: yarn build
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
 ```
 
+</details>
+
 </TabItem>
-<TabItem value="remote">
+<TabItem value="remote" label="Remote">
 
 1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
 3. Copy the key to clipboard with `xclip -sel clip < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in your repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
 4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
 5. Copy your private key with `xclip -sel clip < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY`. Copy the file content if the command line doesn't work for you. Save your secret.
-6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `documentation.yml`.
+6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `deploy.yml`.
+
+<details>
+
+<summary>GitHub action file</summary>
 
 :::warning
 
 Please make sure that you replace `actions@github.com` with your GitHub email and `gh-actions` with your name.
 
+This file assumes you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
 :::
 
-```yaml title="documentation.yml"
-name: documentation
+```yml title="deploy.yml"
+name: Deploy to GitHub Pages
 
 on:
   pull_request:
-    branches: [documentation]
+    branches: [main]
   push:
-    branches: [documentation]
+    branches: [main]
 
 jobs:
-  checks:
+  test-deploy:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-      - name: Test Build
+          node-version: 14.x
+          cache: yarn
+      - name: Test deployment
         run: |
-          if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-            npm ci
-          else
-            npm i
-          fi
-          npm run build
-  gh-release:
+          yarn install --frozen-lockfile
+          yarn build
+  deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: 14.x
+          cache: yarn
       - uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
-      - name: Release to GitHub Pages
+      - name: Deploy to GitHub Pages
         env:
           USE_SSH: true
           GIT_USER: git
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "gh-actions"
-          if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-            npm ci
-          else
-            npm i
-          fi
-          npm run deploy
+          yarn install --frozen-lockfile
+          yarn deploy
 ```
+
+</details>
 
 </TabItem>
 </Tabs>
 ````
-
-1. Now when a new pull request is made to your repository branch `documentation`, it will automatically ensure that the Docusaurus build is successful.
-2. When a pull request is merged to the `documentation` branch or someone pushes to the `documentation` branch directly it will be built and deployed to the `gh-pages` branch.
-3. After this step your updated documentation will be available on GitHub Pages.
 
 ### Triggering deployment with Travis CI {#triggering-deployment-with-travis-ci}
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
 1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
-1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-1. Open your Travis CI dashboard. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
-1. Create a `.travis.yml` on the root of your repository with the following:
+2. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+3. Open your Travis CI dashboard. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+4. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+5. Create a `.travis.yml` on the root of your repository with the following:
 
-```yaml title=".travis.yml"
+```yml title=".travis.yml"
 language: node_js
 node_js:
-  - '12.13.0'
+  - '14.15.0'
 branches:
   only:
     - main
@@ -405,7 +405,8 @@ script:
   - git config --global user.name "${GH_NAME}"
   - git config --global user.email "${GH_EMAIL}"
   - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-  - yarn && GIT_USER="${GH_NAME}" yarn deploy
+  - yarn
+  - GIT_USER="${GH_NAME}" yarn deploy
 ```
 
 Now, whenever a new commit lands in `main`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
@@ -417,12 +418,12 @@ Now, whenever a new commit lands in `main`, Travis CI will run your suite of tes
 Follow these steps to create a pipeline that automatically deploys a new version of your website whenever you push changes to the selected branch of your project:
 
 1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
-1. Sign in to your Buddy account and create a new project.
-1. Choose GitHub as your git hosting provider and select the repository with the code of your website.
-1. Using the left navigation panel, switch to the `Pipelines` view.
-1. Create a new pipeline. Define its name, set the trigger mode to `On push`, and select the branch that triggers the pipeline execution.
-1. Add a `Node.js` action.
-1. Add these command in the action's terminal:
+2. Sign in to your Buddy account and create a new project.
+3. Choose GitHub as your git hosting provider and select the repository with the code of your website.
+4. Using the left navigation panel, switch to the `Pipelines` view.
+5. Create a new pipeline. Define its name, set the trigger mode to `On push`, and select the branch that triggers the pipeline execution.
+6. Add a `Node.js` action.
+7. Add these commands in the action's terminal:
    ```bash
    GIT_USER=<GH_PERSONAL_ACCESS_TOKEN>
    git config --global user.email "<YOUR_GH_EMAIL>"
@@ -435,11 +436,11 @@ After creating this simple pipeline, each new commit pushed to the branch you se
 ### Using Azure Pipelines {#using-azure-pipelines}
 
 1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
-1.  Create an organization and within the organization create a project and connect your repository from GitHub.
-1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
-1.  In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build` create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
+2.  Create an organization and within the organization create a project and connect your repository from GitHub.
+3.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with the `repo` scope.
+4.  In the project page (which looks like `https://dev.azure.com/ORG_NAME/REPO_NAME/_build` create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at your repository root.
 
-```yaml title="azure-pipelines.yml"
+```yml title="azure-pipelines.yml"
 trigger:
   - main
 
@@ -452,7 +453,7 @@ steps:
 
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.x'
+      versionSpec: '14.x'
     displayName: 'Install Node.js'
 
   - script: |
@@ -460,7 +461,8 @@ steps:
       git config --global user.email "${GH_EMAIL}"
       git checkout -b main
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-      yarn && GIT_USER="${GH_NAME}" yarn deploy
+      yarn
+      GIT_USER="${GH_NAME}" yarn deploy
     env:
       GH_NAME: $(GH_NAME)
       GH_EMAIL: $(GH_EMAIL)
@@ -477,7 +479,7 @@ steps:
 1.  Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
 1.  Create a `.drone.yml` on the root of your repository with below text.
 
-```yaml
+```yml
 # .drone.yml
 kind: pipeline
 type: docker
