@@ -111,7 +111,7 @@ describe('createFromExtensionsRedirects', () => {
     `);
   });
 
-  test('should create redirects to html/htm extensions', () => {
+  test('should create redirects from html/htm extensions', () => {
     const ext = ['html', 'htm'];
     expect(createFromExtensionsRedirects([''], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/'], ext)).toEqual([]);
@@ -120,7 +120,10 @@ describe('createFromExtensionsRedirects', () => {
       {from: '/abc.htm', to: '/abc'},
     ]);
     expect(createFromExtensionsRedirects(['/def.html'], ext)).toEqual([]);
-    expect(createFromExtensionsRedirects(['/def/'], ext)).toEqual([]);
+    expect(createFromExtensionsRedirects(['/def/'], ext)).toEqual([
+      {from: '/def.html/', to: '/def/'},
+      {from: '/def.htm/', to: '/def/'},
+    ]);
   });
 
   test('should create "from" redirects when relativeRoutesPath contains a prefix', () => {

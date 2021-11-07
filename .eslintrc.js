@@ -28,6 +28,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
     'airbnb',
     'prettier',
     'prettier/react',
@@ -41,12 +42,23 @@ module.exports = {
   },
   plugins: ['react-hooks', 'header'],
   rules: {
+    'react-hooks/rules-of-hooks': ERROR,
+    'react-hooks/exhaustive-deps': ERROR,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated']},
+      {
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          'unist',
+          'mdast',
+        ],
+      },
     ],
     'import/extensions': OFF,
     'header/header': [
@@ -63,6 +75,7 @@ module.exports = {
     ],
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
+    'jsx-a11y/html-has-lang': OFF,
     'no-console': OFF,
     'no-else-return': OFF,
     'no-param-reassign': [WARNING, {props: false}],
@@ -76,7 +89,6 @@ module.exports = {
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
-    'react-hooks/rules-of-hooks': ERROR,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
@@ -92,7 +104,11 @@ module.exports = {
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
-    '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
+    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
+    '@typescript-eslint/no-unused-vars': [
+      ERROR,
+      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+    ],
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
@@ -112,8 +128,9 @@ module.exports = {
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
-    'no-empty': WARNING,
+    'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
     'no-undef': OFF,
@@ -121,15 +138,49 @@ module.exports = {
     '@typescript-eslint/no-shadow': ERROR,
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
+    '@typescript-eslint/no-empty-interface': [
+      ERROR,
+      {
+        allowSingleExtends: true,
+      },
+    ],
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: [
+              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+              'last',
+            ],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {
       files: [
-        'packages/docusaurus-init/templates/bootstrap/**/*.js',
-        'packages/docusaurus-init/templates/classic/**/*.js',
+        'packages/create-docusaurus/templates/**/*.js',
+        'packages/create-docusaurus/templates/**/*.ts',
+        'packages/create-docusaurus/templates/**/*.tsx',
       ],
       rules: {
         'header/header': OFF,
+        'global-require': OFF,
+        '@typescript-eslint/no-var-requires': OFF,
       },
     },
     {

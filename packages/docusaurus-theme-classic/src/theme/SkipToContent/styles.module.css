@@ -10,4 +10,5 @@
 
 .skipToContent:focus {
   left: 1rem;
+  box-shadow: var(--ifm-global-shadow-md);
 }

@@ -1,10 +1,6 @@
 ---
 title: Releasing Docusaurus i18n
-author: Sébastien Lorber
-authorTitle: Docusaurus maintainer
-authorURL: https://sebastienlorber.com
-authorImageURL: https://github.com/slorber.png
-authorTwitter: sebastienlorber
+authors: [slorber]
 tags: [release, i18n]
 image: /img/blog/2021-03-09-releasing-docusaurus-i18n/social-card.png
 ---
@@ -48,7 +44,7 @@ The goals of the Docusaurus i18n system are:
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus 1 sites use Crowdin, and should be able to migrate to v2
 - **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
-- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/codeTranslations)
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/codeTranslations)
 
 ## Showcase
 

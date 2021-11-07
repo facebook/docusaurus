@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// TODO legacy, this does not seem like a good place to add those TS types!
 declare module 'remark-admonitions' {
   type Options = Record<string, unknown>;
 

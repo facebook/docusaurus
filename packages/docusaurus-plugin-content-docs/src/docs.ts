@@ -7,6 +7,8 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import chalk from 'chalk';
+import {keyBy} from 'lodash';
 import {
   aliasedSitePath,
   getEditUrl,
@@ -14,6 +16,8 @@ import {
   normalizeUrl,
   parseMarkdownString,
   posixPath,
+  Globby,
+  normalizeFrontMatterTags,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -21,18 +25,21 @@ import {getFileLastUpdate} from './lastUpdate';
 import {
   DocFile,
   DocMetadataBase,
+  DocMetadata,
+  DocNavLink,
   LastUpdateData,
   MetadataOptions,
   PluginOptions,
   VersionMetadata,
+  LoadedVersion,
 } from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
-import globby from 'globby';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import chalk from 'chalk';
+import type {Sidebars} from './sidebars/types';
+import {createSidebarsUtils} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -92,11 +99,12 @@ export async function readVersionDocs(
   versionMetadata: VersionMetadata,
   options: Pick<
     PluginOptions,
-    'include' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
+    'include' | 'exclude' | 'showLastUpdateAuthor' | 'showLastUpdateTime'
   >,
 ): Promise<DocFile[]> {
-  const sources = await globby(options.include, {
+  const sources = await Globby(options.include, {
     cwd: versionMetadata.contentPath,
+    ignore: options.exclude,
   });
   return Promise.all(
     sources.map((source) => readDocFile(versionMetadata, source, options)),
@@ -129,8 +137,8 @@ function doProcessDocMetadata({
     custom_edit_url: customEditURL,
 
     // Strip number prefixes by default (01-MyFolder/01-MyDoc.md => MyFolder/MyDoc) by default,
-    // but allow to disable this behavior with frontmatterr
-    parse_number_prefixes = true,
+    // but allow to disable this behavior with frontmatter
+    parse_number_prefixes: parseNumberPrefixes = true,
   } = frontMatter;
 
   // ex: api/plugins/myDoc -> myDoc
@@ -144,7 +152,7 @@ function doProcessDocMetadata({
   // ex: myDoc -> .
   const sourceDirName = path.dirname(source);
 
-  const {filename: unprefixedFileName, numberPrefix} = parse_number_prefixes
+  const {filename: unprefixedFileName, numberPrefix} = parseNumberPrefixes
     ? options.numberPrefixParser(sourceFileNameWithoutExtension)
     : {filename: sourceFileNameWithoutExtension, numberPrefix: undefined};
 
@@ -172,7 +180,7 @@ function doProcessDocMetadata({
       return undefined;
     }
     // Eventually remove the number prefixes from intermediate directories
-    return parse_number_prefixes
+    return parseNumberPrefixes
       ? stripPathNumberPrefixes(sourceDirName, options.numberPrefixParser)
       : sourceDirName;
   }
@@ -199,7 +207,7 @@ function doProcessDocMetadata({
         baseID,
         dirName: sourceDirName,
         frontmatterSlug: frontMatter.slug,
-        stripDirNumberPrefixes: parse_number_prefixes,
+        stripDirNumberPrefixes: parseNumberPrefixes,
         numberPrefixParser: options.numberPrefixParser,
       });
 
@@ -251,6 +259,7 @@ function doProcessDocMetadata({
     slug: docSlug,
     permalink,
     editUrl: customEditURL !== undefined ? customEditURL : getDocEditUrl(),
+    tags: normalizeFrontMatterTags(versionMetadata.tagsPath, frontMatter.tags),
     version: versionMetadata.versionName,
     lastUpdatedBy: lastUpdate.lastUpdatedBy,
     lastUpdatedAt: lastUpdate.lastUpdatedAt,
@@ -280,4 +289,78 @@ export function processDocMetadata(args: {
     );
     throw e;
   }
+}
+
+export function handleNavigation(
+  docsBase: DocMetadataBase[],
+  sidebars: Sidebars,
+  sidebarFilePath: string,
+): Pick<LoadedVersion, 'mainDocId' | 'docs'> {
+  const docsBaseById = keyBy(docsBase, (doc) => doc.id);
+  const {checkSidebarsDocIds, getDocNavigation, getFirstDocIdOfFirstSidebar} =
+    createSidebarsUtils(sidebars);
+
+  const validDocIds = Object.keys(docsBaseById);
+  checkSidebarsDocIds(validDocIds, sidebarFilePath);
+
+  // Add sidebar/next/previous to the docs
+  function addNavData(doc: DocMetadataBase): DocMetadata {
+    const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
+    const toDocNavLink = (
+      docId: string | null | undefined,
+      type: 'prev' | 'next',
+    ): DocNavLink | undefined => {
+      if (!docId) {
+        return undefined;
+      }
+      if (!docsBaseById[docId]) {
+        // This could only happen if user provided the ID through front matter
+        throw new Error(
+          `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
+        );
+      }
+      const {
+        title,
+        permalink,
+        frontMatter: {
+          pagination_label: paginationLabel,
+          sidebar_label: sidebarLabel,
+        },
+      } = docsBaseById[docId];
+      return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+    };
+    const {
+      frontMatter: {
+        pagination_next: paginationNext = nextId,
+        pagination_prev: paginationPrev = previousId,
+      },
+    } = doc;
+    const previous = toDocNavLink(paginationPrev, 'prev');
+    const next = toDocNavLink(paginationNext, 'next');
+    return {...doc, sidebar: sidebarName, previous, next};
+  }
+  const docs = docsBase.map(addNavData);
+  // sort to ensure consistent output for tests
+  docs.sort((a, b) => a.id.localeCompare(b.id));
+
+  /**
+   * The "main doc" is the "version entry point"
+   * We browse this doc by clicking on a version:
+   * - the "home" doc (at '/docs/')
+   * - the first doc of the first sidebar
+   * - a random doc (if no docs are in any sidebar... edge case)
+   */
+  function getMainDoc(): DocMetadata {
+    const versionHomeDoc = docs.find((doc) => doc.slug === '/');
+    const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
+    if (versionHomeDoc) {
+      return versionHomeDoc;
+    } else if (firstDocIdOfFirstSidebar) {
+      return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+    } else {
+      return docs[0];
+    }
+  }
+
+  return {mainDocId: getMainDoc().unversionedId, docs};
 }

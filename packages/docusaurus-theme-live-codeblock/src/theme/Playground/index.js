@@ -10,11 +10,18 @@ import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
+import useIsBrowser from '@docusaurus/core/lib/client/exports/useIsBrowser';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
+}
+
+function LivePreviewLoader() {
+  // Is it worth improving/translating?
+  return <div>Loading...</div>;
 }
 
 function ResultWithHeader() {
@@ -27,11 +34,30 @@ function ResultWithHeader() {
           Result
         </Translate>
       </Header>
+      {/* https://github.com/facebook/docusaurus/issues/5747 */}
       <div className={styles.playgroundPreview}>
-        <LivePreview />
-        <LiveError />
+        <BrowserOnly fallback={<LivePreviewLoader />}>
+          {() => (
+            <>
+              <LivePreview />
+              <LiveError />
+            </>
+          )}
+        </BrowserOnly>
       </div>
     </>
+  );
+}
+
+function ThemedLiveEditor() {
+  const isBrowser = useIsBrowser();
+  return (
+    <LiveEditor
+      // We force remount the editor on hydration,
+      // otherwise dark prism theme is not applied
+      key={isBrowser}
+      className={styles.playgroundEditor}
+    />
   );
 }
 
@@ -45,14 +71,13 @@ function EditorWithHeader() {
           Live Editor
         </Translate>
       </Header>
-      <LiveEditor className={styles.playgroundEditor} />
+      <ThemedLiveEditor />
     </>
   );
 }
 
 export default function Playground({children, transformCode, ...props}) {
   const {
-    isClient,
     siteConfig: {
       themeConfig: {
         liveCodeBlock: {playgroundPosition},
@@ -64,8 +89,7 @@ export default function Playground({children, transformCode, ...props}) {
   return (
     <div className={styles.playgroundContainer}>
       <LiveProvider
-        key={isClient}
-        code={isClient ? children.replace(/\n$/, '') : ''}
+        code={children.replace(/\n$/, '')}
         transformCode={transformCode || ((code) => `${code};`)}
         theme={prismTheme}
         {...props}>

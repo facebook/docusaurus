@@ -6,12 +6,12 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
-import {InitPlugin} from '../plugins/init';
 import {mapValues, difference} from 'lodash';
 import {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
+  InitializedPlugin,
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
@@ -56,7 +56,9 @@ export async function readTranslationFileContent(
       ensureTranslationFileContent(content);
       return content;
     } catch (e) {
-      throw new Error(`Invalid translation file at ${filePath}.\n${e.message}`);
+      throw new Error(
+        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
+      );
     }
   }
   return undefined;
@@ -193,7 +195,7 @@ function getPluginTranslationFilePath({
   locale,
   translationFilePath,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFilePath: string;
 }): string {
   const dirPath = getPluginI18nPath({
@@ -213,7 +215,7 @@ export async function writePluginTranslations({
   translationFile,
   options,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFile: TranslationFile;
   options?: WriteTranslationsOptions;
 }): Promise<void> {
@@ -236,7 +238,7 @@ export async function localizePluginTranslationFile({
   locale,
   translationFile,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFile: TranslationFile;
 }): Promise<TranslationFile> {
   const filePath = getPluginTranslationFilePath({
@@ -263,7 +265,7 @@ export async function localizePluginTranslationFile({
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(
-  plugins: InitPlugin[],
+  plugins: InitializedPlugin[],
 ): Promise<Record<string, string>> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),

@@ -22,7 +22,7 @@ const Schema = Joi.object({
   algolia: Joi.object({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
-
+    externalUrlRegex: Joi.string().optional(),
     // Algolia attributes
     appId: Joi.string().default(DEFAULT_CONFIG.appId),
     apiKey: Joi.string().required(),

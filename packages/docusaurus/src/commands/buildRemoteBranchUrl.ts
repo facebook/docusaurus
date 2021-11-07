@@ -12,7 +12,7 @@ export function buildUrl(
   organizationName: string,
   projectName: string,
   useSSH: boolean | undefined,
-) {
+): string {
   return useSSH
     ? buildSshUrl(githubHost, organizationName, projectName, githubPort)
     : buildHttpsUrl(

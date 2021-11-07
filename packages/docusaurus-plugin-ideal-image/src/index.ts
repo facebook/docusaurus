@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {LoadContext, Plugin} from '@docusaurus/types';
-import {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Configuration} from 'webpack';
 
 import path from 'path';
@@ -14,8 +14,6 @@ export default function (
   _context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  const isProd = process.env.NODE_ENV === 'production';
-
   return {
     name: 'docusaurus-plugin-ideal-image',
 
@@ -24,6 +22,10 @@ export default function (
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {
+      if (process.env.NODE_ENV !== 'production') {
+        return {};
+      }
+
       return {
         mergeStrategy: {
           'module.rules': 'prepend',
@@ -38,11 +40,9 @@ export default function (
                   loader: require.resolve('@docusaurus/responsive-loader'),
                   options: {
                     emitFile: !isServer, // don't emit for server-side rendering
-                    disable: !isProd,
+                    // eslint-disable-next-line global-require
                     adapter: require('@docusaurus/responsive-loader/sharp'),
-                    name: isProd
-                      ? 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]'
-                      : 'assets/ideal-img/[name].[width].[ext]',
+                    name: 'assets/ideal-img/[name].[hash:hex:7].[width].[ext]',
                     ...options,
                   },
                 },

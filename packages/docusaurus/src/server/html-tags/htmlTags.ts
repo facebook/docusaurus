@@ -42,7 +42,9 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return `${attributeName}="${escapeHTML(tagAttributes[attributeName])}"`;
+      return `${attributeName}="${escapeHTML(
+        tagAttributes[attributeName] as string,
+      )}"`;
     });
   return `<${[tagDefinition.tagName].concat(attributes).join(' ')}>${
     (!isVoidTag && tagDefinition.innerHTML) || ''

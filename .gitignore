@@ -17,7 +17,10 @@ coverage
 .cache-loader
 types
 test-website
+test-website-in-workspace
 
+packages/create-docusaurus/lib/
+packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/

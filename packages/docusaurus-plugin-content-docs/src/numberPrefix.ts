@@ -10,7 +10,8 @@ import {NumberPrefixParser} from './types';
 // Best-effort to avoid parsing some patterns as number prefix
 const IgnoredPrefixPatterns = (function () {
   // ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
-  const DateLikePrefixRegex = /^((\d{2}|\d{4})[-_.]\d{2}([-_.](\d{2}|\d{4}))?)(.*)$/;
+  const DateLikePrefixRegex =
+    /^((\d{2}|\d{4})[-_.]\d{2}([-_.](\d{2}|\d{4}))?)(.*)$/;
 
   // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
   // note: we could try to parse float numbers in filenames but that is probably not worth it
@@ -23,7 +24,8 @@ const IgnoredPrefixPatterns = (function () {
   );
 })();
 
-const NumberPrefixRegex = /^(?<numberPrefix>\d+)(?<separator>\s*[-_.]+\s*)(?<suffix>.*)$/;
+const NumberPrefixRegex =
+  /^(?<numberPrefix>\d+)(?<separator>\s*[-_.]+\s*)(?<suffix>.*)$/;
 
 // 0-myDoc => {filename: myDoc, numberPrefix: 0}
 // 003 - myDoc => {filename: myDoc, numberPrefix: 3}

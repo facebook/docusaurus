@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten, uniqBy, difference, groupBy} from 'lodash';
+import {uniqBy, difference, groupBy} from 'lodash';
 import {
   PluginContext,
   RedirectMetadata,
@@ -17,7 +17,10 @@ import {
   createToExtensionsRedirects,
 } from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {
+  applyTrailingSlash,
+  ApplyTrailingSlashParams,
+} from '@docusaurus/utils-common';
 
 import chalk from 'chalk';
 
@@ -26,7 +29,12 @@ export default function collectRedirects(
   trailingSlash: boolean | undefined,
 ): RedirectMetadata[] {
   let redirects = doCollectRedirects(pluginContext);
-  redirects = applyRedirectsTrailingSlash(redirects, trailingSlash);
+
+  redirects = applyRedirectsTrailingSlash(redirects, {
+    trailingSlash,
+    baseUrl: pluginContext.baseUrl,
+  });
+
   validateCollectedRedirects(redirects, pluginContext);
   return filterUnwantedRedirects(redirects, pluginContext);
 }
@@ -37,12 +45,12 @@ export default function collectRedirects(
 // It should be easy to toggle siteConfig.trailingSlash option without having to change other configs
 function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
-  trailingSlash: boolean | undefined,
+  params: ApplyTrailingSlashParams,
 ) {
   return redirects.map((redirect) => {
     return {
       ...redirect,
-      to: applyTrailingSlash(redirect.to, trailingSlash),
+      to: applyTrailingSlash(redirect.to, params),
     };
   });
 }
@@ -51,13 +59,13 @@ function validateCollectedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ) {
-  const redirectValidationErrors: string[] = redirects
+  const redirectValidationErrors = redirects
     .map((redirect) => {
       try {
         validateRedirect(redirect);
         return undefined;
       } catch (e) {
-        return e.message;
+        return (e as Error).message;
       }
     })
     .filter(Boolean);
@@ -157,7 +165,7 @@ function createRedirectsOptionRedirects(
     }));
   }
 
-  return flatten(redirectsOption.map(optionToRedirects));
+  return redirectsOption.flatMap(optionToRedirects);
 }
 
 // Create redirects from the "createRedirects" fn provided by the user
@@ -181,5 +189,5 @@ function createCreateRedirectsOptionRedirects(
     });
   }
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

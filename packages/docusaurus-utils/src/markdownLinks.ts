@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {resolve} from 'url';
+import path from 'path';
 import {aliasedSitePath} from './index';
 
 export type ContentPaths = {
@@ -63,16 +63,27 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
       // Replace it to correct html link.
       const mdLink = mdMatch[1];
 
-      const aliasedSource = (source: string) =>
-        aliasedSitePath(source, siteDir);
+      const sourcesToTry = [
+        path.resolve(path.dirname(filePath), decodeURIComponent(mdLink)),
+        `${contentPathLocalized}/${decodeURIComponent(mdLink)}`,
+        `${contentPath}/${decodeURIComponent(mdLink)}`,
+      ];
 
-      const permalink: string | undefined =
-        sourceToPermalink[aliasedSource(resolve(filePath, mdLink))] ||
-        sourceToPermalink[aliasedSource(`${contentPathLocalized}/${mdLink}`)] ||
-        sourceToPermalink[aliasedSource(`${contentPath}/${mdLink}`)];
+      const aliasedSourceMatch = sourcesToTry
+        .map((source) => aliasedSitePath(source, siteDir))
+        .find((source) => sourceToPermalink[source]);
+
+      const permalink: string | undefined = aliasedSourceMatch
+        ? sourceToPermalink[aliasedSourceMatch]
+        : undefined;
 
       if (permalink) {
-        modifiedLine = modifiedLine.replace(mdLink, permalink);
+        // MDX won't be happy if the permalink contains a space, we need to convert it to %20
+        const encodedPermalink = permalink
+          .split('/')
+          .map((part) => part.replace(/\s/g, '%20'))
+          .join('/');
+        modifiedLine = modifiedLine.replace(mdLink, encodedPermalink);
       } else {
         const brokenMarkdownLink: BrokenMarkdownLink<T> = {
           contentPaths,

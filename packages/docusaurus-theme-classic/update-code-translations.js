@@ -14,6 +14,7 @@ const {mapValues, pickBy, difference, orderBy} = require('lodash');
 const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
   // TODO other themes should rather define their own translations in the future?
+  path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
   path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
@@ -45,7 +46,7 @@ function logSection(title) {
 }
 
 function logKeys(keys) {
-  return `Keys:\n- ${keys.join('\n- ')}\``;
+  return `Keys:\n- ${keys.join('\n- ')}`;
 }
 
 async function extractThemeCodeMessages() {
@@ -53,11 +54,12 @@ async function extractThemeCodeMessages() {
   const {
     globSourceCodeFilePaths,
     extractAllSourceCodeFileTranslations,
+    // eslint-disable-next-line global-require
   } = require('@docusaurus/core/lib/server/translations/translationsExtractor');
 
-  const filePaths = (
-    await globSourceCodeFilePaths(CodeDirPaths)
-  ).filter((filePath) => ['.js', '.jsx'].includes(path.extname(filePath)));
+  const filePaths = (await globSourceCodeFilePaths(CodeDirPaths)).filter(
+    (filePath) => ['.js', '.jsx'].includes(path.extname(filePath)),
+  );
 
   const filesExtractedTranslations = await extractAllSourceCodeFileTranslations(
     filePaths,
@@ -148,10 +150,12 @@ ${logKeys(unknownMessages)}`),
 
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
+      const codeTranslation = codeExtractedTranslations[key];
       return {
         ...acc,
-        [`${key}${DescriptionSuffix}`]: codeExtractedTranslations[key]
-          .description,
+        [`${key}${DescriptionSuffix}`]: codeTranslation
+          ? codeTranslation.description
+          : undefined,
       };
     },
     {},
@@ -212,7 +216,6 @@ async function updateCodeTranslations() {
   // eslint-disable-next-line no-restricted-syntax
   for (const localeFile of localesFiles) {
     logSection(`Will update ${path.basename(localeFile)}`);
-    // eslint-disable-next-line no-await-in-loop
     await updateLocaleCodeTranslations(localeFile, baseFileMessages);
   }
 }

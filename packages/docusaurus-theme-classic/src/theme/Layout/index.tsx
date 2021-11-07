@@ -7,6 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import SkipToContent from '@theme/SkipToContent';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
@@ -16,6 +17,7 @@ import LayoutHead from '@theme/LayoutHead';
 import type {Props} from '@theme/Layout';
 import useKeyboardNavigation from '@theme/hooks/useKeyboardNavigation';
 import {ThemeClassNames} from '@docusaurus/theme-common';
+import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 
 function Layout(props: Props): JSX.Element {
@@ -39,7 +41,7 @@ function Layout(props: Props): JSX.Element {
           wrapperClassName,
           pageClassName,
         )}>
-        {children}
+        <ErrorBoundary fallback={ErrorPageContent}>{children}</ErrorBoundary>
       </div>
 
       {!noFooter && <Footer />}

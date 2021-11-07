@@ -18,6 +18,7 @@ export function createExcerpt(fileString: string): string | undefined {
     // Remove Markdown alternate title
     .replace(/^[^\n]*\n[=]+/g, '')
     .split('\n');
+  let inCode = false;
 
   /* eslint-disable no-continue */
   // eslint-disable-next-line no-restricted-syntax
@@ -32,21 +33,29 @@ export function createExcerpt(fileString: string): string | undefined {
       continue;
     }
 
+    // Skip code block line.
+    if (fileLine.trim().startsWith('```')) {
+      inCode = !inCode;
+      continue;
+    } else if (inCode) {
+      continue;
+    }
+
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^\#\s*([^#]*)\s*\#?/gm, '')
+      .replace(/^#\s*([^#]*)\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
       // Remove emphasis and strikethroughs.
-      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
       // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      .replace(/\[\^.+?\](: .*?$)?/g, '')
       // Remove inline links.
-      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
       .replace(/`(.+?)`/g, '$1')
       // Remove blockquotes.
@@ -67,9 +76,7 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
-export function parseFrontMatter(
-  markdownFileContent: string,
-): {
+export function parseFrontMatter(markdownFileContent: string): {
   frontMatter: Record<string, unknown>;
   content: string;
 } {
@@ -98,10 +105,11 @@ export function parseMarkdownContentTitle(
 
   const content = contentUntrimmed.trim();
 
-  const IMPORT_STATEMENT = /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/
-    .source;
-  const REGULAR_TITLE = /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
-    .source;
+  const IMPORT_STATEMENT =
+    /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/.source;
+  const REGULAR_TITLE =
+    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
+      .source;
   const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
 
   const regularTitleMatch = new RegExp(
@@ -141,9 +149,8 @@ export function parseMarkdownString(
   options?: {removeContentTitle?: boolean},
 ): ParsedMarkdown {
   try {
-    const {frontMatter, content: contentWithoutFrontMatter} = parseFrontMatter(
-      markdownFileContent,
-    );
+    const {frontMatter, content: contentWithoutFrontMatter} =
+      parseFrontMatter(markdownFileContent);
 
     const {content, contentTitle} = parseMarkdownContentTitle(
       contentWithoutFrontMatter,
@@ -176,7 +183,7 @@ export async function parseMarkdownFile(
     return parseMarkdownString(markdownString, options);
   } catch (e) {
     throw new Error(
-      `Error while parsing Markdown file ${source}: "${e.message}".`,
+      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
     );
   }
 }

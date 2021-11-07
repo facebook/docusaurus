@@ -7,11 +7,10 @@
 
 import React from 'react';
 
-import Layout from '@theme/Layout';
-import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
+import BlogLayout from '@theme/BlogLayout';
+import BlogPostItem from '@theme/BlogPostItem';
 import type {Props} from '@theme/BlogTagsPostsPage';
-import BlogSidebar from '@theme/BlogSidebar';
 import Translate, {translate} from '@docusaurus/Translate';
 import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
 
@@ -33,7 +32,7 @@ function useBlogPostsPlural() {
     );
 }
 
-function BlogTagsPostPage(props: Props): JSX.Element {
+export default function BlogTagsPostsPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {allTagsPath, name: tagName, count} = metadata;
   const blogPostsPlural = useBlogPostsPlural();
@@ -47,46 +46,37 @@ function BlogTagsPostPage(props: Props): JSX.Element {
   );
 
   return (
-    <Layout
+    <BlogLayout
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogTagsPostPage}
+      pageClassName={ThemeClassNames.page.blogTagPostListPage}
       searchMetadatas={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',
-      }}>
-      <div className="container margin-vert--lg">
-        <div className="row">
-          <aside className="col col--3">
-            <BlogSidebar sidebar={sidebar} />
-          </aside>
-          <main className="col col--7">
-            <header className="margin-bottom--xl">
-              <h1>{title}</h1>
+      }}
+      sidebar={sidebar}>
+      <header className="margin-bottom--xl">
+        <h1>{title}</h1>
 
-              <Link href={allTagsPath}>
-                <Translate
-                  id="theme.tags.tagsPageLink"
-                  description="The label of the link targeting the tag list page">
-                  View All Tags
-                </Translate>
-              </Link>
-            </header>
+        <Link href={allTagsPath}>
+          <Translate
+            id="theme.tags.tagsPageLink"
+            description="The label of the link targeting the tag list page">
+            View All Tags
+          </Translate>
+        </Link>
+      </header>
 
-            {items.map(({content: BlogPostContent}) => (
-              <BlogPostItem
-                key={BlogPostContent.metadata.permalink}
-                frontMatter={BlogPostContent.frontMatter}
-                metadata={BlogPostContent.metadata}
-                truncated>
-                <BlogPostContent />
-              </BlogPostItem>
-            ))}
-          </main>
-        </div>
-      </div>
-    </Layout>
+      {items.map(({content: BlogPostContent}) => (
+        <BlogPostItem
+          key={BlogPostContent.metadata.permalink}
+          frontMatter={BlogPostContent.frontMatter}
+          assets={BlogPostContent.assets}
+          metadata={BlogPostContent.metadata}
+          truncated>
+          <BlogPostContent />
+        </BlogPostItem>
+      ))}
+    </BlogLayout>
   );
 }
-
-export default BlogTagsPostPage;

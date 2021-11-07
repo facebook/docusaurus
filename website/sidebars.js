@@ -1,18 +1,26 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
+// @ts-check
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
   docs: [
     'introduction',
     {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['installation', 'configuration', 'typescript-support'],
+      items: [
+        'installation',
+        'configuration',
+        'playground',
+        'typescript-support',
+      ],
     },
     {
       type: 'category',
@@ -44,12 +52,14 @@ module.exports = {
             'guides/markdown-features/assets',
             'guides/markdown-features/plugins',
             'guides/markdown-features/math-equations',
+            'guides/markdown-features/head-metadatas',
           ],
         },
         'styling-layout',
         'static-assets',
         'search',
         'browser-support',
+        'seo',
         'deployment',
         {
           type: 'category',
@@ -125,10 +135,11 @@ module.exports = {
         'api/themes/themes-overview',
         'api/themes/theme-configuration',
         'api/themes/theme-classic',
-        'api/themes/theme-bootstrap',
         'api/themes/theme-live-codeblock',
         'api/themes/theme-search-algolia',
       ],
     },
   ],
 };
+
+module.exports = sidebars;

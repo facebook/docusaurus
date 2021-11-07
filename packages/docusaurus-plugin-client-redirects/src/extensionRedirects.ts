@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten} from 'lodash';
-import {removeSuffix} from '@docusaurus/utils';
+import {
+  addTrailingSlash,
+  removeSuffix,
+  removeTrailingSlash,
+} from '@docusaurus/utils';
 import {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
@@ -58,10 +61,11 @@ export function createToExtensionsRedirects(
     return [];
   };
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }
 
-// Create new /path.html that redirects to existing an /path
+// Create new /path.html/index.html that redirects to existing an /path
+// The filename pattern might look weird but it's on purpose (see https://github.com/facebook/docusaurus/issues/5055)
 export function createFromExtensionsRedirects(
   paths: string[],
   extensions: string[],
@@ -74,14 +78,25 @@ export function createFromExtensionsRedirects(
     dottedExtensions.some((ext) => str.endsWith(ext));
 
   const createPathRedirects = (path: string): RedirectMetadata[] => {
-    if (path === '' || path.endsWith('/') || alreadyEndsWithAnExtension(path)) {
+    if (path === '' || path === '/' || alreadyEndsWithAnExtension(path)) {
       return [];
     }
+
+    // /path => /path.html
+    // /path/ => /path.html/
+    function getFrom(ext: string) {
+      if (path.endsWith('/')) {
+        return addTrailingSlash(`${removeTrailingSlash(path)}.${ext}`);
+      } else {
+        return `${path}.${ext}`;
+      }
+    }
+
     return extensions.map((ext) => ({
-      from: `${path}.${ext}`,
+      from: getFrom(ext),
       to: path,
     }));
   };
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

@@ -1,7 +1,4 @@
 #!/usr/bin/env node
-
-// TODO remove when fixed: https://github.com/Stuk/eslint-plugin-header/issues/39
-/* eslint-disable header/header */
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -10,12 +7,8 @@
  */
 
 const chalk = require('chalk');
-const fs = require('fs-extra');
-const semver = require('semver');
-const path = require('path');
+const fs = require('fs');
 const cli = require('commander');
-const updateNotifier = require('update-notifier');
-const boxen = require('boxen');
 const {
   build,
   swizzle,
@@ -27,69 +20,10 @@ const {
   writeTranslations,
   writeHeadingIds,
 } = require('../lib');
-const {
-  name,
-  version,
-  engines: {node: requiredVersion},
-} = require('../package.json');
 
-// notify user if @docusaurus packages is outdated
-const notifier = updateNotifier({
-  pkg: {
-    name,
-    version,
-  },
-});
+require('./beforeCli');
 
-// allow the user to be notified for updates on the first run
-if (notifier.lastUpdateCheck === Date.now()) {
-  notifier.lastUpdateCheck = 0;
-}
-
-if (notifier.update && semver.gt(this.update.latest, this.update.current)) {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
-  const siteDocusaurusPackagesForUpdate = Object.keys(sitePkg.dependencies)
-    .filter((p) => p.startsWith('@docusaurus'))
-    .map((p) => p.concat('@latest'))
-    .join(' ');
-  const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
-  const upgradeCommand = isYarnUsed
-    ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
-    : `npm i ${siteDocusaurusPackagesForUpdate}`;
-
-  const boxenOptions = {
-    padding: 1,
-    margin: 1,
-    align: 'center',
-    borderColor: 'yellow',
-    borderStyle: 'round',
-  };
-
-  const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(
-      `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
-      `${upgradeCommand}`,
-    )}`,
-    boxenOptions,
-  );
-
-  console.log(docusaurusUpdateMessage);
-}
-
-// notify user if node version needs to be updated
-if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    chalk.red(`\nMinimum Node.js version not met :(`) +
-      chalk.yellow(
-        `\n\nYou are using Node.js ${process.version}. We require Node.js ${requiredVersion} or up!\n`,
-      ),
-  );
-  process.exit(1);
-}
+const resolveDir = (dir = '.') => fs.realpathSync(dir);
 
 cli.version(require('../package.json').version).usage('<command> [options]');
 
@@ -116,8 +50,8 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(path.resolve(siteDir), {
+  .action((siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
+    build(resolveDir(siteDir), {
       bundleAnalyzer,
       outDir,
       config,
@@ -134,14 +68,8 @@ cli
     'copy TypeScript theme files when possible (default: false)',
   )
   .option('--danger', 'enable swizzle for internal component of themes')
-  .action((themeName, componentName, siteDir = '.', {typescript, danger}) => {
-    swizzle(
-      path.resolve(siteDir),
-      themeName,
-      componentName,
-      typescript,
-      danger,
-    );
+  .action((themeName, componentName, siteDir, {typescript, danger}) => {
+    swizzle(resolveDir(siteDir), themeName, componentName, typescript, danger);
   });
 
 cli
@@ -163,8 +91,8 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action((siteDir = '.', {outDir, skipBuild, config}) => {
-    deploy(path.resolve(siteDir), {
+  .action((siteDir, {outDir, skipBuild, config}) => {
+    deploy(resolveDir(siteDir), {
       outDir,
       config,
       skipBuild,
@@ -190,19 +118,17 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
-  .action(
-    (siteDir = '.', {port, host, locale, config, hotOnly, open, poll}) => {
-      start(path.resolve(siteDir), {
-        port,
-        host,
-        locale,
-        config,
-        hotOnly,
-        open,
-        poll,
-      });
-    },
-  );
+  .action((siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
+    start(resolveDir(siteDir), {
+      port,
+      host,
+      locale,
+      config,
+      hotOnly,
+      open,
+      poll,
+    });
+  });
 
 cli
   .command('serve [siteDir]')
@@ -220,7 +146,7 @@ cli
   .option('-h, --host <host>', 'use specified host (default: localhost)')
   .action(
     (
-      siteDir = '.',
+      siteDir,
       {
         dir = 'build',
         port = 3000,
@@ -229,7 +155,7 @@ cli
         config,
       },
     ) => {
-      serve(path.resolve(siteDir), {
+      serve(resolveDir(siteDir), {
         dir,
         port,
         build: buildSite,
@@ -242,8 +168,8 @@ cli
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action((siteDir = '.') => {
-    clear(path.resolve(siteDir));
+  .action((siteDir) => {
+    clear(resolveDir(siteDir));
   });
 
 cli
@@ -267,10 +193,10 @@ cli
   )
   .action(
     (
-      siteDir = '.',
+      siteDir,
       {locale = undefined, override = false, messagePrefix = '', config},
     ) => {
-      writeTranslations(path.resolve(siteDir), {
+      writeTranslations(resolveDir(siteDir), {
         locale,
         override,
         config,
@@ -280,11 +206,16 @@ cli
   );
 
 cli
-  .command('write-heading-ids [contentDir]')
+  .command('write-heading-ids [contentDir] [files]')
   .description('Generate heading ids in Markdown content.')
-  .action((siteDir = '.') => {
-    writeHeadingIds(siteDir);
-  });
+  .option(
+    '--maintain-case',
+    "keep the headings' casing, otherwise make all lowercase (default: false)",
+  )
+  .option('--overwrite', 'overwrite existing heading IDs (default: false)')
+  .action((siteDir, files, options) =>
+    writeHeadingIds(resolveDir(siteDir), files, options),
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
@@ -307,7 +238,7 @@ function isInternalCommand(command) {
 
 async function run() {
   if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, path.resolve('.'));
+    await externalCommand(cli, resolveDir('.'));
   }
 
   cli.parse(process.argv);

@@ -87,8 +87,7 @@ export default async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
-  // @ts-expect-error: bad lib typedef?
-  return detect(defaultPort, host).then(
+  return detect({port: defaultPort, hostname: host}).then(
     (port) =>
       new Promise((resolve) => {
         if (port === defaultPort) {

@@ -48,27 +48,27 @@ export function getPluginNames(plugins: PluginConfig[]): string[] {
     .filter((plugin) => plugin !== '');
 }
 
-function walk(dir: string): Array<string> {
-  let results: Array<string> = [];
-  const list = fs.readdirSync(dir);
-  list.forEach((file: string) => {
-    const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
-    if (stat && stat.isDirectory()) {
-      results = results.concat(walk(fullPath));
-    } else if (!/node_modules|.css|.d.ts|.d.map/.test(fullPath)) {
-      results.push(fullPath);
-    }
-  });
-  return results;
-}
-
 const formatComponentName = (componentName: string): string =>
   componentName
-    .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, '')
-    .replace(/.(js|tsx|ts|jsx)/, '');
+    .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
+    .replace(/\.(js|tsx|ts|jsx)/, '');
 
 function readComponent(themePath: string) {
+  function walk(dir: string): Array<string> {
+    let results: Array<string> = [];
+    const list = fs.readdirSync(dir);
+    list.forEach((file: string) => {
+      const fullPath = path.join(dir, file);
+      const stat = fs.statSync(fullPath);
+      if (stat && stat.isDirectory()) {
+        results = results.concat(walk(fullPath));
+      } else if (!/\.css|\.d\.ts|\.d\.map/.test(fullPath)) {
+        results.push(fullPath);
+      }
+    });
+    return results;
+  }
+
   return walk(themePath).map((filePath) =>
     formatComponentName(path.relative(themePath, filePath)),
   );
@@ -257,7 +257,7 @@ export default async function swizzle(
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
       console.log(
-        chalk.red(`Component "${componentName}" doesn't exists.`),
+        chalk.red(`Component "${componentName}" doesn't exist.`),
         chalk.yellow(
           `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
         ),
@@ -296,7 +296,7 @@ export default async function swizzle(
   if (!components.includes(mostSuitableComponent) && !danger) {
     console.warn(
       chalk.red(
-        `${mostSuitableComponent} is an internal component, and have a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
+        `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
       ),
     );
     process.exit(1);

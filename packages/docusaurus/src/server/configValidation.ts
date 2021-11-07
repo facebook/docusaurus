@@ -127,7 +127,7 @@ export const ConfigSchema = Joi.object({
     .regex(new RegExp('/$', 'm'))
     .message('{{#label}} must be a string with a trailing slash.'),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
-  favicon: Joi.string().required(),
+  favicon: Joi.string().optional(),
   title: Joi.string().required(),
   url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
@@ -143,6 +143,7 @@ export const ConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
   projectName: Joi.string().allow(''),
+  deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),

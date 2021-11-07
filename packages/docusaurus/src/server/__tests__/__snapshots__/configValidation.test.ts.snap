@@ -7,7 +7,6 @@ exports[`normalizeConfig should throw error for baseUrl without trailing \`/\` 1
 
 exports[`normalizeConfig should throw error for required fields 1`] = `
 "\\"baseUrl\\" is required
-\\"favicon\\" is required
 \\"title\\" is required
 \\"url\\" is required
 \\"themes\\" must be an array

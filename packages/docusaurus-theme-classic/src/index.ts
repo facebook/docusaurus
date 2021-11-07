@@ -6,15 +6,14 @@
  */
 
 import {DocusaurusContext, Plugin} from '@docusaurus/types';
-import {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
-import Module from 'module';
-import type {AcceptedPlugin, Result, Plugin as PostCssPlugin} from 'postcss';
+import {createRequire} from 'module';
+import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
-const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
@@ -24,8 +23,11 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
-const storageKey = 'theme';
-const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
+const ThemeStorageKey = 'theme';
+const noFlashColorMode = ({
+  defaultMode,
+  respectPrefersColorScheme,
+}: ThemeConfig['colorMode']) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
@@ -37,7 +39,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   function getStoredTheme() {
     var theme = null;
     try {
-      theme = localStorage.getItem('${storageKey}');
+      theme = localStorage.getItem('${ThemeStorageKey}');
     } catch (err) {}
     return theme;
   }
@@ -63,14 +65,34 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
-function getInfimaCSSFile(direction) {
+// Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
+// TODO: import from theme-common once we only support Node.js with ESM support
+// + move all those announcementBar stuff there too
+export const AnnouncementBarDismissStorageKey =
+  'docusaurus.announcement.dismiss';
+const AnnouncementBarDismissDataAttribute =
+  'data-announcement-bar-initially-dismissed';
+// We always render the announcement bar html on the server, to prevent layout shifts on React hydration
+// The theme can use CSS + the data attribute to hide the announcement bar asap (before React hydration)
+const AnnouncementBarInlineJavaScript = `
+(function() {
+  function isDismissed() {
+    try {
+      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
+})();`;
+
+function getInfimaCSSFile(direction: string) {
   return `infima/dist/css/default/default${
     direction === 'rtl' ? '-rtl' : ''
   }.css`;
 }
 
-type PluginOptions = {
-  customCss?: string;
+export type PluginOptions = {
+  customCss?: string | string[];
 };
 
 export default function docusaurusThemeClassic(
@@ -82,7 +104,11 @@ export default function docusaurusThemeClassic(
     i18n: {currentLocale, localeConfigs},
   } = context;
   const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
-  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig;
+  const {
+    announcementBar,
+    colorMode,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig;
   const {customCss} = options || {};
   const {direction} = localeConfigs[currentLocale];
 
@@ -121,6 +147,7 @@ export default function docusaurusThemeClassic(
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
         path.resolve(__dirname, './prism-include-languages'),
+        path.resolve(__dirname, './admonitions.css'),
       ];
 
       if (customCss) {
@@ -158,13 +185,13 @@ export default function docusaurusThemeClassic(
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
           postcssPlugin: 'RtlCssPlugin',
-          prepare: (result: Result) => {
+          prepare: (result) => {
             const file = result.root?.source?.input?.file;
             // Skip Infima as we are using the its RTL version.
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss(result.root);
+            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);
@@ -178,7 +205,10 @@ export default function docusaurusThemeClassic(
         preBodyTags: [
           {
             tagName: 'script',
-            innerHTML: noFlashColorMode(colorMode),
+            innerHTML: `
+${noFlashColorMode(colorMode)}
+${announcementBar ? AnnouncementBarInlineJavaScript : ''}
+            `,
           },
         ],
       };

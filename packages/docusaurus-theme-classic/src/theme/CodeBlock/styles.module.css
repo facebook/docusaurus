@@ -7,6 +7,9 @@
 
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
+  overflow: hidden;
 }
 
 .codeBlockContent {
@@ -16,8 +19,6 @@
 }
 
 .codeBlockTitle {
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
@@ -25,12 +26,9 @@
 }
 
 .codeBlock {
+  margin: 0;
   padding: 0;
-}
-
-.codeBlockWithTitle {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-radius: 0;
 }
 
 .copyButton {
@@ -54,11 +52,10 @@
 
 .codeBlockLines {
   font: inherit;
+  /*rtl:ignore*/
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
-  display: flex;
-  flex-direction: column;
 }
 
 @media print {

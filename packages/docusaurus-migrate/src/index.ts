@@ -592,9 +592,9 @@ function migrateVersionedSidebar(
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
-              acc[
-                val[0].replace(versionRegex, '')
-              ] = (val[1] as Array<SidebarEntry>).map((item) => {
+              acc[val[0].replace(versionRegex, '')] = (
+                val[1] as Array<SidebarEntry>
+              ).map((item) => {
                 if (typeof item === 'string') {
                   return item.replace(versionRegex, '');
                 }
@@ -618,7 +618,6 @@ function migrateVersionedSidebar(
       const newSidebar = Object.entries(sidebar.entries).reduce(
         (acc: SidebarEntries, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
-          // eslint-disable-next-line prefer-destructuring
           acc[key] = Object.entries(val[1]).map((value) => {
             return {
               type: 'category',
@@ -672,7 +671,7 @@ function migrateVersionedSidebar(
             to: `docs/${version}/`,
           })),
         {
-          label: 'Master/Unreleased',
+          label: 'Main/Unreleased',
           to: `docs/next/`,
           activeBaseRegex: `docs/next/(?!support|team|resources)`,
         },

@@ -5,17 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {OptionsSchema, DEFAULT_OPTIONS} from '../options';
+import {OptionsSchema, DEFAULT_OPTIONS, validateOptions} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
+import {GlobExcludeDefault} from '@docusaurus/utils';
+import {PluginOptions} from '../types';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
+
+function testValidateOptions(options: Partial<PluginOptions>) {
+  return validateOptions({
+    options: {
+      ...DEFAULT_OPTIONS,
+      ...options,
+    },
+    validate: normalizePluginOptions,
+  });
+}
 
 describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
@@ -28,13 +40,17 @@ describe('normalizeDocsPluginOptions', () => {
     const userOptions = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
+      tagsBasePath: 'tags', // URL Tags Route.
       homePageId: 'home', // Document id for docs home page.
       include: ['**/*.{md,mdx}'], // Extensions to include.
+      exclude: GlobExcludeDefault,
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
       sidebarItemsGenerator: DefaultSidebarItemsGenerator,
       numberPrefixParser: DefaultNumberPrefixParser,
       docLayoutComponent: '@theme/DocPage',
       docItemComponent: '@theme/DocItem',
+      docTagDocListComponent: '@theme/DocTagDocListPage',
+      docTagsListComponent: '@theme/DocTagsListPage',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
@@ -42,7 +58,6 @@ describe('normalizeDocsPluginOptions', () => {
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
-      excludeNextVersionDocs: true,
       includeCurrentVersion: false,
       disableVersioning: true,
       editCurrentVersion: true,
@@ -57,6 +72,8 @@ describe('normalizeDocsPluginOptions', () => {
           label: 'world',
         },
       },
+      sidebarCollapsible: false,
+      sidebarCollapsed: false,
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
@@ -228,5 +245,31 @@ describe('normalizeDocsPluginOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(
       `"\\"versions.current.hey\\" is not allowed"`,
     );
+  });
+
+  test('should handle sidebarCollapsed option inconsistencies', () => {
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: true,
+        sidebarCollapsed: undefined,
+      }).sidebarCollapsed,
+    ).toEqual(true);
+
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: false,
+        sidebarCollapsed: undefined,
+      }).sidebarCollapsed,
+    ).toEqual(false);
+
+    expect(
+      testValidateOptions({
+        ...DEFAULT_OPTIONS,
+        sidebarCollapsible: false,
+        sidebarCollapsed: true,
+      }).sidebarCollapsed,
+    ).toEqual(false);
   });
 });

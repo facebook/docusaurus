@@ -5,28 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {simpleHash, isNameTooLong, shortName} from '../pathUtils';
+import {isNameTooLong, shortName} from '../pathUtils';
 
 describe('pathUtils', () => {
-  test('simpleHash', () => {
-    const asserts: Record<string, string> = {
-      '': 'd41',
-      '/foo-bar': '096',
-      '/foo/bar': '1df',
-      '/endi/lie': '9fa',
-      '/endi-lie': 'fd3',
-      '/yangshun/tay': '48d',
-      '/yangshun-tay': 'f3b',
-      '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar':
-        'd46',
-      '/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/test1-test2':
-        '787',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(simpleHash(file, 3)).toBe(asserts[file]);
-    });
-  });
-
   test('isNameTooLong', () => {
     const asserts: Record<string, boolean> = {
       '': false,
@@ -36,8 +17,10 @@ describe('pathUtils', () => {
       'endi-lie-fd3': false,
       'yangshun-tay-48d': false,
       'yangshun-tay-f3b': false,
-      'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-d46': true,
-      'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test-2-787': true,
+      'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-d46':
+        true,
+      'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test-2-787':
+        true,
     };
     Object.keys(asserts).forEach((path) => {
       expect(isNameTooLong(path)).toBe(asserts[path]);

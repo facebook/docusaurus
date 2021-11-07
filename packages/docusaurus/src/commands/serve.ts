@@ -48,7 +48,7 @@ export default async function serve(
     customConfigFilePath: cliOptions.config,
   });
 
-  const servingUrl = `http://${cliOptions.host}:${cliOptions.port}`;
+  const servingUrl = `http://${host}:${port}`;
 
   const server = http.createServer((req, res) => {
     // Automatically redirect requests to /baseUrl/

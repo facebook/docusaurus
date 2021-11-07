@@ -16,14 +16,14 @@ import os from 'os';
 import {buildUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
-function obfuscateGitPass(str) {
+function obfuscateGitPass(str: string) {
   const gitPass = process.env.GIT_PASS;
   return gitPass ? str.replace(gitPass, 'GIT_PASS') : str;
 }
 
 // Log executed commands so that user can figure out mistakes on his own
 // for example: https://github.com/facebook/docusaurus/issues/3875
-function shellExecLog(cmd) {
+function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
     console.log(
@@ -46,6 +46,17 @@ export default async function deploy(
     customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });
+
+  if (typeof siteConfig.trailingSlash === 'undefined') {
+    console.warn(
+      chalk.yellow(`
+Docusaurus recommendation:
+When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
+Otherwise, GitHub Pages will add an extra trailing slash to your site urls only on direct-access (not when navigation) with a server redirect.
+This behavior can have SEO impacts and create relative link issues.
+`),
+    );
+  }
 
   console.log('Deploy command invoked...');
   if (!shell.which('git')) {
@@ -92,10 +103,24 @@ export default async function deploy(
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via master. All others use gh-pages.
+  // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
+  // Organization deploys looks like:
+  // - Git repo: https://github.com/<organization>/<organization>.github.io
+  // - Site url: https://<organization>.github.io
+  const isGitHubPagesOrganizationDeploy =
+    projectName.indexOf('.github.io') !== -1;
+  if (
+    isGitHubPagesOrganizationDeploy &&
+    !process.env.DEPLOYMENT_BRANCH &&
+    !siteConfig.deploymentBranch
+  ) {
+    throw new Error(`For GitHub pages organization deployments, 'docusaurus deploy' does not assume anymore that 'master' is your default Git branch.
+Please provide the branch name to deploy to as an environment variable, for example DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master .
+You can also set the deploymentBranch property in docusaurus.config.js .`);
+  }
+
   const deploymentBranch =
-    process.env.DEPLOYMENT_BRANCH ||
-    (projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages');
+    process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
@@ -142,12 +167,16 @@ export default async function deploy(
   // out to deployment branch.
   const currentCommit = shellExecLog('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = async (outputDirectory) => {
+  const runDeploy = async (outputDirectory: string) => {
     const fromPath = outputDirectory;
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    if (shellExecLog(`git clone ${remoteBranch} ${toPath}`).code !== 0) {
+    if (
+      shellExecLog(
+        `git clone --depth 1 --no-single-branch ${remoteBranch} ${toPath}`,
+      ).code !== 0
+    ) {
       throw new Error(`Running "git clone" command in "${toPath}" failed.`);
     }
 
@@ -155,7 +184,7 @@ export default async function deploy(
 
     // If the default branch is the one we're deploying to, then we'll fail
     // to create it. This is the case of a cross-repo publish, where we clone
-    // a github.io repo with a default master branch.
+    // a github.io repo with a default branch.
     const defaultBranch = shell
       .exec('git rev-parse --abbrev-ref HEAD')
       .stdout.trim();

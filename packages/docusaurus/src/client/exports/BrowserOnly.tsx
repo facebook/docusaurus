@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
+// Similar comp to the one described here:
+// https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions
 function BrowserOnly({
   children,
   fallback,
@@ -15,9 +17,9 @@ function BrowserOnly({
   children?: () => JSX.Element;
   fallback?: JSX.Element;
 }): JSX.Element | null {
-  const {isClient} = useDocusaurusContext();
+  const isBrowser = useIsBrowser();
 
-  if (isClient && children != null) {
+  if (isBrowser && children != null) {
     return <>{children()}</>;
   }
 

@@ -7,6 +7,7 @@
 
 import shell from 'shelljs';
 import execa from 'execa';
+import path from 'path';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -43,12 +44,15 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const {stdout} = await execa('git', [
-      'log',
-      '-1',
-      '--format=%ct, %an',
-      filePath,
-    ]);
+    const fileBasename = path.basename(filePath);
+    const fileDirname = path.dirname(filePath);
+    const {stdout} = await execa(
+      'git',
+      ['log', '-1', '--format=%ct, %an', fileBasename],
+      {
+        cwd: fileDirname,
+      },
+    );
     return getTimestampAndAuthor(stdout);
   } catch (error) {
     console.error(error);

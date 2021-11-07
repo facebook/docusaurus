@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable no-param-reassign */
-
 import remark from 'remark';
 import npm2yarn from '../index';
 import vfile from 'to-vfile';

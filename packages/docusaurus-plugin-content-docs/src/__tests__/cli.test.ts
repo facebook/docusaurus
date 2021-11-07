@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import {PathOptions} from '../types';
+import {PathOptions, SidebarOptions} from '../types';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
@@ -21,9 +21,12 @@ const fixtureDir = path.join(__dirname, '__fixtures__');
 describe('docsVersion', () => {
   const simpleSiteDir = path.join(fixtureDir, 'simple-site');
   const versionedSiteDir = path.join(fixtureDir, 'versioned-site');
-  const DEFAULT_OPTIONS: PathOptions = {
+
+  const DEFAULT_OPTIONS: PathOptions & SidebarOptions = {
     path: 'docs',
     sidebarPath: '',
+    sidebarCollapsed: true,
+    sidebarCollapsible: true,
   };
 
   test('no version tag provided', () => {
@@ -186,17 +189,17 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
-      path: 'docs',
+      ...DEFAULT_OPTIONS,
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
@@ -234,17 +237,17 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
-      path: 'docs',
+      ...DEFAULT_OPTIONS,
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
     cliDocsVersionCommand(
@@ -289,16 +292,17 @@ describe('docsVersion', () => {
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionedSidebarPath = filepath;
-      versionedSidebar = JSON.parse(content);
+      versionedSidebar = JSON.parse(content as string);
     });
     let versionsPath;
     let versions;
     writeMock.mockImplementationOnce((filepath, content) => {
       versionsPath = filepath;
-      versions = JSON.parse(content);
+      versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation();
     const options = {
+      ...DEFAULT_OPTIONS,
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };

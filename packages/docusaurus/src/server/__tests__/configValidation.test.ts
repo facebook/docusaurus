@@ -12,9 +12,8 @@ import {
 } from '../configValidation';
 import {DocusaurusConfig} from '@docusaurus/types';
 
-const baseConfig = {
+const baseConfig: DocusaurusConfig = {
   baseUrl: '/',
-  favicon: 'some.ico',
   title: 'my site',
   url: 'https://mysite.com',
 };
@@ -191,13 +190,13 @@ describe('normalizeConfig', () => {
   test('should throw error for required fields', () => {
     expect(
       () =>
-        validateConfig(({
+        validateConfig({
           invalidField: true,
           presets: {},
           stylesheets: {},
           themes: {},
           scripts: {},
-        } as unknown) as DocusaurusConfig), // to fields not in the type
+        } as unknown as DocusaurusConfig), // to fields not in the type
     ).toThrowErrorMatchingSnapshot();
   });
 });

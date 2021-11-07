@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
@@ -24,7 +22,7 @@ export const MainHeading: HeadingComponent = function MainHeading({...props}) {
       <h1
         {...props}
         id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-        className={styles.h1Heading}>
+      >
         {props.children}
       </h1>
     </header>
@@ -44,17 +42,16 @@ const createAnchorHeading = (
     }
 
     return (
-      <Tag {...props}>
-        <a
-          aria-hidden="true"
-          tabIndex={-1}
-          className={clsx('anchor', {
-            [styles.enhancedAnchor]: !hideOnScroll,
-          })}
-          id={id}
-        />
+      <Tag
+        {...props}
+        className={clsx('anchor', {
+          [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
+          [styles.anchorWithStickyNavbar]: !hideOnScroll,
+        })}
+        id={id}>
         {props.children}
         <a
+          aria-hidden="true"
           className="hash-link"
           href={`#${id}`}
           title={translate({
@@ -62,7 +59,7 @@ const createAnchorHeading = (
             message: 'Direct link to heading',
             description: 'Title for link to heading',
           })}>
-          #
+          &#8203;
         </a>
       </Tag>
     );

@@ -10,7 +10,6 @@ import {
   mergeWithCustomize,
   customizeArray,
   customizeObject,
-  CustomizeRule,
 } from 'webpack-merge';
 import webpack, {
   Configuration,
@@ -33,6 +32,7 @@ import {
 import {
   BABEL_CONFIG_FILE_NAME,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
+  WEBPACK_URL_LOADER_LIMIT,
 } from '../constants';
 import {memoize} from 'lodash';
 
@@ -89,7 +89,7 @@ export function getStyleLoaders(
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: [
-            // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+            // eslint-disable-next-line global-require
             require('autoprefixer'),
           ],
         },
@@ -150,18 +150,18 @@ function getDefaultBabelLoader({
   };
 }
 
-export const getCustomizableJSLoader = (
-  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel',
-) => ({
-  isServer,
-  babelOptions,
-}: {
-  isServer: boolean;
-  babelOptions?: TransformOptions | string;
-}): RuleSetRule =>
-  jsLoader === 'babel'
-    ? getDefaultBabelLoader({isServer, babelOptions})
-    : jsLoader(isServer);
+export const getCustomizableJSLoader =
+  (jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) = 'babel') =>
+  ({
+    isServer,
+    babelOptions,
+  }: {
+    isServer: boolean;
+    babelOptions?: TransformOptions | string;
+  }): RuleSetRule =>
+    jsLoader === 'babel'
+      ? getDefaultBabelLoader({isServer, babelOptions})
+      : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(function () {
@@ -198,13 +198,15 @@ function getCacheLoaderDeprecated() {
  * @param config initial webpack config
  * @param isServer indicates if this is a server webpack configuration
  * @param jsLoader custom js loader config
+ * @param content content loaded by the plugin
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
-  jsLoader?: 'babel' | ((isServer: boolean) => RuleSetRule),
+  jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
+  content: unknown,
 ): Configuration {
   // Export some utility functions
   const utils: ConfigureWebpackUtils = {
@@ -214,10 +216,14 @@ export function applyConfigureWebpack(
     getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
+    const {mergeStrategy, ...res} = configureWebpack(
+      config,
+      isServer,
+      utils,
+      content,
+    );
     if (res && typeof res === 'object') {
-      // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
-      const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
+      const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
         customizeArray: customizeArray(customizeRules),
         customizeObject: customizeObject(customizeRules),
@@ -237,11 +243,11 @@ export function applyConfigurePostCss(
 
   // TODO not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
-    return !!(loader as any)?.options?.postcssOptions;
+    return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
 
   // Does not handle all edge cases, but good enough for now
-  function overridePostCssOptions(entry) {
+  function overridePostCssOptions(entry: RuleSetRule) {
     if (isPostCssLoader(entry)) {
       entry.options.postcssOptions = configurePostCss(
         entry.options.postcssOptions,
@@ -251,11 +257,13 @@ export function applyConfigurePostCss(
     } else if (Array.isArray(entry.use)) {
       entry.use
         .filter((u) => typeof u === 'object')
-        .forEach(overridePostCssOptions);
+        .forEach((rule) => overridePostCssOptions(rule as RuleSetRule));
     }
   }
 
-  config.module?.rules?.forEach(overridePostCssOptions);
+  config.module?.rules?.forEach((rule) =>
+    overridePostCssOptions(rule as RuleSetRule),
+  );
 
   return config;
 }
@@ -319,8 +327,8 @@ type FileLoaderUtils = {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < 10kb will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = 10000;
+  // files/images < urlLoaderLimit will be inlined as base64 strings directly in the html
+  const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
@@ -434,14 +442,26 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error
-function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
-  let encrypted;
+function validateKeyAndCerts({
+  cert,
+  key,
+  keyFile,
+  crtFile,
+}: {
+  cert: Buffer;
+  key: Buffer;
+  keyFile: string;
+  crtFile: string;
+}) {
+  let encrypted: Buffer;
   try {
     // publicEncrypt will throw an error with an invalid cert
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`,
+      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
+        (err as Error).message
+      }`,
     );
   }
 
@@ -451,14 +471,14 @@ function validateKeyAndCerts({cert, key, keyFile, crtFile}) {
   } catch (err) {
     throw new Error(
       `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        err.message
+        (err as Error).message
       }`,
     );
   }
 }
 
 // Read file and throw an error if it doesn't exist
-function readEnvFile(file, type) {
+function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
       `You specified ${chalk.cyan(
@@ -507,7 +527,7 @@ function getTerserParallel() {
 export function getMinimizer(
   useSimpleCssMinifier = false,
 ): WebpackPluginInstance[] {
-  const minimizer = [
+  const minimizer: WebpackPluginInstance[] = [
     new TerserPlugin({
       parallel: getTerserParallel(),
       terserOptions: {
@@ -517,10 +537,11 @@ export function getMinimizer(
           // into invalid ecma 5 code. This is why the 'compress' and 'output'
           // sections only apply transformations that are ecma 5 safe
           // https://github.com/facebook/create-react-app/pull/4234
-          ecma: 8,
+          ecma: 2020,
         },
         compress: {
           ecma: 5,
+          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -550,10 +571,12 @@ export function getMinimizer(
           },
           // CleanCss options
           {
+            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {
                 all: false,
+                removeWhitespace: true,
               },
               2: {
                 all: true,

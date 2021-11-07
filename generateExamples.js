@@ -7,7 +7,7 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const rimraf = require('rimraf');
-const {readFileSync, writeFileSync, readdir} = require('fs');
+const {readFileSync, writeFileSync, readdirSync} = require('fs');
 const {execSync} = require('child_process');
 
 // Generate one example per init template
@@ -20,11 +20,14 @@ function generateTemplateExample(template) {
     );
 
     // run the docusaurus script to bootstrap the template in the examples folder
+    const command = template.endsWith('-typescript')
+      ? template.replace('-typescript', ' -- --typescript')
+      : template;
     execSync(
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
-      `npx @docusaurus/init@latest init examples/${template} ${template}`,
+      `npm init docusaurus@latest examples/${template} ${command}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
       {
         stdio: 'inherit',
@@ -60,7 +63,7 @@ function generateTemplateExample(template) {
     );
 
     // create sandbox.config.json file at the root of template
-    const sandboxConfigContent = {
+    const codeSanboxConfig = {
       infiniteLoopProtection: true,
       hardReloadOnChange: true,
       view: 'browser',
@@ -70,10 +73,18 @@ function generateTemplateExample(template) {
         node: '14',
       },
     };
-
     writeFileSync(
       `./examples/${template}/sandbox.config.json`,
-      JSON.stringify(sandboxConfigContent, null, 2),
+      JSON.stringify(codeSanboxConfig, null, 2),
+    );
+
+    const stackBlitzConfig = {
+      installDependencies: true,
+      startCommand: 'npm start',
+    };
+    writeFileSync(
+      `./examples/${template}/.stackblitzrc`,
+      JSON.stringify(stackBlitzConfig, null, 2),
     );
 
     console.log(`Generated example for template ${template}`);
@@ -83,13 +94,109 @@ function generateTemplateExample(template) {
   }
 }
 
-// delete the examples directories if they exists
-rimraf.sync('./examples/classic');
-rimraf.sync('./examples/facebook');
-rimraf.sync('./examples/bootstrap');
+/*
+Starters are repositories/branches that only contains a newly initialized Docusaurus site
+Those are useful for users to inspect (may be more convenient than "examples/classic)
+Also some tools like Netlify deploy button currently require using the main branch of a dedicated repo
+See https://github.com/jamstack/jamstack.org/pull/609
+Button visible here: https://jamstack.org/generators/
+ */
+function updateStarters() {
+  function forcePushGitSubtree({subfolder, remote, remoteBranch}) {
+    console.log('');
+    // See https://stackoverflow.com/questions/33172857/how-do-i-force-a-subtree-push-to-overwrite-remote-changes
+    const command = `git push ${remote} \`git subtree split --prefix ${subfolder}\`:${remoteBranch} --force`;
+    try {
+      console.log(`forcePushGitSubtree command: ${command}`);
+      execSync(command);
+      console.log('forcePushGitSubtree success!');
+    } catch (e) {
+      console.error(
+        `Can't force push to git subtree with command '${command}'`,
+      );
+      console.error(`If it's a permission problem, ask @slorber`);
+      console.error(e);
+    }
+    console.log('');
+  }
 
-// get the list of all available templates
-readdir('./packages/docusaurus-init/templates', (err, data) => {
-  const templates = data.filter((i) => i !== 'README.MD');
+  console.log('');
+
+  console.log('Updating https://github.com/facebook/docusaurus/tree/starter');
+  forcePushGitSubtree({
+    subfolder: 'examples/classic',
+    remote: 'origin',
+    remoteBranch: 'starter',
+  });
+
+  console.log('');
+  console.log('');
+
+  // TODO replace by starter repo in Docusaurus-community org (if we get it)
+  console.log('Updating https://github.com/slorber/docusaurus-starter');
+  forcePushGitSubtree({
+    subfolder: 'examples/classic',
+    remote: 'git@github.com:slorber/docusaurus-starter.git',
+    remoteBranch: 'main',
+  });
+
+  console.log('');
+}
+
+function run() {
+  const branch = execSync('git rev-parse --abbrev-ref HEAD').toString();
+  if (branch === 'main') {
+    throw new Error(
+      "Please don't generate Docusaurus examples from the main branch!\nWe are going to commit during this process!",
+    );
+  }
+  try {
+    execSync('git diff --exit-code');
+  } catch (e) {
+    throw new Error(
+      'Please run the generate examples command with a clean Git state and no uncommited local changes. git diff should display nothing!',
+    );
+  }
+
+  console.log('');
+  console.log('# Generate examples start!');
+  console.log('');
+
+  // delete the examples directories if they exists
+  console.log('-------');
+  console.log('## Removing example folders...');
+  rimraf.sync('./examples/classic');
+  rimraf.sync('./examples/classic-typescript');
+  rimraf.sync('./examples/facebook');
+  console.log('');
+
+  // get the list of all available templates
+  console.log('-------');
+  console.log('## Generate example folders...');
+  console.log('');
+  const excludes = ['README.md', 'shared'];
+  const templates = readdirSync(
+    './packages/create-docusaurus/templates',
+  ).filter((name) => !excludes.includes(name));
+  console.log(`Will generate examples for templates: ${templates}`);
   templates.forEach(generateTemplateExample);
-});
+  console.log('Commiting changes');
+  execSync('git add examples');
+  execSync("git commit -am 'update examples' --allow-empty");
+  console.log('');
+
+  // update starters
+  console.log('-------');
+  console.log('# Updating starter repos and branches ...');
+  console.log('It can take some time... please wait until done...');
+  updateStarters();
+
+  console.log('');
+  console.log('-------');
+  console.log('');
+  console.log('Generate examples end!');
+  console.log("Don't forget to push and merge your pull-request!");
+  console.log('');
+}
+
+run();

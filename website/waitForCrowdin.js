@@ -11,7 +11,7 @@ const {Translations} = require('@crowdin/crowdin-api-client');
 Crowdin does not support concurrent "project builds" (downloads of translations).
 The Crowdin CLI fails with error 409, and it leads to failures on Netlify.
 
-On Docusaurus, when we commit on master, we have 2 Netlify deployments triggered:
+On Docusaurus, when we commit on main, we have 2 Netlify deployments triggered:
 - prod
 - i18n-staging (work-in-progress locales)
 
@@ -39,6 +39,7 @@ async function hasBuildInProgress() {
 
 async function run() {
   const timeBefore = Date.now();
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (Date.now() - timeBefore > timeout) {
       console.warn(

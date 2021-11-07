@@ -6,18 +6,21 @@
  */
 
 import {RouteConfig} from '@docusaurus/types';
-import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {
+  applyTrailingSlash,
+  ApplyTrailingSlashParams,
+} from '@docusaurus/utils-common';
 
 export default function applyRouteTrailingSlash(
   route: RouteConfig,
-  trailingSlash: boolean | undefined,
-) {
+  params: ApplyTrailingSlashParams,
+): RouteConfig {
   return {
     ...route,
-    path: applyTrailingSlash(route.path, trailingSlash),
+    path: applyTrailingSlash(route.path, params),
     ...(route.routes && {
       routes: route.routes.map((subroute) =>
-        applyRouteTrailingSlash(subroute, trailingSlash),
+        applyRouteTrailingSlash(subroute, params),
       ),
     }),
   };

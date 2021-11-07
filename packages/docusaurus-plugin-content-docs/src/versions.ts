@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {
   PluginOptions,
+  VersionBanner,
   VersionMetadata,
   VersionOptions,
   VersionsOptions,
@@ -255,14 +256,92 @@ function getVersionEditUrls({
   };
 }
 
+function getDefaultVersionBanner({
+  versionName,
+  versionNames,
+  lastVersionName,
+}: {
+  versionName: string;
+  versionNames: string[];
+  lastVersionName: string;
+}): VersionBanner | null {
+  // Current version: good, no banner
+  if (versionName === lastVersionName) {
+    return null;
+  }
+  // Upcoming versions: unreleased banner
+  else if (
+    versionNames.indexOf(versionName) < versionNames.indexOf(lastVersionName)
+  ) {
+    return 'unreleased';
+  }
+  // Older versions: display unmaintained banner
+  else {
+    return 'unmaintained';
+  }
+}
+
+function getVersionBanner({
+  versionName,
+  versionNames,
+  lastVersionName,
+  options,
+}: {
+  versionName: string;
+  versionNames: string[];
+  lastVersionName: string;
+  options: Pick<PluginOptions, 'versions'>;
+}): VersionBanner | null {
+  const versionBannerOption = options.versions[versionName]?.banner;
+  if (versionBannerOption) {
+    return versionBannerOption === 'none' ? null : versionBannerOption;
+  }
+  return getDefaultVersionBanner({
+    versionName,
+    versionNames,
+    lastVersionName,
+  });
+}
+
+function getVersionBadge({
+  versionName,
+  versionNames,
+  options,
+}: {
+  versionName: string;
+  versionNames: string[];
+  options: Pick<PluginOptions, 'versions'>;
+}): boolean {
+  const versionBadgeOption = options.versions[versionName]?.badge;
+  // If site is not versioned or only one version is included
+  // we don't show the version badge by default
+  // See https://github.com/facebook/docusaurus/issues/3362
+  const versionBadgeDefault = versionNames.length !== 1;
+  return versionBadgeOption ?? versionBadgeDefault;
+}
+
+function getVersionClassName({
+  versionName,
+  options,
+}: {
+  versionName: string;
+  options: Pick<PluginOptions, 'versions'>;
+}): string {
+  const versionClassNameOption = options.versions[versionName]?.className;
+  const versionClassNameDefault = `docs-version-${versionName}`;
+  return versionClassNameOption ?? versionClassNameDefault;
+}
+
 function createVersionMetadata({
   versionName,
-  isLast,
+  versionNames,
+  lastVersionName,
   context,
   options,
 }: {
   versionName: string;
-  isLast: boolean;
+  versionNames: string[];
+  lastVersionName: string;
   context: Pick<LoadContext, 'siteDir' | 'baseUrl' | 'i18n'>;
   options: Pick<
     PluginOptions,
@@ -270,29 +349,27 @@ function createVersionMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'versions'
     | 'editUrl'
     | 'editCurrentVersion'
   >;
 }): VersionMetadata {
-  const {
-    sidebarFilePath,
-    contentPath,
-    contentPathLocalized,
-  } = getVersionMetadataPaths({
-    versionName,
-    context,
-    options,
-  });
+  const {sidebarFilePath, contentPath, contentPathLocalized} =
+    getVersionMetadataPaths({versionName, context, options});
+
+  const isLast = versionName === lastVersionName;
 
   // retro-compatible values
   const defaultVersionLabel =
     versionName === CURRENT_VERSION_NAME ? 'Next' : versionName;
-  const defaultVersionPathPart = isLast
-    ? ''
-    : versionName === CURRENT_VERSION_NAME
-    ? 'next'
-    : versionName;
+  function getDefaultVersionPathPart() {
+    if (isLast) {
+      return '';
+    }
+    return versionName === CURRENT_VERSION_NAME ? 'next' : versionName;
+  }
+  const defaultVersionPathPart = getDefaultVersionPathPart();
 
   const versionOptions: VersionOptions = options.versions[versionName] ?? {};
 
@@ -315,12 +392,25 @@ function createVersionMetadata({
   // Because /docs/:route` should always be after `/docs/versionName/:route`.
   const routePriority = versionPathPart === '' ? -1 : undefined;
 
+  // the path that will be used to refer the docs tags
+  // example below will be using /docs/tags
+  const tagsPath = normalizeUrl([versionPath, options.tagsBasePath]);
+
   return {
     versionName,
     versionLabel,
     versionPath,
+    tagsPath,
     versionEditUrl: versionEditUrls?.versionEditUrl,
     versionEditUrlLocalized: versionEditUrls?.versionEditUrlLocalized,
+    versionBanner: getVersionBanner({
+      versionName,
+      versionNames,
+      lastVersionName,
+      options,
+    }),
+    versionBadge: getVersionBadge({versionName, versionNames, options}),
+    versionClassName: getVersionClassName({versionName, options}),
     isLast,
     routePriority,
     sidebarFilePath,
@@ -465,6 +555,7 @@ export function readVersionsMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'includeCurrentVersion'
     | 'disableVersioning'
     | 'lastVersion'
@@ -486,7 +577,8 @@ export function readVersionsMetadata({
   const versionsMetadata = versionNames.map((versionName) =>
     createVersionMetadata({
       versionName,
-      isLast: versionName === lastVersionName,
+      versionNames,
+      lastVersionName,
       context,
       options,
     }),

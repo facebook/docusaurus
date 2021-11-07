@@ -36,6 +36,10 @@ export default async function build(
   // TODO what's the purpose of this arg ?
   forceTerminate: boolean = true,
 ): Promise<string> {
+  ['SIGINT', 'SIGTERM'].forEach((sig) => {
+    process.on(sig, () => process.exit());
+  });
+
   async function tryToBuildLocale({
     locale,
     isLastLocale,
@@ -184,17 +188,19 @@ async function buildLocale({
 
     if (configureWebpack) {
       clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
         clientConfig,
         false,
         props.siteConfig.webpack?.jsLoader,
+        plugin.content,
       );
 
       serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
         serverConfig,
         true,
         props.siteConfig.webpack?.jsLoader,
+        plugin.content,
       );
     }
   });
@@ -241,7 +247,7 @@ async function buildLocale({
   console.log(
     `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
       path.relative(process.cwd(), outDir),
-    )}.`,
+    )}".`,
   );
 
   if (isLastLocale) {

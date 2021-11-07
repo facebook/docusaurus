@@ -1,0 +1,83 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import React from 'react';
+
+import DebugLayout from '@theme/DebugLayout';
+import DebugJsonView from '@theme/DebugJsonView';
+import type {Props} from '@theme/DebugContent';
+
+const PluginInstanceContent = ({
+  pluginId,
+  pluginInstanceContent,
+}: {
+  pluginId: string;
+  pluginInstanceContent: unknown;
+}) => (
+  <section style={{marginBottom: 30}}>
+    <code>{pluginId}</code>
+    <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
+  </section>
+);
+
+const PluginContent = ({
+  pluginName,
+  pluginContent,
+}: {
+  pluginName: string;
+  pluginContent: Record<string, unknown>;
+}) => {
+  return (
+    <section style={{marginBottom: 60}}>
+      <h3>{pluginName}</h3>
+      <div>
+        {Object.entries(pluginContent)
+          // filter plugin instances with no content
+          .filter(
+            ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
+          )
+          .map(([pluginId, pluginInstanceContent]) => {
+            return (
+              <PluginInstanceContent
+                key={pluginId}
+                pluginId={pluginId}
+                pluginInstanceContent={pluginInstanceContent}
+              />
+            );
+          })}
+      </div>
+    </section>
+  );
+};
+
+function DebugContent({allContent}: Props): JSX.Element {
+  return (
+    <DebugLayout>
+      <h2>Plugin content</h2>
+      <div>
+        {Object.entries(allContent)
+          // filter plugins with no content
+          .filter(([_pluginName, pluginContent]) =>
+            Object.values(pluginContent).some(
+              (instanceContent) => !!instanceContent,
+            ),
+          )
+          .map(([pluginName, pluginContent]) => {
+            return (
+              <PluginContent
+                key={pluginName}
+                pluginName={pluginName}
+                pluginContent={pluginContent}
+              />
+            );
+          })}
+      </div>
+    </DebugLayout>
+  );
+}
+
+export default DebugContent;

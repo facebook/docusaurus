@@ -6,12 +6,14 @@
  */
 
 import {groupBy} from 'lodash';
-import {InitPlugin} from './init';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
+import {InitializedPlugin} from '@docusaurus/types';
 
 // It is forbidden to have 2 plugins of the same name sharing the same id
 // this is required to support multi-instance plugins without conflict
-export function ensureUniquePluginInstanceIds(plugins: InitPlugin[]): void {
+export function ensureUniquePluginInstanceIds(
+  plugins: InitializedPlugin[],
+): void {
   const pluginsByName = groupBy(plugins, (p) => p.name);
   Object.entries(pluginsByName).forEach(([pluginName, pluginInstances]) => {
     const pluginInstancesById = groupBy(

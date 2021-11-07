@@ -8,6 +8,7 @@
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import type {Props} from '@theme/LastUpdated';
+import {ThemeClassNames} from '@docusaurus/theme-common';
 
 function LastUpdatedAtDate({
   lastUpdatedAt,
@@ -57,7 +58,7 @@ export default function LastUpdated({
   lastUpdatedBy,
 }: Props): JSX.Element {
   return (
-    <>
+    <span className={ThemeClassNames.common.lastUpdated}>
       <Translate
         id="theme.lastUpdated.lastUpdatedAtBy"
         description="The sentence used to display when a page has been last updated, and by who"
@@ -84,6 +85,6 @@ export default function LastUpdated({
           <small> (Simulated during dev for better perf)</small>
         </div>
       )}
-    </>
+    </span>
   );
 }
