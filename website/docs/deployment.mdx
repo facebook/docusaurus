@@ -33,7 +33,7 @@ Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) comm
 npm run serve
 ```
 
-By default this will load your site at [http://localhost:3000/](http://localhost:3000/)
+By default this will load your site at [http://localhost:3000/](http://localhost:3000/).
 
 ## Trailing slash configuration {#trailing-slashes}
 
@@ -150,26 +150,34 @@ Finally, to deploy your site to GitHub Pages, run:
 <TabItem value="bash" label="Bash">
 
 ```bash
-GIT_USER=<GITHUB_USERNAME> USE_SSH=true yarn deploy
+GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
 </TabItem>
 <TabItem value="windows" label="Windows">
 
 ```batch
-cmd /C "set "GIT_USER=<GITHUB_USERNAME> USE_SSH=true" && yarn deploy"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
 </TabItem>
 <TabItem value="powershell" label="PowerShell">
 
 ```powershell
-cmd /C 'set "GIT_USER=<GITHUB_USERNAME> USE_SSH=true" && yarn deploy'
+cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 ```
 
 </TabItem>
 </Tabs>
 ````
+
+:::caution
+
+Beginning in August 2021, GitHub requires every command-line sign-in to use the **personal access token** instead of the password. When GitHub prompts for your password, enter the PAT instead. See the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information.
+
+Alternatively, you can use SSH (`USE_SSH=true`) to login.
+
+:::
 
 ### Triggering deployment with GitHub Actions {#triggering-deployment-with-github-actions}
 
