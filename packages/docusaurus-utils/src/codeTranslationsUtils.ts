@@ -44,9 +44,7 @@ export async function readDefaultCodeTranslationMessages({
   for (const fileName of localesToTry) {
     const filePath = path.resolve(dirPath, `${fileName}.json`);
 
-    // eslint-disable-next-line no-await-in-loop
     if (await fs.pathExists(filePath)) {
-      // eslint-disable-next-line no-await-in-loop
       const fileContent = await fs.readFile(filePath, 'utf8');
       return JSON.parse(fileContent);
     }

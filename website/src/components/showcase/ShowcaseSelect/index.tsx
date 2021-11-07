@@ -13,7 +13,7 @@ interface Props extends ComponentProps<'select'> {
   label: string;
 }
 
-function ShowcaseSelect({label, ...props}: Props) {
+function ShowcaseSelect({label, ...props}: Props): JSX.Element {
   const id = `showcase_select_id_${props.name};`;
   return (
     <div className={styles.selectContainer}>

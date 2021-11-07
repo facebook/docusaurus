@@ -22,6 +22,8 @@ export type NavbarItem = {
 export type NavbarLogo = {
   src: string;
   srcDark?: string;
+  width?: string | number;
+  height?: string | number;
   href?: string;
   target?: string;
   alt?: string;
@@ -80,6 +82,8 @@ export type Footer = {
     alt?: string;
     src?: string;
     srcDark?: string;
+    width?: string | number;
+    height?: string | number;
     href?: string;
   };
   copyright?: string;

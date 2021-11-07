@@ -12,6 +12,15 @@ const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
+const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const lightTheme = require('prism-react-renderer/themes/github');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const darkTheme = require('prism-react-renderer/themes/dracula');
+
+const ArchivedVersionsDropdownItems =
+  Object.entries(VersionsArchived).splice(0, 5);
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -76,6 +85,7 @@ const config = {
   ],
   i18n: {
     defaultLocale: 'en',
+    // eslint-disable-next-line no-nested-ternary
     locales: isDeployPreview
       ? // Deploy preview: keep it fast!
         ['en']
@@ -105,7 +115,7 @@ const config = {
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    require('./src/featureRequests/FeatureRequestsPlugin'),
+    FeatureRequestsPlugin,
     [
       '@docusaurus/plugin-content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -130,12 +140,13 @@ const config = {
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
         fromExtensions: ['html'],
-        createRedirects: function (path) {
+        createRedirects(routePath) {
           // redirect to /docs from /docs/introduction,
           // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
+          if (allDocHomesPaths.includes(routePath)) {
+            return [`${routePath}/introduction`];
           }
+          return [];
         },
         redirects: [
           {
@@ -250,11 +261,12 @@ const config = {
           showLastUpdateTime: true,
           remarkPlugins: [
             math,
-            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
+            [npm2yarn, {sync: true}],
           ],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
+          // eslint-disable-next-line no-nested-ternary
           onlyIncludeVersions: isBuildFast
             ? ['current']
             : !isVersioningDisabled && (isDev || isDeployPreview)
@@ -284,7 +296,7 @@ const config = {
           blogSidebarTitle: 'All our posts',
         },
         pages: {
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [npm2yarn],
         },
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
@@ -310,8 +322,8 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
       },
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
+        theme: lightTheme,
+        darkTheme,
         additionalLanguages: ['java'],
       },
       image: 'img/docusaurus-soc.png',
@@ -334,6 +346,8 @@ const config = {
           alt: 'Docusaurus Logo',
           src: 'img/docusaurus.svg',
           srcDark: 'img/docusaurus_keytar.svg',
+          width: 32,
+          height: 32,
         },
         items: [
           {
@@ -362,7 +376,7 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
+              ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
                   href: versionUrl,
@@ -487,6 +501,8 @@ const config = {
         logo: {
           alt: 'Facebook Open Source Logo',
           src: 'img/oss_logo.png',
+          width: 160,
+          height: 51,
           href: 'https://opensource.facebook.com',
         },
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -59,6 +59,7 @@ const sidebars = {
         'static-assets',
         'search',
         'browser-support',
+        'seo',
         'deployment',
         {
           type: 'category',
