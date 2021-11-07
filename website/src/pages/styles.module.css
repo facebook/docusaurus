@@ -39,6 +39,7 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
 }
 
 .announcementInner {
@@ -49,6 +50,7 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
 }
 
 .heroInner {
