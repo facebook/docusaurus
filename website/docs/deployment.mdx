@@ -382,7 +382,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/). When creating the token, grant it the `repo` scope so that it has the permissions it needs.
 2. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-3. Open your Travis CI dashboard. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+3. Open your Travis CI dashboard. The URL looks like `https://travis-ci.com/USERNAME/REPO`, and navigate to the `More options > Setting > Environment Variables` section of your repository.
 4. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
 5. Create a `.travis.yml` on the root of your repository with the following:
 
@@ -399,7 +399,7 @@ script:
   - git config --global user.name "${GH_NAME}"
   - git config --global user.email "${GH_EMAIL}"
   - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-  - yarn
+  - yarn install
   - GIT_USER="${GH_NAME}" yarn deploy
 ```
 
@@ -456,13 +456,13 @@ steps:
       git config --global user.email "${GH_EMAIL}"
       git checkout -b main
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-      yarn
+      yarn install
       GIT_USER="${GH_NAME}" yarn deploy
     env:
       GH_NAME: $(GH_NAME)
       GH_EMAIL: $(GH_EMAIL)
       GH_TOKEN: $(GH_TOKEN)
-    displayName: yarn install and build
+    displayName: Install and build
 ```
 
 ### Using Drone {#using-drone}
@@ -488,8 +488,8 @@ trigger:
     - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
     - chmod 0600 $HOME/.ssh/id_rsa
     - cd website
-    - npm i
-    - npm run deploy
+    - yarn install
+    - yarn deploy
   environment:
     USE_SSH: true
     GIT_USER: $DRONE_COMMIT_AUTHOR
@@ -647,7 +647,7 @@ Deploy your app in a matter of seconds using surge with the following steps:
    npm run build
    ```
 3. Then, run this command inside the root directory of your project:
-   ```bash npm2yarn
+   ```bash
    surge build/
    ```
 
