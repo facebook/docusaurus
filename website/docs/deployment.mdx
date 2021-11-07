@@ -78,7 +78,7 @@ It is not the best option, compared to a static hosting provider / CDN.
 
 In the following sections, we will introduce a few common hosting providers and how they should be configured to deploy Docusaurus sites most efficiently. The documentation may not be up-to-date: recent changes in their API may not be reflected on our side. If you see outdated content, PRs are welcome.
 
-For the same concern of up-to-datedness, we have stopped accepting PRs adding new hosting options. You can, however, host your writeup on a separate site (e.g. your blog or the provider's official website), and ask us to include a link to your writeup.
+For the same concern of up-to-datedness, we have stopped accepting PRs adding new hosting options. You can, however, publish your writeup on a separate site (e.g. your blog, or the provider's official website), and ask us to include a link to your writeup.
 
 :::
 
@@ -104,7 +104,7 @@ First, modify your `docusaurus.config.js` and add the following params:
 | --- | --- |
 | `organizationName` | The GitHub user or organization that owns the target repository. |
 | `projectName` | The name of the target repository. |
-| `deploymentBranch` | The name of target branch. Defaults to `'gh-pages'`. For organization GitHub Pages repos (`projectName` ending in `github.io`), this needs to be explicit as a config field or environment variable (see below). |
+| `deploymentBranch` | The name of target branch. Defaults to `'gh-pages'`. For organization GitHub Pages repos (`projectName` ending in `.github.io`), this needs to be explicit as a config field or environment variable. |
 
 These fields also have their environment variable counterparts, which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
 
@@ -209,14 +209,14 @@ Alternatively, you can use SSH (`USE_SSH=true`) to login.
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
-This workflow assumes your documentation resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _target branch_ is `gh-pages`).
+The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _target branch_ is `gh-pages`).
 
 Our goal is that:
 
 1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
 2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new built output will be served on the GitHub Pages site. This job will be called `deploy`.
 
-Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your target branch (e.g. `gh-pages`), choose the relevant tab below:
+Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your target branch (`gh-pages`), choose the relevant tab below:
 
 - Source repo and target repo are the **`same`** repository.
 - The target repo is a **`remote`** repository, different from the source.
@@ -226,6 +226,8 @@ Here are two approaches to deploying your docs with GitHub Actions. Based on the
 <TabItem value="same" label="Same">
 
 While you can have both jobs defined in the same workflow file, the `deploy` job will always be listed as skipped in the PR check suite status. That's added noise providing no value to the review process, and as you cannot easily share common snippets, it is better to manage them as separate workflows instead.
+
+We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
 
 <details>
 
@@ -241,14 +243,9 @@ These files assume you are using yarn. If you use npm, change `cache: yarn`, `ya
 name: Deploy to GitHub Pages
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
     paths: [website/**]
-
-defaults:
-  run:
-    working-directory: website
 
 jobs:
   deploy:
@@ -260,7 +257,9 @@ jobs:
         with:
           node-version: 14.x
           cache: yarn
-      - run: |
+      - name: Build website
+        working-directory: website
+        run: |
           yarn install --frozen-lockfile
           yarn build
 
@@ -298,7 +297,6 @@ jobs:
         with:
           node-version: 14.x
           cache: yarn
-
       - name: Test build
         working-directory: website
         run: |
@@ -310,6 +308,8 @@ jobs:
 
 </TabItem>
 <TabItem value="remote" label="Remote">
+
+A cross-repo publish is more difficult to set up, because you need to push to another repo with permission checks. We will be using SSH to do the authentication.
 
 1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
@@ -330,7 +330,7 @@ This file assumes you are using yarn. If you use npm, change `cache: yarn`, `yar
 
 :::
 
-```yml title="deploy.yml"
+```yml title=".github/workflows/deploy.yml"
 name: Deploy to GitHub Pages
 
 on:
