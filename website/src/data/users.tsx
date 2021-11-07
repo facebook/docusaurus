@@ -1536,6 +1536,14 @@ const Users: User[] = [
     source: 'https://github.com/patrikmasiar/patrikmasiar-projects-docusaurus',
     tags: ['personal', 'opensource'],
   },
+  {
+    title: 'Matej Jellus',
+    description: 'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
+    preview: require('./showcase/juffalow.png'),
+    website: 'https://juffalow.com/',
+    source: 'https://github.com/juffalow/juffalow-com',
+    tags: ['personal', 'opensource'],
+  },
 
   /*
   Pro Tip: add your site in alphabetical order.
