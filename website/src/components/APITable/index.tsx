@@ -49,7 +49,6 @@ export default function APITable({children, name}: Props): JSX.Element {
       const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
       return (
         <tr
-          {...row.props}
           id={entryName}
           tabIndex={0}
           ref={
