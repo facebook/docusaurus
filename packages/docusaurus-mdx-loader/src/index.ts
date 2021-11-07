@@ -6,7 +6,7 @@
  */
 
 import {readFile} from 'fs-extra';
-import {createCompiler} from '@mdx-js/mdx';
+import {createCompiler, Options as MDXOptions} from '@mdx-js/mdx';
 import chalk from 'chalk';
 import emoji from 'remark-emoji';
 import {
@@ -128,7 +128,7 @@ export default async function mdxLoader(
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
   if (!compilerCache.has(this.query)) {
-    const options = {
+    const options: Options = {
       ...reqOptions,
       remarkPlugins: [
         ...(reqOptions.beforeDefaultRemarkPlugins || []),
@@ -152,8 +152,8 @@ export default async function mdxLoader(
       filepath: this.resourcePath,
     };
     compilerCache.set(this.query, [
-      createCompiler(options as any),
-      options as any,
+      createCompiler(options as MDXOptions),
+      options,
     ]);
   }
 
