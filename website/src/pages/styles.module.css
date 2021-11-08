@@ -39,7 +39,7 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
-  --ifm-link-color: hsl(var(--site-primary-hue-saturation), 55%);
+  --ifm-link-color: hsl(var(--site-primary-hue-saturation), 45%);
 }
 
 .announcementInner {
