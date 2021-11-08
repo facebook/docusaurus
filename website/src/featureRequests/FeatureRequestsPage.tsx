@@ -14,16 +14,16 @@ import styles from './styles.module.css';
 
 const BOARD_TOKEN = '054e0e53-d951-b14c-7e74-9eb8f9ed2f91';
 
-function FeatureRequests(): JSX.Element {
+function FeatureRequests({basePath}: {basePath: string}): JSX.Element {
   useEffect(() => {
     cannyScript();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const {Canny} = window as any;
     Canny('render', {
       boardToken: BOARD_TOKEN,
-      basePath: '/feature-requests',
+      basePath,
     });
-  }, []);
+  }, [basePath]);
 
   return (
     <Layout title="Feedback" description="Docusaurus 2 Feature Requests page">
