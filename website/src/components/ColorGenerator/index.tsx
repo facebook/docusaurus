@@ -96,8 +96,7 @@ function ColorGenerator(): JSX.Element {
     setInputColor(colorValue);
 
     try {
-      Color(colorValue);
-      setBaseColor(colorValue);
+      setBaseColor(Color(colorValue).hex());
     } catch {
       // Don't update for invalid colors.
     }
