@@ -96,6 +96,7 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
   readingTime: ReadingTimeFunctionOption;
+  postSortDirection: string;
 };
 
 // Options, as provided in the user config (before normalization)

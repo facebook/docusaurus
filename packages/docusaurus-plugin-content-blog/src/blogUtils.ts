@@ -294,6 +294,9 @@ export async function generateBlogPosts(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );
 
+  if (options.postSortDirection === 'asc') {
+    return blogPosts.reverse();
+  }
   return blogPosts;
 }
 
