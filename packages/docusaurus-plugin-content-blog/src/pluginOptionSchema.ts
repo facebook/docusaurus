@@ -42,7 +42,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
-  postSortDirection: 'desc',
+  sortPosts: 'descending',
 };
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -116,7 +116,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
-  postSortDirection: Joi.string()
-    .valid('desc', 'asc')
-    .default(DEFAULT_OPTIONS.postSortDirection),
+  sortPosts: Joi.string()
+    .valid('descending', 'ascending')
+    .default(DEFAULT_OPTIONS.sortPosts),
 });
