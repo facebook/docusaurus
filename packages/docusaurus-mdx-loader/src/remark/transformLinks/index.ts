@@ -9,6 +9,7 @@ import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
+  reportMessage,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
@@ -19,6 +20,7 @@ import {stringifyContent} from '../utils';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Link, Literal} from 'mdast';
+import type {ReportingSeverity} from '@docusaurus/types';
 
 const {
   loaders: {inlineMarkdownLinkFileLoader},
@@ -28,18 +30,21 @@ const hashRegex = /#.*$/;
 interface PluginOptions {
   filePath: string;
   staticDir: string;
+  onBrokenMarkdownAssets: ReportingSeverity;
 }
 
 async function ensureAssetFileExist(
   fileSystemAssetPath: string,
   sourceFilePath: string,
+  onBrokenMarkdownAssets: ReportingSeverity,
 ) {
   const assetExists = await fs.pathExists(fileSystemAssetPath);
   if (!assetExists) {
-    throw new Error(
+    reportMessage(
       `Asset ${toMessageRelativeFilePath(
         fileSystemAssetPath,
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
+      onBrokenMarkdownAssets,
     );
   }
 }
@@ -85,6 +90,7 @@ async function convertToAssetLinkIfNeeded({
   node,
   staticDir,
   filePath,
+  onBrokenMarkdownAssets,
 }: {node: Link} & PluginOptions) {
   const assetPath = node.url.replace(hashRegex, '');
 
@@ -112,7 +118,11 @@ async function convertToAssetLinkIfNeeded({
       siteDir,
       assetPath.replace('@site/', ''),
     );
-    await ensureAssetFileExist(fileSystemAssetPath, filePath);
+    await ensureAssetFileExist(
+      fileSystemAssetPath,
+      filePath,
+      onBrokenMarkdownAssets,
+    );
     toAssetLinkNode(fileSystemAssetPath);
   } else if (path.isAbsolute(assetPath)) {
     const fileSystemAssetPath = path.join(staticDir, assetPath);
@@ -131,16 +141,18 @@ async function processLinkNode({
   node,
   filePath,
   staticDir,
+  onBrokenMarkdownAssets,
 }: {node: Link} & PluginOptions) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
     const title = node.title || (node.children[0] as Literal)?.value || '?';
     const line = node?.position?.start?.line || '?';
-    throw new Error(
+    reportMessage(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
       )}" file (title: ${title}, line: ${line}).`,
+      onBrokenMarkdownAssets,
     );
   }
 
@@ -149,7 +161,12 @@ async function processLinkNode({
     return;
   }
 
-  await convertToAssetLinkIfNeeded({node, staticDir, filePath});
+  await convertToAssetLinkIfNeeded({
+    node,
+    staticDir,
+    filePath,
+    onBrokenMarkdownAssets,
+  });
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {

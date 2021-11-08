@@ -15,9 +15,11 @@ import {
   posixPath,
   escapePath,
   toMessageRelativeFilePath,
+  reportMessage,
 } from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
+import type {ReportingSeverity} from '@docusaurus/types';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -26,6 +28,7 @@ const {
 interface PluginOptions {
   filePath: string;
   staticDir: string;
+  onBrokenMarkdownAssets: ReportingSeverity;
 }
 
 const createJSX = (node: Image, pathUrl: string) => {
@@ -52,26 +55,32 @@ const createJSX = (node: Image, pathUrl: string) => {
   }
 };
 
-async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
+async function ensureImageFileExist(
+  imagePath: string,
+  sourceFilePath: string,
+  onBrokenMarkdownAssets: ReportingSeverity,
+) {
   const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
-    throw new Error(
+    reportMessage(
       `Image ${toMessageRelativeFilePath(
         imagePath,
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
+      onBrokenMarkdownAssets,
     );
   }
 }
 
 async function processImageNode(
   node: Image,
-  {filePath, staticDir}: PluginOptions,
+  {filePath, staticDir, onBrokenMarkdownAssets}: PluginOptions,
 ) {
   if (!node.url) {
-    throw new Error(
+    reportMessage(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
         filePath,
       )}" file`,
+      onBrokenMarkdownAssets,
     );
   }
 
@@ -89,7 +98,11 @@ async function processImageNode(
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
-    await ensureImageFileExist(expectedImagePath, filePath);
+    await ensureImageFileExist(
+      expectedImagePath,
+      filePath,
+      onBrokenMarkdownAssets,
+    );
     createJSX(node, posixPath(expectedImagePath));
   }
   // We try to convert image urls without protocol to images with require calls
@@ -97,7 +110,11 @@ async function processImageNode(
   else {
     // relative paths are resolved against the source file's folder
     const expectedImagePath = path.join(path.dirname(filePath), node.url);
-    await ensureImageFileExist(expectedImagePath, filePath);
+    await ensureImageFileExist(
+      expectedImagePath,
+      filePath,
+      onBrokenMarkdownAssets,
+    );
     createJSX(node, node.url.startsWith('./') ? node.url : `./${node.url}`);
   }
 }

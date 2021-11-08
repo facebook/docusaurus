@@ -28,6 +28,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'i18n'
   | 'onBrokenLinks'
   | 'onBrokenMarkdownLinks'
+  | 'onBrokenMarkdownAssets'
   | 'onDuplicateRoutes'
   | 'plugins'
   | 'themes'
@@ -41,6 +42,7 @@ export const DEFAULT_CONFIG: Pick<
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownAssets: 'throw',
   onDuplicateRoutes: 'warn',
   plugins: [],
   themes: [],
@@ -138,6 +140,9 @@ export const ConfigSchema = Joi.object({
   onBrokenMarkdownLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenMarkdownLinks),
+  onBrokenMarkdownAssets: Joi.string()
+    .equal('ignore', 'log', 'warn', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenMarkdownAssets),
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),

@@ -23,6 +23,7 @@ import transformLinks from './remark/transformLinks';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
+import type {ReportingSeverity} from '@docusaurus/types';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -46,6 +47,7 @@ type Options = RemarkAndRehypePluginOptions & {
     metadata: Record<string, unknown>;
   }) => Record<string, unknown>;
   filepath: string;
+  onBrokenMarkdownAssets: ReportingSeverity;
 };
 
 // When this throws, it generally means that there's no metadata file associated with this MDX document
@@ -117,14 +119,21 @@ export default async function mdxLoader(
   });
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
+  const {onBrokenMarkdownAssets = 'throw'} = reqOptions;
 
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDir: reqOptions.staticDir, filePath}],
-      [transformLinks, {staticDir: reqOptions.staticDir, filePath}],
+      [
+        transformImage,
+        {staticDir: reqOptions.staticDir, filePath, onBrokenMarkdownAssets},
+      ],
+      [
+        transformLinks,
+        {staticDir: reqOptions.staticDir, filePath, onBrokenMarkdownAssets},
+      ],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [

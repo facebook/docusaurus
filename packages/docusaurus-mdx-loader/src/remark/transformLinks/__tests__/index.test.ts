@@ -18,7 +18,12 @@ const processFixture = async (name, options) => {
   const file = await vfile.read(path);
   const result = await remark()
     .use(mdx)
-    .use(transformImage, {...options, filePath: path, staticDir})
+    .use(transformImage, {
+      ...options,
+      filePath: path,
+      staticDir,
+      onBrokenMarkdownAssets: 'throw',
+    })
     .use(plugin, {...options, filePath: path, staticDir})
     .process(file);
 
@@ -28,17 +33,17 @@ const processFixture = async (name, options) => {
 describe('transformAsset plugin', () => {
   test('fail if asset url is absent', async () => {
     await expect(
-      processFixture('noUrl'),
+      processFixture('noUrl', {}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
   test('transform md links to <a />', async () => {
-    const result = await processFixture('asset');
+    const result = await processFixture('asset', {});
     expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
-    const result = await processFixture('pathname');
+    const result = await processFixture('pathname', {});
     expect(result).toMatchSnapshot();
   });
 });

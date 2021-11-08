@@ -71,7 +71,7 @@ export default function pluginContentBlog(
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
-  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
+  const {onBrokenMarkdownLinks, onBrokenMarkdownAssets, baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -498,6 +498,8 @@ export default function pluginContentBlog(
                         ),
                       };
                     },
+
+                    onBrokenMarkdownAssets,
                   },
                 },
                 {

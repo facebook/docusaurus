@@ -63,6 +63,7 @@ export default function pluginContentPages(
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
+  const {baseUrl, onBrokenMarkdownAssets} = siteConfig;
 
   const contentPaths: PagesContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -97,7 +98,6 @@ export default function pluginContentPages(
         return null;
       }
 
-      const {baseUrl} = siteConfig;
       const pagesFiles = await Globby(include, {
         cwd: contentPaths.contentPath,
         ignore: options.exclude,
@@ -223,6 +223,7 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    onBrokenMarkdownAssets,
                   },
                 },
                 {

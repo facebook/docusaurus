@@ -148,6 +148,14 @@ The behavior of Docusaurus, when it detects any broken markdown link.
 
 By default, it prints a warning, to let you know about your broken markdown link, but you can change this security if needed.
 
+### `onBrokenMarkdownAssets` {#onbrokenmarkdownassets}
+
+- Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`
+
+The behavior of Docusaurus when it fails to resolve a markdown asset link. This includes a link to an asset file (`[Download this zip](./assets/asset.zip)`) or an image (`![image](./img/image.png)`).
+
+By default, it throws an error, but you can lower this security if needed.
+
 ### `onDuplicateRoutes` {#onduplicateroutes}
 
 - Type: `'ignore' | 'log' | 'warn' | 'error' | 'throw'`

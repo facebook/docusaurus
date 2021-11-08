@@ -18,7 +18,7 @@ const processFixture = async (name, options) => {
   const result = await remark()
     .use(headings)
     .use(mdx)
-    .use(plugin, {...options, filePath: path})
+    .use(plugin, {...options, filePath: path, onBrokenMarkdownAssets: 'throw'})
     .process(file);
 
   return result.toString();

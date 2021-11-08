@@ -58,6 +58,7 @@ export default function pluginContentDocs(
   options: PluginOptions,
 ): Plugin<LoadedContent> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
+  const {onBrokenMarkdownLinks, onBrokenMarkdownAssets} = siteConfig;
 
   const versionsMetadata = readVersionsMetadata({context, options});
 
@@ -371,12 +372,12 @@ export default function pluginContentDocs(
         sourceToPermalink: getSourceToPermalink(),
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
+          if (onBrokenMarkdownLinks === 'ignore') {
             return;
           }
           reportMessage(
             `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
-            siteConfig.onBrokenMarkdownLinks,
+            onBrokenMarkdownLinks,
           );
         },
       };
@@ -408,6 +409,7 @@ export default function pluginContentDocs(
                   const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                   return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
                 },
+                onBrokenMarkdownAssets,
               },
             },
             {

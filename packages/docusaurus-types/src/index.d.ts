@@ -35,6 +35,7 @@ export interface DocusaurusConfig {
   i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;
+  onBrokenMarkdownAssets: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;
   noIndex: boolean;
   organizationName?: string;
