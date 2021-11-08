@@ -43,8 +43,10 @@ export async function getFileLastUpdate(
     }
 
     const result = shell.exec(`git log -1 --format=%ct,%an ${filePath}`);
-    if (result.stderr) {
-      throw new Error(result.stderr);
+    if (result.code !== 0) {
+      throw new Error(
+        `Retrieval of git history failed at ${filePath} with exit code ${result.code}: ${result.stderr}`,
+      );
     }
     return getTimestampAndAuthor(result.stdout.trim());
   } catch (error) {
