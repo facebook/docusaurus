@@ -82,9 +82,9 @@ Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.githu
 
 ### Overview {#github-pages-overview}
 
-Usually, there are two repositories (at least, two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial they will be referred to as **"source"** and **"target"**, respectively.
+Usually, there are two repositories (at least, two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial they will be referred to as **"source"** and **"deployment"**, respectively.
 
-Each GitHub repository is associated with a GitHub Pages service. If the target repository is called `my-org/my-project` (where `my-org` is the organization name or username), the deployed site will appear at `https://my-org.github.io/my-project/`. Specially, if the target repository is called `my-org/my-org.github.io` (the _organization GitHub Pages repo_), the site will appear at `https://my-org.github.io/`.
+Each GitHub repository is associated with a GitHub Pages service. If the deployment repository is called `my-org/my-project` (where `my-org` is the organization name or username), the deployed site will appear at `https://my-org.github.io/my-project/`. Specially, if the deployment repository is called `my-org/my-org.github.io` (the _organization GitHub Pages repo_), the site will appear at `https://my-org.github.io/`.
 
 :::info
 
@@ -94,9 +94,9 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 :::
 
-GitHub Pages picks up deploy-ready files (the output from `docusaurus build`) from the default branch (`master` / `main`, usually) or the `gh-pages` branch, and either from the root or the `/docs` folder. You can configure that through `Settings > Pages` in your repository. This branch will be called the "target branch".
+GitHub Pages picks up deploy-ready files (the output from `docusaurus build`) from the default branch (`master` / `main`, usually) or the `gh-pages` branch, and either from the root or the `/docs` folder. You can configure that through `Settings > Pages` in your repository. This branch will be called the "deployment branch".
 
-We provide a `docusaurus deploy` command that helps you deploy your site from the source branch to the target branch in one command: clone, build, and commit.
+We provide a `docusaurus deploy` command that helps you deploy your site from the source branch to the deployment branch in one command: clone, build, and commit.
 
 ### `docusaurus.config.js` settings {#docusaurusconfigjs-settings}
 
@@ -104,9 +104,9 @@ First, modify your `docusaurus.config.js` and add the following params:
 
 | Name | Description |
 | --- | --- |
-| `organizationName` | The GitHub user or organization that owns the target repository. |
-| `projectName` | The name of the target repository. |
-| `deploymentBranch` | The name of target branch. Defaults to `'gh-pages'` for non-organization GitHub Pages repos (`projectName` not ending in `.github.io`). Otherwise, this needs to be explicit as a config field or environment variable. |
+| `organizationName` | The GitHub user or organization that owns the deployment repository. |
+| `projectName` | The name of the deployment repository. |
+| `deploymentBranch` | The name of deployment branch. Defaults to `'gh-pages'` for non-organization GitHub Pages repos (`projectName` not ending in `.github.io`). Otherwise, this needs to be explicit as a config field or environment variable. |
 
 These fields also have their environment variable counterparts, which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
 
@@ -142,7 +142,7 @@ Specify the Git user as an environment variable.
 
 | Name | Description |
 | --- | --- |
-| `GIT_USER` | The username for a GitHub account that **has push access to the target repo**. For your own repositories, this will usually be your GitHub username. |
+| `GIT_USER` | The username for a GitHub account that **has push access to the deployment repo**. For your own repositories, this will usually be your GitHub username. |
 
 Optional parameters, also set as environment variables:
 
@@ -201,17 +201,17 @@ Alternatively, you can use SSH (`USE_SSH=true`) to login.
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
-The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _target branch_ is `gh-pages`).
+The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _deployment branch_ is `gh-pages`).
 
 Our goal is that:
 
 1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
 2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new built output will be served on the GitHub Pages site. This job will be called `deploy`.
 
-Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your target branch (`gh-pages`), choose the relevant tab below:
+Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
 
-- Source repo and target repo are the **same** repository.
-- The target repo is a **remote** repository, different from the source.
+- Source repo and deployment repo are the **same** repository.
+- The deployment repo is a **remote** repository, different from the source.
 
 ````mdx-code-block
 <Tabs>
