@@ -10,6 +10,7 @@ on:
 
 jobs:
   yarn-v1:
+    name: E2E Test with Yarn v1
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -42,6 +43,7 @@ jobs:
           CI: true
 
   yarn-berry:
+    name: E2E Test with Yarn Berry
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
