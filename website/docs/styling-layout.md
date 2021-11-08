@@ -57,7 +57,15 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
 
 Alternatively, use the following tool to generate the different shades for your website and copy the variables into `/src/css/custom.css`.
 
-<ColorGenerator/>
+<!-- TODO move to ColorGenerator & replace with standalone admonition -->
+
+:::tip
+
+Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) to ensure readability. You can use [alternative palettes in dark mode](#dark-mode) because one color doesn't usually work in both light and dark mode.
+
+:::
+
+<ColorGenerator />
 
 ### Dark Mode {#dark-mode}
 

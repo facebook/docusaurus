@@ -64,12 +64,21 @@ const COLOR_SHADES: Record<
   },
 };
 
-const DEFAULT_PRIMARY_COLOR = '3578e5';
+const DEFAULT_PRIMARY_COLOR = '#25c2a0';
+const LIGHT_BACKGROUND_COLOR = 'white';
+const DARK_BACKGROUND_COLOR = '#181920';
+
+function wcagContrast(foreground: string, background: string) {
+  const contrast = Color(foreground).contrast(Color(background));
+  // eslint-disable-next-line no-nested-ternary
+  return contrast > 7 ? 'AAA' : contrast > 4.5 ? 'AA' : 'Fail';
+}
 
 function ColorGenerator(): JSX.Element {
+  const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
   const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
   const [shades, setShades] = useState(COLOR_SHADES);
-  const color = Color(`#${baseColor}`);
+  const color = Color(baseColor);
   const adjustedColors = Object.keys(shades)
     .map((shade) => ({
       ...shades[shade],
@@ -80,6 +89,19 @@ function ColorGenerator(): JSX.Element {
       hex: color.darken(value.adjustment).hex(),
     }));
 
+  function updateColor(event: React.ChangeEvent<HTMLInputElement>) {
+    // Only prepend # when there isn't one.
+    // e.g. ccc -> #ccc, #ccc -> #ccc, ##ccc -> ##ccc,
+    const colorValue = event.target.value.replace(/^(?=[^#])/, '#');
+    setInputColor(colorValue);
+
+    try {
+      Color(colorValue);
+      setBaseColor(colorValue);
+    } catch {
+      // Don't update for invalid colors.
+    }
+  }
   return (
     <div>
       <p>
@@ -89,29 +111,28 @@ function ColorGenerator(): JSX.Element {
         </label>{' '}
         <input
           id="primary_color"
+          type="text"
           className={styles.input}
-          defaultValue={baseColor}
-          onChange={(event) => {
-            // Replace all the prefix '#' with an empty string.
-            // For example, '#ccc' -> 'ccc', '##ccc' -> 'ccc'
-            const colorValue = event.target.value.replace(/^#+/, '');
-
-            try {
-              Color(`#${baseColor}`);
-              setBaseColor(colorValue);
-            } catch {
-              // Don't update for invalid colors.
-            }
-          }}
+          value={inputColor}
+          onChange={updateColor}
+        />
+        <input
+          type="color"
+          className={styles.colorInput}
+          // value has to always be a valid color, so baseColor instead of inputColor
+          value={baseColor}
+          onChange={updateColor}
         />
       </p>
       <div>
-        <table>
+        <table className={styles.colorTable}>
           <thead>
             <tr>
               <th>CSS Variable Name</th>
               <th>Hex</th>
               <th>Adjustment</th>
+              <th>Light contrast</th>
+              <th>Dark contrast</th>
             </tr>
           </thead>
           <tbody>
@@ -159,6 +180,22 @@ function ColorGenerator(): JSX.Element {
                           }}
                         />
                       )}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 'medium',
+                        backgroundColor: LIGHT_BACKGROUND_COLOR,
+                        color: hex,
+                      }}>
+                      <b>{wcagContrast(hex, LIGHT_BACKGROUND_COLOR)}</b>
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 'medium',
+                        backgroundColor: DARK_BACKGROUND_COLOR,
+                        color: hex,
+                      }}>
+                      <b>{wcagContrast(hex, DARK_BACKGROUND_COLOR)}</b>
                     </td>
                   </tr>
                 );
