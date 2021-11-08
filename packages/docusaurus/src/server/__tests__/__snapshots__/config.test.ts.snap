@@ -26,6 +26,7 @@ Object {
   },
   "noIndex": false,
   "onBrokenLinks": "throw",
+  "onBrokenMarkdownAssets": "throw",
   "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",

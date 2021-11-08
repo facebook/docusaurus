@@ -24,7 +24,12 @@ const processFixture = async (name, options) => {
       staticDir,
       onBrokenMarkdownAssets: 'throw',
     })
-    .use(plugin, {...options, filePath: path, staticDir})
+    .use(plugin, {
+      ...options,
+      filePath: path,
+      staticDir,
+      onBrokenMarkdownAssets: 'throw',
+    })
     .process(file);
 
   return result.toString();
