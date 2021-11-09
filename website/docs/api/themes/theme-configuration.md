@@ -93,9 +93,9 @@ module.exports = {
 };
 ```
 
-### Metadatas {#metadatas}
+### Metadata {#metadata}
 
-You can configure additional html metadatas (and override existing ones).
+You can configure additional html metadata (and override existing ones).
 
 Accepted fields:
 
@@ -103,7 +103,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `metadatas` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
+| `metadata` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
 
 </small>
 
@@ -113,7 +113,7 @@ Example configuration:
 module.exports = {
   themeConfig: {
     // highlight-next-line
-    metadatas: [{name: 'twitter:card', content: 'summary'}],
+    metadata: [{name: 'twitter:card', content: 'summary'}],
   },
 };
 ```
