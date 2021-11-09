@@ -6,3 +6,7 @@
  */
 
 /// <reference types="@docusaurus/module-type-aliases" />
+
+interface Window {
+  ga: (command: string, ...fields: string[]) => void;
+}

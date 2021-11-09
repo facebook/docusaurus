@@ -6,3 +6,17 @@
  */
 
 /// <reference types="@docusaurus/module-type-aliases" />
+
+interface Window {
+  /* eslint-disable camelcase */
+  gtag: (
+    command: string,
+    fields: string,
+    params: {
+      page_title?: string;
+      page_location?: string;
+      page_path?: string;
+    },
+  ) => void;
+  /* eslint-enable camelcase */
+}
