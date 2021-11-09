@@ -168,31 +168,25 @@ Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
 
-    // Check out deployment branch when cloning repository. If the command fails,
-    // assume that the deployment branch doesn't exist, clone the default
-    // branch of the repository and then check out a new orphan branch.
+    // Check out deployment branch when cloning repository, and then remove all the files in
+    // the directory. If the 'clone' command fails, assume that the deployment
+    // branch doesn't exist, and initialize git in an empty directory, check out a clean
+    // deployment branch and add remote.
     if (
       shellExecLog(
         `git clone --depth 1 --branch ${deploymentBranch} ${remoteBranch} ${toPath}`,
       ).code === 0
     ) {
       shell.cd(toPath);
-    } else if (
-      shellExecLog(`git clone --depth 1 ${remoteBranch} ${toPath}`).code === 0
-    ) {
-      shell.cd(toPath);
-      if (
-        shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
-      ) {
-        throw new Error(
-          `Running "git checkout ${deploymentBranch}" command failed.`,
-        );
-      }
+      shellExecLog('git rm -rf .');
     } else {
-      throw new Error(`Running "git clone" command in "${toPath}" failed.`);
+      shell.mkdir(toPath);
+      shell.cd(toPath);
+      shellExecLog('git init');
+      shellExecLog(`git checkout -b ${deploymentBranch}`);
+      shellExecLog(`git remote add origin ${remoteBranch}`);
     }
 
-    shellExecLog('git rm -rf .');
     try {
       await fs.copy(fromPath, toPath);
     } catch (error) {
