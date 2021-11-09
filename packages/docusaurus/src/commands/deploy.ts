@@ -143,18 +143,18 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
   let remoteBranch: string;
-  if (gitUser) {
-    const gitPass = process.env.GIT_PASS;
-    const gitCredentials = gitPass ? `${gitUser}:${gitPass}` : `${gitUser}`;
-    remoteBranch = buildHttpsUrl(
-      gitCredentials,
+  if (useSSH) {
+    remoteBranch = buildSshUrl(
       githubHost,
       organizationName,
       projectName,
       githubPort,
     );
   } else {
-    remoteBranch = buildSshUrl(
+    const gitPass = process.env.GIT_PASS;
+    const gitCredentials = gitPass ? `${gitUser!}:${gitPass}` : gitUser!;
+    remoteBranch = buildHttpsUrl(
+      gitCredentials,
       githubHost,
       organizationName,
       projectName,
