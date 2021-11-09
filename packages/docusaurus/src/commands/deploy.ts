@@ -63,31 +63,38 @@ This behavior can have SEO impacts and create relative link issues.
     throw new Error('Git not installed or on the PATH!');
   }
 
-  const currentRepoUrl = shell
-    .exec('git config --get remote.origin.url')
+  // Source repo is the repo from where the command is invoked
+  const sourceRepoUrl = shell
+    .exec('git config --get remote.origin.url', {silent: true})
     .stdout.trim();
 
-  const repoUrlUseSSH =
-    /^ssh:\/\//.test(currentRepoUrl) || // ssh://***: explicit protocol
-    /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(currentRepoUrl); // git@github.com:facebook/docusaurus.git
+  // The source branch; defaults to the currently checked out branch
+  const sourceBranch =
+    process.env.CURRENT_BRANCH ||
+    shell.exec('git rev-parse --abbrev-ref HEAD', {silent: true}).stdout.trim();
 
-  const envUseSSH =
+  const gitUser = process.env.GIT_USER;
+
+  let useSSH =
     process.env.USE_SSH !== undefined &&
     process.env.USE_SSH.toLowerCase() === 'true';
 
-  const useSSH = envUseSSH || repoUrlUseSSH;
-
-  const gitUser = process.env.GIT_USER;
   if (!gitUser && !useSSH) {
-    throw new Error(
-      'Please set the GIT_USER environment variable, or use SSH instead!',
-    );
+    // If USE_SSH is unspecified: try inferring from repo URL
+    if (
+      process.env.USE_SSH === undefined &&
+      // ssh://***: explicit protocol
+      (/^ssh:\/\//.test(sourceRepoUrl) ||
+        // git@github.com:facebook/docusaurus.git
+        /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl))
+    ) {
+      useSSH = true;
+    } else {
+      throw new Error(
+        'Please set the GIT_USER environment variable, or explicitly specify USE_SSH instead!',
+      );
+    }
   }
-
-  // The branch that contains the latest docs changes that will be deployed.
-  const currentBranch =
-    process.env.CURRENT_BRANCH ||
-    shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
 
   const organizationName =
     process.env.ORGANIZATION_NAME ||
@@ -167,14 +174,14 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   );
 
   // Check if this is a cross-repo publish.
-  const crossRepoPublish = !currentRepoUrl.endsWith(
+  const crossRepoPublish = !sourceRepoUrl.endsWith(
     `${organizationName}/${projectName}.git`,
   );
 
   // We don't allow deploying to the same branch unless it's a cross publish.
-  if (currentBranch === deploymentBranch && !crossRepoPublish) {
+  if (sourceBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
-      `You cannot deploy from this branch (${currentBranch}).` +
+      `You cannot deploy from this branch (${sourceBranch}).` +
         '\nYou will need to checkout to a different branch!',
     );
   }
