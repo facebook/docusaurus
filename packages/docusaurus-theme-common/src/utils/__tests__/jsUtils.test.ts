@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import uniq from '../uniq';
+import {uniq} from '../jsUtils';
 
 describe('uniq', () => {
   test('remove duplicate primitives', () => {

@@ -5,6 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module 'resolve-pathname' {
-  export default function resolvePathname(to: string, from?: string): string;
-}
+declare module '@endiliey/react-ideal-image';

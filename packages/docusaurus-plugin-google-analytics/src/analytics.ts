@@ -7,6 +7,12 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
+declare global {
+  interface Window {
+    ga: (command: string, ...fields: string[]) => void;
+  }
+}
+
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;

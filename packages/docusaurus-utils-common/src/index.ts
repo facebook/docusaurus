@@ -7,5 +7,3 @@
 
 export {default as applyTrailingSlash} from './applyTrailingSlash';
 export type {ApplyTrailingSlashParams} from './applyTrailingSlash';
-
-export {default as uniq} from './uniq';

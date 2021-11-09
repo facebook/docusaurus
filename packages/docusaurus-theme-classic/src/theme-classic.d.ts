@@ -5,11 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/// <reference types="@docusaurus/module-type-aliases" />
-/// <reference types="@docusaurus/plugin-content-blog" />
-/// <reference types="@docusaurus/plugin-content-docs" />
-/// <reference types="@docusaurus/plugin-content-pages" />
-
 declare module '@docusaurus/theme-classic' {
   export type Options = Partial<import('./index').PluginOptions>;
 }
@@ -123,7 +118,7 @@ declare module '@theme/DocPaginator' {
 }
 
 declare module '@theme/DocSidebar' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly path: string;
@@ -139,7 +134,7 @@ declare module '@theme/DocSidebar' {
 }
 
 declare module '@theme/DocSidebarItem' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   type DocSidebarPropsBase = {
     readonly activePath: string;

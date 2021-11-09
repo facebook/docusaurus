@@ -9,6 +9,6 @@
     "jsx": "react",
     "allowJs": true
   },
-  "include": ["src"],
+  "include": ["src", "deps.d.ts"],
   "exclude": ["**/__tests__/**/*", "src/client"]
 }
