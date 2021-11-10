@@ -16,7 +16,6 @@ import React, {
   forwardRef,
 } from 'react';
 import {useHistory} from '@docusaurus/router';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import styles from './styles.module.css';
 
 interface Props {
@@ -41,7 +40,6 @@ const APITableRow = forwardRef(
     }: {name: string | undefined; children: ReactElement<ComponentProps<'tr'>>},
     ref: React.RefObject<HTMLTableRowElement>,
   ) => {
-    const isBrowser = useIsBrowser();
     const entryName = getText(children);
     const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
     const history = useHistory();
@@ -49,9 +47,7 @@ const APITableRow = forwardRef(
       <tr
         id={entryName}
         tabIndex={0}
-        ref={
-          isBrowser && history.location.hash.includes(anchor) ? ref : undefined
-        }
+        ref={history.location.hash === anchor ? ref : undefined}
         onClick={() => {
           history.push(anchor);
         }}
