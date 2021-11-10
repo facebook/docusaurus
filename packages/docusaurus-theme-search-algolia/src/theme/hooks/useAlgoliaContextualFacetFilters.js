@@ -11,7 +11,7 @@ import useContextualSearchFilters from '@theme/hooks/useContextualSearchFilters'
 export default function useAlgoliaContextualFacetFilters() {
   const {locale, tags} = useContextualSearchFilters();
 
-  // seems safe to convert locale->language, see AlgoliaSearchMetadatas comment
+  // seems safe to convert locale->language, see AlgoliaSearchMetadata comment
   const languageFilter = `language:${locale}`;
 
   const tagsFilter = tags.map((tag) => `docusaurus_tag:${tag}`);

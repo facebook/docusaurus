@@ -9,8 +9,8 @@ import React from 'react';
 
 import Head from '@docusaurus/Head';
 
-// Override default/agnostic SearchMetas to use Algolia-specific metadatas
-export default function AlgoliaSearchMetadatas({locale, version, tag}) {
+// Override default/agnostic SearchMetas to use Algolia-specific metadata
+export default function AlgoliaSearchMetadata({locale, version, tag}) {
   // Seems safe to consider here the locale is the language,
   // as the existing docsearch:language filter is afaik a regular string-based filter
   const language = locale;
