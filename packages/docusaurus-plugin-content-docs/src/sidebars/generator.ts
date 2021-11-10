@@ -11,7 +11,6 @@ import type {
   SidebarItemCategory,
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
-  SidebarItemCategoryLinkDoc,
   SidebarItemCategoryLink,
 } from './types';
 import {keyBy, sortBy, last} from 'lodash';
@@ -26,6 +25,10 @@ const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
 const docIdPrefix = '$doc$/';
 
+function getLocalDocId(docId: string): string {
+  return last(docId.split('/'))!;
+}
+
 // By convention, Docusaurus turns certain doc filenames as category doc links
 // TODO make this function configurable?
 function isConventionalCategoryDocLink({
@@ -36,7 +39,7 @@ function isConventionalCategoryDocLink({
   item: SidebarItemDoc;
 }): boolean {
   // TODO using the id is not 100% accurate, but good enough for now?
-  const docName = last(item.id.split('/'))!;
+  const docName = getLocalDocId(item.id)!;
 
   const eligibleDocIndexNames = ['index', 'readme', folderName.toLowerCase()];
 
@@ -219,28 +222,12 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         ),
       );
 
-      function findOrCreateDocLinkItem(
-        link: SidebarItemCategoryLinkDoc,
-      ): SidebarItemDoc | undefined {
-        function findExistingDocItem() {
-          return allItems.find(
-            (item) =>
-              item.type === 'doc' &&
-              // Search by "local id"
-              (item.id === link.id ||
-                // Search by "qualified id"
-                last(item.id.split('/')) === link.id),
-          ) as SidebarItemDoc | undefined;
-        }
-        return (
-          // Try to match a doc inside the category folder,
-          // using the "local id" (myDoc) or "qualified id" (dirName/myDoc)
-          findExistingDocItem() ||
-          // Or try to match a doc anywhere with a "qualified id" (otherDirName/myDoc)
-          // (even outside of the current folder)
-          // and create a new doc sidebar item
-          createDocItem(link.id)
-        );
+      // Try to match a doc inside the category folder,
+      // using the "local id" (myDoc) or "qualified id" (dirName/myDoc)
+      function findDocByLocalId(localId: string): SidebarItemDoc | undefined {
+        return allItems.find(
+          (item) => item.type === 'doc' && getLocalDocId(item.id) === localId,
+        ) as SidebarItemDoc | undefined;
       }
 
       function findConventionalCategoryDocLink(): SidebarItemDoc | undefined {
@@ -251,11 +238,11 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         ) as SidebarItemDoc | undefined;
       }
 
-      function getCategoryDoc(): SidebarItemDoc | undefined {
+      function getCategoryLinkedDocId(): string | undefined {
         const link = categoryMetadata?.link;
         if (link) {
           if (link.type === 'doc') {
-            return findOrCreateDocLinkItem(link);
+            return findDocByLocalId(link.id)?.id || getDoc(link.id).id;
           } else {
             // We don't continue for other link types on purpose!
             // IE if user decide to use type "generated-index", we should not pick a README.md file as the linked doc
@@ -263,21 +250,22 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
           }
         }
         // Apply default convention to pick index.md, README.md or <categoryName>.md as the category doc
-        return findConventionalCategoryDocLink();
+        return findConventionalCategoryDocLink()?.id;
       }
 
-      const categoryIndexDoc = getCategoryDoc();
+      const categoryLinkedDocId = getCategoryLinkedDocId();
 
-      const link: SidebarItemCategoryLinkDoc | undefined = categoryIndexDoc
+      const link: SidebarItemCategoryLink | undefined = categoryLinkedDocId
         ? {
             type: 'doc',
-            id: categoryIndexDoc.id,
+            id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
           }
-        : undefined;
+        : categoryMetadata?.link;
 
-      const items = categoryIndexDoc
-        ? allItems.filter((item) => item !== categoryIndexDoc)
-        : allItems;
+      // If a doc is linked, remove it from the category subItems
+      const items = allItems.filter(
+        (item) => !(item.type === 'doc' && item.id === categoryLinkedDocId),
+      );
 
       return {
         type: 'category',
