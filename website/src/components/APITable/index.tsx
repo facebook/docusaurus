@@ -13,7 +13,9 @@ import React, {
   isValidElement,
   useRef,
   useEffect,
+  forwardRef,
 } from 'react';
+import {useHistory} from '@docusaurus/router';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import styles from './styles.module.css';
 
@@ -31,47 +33,60 @@ function getText(node: ReactElement): string {
   return curNode as string;
 }
 
+const APITableRow = forwardRef(
+  (
+    {
+      name,
+      children,
+    }: {name: string | undefined; children: ReactElement<ComponentProps<'tr'>>},
+    ref: React.RefObject<HTMLTableRowElement>,
+  ) => {
+    const isBrowser = useIsBrowser();
+    const entryName = getText(children);
+    const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
+    const history = useHistory();
+    return (
+      <tr
+        id={entryName}
+        tabIndex={0}
+        ref={
+          isBrowser && history.location.hash.includes(anchor) ? ref : undefined
+        }
+        onClick={() => {
+          history.push(anchor);
+        }}
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (e.key === 'Enter') {
+            history.push(anchor);
+          }
+        }}>
+        {children.props.children}
+      </tr>
+    );
+  },
+);
+
 /*
  * Note: this is not a quite robust component since it makes a lot of
  * assumptions about how the children looks; however, those assumptions
  * should be generally correct in the MDX context.
  */
 export default function APITable({children, name}: Props): JSX.Element {
-  const isBrowser = useIsBrowser();
   const [thead, tbody] = Children.toArray(
     children.props.children,
   ) as ReactElement[];
   const highlightedRow = useRef<HTMLTableRowElement>(null);
-  const rows = Children.map(
-    tbody.props.children,
-    (row: ReactElement<ComponentProps<'tr'>>) => {
-      const entryName = getText(row);
-      const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
-      return (
-        <tr
-          id={entryName}
-          tabIndex={0}
-          ref={
-            isBrowser && window.location.href.includes(anchor)
-              ? highlightedRow
-              : undefined
-          }
-          onClick={() => {
-            window.location.href = anchor;
-          }}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter') {
-              window.location.href = anchor;
-            }
-          }}>
-          {row.props.children}
-        </tr>
-      );
-    },
-  );
   useEffect(() => {
     highlightedRow.current?.focus();
   }, [highlightedRow]);
+  const rows = Children.map(
+    tbody.props.children,
+    (row: ReactElement<ComponentProps<'tr'>>) => (
+      <APITableRow name={name} ref={highlightedRow}>
+        {row}
+      </APITableRow>
+    ),
+  );
 
   return (
     <table className={styles.apiTable}>
