@@ -14,7 +14,7 @@ import type {
   SidebarItemCategoryLinkDoc,
   SidebarItemCategoryLink,
 } from './types';
-import {keyBy, sortBy} from 'lodash';
+import {keyBy, sortBy, last} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import chalk from 'chalk';
@@ -37,8 +37,7 @@ function isConventionalCategoryDocLink({
   item: SidebarItemDoc;
 }): boolean {
   // TODO using the id is not 100% accurate, but good enough for now?
-  const parts = item.id.split('/');
-  const docName = parts[parts.length - 1]!;
+  const docName = last(item.id.split('/'))!;
 
   const eligibleDocIndexNames = ['index', 'readme', folderName];
 
@@ -123,6 +122,21 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   item: {dirName: autogenDir},
   version,
 }) => {
+  const docsById = keyBy(allDocs, (doc) => doc.id);
+  const findDoc = (docId: string): SidebarItemsGeneratorDoc | undefined =>
+    docsById[docId];
+  const getDoc = (docId: string): SidebarItemsGeneratorDoc => {
+    const doc = findDoc(docId);
+    if (!doc) {
+      throw new Error(
+        `Can't find any doc with id=${docId}.\nAvailable doc ids:\n- ${Object.keys(
+          docsById,
+        ).join('\n- ')}`,
+      );
+    }
+    return doc;
+  };
+
   /**
    * Step 1. Extract the docs that are in the autogen dir.
    */
@@ -186,12 +200,11 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
    * (From a record to an array of items, akin to normalizing shorthand)
    */
   function generateSidebar(fsModel: Dir): Promise<WithPosition<SidebarItem>[]> {
-    const docsById = keyBy(allDocs, (doc) => doc.id);
     function createDocItem(id: string): WithPosition<SidebarItemDoc> {
       const {
         sidebarPosition: position,
         frontMatter: {sidebar_label: label, sidebar_class_name: className},
-      } = docsById[id];
+      } = getDoc(id);
       return {
         type: 'doc',
         id,
@@ -216,25 +229,48 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         ),
       );
 
-      function getCategoryDoc(): SidebarItemDoc | undefined {
-        const link = categoryMetadata?.link;
-        if (link) {
-          if (link.type === 'doc') {
-            return allItems.find(
-              (item) => item.type === 'doc' && item.id === link.id,
-            ) as SidebarItemDoc | undefined;
-          } else {
-            // We don't continue for other link types on purpose!
-            // IE if user decide to use type "index", we should not pick a README.md file as the linked doc
-            return undefined;
-          }
+      function findOrCreateDocLinkItem(
+        link: SidebarItemCategoryLinkDoc,
+      ): SidebarItemDoc | undefined {
+        function findExistingDocItem() {
+          return allItems.find(
+            (item) =>
+              item.type === 'doc' &&
+              (item.id === link.id || last(item.id.split('/')) === link.id),
+          ) as SidebarItemDoc | undefined;
         }
-        // Apply default convention to pick index.md, readme.md or <categoryName>.md as the category doc
+        return (
+          // Try to match a doc inside the category folder,
+          // using the "local id" (myDoc) or "qualified id" (dirName/myDoc)
+          findExistingDocItem() ||
+          // Or try to match a doc anywhere with a "qualified id" (otherDirName/myDoc)
+          // (even outside of the current folder)
+          // and create a new doc sidebar item
+          createDocItem(link.id)
+        );
+      }
+
+      function findConventionalCategoryDocLink(): SidebarItemDoc | undefined {
         return allItems.find(
           (item) =>
             item.type === 'doc' &&
             isConventionalCategoryDocLink({folderName, item}),
         ) as SidebarItemDoc | undefined;
+      }
+
+      function getCategoryDoc(): SidebarItemDoc | undefined {
+        const link = categoryMetadata?.link;
+        if (link) {
+          if (link.type === 'doc') {
+            return findOrCreateDocLinkItem(link);
+          } else {
+            // We don't continue for other link types on purpose!
+            // IE if user decide to use type "generated-index", we should not pick a README.md file as the linked doc
+            return undefined;
+          }
+        }
+        // Apply default convention to pick index.md, readme.md or <categoryName>.md as the category doc
+        return findConventionalCategoryDocLink();
       }
 
       const categoryIndexDoc = getCategoryDoc();
