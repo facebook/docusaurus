@@ -16,6 +16,11 @@
   transform: scale(1.01);
 }
 
+.showcaseCardImage {
+  overflow: hidden;
+  max-height: 160px;
+}
+
 .showcaseCardHeader {
   display: flex;
   align-items: center;
@@ -47,6 +52,15 @@
 
 .showcaseCardTitle a:hover::before {
   opacity: 0;
+}
+
+.showcaseCardTitle,
+.showcaseCardHeader .svgIconFavorite {
+  margin-right: 0.25rem;
+}
+
+.showcaseCardHeader .svgIconFavorite {
+  color: var(--ifm-color-svgIcon-favorite);
 }
 
 .showcaseCardSrcBtn {

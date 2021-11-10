@@ -6,24 +6,32 @@
  */
 
 import React, {memo} from 'react';
-
-import styles from './styles.module.css';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
+
+import styles from './styles.module.css';
+import FavoriteIcon from '../../svgIcons/FavoriteIcon';
+import Tooltip from '../showcaseTooltip';
 import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
-function TagComp({label, description}: Tag) {
-  return (
-    <li
-      aria-label={label}
-      className={styles.tag}
-      // TODO add a proper tooltip
-      title={description}>
-      <span>{label.toLowerCase()}</span>
-    </li>
-  );
+interface Props extends Tag {
+  id: string;
 }
+
+const TagComp = React.forwardRef(
+  ({id, label, description}: Props, ref: React.RefObject<HTMLLIElement>) => {
+    return (
+      <li
+        ref={ref}
+        aria-describedby={id}
+        className={styles.tag}
+        title={description}>
+        <span>{label.toLowerCase()}</span>
+      </li>
+    );
+  },
+);
 
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   const tagObjects = tags.map((tag) => ({tag, ...Tags[tag]}));
@@ -35,20 +43,23 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
 
   return (
     <>
-      {tagObjectsSorted.map((tagObject, index) => (
-        <TagComp key={index} {...tagObject} />
-      ))}
+      {tagObjectsSorted.map((tagObject, index) => {
+        const id = `showcase_card_tag_${tagObject.tag}`;
+
+        return (
+          <Tooltip key={index} text={tagObject.description} id={id}>
+            <TagComp id={id} key={index} {...tagObject} />
+          </Tooltip>
+        );
+      })}
     </>
   );
 }
 
 const ShowcaseCard = memo(function ({user}: {user: User}) {
   return (
-    <li
-      key={user.title}
-      title={user.title}
-      className={clsx('card', styles.showcaseCard)}>
-      <div className="card__image">
+    <li key={user.title} className={clsx('card', styles.showcaseCard)}>
+      <div className={clsx('card__image', styles.showcaseCardImage)}>
         <Image img={user.preview} alt={user.title} />
       </div>
       <div className="card__body">
@@ -62,6 +73,9 @@ const ShowcaseCard = memo(function ({user}: {user: User}) {
               {user.title}
             </a>
           </h4>
+          {user.tags.includes('favorite') && (
+            <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
+          )}
           <a
             href={user.source}
             tabIndex={0}

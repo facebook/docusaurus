@@ -29,10 +29,15 @@
   );
 
   --ifm-color-feedback-background: #fff;
+  --ifm-color-favorite-background: #f6fdfd;
+  --ifm-color-tooltip: #fff;
+  --ifm-color-tooltip-background: #242526;
+  --ifm-color-svgIcon-favorite: #e9669e;
 }
 
 html[data-theme='dark'] {
   --ifm-color-feedback-background: #f0f8ff;
+  --ifm-color-favorite-background: #1d1e1e;
 }
 
 .docusaurus-highlight-code-line {

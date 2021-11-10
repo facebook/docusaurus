@@ -16,8 +16,15 @@ import clsx from 'clsx';
 import { useHistory, useLocation } from '@docusaurus/router';
 
 import styles from './styles.module.css';
+<<<<<<< HEAD
 import { toggleListItem } from '../../utils/jsUtils';
 import { SortedUsers, Tags, TagList, User, TagType } from '../../data/users';
+=======
+import {toggleListItem} from '../../utils/jsUtils';
+import {SortedUsers, Tags, TagList, User, TagType} from '../../data/users';
+import Tooltip from '../../components/showcase/showcaseTooltip';
+import FavoriteIcon from '../../components/svgIcons/FavoriteIcon';
+>>>>>>> create Tooltip component, Svg component
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'Beautiful sites that people are building with Docusaurus';
@@ -121,7 +128,7 @@ function ShowcaseFilters(props: Props) {
   const { operator, filteredUsers, selectedTags, toggleTag, setOperator } = props;
 
   return (
-    <section className="margin-top--xl margin-bottom--xl">
+    <section className="container margin-top--xl margin-bottom--xl">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
         <span>
           <h3>Filter</h3>
@@ -136,19 +143,28 @@ function ShowcaseFilters(props: Props) {
         />
       </div>
       <ul className={styles.checkboxList}>
-        {TagList.map((tag) => {
+        {TagList.map((tag, i) => {
           const { label, description } = Tags[tag];
+          const id = `showcase_checkbox_id_${tag};`;
 
           return (
-            <ShowcaseCheckbox
-              // TODO add a proper tooltip
-              name={tag}
-              key={tag}
-              label={label}
-              title={`${label}: ${description}`}
-              onChange={() => toggleTag(tag)}
-              checked={selectedTags.includes(tag)}
-            />
+            <li key={i} className={styles.checkboxListItem}>
+              <Tooltip id={id} text={description}>
+                <ShowcaseCheckbox
+                  name={tag}
+                  id={id}
+                  label={label}
+                  title={`${label}: ${description}`}
+                  icon={
+                    tag === 'favorite' && (
+                      <FavoriteIcon svgClass={styles.svgIconFavorite} />
+                    )
+                  }
+                  onChange={() => toggleTag(tag)}
+                  checked={selectedTags.includes(tag)}
+                />
+              </Tooltip>
+            </li>
           );
         })}
       </ul>
@@ -172,43 +188,51 @@ function ShowcaseCards({
   );
 
   return (
-    <section
-      className={clsx('margin-top--xl margin-bottom--xl', styles.showcaseList)}>
+    <section className="margin-top--xl margin-bottom--xl">
       {filteredUsers.length > 0 ? (
         <>
           {favoriteUsers ? (
             <>
-              <h3>Our favorites</h3>
-              <ul className={clsx(styles.showcaseGrid)}>
-                {favoriteUsers.map((user) => (
-                  <ShowcaseCard
-                    key={user.title} // Title should be unique
-                    user={user}
-                  />
-                ))}
-              </ul>
-              <ul className={clsx('margin-top--xl', styles.showcaseGrid)}>
-                {otherUsers.map((user) => (
-                  <ShowcaseCard
-                    key={user.title} // Title should be unique
-                    user={user}
-                  />
-                ))}
-              </ul>
+              <div className={styles.showcaseFavorite}>
+                <div className="container">
+                  <h3 className={styles.showcaseHeader}>Our favorites</h3>
+                  <ul className={clsx('container', styles.showcaseList)}>
+                    {favoriteUsers.map((user) => (
+                      <ShowcaseCard
+                        key={user.title} // Title should be unique
+                        user={user}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="container margin-top--xl">
+                <h3 className={styles.showcaseHeader}>All sites</h3>
+                <ul className={styles.showcaseList}>
+                  {otherUsers.map((user) => (
+                    <ShowcaseCard
+                      key={user.title} // Title should be unique
+                      user={user}
+                    />
+                  ))}
+                </ul>
+              </div>
             </>
           ) : (
-            <ul className={clsx(styles.showcaseGrid)}>
-              {filteredUsers.map((user) => (
-                <ShowcaseCard
-                  key={user.title} // Title should be unique
-                  user={user}
-                />
-              ))}
-            </ul>
+            <div className="container">
+              <ul className={styles.showcaseList}>
+                {filteredUsers.map((user) => (
+                  <ShowcaseCard
+                    key={user.title} // Title should be unique
+                    user={user}
+                  />
+                ))}
+              </ul>
+            </div>
           )}
         </>
       ) : (
-        <div className={clsx('padding-vert--md text--center')}>
+        <div className={clsx('container padding-vert--md text--center')}>
           <h3>No result</h3>
         </div>
       )}
@@ -223,7 +247,7 @@ function Showcase(): JSX.Element {
 
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
-      <main className="container margin-vert--lg">
+      <main className="margin-vert--lg">
         <ShowcaseHeader />
         <ShowcaseFilters
           selectedTags={selectedTags}

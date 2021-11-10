@@ -30,14 +30,52 @@
 }
 
 .checkboxList,
-.showcaseGrid {
-  list-style: none;
+.showcaseList {
   padding: 0px;
+  list-style: none;
 }
 
-.showcaseGrid {
+.checkboxListItem {
+  position: relative;
+  background-color: transparent;
+  user-select: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  outline: 0px;
+  text-decoration: none;
+  padding: 0px;
+  font-size: 0.8rem;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.checkboxListItem {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.checkboxListItem:last-child {
+  margin-right: 0;
+}
+
+.showcaseList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 32px;
+  gap: 24px;
   position: relative;
+}
+
+.showcaseFavorite {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: var(--ifm-color-favorite-background);
+}
+
+.svgIconFavorite {
+  margin-left: 0.625rem;
+  font-size: 1rem;
+  color: var(--ifm-color-svgIcon-favorite);
 }
