@@ -1,16 +1,20 @@
-name: Tests E2E
+name: E2E Tests
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - website/**
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - website/**
 
 jobs:
   yarn-v1:
-    name: E2E Test with Yarn v1
+    name: E2E — Yarn v1
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -43,7 +47,7 @@ jobs:
           CI: true
 
   yarn-berry:
-    name: E2E Test with Yarn Berry
+    name: E2E — Yarn Berry
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
