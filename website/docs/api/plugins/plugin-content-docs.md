@@ -5,6 +5,8 @@ title: '📦 plugin-content-docs'
 slug: '/api/plugins/@docusaurus/plugin-content-docs'
 ---
 
+import APITable from '@site/src/components/APITable';
+
 Provides the [Docs](../../guides/docs/docs-introduction.md) functionality and is the default docs plugin for Docusaurus.
 
 ## Installation {#installation}
@@ -25,7 +27,7 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -58,7 +60,7 @@ Accepted fields:
 | `versions` | `Versions` | `{}` | Independent customization of each version's properties. |
 | `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. <br /> Tip: limit to 2 or 3 versions to improve startup and build time in dev and deploy previews. |
 
-</small>
+</APITable>
 
 ```typescript
 type EditUrlFunction = (params: {
@@ -239,7 +241,7 @@ Markdown documents can use the following Markdown FrontMatter metadata fields, e
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -263,7 +265,7 @@ Accepted fields:
 | `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 
-</small>
+</APITable>
 
 ```typescript
 type Tag = string | {label: string; permalink: string};
