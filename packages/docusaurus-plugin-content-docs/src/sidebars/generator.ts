@@ -38,9 +38,9 @@ function isConventionalCategoryDocLink({
   // TODO using the id is not 100% accurate, but good enough for now?
   const docName = last(item.id.split('/'))!;
 
-  const eligibleDocIndexNames = ['index', 'readme', folderName];
+  const eligibleDocIndexNames = ['index', 'readme', folderName.toLowerCase()];
 
-  return eligibleDocIndexNames.includes(docName);
+  return eligibleDocIndexNames.includes(docName.toLowerCase());
 }
 
 export const CategoryMetadataFilenameBase = '_category_';
