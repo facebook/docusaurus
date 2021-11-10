@@ -20,18 +20,16 @@ import {
   NormalizedSidebarItemCategory,
 } from './types';
 import {mapValues} from 'lodash';
-import {NormalizeSidebarParams} from '../types';
-import {createSlugger, normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl} from '@docusaurus/utils';
 
 function normalizeCategoryLink(
   category: SidebarItemCategoryConfig,
-  params: NormalizeSidebarParams,
+  params: NormalizeSidebarsParams,
 ): SidebarItemCategoryLink | undefined {
   if (category.link?.type === 'generated-index') {
     // default slug logic can be improved
     function getDefaultSlug() {
-      const categoryLabelSlug = params.slugger.slug(category.label);
-      return `${params.sidebarName}/category/${categoryLabelSlug}`;
+      return `/category/${params.categoryLabelSlugger.slug(category.label)}`;
     }
     const slug = category.link.slug ?? getDefaultSlug();
     const permalink = normalizeUrl([params.version.versionPath, slug]);
@@ -61,9 +59,9 @@ function normalizeCategoriesShorthand(
  * Normalizes recursively item and all its children. Ensures that at the end
  * each item will be an object with the corresponding type.
  */
-function normalizeItem(
+export function normalizeItem(
   item: SidebarItemConfig,
-  options: NormalizeSidebarParams,
+  options: NormalizeSidebarsParams,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
     return [
@@ -94,7 +92,7 @@ function normalizeItem(
 
 function normalizeSidebar(
   sidebar: SidebarConfig,
-  options: NormalizeSidebarParams,
+  options: NormalizeSidebarsParams,
 ): NormalizedSidebar {
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
@@ -109,13 +107,7 @@ export function normalizeSidebars(
   sidebars: SidebarsConfig,
   params: NormalizeSidebarsParams,
 ): NormalizedSidebars {
-  const slugger = createSlugger();
-
-  return mapValues(sidebars, (items, sidebarName) => {
-    return normalizeSidebar(items, {
-      ...params,
-      sidebarName,
-      slugger,
-    });
+  return mapValues(sidebars, (items) => {
+    return normalizeSidebar(items, params);
   });
 }

@@ -88,11 +88,7 @@ export type SidebarOptions = {
 
 export type NormalizeSidebarsParams = SidebarOptions & {
   version: VersionMetadata;
-};
-
-export type NormalizeSidebarParams = NormalizeSidebarsParams & {
-  sidebarName: string;
-  slugger: Slugger;
+  categoryLabelSlugger: Slugger;
 };
 
 export type PluginOptions = MetadataOptions &

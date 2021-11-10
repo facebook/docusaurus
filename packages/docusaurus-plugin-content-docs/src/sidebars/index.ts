@@ -13,6 +13,7 @@ import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars, SidebarProcessorProps} from './processor';
 import path from 'path';
+import {createSlugger} from '@docusaurus/utils';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [
@@ -80,9 +81,14 @@ export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorProps,
 ): Promise<Sidebars> {
-  const normalizedSidebars = loadNormalizedSidebars(sidebarFilePath, {
+  const normalizeSidebarsParams: NormalizeSidebarsParams = {
     ...options.options,
     version: options.version,
-  });
-  return processSidebars(normalizedSidebars, options);
+    categoryLabelSlugger: createSlugger(),
+  };
+  const normalizedSidebars = loadNormalizedSidebars(
+    sidebarFilePath,
+    normalizeSidebarsParams,
+  );
+  return processSidebars(normalizedSidebars, options, normalizeSidebarsParams);
 }
