@@ -1,4 +1,5 @@
 ---
+sidebar_position: 7
 id: plugin-google-gtag
 title: '📦 plugin-google-gtag'
 slug: '/api/plugins/@docusaurus/plugin-google-gtag'

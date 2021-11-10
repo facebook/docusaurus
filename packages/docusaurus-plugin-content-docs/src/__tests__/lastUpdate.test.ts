@@ -40,7 +40,7 @@ describe('lastUpdate', () => {
     expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock.mock.calls[0][0].message).toContain(
-      `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFileName}`,
+      ' with exit code 128',
     );
     expect(await getFileLastUpdate(null)).toBeNull();
     expect(await getFileLastUpdate(undefined)).toBeNull();

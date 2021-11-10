@@ -9,6 +9,7 @@ on:
 
 jobs:
   publish-canary:
+    name: Publish Canary
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -1,4 +1,5 @@
 ---
+sidebar_position: 10
 id: plugin-sitemap
 title: '📦 plugin-sitemap'
 slug: '/api/plugins/@docusaurus/plugin-sitemap'
