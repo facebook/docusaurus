@@ -296,7 +296,7 @@ declare module '@theme/Layout' {
     readonly permalink?: string;
     readonly wrapperClassName?: string;
     readonly pageClassName?: string;
-    readonly searchMetadatas?: {
+    readonly searchMetadata?: {
       readonly version?: string;
       readonly tag?: string;
     };
@@ -315,15 +315,15 @@ declare module '@theme/LayoutHead' {
   export default LayoutHead;
 }
 
-declare module '@theme/SearchMetadatas' {
+declare module '@theme/SearchMetadata' {
   export interface Props {
     readonly locale?: string;
     readonly version?: string;
     readonly tag?: string;
   }
 
-  const SearchMetadatas: (props: Props) => JSX.Element;
-  export default SearchMetadatas;
+  const SearchMetadata: (props: Props) => JSX.Element;
+  export default SearchMetadata;
 }
 
 declare module '@theme/LastUpdated' {
@@ -802,11 +802,4 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
-}
-
-declare module 'prism-react-renderer/prism' {
-  import type * as PrismNamespace from 'prismjs';
-
-  const Prism: typeof PrismNamespace;
-  export default Prism;
 }
