@@ -138,19 +138,12 @@ By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.
 
 ### Environment settings {#environment-settings}
 
-Specify the Git user as an environment variable.
-
 | Name | Description |
 | --- | --- |
-| `GIT_USER` | The username for a GitHub account that **has push access to the deployment repo**. For your own repositories, this will usually be your GitHub username. |
-
-Optional parameters, also set as environment variables:
-
-| Name | Description |
-| --- | --- |
-| `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
+| `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. If the source repo URL is an SSH URL (e.g. `git@github.com:facebook/docusaurus.git`), `USE_SSH` is inferred to be `true`. |
+| `GIT_USER` | The username for a GitHub account that **has push access to the deployment repo**. For your own repositories, this will usually be your GitHub username. Required if not using SSH, and ignored otherwise. |
+| `GIT_PASS` | Personal access token of the git user (specified by `GIT_USER`), to facilitate non-interactive deployment (e.g. continuous deployment) |
 | `CURRENT_BRANCH` | The source branch. Usually, the branch will be `main` or `master`, but it could be any branch except for `gh-pages`. If nothing is set for this variable, then the current branch from which `docusaurus deploy` is invoked will be used. |
-| `GIT_PASS` | Personal access token of the `git` user (specified by `GIT_USER`), to facilitate non-interactive deployment (e.g. continuous deployment) |
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
 
@@ -362,7 +355,6 @@ jobs:
       - name: Deploy to GitHub Pages
         env:
           USE_SSH: true
-          GIT_USER: git
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "gh-actions"
@@ -492,7 +484,6 @@ trigger:
     - yarn deploy
   environment:
     USE_SSH: true
-    GIT_USER: $DRONE_COMMIT_AUTHOR
     GITHUB_PRIVATE_KEY:
       from_secret: git_deploy_private_key
 ```
