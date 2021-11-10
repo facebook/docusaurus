@@ -22,9 +22,9 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = await plugin.loadContent?.();
+    const pagesMetadata = await plugin.loadContent?.();
 
-    expect(pagesMetadatas).toEqual([
+    expect(pagesMetadata).toEqual([
       {
         type: 'jsx',
         permalink: '/',
@@ -89,7 +89,7 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = await plugin.loadContent?.();
+    const pagesMetadata = await plugin.loadContent?.();
 
     const frTranslationsPath = path.posix.join(
       '@site',
@@ -98,7 +98,7 @@ describe('docusaurus-plugin-content-pages', () => {
       'docusaurus-plugin-content-pages',
     );
 
-    expect(pagesMetadatas).toEqual([
+    expect(pagesMetadata).toEqual([
       {
         type: 'jsx',
         permalink: '/',

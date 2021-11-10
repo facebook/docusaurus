@@ -60,7 +60,7 @@ function DocPageContent({
     <Layout
       wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsDocPage}
-      searchMetadatas={{
+      searchMetadata={{
         version,
         tag: docVersionSearchTag(pluginId, version),
       }}>

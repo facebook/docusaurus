@@ -8,12 +8,12 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-import type {Props} from '@theme/SearchMetadatas';
+import type {Props} from '@theme/SearchMetadata';
 
 // Note: we don't couple this to Algolia/DocSearch on purpose
 // We may want to support other search engine plugins too
 // Search plugins should swizzle/override this comp to add their behavior
-export default function SearchMetadatas({
+export default function SearchMetadata({
   locale,
   version,
   tag,

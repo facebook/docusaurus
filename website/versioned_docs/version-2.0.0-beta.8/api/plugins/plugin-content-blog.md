@@ -4,6 +4,8 @@ title: '📦 plugin-content-blog'
 slug: '/api/plugins/@docusaurus/plugin-content-blog'
 ---
 
+import APITable from '@site/src/components/APITable';
+
 Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
 ## Installation {#installation}
@@ -24,7 +26,7 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -60,7 +62,7 @@ Accepted fields:
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
 | `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
 
-</small>
+</APITable>
 
 ```typescript
 type EditUrlFunction = (params: {
@@ -191,7 +193,7 @@ Markdown documents can use the following Markdown FrontMatter metadata fields, e
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -212,7 +214,7 @@ Accepted fields:
 | `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
 | `slug` | `string` | File path | Allows to customize the blog post url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
 
-</small>
+</APITable>
 
 ```typescript
 type Tag = string | {label: string; permalink: string};

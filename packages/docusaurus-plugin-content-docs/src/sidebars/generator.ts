@@ -48,7 +48,7 @@ function isConventionalCategoryDocLink({
 export const CategoryMetadataFilenameBase = '_category_';
 export const CategoryMetadataFilenamePattern = '_category_.{json,yml,yaml}';
 
-export type CategoryMetadatasFile = {
+export type CategoryMetadataFile = {
   label?: string;
   position?: number;
   collapsed?: boolean;
@@ -72,7 +72,7 @@ type Dir = {
   [item: string]: Dir | null;
 };
 
-const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
+const CategoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
   label: Joi.string(),
   position: Joi.number(),
   collapsed: Joi.boolean(),
@@ -85,14 +85,14 @@ const CategoryMetadatasFileSchema = Joi.object<CategoryMetadatasFile>({
 // Example use-case being able to disable number prefix parsing at the folder level, or customize the default route path segment for an intermediate directory...
 // TODO later if there is `CategoryFolder/with-category-name-doc.md`, we may want to read the metadata as yaml on it
 // see https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
-async function readCategoryMetadatasFile(
+async function readCategoryMetadataFile(
   categoryDirPath: string,
-): Promise<CategoryMetadatasFile | null> {
-  async function tryReadFile(filePath: string): Promise<CategoryMetadatasFile> {
+): Promise<CategoryMetadataFile | null> {
+  async function tryReadFile(filePath: string): Promise<CategoryMetadataFile> {
     const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
     const unsafeContent = Yaml.load(contentString);
     try {
-      return Joi.attempt(unsafeContent, CategoryMetadatasFileSchema);
+      return Joi.attempt(unsafeContent, CategoryMetadataFileSchema);
     } catch (e) {
       console.error(
         chalk.red(
@@ -104,7 +104,7 @@ async function readCategoryMetadatasFile(
   }
   // eslint-disable-next-line no-restricted-syntax
   for (const ext of ['.json', '.yml', '.yaml']) {
-    // Simpler to use only posix paths for mocking file metadatas in tests
+    // Simpler to use only posix paths for mocking file metadata in tests
     const filePath = posixPath(
       path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
     );
@@ -207,8 +207,8 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       folderName: string,
     ): Promise<WithPosition<SidebarItemCategory>> {
       const categoryPath = path.join(version.contentPath, autogenDir, fullPath);
-      const categoryMetadatas = await readCategoryMetadatasFile(categoryPath);
-      const className = categoryMetadatas?.className;
+      const categoryMetadata = await readCategoryMetadataFile(categoryPath);
+      const className = categoryMetadata?.className;
       const {filename, numberPrefix} = numberPrefixParser(folderName);
       const allItems = await Promise.all(
         Object.entries(dir).map(([key, content]) =>
@@ -217,7 +217,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       );
 
       function getCategoryDoc(): SidebarItemDoc | undefined {
-        const link = categoryMetadatas?.link;
+        const link = categoryMetadata?.link;
         if (link) {
           if (link.type === 'doc') {
             return allItems.find(
@@ -252,11 +252,11 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
 
       return {
         type: 'category',
-        label: categoryMetadatas?.label ?? filename,
+        label: categoryMetadata?.label ?? filename,
         collapsible:
-          categoryMetadatas?.collapsible ?? options.sidebarCollapsible,
-        collapsed: categoryMetadatas?.collapsed ?? options.sidebarCollapsed,
-        position: categoryMetadatas?.position ?? numberPrefix,
+          categoryMetadata?.collapsible ?? options.sidebarCollapsible,
+        collapsed: categoryMetadata?.collapsed ?? options.sidebarCollapsed,
+        position: categoryMetadata?.position ?? numberPrefix,
         ...(className !== undefined && {className}),
         items,
         ...(link && {link}),

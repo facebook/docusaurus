@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  build:
+  lighthouse-report:
+    name: Lighthouse Report
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

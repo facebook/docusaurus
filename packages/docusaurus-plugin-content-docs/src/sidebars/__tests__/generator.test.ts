@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  CategoryMetadatasFile,
-  DefaultSidebarItemsGenerator,
-} from '../generator';
+import {CategoryMetadataFile, DefaultSidebarItemsGenerator} from '../generator';
 import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
@@ -37,7 +34,7 @@ describe('DefaultSidebarItemsGenerator', () => {
   }
 
   function mockCategoryMetadataFiles(
-    categoryMetadataFiles: Record<string, Partial<CategoryMetadatasFile>>,
+    categoryMetadataFiles: Record<string, Partial<CategoryMetadataFile>>,
   ) {
     jest.spyOn(fs, 'pathExists').mockImplementation((metadataFilePath) => {
       return typeof categoryMetadataFiles[metadataFilePath] !== 'undefined';

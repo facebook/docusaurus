@@ -1,4 +1,5 @@
 ---
+sidebar_position: 4
 id: plugin-client-redirects
 title: '📦 plugin-client-redirects'
 slug: '/api/plugins/@docusaurus/plugin-client-redirects'

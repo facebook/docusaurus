@@ -148,8 +148,8 @@ export type PropSidebars = {
 };
 
 // Reduce API surface for options.sidebarItemsGenerator
-// The user-provided generator fn should receive only a subset of metadatas
-// A change to any of these metadatas can be considered as a breaking change
+// The user-provided generator fn should receive only a subset of metadata
+// A change to any of these metadata can be considered as a breaking change
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
   'id' | 'frontMatter' | 'source' | 'sourceDirName' | 'sidebarPosition'

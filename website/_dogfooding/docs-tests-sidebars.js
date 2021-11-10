@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -69,7 +69,6 @@ const sidebars = {
 module.exports = sidebars;
 
 function generateHugeSidebarItems() {
-  const maxLevel = 3;
   const linksCount = 8;
   const categoriesCount = 8;
 
@@ -93,5 +92,5 @@ function generateHugeSidebarItems() {
     return [...linkItems, ...categoryItems];
   }
 
-  return generateRecursive(maxLevel);
+  return generateRecursive(3);
 }
