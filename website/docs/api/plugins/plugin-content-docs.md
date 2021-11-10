@@ -1,4 +1,5 @@
 ---
+sidebar_position: 1
 id: plugin-content-docs
 title: '📦 plugin-content-docs'
 slug: '/api/plugins/@docusaurus/plugin-content-docs'

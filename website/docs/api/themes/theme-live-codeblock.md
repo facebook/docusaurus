@@ -1,4 +1,5 @@
 ---
+sidebar_position: 3
 id: theme-live-codeblock
 title: '📦 theme-live-codeblock'
 slug: '/api/themes/@docusaurus/theme-live-codeblock'

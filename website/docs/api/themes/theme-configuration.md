@@ -1,4 +1,5 @@
 ---
+sidebar_position: 1
 id: theme-configuration
 title: 'Theme configuration'
 slug: '/api/themes/configuration'

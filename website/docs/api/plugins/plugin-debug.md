@@ -1,4 +1,5 @@
 ---
+sidebar_position: 5
 id: plugin-debug
 title: '📦 plugin-debug'
 slug: '/api/plugins/@docusaurus/plugin-debug'
