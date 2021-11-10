@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import type {Props} from '@theme/DocCategoryGeneratedIndex';
 import {useDocsSidebar} from '@docusaurus/theme-common';
@@ -15,6 +15,9 @@ import {
 } from '@docusaurus/plugin-content-docs/lib/sidebars/types';
 import Link from '@docusaurus/Link';
 import {PropSidebarItemLink} from '@docusaurus/plugin-content-docs-types';
+import clsx from 'clsx';
+import styles from './styles.module.css';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 // Use the components props and the sidebar in context
 // to get back the related sidebar category that we want to render
@@ -56,50 +59,70 @@ function useSidebarCategory(categoryIndex: Props['categoryIndex']) {
   return sidebarCategory;
 }
 
-function SidebarItemCategory({
-  item,
+function Card({
+  icon,
+  href,
+  title,
+  description,
 }: {
-  item: PropSidebarItemCategory;
+  icon: ReactNode;
+  title: string;
+  description?: string;
+  href?: string;
 }): JSX.Element {
-  const label = item.href ? (
-    <Link href={item.href}>{item.label}</Link>
-  ) : (
-    <span style={{cursor: 'not-allowed'}}>{item.label}</span>
-  );
+  const className = clsx('card margin--md padding--md', styles.card);
 
-  return (
+  const content = (
     <div>
-      <div>
-        {'=> '} {label}
-      </div>
-      <div>
-        <SidebarItemsList items={item.items} />
-      </div>
+      <h2>
+        {icon} {title}
+      </h2>
+      <div>{description}</div>
     </div>
   );
+
+  return href ? (
+    <Link href={href} className={className}>
+      {content}
+    </Link>
+  ) : (
+    <div className={className}>{content}</div>
+  );
 }
 
-function SidebarItemLink({item}: {item: PropSidebarItemLink}): JSX.Element {
-  return <Link href={item.href}>{item.label}</Link>;
+function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
+  return (
+    <Card
+      icon="🗄️"
+      title={item.label}
+      description={`${item.items.length} items`}
+      href={item.href}
+    />
+  );
 }
 
-function SidebarItem({item}: {item: PropSidebarItem}): JSX.Element {
+function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
+  const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
+  return <Card icon={icon} title={item.label} href={item.href} />;
+}
+
+function CardListItem({item}: {item: PropSidebarItem}): JSX.Element {
   switch (item.type) {
     case 'link':
-      return <SidebarItemLink item={item} />;
+      return <CardLink item={item} />;
     case 'category':
-      return <SidebarItemCategory item={item} />;
+      return <CardCategory item={item} />;
     default:
       throw new Error(`unknown item type ${JSON.stringify(item)}`);
   }
 }
 
-function SidebarItemsList({items}: {items: PropSidebarItem[]}): JSX.Element {
+function CardList({items}: {items: PropSidebarItem[]}): JSX.Element {
   return (
-    <ul>
+    <ul className={clsx('row', styles.cardList)}>
       {items.map((item, index) => (
-        <li key={index}>
-          <SidebarItem item={item} />
+        <li key={index} className="col col--4">
+          <CardListItem item={item} />
         </li>
       ))}
     </ul>
@@ -110,11 +133,13 @@ export default function DocCategoryGeneratedIndex(props: Props): JSX.Element {
   const {categoryIndex} = props;
   const category = useSidebarCategory(categoryIndex);
   return (
-    <>
-      <h1>{category.label}</h1>
-      <div>
-        <SidebarItemsList items={category.items} />
-      </div>
-    </>
+    <div className={styles.page}>
+      <header>
+        <h1>{category.label}</h1>
+      </header>
+      <main className="container margin-top--lg">
+        <CardList items={category.items} />
+      </main>
+    </div>
   );
 }
