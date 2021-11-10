@@ -1538,11 +1538,21 @@ const Users: User[] = [
   },
   {
     title: 'Matej Jellus',
-    description: 'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
+    description:
+      'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
     preview: require('./showcase/juffalow.png'),
     website: 'https://juffalow.com/',
     source: 'https://github.com/juffalow/juffalow-com',
     tags: ['personal', 'opensource'],
+  },
+  {
+    title: 'Signoz',
+    description: `Open source Application Performance Monitoring (APM) & Observability tool
+SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻`,
+    preview: require('./showcase/signoz.png'),
+    website: 'https://signoz.io/',
+    source: 'https://github.com/SigNoz/signoz',
+    tags: ['opensource', 'product'],
   },
 
   /*
