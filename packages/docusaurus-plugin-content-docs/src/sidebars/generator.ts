@@ -236,7 +236,10 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
           return allItems.find(
             (item) =>
               item.type === 'doc' &&
-              (item.id === link.id || last(item.id.split('/')) === link.id),
+              // Search by "local id"
+              (item.id === link.id ||
+                // Search by "qualified id"
+                last(item.id.split('/')) === link.id),
           ) as SidebarItemDoc | undefined;
         }
         return (
