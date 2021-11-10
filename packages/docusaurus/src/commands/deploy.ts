@@ -63,11 +63,15 @@ export function buildHttpsUrl(
 }
 
 export function hasSSHProtocol(sourceRepoUrl: string): boolean {
-  return (
-    /^ssh:\/\//.test(sourceRepoUrl) || // ssh://***: explicit protocol, usually when using a port number
-    // git@github.com:facebook/docusaurus.git
-    /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl)
-  );
+  try {
+    if (new URL(sourceRepoUrl).protocol === 'ssh') {
+      return true;
+    }
+    return false;
+  } catch {
+    // Fails when there isn't a protocol
+    return /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
+  }
 }
 
 export default async function deploy(

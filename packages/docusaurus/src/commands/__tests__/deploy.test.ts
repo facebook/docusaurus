@@ -50,8 +50,13 @@ describe('hasSSHProtocol', () => {
     expect(hasSSHProtocol(url)).toEqual(true);
   });
 
-  test('should not recognize HTTPS', () => {
+  test('should not recognize HTTPS with credentials', () => {
     const url = 'https://user:pass@github.com/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toEqual(false);
+  });
+
+  test('should not recognize plain HTTPS URL', () => {
+    const url = 'https://github.com:5433/facebook/docusaurus.git';
     expect(hasSSHProtocol(url)).toEqual(false);
   });
 });
