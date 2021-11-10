@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {buildSshUrl, buildHttpsUrl} from '../buildRemoteBranchUrl';
+import {buildSshUrl, buildHttpsUrl, hasSSHProtocol} from '../deploy';
 
-describe('remoteeBranchUrl', () => {
-  test('should build a normal ssh url', async () => {
+describe('remoteBranchUrl', () => {
+  test('should build a normal ssh url', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus');
     expect(url).toEqual('git@github.com:facebook/docusaurus.git');
   });
-  test('should build a ssh url with port', async () => {
+  test('should build a ssh url with port', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus', '422');
     expect(url).toEqual('ssh://git@github.com:422/facebook/docusaurus.git');
   });
-  test('should build a normal http url', async () => {
+  test('should build a normal http url', () => {
     const url = buildHttpsUrl(
       'user:pass',
       'github.com',
@@ -25,7 +25,7 @@ describe('remoteeBranchUrl', () => {
     );
     expect(url).toEqual('https://user:pass@github.com/facebook/docusaurus.git');
   });
-  test('should build a normal http url', async () => {
+  test('should build a normal http url', () => {
     const url = buildHttpsUrl(
       'user:pass',
       'github.com',
@@ -36,5 +36,22 @@ describe('remoteeBranchUrl', () => {
     expect(url).toEqual(
       'https://user:pass@github.com:5433/facebook/docusaurus.git',
     );
+  });
+});
+
+describe('hasSSHProtocol', () => {
+  test('should recognize explicit SSH protocol', () => {
+    const url = 'ssh://git@github.com:422/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toEqual(true);
+  });
+
+  test('should recognize implied SSH protocol', () => {
+    const url = 'git@github.com:facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toEqual(true);
+  });
+
+  test('should not recognize HTTPS', () => {
+    const url = 'https://user:pass@github.com/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toEqual(false);
   });
 });

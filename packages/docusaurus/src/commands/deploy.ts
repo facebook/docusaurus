@@ -13,7 +13,6 @@ import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
-import {buildSshUrl, buildHttpsUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -36,6 +35,39 @@ function shellExecLog(cmd: string) {
     console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
     throw e;
   }
+}
+
+export function buildSshUrl(
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `git@${githubHost}:${organizationName}/${projectName}.git`;
+}
+
+export function buildHttpsUrl(
+  gitCredentials: string,
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
+}
+
+export function hasSSHProtocol(sourceRepoUrl: string): boolean {
+  return (
+    /^ssh:\/\//.test(sourceRepoUrl) || // ssh://***: explicit protocol, usually when using a port number
+    // git@github.com:facebook/docusaurus.git
+    /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl)
+  );
 }
 
 export default async function deploy(
@@ -81,13 +113,7 @@ This behavior can have SEO impacts and create relative link issues.
 
   if (!gitUser && !useSSH) {
     // If USE_SSH is unspecified: try inferring from repo URL
-    if (
-      process.env.USE_SSH === undefined &&
-      // ssh://***: explicit protocol
-      (/^ssh:\/\//.test(sourceRepoUrl) ||
-        // git@github.com:facebook/docusaurus.git
-        /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl))
-    ) {
+    if (process.env.USE_SSH === undefined && hasSSHProtocol(sourceRepoUrl)) {
       useSSH = true;
     } else {
       throw new Error(
