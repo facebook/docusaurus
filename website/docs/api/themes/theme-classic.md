@@ -1,4 +1,5 @@
 ---
+sidebar_position: 2
 id: theme-classic
 title: '📦 theme-classic'
 slug: '/api/themes/@docusaurus/theme-classic'

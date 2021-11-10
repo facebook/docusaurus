@@ -1,6 +1,8 @@
 ---
+sidebar_position: 1
 id: lifecycle-apis
 title: Lifecycle APIs
+slug: /lifecycle-apis
 toc_max_heading_level: 4
 ---
 
