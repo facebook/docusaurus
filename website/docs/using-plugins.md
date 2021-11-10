@@ -121,7 +121,7 @@ Docusaurus' implementation of the plugins system provides us with a convenient w
 
 A plugin is a function that takes two parameters: `context` and `options`.
 
-It returns a plugin instance object, containing plugin [lifecycle APIs](./api/lifecycle-apis.md).
+It returns a plugin instance object, containing plugin [lifecycle APIs](./api/plugin-apis/lifecycle-apis.md).
 
 It can be defined as a function or a module.
 
@@ -206,4 +206,4 @@ interface LoadContext {
 
 #### Return value {#return-value}
 
-The returned object value should implement the [lifecycle APIs](./api/lifecycle-apis.md).
+The returned object value should implement the [lifecycle APIs](./api/plugin-apis/lifecycle-apis.md).
