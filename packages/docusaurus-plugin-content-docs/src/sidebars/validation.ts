@@ -20,6 +20,7 @@ import {
   SidebarItemCategoryLinkDoc,
   SidebarItemCategoryLinkGeneratedIndex,
 } from './types';
+import {CategoryMetadataFile} from './generator';
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
@@ -154,4 +155,19 @@ export function validateSidebars(
       validateSidebarItem(sidebar);
     }
   });
+}
+
+const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
+  label: Joi.string(),
+  position: Joi.number(),
+  collapsed: Joi.boolean(),
+  collapsible: Joi.boolean(),
+  className: Joi.string(),
+  link: sidebarItemCategoryLinkSchema,
+});
+
+export function validateCategoryMetadata(
+  unsafeContent: unknown,
+): CategoryMetadataFile {
+  return Joi.attempt(unsafeContent, categoryMetadataFileSchema);
 }
