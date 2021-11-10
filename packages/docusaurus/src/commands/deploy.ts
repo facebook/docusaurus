@@ -64,7 +64,7 @@ export function buildHttpsUrl(
 
 export function hasSSHProtocol(sourceRepoUrl: string): boolean {
   try {
-    if (new URL(sourceRepoUrl).protocol === 'ssh') {
+    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
       return true;
     }
     return false;
