@@ -262,7 +262,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
             return undefined;
           }
         }
-        // Apply default convention to pick index.md, readme.md or <categoryName>.md as the category doc
+        // Apply default convention to pick index.md, README.md or <categoryName>.md as the category doc
         return findConventionalCategoryDocLink();
       }
 
