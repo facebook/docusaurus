@@ -163,7 +163,6 @@ module.exports = {
               'head',
               'tail',
               'initial',
-              'last',
             ],
             message: 'These APIs have their ES counterparts.',
           },
