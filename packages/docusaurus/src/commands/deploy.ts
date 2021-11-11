@@ -259,7 +259,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     if (
       shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
     ) {
-      throw new Error('Running "git push" command failed.');
+      throw new Error(
+        'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
+      );
     } else if (commitResults.code === 0) {
       // The commit might return a non-zero value when site is up to date.
       let websiteURL = '';
