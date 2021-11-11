@@ -41,7 +41,7 @@ function TeamProfileCard({
           <div className="avatar avatar--vertical">
             <img
               className="avatar__photo avatar__photo--xl"
-              src={githubUrl + '.png'}
+              src={`${githubUrl}.png`}
               alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">
@@ -71,11 +71,11 @@ function TeamProfileCard({
 
 function TeamProfileCardCol(props: ProfileProps) {
   return (
-    <TeamProfileCard {...props} className={'col col--6 margin-bottom--lg'} />
+    <TeamProfileCard {...props} className="col col--6 margin-bottom--lg" />
   );
 }
 
-export function ActiveTeamRow() {
+export function ActiveTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -125,15 +125,15 @@ export function ActiveTeamRow() {
         twitterUrl="https://twitter.com/yangshunz">
         <Translate id="team.profile.Yangshun Tay.body">
           Full Front End Stack developer who likes working on the Jamstack.
-          Working on Docusaurus made him Facebook's unofficial part-time Open
-          Source webmaster, which is an awesome role to be in.
+          Working on Docusaurus made him Facebook&apos;s unofficial part-time
+          Open Source webmaster, which is an awesome role to be in.
         </Translate>
       </TeamProfileCardCol>
     </div>
   );
 }
 
-export function HonoraryAlumniTeamRow() {
+export function HonoraryAlumniTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -157,7 +157,7 @@ export function HonoraryAlumniTeamRow() {
   );
 }
 
-export function StudentFellowsTeamRow() {
+export function StudentFellowsTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -166,7 +166,7 @@ export function StudentFellowsTeamRow() {
         twitterUrl="https://twitter.com/ar_goyal">
         Fullstack developer who loves to code and try new technologies. In his
         free time, he contributes to open source, writes blog posts on his{' '}
-        <a href="https://anshulgoyal.dev/" target="_blank">
+        <a href="https://anshulgoyal.dev/" target="_blank" rel="noreferrer">
           website
         </a>{' '}
         and watches Anime.
@@ -184,11 +184,14 @@ export function StudentFellowsTeamRow() {
         Fanny got started with web development in high school, building a
         project for the school kitchen. In her free time she loves contributing
         to Open Source, occasionally writing on{' '}
-        <a href="https://dev.to/fannyvieira" target="_blank">
+        <a href="https://dev.to/fannyvieira" target="_blank" rel="noreferrer">
           her blog
         </a>{' '}
         about her experiences, cooking, and creating{' '}
-        <a href="https://open.spotify.com/user/anotherfanny" target="_blank">
+        <a
+          href="https://open.spotify.com/user/anotherfanny"
+          target="_blank"
+          rel="noreferrer">
           Spotify playlists
         </a>
         .

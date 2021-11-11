@@ -14,7 +14,12 @@ interface Props extends ComponentProps<'input'> {
   label: ReactNode;
 }
 
-function ShowcaseCheckbox({title, className, label, ...props}: Props) {
+function ShowcaseCheckbox({
+  title,
+  className,
+  label,
+  ...props
+}: Props): JSX.Element {
   const id = `showcase_checkbox_id_${props.name};`;
   return (
     <div className={clsx(className, styles.checkboxContainer)} title={title}>

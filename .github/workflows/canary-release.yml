@@ -5,10 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'packages/**'
+      - packages/**
 
 jobs:
   publish-canary:
+    name: Publish Canary
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,6 +22,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
       - name: Prepare git
         run: |
           git config --global user.name "Docusaurus Canary"

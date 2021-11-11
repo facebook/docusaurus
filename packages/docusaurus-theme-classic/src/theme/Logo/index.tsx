@@ -29,7 +29,12 @@ const Logo = (props: Props): JSX.Element => {
     dark: useBaseUrl(logo.srcDark || logo.src),
   };
   const themedImage = (
-    <ThemedImage sources={sources} alt={logo.alt || navbarTitle || title} />
+    <ThemedImage
+      sources={sources}
+      height={logo.height}
+      width={logo.width}
+      alt={logo.alt || navbarTitle || title}
+    />
   );
 
   return (

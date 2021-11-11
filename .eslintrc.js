@@ -49,7 +49,16 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
+      {
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          'unist',
+          'mdast',
+        ],
+      },
     ],
     'import/extensions': OFF,
     'header/header': [
@@ -119,6 +128,7 @@ module.exports = {
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,

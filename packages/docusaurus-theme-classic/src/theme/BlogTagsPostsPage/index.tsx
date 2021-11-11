@@ -50,7 +50,7 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogTagPostListPage}
-      searchMetadatas={{
+      searchMetadata={{
         // assign unique search tag to exclude this page from search results!
         tag: 'blog_tags_posts',
       }}

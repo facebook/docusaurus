@@ -13,7 +13,6 @@ import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
-import {buildUrl} from './buildRemoteBranchUrl';
 
 // GIT_PASS env variable should not appear in logs
 function obfuscateGitPass(str: string) {
@@ -35,6 +34,43 @@ function shellExecLog(cmd: string) {
   } catch (e) {
     console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
     throw e;
+  }
+}
+
+export function buildSshUrl(
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `git@${githubHost}:${organizationName}/${projectName}.git`;
+}
+
+export function buildHttpsUrl(
+  gitCredentials: string,
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
+}
+
+export function hasSSHProtocol(sourceRepoUrl: string): boolean {
+  try {
+    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
+      return true;
+    }
+    return false;
+  } catch {
+    // Fails when there isn't a protocol
+    return /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
   }
 }
 
@@ -63,15 +99,32 @@ This behavior can have SEO impacts and create relative link issues.
     throw new Error('Git not installed or on the PATH!');
   }
 
-  const gitUser = process.env.GIT_USER;
-  if (!gitUser) {
-    throw new Error('Please set the GIT_USER environment variable!');
-  }
+  // Source repo is the repo from where the command is invoked
+  const sourceRepoUrl = shell
+    .exec('git config --get remote.origin.url', {silent: true})
+    .stdout.trim();
 
-  // The branch that contains the latest docs changes that will be deployed.
-  const currentBranch =
+  // The source branch; defaults to the currently checked out branch
+  const sourceBranch =
     process.env.CURRENT_BRANCH ||
-    shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
+    shell.exec('git rev-parse --abbrev-ref HEAD', {silent: true}).stdout.trim();
+
+  const gitUser = process.env.GIT_USER;
+
+  let useSSH =
+    process.env.USE_SSH !== undefined &&
+    process.env.USE_SSH.toLowerCase() === 'true';
+
+  if (!gitUser && !useSSH) {
+    // If USE_SSH is unspecified: try inferring from repo URL
+    if (process.env.USE_SSH === undefined && hasSSHProtocol(sourceRepoUrl)) {
+      useSSH = true;
+    } else {
+      throw new Error(
+        'Please set the GIT_USER environment variable, or explicitly specify USE_SSH instead!',
+      );
+    }
+  }
 
   const organizationName =
     process.env.ORGANIZATION_NAME ||
@@ -107,53 +160,58 @@ This behavior can have SEO impacts and create relative link issues.
   // Organization deploys looks like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
-  const isGitHubPagesOrganizationDeploy =
-    projectName.indexOf('.github.io') !== -1;
-  if (isGitHubPagesOrganizationDeploy && !process.env.DEPLOYMENT_BRANCH) {
+  const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
+  if (
+    isGitHubPagesOrganizationDeploy &&
+    !process.env.DEPLOYMENT_BRANCH &&
+    !siteConfig.deploymentBranch
+  ) {
     throw new Error(`For GitHub pages organization deployments, 'docusaurus deploy' does not assume anymore that 'master' is your default Git branch.
-Please provide the branch name to deploy to as an environment variable.
-Try using DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master`);
+Please provide the branch name to deploy to as an environment variable, for example DEPLOYMENT_BRANCH=main or DEPLOYMENT_BRANCH=master .
+You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
-  const deploymentBranch = process.env.DEPLOYMENT_BRANCH || 'gh-pages';
+  const deploymentBranch =
+    process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
   console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
-  const gitPass: string | undefined = process.env.GIT_PASS;
-  let gitCredentials = `${gitUser}`;
-  if (gitPass) {
-    gitCredentials = `${gitCredentials}:${gitPass}`;
+  let remoteBranch: string;
+  if (useSSH) {
+    remoteBranch = buildSshUrl(
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
+  } else {
+    const gitPass = process.env.GIT_PASS;
+    const gitCredentials = gitPass ? `${gitUser!}:${gitPass}` : gitUser!;
+    remoteBranch = buildHttpsUrl(
+      gitCredentials,
+      githubHost,
+      organizationName,
+      projectName,
+      githubPort,
+    );
   }
-
-  const useSSH = process.env.USE_SSH;
-  const remoteBranch = buildUrl(
-    githubHost,
-    githubPort,
-    gitCredentials,
-    organizationName,
-    projectName,
-    useSSH !== undefined && useSSH.toLowerCase() === 'true',
-  );
 
   console.log(
     `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
   );
 
   // Check if this is a cross-repo publish.
-  const currentRepoUrl = shell
-    .exec('git config --get remote.origin.url')
-    .stdout.trim();
-  const crossRepoPublish = !currentRepoUrl.endsWith(
+  const crossRepoPublish = !sourceRepoUrl.endsWith(
     `${organizationName}/${projectName}.git`,
   );
 
   // We don't allow deploying to the same branch unless it's a cross publish.
-  if (currentBranch === deploymentBranch && !crossRepoPublish) {
+  if (sourceBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
-      `You cannot deploy from this branch (${currentBranch}).` +
+      `You cannot deploy from this branch (${sourceBranch}).` +
         '\nYou will need to checkout to a different branch!',
     );
   }

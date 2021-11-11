@@ -22,6 +22,8 @@ export type NavbarItem = {
 export type NavbarLogo = {
   src: string;
   srcDark?: string;
+  width?: string | number;
+  height?: string | number;
   href?: string;
   target?: string;
   alt?: string;
@@ -80,6 +82,8 @@ export type Footer = {
     alt?: string;
     src?: string;
     srcDark?: string;
+    width?: string | number;
+    height?: string | number;
     href?: string;
   };
   copyright?: string;
@@ -109,7 +113,7 @@ export type ThemeConfig = {
   footer?: Footer;
   hideableSidebar: boolean;
   image?: string;
-  metadatas: Array<Record<string, string>>;
+  metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };

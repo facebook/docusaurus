@@ -313,7 +313,6 @@ export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
   const results: R[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
     results.push(result);
   }
@@ -326,7 +325,6 @@ export async function findAsyncSequential<T>(
 ): Promise<T | undefined> {
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
       return t;
     }
