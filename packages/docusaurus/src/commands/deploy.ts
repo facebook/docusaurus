@@ -179,9 +179,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
-  let remoteBranch: string;
+  let deploymentRepoURL: string;
   if (useSSH) {
-    remoteBranch = buildSshUrl(
+    deploymentRepoURL = buildSshUrl(
       githubHost,
       organizationName,
       projectName,
@@ -190,7 +190,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   } else {
     const gitPass = process.env.GIT_PASS;
     const gitCredentials = gitPass ? `${gitUser!}:${gitPass}` : gitUser!;
-    remoteBranch = buildHttpsUrl(
+    deploymentRepoURL = buildHttpsUrl(
       gitCredentials,
       githubHost,
       organizationName,
@@ -200,7 +200,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
   console.log(
-    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
+    `${chalk.cyan('Remote repo URL:')} ${obfuscateGitPass(deploymentRepoURL)}`,
   );
 
   // Check if this is a cross-repo publish.
@@ -225,24 +225,22 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
+    shell.cd(toPath);
 
-    // Check out deployment branch when cloning repository, and then remove all the files in
-    // the directory. If the 'clone' command fails, assume that the deployment
-    // branch doesn't exist, and initialize git in an empty directory, check out a clean
-    // deployment branch and add remote.
+    // Check out deployment branch when cloning repository, and then remove all
+    // the files in the directory. If the 'clone' command fails, assume that
+    // the deployment branch doesn't exist, and initialize git in an empty
+    // directory, check out a clean deployment branch and add remote.
     if (
       shellExecLog(
-        `git clone --depth 1 --branch ${deploymentBranch} ${remoteBranch} ${toPath}`,
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${toPath}`,
       ).code === 0
     ) {
-      shell.cd(toPath);
       shellExecLog('git rm -rf .');
     } else {
-      shell.mkdir(toPath);
-      shell.cd(toPath);
       shellExecLog('git init');
       shellExecLog(`git checkout -b ${deploymentBranch}`);
-      shellExecLog(`git remote add origin ${remoteBranch}`);
+      shellExecLog(`git remote add origin ${deploymentRepoURL}`);
     }
 
     try {
