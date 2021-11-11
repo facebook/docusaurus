@@ -12,13 +12,14 @@ import {usePopper} from 'react-popper';
 import styles from './styles.module.css';
 
 interface Props {
+  anchorEl?: HTMLElement | string;
   id: string;
   text: string;
   delay?: number;
   children: React.ReactElement;
 }
 
-function Tooltip({children, id, text, delay}: Props) {
+function Tooltip({children, id, anchorEl, text, delay}: Props) {
   const [open, setOpen] = React.useState(false);
   const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
   const [popperElement, setPopperElement] = useState<HTMLElement>(null);
@@ -43,6 +44,16 @@ function Tooltip({children, id, text, delay}: Props) {
       ],
     },
   );
+
+  if (typeof anchorEl === 'string') {
+  }
+
+  const container =
+    anchorEl === undefined
+      ? document.body
+      : typeof anchorEl === 'string'
+      ? document.querySelector(anchorEl)
+      : anchorEl;
 
   let timeout;
   const showEvents = ['mouseenter', 'focus'];
@@ -116,7 +127,7 @@ function Tooltip({children, id, text, delay}: Props) {
             </div>
           )}
         </>,
-        document.getElementById('__docusaurus'),
+        container,
       )}
     </React.Fragment>
   );

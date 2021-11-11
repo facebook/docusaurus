@@ -74,8 +74,25 @@
   background-color: var(--ifm-color-favorite-background);
 }
 
+.showcaseFavoriteHeader {
+  display: flex;
+  align-items: center;
+}
+
+.showcaseFavoriteHeader > h3 {
+  margin-bottom: 0;
+}
+
+.svgIconFavoriteXs,
 .svgIconFavorite {
+  color: var(--ifm-color-svgIcon-favorite);
+}
+
+.svgIconFavoriteXs {
   margin-left: 0.625rem;
   font-size: 1rem;
-  color: var(--ifm-color-svgIcon-favorite);
+}
+
+.svgIconFavorite {
+  margin-left: 1rem;
 }

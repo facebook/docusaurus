@@ -149,7 +149,7 @@ function ShowcaseFilters(props: Props) {
 
           return (
             <li key={i} className={styles.checkboxListItem}>
-              <Tooltip id={id} text={description}>
+              <Tooltip id={id} text={description} anchorEl="#__docusaurus">
                 <ShowcaseCheckbox
                   name={tag}
                   id={id}
@@ -157,7 +157,7 @@ function ShowcaseFilters(props: Props) {
                   title={`${label}: ${description}`}
                   icon={
                     tag === 'favorite' && (
-                      <FavoriteIcon svgClass={styles.svgIconFavorite} />
+                      <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
                     )
                   }
                   onChange={() => toggleTag(tag)}
@@ -195,7 +195,14 @@ function ShowcaseCards({
             <>
               <div className={styles.showcaseFavorite}>
                 <div className="container">
-                  <h3 className={styles.showcaseHeader}>Our favorites</h3>
+                  <div
+                    className={clsx(
+                      'margin-bottom--md',
+                      styles.showcaseFavoriteHeader,
+                    )}>
+                    <h3>Our favorites</h3>
+                    <FavoriteIcon svgClass={styles.svgIconFavorite} />
+                  </div>
                   <ul className={clsx('container', styles.showcaseList)}>
                     {favoriteUsers.map((user) => (
                       <ShowcaseCard

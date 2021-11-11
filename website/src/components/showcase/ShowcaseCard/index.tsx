@@ -47,7 +47,11 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
         const id = `showcase_card_tag_${tagObject.tag}`;
 
         return (
-          <Tooltip key={index} text={tagObject.description} id={id}>
+          <Tooltip
+            key={index}
+            text={tagObject.description}
+            anchorEl="#__docusaurus"
+            id={id}>
             <TagComp id={id} key={index} {...tagObject} />
           </Tooltip>
         );
