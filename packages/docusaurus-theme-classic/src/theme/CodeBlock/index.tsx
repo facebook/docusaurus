@@ -9,18 +9,17 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
-import usePrismTheme from '@theme/hooks/usePrismTheme';
-import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
-
-import styles from './styles.module.css';
-
 import {
   useThemeConfig,
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
 } from '@docusaurus/theme-common';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
+import type {Props} from '@theme/CodeBlock';
+
+import styles from './styles.module.css';
 
 export default function CodeBlock({
   children,
