@@ -58,13 +58,6 @@ function Tooltip({children, id, anchorEl, text, delay}: Props) {
     }
   }, [container]);
 
-  // const container =
-  //   anchorEl === undefined
-  //     ? document.body
-  //     : typeof anchorEl === 'string'
-  //     ? document.querySelector(anchorEl)
-  //     : anchorEl;
-
   let timeout;
   const showEvents = ['mouseenter', 'focus'];
   const hideEvents = ['mouseleave', 'blur'];
