@@ -2,7 +2,9 @@
 sidebar_position: 3
 ---
 
-# i18n lifecycles
+# I18n lifecycles
+
+Plugins use these lifecycles to load i18n-related data.
 
 ## `getTranslationFiles({content})` {#getTranslationFiles}
 
@@ -11,9 +13,9 @@ Plugins declare the JSON translation files they want to use.
 Returns translation files `{path: string, content: ChromeI18nJSON}`:
 
 - Path: relative to the plugin localized folder `i18n/<locale>/pluginName`. Extension `.json` is not necessary.
-- Content: using the Chrome i18n JSON format
+- Content: using the Chrome i18n JSON format.
 
-These files will be written by the [`write-translations` CLI](./cli.md#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translate-content) and [`translateThemeConfig()`](#translate-theme-config)
+These files will be written by the [`write-translations` CLI](../../cli.md#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translateContent) and [`translateThemeConfig()`](#translateThemeConfig)
 
 Example:
 
@@ -41,7 +43,7 @@ module.exports = function (context, options) {
 };
 ```
 
-## `translateContent({content,translationFiles})` {#translate-content}
+## `translateContent({content,translationFiles})` {#translateContent}
 
 Translate the plugin content, using the localized translation files.
 
@@ -101,7 +103,7 @@ module.exports = function (context, options) {
 
 Themes using the `<Translate>` API can provide default code translation messages.
 
-It should return messages in `Record<string,string`>, where keys are translation ids and values are messages (without the description) localized using the site current locale.
+It should return messages in `Record<string, string>`, where keys are translation ids and values are messages (without the description) localized using the site current locale.
 
 Example:
 

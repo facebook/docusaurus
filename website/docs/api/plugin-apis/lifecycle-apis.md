@@ -5,9 +5,11 @@ toc_max_heading_level: 4
 
 # Lifecycle APIs
 
+During build, plugins are loaded in parallel to fetch their own contents and render them to pages. Plugins may also configure webpack or post-process the generated files.
+
 ## `async loadContent()` {#loadContent}
 
-Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc) or doing some server processing.
+Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc.) or do some server processing. The return value is the content it needs.
 
 For example, this plugin below return a random integer between 1 to 10 as content;
 
@@ -29,7 +31,7 @@ Plugins should use the data loaded in `loadContent` and construct the pages/rout
 
 ### `content` {#content}
 
-`contentLoaded` will be called _after_ `loadContent` is done, the return value of `loadContent()` will be passed to `contentLoaded` as `content`.
+`contentLoaded` will be called _after_ `loadContent` is done. The return value of `loadContent()` will be passed to `contentLoaded` as `content`.
 
 ### `actions` {#actions}
 
@@ -39,7 +41,7 @@ Plugins should use the data loaded in `loadContent` and construct the pages/rout
 
 Create a route to add to the website.
 
-```typescript
+```ts
 interface RouteConfig {
   path: string;
   component: string;
@@ -62,7 +64,7 @@ type Module =
 
 #### `createData(name: string, data: any): Promise<string>`
 
-A function to help you create static data (generally json or string), that you can provide to your routes as props.
+A declarative callback to create static data (generally json or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
 
 For example, this plugin below create a `/friends` page which display `Your friends are: Yangshun, Sebastien`:
 
@@ -104,17 +106,13 @@ export default function friendsPlugin(context, options) {
 
 #### `setGlobalData(data: any): void`
 
-This function permits to create some global plugin data, that can be read from any page, including the pages created by other plugins, and your theme layout.
+This function permits to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
 
-This data become accessible to your client-side/theme code, through the [`useGlobalData`](./docusaurus-core.md#useglobaldata) and [`usePluginData`](./docusaurus-core.md#useplugindatapluginname-string-pluginid-string).
-
-One this data is created, you can access it with the global data hooks APIs.
+This data becomes accessible to your client-side/theme code through the [`useGlobalData`](../../docusaurus-core.md#useGlobalData) and [`usePluginData`](../../docusaurus-core.md#usePluginData) hooks.
 
 :::caution
 
-Global data is... global: its size affects the loading time of all pages of your site, so try to keep it small.
-
-Prefer `createData` and page-specific data whenever possible.
+Global data is... global: its size affects the loading time of all pages of your site, so try to keep it small. Prefer `createData` and page-specific data whenever possible.
 
 :::
 
@@ -152,7 +150,7 @@ export default function friendsPlugin(context, options) {
 
 ## `configureWebpack(config, isServer, utils, content)` {#configureWebpack}
 
-Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
+Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the second argument.
 
 :::caution
 
@@ -164,7 +162,7 @@ The API of `configureWebpack` will be modified in the future to accept an object
 
 `configureWebpack` is called with `config` generated according to client/server build. You may treat this as the base config to be merged with.
 
-### `isServer` {#isserver}
+### `isServer` {#isServer}
 
 `configureWebpack` will be called both in server build and in client build. The server build receives `true` and the client build receives `false` as `isServer`.
 

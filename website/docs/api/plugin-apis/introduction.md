@@ -16,7 +16,7 @@ Plugin APIs are shared by Themes and Plugins—themes are loaded just like plugi
 
 Every plugin is imported as a module. The module is expected to have the following components:
 
-- A **default export**: the constructor for the plugin.
+- A **default export**: the constructor function for the plugin.
 - **Named exports**: the [static methods](./static-methods.md) called before plugins are initialized.
 
 ## Example {#example}

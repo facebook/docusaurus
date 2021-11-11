@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Static methods
 
-Static methods are not part of the plugin instance—they are attached to the constructor function. These methods are used to validate and normalize the plugin options and theme config, which are then used to initialize the plugin as constructor parameters.
+Static methods are not part of the plugin instance—they are attached to the constructor function. These methods are used to validate and normalize the plugin options and theme config, which are then used as constructor parameters to initialize the plugin instance.
 
 ## `validateOptions({options, validate})` {#validateOptions}
 
@@ -64,7 +64,7 @@ export function validateOptions({options, validate}) {
 
 Return validated and normalized configuration for the theme.
 
-### `themeConfig` {#themeconfig}
+### `themeConfig` {#themeConfig}
 
 `validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
@@ -83,17 +83,19 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
 ```js {8-11} title="my-theme/src/index.js"
-module.exports = function (context, options) {
+function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
     // rest of methods
   };
-};
+}
 
-module.exports.validateThemeConfig = ({themeConfig, validate}) => {
+myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 };
+
+module.exports = validateThemeConfig;
 ```
 
 You can also use ES modules style exports.
