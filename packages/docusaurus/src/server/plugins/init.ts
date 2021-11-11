@@ -68,7 +68,7 @@ function resolvePluginModule(
 
   if (loadedPluginModules.length === 0) {
     throw new Error(
-      `Docusaurus was unable to resolve the ${pluginModuleImport} plugin. Make sure one of the following packages are installed:\n${loadedPluginModules.map(
+      `Docusaurus was unable to resolve the ${pluginModuleImport} ${pluginType}. Make sure one of the following packages are installed:\n${loadedPluginModules.map(
         (pluginModuleImportAttempt) => `* ${pluginModuleImportAttempt}\n`,
       )}`,
     );
