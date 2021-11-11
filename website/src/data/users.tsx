@@ -1547,8 +1547,7 @@ const Users: User[] = [
   },
   {
     title: 'Signoz',
-    description: `Open source Application Performance Monitoring (APM) & Observability tool
-SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻`,
+    description: 'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
     preview: require('./showcase/signoz.png'),
     website: 'https://signoz.io/',
     source: 'https://github.com/SigNoz/signoz',
