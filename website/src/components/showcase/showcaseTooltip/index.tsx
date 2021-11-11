@@ -48,13 +48,6 @@ function Tooltip({children, id, anchorEl, text, delay}: Props) {
   if (typeof anchorEl === 'string') {
   }
 
-  const container =
-    anchorEl === undefined
-      ? document.body
-      : typeof anchorEl === 'string'
-      ? document.querySelector(anchorEl)
-      : anchorEl;
-
   let timeout;
   const showEvents = ['mouseenter', 'focus'];
   const hideEvents = ['mouseleave', 'blur'];
@@ -127,7 +120,11 @@ function Tooltip({children, id, anchorEl, text, delay}: Props) {
             </div>
           )}
         </>,
-        container,
+        anchorEl === undefined
+          ? document.body
+          : typeof anchorEl === 'string'
+          ? document.querySelector(anchorEl)
+          : anchorEl,
       )}
     </React.Fragment>
   );
