@@ -41,6 +41,7 @@
     "@docusaurus/utils": "2.0.0-beta.9",
     "clsx": "^1.1.1",
     "color": "^4.0.1",
+    "dompurify": "^2.3.3",
     "esbuild-loader": "2.13.1",
     "hast-util-is-element": "1.1.0",
     "netlify-plugin-cache": "^1.0.3",
@@ -66,6 +67,7 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
+    "@types/dompurify": "^2.3.1",
     "cross-env": "^7.0.3",
     "raw-loader": "^4.0.2"
   }

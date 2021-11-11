@@ -18,6 +18,8 @@ import Layout from '@theme/Layout';
 
 import clsx from 'clsx';
 
+import purify from 'dompurify';
+
 import styles from './styles.module.css';
 
 const QUOTES = [
@@ -102,13 +104,15 @@ function Home(): JSX.Element {
                 className={styles.heroTitleTextHtml}
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
-                  __html: translate({
-                    id: 'homepage.hero.title',
-                    message:
-                      'Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>',
-                    description:
-                      'Home page hero title, can contain simple html tags',
-                  }),
+                  __html: purify.sanitize(
+                    translate({
+                      id: 'homepage.hero.title',
+                      message:
+                        'Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>',
+                      description:
+                        'Home page hero title, can contain simple html tags',
+                    }),
+                  ),
                 }}
               />
             </h1>
