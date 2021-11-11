@@ -322,6 +322,8 @@ export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
 export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
+export type PluginType = 'plugin' | 'theme';
+
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
 export type PluginConfig =
@@ -330,6 +332,10 @@ export type PluginConfig =
   | string
   | [PluginModule, PluginOptions]
   | PluginModule;
+
+export type PluginConfigs = {
+  [type in PluginType]: PluginConfig[];
+};
 
 export interface ChunkRegistry {
   loader: string;

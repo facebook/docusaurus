@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {
   LoadContext,
-  PluginConfig,
+  PluginConfigs,
   PluginContentLoadedActions,
   RouteConfig,
   AllContent,
@@ -70,7 +70,7 @@ export async function loadPlugins({
   pluginConfigs,
   context,
 }: {
-  pluginConfigs: PluginConfig[];
+  pluginConfigs: PluginConfigs;
   context: LoadContext;
 }): Promise<{
   plugins: LoadedPlugin[];

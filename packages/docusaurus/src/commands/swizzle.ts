@@ -149,7 +149,8 @@ export default async function swizzle(
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
-  const pluginNames = getPluginNames(pluginConfigs);
+  const flatPluginConfigs = [...pluginConfigs.plugin, ...pluginConfigs.theme];
+  const pluginNames = getPluginNames(flatPluginConfigs);
   const plugins = initPlugins({
     pluginConfigs,
     context,
@@ -188,7 +189,7 @@ export default async function swizzle(
   let pluginOptions = {};
   const resolvedThemeName = require.resolve(themeName);
   // find the plugin from list of plugin and get options if specified
-  pluginConfigs.forEach((pluginConfig) => {
+  flatPluginConfigs.forEach((pluginConfig) => {
     // plugin can be a [string], [string,object] or string.
     if (Array.isArray(pluginConfig) && typeof pluginConfig[0] === 'string') {
       if (require.resolve(pluginConfig[0]) === resolvedThemeName) {

@@ -26,7 +26,7 @@ import {
   HtmlTagObject,
   LoadContext,
   LoadedPlugin,
-  PluginConfig,
+  PluginConfigs,
   Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
@@ -127,16 +127,21 @@ export async function loadContext(
   };
 }
 
-export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
+export function loadPluginConfigs(context: LoadContext): PluginConfigs {
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
   const {siteConfig} = context;
-  return [
-    ...presetPlugins,
-    ...presetThemes,
-    // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
-  ];
+  return {
+    plugin: [
+      ...presetPlugins,
+      // Site config should be the highest priority.
+      ...(siteConfig.plugins || []),
+    ],
+    theme: [
+      ...presetThemes,
+      // Site config should be the highest priority.
+      ...(siteConfig.themes || []),
+    ],
+  };
 }
 
 // Make a fake plugin to:
@@ -255,7 +260,7 @@ export async function load(
     codeTranslations,
   } = context;
   // Plugins.
-  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
+  const pluginConfigs: PluginConfigs = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
     await loadPlugins({pluginConfigs, context});
 

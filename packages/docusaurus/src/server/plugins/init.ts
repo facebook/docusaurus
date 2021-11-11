@@ -15,6 +15,8 @@ import {
   PluginConfig,
   PluginOptions,
   InitializedPlugin,
+  PluginType,
+  PluginConfigs,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
@@ -49,11 +51,12 @@ function loadPluginModule(
 function resolvePluginModule(
   pluginModuleImport: string,
   pluginRequire: NodeRequire,
+  pluginType: PluginType,
 ): ImportedPluginModule {
   const loadedPluginModules = [
-    `docusaurus-plugin-${pluginModuleImport}`,
-    `@docusaurus/plugin-${pluginModuleImport}`,
-    `@${pluginModuleImport}/docusaurus-plugin`,
+    `docusaurus-${pluginType}-${pluginModuleImport}`,
+    `@docusaurus/${pluginType}-${pluginModuleImport}`,
+    `@${pluginModuleImport}/docusaurus-${pluginType}`,
     pluginModuleImport,
   ]
     .map((pluginModuleImportAttempt) =>
@@ -77,6 +80,7 @@ function resolvePluginModule(
 function normalizePluginConfig(
   pluginConfig: PluginConfig,
   pluginRequire: NodeRequire,
+  pluginType: PluginType,
 ): NormalizedPluginConfig {
   // plugins: ['./{plugin}']
   // plugins: ['docusaurus-plugin-{plugin}']
@@ -84,7 +88,11 @@ function normalizePluginConfig(
   // plugins: ['@{company}/docusaurus-plugin']
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
-    const pluginModule = resolvePluginModule(pluginModuleImport, pluginRequire);
+    const pluginModule = resolvePluginModule(
+      pluginModuleImport,
+      pluginRequire,
+      pluginType,
+    );
     return {
       plugin: pluginModule?.default ?? pluginModule,
       options: {},
@@ -170,7 +178,7 @@ export default function initPlugins({
   pluginConfigs,
   context,
 }: {
-  pluginConfigs: PluginConfig[];
+  pluginConfigs: PluginConfigs;
   context: LoadContext;
 }): InitializedPlugin[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
@@ -226,36 +234,41 @@ export default function initPlugins({
     }
   }
 
-  const plugins: InitializedPlugin[] = pluginConfigs
-    .map((pluginConfig) => {
-      if (!pluginConfig) {
-        return null;
-      }
-      const normalizedPluginConfig = normalizePluginConfig(
-        pluginConfig,
-        pluginRequire,
-      );
-      const pluginVersion: DocusaurusPluginVersionInformation =
-        doGetPluginVersion(normalizedPluginConfig);
-      const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
+  const pluginTypes = ['theme', 'plugin'] as PluginType[];
 
-      // Side-effect: merge the normalized theme config in the original one
-      context.siteConfig.themeConfig = {
-        ...context.siteConfig.themeConfig,
-        ...doValidateThemeConfig(normalizedPluginConfig),
-      };
+  const plugins: InitializedPlugin[] = pluginTypes
+    .flatMap((pluginType: PluginType) =>
+      pluginConfigs[pluginType].map((pluginConfig) => {
+        if (!pluginConfig) {
+          return null;
+        }
+        const normalizedPluginConfig = normalizePluginConfig(
+          pluginConfig,
+          pluginRequire,
+          pluginType,
+        );
+        const pluginVersion: DocusaurusPluginVersionInformation =
+          doGetPluginVersion(normalizedPluginConfig);
+        const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
-      const pluginInstance = normalizedPluginConfig.plugin(
-        context,
-        pluginOptions,
-      );
+        // Side-effect: merge the normalized theme config in the original one
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...doValidateThemeConfig(normalizedPluginConfig),
+        };
 
-      return {
-        ...pluginInstance,
-        options: pluginOptions,
-        version: pluginVersion,
-      };
-    })
+        const pluginInstance = normalizedPluginConfig.plugin(
+          context,
+          pluginOptions,
+        );
+
+        return {
+          ...pluginInstance,
+          options: pluginOptions,
+          version: pluginVersion,
+        };
+      }),
+    )
     .filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
 
   ensureUniquePluginInstanceIds(plugins);
