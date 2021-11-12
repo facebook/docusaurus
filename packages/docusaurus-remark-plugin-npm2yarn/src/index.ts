@@ -19,13 +19,13 @@ interface PluginOptions {
 const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
 
 const transformNode = (node: Code, isSync: boolean) => {
-  const groupIdProp = isSync ? 'groupId="npm2yarn" ' : '';
+  const groupIdProp = isSync ? ' groupId="npm2yarn"' : '';
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
   return [
     {
       type: 'jsx',
-      value: `<Tabs ${groupIdProp}>\n<TabItem value="npm">`,
+      value: `<Tabs${groupIdProp}>\n<TabItem value="npm">`,
     },
     {
       type: node.type,
