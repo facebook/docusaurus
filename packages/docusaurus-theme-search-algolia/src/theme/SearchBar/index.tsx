@@ -6,8 +6,6 @@
  */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import '../../types.d.ts';
-
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
