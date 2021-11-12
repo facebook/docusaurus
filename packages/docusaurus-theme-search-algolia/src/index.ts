@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs';
-import eta from 'eta';
+import {defaultConfig, compile} from 'eta';
 import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
 import openSearchTemplate from './templates/opensearch';
 import {memoize} from 'lodash';
@@ -15,7 +15,7 @@ import {memoize} from 'lodash';
 import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
 const getCompiledOpenSearchTemplate = memoize(() => {
-  return eta.compile(openSearchTemplate.trim());
+  return compile(openSearchTemplate.trim());
 });
 
 function renderOpenSearchTemplate(data: {
@@ -24,7 +24,7 @@ function renderOpenSearchTemplate(data: {
   favicon: string | null;
 }) {
   const compiled = getCompiledOpenSearchTemplate();
-  return compiled(data, eta.defaultConfig);
+  return compiled(data, defaultConfig);
 }
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
