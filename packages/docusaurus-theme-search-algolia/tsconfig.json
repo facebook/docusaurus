@@ -4,7 +4,6 @@
     "lib": ["DOM", "ES2019"],
     "rootDir": "src",
     "baseUrl": "src",
-    "jsx": "react",
     "outDir": "lib"
   }
 }
