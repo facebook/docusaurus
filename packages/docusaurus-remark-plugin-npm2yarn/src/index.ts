@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const npmToYarn = require('npm-to-yarn');
+import type {Code, Content, Import, Parent, Root} from 'mdast';
+import npmToYarn from 'npm-to-yarn';
+
+interface Options {
+  sync?: boolean;
+}
 
 // E.g. global install: 'npm i' -> 'yarn'
-const convertNpmToYarn = (npmCode) => npmToYarn(npmCode, 'yarn');
+const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');
 
-const transformNode = (node, isSync) => {
+const transformNode = (node: Code, isSync: boolean): Content[] => {
   const groupIdProp = isSync ? 'groupId="npm2yarn" ' : '';
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
@@ -47,31 +52,38 @@ const transformNode = (node, isSync) => {
   ];
 };
 
-const matchNode = (node) => node.type === 'code' && node.meta === 'npm2yarn';
-const nodeForImport = {
+type Node = Content | Root;
+
+const matchNode = (node: Node): node is Code =>
+  node.type === 'code' && (node as Code).meta === 'npm2yarn';
+const nodeForImport: Import = {
   type: 'import',
   value:
     "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
-module.exports = (options = {}) => {
+const attacher = (options: Options = {}) => {
   const {sync = false} = options;
   let transformed = false;
   let alreadyImported = false;
-  const transformer = (node) => {
-    if (node.type === 'import' && node.value.includes('@theme/Tabs')) {
+  const transformer = (node: Node) => {
+    if (
+      node.type === 'import' &&
+      (node as Import).value.includes('@theme/Tabs')
+    ) {
       alreadyImported = true;
+      return undefined;
     }
     if (matchNode(node)) {
       transformed = true;
       return transformNode(node, sync);
     }
-    if (Array.isArray(node.children)) {
+    if (Array.isArray((node as Parent).children)) {
       let index = 0;
-      while (index < node.children.length) {
-        const result = transformer(node.children[index]);
+      while (index < (node as Parent).children.length) {
+        const result = transformer((node as Parent).children[index]);
         if (result) {
-          node.children.splice(index, 1, ...result);
+          (node as Parent).children.splice(index, 1, ...result);
           index += result.length;
         } else {
           index += 1;
@@ -79,9 +91,11 @@ module.exports = (options = {}) => {
       }
     }
     if (node.type === 'root' && transformed && !alreadyImported) {
-      node.children.unshift(nodeForImport);
+      (node as Root).children.unshift(nodeForImport);
     }
-    return null;
+    return undefined;
   };
   return transformer;
 };
+
+module.exports = attacher;
