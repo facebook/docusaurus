@@ -1256,7 +1256,7 @@ const Users: User[] = [
     preview: require('./showcase/shotstack.png'),
     website: 'https://shotstack.io/docs/guide/',
     source: 'https://github.com/shotstack/documentation',
-    tags: ['product', 'design'],
+    tags: ['product', 'design', 'opensource'],
   },
   {
     title: 'social-embed',
