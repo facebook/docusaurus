@@ -17,7 +17,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "npm-to-yarn": "^1.0.1"
+    "npm-to-yarn": "^1.0.1",
+    "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
     "@types/mdast": "^3.0.10",
