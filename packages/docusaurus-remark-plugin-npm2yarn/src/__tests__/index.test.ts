@@ -15,7 +15,10 @@ import mdx from 'remark-mdx';
 
 const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
 
-const processFixture = async (name, options) => {
+const processFixture = async (
+  name: string,
+  options: {sync?: boolean; staticDir: string},
+) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()

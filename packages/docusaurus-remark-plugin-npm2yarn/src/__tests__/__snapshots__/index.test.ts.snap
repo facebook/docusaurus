@@ -5,11 +5,7 @@ exports[`npm2yarn plugin test: already imported tabs components above are not re
 
 import TabItem from '@theme/TabItem';
 
-<Tabs defaultValue=\\"npm\\" values={[
-    { label: 'npm', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
-  ]}
->
+<Tabs >
 <TabItem value=\\"npm\\">
 
 \`\`\`bash
@@ -17,7 +13,7 @@ import TabItem from '@theme/TabItem';
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\">
+<TabItem value=\\"yarn\\" label=\\"Yarn\\">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -29,11 +25,7 @@ import TabItem from '@theme/TabItem';
 `;
 
 exports[`npm2yarn plugin test: already imported tabs components below are not re-imported 1`] = `
-"<Tabs defaultValue=\\"npm\\" values={[
-    { label: 'npm', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
-  ]}
->
+"<Tabs >
 <TabItem value=\\"npm\\">
 
 \`\`\`bash
@@ -41,7 +33,7 @@ exports[`npm2yarn plugin test: already imported tabs components below are not re
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\">
+<TabItem value=\\"yarn\\" label=\\"Yarn\\">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -60,11 +52,7 @@ exports[`npm2yarn plugin test: installation file 1`] = `
 "import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<Tabs defaultValue=\\"npm\\" values={[
-    { label: 'npm', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
-  ]}
->
+<Tabs >
 <TabItem value=\\"npm\\">
 
 \`\`\`bash
@@ -72,7 +60,7 @@ import TabItem from '@theme/TabItem';
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\">
+<TabItem value=\\"yarn\\" label=\\"Yarn\\">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -106,11 +94,7 @@ import TabItem from '@theme/TabItem';
 
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
-<Tabs defaultValue=\\"npm\\" values={[
-    { label: 'npm', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
-  ]}
->
+<Tabs >
 <TabItem value=\\"npm\\">
 
 \`\`\`bash
@@ -118,7 +102,7 @@ npm install --save docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\">
+<TabItem value=\\"yarn\\" label=\\"Yarn\\">
 
 \`\`\`bash
 yarn add docusaurus-plugin-name
