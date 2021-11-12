@@ -4494,7 +4494,7 @@ presets: [
 - Remove the following config options:
   - `docsUrl`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
   - `customDocsPath`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
-  - `sidebars.json` now has to be explicitly loaded by users and passed into the the plugin option on `docusaurus-plugin-content-docs`.
+  - `sidebars.json` now has to be explicitly loaded by users and passed into the plugin option on `docusaurus-plugin-content-docs`.
   - `headerLinks` doc, page, blog is deprecated and has been to moved into `themeConfig` under the name `navbar`. The syntax is now:
 
 ```js
