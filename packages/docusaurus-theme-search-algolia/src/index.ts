@@ -29,8 +29,6 @@ function renderOpenSearchTemplate(data: {
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
-export type PluginOptions = {};
-
 export default function theme(
   context: DocusaurusContext & {baseUrl: string},
 ): Plugin<void> {
@@ -46,12 +44,16 @@ export default function theme(
   return {
     name: 'docusaurus-theme-search-algolia',
 
+    getPathsToWatch() {
+      return [pagePath];
+    },
+
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
 
-    getPathsToWatch() {
-      return [pagePath];
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     async contentLoaded({actions: {addRoute}}) {

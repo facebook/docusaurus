@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+  },
+  "include": [
+    "src/theme/**/*.ts",
+    "src/theme/**/*.tsx",
+    "src/*.d.ts"
+  ]
+}

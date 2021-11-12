@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/theme-search-algolia' {
-  export type Options = Partial<import('./index').PluginOptions>;
+  export type Options = never;
 }
 
 declare module '@theme/hooks/useSearchQuery' {

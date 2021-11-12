@@ -2,10 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "lib": ["DOM", "ES2019"],
-    "module": "esnext",
-    "noEmit": true,
+    "rootDir": "src",
+    "baseUrl": "src",
     "jsx": "react",
-    "baseUrl": "src"
-  },
-  "include": ["src/"]
+    "outDir": "lib"
+  }
 }
