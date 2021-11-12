@@ -90,4 +90,4 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   return transformer;
 };
 
-export default plugin;
+export = plugin;

@@ -13,7 +13,7 @@ const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
-const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn').default;
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const lightTheme = require('prism-react-renderer/themes/github');
 // eslint-disable-next-line import/no-extraneous-dependencies
