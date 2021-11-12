@@ -22,9 +22,9 @@ declare module '@theme/hooks/useSearchQuery' {
 }
 
 declare module '@theme/hooks/useAlgoliaContextualFacetFilters' {
-  export type AlgoliaContextualFacetFilters = [string, string[]];
+  export type useAlgoliaContextualFacetFiltersReturns = [string, string[]];
 
-  export default function useAlgoliaContextualFacetFilters(): AlgoliaContextualFacetFilters;
+  export default function useAlgoliaContextualFacetFilters(): useAlgoliaContextualFacetFiltersReturns;
 }
 
 declare module '@theme/SearchPage' {

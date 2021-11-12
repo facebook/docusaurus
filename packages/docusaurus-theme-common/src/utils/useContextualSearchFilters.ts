@@ -5,17 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
-import {
-  useDocsPreferredVersionByPluginId,
-  DEFAULT_SEARCH_TAG,
-  docVersionSearchTag,
-} from '@docusaurus/theme-common';
+import {useDocsPreferredVersionByPluginId} from './docsPreferredVersion/useDocsPreferredVersion';
+import {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './searchUtils';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import type {useContextualSearchFiltersReturns} from '@theme/hooks/useContextualSearchFilters';
+
+export type useContextualSearchFiltersReturns = {
+  locale: string;
+  tags: string[];
+};
 
 // We may want to support multiple search engines, don't couple that to Algolia/DocSearch
 // Maybe users will want to use its own search engine solution
-export default function useContextualSearchFilters(): useContextualSearchFiltersReturns {
+export function useContextualSearchFilters(): useContextualSearchFiltersReturns {
   const {i18n} = useDocusaurusContext();
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();

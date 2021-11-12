@@ -191,16 +191,6 @@ declare module '@theme/Heading' {
   export const MainHeading: (props: Props) => JSX.Element;
 }
 
-export module '@theme/hooks/useContextualSearchFilters' {
-  export type useContextualSearchFiltersReturns = {
-    locale: string;
-    tags: string[];
-  };
-
-  const useContextualSearchFilters: () => useContextualSearchFiltersReturns;
-  export default useContextualSearchFilters;
-}
-
 declare module '@theme/hooks/useHideableNavbar' {
   export type useHideableNavbarReturns = {
     readonly navbarRef: (node: HTMLElement | null) => void;
