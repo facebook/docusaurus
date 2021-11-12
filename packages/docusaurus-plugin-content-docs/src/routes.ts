@@ -52,7 +52,7 @@ async function createSidebarRoutes({
 
     return {
       path: link.permalink,
-      component: '@theme/DocCategoryGeneratedIndex',
+      component: '@theme/DocCategoryGeneratedIndexPage', // TODO option
       exact: true,
       modules: {
         categoryIndex: propData,

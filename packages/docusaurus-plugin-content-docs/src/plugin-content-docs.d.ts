@@ -118,14 +118,36 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
-declare module '@theme/DocCategoryGeneratedIndex' {
+declare module '@theme/DocCard' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    item: PropSidebarItem;
+  }
+
+  export default function DocCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCardList' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    items: PropSidebarItem[];
+  }
+
+  export default function DocCardList(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCategoryGeneratedIndexPage' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     categoryIndex: PropCategoryGeneratedIndex;
   }
 
-  export default function DocCategoryGeneratedIndex(props: Props): JSX.Element;
+  export default function DocCategoryGeneratedIndexPage(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocItemFooter' {

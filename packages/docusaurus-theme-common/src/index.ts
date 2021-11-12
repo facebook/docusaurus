@@ -34,6 +34,7 @@ export {
   isDocsPluginEnabled,
   DocsSidebarProvider,
   useDocsSidebar,
+  useCategoryGeneratedIndexSidebarItem,
 } from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';

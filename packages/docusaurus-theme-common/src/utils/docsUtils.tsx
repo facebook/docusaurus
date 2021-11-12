@@ -7,7 +7,12 @@
 
 import React, {createContext, ReactNode, useContext} from 'react';
 import {useAllDocsData} from '@theme/hooks/useDocs';
-import {PropSidebar} from '@docusaurus/plugin-content-docs';
+import {
+  PropSidebar,
+  PropSidebarItem,
+  PropSidebarItemCategory,
+} from '@docusaurus/plugin-content-docs';
+import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -40,4 +45,46 @@ export function useDocsSidebar(): PropSidebar | null {
     throw new Error('This hook requires usage of <DocSidebarContextProvider>');
   }
   return sidebar;
+}
+
+// Use the components props and the sidebar in context
+// to get back the related sidebar category that we want to render
+export function useCategoryGeneratedIndexSidebarItem(
+  categoryGeneratedIndex: PropCategoryGeneratedIndex,
+): PropSidebarItemCategory {
+  const sidebar = useDocsSidebar();
+  if (!sidebar) {
+    throw new Error(
+      `unexpected: a category index should have a sidebar: ${JSON.stringify(
+        categoryGeneratedIndex,
+      )}`,
+    );
+  }
+
+  // TODO more performant algo returning single element
+  function collectCategoriesMatch(
+    items: PropSidebarItem[],
+  ): PropSidebarItemCategory[] {
+    return items.flatMap((item) => {
+      if (item.type === 'category') {
+        if (item.href === categoryGeneratedIndex.permalink) {
+          return [item];
+        }
+        return collectCategoriesMatch(item.items);
+      }
+      return [];
+    });
+  }
+
+  const [sidebarCategory] = collectCategoriesMatch(sidebar);
+
+  if (!sidebarCategory) {
+    throw new Error(
+      `Unexpected: sidebar category could not be found for categoryIndex=${JSON.stringify(
+        categoryGeneratedIndex,
+      )}`,
+    );
+  }
+
+  return sidebarCategory;
 }
