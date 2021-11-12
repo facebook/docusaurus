@@ -88,3 +88,32 @@ export function useCategoryGeneratedIndexSidebarItem(
 
   return sidebarCategory;
 }
+
+// If a category card has no link => link to the first subItem having a link
+export function findFirstCategoryLink(
+  item: PropSidebarItemCategory,
+): string | undefined {
+  if (item.href) {
+    return item.href;
+  }
+  // Seems fine, see https://github.com/airbnb/javascript/issues/1271
+  // eslint-disable-next-line no-restricted-syntax
+  for (const subItem of item.items) {
+    switch (subItem.type) {
+      case 'link':
+        return subItem.href;
+      case 'category': {
+        const categoryLink = findFirstCategoryLink(item);
+        if (categoryLink) {
+          return categoryLink;
+        }
+        break;
+      }
+      default:
+        throw new Error(
+          `unexpected category item type for ${JSON.stringify(subItem)}`,
+        );
+    }
+  }
+  return undefined;
+}

@@ -13,6 +13,7 @@ import {
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import type {Props} from '@theme/DocCard';
+import {findFirstCategoryLink} from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -63,35 +64,8 @@ function CardLayout({
   );
 }
 
-// If a category card has no link => link to the first subItem having a link
-function findCategoryLink(item: PropSidebarItemCategory): string | undefined {
-  if (item.href) {
-    return item.href;
-  }
-  // Seems fine, see https://github.com/airbnb/javascript/issues/1271
-  // eslint-disable-next-line no-restricted-syntax
-  for (const subItem of item.items) {
-    switch (subItem.type) {
-      case 'link':
-        return subItem.href;
-      case 'category': {
-        const categoryLink = findCategoryLink(item);
-        if (categoryLink) {
-          return categoryLink;
-        }
-        break;
-      }
-      default:
-        throw new Error(
-          `unexpected category item type for ${JSON.stringify(subItem)}`,
-        );
-    }
-  }
-  return undefined;
-}
-
 function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
-  const href = findCategoryLink(item);
+  const href = findFirstCategoryLink(item);
   return (
     <CardLayout
       href={href}
