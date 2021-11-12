@@ -63,7 +63,7 @@ export {
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
-export {duplicates} from './utils/jsUtils';
+export {duplicates, uniq} from './utils/jsUtils';
 
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 

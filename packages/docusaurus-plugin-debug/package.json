@@ -3,7 +3,7 @@
   "version": "2.0.0-beta.9",
   "description": "Debug plugin for Docusaurus.",
   "main": "lib/index.js",
-  "types": "src/types.d.ts",
+  "types": "src/plugin-debug.d.ts",
   "scripts": {
     "build": "tsc && node copyUntypedFiles.js",
     "watch": "node copyUntypedFiles.js && tsc --watch"

@@ -9,7 +9,7 @@ import React, {ReactNode, useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
