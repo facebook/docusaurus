@@ -14,7 +14,7 @@ import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {collectSidebarCategories} from './sidebars/utils';
 import {docuHash, createSlugger} from '@docusaurus/utils';
 import {DocMetadata, LoadedVersion} from './types';
-import {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs-types';
+import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
 

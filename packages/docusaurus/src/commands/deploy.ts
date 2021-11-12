@@ -179,9 +179,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
   const githubPort = process.env.GITHUB_PORT || siteConfig.githubPort;
 
-  let remoteBranch: string;
+  let deploymentRepoURL: string;
   if (useSSH) {
-    remoteBranch = buildSshUrl(
+    deploymentRepoURL = buildSshUrl(
       githubHost,
       organizationName,
       projectName,
@@ -190,7 +190,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   } else {
     const gitPass = process.env.GIT_PASS;
     const gitCredentials = gitPass ? `${gitUser!}:${gitPass}` : gitUser!;
-    remoteBranch = buildHttpsUrl(
+    deploymentRepoURL = buildHttpsUrl(
       gitCredentials,
       githubHost,
       organizationName,
@@ -200,7 +200,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
   console.log(
-    `${chalk.cyan('Remote branch:')} ${obfuscateGitPass(remoteBranch)}`,
+    `${chalk.cyan('Remote repo URL:')} ${obfuscateGitPass(deploymentRepoURL)}`,
   );
 
   // Check if this is a cross-repo publish.
@@ -225,45 +225,24 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     const toPath = await fs.mkdtemp(
       path.join(os.tmpdir(), `${projectName}-${deploymentBranch}`),
     );
-    if (
-      shellExecLog(
-        `git clone --depth 1 --no-single-branch ${remoteBranch} ${toPath}`,
-      ).code !== 0
-    ) {
-      throw new Error(`Running "git clone" command in "${toPath}" failed.`);
-    }
-
     shell.cd(toPath);
 
-    // If the default branch is the one we're deploying to, then we'll fail
-    // to create it. This is the case of a cross-repo publish, where we clone
-    // a github.io repo with a default branch.
-    const defaultBranch = shell
-      .exec('git rev-parse --abbrev-ref HEAD')
-      .stdout.trim();
-    if (defaultBranch !== deploymentBranch) {
-      if (shellExecLog(`git checkout origin/${deploymentBranch}`).code !== 0) {
-        if (
-          shellExecLog(`git checkout --orphan ${deploymentBranch}`).code !== 0
-        ) {
-          throw new Error(
-            `Running "git checkout ${deploymentBranch}" command failed.`,
-          );
-        }
-      } else if (
-        shellExecLog(`git checkout -b ${deploymentBranch}`).code +
-          shellExecLog(
-            `git branch --set-upstream-to=origin/${deploymentBranch}`,
-          ).code !==
-        0
-      ) {
-        throw new Error(
-          `Running "git checkout ${deploymentBranch}" command failed.`,
-        );
-      }
+    // Check out deployment branch when cloning repository, and then remove all
+    // the files in the directory. If the 'clone' command fails, assume that
+    // the deployment branch doesn't exist, and initialize git in an empty
+    // directory, check out a clean deployment branch and add remote.
+    if (
+      shellExecLog(
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${toPath}`,
+      ).code === 0
+    ) {
+      shellExecLog('git rm -rf .');
+    } else {
+      shellExecLog('git init');
+      shellExecLog(`git checkout -b ${deploymentBranch}`);
+      shellExecLog(`git remote add origin ${deploymentRepoURL}`);
     }
 
-    shellExecLog('git rm -rf .');
     try {
       await fs.copy(fromPath, toPath);
     } catch (error) {
@@ -271,7 +250,6 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
         `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
       );
     }
-    shell.cd(toPath);
     shellExecLog('git add --all');
 
     const commitMessage =
@@ -281,7 +259,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     if (
       shellExecLog(`git push --force origin ${deploymentBranch}`).code !== 0
     ) {
-      throw new Error('Running "git push" command failed.');
+      throw new Error(
+        'Running "git push" command failed. Does the GitHub user account you are using have push access to the repository?',
+      );
     } else if (commitResults.code === 0) {
       // The commit might return a non-zero value when site is up to date.
       let websiteURL = '';

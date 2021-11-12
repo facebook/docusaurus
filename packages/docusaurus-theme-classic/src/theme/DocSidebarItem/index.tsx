@@ -23,7 +23,7 @@ import type {
   PropSidebarItem,
   PropSidebarItemCategory,
   PropSidebarItemLink,
-} from '@docusaurus/plugin-content-docs-types';
+} from '@docusaurus/plugin-content-docs';
 
 import styles from './styles.module.css';
 

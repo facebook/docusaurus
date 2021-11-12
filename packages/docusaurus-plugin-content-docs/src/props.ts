@@ -20,7 +20,7 @@ import type {
   PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
-} from '@docusaurus/plugin-content-docs-types';
+} from '@docusaurus/plugin-content-docs';
 import {compact, keyBy, mapValues} from 'lodash';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {

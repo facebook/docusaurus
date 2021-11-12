@@ -8,10 +8,6 @@
 declare module '@docusaurus/plugin-content-docs' {
   export type Options = Partial<import('./types').PluginOptions>;
   export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
-}
-
-// TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
-declare module '@docusaurus/plugin-content-docs-types' {
   export type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
@@ -67,7 +63,7 @@ declare module '@docusaurus/plugin-content-docs-types' {
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -123,7 +119,7 @@ declare module '@theme/DocItem' {
 }
 
 declare module '@theme/DocCategoryGeneratedIndex' {
-  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs-types';
+  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     categoryIndex: PropCategoryGeneratedIndex;
@@ -139,14 +135,14 @@ declare module '@theme/DocItemFooter' {
 }
 
 declare module '@theme/DocTagsListPage' {
-  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends PropTagsListPage {}
   export default function DocTagsListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocTagDocListPage' {
-  import type {PropTagDocList} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly tag: PropTagDocList;
@@ -155,7 +151,7 @@ declare module '@theme/DocTagDocListPage' {
 }
 
 declare module '@theme/DocVersionBanner' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly versionMetadata: PropVersionMetadata;
@@ -166,7 +162,7 @@ declare module '@theme/DocVersionBanner' {
 }
 
 declare module '@theme/DocPage' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
 
   export interface Props {

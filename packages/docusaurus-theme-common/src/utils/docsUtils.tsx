@@ -7,7 +7,7 @@
 
 import React, {createContext, ReactNode, useContext} from 'react';
 import {useAllDocsData} from '@theme/hooks/useDocs';
-import {PropSidebar} from '@docusaurus/plugin-content-docs-types';
+import {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;

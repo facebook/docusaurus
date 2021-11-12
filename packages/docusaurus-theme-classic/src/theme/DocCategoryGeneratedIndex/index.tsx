@@ -9,12 +9,12 @@ import React, {ReactNode} from 'react';
 
 import type {Props} from '@theme/DocCategoryGeneratedIndex';
 import {useDocsSidebar} from '@docusaurus/theme-common';
+import Link from '@docusaurus/Link';
 import {
   PropSidebarItem,
   PropSidebarItemCategory,
-} from '@docusaurus/plugin-content-docs/lib/sidebars/types';
-import Link from '@docusaurus/Link';
-import {PropSidebarItemLink} from '@docusaurus/plugin-content-docs-types';
+  PropSidebarItemLink,
+} from '@docusaurus/plugin-content-docs';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import isInternalUrl from '@docusaurus/isInternalUrl';
