@@ -14,9 +14,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server & yarn build:browser",
+    "build": "yarn build:server & yarn build:browser & yarn build:copy",
     "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json"
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:copy": "node copyUntypedFiles.js"
   },
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
@@ -31,7 +32,8 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.9"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
+    "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
