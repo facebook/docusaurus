@@ -15,7 +15,13 @@ const CodeDirPaths = [
   path.join(__dirname, 'lib-next'),
   // TODO other themes should rather define their own translations in the future?
   path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
-  path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
+  path.join(
+    __dirname,
+    '..',
+    'docusaurus-theme-search-algolia',
+    'lib-next',
+    'theme',
+  ),
   path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
 ];

@@ -24,7 +24,7 @@ import type {
   DocSearchModal as DocSearchModalType,
   DocSearchModalProps,
 } from '@docsearch/react';
-import {
+import type {
   InternalDocSearchHit,
   StoredDocSearchHit,
 } from '@docsearch/react/dist/esm/types';
