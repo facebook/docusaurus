@@ -23,7 +23,8 @@
     "@types/mdast": "^3.0.10",
     "remark": "^12.0.0",
     "remark-mdx": "^1.6.21",
-    "to-vfile": "^6.0.0"
+    "to-vfile": "^6.0.0",
+    "unified": "^10.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

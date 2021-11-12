@@ -6,6 +6,7 @@
  */
 
 import type {Code, Content, Import, Parent, Root} from 'mdast';
+import type {Plugin} from 'unified';
 import npmToYarn from 'npm-to-yarn';
 
 interface Options {
@@ -62,7 +63,9 @@ const nodeForImport: Import = {
     "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
-const attacher = (options: Options = {}) => {
+const attacher: Plugin<[Options], Node, Content[]> = (
+  options: Options = {},
+) => {
   const {sync = false} = options;
   let transformed = false;
   let alreadyImported = false;
