@@ -550,6 +550,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Froggit',
+    description: 'French software factory based entirely on Free Software.',
+    preview: require('./showcase/froggit.png'),
+    website: 'https://www.froggit.fr/',
+    source: 'https://lab.frogg.it/froggit/www/froggit.fr',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Gladys Assistant',
     description: 'A privacy-first, open-source home assistant',
     preview: require('./showcase/gladys-assistant.png'),
