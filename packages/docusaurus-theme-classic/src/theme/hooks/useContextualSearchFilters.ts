@@ -11,15 +11,11 @@ import {
   docVersionSearchTag,
 } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-
-type ContextualSearchFilters = {
-  locale: string;
-  tags: string[];
-};
+import type {useContextualSearchFiltersReturns} from '@theme/hooks/useContextualSearchFilters';
 
 // We may want to support multiple search engines, don't couple that to Algolia/DocSearch
 // Maybe users will want to use its own search engine solution
-export default function useContextualSearchFilters(): ContextualSearchFilters {
+export default function useContextualSearchFilters(): useContextualSearchFiltersReturns {
   const {i18n} = useDocusaurusContext();
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();

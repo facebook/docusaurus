@@ -2,7 +2,8 @@
   "name": "@docusaurus/theme-search-algolia",
   "version": "2.0.0-beta.9",
   "description": "Algolia search component for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -12,6 +13,14 @@
     "directory": "packages/docusaurus-theme-search-algolia"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier:lib-next",
+    "watch": "concurrently --names \"lib,lib-next,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\" \"yarn tsc --watch\"",
+    "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
+    "prettier:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
+  },
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
     "@docusaurus/core": "2.0.0-beta.9",
@@ -23,6 +32,9 @@
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
     "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.9"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

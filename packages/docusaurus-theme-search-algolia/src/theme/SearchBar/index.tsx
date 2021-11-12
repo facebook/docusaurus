@@ -4,6 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+import '../../types.d.ts';
 
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
@@ -19,13 +22,42 @@ import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualF
 import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
-let DocSearchModal = null;
+import type {
+  DocSearchModal as DocSearchModalType,
+  DocSearchModalProps,
+} from '@docsearch/react';
+import {
+  InternalDocSearchHit,
+  StoredDocSearchHit,
+} from '@docsearch/react/dist/esm/types';
+import type {AutocompleteState} from '@algolia/autocomplete-core';
 
-function Hit({hit, children}) {
+type DocSearchProps = Omit<
+  DocSearchModalProps,
+  'onClose' | 'initialScrollY'
+> & {
+  contextualSearch?: string;
+  externalUrlRegex?: string;
+};
+
+let DocSearchModal: typeof DocSearchModalType | null = null;
+
+function Hit({
+  hit,
+  children,
+}: {
+  hit: InternalDocSearchHit | StoredDocSearchHit;
+  children: React.ReactNode;
+}) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
-function ResultsFooter({state, onClose}) {
+type ResultsFooterProps = {
+  state: AutocompleteState<InternalDocSearchHit>;
+  onClose: () => void;
+};
+
+function ResultsFooter({state, onClose}: ResultsFooterProps) {
   const {generateSearchPageLink} = useSearchQuery();
 
   return (
@@ -35,7 +67,11 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
+function DocSearch({
+  contextualSearch,
+  externalUrlRegex,
+  ...props
+}: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
 
   const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
@@ -56,10 +92,12 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
-  const searchContainer = useRef(null);
-  const searchButtonRef = useRef(null);
+  const searchContainer = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [initialQuery, setInitialQuery] = useState(null);
+  const [initialQuery, setInitialQuery] = useState<string | undefined>(
+    undefined,
+  );
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -67,7 +105,9 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
     }
 
     return Promise.all([
+      // @ts-ignore
       import('@docsearch/react/modal'),
+      // @ts-ignore
       import('@docsearch/react/style'),
       import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {
@@ -88,7 +128,7 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
 
   const onClose = useCallback(() => {
     setIsOpen(false);
-    searchContainer.current.remove();
+    searchContainer.current?.remove();
   }, [setIsOpen]);
 
   const onInput = useCallback(
@@ -102,35 +142,38 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
   );
 
   const navigator = useRef({
-    navigate({itemUrl}) {
+    navigate({itemUrl}: {itemUrl?: string}) {
       // Algolia results could contain URL's from other domains which cannot
       // be served through history and should navigate with window.location
       if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
-        window.location.href = itemUrl;
+        window.location.href = itemUrl!;
       } else {
-        history.push(itemUrl);
+        history.push(itemUrl!);
       }
     },
   }).current;
 
-  const transformItems = useRef((items) => {
-    return items.map((item) => {
-      // If Algolia contains a external domain, we should navigate without relative URL
-      if (isRegexpStringMatch(externalUrlRegex, item.url)) {
-        return item;
-      }
+  const transformItems = useRef<DocSearchModalProps['transformItems']>(
+    (items) => {
+      return items.map((item) => {
+        // If Algolia contains a external domain, we should navigate without relative URL
+        if (isRegexpStringMatch(externalUrlRegex, item.url)) {
+          return item;
+        }
 
-      // We transform the absolute URL into a relative URL.
-      const url = new URL(item.url);
-      return {
-        ...item,
-        url: withBaseUrl(`${url.pathname}${url.hash}`),
-      };
-    });
-  }).current;
+        // We transform the absolute URL into a relative URL.
+        const url = new URL(item.url);
+        return {
+          ...item,
+          url: withBaseUrl(`${url.pathname}${url.hash}`),
+        };
+      });
+    },
+  ).current;
 
   const resultsFooterComponent = useMemo(
-    () => (footerProps) => <ResultsFooter {...footerProps} onClose={onClose} />,
+    () => (footerProps: ResultsFooterProps) =>
+      <ResultsFooter {...footerProps} onClose={onClose} />,
     [onClose],
   );
 
@@ -188,6 +231,8 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
       </div>
 
       {isOpen &&
+        DocSearchModal &&
+        searchContainer.current &&
         createPortal(
           <DocSearchModal
             onClose={onClose}
@@ -209,6 +254,7 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
 
 function SearchBar() {
   const {siteConfig} = useDocusaurusContext();
+  // @ts-ignore
   return <DocSearch {...siteConfig.themeConfig.algolia} />;
 }
 
