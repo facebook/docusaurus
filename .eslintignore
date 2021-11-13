@@ -13,6 +13,7 @@ packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
+packages/docusaurus-plugin-pwa/copyUntypedFiles.js
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 
 packages/create-docusaurus/lib/*

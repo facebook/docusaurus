@@ -9,9 +9,11 @@ import React, {useState} from 'react';
 import clsx from 'clsx';
 import Translate, {translate} from '@docusaurus/Translate';
 
+import type {PwaReloadPopupProps} from '@theme/PwaReloadPopup';
+
 import styles from './styles.module.css';
 
-export default function PwaReloadPopup({onReload}) {
+function PwaReloadPopup({onReload}: PwaReloadPopupProps): JSX.Element | false {
   const [isVisible, setIsVisible] = useState(true);
 
   return (
@@ -56,3 +58,5 @@ export default function PwaReloadPopup({onReload}) {
     )
   );
 }
+
+export default PwaReloadPopup;

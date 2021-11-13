@@ -5,15 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const LogPlugin =
-  require('@docusaurus/core/lib/webpack/plugins/LogPlugin').default;
-const {compile} = require('@docusaurus/core/lib/webpack/utils');
-const {normalizeUrl} = require('@docusaurus/utils');
-const path = require('path');
-const webpack = require('webpack');
-const {injectManifest} = require('workbox-build');
-const {PluginOptionSchema} = require('./pluginOptionSchema');
-const Terser = require('terser-webpack-plugin');
+import {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
+import {normalizeUrl} from '@docusaurus/utils';
+import {compile} from '@docusaurus/core/lib/webpack/utils';
+import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
+
+import path from 'path';
+import webpack, {Configuration} from 'webpack';
+import Terser from 'terser-webpack-plugin';
+
+import {injectManifest} from 'workbox-build';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -43,7 +45,10 @@ function getSWBabelLoader() {
   };
 }
 
-function plugin(context, options) {
+export default function (
+  context: LoadContext,
+  options: PluginOptions,
+): Plugin<void> {
   const {outDir, baseUrl} = context;
   const {
     debug,
@@ -76,7 +81,7 @@ function plugin(context, options) {
           new webpack.EnvironmentPlugin({
             PWA_DEBUG: debug,
             PWA_SERVICE_WORKER_URL: path.posix.resolve(
-              `${config.output.publicPath || '/'}`,
+              `${config.output?.publicPath || '/'}`,
               'sw.js',
             ),
             PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
@@ -88,10 +93,10 @@ function plugin(context, options) {
     },
 
     injectHtmlTags() {
-      const headTags = [];
+      const headTags: HtmlTags = [];
       if (isProd && pwaHead) {
         pwaHead.forEach(({tagName, ...attributes}) => {
-          ['href', 'content'].forEach((attribute) => {
+          (['href', 'content'] as const).forEach((attribute) => {
             const attributeValue = attributes[attribute];
 
             if (!attributeValue) {
@@ -122,7 +127,7 @@ function plugin(context, options) {
 
       const swSourceFileTest = /\.m?js$/;
 
-      const swWebpackConfig = {
+      const swWebpackConfig: Configuration = {
         entry: path.resolve(__dirname, 'sw.js'),
         output: {
           path: outDir,
@@ -136,12 +141,13 @@ function plugin(context, options) {
           splitChunks: false,
           minimize: !debug,
           // see https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
-          minimizer: [
-            !debug &&
-              new Terser({
-                test: swSourceFileTest,
-              }),
-          ].filter(Boolean),
+          minimizer: debug
+            ? []
+            : [
+                new Terser({
+                  test: swSourceFileTest,
+                }),
+              ],
         },
         plugins: [
           new webpack.EnvironmentPlugin({
@@ -173,6 +179,8 @@ function plugin(context, options) {
           '**/*.{js,json,css,html}',
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           ...(injectManifest.globPatterns || []),
         ],
         // those attributes are not overrideable
@@ -184,8 +192,4 @@ function plugin(context, options) {
   };
 }
 
-module.exports = plugin;
-
-plugin.validateOptions = function validateOptions({validate, options}) {
-  return validate(PluginOptionSchema, options);
-};
+export {validateOptions} from './options';
