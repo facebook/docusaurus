@@ -257,6 +257,14 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
+    title: '前端面试宝典',
+    description: '最新，最全，最好用的前端面试宝典，不定时整理最新的面试问题，让你不落后于其他前端技术，早日找到好工作，永久免费，欢迎收藏转发',
+    preview: require('./showcase/interview-kelen-cc.jpg'),
+    website: 'https://interview.kelen.cc',
+    source: 'https://interview.kelen.cc/blog',
+    tags: ['opensource', 'personal', 'large'],
+  },
+  {
     title: 'blog.johnnyreilly.com',
     description: 'The blog of johnnyreilly',
     preview: require('./showcase/johnnyreilly.png'),
