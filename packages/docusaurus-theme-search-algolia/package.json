@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server & yarn build:browser & yarn build:copy",
+    "build": "yarn build:server && yarn build:browser && yarn build:copy",
     "build:server": "tsc --project tsconfig.server.json",
     "build:browser": "tsc --project tsconfig.browser.json",
     "build:copy": "node copyUntypedFiles.js"
