@@ -5,8 +5,10 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
-    "watch": "node copyUntypedFiles.js && tsc --watch"
+    "build": "yarn build:server && yarn build:browser && yarn build:copy",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:copy": "node copyUntypedFiles.js"
   },
   "publishConfig": {
     "access": "public"

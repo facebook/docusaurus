@@ -6,16 +6,18 @@
  */
 
 import React from 'react';
-import IdealImage from '@endiliey/react-ideal-image';
+import ReactIdealImage from '@endiliey/react-ideal-image';
 
-function Image(props) {
+import type {Props} from '@theme/IdealImage';
+
+function IdealImage(props: Props): JSX.Element {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file
-  if (typeof img === 'string' || typeof img.default === 'string') {
+  if (typeof img === 'string' || 'default' in img) {
     return (
       <img
-        src={img?.default ?? img}
+        src={typeof img === 'string' ? img : img.default}
         className={className}
         alt={alt}
         {...props}
@@ -24,7 +26,7 @@ function Image(props) {
   }
 
   return (
-    <IdealImage
+    <ReactIdealImage
       {...props}
       alt={alt}
       className={className}
@@ -40,4 +42,4 @@ function Image(props) {
   );
 }
 
-export default Image;
+export default IdealImage;
