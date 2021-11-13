@@ -9,13 +9,7 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
-import usePrismTheme from '@theme/hooks/usePrismTheme';
-import type {Props} from '@theme/CodeBlock';
 import Translate, {translate} from '@docusaurus/Translate';
-import IconExpand from '@theme/IconExpand';
-
-import styles from './styles.module.css';
-
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -23,6 +17,11 @@ import {
   parseLines,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
+import type {Props} from '@theme/CodeBlock';
+import IconExpand from '@theme/IconExpand';
+
+import styles from './styles.module.css';
 
 export default function CodeBlock({
   children,
@@ -51,7 +50,6 @@ export default function CodeBlock({
   // so we probably don't need to parse the metastring
   // (note: title="xyz" => title prop still has the quotes)
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
-
   const prismTheme = usePrismTheme();
 
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).

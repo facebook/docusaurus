@@ -51,7 +51,7 @@ const magicCommentDirectives = [
   'sample-end',
 ];
 
-const getHighlightDirectiveRegex = (
+const getMagicCommentDirectiveRegex = (
   languages: readonly CommentType[] = commentTypes,
 ) => {
   // to be more reliable, the opening and closing comment must match
@@ -66,28 +66,28 @@ const getHighlightDirectiveRegex = (
 };
 
 // select comment styles based on language
-const highlightDirectiveRegex = (lang: string) => {
+const magicCommentDirectiveRegex = (lang: string) => {
   switch (lang) {
     case 'js':
     case 'javascript':
     case 'ts':
     case 'typescript':
-      return getHighlightDirectiveRegex(['js', 'jsBlock']);
+      return getMagicCommentDirectiveRegex(['js', 'jsBlock']);
 
     case 'jsx':
     case 'tsx':
-      return getHighlightDirectiveRegex(['js', 'jsBlock', 'jsx']);
+      return getMagicCommentDirectiveRegex(['js', 'jsBlock', 'jsx']);
 
     case 'html':
-      return getHighlightDirectiveRegex(['js', 'jsBlock', 'html']);
+      return getMagicCommentDirectiveRegex(['js', 'jsBlock', 'html']);
 
     case 'python':
     case 'py':
-      return getHighlightDirectiveRegex(['python']);
+      return getMagicCommentDirectiveRegex(['python']);
 
     default:
       // all comment types
-      return getHighlightDirectiveRegex();
+      return getMagicCommentDirectiveRegex();
   }
 };
 
@@ -127,7 +127,7 @@ export function parseLines(
   if (language === undefined) {
     return {highlightLines: [], sampleLines: [], code};
   }
-  const directiveRegex = highlightDirectiveRegex(language);
+  const directiveRegex = magicCommentDirectiveRegex(language);
   // go through line by line
   const lines = code.split('\n');
   let highlightBlockStart: number;
