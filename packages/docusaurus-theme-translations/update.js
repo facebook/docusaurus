@@ -236,7 +236,6 @@ ${logKeys(untranslatedKeys)}`),
 }
 
 async function updateCodeTranslations() {
-  /* eslint-disable no-continue */
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
     logSection(`Will update base file for ${theme.name}`);
