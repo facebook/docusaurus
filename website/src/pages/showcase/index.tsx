@@ -16,10 +16,10 @@ import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
-import {toggleListItem} from '../../utils/jsUtils';
-import {SortedUsers, Tags, TagList, User, TagType} from '../../data/users';
-import Tooltip from '../../components/showcase/showcaseTooltip';
-import FavoriteIcon from '../../components/svgIcons/FavoriteIcon';
+import {toggleListItem} from '@site/src/utils/jsUtils';
+import {SortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
+import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';

@@ -10,10 +10,10 @@ import clsx from 'clsx';
 import Image from '@theme/IdealImage';
 
 import styles from './styles.module.css';
-import FavoriteIcon from '../../svgIcons/FavoriteIcon';
-import Tooltip from '../showcaseTooltip';
-import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
-import {sortBy} from '../../../utils/jsUtils';
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
+import {sortBy} from '@site/src/utils/jsUtils';
 
 interface Props extends Tag {
   id: string;

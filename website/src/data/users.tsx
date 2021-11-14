@@ -8,7 +8,7 @@
 /* eslint-disable global-require */
 
 import React from 'react';
-import {difference, sortBy} from '../utils/jsUtils';
+import {difference, sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
