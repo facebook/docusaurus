@@ -5,37 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ReactNode} from 'react';
-import clsx from 'clsx';
+import React, {ComponentProps, ReactNode, ReactElement} from 'react';
 
 import styles from './styles.module.css';
 
 interface Props extends ComponentProps<'input'> {
+  icon: ReactElement<ComponentProps<'svg'>>;
   label: ReactNode;
 }
 
-<<<<<<< HEAD
-function ShowcaseCheckbox({
-  title,
-  className,
-  label,
-  ...props
-}: Props): JSX.Element {
-  const id = `showcase_checkbox_id_${props.name};`;
-
-  return (
-    <li
-      title={title}
-      key={title}
-      className={clsx(className, styles.checkboxListItem)}>
-      <input type="checkbox" id={id} className="sr-only" {...props} />
-      <label tabIndex={0} htmlFor={id} className={styles.checkboxLabel}>
-        {label}
-      </label>
-    </li>
-  );
-}
-=======
 const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
   function ShowcaseCheckbox({className, id, icon, label, ...rest}, ref) {
     return (
@@ -43,6 +21,7 @@ const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
         <input type="checkbox" id={id} className="sr-only" {...rest} />
         <label
           ref={ref}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           htmlFor={id}
           className={styles.checkboxLabel}
@@ -54,6 +33,5 @@ const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
     );
   },
 );
->>>>>>> create Tooltip component, Svg component
 
 export default ShowcaseCheckbox;
