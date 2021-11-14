@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 import {normalizeUrl} from '@docusaurus/utils';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
