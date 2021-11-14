@@ -320,14 +320,11 @@ declare module '@docusaurus/useGlobalData' {
 }
 
 declare module '*.svg' {
-  import type {FunctionComponent, SVGProps} from 'react';
+  import type {ComponentType, SVGProps} from 'react';
 
-  export const ReactComponent: FunctionComponent<
-    SVGProps<SVGSVGElement> & {title?: string}
-  >;
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
 
-  const src: string;
-  export default src;
+  export default ReactComponent;
 }
 
 declare module '*.module.css' {
