@@ -45,7 +45,7 @@ const APITableRow = forwardRef(
     const history = useHistory();
     return (
       <tr
-        id={entryName}
+        id={anchor}
         tabIndex={0}
         ref={history.location.hash === anchor ? ref : undefined}
         onClick={() => {
