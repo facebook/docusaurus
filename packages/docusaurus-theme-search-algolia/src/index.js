@@ -52,8 +52,9 @@ function theme(context) {
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, 'codeTranslations'),
+        dirPath: require('@docusaurus/theme-translations'),
         locale: currentLocale,
+        name: 'theme-search-algolia',
       });
     },
 

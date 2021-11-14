@@ -29,10 +29,16 @@ describe('readDefaultCodeTranslationMessages', () => {
     '__fixtures__',
     'defaultCodeTranslations',
   );
+  const name = 'default';
 
-  async function readAsJSON(filename: string) {
+  async function readAsJSON(locale: string, filename: string = name) {
+    console.log(path.resolve(dirPath, locale, `${filename}.json`));
+
     return JSON.parse(
-      await fs.readFile(path.resolve(dirPath, filename), 'utf8'),
+      await fs.readFile(
+        path.resolve(dirPath, locale, `${filename}.json`),
+        'utf8',
+      ),
     );
   }
 
@@ -52,6 +58,7 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'es',
         dirPath,
+        name,
       }),
     ).resolves.toEqual({});
   });
@@ -61,6 +68,7 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'fr',
         dirPath: __dirname,
+        name,
       }),
     ).resolves.toEqual({});
   });
@@ -70,8 +78,9 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'fr',
         dirPath,
+        name,
       }),
-    ).resolves.toEqual(await readAsJSON('fr.json'));
+    ).resolves.toEqual(await readAsJSON('fr'));
   });
 
   test('for fr-FR', async () => {
@@ -79,8 +88,9 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'fr-FR',
         dirPath,
+        name,
       }),
-    ).resolves.toEqual(await readAsJSON('fr-FR.json'));
+    ).resolves.toEqual(await readAsJSON('fr-FR'));
   });
 
   test('for en', async () => {
@@ -88,8 +98,9 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'en',
         dirPath,
+        name,
       }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
+    ).resolves.toEqual(await readAsJSON('en'));
   });
 
   test('for en-US', async () => {
@@ -97,8 +108,9 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'en-US',
         dirPath,
+        name,
       }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
+    ).resolves.toEqual(await readAsJSON('en'));
   });
 
   test('for en-WHATEVER', async () => {
@@ -106,7 +118,8 @@ describe('readDefaultCodeTranslationMessages', () => {
       readDefaultCodeTranslationMessages({
         locale: 'en-WHATEVER',
         dirPath,
+        name,
       }),
-    ).resolves.toEqual(await readAsJSON('en.json'));
+    ).resolves.toEqual(await readAsJSON('en'));
   });
 });

@@ -23,8 +23,9 @@ export default function theme(context: DocusaurusContext): Plugin {
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, 'codeTranslations'),
+        dirPath: require('@docusaurus/theme-translations'),
         locale: currentLocale,
+        name: 'theme-live-codeblock',
       });
     },
 

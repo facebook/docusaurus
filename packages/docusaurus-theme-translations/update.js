@@ -8,20 +8,48 @@
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
-const globby = require('globby');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
 
-const CodeDirPaths = [
-  [
-    path.join(__dirname, 'lib-next'),
-    path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
-  ],
-  [path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src')],
-  [path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src')],
-  [path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src')],
+const LocalesDirPath = path.join(__dirname, 'locales');
+const Themes = [
+  {
+    name: 'theme-common',
+    src: [
+      getPackageCodePath('docusaurus-theme-classic'),
+      getPackageCodePath('docusaurus-theme-common'),
+    ],
+  },
+  {
+    name: 'theme-search-algolia',
+    src: [getPackageCodePath('docusaurus-theme-search-algolia')],
+  },
+  {
+    name: 'theme-live-codeblock',
+    src: [getPackageCodePath('docusaurus-theme-live-codeblock')],
+  },
+  {
+    name: 'plugin-pwa',
+    src: [getPackageCodePath('docusaurus-plugin-pwa')],
+  },
 ];
+const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
-console.log('Will scan folders for code translations:', CodeDirPaths);
+console.log('Will scan folders for code translations:', AllThemesSrcDirs);
+
+function getPackageCodePath(packageName) {
+  const packagePath = path.join(__dirname, '..', packageName);
+  const packageJsonPath = path.join(packagePath, 'package.json');
+  const {main} = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  const packageSrcPath = path.join(packagePath, path.dirname(main));
+  const packageLibNextPath = packageSrcPath.replace('lib', 'lib-next');
+  return fs.existsSync(packageLibNextPath)
+    ? packageLibNextPath
+    : packageSrcPath;
+}
+
+function getThemeLocalePath(locale, themeName) {
+  return path.join(LocalesDirPath, locale, `${themeName}.json`);
+}
 
 function removeDescriptionSuffix(key) {
   if (key.replace('___DESCRIPTION')) {
@@ -50,7 +78,7 @@ function logKeys(keys) {
   return `Keys:\n- ${keys.join('\n- ')}`;
 }
 
-async function extractThemeCodeMessages(targetDirs = CodeDirPaths[0]) {
+async function extractThemeCodeMessages(targetDirs = AllThemesSrcDirs) {
   // Unsafe import, should we create a package for the translationsExtractor ?
   const {
     globSourceCodeFilePaths,
@@ -106,17 +134,11 @@ async function writeMessagesFile(filePath, messages) {
   );
 }
 
-async function getCodeTranslationFiles(dirPath) {
-  const codeTranslationsDir = path.join(
-    path.dirname(dirPath),
-    'src',
-    'codeTranslations',
-  );
-  const baseFile = path.join(codeTranslationsDir, 'base.json');
-  const localesFiles = (await globby(codeTranslationsDir)).filter(
-    (filepath) =>
-      path.extname(filepath) === '.json' && !filepath.endsWith('base.json'),
-  );
+async function getCodeTranslationFiles(themeName) {
+  const baseFile = getThemeLocalePath('base', themeName);
+  const localesFiles = (await fs.readdir(LocalesDirPath))
+    .filter((dirName) => dirName !== 'base')
+    .map((locale) => getThemeLocalePath(locale, themeName));
   return {baseFile, localesFiles};
 }
 
@@ -142,7 +164,7 @@ async function updateBaseFile(baseFile, targetDirs) {
 
   if (unknownMessages.length) {
     console.log(
-      chalk.red(`Some messages exist in base.json but were not found by the code extractor!
+      chalk.red(`Some messages exist in base locale but were not found by the code extractor!
 They won't be removed automatically, so do the cleanup manually if necessary!
 ${logKeys(unknownMessages)}`),
     );
@@ -214,23 +236,15 @@ ${logKeys(untranslatedKeys)}`),
 }
 
 async function updateCodeTranslations() {
-  logSection('Will update base file');
-
   /* eslint-disable no-continue */
-  for (const CodeDirPath of CodeDirPaths) {
-    const {baseFile, localesFiles} = await getCodeTranslationFiles(
-      CodeDirPath[0],
-    );
-    const baseFileMessages = await updateBaseFile(baseFile, CodeDirPath);
+  for (const theme of Themes) {
+    const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
+    logSection(`Will update base file for ${theme.name}`);
+    const baseFileMessages = await updateBaseFile(baseFile, theme.src);
     const [, newLocale] = process.argv;
 
     if (newLocale) {
-      const newLocalePath = path.join(
-        path.dirname(CodeDirPath[0]),
-        'src',
-        'codeTranslations',
-        `${newLocale}.json`,
-      );
+      const newLocalePath = getThemeLocalePath(newLocale, theme.name);
 
       if (!fs.existsSync(newLocalePath)) {
         await writeMessagesFile(newLocalePath, baseFileMessages);
@@ -252,10 +266,11 @@ async function updateCodeTranslations() {
 
     for (const localeFile of localesFiles) {
       logSection(
-        `Will update ${path.basename(localeFile)} in ${path.basename(
-          path.dirname(CodeDirPath[0]),
-        )}`,
+        `Will update ${path.basename(
+          path.dirname(localeFile),
+        )} locale in ${path.basename(localeFile, path.extname(localeFile))}`,
       );
+
       await updateLocaleCodeTranslations(localeFile, baseFileMessages);
     }
   }

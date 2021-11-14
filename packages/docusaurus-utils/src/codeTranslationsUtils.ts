@@ -32,17 +32,19 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
 export async function readDefaultCodeTranslationMessages({
   dirPath,
   locale,
+  name,
 }: {
   dirPath: string;
   locale: string;
+  name: string;
 }): Promise<Record<string, string>> {
   const localesToTry = codeTranslationLocalesToTry(locale);
 
   // Return the content of the first file that match
   // fr_FR.json => fr.json => nothing
   // eslint-disable-next-line no-restricted-syntax
-  for (const fileName of localesToTry) {
-    const filePath = path.resolve(dirPath, `${fileName}.json`);
+  for (const localeToTry of localesToTry) {
+    const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 
     if (await fs.pathExists(filePath)) {
       const fileContent = await fs.readFile(filePath, 'utf8');
