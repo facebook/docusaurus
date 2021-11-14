@@ -2,8 +2,10 @@
   "name": "@docusaurus/theme-translations",
   "version": "2.0.0-beta.9",
   "description": "Docusaurus theme translations.",
-  "main": "./index.js",
-  "files": ["locales"],
+  "main": "index.js",
+  "files": [
+    "locales"
+  ],
   "publishConfig": {
     "access": "public"
   },
