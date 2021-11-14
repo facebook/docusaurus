@@ -14,7 +14,10 @@ interface Props extends ComponentProps<'input'> {
   label: string;
 }
 
-function ShowcaseFilterCheckbox({label, ...props}: Props) {
+export default function ShowcaseFilterCheckbox({
+  label,
+  ...props
+}: Props): JSX.Element {
   const id = `showcase_checkbox_id_${props.name}`;
 
   return (
@@ -39,5 +42,3 @@ function ShowcaseFilterCheckbox({label, ...props}: Props) {
     </label>
   );
 }
-
-export default ShowcaseFilterCheckbox;

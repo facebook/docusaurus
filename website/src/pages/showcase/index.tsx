@@ -22,7 +22,7 @@ import Tooltip from '../../components/showcase/showcaseTooltip';
 import FavoriteIcon from '../../components/svgIcons/FavoriteIcon';
 
 const TITLE = 'Docusaurus Site Showcase';
-const DESCRIPTION = 'Beautiful sites that people are building with Docusaurus';
+const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 

@@ -35,7 +35,7 @@
 .checkboxLabelWrapper > * {
   font-size: 0.8rem;
   color: inherit;
-  transition: opacity 650ms ease-in 600ms;
+  transition: opacity 150ms ease-in 50ms;
 }
 
 input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelAnd,
@@ -61,9 +61,8 @@ input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
   box-sizing: border-box;
   border: 0.04em solid var(--ifm-color-primary-darkest);
   transition-property: transform;
-  transition-duration: 600ms;
+  transition-duration: 200ms;
   transition-timing-function: ease-out;
-  transition-delay: 150ms;
   transform: translateX(0);
 }
 
