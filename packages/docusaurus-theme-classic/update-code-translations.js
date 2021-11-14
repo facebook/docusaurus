@@ -17,7 +17,7 @@ const CodeDirPaths = [
   path.join(__dirname, '..', 'docusaurus-theme-common', 'lib'),
   path.join(__dirname, '..', 'docusaurus-theme-search-algolia', 'src', 'theme'),
   path.join(__dirname, '..', 'docusaurus-theme-live-codeblock', 'src', 'theme'),
-  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'src', 'theme'),
+  path.join(__dirname, '..', 'docusaurus-plugin-pwa', 'lib', 'theme'),
 ];
 
 console.log('Will scan folders for code translations:', CodeDirPaths);
