@@ -26,8 +26,8 @@ function getBrowserStorage(
   } else {
     try {
       return window[storageType];
-    } catch (e: any) {
-      logOnceBrowserStorageNotAvailableWarning(e);
+    } catch (e) {
+      logOnceBrowserStorageNotAvailableWarning(e as Error);
       return null;
     }
   }

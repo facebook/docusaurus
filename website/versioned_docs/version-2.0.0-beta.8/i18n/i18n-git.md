@@ -39,7 +39,7 @@ This is a walk-through of using Git to translate a newly initialized English Doc
 Initialize a new Docusaurus site:
 
 ```bash
-npm init docusaurus@latest website classic
+npx create-docusaurus@latest website classic
 ```
 
 Add the site configuration for the French language:

@@ -6,6 +6,7 @@
  */
 
 declare module '@generated/client-modules' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clientModules: readonly any[];
   export default clientModules;
 }
@@ -21,11 +22,12 @@ declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
   const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+  export = siteMetadata;
 }
 
 declare module '@generated/registry' {
   const registry: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly [key: string]: [() => Promise<any>, string, string];
   };
   export default registry;
@@ -46,12 +48,13 @@ declare module '@generated/routes' {
 
 declare module '@generated/routesChunkNames' {
   const routesChunkNames: Record<string, Record<string, string>>;
-  export default routesChunkNames;
+  export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
-  const globalData: Record<string, unknown>;
-  export default globalData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalData: Record<string, any>;
+  export = globalData;
 }
 
 declare module '@generated/i18n' {
@@ -61,15 +64,23 @@ declare module '@generated/i18n' {
     currentLocale: string;
     localeConfigs: Record<string, {label: string; direction: string}>;
   };
-  export default i18n;
+  export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
   const codeTranslations: Record<string, string>;
-  export default codeTranslations;
+  export = codeTranslations;
 }
 
 declare module '@theme-original/*';
+
+declare module '@theme/Error' {
+  export interface Props {
+    readonly error: Error;
+    readonly tryAgain: () => void;
+  }
+  export default function Error(props: Props): JSX.Element;
+}
 
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
@@ -89,7 +100,7 @@ declare module '@theme/Loading' {
 }
 
 declare module '@theme/NotFound' {
-  export default function NotFound(props: any): JSX.Element;
+  export default function NotFound(): JSX.Element;
 }
 
 declare module '@theme/Root' {
@@ -103,6 +114,17 @@ declare module '@theme/Root' {
 
 declare module '@docusaurus/constants' {
   export const DEFAULT_PLUGIN_ID: 'default';
+}
+
+declare module '@docusaurus/ErrorBoundary' {
+  import type {ReactNode} from 'react';
+  import ErrorComponent from '@theme/Error';
+
+  export interface Props {
+    readonly fallback?: typeof ErrorComponent;
+    readonly children: ReactNode;
+  }
+  export default function ErrorBoundary(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Head' {
@@ -292,6 +314,7 @@ declare module '@docusaurus/useGlobalData' {
     pluginId?: string,
   ): T;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
 }

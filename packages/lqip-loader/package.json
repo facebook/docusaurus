@@ -1,10 +1,14 @@
 {
   "name": "@docusaurus/lqip-loader",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Low Quality Image Placeholders (LQIP) loader for webpack.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -19,6 +23,9 @@
     "sharp": "^0.29.1"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "@types/sharp": "^0.29.2"
   }
 }

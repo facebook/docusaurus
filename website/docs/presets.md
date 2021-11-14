@@ -74,15 +74,15 @@ This is especially useful when some plugins and themes are intended to be used t
 
 The classic preset that is usually shipped by default to new Docusaurus website. It is a set of plugins and themes.
 
-| Themes                             | Plugins                               |
-| ---------------------------------- | ------------------------------------- |
-| `@docusaurus/theme-classic`        | `@docusaurus/plugin-content-docs`     |
-| `@docusaurus/theme-search-algolia` | `@docusaurus/plugin-content-blog`     |
-|                                    | `@docusaurus/plugin-content-pages`    |
-|                                    | `@docusaurus/plugin-debug`            |
-|                                    | `@docusaurus/plugin-google-analytics` |
-|                                    | `@docusaurus/plugin-google-gtag`      |
-|                                    | `@docusaurus/plugin-sitemap`          |
+| Themes | Plugins |
+| --- | --- |
+| [`@docusaurus/theme-classic`](./api/themes/theme-configuration.md) | [`@docusaurus/plugin-content-docs`](./api/plugins/plugin-content-docs.md) |
+| [`@docusaurus/theme-search-algolia`](./api/themes/theme-search-algolia.md) | [`@docusaurus/plugin-content-blog`](./api/plugins/plugin-content-blog.md) |
+|  | [`@docusaurus/plugin-content-pages`](./api/plugins/plugin-content-pages.md) |
+|  | [`@docusaurus/plugin-debug`](./api/plugins/plugin-debug.md) |
+|  | [`@docusaurus/plugin-google-analytics`](./api/plugins/plugin-google-analytics.md) |
+|  | [`@docusaurus/plugin-google-gtag`](./api/plugins/plugin-google-gtag.md) |
+|  | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
 
 To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
 
@@ -106,6 +106,10 @@ module.exports = {
         pages: {},
         // Will be passed to @docusaurus/plugin-content-sitemap (false to disable)
         sitemap: {},
+        // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
+        gtag: {},
+        // Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        googleAnalytics: {},
       },
     ],
   ],

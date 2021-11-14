@@ -39,6 +39,7 @@ async function hasBuildInProgress() {
 
 async function run() {
   const timeBefore = Date.now();
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (Date.now() - timeBefore > timeout) {
       console.warn(

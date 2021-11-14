@@ -10,7 +10,7 @@ Docusaurus is written in TypeScript, and provides first-class TypeScript support
 Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
-npm init docusaurus@latest my-website classic -- --typescript
+npx create-docusaurus@latest my-website classic --typescript
 ```
 
 Below are some guides on how to migrate an existing project to TypeScript.
@@ -134,4 +134,4 @@ For themes that supports TypeScript theme components, you can add the `--typescr
 npm run swizzle @docusaurus/theme-classic Footer -- --typescript
 ```
 
-At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./lifecycle-apis.md#gettypescriptthemepath).
+At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/lifecycle-apis.md#gettypescriptthemepath).

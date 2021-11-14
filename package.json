@@ -1,4 +1,5 @@
 {
+  "name": "root",
   "private": true,
   "workspaces": [
     "packages/*",
@@ -64,7 +65,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
-    "@crowdin/cli": "^3.7.0",
+    "@crowdin/cli": "^3.7.1",
     "@formatjs/intl-datetimeformat": "^3.2.12",
     "@formatjs/intl-numberformat": "^6.2.2",
     "@formatjs/intl-pluralrules": "^4.0.11",
@@ -80,13 +81,12 @@
     "@types/react": "^17.0.2",
     "@types/react-dev-utils": "^9.0.1",
     "@types/react-helmet": "^6.0.0",
-    "@types/react-loadable": "^5.5.3",
     "@types/react-router-config": "^5.0.1",
     "@types/react-test-renderer": "^17.0.1",
     "@types/semver": "^7.1.0",
     "@types/shelljs": "^0.8.6",
     "@types/wait-on": "^5.2.0",
-    "@types/webpack-dev-server": "^3.11.1",
+    "@types/webpack-dev-server": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "concurrently": "^6.2.1",
@@ -129,6 +129,6 @@
     ]
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   }
 }

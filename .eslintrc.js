@@ -49,7 +49,16 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
+      {
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          'unist',
+          'mdast',
+        ],
+      },
     ],
     'import/extensions': OFF,
     'header/header': [
@@ -119,6 +128,7 @@ module.exports = {
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
@@ -129,9 +139,34 @@ module.exports = {
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
     '@typescript-eslint/no-empty-interface': [
-      'error',
+      ERROR,
       {
         allowSingleExtends: true,
+      },
+    ],
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: [
+              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+              'last',
+            ],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
       },
     ],
   },

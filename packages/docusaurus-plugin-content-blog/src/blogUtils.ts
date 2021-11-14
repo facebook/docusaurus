@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {compact, keyBy, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
@@ -267,7 +267,7 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
-  const blogPosts: BlogPost[] = compact(
+  const blogPosts = (
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
         try {
@@ -287,13 +287,16 @@ export async function generateBlogPosts(
           throw e;
         }
       }),
-    ),
-  );
+    )
+  ).filter(Boolean) as BlogPost[];
 
   blogPosts.sort(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );
 
+  if (options.sortPosts === 'ascending') {
+    return blogPosts.reverse();
+  }
   return blogPosts;
 }
 

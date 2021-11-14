@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten} from 'lodash';
 import {
   addTrailingSlash,
   removeSuffix,
@@ -62,7 +61,7 @@ export function createToExtensionsRedirects(
     return [];
   };
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }
 
 // Create new /path.html/index.html that redirects to existing an /path
@@ -99,5 +98,5 @@ export function createFromExtensionsRedirects(
     }));
   };
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

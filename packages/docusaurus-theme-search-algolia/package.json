@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Algolia search component for Docusaurus.",
   "main": "src/index.js",
   "publishConfig": {
@@ -14,10 +14,10 @@
   "license": "MIT",
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
-    "@docusaurus/core": "2.0.0-beta.8",
-    "@docusaurus/theme-common": "2.0.0-beta.8",
-    "@docusaurus/utils": "2.0.0-beta.8",
-    "@docusaurus/utils-validation": "2.0.0-beta.8",
+    "@docusaurus/core": "2.0.0-beta.9",
+    "@docusaurus/theme-common": "2.0.0-beta.9",
+    "@docusaurus/utils": "2.0.0-beta.9",
+    "@docusaurus/utils-validation": "2.0.0-beta.9",
     "algoliasearch": "^4.10.5",
     "algoliasearch-helper": "^3.5.5",
     "clsx": "^1.1.1",
@@ -29,6 +29,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   }
 }

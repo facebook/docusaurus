@@ -10,7 +10,6 @@ import {
   mergeWithCustomize,
   customizeArray,
   customizeObject,
-  CustomizeRule,
 } from 'webpack-merge';
 import webpack, {
   Configuration,
@@ -224,8 +223,7 @@ export function applyConfigureWebpack(
       content,
     );
     if (res && typeof res === 'object') {
-      // @ts-expect-error: annoying error due to enums: https://github.com/survivejs/webpack-merge/issues/179
-      const customizeRules: Record<string, CustomizeRule> = mergeStrategy ?? {};
+      const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
         customizeArray: customizeArray(customizeRules),
         customizeObject: customizeObject(customizeRules),
@@ -459,21 +457,21 @@ function validateKeyAndCerts({
   try {
     // publicEncrypt will throw an error with an invalid cert
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`,
+      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
+        (err as Error).message
+      }`,
     );
   }
 
   try {
     // privateDecrypt will throw an error with an invalid key
     crypto.privateDecrypt(key, encrypted);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err) {
     throw new Error(
       `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        err.message
+        (err as Error).message
       }`,
     );
   }

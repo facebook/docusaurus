@@ -284,7 +284,7 @@ export function processDocMetadata(args: {
   } catch (e) {
     console.error(
       chalk.red(
-        `Can't process doc metadatas for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
+        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
       ),
     );
     throw e;

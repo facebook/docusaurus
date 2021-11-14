@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "2.0.0-beta.8",
+    "@docusaurus/types": "2.0.0-beta.9",
     "@mdx-js/runtime": "^1.6.22",
     "@types/github-slugger": "^1.3.0",
     "chalk": "^4.1.2",
@@ -34,7 +34,7 @@
     "tslib": "^2.3.1"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",

@@ -22,7 +22,6 @@ import {
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/core/lib/constants';
 import {translateContent, getTranslationFiles} from './translations';
-import {flatten, take} from 'lodash';
 
 import {
   PluginOptions,
@@ -98,10 +97,8 @@ export default function pluginContentBlog(
 
     getPathsToWatch() {
       const {include, authorsMapPath} = options;
-      const contentMarkdownGlobs = flatten(
-        getContentPathList(contentPaths).map((contentPath) => {
-          return include.map((pattern) => `${contentPath}/${pattern}`);
-        }),
+      const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
+        (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
       // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
@@ -244,7 +241,7 @@ export default function pluginContentBlog(
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
-          : take(blogPosts, options.blogSidebarCount);
+          : blogPosts.slice(0, options.blogSidebarCount);
 
       const archiveUrl = normalizeUrl([
         baseUrl,
@@ -522,7 +519,7 @@ export default function pluginContentBlog(
       // TODO: we shouldn't need to re-read the posts here!
       // postBuild should receive loadedContent
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
-      if (blogPosts.length) {
+      if (!blogPosts.length) {
         return;
       }
       await createBlogFeedFiles({

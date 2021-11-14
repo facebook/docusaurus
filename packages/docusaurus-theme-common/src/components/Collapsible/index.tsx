@@ -189,7 +189,7 @@ function CollapsibleBase({
 
   return (
     <As
-      // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
+      // @ts-expect-error: the "too complicated type" is produced from "CollapsibleElementType" being a huge union
       ref={collapsibleRef}
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {

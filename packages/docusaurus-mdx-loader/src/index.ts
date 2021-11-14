@@ -22,12 +22,7 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): Promise<string | Buffer | void | undefined>;
-}
+import type {LoaderContext} from 'webpack';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -38,6 +33,19 @@ const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
+};
+
+type Options = RemarkAndRehypePluginOptions & {
+  staticDir?: string;
+  isMDXPartial?: (filePath: string) => boolean;
+  isMDXPartialFrontMatterWarningDisabled?: boolean;
+  removeContentTitle?: boolean;
+  metadataPath?: string | ((filePath: string) => string);
+  createAssets?: (metadata: {
+    frontMatter: Record<string, unknown>;
+    metadata: Record<string, unknown>;
+  }) => Record<string, unknown>;
+  filepath: string;
 };
 
 // When this throws, it generally means that there's no metadata file associated with this MDX document
@@ -94,7 +102,10 @@ function createAssetsExportCode(assets: Record<string, unknown>) {
   return `{\n${codeLines.join('\n')}\n}`;
 }
 
-const docusaurusMdxLoader: Loader = async function (fileString) {
+export default async function mdxLoader(
+  this: LoaderContext<Options>,
+  fileString: string,
+): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions() || {};
@@ -107,7 +118,7 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const options = {
+  const options: Options = {
     ...reqOptions,
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
@@ -119,7 +130,6 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
     rehypePlugins: [
       ...(reqOptions.beforeDefaultRehypePlugins || []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-
       ...(reqOptions.rehypePlugins || []),
     ],
     filepath: filePath,
@@ -129,7 +139,7 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
   try {
     result = await mdx(content, options);
   } catch (err) {
-    return callback(err);
+    return callback(err as Error);
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
@@ -195,6 +205,4 @@ ${result}
 `;
 
   return callback(null, code);
-};
-
-export default docusaurusMdxLoader;
+}

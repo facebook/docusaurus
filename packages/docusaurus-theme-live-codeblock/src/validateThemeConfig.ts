@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import {Joi} from '@docusaurus/utils-validation';
+import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+
+const DEFAULT_CONFIG = {
+  playgroundPosition: 'bottom',
+};
+
+const Schema = Joi.object({
+  liveCodeBlock: Joi.object({
+    playgroundPosition: Joi.string()
+      .equal('top', 'bottom')
+      .default(DEFAULT_CONFIG.playgroundPosition),
+  })
+    .label('themeConfig.liveCodeBlock')
+    .default(DEFAULT_CONFIG),
+});
+
+function validateThemeConfig({
+  validate,
+  themeConfig,
+}: {
+  validate: Validate<ThemeConfig>;
+  themeConfig: ThemeConfig;
+}): ValidationResult<ThemeConfig> {
+  return validate(Schema, themeConfig);
+}
+
+export {DEFAULT_CONFIG, Schema, validateThemeConfig};

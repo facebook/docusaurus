@@ -21,3 +21,13 @@ export function duplicates<T>(
     (v, vIndex) => arr.findIndex((u) => comparator(u, v)) !== vIndex,
   );
 }
+
+/**
+ * Remove duplicate array items (similar to _.uniq)
+ * @param arr The array.
+ * @returns An array with duplicate elements removed by reference comparison.
+ */
+export function uniq<T>(arr: T[]): T[] {
+  // Note: had problems with [...new Set()]: https://github.com/facebook/docusaurus/issues/4972#issuecomment-863895061
+  return Array.from(new Set(arr));
+}

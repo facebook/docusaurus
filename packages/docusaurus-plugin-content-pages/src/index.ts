@@ -40,7 +40,6 @@ import {
   Metadata,
   PagesContentPaths,
 } from './types';
-import {flatten} from 'lodash';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -86,10 +85,8 @@ export default function pluginContentPages(
 
     getPathsToWatch() {
       const {include = []} = options;
-      return flatten(
-        getContentPathList(contentPaths).map((contentPath) => {
-          return include.map((pattern) => `${contentPath}/${pattern}`);
-        }),
+      return getContentPathList(contentPaths).flatMap((contentPath) =>
+        include.map((pattern) => `${contentPath}/${pattern}`),
       );
     },
 

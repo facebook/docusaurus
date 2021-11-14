@@ -6,10 +6,10 @@ build
 coverage
 jest.config.js
 jest.transform.js
-website/
 scripts
 examples/
 
+packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/

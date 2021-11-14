@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable camelcase */
 /// <reference types="@docusaurus/module-type-aliases" />
 
 interface Window {
+  /* eslint-disable camelcase */
   gtag: (
     command: string,
     fields: string,
@@ -18,4 +18,5 @@ interface Window {
       page_path?: string;
     },
   ) => void;
+  /* eslint-enable camelcase */
 }

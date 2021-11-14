@@ -36,6 +36,10 @@ export default async function build(
   // TODO what's the purpose of this arg ?
   forceTerminate: boolean = true,
 ): Promise<string> {
+  ['SIGINT', 'SIGTERM'].forEach((sig) => {
+    process.on(sig, () => process.exit());
+  });
+
   async function tryToBuildLocale({
     locale,
     isLastLocale,
