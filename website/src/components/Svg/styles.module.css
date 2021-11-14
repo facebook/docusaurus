@@ -6,49 +6,49 @@
  */
 
 .svgIcon {
-     user-select: none;
- width: 1em;
- height: 1em;
- display: inline-block;
- fill: currentColor;
- flex-shrink: 0;
- color: inherit;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  flex-shrink: 0;
+  color: inherit;
 }
 
 /* font-size */
-.svgIconSmall {
-    font-size: 1.25rem;
+.small {
+  font-size: 1.25rem;
 }
 
-.svgIconMedium {
-    font-size: 1.5rem
+.medium {
+  font-size: 1.5rem;
 }
 
-.svgIconLarge {
-    font-size: 2.185rem
+.large {
+  font-size: 2.185rem;
 }
 
 /* colors */
-.svgIconPrimary {
-    color: var(--ifm-color-primary);
+.primary {
+  color: var(--ifm-color-primary);
 }
 
-.svgIconSecondary {
-    color: var(--ifm-color-secondary);
+.secondary {
+  color: var(--ifm-color-secondary);
 }
 
-.svgIconSuccess {
-    color: var(--ifm-color-success);
+.success {
+  color: var(--ifm-color-success);
 }
 
-.svgIconError {
-    color: var(--ifm-color-error);
+.error {
+  color: var(--ifm-color-error);
 }
 
-.svgIconWarning {
-    color: var(--ifm-color-warning);
+.warning {
+  color: var(--ifm-color-warning);
 }
 
-.svgIconColor {
-    color: inherit;
+.inherit {
+  color: inherit;
 }
