@@ -71,7 +71,7 @@
 .showcaseFavorite {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  background-color: var(--ifm-color-favorite-background);
+  background-color: var(--site-color-favorite-background);
 }
 
 .showcaseFavoriteHeader {
@@ -85,7 +85,7 @@
 
 .svgIconFavoriteXs,
 .svgIconFavorite {
-  color: var(--ifm-color-svgIcon-favorite);
+  color: var(--site-color-svgIcon-favorite);
 }
 
 .svgIconFavoriteXs {

@@ -17,7 +17,7 @@ import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 import {toggleListItem} from '@site/src/utils/jsUtils';
-import {SortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
+import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 
@@ -123,11 +123,15 @@ interface Props {
   setOperator: (op: boolean) => void;
 }
 
-function ShowcaseFilters(props: Props) {
-  const {operator, filteredUsers, selectedTags, toggleTag, setOperator} = props;
-
+function ShowcaseFilters({
+  operator,
+  filteredUsers,
+  selectedTags,
+  toggleTag,
+  setOperator,
+}: Props) {
   return (
-    <section className="container margin-top--xl margin-bottom--xl">
+    <section className="container margin-top--xl margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
         <span>
           <h3>Filter</h3>
@@ -181,14 +185,14 @@ function ShowcaseCards({
 }) {
   const favoriteUsers =
     selectedTags.length === 0 &&
-    SortedUsers.filter((user) => user.tags.includes('favorite'));
+    sortedUsers.filter((user) => user.tags.includes('favorite'));
 
-  const otherUsers = SortedUsers.filter(
+  const otherUsers = sortedUsers.filter(
     (user) => !user.tags.includes('favorite'),
   );
 
   return (
-    <section className="margin-top--xl margin-bottom--xl">
+    <section className="margin-top--lg margin-bottom--xl">
       {filteredUsers.length > 0 ? (
         <>
           {favoriteUsers ? (
@@ -239,7 +243,7 @@ function ShowcaseCards({
           )}
         </>
       ) : (
-        <div className={clsx('container padding-vert--md text--center')}>
+        <div className="container padding-vert--md text--center">
           <h3>No result</h3>
         </div>
       )}
@@ -250,7 +254,7 @@ function ShowcaseCards({
 function Showcase(): JSX.Element {
   const {selectedTags, toggleTag} = useSelectedTags();
   const [operator, setOperator] = useState(true);
-  const filteredUsers = useFilteredUsers(SortedUsers, selectedTags, operator);
+  const filteredUsers = useFilteredUsers(sortedUsers, selectedTags, operator);
 
   return (
     <Layout title={TITLE} description={DESCRIPTION}>

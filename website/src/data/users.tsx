@@ -1586,7 +1586,7 @@ function sortUsers() {
   return result;
 }
 
-export const SortedUsers = sortUsers();
+export const sortedUsers = sortUsers();
 
 // Fail-fast on common errors
 function ensureUserValid(user: User) {

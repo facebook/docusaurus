@@ -7,7 +7,7 @@
 
 .showcaseCard {
   position: relative;
-  transition: transform ease-in 40ms;
+  transition: transform ease-in 100ms;
   box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
 }
 
@@ -36,31 +36,13 @@
   text-decoration: none;
 }
 
-.showcaseCardTitle a::before {
-  z-index: 0;
-  display: block;
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  transition: opacity ease-out 80ms;
-  background-color: rgba(0 0 0 / 3%);
-  top: 0;
-  left: 0;
-}
-
-.showcaseCardTitle a:hover::before {
-  opacity: 0;
-}
-
 .showcaseCardTitle,
 .showcaseCardHeader .svgIconFavorite {
   margin-right: 0.25rem;
 }
 
 .showcaseCardHeader .svgIconFavorite {
-  color: var(--ifm-color-svgIcon-favorite);
+  color: var(--site-color-svgIcon-favorite);
 }
 
 .showcaseCardSrcBtn {

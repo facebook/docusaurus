@@ -28,16 +28,16 @@
     73%
   );
 
-  --ifm-color-feedback-background: #fff;
-  --ifm-color-favorite-background: #f6fdfd;
-  --ifm-color-tooltip: #fff;
-  --ifm-color-tooltip-background: #242526;
-  --ifm-color-svgIcon-favorite: #e9669e;
+  --site-color-feedback-background: #fff;
+  --site-color-favorite-background: #f6fdfd;
+  --site-color-tooltip: #fff;
+  --site-color-tooltip-background: #242526;
+  --site-color-svgIcon-favorite: #e9669e;
 }
 
 html[data-theme='dark'] {
-  --ifm-color-feedback-background: #f0f8ff;
-  --ifm-color-favorite-background: #1d1e1e;
+  --site-color-feedback-background: #f0f8ff;
+  --site-color-favorite-background: #1d1e1e;
 }
 
 .docusaurus-highlight-code-line {
