@@ -10,7 +10,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
-import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs-types';
+import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocTagDocListPage';
 
@@ -59,7 +59,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsTagDocListPage}
-      searchMetadatas={{
+      searchMetadata={{
         // assign unique search tag to exclude this page from search results!
         tag: 'doc_tag_doc_list',
       }}>

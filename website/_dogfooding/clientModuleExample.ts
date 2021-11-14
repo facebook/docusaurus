@@ -7,7 +7,8 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-export function onRouteUpdate({location}: {location: Location}) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function onRouteUpdate({location}: {location: Location}): void {
   // console.log('onRouteUpdate', {location});
 }
 

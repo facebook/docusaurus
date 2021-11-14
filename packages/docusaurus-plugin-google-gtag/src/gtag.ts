@@ -6,17 +6,16 @@
  */
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import siteConfig from '@generated/docusaurus.config';
-import type {ThemeConfig} from '@docusaurus/plugin-google-gtag';
+import globalData from '@generated/globalData';
+import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
-  const {themeConfig} = siteConfig;
-  const {gtag} = themeConfig as ThemeConfig;
-  const {trackingID} = gtag!;
+  const {trackingID} = globalData['docusaurus-plugin-google-gtag']
+    .default as PluginOptions;
 
   return {
     onRouteUpdate({location}: {location: Location}) {

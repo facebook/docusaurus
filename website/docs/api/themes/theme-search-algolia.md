@@ -1,4 +1,5 @@
 ---
+sidebar_position: 4
 id: theme-search-algolia
 title: '📦 theme-search-algolia'
 slug: '/api/themes/@docusaurus/theme-search-algolia'

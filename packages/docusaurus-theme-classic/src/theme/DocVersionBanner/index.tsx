@@ -21,7 +21,7 @@ import {
 
 import type {Props} from '@theme/DocVersionBanner';
 import clsx from 'clsx';
-import type {VersionBanner} from '@docusaurus/plugin-content-docs-types';
+import type {VersionBanner} from '@docusaurus/plugin-content-docs';
 
 type BannerLabelComponentProps = {
   siteTitle: string;

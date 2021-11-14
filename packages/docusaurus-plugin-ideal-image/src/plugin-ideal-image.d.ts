@@ -46,5 +46,3 @@ declare module '@theme/IdealImage' {
   }
   export default function IdealImage(props: Props): JSX.Element;
 }
-
-declare module '@endiliey/react-ideal-image';

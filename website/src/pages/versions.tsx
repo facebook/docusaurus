@@ -16,7 +16,7 @@ import VersionsArchived from '@site/versionsArchived.json';
 
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
-function Version() {
+function Version(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();
@@ -128,7 +128,9 @@ function Version() {
               <tr>
                 <th>1.x</th>
                 <td>
-                  <a href={`https://v1.docusaurus.io/docs/en/installation`}>
+                  <a
+                    href="https://v1.docusaurus.io/docs/en/installation"
+                    rel="noreferrer">
                     Documentation
                   </a>
                 </td>

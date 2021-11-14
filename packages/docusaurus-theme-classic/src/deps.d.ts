@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module 'resolve-pathname' {
-  export default function resolvePathname(to: string, from?: string): string;
+declare module 'prism-react-renderer/prism' {
+  import type * as PrismNamespace from 'prismjs';
+
+  const Prism: typeof PrismNamespace;
+  export default Prism;
 }
