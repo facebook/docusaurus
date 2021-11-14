@@ -259,7 +259,6 @@ async function updateCodeTranslations() {
           ),
         );
       }
-
     } else {
       for (const localeFile of localesFiles) {
         logSection(
