@@ -261,17 +261,16 @@ async function updateCodeTranslations() {
         );
       }
 
-      continue;
-    }
+    } else {
+      for (const localeFile of localesFiles) {
+        logSection(
+          `Will update ${path.basename(
+            path.dirname(localeFile),
+          )} locale in ${path.basename(localeFile, path.extname(localeFile))}`,
+        );
 
-    for (const localeFile of localesFiles) {
-      logSection(
-        `Will update ${path.basename(
-          path.dirname(localeFile),
-        )} locale in ${path.basename(localeFile, path.extname(localeFile))}`,
-      );
-
-      await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+        await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+      }
     }
   }
 }
