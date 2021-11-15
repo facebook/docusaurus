@@ -1,0 +1,39 @@
+---
+id: markdown-features
+title: Docs Markdown Features
+description: Docusaurus Markdown features that are specific to the docs plugin
+slug: /docs-markdown-features
+---
+
+Docs can use any [Markdown feature](../markdown-features/markdown-features-intro.mdx), and have a few additional docs-specific Markdown features.
+
+## Markdown frontmatter {#markdown-frontmatter}
+
+Markdown docs have their own [Markdown frontmatter](../../api/plugins/plugin-content-docs.md#markdown-frontmatter)
+
+## Referencing other documents {#referencing-other-documents}
+
+If you want to reference another document file, you could use the relative path of the document you want to link to.
+
+Docusaurus will convert the file path to be the final document url path (and remove the `.md` extension).
+
+For example, if you are in `folder/doc1.md` and you want to reference `folder/doc2.md`, `folder/subfolder/doc3.md` and `otherFolder/doc4.md`:
+
+```md
+I am referencing a [document](doc2.md).
+
+Reference to another [document in a subfolder](subfolder/doc3.md).
+
+[Relative document](../otherFolder/doc4.md) referencing works as well.
+```
+
+:::tip
+
+It is better to use relative file paths links instead of relative links:
+
+- links will keep working on the GitHub interface
+- you can customize the document slugs without having to update all the links
+- a versioned doc will link to another doc of the exact same version
+- relative links are very likely to break if you update the [`trailingSlash` config](../../api/docusaurus.config.js.md#trailing-slash)
+
+:::

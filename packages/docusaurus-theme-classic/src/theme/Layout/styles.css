@@ -10,11 +10,6 @@ body {
   height: 100%;
 }
 
-body {
-  margin: 0;
-  transition: var(--ifm-transition-fast) ease color;
-}
-
 #__docusaurus {
   min-height: 100%;
   display: flex;
@@ -23,4 +18,10 @@ body {
 
 .main-wrapper {
   flex: 1 0 auto;
+}
+
+/* Docusaurus-specific utility classes */
+
+.docusaurus-mt-lg {
+  margin-top: 3rem;
 }

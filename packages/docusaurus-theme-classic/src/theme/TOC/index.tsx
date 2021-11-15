@@ -6,46 +6,24 @@
  */
 
 import React from 'react';
-
-import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import clsx from 'clsx';
 import type {TOCProps} from '@theme/TOC';
+import TOCItems from '@theme/TOCItems';
 import styles from './styles.module.css';
 
-const LINK_CLASS_NAME = 'table-of-contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
-const TOP_OFFSET = 100;
+// Using a custom className
+// This prevents TOC highlighting to highlight TOCInline/TOCCollapsible by mistake
+const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
+const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
-/* eslint-disable jsx-a11y/control-has-associated-label */
-function Headings({headings, isChild}: TOCProps & {isChild?: boolean}) {
-  if (!headings.length) {
-    return null;
-  }
+function TOC({className, ...props}: TOCProps): JSX.Element {
   return (
-    <ul
-      className={
-        isChild ? '' : 'table-of-contents table-of-contents__left-border'
-      }>
-      {headings.map((heading) => (
-        <li key={heading.id}>
-          <a
-            href={`#${heading.id}`}
-            className={LINK_CLASS_NAME}
-            // Developer provided the HTML, so assume it's safe.
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: heading.value}}
-          />
-          <Headings isChild headings={heading.children} />
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function TOC({headings}: TOCProps): JSX.Element {
-  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
-  return (
-    <div className={styles.tableOfContents}>
-      <Headings headings={headings} />
+    <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
+      <TOCItems
+        {...props}
+        linkClassName={LINK_CLASS_NAME}
+        linkActiveClassName={LINK_ACTIVE_CLASS_NAME}
+      />
     </div>
   );
 }

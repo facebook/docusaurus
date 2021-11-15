@@ -16,7 +16,7 @@ describe('webpack dev config', () => {
     const props = await loadSetup('simple');
     const config = createClientConfig(props);
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 
   test('custom', async () => {
@@ -24,6 +24,6 @@ describe('webpack dev config', () => {
     const props = await loadSetup('custom');
     const config = createClientConfig(props);
     const errors = validate(config);
-    expect(errors.length).toBe(0);
+    expect(errors).toBeUndefined();
   });
 });

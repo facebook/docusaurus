@@ -11,8 +11,9 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
-  url: 'https://v2.docusaurus.io',
+  url: 'https://docusaurus.io',
   onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [],
@@ -24,9 +25,8 @@ module.exports = {
         pages: false,
         blog: {
           routeBasePath: '/',
-          path: '../website-1.x/blog',
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+          path: 'blog',
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
@@ -41,6 +41,11 @@ module.exports = {
   ],
   themeConfig: {
     image: 'img/docusaurus-soc.png',
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      contextualSearch: true,
+    },
     navbar: {
       hideOnScroll: true,
       title: 'Docusaurus',

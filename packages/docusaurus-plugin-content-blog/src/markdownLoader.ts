@@ -5,33 +5,35 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loader} from 'webpack';
 import {truncate, linkify} from './blogUtils';
-import {parseQuery, getOptions} from 'loader-utils';
+import {parseQuery} from 'loader-utils';
+import {BlogMarkdownLoaderOptions} from './types';
+import type {LoaderContext} from 'webpack';
 
-const markdownLoader: loader.Loader = function (source) {
-  const fileString = source as string;
+export default function markdownLoader(
+  this: LoaderContext<BlogMarkdownLoaderOptions>,
+  source: string,
+): void {
+  const filePath = this.resourcePath;
+  const fileString = source;
   const callback = this.async();
-  const {truncateMarker, siteDir, contentPath, blogPosts} = getOptions(this);
+  const markdownLoaderOptions = this.getOptions();
 
-  // Linkify posts
-  let finalContent = linkify(
-    fileString as string,
-    siteDir,
-    contentPath,
-    blogPosts,
-  );
+  // Linkify blog posts
+  let finalContent = linkify({
+    fileString,
+    filePath,
+    ...markdownLoaderOptions,
+  });
 
   // Truncate content if requested (e.g: file.md?truncated=true).
-  const truncated: string | undefined = this.resourceQuery
-    ? parseQuery(this.resourceQuery).truncated
+  const truncated: boolean | undefined = this.resourceQuery
+    ? !!parseQuery(this.resourceQuery).truncated
     : undefined;
 
   if (truncated) {
-    finalContent = truncate(finalContent, truncateMarker);
+    finalContent = truncate(finalContent, markdownLoaderOptions.truncateMarker);
   }
 
   return callback && callback(null, finalContent);
-};
-
-export default markdownLoader;
+}

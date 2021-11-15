@@ -7,7 +7,7 @@
 
 .footerLogoLink {
   opacity: 0.5;
-  transition: opacity 0.15s ease-in-out;
+  transition: opacity var(--ifm-transition-fast) var(--ifm-transition-timing-default);
 }
 
 .footerLogoLink:hover {

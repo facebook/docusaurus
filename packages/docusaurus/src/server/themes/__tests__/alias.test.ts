@@ -13,13 +13,16 @@ describe('themeAlias', () => {
   test('valid themePath 1 with components', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-1');
-    const alias = themeAlias(themePath);
-    expect(alias).toEqual({
-      '@theme/Footer': path.join(themePath, 'Footer/index.js'),
-      '@theme-original/Footer': path.join(themePath, 'Footer/index.js'),
-      '@theme/Layout': path.join(themePath, 'Layout.js'),
-      '@theme-original/Layout': path.join(themePath, 'Layout.js'),
-    });
+    const alias = themeAlias(themePath, true);
+    // Testing entries, because order matters!
+    expect(Object.entries(alias)).toEqual(
+      Object.entries({
+        '@theme-original/Footer': path.join(themePath, 'Footer/index.js'),
+        '@theme-original/Layout': path.join(themePath, 'Layout.js'),
+        '@theme/Footer': path.join(themePath, 'Footer/index.js'),
+        '@theme/Layout': path.join(themePath, 'Layout.js'),
+      }),
+    );
     expect(alias).not.toEqual({});
   });
 
@@ -27,23 +30,56 @@ describe('themeAlias', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-1');
     const alias = themeAlias(themePath, false);
-    expect(alias).toEqual({
-      '@theme/Footer': path.join(themePath, 'Footer/index.js'),
-      '@theme/Layout': path.join(themePath, 'Layout.js'),
-    });
+    // Testing entries, because order matters!
+    expect(Object.entries(alias)).toEqual(
+      Object.entries({
+        '@theme/Footer': path.join(themePath, 'Footer/index.js'),
+        '@theme/Layout': path.join(themePath, 'Layout.js'),
+      }),
+    );
     expect(alias).not.toEqual({});
   });
 
   test('valid themePath 2 with components', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-2');
-    const alias = themeAlias(themePath);
-    expect(alias).toEqual({
-      '@theme/Navbar': path.join(themePath, 'Navbar.js'),
-      '@theme-original/Navbar': path.join(themePath, 'Navbar.js'),
-      '@theme/Layout': path.join(themePath, 'Layout/index.js'),
-      '@theme-original/Layout': path.join(themePath, 'Layout/index.js'),
-    });
+    const alias = themeAlias(themePath, true);
+    // Testing entries, because order matters!
+    expect(Object.entries(alias)).toEqual(
+      Object.entries({
+        '@theme-original/Layout': path.join(themePath, 'Layout/index.js'),
+        '@theme-original/Navbar': path.join(themePath, 'Navbar.js'),
+        '@theme-original/NavbarItem/NestedNavbarItem': path.join(
+          themePath,
+          'NavbarItem/NestedNavbarItem/index.js',
+        ),
+        '@theme-original/NavbarItem/SiblingNavbarItem': path.join(
+          themePath,
+          'NavbarItem/SiblingNavbarItem.js',
+        ),
+        '@theme-original/NavbarItem/zzz': path.join(
+          themePath,
+          'NavbarItem/zzz.js',
+        ),
+        '@theme-original/NavbarItem': path.join(
+          themePath,
+          'NavbarItem/index.js',
+        ),
+
+        '@theme/Layout': path.join(themePath, 'Layout/index.js'),
+        '@theme/Navbar': path.join(themePath, 'Navbar.js'),
+        '@theme/NavbarItem/NestedNavbarItem': path.join(
+          themePath,
+          'NavbarItem/NestedNavbarItem/index.js',
+        ),
+        '@theme/NavbarItem/SiblingNavbarItem': path.join(
+          themePath,
+          'NavbarItem/SiblingNavbarItem.js',
+        ),
+        '@theme/NavbarItem/zzz': path.join(themePath, 'NavbarItem/zzz.js'),
+        '@theme/NavbarItem': path.join(themePath, 'NavbarItem/index.js'),
+      }),
+    );
     expect(alias).not.toEqual({});
   });
 
@@ -51,10 +87,23 @@ describe('themeAlias', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-2');
     const alias = themeAlias(themePath, false);
-    expect(alias).toEqual({
-      '@theme/Navbar': path.join(themePath, 'Navbar.js'),
-      '@theme/Layout': path.join(themePath, 'Layout/index.js'),
-    });
+    // Testing entries, because order matters!
+    expect(Object.entries(alias)).toEqual(
+      Object.entries({
+        '@theme/Layout': path.join(themePath, 'Layout/index.js'),
+        '@theme/Navbar': path.join(themePath, 'Navbar.js'),
+        '@theme/NavbarItem/NestedNavbarItem': path.join(
+          themePath,
+          'NavbarItem/NestedNavbarItem/index.js',
+        ),
+        '@theme/NavbarItem/SiblingNavbarItem': path.join(
+          themePath,
+          'NavbarItem/SiblingNavbarItem.js',
+        ),
+        '@theme/NavbarItem/zzz': path.join(themePath, 'NavbarItem/zzz.js'),
+        '@theme/NavbarItem': path.join(themePath, 'NavbarItem/index.js'),
+      }),
+    );
     expect(alias).not.toEqual({});
   });
 
@@ -62,7 +111,7 @@ describe('themeAlias', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'empty-theme');
     fs.ensureDirSync(themePath);
-    const alias = themeAlias(themePath);
+    const alias = themeAlias(themePath, true);
     expect(alias).toEqual({});
   });
 
@@ -77,7 +126,7 @@ describe('themeAlias', () => {
   test('invalid themePath that does not exist', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, '__noExist__');
-    const alias = themeAlias(themePath);
+    const alias = themeAlias(themePath, true);
     expect(alias).toEqual({});
   });
 });

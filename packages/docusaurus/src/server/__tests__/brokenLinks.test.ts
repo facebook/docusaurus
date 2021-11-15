@@ -25,6 +25,39 @@ describe('brokenLinks', () => {
     expect(message).toMatchSnapshot();
   });
 
+  test('getBrokenLinksErrorMessage with potential layout broken links', async () => {
+    const frequentLink = [
+      {
+        link: './myBrokenLinkFrequent1',
+        resolvedLink: '/docs/myBrokenLinkFrequent1',
+      },
+      {
+        link: './myBrokenLinkFrequent2',
+        resolvedLink: '/docs/myBrokenLinkFrequent2',
+      },
+    ];
+    const infrequentLink = [
+      {
+        link: './myBrokenLinkInfrequent1',
+        resolvedLink: '/docs/myBrokenLinkInfrequent1',
+      },
+      {
+        link: './myBrokenLinkInfrequent2',
+        resolvedLink: '/docs/myBrokenLinkInfrequent2',
+      },
+    ];
+
+    const message = getBrokenLinksErrorMessage({
+      '/docs/page1': [...frequentLink],
+      '/docs/page2': [...frequentLink, ...infrequentLink],
+      '/docs/page3': [...frequentLink],
+      '/docs/page4': [...frequentLink, ...infrequentLink],
+      '/docs/page5': [...frequentLink],
+      '/docs/page6': [...frequentLink],
+    });
+    expect(message).toMatchSnapshot();
+  });
+
   test('getAllBrokenLinks', async () => {
     const routes: RouteConfig[] = [
       {
@@ -171,5 +204,55 @@ describe('brokenLinks', () => {
       allCollectedLinks,
     });
     expect(result).toEqual(allCollectedLinksFiltered);
+  });
+
+  describe('Encoded link', () => {
+    test('getAllBrokenLinks', async () => {
+      const routes: RouteConfig[] = [
+        {
+          path: '/docs',
+          component: '',
+          routes: [
+            {path: '/docs/some doc', component: ''},
+            {path: '/docs/some other doc', component: ''},
+            {path: '/docs/weird%20file%20name', component: ''},
+          ],
+        },
+        {
+          path: '*',
+          component: '',
+        },
+      ];
+
+      const allCollectedLinks = {
+        '/docs/some doc': [
+          // good - valid file with spaces in name
+          './some%20other%20doc',
+          // good - valid file with percent-20 in its name
+          './weird%20file%20name',
+          // bad - non-existant file with spaces in name
+          './some%20other%20non-existant%20doc',
+          // evil - trying to use ../../ but '/' won't get decoded
+          './break%2F..%2F..%2Fout',
+        ],
+      };
+
+      const expectedBrokenLinks = {
+        '/docs/some doc': [
+          {
+            link: './some%20other%20non-existant%20doc',
+            resolvedLink: '/docs/some%20other%20non-existant%20doc',
+          },
+          {
+            link: './break%2F..%2F..%2Fout',
+            resolvedLink: '/docs/break%2F..%2F..%2Fout',
+          },
+        ],
+      };
+
+      expect(getAllBrokenLinks({allCollectedLinks, routes})).toEqual(
+        expectedBrokenLinks,
+      );
+    });
   });
 });

@@ -4,7 +4,21 @@
       {
         "type": "category",
         "label": "foo",
-        "items": ["foo/bar", "foo/baz"] 
+        "items": ["foo/bar", "foo/baz"]
+      },
+      {
+        "type": "category",
+        "label": "Slugs",
+        "items": [
+          "rootAbsoluteSlug",
+          "rootRelativeSlug",
+          "rootResolvedSlug",
+          "rootTryToEscapeSlug"
+        ]
+      },
+      {
+        "type": "doc",
+        "id": "headingAsTitle"
       },
       {
         "type": "link",

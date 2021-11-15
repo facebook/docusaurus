@@ -1,0 +1,819 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unwrapMdxCodeBlocks should unwrap the mdx code blocks 1`] = `
+"# MDX code blocks test document
+
+## Some basic markdown
+
+text
+
+[link](https://facebook.com)
+
+**bold**
+
+![image](https://facebook.com/favicon.ico)
+
+## Some basic MDX
+
+import XYZ from 'xyz';
+
+<XYZ abc=\\"1\\" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
+  <span>Test</span>
+</XYZ>
+
+## Some basic MDX code block
+
+import Avatar from 'avatar';
+
+<Avatar style={{color: 'red'}}>
+  <div>Sebastien Lorber</div>
+</Avatar>
+
+## Some complex MDX with nested code blocks
+
+<Tabs
+  defaultValue=\\"bash\\"
+  values={[
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
+]}>
+  <TabItem value=\\"bash\\">
+
+\`\`\`bash
+GIT_USER=<GITHUB_USERNAME> yarn deploy
+\`\`\`
+
+</TabItem>
+  <TabItem value=\\"windows\\">
+
+    \`\`\`batch
+    cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+    \`\`\`
+
+</TabItem>
+  <TabItem value=\\"powershell\\">
+
+\`\`\`powershell
+cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+\`\`\`
+
+</TabItem>
+</Tabs>
+
+## Some complex MDX code block with nested code blocks
+
+<Tabs
+  defaultValue=\\"bash\\"
+  values={[
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
+]}>
+<TabItem value=\\"bash\\">
+
+\`\`\`bash
+GIT_USER=<GITHUB_USERNAME> yarn deploy
+\`\`\`
+
+</TabItem>
+<TabItem value=\\"windows\\">
+
+\`\`\`batch
+cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+\`\`\`
+
+</TabItem>
+<TabItem value=\\"powershell\\">
+
+\`\`\`powershell
+cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+\`\`\`
+
+</TabItem>
+</Tabs>
+"
+`;
+
+exports[`unwrapMdxCodeBlocks should unwrap the mdx code blocks AST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 32,
+              "line": 1,
+              "offset": 31,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+          },
+          "type": "text",
+          "value": "MDX code blocks test document",
+        },
+      ],
+      "depth": 1,
+      "position": Position {
+        "end": Object {
+          "column": 32,
+          "line": 1,
+          "offset": 31,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 23,
+              "line": 3,
+              "offset": 55,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 4,
+              "line": 3,
+              "offset": 36,
+            },
+          },
+          "type": "text",
+          "value": "Some basic markdown",
+        },
+      ],
+      "depth": 2,
+      "position": Position {
+        "end": Object {
+          "column": 23,
+          "line": 3,
+          "offset": 55,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 3,
+          "offset": 33,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 5,
+              "line": 5,
+              "offset": 61,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 5,
+              "offset": 57,
+            },
+          },
+          "type": "text",
+          "value": "text",
+        },
+      ],
+      "position": Position {
+        "end": Object {
+          "column": 5,
+          "line": 5,
+          "offset": 61,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 5,
+          "offset": 57,
+        },
+      },
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "position": Position {
+                "end": Object {
+                  "column": 6,
+                  "line": 7,
+                  "offset": 68,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 2,
+                  "line": 7,
+                  "offset": 64,
+                },
+              },
+              "type": "text",
+              "value": "link",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 29,
+              "line": 7,
+              "offset": 91,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 7,
+              "offset": 63,
+            },
+          },
+          "title": null,
+          "type": "link",
+          "url": "https://facebook.com",
+        },
+      ],
+      "position": Position {
+        "end": Object {
+          "column": 29,
+          "line": 7,
+          "offset": 91,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 7,
+          "offset": 63,
+        },
+      },
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "position": Position {
+                "end": Object {
+                  "column": 7,
+                  "line": 9,
+                  "offset": 99,
+                },
+                "indent": Array [],
+                "start": Object {
+                  "column": 3,
+                  "line": 9,
+                  "offset": 95,
+                },
+              },
+              "type": "text",
+              "value": "bold",
+            },
+          ],
+          "position": Position {
+            "end": Object {
+              "column": 9,
+              "line": 9,
+              "offset": 101,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 9,
+              "offset": 93,
+            },
+          },
+          "type": "strong",
+        },
+      ],
+      "position": Position {
+        "end": Object {
+          "column": 9,
+          "line": 9,
+          "offset": 101,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 9,
+          "offset": 93,
+        },
+      },
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "image",
+          "position": Position {
+            "end": Object {
+              "column": 43,
+              "line": 11,
+              "offset": 145,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 11,
+              "offset": 103,
+            },
+          },
+          "title": null,
+          "type": "image",
+          "url": "https://facebook.com/favicon.ico",
+        },
+      ],
+      "position": Position {
+        "end": Object {
+          "column": 43,
+          "line": 11,
+          "offset": 145,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 11,
+          "offset": 103,
+        },
+      },
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 18,
+              "line": 13,
+              "offset": 164,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 4,
+              "line": 13,
+              "offset": 150,
+            },
+          },
+          "type": "text",
+          "value": "Some basic MDX",
+        },
+      ],
+      "depth": 2,
+      "position": Position {
+        "end": Object {
+          "column": 18,
+          "line": 13,
+          "offset": 164,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 13,
+          "offset": 147,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 23,
+          "line": 15,
+          "offset": 188,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 15,
+          "offset": 166,
+        },
+      },
+      "type": "import",
+      "value": "import XYZ from 'xyz';",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 7,
+          "line": 19,
+          "offset": 287,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 17,
+          "offset": 190,
+        },
+      },
+      "type": "jsx",
+      "value": "<XYZ abc=\\"1\\" def={[1, '42', {hello: 'world'}]} style={{color: 'red'}}>
+  <span>Test</span>
+</XYZ>",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 29,
+              "line": 21,
+              "offset": 317,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 4,
+              "line": 21,
+              "offset": 292,
+            },
+          },
+          "type": "text",
+          "value": "Some basic MDX code block",
+        },
+      ],
+      "depth": 2,
+      "position": Position {
+        "end": Object {
+          "column": 29,
+          "line": 21,
+          "offset": 317,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 21,
+          "offset": 289,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "lang": "mdx-code-block",
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 4,
+          "line": 29,
+          "offset": 442,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 23,
+          "offset": 319,
+        },
+      },
+      "type": "code",
+      "value": "import Avatar from 'avatar';
+
+<Avatar style={{color: 'red'}}>
+  <div>Sebastien Lorber</div>
+</Avatar>",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 44,
+              "line": 31,
+              "offset": 487,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 4,
+              "line": 31,
+              "offset": 447,
+            },
+          },
+          "type": "text",
+          "value": "Some complex MDX with nested code blocks",
+        },
+      ],
+      "depth": 2,
+      "position": Position {
+        "end": Object {
+          "column": 44,
+          "line": 31,
+          "offset": 487,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 31,
+          "offset": 444,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 25,
+          "line": 40,
+          "offset": 688,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 33,
+          "offset": 489,
+        },
+      },
+      "type": "jsx",
+      "value": "<Tabs
+  defaultValue=\\"bash\\"
+  values={[
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
+]}>
+  <TabItem value=\\"bash\\">",
+    },
+    Object {
+      "lang": "bash",
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 4,
+          "line": 44,
+          "offset": 740,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 42,
+          "offset": 690,
+        },
+      },
+      "type": "code",
+      "value": "GIT_USER=<GITHUB_USERNAME> yarn deploy",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 28,
+          "line": 47,
+          "offset": 782,
+        },
+        "indent": Array [
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 46,
+          "offset": 742,
+        },
+      },
+      "type": "jsx",
+      "value": "  </TabItem>
+  <TabItem value=\\"windows\\">",
+    },
+    Object {
+      "lang": null,
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 8,
+          "line": 51,
+          "offset": 865,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 49,
+          "offset": 784,
+        },
+      },
+      "type": "code",
+      "value": "\`\`\`batch
+cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+\`\`\`",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 31,
+          "line": 54,
+          "offset": 910,
+        },
+        "indent": Array [
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 53,
+          "offset": 867,
+        },
+      },
+      "type": "jsx",
+      "value": "  </TabItem>
+  <TabItem value=\\"powershell\\">",
+    },
+    Object {
+      "lang": "powershell",
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 4,
+          "line": 58,
+          "offset": 986,
+        },
+        "indent": Array [
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 56,
+          "offset": 912,
+        },
+      },
+      "type": "code",
+      "value": "cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'",
+    },
+    Object {
+      "position": Position {
+        "end": Object {
+          "column": 8,
+          "line": 61,
+          "offset": 1008,
+        },
+        "indent": Array [
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 60,
+          "offset": 988,
+        },
+      },
+      "type": "jsx",
+      "value": "  </TabItem>
+</Tabs>",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 55,
+              "line": 63,
+              "offset": 1064,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 4,
+              "line": 63,
+              "offset": 1013,
+            },
+          },
+          "type": "text",
+          "value": "Some complex MDX code block with nested code blocks",
+        },
+      ],
+      "depth": 2,
+      "position": Position {
+        "end": Object {
+          "column": 55,
+          "line": 63,
+          "offset": 1064,
+        },
+        "indent": Array [],
+        "start": Object {
+          "column": 1,
+          "line": 63,
+          "offset": 1010,
+        },
+      },
+      "type": "heading",
+    },
+    Object {
+      "lang": "mdx-code-block",
+      "meta": null,
+      "position": Position {
+        "end": Object {
+          "column": 5,
+          "line": 95,
+          "offset": 1585,
+        },
+        "indent": Array [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+        ],
+        "start": Object {
+          "column": 1,
+          "line": 65,
+          "offset": 1066,
+        },
+      },
+      "type": "code",
+      "value": "<Tabs
+  defaultValue=\\"bash\\"
+  values={[
+    { label: 'Bash', value: 'bash' },
+    { label: 'Windows', value: 'windows' },
+    { label: 'PowerShell', value: 'powershell' }
+]}>
+<TabItem value=\\"bash\\">
+
+\`\`\`bash
+GIT_USER=<GITHUB_USERNAME> yarn deploy
+\`\`\`
+
+</TabItem>
+<TabItem value=\\"windows\\">
+
+\`\`\`batch
+cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
+\`\`\`
+
+</TabItem>
+<TabItem value=\\"powershell\\">
+
+\`\`\`powershell
+cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
+\`\`\`
+
+</TabItem>
+</Tabs>",
+    },
+  ],
+  "position": Object {
+    "end": Object {
+      "column": 1,
+      "line": 96,
+      "offset": 1586,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": "root",
+}
+`;

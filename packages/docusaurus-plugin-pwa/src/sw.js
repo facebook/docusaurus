@@ -39,7 +39,7 @@ async function runSWCustomCode(params) {
  * Gets different possible variations for a request URL. Similar to
  * https://git.io/JvixK
  *
- * @param {String} url
+ * @param {string} url
  */
 function getPossibleURLs(url) {
   const possibleURLs = [];
@@ -71,20 +71,37 @@ function getPossibleURLs(url) {
   const params = parseSwParams();
 
   const precacheManifest = self.__WB_MANIFEST;
-  const controller = new PrecacheController();
+  const controller = new PrecacheController({
+    fallbackToNetwork: true, // safer to turn this true?
+  });
 
   if (params.offlineMode) {
     controller.addToCacheList(precacheManifest);
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: addToCacheList', {
+        precacheManifest,
+      });
+    }
   }
 
   await runSWCustomCode(params);
 
   self.addEventListener('install', (event) => {
-    event.waitUntil(controller.install());
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: install event', {
+        event,
+      });
+    }
+    event.waitUntil(controller.install(event));
   });
 
   self.addEventListener('activate', (event) => {
-    event.waitUntil(controller.activate());
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: activate event', {
+        event,
+      });
+    }
+    event.waitUntil(controller.activate(event));
   });
 
   self.addEventListener('fetch', async (event) => {
@@ -95,15 +112,17 @@ function getPossibleURLs(url) {
         const possibleURL = possibleURLs[i];
         const cacheKey = controller.getCacheKeyForURL(possibleURL);
         if (cacheKey) {
+          const cachedResponse = caches.match(cacheKey);
           if (params.debug) {
             console.log('[Docusaurus-PWA][SW]: serving cached asset', {
               requestURL,
               possibleURL,
               possibleURLs,
               cacheKey,
+              cachedResponse,
             });
           }
-          event.respondWith(caches.match(cacheKey));
+          event.respondWith(cachedResponse);
           break;
         }
       }
@@ -111,6 +130,12 @@ function getPossibleURLs(url) {
   });
 
   self.addEventListener('message', async (event) => {
+    if (params.debug) {
+      console.log('[Docusaurus-PWA][SW]: message event', {
+        event,
+      });
+    }
+
     const type = event.data && event.data.type;
 
     if (type === 'SKIP_WAITING') {

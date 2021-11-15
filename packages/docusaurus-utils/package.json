@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-alpha.64",
-  "description": "Node utility functions for Docusaurus packages",
+  "version": "2.0.0-beta.9",
+  "description": "Node utility functions for Docusaurus packages.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
@@ -11,16 +11,39 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-utils"
+  },
   "license": "MIT",
   "dependencies": {
-    "escape-string-regexp": "^2.0.0",
-    "fs-extra": "^8.1.0",
-    "gray-matter": "^4.0.2",
-    "lodash.camelcase": "^4.3.0",
-    "lodash.kebabcase": "^4.1.1",
-    "resolve-pathname": "^3.0.0"
+    "@docusaurus/types": "2.0.0-beta.9",
+    "@mdx-js/runtime": "^1.6.22",
+    "@types/github-slugger": "^1.3.0",
+    "chalk": "^4.1.2",
+    "escape-string-regexp": "^4.0.0",
+    "fs-extra": "^10.0.0",
+    "globby": "^11.0.4",
+    "gray-matter": "^4.0.3",
+    "lodash": "^4.17.20",
+    "micromatch": "^4.0.4",
+    "remark-mdx-remove-exports": "^1.6.22",
+    "remark-mdx-remove-imports": "^1.6.22",
+    "resolve-pathname": "^3.0.0",
+    "tslib": "^2.3.1"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "@types/dedent": "^0.7.0",
+    "@types/micromatch": "^4.0.2",
+    "@types/react-dom": "^17.0.1",
+    "dedent": "^0.7.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
   }
 }

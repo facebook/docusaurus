@@ -20,9 +20,11 @@ function dispatchLifecycleAction(
   ...args: any[]
 ) {
   clientModules.forEach((clientModule) => {
-    const mod = clientModule.__esModule ? clientModule.default : clientModule;
-    if (mod && mod[lifecycleAction]) {
-      mod[lifecycleAction](...args);
+    const lifecycleFunction =
+      clientModule?.default?.[lifecycleAction] ?? clientModule[lifecycleAction];
+
+    if (lifecycleFunction) {
+      lifecycleFunction(...args);
     }
   });
 }

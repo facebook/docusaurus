@@ -1,4 +1,4 @@
-## Docusaurus Live Codeblock
+# Docusaurus Live Codeblock
 
 You can create live code editors with a code block `live` meta string.
 

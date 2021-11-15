@@ -1,4 +1,4 @@
-Sometimes you want to test the latest version of Docusaurus on a third-party project via `npm` or `yarn` without having to publish it to npm itself. For example, you may want to use the latest code in `master`.
+Sometimes you want to test the latest version of Docusaurus on a third-party project via `npm` or `yarn` without having to publish it to npm itself. For example, you may want to use the latest code in `main`.
 
 > If you want to use Docusaurus to test Docusaurus, see the [testing changes on Docusaurus itself doc](./testing-changes-on-Docusaurus-itself.md)
 
@@ -6,7 +6,7 @@ There are two reasonable ways to use a local version of the Docusaurus npm packa
 
 ## Install from a local Docusaurus repo
 
-> If you want to use the docusaurus-init script for testing, you will have to update the `initialize.js` file to point to the local Docusaurus repo instead of installing it from the npm server. In some ways, it is just easier to do the manual steps.
+> If you want to use the docusaurus init script for testing, you will have to update the `initialize.js` file to point to the local Docusaurus repo instead of installing it from the npm server. In some ways, it is just easier to do the manual steps.
 
 ### Install the package from the Docusaurus repo
 

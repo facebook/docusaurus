@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface PluginOptions {
-  cacheTime?: number;
-  changefreq?: string;
+import {EnumChangefreq} from 'sitemap';
+
+export type PluginOptions = {
+  changefreq?: EnumChangefreq;
   priority?: number;
   trailingSlash?: boolean;
-}
+};

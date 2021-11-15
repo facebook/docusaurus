@@ -11,6 +11,7 @@ export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
     id: doc.unversionedId,
     path: doc.permalink,
+    sidebar: doc.sidebar,
   };
 }
 

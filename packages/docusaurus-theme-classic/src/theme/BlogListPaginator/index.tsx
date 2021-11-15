@@ -7,25 +7,46 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import type {Metadata} from '@theme/BlogListPage';
+import Translate, {translate} from '@docusaurus/Translate';
+import type {Props} from '@theme/BlogListPaginator';
 
-function BlogListPaginator(props: {readonly metadata: Metadata}): JSX.Element {
+function BlogListPaginator(props: Props): JSX.Element {
   const {metadata} = props;
   const {previousPage, nextPage} = metadata;
 
   return (
-    <nav className="pagination-nav" aria-label="Blog list page navigation">
+    <nav
+      className="pagination-nav"
+      aria-label={translate({
+        id: 'theme.blog.paginator.navAriaLabel',
+        message: 'Blog list page navigation',
+        description: 'The ARIA label for the blog pagination',
+      })}>
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <h4 className="pagination-nav__label">&laquo; Newer Entries</h4>
+            <div className="pagination-nav__label">
+              &laquo;{' '}
+              <Translate
+                id="theme.blog.paginator.newerEntries"
+                description="The label used to navigate to the newer blog posts page (previous page)">
+                Newer Entries
+              </Translate>
+            </div>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <h4 className="pagination-nav__label">Older Entries &raquo;</h4>
+            <div className="pagination-nav__label">
+              <Translate
+                id="theme.blog.paginator.olderEntries"
+                description="The label used to navigate to the older blog posts page (next page)">
+                Older Entries
+              </Translate>{' '}
+              &raquo;
+            </div>
           </Link>
         )}
       </div>

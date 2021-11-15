@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
-import ExecutionEnvironment from './ExecutionEnvironment';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
+// Similar comp to the one described here:
+// https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions
 function BrowserOnly({
   children,
   fallback,
@@ -15,11 +17,13 @@ function BrowserOnly({
   children?: () => JSX.Element;
   fallback?: JSX.Element;
 }): JSX.Element | null {
-  if (!ExecutionEnvironment.canUseDOM || children == null) {
-    return fallback || null;
+  const isBrowser = useIsBrowser();
+
+  if (isBrowser && children != null) {
+    return <>{children()}</>;
   }
 
-  return <>{children()}</>;
+  return fallback || null;
 }
 
 export default BrowserOnly;

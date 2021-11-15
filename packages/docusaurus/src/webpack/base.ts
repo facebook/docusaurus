@@ -7,24 +7,31 @@
 
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
-import TerserPlugin from 'terser-webpack-plugin';
-import {Configuration, Loader} from 'webpack';
-
+import {Configuration} from 'webpack';
 import {Props} from '@docusaurus/types';
 import {
-  getBabelLoader,
-  getCacheLoader,
+  getCustomizableJSLoader,
   getStyleLoaders,
   getFileLoaderUtils,
+  getCustomBabelConfigFilePath,
+  getMinimizer,
 } from './utils';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
+import {loadPluginsThemeAliases} from '../server/themes';
+import {md5Hash} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
+
+const LibrariesToTranspile = [
+  'copy-text-to-clipboard', // contains optional catch binding, incompatible with recent versions of Edge
+];
+
+const LibrariesToTranspileRegex = new RegExp(
+  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
+);
 
 export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
@@ -34,50 +41,122 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     /node_modules/.test(modulePath) &&
-    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath) &&
+    !LibrariesToTranspileRegex.test(modulePath)
   );
+}
+
+export function getDocusaurusAliases(): Record<string, string> {
+  const dirPath = path.resolve(__dirname, '../client/exports');
+  const extensions = ['.js', '.ts', '.tsx'];
+
+  const aliases: Record<string, string> = {};
+
+  fs.readdirSync(dirPath)
+    .filter((fileName) => extensions.includes(path.extname(fileName)))
+    .forEach((fileName) => {
+      const fileNameWithoutExtension = path.basename(
+        fileName,
+        path.extname(fileName),
+      );
+      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
+      aliases[aliasName] = path.resolve(dirPath, fileName);
+    });
+
+  return aliases;
 }
 
 export function createBaseConfig(
   props: Props,
   isServer: boolean,
-  minify: boolean,
+  minify: boolean = true,
 ): Configuration {
-  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
-
+  const {
+    outDir,
+    siteDir,
+    siteConfig,
+    siteConfigPath,
+    baseUrl,
+    generatedFilesDir,
+    routesPaths,
+    siteMetadata,
+    plugins,
+  } = props;
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
-
-  const customBabelConfigurationPath = path.join(
-    siteDir,
-    BABEL_CONFIG_FILE_NAME,
-  );
+  const minimizeEnabled = minify && isProd && !isServer;
+  const useSimpleCssMinifier = process.env.USE_SIMPLE_CSS_MINIFIER === 'true';
 
   const fileLoaderUtils = getFileLoaderUtils();
 
+  const name = isServer ? 'server' : 'client';
+  const mode = isProd ? 'production' : 'development';
+
+  const themeAliases = loadPluginsThemeAliases({siteDir, plugins});
+
   return {
-    mode: isProd ? 'production' : 'development',
+    mode,
+    name,
+    cache: {
+      type: 'filesystem',
+      // Can we share the same cache across locales?
+      // Exploring that question at https://github.com/webpack/webpack/issues/13034
+      // name: `${name}-${mode}`,
+      name: `${name}-${mode}-${props.i18n.currentLocale}`,
+      // When version string changes, cache is evicted
+      version: [
+        siteMetadata.docusaurusVersion,
+        // Webpack does not evict the cache correctly on alias/swizzle change, so we force eviction.
+        // See https://github.com/webpack/webpack/issues/13627
+        md5Hash(JSON.stringify(themeAliases)),
+      ].join('-'),
+      // When one of those modules/dependencies change (including transitive deps), cache is invalidated
+      buildDependencies: {
+        config: [
+          __filename,
+          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
+          // Docusaurus config changes can affect MDX/JSX compilation, so we'd rather evict the cache.
+          // See https://github.com/questdb/questdb.io/issues/493
+          siteConfigPath,
+        ],
+      },
+    },
     output: {
-      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
-      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:8].js' : '[name].js',
+      filename: isProd ? 'assets/js/[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: isProd
+        ? 'assets/js/[name].[contenthash:8].js'
+        : '[name].js',
       publicPath: baseUrl,
+      hashFunction: 'xxhash64',
     },
     // Don't throw warning when asset created is over 250kb
     performance: {
       hints: false,
     },
-    devtool: isProd ? false : 'cheap-module-eval-source-map',
+    devtool: isProd ? undefined : 'eval-cheap-module-source-map',
     resolve: {
+      unsafeCache: false, // not enabled, does not seem to improve perf much
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-      symlinks: true,
+      symlinks: true, // see https://github.com/facebook/docusaurus/issues/3272
+      roots: [
+        // Allow resolution of url("/fonts/xyz.ttf") by webpack
+        // See https://webpack.js.org/configuration/resolve/#resolveroots
+        // See https://github.com/webpack-contrib/css-loader/issues/1256
+        path.join(siteDir, STATIC_DIR_NAME),
+        siteDir,
+        process.cwd(),
+      ],
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-        '@docusaurus': path.resolve(__dirname, '../client/exports'),
+
+        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
+        // so we use fine-grained aliases instead
+        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        ...getDocusaurusAliases(),
+        ...themeAliases,
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
@@ -88,59 +167,21 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
-      plugins: [PnpWebpackPlugin],
     },
     resolveLoader: {
-      plugins: [PnpWebpackPlugin.moduleLoader(module)],
       modules: ['node_modules', path.join(siteDir, 'node_modules')],
     },
     optimization: {
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
-      minimize: minify && isProd && !isServer,
-      minimizer:
-        minify && isProd
-          ? [
-              new TerserPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: false,
-                terserOptions: {
-                  parse: {
-                    // we want uglify-js to parse ecma 8 code. However, we don't want it
-                    // to apply any minfication steps that turns valid ecma 5 code
-                    // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                    // sections only apply transformations that are ecma 5 safe
-                    // https://github.com/facebook/create-react-app/pull/4234
-                    ecma: 8,
-                  },
-                  compress: {
-                    ecma: 5,
-                    warnings: false,
-                  },
-                  mangle: {
-                    safari10: true,
-                  },
-                  output: {
-                    ecma: 5,
-                    comments: false,
-                    // Turned on because emoji and regex is not minified properly using default
-                    // https://github.com/facebook/create-react-app/issues/2488
-                    ascii_only: true,
-                  },
-                },
-              }),
-              new OptimizeCSSAssetsPlugin({
-                cssProcessorPluginOptions: {
-                  preset: 'default',
-                },
-              }),
-            ]
-          : undefined,
+      minimize: minimizeEnabled,
+      minimizer: minimizeEnabled
+        ? getMinimizer(useSimpleCssMinifier)
+        : undefined,
       splitChunks: isServer
         ? false
         : {
-            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+            // Since the chunk name includes all origin chunk names it's recommended for production builds with long term caching to NOT include [name] in the filenames
             name: false,
             cacheGroups: {
               // disable the built-in cacheGroups
@@ -156,7 +197,7 @@ export function createBaseConfig(
               // See https://github.com/facebook/docusaurus/issues/2006
               styles: {
                 name: 'styles',
-                test: /\.css$/,
+                type: 'css/mini-extract',
                 chunks: `all`,
                 enforce: true,
                 priority: 50,
@@ -167,20 +208,19 @@ export function createBaseConfig(
     module: {
       rules: [
         fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.fonts(),
         fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [
-            getCacheLoader(isServer),
-            getBabelLoader(
+            getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
               isServer,
-              fs.existsSync(customBabelConfigurationPath)
-                ? customBabelConfigurationPath
-                : undefined,
-            ),
-          ].filter(Boolean) as Loader[],
+              babelOptions: getCustomBabelConfigFilePath(siteDir),
+            }),
+          ],
         },
         {
           test: CSS_REGEX,
@@ -197,24 +237,24 @@ export function createBaseConfig(
           use: getStyleLoaders(isServer, {
             modules: {
               localIdentName: isProd
-                ? `[local]_[hash:base64:4]`
-                : `[local]_[path]`,
+                ? `[local]_[contenthash:base64:4]`
+                : `[local]_[path][name]`,
+              exportOnlyLocals: isServer,
             },
             importLoaders: 1,
             sourceMap: !isProd,
-            onlyLocals: isServer,
           }),
-        },
-        {
-          test: /\.svg$/,
-          use: '@svgr/webpack?-prettier-svgo,+titleProp,+ref![path]',
         },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        filename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
+        chunkFilename: isProd
+          ? 'assets/css/[name].[contenthash:8].css'
+          : '[name].css',
         // remove css order warnings if css imports are not sorted alphabetically
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,

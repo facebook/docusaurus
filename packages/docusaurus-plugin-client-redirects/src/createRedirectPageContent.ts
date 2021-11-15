@@ -17,14 +17,14 @@ const getCompiledRedirectPageTemplate = memoize(() => {
   return eta.compile(redirectPageTemplate.trim());
 });
 
-function renderRedirectPageTemplate(data: object) {
+function renderRedirectPageTemplate(data: Record<string, unknown>) {
   const compiled = getCompiledRedirectPageTemplate();
   return compiled(data, eta.defaultConfig);
 }
 
 export default function createRedirectPageContent({
   toUrl,
-}: CreateRedirectPageOptions) {
+}: CreateRedirectPageOptions): string {
   return renderRedirectPageTemplate({
     toUrl: encodeURI(toUrl),
   });
