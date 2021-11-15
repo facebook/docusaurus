@@ -63,12 +63,8 @@ input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
   transition-property: transform;
   transition-duration: 200ms;
   transition-timing-function: ease-out;
-<<<<<<< HEAD
   transition-delay: 150ms;
   transform: translateX(38px);
-=======
-  transform: translateX(0);
->>>>>>> 92c382da7581f78f3f4f57ccde9b71c9d6886974
 }
 
 input:checked ~ .checkboxBox {

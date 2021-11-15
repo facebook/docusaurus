@@ -5,20 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-<<<<<<< HEAD
-=======
-.showcaseCard {
-  position: relative;
-  transition: transform ease-in 100ms;
-  box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
-}
-
-.showcaseCard:focus,
-.showcaseCard:hover {
-  transform: scale(1.01);
-}
-
->>>>>>> 92c382da7581f78f3f4f57ccde9b71c9d6886974
 .showcaseCardImage {
   overflow: hidden;
   max-height: 160px;
@@ -40,7 +26,6 @@
   position: relative;
 }
 
-<<<<<<< HEAD
 .showcaseCardTitle a::after {
   display: block;
   content: '';
@@ -57,8 +42,6 @@
   width: 100%;
 }
 
-=======
->>>>>>> 92c382da7581f78f3f4f57ccde9b71c9d6886974
 .showcaseCardTitle,
 .showcaseCardHeader .svgIconFavorite {
   margin-right: 0.25rem;

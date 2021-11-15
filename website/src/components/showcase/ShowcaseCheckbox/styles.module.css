@@ -33,7 +33,7 @@
 input:checked + .checkboxLabel {
   opacity: 0.9;
   transition: opacity 200ms ease-out;
-  background-color: var(--ifm-color-checkbox-checked-bg);
+  background-color: var(--site-color-checkbox-checked-bg);
   border: 2px solid var(--ifm-color-primary-darkest);
 }
 
