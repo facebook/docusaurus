@@ -41,11 +41,12 @@ const APITableRow = forwardRef(
     ref: React.RefObject<HTMLTableRowElement>,
   ) => {
     const entryName = getText(children);
-    const anchor = name ? `#${name}-${entryName}` : `#${entryName}`;
+    const id = name ? `${name}-${entryName}` : entryName;
+    const anchor = `#${id}`;
     const history = useHistory();
     return (
       <tr
-        id={anchor}
+        id={id}
         tabIndex={0}
         ref={history.location.hash === anchor ? ref : undefined}
         onClick={() => {
