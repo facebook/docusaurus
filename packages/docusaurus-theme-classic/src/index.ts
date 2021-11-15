@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Plugin} from '@docusaurus/types';
+import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
-import Module from 'module';
+import {createRequire} from 'module';
+import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
+import rtlcss from 'rtlcss';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
 
-const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
@@ -20,8 +23,11 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
-const storageKey = 'theme';
-const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
+const ThemeStorageKey = 'theme';
+const noFlashColorMode = ({
+  defaultMode,
+  respectPrefersColorScheme,
+}: ThemeConfig['colorMode']) => {
   return `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
@@ -33,7 +39,7 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   function getStoredTheme() {
     var theme = null;
     try {
-      theme = localStorage.getItem('${storageKey}');
+      theme = localStorage.getItem('${ThemeStorageKey}');
     } catch (err) {}
     return theme;
   }
@@ -59,15 +65,52 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
 })();`;
 };
 
+// Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
+// TODO: import from theme-common once we only support Node.js with ESM support
+// + move all those announcementBar stuff there too
+export const AnnouncementBarDismissStorageKey =
+  'docusaurus.announcement.dismiss';
+const AnnouncementBarDismissDataAttribute =
+  'data-announcement-bar-initially-dismissed';
+// We always render the announcement bar html on the server, to prevent layout shifts on React hydration
+// The theme can use CSS + the data attribute to hide the announcement bar asap (before React hydration)
+const AnnouncementBarInlineJavaScript = `
+(function() {
+  function isDismissed() {
+    try {
+      return localStorage.getItem('${AnnouncementBarDismissStorageKey}') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('${AnnouncementBarDismissDataAttribute}', isDismissed());
+})();`;
+
+function getInfimaCSSFile(direction: string) {
+  return `infima/dist/css/default/default${
+    direction === 'rtl' ? '-rtl' : ''
+  }.css`;
+}
+
+export type PluginOptions = {
+  customCss?: string | string[];
+};
+
 export default function docusaurusThemeClassic(
-  context,
-  options,
-): Plugin<null, unknown> {
+  context: DocusaurusContext, // TODO: LoadContext is missing some of properties
+  options: PluginOptions,
+): Plugin<void> {
   const {
-    siteConfig: {themeConfig},
+    siteConfig: {themeConfig: roughlyTypedThemeConfig},
+    i18n: {currentLocale, localeConfigs},
   } = context;
-  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
+  const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
+  const {
+    announcementBar,
+    colorMode,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig;
   const {customCss} = options || {};
+  const {direction} = localeConfigs[currentLocale];
 
   return {
     name: 'docusaurus-theme-classic',
@@ -87,16 +130,24 @@ export default function docusaurusThemeClassic(
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
+    getDefaultCodeTranslationMessages: () => {
+      return readDefaultCodeTranslationMessages({
+        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+        locale: currentLocale,
+      });
+    },
+
     getClientModules() {
       const modules = [
-        require.resolve('infima/dist/css/default/default.css'),
+        require.resolve(getInfimaCSSFile(direction)),
         path.resolve(__dirname, './prism-include-languages'),
+        path.resolve(__dirname, './admonitions.css'),
       ];
 
       if (customCss) {
@@ -115,17 +166,11 @@ export default function docusaurusThemeClassic(
         .map((lang) => `prism-${lang}`)
         .join('|');
 
-      // See https://github.com/facebook/docusaurus/pull/3382
-      const useDocsWarningFilter = (warning: string) =>
-        warning.includes("Can't resolve '@theme-init/hooks/useDocs");
-
       return {
-        stats: {
-          warningsFilter: [
-            // The TS def does not allow function for array item :(
-            useDocsWarningFilter as any,
-          ],
-        },
+        ignoreWarnings: [
+          // See https://github.com/facebook/docusaurus/pull/3382
+          (e) => e.message.includes("Can't resolve '@theme-init/hooks/useDocs"),
+        ],
         plugins: [
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
@@ -135,15 +180,35 @@ export default function docusaurusThemeClassic(
       };
     },
 
+    configurePostCss(postCssOptions: {plugins: AcceptedPlugin[]}) {
+      if (direction === 'rtl') {
+        const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
+        const plugin: PostCssPlugin = {
+          postcssPlugin: 'RtlCssPlugin',
+          prepare: (result) => {
+            const file = result.root?.source?.input?.file;
+            // Skip Infima as we are using the its RTL version.
+            if (file === resolvedInfimaFile) {
+              return {};
+            }
+            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
+          },
+        };
+        postCssOptions.plugins.push(plugin);
+      }
+
+      return postCssOptions;
+    },
+
     injectHtmlTags() {
       return {
         preBodyTags: [
           {
             tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
-            innerHTML: noFlashColorMode(colorMode),
+            innerHTML: `
+${noFlashColorMode(colorMode)}
+${announcementBar ? AnnouncementBarInlineJavaScript : ''}
+            `,
           },
         ],
       };

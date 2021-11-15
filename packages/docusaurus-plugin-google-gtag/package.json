@@ -1,8 +1,13 @@
 {
   "name": "@docusaurus/plugin-google-gtag",
-  "version": "2.0.0-alpha.70",
+  "version": "2.0.0-beta.9",
   "description": "Global Site Tag (gtag.js) plugin for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/plugin-google-gtag.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -13,13 +18,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.70"
+    "@docusaurus/core": "2.0.0-beta.9",
+    "@docusaurus/utils-validation": "2.0.0-beta.9"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9"
   },
   "peerDependencies": {
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=14"
   }
 }

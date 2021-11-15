@@ -4,29 +4,26 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as Joi from 'joi';
 import {PluginOptions} from './types';
 import {
+  Joi,
   RemarkPluginsSchema,
   RehypePluginsSchema,
   AdmonitionsSchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
   include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // Extensions to include.
+  exclude: GlobExcludeDefault,
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
-  exclude: [
-    '**/_*.{js,jsx,ts,tsx,md,mdx}',
-    '**/*.test.{js,ts}',
-    '**/__tests__/**',
-  ],
 };
 
 export const PluginOptionSchema = Joi.object({

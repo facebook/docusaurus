@@ -6,11 +6,10 @@
  */
 
 import shell from 'shelljs';
-import execa from 'execa';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
+const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
 
 let showedGitRequirementError = false;
 
@@ -43,13 +42,15 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const {stdout} = await execa('git', [
-      'log',
-      '-1',
-      '--format=%ct, %an',
-      filePath,
-    ]);
-    return getTimestampAndAuthor(stdout);
+    const result = shell.exec(`git log -1 --format=%ct,%an ${filePath}`, {
+      silent: true,
+    });
+    if (result.code !== 0) {
+      throw new Error(
+        `Retrieval of git history failed at ${filePath} with exit code ${result.code}: ${result.stderr}`,
+      );
+    }
+    return getTimestampAndAuthor(result.stdout.trim());
   } catch (error) {
     console.error(error);
   }

@@ -1,0 +1,19 @@
+# Image tests
+
+import Image from '@theme/IdealImage';
+
+import docusaurusImport from '@site/static/img/docusaurus.png';
+
+export const docusaurusRequire = require('@site/static/img/docusaurus.png');
+
+## Regular images
+
+<img src={docusaurusImport} />
+
+<img src={docusaurusRequire.default} />
+
+## Ideal images
+
+<Image img={docusaurusImport} />
+
+<Image img={docusaurusRequire} />

@@ -1,4 +1,5 @@
 ---
+sidebar_position: 4
 id: plugin-client-redirects
 title: '📦 plugin-client-redirects'
 slug: '/api/plugins/@docusaurus/plugin-client-redirects'
@@ -22,13 +23,13 @@ Before using this plugin, you should look if your hosting provider doesn't offer
 
 :::
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-client-redirects
 ```
 
-## Configuration
+## Configuration {#configuration}
 
 Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this page from `/myDocusaurusPage.html`:
 

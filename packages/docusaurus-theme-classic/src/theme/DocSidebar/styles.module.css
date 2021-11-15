@@ -13,7 +13,8 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    max-height: 100vh;
+    height: 100%;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);
@@ -52,14 +53,6 @@
     padding: 0.5rem;
   }
 
-  .menuLinkText {
-    cursor: initial;
-  }
-
-  .menuLinkText:hover {
-    background: none;
-  }
-
   .menuWithAnnouncementBar {
     margin-bottom: var(--docusaurus-announcement-bar-height);
   }
@@ -71,17 +64,19 @@
     position: sticky;
     bottom: 0;
     border-radius: 0;
+    border: 1px solid var(--ifm-toc-border-color);
   }
 
   .collapseSidebarButtonIcon {
     transform: rotate(180deg);
     margin-top: 4px;
   }
+  html[dir='rtl'] .collapseSidebarButtonIcon {
+    transform: rotate(0);
+  }
 
   html[data-theme='dark'] .collapseSidebarButton {
     background-color: var(--collapse-button-bg-color-dark);
-    border: none;
-    border-left: 1px solid var(--ifm-toc-border-color);
   }
 
   html[data-theme='dark'] .collapseSidebarButton:hover,
@@ -108,14 +103,4 @@
   font-weight: var(--ifm-font-weight-bold);
   line-height: 0.9;
   width: 24px;
-}
-
-:global(.menu__list) :global(.menu__list) {
-  overflow-y: hidden;
-  will-change: height;
-  transition: height var(--ifm-transition-fast) linear;
-}
-
-:global(.menu__list-item--collapsed) :global(.menu__list) {
-  height: 0px !important;
 }

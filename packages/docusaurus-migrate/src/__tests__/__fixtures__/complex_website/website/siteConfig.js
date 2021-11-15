@@ -24,7 +24,7 @@ const siteConfig = {
   cname: 'docusaurus.io',
   noIndex: false,
   users,
-  editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+  editUrl: 'https://github.com/facebook/docusaurus/edit/main/docs/',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {doc: 'tutorial-setup', label: 'Tutorial'},

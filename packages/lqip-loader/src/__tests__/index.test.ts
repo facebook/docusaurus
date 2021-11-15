@@ -10,14 +10,14 @@ import Vibrant from 'node-vibrant';
 import {Palette} from 'node-vibrant/lib/color';
 
 import {toPalette, toBase64} from '../utils';
-import lqip from '../lqip';
+import * as lqip from '../lqip';
 
 describe('lqip-loader', () => {
   describe('toBase64', () => {
     test('should return a properly formatted Base64 image string', () => {
-      const expected = 'data:image/jpeg;base64,hello world';
+      const expected = 'data:image/jpeg;base64,aGVsbG8gd29ybGQ=';
       const mockedMimeType = 'image/jpeg';
-      const mockedBase64Data = 'hello world';
+      const mockedBase64Data = Buffer.from('hello world');
       expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(expected);
     });
   });
@@ -49,22 +49,19 @@ describe('lqip-loader', () => {
     const imgPath = path.join(__dirname, '__fixtures__', 'endi.jpg');
     const invalidPath = path.join(__dirname, '__fixtures__', 'docusaurus.svg');
 
-    it('should reject unknown or unsupported file format', () => {
-      expect(lqip.base64(invalidPath)).rejects.toBeTruthy();
+    it('should reject unknown or unsupported file format', async () => {
+      await expect(lqip.base64(invalidPath)).rejects.toBeTruthy();
     });
 
-    it('should generate a valid base64', () => {
+    it('should generate a valid base64', async () => {
       const expectedBase64 = 'data:image/jpeg;base64,/9j/2wBDA';
-      lqip.base64(imgPath).then((base64: string) => {
-        expect(base64).toContain(expectedBase64);
-      });
+      await expect(lqip.base64(imgPath)).resolves.toContain(expectedBase64);
     });
 
-    it('should generate a valid color palette', () => {
-      lqip.palette(imgPath).then((imgPalette: string[]) => {
-        expect(imgPalette).toHaveLength(6);
-        expect(imgPalette).toContain('#578ca1');
-      });
+    it('should generate a valid color palette', async () => {
+      const imgPalette = await lqip.palette(imgPath);
+      expect(imgPalette).toHaveLength(6);
+      expect(imgPalette).toContain('#578ca1');
     });
   });
 });

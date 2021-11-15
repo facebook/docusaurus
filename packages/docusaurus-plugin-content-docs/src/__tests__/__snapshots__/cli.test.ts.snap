@@ -5,9 +5,11 @@ Object {
   "version-1.0.0/docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "collapsed": true,
+          "collapsible": true,
           "items": Array [
             Object {
               "id": "version-1.0.0/foo/bar",
@@ -20,6 +22,34 @@ Object {
           ],
           "label": "foo",
           "type": "category",
+        },
+        Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "version-1.0.0/rootAbsoluteSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootRelativeSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootResolvedSlug",
+              "type": "doc",
+            },
+            Object {
+              "id": "version-1.0.0/rootTryToEscapeSlug",
+              "type": "doc",
+            },
+          ],
+          "label": "Slugs",
+          "type": "category",
+        },
+        Object {
+          "id": "version-1.0.0/headingAsTitle",
+          "type": "doc",
         },
         Object {
           "href": "https://github.com",
@@ -36,6 +66,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-1.0.0/hello",
@@ -54,6 +85,7 @@ Object {
   "version-2.0.0/docs": Array [
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/foo/bar",
@@ -65,6 +97,7 @@ Object {
     },
     Object {
       "collapsed": true,
+      "collapsible": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/hello",

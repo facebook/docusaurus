@@ -16,16 +16,35 @@ import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useTitleFormatter} from '@docusaurus/theme-common';
+import {
+  useTitleFormatter,
+  usePluralForm,
+  isRegexpStringMatch,
+  useDynamicCallback,
+} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@theme/hooks/useDocs';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Layout from '@theme/Layout';
-
+import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
-function pluralize(count, word) {
-  return count > 1 ? `${word}s` : word;
+// Very simple pluralization: probably good enough for now
+function useDocumentsFoundPlural() {
+  const {selectMessage} = usePluralForm();
+  return (count) =>
+    selectMessage(
+      count,
+      translate(
+        {
+          id: 'theme.SearchPage.documentsFound.plurals',
+          description:
+            'Pluralized label for "{count} documents found". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: 'One document found|{count} documents found',
+        },
+        {count},
+      ),
+    );
 }
 
 function useDocsSearchVersionsHelpers() {
@@ -99,15 +118,19 @@ const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
   );
 };
 
-function Search() {
+function SearchPage() {
   const {
     siteConfig: {
-      themeConfig: {algolia: {appId = 'BH4D9OD16A', apiKey, indexName} = {}},
-    } = {},
+      themeConfig: {
+        algolia: {appId, apiKey, indexName, externalUrlRegex},
+      },
+    },
+    i18n: {currentLocale},
   } = useDocusaurusContext();
+  const documentsFoundPlural = useDocumentsFoundPlural();
+
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchValue, updateSearchPath} = useSearchQuery();
-  const [searchQuery, setSearchQuery] = useState(searchValue);
+  const {searchQuery, setSearchQuery} = useSearchQuery();
   const initialSearchResultState = {
     items: [],
     query: null,
@@ -154,11 +177,12 @@ function Search() {
     },
     initialSearchResultState,
   );
+
   const algoliaClient = algoliaSearch(appId, apiKey);
   const algoliaHelper = algoliaSearchHelper(algoliaClient, indexName, {
     hitsPerPage: 15,
     advancedSyntax: true,
-    disjunctiveFacets: ['docusaurus_tag'],
+    disjunctiveFacets: ['language', 'docusaurus_tag'],
   });
 
   algoliaHelper.on(
@@ -182,14 +206,16 @@ function Search() {
           _highlightResult: {hierarchy},
           _snippetResult: snippet = {},
         }) => {
-          const {pathname, hash} = new URL(url);
+          const parsedURL = new URL(url);
           const titles = Object.keys(hierarchy).map((key) => {
             return sanitizeValue(hierarchy[key].value);
           });
 
           return {
             title: titles.pop(),
-            url: pathname + hash,
+            url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
+              ? parsedURL.href
+              : parsedURL.pathname + parsedURL.hash,
             summary: snippet.content
               ? `${sanitizeValue(snippet.content.value)}...`
               : '',
@@ -236,11 +262,25 @@ function Search() {
 
   const getTitle = () =>
     searchQuery
-      ? `Search results for "${searchQuery}"`
-      : 'Search the documentation';
+      ? translate(
+          {
+            id: 'theme.SearchPage.existingResultsTitle',
+            message: 'Search results for "{query}"',
+            description: 'The search page title for non-empty query',
+          },
+          {
+            query: searchQuery,
+          },
+        )
+      : translate({
+          id: 'theme.SearchPage.emptyResultsTitle',
+          message: 'Search the documentation',
+          description: 'The search page title for empty query',
+        });
 
-  const makeSearch = (page = 0) => {
+  const makeSearch = useDynamicCallback((page = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
+    algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
     Object.entries(docsSearchVersionsHelpers.searchVersions).forEach(
       ([pluginId, searchVersion]) => {
@@ -252,23 +292,19 @@ function Search() {
     );
 
     algoliaHelper.setQuery(searchQuery).setPage(page).search();
-  };
+  });
 
   useEffect(() => {
     if (!loaderRef) {
       return undefined;
     }
+    const currentObserver = observer.current;
 
-    observer.current.observe(loaderRef);
-
-    return () => {
-      observer.current.unobserve(loaderRef);
-    };
+    currentObserver.observe(loaderRef);
+    return () => currentObserver.unobserve(loaderRef);
   }, [loaderRef]);
 
   useEffect(() => {
-    updateSearchPath(searchQuery);
-
     searchResultStateDispatcher({type: 'reset'});
 
     if (searchQuery) {
@@ -278,7 +314,7 @@ function Search() {
         makeSearch();
       }, 300);
     }
-  }, [searchQuery, docsSearchVersionsHelpers.searchVersions]);
+  }, [searchQuery, docsSearchVersionsHelpers.searchVersions, makeSearch]);
 
   useEffect(() => {
     if (!searchResultState.lastPage || searchResultState.lastPage === 0) {
@@ -286,13 +322,7 @@ function Search() {
     }
 
     makeSearch(searchResultState.lastPage);
-  }, [searchResultState.lastPage]);
-
-  useEffect(() => {
-    if (searchValue && searchValue !== searchQuery) {
-      setSearchQuery(searchValue);
-    }
-  }, [searchValue]);
+  }, [makeSearch, searchResultState.lastPage]);
 
   return (
     <Layout wrapperClassName="search-page-wrapper">
@@ -318,8 +348,16 @@ function Search() {
               type="search"
               name="q"
               className={styles.searchQueryInput}
-              placeholder="Type your search here"
-              aria-label="Search"
+              placeholder={translate({
+                id: 'theme.SearchPage.inputPlaceholder',
+                message: 'Type your search here',
+                description: 'The placeholder for search page input',
+              })}
+              aria-label={translate({
+                id: 'theme.SearchPage.inputLabel',
+                message: 'Search',
+                description: 'The ARIA label for search page input',
+              })}
               onChange={(e) => setSearchQuery(e.target.value)}
               value={searchQuery}
               autoComplete="off"
@@ -334,27 +372,29 @@ function Search() {
           )}
         </form>
 
-        <div className={clsx('row', 'margin-vert--sm')}>
+        <div className="row">
           <div className={clsx('col', 'col--8', styles.searchResultsColumn)}>
-            {!!searchResultState.totalResults && (
-              <strong>
-                {searchResultState.totalResults}{' '}
-                {pluralize(searchResultState.totalResults, 'document')} found
-              </strong>
-            )}
+            {!!searchResultState.totalResults &&
+              documentsFoundPlural(searchResultState.totalResults)}
           </div>
 
-          <div className={clsx('col', 'col--4', styles.searchLogoColumn)}>
+          <div
+            className={clsx(
+              'col',
+              'col--4',
+              'text--right',
+              styles.searchLogoColumn,
+            )}>
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.algolia.com/"
-              aria-label="Search">
-              <svg
-                viewBox="0 0 168 24"
-                className={styles.algoliaLogo}
-                xmlns="http://www.w3.org/2000/svg"
-                aria-label="Search by Algolia">
+              aria-label={translate({
+                id: 'theme.SearchPage.algoliaLabel',
+                message: 'Search by Algolia',
+                description: 'The ARIA label for Algolia mention',
+              })}>
+              <svg viewBox="0 0 168 24" className={styles.algoliaLogo}>
                 <g fill="none">
                   <path
                     className={styles.algoliaLogoPathFill}
@@ -375,34 +415,32 @@ function Search() {
         </div>
 
         {searchResultState.items.length > 0 ? (
-          <section>
+          <main>
             {searchResultState.items.map(
               ({title, url, summary, breadcrumbs}, i) => (
                 <article key={i} className={styles.searchResultItem}>
-                  <Link
-                    to={url}
-                    className={styles.searchResultItemHeading}
-                    dangerouslySetInnerHTML={{__html: title}}
-                  />
+                  <h2 className={styles.searchResultItemHeading}>
+                    <Link to={url} dangerouslySetInnerHTML={{__html: title}} />
+                  </h2>
 
                   {breadcrumbs.length > 0 && (
-                    <span className={styles.searchResultItemPath}>
-                      {breadcrumbs.map((html, index) => (
-                        <>
-                          {index !== 0 && (
-                            <span
-                              className={styles.searchResultItemPathSeparator}>
-                              ›
-                            </span>
-                          )}
-                          <span
+                    <nav aria-label="breadcrumbs">
+                      <ul
+                        className={clsx(
+                          'breadcrumbs',
+                          styles.searchResultItemPath,
+                        )}>
+                        {breadcrumbs.map((html, index) => (
+                          <li
+                            key={index}
+                            className="breadcrumbs__item"
                             // Developer provided the HTML, so assume it's safe.
                             // eslint-disable-next-line react/no-danger
                             dangerouslySetInnerHTML={{__html: html}}
                           />
-                        </>
-                      ))}
-                    </span>
+                        ))}
+                      </ul>
+                    </nav>
                   )}
 
                   {summary && (
@@ -416,11 +454,17 @@ function Search() {
                 </article>
               ),
             )}
-          </section>
+          </main>
         ) : (
           [
             searchQuery && !searchResultState.loading && (
-              <p key="no-results">No results were found</p>
+              <p key="no-results">
+                <Translate
+                  id="theme.SearchPage.noResultsText"
+                  description="The paragraph for empty search result">
+                  No results were found
+                </Translate>
+              </p>
             ),
             !!searchResultState.loading && (
               <div key="spinner" className={styles.loadingSpinner} />
@@ -430,7 +474,11 @@ function Search() {
 
         {searchResultState.hasMore && (
           <div className={styles.loader} ref={setLoaderRef}>
-            <span>Fetching new results...</span>
+            <Translate
+              id="theme.SearchPage.fetchingNewResults"
+              description="The paragraph for fetching new search results">
+              Fetching new results...
+            </Translate>
           </div>
         )}
       </div>
@@ -438,4 +486,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchPage;

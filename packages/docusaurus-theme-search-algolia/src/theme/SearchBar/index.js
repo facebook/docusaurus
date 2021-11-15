@@ -13,8 +13,11 @@ import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
+import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
+import {translate} from '@docusaurus/Translate';
+import styles from './styles.module.css';
 
 let DocSearchModal = null;
 
@@ -32,7 +35,7 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch({contextualSearch, ...props}) {
+function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
   const {siteMetadata} = useDocusaurusContext();
 
   const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
@@ -53,6 +56,7 @@ function DocSearch({contextualSearch, ...props}) {
 
   const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
+  const searchContainer = useRef(null);
   const searchButtonRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState(null);
@@ -73,12 +77,18 @@ function DocSearch({contextualSearch, ...props}) {
 
   const onOpen = useCallback(() => {
     importDocSearchModalIfNeeded().then(() => {
+      searchContainer.current = document.createElement('div');
+      document.body.insertBefore(
+        searchContainer.current,
+        document.body.firstChild,
+      );
       setIsOpen(true);
     });
   }, [importDocSearchModalIfNeeded, setIsOpen]);
 
   const onClose = useCallback(() => {
     setIsOpen(false);
+    searchContainer.current.remove();
   }, [setIsOpen]);
 
   const onInput = useCallback(
@@ -93,21 +103,28 @@ function DocSearch({contextualSearch, ...props}) {
 
   const navigator = useRef({
     navigate({itemUrl}) {
-      history.push(itemUrl);
+      // Algolia results could contain URL's from other domains which cannot
+      // be served through history and should navigate with window.location
+      if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
+        window.location.href = itemUrl;
+      } else {
+        history.push(itemUrl);
+      }
     },
   }).current;
 
   const transformItems = useRef((items) => {
     return items.map((item) => {
-      // We transform the absolute URL into a relative URL.
-      // Alternatively, we can use `new URL(item.url)` but it's not
-      // supported in IE.
-      const a = document.createElement('a');
-      a.href = item.url;
+      // If Algolia contains a external domain, we should navigate without relative URL
+      if (isRegexpStringMatch(externalUrlRegex, item.url)) {
+        return item;
+      }
 
+      // We transform the absolute URL into a relative URL.
+      const url = new URL(item.url);
       return {
         ...item,
-        url: withBaseUrl(`${a.pathname}${a.hash}`),
+        url: withBaseUrl(`${url.pathname}${url.hash}`),
       };
     });
   }).current;
@@ -137,6 +154,12 @@ function DocSearch({contextualSearch, ...props}) {
     searchButtonRef,
   });
 
+  const translatedSearchLabel = translate({
+    id: 'theme.SearchBar.label',
+    message: 'Search',
+    description: 'The ARIA label and placeholder for search button',
+  });
+
   return (
     <>
       <Head>
@@ -150,13 +173,19 @@ function DocSearch({contextualSearch, ...props}) {
         />
       </Head>
 
-      <DocSearchButton
-        onTouchStart={importDocSearchModalIfNeeded}
-        onFocus={importDocSearchModalIfNeeded}
-        onMouseOver={importDocSearchModalIfNeeded}
-        onClick={onOpen}
-        ref={searchButtonRef}
-      />
+      <div className={styles.searchBox}>
+        <DocSearchButton
+          onTouchStart={importDocSearchModalIfNeeded}
+          onFocus={importDocSearchModalIfNeeded}
+          onMouseOver={importDocSearchModalIfNeeded}
+          onClick={onOpen}
+          ref={searchButtonRef}
+          translations={{
+            buttonText: translatedSearchLabel,
+            buttonAriaLabel: translatedSearchLabel,
+          }}
+        />
+      </div>
 
       {isOpen &&
         createPortal(
@@ -172,7 +201,7 @@ function DocSearch({contextualSearch, ...props}) {
             {...props}
             searchParameters={searchParameters}
           />,
-          document.body,
+          searchContainer.current,
         )}
     </>
   );

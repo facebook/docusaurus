@@ -62,4 +62,4 @@ module.exports = {
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| `sync` | `boolean` | `false` | Syncing tab choices (yarn and npm). See https://v2.docusaurus.io/docs/markdown-features/#syncing-tab-choices for details. |
+| `sync` | `boolean` | `false` | Syncing tab choices (yarn and npm). See https://docusaurus.io/docs/markdown-features/#syncing-tab-choices for details. |

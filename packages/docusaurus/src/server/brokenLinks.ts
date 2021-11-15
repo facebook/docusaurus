@@ -8,7 +8,7 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy, flatten, countBy} from 'lodash';
+import {mapValues, pickBy, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
@@ -48,7 +48,9 @@ function getPageBrokenLinks({
   }
 
   function isBrokenLink(link: string) {
-    const matchedRoutes = matchRoutes(toReactRouterRoutes(routes), link);
+    const matchedRoutes = [link, decodeURI(link)]
+      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
+      .reduce((prev, cur) => prev.concat(cur));
     return matchedRoutes.length === 0;
   }
 
@@ -108,10 +110,9 @@ export function getBrokenLinksErrorMessage(
   // Add an additional message in such case to help user figure this out.
   // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = flatten(
-      Object.entries(allBrokenLinks).map(([pagePage, brokenLinks]) =>
+    const flatList = Object.entries(allBrokenLinks).flatMap(
+      ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
-      ),
     );
 
     const countedBrokenLinks = countBy(
@@ -128,13 +129,13 @@ export function getBrokenLinksErrorMessage(
       return '';
     }
 
-    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to: \n- ${frequentLinks.join(
+    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
       `\n- `,
     )}\n`;
   }
 
   return (
-    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list bellow, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
+    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
     `\n\nExhaustive list of all broken links found:\n${Object.entries(
       allBrokenLinks,
     )

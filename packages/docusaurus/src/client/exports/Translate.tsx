@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import {ReactNode} from 'react';
+import {interpolate, InterpolateValues} from '@docusaurus/Interpolate';
+import type {TranslateParam, TranslateProps} from '@docusaurus/Translate';
 
 // Can't read it from context, due to exposing imperative API
 import codeTranslations from '@generated/codeTranslations';
@@ -14,35 +16,43 @@ function getLocalizedMessage({
   id,
   message,
 }: {
-  message: string;
+  message?: string;
   id?: string;
 }): string {
-  return codeTranslations[id ?? message] ?? message;
+  if (typeof id === 'undefined' && typeof message === 'undefined') {
+    throw new Error(
+      'Docusaurus translation declarations must have at least a translation id or a default translation message',
+    );
+  }
+
+  return codeTranslations[(id ?? message)!] ?? message ?? id;
 }
 
-export type TranslateParam = {
-  message: string;
-  id?: string;
-  description?: string;
-};
 // Imperative translation API is useful for some edge-cases:
 // - translating page titles (meta)
 // - translating string props (input placeholders, image alt, aria labels...)
-export function translate({message, id}: TranslateParam): string {
+export function translate<Str extends string>(
+  {message, id}: TranslateParam<Str>,
+  values?: InterpolateValues<Str, string | number>,
+): string {
   const localizedMessage = getLocalizedMessage({message, id});
-  return localizedMessage ?? message;
+  return interpolate(localizedMessage, values);
 }
-
-export type TranslateProps = {
-  children: string;
-  id?: string;
-  description?: string;
-};
 
 // Maybe we'll want to improve this component with additional features
 // Like toggling a translation mode that adds a little translation button near the text?
-export default function Translate({children, id}: TranslateProps): JSX.Element {
-  const localizedMessage: string =
-    getLocalizedMessage({message: children, id}) ?? children;
-  return <>{localizedMessage}</>;
+export default function Translate<Str extends string>({
+  children,
+  id,
+  values,
+}: TranslateProps<Str>): ReactNode {
+  if (children && typeof children !== 'string') {
+    console.warn('Illegal <Translate> children', children);
+    throw new Error(
+      'The Docusaurus <Translate> component only accept simple string values',
+    );
+  }
+
+  const localizedMessage: string = getLocalizedMessage({message: children, id});
+  return interpolate(localizedMessage, values);
 }
