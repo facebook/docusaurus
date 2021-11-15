@@ -51,7 +51,7 @@ import {
 } from './translations';
 import chalk from 'chalk';
 import {getVersionTags} from './tags';
-import {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
 export default function pluginContentDocs(
   context: LoadContext,

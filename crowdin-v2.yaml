@@ -12,7 +12,7 @@ api_token_env: 'CROWDIN_PERSONAL_TOKEN'
 #
 preserve_hierarchy: true
 
-# We generally want to use the the "two-letters-code" of a locale (ie the language)
+# We generally want to use the "two-letters-code" of a locale (ie the language)
 # But not for all locales!
 # "pt-BR" may be better to remain as "pt-BR" instead of being transformed to "pt"
 # Note: &/* is Yaml anchor syntax: https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/

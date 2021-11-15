@@ -550,6 +550,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Froggit',
+    description: 'French software factory based entirely on Free Software.',
+    preview: require('./showcase/froggit.png'),
+    website: 'https://www.froggit.fr/',
+    source: 'https://lab.frogg.it/froggit/www/froggit.fr',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Gladys Assistant',
     description: 'A privacy-first, open-source home assistant',
     preview: require('./showcase/gladys-assistant.png'),
@@ -1249,6 +1257,14 @@ const Users: User[] = [
     website: 'https://docs.shabados.com',
     source: 'https://github.com/shabados/docs',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Shotstack',
+    description: 'The cloud video editing API',
+    preview: require('./showcase/shotstack.png'),
+    website: 'https://shotstack.io/docs/guide/',
+    source: 'https://github.com/shotstack/documentation',
+    tags: ['product', 'design', 'opensource'],
   },
   {
     title: 'social-embed',
