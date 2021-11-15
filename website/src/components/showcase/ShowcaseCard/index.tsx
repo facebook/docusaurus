@@ -8,12 +8,13 @@
 import React, {memo} from 'react';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
+import Link from '@docusaurus/Link';
 
-import FavoriteIcon from '../../svgIcons/FavoriteIcon';
-import Tooltip from '../ShowcaseTooltip';
 import styles from './styles.module.css';
-import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
-import {sortBy} from '../../../utils/jsUtils';
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
+import {sortBy} from '@site/src/utils/jsUtils';
 
 interface Props extends Tag {
   id: string;
@@ -69,23 +70,25 @@ const ShowcaseCard = memo(function ({user}: {user: User}) {
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
           <h4 className={styles.showcaseCardTitle}>
-            <a target="noreferer noopener" href={user.website} tabIndex={0}>
+            <Link
+              href={user.website}
+              tabIndex={0}
+              className={styles.showcaseCardLink}>
               {user.title}
-            </a>
+            </Link>
           </h4>
           {user.tags.includes('favorite') && (
             <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
           )}
-          <a
+          <Link
             href={user.source}
             tabIndex={0}
-            target="noreferer noopener"
             className={clsx(
               'button button--secondary button--sm',
               styles.showcaseCardSrcBtn,
             )}>
             source
-          </a>
+          </Link>
         </div>
         <p className={styles.showcaseCardBody}>{user.description}</p>
       </div>

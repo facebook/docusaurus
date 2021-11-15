@@ -8,8 +8,8 @@
  .tooltip {
   border-radius: 4px;
   padding: 4px 8px;
-  color: var(--ifm-color-tooltip);
-  background: var(--ifm-color-tooltip-background);
+  color: var(--site-color-tooltip);
+  background: var(--site-color-tooltip-background);
   font-size: 0.8rem;
   z-index: 500;
   line-height: 1.4;

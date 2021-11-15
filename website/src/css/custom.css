@@ -28,17 +28,25 @@
     73%
   );
 
+<<<<<<< HEAD
   --ifm-color-feedback-background: #fff;
   --ifm-color-favorite-background: #f6fdfd;
   --ifm-color-tooltip: #fff;
   --ifm-color-tooltip-background: #242526;
   --ifm-color-svgIcon-favorite: #e9669e;
   --ifm-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
+=======
+  --site-color-feedback-background: #fff;
+  --site-color-favorite-background: #f6fdfd;
+  --site-color-tooltip: #fff;
+  --site-color-tooltip-background: #242526;
+  --site-color-svgIcon-favorite: #e9669e;
+>>>>>>> 92c382da7581f78f3f4f57ccde9b71c9d6886974
 }
 
 html[data-theme='dark'] {
-  --ifm-color-feedback-background: #f0f8ff;
-  --ifm-color-favorite-background: #1d1e1e;
+  --site-color-feedback-background: #f0f8ff;
+  --site-color-favorite-background: #1d1e1e;
 }
 
 .docusaurus-highlight-code-line {

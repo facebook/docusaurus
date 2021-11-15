@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ReactNode} from 'react';
+import React, {ComponentProps, ReactNode, ReactElement} from 'react';
 
 import styles from './styles.module.css';
 
 interface Props extends ComponentProps<'input'> {
+  icon: ReactElement<ComponentProps<'svg'>>;
   label: ReactNode;
-  icon: ReactNode;
 }
 
 const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
@@ -21,6 +21,8 @@ const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
         <input type="checkbox" id={id} className="sr-only" {...rest} />
         <label
           ref={ref}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
           htmlFor={id}
           className={styles.checkboxLabel}
           aria-describedby={id}>
