@@ -5,17 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.showcaseCard {
-  position: relative;
-  transition: transform ease-in 40ms;
-  box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
-}
-
-.showcaseCard:focus,
-.showcaseCard:hover {
-  transform: scale(1.01);
-}
-
 .showcaseCardImage {
   overflow: hidden;
   max-height: 160px;
@@ -34,24 +23,23 @@
 
 .showcaseCardTitle a {
   text-decoration: none;
+  position: relative;
 }
 
-.showcaseCardTitle a::before {
-  z-index: 0;
+.showcaseCardTitle a::after {
   display: block;
   content: '';
   position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  transition: opacity ease-out 80ms;
-  background-color: rgba(0 0 0 / 3%);
-  top: 0;
+  width: 0;
+  height: 1px;
+  transition: width ease-out 200ms;
+  background-color: var(--ifm-color-primary);
+  bottom: 0;
   left: 0;
 }
 
-.showcaseCardTitle a:hover::before {
-  opacity: 0;
+.showcaseCardTitle a:hover::after {
+  width: 100%;
 }
 
 .showcaseCardTitle,

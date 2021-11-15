@@ -78,9 +78,9 @@ export default function Svg(props: SvgIconProps) {
     <svg
       viewBox={viewBox}
       color={colorAttr}
-      aria-hidden={true}
       className={clsx(styles.svgIcon, svgIconColor, svgIconSize, svgClass)}
-      {...rest}>
+      {...rest}
+      aria-hidden>
       {children}
     </svg>
   );

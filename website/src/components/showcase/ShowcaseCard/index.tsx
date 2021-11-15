@@ -9,9 +9,9 @@ import React, {memo} from 'react';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
 
-import styles from './styles.module.css';
 import FavoriteIcon from '../../svgIcons/FavoriteIcon';
-import Tooltip from '../showcaseTooltip';
+import Tooltip from '../ShowcaseTooltip';
+import styles from './styles.module.css';
 import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
 import {sortBy} from '../../../utils/jsUtils';
 
@@ -62,18 +62,14 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
 
 const ShowcaseCard = memo(function ({user}: {user: User}) {
   return (
-    <li key={user.title} className={clsx('card', styles.showcaseCard)}>
+    <li key={user.title} className="card shadow--md">
       <div className={clsx('card__image', styles.showcaseCardImage)}>
         <Image img={user.preview} alt={user.title} />
       </div>
       <div className="card__body">
         <div className={clsx(styles.showcaseCardHeader)}>
           <h4 className={styles.showcaseCardTitle}>
-            <a
-              target="noreferer noopener"
-              href={user.website}
-              tabIndex={0}
-              className={styles.showcaseCardLink}>
+            <a target="noreferer noopener" href={user.website} tabIndex={0}>
               {user.title}
             </a>
           </h4>

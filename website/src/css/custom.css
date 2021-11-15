@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:root {
+ :root {
   /*
   See css var + hsl color palette technique:
   https://blog.maximeheckel.com/posts/the-power-of-composition-with-css-variables/
@@ -33,6 +33,7 @@
   --ifm-color-tooltip: #fff;
   --ifm-color-tooltip-background: #242526;
   --ifm-color-svgIcon-favorite: #e9669e;
+  --ifm-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
 }
 
 html[data-theme='dark'] {

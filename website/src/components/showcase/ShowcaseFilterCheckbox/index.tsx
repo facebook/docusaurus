@@ -14,7 +14,7 @@ interface Props extends ComponentProps<'input'> {
   label: string;
 }
 
-function ShowcaseFilterCheckbox({label, ...props}: Props) {
+function ShowcaseFilterCheckbox({label, ...props}: Props): JSX.Element {
   const id = `showcase_checkbox_id_${props.name}`;
 
   return (

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-input[type='checkbox'] + .checkboxLabel {
+ input[type='checkbox'] + .checkboxLabel {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -33,7 +33,12 @@ input[type='checkbox'] + .checkboxLabel {
 input:checked + .checkboxLabel {
   opacity: 0.9;
   transition: opacity 200ms ease-out;
+  background-color: var(--ifm-color-checkbox-checked-bg);
   border: 2px solid var(--ifm-color-primary-darkest);
+}
+
+html[data-theme='dark'] input:checked + .checkboxLabel {
+  background-color: unset;
 }
 
 input:checked + .checkboxLabel:focus,

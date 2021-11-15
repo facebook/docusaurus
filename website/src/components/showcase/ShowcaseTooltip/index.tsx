@@ -7,19 +7,18 @@
 
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
-import clsx from 'clsx';
 import {usePopper} from 'react-popper';
 import styles from './styles.module.css';
 
 interface Props {
-  anchorEl?: HTMLElement | string;
+  anchorEl?: string; // HTML Class or Id attribute of the container that the tooltip would be anchored
   id: string;
   text: string;
   delay?: number;
   children: React.ReactElement;
 }
 
-function Tooltip({children, id, anchorEl, text, delay}: Props) {
+function Tooltip({children, id, anchorEl, text, delay}: Props): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
   const [popperElement, setPopperElement] = useState<HTMLElement>(null);
@@ -48,66 +47,39 @@ function Tooltip({children, id, anchorEl, text, delay}: Props) {
 
   useEffect(() => {
     if (anchorEl) {
-      if (typeof anchorEl === 'string') {
-        setContainer(document.querySelector(anchorEl));
-      } else {
-        setContainer(anchorEl);
-      }
+      setContainer(document.querySelector(anchorEl));
     } else {
       setContainer(document.body);
     }
-  }, [container]);
-
-  let timeout;
-  const showEvents = ['mouseenter', 'focus'];
-  const hideEvents = ['mouseleave', 'blur'];
+  }, [container, anchorEl]);
 
   useEffect(() => {
+    let timeout;
     if (referenceElement) {
-      showEvents.forEach((event) => {
-        referenceElement.addEventListener(event, handleOpen);
+      referenceElement.addEventListener('mouseenter', () => {
+        // There is no point in displaying an empty tooltip.
+        if (text === '') {
+          return;
+        }
+
+        // Remove the title ahead of time to avoid displaying
+        // two tooltips at the same time (native + this one).
+        referenceElement.removeAttribute('title');
+
+        timeout = setTimeout(() => {
+          setOpen(true);
+        }, delay || 400);
       });
 
-      hideEvents.forEach((event) => {
-        referenceElement.addEventListener(event, handleClose);
+      referenceElement.addEventListener('mouseleave', () => {
+        clearInterval(timeout);
+        setOpen(false);
       });
     }
-
-    return () => {
-      if (referenceElement) {
-        showEvents.forEach((event) => {
-          referenceElement.removeEventListener(event, handleOpen);
-        });
-
-        hideEvents.forEach((event) => {
-          referenceElement.removeEventListener(event, handleClose);
-        });
-      }
-    };
-  }, [referenceElement]);
-
-  const handleOpen = () => {
-    // There is no point in displaying an empty tooltip.
-    if (text === '') {
-      return;
-    }
-
-    // Remove the title ahead of time to avoid displaying
-    // two tooltips at the same time (native + this one).
-    referenceElement.removeAttribute('title');
-
-    timeout = setTimeout(() => {
-      setOpen(true);
-    }, delay || 400);
-  };
-
-  const handleClose = () => {
-    clearInterval(timeout);
-    setOpen(false);
-  };
+  }, [delay, referenceElement, text]);
 
   return (
-    <React.Fragment>
+    <>
       {React.cloneElement(children, {
         ref: setReferenceElement,
       })}
@@ -134,7 +106,7 @@ function Tooltip({children, id, anchorEl, text, delay}: Props) {
             container,
           )
         : container}
-    </React.Fragment>
+    </>
   );
 }
 

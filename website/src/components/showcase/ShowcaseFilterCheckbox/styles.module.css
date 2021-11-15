@@ -40,13 +40,13 @@
 
 input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelAnd,
 input:checked + .checkboxLabelWrapper > .checkboxLabelOr {
-  opacity: 1;
+  transition: opacity 150ms ease-out;
+  opacity: 0;
 }
 
 input:checked + .checkboxLabelWrapper > .checkboxLabelAnd,
 input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
-  transition: opacity 150ms ease-out;
-  opacity: 0;
+  opacity: 1;
 }
 
 .checkboxBox {
@@ -64,9 +64,9 @@ input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
   transition-duration: 600ms;
   transition-timing-function: ease-out;
   transition-delay: 150ms;
-  transform: translateX(0);
+  transform: translateX(38px);
 }
 
 input:checked ~ .checkboxBox {
-  transform: translateX(38px);
+  transform: translateX(0);
 }
