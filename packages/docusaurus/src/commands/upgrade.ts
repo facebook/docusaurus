@@ -27,10 +27,9 @@ export default function upgrade(opts: {tag: CommonNpmTags}): void {
 
   let packageNames = Array.from(
     new Set(
-      [
-        ...Object.keys(dependencies),
-        ...Object.keys(devDependencies),
-      ].filter((pkg) => pkg.startsWith('@docusaurus')),
+      [...Object.keys(dependencies), ...Object.keys(devDependencies)].filter(
+        (pkg) => pkg.startsWith('@docusaurus'),
+      ),
     ),
   ).sort();
 
