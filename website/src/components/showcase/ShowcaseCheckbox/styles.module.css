@@ -37,10 +37,6 @@ input:checked + .checkboxLabel {
   border: 2px solid var(--ifm-color-primary-darkest);
 }
 
-html[data-theme='dark'] input:checked + .checkboxLabel {
-  background-color: unset;
-}
-
 input:checked + .checkboxLabel:focus,
 input:checked + .checkboxLabel:focus-visible,
 input:checked + .checkboxLabel:hover {

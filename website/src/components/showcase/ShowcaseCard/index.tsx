@@ -20,8 +20,8 @@ interface Props extends Tag {
   id: string;
 }
 
-const TagComp = React.forwardRef(
-  ({id, label, description}: Props, ref: React.RefObject<HTMLLIElement>) => {
+const TagComp = React.forwardRef<HTMLLIElement, Props>(
+  ({id, label, description}, ref) => {
     return (
       <li
         ref={ref}

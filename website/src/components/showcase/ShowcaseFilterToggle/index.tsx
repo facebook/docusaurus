@@ -14,7 +14,7 @@ interface Props extends ComponentProps<'input'> {
   label: string;
 }
 
-export default function ShowcaseFilterCheckbox({
+export default function ShowcaseFilterToggle({
   label,
   ...props
 }: Props): JSX.Element {

@@ -15,23 +15,21 @@ interface Props extends ComponentProps<'input'> {
 }
 
 const ShowcaseCheckbox = React.forwardRef<HTMLLabelElement, Props>(
-  function ShowcaseCheckbox({className, id, icon, label, ...rest}, ref) {
-    return (
-      <>
-        <input type="checkbox" id={id} className="sr-only" {...rest} />
-        <label
-          ref={ref}
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex={0}
-          htmlFor={id}
-          className={styles.checkboxLabel}
-          aria-describedby={id}>
-          {label}
-          {icon}
-        </label>
-      </>
-    );
-  },
+  ({className, id, icon, label, ...rest}, ref) => (
+    <>
+      <input type="checkbox" id={id} className="sr-only" {...rest} />
+      <label
+        ref={ref}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        htmlFor={id}
+        className={styles.checkboxLabel}
+        aria-describedby={id}>
+        {label}
+        {icon}
+      </label>
+    </>
+  ),
 );
 
 export default ShowcaseCheckbox;

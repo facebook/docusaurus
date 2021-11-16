@@ -12,15 +12,17 @@ import clsx from 'clsx';
 
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
-import ShowcaseFilterCheckbox from '@site/src/components/showcase/ShowcaseFilterCheckbox';
+import ShowcaseFilterCheckbox from '@site/src/components/showcase/ShowcaseFilterToggle';
 import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
+import {toggleListItem} from '@site/src/utils/jsUtils';
+import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
+import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
-import {toggleListItem} from '@site/src/utils/jsUtils';
-import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
-import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+
+type Operator = 'OR' | 'AND';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
@@ -30,7 +32,7 @@ const EDIT_URL =
 function filterUsers(
   users: User[],
   selectedTags: TagType[],
-  operator: boolean,
+  operator: Operator,
 ) {
   if (selectedTags.length === 0) {
     return users;
@@ -39,7 +41,7 @@ function filterUsers(
     if (user.tags.length === 0) {
       return false;
     }
-    if (!operator) {
+    if (operator === 'AND') {
       return selectedTags.every((tag) => user.tags.includes(tag));
     } else {
       return selectedTags.some((tag) => user.tags.includes(tag));
@@ -50,7 +52,7 @@ function filterUsers(
 function useFilteredUsers(
   users: User[],
   selectedTags: TagType[],
-  operator: boolean,
+  operator: Operator,
 ) {
   return useMemo(
     () => filterUsers(users, selectedTags, operator),
@@ -117,11 +119,11 @@ function ShowcaseHeader() {
 }
 
 interface Props {
-  operator: boolean;
+  operator: Operator;
   filteredUsers: User[];
   selectedTags: TagType[];
   toggleTag: (tag: TagType) => void;
-  setOperator: (op: boolean) => void;
+  setOperator: (op: Operator) => void;
 }
 
 function ShowcaseFilters({
@@ -143,8 +145,8 @@ function ShowcaseFilters({
         <ShowcaseFilterCheckbox
           name="operator"
           label="Filter: "
-          checked={operator}
-          onChange={() => setOperator(!operator)}
+          checked={operator === 'AND'}
+          onChange={() => setOperator(operator === 'AND' ? 'OR' : 'AND')}
         />
       </div>
       <ul className={styles.checkboxList}>
@@ -254,7 +256,7 @@ function ShowcaseCards({
 
 function Showcase(): JSX.Element {
   const {selectedTags, toggleTag} = useSelectedTags();
-  const [operator, setOperator] = useState(true);
+  const [operator, setOperator] = useState<Operator>('OR');
   const filteredUsers = useFilteredUsers(sortedUsers, selectedTags, operator);
 
   return (
