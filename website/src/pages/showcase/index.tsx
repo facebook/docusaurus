@@ -16,14 +16,13 @@ import ShowcaseTagSelect, {
 } from '@site/src/components/showcase/ShowcaseTagSelect';
 import ShowcaseFilterToggle, {
   Operator,
-  OperatorQueryKey,
+  readOperator,
 } from '@site/src/components/showcase/ShowcaseFilterToggle';
 import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 
 import {useLocation} from '@docusaurus/router';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import styles from './styles.module.css';
 
@@ -55,11 +54,7 @@ function filterUsers(
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
   const location = useLocation();
-  const isBrowser = useIsBrowser();
-  const operator = isBrowser
-    ? ((new URLSearchParams(location.search).get(OperatorQueryKey) ??
-        'OR') as Operator)
-    : 'OR';
+  const operator = readOperator(location.search);
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
     [selectedTags, operator],
