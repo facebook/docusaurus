@@ -43,6 +43,7 @@ Object {
             },
           ],
           "label": "foo",
+          "link": undefined,
           "type": "category",
         },
         Object {
@@ -67,6 +68,7 @@ Object {
             },
           ],
           "label": "Slugs",
+          "link": undefined,
           "type": "category",
         },
         Object {
@@ -84,6 +86,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -96,6 +99,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1279,6 +1283,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1291,6 +1296,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1310,6 +1316,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1322,6 +1329,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1341,6 +1349,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1353,6 +1362,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -2320,6 +2330,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
   ],
