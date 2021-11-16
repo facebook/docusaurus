@@ -110,7 +110,7 @@ function ShowcaseFilters() {
       </div>
       <ul className={styles.checkboxList}>
         {TagList.map((tag, i) => {
-          const {label, description} = Tags[tag];
+          const {label, description, color} = Tags[tag];
           const id = `showcase_checkbox_id_${tag};`;
 
           return (
@@ -121,8 +121,18 @@ function ShowcaseFilters() {
                   id={id}
                   label={label}
                   icon={
-                    tag === 'favorite' && (
+                    tag === 'favorite' ? (
                       <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
+                    ) : (
+                      <span
+                        style={{
+                          backgroundColor: color,
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          marginLeft: 8,
+                        }}
+                      />
                     )
                   }
                 />

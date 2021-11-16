@@ -92,10 +92,16 @@
   background-color: transparent;
 }
 
-.tag span {
+.tag .textLabel {
   overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 6px;
-  padding-right: 6px;
+  margin-left: 8px;
   white-space: nowrap;
+}
+
+.tag .colorLabel {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 6px;
+  margin-right: 6px;
 }

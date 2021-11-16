@@ -21,14 +21,15 @@ interface Props extends Tag {
 }
 
 const TagComp = React.forwardRef<HTMLLIElement, Props>(
-  ({id, label, description}, ref) => {
+  ({id, label, color, description}, ref) => {
     return (
       <li
         ref={ref}
         aria-describedby={id}
         className={styles.tag}
         title={description}>
-        <span>{label.toLowerCase()}</span>
+        <span className={styles.textLabel}>{label.toLowerCase()}</span>
+        <span className={styles.colorLabel} style={{backgroundColor: color}} />
       </li>
     );
   },

@@ -7,7 +7,6 @@
 
 /* eslint-disable global-require */
 
-import React from 'react';
 import {difference, sortBy} from '@site/src/utils/jsUtils';
 
 /*
@@ -44,7 +43,7 @@ import {difference, sortBy} from '@site/src/utils/jsUtils';
 export type Tag = {
   label: string;
   description: string;
-  icon: JSX.Element;
+  color: string;
 };
 
 export type TagType =
@@ -54,7 +53,6 @@ export type TagType =
   | 'design'
   | 'i18n'
   | 'versioning'
-  | 'multiInstance'
   | 'large'
   | 'facebook'
   | 'personal'
@@ -78,76 +76,69 @@ export const Tags: Record<TagType, Tag> = {
     label: 'Favorite',
     description:
       'Our favorite Docusaurus sites that you must absolutely check-out!',
-    icon: <>❤️</>,
+    color: '#e9669e',
   },
 
   // For open-source sites, a link to the source code is required
   opensource: {
     label: 'Open-Source',
     description: 'Open-Source Docusaurus sites can be useful for inspiration!',
-    icon: <>👨‍💻</>,
+    color: '#39ca30',
   },
 
   product: {
     label: 'Product',
     description: 'Docusaurus sites associated to a commercial product!',
-    icon: <>💵</>,
+    color: '#dfd545',
   },
 
   design: {
     label: 'Design',
     description:
       'Beautiful Docusaurus sites, polished and standing out from the initial template!',
-    icon: <>💅</>,
+    color: '#a44fb7',
   },
 
   i18n: {
     label: 'I18n',
     description:
       'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-    icon: <>🏳️</>,
+    color: '#a4ffb7',
   },
 
   versioning: {
     label: 'Versioning',
     description:
       'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
-    icon: <>👨‍👦‍👦</>,
-  },
-  // Sites using multi-instance plugins
-  multiInstance: {
-    label: 'Multi-Instance',
-    description:
-      'Docusaurus sites using multiple instances of the same plugin on the same site.',
-    icon: <>👨‍👩‍👧‍👦</>,
+    color: '#fe6829',
   },
 
   // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
   large: {
-    label: 'Large site',
+    label: 'Large',
     description:
       'Very large Docusaurus sites, including much more pages than the average!',
-    icon: <>💪</>,
+    color: '#8c2f00',
   },
 
   facebook: {
-    label: 'Facebook sites',
+    label: 'Facebook',
     description: 'Docusaurus sites of Facebook projects',
-    icon: <>👥</>,
+    color: '#4267b2', // Facebook blue
   },
 
   personal: {
-    label: 'Personal sites',
+    label: 'Personal',
     description:
       'Personal websites, blogs and digital gardens built with Docusaurus',
-    icon: <>🙋</>,
+    color: '#14cfc3',
   },
 
   rtl: {
     label: 'RTL Direction',
     description:
       'Docusaurus sites using the right-to-left reading direction support.',
-    icon: <>↪️</>,
+    color: '#ffcfc3',
   },
 };
 
