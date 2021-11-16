@@ -54,7 +54,10 @@ function filterUsers(
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
   const location = useLocation();
-  const operator = readOperator(location.search);
+  const [operator, setOperator] = useState<Operator>('OR');
+  useEffect(() => {
+    setOperator(readOperator(location.search));
+  }, [location]);
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
     [selectedTags, operator],
