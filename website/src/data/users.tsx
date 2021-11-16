@@ -155,6 +155,15 @@ export const Tags: Record<TagType, Tag> = {
 // prettier-ignore
 const Users: User[] = [
   {
+    title: 'Pearl UI',
+    description:
+      'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
+    preview: require('./showcase/pearl_ui.png'),
+    website: 'https://www.pearl-ui.dev/',
+    source: 'https://github.com/agrawal-rohit/pearl-ui',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'Aide Jeune',
     description:
       'French Discord server that helps young people who have been bullied or feel bad about themselves',
