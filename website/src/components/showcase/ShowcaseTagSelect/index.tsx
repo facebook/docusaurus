@@ -10,6 +10,8 @@ import React, {
   ReactNode,
   ReactElement,
   useCallback,
+  useRef,
+  useEffect,
 } from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 import {toggleListItem} from '@site/src/utils/jsUtils';
@@ -37,10 +39,16 @@ function replaceSearchTags(search: string, newTags: TagType[]) {
 }
 
 const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
-  ({className, id, icon, label, tag, ...rest}, ref) => {
+  ({id, icon, label, tag, ...rest}, ref) => {
     const location = useLocation();
     const history = useHistory();
-    // Update the QS value
+    const inputRef = useRef<HTMLInputElement>();
+    useEffect(() => {
+      const tags = readSearchTags(location.search);
+      if (tags.includes(tag)) {
+        inputRef.current.checked = true;
+      }
+    }, [tag, location]);
     const toggleTag = useCallback(() => {
       const tags = readSearchTags(location.search);
       const newTags = toggleListItem(tags, tag);
@@ -53,9 +61,11 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
           type="checkbox"
           id={id}
           className="sr-only"
+          ref={inputRef}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               toggleTag();
+              inputRef.current.checked = !inputRef.current.checked;
             }
           }}
           onChange={toggleTag}

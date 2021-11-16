@@ -14,7 +14,10 @@ import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import ShowcaseTagSelect, {
   readSearchTags,
 } from '@site/src/components/showcase/ShowcaseTagSelect';
-import ShowcaseFilterToggle from '@site/src/components/showcase/ShowcaseFilterToggle';
+import ShowcaseFilterToggle, {
+  Operator,
+  OperatorQueryKey,
+} from '@site/src/components/showcase/ShowcaseFilterToggle';
 import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
@@ -22,8 +25,6 @@ import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
-
-type Operator = 'OR' | 'AND';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
@@ -50,14 +51,15 @@ function filterUsers(
   });
 }
 
-function useFilteredUsers(
-  users: User[],
-  selectedTags: TagType[],
-  operator: Operator,
-) {
+function useFilteredUsers() {
+  const selectedTags = useSelectedTags();
+  const location = useLocation();
+  const operator = (new URLSearchParams(location.search).get(
+    OperatorQueryKey,
+  ) ?? 'OR') as Operator;
   return useMemo(
-    () => filterUsers(users, selectedTags, operator),
-    [users, selectedTags, operator],
+    () => filterUsers(sortedUsers, selectedTags, operator),
+    [selectedTags, operator],
   );
 }
 
@@ -93,19 +95,8 @@ function ShowcaseHeader() {
   );
 }
 
-interface Props {
-  operator: Operator;
-  filteredUsers: User[];
-  selectedTags: TagType[];
-  setOperator: (op: Operator) => void;
-}
-
-function ShowcaseFilters({
-  operator,
-  filteredUsers,
-  selectedTags,
-  setOperator,
-}: Props) {
+function ShowcaseFilters() {
+  const filteredUsers = useFilteredUsers();
   return (
     <section className="container margin-top--xl margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
@@ -115,12 +106,7 @@ function ShowcaseFilters({
             filteredUsers.length > 1 ? 's' : ''
           })`}</p>
         </span>
-        <ShowcaseFilterToggle
-          name="operator"
-          label="Filter: "
-          checked={operator === 'AND'}
-          onChange={() => setOperator(operator === 'AND' ? 'OR' : 'AND')}
-        />
+        <ShowcaseFilterToggle />
       </div>
       <ul className={styles.checkboxList}>
         {TagList.map((tag, i) => {
@@ -134,13 +120,11 @@ function ShowcaseFilters({
                   tag={tag}
                   id={id}
                   label={label}
-                  title={`${label}: ${description}`}
                   icon={
                     tag === 'favorite' && (
                       <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
                     )
                   }
-                  checked={selectedTags.includes(tag)}
                 />
               </Tooltip>
             </li>
@@ -151,13 +135,9 @@ function ShowcaseFilters({
   );
 }
 
-function ShowcaseCards({
-  filteredUsers,
-  selectedTags,
-}: {
-  filteredUsers: User[];
-  selectedTags: TagType[];
-}) {
+function ShowcaseCards() {
+  const selectedTags = useSelectedTags();
+  const filteredUsers = useFilteredUsers();
   const favoriteUsers =
     selectedTags.length === 0 &&
     sortedUsers.filter((user) => user.tags.includes('favorite'));
@@ -227,24 +207,12 @@ function ShowcaseCards({
 }
 
 function Showcase(): JSX.Element {
-  const selectedTags = useSelectedTags();
-  const [operator, setOperator] = useState<Operator>('OR');
-  const filteredUsers = useFilteredUsers(sortedUsers, selectedTags, operator);
-
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
       <main className="margin-vert--lg">
         <ShowcaseHeader />
-        <ShowcaseFilters
-          selectedTags={selectedTags}
-          operator={operator}
-          filteredUsers={filteredUsers}
-          setOperator={setOperator}
-        />
-        <ShowcaseCards
-          filteredUsers={filteredUsers}
-          selectedTags={selectedTags}
-        />
+        <ShowcaseFilters />
+        <ShowcaseCards />
       </main>
     </Layout>
   );
