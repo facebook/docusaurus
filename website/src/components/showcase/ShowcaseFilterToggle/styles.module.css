@@ -6,50 +6,35 @@
  */
 
 .checkboxLabel {
+  display: flex;
   width: 80px;
   height: 25px;
   position: relative;
   border-radius: 25px;
   border: 2px solid var(--ifm-color-primary-darkest);
+  overflow: hidden;
   background-color: transparent;
   cursor: pointer;
-  overflow: hidden;
+  justify-content: space-around;
+  align-items: center;
   opacity: 0.75;
   transition: opacity 200ms ease-out;
 }
 
-.checkboxLabel:focus,
-.checkboxLabel:focus-visible,
+input:focus ~ .checkboxLabel,
+input:focus-visible ~ .checkboxLabel,
 .checkboxLabel:hover {
   opacity: 1;
-  outline: 0;
   box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
 }
 
-.checkboxLabelWrapper {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.checkboxLabelWrapper > * {
+.checkboxLabel > * {
   font-size: 0.8rem;
   color: inherit;
   transition: opacity 150ms ease-in 50ms;
 }
 
-input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelAnd,
-input:checked + .checkboxLabelWrapper > .checkboxLabelOr {
-  transition: opacity 150ms ease-out;
-  opacity: 0;
-}
-
-input:checked + .checkboxLabelWrapper > .checkboxLabelAnd,
-input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
-  opacity: 1;
-}
-
-.checkboxBox {
+.checkboxToggle {
   position: absolute;
   content: '';
   top: -2px;
@@ -67,6 +52,6 @@ input:not(:checked) + .checkboxLabelWrapper > .checkboxLabelOr {
   transform: translateX(38px);
 }
 
-input:checked ~ .checkboxBox {
+input:checked ~ .checkboxLabel > .checkboxToggle {
   transform: translateX(0);
 }

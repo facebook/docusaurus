@@ -6,7 +6,6 @@
  */
 
 import React, {useState, useEffect, useCallback, useRef} from 'react';
-import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
@@ -38,12 +37,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
   }, [operator, location, history]);
 
   return (
-    <label
-      htmlFor={id}
-      className={clsx(
-        styles.checkboxLabel,
-        operator && styles.checkboxLabelChecked,
-      )}>
+    <div className="shadow--md">
       <input
         type="checkbox"
         id={id}
@@ -57,11 +51,14 @@ export default function ShowcaseFilterToggle(): JSX.Element {
           }
         }}
       />
-      <div className={clsx('shadow--md', styles.checkboxLabelWrapper)}>
+      <>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      </>
+      <label htmlFor={id} className={styles.checkboxLabel}>
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
-      </div>
-      <span className={styles.checkboxBox} />
-    </label>
+        <span className={styles.checkboxToggle} aria-hidden />
+      </label>
+    </div>
   );
 }

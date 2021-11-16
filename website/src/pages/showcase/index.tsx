@@ -86,7 +86,7 @@ function ShowcaseHeader() {
       <h1>{TITLE}</h1>
       <p>{DESCRIPTION}</p>
       <a
-        className="button button--primary"
+        className={clsx('button button--primary', styles.showcaseCardSrcBtn)}
         href={EDIT_URL}
         target="_blank"
         rel="noreferrer">

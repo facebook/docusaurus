@@ -23,8 +23,7 @@
 }
 
 input:focus + .checkboxLabel,
-.checkboxLabel:focus,
-.checkboxLabel:focus-visible,
+input:focus-visible + .checkboxLabel,
 .checkboxLabel:hover {
   opacity: 1;
   outline: 0;
@@ -34,12 +33,12 @@ input:focus + .checkboxLabel,
 input:checked + .checkboxLabel {
   opacity: 0.9;
   transition: opacity 200ms ease-out;
-  background-color: var(--site-color-background);
+  background-color: var(--site-color-favorite-background);
   border: 2px solid var(--ifm-color-primary-darkest);
 }
 
-input:checked + .checkboxLabel:focus,
-input:checked + .checkboxLabel:focus-visible,
+input:checked:focus + .checkboxLabel,
+input:checked:focus-visible + .checkboxLabel,
 input:checked + .checkboxLabel:hover {
   outline: 0;
   opacity: 0.75;

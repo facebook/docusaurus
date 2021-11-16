@@ -38,7 +38,8 @@
   left: 0;
 }
 
-.showcaseCardTitle a:hover::after {
+.showcaseCardTitle a:hover::after,
+.showcaseCardTitle a:focus-visible::after {
   width: 100%;
 }
 
@@ -57,6 +58,15 @@
   z-index: 1;
   flex-grow: 0;
   flex-shrink: 0;
+}
+
+.showcaseCardSrcBtn:focus,
+.showcaseCardTitle a:focus {
+  outline: none;
+}
+
+.showcaseCardSrcBtn:focus-visible {
+  background-color: var(--ifm-color-secondary-dark);
 }
 
 .showcaseCardBody {
