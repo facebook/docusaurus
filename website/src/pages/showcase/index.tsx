@@ -74,7 +74,7 @@ function useSelectedTags() {
   useEffect(() => {
     const tags = readSearchTags(location.search);
     setSelectedTags(tags);
-  }, [location, setSelectedTags]);
+  }, [location]);
 
   return selectedTags;
 }

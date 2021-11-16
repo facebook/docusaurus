@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import clsx from 'clsx';
 import {useHistory, useLocation} from '@docusaurus/router';
 
@@ -15,16 +15,25 @@ export type Operator = 'OR' | 'AND';
 
 export const OperatorQueryKey = 'operator';
 
+export function readOperator(search: string): Operator {
+  return (new URLSearchParams(search).get(OperatorQueryKey) ??
+    'OR') as Operator;
+}
+
 export default function ShowcaseFilterToggle(): JSX.Element {
   const id = `showcase_filter_toggle`;
   const location = useLocation();
   const history = useHistory();
-  const [operator, setOperator] = useState<Operator>('OR');
+  const [operator, setOperator] = useState(false);
+  const inputRef = useRef<HTMLInputElement>();
+  useEffect(() => {
+    inputRef.current.checked = readOperator(location.search) === 'AND';
+  }, [location]);
   const toggleOperator = useCallback(() => {
-    setOperator(operator === 'AND' ? 'OR' : 'AND');
+    setOperator((o) => !o);
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete(OperatorQueryKey);
-    searchParams.append(OperatorQueryKey, operator === 'AND' ? 'OR' : 'AND');
+    searchParams.append(OperatorQueryKey, operator ? 'OR' : 'AND');
     history.push({...location, search: searchParams.toString()});
   }, [operator, location, history]);
 
@@ -33,11 +42,12 @@ export default function ShowcaseFilterToggle(): JSX.Element {
       htmlFor={id}
       className={clsx(
         styles.checkboxLabel,
-        operator === 'AND' && styles.checkboxLabelChecked,
+        operator && styles.checkboxLabelChecked,
       )}>
       <input
         type="checkbox"
         id={id}
+        ref={inputRef}
         className="sr-only"
         aria-label="Toggle between or and and for the tags you selected"
         onChange={toggleOperator}
