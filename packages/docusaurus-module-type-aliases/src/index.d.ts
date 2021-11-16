@@ -319,6 +319,14 @@ declare module '@docusaurus/useGlobalData' {
   export default useGlobalData;
 }
 
+declare module '*.svg' {
+  import type {ComponentType, SVGProps} from 'react';
+
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+
+  export default ReactComponent;
+}
+
 declare module '*.module.css' {
   const classes: {readonly [key: string]: string};
   export default classes;

@@ -20,15 +20,16 @@ interface Props extends Tag {
   id: string;
 }
 
-const TagComp = React.forwardRef(
-  ({id, label, description}: Props, ref: React.RefObject<HTMLLIElement>) => {
+const TagComp = React.forwardRef<HTMLLIElement, Props>(
+  ({id, label, color, description}, ref) => {
     return (
       <li
         ref={ref}
         aria-describedby={id}
         className={styles.tag}
         title={description}>
-        <span>{label.toLowerCase()}</span>
+        <span className={styles.textLabel}>{label.toLowerCase()}</span>
+        <span className={styles.colorLabel} style={{backgroundColor: color}} />
       </li>
     );
   },
@@ -80,15 +81,17 @@ const ShowcaseCard = memo(function ({user}: {user: User}) {
           {user.tags.includes('favorite') && (
             <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
           )}
-          <Link
-            href={user.source}
-            tabIndex={0}
-            className={clsx(
-              'button button--secondary button--sm',
-              styles.showcaseCardSrcBtn,
-            )}>
-            source
-          </Link>
+          {user.source && (
+            <Link
+              href={user.source}
+              tabIndex={0}
+              className={clsx(
+                'button button--secondary button--sm',
+                styles.showcaseCardSrcBtn,
+              )}>
+              source
+            </Link>
+          )}
         </div>
         <p className={styles.showcaseCardBody}>{user.description}</p>
       </div>

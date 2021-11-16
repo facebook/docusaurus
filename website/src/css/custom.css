@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
- :root {
+:root {
   /*
   See css var + hsl color palette technique:
   https://blog.maximeheckel.com/posts/the-power-of-composition-with-css-variables/
@@ -28,17 +28,18 @@
     73%
   );
 
-  --ifm-color-feedback-background: #fff;
-  --site-color-background: #f6fdfd;
+  --site-color-feedback-background: #fff;
+  --site-color-favorite-background: #f6fdfd;
   --site-color-tooltip: #fff;
-  --site-color-tooltip-background: #242526;
+  --site-color-tooltip-background: #353738;
   --site-color-svgIcon-favorite: #e9669e;
-  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 30%);
 }
 
 html[data-theme='dark'] {
   --site-color-feedback-background: #f0f8ff;
   --site-color-favorite-background: #1d1e1e;
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
 }
 
 .docusaurus-highlight-code-line {
