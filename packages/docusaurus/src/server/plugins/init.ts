@@ -36,7 +36,7 @@ type NormalizedPluginConfig = {
   };
 };
 
-function loadPluginModule(
+function resolvePluginModule(
   pluginModuleImport: string,
   pluginRequire: NodeRequire,
 ): ImportedPluginModule | undefined {
@@ -48,33 +48,33 @@ function loadPluginModule(
   }
 }
 
-function resolvePluginModule(
+function loadPluginModule(
   pluginModuleImport: string,
   pluginRequire: NodeRequire,
   pluginType: PluginType,
 ): ImportedPluginModule {
-  const loadedPluginModules = [
+  const resolvedPluginModules = [
     `docusaurus-${pluginType}-${pluginModuleImport}`,
     `@docusaurus/${pluginType}-${pluginModuleImport}`,
     `@${pluginModuleImport}/docusaurus-${pluginType}`,
     pluginModuleImport,
   ]
     .map((pluginModuleImportAttempt) =>
-      loadPluginModule(pluginModuleImportAttempt, pluginRequire),
+      resolvePluginModule(pluginModuleImportAttempt, pluginRequire),
     )
     .filter(
       (pluginModule) => pluginModule !== undefined,
     ) as ImportedPluginModule[];
 
-  if (loadedPluginModules.length === 0) {
+  if (resolvedPluginModules.length === 0) {
     throw new Error(
-      `Docusaurus was unable to resolve the ${pluginModuleImport} ${pluginType}. Make sure one of the following packages are installed:\n${loadedPluginModules.map(
+      `Docusaurus was unable to resolve the ${pluginModuleImport} ${pluginType}. Make sure one of the following packages are installed:\n${resolvedPluginModules.map(
         (pluginModuleImportAttempt) => `* ${pluginModuleImportAttempt}\n`,
       )}`,
     );
   }
 
-  return loadedPluginModules[0];
+  return resolvedPluginModules[0];
 }
 
 function normalizePluginConfig(
@@ -88,7 +88,7 @@ function normalizePluginConfig(
   // plugins: ['@{company}/docusaurus-plugin']
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
-    const pluginModule = resolvePluginModule(
+    const pluginModule = loadPluginModule(
       pluginModuleImport,
       pluginRequire,
       pluginType,

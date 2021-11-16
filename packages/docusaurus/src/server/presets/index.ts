@@ -12,15 +12,56 @@ import {
   PluginConfig,
   Preset,
   PresetConfig,
+  PresetModuleImport,
 } from '@docusaurus/types';
+
+function resolvePresetModule(
+  pluginModuleImport: string,
+  pluginRequire: NodeRequire,
+): PresetModuleImport | undefined {
+  try {
+    const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    return importFresh<PresetModuleImport>(pluginPath);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function loadPresetModule(
+  presetModuleImport: string,
+  pluginRequire: NodeRequire,
+): PresetModuleImport {
+  const resolvedPresetModules = [
+    `docusaurus-preset-${presetModuleImport}`,
+    `@docusaurus/preset-${presetModuleImport}`,
+    `@${presetModuleImport}/docusaurus-preset`,
+    presetModuleImport,
+  ]
+    .map((presetModuleImportAttempt) =>
+      resolvePresetModule(presetModuleImportAttempt, pluginRequire),
+    )
+    .filter(
+      (presetModule) => presetModule !== undefined,
+    ) as PresetModuleImport[];
+
+  if (resolvedPresetModules.length === 0) {
+    throw new Error(
+      `Docusaurus was unable to resolve the ${presetModuleImport} preset. Make sure one of the following packages are installed:\n${resolvedPresetModules.map(
+        (presetModuleImportAttempt) => `* ${presetModuleImportAttempt}\n`,
+      )}`,
+    );
+  }
+
+  return resolvedPresetModules[0];
+}
 
 export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these plugins.
-  const pluginRequire = createRequire(context.siteConfigPath);
+  // We need to resolve presets from the perspective of the siteDir, since the siteDir's package.json
+  // declares the dependency on these presets.
+  const presetRequire = createRequire(context.siteConfigPath);
 
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: PluginConfig[][] = [];
@@ -37,15 +78,7 @@ export default function loadPresets(context: LoadContext): {
       throw new Error('Invalid presets format detected in config.');
     }
 
-    type PresetInitializeFunction = (
-      context: LoadContext,
-      presetOptions: Record<string, unknown>,
-    ) => Preset;
-    const presetModule = importFresh<
-      PresetInitializeFunction & {
-        default?: PresetInitializeFunction;
-      }
-    >(pluginRequire.resolve(presetModuleImport));
+    const presetModule = loadPresetModule(presetModuleImport, presetRequire);
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,

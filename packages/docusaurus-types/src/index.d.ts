@@ -152,6 +152,15 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
+export type PresetInitializeFunction = (
+  context: LoadContext,
+  presetOptions: Record<string, unknown>,
+) => Preset;
+
+export type PresetModuleImport = PresetInitializeFunction & {
+  default?: PresetInitializeFunction;
+};
+
 export type PresetConfig =
   | [string, Record<string, unknown>]
   | [string]
