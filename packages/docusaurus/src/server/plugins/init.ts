@@ -234,7 +234,7 @@ export default function initPlugins({
     }
   }
 
-  const pluginTypes = ['theme', 'plugin'] as PluginType[];
+  const pluginTypes = ['theme', 'plugin'] as const;
 
   const plugins: InitializedPlugin[] = pluginTypes
     .flatMap((pluginType: PluginType) =>
