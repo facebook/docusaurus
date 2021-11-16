@@ -23,6 +23,7 @@ import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 
 import {useLocation} from '@docusaurus/router';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import styles from './styles.module.css';
 
@@ -54,9 +55,11 @@ function filterUsers(
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
   const location = useLocation();
-  const operator = (new URLSearchParams(location.search).get(
-    OperatorQueryKey,
-  ) ?? 'OR') as Operator;
+  const isBrowser = useIsBrowser();
+  const operator = isBrowser
+    ? ((new URLSearchParams(location.search).get(OperatorQueryKey) ??
+        'OR') as Operator)
+    : 'OR';
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
     [selectedTags, operator],
