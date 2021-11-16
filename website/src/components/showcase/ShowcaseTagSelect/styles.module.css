@@ -22,6 +22,7 @@
   background-color: inherit;
 }
 
+input:focus + .checkboxLabel,
 .checkboxLabel:focus,
 .checkboxLabel:focus-visible,
 .checkboxLabel:hover {

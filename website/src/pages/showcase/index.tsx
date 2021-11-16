@@ -5,20 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 
 import Layout from '@theme/Layout';
 import clsx from 'clsx';
 
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
-import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
-import ShowcaseFilterCheckbox from '@site/src/components/showcase/ShowcaseFilterToggle';
+import ShowcaseTagSelect, {
+  readSearchTags,
+} from '@site/src/components/showcase/ShowcaseTagSelect';
+import ShowcaseFilterToggle from '@site/src/components/showcase/ShowcaseFilterToggle';
 import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
-import {toggleListItem} from '@site/src/utils/jsUtils';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
 
-import {useHistory, useLocation} from '@docusaurus/router';
+import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
@@ -60,23 +61,9 @@ function useFilteredUsers(
   );
 }
 
-const TagQueryStringKey = 'tags';
-
-function readSearchTags(search: string) {
-  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
-}
-
-function replaceSearchTags(search: string, newTags: TagType[]) {
-  const searchParams = new URLSearchParams(search);
-  searchParams.delete(TagQueryStringKey);
-  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
-  return searchParams.toString();
-}
-
 function useSelectedTags() {
   // The search query-string is the source of truth!
   const location = useLocation();
-  const {push} = useHistory();
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
@@ -87,19 +74,7 @@ function useSelectedTags() {
     setSelectedTags(tags);
   }, [location, setSelectedTags]);
 
-  // Update the QS value
-  const toggleTag = useCallback(
-    (tag: TagType) => {
-      const tags = readSearchTags(location.search);
-      const newTags = toggleListItem(tags, tag);
-      const newSearch = replaceSearchTags(location.search, newTags);
-      push({...location, search: newSearch});
-      // no need to call setSelectedTags, useEffect will do the sync
-    },
-    [location, push],
-  );
-
-  return {selectedTags, toggleTag};
+  return selectedTags;
 }
 
 function ShowcaseHeader() {
@@ -122,7 +97,6 @@ interface Props {
   operator: Operator;
   filteredUsers: User[];
   selectedTags: TagType[];
-  toggleTag: (tag: TagType) => void;
   setOperator: (op: Operator) => void;
 }
 
@@ -130,7 +104,6 @@ function ShowcaseFilters({
   operator,
   filteredUsers,
   selectedTags,
-  toggleTag,
   setOperator,
 }: Props) {
   return (
@@ -142,7 +115,7 @@ function ShowcaseFilters({
             filteredUsers.length > 1 ? 's' : ''
           })`}</p>
         </span>
-        <ShowcaseFilterCheckbox
+        <ShowcaseFilterToggle
           name="operator"
           label="Filter: "
           checked={operator === 'AND'}
@@ -157,8 +130,8 @@ function ShowcaseFilters({
           return (
             <li key={i} className={styles.checkboxListItem}>
               <Tooltip id={id} text={description} anchorEl="#__docusaurus">
-                <ShowcaseCheckbox
-                  name={tag}
+                <ShowcaseTagSelect
+                  tag={tag}
                   id={id}
                   label={label}
                   title={`${label}: ${description}`}
@@ -167,7 +140,6 @@ function ShowcaseFilters({
                       <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
                     )
                   }
-                  onChange={() => toggleTag(tag)}
                   checked={selectedTags.includes(tag)}
                 />
               </Tooltip>
@@ -255,7 +227,7 @@ function ShowcaseCards({
 }
 
 function Showcase(): JSX.Element {
-  const {selectedTags, toggleTag} = useSelectedTags();
+  const selectedTags = useSelectedTags();
   const [operator, setOperator] = useState<Operator>('OR');
   const filteredUsers = useFilteredUsers(sortedUsers, selectedTags, operator);
 
@@ -265,7 +237,6 @@ function Showcase(): JSX.Element {
         <ShowcaseHeader />
         <ShowcaseFilters
           selectedTags={selectedTags}
-          toggleTag={toggleTag}
           operator={operator}
           filteredUsers={filteredUsers}
           setOperator={setOperator}
