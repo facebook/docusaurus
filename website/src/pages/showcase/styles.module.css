@@ -71,7 +71,7 @@
 .showcaseFavorite {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  background-color: var(--site-color-favorite-background);
+  background-color: var(--site-color-background);
 }
 
 .showcaseFavoriteHeader {
