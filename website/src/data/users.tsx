@@ -912,7 +912,7 @@ const Users: User[] = [
     title: 'Pearl UI',
     description:
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
-    preview: require('./showcase/pearl_ui.png'),
+    preview: require('./showcase/pearl-ui.png'),
     website: 'https://www.pearl-ui.dev/',
     source: 'https://github.com/agrawal-rohit/pearl-ui',
     tags: ['opensource', 'design', 'product'],
