@@ -61,7 +61,6 @@ module.exports = {
       },
     ],
     'import/extensions': OFF,
-    'no-inner-declarations': OFF,
     'header/header': [
       ERROR,
       'block',

@@ -28,9 +28,8 @@ function normalizeCategoryLink(
 ): SidebarItemCategoryLink | undefined {
   if (category.link?.type === 'generated-index') {
     // default slug logic can be improved
-    function getDefaultSlug() {
-      return `/category/${params.categoryLabelSlugger.slug(category.label)}`;
-    }
+    const getDefaultSlug = () =>
+      `/category/${params.categoryLabelSlugger.slug(category.label)}`;
     const slug = category.link.slug ?? getDefaultSlug();
     const permalink = normalizeUrl([params.version.versionPath, slug]);
     return {
