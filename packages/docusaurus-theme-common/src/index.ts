@@ -22,6 +22,8 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
+export {useContextualSearchFilters} from './utils/useContextualSearchFilters';
+
 export {
   parseCodeBlockTitle,
   parseLanguage,

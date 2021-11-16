@@ -6,6 +6,7 @@
  */
 
 /* eslint-disable jsx-a11y/no-autofocus */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useEffect, useState, useReducer, useRef} from 'react';
 
@@ -32,7 +33,7 @@ import styles from './styles.module.css';
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
   const {selectMessage} = usePluralForm();
-  return (count) =>
+  return (count: number) =>
     selectMessage(
       count,
       translate(
@@ -52,14 +53,19 @@ function useDocsSearchVersionsHelpers() {
 
   // State of the version select menus / algolia facet filters
   // docsPluginId -> versionName map
-  const [searchVersions, setSearchVersions] = useState(() => {
-    return Object.entries(allDocsData).reduce((acc, [pluginId, pluginData]) => {
-      return {...acc, [pluginId]: pluginData.versions[0].name};
-    }, {});
-  });
+  const [searchVersions, setSearchVersions] = useState<Record<string, string>>(
+    () => {
+      return Object.entries(allDocsData).reduce(
+        (acc, [pluginId, pluginData]) => {
+          return {...acc, [pluginId]: pluginData.versions[0].name};
+        },
+        {},
+      );
+    },
+  );
 
   // Set the value of a single select menu
-  const setSearchVersion = (pluginId, searchVersion) =>
+  const setSearchVersion = (pluginId: string, searchVersion: string) =>
     setSearchVersions((s) => ({...s, [pluginId]: searchVersion}));
 
   const versioningEnabled = Object.values(allDocsData).some(
@@ -75,7 +81,11 @@ function useDocsSearchVersionsHelpers() {
 }
 
 // We want to display one select per versioned docs plugin instance
-const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
+const SearchVersionSelectList = ({
+  docsSearchVersionsHelpers,
+}: {
+  docsSearchVersionsHelpers: ReturnType<typeof useDocsSearchVersionsHelpers>;
+}) => {
   const versionedPluginEntries = Object.entries(
     docsSearchVersionsHelpers.allDocsData,
   )
@@ -118,10 +128,32 @@ const SearchVersionSelectList = ({docsSearchVersionsHelpers}) => {
   );
 };
 
-function SearchPage() {
+type ResultDispatcherState = {
+  items: {
+    title: string;
+    url: string;
+    summary: string;
+    breadcrumbs: string[];
+  }[];
+  query: string | null;
+  totalResults: number | null;
+  totalPages: number | null;
+  lastPage: number | null;
+  hasMore: boolean | null;
+  loading: boolean | null;
+};
+
+type ResultDispatcher =
+  | {type: 'reset'; value?: undefined}
+  | {type: 'loading'; value?: undefined}
+  | {type: 'update'; value: ResultDispatcherState}
+  | {type: 'advance'; value?: undefined};
+
+function SearchPage(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {
+        // @ts-ignore
         algolia: {appId, apiKey, indexName, externalUrlRegex},
       },
     },
@@ -131,7 +163,7 @@ function SearchPage() {
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
   const {searchQuery, setSearchQuery} = useSearchQuery();
-  const initialSearchResultState = {
+  const initialSearchResultState: ResultDispatcherState = {
     items: [],
     query: null,
     totalResults: null,
@@ -141,8 +173,8 @@ function SearchPage() {
     loading: null,
   };
   const [searchResultState, searchResultStateDispatcher] = useReducer(
-    (prevState, {type, value: state}) => {
-      switch (type) {
+    (prevState: ResultDispatcherState, data: ResultDispatcher) => {
+      switch (data.type) {
         case 'reset': {
           return initialSearchResultState;
         }
@@ -150,24 +182,24 @@ function SearchPage() {
           return {...prevState, loading: true};
         }
         case 'update': {
-          if (searchQuery !== state.query) {
+          if (searchQuery !== data.value.query) {
             return prevState;
           }
 
           return {
-            ...state,
+            ...data.value,
             items:
-              state.lastPage === 0
-                ? state.items
-                : prevState.items.concat(state.items),
+              data.value.lastPage === 0
+                ? data.value.items
+                : prevState.items.concat(data.value.items),
           };
         }
         case 'advance': {
-          const hasMore = prevState.totalPages > prevState.lastPage + 1;
+          const hasMore = prevState.totalPages! > prevState.lastPage! + 1;
 
           return {
             ...prevState,
-            lastPage: hasMore ? prevState.lastPage + 1 : prevState.lastPage,
+            lastPage: hasMore ? prevState.lastPage! + 1 : prevState.lastPage,
             hasMore,
           };
         }
@@ -193,7 +225,7 @@ function SearchPage() {
         return;
       }
 
-      const sanitizeValue = (value) => {
+      const sanitizeValue = (value: string) => {
         return value.replace(
           /algolia-docsearch-suggestion--highlight/g,
           'search-result-match',
@@ -212,7 +244,7 @@ function SearchPage() {
           });
 
           return {
-            title: titles.pop(),
+            title: titles.pop()!,
             url: isRegexpStringMatch(externalUrlRegex, parsedURL.href)
               ? parsedURL.href
               : parsedURL.pathname + parsedURL.hash,
@@ -239,7 +271,7 @@ function SearchPage() {
     },
   );
 
-  const [loaderRef, setLoaderRef] = useState(null);
+  const [loaderRef, setLoaderRef] = useState<HTMLDivElement | null>(null);
   const prevY = useRef(0);
   const observer = useRef(
     ExecutionEnvironment.canUseDOM &&
@@ -278,7 +310,7 @@ function SearchPage() {
           description: 'The search page title for empty query',
         });
 
-  const makeSearch = useDynamicCallback((page = 0) => {
+  const makeSearch = useDynamicCallback((page: number = 0) => {
     algoliaHelper.addDisjunctiveFacetRefinement('docusaurus_tag', 'default');
     algoliaHelper.addDisjunctiveFacetRefinement('language', currentLocale);
 
@@ -299,9 +331,11 @@ function SearchPage() {
       return undefined;
     }
     const currentObserver = observer.current;
-
-    currentObserver.observe(loaderRef);
-    return () => currentObserver.unobserve(loaderRef);
+    if (currentObserver) {
+      currentObserver.observe(loaderRef);
+      return () => currentObserver.unobserve(loaderRef);
+    }
+    return () => true;
   }, [loaderRef]);
 
   useEffect(() => {
