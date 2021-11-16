@@ -81,15 +81,17 @@ const ShowcaseCard = memo(function ({user}: {user: User}) {
           {user.tags.includes('favorite') && (
             <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
           )}
-          <Link
-            href={user.source}
-            tabIndex={0}
-            className={clsx(
-              'button button--secondary button--sm',
-              styles.showcaseCardSrcBtn,
-            )}>
-            source
-          </Link>
+          {user.source && (
+            <Link
+              href={user.source}
+              tabIndex={0}
+              className={clsx(
+                'button button--secondary button--sm',
+                styles.showcaseCardSrcBtn,
+              )}>
+              source
+            </Link>
+          )}
         </div>
         <p className={styles.showcaseCardBody}>{user.description}</p>
       </div>

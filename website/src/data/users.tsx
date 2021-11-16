@@ -63,7 +63,7 @@ export type User = {
   description: string;
   preview: any;
   website: string;
-  source: string;
+  source: string | null;
   tags: TagType[];
 };
 
