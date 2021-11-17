@@ -103,7 +103,7 @@ export const Tags: Record<TagType, Tag> = {
     label: 'I18n',
     description:
       'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-    color: '#a4ffb7',
+    color: '#127f82',
   },
 
   versioning: {
