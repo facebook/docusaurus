@@ -27,6 +27,7 @@ import {
 } from '@docusaurus/utils-validation';
 
 type NormalizedPluginConfig = {
+  resolvedPath?: string;
   plugin: PluginModule;
   options: PluginOptions;
   // Only available when a string is provided in config
@@ -39,20 +40,23 @@ type NormalizedPluginConfig = {
 function resolvePluginModule(
   pluginModuleImport: string,
   pluginRequire: NodeRequire,
-): ImportedPluginModule | undefined {
+): string | undefined {
   try {
-    const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    return importFresh<ImportedPluginModule>(pluginPath);
+    return pluginRequire.resolve(pluginModuleImport);
   } catch (e) {
     return undefined;
   }
 }
 
-function loadPluginModule(
+function importPluginModule(pluginPath: string): ImportedPluginModule {
+  return importFresh<ImportedPluginModule>(pluginPath);
+}
+
+function resolvePluginModuleWithAliases(
   pluginModuleImport: string,
   pluginRequire: NodeRequire,
   pluginType: PluginType,
-): ImportedPluginModule {
+): string {
   const resolvedPluginModules = [
     `docusaurus-${pluginType}-${pluginModuleImport}`,
     `@docusaurus/${pluginType}-${pluginModuleImport}`,
@@ -62,9 +66,7 @@ function loadPluginModule(
     .map((pluginModuleImportAttempt) =>
       resolvePluginModule(pluginModuleImportAttempt, pluginRequire),
     )
-    .filter(
-      (pluginModule) => pluginModule !== undefined,
-    ) as ImportedPluginModule[];
+    .filter((pluginModule) => pluginModule !== undefined) as string[];
 
   if (resolvedPluginModules.length === 0) {
     throw new Error(
@@ -88,12 +90,14 @@ function normalizePluginConfig(
   // plugins: ['@{company}/docusaurus-plugin']
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
-    const pluginModule = loadPluginModule(
+    const pluginModulePath = resolvePluginModuleWithAliases(
       pluginModuleImport,
       pluginRequire,
       pluginType,
     );
+    const pluginModule = importPluginModule(pluginModulePath);
     return {
+      resolvedPath: pluginModulePath,
       plugin: pluginModule?.default ?? pluginModule,
       options: {},
       pluginModule: {
@@ -117,11 +121,12 @@ function normalizePluginConfig(
     // ]
     if (typeof pluginConfig[0] === 'string') {
       const pluginModuleImport = pluginConfig[0];
-      const pluginModule = loadPluginModule(
+      const pluginModulePath = resolvePluginModuleWithAliases(
         pluginModuleImport,
         pluginRequire,
         pluginType,
       );
+      const pluginModule = importPluginModule(pluginModulePath);
       return {
         plugin: pluginModule?.default ?? pluginModule,
         options: pluginConfig[1] ?? {},
@@ -192,11 +197,11 @@ export default function initPlugins({
     normalizedPluginConfig: NormalizedPluginConfig,
   ): DocusaurusPluginVersionInformation {
     // get plugin version
-    if (normalizedPluginConfig.pluginModule?.path) {
-      const pluginPath = pluginRequire.resolve(
-        normalizedPluginConfig.pluginModule?.path,
+    if (normalizedPluginConfig.resolvedPath) {
+      return getPluginVersion(
+        normalizedPluginConfig.resolvedPath,
+        context.siteDir,
       );
-      return getPluginVersion(pluginPath, context.siteDir);
     } else {
       return {type: 'local'};
     }
