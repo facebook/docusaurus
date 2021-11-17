@@ -1,4 +1,5 @@
 ---
+sidebar_position: 9
 id: plugin-pwa
 title: '📦 plugin-pwa'
 slug: '/api/plugins/@docusaurus/plugin-pwa'
@@ -6,13 +7,13 @@ slug: '/api/plugins/@docusaurus/plugin-pwa'
 
 Docusaurus Plugin to add PWA support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production build only, and allows you to create fully PWA-compliant documentation site with offline and installation support.
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-pwa
 ```
 
-## Configuration
+## Configuration {#configuration}
 
 Create a [PWA manifest](https://web.dev/add-manifest/) at `./static/manifest.json`.
 
@@ -25,7 +26,11 @@ module.exports = {
       '@docusaurus/plugin-pwa',
       {
         debug: true,
-        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
         pwaHead: [
           {
             tagName: 'link',
@@ -49,7 +54,7 @@ module.exports = {
 };
 ```
 
-## Progressive Web App
+## Progressive Web App {#progressive-web-app}
 
 Having a service worker installed is not enough to make your application a PWA. You'll need to at least include a [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) and have the correct tags in `<head>` ([Options > pwaHead](#pwahead)).
 
@@ -57,13 +62,19 @@ After deployment, you can use [Lighthouse](https://developers.google.com/web/too
 
 For a more exhaustive list of what it takes for your site to be a PWA, refer to the [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
-## App installation support
+## App installation support {#app-installation-support}
 
 If your browser supports it, you should be able to install a Docusaurus site as an app.
 
 ![pwa_install.gif](/img/pwa_install.gif)
 
-## Offline mode (precaching)
+:::note
+
+App installation requires the https protocol and a valid manifest.
+
+:::
+
+## Offline mode (precaching) {#offline-mode-precaching}
 
 We enable users to browse a Docusaurus site offline, by using service-worker precaching.
 
@@ -85,9 +96,9 @@ Offline mode / precaching requires downloading all the static assets of the site
 
 :::
 
-## Options
+## Options {#options}
 
-### `debug`
+### `debug` {#debug}
 
 - Type: `boolean`
 - Default: `false`
@@ -99,14 +110,15 @@ Turn debug mode on:
 - Unoptimized SW file output
 - Source maps
 
-### `offlineModeActivationStrategies`
+### `offlineModeActivationStrategies` {#offlinemodeactivationstrategies}
 
 - Type: `Array<'appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always'>`
-- Default: `['appInstalled','queryString']`
+- Default: `['appInstalled','queryString','standalone']`
 
 Strategies used to turn the offline mode on:
 
-- `appInstalled`: activates for users having installed the site as an app
+- `appInstalled`: activates for users having installed the site as an app (not 100% reliable)
+- `standalone`: activates for users running the app as standalone (often the case once a PWA is installed)
 - `queryString`: activates if queryString contains `offlineMode=true` (convenient for PWA debugging)
 - `mobile`: activates for mobile users (width <= 940px)
 - `saveData`: activates for users with `navigator.connection.saveData === true`
@@ -118,7 +130,17 @@ Use this carefully: some users may not like to be forced to use the offline mode
 
 :::
 
-### `injectManifestConfig`
+:::danger
+
+It is not possible to detect if an as a PWA in a very reliable way.
+
+The `appinstalled` event has been [removed from the specification](https://github.com/w3c/manifest/pull/836), and the [`navigator.getInstalledRelatedApps()`](https://web.dev/get-installed-related-apps/) API is only supported in recent Chrome versions and require `related_applications` declared in the manifest.
+
+The [`standalone` strategy](https://petelepage.com/blog/2019/07/is-my-pwa-installed/) is a nice fallback to activate the offline mode (at least when running the installed app).
+
+:::
+
+### `injectManifestConfig` {#injectmanifestconfig}
 
 [Workbox options](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest) to pass to `workbox.injectManifest()`. This gives you control over which assets will be precached, and be available offline.
 
@@ -149,7 +171,7 @@ module.exports = {
 };
 ```
 
-### `reloadPopup`
+### `reloadPopup` {#reloadpopup}
 
 - Type: `string | false`
 - Default: `'@theme/PwaReloadPopup'`
@@ -166,11 +188,11 @@ interface PwaReloadPopupProps {
 }
 ```
 
-The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://facebookincubator.github.io/infima/docs/components/alert).
+The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://infima.dev/docs/components/alert).
 
 ![pwa_reload.gif](/img/pwa_reload.gif)
 
-### `pwaHead`
+### `pwaHead` {#pwahead}
 
 - Type: `Array<{ tagName: string } & Record<string,string>>`
 - Default: `[]`
@@ -237,7 +259,7 @@ module.exports = {
 };
 ```
 
-### `swCustom`
+### `swCustom` {#swcustom}
 
 - Type: `string | undefined`
 - Default: `undefined`
@@ -270,7 +292,7 @@ export default function swCustom(params) {
 
 The module should have a `default` function export, and receives some params.
 
-### `swRegister`
+### `swRegister` {#swregister}
 
 - Type: `string | false`
 - Default: `'docusaurus-plugin-pwa/src/registerSW.js'`
@@ -278,3 +300,15 @@ The module should have a `default` function export, and receives some params.
 Adds an entry before the Docusaurus app so that registration can happen before the app runs. The default `registerSW.js` file is enough for simple registration.
 
 Passing `false` will disable registration entirely.
+
+## Manifest example {#manifest-example}
+
+The Docusaurus site manifest can serve as an inspiration:
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-json">
+  {JSON.stringify(require("@site/static/manifest.json"),null,2)}
+</CodeBlock>
+```

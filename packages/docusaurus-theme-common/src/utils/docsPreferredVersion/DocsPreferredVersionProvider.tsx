@@ -15,7 +15,7 @@ import React, {
 import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
-import {useAllDocsData} from '@theme/hooks/useDocs';
+import {useAllDocsData, GlobalPluginData} from '@theme/hooks/useDocs';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 
@@ -54,7 +54,7 @@ function readStorageState({
 }: {
   pluginIds: string[];
   versionPersistence: DocsVersionPersistence;
-  allDocsData: any; // TODO find a way to type it :(
+  allDocsData: Record<string, GlobalPluginData>;
 }): DocsPreferredVersionState {
   // The storage value we read might be stale,
   // and belong to a version that does not exist in the site anymore
@@ -68,7 +68,7 @@ function readStorageState({
     );
     const pluginData = allDocsData[pluginId];
     const versionExists = pluginData.versions.some(
-      (version: any) => version.name === preferredVersionNameUnsafe,
+      (version) => version.name === preferredVersionNameUnsafe,
     );
     if (versionExists) {
       return {preferredVersionName: preferredVersionNameUnsafe};
@@ -120,7 +120,7 @@ function useContextValue() {
     return {
       savePreferredVersion,
     };
-  }, [setState]);
+  }, [versionPersistence]);
 
   return [state, api] as const;
 }
@@ -133,7 +133,7 @@ export function DocsPreferredVersionContextProvider({
   children,
 }: {
   children: ReactNode;
-}) {
+}): JSX.Element {
   if (isDocsPluginEnabled) {
     return (
       <DocsPreferredVersionContextProviderUnsafe>
@@ -149,7 +149,7 @@ function DocsPreferredVersionContextProviderUnsafe({
   children,
 }: {
   children: ReactNode;
-}) {
+}): JSX.Element {
   const contextValue = useContextValue();
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
@@ -158,7 +158,7 @@ export function useDocsPreferredVersionContext(): DocsPreferredVersionContextVal
   const value = useContext(Context);
   if (!value) {
     throw new Error(
-      "Can't find docs preferred context, maybe you forgot to use the DocsPreferredVersionContextProvider ?",
+      'Can\'t find docs preferred context, maybe you forgot to use the "DocsPreferredVersionContextProvider"?',
     );
   }
   return value;

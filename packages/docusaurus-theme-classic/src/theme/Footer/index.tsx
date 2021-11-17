@@ -9,12 +9,20 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
-import ThemedImage from '@theme/ThemedImage';
+import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
+import IconExternalLink from '@theme/IconExternalLink';
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
+function FooterLink({
+  to,
+  href,
+  label,
+  prependBaseUrlToHref,
+  ...props
+}: FooterLinkItem) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -23,21 +31,37 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}: any) {
       className="footer__link-item"
       {...(href
         ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
             href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             to: toUrl,
           })}
       {...props}>
-      {label}
+      {href && !isInternalUrl(href) ? (
+        <span>
+          {label}
+          <IconExternalLink />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
 
-const FooterLogo = ({sources, alt}) => (
-  <ThemedImage className="footer__logo" alt={alt} sources={sources} />
+const FooterLogo = ({
+  sources,
+  alt,
+  width,
+  height,
+}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) => (
+  <ThemedImage
+    className="footer__logo"
+    alt={alt}
+    sources={sources}
+    width={width}
+    height={height}
+  />
 );
 
 function Footer(): JSX.Element | null {
@@ -64,7 +88,7 @@ function Footer(): JSX.Element | null {
             {links.map((linkItem, i) => (
               <div key={i} className="col footer__col">
                 {linkItem.title != null ? (
-                  <h4 className="footer__title">{linkItem.title}</h4>
+                  <div className="footer__title">{linkItem.title}</div>
                 ) : null}
                 {linkItem.items != null &&
                 Array.isArray(linkItem.items) &&
@@ -98,13 +122,14 @@ function Footer(): JSX.Element | null {
             {logo && (logo.src || logo.srcDark) && (
               <div className="margin-bottom--sm">
                 {logo.href ? (
-                  <a
-                    href={logo.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.footerLogoLink}>
-                    <FooterLogo alt={logo.alt} sources={sources} />
-                  </a>
+                  <Link href={logo.href} className={styles.footerLogoLink}>
+                    <FooterLogo
+                      alt={logo.alt}
+                      sources={sources}
+                      width={logo.width}
+                      height={logo.height}
+                    />
+                  </Link>
                 ) : (
                   <FooterLogo alt={logo.alt} sources={sources} />
                 )}

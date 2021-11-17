@@ -7,8 +7,6 @@
 
 .tableOfContentsInline ul {
   list-style-type: disc;
-}
-
-.table-of-contents__link--inline {
-  color: var(--ifm-toc-link-color);
+  font-size: initial;
+  padding-top: 0;
 }

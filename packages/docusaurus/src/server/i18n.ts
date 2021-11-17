@@ -7,44 +7,82 @@
 import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
+import {getLangDir} from 'rtl-detect';
+import {NODE_MAJOR_VERSION} from '../constants';
+import chalk from 'chalk';
 
-export function defaultLocaleConfig(locale: string): I18nLocaleConfig {
+function getDefaultLocaleLabel(locale: string) {
+  // Intl.DisplayNames is ES2021 - Node14+
+  // https://v8.dev/features/intl-displaynames
+  // @ts-expect-error: wait for TS support of ES2021 feature
+  if (typeof Intl.DisplayNames !== 'undefined') {
+    // @ts-expect-error: wait for TS support of ES2021 feature
+    return new Intl.DisplayNames([locale], {type: 'language'}).of(locale);
+  }
+  return locale;
+}
+
+export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   return {
-    label: locale,
+    label: getDefaultLocaleLabel(locale),
+    direction: getLangDir(locale),
   };
+}
+
+export function shouldWarnAboutNodeVersion(
+  version: number,
+  locales: string[],
+): boolean {
+  const isOnlyEnglish = locales.length === 1 && locales.includes('en');
+  const isOlderNodeVersion = version < 14;
+  return isOlderNodeVersion && !isOnlyEnglish;
 }
 
 export async function loadI18n(
   config: DocusaurusConfig,
   options: {locale?: string} = {},
 ): Promise<I18n> {
-  const i18nConfig = config.i18n;
+  const {i18n: i18nConfig} = config;
+
   const currentLocale = options.locale ?? i18nConfig.defaultLocale;
 
-  if (currentLocale && !i18nConfig.locales.includes(currentLocale)) {
-    throw new Error(
-      `It is not possible to load Docusaurus with locale="${currentLocale}".
-This locale is not in the available locales of your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
-        ',',
-      )}]
+  if (!i18nConfig.locales.includes(currentLocale)) {
+    console.warn(
+      chalk.yellow(
+        `The locale "${currentLocale}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
+          ',',
+        )}.
 Note: Docusaurus only support running one locale at a time.`,
+      ),
+    );
+  }
+
+  const locales = i18nConfig.locales.includes(currentLocale)
+    ? i18nConfig.locales
+    : (i18nConfig.locales.concat(currentLocale) as [string, ...string[]]);
+
+  if (shouldWarnAboutNodeVersion(NODE_MAJOR_VERSION, locales)) {
+    console.warn(
+      chalk.yellow(
+        `To use Docusaurus i18n, it is strongly advised to use Node.js 14 or later (instead of ${NODE_MAJOR_VERSION}).`,
+      ),
     );
   }
 
   function getLocaleConfig(locale: string): I18nLocaleConfig {
-    // User provided values
-    const localeConfigOptions: Partial<I18nLocaleConfig> =
-      i18nConfig.localeConfigs[locale];
-
-    return {...defaultLocaleConfig(locale), ...localeConfigOptions};
+    return {
+      ...getDefaultLocaleConfig(locale),
+      ...i18nConfig.localeConfigs[locale],
+    };
   }
 
-  const localeConfigs = i18nConfig.locales.reduce((acc, locale) => {
+  const localeConfigs = locales.reduce((acc, locale) => {
     return {...acc, [locale]: getLocaleConfig(locale)};
   }, {});
 
   return {
-    ...i18nConfig,
+    defaultLocale: i18nConfig.defaultLocale,
+    locales,
     currentLocale,
     localeConfigs,
   };
@@ -78,7 +116,7 @@ export function localizePath({
     }
     // should never happen
     else {
-      throw new Error(`unhandled pathType=${pathType}`);
+      throw new Error(`Unhandled path type "${pathType}".`);
     }
   } else {
     return originalPath;

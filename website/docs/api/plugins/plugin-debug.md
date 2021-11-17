@@ -1,4 +1,5 @@
 ---
+sidebar_position: 5
 id: plugin-debug
 title: '📦 plugin-debug'
 slug: '/api/plugins/@docusaurus/plugin-debug'
@@ -12,11 +13,11 @@ It is mostly useful for plugin authors, that will be able to inspect more easily
 
 If you report a bug, we will probably ask you to have this plugin turned on in the production, so that we can inspect your deployment config more easily.
 
-If you don't have any sensitive information, you can keep it on in production [like we do](http://v2.docusaurus.io/__docusaurus/debug).
+If you don't have any sensitive information, you can keep it on in production [like we do](http://docusaurus.io/__docusaurus/debug).
 
 :::
 
-## Installation
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-debug
@@ -30,7 +31,7 @@ By default, it's enabled in dev, and disabled in prod, to avoid exposing potenti
 
 :::
 
-## Configuration
+## Configuration {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {

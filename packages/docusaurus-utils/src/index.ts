@@ -7,10 +7,8 @@
 
 import chalk from 'chalk';
 import path from 'path';
-import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import camelCase from 'lodash.camelcase';
-import kebabCase from 'lodash.kebabcase';
+import {camelCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -20,15 +18,35 @@ import {
   TranslationFile,
 } from '@docusaurus/types';
 
-// @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
-import {mapValues} from 'lodash';
+
+import {posixPath as posixPathImport} from './posixPath';
+import {simpleHash, docuHash} from './hashUtils';
+import {normalizeUrl} from './normalizeUrl';
+
+export * from './mdxUtils';
+export * from './normalizeUrl';
+export * from './tags';
+
+export const posixPath = posixPathImport;
+
+export * from './codeTranslationsUtils';
+export * from './markdownParser';
+export * from './markdownLinks';
+export * from './escapePath';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {
+  Globby,
+  GlobExcludeDefault,
+  createMatcher,
+  createAbsoluteFilePathMatcher,
+} from './globUtils';
 
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
   file: string,
-  content: any,
+  content: string,
   skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
@@ -59,11 +77,13 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: {[index: string]: any}) {
+export function objectWithKeySorted<T>(
+  obj: Record<string, T>,
+): Record<string, T> {
   // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
   return Object.keys(obj)
     .sort()
-    .reduce((acc: any, key: string) => {
+    .reduce((acc: Record<string, T>, key: string) => {
       acc[key] = obj[key];
       return acc;
     }, {});
@@ -90,22 +110,6 @@ export function encodePath(userpath: string): string {
     .join('/');
 }
 
-export function simpleHash(str: string, length: number): string {
-  return createHash('md5').update(str).digest('hex').substr(0, length);
-}
-
-/**
- * Given an input string, convert to kebab-case and append a hash.
- * Avoid str collision.
- */
-export function docuHash(str: string): string {
-  if (str === '/') {
-    return 'index';
-  }
-  const shortHash = simpleHash(str, 3);
-  return `${kebabCase(str)}-${shortHash}`;
-}
-
 /**
  * Convert first string character to the upper case.
  * E.g: docusaurus -> Docusaurus
@@ -126,20 +130,6 @@ export function genComponentName(pagePath: string): string {
   return upperFirst(camelCase(pageHash));
 }
 
-/**
- * Convert Windows backslash paths to posix style paths.
- * E.g: endi\\lie -> endi/lie
- */
-export function posixPath(str: string): string {
-  const isExtendedLengthPath = /^\\\\\?\\/.test(str);
-  const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
-
-  if (isExtendedLengthPath || hasNonAscii) {
-    return str;
-  }
-  return str.replace(/\\/g, '/');
-}
-
 // When you want to display a path in a message/warning/error,
 // it's more convenient to:
 // - make it relative to cwd()
@@ -147,7 +137,7 @@ export function posixPath(str: string): string {
 // This way, Jest tests can run more reliably on any computer/CI
 // on both Unix/Windows
 // For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
-export function toMessageRelativeFilePath(filePath: string) {
+export function toMessageRelativeFilePath(filePath: string): string {
   return posixPath(path.relative(process.cwd(), filePath));
 }
 
@@ -204,172 +194,6 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
-export function createExcerpt(fileString: string): string | undefined {
-  const fileLines = fileString.trimLeft().split('\n');
-
-  /* eslint-disable no-continue */
-  for (const fileLine of fileLines) {
-    // Skip empty line.
-    if (!fileLine.trim()) {
-      continue;
-    }
-
-    // Skip import/export declaration.
-    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
-      continue;
-    }
-
-    const cleanedLine = fileLine
-      // Remove HTML tags.
-      .replace(/<[^>]*>/g, '')
-      // Remove ATX-style headers.
-      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
-      // Remove emphasis and strikethroughs.
-      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
-      // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
-      // Remove inline links.
-      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
-      // Remove inline code.
-      .replace(/`(.+?)`/g, '$1')
-      // Remove blockquotes.
-      .replace(/^\s{0,3}>\s?/g, '')
-      // Remove admonition definition.
-      .replace(/(:{3}.*)/, '')
-      // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?(:(::|[^:\n])+:)/g, '')
-      .trim();
-
-    if (cleanedLine) {
-      return cleanedLine;
-    }
-  }
-
-  return undefined;
-}
-
-type ParsedMarkdown = {
-  frontMatter: {
-    // Returned by gray-matter
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-  };
-  content: string;
-  excerpt: string | undefined;
-};
-export function parseMarkdownString(markdownString: string): ParsedMarkdown {
-  const options: Record<string, unknown> = {
-    excerpt: (file: matter.GrayMatterFile<string>): void => {
-      // Hacky way of stripping out import statements from the excerpt
-      // TODO: Find a better way to do so, possibly by compiling the Markdown content,
-      // stripping out HTML tags and obtaining the first line.
-      file.excerpt = createExcerpt(file.content);
-    },
-  };
-
-  try {
-    const {data: frontMatter, content, excerpt} = matter(
-      markdownString,
-      options,
-    );
-    return {frontMatter, content, excerpt};
-  } catch (e) {
-    throw new Error(`Error while parsing markdown front matter.
-This can happen if you use special characters like : in frontmatter values (try using "" around that value)
-${e.message}`);
-  }
-}
-
-export async function parseMarkdownFile(
-  source: string,
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing markdown file ${source}
-${e.message}`,
-    );
-  }
-}
-
-export function normalizeUrl(rawUrls: string[]): string {
-  const urls = rawUrls;
-  const resultArray = [];
-
-  let hasStartingSlash = false;
-  let hasEndingSlash = false;
-
-  // If the first part is a plain protocol, we combine it with the next part.
-  if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
-    const first = urls.shift();
-    urls[0] = first + urls[0];
-  }
-
-  // There must be two or three slashes in the file protocol,
-  // two slashes in anything else.
-  const replacement = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
-  urls[0] = urls[0].replace(/^([^/:]+):\/*/, replacement);
-
-  // eslint-disable-next-line
-  for (let i = 0; i < urls.length; i++) {
-    let component = urls[i];
-
-    if (typeof component !== 'string') {
-      throw new TypeError(`Url must be a string. Received ${typeof component}`);
-    }
-
-    if (component === '') {
-      if (i === urls.length - 1 && hasEndingSlash) {
-        resultArray.push('/');
-      }
-      // eslint-disable-next-line
-      continue;
-    }
-
-    if (component !== '/') {
-      if (i > 0) {
-        // Removing the starting slashes for each component but the first.
-        component = component.replace(
-          /^[/]+/,
-          // Special case where the first element of rawUrls is empty ["", "/hello"] => /hello
-          component[0] === '/' && !hasStartingSlash ? '/' : '',
-        );
-      }
-
-      hasEndingSlash = component[component.length - 1] === '/';
-      // Removing the ending slashes for each component but the last.
-      // For the last component we will combine multiple slashes to a single one.
-      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
-    }
-
-    hasStartingSlash = true;
-    resultArray.push(component);
-  }
-
-  let str = resultArray.join('/');
-  // Each input component is now separated by a single slash
-  // except the possible first plain protocol part.
-
-  // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(\?|&|#[^!])/g, '$1');
-
-  // Replace ? in parameters with &.
-  const parts = str.split('?');
-  str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
-
-  // Dedupe forward slashes in the entire path, avoiding protocol slashes.
-  str = str.replace(/([^:]\/)\/+/g, '$1');
-
-  // Dedupe forward slashes at the beginning of the path.
-  str = str.replace(/^\/+/g, '/');
-
-  return str;
-}
-
 /**
  * Alias filepath relative to site directory, very useful so that we
  * don't expose user's site structure.
@@ -411,13 +235,15 @@ export function resolvePathname(to: string, from?: string): string {
 export function addLeadingSlash(str: string): string {
   return str.startsWith('/') ? str : `/${str}`;
 }
-export function addTrailingSlash(str: string): string {
-  return str.endsWith('/') ? str : `${str}/`;
-}
+
 export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
 }
 
+// TODO deduplicate: also present in @docusaurus/utils-common
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
@@ -433,12 +259,6 @@ export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
-export function getFilePathForRoutePath(routePath: string): string {
-  const fileName = path.basename(routePath);
-  const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}/index.html`);
-}
-
 export function getElementsAround<T extends unknown>(
   array: T[],
   aroundIndex: number,
@@ -450,7 +270,7 @@ export function getElementsAround<T extends unknown>(
   const max = array.length - 1;
   if (aroundIndex < min || aroundIndex > max) {
     throw new Error(
-      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+      `Valid "aroundIndex" for array (of size ${array.length}) are between ${min} and ${max}, but you provided ${aroundIndex}.`,
     );
   }
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
@@ -491,8 +311,8 @@ export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
     results.push(result);
   }
@@ -503,8 +323,8 @@ export async function findAsyncSequential<T>(
   array: T[],
   predicate: (t: T) => Promise<boolean>,
 ): Promise<T | undefined> {
+  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
       return t;
     }
@@ -533,7 +353,7 @@ export async function getFolderContainingFile(
   // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
     throw new Error(
-      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
         '\n- ',
       )}]`,
     );
@@ -561,7 +381,7 @@ export function reportMessage(
       throw new Error(message);
     default:
       throw new Error(
-        `unexpected reportingSeverity value: ${reportingSeverity}`,
+        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
       );
   }
 }
@@ -601,4 +421,22 @@ export function updateTranslationFileMessages(
       message: updateMessage(translation.message),
     })),
   };
+}
+
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(heading: string): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
 }

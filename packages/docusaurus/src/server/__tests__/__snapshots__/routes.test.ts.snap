@@ -38,16 +38,17 @@ Object {
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
+
 export default [
-{
-  path: '/blog',
-  component: ComponentCreator('/blog','94e'),
-  exact: true,
-},
-{
-  path: '*',
-  component: ComponentCreator('*')
-}
+  {
+    path: '/blog',
+    component: ComponentCreator('/blog','94e'),
+    exact: true
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
 ];
 ",
   "routesPaths": Array [
@@ -90,16 +91,16 @@ Object {
     },
   },
   "routesChunkNames": Object {
-    "/docs/hello-f94": Object {
+    "/docs/hello-44b": Object {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-838": Object {
+    "/docs:route-63b": Object {
       "component": "component---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-f88": Object {
+    "docs/foo/baz-ac2": Object {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
@@ -108,28 +109,29 @@ Object {
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
+
 export default [
-{
-  path: '/docs:route',
-  component: ComponentCreator('/docs:route','838'),
-  
-  routes: [
-{
-  path: '/docs/hello',
-  component: ComponentCreator('/docs/hello','f94'),
-  exact: true,
-},
-{
-  path: 'docs/foo/baz',
-  component: ComponentCreator('docs/foo/baz','f88'),
-  
-},
-]
-},
-{
-  path: '*',
-  component: ComponentCreator('*')
-}
+  {
+    path: '/docs:route',
+    component: ComponentCreator('/docs:route','63b'),
+    routes: [
+      {
+        path: '/docs/hello',
+        component: ComponentCreator('/docs/hello','44b'),
+        exact: true,
+        'sidebar': \\"main\\"
+      },
+      {
+        path: 'docs/foo/baz',
+        component: ComponentCreator('docs/foo/baz','ac2'),
+        'sidebar': \\"secondary\\"
+      }
+    ]
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
 ];
 ",
   "routesPaths": Array [
@@ -156,16 +158,16 @@ Object {
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
+
 export default [
-{
-  path: '',
-  component: ComponentCreator('','b2a'),
-  
-},
-{
-  path: '*',
-  component: ComponentCreator('*')
-}
+  {
+    path: '',
+    component: ComponentCreator('','b2a')
+  },
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
 ];
 ",
   "routesPaths": Array [

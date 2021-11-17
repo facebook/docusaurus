@@ -1,0 +1,113 @@
+name: 🐛 Bug Report
+description: Submit a bug report to help us improve
+labels: [bug, needs triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Please help us help you!
+
+        Make it obvious to understand and reproduce this bug. Ideally, we should be able to understand it without running any code.
+
+        Bugs are fixed faster if you include:
+        - A repro repository to inspect the code
+        - An url to see the problem live (if possible)
+
+        Pro tip: create a reproducible demo of the bug with https://new.docusaurus.io.
+
+  - type: checkboxes
+    attributes:
+      label: Have you read the Contributing Guidelines on issues?
+      options:
+        - label: I have read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md#reporting-new-issues).
+          required: true
+
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      description: Please check the following items before creating a issue. This way we know you've done these steps first.
+      options:
+        - label: I'm using the latest version of Docusaurus.
+          required: true
+        - label: I have tried the `npm run clear` or `yarn clear` command.
+        - label: I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
+        - label: I have tried creating a repro with https://new.docusaurus.io.
+        - label: I have read the console error message carefully (if applicable).
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+      placeholder: |
+        Write your steps here.
+
+        1. Step 1...
+        2. Step 2...
+        3. Step 3...
+    validations:
+      required: true
+
+  - type: textarea
+
+    attributes:
+      label: Expected behavior
+      description: |
+        How did you expect your project to behave? It’s fine if you’re not sure your understanding is correct. Write down what you thought would happen.
+      placeholder: Write what you thought would happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      description: |
+        Did something go wrong? Is something broken, or not behaving as you expected?
+        Describe this section in detail, and attach screenshots if possible. Don't only say "it doesn't work"!
+        Please submit exhaustive and complete log messages (we also need the error stack-traces, not just the message).
+        > Please read error messages carefully: it often tells you exactly what you are doing wrong.
+      placeholder: Write what happened. Add full console log messages and screenshots, if applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Your environment
+      description: Include as many relevant details about the environment you experienced the bug in.
+      value: |
+        - Public source code:
+        - Public site URL:
+        - Docusaurus version used:
+        - Environment name and version (e.g. Chrome 89, Node.js 16.4):
+        - Operating system and version (e.g. Ubuntu 20.04.2 LTS):
+
+  - type: input
+    attributes:
+      label: Reproducible demo
+      description: |
+        Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue. Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+
+        > **What happens if you skip this step?** Someone will read your bug report, and maybe will be able to help you, but it’s unlikely that it will get much attention from the team. Eventually, the issue will likely get closed in favor of issues that have reproducible demos.
+
+        Please remember that:
+
+        - Issues without reproducible demos have a very low priority.
+        - The person fixing the bug would have to do that anyway. Please be respectful of their time.
+        - You might figure out the issues yourself as you work on extracting it.
+
+        Thanks for helping us help you!
+
+  - type: checkboxes
+    attributes:
+      label: Self-service
+      description: |
+        If you feel like you could contribute to this issue, please check the box below. This would tell us and other people looking for contributions that someone's working on it.
+        If you do check this box, please send a pull request within 7 days so we can still delegate this to someone else.
+      options:
+        - label: I'd be willing to fix this bug myself.

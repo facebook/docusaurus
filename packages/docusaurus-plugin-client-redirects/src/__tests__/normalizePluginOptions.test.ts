@@ -50,7 +50,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad fromExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        fromExtensions: ([null, undefined, 123, true] as unknown) as string[],
+        fromExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -58,7 +58,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad toExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        toExtensions: ([null, undefined, 123, true] as unknown) as string[],
+        toExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -66,10 +66,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad createRedirects user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        createRedirects: ([
-          'bad',
-          'value',
-        ] as unknown) as CreateRedirectsFnOption,
+        createRedirects: ['bad', 'value'] as unknown as CreateRedirectsFnOption,
       }),
     ).toThrowErrorMatchingSnapshot();
   });

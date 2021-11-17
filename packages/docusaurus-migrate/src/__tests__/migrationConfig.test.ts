@@ -13,7 +13,7 @@ describe('create config', () => {
   test('simple test', () => {
     const v1Config: VersionOneConfig = importFresh(
       `${__dirname}/__fixtures__/sourceSiteConfig.js`,
-    ) as any;
+    );
     const siteDir = 'website';
     const newDir = 'websiteMigrated';
 

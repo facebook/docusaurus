@@ -30,3 +30,6 @@ packages:
 # Log settings
 logs:
   - {type: stdout, format: pretty, level: http}
+
+# Fix 413 errors in e2e CI
+max_body_size: 1000mb

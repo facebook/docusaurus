@@ -4,16 +4,38 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
+import path from 'path';
 import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins, {InitPlugin} from '../server/plugins/init';
+import initPlugins from '../server/plugins/init';
 
 import {
   writePluginTranslations,
   writeCodeTranslations,
   WriteTranslationsOptions,
+  getPluginsDefaultCodeTranslationMessages,
+  applyDefaultCodeTranslations,
 } from '../server/translations/translations';
-import {extractPluginsSourceCodeTranslations} from '../server/translations/translationsExtractor';
+import {
+  extractSiteSourceCodeTranslations,
+  globSourceCodeFilePaths,
+} from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+
+// This is a hack, so that @docusaurus/theme-common translations are extracted!
+// A theme doesn't have a way to express that one of its dependency (like @docusaurus/theme-common) also has translations to extract
+// Instead of introducing a new lifecycle (like plugin.getThemeTranslationPaths() ?)
+// We just make an exception and assume that Docusaurus user is using an official theme
+async function getExtraSourceCodeFilePaths(): Promise<string[]> {
+  try {
+    const themeCommonSourceDir = path.dirname(
+      require.resolve('@docusaurus/theme-common/lib'),
+    );
+    return globSourceCodeFilePaths([themeCommonSourceDir]);
+  } catch (e) {
+    return []; // User may not use a Docusaurus official theme? Quite unlikely...
+  }
+}
 
 async function writePluginTranslationFiles({
   siteDir,
@@ -22,12 +44,15 @@ async function writePluginTranslationFiles({
   options,
 }: {
   siteDir: string;
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   locale: string;
   options: WriteTranslationsOptions;
 }) {
   if (plugin.getTranslationFiles) {
-    const translationFiles = await plugin.getTranslationFiles();
+    const content = await plugin.loadContent?.();
+    const translationFiles = await plugin.getTranslationFiles({
+      content,
+    });
 
     await Promise.all(
       translationFiles.map(async (translationFile) => {
@@ -45,9 +70,12 @@ async function writePluginTranslationFiles({
 
 export default async function writeTranslations(
   siteDir: string,
-  options: WriteTranslationsOptions & {locale?: string},
+  options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
 ): Promise<void> {
-  const context = await loadContext(siteDir);
+  const context = await loadContext(siteDir, {
+    customConfigFilePath: options.config,
+    locale: options.locale,
+  });
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({
     pluginConfigs,
@@ -58,9 +86,8 @@ export default async function writeTranslations(
 
   if (!context.i18n.locales.includes(locale)) {
     throw new Error(
-      `Can't write-translation for locale that is not in the locale configuration file.
-Unknown locale=[${locale}].
-Available locales=[${context.i18n.locales.join(',')}]`,
+      `Can't write-translation for locale "${locale}" that is not in the locale configuration file.
+Available locales are: ${context.i18n.locales.join(',')}.`,
     );
   }
 
@@ -68,10 +95,21 @@ Available locales=[${context.i18n.locales.join(',')}]`,
     isServer: true,
     babelOptions: getCustomBabelConfigFilePath(siteDir),
   });
-  const codeTranslations = await extractPluginsSourceCodeTranslations(
+  const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
+    siteDir,
     plugins,
     babelOptions,
+    await getExtraSourceCodeFilePaths(),
   );
+  const defaultCodeMessages = await getPluginsDefaultCodeTranslationMessages(
+    plugins,
+  );
+
+  const codeTranslations = applyDefaultCodeTranslations({
+    extractedCodeTranslations,
+    defaultCodeMessages,
+  });
+
   await writeCodeTranslations({siteDir, locale}, codeTranslations, options);
 
   await Promise.all(
