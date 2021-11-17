@@ -10,7 +10,7 @@ const fs = require('fs');
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
   [
-    '@docusaurus/plugin-content-docs',
+    'content-docs',
     /** @type {import('@docusaurus/plugin-content-docs').Options} */
     ({
       id: 'docs-tests',
@@ -24,7 +24,7 @@ const dogfoodingPluginInstances = [
   ],
 
   [
-    '@docusaurus/plugin-content-blog',
+    'content-blog',
     /** @type {import('@docusaurus/plugin-content-blog').Options} */
     ({
       id: 'blog-tests',
@@ -46,7 +46,7 @@ const dogfoodingPluginInstances = [
   ],
 
   [
-    '@docusaurus/plugin-content-pages',
+    'content-pages',
     /** @type {import('@docusaurus/plugin-content-pages').Options} */
     ({
       id: 'pages-tests',

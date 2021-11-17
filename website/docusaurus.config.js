@@ -113,11 +113,11 @@ const config = {
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['live-codeblock'],
   plugins: [
     FeatureRequestsPlugin,
     [
-      '@docusaurus/plugin-content-docs',
+      'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
         id: 'community',
@@ -136,7 +136,7 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-client-redirects',
+      'client-redirects',
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
         fromExtensions: ['html'],
@@ -165,7 +165,7 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-ideal-image',
+      'ideal-image',
       {
         quality: 70,
         max: 1030, // max resized image's size.
@@ -174,7 +174,7 @@ const config = {
       },
     ],
     [
-      '@docusaurus/plugin-pwa',
+      'pwa',
       {
         debug: isDeployPreview,
         offlineModeActivationStrategies: [
@@ -238,7 +238,7 @@ const config = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
