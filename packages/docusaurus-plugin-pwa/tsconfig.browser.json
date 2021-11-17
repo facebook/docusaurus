@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "jsx": "react-native"
+  },
+  "include": ["src/theme/", "src/*.d.ts"]
+}

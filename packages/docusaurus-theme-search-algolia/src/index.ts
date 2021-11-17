@@ -5,26 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs');
-const eta = require('eta');
-const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
-const openSearchTemplate = require('./templates/opensearch');
-const {validateThemeConfig} = require('./validateThemeConfig');
-const {memoize} = require('lodash');
+import path from 'path';
+import fs from 'fs';
+import {defaultConfig, compile} from 'eta';
+import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
+import openSearchTemplate from './templates/opensearch';
+import {memoize} from 'lodash';
+
+import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
 const getCompiledOpenSearchTemplate = memoize(() => {
-  return eta.compile(openSearchTemplate.trim());
+  return compile(openSearchTemplate.trim());
 });
 
-function renderOpenSearchTemplate(data) {
+function renderOpenSearchTemplate(data: {
+  title: string;
+  url: string;
+  favicon: string | null;
+}) {
   const compiled = getCompiledOpenSearchTemplate();
-  return compiled(data, eta.defaultConfig);
+  return compiled(data, defaultConfig);
 }
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
-function theme(context) {
+export default function theme(
+  context: DocusaurusContext & {baseUrl: string},
+): Plugin<void> {
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
@@ -37,12 +44,16 @@ function theme(context) {
   return {
     name: 'docusaurus-theme-search-algolia',
 
+    getPathsToWatch() {
+      return [pagePath];
+    },
+
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
 
-    getPathsToWatch() {
-      return [pagePath];
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '..', 'src', 'theme');
     },
 
     async contentLoaded({actions: {addRoute}}) {
@@ -87,6 +98,4 @@ function theme(context) {
   };
 }
 
-module.exports = theme;
-
-theme.validateThemeConfig = validateThemeConfig;
+export {validateThemeConfig} from './validateThemeConfig';

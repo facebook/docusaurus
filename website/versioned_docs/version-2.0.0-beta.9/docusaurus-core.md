@@ -133,9 +133,7 @@ const MyComponent = () => {
   return (
     // highlight-start
     <BrowserOnly>
-      {() => {
-        <span>page url = {window.location.href}</span>;
-      }}
+      {() => <span>page url = {window.location.href}</span>}
     </BrowserOnly>
     // highlight-end
   );

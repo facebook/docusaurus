@@ -8,3 +8,7 @@
 declare module 'resolve-pathname' {
   export default function resolvePathname(to: string, from?: string): string;
 }
+
+declare module '@mdx-js/runtime';
+declare module 'remark-mdx-remove-imports';
+declare module 'remark-mdx-remove-exports';

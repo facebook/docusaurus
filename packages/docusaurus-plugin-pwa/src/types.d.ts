@@ -5,5 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {default as applyTrailingSlash} from './applyTrailingSlash';
-export type {ApplyTrailingSlashParams} from './applyTrailingSlash';
+/// <reference types="@docusaurus/module-type-aliases" />

@@ -412,9 +412,7 @@ interface HtmlTagObject {
    * Attributes of the html tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
    */
-  attributes?: {
-    [attributeName: string]: string | boolean;
-  };
+  attributes?: Partial<Record<string, string | boolean>>;
   /**
    * The tag name e.g. `div`, `script`, `link`, `meta`
    */

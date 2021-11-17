@@ -550,6 +550,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Froggit',
+    description: 'French software factory based entirely on Free Software.',
+    preview: require('./showcase/froggit.png'),
+    website: 'https://www.froggit.fr/',
+    source: 'https://lab.frogg.it/froggit/www/froggit.fr',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Gladys Assistant',
     description: 'A privacy-first, open-source home assistant',
     preview: require('./showcase/gladys-assistant.png'),
@@ -1251,6 +1259,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Shotstack',
+    description: 'The cloud video editing API',
+    preview: require('./showcase/shotstack.png'),
+    website: 'https://shotstack.io/docs/guide/',
+    source: 'https://github.com/shotstack/documentation',
+    tags: ['product', 'design', 'opensource'],
+  },
+  {
     title: 'social-embed',
     description:
       'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
@@ -1546,12 +1562,12 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
-    title: 'Signoz',
+    title: 'SigNoz',
     description: 'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
     preview: require('./showcase/signoz.png'),
     website: 'https://signoz.io/',
-    source: 'https://github.com/SigNoz/signoz',
-    tags: ['opensource', 'product'],
+    source: null,
+    tags: ['product', 'design'],
   },
 
   /*
