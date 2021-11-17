@@ -127,7 +127,7 @@
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
   integrity sha512-vG6SvB6oYEhvgisZNFRmRCUkLz11c7rp+tbNTynGqc6mS1d5ATd/sGyV6W0KZZnXRKMTzZDRgQT3Ou9jhpAfUg==
   dependencies:
     "@babel/highlight" "^7.10.4"
@@ -139,19 +139,12 @@
   dependencies:
     "@babel/highlight" "^7.10.4"
 
-"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.14.5", "@babel/code-frame@^7.15.8":
+"@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.14.5", "@babel/code-frame@^7.15.8", "@babel/code-frame@^7.5.5":
   version "7.15.8"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.15.8.tgz#45990c47adadb00c03677baa89221f7cc23d2503"
   integrity sha512-2IAnmn8zbvC/jKYhq5Ki9I+DwjlrtMPUCH/CpHvqI4dNnlwHwsxoIhlc8WcYY5LSYknXQtAlFYuHfqAFCvQ4Wg==
   dependencies:
     "@babel/highlight" "^7.14.5"
-
-"@babel/code-frame@^7.5.5":
-  version "7.16.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@babel/code-frame/-/code-frame-7.16.0.tgz#0dfc80309beec8411e65e706461c408b0bb9b431"
-  integrity sha512-IF4EOMEV+bfYwOmNxGzSnjR2EmQod7f1UXOpZM3l4i4o4QNwzjtJAu/HxdjHq0aYBvdqMuQEY1eg0nqW9ZPORA==
-  dependencies:
-    "@babel/highlight" "^7.16.0"
 
 "@babel/compat-data@^7.13.11", "@babel/compat-data@^7.15.0":
   version "7.15.0"
@@ -428,15 +421,6 @@
   integrity sha512-qf9u2WFWVV0MppaL877j2dBtQIDgmidgjGk5VIMw3OadXvYaXn66U1BFlH2t4+t3i+8PhedppRv+i40ABzd+gg==
   dependencies:
     "@babel/helper-validator-identifier" "^7.14.5"
-    chalk "^2.0.0"
-    js-tokens "^4.0.0"
-
-"@babel/highlight@^7.16.0":
-  version "7.16.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@babel/highlight/-/highlight-7.16.0.tgz#6ceb32b2ca4b8f5f361fb7fd821e3fddf4a1725a"
-  integrity sha512-t8MH41kUQylBtu2+4IQA3atqevA2lRgqA2wyVB/YiWmsDSuylZZuXOUy9ric30hfzauEFfdsuk/eXTRrGrfd0g==
-  dependencies:
-    "@babel/helper-validator-identifier" "^7.15.7"
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
@@ -1194,7 +1178,7 @@
 
 "@docusaurus/core@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/core/-/core-2.0.0-beta.8.tgz#7e24547a26e34e4d288f19883e08ac29b7946325"
+  resolved "https://registry.yarnpkg.com/@docusaurus/core/-/core-2.0.0-beta.8.tgz#7e24547a26e34e4d288f19883e08ac29b7946325"
   integrity sha512-KVbZoOCxQKvbX1RT8qrHAsPVYPGDnXFevTeJbZW1XQb0OPv7oh5nijXJvzNeGupXP561BByrsdHT7IxM/hT0CQ==
   dependencies:
     "@babel/core" "^7.12.16"
@@ -1279,7 +1263,7 @@
 
 "@docusaurus/cssnano-preset@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/cssnano-preset/-/cssnano-preset-2.0.0-beta.8.tgz#0e83ad9e70e64709c23aa8cc565ec43d135e9abc"
+  resolved "https://registry.yarnpkg.com/@docusaurus/cssnano-preset/-/cssnano-preset-2.0.0-beta.8.tgz#0e83ad9e70e64709c23aa8cc565ec43d135e9abc"
   integrity sha512-RXApzIEaTsTSpz4YV86DBXaFvXH3J4SNIWba/AFSoPBviODjxIu+7TRRs9eh8vUAB32nVBtcdHmRb25b662szQ==
   dependencies:
     cssnano-preset-advanced "^5.1.4"
@@ -1288,7 +1272,7 @@
 
 "@docusaurus/mdx-loader@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/mdx-loader/-/mdx-loader-2.0.0-beta.8.tgz#c64a81988975ea5ed969e8a164136a2aaa035da1"
+  resolved "https://registry.yarnpkg.com/@docusaurus/mdx-loader/-/mdx-loader-2.0.0-beta.8.tgz#c64a81988975ea5ed969e8a164136a2aaa035da1"
   integrity sha512-unVimkaAGgkt+d/QgQPwm8FaRZVB0jew6Q902KSl1Hx0yWI/x5LKWY/y4kCFUBv7rCsuSqyjoZwggD+evw//bg==
   dependencies:
     "@babel/parser" "^7.12.16"
@@ -1312,7 +1296,7 @@
 
 "@docusaurus/plugin-content-blog@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-content-blog/-/plugin-content-blog-2.0.0-beta.8.tgz#f7405b04cbde4cff6ea9aaf281f171f147133cd8"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-content-blog/-/plugin-content-blog-2.0.0-beta.8.tgz#f7405b04cbde4cff6ea9aaf281f171f147133cd8"
   integrity sha512-sUAk3MZrZL7YMp66h+pIy0rOQYFovB8kh9LbDdTXREDyTViCygfkr/6sFPRWpoFzws/kbXoRCPIPcrzcYj+/Pw==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1336,7 +1320,7 @@
 
 "@docusaurus/plugin-content-docs@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-content-docs/-/plugin-content-docs-2.0.0-beta.8.tgz#b248689ea85201a38c21e285819f400820c1c936"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-content-docs/-/plugin-content-docs-2.0.0-beta.8.tgz#b248689ea85201a38c21e285819f400820c1c936"
   integrity sha512-uE8mI5zQFcwtxAbycxv6G7ALtqKgNwd4URuJhv4VQ2DhR5uta/yd9IK8BPduwrbYLWZuGf2uO3jVsPbgNBZ0RQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1362,7 +1346,7 @@
 
 "@docusaurus/plugin-content-pages@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-content-pages/-/plugin-content-pages-2.0.0-beta.8.tgz#fdc6687917091ad5f62b332feb6add9c29b6b169"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-content-pages/-/plugin-content-pages-2.0.0-beta.8.tgz#fdc6687917091ad5f62b332feb6add9c29b6b169"
   integrity sha512-NcYKwwBhOR1eH5FZpktaRtBYDsT8vnwR2mAYqS4Oyl7EeyYNKb1ykMnBn5tDktMuRaLRy1flq5u79Nc5oscHIQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1378,7 +1362,7 @@
 
 "@docusaurus/plugin-debug@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-debug/-/plugin-debug-2.0.0-beta.8.tgz#314ca63af4bea9ea38b62e89580ff471cfcf9955"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-debug/-/plugin-debug-2.0.0-beta.8.tgz#314ca63af4bea9ea38b62e89580ff471cfcf9955"
   integrity sha512-DCsYnVQ+MTEfGTOEsSCpZDG+xADM3dC5K2BfT4kDUB4De1SKH37NoXXJpGaVEtE4gLjRWoDGfDaQdS/LlVqwiQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1390,21 +1374,21 @@
 
 "@docusaurus/plugin-google-analytics@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-google-analytics/-/plugin-google-analytics-2.0.0-beta.8.tgz#d9b7298fe33e3ce1e11cd722ce4ac681e356915c"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-google-analytics/-/plugin-google-analytics-2.0.0-beta.8.tgz#d9b7298fe33e3ce1e11cd722ce4ac681e356915c"
   integrity sha512-kpk9pXPIfE+5CbcJSbwF6Evfy5kX+4Z0Ph/x/M1N+8omH+StDrR+fa1S3I5GK38lb3/N1fWNgsWE7LembE9xYQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
 
 "@docusaurus/plugin-google-gtag@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-2.0.0-beta.8.tgz#ba5b22d0656cf295ccd955e39c7fb5439dadddb8"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-2.0.0-beta.8.tgz#ba5b22d0656cf295ccd955e39c7fb5439dadddb8"
   integrity sha512-1Wa0yMXZgxp85dGuOD44X+fnZtW8ztmOcGBOgLo9Uwhi+OhxOrW4ZOddhEJA6tmCaRuqkaMK7zN1ss2EUc2g7g==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
 
 "@docusaurus/plugin-sitemap@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/plugin-sitemap/-/plugin-sitemap-2.0.0-beta.8.tgz#731d97ff8e495cd66f8ba1c6b1426c61726d46c5"
+  resolved "https://registry.yarnpkg.com/@docusaurus/plugin-sitemap/-/plugin-sitemap-2.0.0-beta.8.tgz#731d97ff8e495cd66f8ba1c6b1426c61726d46c5"
   integrity sha512-oz2Hu1q34kvsgPb6DWM8cpzKmNy02BYtv+2GTrg016V+beGr8PNcHkxzgGtdN+Se5zJqdtRQvOPQtIZOJQntcA==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1418,7 +1402,7 @@
 
 "@docusaurus/preset-classic@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/preset-classic/-/preset-classic-2.0.0-beta.8.tgz#97e42cb0c5b1858cf644febc7ebd61b1a72c9f16"
+  resolved "https://registry.yarnpkg.com/@docusaurus/preset-classic/-/preset-classic-2.0.0-beta.8.tgz#97e42cb0c5b1858cf644febc7ebd61b1a72c9f16"
   integrity sha512-tlc+KuMJFmfXYA/FOCbHvMfRWx2SQtJLf6rkBUzRt0Vlym+pI7CG1px3OKON62jaaLm/Vyvn3+47z3yClJRM1A==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1434,14 +1418,14 @@
 
 "@docusaurus/react-loadable@5.5.0":
   version "5.5.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/react-loadable/-/react-loadable-5.5.0.tgz#6d6f0c8fd9a434b62a1ab1f8645ee7bde5a9ec21"
+  resolved "https://registry.yarnpkg.com/@docusaurus/react-loadable/-/react-loadable-5.5.0.tgz#6d6f0c8fd9a434b62a1ab1f8645ee7bde5a9ec21"
   integrity sha512-Ld/kwUE6yATIOTLq3JCsWiTa/drisajwKqBQ2Rw6IcT+sFsKfYek8F2jSH8f68AT73xX97UehduZeCSlnuCBIg==
   dependencies:
     prop-types "^15.6.2"
 
 "@docusaurus/theme-classic@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/theme-classic/-/theme-classic-2.0.0-beta.8.tgz#5465c0ea739053ba5ea9f5dca61406e8935f00b2"
+  resolved "https://registry.yarnpkg.com/@docusaurus/theme-classic/-/theme-classic-2.0.0-beta.8.tgz#5465c0ea739053ba5ea9f5dca61406e8935f00b2"
   integrity sha512-lC0PGxACbNiq98WwF1O3T0YblqSK6yo7KcDcrOnPJd0XCV4xMjWZSeeSIneotfs2uvJzmG3GOg7EfQcLvhdyIQ==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1472,7 +1456,7 @@
 
 "@docusaurus/theme-common@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/theme-common/-/theme-common-2.0.0-beta.8.tgz#eee6f4a08034477458bbc8869e9ebb1fea76fb6f"
+  resolved "https://registry.yarnpkg.com/@docusaurus/theme-common/-/theme-common-2.0.0-beta.8.tgz#eee6f4a08034477458bbc8869e9ebb1fea76fb6f"
   integrity sha512-jrlCgFcg0wAfrtzSwU5F8iVdIBmL325d6jupD3N2CirSG6TxAmHDkeAbFyY6ZjaT27XYWXJUwvqvsbbNXAdNzw==
   dependencies:
     "@docusaurus/core" "2.0.0-beta.8"
@@ -1487,7 +1471,7 @@
 
 "@docusaurus/theme-search-algolia@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/theme-search-algolia/-/theme-search-algolia-2.0.0-beta.8.tgz#9747f6975719152ac18674c526a90930ef9303fb"
+  resolved "https://registry.yarnpkg.com/@docusaurus/theme-search-algolia/-/theme-search-algolia-2.0.0-beta.8.tgz#9747f6975719152ac18674c526a90930ef9303fb"
   integrity sha512-ryT57Wipems0GbB0WxdrTUJ4q/1DM6xoqJlpGGnTy52FEZi3ZoCp+1yxaBLbKKYevGl1nEF3S0kp1o13UiqKTw==
   dependencies:
     "@docsearch/react" "^3.0.0-alpha.39"
@@ -1503,7 +1487,7 @@
 
 "@docusaurus/types@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/types/-/types-2.0.0-beta.8.tgz#0dd7e51ca403c9567eb18d985bb65c975ce15cbc"
+  resolved "https://registry.yarnpkg.com/@docusaurus/types/-/types-2.0.0-beta.8.tgz#0dd7e51ca403c9567eb18d985bb65c975ce15cbc"
   integrity sha512-wEzyQvku2zNNp3ChPk1x5s7SvlFygTyuqL9dpwvzCsJhxqZ0JH+whellh2YtDQQO617npOM8l6MC1Yd6ePws2Q==
   dependencies:
     commander "^5.1.0"
@@ -1515,7 +1499,7 @@
 
 "@docusaurus/utils-common@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/utils-common/-/utils-common-2.0.0-beta.8.tgz#962534413af2f95d8562b46f077be3a6a49fee61"
+  resolved "https://registry.yarnpkg.com/@docusaurus/utils-common/-/utils-common-2.0.0-beta.8.tgz#962534413af2f95d8562b46f077be3a6a49fee61"
   integrity sha512-SWnXd+VHN+YWKJGdaPHLmREaNMKEFQmAN12xA/FufXFDvVZJOA2YShLEAjSJDQTKt9hfGys3JCYF1PBgosB0sA==
   dependencies:
     "@docusaurus/types" "2.0.0-beta.8"
@@ -1523,7 +1507,7 @@
 
 "@docusaurus/utils-validation@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/utils-validation/-/utils-validation-2.0.0-beta.8.tgz#a2093f8e20c79581bc41d6156e4f3a8e3ce95a9a"
+  resolved "https://registry.yarnpkg.com/@docusaurus/utils-validation/-/utils-validation-2.0.0-beta.8.tgz#a2093f8e20c79581bc41d6156e4f3a8e3ce95a9a"
   integrity sha512-zcoJw9Bo/WkRLJhD53ck0rA68cnswc9TB84F/hOm92X4QkhjCUtb5XlMUtTtvO9ScnlgsFiQYaySrFRAM+fr5w==
   dependencies:
     "@docusaurus/utils" "2.0.0-beta.8"
@@ -1533,7 +1517,7 @@
 
 "@docusaurus/utils@2.0.0-beta.8":
   version "2.0.0-beta.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@docusaurus/utils/-/utils-2.0.0-beta.8.tgz#f6754c8e767cdfcca324eb8e1ac1ceb455d10deb"
+  resolved "https://registry.yarnpkg.com/@docusaurus/utils/-/utils-2.0.0-beta.8.tgz#f6754c8e767cdfcca324eb8e1ac1ceb455d10deb"
   integrity sha512-PMdPg8ft/zdAqhuDvMLzDlwXEp01qAh+eOXciKElDrh1zuQM/Hwjg0G3sKiwKInbpHJcz6lbTJCpEjmvMGlXpg==
   dependencies:
     "@docusaurus/types" "2.0.0-beta.8"
@@ -1853,7 +1837,7 @@
 
 "@types/glob@^7.1.1":
   version "7.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
+  resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
   integrity sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==
   dependencies:
     "@types/minimatch" "*"
@@ -1890,7 +1874,7 @@
 
 "@types/minimatch@*":
   version "3.0.5"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/minimist@^1.2.0":
@@ -2129,7 +2113,7 @@ aggregate-error@^3.0.0:
 
 ajv-errors@^1.0.0:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
+  resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
   integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
 
 ajv-keywords@^3.1.0, ajv-keywords@^3.5.2:
@@ -2198,7 +2182,7 @@ ansi-align@^3.0.0:
 
 ansi-colors@^3.0.0:
   version "3.2.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
+  resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
 
 ansi-colors@^4.1.1:
@@ -2213,10 +2197,10 @@ ansi-escapes@^4.3.1:
   dependencies:
     type-fest "^0.21.3"
 
-ansi-html-community@0.0.8:
-  version "0.0.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
-  integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
+ansi-html@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/ansi-html/-/ansi-html-0.0.7.tgz#813584021962a9e9e6fd039f940d12f56ca7859e"
+  integrity sha1-gTWEAhliqenm/QOflA0S9WynhZ4=
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -2225,7 +2209,7 @@ ansi-regex@^2.0.0:
 
 ansi-regex@^4.1.0:
   version "4.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-4.1.0.tgz#8b9f8f08cf1acb843756a839ca8c7e3168c51997"
   integrity sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg==
 
 ansi-regex@^5.0.0, ansi-regex@^5.0.1:
@@ -2249,7 +2233,7 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
 
 anymatch@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/anymatch/-/anymatch-2.0.0.tgz#bcb24b4f37934d9aa7ac17b4adaf89e7c76ef2eb"
+  resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-2.0.0.tgz#bcb24b4f37934d9aa7ac17b4adaf89e7c76ef2eb"
   integrity sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw==
   dependencies:
     micromatch "^3.1.4"
@@ -2290,17 +2274,17 @@ aria-query@^4.2.2:
 
 arr-diff@^4.0.0:
   version "4.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/arr-diff/-/arr-diff-4.0.0.tgz#d6461074febfec71e7e15235761a329a5dc7c520"
+  resolved "https://registry.yarnpkg.com/arr-diff/-/arr-diff-4.0.0.tgz#d6461074febfec71e7e15235761a329a5dc7c520"
   integrity sha1-1kYQdP6/7HHn4VI1dhoyml3HxSA=
 
 arr-flatten@^1.1.0:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/arr-flatten/-/arr-flatten-1.1.0.tgz#36048bbff4e7b47e136644316c99669ea5ae91f1"
+  resolved "https://registry.yarnpkg.com/arr-flatten/-/arr-flatten-1.1.0.tgz#36048bbff4e7b47e136644316c99669ea5ae91f1"
   integrity sha512-L3hKV5R/p5o81R7O02IGnwpDmkp6E982XhtbuwSe3O4qOtMMMtodicASA1Cny2U+aCXcNpml+m4dPsvsJ3jatg==
 
 arr-union@^3.1.0:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/arr-union/-/arr-union-3.1.0.tgz#e39b09aea9def866a8f206e288af63919bae39c4"
+  resolved "https://registry.yarnpkg.com/arr-union/-/arr-union-3.1.0.tgz#e39b09aea9def866a8f206e288af63919bae39c4"
   integrity sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=
 
 array-flatten@1.1.1:
@@ -2326,7 +2310,7 @@ array-includes@^3.1.1, array-includes@^3.1.3, array-includes@^3.1.4:
 
 array-union@^1.0.1:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
+  resolved "https://registry.yarnpkg.com/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
   integrity sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=
   dependencies:
     array-uniq "^1.0.1"
@@ -2338,12 +2322,12 @@ array-union@^2.1.0:
 
 array-uniq@^1.0.1:
   version "1.0.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/array-uniq/-/array-uniq-1.0.3.tgz#af6ac877a25cc7f74e058894753858dfdb24fdb6"
+  resolved "https://registry.yarnpkg.com/array-uniq/-/array-uniq-1.0.3.tgz#af6ac877a25cc7f74e058894753858dfdb24fdb6"
   integrity sha1-r2rId6Jcx/dOBYiUdThY39sk/bY=
 
 array-unique@^0.3.2:
   version "0.3.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
+  resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
 array.prototype.flat@^1.2.5:
@@ -2376,7 +2360,7 @@ asap@~2.0.3:
 
 assign-symbols@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
+  resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
   integrity sha1-WWZ/QfrdTyDMvCu5a41Pf3jsA2c=
 
 ast-types-flow@^0.0.7:
@@ -2391,12 +2375,12 @@ astral-regex@^2.0.0:
 
 async-each@^1.0.1:
   version "1.0.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/async-each/-/async-each-1.0.3.tgz#b727dbf87d7651602f06f4d4ac387f47d91b0cbf"
+  resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.3.tgz#b727dbf87d7651602f06f4d4ac387f47d91b0cbf"
   integrity sha512-z/WhQ5FPySLdvREByI2vZiTWwCnF0moMJ1hK9YQwDTHKh6I7/uSckMetoRGb5UBZPC1z0jlw+n/XCgjeH7y1AQ==
 
 async-limiter@~1.0.0:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
+  resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
 async@^2.6.2:
@@ -2408,7 +2392,7 @@ async@^2.6.2:
 
 atob@^2.1.2:
   version "2.1.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
+  resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
 autoprefixer@^10.2.0, autoprefixer@^10.3.5:
@@ -2538,7 +2522,7 @@ base16@^1.0.0:
 
 base@^0.11.1:
   version "0.11.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/base/-/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
+  resolved "https://registry.yarnpkg.com/base/-/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
   integrity sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==
   dependencies:
     cache-base "^1.0.1"
@@ -2561,7 +2545,7 @@ big.js@^5.2.2:
 
 binary-extensions@^1.0.0:
   version "1.13.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
+  resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
   integrity sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==
 
 binary-extensions@^2.0.0:
@@ -2571,7 +2555,7 @@ binary-extensions@^2.0.0:
 
 bindings@^1.5.0:
   version "1.5.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   dependencies:
     file-uri-to-path "1.0.0"
@@ -2638,7 +2622,7 @@ brace-expansion@^1.1.7:
 
 braces@^2.3.1, braces@^2.3.2:
   version "2.3.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
+  resolved "https://registry.yarnpkg.com/braces/-/braces-2.3.2.tgz#5979fd3f14cd531565e5fa2df1abfff1dfaee729"
   integrity sha512-aNdbnj9P8PjdXU4ybaWLK2IF3jc/EoDYbC7AazW6to3TRsfXxscC9UXOB5iDiEQrkyIbWp2SLQda4+QAa7nc3w==
   dependencies:
     arr-flatten "^1.1.0"
@@ -2661,7 +2645,7 @@ braces@^3.0.1, braces@~3.0.2:
 
 browserslist@4.14.2:
   version "4.14.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/browserslist/-/browserslist-4.14.2.tgz#1b3cec458a1ba87588cc5e9be62f19b6d48813ce"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.14.2.tgz#1b3cec458a1ba87588cc5e9be62f19b6d48813ce"
   integrity sha512-HI4lPveGKUR0x2StIz+2FXfDk9SfVMrxn6PLh1JeGUwcuoDkdKZebWiyLRJ68iIPDpMI4JLVDf7S7XzslgWOhw==
   dependencies:
     caniuse-lite "^1.0.30001125"
@@ -2715,7 +2699,7 @@ bytes@3.1.0:
 
 cache-base@^1.0.1:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/cache-base/-/cache-base-1.0.1.tgz#0a7f46416831c8b662ee36fe4e7c59d76f666ab2"
+  resolved "https://registry.yarnpkg.com/cache-base/-/cache-base-1.0.1.tgz#0a7f46416831c8b662ee36fe4e7c59d76f666ab2"
   integrity sha512-AKcdTnFSWATd5/GCPRxr2ChwIJ85CeyrEyjRHlKxQ56d4XJMGym0uAiKn0xbLOGOl3+yRpOTi484dVCEc5AUzQ==
   dependencies:
     collection-visit "^1.0.0"
@@ -2778,7 +2762,7 @@ camelcase-keys@^6.2.2:
 
 camelcase@^5.0.0, camelcase@^5.3.1:
   version "5.3.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 camelcase@^6.2.0:
@@ -2796,15 +2780,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001264, caniuse-lite@^1.0.30001265:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001264, caniuse-lite@^1.0.30001265:
   version "1.0.30001270"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001270.tgz#cc9c37a4ec5c1a8d616fc7bace902bb053b0cdea"
   integrity sha512-TcIC7AyNWXhcOmv2KftOl1ShFAaHQYcB/EPL/hEyMrcS7ZX0/DvV1aoy6BzV0+16wTpoAyTMGDNAJfSqS/rz7A==
-
-caniuse-lite@^1.0.30001125:
-  version "1.0.30001282"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/caniuse-lite/-/caniuse-lite-1.0.30001282.tgz#38c781ee0a90ccfe1fe7fefd00e43f5ffdcb96fd"
-  integrity sha512-YhF/hG6nqBEllymSIjLtR2iWDDnChvhnVJqp+vloyt2tEHFG1yBR+ac2B/rOw0qOK0m0lEXU2dv4E/sMk5P9Kg==
 
 ccount@^1.0.0, ccount@^1.0.3:
   version "1.1.0"
@@ -2867,7 +2846,7 @@ cheerio@^0.22.0:
 
 chokidar@^2.1.8:
   version "2.1.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
   integrity sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==
   dependencies:
     anymatch "^2.0.0"
@@ -2916,7 +2895,7 @@ ci-info@^3.1.1:
 
 class-utils@^0.3.5:
   version "0.3.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
+  resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
   integrity sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==
   dependencies:
     arr-union "^3.1.0"
@@ -2943,7 +2922,7 @@ cli-boxes@^2.2.1:
 
 cliui@^5.0.0:
   version "5.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/cliui/-/cliui-5.0.0.tgz#deefcfdb2e800784aa34f46fa08e06851c7bbbc5"
+  resolved "https://registry.yarnpkg.com/cliui/-/cliui-5.0.0.tgz#deefcfdb2e800784aa34f46fa08e06851c7bbbc5"
   integrity sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==
   dependencies:
     string-width "^3.1.0"
@@ -2994,7 +2973,7 @@ collapse-white-space@^1.0.2:
 
 collection-visit@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
+  resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
   integrity sha1-S8A3PBZLwykbTTaMgpzxqApZ3KA=
   dependencies:
     map-visit "^1.0.0"
@@ -3066,7 +3045,7 @@ commondir@^1.0.1:
 
 component-emitter@^1.2.1:
   version "1.3.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
+  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
 compressible@~2.0.16:
@@ -3157,7 +3136,7 @@ cookie@0.4.0:
 
 copy-descriptor@^0.1.0:
   version "0.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
+  resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 copy-text-to-clipboard@^3.0.1:
@@ -3221,7 +3200,7 @@ cross-fetch@^3.0.4:
 
 cross-spawn@7.0.3, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
   integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
   dependencies:
     path-key "^3.1.0"
@@ -3230,7 +3209,7 @@ cross-spawn@7.0.3, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
 
 cross-spawn@^6.0.0:
   version "6.0.5"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
   integrity sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==
   dependencies:
     nice-try "^1.0.4"
@@ -3467,7 +3446,7 @@ decamelize@^1.1.0, decamelize@^1.2.0:
 
 decode-uri-component@^0.2.0:
   version "0.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
 decompress-response@^3.3.0:
@@ -3506,7 +3485,7 @@ deepmerge@^4.2.2:
 
 default-gateway@^4.2.0:
   version "4.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/default-gateway/-/default-gateway-4.2.0.tgz#167104c7500c2115f6dd69b0a536bb8ed720552b"
+  resolved "https://registry.yarnpkg.com/default-gateway/-/default-gateway-4.2.0.tgz#167104c7500c2115f6dd69b0a536bb8ed720552b"
   integrity sha512-h6sMrVB1VMWVrW13mSc6ia/DwYYw5MN6+exNu1OaJeFac5aSAvwM7lZ0NVfTABuSkQelr4h5oebg3KB1XPdjgA==
   dependencies:
     execa "^1.0.0"
@@ -3526,21 +3505,21 @@ define-properties@^1.1.3:
 
 define-property@^0.2.5:
   version "0.2.5"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/define-property/-/define-property-0.2.5.tgz#c35b1ef918ec3c990f9a5bc57be04aacec5c8116"
+  resolved "https://registry.yarnpkg.com/define-property/-/define-property-0.2.5.tgz#c35b1ef918ec3c990f9a5bc57be04aacec5c8116"
   integrity sha1-w1se+RjsPJkPmlvFe+BKrOxcgRY=
   dependencies:
     is-descriptor "^0.1.0"
 
 define-property@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/define-property/-/define-property-1.0.0.tgz#769ebaaf3f4a63aad3af9e8d304c9bbe79bfb0e6"
+  resolved "https://registry.yarnpkg.com/define-property/-/define-property-1.0.0.tgz#769ebaaf3f4a63aad3af9e8d304c9bbe79bfb0e6"
   integrity sha1-dp66rz9KY6rTr56NMEybvnm/sOY=
   dependencies:
     is-descriptor "^1.0.0"
 
 define-property@^2.0.2:
   version "2.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/define-property/-/define-property-2.0.2.tgz#d459689e8d654ba77e02a817f8710d702cb16e9d"
+  resolved "https://registry.yarnpkg.com/define-property/-/define-property-2.0.2.tgz#d459689e8d654ba77e02a817f8710d702cb16e9d"
   integrity sha512-jwK2UV4cnPpbcG7+VRARKTZPUWowwXA8bzH5NP6ud0oeAxyYPuGZUAC7hMugpCdz4BeSZl2Dl9k66CHJ/46ZYQ==
   dependencies:
     is-descriptor "^1.0.2"
@@ -3548,7 +3527,7 @@ define-property@^2.0.2:
 
 del@^4.1.1:
   version "4.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/del/-/del-4.1.1.tgz#9e8f117222ea44a31ff3a156c049b99052a9f0b4"
+  resolved "https://registry.yarnpkg.com/del/-/del-4.1.1.tgz#9e8f117222ea44a31ff3a156c049b99052a9f0b4"
   integrity sha512-QwGuEUouP2kVwQenAsOof5Fv8K9t3D8Ca8NxcXKrIpEHjTXK5J2nXLdP+ALI1cgv8wj7KuwBhTwBkOZSJKM5XQ==
   dependencies:
     "@types/glob" "^7.1.1"
@@ -3597,7 +3576,7 @@ detect-node@^2.0.4:
 
 detect-port-alt@1.1.6:
   version "1.1.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/detect-port-alt/-/detect-port-alt-1.1.6.tgz#24707deabe932d4a3cf621302027c2b266568275"
+  resolved "https://registry.yarnpkg.com/detect-port-alt/-/detect-port-alt-1.1.6.tgz#24707deabe932d4a3cf621302027c2b266568275"
   integrity sha512-5tQykt+LqfJFBEYaDITx7S7cR7mJ/zQmLXZ2qt5w04ainYZw6tBf9dBunMjVeVOdYVRUzUOE4HkY5J7+uttb5Q==
   dependencies:
     address "^1.0.1"
@@ -3763,19 +3742,14 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-electron-to-chromium@^1.3.564:
-  version "1.3.900"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/electron-to-chromium/-/electron-to-chromium-1.3.900.tgz#5be2c5818a2a012c511b4b43e87b6ab7a296d4f5"
-  integrity sha512-SuXbQD8D4EjsaBaJJxySHbC+zq8JrFfxtb4GIr4E9n1BcROyMcRrJCYQNpJ9N+Wjf5mFp7Wp0OHykd14JNEzzQ==
-
-electron-to-chromium@^1.3.867:
+electron-to-chromium@^1.3.564, electron-to-chromium@^1.3.867:
   version "1.3.876"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.876.tgz#fe6f65c9740406f4aa69f10faa8e1d79b81bdf34"
   integrity sha512-a6LR4738psrubCtGx5HxM/gNlrIsh4eFTNnokgOqvQo81GWd07lLcOjITkAXn2y4lIp18vgS+DGnehj+/oEAxQ==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
+  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
   integrity sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==
 
 emoji-regex@^8.0.0:
@@ -3837,7 +3811,7 @@ entities@^2.0.0:
 
 errno@^0.1.3:
   version "0.1.8"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/errno/-/errno-0.1.8.tgz#8bb3e9c7d463be4976ff888f76b4809ebc2e811f"
+  resolved "https://registry.yarnpkg.com/errno/-/errno-0.1.8.tgz#8bb3e9c7d463be4976ff888f76b4809ebc2e811f"
   integrity sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==
   dependencies:
     prr "~1.0.1"
@@ -3906,7 +3880,7 @@ escape-html@^1.0.3, escape-html@~1.0.3:
 
 escape-string-regexp@2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
   integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
 escape-string-regexp@^1.0.5:
@@ -4175,14 +4149,14 @@ events@^3.2.0:
 
 eventsource@^1.0.7:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
   integrity sha512-VSJjT5oCNrFvCS6igjzPAt5hBzQ2qPBFIbJ03zLI9SE0mxwZpMw6BfJrbFHm1a141AavMEB8JHmBhWAd66PfCg==
   dependencies:
     original "^1.0.0"
 
 execa@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/execa/-/execa-1.0.0.tgz#c6236a5bb4df6d6f15e88e7f017798216749ddd8"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-1.0.0.tgz#c6236a5bb4df6d6f15e88e7f017798216749ddd8"
   integrity sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA==
   dependencies:
     cross-spawn "^6.0.0"
@@ -4217,7 +4191,7 @@ execall@^2.0.0:
 
 expand-brackets@^2.1.4:
   version "2.1.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/expand-brackets/-/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
+  resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
   integrity sha1-t3c14xXOMPa27/D4OwQVGiJEliI=
   dependencies:
     debug "^2.3.3"
@@ -4273,7 +4247,7 @@ extend-shallow@^2.0.1:
 
 extend-shallow@^3.0.0, extend-shallow@^3.0.2:
   version "3.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/extend-shallow/-/extend-shallow-3.0.2.tgz#26a71aaf073b39fb2127172746131c2704028db8"
+  resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-3.0.2.tgz#26a71aaf073b39fb2127172746131c2704028db8"
   integrity sha1-Jqcarwc7OfshJxcnRhMcJwQCjbg=
   dependencies:
     assign-symbols "^1.0.0"
@@ -4286,7 +4260,7 @@ extend@^3.0.0:
 
 extglob@^2.0.4:
   version "2.0.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/extglob/-/extglob-2.0.4.tgz#ad00fe4dc612a9232e8718711dc5cb5ab0285543"
+  resolved "https://registry.yarnpkg.com/extglob/-/extglob-2.0.4.tgz#ad00fe4dc612a9232e8718711dc5cb5ab0285543"
   integrity sha512-Nmb6QXkELsuBr24CJSkilo6UHHgbekK5UiZgfE6UHD3Eb27YC6oD+bhcT+tJ6cl8dmsgdQxnWlcry8ksBIBLpw==
   dependencies:
     array-unique "^0.3.2"
@@ -4406,17 +4380,17 @@ file-loader@^6.2.0:
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
+  resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
   integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
 
 filesize@6.1.0:
   version "6.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/filesize/-/filesize-6.1.0.tgz#e81bdaa780e2451d714d71c0d7a4f3238d37ad00"
+  resolved "https://registry.yarnpkg.com/filesize/-/filesize-6.1.0.tgz#e81bdaa780e2451d714d71c0d7a4f3238d37ad00"
   integrity sha512-LpCHtPQ3sFx67z+uh2HnSyWSLLu5Jxo21795uRDuar/EOuYWXib5EmPaGIBuSnRqH2IODiKA2k5re/K9OnN/Yg==
 
 fill-range@^4.0.0:
   version "4.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
+  resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
   integrity sha1-1USBHUKPmOsGpj3EAtJAPDKMOPc=
   dependencies:
     extend-shallow "^2.0.1"
@@ -4511,12 +4485,12 @@ follow-redirects@^1.0.0, follow-redirects@^1.14.0:
 
 for-in@^1.0.2:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
+  resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
 fork-ts-checker-webpack-plugin@4.1.6:
   version "4.1.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.6.tgz#5055c703febcf37fa06405d400c122b905167fc5"
+  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.6.tgz#5055c703febcf37fa06405d400c122b905167fc5"
   integrity sha512-DUxuQaKoqfNne8iikd14SAkh5uw4+8vNifp6gmA73yYNS6ywLIWSLD/n/mBzHQRpW3J7rbATEakmiA8JvkTyZw==
   dependencies:
     "@babel/code-frame" "^7.5.5"
@@ -4539,7 +4513,7 @@ fraction.js@^4.1.1:
 
 fragment-cache@^0.2.1:
   version "0.2.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
+  resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
   integrity sha1-QpD60n8T6Jvn8zeZxrxaCr//DRk=
   dependencies:
     map-cache "^0.2.2"
@@ -4565,7 +4539,7 @@ fs.realpath@^1.0.0:
 
 fsevents@^1.2.7:
   version "1.2.13"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/fsevents/-/fsevents-1.2.13.tgz#f325cb0455592428bcf11b383370ef70e3bfcc38"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.13.tgz#f325cb0455592428bcf11b383370ef70e3bfcc38"
   integrity sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==
   dependencies:
     bindings "^1.5.0"
@@ -4593,7 +4567,7 @@ gensync@^1.0.0-beta.1, gensync@^1.0.0-beta.2:
 
 get-caller-file@^2.0.1:
   version "2.0.5"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
+  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
@@ -4649,7 +4623,7 @@ get-symbol-description@^1.0.0:
 
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
+  resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
 github-slugger@^1.4.0:
@@ -4659,7 +4633,7 @@ github-slugger@^1.4.0:
 
 glob-parent@^3.1.0:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
   integrity sha1-nmr2KZ2NO9K9QEMIMr0RPfkGxa4=
   dependencies:
     is-glob "^3.1.0"
@@ -4705,7 +4679,7 @@ global-dirs@^3.0.0:
 
 global-modules@2.0.0, global-modules@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/global-modules/-/global-modules-2.0.0.tgz#997605ad2345f27f51539bea26574421215c7780"
+  resolved "https://registry.yarnpkg.com/global-modules/-/global-modules-2.0.0.tgz#997605ad2345f27f51539bea26574421215c7780"
   integrity sha512-NGbfmJBp9x8IxyJSd1P+otYK8vonoJactOogrVfFRIAEY1ukil8RSKDz2Yo7wh1oihl51l/r6W4epkeKJHqL8A==
   dependencies:
     global-prefix "^3.0.0"
@@ -4733,7 +4707,7 @@ globals@^13.6.0, globals@^13.9.0:
 
 globby@11.0.1:
   version "11.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/globby/-/globby-11.0.1.tgz#9a2bf107a068f3ffeabc49ad702c79ede8cfd357"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-11.0.1.tgz#9a2bf107a068f3ffeabc49ad702c79ede8cfd357"
   integrity sha512-iH9RmgwCmUJHi2z5o2l3eTtGBtXek1OYlHrbcxOYugyHLmAsZrPj43OtHThd62Buh/Vv6VyCBD2bdyWcGNQqoQ==
   dependencies:
     array-union "^2.1.0"
@@ -4757,7 +4731,7 @@ globby@^11.0.1, globby@^11.0.2, globby@^11.0.3, globby@^11.0.4:
 
 globby@^6.1.0:
   version "6.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/globby/-/globby-6.1.0.tgz#f5a6d70e8395e21c858fb0489d64df02424d506c"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-6.1.0.tgz#f5a6d70e8395e21c858fb0489d64df02424d506c"
   integrity sha1-9abXDoOV4hyFj7BInWTfAkJNUGw=
   dependencies:
     array-union "^1.0.1"
@@ -4812,7 +4786,7 @@ gray-matter@^4.0.3:
 
 gzip-size@5.1.1:
   version "5.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/gzip-size/-/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"
+  resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"
   integrity sha512-FNHi6mmoHvs1mxZAds4PpdCS6QG8B4C1krxJsMutgxl5t3+GlRTzzI3NEkifXx2pVsOvJdOGSmIgDhQ55FwdPA==
   dependencies:
     duplexer "^0.1.1"
@@ -4864,7 +4838,7 @@ has-tostringtag@^1.0.0:
 
 has-value@^0.3.1:
   version "0.3.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/has-value/-/has-value-0.3.1.tgz#7b1f58bada62ca827ec0a2078025654845995e1f"
+  resolved "https://registry.yarnpkg.com/has-value/-/has-value-0.3.1.tgz#7b1f58bada62ca827ec0a2078025654845995e1f"
   integrity sha1-ex9YutpiyoJ+wKIHgCVlSEWZXh8=
   dependencies:
     get-value "^2.0.3"
@@ -4873,7 +4847,7 @@ has-value@^0.3.1:
 
 has-value@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/has-value/-/has-value-1.0.0.tgz#18b281da585b1c5c51def24c930ed29a0be6b177"
+  resolved "https://registry.yarnpkg.com/has-value/-/has-value-1.0.0.tgz#18b281da585b1c5c51def24c930ed29a0be6b177"
   integrity sha1-GLKB2lhbHFxR3vJMkw7SmgvmsXc=
   dependencies:
     get-value "^2.0.6"
@@ -4882,12 +4856,12 @@ has-value@^1.0.0:
 
 has-values@^0.1.4:
   version "0.1.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/has-values/-/has-values-0.1.4.tgz#6d61de95d91dfca9b9a02089ad384bff8f62b771"
+  resolved "https://registry.yarnpkg.com/has-values/-/has-values-0.1.4.tgz#6d61de95d91dfca9b9a02089ad384bff8f62b771"
   integrity sha1-bWHeldkd/Km5oCCJrThL/49it3E=
 
 has-values@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/has-values/-/has-values-1.0.0.tgz#95b0b63fec2146619a6fe57fe75628d5a39efe4f"
+  resolved "https://registry.yarnpkg.com/has-values/-/has-values-1.0.0.tgz#95b0b63fec2146619a6fe57fe75628d5a39efe4f"
   integrity sha1-lbC2P+whRmGab+V/51Yo1aOe/k8=
   dependencies:
     is-number "^3.0.0"
@@ -5042,7 +5016,7 @@ hpack.js@^2.1.6:
 
 html-entities@^1.3.1:
   version "1.4.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/html-entities/-/html-entities-1.4.0.tgz#cfbd1b01d2afaf9adca1b10ae7dffab98c71d2dc"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.4.0.tgz#cfbd1b01d2afaf9adca1b10ae7dffab98c71d2dc"
   integrity sha512-8nxjcBcd8wovbeKx7h3wTji4e6+rhaVuPNpMqwWgnHh+N9ToqsCs6XztWRBPQ+UtzsoMAdKZtUENoVzU/EMtZA==
 
 html-minifier-terser@^6.0.2:
@@ -5150,7 +5124,7 @@ http-parser-js@>=0.5.1:
 
 http-proxy-middleware@0.19.1:
   version "0.19.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz#183c7dc4aa1479150306498c210cdaf96080a43a"
+  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz#183c7dc4aa1479150306498c210cdaf96080a43a"
   integrity sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q==
   dependencies:
     http-proxy "^1.17.0"
@@ -5160,7 +5134,7 @@ http-proxy-middleware@0.19.1:
 
 http-proxy@^1.17.0:
   version "1.18.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/http-proxy/-/http-proxy-1.18.1.tgz#401541f0534884bbf95260334e72f88ee3976549"
+  resolved "https://registry.yarnpkg.com/http-proxy/-/http-proxy-1.18.1.tgz#401541f0534884bbf95260334e72f88ee3976549"
   integrity sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==
   dependencies:
     eventemitter3 "^4.0.0"
@@ -5196,7 +5170,7 @@ ignore@^5.1.4, ignore@^5.1.8:
 
 immer@8.0.1:
   version "8.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1, import-fresh@^3.2.2, import-fresh@^3.3.0:
@@ -5219,7 +5193,7 @@ import-lazy@^4.0.0:
 
 import-local@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/import-local/-/import-local-2.0.0.tgz#55070be38a5993cf18ef6db7e961f5bee5c5a09d"
+  resolved "https://registry.yarnpkg.com/import-local/-/import-local-2.0.0.tgz#55070be38a5993cf18ef6db7e961f5bee5c5a09d"
   integrity sha512-b6s04m3O+s3CGSbqDIyP4R6aAwAeYlVq9+WUWep6iHa8ETRf9yei1U48C5MmfJmV9AiLYYBKPMq/W+/WRpQmCQ==
   dependencies:
     pkg-dir "^3.0.0"
@@ -5275,7 +5249,7 @@ inline-style-parser@0.1.1:
 
 internal-ip@^4.3.0:
   version "4.3.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
+  resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-4.3.0.tgz#845452baad9d2ca3b69c635a137acb9a0dad0907"
   integrity sha512-S1zBo1D6zcsyuC6PMmY5+55YMILQ9av8lotMx447Bq6SAgo/sDK6y6uUKmuYhW7eacnIhFfsPmCNYdDzsnnDCg==
   dependencies:
     default-gateway "^4.2.0"
@@ -5297,7 +5271,7 @@ interpret@^1.0.0:
 
 ip-regex@^2.1.0:
   version "2.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
+  resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
   integrity sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=
 
 ip@^1.1.0, ip@^1.1.5:
@@ -5317,14 +5291,14 @@ is-absolute-url@^3.0.3:
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-accessor-descriptor/-/is-accessor-descriptor-0.1.6.tgz#a9e12cb3ae8d876727eeef3843f8a0897b5c98d6"
+  resolved "https://registry.yarnpkg.com/is-accessor-descriptor/-/is-accessor-descriptor-0.1.6.tgz#a9e12cb3ae8d876727eeef3843f8a0897b5c98d6"
   integrity sha1-qeEss66Nh2cn7u84Q/igiXtcmNY=
   dependencies:
     kind-of "^3.0.2"
 
 is-accessor-descriptor@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-accessor-descriptor/-/is-accessor-descriptor-1.0.0.tgz#169c2f6d3df1f992618072365c9b0ea1f6878656"
+  resolved "https://registry.yarnpkg.com/is-accessor-descriptor/-/is-accessor-descriptor-1.0.0.tgz#169c2f6d3df1f992618072365c9b0ea1f6878656"
   integrity sha512-m5hnHTkcVsPfqx3AKlyttIPb7J+XykHvJP2B9bZDjlhLIoEq4XoK64Vg7boZlVWYK6LUY94dYPEE7Lh0ZkZKcQ==
   dependencies:
     kind-of "^6.0.0"
@@ -5364,7 +5338,7 @@ is-bigint@^1.0.1:
 
 is-binary-path@^1.0.0:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-binary-path/-/is-binary-path-1.0.1.tgz#75f16642b480f187a711c814161fd3a4a7655898"
+  resolved "https://registry.yarnpkg.com/is-binary-path/-/is-binary-path-1.0.1.tgz#75f16642b480f187a711c814161fd3a4a7655898"
   integrity sha1-dfFmQrSA8YenEcgUFh/TpKdlWJg=
   dependencies:
     binary-extensions "^1.0.0"
@@ -5386,7 +5360,7 @@ is-boolean-object@^1.1.0:
 
 is-buffer@^1.1.5:
   version "1.1.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   integrity sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
 
 is-buffer@^2.0.0:
@@ -5415,14 +5389,14 @@ is-core-module@^2.2.0, is-core-module@^2.5.0, is-core-module@^2.7.0:
 
 is-data-descriptor@^0.1.4:
   version "0.1.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-data-descriptor/-/is-data-descriptor-0.1.4.tgz#0b5ee648388e2c860282e793f1856fec3f301b56"
+  resolved "https://registry.yarnpkg.com/is-data-descriptor/-/is-data-descriptor-0.1.4.tgz#0b5ee648388e2c860282e793f1856fec3f301b56"
   integrity sha1-C17mSDiOLIYCgueT8YVv7D8wG1Y=
   dependencies:
     kind-of "^3.0.2"
 
 is-data-descriptor@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-data-descriptor/-/is-data-descriptor-1.0.0.tgz#d84876321d0e7add03990406abbbbd36ba9268c7"
+  resolved "https://registry.yarnpkg.com/is-data-descriptor/-/is-data-descriptor-1.0.0.tgz#d84876321d0e7add03990406abbbbd36ba9268c7"
   integrity sha512-jbRXy1FmtAoCjQkVmIVYwuuqDFUbaOeDjmed1tOGPrsMhtJA4rD9tkgA0F1qJ3gRFRXcHYVkdeaP50Q5rE/jLQ==
   dependencies:
     kind-of "^6.0.0"
@@ -5441,7 +5415,7 @@ is-decimal@^1.0.0:
 
 is-descriptor@^0.1.0:
   version "0.1.6"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-descriptor/-/is-descriptor-0.1.6.tgz#366d8240dde487ca51823b1ab9f07a10a78251ca"
+  resolved "https://registry.yarnpkg.com/is-descriptor/-/is-descriptor-0.1.6.tgz#366d8240dde487ca51823b1ab9f07a10a78251ca"
   integrity sha512-avDYr0SB3DwO9zsMov0gKCESFYqCnE4hq/4z3TdUlukEy5t9C0YRq7HLrsN52NAcqXKaepeCD0n+B0arnVG3Hg==
   dependencies:
     is-accessor-descriptor "^0.1.6"
@@ -5450,7 +5424,7 @@ is-descriptor@^0.1.0:
 
 is-descriptor@^1.0.0, is-descriptor@^1.0.2:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-descriptor/-/is-descriptor-1.0.2.tgz#3b159746a66604b04f8c81524ba365c5f14d86ec"
+  resolved "https://registry.yarnpkg.com/is-descriptor/-/is-descriptor-1.0.2.tgz#3b159746a66604b04f8c81524ba365c5f14d86ec"
   integrity sha512-2eis5WqQGV7peooDyLmNEPUrps9+SXX5c9pL3xEB+4e9HnGuDa7mB7kHxHw4CbqS9k1T2hOH3miL8n8WtiYVtg==
   dependencies:
     is-accessor-descriptor "^1.0.0"
@@ -5469,7 +5443,7 @@ is-extendable@^0.1.0, is-extendable@^0.1.1:
 
 is-extendable@^1.0.1:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-extendable/-/is-extendable-1.0.1.tgz#a7470f9e426733d81bd81e1155264e3a3507cab4"
+  resolved "https://registry.yarnpkg.com/is-extendable/-/is-extendable-1.0.1.tgz#a7470f9e426733d81bd81e1155264e3a3507cab4"
   integrity sha512-arnXMxT1hhoKo9k1LZdmlNyJdDDfy2v0fXjFlmok4+i8ul/6WlbVge9bhM74OpNPQPMGUToDtz+KXa1PneJxOA==
   dependencies:
     is-plain-object "^2.0.4"
@@ -5481,7 +5455,7 @@ is-extglob@^2.1.0, is-extglob@^2.1.1:
 
 is-fullwidth-code-point@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz#a3b30a5c4f199183167aaab93beefae3ddfb654f"
+  resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz#a3b30a5c4f199183167aaab93beefae3ddfb654f"
   integrity sha1-o7MKXE8ZkYMWeqq5O+764937ZU8=
 
 is-fullwidth-code-point@^3.0.0:
@@ -5491,7 +5465,7 @@ is-fullwidth-code-point@^3.0.0:
 
 is-glob@^3.1.0:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-glob/-/is-glob-3.1.0.tgz#7ba5ae24217804ac70707b96922567486cc3e84a"
+  resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-3.1.0.tgz#7ba5ae24217804ac70707b96922567486cc3e84a"
   integrity sha1-e6WuJCF4BKxwcHuWkiVnSGzD6Eo=
   dependencies:
     is-extglob "^2.1.0"
@@ -5535,7 +5509,7 @@ is-number-object@^1.0.4:
 
 is-number@^3.0.0:
   version "3.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
+  resolved "https://registry.yarnpkg.com/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
   integrity sha1-JP1iAaR4LPUFYcgQJ2r8fRLXEZU=
   dependencies:
     kind-of "^3.0.2"
@@ -5562,14 +5536,14 @@ is-path-cwd@^2.0.0, is-path-cwd@^2.2.0:
 
 is-path-in-cwd@^2.0.0:
   version "2.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-path-in-cwd/-/is-path-in-cwd-2.1.0.tgz#bfe2dca26c69f397265a4009963602935a053acb"
+  resolved "https://registry.yarnpkg.com/is-path-in-cwd/-/is-path-in-cwd-2.1.0.tgz#bfe2dca26c69f397265a4009963602935a053acb"
   integrity sha512-rNocXHgipO+rvnP6dk3zI20RpOtrAM/kzbB258Uw5BWr3TpXi861yzjo16Dn4hUox07iw5AyeMLHWsujkjzvRQ==
   dependencies:
     is-path-inside "^2.1.0"
 
 is-path-inside@^2.1.0:
   version "2.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-path-inside/-/is-path-inside-2.1.0.tgz#7c9810587d659a40d27bcdb4d5616eab059494b2"
+  resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-2.1.0.tgz#7c9810587d659a40d27bcdb4d5616eab059494b2"
   integrity sha512-wiyhTzfDWsvwAW53OBWF5zuvaOGlZ6PwYxAbPVDhpm+gM09xKQGjBq/8uYN12aDvMxnAnq3dxTyoSoRNmg5YFg==
   dependencies:
     path-is-inside "^1.0.2"
@@ -5631,7 +5605,7 @@ is-shared-array-buffer@^1.0.1:
 
 is-stream@^1.1.0:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
+  resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
 
 is-stream@^2.0.0:
@@ -5677,7 +5651,7 @@ is-whitespace-character@^1.0.0:
 
 is-windows@^1.0.2:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
+  resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
   integrity sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==
 
 is-word-character@^1.0.0:
@@ -5687,7 +5661,7 @@ is-word-character@^1.0.0:
 
 is-wsl@^1.1.0:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/is-wsl/-/is-wsl-1.1.0.tgz#1f16e4aa22b04d1336b66188a66af3c600c3a66d"
+  resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-1.1.0.tgz#1f16e4aa22b04d1336b66188a66af3c600c3a66d"
   integrity sha1-HxbkqiKwTRM2tmGIpmrzxgDDpm0=
 
 is-wsl@^2.1.1:
@@ -5719,7 +5693,7 @@ isexe@^2.0.0:
 
 isobject@^2.0.0:
   version "2.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
+  resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
   integrity sha1-8GVWEJaj8dou9GJy+BXIQNh+DIk=
   dependencies:
     isarray "1.0.0"
@@ -5811,7 +5785,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
 
 json3@^3.3.3:
   version "3.3.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
+  resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
   integrity sha512-c7/8mbUsKigAbLkD5B010BK4D9LZm7A1pNItkEwiUZRpIN66exu/e7YQWysGun+TRKaJp8MhemM+VkfWv42aCA==
 
 json5@^1.0.1:
@@ -5854,26 +5828,26 @@ keyv@^3.0.0:
 
 killable@^1.0.1:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
+  resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
   integrity sha512-LzqtLKlUwirEUyl/nicirVmNiPvYs7l5n8wOPP7fyJVpUPkvCnW/vuiXGpylGUlnPDnB7311rARzAt3Mhswpjg==
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
   integrity sha1-MeohpzS6ubuw8yRm2JOupR5KPGQ=
   dependencies:
     is-buffer "^1.1.5"
 
 kind-of@^4.0.0:
   version "4.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/kind-of/-/kind-of-4.0.0.tgz#20813df3d712928b207378691a45066fae72dd57"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-4.0.0.tgz#20813df3d712928b207378691a45066fae72dd57"
   integrity sha1-IIE989cSkosgc3hpGkUGb65y3Vc=
   dependencies:
     is-buffer "^1.1.5"
 
 kind-of@^5.0.0:
   version "5.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
   integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
 
 kind-of@^6.0.0, kind-of@^6.0.2, kind-of@^6.0.3:
@@ -6101,7 +6075,7 @@ log-symbols@^4.1.0:
 
 loglevel@^1.6.8:
   version "1.7.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
 
 longest-streak@^2.0.0:
@@ -6156,7 +6130,7 @@ make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0:
 
 map-cache@^0.2.2:
   version "0.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
+  resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha1-wyq9C9ZSXZsFFkW7TyasXcmKDb8=
 
 map-obj@^1.0.0:
@@ -6171,7 +6145,7 @@ map-obj@^4.0.0:
 
 map-visit@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
+  resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
@@ -6264,7 +6238,7 @@ media-typer@0.3.0:
 
 memory-fs@^0.4.1:
   version "0.4.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
+  resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
   integrity sha1-OpoguEYlI+RHz7x+i7gO1me/xVI=
   dependencies:
     errno "^0.1.3"
@@ -6310,7 +6284,7 @@ methods@~1.1.2:
 
 microevent.ts@~0.1.1:
   version "0.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/microevent.ts/-/microevent.ts-0.1.1.tgz#70b09b83f43df5172d0205a63025bce0f7357fa0"
+  resolved "https://registry.yarnpkg.com/microevent.ts/-/microevent.ts-0.1.1.tgz#70b09b83f43df5172d0205a63025bce0f7357fa0"
   integrity sha512-jo1OfR4TaEwd5HOrt5+tAZ9mqT4jmpNAusXtyfNzqVm9uiSYFZlKM1wYL4oU7azZW/PxQW53wM0S6OR1JHNa2g==
 
 micromark@~2.11.0:
@@ -6323,7 +6297,7 @@ micromark@~2.11.0:
 
 micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
+  resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
   integrity sha512-MWikgl9n9M3w+bpsY3He8L+w9eF9338xRl8IAO5viDizwSzziFEyUzo2xrrloB64ADbTf8uA8vRqqttDTOmccg==
   dependencies:
     arr-diff "^4.0.0"
@@ -6377,15 +6351,10 @@ mime@1.6.0:
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
   integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
 
-mime@^2.3.1:
+mime@^2.3.1, mime@^2.4.4:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.5.2.tgz#6e3dc6cc2b9510643830e5f19d5cb753da5eeabe"
   integrity sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==
-
-mime@^2.4.4:
-  version "2.6.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/mime/-/mime-2.6.0.tgz#a2a682a95cd4d0cb1d6257e28f83da7e35800367"
-  integrity sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==
 
 mimic-fn@^2.1.0:
   version "2.1.0"
@@ -6447,7 +6416,7 @@ minimist@^1.2.0, minimist@^1.2.5:
 
 mixin-deep@^1.2.0:
   version "1.3.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
+  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
   integrity sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==
   dependencies:
     for-in "^1.0.2"
@@ -6467,7 +6436,7 @@ mkdirp@^1.0.4:
 
 module-alias@^2.2.2:
   version "2.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
+  resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
 ms@2.0.0:
@@ -6505,7 +6474,7 @@ multicast-dns@^6.0.1:
 
 nan@^2.12.1:
   version "2.15.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
 
 nanocolors@^0.1.12:
@@ -6520,7 +6489,7 @@ nanoid@^3.1.30:
 
 nanomatch@^1.2.9:
   version "1.2.13"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
+  resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
   integrity sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==
   dependencies:
     arr-diff "^4.0.0"
@@ -6552,7 +6521,7 @@ neo-async@^2.6.2:
 
 nice-try@^1.0.4:
   version "1.0.5"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
+  resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 no-case@^3.0.4:
@@ -6582,7 +6551,7 @@ node-forge@^0.10.0:
 
 node-releases@^1.1.61:
   version "1.1.77"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/node-releases/-/node-releases-1.1.77.tgz#50b0cfede855dd374e7585bf228ff34e57c1c32e"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.77.tgz#50b0cfede855dd374e7585bf228ff34e57c1c32e"
   integrity sha512-rB1DUFUNAN4Gn9keO2K1efO35IDK7yKHCdCaIMvFO7yUYmmZYeDjnGKle26G4rwj+LKRQpjyUUvMkPglwGCYNQ==
 
 node-releases@^2.0.0:
@@ -6612,7 +6581,7 @@ normalize-package-data@^3.0.0:
 
 normalize-path@^2.1.1:
   version "2.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
+  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
   integrity sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=
   dependencies:
     remove-trailing-separator "^1.0.1"
@@ -6644,7 +6613,7 @@ normalize-url@^6.0.1:
 
 npm-run-path@^2.0.0:
   version "2.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
+  resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
   integrity sha1-NakjLfo11wZ7TLLd8jV7GHFTbF8=
   dependencies:
     path-key "^2.0.0"
@@ -6687,7 +6656,7 @@ object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
 
 object-copy@^0.1.0:
   version "0.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/object-copy/-/object-copy-0.1.0.tgz#7e7d858b781bd7c991a41ba975ed3812754e998c"
+  resolved "https://registry.yarnpkg.com/object-copy/-/object-copy-0.1.0.tgz#7e7d858b781bd7c991a41ba975ed3812754e998c"
   integrity sha1-fn2Fi3gb18mRpBupde04EnVOmYw=
   dependencies:
     copy-descriptor "^0.1.0"
@@ -6714,7 +6683,7 @@ object-keys@^1.0.12, object-keys@^1.1.1:
 
 object-visit@^1.0.0:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/object-visit/-/object-visit-1.0.1.tgz#f79c4493af0c5377b59fe39d395e41042dd045bb"
+  resolved "https://registry.yarnpkg.com/object-visit/-/object-visit-1.0.1.tgz#f79c4493af0c5377b59fe39d395e41042dd045bb"
   integrity sha1-95xEk68MU3e1n+OdOV5BBC3QRbs=
   dependencies:
     isobject "^3.0.0"
@@ -6766,7 +6735,7 @@ object.hasown@^1.0.0:
 
 object.pick@^1.3.0:
   version "1.3.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/object.pick/-/object.pick-1.3.0.tgz#87a10ac4c1694bd2e1cbf53591a66141fb5dd747"
+  resolved "https://registry.yarnpkg.com/object.pick/-/object.pick-1.3.0.tgz#87a10ac4c1694bd2e1cbf53591a66141fb5dd747"
   integrity sha1-h6EKxMFpS9Lhy/U1kaZhQftd10c=
   dependencies:
     isobject "^3.0.1"
@@ -6826,7 +6795,7 @@ opener@^1.5.2:
 
 opn@^5.5.0:
   version "5.5.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
+  resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
   integrity sha512-PqHpggC9bLV0VeWcdKhkpxY+3JTzetLSqTCWL/z/tFIbI6G8JCjondXklT1JinczLz2Xib62sSp0T/gKT4KksA==
   dependencies:
     is-wsl "^1.1.0"
@@ -6845,7 +6814,7 @@ optionator@^0.9.1:
 
 original@^1.0.0:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
+  resolved "https://registry.yarnpkg.com/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
   integrity sha512-hyBVl6iqqUOJ8FqRe+l/gS8H+kKYjrEndd5Pm1MfBtsEKA038HkkdbAl/72EAXGyonD/PFsvmVG+EvcIpliMBg==
   dependencies:
     url-parse "^1.4.3"
@@ -6911,7 +6880,7 @@ p-locate@^5.0.0:
 
 p-map@^2.0.0:
   version "2.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
+  resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
   integrity sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==
 
 p-map@^4.0.0:
@@ -6923,7 +6892,7 @@ p-map@^4.0.0:
 
 p-retry@^3.0.1:
   version "3.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/p-retry/-/p-retry-3.0.1.tgz#316b4c8893e2c8dc1cfa891f406c4b422bebf328"
+  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-3.0.1.tgz#316b4c8893e2c8dc1cfa891f406c4b422bebf328"
   integrity sha512-XE6G4+YTTkT2a0UWb2kjZe8xNwf8bIbnqpc/IS/idOBVhyves0mK5OJgeocjx7q5pvX/6m23xuzVPYT1uGM73w==
   dependencies:
     retry "^0.12.0"
@@ -7015,12 +6984,12 @@ pascal-case@^3.1.2:
 
 pascalcase@^0.1.1:
   version "0.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
+  resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
 path-dirname@^1.0.0:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/path-dirname/-/path-dirname-1.0.2.tgz#cc33d24d525e099a5388c0336c6e32b9160609e0"
+  resolved "https://registry.yarnpkg.com/path-dirname/-/path-dirname-1.0.2.tgz#cc33d24d525e099a5388c0336c6e32b9160609e0"
   integrity sha1-zDPSTVJeCZpTiMAzbG4yuRYGCeA=
 
 path-exists@^3.0.0:
@@ -7045,7 +7014,7 @@ path-is-inside@1.0.2, path-is-inside@^1.0.2:
 
 path-key@^2.0.0, path-key@^2.0.1:
   version "2.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
+  resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
   integrity sha1-QRyttXTFoUDTpLGRDUDYDMn0C0A=
 
 path-key@^3.0.0, path-key@^3.1.0:
@@ -7097,7 +7066,7 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
 
 pify@^2.0.0:
   version "2.3.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
+  resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha1-7RQaasBDqEnqWISY59yosVMw6Qw=
 
 pify@^4.0.1:
@@ -7107,14 +7076,14 @@ pify@^4.0.1:
 
 pinkie-promise@^2.0.0:
   version "2.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
+  resolved "https://registry.yarnpkg.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
   integrity sha1-ITXW36ejWMBprJsXh3YogihFD/o=
   dependencies:
     pinkie "^2.0.0"
 
 pinkie@^2.0.0:
   version "2.0.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+  resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
 pkg-dir@^2.0.0:
@@ -7126,7 +7095,7 @@ pkg-dir@^2.0.0:
 
 pkg-dir@^3.0.0:
   version "3.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
+  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
   integrity sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
   dependencies:
     find-up "^3.0.0"
@@ -7140,14 +7109,14 @@ pkg-dir@^4.1.0:
 
 pkg-up@3.1.0:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
 
 portfinder@^1.0.26:
   version "1.0.28"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/portfinder/-/portfinder-1.0.28.tgz#67c4622852bd5374dd1dd900f779f53462fac778"
+  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.28.tgz#67c4622852bd5374dd1dd900f779f53462fac778"
   integrity sha512-Se+2isanIcEqf2XMHjyUKskczxbPH7dQnlMjXX6+dybayyHvAf/TCgyMRlzf/B6QDhAEFOGes0pzRo3by4AbMA==
   dependencies:
     async "^2.6.2"
@@ -7156,7 +7125,7 @@ portfinder@^1.0.26:
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+  resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
 postcss-calc@^8.0.0:
@@ -7576,7 +7545,7 @@ promise@^7.1.1:
 
 prompts@2.4.0:
   version "2.4.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/prompts/-/prompts-2.4.0.tgz#4aa5de0723a231d1ee9121c40fdf663df73f61d7"
+  resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.0.tgz#4aa5de0723a231d1ee9121c40fdf663df73f61d7"
   integrity sha512-awZAKrk3vN6CroQukBL+R9051a4R3zCZBlJm/HBfrSZ8iTpYix3VX1vU4mveiLpiwmOJT4wokTF9m6HUk4KqWQ==
   dependencies:
     kleur "^3.0.3"
@@ -7616,7 +7585,7 @@ proxy-addr@~2.0.5:
 
 prr@~1.0.1:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
+  resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
   integrity sha1-0/wRS6BplaRexok/SEzrHXj19HY=
 
 pump@^3.0.0:
@@ -7671,7 +7640,7 @@ querystring@0.2.0:
 
 querystringify@^2.1.1:
   version "2.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
   integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
 
 queue-microtask@^1.2.2:
@@ -7733,7 +7702,7 @@ react-base16-styling@^0.6.0:
 
 react-dev-utils@^11.0.1:
   version "11.0.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
+  resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
   integrity sha512-dx0LvIGHcOPtKbeiSUM4jqpBl3TcY7CDjZdfOIcKeznE7BWr9dg0iPG90G5yfVQ+p/rGNMXdbfStvzQZEVEi4A==
   dependencies:
     "@babel/code-frame" "7.10.4"
@@ -7819,7 +7788,7 @@ react-loadable-ssr-addon-v5-slorber@^1.0.1:
 
 react-loadable@^5.5.0:
   version "5.5.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
+  resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
   integrity sha512-C8Aui0ZpMd4KokxRdVAm2bQtI03k2RMRNzOB+IipV3yxFTSVICv7WoUr5L9ALB5BmKO1iHgZtWM8EvYG83otdg==
   dependencies:
     prop-types "^15.5.0"
@@ -7925,7 +7894,7 @@ readable-stream@^3.0.6, readable-stream@^3.1.1:
 
 readdirp@^2.2.1:
   version "2.2.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/readdirp/-/readdirp-2.2.1.tgz#0e87622a3325aa33e892285caf8b4e846529a525"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-2.2.1.tgz#0e87622a3325aa33e892285caf8b4e846529a525"
   integrity sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
   dependencies:
     graceful-fs "^4.1.11"
@@ -7953,7 +7922,7 @@ rechoir@^0.6.2:
 
 recursive-readdir@2.2.2:
   version "2.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/recursive-readdir/-/recursive-readdir-2.2.2.tgz#9946fb3274e1628de6e36b2f6714953b4845094f"
+  resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-2.2.2.tgz#9946fb3274e1628de6e36b2f6714953b4845094f"
   integrity sha512-nRCcW9Sj7NuZwa2XvH9co8NPeXUBhZP7CRKJtU+cS6PW9FpCIFoI5ib0NT1ZrbNuPoRy0ylyCaUL8Gih4LSyFg==
   dependencies:
     minimatch "3.0.4"
@@ -7992,7 +7961,7 @@ regenerator-transform@^0.14.2:
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/regex-not/-/regex-not-1.0.2.tgz#1f4ece27e00b0b65e0247a6810e6a85d83a5752c"
+  resolved "https://registry.yarnpkg.com/regex-not/-/regex-not-1.0.2.tgz#1f4ece27e00b0b65e0247a6810e6a85d83a5752c"
   integrity sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==
   dependencies:
     extend-shallow "^3.0.2"
@@ -8168,7 +8137,7 @@ remark@^13.0.0:
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
+  resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
   integrity sha1-wkvOKig62tW8P1jg1IJJuSN52O8=
 
 renderkid@^2.0.6:
@@ -8184,7 +8153,7 @@ renderkid@^2.0.6:
 
 repeat-element@^1.1.2:
   version "1.1.4"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/repeat-element/-/repeat-element-1.1.4.tgz#be681520847ab58c7568ac75fbfad28ed42d39e9"
+  resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.4.tgz#be681520847ab58c7568ac75fbfad28ed42d39e9"
   integrity sha512-LFiNfRcSu7KK3evMyYOuCzv3L10TW7yC1G2/+StMjK8Y6Vqd2MG7r/Qjw4ghtuCOjFvlnms/iMmLqpvW/ES/WQ==
 
 repeat-string@^1.0.0, repeat-string@^1.5.4, repeat-string@^1.6.1:
@@ -8194,7 +8163,7 @@ repeat-string@^1.0.0, repeat-string@^1.5.4, repeat-string@^1.6.1:
 
 require-directory@^2.1.1:
   version "2.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
+  resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
   integrity sha1-jGStX9MNqxyXbiNE/+f3kqam30I=
 
 require-from-string@^2.0.2:
@@ -8209,7 +8178,7 @@ require-from-string@^2.0.2:
 
 require-main-filename@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
+  resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
 
 requires-port@^1.0.0:
@@ -8219,14 +8188,14 @@ requires-port@^1.0.0:
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
+  resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
   integrity sha1-AKn3OHVW4nA46uIyyqNypqWbZlo=
   dependencies:
     resolve-from "^3.0.0"
 
 resolve-from@^3.0.0:
   version "3.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
+  resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
   integrity sha1-six699nWiBvItuZTM17rywoYh0g=
 
 resolve-from@^4.0.0:
@@ -8246,7 +8215,7 @@ resolve-pathname@^3.0.0:
 
 resolve-url@^0.2.1:
   version "0.2.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
+  resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
 resolve@^1.1.6, resolve@^1.10.0, resolve@^1.14.2, resolve@^1.20.0, resolve@^1.3.2:
@@ -8274,12 +8243,12 @@ responselike@^1.0.2:
 
 ret@~0.1.10:
   version "0.1.15"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
+  resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
 retry@^0.12.0:
   version "0.12.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/retry/-/retry-0.12.0.tgz#1b42a6266a21f07421d1b0b54b7dc167b01c013b"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.12.0.tgz#1b42a6266a21f07421d1b0b54b7dc167b01c013b"
   integrity sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=
 
 reusify@^1.0.4:
@@ -8289,7 +8258,7 @@ reusify@^1.0.4:
 
 rimraf@^2.6.3:
   version "2.7.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
   dependencies:
     glob "^7.1.3"
@@ -8343,7 +8312,7 @@ safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@~5.2.0:
 
 safe-regex@^1.1.0:
   version "1.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
+  resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
   integrity sha1-QKNmnzsHfR6UPURinhV91IAjvy4=
   dependencies:
     ret "~0.1.10"
@@ -8368,7 +8337,7 @@ scheduler@^0.20.2:
 
 schema-utils@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/schema-utils/-/schema-utils-1.0.0.tgz#0b79a93204d7b600d4b2850d1f66c2a34951c770"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-1.0.0.tgz#0b79a93204d7b600d4b2850d1f66c2a34951c770"
   integrity sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
   dependencies:
     ajv "^6.1.0"
@@ -8408,7 +8377,7 @@ select-hose@^2.0.0:
 
 selfsigned@^1.10.8:
   version "1.10.11"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/selfsigned/-/selfsigned-1.10.11.tgz#24929cd906fe0f44b6d01fb23999a739537acbe9"
+  resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.11.tgz#24929cd906fe0f44b6d01fb23999a739537acbe9"
   integrity sha512-aVmbPOfViZqOZPgRBT0+3u4yZFHpmnIghLMlAcb5/xhp5ZtB/RVnKhz5vl2M32CLXAqR4kha9zfhNg0Lf/sxKA==
   dependencies:
     node-forge "^0.10.0"
@@ -8507,12 +8476,12 @@ serve-static@1.14.1:
 
 set-blocking@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
+  resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
 
 set-value@^2.0.0, set-value@^2.0.1:
   version "2.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/set-value/-/set-value-2.0.1.tgz#a18d40530e6f07de4228c7defe4227af8cad005b"
+  resolved "https://registry.yarnpkg.com/set-value/-/set-value-2.0.1.tgz#a18d40530e6f07de4228c7defe4227af8cad005b"
   integrity sha512-JxHc1weCN68wRY0fhCoXpyK55m/XPHafOmK4UWD7m2CI14GMcFypt4w/0+NV5f/ZMby2F6S2wwA7fgynh9gWSw==
   dependencies:
     extend-shallow "^2.0.1"
@@ -8544,7 +8513,7 @@ shallow-clone@^3.0.0:
 
 shebang-command@^1.2.0:
   version "1.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
+  resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
   integrity sha1-RKrGW2lbAzmJaMOfNj/uXer98eo=
   dependencies:
     shebang-regex "^1.0.0"
@@ -8558,7 +8527,7 @@ shebang-command@^2.0.0:
 
 shebang-regex@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
+  resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
   integrity sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
 
 shebang-regex@^3.0.0:
@@ -8568,7 +8537,7 @@ shebang-regex@^3.0.0:
 
 shell-quote@1.7.2:
   version "1.7.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
+  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
 shelljs@^0.8.4:
@@ -8634,7 +8603,7 @@ slice-ansi@^4.0.0:
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
+  resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
   integrity sha512-O27l4xaMYt/RSQ5TR3vpWCAB5Kb/czIcqUFOM/C4fYcLnbZUc1PkjTAMjof2pBWaSTwOUd6qUHcFGVGj7aIwnw==
   dependencies:
     define-property "^1.0.0"
@@ -8643,14 +8612,14 @@ snapdragon-node@^2.0.1:
 
 snapdragon-util@^3.0.1:
   version "3.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/snapdragon-util/-/snapdragon-util-3.0.1.tgz#f956479486f2acd79700693f6f7b805e45ab56e2"
+  resolved "https://registry.yarnpkg.com/snapdragon-util/-/snapdragon-util-3.0.1.tgz#f956479486f2acd79700693f6f7b805e45ab56e2"
   integrity sha512-mbKkMdQKsjX4BAL4bRYTj21edOf8cN7XHdYUJEe+Zn99hVEYcMvKPct1IqNe7+AZPirn8BCDOQBHQZknqmKlZQ==
   dependencies:
     kind-of "^3.2.0"
 
 snapdragon@^0.8.1:
   version "0.8.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/snapdragon/-/snapdragon-0.8.2.tgz#64922e7c565b0e14204ba1aa7d6964278d25182d"
+  resolved "https://registry.yarnpkg.com/snapdragon/-/snapdragon-0.8.2.tgz#64922e7c565b0e14204ba1aa7d6964278d25182d"
   integrity sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==
   dependencies:
     base "^0.11.1"
@@ -8664,7 +8633,7 @@ snapdragon@^0.8.1:
 
 sockjs-client@^1.5.0:
   version "1.5.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/sockjs-client/-/sockjs-client-1.5.2.tgz#4bc48c2da9ce4769f19dc723396b50f5c12330a3"
+  resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.5.2.tgz#4bc48c2da9ce4769f19dc723396b50f5c12330a3"
   integrity sha512-ZzRxPBISQE7RpzlH4tKJMQbHM9pabHluk0WBaxAQ+wm/UieeBVBou0p4wVnSQGN9QmpAZygQ0cDIypWuqOFmFQ==
   dependencies:
     debug "^3.2.6"
@@ -8700,7 +8669,7 @@ source-map-js@^0.6.2:
 
 source-map-resolve@^0.5.0:
   version "0.5.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/source-map-resolve/-/source-map-resolve-0.5.3.tgz#190866bece7553e1f8f267a2ee82c606b5509a1a"
+  resolved "https://registry.yarnpkg.com/source-map-resolve/-/source-map-resolve-0.5.3.tgz#190866bece7553e1f8f267a2ee82c606b5509a1a"
   integrity sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==
   dependencies:
     atob "^2.1.2"
@@ -8719,7 +8688,7 @@ source-map-support@~0.5.20:
 
 source-map-url@^0.4.0:
   version "0.4.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/source-map-url/-/source-map-url-0.4.1.tgz#0af66605a745a5a2f91cf1bbf8a7afbc283dec56"
+  resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.1.tgz#0af66605a745a5a2f91cf1bbf8a7afbc283dec56"
   integrity sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==
 
 source-map@^0.5.0, source-map@^0.5.6:
@@ -8803,7 +8772,7 @@ specificity@^0.4.1:
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
+  resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
   integrity sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
   dependencies:
     extend-shallow "^3.0.0"
@@ -8825,7 +8794,7 @@ state-toggle@^1.0.0:
 
 static-extend@^0.1.1:
   version "0.1.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
+  resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
   integrity sha1-YICcOcv/VTNyJv1eC1IPNB8ftcY=
   dependencies:
     define-property "^0.2.5"
@@ -8845,7 +8814,7 @@ std-env@^2.2.1:
 
 string-width@^3.0.0, string-width@^3.1.0:
   version "3.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/string-width/-/string-width-3.1.0.tgz#22767be21b62af1081574306f69ac51b62203961"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-3.1.0.tgz#22767be21b62af1081574306f69ac51b62203961"
   integrity sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==
   dependencies:
     emoji-regex "^7.0.1"
@@ -8916,7 +8885,7 @@ stringify-object@^3.3.0:
 
 strip-ansi@6.0.0:
   version "6.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/strip-ansi/-/strip-ansi-6.0.0.tgz#0b1571dd7669ccd4f3e06e14ef1eed26225ae532"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.0.tgz#0b1571dd7669ccd4f3e06e14ef1eed26225ae532"
   integrity sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==
   dependencies:
     ansi-regex "^5.0.0"
@@ -8930,7 +8899,7 @@ strip-ansi@^3.0.1:
 
 strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   version "5.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/strip-ansi/-/strip-ansi-5.2.0.tgz#8c9a536feb6afc962bdfa5b104a5091c1ad9c0ae"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-5.2.0.tgz#8c9a536feb6afc962bdfa5b104a5091c1ad9c0ae"
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
@@ -8954,7 +8923,7 @@ strip-bom@^3.0.0:
 
 strip-eof@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/strip-eof/-/strip-eof-1.0.0.tgz#bb43ff5598a6eb05d89b59fcd129c983313606bf"
+  resolved "https://registry.yarnpkg.com/strip-eof/-/strip-eof-1.0.0.tgz#bb43ff5598a6eb05d89b59fcd129c983313606bf"
   integrity sha1-u0P/VZim6wXYm1n80SnJgzE2Br8=
 
 strip-final-newline@^2.0.0:
@@ -9069,7 +9038,7 @@ supports-color@^5.3.0:
 
 supports-color@^6.1.0:
   version "6.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/supports-color/-/supports-color-6.1.0.tgz#0764abc69c63d5ac842dd4867e8d025e880df8f3"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-6.1.0.tgz#0764abc69c63d5ac842dd4867e8d025e880df8f3"
   integrity sha512-qe1jfm1Mg7Nq/NSh6XE24gPXROEVsWHxC1LIx//XNlD9iw7YZQGjZNjYN7xGaEG6iKdA8EtNFW6R0gjnVXp+wQ==
   dependencies:
     has-flag "^3.0.0"
@@ -9205,7 +9174,7 @@ to-fast-properties@^2.0.0:
 
 to-object-path@^0.3.0:
   version "0.3.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/to-object-path/-/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
+  resolved "https://registry.yarnpkg.com/to-object-path/-/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
   integrity sha1-KXWIt7Dn4KwI4E5nL4XB9JmeF68=
   dependencies:
     kind-of "^3.0.2"
@@ -9217,7 +9186,7 @@ to-readable-stream@^1.0.0:
 
 to-regex-range@^2.1.0:
   version "2.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/to-regex-range/-/to-regex-range-2.1.1.tgz#7c80c17b9dfebe599e27367e0d4dd5590141db38"
+  resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-2.1.1.tgz#7c80c17b9dfebe599e27367e0d4dd5590141db38"
   integrity sha1-fIDBe53+vlmeJzZ+DU3VWQFB2zg=
   dependencies:
     is-number "^3.0.0"
@@ -9232,7 +9201,7 @@ to-regex-range@^5.0.1:
 
 to-regex@^3.0.1, to-regex@^3.0.2:
   version "3.0.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/to-regex/-/to-regex-3.0.2.tgz#13cfdd9b336552f30b51f33a8ae1b42a7a7599ce"
+  resolved "https://registry.yarnpkg.com/to-regex/-/to-regex-3.0.2.tgz#13cfdd9b336552f30b51f33a8ae1b42a7a7599ce"
   integrity sha512-FWtleNAtZ/Ki2qtqej2CXTOayOH9bHDQF+Q48VpWyDXjbYxA4Yz8iDB31zXOBUlOHHKidDbqGVrTUvQMPmBGBw==
   dependencies:
     define-property "^2.0.2"
@@ -9425,7 +9394,7 @@ unified@^9.1.0:
 
 union-value@^1.0.0:
   version "1.0.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/union-value/-/union-value-1.0.1.tgz#0b6fe7b835aecda61c6ea4d4f02c14221e109847"
+  resolved "https://registry.yarnpkg.com/union-value/-/union-value-1.0.1.tgz#0b6fe7b835aecda61c6ea4d4f02c14221e109847"
   integrity sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==
   dependencies:
     arr-union "^3.1.0"
@@ -9534,7 +9503,7 @@ unquote@~1.1.1:
 
 unset-value@^1.0.0:
   version "1.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/unset-value/-/unset-value-1.0.0.tgz#8376873f7d2335179ffb1e6fc3a8ed0dfc8ab559"
+  resolved "https://registry.yarnpkg.com/unset-value/-/unset-value-1.0.0.tgz#8376873f7d2335179ffb1e6fc3a8ed0dfc8ab559"
   integrity sha1-g3aHP30jNRef+x5vw6jtDfyKtVk=
   dependencies:
     has-value "^0.3.1"
@@ -9542,7 +9511,7 @@ unset-value@^1.0.0:
 
 upath@^1.1.1:
   version "1.2.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/upath/-/upath-1.2.0.tgz#8f66dbcd55a883acdae4408af8b035a5044c1894"
+  resolved "https://registry.yarnpkg.com/upath/-/upath-1.2.0.tgz#8f66dbcd55a883acdae4408af8b035a5044c1894"
   integrity sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==
 
 update-notifier@^5.1.0:
@@ -9574,7 +9543,7 @@ uri-js@^4.2.2:
 
 urix@^0.1.0:
   version "0.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
+  resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
 
 url-loader@^4.1.1:
@@ -9595,7 +9564,7 @@ url-parse-lax@^3.0.0:
 
 url-parse@^1.4.3, url-parse@^1.5.3:
   version "1.5.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
   integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
   dependencies:
     querystringify "^2.1.1"
@@ -9630,7 +9599,7 @@ use-latest@^1.0.0:
 
 use@^3.1.0:
   version "3.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
+  resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
@@ -9767,7 +9736,7 @@ webpack-bundle-analyzer@^4.4.2:
 
 webpack-dev-middleware@^3.7.2:
   version "3.7.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/webpack-dev-middleware/-/webpack-dev-middleware-3.7.3.tgz#0639372b143262e2b84ab95d3b91a7597061c2c5"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-3.7.3.tgz#0639372b143262e2b84ab95d3b91a7597061c2c5"
   integrity sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==
   dependencies:
     memory-fs "^0.4.1"
@@ -9777,11 +9746,11 @@ webpack-dev-middleware@^3.7.2:
     webpack-log "^2.0.0"
 
 webpack-dev-server@^3.11.2:
-  version "3.11.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz#8c86b9d2812bf135d3c9bce6f07b718e30f7c3d3"
-  integrity sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==
+  version "3.11.2"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.11.2.tgz#695ebced76a4929f0d5de7fd73fafe185fe33708"
+  integrity sha512-A80BkuHRQfCiNtGBS1EMf2ChTUs0x+B3wGDFmOeT4rmJOHhHTCH2naNxIHhmkr0/UillP4U3yeIyv1pNp+QDLQ==
   dependencies:
-    ansi-html-community "0.0.8"
+    ansi-html "0.0.7"
     bonjour "^3.5.0"
     chokidar "^2.1.8"
     compression "^1.7.4"
@@ -9817,7 +9786,7 @@ webpack-dev-server@^3.11.2:
 
 webpack-log@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/webpack-log/-/webpack-log-2.0.0.tgz#5b7928e0637593f119d32f6227c1e0ac31e1b47f"
+  resolved "https://registry.yarnpkg.com/webpack-log/-/webpack-log-2.0.0.tgz#5b7928e0637593f119d32f6227c1e0ac31e1b47f"
   integrity sha512-cX8G2vR/85UYG59FgkoMamwHUIkSSlV3bBMRsbxVXVUk2j6NleCKjQ/WE9eYg9WY4w25O9w8wKP4rzNZFmUcUg==
   dependencies:
     ansi-colors "^3.0.0"
@@ -9839,15 +9808,15 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.3:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-sources@^3.2.2:
-  version "3.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/webpack-sources/-/webpack-sources-3.2.2.tgz#d88e3741833efec57c4c789b6010db9977545260"
-  integrity sha512-cp5qdmHnu5T8wRg2G3vZZHoJPN14aqQ89SyQ11NpGH5zEMDCclt49rzo+MaRazk7/UeILhAI+/sEtcM+7Fr0nw==
+webpack-sources@^3.2.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.1.tgz#251a7d9720d75ada1469ca07dbb62f3641a05b6d"
+  integrity sha512-t6BMVLQ0AkjBOoRTZgqrWm7xbXMBzD+XDq2EZ96+vMfn3qKgsvdXZhbPZ4ElUOpdv4u+iiGe+w3+J75iy/bYGA==
 
 webpack@^5.40.0:
-  version "5.64.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/webpack/-/webpack-5.64.1.tgz#fd59840c16f04fe315f2b2598a85026f12dfa1bb"
-  integrity sha512-b4FHmRgaaAjP+aVOVz41a9Qa5SmkUPQ+u8FntTQ1roPHahSComB6rXnLwc976VhUY4CqTaLu5mCswuHiNhOfVw==
+  version "5.59.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.59.1.tgz#60c77e9aad796252153d4d7ab6b2d4c11f0e548c"
+  integrity sha512-I01IQV9K96FlpXX3V0L4nvd7gb0r7thfuu1IfT2P4uOHOA77nKARAKDYGe/tScSHKnffNIyQhLC8kRXzY4KEHQ==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.50"
@@ -9872,7 +9841,7 @@ webpack@^5.40.0:
     tapable "^2.1.1"
     terser-webpack-plugin "^5.1.3"
     watchpack "^2.2.0"
-    webpack-sources "^3.2.2"
+    webpack-sources "^3.2.0"
 
 webpackbar@^5.0.0-3:
   version "5.0.0-3"
@@ -9915,7 +9884,7 @@ which-boxed-primitive@^1.0.2:
 
 which-module@^2.0.0:
   version "2.0.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/which-module/-/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
+  resolved "https://registry.yarnpkg.com/which-module/-/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
   integrity sha1-2e8H3Od7mQK4o6j6SzHD4/fm6Ho=
 
 which@^1.2.9, which@^1.3.1:
@@ -9951,14 +9920,14 @@ word-wrap@^1.2.3:
 
 worker-rpc@^0.1.0:
   version "0.1.1"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/worker-rpc/-/worker-rpc-0.1.1.tgz#cb565bd6d7071a8f16660686051e969ad32f54d5"
+  resolved "https://registry.yarnpkg.com/worker-rpc/-/worker-rpc-0.1.1.tgz#cb565bd6d7071a8f16660686051e969ad32f54d5"
   integrity sha512-P1WjMrUB3qgJNI9jfmpZ/htmBEjFh//6l/5y8SD9hg1Ef5zTTVVoRjTrTEzPrNBQvmhMxkoTsjOXN10GWU7aCg==
   dependencies:
     microevent.ts "~0.1.1"
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/wrap-ansi/-/wrap-ansi-5.1.0.tgz#1fd1f67235d5b6d0fee781056001bfb694c03b09"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-5.1.0.tgz#1fd1f67235d5b6d0fee781056001bfb694c03b09"
   integrity sha512-QC1/iN/2/RPVJ5jYK8BGttj5z83LmSKmvbvrXPNCLZSEb32KKVDJDl/MOt2N01qU2H/FkzEa9PKto1BqDjtd7Q==
   dependencies:
     ansi-styles "^3.2.0"
@@ -9991,7 +9960,7 @@ write-file-atomic@^3.0.0, write-file-atomic@^3.0.3:
 
 ws@^6.2.1:
   version "6.2.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/ws/-/ws-6.2.2.tgz#dd5cdbd57a9979916097652d78f1cc5faea0c32e"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.2.tgz#dd5cdbd57a9979916097652d78f1cc5faea0c32e"
   integrity sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==
   dependencies:
     async-limiter "~1.0.0"
@@ -10020,7 +9989,7 @@ xtend@^4.0.0, xtend@^4.0.1:
 
 y18n@^4.0.0:
   version "4.0.3"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/y18n/-/y18n-4.0.3.tgz#b5f259c82cd6e336921efd7bfd8bf560de9eeedf"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.3.tgz#b5f259c82cd6e336921efd7bfd8bf560de9eeedf"
   integrity sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==
 
 yallist@^4.0.0:
@@ -10035,7 +10004,7 @@ yaml@^1.10.0, yaml@^1.10.2:
 
 yargs-parser@^13.1.2:
   version "13.1.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/yargs-parser/-/yargs-parser-13.1.2.tgz#130f09702ebaeef2650d54ce6e3e5706f7a4fb38"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.1.2.tgz#130f09702ebaeef2650d54ce6e3e5706f7a4fb38"
   integrity sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==
   dependencies:
     camelcase "^5.0.0"
@@ -10048,7 +10017,7 @@ yargs-parser@^20.2.3:
 
 yargs@^13.3.2:
   version "13.3.2"
-  resolved "https://nexus.dc.ifood.com.br/repository/ifood-npm/yargs/-/yargs-13.3.2.tgz#ad7ffefec1aa59565ac915f82dccb38a9c31a2dd"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.3.2.tgz#ad7ffefec1aa59565ac915f82dccb38a9c31a2dd"
   integrity sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
   dependencies:
     cliui "^5.0.0"
