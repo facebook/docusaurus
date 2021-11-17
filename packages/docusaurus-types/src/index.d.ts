@@ -58,7 +58,7 @@ export interface DocusaurusConfig {
   )[];
   clientModules?: string[];
   ssrTemplate?: string;
-  staticDirectories?: string[];
+  staticDirectories: string[];
   stylesheets?: (
     | string
     | {

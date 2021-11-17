@@ -6,7 +6,7 @@
  */
 
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME} from '../constants';
+import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import {
   Joi,
   logValidationBugReportHint,
@@ -37,6 +37,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'titleDelimiter'
   | 'noIndex'
   | 'baseUrlIssueBanner'
+  | 'staticDirectories'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -50,6 +51,7 @@ export const DEFAULT_CONFIG: Pick<
   titleDelimiter: '|',
   noIndex: false,
   baseUrlIssueBanner: true,
+  staticDirectories: [STATIC_DIR_NAME],
 };
 
 const PluginSchema = Joi.alternatives()
@@ -142,7 +144,9 @@ export const ConfigSchema = Joi.object({
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
-  staticDirectories: Joi.array().items(Joi.string()),
+  staticDirectories: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.staticDirectories),
   projectName: Joi.string().allow(''),
   deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),

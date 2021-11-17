@@ -13,7 +13,6 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import {STATIC_DIR_NAME} from '../constants';
 import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
@@ -129,7 +128,7 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {baseUrl, onBrokenLinks, staticDirectories = [STATIC_DIR_NAME]},
+    siteConfig: {baseUrl, onBrokenLinks, staticDirectories},
     routes,
   } = props;
 
