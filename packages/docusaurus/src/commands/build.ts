@@ -161,18 +161,13 @@ async function buildLocale({
     },
   });
 
-  const staticDirectoryConfigurations = staticDirectories
-    .map((dir) => path.resolve(siteDir, dir))
-    .filter((dir) => fs.existsSync(dir))
-    .map((dir) => ({
-      from: dir,
-      to: outDir,
-    }));
-
   serverConfig = merge(serverConfig, {
     plugins: [
       new CopyWebpackPlugin({
-        patterns: staticDirectoryConfigurations,
+        patterns: staticDirectories
+          .map((dir) => path.resolve(siteDir, dir))
+          .filter(fs.existsSync)
+          .map((dir) => ({from: dir, to: outDir})),
       }),
     ],
   });
