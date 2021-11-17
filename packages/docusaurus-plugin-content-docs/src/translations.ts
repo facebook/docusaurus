@@ -14,7 +14,7 @@ import {
   transformSidebarItems,
   collectSidebarLinks,
 } from './sidebars/utils';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationFiles,

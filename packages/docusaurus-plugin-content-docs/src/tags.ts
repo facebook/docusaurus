@@ -6,7 +6,7 @@
  */
 
 import {groupTaggedItems} from '@docusaurus/utils';
-import {VersionTags, DocMetadata} from './types';
+import type {VersionTags, DocMetadata} from './types';
 import {mapValues} from 'lodash';
 
 export function getVersionTags(docs: DocMetadata[]): VersionTags {
