@@ -51,9 +51,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
           }
         }}
       />
-      <>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      </>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label htmlFor={id} className={styles.checkboxLabel}>
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
