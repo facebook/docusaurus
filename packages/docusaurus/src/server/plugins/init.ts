@@ -117,8 +117,11 @@ function normalizePluginConfig(
     // ]
     if (typeof pluginConfig[0] === 'string') {
       const pluginModuleImport = pluginConfig[0];
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+      const pluginModule = loadPluginModule(
+        pluginModuleImport,
+        pluginRequire,
+        pluginType,
+      );
       return {
         plugin: pluginModule?.default ?? pluginModule,
         options: pluginConfig[1] ?? {},
