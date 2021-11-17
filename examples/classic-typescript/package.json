@@ -16,8 +16,8 @@
     "dev": "docusaurus start"
   },
   "dependencies": {
-    "@docusaurus/core": "../../packages/docusaurus",
-    "@docusaurus/preset-classic": "../../packages/docusaurus-preset-classic",
+    "@docusaurus/core": "2.0.0-beta.8",
+    "@docusaurus/preset-classic": "2.0.0-beta.8",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
@@ -28,7 +28,7 @@
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "../../packages/docusaurus-module-type-aliases",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.8",
     "@tsconfig/docusaurus": "^1.0.4",
     "typescript": "^4.3.5"
   },

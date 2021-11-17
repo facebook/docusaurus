@@ -31,25 +31,26 @@ function loadPresetModule(
   presetModuleImport: string,
   pluginRequire: NodeRequire,
 ): PresetModuleImport {
-  const resolvedPresetModules = [
+  const presetModulesPatterns = [
     `docusaurus-preset-${presetModuleImport}`,
     `@docusaurus/preset-${presetModuleImport}`,
     `@${presetModuleImport}/docusaurus-preset`,
     presetModuleImport,
-  ]
-    .map((presetModuleImportAttempt) =>
-      resolvePresetModule(presetModuleImportAttempt, pluginRequire),
+  ];
+  const resolvedPresetModules = presetModulesPatterns
+    .map((presetModulePattern) =>
+      resolvePresetModule(presetModulePattern, pluginRequire),
     )
     .filter(
       (presetModule) => presetModule !== undefined,
     ) as PresetModuleImport[];
 
   if (resolvedPresetModules.length === 0) {
-    throw new Error(
-      `Docusaurus was unable to resolve the ${presetModuleImport} preset. Make sure one of the following packages are installed:\n${resolvedPresetModules.map(
-        (presetModuleImportAttempt) => `* ${presetModuleImportAttempt}\n`,
-      )}`,
-    );
+    const error = `Docusaurus was unable to resolve the ${presetModuleImport} preset. Make sure one of the following packages are installed:`;
+    presetModulesPatterns.forEach((presetModulePattern) => {
+      return error.concat(`\n* ${presetModulePattern}`);
+    });
+    throw new Error(error);
   }
 
   return resolvedPresetModules[0];
