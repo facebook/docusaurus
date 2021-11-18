@@ -18,9 +18,9 @@ describe('users', () => {
   });
 
   test('have valid images', async () => {
-    const cardImageWidth = 304;
-    const cardImageHeight = 150;
-
+    const minCardImageWidth = 304;
+    const minCardImageHeight = 150;
+    const minCardImageHeightScaled = 140;
     const imageDir = path.join(__dirname, '../showcase');
 
     const files = await fs.readdir(imageDir);
@@ -29,31 +29,26 @@ describe('users', () => {
     for (const file of files) {
       const size = imageSize(path.join(imageDir, file));
 
-      if (size.width < cardImageWidth) {
+      if (size.width < minCardImageWidth) {
         throw new Error(
-          `Image width should be >= ${cardImageWidth}
+          `Image width should be >= ${minCardImageWidth}
 Image=${file}`,
         );
       }
-      if (size.height < cardImageHeight) {
+      if (size.height < minCardImageHeight) {
         throw new Error(
-          `Image height should be >= ${cardImageHeight}
+          `Image height should be >= ${minCardImageHeight}
 Image=${file}`,
         );
       }
 
-      const scaledHeight = size.height / (size.width / cardImageWidth);
-      if (scaledHeight < cardImageHeight) {
-        console.log({file, scaledHeight});
-
-        /*
+      const scaledHeight = size.height / (size.width / minCardImageWidth);
+      if (scaledHeight < minCardImageHeightScaled) {
         throw new Error(
           `Image height is too small compared to width
-After downscaling to width=${cardImageWidth}, height would be ${scaledHeight} while the minimum is ${cardImageHeight}
+After downscaling to width=${minCardImageWidth}, height would be ${scaledHeight} while the minimum is ${minCardImageHeightScaled}
 Image=${file}`,
         );
-
-         */
       }
     }
   });
