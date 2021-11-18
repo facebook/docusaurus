@@ -67,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "@tsconfig/docusaurus": "^1.0.4",
     "cross-env": "^7.0.3",
     "raw-loader": "^4.0.2"
