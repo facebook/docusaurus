@@ -14,9 +14,9 @@ image: ./img/social-card.png
 
 [DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system.
 
-Docusaurus site owners should upgrade their site configuration **by February 1, 2022**.
+Docusaurus site owners should upgrade their site configuration **by February 1, 2022**
 
-In a few months, existing indexes will become read-only.
+Existing search indexes will be frozen and become read-only state.
 
 <!--truncate-->
 
