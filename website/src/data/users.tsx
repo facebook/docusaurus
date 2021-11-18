@@ -384,6 +384,15 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'large'],
   },
   {
+    title: 'Darklang',
+    description:
+      'A new way of building serverless backends, with no infra, framework or deployment nightmares.',
+    preview: require('./showcase/darklang.png'),
+    website: 'https://docs.darklang.com/',
+    source: 'https://github.com/darklang/docs',
+    tags: ['product'],
+  },
+  {
     title: 'Dart Code Metrics',
     description:
       'Static analysis tool that helps analyse and improve Dart code quality.',
