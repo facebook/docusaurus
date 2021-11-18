@@ -117,7 +117,7 @@
     "serve": "^12.0.1",
     "stylelint": "^13.10.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.5.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
