@@ -6,90 +6,96 @@
  */
 
 import React, {memo} from 'react';
-
-import styles from './styles.module.css';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
-import {Tags, TagList, TagType, User, Tag} from '../../../data/users';
-import {sortBy} from '../../../utils/jsUtils';
+import Link from '@docusaurus/Link';
 
-function TagIcon({label, description, icon}: Tag) {
-  return (
-    <span
-      className={styles.tagIcon}
-      // TODO add a proper tooltip
-      title={`${label}: ${description}`}>
-      {icon}
-    </span>
-  );
+import styles from './styles.module.css';
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
+import {sortBy} from '@site/src/utils/jsUtils';
+
+interface Props extends Tag {
+  id: string;
 }
 
-function ShowcaseCardTagIcons({tags}: {tags: TagType[]}) {
-  const tagObjects = tags
-    .map((tag) => ({tag, ...Tags[tag]}))
-    .filter((tagObject) => !!tagObject.icon);
+const TagComp = React.forwardRef<HTMLLIElement, Props>(
+  ({id, label, color, description}, ref) => (
+    <li
+      ref={ref}
+      aria-describedby={id}
+      className={styles.tag}
+      title={description}>
+      <span className={styles.textLabel}>{label.toLowerCase()}</span>
+      <span className={styles.colorLabel} style={{backgroundColor: color}} />
+    </li>
+  ),
+);
 
-  // Keep same order of icons for all tags
+function ShowcaseCardTag({tags}: {tags: TagType[]}) {
+  const tagObjects = tags.map((tag) => ({tag, ...Tags[tag]}));
+
+  // Keep same order for all tags
   const tagObjectsSorted = sortBy(tagObjects, (tagObject) =>
     TagList.indexOf(tagObject.tag),
   );
 
   return (
     <>
-      {tagObjectsSorted.map((tagObject, index) => (
-        <TagIcon key={index} {...tagObject} />
-      ))}
+      {tagObjectsSorted.map((tagObject, index) => {
+        const id = `showcase_card_tag_${tagObject.tag}`;
+
+        return (
+          <Tooltip
+            key={index}
+            text={tagObject.description}
+            anchorEl="#__docusaurus"
+            id={id}>
+            <TagComp id={id} key={index} {...tagObject} />
+          </Tooltip>
+        );
+      })}
     </>
   );
 }
 
 const ShowcaseCard = memo(({user}: {user: User}) => (
-  <div key={user.title} className="col col--4 margin-bottom--lg">
-    <div className={clsx('card', styles.showcaseCard)}>
-      <div className={clsx('card__image', styles.showcaseCardImage)}>
-        <Image img={user.preview} alt={user.title} />
-      </div>
-      <div className="card__body">
-        <div className="avatar">
-          <div className="avatar__intro margin-left--none">
-            <div className={styles.titleIconsRow}>
-              <div className={styles.titleIconsRowTitle}>
-                <div className="avatar__name">{user.title}</div>
-              </div>
-              <div className={styles.titleIconsRowIcons}>
-                <ShowcaseCardTagIcons tags={user.tags} />
-              </div>
-            </div>
-            <small className="avatar__subtitle">{user.description}</small>
-          </div>
-        </div>
-      </div>
-      {(user.website || user.source) && (
-        <div className="card__footer">
-          <div className="button-group button-group--block">
-            {user.website && (
-              <a
-                className="button button--small button--secondary button--block"
-                href={user.website}
-                target="_blank"
-                rel="noreferrer noopener">
-                Website
-              </a>
-            )}
-            {user.source && (
-              <a
-                className="button button--small button--secondary button--block"
-                href={user.source}
-                target="_blank"
-                rel="noreferrer noopener">
-                Source
-              </a>
-            )}
-          </div>
-        </div>
-      )}
+  <li key={user.title} className="card shadow--md">
+    <div className={clsx('card__image', styles.showcaseCardImage)}>
+      <Image img={user.preview} alt={user.title} />
     </div>
-  </div>
+    <div className="card__body">
+      <div className={clsx(styles.showcaseCardHeader)}>
+        <h4 className={styles.showcaseCardTitle}>
+          <Link
+            href={user.website}
+            tabIndex={0}
+            className={styles.showcaseCardLink}>
+            {user.title}
+          </Link>
+        </h4>
+        {user.tags.includes('favorite') && (
+          <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
+        )}
+        {user.source && (
+          <Link
+            href={user.source}
+            tabIndex={0}
+            className={clsx(
+              'button button--secondary button--sm',
+              styles.showcaseCardSrcBtn,
+            )}>
+            source
+          </Link>
+        )}
+      </div>
+      <p className={styles.showcaseCardBody}>{user.description}</p>
+    </div>
+    <ul className={clsx('card__footer', styles.cardFooter)}>
+      <ShowcaseCardTag tags={user.tags} />
+    </ul>
+  </li>
 ));
 
 export default ShowcaseCard;

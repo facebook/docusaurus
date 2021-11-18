@@ -92,6 +92,7 @@ export default async function choosePort(
       new Promise((resolve) => {
         if (port === defaultPort) {
           resolve(port);
+          return;
         }
         const message =
           process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
