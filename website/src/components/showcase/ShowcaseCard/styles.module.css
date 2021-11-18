@@ -7,7 +7,8 @@
 
 .showcaseCardImage {
   overflow: hidden;
-  max-height: 160px;
+  max-height: 150px;
+  border-bottom: 4px solid var(--ifm-color-primary);
 }
 
 .showcaseCardHeader {

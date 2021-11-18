@@ -45,9 +45,7 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
     const [selected, setSelected] = useState(false);
     useEffect(() => {
       const tags = readSearchTags(location.search);
-      if (tags.includes(tag)) {
-        setSelected(true);
-      }
+      setSelected(tags.includes(tag));
     }, [tag, location]);
     const toggleTag = useCallback(() => {
       const tags = readSearchTags(location.search);
