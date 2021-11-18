@@ -250,7 +250,7 @@ function DocSearch({
   );
 }
 
-function SearchBar() {
+function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   // @ts-ignore
   return <DocSearch {...siteConfig.themeConfig.algolia} />;

@@ -112,19 +112,16 @@ module.exports = {
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
-    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
+    '@typescript-eslint/no-non-null-assertion': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
       {argsIgnorePattern: '^_', ignoreRestSiblings: true},
     ],
+    '@typescript-eslint/explicit-module-boundary-types': WARNING,
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
-
-    // TODO re-enable some these as errors
-    // context: https://github.com/facebook/docusaurus/pull/2949
-    '@typescript-eslint/ban-types': WARNING,
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,

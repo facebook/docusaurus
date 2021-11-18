@@ -30,8 +30,6 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
 function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
   return (
     <BrowserOnlyReactJson
-      // Prop type defined by react-json-view
-      // eslint-disable-next-line @typescript-eslint/ban-types
       src={src as object}
       style={{
         marginTop: '10px',
