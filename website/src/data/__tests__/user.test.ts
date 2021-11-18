@@ -46,11 +46,14 @@ Image=${file}`,
       if (scaledHeight < cardImageHeight) {
         console.log({file, scaledHeight});
 
+        /*
         throw new Error(
           `Image height is too small compared to width
 After downscaling to width=${cardImageWidth}, height would be ${scaledHeight} while the minimum is ${cardImageHeight}
 Image=${file}`,
         );
+
+         */
       }
     }
   });
