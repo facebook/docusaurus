@@ -390,7 +390,7 @@ const Users: User[] = [
     preview: require('./showcase/darklang.png'),
     website: 'https://docs.darklang.com/',
     source: 'https://github.com/darklang/docs',
-    tags: ['product'],
+    tags: ['product', 'opensource'],
   },
   {
     title: 'Dart Code Metrics',
