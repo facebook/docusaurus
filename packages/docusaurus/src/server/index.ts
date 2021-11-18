@@ -229,7 +229,7 @@ function createMDXFallbackPlugin({
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.join(siteDir, dir),
+                      path.resolve(siteDir, dir),
                     ),
                     siteDir,
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials

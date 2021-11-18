@@ -207,7 +207,7 @@ export default function pluginContentPages(
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.join(siteDir, dir),
+                      path.resolve(siteDir, dir),
                     ),
                     siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(

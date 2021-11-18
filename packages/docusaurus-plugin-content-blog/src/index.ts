@@ -463,7 +463,7 @@ export default function pluginContentBlog(
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
-                      path.join(siteDir, dir),
+                      path.resolve(siteDir, dir),
                     ),
                     siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(

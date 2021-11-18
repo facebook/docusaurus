@@ -363,7 +363,7 @@ Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 
 ### `staticDirectories` {#staticdirectories}
 
-An array of paths, relative to the site's directory. Files under these paths will be copied to the build output as-is.
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
 
 - Type: `string[]`
 
