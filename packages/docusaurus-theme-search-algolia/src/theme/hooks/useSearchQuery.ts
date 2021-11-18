@@ -47,10 +47,9 @@ function useSearchQuery(): SearchQuery {
   );
 
   const generateSearchPageLink = useCallback(
-    (targetSearchQuery: string) => {
+    (targetSearchQuery: string) =>
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      return `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`;
-    },
+      `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`,
     [baseUrl],
   );
 

@@ -31,13 +31,12 @@ export function getActivePlugin(
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined {
   const activeEntry = Object.entries(allPluginDatas).find(
-    ([_id, pluginData]) => {
-      return !!matchPath(pathname, {
+    ([_id, pluginData]) =>
+      !!matchPath(pathname, {
         path: pluginData.path,
         exact: false,
         strict: false,
-      });
-    },
+      }),
   );
 
   const activePlugin: ActivePlugin | undefined = activeEntry
@@ -63,9 +62,8 @@ export type ActiveDocContext = {
   alternateDocVersions: Record<string, Doc>;
 };
 
-export const getLatestVersion = (data: GlobalPluginData): Version => {
-  return data.versions.find((version) => version.isLast)!;
-};
+export const getLatestVersion = (data: GlobalPluginData): Version =>
+  data.versions.find((version) => version.isLast)!;
 
 // Note: return undefined on doc-unrelated pages,
 // because there's no version currently considered as active
@@ -80,13 +78,14 @@ export const getActiveVersion = (
     ...data.versions.filter((version) => version !== lastVersion),
     lastVersion,
   ];
-  return orderedVersionsMetadata.find((version) => {
-    return !!matchPath(pathname, {
-      path: version.path,
-      exact: false,
-      strict: false,
-    });
-  });
+  return orderedVersionsMetadata.find(
+    (version) =>
+      !!matchPath(pathname, {
+        path: version.path,
+        exact: false,
+        strict: false,
+      }),
+  );
 };
 
 export const getActiveDocContext = (

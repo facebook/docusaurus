@@ -14,9 +14,9 @@ import {memoize} from 'lodash';
 
 import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
-const getCompiledOpenSearchTemplate = memoize(() => {
-  return compile(openSearchTemplate.trim());
-});
+const getCompiledOpenSearchTemplate = memoize(() =>
+  compile(openSearchTemplate.trim()),
+);
 
 function renderOpenSearchTemplate(data: {
   title: string;

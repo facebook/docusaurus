@@ -322,9 +322,9 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
+              items: items.map((postID) =>
                 // To tell routes.js this is an import and not a nested object to recurse.
-                return {
+                ({
                   content: {
                     __import: true,
                     path: blogItemsToMetadata[postID].source,
@@ -332,8 +332,8 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                };
-              }),
+                }),
+              ),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -490,14 +490,12 @@ export default function pluginContentBlog(
                     }: {
                       frontMatter: BlogPostFrontMatter;
                       metadata: MetaData;
-                    }): Assets => {
-                      return {
-                        image: frontMatter.image,
-                        authorsImageUrls: metadata.authors.map(
-                          (author) => author.imageURL,
-                        ),
-                      };
-                    },
+                    }): Assets => ({
+                      image: frontMatter.image,
+                      authorsImageUrls: metadata.authors.map(
+                        (author) => author.imageURL,
+                      ),
+                    }),
                   },
                 },
                 {
