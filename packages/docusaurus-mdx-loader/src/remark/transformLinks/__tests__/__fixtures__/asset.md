@@ -20,6 +20,8 @@
 
 [asset](asset.pdf)
 
+[asset2](/asset2.pdf)
+
 [staticAsset.pdf](/staticAsset.pdf)
 
 [@site/static/staticAsset.pdf](@site/static/staticAsset.pdf)
