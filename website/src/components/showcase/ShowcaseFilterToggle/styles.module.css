@@ -6,14 +6,15 @@
  */
 
 .checkboxLabel {
+  --height: 25px;
+  --width: 80px;
+  --border: 2px;
   display: flex;
-  width: 80px;
-  height: 25px;
+  width: var(--width);
+  height: var(--height);
   position: relative;
-  border-radius: 25px;
-  border: 2px solid var(--ifm-color-primary-darkest);
-  overflow: hidden;
-  background-color: transparent;
+  border-radius: var(--height);
+  border: var(--border) solid var(--ifm-color-primary-darkest);
   cursor: pointer;
   justify-content: space-around;
   align-items: center;
@@ -40,19 +41,16 @@ input:focus-visible ~ .checkboxLabel,
 .checkboxLabel::after {
   position: absolute;
   content: '';
-  top: -2px;
-  left: -2px;
-  width: 40px;
-  height: 25px;
-  border-radius: 20px;
+  inset: 0;
+  width: calc(var(--width) / 2);
+  height: 100%;
+  border-radius: var(--height);
   background-color: var(--ifm-color-primary-darkest);
-  box-sizing: border-box;
-  border: 0.04em solid var(--ifm-color-primary-darkest);
   transition: transform var(--ifm-transition-fast)
     var(--ifm-transition-timing-default) 150ms;
-  transform: translateX(38px);
+  transform: translateX(calc(var(--width) / 2 - var(--border)));
 }
 
 input:checked ~ .checkboxLabel::after {
-  transform: translateX(0);
+  transform: translateX(calc(-1 * var(--border)));
 }
