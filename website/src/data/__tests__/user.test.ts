@@ -8,9 +8,51 @@
 import {TagList, User, sortedUsers} from '../users';
 import {difference} from '@site/src/utils/jsUtils';
 
+import fs from 'fs-extra';
+import path from 'path';
+import imageSize from 'image-size';
+
 describe('users', () => {
   test('are valid', () => {
     sortedUsers.forEach(ensureUserValid);
+  });
+
+  test('have valid images', async () => {
+    const cardImageWidth = 304;
+    const cardImageHeight = 150;
+
+    const imageDir = path.join(__dirname, '../showcase');
+
+    const files = await fs.readdir(imageDir);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const file of files) {
+      const size = imageSize(path.join(imageDir, file));
+
+      if (size.width < cardImageWidth) {
+        throw new Error(
+          `Image width should be >= ${cardImageWidth}
+Image=${file}`,
+        );
+      }
+      if (size.height < cardImageHeight) {
+        throw new Error(
+          `Image height should be >= ${cardImageHeight}
+Image=${file}`,
+        );
+      }
+
+      const scaledHeight = size.height / (size.width / cardImageWidth);
+      if (scaledHeight < cardImageHeight) {
+        console.log({file, scaledHeight});
+
+        throw new Error(
+          `Image height is too small compared to width
+After downscaling to width=${cardImageWidth}, height would be ${scaledHeight} while the minimum is ${cardImageHeight}
+Image=${file}`,
+        );
+      }
+    }
   });
 });
 

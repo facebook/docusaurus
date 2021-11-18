@@ -34,7 +34,7 @@ module.exports = {
   setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
-    '^.+\\.css|jpg|jpeg|png|svg': '<rootDir>/jest/emptyModule.js',
+    '^.+\\.(css|jpg|jpeg|png|svg)$': '<rootDir>/jest/emptyModule.js',
 
     // TODO we need to allow Jest to resolve core Webpack aliases automatically
     '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
