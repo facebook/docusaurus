@@ -157,48 +157,32 @@ function ShowcaseCards() {
     (user) => !user.tags.includes('favorite'),
   );
 
+  if (filteredUsers.length === 0) {
+    return (
+      <section className="margin-top--lg margin-bottom--xl">
+        <div className="container padding-vert--md text--center">
+          <h3>No result</h3>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="margin-top--lg margin-bottom--xl">
-      {filteredUsers.length > 0 ? (
+      {favoriteUsers ? (
         <>
-          {favoriteUsers ? (
-            <>
-              <div className={styles.showcaseFavorite}>
-                <div className="container">
-                  <div
-                    className={clsx(
-                      'margin-bottom--md',
-                      styles.showcaseFavoriteHeader,
-                    )}>
-                    <h3>Our favorites</h3>
-                    <FavoriteIcon svgClass={styles.svgIconFavorite} />
-                  </div>
-                  <ul className={clsx('container', styles.showcaseList)}>
-                    {favoriteUsers.map((user) => (
-                      <ShowcaseCard
-                        key={user.title} // Title should be unique
-                        user={user}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="container margin-top--xl">
-                <h3 className={styles.showcaseHeader}>All sites</h3>
-                <ul className={styles.showcaseList}>
-                  {otherUsers.map((user) => (
-                    <ShowcaseCard
-                      key={user.title} // Title should be unique
-                      user={user}
-                    />
-                  ))}
-                </ul>
-              </div>
-            </>
-          ) : (
+          <div className={styles.showcaseFavorite}>
             <div className="container">
-              <ul className={styles.showcaseList}>
-                {filteredUsers.map((user) => (
+              <div
+                className={clsx(
+                  'margin-bottom--md',
+                  styles.showcaseFavoriteHeader,
+                )}>
+                <h3>Our favorites</h3>
+                <FavoriteIcon svgClass={styles.svgIconFavorite} />
+              </div>
+              <ul className={clsx('container', styles.showcaseList)}>
+                {favoriteUsers.map((user) => (
                   <ShowcaseCard
                     key={user.title} // Title should be unique
                     user={user}
@@ -206,11 +190,29 @@ function ShowcaseCards() {
                 ))}
               </ul>
             </div>
-          )}
+          </div>
+          <div className="container margin-top--xl">
+            <h3 className={styles.showcaseHeader}>All sites</h3>
+            <ul className={styles.showcaseList}>
+              {otherUsers.map((user) => (
+                <ShowcaseCard
+                  key={user.title} // Title should be unique
+                  user={user}
+                />
+              ))}
+            </ul>
+          </div>
         </>
       ) : (
-        <div className="container padding-vert--md text--center">
-          <h3>No result</h3>
+        <div className="container">
+          <ul className={styles.showcaseList}>
+            {filteredUsers.map((user) => (
+              <ShowcaseCard
+                key={user.title} // Title should be unique
+                user={user}
+              />
+            ))}
+          </ul>
         </div>
       )}
     </section>

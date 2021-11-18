@@ -119,24 +119,22 @@ export default function Tooltip({
       })}
       {container
         ? ReactDOM.createPortal(
-            <>
-              {open && (
-                <div
-                  id={id}
-                  role="tooltip"
-                  ref={setPopperElement}
-                  className={styles.tooltip}
-                  style={popperStyles.popper}
-                  {...attributes.popper}>
-                  {text}
-                  <span
-                    ref={setArrowElement}
-                    className={styles.tooltipArrow}
-                    style={popperStyles.arrow}
-                  />
-                </div>
-              )}
-            </>,
+            open && (
+              <div
+                id={id}
+                role="tooltip"
+                ref={setPopperElement}
+                className={styles.tooltip}
+                style={popperStyles.popper}
+                {...attributes.popper}>
+                {text}
+                <span
+                  ref={setArrowElement}
+                  className={styles.tooltipArrow}
+                  style={popperStyles.arrow}
+                />
+              </div>
+            ),
             container,
           )
         : container}

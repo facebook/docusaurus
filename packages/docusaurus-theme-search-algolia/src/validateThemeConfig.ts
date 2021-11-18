@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {Joi} = require('@docusaurus/utils-validation');
+import {Joi} from '@docusaurus/utils-validation';
+import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
 const DEFAULT_CONFIG = {
   contextualSearch: false, // future: maybe we want to enable this by default
@@ -18,7 +19,7 @@ const DEFAULT_CONFIG = {
 };
 exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
-const Schema = Joi.object({
+export const Schema = Joi.object({
   algolia: Joi.object({
     // Docusaurus attributes
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
@@ -35,11 +36,13 @@ const Schema = Joi.object({
     .required()
     .unknown(), // DocSearch 3 is still alpha: don't validate the rest for now
 });
-exports.Schema = Schema;
 
-exports.validateThemeConfig = function validateThemeConfig({
+export function validateThemeConfig({
   validate,
   themeConfig,
-}) {
+}: {
+  validate: Validate<ThemeConfig>;
+  themeConfig: ThemeConfig;
+}): ValidationResult<ThemeConfig> {
   return validate(Schema, themeConfig);
-};
+}

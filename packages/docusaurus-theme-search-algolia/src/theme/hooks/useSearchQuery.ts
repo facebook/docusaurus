@@ -8,10 +8,11 @@
 import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useCallback, useEffect, useState} from 'react';
+import type {SearchQuery} from '@theme/hooks/useSearchQuery';
 
 const SEARCH_PARAM_QUERY = 'q';
 
-function useSearchQuery() {
+function useSearchQuery(): SearchQuery {
   const history = useHistory();
   const {
     siteConfig: {baseUrl},
@@ -28,7 +29,7 @@ function useSearchQuery() {
   }, []);
 
   const setSearchQuery = useCallback(
-    (newSearchQuery) => {
+    (newSearchQuery: string) => {
       const searchParams = new URLSearchParams(window.location.search);
 
       if (newSearchQuery) {
@@ -46,10 +47,9 @@ function useSearchQuery() {
   );
 
   const generateSearchPageLink = useCallback(
-    (targetSearchQuery) => {
+    (targetSearchQuery: string) =>
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      return `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`;
-    },
+      `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`,
     [baseUrl],
   );
 

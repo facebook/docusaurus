@@ -4,9 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-const {Joi} = require('@docusaurus/utils-validation');
-const path = require('path');
+import path from 'path';
+import {Joi} from '@docusaurus/utils-validation';
+import type {
+  ThemeConfig,
+  ValidationResult,
+  OptionValidationContext,
+} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const DEFAULT_OPTIONS = {
   debug: false,
@@ -22,7 +27,7 @@ const DEFAULT_OPTIONS = {
   reloadPopup: '@theme/PwaReloadPopup',
 };
 
-exports.PluginOptionSchema = Joi.object({
+export const Schema = Joi.object({
   debug: Joi.bool().default(DEFAULT_OPTIONS.debug),
   offlineModeActivationStrategies: Joi.array()
     .items(
@@ -52,3 +57,10 @@ exports.PluginOptionSchema = Joi.object({
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.reloadPopup),
 });
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions>): ValidationResult<ThemeConfig> {
+  return validate(Schema, options);
+}

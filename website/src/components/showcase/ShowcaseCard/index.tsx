@@ -21,18 +21,16 @@ interface Props extends Tag {
 }
 
 const TagComp = React.forwardRef<HTMLLIElement, Props>(
-  ({id, label, color, description}, ref) => {
-    return (
-      <li
-        ref={ref}
-        aria-describedby={id}
-        className={styles.tag}
-        title={description}>
-        <span className={styles.textLabel}>{label.toLowerCase()}</span>
-        <span className={styles.colorLabel} style={{backgroundColor: color}} />
-      </li>
-    );
-  },
+  ({id, label, color, description}, ref) => (
+    <li
+      ref={ref}
+      aria-describedby={id}
+      className={styles.tag}
+      title={description}>
+      <span className={styles.textLabel}>{label.toLowerCase()}</span>
+      <span className={styles.colorLabel} style={{backgroundColor: color}} />
+    </li>
+  ),
 );
 
 function ShowcaseCardTag({tags}: {tags: TagType[]}) {
@@ -62,44 +60,42 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
   );
 }
 
-const ShowcaseCard = memo(function ({user}: {user: User}) {
-  return (
-    <li key={user.title} className="card shadow--md">
-      <div className={clsx('card__image', styles.showcaseCardImage)}>
-        <Image img={user.preview} alt={user.title} />
+const ShowcaseCard = memo(({user}: {user: User}) => (
+  <li key={user.title} className="card shadow--md">
+    <div className={clsx('card__image', styles.showcaseCardImage)}>
+      <Image img={user.preview} alt={user.title} />
+    </div>
+    <div className="card__body">
+      <div className={clsx(styles.showcaseCardHeader)}>
+        <h4 className={styles.showcaseCardTitle}>
+          <Link
+            href={user.website}
+            tabIndex={0}
+            className={styles.showcaseCardLink}>
+            {user.title}
+          </Link>
+        </h4>
+        {user.tags.includes('favorite') && (
+          <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
+        )}
+        {user.source && (
+          <Link
+            href={user.source}
+            tabIndex={0}
+            className={clsx(
+              'button button--secondary button--sm',
+              styles.showcaseCardSrcBtn,
+            )}>
+            source
+          </Link>
+        )}
       </div>
-      <div className="card__body">
-        <div className={clsx(styles.showcaseCardHeader)}>
-          <h4 className={styles.showcaseCardTitle}>
-            <Link
-              href={user.website}
-              tabIndex={0}
-              className={styles.showcaseCardLink}>
-              {user.title}
-            </Link>
-          </h4>
-          {user.tags.includes('favorite') && (
-            <FavoriteIcon svgClass={styles.svgIconFavorite} size="small" />
-          )}
-          {user.source && (
-            <Link
-              href={user.source}
-              tabIndex={0}
-              className={clsx(
-                'button button--secondary button--sm',
-                styles.showcaseCardSrcBtn,
-              )}>
-              source
-            </Link>
-          )}
-        </div>
-        <p className={styles.showcaseCardBody}>{user.description}</p>
-      </div>
-      <ul className={clsx('card__footer', styles.cardFooter)}>
-        <ShowcaseCardTag tags={user.tags} />
-      </ul>
-    </li>
-  );
-});
+      <p className={styles.showcaseCardBody}>{user.description}</p>
+    </div>
+    <ul className={clsx('card__footer', styles.cardFooter)}>
+      <ShowcaseCardTag tags={user.tags} />
+    </ul>
+  </li>
+));
 
 export default ShowcaseCard;

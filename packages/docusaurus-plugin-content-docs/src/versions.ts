@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {
+import type {
   PluginOptions,
   VersionBanner,
   VersionMetadata,
@@ -22,7 +22,7 @@ import {
 } from './constants';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {difference} from 'lodash';
 import {resolveSidebarPathOption} from './sidebars';

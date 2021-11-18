@@ -10,7 +10,6 @@ import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
   Plugin,
-  HtmlTags,
   OptionValidationContext,
   ValidationResult,
   ThemeConfig,
@@ -75,7 +74,7 @@ export default function pluginGoogleGtag(
               anonymizeIP ? "'anonymize_ip': true" : ''
             } });`,
           },
-        ] as HtmlTags,
+        ],
       };
     },
   };

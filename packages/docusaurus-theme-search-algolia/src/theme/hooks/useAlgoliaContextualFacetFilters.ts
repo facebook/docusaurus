@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useContextualSearchFilters from '@theme/hooks/useContextualSearchFilters';
+import type {useAlgoliaContextualFacetFiltersReturns} from '@theme/hooks/useAlgoliaContextualFacetFilters';
+import {useContextualSearchFilters} from '@docusaurus/theme-common';
 
 // Translate search-engine agnostic search filters to Algolia search filters
-export default function useAlgoliaContextualFacetFilters() {
+export default function useAlgoliaContextualFacetFilters(): useAlgoliaContextualFacetFiltersReturns {
   const {locale, tags} = useContextualSearchFilters();
 
   // seems safe to convert locale->language, see AlgoliaSearchMetadata comment

@@ -10,10 +10,7 @@ import type {Props} from '@theme/IconExternalLink';
 
 import styles from './styles.module.css';
 
-const IconExternalLink = ({
-  width = 13.5,
-  height = 13.5,
-}: Props): JSX.Element => {
+function IconExternalLink({width = 13.5, height = 13.5}: Props): JSX.Element {
   return (
     <svg
       width={width}
@@ -27,6 +24,6 @@ const IconExternalLink = ({
       />
     </svg>
   );
-};
+}
 
 export default IconExternalLink;
