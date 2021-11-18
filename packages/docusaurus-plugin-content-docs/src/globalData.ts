@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocMetadata, GlobalDoc, LoadedVersion, GlobalVersion} from './types';
+import type {
+  DocMetadata,
+  GlobalDoc,
+  LoadedVersion,
+  GlobalVersion,
+} from './types';
 
 export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {

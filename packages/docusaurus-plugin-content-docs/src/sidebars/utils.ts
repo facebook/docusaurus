@@ -13,9 +13,17 @@ import type {
   SidebarItemLink,
   SidebarItemDoc,
   SidebarItemType,
+  SidebarCategoriesShorthand,
+  SidebarItemConfig,
 } from './types';
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
+
+export function isCategoriesShorthand(
+  item: SidebarItemConfig,
+): item is SidebarCategoriesShorthand {
+  return typeof item !== 'string' && !item.type;
+}
 
 export function transformSidebarItems(
   sidebar: Sidebar,
