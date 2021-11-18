@@ -112,7 +112,7 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  staticDirectories: ['static', path.join(__filename, '_dogfooding/_asset-tests')],
+  staticDirectories: ['static', path.join(__dirname, '_dogfooding/_asset-tests')],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
