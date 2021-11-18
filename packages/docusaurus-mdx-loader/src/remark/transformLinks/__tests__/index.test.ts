@@ -13,8 +13,11 @@ import plugin from '..';
 import transformImage from '../../transformImage';
 
 const processFixture = async (name: string, options?) => {
-  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
-  const staticDirs = [path.join(__dirname, 'fixtures', 'static')];
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const staticDirs = [
+    path.join(__dirname, '__fixtures__/static'),
+    path.join(__dirname, '__fixtures__/static2'),
+  ];
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(mdx)
@@ -23,7 +26,7 @@ const processFixture = async (name: string, options?) => {
       ...options,
       filePath,
       staticDirs,
-      siteDir: path.join(__dirname, 'fixtures'),
+      siteDir: path.join(__dirname, '__fixtures__'),
     })
     .process(file);
 

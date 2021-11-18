@@ -13,7 +13,7 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options) => {
-  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
@@ -24,9 +24,9 @@ const processFixture = async (name, options) => {
   return result.toString();
 };
 
-// avoid hardcoding absolute
 const staticDirs = [
-  `./${path.relative(process.cwd(), path.join(__dirname, 'fixtures'))}`,
+  path.join(__dirname, '__fixtures__/static'),
+  path.join(__dirname, '__fixtures__/static2'),
 ];
 
 describe('transformImage plugin', () => {
