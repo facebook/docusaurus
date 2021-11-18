@@ -110,7 +110,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
+const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
   try {
     const {pathname} = new URL(value);
     if (pathname !== '/') {
@@ -126,7 +126,7 @@ const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
 export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
-    .regex(new RegExp('/$', 'm'))
+    .regex(/\/$/m)
     .message('{{#label}} must be a string with a trailing slash.'),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),

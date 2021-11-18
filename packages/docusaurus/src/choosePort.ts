@@ -91,7 +91,7 @@ export default async function choosePort(
     (port) =>
       new Promise((resolve) => {
         if (port === defaultPort) {
-          return resolve(port);
+          resolve(port);
         }
         const message =
           process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
@@ -121,7 +121,6 @@ export default async function choosePort(
           console.log(chalk.red(message));
           resolve(null);
         }
-        return null;
       }),
     (err) => {
       throw new Error(

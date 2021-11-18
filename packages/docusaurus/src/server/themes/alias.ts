@@ -19,9 +19,9 @@ export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   // Alphabetical order by default
   const entries = sortBy(Object.entries(aliases), ([alias]) => alias);
   // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
-  entries.sort(([alias1], [alias2]) => {
-    return alias1.includes(`${alias2}/`) ? -1 : 0;
-  });
+  entries.sort(([alias1], [alias2]) =>
+    alias1.includes(`${alias2}/`) ? -1 : 0,
+  );
   return Object.fromEntries(entries);
 }
 

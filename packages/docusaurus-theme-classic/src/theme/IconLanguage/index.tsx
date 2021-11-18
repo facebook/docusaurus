@@ -8,11 +8,7 @@
 import React from 'react';
 import type {Props} from '@theme/IconLanguage';
 
-const IconLanguage = ({
-  width = 20,
-  height = 20,
-  ...props
-}: Props): JSX.Element => {
+function IconLanguage({width = 20, height = 20, ...props}: Props): JSX.Element {
   return (
     <svg
       viewBox="0 0 20 20"
@@ -26,6 +22,6 @@ const IconLanguage = ({
       />
     </svg>
   );
-};
+}
 
 export default IconLanguage;

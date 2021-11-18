@@ -17,7 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import type {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
@@ -36,7 +36,7 @@ import {
   DocsMarkdownOption,
   VersionTag,
 } from './types';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {keyBy, mapValues} from 'lodash';
