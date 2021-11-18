@@ -54,7 +54,7 @@ export type TagType =
   | 'i18n'
   | 'versioning'
   | 'large'
-  | 'facebook'
+  | 'meta'
   | 'personal'
   | 'rtl';
 
@@ -121,9 +121,9 @@ export const Tags: Record<TagType, Tag> = {
     color: '#8c2f00',
   },
 
-  facebook: {
-    label: 'Facebook',
-    description: 'Docusaurus sites of Facebook projects',
+  meta: {
+    label: 'Meta',
+    description: 'Docusaurus sites of Meta (formerly Facebook) projects',
     color: '#4267b2', // Facebook blue
   },
 
@@ -330,7 +330,7 @@ const Users: User[] = [
     preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
     source: 'https://github.com/facebook/componentkit',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'ConfigCat Feature Flags',
@@ -363,7 +363,7 @@ const Users: User[] = [
     preview: require('./showcase/create-react-app.png'),
     website: 'https://facebook.github.io/create-react-app/',
     source: 'https://github.com/facebook/create-react-app',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'CryptoDevHub',
@@ -423,7 +423,7 @@ const Users: User[] = [
     preview: require('./showcase/draftjs.png'),
     website: 'https://draftjs.org/',
     source: 'https://github.com/facebook/draft-js',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Easyjwt',
@@ -474,7 +474,7 @@ const Users: User[] = [
     preview: require('./showcase/fbt.png'),
     website: 'https://facebookincubator.github.io/fbt/',
     source: 'https://github.com/facebook/fbt',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Fenghua Frontend Developer',
@@ -506,7 +506,7 @@ const Users: User[] = [
     preview: require('./showcase/flipper.png'),
     website: 'https://fbflipper.com',
     source: 'https://github.com/facebook/flipper',
-    tags: ['opensource', 'design', 'facebook'],
+    tags: ['opensource', 'design', 'meta'],
   },
   {
     title: 'FlexIt Analytics',
@@ -522,7 +522,7 @@ const Users: User[] = [
     preview: require('./showcase/flux.png'),
     website: 'https://facebook.github.io/flux/',
     source: 'https://github.com/facebook/flux',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'FoalTS',
@@ -620,7 +620,7 @@ const Users: User[] = [
     preview: require('./showcase/hermes.png'),
     website: 'https://hermesengine.dev',
     source: 'https://github.com/facebook/hermes',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Home Assistant',
@@ -636,7 +636,7 @@ const Users: User[] = [
     preview: require('./showcase/idb.png'),
     website: 'https://www.fbidb.io/',
     source: 'https://github.com/facebook/idb',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'IntelAGENT Billing',
@@ -727,7 +727,7 @@ const Users: User[] = [
     preview: require('./showcase/mapillaryjs.png'),
     website: 'https://mapillary.github.io/mapillary-js/',
     source: 'https://github.com/mapillary/mapillary-js',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'MediaMachine',
@@ -752,7 +752,7 @@ const Users: User[] = [
     preview: require('./showcase/metro.png'),
     website: 'https://facebook.github.io/metro/',
     source: 'https://github.com/facebook/metro',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Mia-Platform',
@@ -963,7 +963,7 @@ const Users: User[] = [
     preview: require('./showcase/profolo.png'),
     website: 'https://facebookincubator.github.io/profilo/',
     source: 'https://github.com/facebookincubator/profilo',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Pyre',
@@ -971,7 +971,7 @@ const Users: User[] = [
     preview: require('./showcase/pyre.png'),
     website: 'https://pyre-check.org',
     source: 'https://github.com/facebook/pyre-check',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'QA-Board',
@@ -1033,7 +1033,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/react-native-website',
     tags: [
       'opensource',
-      'facebook',
+      'meta',
       'large',
       'favorite',
       'design',
@@ -1346,7 +1346,7 @@ const Users: User[] = [
     preview: require('./showcase/the-diff.png'),
     website: 'https://thediffpodcast.com',
     source: null,
-    tags: ['facebook'],
+    tags: ['meta'],
   },
   {
     title: 'Tinaël Devresse',
