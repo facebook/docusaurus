@@ -12,6 +12,7 @@ import {
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
+import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
@@ -142,13 +143,12 @@ async function processLinkNode(node: Link, options: PluginOptions) {
     );
   }
 
-  try {
-    // Throws when the URL doens't have a protocol, i.e. it's a file path
-    // eslint-disable-next-line no-new
-    new URL(node.url);
-  } catch {
-    await convertToAssetLinkIfNeeded(node, options);
+  const parsedUrl = url.parse(node.url);
+  if (parsedUrl.protocol) {
+    return;
   }
+
+  await convertToAssetLinkIfNeeded(node, options);
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {

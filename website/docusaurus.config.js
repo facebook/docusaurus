@@ -68,10 +68,6 @@ const config = {
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
-  staticDirectories: [
-    path.resolve(__dirname, './static'),
-    path.resolve(__dirname, './test'),
-  ],
   baseUrl,
   baseUrlIssueBanner: true,
   url: 'https://docusaurus.io',
@@ -116,6 +112,7 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  staticDirectories: ['static', '_dogfooding/assets'],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [

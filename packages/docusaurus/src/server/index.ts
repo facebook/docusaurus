@@ -231,6 +231,7 @@ function createMDXFallbackPlugin({
                     staticDirs: siteConfig.staticDirectories.map((dir) =>
                       path.join(siteDir, dir),
                     ),
+                    siteDir,
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
                     remarkPlugins: [admonitions],

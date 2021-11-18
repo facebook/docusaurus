@@ -397,6 +397,7 @@ export default function pluginContentDocs(
                 staticDirs: siteConfig.staticDirectories.map((dir) =>
                   path.join(siteDir, dir),
                 ),
+                siteDir,
                 isMDXPartial: createAbsoluteFilePathMatcher(
                   options.exclude,
                   contentDirs,
