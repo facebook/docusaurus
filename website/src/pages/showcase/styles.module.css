@@ -18,6 +18,7 @@
 .filterCheckbox > span {
   display: flex;
   flex: 1 1 auto;
+  align-items: center;
 }
 
 .filterCheckbox > span > * {
@@ -69,8 +70,8 @@
 }
 
 .showcaseFavorite {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   background-color: var(--site-color-favorite-background);
 }
 
@@ -79,8 +80,13 @@
   align-items: center;
 }
 
-.showcaseFavoriteHeader > h3 {
+.showcaseFavoriteHeader > h2 {
   margin-bottom: 0;
+}
+
+.showcaseFavoriteHeader > svg {
+  width: 30px;
+  height: 30px;
 }
 
 .svgIconFavoriteXs,
