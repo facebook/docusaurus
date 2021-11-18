@@ -10,7 +10,7 @@ import React, {
   ReactNode,
   ReactElement,
   useCallback,
-  useRef,
+  useState,
   useEffect,
 } from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
@@ -42,11 +42,11 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
   ({id, icon, label, tag, ...rest}, ref) => {
     const location = useLocation();
     const history = useHistory();
-    const inputRef = useRef<HTMLInputElement>();
+    const [selected, setSelected] = useState(false);
     useEffect(() => {
       const tags = readSearchTags(location.search);
       if (tags.includes(tag)) {
-        inputRef.current.checked = true;
+        setSelected(true);
       }
     }, [tag, location]);
     const toggleTag = useCallback(() => {
@@ -61,14 +61,13 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
           type="checkbox"
           id={id}
           className="sr-only"
-          ref={inputRef}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               toggleTag();
-              inputRef.current.checked = !inputRef.current.checked;
             }
           }}
           onChange={toggleTag}
+          checked={selected}
           {...rest}
         />
         <label

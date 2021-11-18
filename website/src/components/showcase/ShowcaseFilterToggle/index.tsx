@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
@@ -20,13 +20,12 @@ export function readOperator(search: string): Operator {
 }
 
 export default function ShowcaseFilterToggle(): JSX.Element {
-  const id = `showcase_filter_toggle`;
+  const id = 'showcase_filter_toggle';
   const location = useLocation();
   const history = useHistory();
   const [operator, setOperator] = useState(false);
-  const inputRef = useRef<HTMLInputElement>();
   useEffect(() => {
-    inputRef.current.checked = readOperator(location.search) === 'AND';
+    setOperator(readOperator(location.search) === 'AND');
   }, [location]);
   const toggleOperator = useCallback(() => {
     setOperator((o) => !o);
@@ -41,7 +40,6 @@ export default function ShowcaseFilterToggle(): JSX.Element {
       <input
         type="checkbox"
         id={id}
-        ref={inputRef}
         className="sr-only"
         aria-label="Toggle between or and and for the tags you selected"
         onChange={toggleOperator}
@@ -50,6 +48,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
             toggleOperator();
           }
         }}
+        checked={operator}
       />
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label htmlFor={id} className={styles.checkboxLabel}>
