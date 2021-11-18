@@ -361,6 +361,20 @@ Attempting to add unknown field in the config will lead to error in build time:
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
+### `staticDirectories` {#staticdirectories}
+
+An array of paths, relative to the site's directory. Files under these paths will be copied to the build output as-is.
+
+- Type: `string[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  staticDirectories: ['static'],
+};
+```
+
 ### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
