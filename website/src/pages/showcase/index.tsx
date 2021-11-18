@@ -146,16 +146,16 @@ function ShowcaseFilters() {
   );
 }
 
+const favoriteUsers = sortedUsers.filter((user) =>
+  user.tags.includes('favorite'),
+);
+const otherUsers = sortedUsers.filter(
+  (user) => !user.tags.includes('favorite'),
+);
+
 function ShowcaseCards() {
   const selectedTags = useSelectedTags();
   const filteredUsers = useFilteredUsers();
-  const favoriteUsers =
-    selectedTags.length === 0 &&
-    sortedUsers.filter((user) => user.tags.includes('favorite'));
-
-  const otherUsers = sortedUsers.filter(
-    (user) => !user.tags.includes('favorite'),
-  );
 
   if (filteredUsers.length === 0) {
     return (
@@ -169,7 +169,7 @@ function ShowcaseCards() {
 
   return (
     <section className="margin-top--lg margin-bottom--xl">
-      {favoriteUsers ? (
+      {selectedTags.length === 0 ? (
         <>
           <div className={styles.showcaseFavorite}>
             <div className="container">
@@ -183,10 +183,7 @@ function ShowcaseCards() {
               </div>
               <ul className={clsx('container', styles.showcaseList)}>
                 {favoriteUsers.map((user) => (
-                  <ShowcaseCard
-                    key={user.title} // Title should be unique
-                    user={user}
-                  />
+                  <ShowcaseCard key={user.title} user={user} />
                 ))}
               </ul>
             </div>
@@ -195,10 +192,7 @@ function ShowcaseCards() {
             <h3 className={styles.showcaseHeader}>All sites</h3>
             <ul className={styles.showcaseList}>
               {otherUsers.map((user) => (
-                <ShowcaseCard
-                  key={user.title} // Title should be unique
-                  user={user}
-                />
+                <ShowcaseCard key={user.title} user={user} />
               ))}
             </ul>
           </div>
@@ -207,10 +201,7 @@ function ShowcaseCards() {
         <div className="container">
           <ul className={styles.showcaseList}>
             {filteredUsers.map((user) => (
-              <ShowcaseCard
-                key={user.title} // Title should be unique
-                user={user}
-              />
+              <ShowcaseCard key={user.title} user={user} />
             ))}
           </ul>
         </div>

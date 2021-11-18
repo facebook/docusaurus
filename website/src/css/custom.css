@@ -158,7 +158,7 @@ div[class^='announcementBar_'] {
   color: red;
 }
 
-.sr-only {
+.screen-reader-only {
   border: 0;
   clip: rect(0 0 0 0);
   -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);

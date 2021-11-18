@@ -58,7 +58,7 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
         <input
           type="checkbox"
           id={id}
-          className="sr-only"
+          className="screen-reader-only"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               toggleTag();
