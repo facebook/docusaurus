@@ -118,7 +118,7 @@ export async function createBlogFeedFiles({
   }
 
   await Promise.all(
-    feedTypes.map(async function (feedType) {
+    feedTypes.map(async (feedType) => {
       await createBlogFeedFile({
         feed,
         feedType,

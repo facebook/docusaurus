@@ -31,7 +31,6 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'airbnb',
     'prettier',
-    'prettier/react',
   ],
   settings: {
     'import/resolver': {
@@ -61,6 +60,7 @@ module.exports = {
       },
     ],
     'import/extensions': OFF,
+    'no-restricted-exports': OFF,
     'header/header': [
       ERROR,
       'block',
@@ -90,6 +90,14 @@ module.exports = {
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
+    'react/function-component-definition': [
+      WARNING,
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
     'import/order': OFF,
@@ -187,6 +195,12 @@ module.exports = {
       files: ['*.d.ts'],
       rules: {
         'import/no-duplicates': OFF,
+      },
+    },
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'import/no-import-module-exports': OFF,
       },
     },
     {

@@ -54,14 +54,14 @@ function useDocsSearchVersionsHelpers() {
   // State of the version select menus / algolia facet filters
   // docsPluginId -> versionName map
   const [searchVersions, setSearchVersions] = useState<Record<string, string>>(
-    () => {
-      return Object.entries(allDocsData).reduce(
-        (acc, [pluginId, pluginData]) => {
-          return {...acc, [pluginId]: pluginData.versions[0].name};
-        },
+    () =>
+      Object.entries(allDocsData).reduce(
+        (acc, [pluginId, pluginData]) => ({
+          ...acc,
+          [pluginId]: pluginData.versions[0].name,
+        }),
         {},
-      );
-    },
+      ),
   );
 
   // Set the value of a single select menu
@@ -81,11 +81,11 @@ function useDocsSearchVersionsHelpers() {
 }
 
 // We want to display one select per versioned docs plugin instance
-const SearchVersionSelectList = ({
+function SearchVersionSelectList({
   docsSearchVersionsHelpers,
 }: {
   docsSearchVersionsHelpers: ReturnType<typeof useDocsSearchVersionsHelpers>;
-}) => {
+}) {
   const versionedPluginEntries = Object.entries(
     docsSearchVersionsHelpers.allDocsData,
   )
@@ -126,7 +126,7 @@ const SearchVersionSelectList = ({
       })}
     </div>
   );
-};
+}
 
 type ResultDispatcherState = {
   items: {
@@ -225,12 +225,11 @@ function SearchPage(): JSX.Element {
         return;
       }
 
-      const sanitizeValue = (value: string) => {
-        return value.replace(
+      const sanitizeValue = (value: string) =>
+        value.replace(
           /algolia-docsearch-suggestion--highlight/g,
           'search-result-match',
         );
-      };
 
       const items = hits.map(
         ({
@@ -239,9 +238,9 @@ function SearchPage(): JSX.Element {
           _snippetResult: snippet = {},
         }) => {
           const parsedURL = new URL(url);
-          const titles = Object.keys(hierarchy).map((key) => {
-            return sanitizeValue(hierarchy[key].value);
-          });
+          const titles = Object.keys(hierarchy).map((key) =>
+            sanitizeValue(hierarchy[key].value),
+          );
 
           return {
             title: titles.pop()!,
