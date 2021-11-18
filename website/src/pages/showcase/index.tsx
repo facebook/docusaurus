@@ -13,14 +13,14 @@ import clsx from 'clsx';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import ShowcaseTagSelect, {
   readSearchTags,
-} from '@site/src/components/showcase/ShowcaseTagSelect';
+} from './_components/ShowcaseTagSelect';
 import ShowcaseFilterToggle, {
   Operator,
   readOperator,
-} from '@site/src/components/showcase/ShowcaseFilterToggle';
-import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
+} from './_components/ShowcaseFilterToggle';
+import ShowcaseCard from './_components/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
-import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
 import {useLocation} from '@docusaurus/router';
 
@@ -116,7 +116,10 @@ function ShowcaseFilters() {
 
           return (
             <li key={i} className={styles.checkboxListItem}>
-              <Tooltip id={id} text={description} anchorEl="#__docusaurus">
+              <ShowcaseTooltip
+                id={id}
+                text={description}
+                anchorEl="#__docusaurus">
                 <ShowcaseTagSelect
                   tag={tag}
                   id={id}
@@ -137,7 +140,7 @@ function ShowcaseFilters() {
                     )
                   }
                 />
-              </Tooltip>
+              </ShowcaseTooltip>
             </li>
           );
         })}
