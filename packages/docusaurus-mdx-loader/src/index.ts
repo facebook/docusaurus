@@ -36,7 +36,7 @@ const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
 };
 
 type Options = RemarkAndRehypePluginOptions & {
-  staticDir?: string;
+  staticDirs: string[];
   isMDXPartial?: (filePath: string) => boolean;
   isMDXPartialFrontMatterWarningDisabled?: boolean;
   removeContentTitle?: boolean;
@@ -123,8 +123,8 @@ export default async function mdxLoader(
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDir: reqOptions.staticDir, filePath}],
-      [transformLinks, {staticDir: reqOptions.staticDir, filePath}],
+      [transformImage, {staticDirs: reqOptions.staticDirs, filePath}],
+      [transformLinks, {staticDirs: reqOptions.staticDirs, filePath}],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [

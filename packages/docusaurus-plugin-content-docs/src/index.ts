@@ -7,10 +7,7 @@
 
 import path from 'path';
 
-import {
-  STATIC_DIR_NAME,
-  DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -397,7 +394,9 @@ export default function pluginContentDocs(
                 rehypePlugins,
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
-                staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                staticDirs: siteConfig.staticDirectories.map((dir) =>
+                  path.join(siteDir, dir),
+                ),
                 isMDXPartial: createAbsoluteFilePathMatcher(
                   options.exclude,
                   contentDirs,

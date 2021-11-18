@@ -5,21 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '..';
 import transformImage from '../../transformImage';
 
-const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
-  const staticDir = join(__dirname, 'fixtures', 'static');
-  const file = await vfile.read(path);
+const processFixture = async (name: string, options?) => {
+  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
+  const staticDirs = [path.join(__dirname, 'fixtures', 'static')];
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(mdx)
-    .use(transformImage, {...options, filePath: path, staticDir})
-    .use(plugin, {...options, filePath: path, staticDir})
+    .use(transformImage, {...options, filePath, staticDirs})
+    .use(plugin, {
+      ...options,
+      filePath,
+      staticDirs,
+      siteDir: path.join(__dirname, 'fixtures'),
+    })
     .process(file);
 
   return result.toString();

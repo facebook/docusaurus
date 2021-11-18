@@ -12,7 +12,6 @@ import {
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
@@ -27,7 +26,8 @@ const hashRegex = /#.*$/;
 
 interface PluginOptions {
   filePath: string;
-  staticDir: string;
+  staticDirs: string[];
+  siteDir: string;
 }
 
 async function ensureAssetFileExist(
@@ -81,11 +81,10 @@ function toAssetRequireNode({
 // If the link looks like an asset link, we'll link to the asset,
 // and use a require("assetUrl") (using webpack url-loader/file-loader)
 // instead of navigating to such link
-async function convertToAssetLinkIfNeeded({
-  node,
-  staticDir,
-  filePath,
-}: {node: Link} & PluginOptions) {
+async function convertToAssetLinkIfNeeded(
+  node: Link,
+  {filePath, siteDir, staticDirs}: PluginOptions,
+) {
   const assetPath = node.url.replace(hashRegex, '');
 
   const hasSiteAlias = assetPath.startsWith('@site/');
@@ -107,7 +106,6 @@ async function convertToAssetLinkIfNeeded({
   }
 
   if (assetPath.startsWith('@site/')) {
-    const siteDir = path.join(staticDir, '..');
     const fileSystemAssetPath = path.join(
       siteDir,
       assetPath.replace('@site/', ''),
@@ -115,9 +113,13 @@ async function convertToAssetLinkIfNeeded({
     await ensureAssetFileExist(fileSystemAssetPath, filePath);
     toAssetLinkNode(fileSystemAssetPath);
   } else if (path.isAbsolute(assetPath)) {
-    const fileSystemAssetPath = path.join(staticDir, assetPath);
-    if (await fs.pathExists(fileSystemAssetPath)) {
-      toAssetLinkNode(fileSystemAssetPath);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const staticDir of staticDirs) {
+      const fileSystemAssetPath = path.join(staticDir, assetPath);
+      if (await fs.pathExists(fileSystemAssetPath)) {
+        toAssetLinkNode(fileSystemAssetPath);
+        return;
+      }
     }
   } else {
     const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
@@ -127,11 +129,7 @@ async function convertToAssetLinkIfNeeded({
   }
 }
 
-async function processLinkNode({
-  node,
-  filePath,
-  staticDir,
-}: {node: Link} & PluginOptions) {
+async function processLinkNode(node: Link, options: PluginOptions) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -139,24 +137,25 @@ async function processLinkNode({
     const line = node?.position?.start?.line || '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
-        filePath,
+        options.filePath,
       )}" file (title: ${title}, line: ${line}).`,
     );
   }
 
-  const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol) {
-    return;
+  try {
+    // Throws when the URL doens't have a protocol, i.e. it's a file path
+    // eslint-disable-next-line no-new
+    new URL(node.url);
+  } catch {
+    await convertToAssetLinkIfNeeded(node, options);
   }
-
-  await convertToAssetLinkIfNeeded({node, staticDir, filePath});
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
   const transformer: Transformer = async (root) => {
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode({node, ...options}));
+      promises.push(processLinkNode(node, options));
     });
     await Promise.all(promises);
   };
