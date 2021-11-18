@@ -18,14 +18,17 @@
   justify-content: space-around;
   align-items: center;
   opacity: 0.75;
-  transition: opacity 200ms ease-out;
+  transition: opacity var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  box-shadow: var(--ifm-global-shadow-md);
 }
 
 input:focus ~ .checkboxLabel,
 input:focus-visible ~ .checkboxLabel,
 .checkboxLabel:hover {
   opacity: 1;
-  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
+  box-shadow: var(--ifm-global-shadow-md),
+    0px 0px 2px 1px var(--ifm-color-primary-dark);
 }
 
 .checkboxLabel > * {
@@ -34,7 +37,7 @@ input:focus-visible ~ .checkboxLabel,
   transition: opacity 150ms ease-in 50ms;
 }
 
-.checkboxToggle {
+.checkboxLabel::after {
   position: absolute;
   content: '';
   top: -2px;
@@ -45,13 +48,11 @@ input:focus-visible ~ .checkboxLabel,
   background-color: var(--ifm-color-primary-darkest);
   box-sizing: border-box;
   border: 0.04em solid var(--ifm-color-primary-darkest);
-  transition-property: transform;
-  transition-duration: 200ms;
-  transition-timing-function: ease-out;
-  transition-delay: 150ms;
+  transition: transform var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default) 150ms;
   transform: translateX(38px);
 }
 
-input:checked ~ .checkboxLabel > .checkboxToggle {
+input:checked ~ .checkboxLabel::after {
   transform: translateX(0);
 }

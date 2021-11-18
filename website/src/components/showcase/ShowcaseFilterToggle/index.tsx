@@ -36,7 +36,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
   }, [operator, location, history]);
 
   return (
-    <div className="shadow--md">
+    <div>
       <input
         type="checkbox"
         id={id}
@@ -54,7 +54,6 @@ export default function ShowcaseFilterToggle(): JSX.Element {
       <label htmlFor={id} className={styles.checkboxLabel}>
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
-        <span className={styles.checkboxToggle} aria-hidden />
       </label>
     </div>
   );
