@@ -1586,6 +1586,14 @@ const Users: User[] = [
     source: null,
     tags: ['product', 'design'],
   },
+  {
+    title: 'Logrocker',
+    description: 'Library for logs visible only during development.',
+    preview: require('./showcase/logrocker.png'),
+    website: 'https://logrocker.com/',
+    source: 'https://github.com/patrikmasiar/logrocker',
+    tags: ['opensource', 'versioning'],
+  },
 
   /*
   Pro Tip: add your site in alphabetical order.
