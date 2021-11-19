@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {PluginOptions} from './types';
+import type {PluginOptions} from './types';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,7 +14,10 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
+import type {
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';

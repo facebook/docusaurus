@@ -18,7 +18,6 @@ function getDefaultLocalesDirPath(): string {
 
 // Return an ordered list of locales we should try
 export function codeTranslationLocalesToTry(locale: string): string[] {
-  // @ts-expect-error: TODO until available in TS, see https://github.com/microsoft/TypeScript/issues/37326
   const intlLocale = Intl.Locale ? new Intl.Locale(locale) : undefined;
   if (!intlLocale) {
     return [locale];
@@ -32,7 +31,7 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
   }
   // if locale is like "pt-BR", we want to fallback to "pt"
   else {
-    return [locale, intlLocale.language];
+    return [locale, intlLocale.language!];
   }
 }
 

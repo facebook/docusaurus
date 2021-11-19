@@ -2,7 +2,8 @@
   "name": "@docusaurus/theme-search-algolia",
   "version": "2.0.0-beta.9",
   "description": "Algolia search component for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -12,6 +13,12 @@
     "directory": "packages/docusaurus-theme-search-algolia"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "yarn build:server && yarn build:browser && yarn build:copy",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:copy": "node copyUntypedFiles.js"
+  },
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
     "@docusaurus/core": "2.0.0-beta.9",
@@ -24,6 +31,10 @@
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
     "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
+    "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

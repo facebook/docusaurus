@@ -85,9 +85,10 @@ export async function extractSiteSourceCodeTranslations(
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
-    return sourceCodeFileTranslations.reduce((acc, item) => {
-      return {...acc, ...item.translations};
-    }, {});
+    return sourceCodeFileTranslations.reduce(
+      (acc, item) => ({...acc, ...item.translations}),
+      {},
+    );
   }
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);

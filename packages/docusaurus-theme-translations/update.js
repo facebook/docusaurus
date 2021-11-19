@@ -109,9 +109,10 @@ ${warning}
   });
 
   const translations = filesExtractedTranslations.reduce(
-    (acc, extractedTranslations) => {
-      return {...acc, ...extractedTranslations.translations};
-    },
+    (acc, extractedTranslations) => ({
+      ...acc,
+      ...extractedTranslations.translations,
+    }),
     {},
   );
 
@@ -220,9 +221,7 @@ ${logKeys(unknownMessages)}`),
   };
 
   const untranslatedKeys = Object.entries(newLocaleFileMessages)
-    .filter(([key, value]) => {
-      return value === baseFileMessages[key];
-    })
+    .filter(([key, value]) => value === baseFileMessages[key])
     .map(([key]) => key);
 
   if (untranslatedKeys.length) {

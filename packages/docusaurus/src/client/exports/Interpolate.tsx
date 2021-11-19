@@ -68,23 +68,24 @@ export function interpolate<Str extends string, Value extends ReactNode>(
   else if (elements.every((el) => typeof el === 'string')) {
     return processedText
       .split(ValueFoundMarker)
-      .reduce<string>((str, value, index) => {
-        return str.concat(value).concat((elements[index] as string) ?? '');
-      }, '');
+      .reduce<string>(
+        (str, value, index) =>
+          str.concat(value).concat((elements[index] as string) ?? ''),
+        '',
+      );
   }
   // JSX interpolation: returns ReactNode
   else {
-    return processedText
-      .split(ValueFoundMarker)
-      .reduce<ReactNode[]>((array, value, index) => {
-        return [
-          ...array,
-          <React.Fragment key={index}>
-            {value}
-            {elements[index]}
-          </React.Fragment>,
-        ];
-      }, []);
+    return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
+      (array, value, index) => [
+        ...array,
+        <React.Fragment key={index}>
+          {value}
+          {elements[index]}
+        </React.Fragment>,
+      ],
+      [],
+    );
   }
 }
 
