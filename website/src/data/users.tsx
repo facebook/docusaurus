@@ -1160,6 +1160,14 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'versioning'],
   },
   {
+    title: 'Remirror',
+    description: 'The editor that makes ProseMirror fun to use for React developers',
+    preview: require('./showcase/remirror.png'),
+    website: 'https://remirror.io/',
+    source: 'https://github.com/remirror/remirror',
+    tags: ['opensource', 'design', 'large'],
+  },
+  {
     title: 'Remotion',
     description: 'Write videos programmatically in React',
     preview: require('./showcase/remotion.png'),
