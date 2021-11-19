@@ -313,10 +313,13 @@ const config = {
 
   markdown: {
     async frontMatterParser({content, defaultFrontMatterParser, plugin}) {
-      if (plugin.name === 'content-pages' && plugin.id === 'pages-tests') {
-        const cleanContent = content.replace(/^<!--.*?-->\n*/gm, '');
-        console.log(cleanContent);
+      if (plugin.id === 'pages-tests') {
+        const cleanContent = content.replace(/^(<!--.*?-->\n*)+/gms, '');
         return defaultFrontMatterParser({content: cleanContent, plugin});
+      } else if (plugin.id === 'blog-tests') {
+        const res = await defaultFrontMatterParser({content, plugin});
+        // @ts-expect-error: well, `tags` is an array
+        return {...res, frontMatter: {...res.frontMatter, tags: [...(res.frontMatter.tags ?? []), 'A tag that appears on every page']}};
       }
       return defaultFrontMatterParser({content, plugin});
     }

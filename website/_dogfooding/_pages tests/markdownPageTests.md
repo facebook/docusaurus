@@ -1,12 +1,16 @@
 <!-- This file has a leading comment.
-By many standards this is not a valid Markdown file anymore,
-but we are still able to parse it because of frontMatterParser. -->
+By many standards the following is not valid front matter anymore,
+but we are still able to parse it because of a custom frontMatterParser. -->
+<!-- This is actually bad practice because most parsers don't strip leading comments. -->
+<!-- Any linter rule demanding copyright notices at the very top should be doomed to death. -->
 
----
+## <!-- prettier-ignore-start -->
 
 title: Markdown Page tests title description: Markdown Page tests description wrapperClassName: docusaurus-markdown-example
 
 ---
+
+<!-- prettier-ignore-end -->
 
 # Markdown page tests
 

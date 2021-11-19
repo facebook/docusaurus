@@ -113,16 +113,6 @@ export default async function mdxLoader(
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions();
-
-  const {frontMatter, content: contentWithTitle} =
-    await reqOptions.parseFrontMatter(fileString);
-
-  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
-    removeContentTitle: reqOptions.removeContentTitle,
-  });
-
-  const hasFrontMatter = Object.keys(frontMatter).length > 0;
-
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
@@ -147,6 +137,15 @@ export default async function mdxLoader(
     filepath: filePath,
   };
 
+  const {frontMatter, content: contentWithTitle} =
+    await reqOptions.parseFrontMatter(fileString);
+
+  const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
+    removeContentTitle: reqOptions.removeContentTitle,
+  });
+
+  const hasFrontMatter = Object.keys(frontMatter).length > 0;
+
   let result;
   try {
     result = await mdx(content, options);
@@ -157,6 +156,7 @@ export default async function mdxLoader(
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have an associated metadata file or frontmatter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
