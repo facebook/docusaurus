@@ -134,7 +134,7 @@ export default function docusaurusThemeClassic(
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () => {
+    getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
         locale: currentLocale,
         name: 'theme-common',
