@@ -39,7 +39,6 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
   .rename('image_url', 'imageURL', {alias: true});
 
 export type BlogPostFrontMatter = {
-  /* eslint-disable camelcase */
   id?: string;
   title?: string;
   description?: string;
@@ -68,7 +67,6 @@ export type BlogPostFrontMatter = {
   hide_table_of_contents?: boolean;
   toc_min_heading_level?: number;
   toc_max_heading_level?: number;
-  /* eslint-enable camelcase */
 };
 
 const FrontMatterAuthorErrorMessage =

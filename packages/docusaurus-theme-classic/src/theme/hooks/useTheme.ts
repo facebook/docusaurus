@@ -21,9 +21,8 @@ const themes = {
 type Themes = typeof themes[keyof typeof themes];
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme?: string | null): Themes => {
-  return theme === themes.dark ? themes.dark : themes.light;
-};
+const coerceToTheme = (theme?: string | null): Themes =>
+  theme === themes.dark ? themes.dark : themes.light;
 
 const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
   if (!ExecutionEnvironment.canUseDOM) {

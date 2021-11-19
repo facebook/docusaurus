@@ -14,7 +14,9 @@ Used in conjunction with waitForCrowdin.js (which is not enough)
  */
 
 async function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function run() {

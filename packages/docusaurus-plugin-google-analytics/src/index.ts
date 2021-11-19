@@ -10,7 +10,6 @@ import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
   Plugin,
-  HtmlTags,
   OptionValidationContext,
   ValidationResult,
   ThemeConfig,
@@ -62,7 +61,7 @@ export default function pluginGoogleAnalytics(
               src: 'https://www.google-analytics.com/analytics.js',
             },
           },
-        ] as HtmlTags,
+        ],
       };
     },
   };

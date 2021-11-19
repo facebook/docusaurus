@@ -164,7 +164,7 @@ export const getCustomizableJSLoader =
       : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
-const warnBabelLoaderOnce = memoize(function () {
+const warnBabelLoaderOnce = memoize(() => {
   console.warn(
     chalk.yellow(
       'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
@@ -180,7 +180,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 };
 
 // TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = memoize(function () {
+const warnCacheLoaderOnce = memoize(() => {
   console.warn(
     chalk.yellow(
       'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
@@ -335,24 +335,20 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
 
   const loaders: FileLoaderUtils['loaders'] = {
-    file: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`file-loader`),
-        options: {
-          name: fileLoaderFileName(options.folder),
-        },
-      };
-    },
-    url: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`url-loader`),
-        options: {
-          limit: urlLoaderLimit,
-          name: fileLoaderFileName(options.folder),
-          fallback: require.resolve(`file-loader`),
-        },
-      };
-    },
+    file: (options: {folder: AssetFolder}) => ({
+      loader: require.resolve(`file-loader`),
+      options: {
+        name: fileLoaderFileName(options.folder),
+      },
+    }),
+    url: (options: {folder: AssetFolder}) => ({
+      loader: require.resolve(`url-loader`),
+      options: {
+        limit: urlLoaderLimit,
+        name: fileLoaderFileName(options.folder),
+        fallback: require.resolve(`file-loader`),
+      },
+    }),
 
     // TODO find a better solution to avoid conflicts with the ideal-image plugin
     // TODO this may require a little breaking change for ideal-image users?
@@ -372,78 +368,68 @@ export function getFileLoaderUtils(): FileLoaderUtils {
      * Loads image assets, inlines images via a data URI if they are below
      * the size threshold
      */
-    images: () => {
-      return {
-        use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
-      };
-    },
+    images: () => ({
+      use: [loaders.url({folder: 'images'})],
+      test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+    }),
 
-    fonts: () => {
-      return {
-        use: [loaders.url({folder: 'fonts'})],
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-      };
-    },
+    fonts: () => ({
+      use: [loaders.url({folder: 'fonts'})],
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+    }),
 
     /**
      * Loads audio and video and inlines them via a data URI if they are below
      * the size threshold
      */
-    media: () => {
-      return {
-        use: [loaders.url({folder: 'medias'})],
-        test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
-      };
-    },
+    media: () => ({
+      use: [loaders.url({folder: 'medias'})],
+      test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+    }),
 
-    svg: () => {
-      return {
-        test: /\.svg?$/,
-        oneOf: [
-          {
-            use: [
-              {
-                loader: '@svgr/webpack',
-                options: {
-                  prettier: false,
-                  svgo: true,
-                  svgoConfig: {
-                    plugins: [
-                      {
-                        name: 'preset-default',
-                        params: {
-                          overrides: {
-                            removeViewBox: false,
-                          },
+    svg: () => ({
+      test: /\.svg?$/,
+      oneOf: [
+        {
+          use: [
+            {
+              loader: '@svgr/webpack',
+              options: {
+                prettier: false,
+                svgo: true,
+                svgoConfig: {
+                  plugins: [
+                    {
+                      name: 'preset-default',
+                      params: {
+                        overrides: {
+                          removeViewBox: false,
                         },
                       },
-                    ],
-                  },
-                  titleProp: true,
-                  ref: ![path],
+                    },
+                  ],
                 },
+                titleProp: true,
+                ref: ![path],
               },
-            ],
-            // We don't want to use SVGR loader for non-React source code
-            // ie we don't want to use SVGR for CSS files...
-            issuer: {
-              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
             },
+          ],
+          // We don't want to use SVGR loader for non-React source code
+          // ie we don't want to use SVGR for CSS files...
+          issuer: {
+            and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
           },
-          {
-            use: [loaders.url({folder: 'images'})],
-          },
-        ],
-      };
-    },
+        },
+        {
+          use: [loaders.url({folder: 'images'})],
+        },
+      ],
+    }),
 
-    otherAssets: () => {
-      return {
-        use: [loaders.file({folder: 'files'})],
-        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
-      };
-    },
+    otherAssets: () => ({
+      use: [loaders.file({folder: 'files'})],
+      test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
+    }),
   };
 
   return {loaders, rules};
