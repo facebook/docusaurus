@@ -30,7 +30,6 @@ export * from './tags';
 
 export const posixPath = posixPathImport;
 
-export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';

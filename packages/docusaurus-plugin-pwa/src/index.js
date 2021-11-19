@@ -8,10 +8,10 @@
 const LogPlugin =
   require('@docusaurus/core/lib/webpack/plugins/LogPlugin').default;
 const {compile} = require('@docusaurus/core/lib/webpack/utils');
+const {normalizeUrl} = require('@docusaurus/utils');
 const {
-  normalizeUrl,
   readDefaultCodeTranslationMessages,
-} = require('@docusaurus/utils');
+} = require('@docusaurus/theme-translations');
 const path = require('path');
 const webpack = require('webpack');
 const {injectManifest} = require('workbox-build');
@@ -75,7 +75,6 @@ function plugin(context, options) {
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: require('@docusaurus/theme-translations'),
         locale: currentLocale,
         name: 'plugin-pwa',
       });

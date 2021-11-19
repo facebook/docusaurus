@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import {DocusaurusContext, Plugin} from '@docusaurus/types';
 
 export default function theme(context: DocusaurusContext): Plugin {
@@ -23,7 +23,6 @@ export default function theme(context: DocusaurusContext): Plugin {
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: require('@docusaurus/theme-translations'),
         locale: currentLocale,
         name: 'theme-live-codeblock',
       });

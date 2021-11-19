@@ -8,6 +8,14 @@
 import path from 'path';
 import fs from 'fs-extra';
 
+function getDefaultLocalesDirPath(): string {
+  const parentDirPath = path.join(__dirname, '..');
+  const pkg = JSON.parse(
+    fs.readFileSync(path.join(parentDirPath, 'package.json'), 'utf8'),
+  );
+  return path.join(parentDirPath, pkg.files[0]);
+}
+
 // Return an ordered list of locales we should try
 export function codeTranslationLocalesToTry(locale: string): string[] {
   // @ts-expect-error: TODO until available in TS, see https://github.com/microsoft/TypeScript/issues/37326
@@ -30,11 +38,11 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
 
 // Useful to implement getDefaultCodeTranslationMessages() in themes
 export async function readDefaultCodeTranslationMessages({
-  dirPath,
+  dirPath = getDefaultLocalesDirPath(),
   locale,
   name,
 }: {
-  dirPath: string;
+  dirPath?: string;
   locale: string;
   name: string;
 }): Promise<Record<string, string>> {

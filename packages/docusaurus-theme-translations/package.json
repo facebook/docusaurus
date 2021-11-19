@@ -2,7 +2,8 @@
   "name": "@docusaurus/theme-translations",
   "version": "2.0.0-beta.9",
   "description": "Docusaurus theme translations.",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "locales"
   ],
@@ -16,6 +17,8 @@
   },
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
     "update": "node -e 'require(\"./update.js\").run()'"
   },
   "dependencies": {

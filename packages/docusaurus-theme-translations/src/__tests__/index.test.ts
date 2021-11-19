@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import {
   codeTranslationLocalesToTry,
   readDefaultCodeTranslationMessages,
-} from '../codeTranslationsUtils';
+} from '../index';
 
 describe('codeTranslationLocalesToTry', () => {
   test('should return appropriate locale lists', () => {

@@ -8,11 +8,10 @@
 const path = require('path');
 const fs = require('fs');
 const eta = require('eta');
+const {normalizeUrl, getSwizzledComponent} = require('@docusaurus/utils');
 const {
-  normalizeUrl,
-  getSwizzledComponent,
   readDefaultCodeTranslationMessages,
-} = require('@docusaurus/utils');
+} = require('@docusaurus/theme-translations');
 const openSearchTemplate = require('./templates/opensearch');
 const {validateThemeConfig} = require('./validateThemeConfig');
 const {memoize} = require('lodash');
@@ -52,7 +51,6 @@ function theme(context) {
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: require('@docusaurus/theme-translations'),
         locale: currentLocale,
         name: 'theme-search-algolia',
       });
