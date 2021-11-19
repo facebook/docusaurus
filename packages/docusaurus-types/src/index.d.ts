@@ -70,6 +70,9 @@ export interface DocusaurusConfig {
   webpack?: {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
+  markdown: {
+    frontMatterParser: FrontMatterParserOption;
+  };
 }
 
 // Docusaurus config, as provided by the user (partial/unnormalized)
@@ -434,3 +437,25 @@ export interface TOCItem {
   readonly children: TOCItem[];
   readonly level: number;
 }
+
+export type FrontMatterParserProps = {
+  plugin: {
+    name: string;
+    id: string;
+  };
+  content: string;
+};
+export type FrontMatterParser = (props: FrontMatterParserProps) => Promise<{
+  frontMatter: Record<string, unknown>;
+  content: string;
+}>;
+
+export type FrontMatterParserOptionProps = FrontMatterParserProps & {
+  defaultFrontMatterParser: FrontMatterParser;
+};
+export type FrontMatterParserOption = (
+  props: FrontMatterParserOptionProps,
+) => Promise<{
+  frontMatter: Record<string, unknown>;
+  content: string;
+}>;

@@ -19,7 +19,8 @@ import {
   ReadingTimeFunction,
 } from './types';
 import {
-  parseMarkdownFile,
+  parseMarkdownString,
+  parseFrontMatter,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -100,14 +101,10 @@ function formatBlogPostDate(locale: string, date: Date): string {
   }
 }
 
-async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const result = await parseMarkdownFile(blogSourceAbsolute, {
+async function parseBlogPostMarkdown(content: string) {
+  return parseMarkdownString(content, {
     removeContentTitle: true,
   });
-  return {
-    ...result,
-    frontMatter: validateBlogPostFrontMatter(result.frontMatter),
-  };
 }
 
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
@@ -121,7 +118,10 @@ async function processBlogSourceFile(
   authorsMap?: AuthorsMap,
 ): Promise<BlogPost | undefined> {
   const {
-    siteConfig: {baseUrl},
+    siteConfig: {
+      baseUrl,
+      markdown: {frontMatterParser},
+    },
     siteDir,
     i18n,
   } = context;
@@ -140,107 +140,127 @@ async function processBlogSourceFile(
   );
 
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
-
-  const {frontMatter, content, contentTitle, excerpt} =
-    await parseBlogPostMarkdownFile(blogSourceAbsolute);
-
-  const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
-
-  if (frontMatter.draft && process.env.NODE_ENV === 'production') {
-    return undefined;
-  }
-
-  if (frontMatter.id) {
-    console.warn(
-      chalk.yellow(
-        `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-      ),
-    );
-  }
-
-  const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
-
-  async function getDate(): Promise<Date> {
-    // Prefer user-defined date.
-    if (frontMatter.date) {
-      return new Date(frontMatter.date);
-    } else if (parsedBlogFileName.date) {
-      return parsedBlogFileName.date;
-    }
-    // Fallback to file create time
-    return (await fs.stat(blogSourceAbsolute)).birthtime;
-  }
-
-  const date = await getDate();
-  const formattedDate = formatBlogPostDate(i18n.currentLocale, date);
-
-  const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
-  const description = frontMatter.description ?? excerpt ?? '';
-
-  const slug = frontMatter.slug || parsedBlogFileName.slug;
-
-  const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
-
-  function getBlogEditUrl() {
-    const blogPathRelative = path.relative(
-      blogDirPath,
-      path.resolve(blogSourceAbsolute),
-    );
-
-    if (typeof editUrl === 'function') {
-      return editUrl({
-        blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
-        blogPath: posixPath(blogPathRelative),
-        permalink,
-        locale: i18n.currentLocale,
+  async function doProcessBlogSourceFile() {
+    const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+    const {frontMatter: unsafeFrontMatter, content: rawContent} =
+      await frontMatterParser({
+        content: markdownString,
+        defaultFrontMatterParser: async ({content}) =>
+          parseFrontMatter(content),
+        plugin: {name: 'content-blog', id: options.id},
       });
-    } else if (typeof editUrl === 'string') {
-      const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
-      const fileContentPath =
-        isLocalized && options.editLocalizedFiles
-          ? contentPaths.contentPathLocalized
-          : contentPaths.contentPath;
+    const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
+    const {content, contentTitle, excerpt} = await parseBlogPostMarkdown(
+      rawContent,
+    );
 
-      const contentPathEditUrl = normalizeUrl([
-        editUrl,
-        posixPath(path.relative(siteDir, fileContentPath)),
-      ]);
+    const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
-      return getEditUrl(blogPathRelative, contentPathEditUrl);
+    if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+      return undefined;
     }
-    return undefined;
+
+    if (frontMatter.id) {
+      console.warn(
+        chalk.yellow(
+          `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
+        ),
+      );
+    }
+
+    const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
+
+    async function getDate(): Promise<Date> {
+      // Prefer user-defined date.
+      if (frontMatter.date) {
+        return new Date(frontMatter.date);
+      } else if (parsedBlogFileName.date) {
+        return parsedBlogFileName.date;
+      }
+      // Fallback to file create time
+      return (await fs.stat(blogSourceAbsolute)).birthtime;
+    }
+
+    const date = await getDate();
+    const formattedDate = formatBlogPostDate(i18n.currentLocale, date);
+
+    const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
+    const description = frontMatter.description ?? excerpt ?? '';
+
+    const slug = frontMatter.slug || parsedBlogFileName.slug;
+
+    const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
+
+    function getBlogEditUrl() {
+      const blogPathRelative = path.relative(
+        blogDirPath,
+        path.resolve(blogSourceAbsolute),
+      );
+
+      if (typeof editUrl === 'function') {
+        return editUrl({
+          blogDirPath: posixPath(path.relative(siteDir, blogDirPath)),
+          blogPath: posixPath(blogPathRelative),
+          permalink,
+          locale: i18n.currentLocale,
+        });
+      } else if (typeof editUrl === 'string') {
+        const isLocalized = blogDirPath === contentPaths.contentPathLocalized;
+        const fileContentPath =
+          isLocalized && options.editLocalizedFiles
+            ? contentPaths.contentPathLocalized
+            : contentPaths.contentPath;
+
+        const contentPathEditUrl = normalizeUrl([
+          editUrl,
+          posixPath(path.relative(siteDir, fileContentPath)),
+        ]);
+
+        return getEditUrl(blogPathRelative, contentPathEditUrl);
+      }
+      return undefined;
+    }
+
+    const tagsBasePath = normalizeUrl([
+      baseUrl,
+      routeBasePath,
+      tagsRouteBasePath,
+    ]);
+    const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
+    return {
+      id: frontMatter.slug ?? title,
+      metadata: {
+        permalink,
+        editUrl: getBlogEditUrl(),
+        source: aliasedSource,
+        title,
+        description,
+        date,
+        formattedDate,
+        tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
+        readingTime: showReadingTime
+          ? options.readingTime({
+              content,
+              frontMatter,
+              defaultReadingTime,
+            })
+          : undefined,
+        truncated: truncateMarker?.test(content) || false,
+        authors,
+      },
+      content,
+    };
   }
-
-  const tagsBasePath = normalizeUrl([
-    baseUrl,
-    routeBasePath,
-    tagsRouteBasePath,
-  ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter});
-
-  return {
-    id: frontMatter.slug ?? title,
-    metadata: {
-      permalink,
-      editUrl: getBlogEditUrl(),
-      source: aliasedSource,
-      title,
-      description,
-      date,
-      formattedDate,
-      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
-      readingTime: showReadingTime
-        ? options.readingTime({
-            content,
-            frontMatter,
-            defaultReadingTime,
-          })
-        : undefined,
-      truncated: truncateMarker?.test(content) || false,
-      authors,
-    },
-    content,
-  };
+  try {
+    return await doProcessBlogSourceFile();
+  } catch (e) {
+    throw new Error(
+      `Error while parsing Markdown file ${blogSourceAbsolute}: "${
+        (e as Error).message
+      }".`,
+    );
+  }
 }
 
 export async function generateBlogPosts(

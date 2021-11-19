@@ -16,6 +16,7 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  parseFrontMatter,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
@@ -32,7 +33,6 @@ import {
   GlobalPluginData,
   VersionMetadata,
   LoadedVersion,
-  DocFile,
   DocsMarkdownOption,
   VersionTag,
 } from './types';
@@ -54,7 +54,16 @@ export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent> {
-  const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
+  const {
+    siteDir,
+    generatedFilesDir,
+    baseUrl,
+    siteConfig: {
+      onBrokenMarkdownLinks,
+      staticDirectories,
+      markdown: {frontMatterParser},
+    },
+  } = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
 
@@ -143,15 +152,16 @@ export default function pluginContentDocs(
             )}".`,
           );
         }
-        async function processVersionDoc(docFile: DocFile) {
-          return processDocMetadata({
-            docFile,
-            versionMetadata,
-            context,
-            options,
-          });
-        }
-        return Promise.all(docFiles.map(processVersionDoc));
+        return Promise.all(
+          docFiles.map((docFile) =>
+            processDocMetadata({
+              docFile,
+              versionMetadata,
+              context,
+              options,
+            }),
+          ),
+        );
       }
 
       async function doLoadVersion(
@@ -368,12 +378,12 @@ export default function pluginContentDocs(
         sourceToPermalink: getSourceToPermalink(),
         versionsMetadata,
         onBrokenMarkdownLink: (brokenMarkdownLink) => {
-          if (siteConfig.onBrokenMarkdownLinks === 'ignore') {
+          if (onBrokenMarkdownLinks === 'ignore') {
             return;
           }
           reportMessage(
             `Docs markdown link couldn't be resolved: (${brokenMarkdownLink.link}) in ${brokenMarkdownLink.filePath} for version ${brokenMarkdownLink.contentPaths.versionName}`,
-            siteConfig.onBrokenMarkdownLinks,
+            onBrokenMarkdownLinks,
           );
         },
       };
@@ -394,7 +404,7 @@ export default function pluginContentDocs(
                 rehypePlugins,
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
-                staticDirs: siteConfig.staticDirectories.map((dir) =>
+                staticDirs: staticDirectories.map((dir) =>
                   path.resolve(siteDir, dir),
                 ),
                 siteDir,
@@ -408,6 +418,13 @@ export default function pluginContentDocs(
                   const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                   return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
                 },
+                parseFrontMatter: (fileString: string) =>
+                  frontMatterParser({
+                    content: fileString,
+                    plugin: {name: 'content-docs', id: options.id},
+                    defaultFrontMatterParser: async (props) =>
+                      parseFrontMatter(props.content),
+                  }),
               },
             },
             {

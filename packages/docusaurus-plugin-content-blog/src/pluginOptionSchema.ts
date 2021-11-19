@@ -15,7 +15,7 @@ import {
 import {GlobExcludeDefault} from '@docusaurus/utils';
 import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],

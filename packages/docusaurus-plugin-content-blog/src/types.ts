@@ -66,7 +66,7 @@ export type ReadingTimeFunctionOption = (
 ) => number | undefined;
 
 export type PluginOptions = RemarkAndRehypePluginOptions & {
-  id?: string;
+  id: string;
   path: string;
   routeBasePath: string;
   tagsBasePath: string;

@@ -8,6 +8,7 @@
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {
+  parseFrontMatter,
   normalizeUrl,
   docuHash,
   aliasedSitePath,
@@ -68,7 +69,11 @@ export default function pluginContentBlog(
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
-  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
+  const {
+    onBrokenMarkdownLinks,
+    baseUrl,
+    markdown: {frontMatterParser},
+  } = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -482,6 +487,13 @@ export default function pluginContentBlog(
                     // For blog posts a title in markdown is always removed
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
+                    parseFrontMatter: (fileString: string) =>
+                      frontMatterParser({
+                        content: fileString,
+                        plugin: {name: 'content-docs', id: options.id},
+                        defaultFrontMatterParser: async (props) =>
+                          parseFrontMatter(props.content),
+                      }),
 
                     // Assets allow to convert some relative images paths to require() calls
                     createAssets: ({

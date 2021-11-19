@@ -9,11 +9,7 @@ import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
 import chalk from 'chalk';
 import emoji from 'remark-emoji';
-import {
-  parseFrontMatter,
-  parseMarkdownContentTitle,
-  escapePath,
-} from '@docusaurus/utils';
+import {parseMarkdownContentTitle, escapePath} from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import headings from './remark/headings';
 import toc from './remark/toc';
@@ -47,6 +43,13 @@ type Options = RemarkAndRehypePluginOptions & {
     metadata: Record<string, unknown>;
   }) => Record<string, unknown>;
   filepath: string;
+  /**
+   * To keep the loader general-purpose, other context will be injected by the
+   * loader caller as a closure, and the MDX loader only sees the file string itself.
+   */
+  parseFrontMatter: (
+    fileString: string,
+  ) => Promise<{frontMatter: Record<string, unknown>; content: string}>;
 };
 
 // When this throws, it generally means that there's no metadata file associated with this MDX document
@@ -109,9 +112,10 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions();
 
-  const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
+  const {frontMatter, content: contentWithTitle} =
+    await reqOptions.parseFrontMatter(fileString);
 
   const {content, contentTitle} = parseMarkdownContentTitle(contentWithTitle, {
     removeContentTitle: reqOptions.removeContentTitle,

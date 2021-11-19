@@ -49,6 +49,7 @@ export type EditUrlFunction = (editUrlParams: {
 }) => string | undefined;
 
 export type MetadataOptions = {
+  id: string;
   routeBasePath: string;
   homePageId?: string;
   editUrl?: string | EditUrlFunction;

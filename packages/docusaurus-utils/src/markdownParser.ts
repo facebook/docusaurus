@@ -6,7 +6,6 @@
  */
 
 import chalk from 'chalk';
-import fs from 'fs-extra';
 import matter from 'gray-matter';
 
 // Hacky way of stripping out import statements from the excerpt
@@ -171,19 +170,5 @@ export function parseMarkdownString(
 This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
     );
     throw e;
-  }
-}
-
-export async function parseMarkdownFile(
-  source: string,
-  options?: {removeContentTitle?: boolean},
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString, options);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
-    );
   }
 }

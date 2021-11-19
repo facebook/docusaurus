@@ -18,6 +18,7 @@ import {
   posixPath,
   Globby,
   normalizeFrontMatterTags,
+  parseFrontMatter,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
 
@@ -111,7 +112,7 @@ export async function readVersionDocs(
   );
 }
 
-function doProcessDocMetadata({
+async function doProcessDocMetadata({
   docFile,
   versionMetadata,
   context,
@@ -121,16 +122,28 @@ function doProcessDocMetadata({
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {homePageId} = options;
-  const {siteDir, i18n} = context;
-
   const {
-    frontMatter: unsafeFrontMatter,
-    contentTitle,
-    excerpt,
-  } = parseMarkdownString(content);
+    siteDir,
+    i18n,
+    siteConfig: {
+      markdown: {frontMatterParser},
+    },
+  } = context;
+  const {frontMatter: unsafeFrontMatter, content: mainContent} =
+    await frontMatterParser({
+      content,
+      plugin: {
+        id: options.id,
+        name: 'content-docs',
+      },
+      defaultFrontMatterParser: async (props) =>
+        parseFrontMatter(props.content),
+    });
+
+  const {contentTitle, excerpt} = parseMarkdownString(mainContent);
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
   const {
@@ -273,14 +286,14 @@ function doProcessDocMetadata({
   };
 }
 
-export function processDocMetadata(args: {
+export async function processDocMetadata(args: {
   docFile: DocFile;
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
-}): DocMetadataBase {
+}): Promise<DocMetadataBase> {
   try {
-    return doProcessDocMetadata(args);
+    return await doProcessDocMetadata(args);
   } catch (e) {
     console.error(
       chalk.red(
