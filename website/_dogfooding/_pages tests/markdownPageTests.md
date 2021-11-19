@@ -1,7 +1,11 @@
+<!-- This file has a leading comment.
+By many standards this is not a valid Markdown file anymore,
+but we are still able to parse it because of frontMatterParser. -->
+
 ---
-title: Markdown Page tests title
-description: Markdown Page tests description
-wrapperClassName: docusaurus-markdown-example
+
+title: Markdown Page tests title description: Markdown Page tests description wrapperClassName: docusaurus-markdown-example
+
 ---
 
 # Markdown page tests

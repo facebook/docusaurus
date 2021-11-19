@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {generate, parseFrontMatter} from '@docusaurus/utils';
 import path, {join} from 'path';
 import chalk from 'chalk';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
@@ -235,6 +235,13 @@ function createMDXFallbackPlugin({
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
                     remarkPlugins: [admonitions],
+                    parseFrontMatter: (fileString: string) =>
+                      siteConfig.markdown.frontMatterParser({
+                        plugin: {name: 'fallback', id: 'default'},
+                        content: fileString,
+                        defaultFrontMatterParser: async (props) =>
+                          parseFrontMatter(props.content),
+                      }),
                   },
                 },
               ],

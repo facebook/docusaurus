@@ -13,7 +13,7 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
+export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id'> = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '/', // URL Route.
   include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // Extensions to include.

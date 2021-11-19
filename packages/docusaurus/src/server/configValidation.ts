@@ -38,6 +38,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'noIndex'
   | 'baseUrlIssueBanner'
   | 'staticDirectories'
+  | 'markdown'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -52,6 +53,10 @@ export const DEFAULT_CONFIG: Pick<
   noIndex: false,
   baseUrlIssueBanner: true,
   staticDirectories: [STATIC_DIR_NAME],
+  markdown: {
+    frontMatterParser: ({defaultFrontMatterParser, ...rest}) =>
+      defaultFrontMatterParser(rest),
+  },
 };
 
 const PluginSchema = Joi.alternatives()
@@ -122,6 +127,12 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
   return value;
 }, 'siteUrlCustomValidation');
 
+const MarkdownSchema = Joi.object({
+  frontMatterParser: Joi.function().default(
+    DEFAULT_CONFIG.markdown.frontMatterParser,
+  ),
+}).default(DEFAULT_CONFIG.markdown);
+
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
@@ -182,6 +193,7 @@ export const ConfigSchema = Joi.object({
       .try(Joi.string().equal('babel'), Joi.function())
       .optional(),
   }).optional(),
+  markdown: MarkdownSchema,
 }).messages({
   'docusaurus.configValidationWarning':
     'Docusaurus config validation warning. Field {#label}: {#warningMessage}',

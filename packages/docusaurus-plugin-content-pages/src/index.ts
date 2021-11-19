@@ -18,6 +18,7 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
+  parseFrontMatter,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -223,6 +224,13 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
+                    parseFrontMatter: async (fileString: string) =>
+                      siteConfig.markdown.frontMatterParser({
+                        plugin: {name: 'content-pages', id: options.id},
+                        content: fileString,
+                        defaultFrontMatterParser: async (props) =>
+                          parseFrontMatter(props.content),
+                      }),
                   },
                 },
                 {

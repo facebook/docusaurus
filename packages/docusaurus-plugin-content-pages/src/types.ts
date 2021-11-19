@@ -8,7 +8,7 @@
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
 export type PluginOptions = RemarkAndRehypePluginOptions & {
-  id?: string;
+  id: string;
   path: string;
   routeBasePath: string;
   include: string[];

@@ -311,6 +311,17 @@ const config = {
     ],
   ],
 
+  markdown: {
+    async frontMatterParser({content, defaultFrontMatterParser, plugin}) {
+      if (plugin.name === 'content-pages' && plugin.id === 'pages-tests') {
+        const cleanContent = content.replace(/^<!--.*?-->\n*/gm, '');
+        console.log(cleanContent);
+        return defaultFrontMatterParser({content: cleanContent, plugin});
+      }
+      return defaultFrontMatterParser({content, plugin});
+    }
+  },
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
