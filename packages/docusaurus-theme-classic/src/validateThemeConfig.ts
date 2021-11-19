@@ -32,7 +32,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
-  metadatas: [],
+  metadata: [],
   prism: {
     additionalLanguages: [],
   },
@@ -46,7 +46,6 @@ const DEFAULT_CONFIG = {
     maxHeadingLevel: 3,
   },
 };
-exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
@@ -264,9 +263,13 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
-  metadatas: Joi.array()
+  metadata: Joi.array()
     .items(HtmlMetadataSchema)
-    .default(DEFAULT_CONFIG.metadatas),
+    .default(DEFAULT_CONFIG.metadata),
+  metadatas: Joi.any().forbidden().messages({
+    'any.unknown':
+      'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
+  }),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string().required(),
@@ -358,7 +361,7 @@ const ThemeConfigSchema = Joi.object({
   }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
-export {ThemeConfigSchema};
+export {DEFAULT_CONFIG, ThemeConfigSchema};
 
 export function validateThemeConfig({
   validate,

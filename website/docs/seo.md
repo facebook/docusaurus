@@ -11,12 +11,12 @@ Docusaurus supports search engine optimization in a variety of ways.
 
 ## Global metadata {#global-metadata}
 
-Provide global meta attributes for the entire site through the [site configuration](./configuration.md#site-metadata). The metadatas will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
+Provide global meta attributes for the entire site through the [site configuration](./configuration.md#site-metadata). The metadata will all be rendered in the HTML `<head>` using the key-value pairs as the prop name and value.
 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
-    metadatas: [{name: 'keywords', content: 'cooking, blog'}],
+    metadata: [{name: 'keywords', content: 'cooking, blog'}],
     // This would become <meta name="keywords" content="cooking, blog"> in the generated HTML
   },
 };
@@ -28,7 +28,7 @@ To read more about types of meta tags, visit [the MDN docs](https://developer.mo
 
 ## Single page metadata {#single-page-metadata}
 
-Similar to [global metadata](#global-metadata), Docusaurus also allows for the addition of meta-information to individual pages. Follow [this guide](./guides/markdown-features/markdown-features-head-metadatas.mdx) for configuring the `<head>` tag. In short:
+Similar to [global metadata](#global-metadata), Docusaurus also allows for the addition of meta-information to individual pages. Follow [this guide](./guides/markdown-features/markdown-features-head-metadata.mdx) for configuring the `<head>` tag. In short:
 
 ```md title="my-markdown-page.md"
 # A cooking guide

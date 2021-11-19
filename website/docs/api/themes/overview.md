@@ -1,4 +1,5 @@
 ---
+sidebar_position: 0
 id: themes-overview
 title: 'Docusaurus themes'
 sidebar_label: Themes overview

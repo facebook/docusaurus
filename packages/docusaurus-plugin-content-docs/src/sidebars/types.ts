@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import type {
   DocMetadataBase,
   VersionMetadata,
@@ -55,12 +55,6 @@ export type SidebarItemCategoryConfig = Expand<
 export type SidebarCategoriesShorthand = {
   [sidebarCategory: string]: SidebarItemConfig[];
 };
-
-export function isCategoriesShorthand(
-  item: SidebarItemConfig,
-): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
-}
 
 export type SidebarItemConfig =
   | SidebarItemDoc
@@ -124,8 +118,8 @@ export type PropSidebars = {
 };
 
 // Reduce API surface for options.sidebarItemsGenerator
-// The user-provided generator fn should receive only a subset of metadatas
-// A change to any of these metadatas can be considered as a breaking change
+// The user-provided generator fn should receive only a subset of metadata
+// A change to any of these metadata can be considered as a breaking change
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
   'id' | 'frontMatter' | 'source' | 'sourceDirName' | 'sidebarPosition'

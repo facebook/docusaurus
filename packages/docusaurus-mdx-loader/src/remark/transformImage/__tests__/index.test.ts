@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join, relative} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -13,47 +13,48 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
-  const file = await vfile.read(path);
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
-    .use(plugin, {...options, filePath: path})
+    .use(plugin, {...options, filePath})
     .process(file);
 
   return result.toString();
 };
 
-// avoid hardcoding absolute
-const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
+const staticDirs = [
+  // avoid hardcoding absolute in the snapshot
+  `./${path.relative(
+    process.cwd(),
+    path.join(__dirname, '__fixtures__/static'),
+  )}`,
+  `./${path.relative(
+    process.cwd(),
+    path.join(__dirname, '__fixtures__/static2'),
+  )}`,
+];
 
 describe('transformImage plugin', () => {
   test('fail if image does not exist', async () => {
     await expect(
-      processFixture('fail', {
-        staticDir,
-      }),
+      processFixture('fail', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
   test('fail if image url is absent', async () => {
     await expect(
-      processFixture('noUrl', {
-        staticDir,
-      }),
+      processFixture('noUrl', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
   test('transform md images to <img />', async () => {
-    const result = await processFixture('img', {
-      staticDir,
-    });
+    const result = await processFixture('img', {staticDirs});
     expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
-    const result = await processFixture('pathname', {
-      staticDir,
-    });
+    const result = await processFixture('pathname', {staticDirs});
     expect(result).toMatchSnapshot();
   });
 });

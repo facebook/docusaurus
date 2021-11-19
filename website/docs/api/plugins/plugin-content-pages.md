@@ -1,8 +1,11 @@
 ---
+sidebar_position: 3
 id: plugin-content-pages
 title: '📦 plugin-content-pages'
 slug: '/api/plugins/@docusaurus/plugin-content-pages'
 ---
+
+import APITable from '@site/src/components/APITable';
 
 The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 
@@ -24,7 +27,7 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -38,7 +41,7 @@ Accepted fields:
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 
-</small>
+</APITable>
 
 ## Example configuration {#ex-config}
 

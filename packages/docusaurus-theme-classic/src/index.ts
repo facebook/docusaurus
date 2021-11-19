@@ -27,8 +27,7 @@ const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => {
-  return `(function() {
+}: ThemeConfig['colorMode']) => `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
@@ -63,7 +62,6 @@ const noFlashColorMode = ({
     }
   }
 })();`;
-};
 
 // Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
 // TODO: import from theme-common once we only support Node.js with ESM support
@@ -136,12 +134,11 @@ export default function docusaurusThemeClassic(
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () => {
-      return readDefaultCodeTranslationMessages({
+    getDefaultCodeTranslationMessages: () =>
+      readDefaultCodeTranslationMessages({
         dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
         locale: currentLocale,
-      });
-    },
+      }),
 
     getClientModules() {
       const modules = [

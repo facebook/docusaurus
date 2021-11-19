@@ -7,8 +7,7 @@
 
 /* eslint-disable global-require */
 
-import React from 'react';
-import {difference, sortBy} from '../utils/jsUtils';
+import {difference, sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -44,7 +43,7 @@ import {difference, sortBy} from '../utils/jsUtils';
 export type Tag = {
   label: string;
   description: string;
-  icon: JSX.Element;
+  color: string;
 };
 
 export type TagType =
@@ -54,7 +53,6 @@ export type TagType =
   | 'design'
   | 'i18n'
   | 'versioning'
-  | 'multiInstance'
   | 'large'
   | 'facebook'
   | 'personal'
@@ -65,7 +63,7 @@ export type User = {
   description: string;
   preview: any;
   website: string;
-  source: string;
+  source: string | null;
   tags: TagType[];
 };
 
@@ -78,76 +76,69 @@ export const Tags: Record<TagType, Tag> = {
     label: 'Favorite',
     description:
       'Our favorite Docusaurus sites that you must absolutely check-out!',
-    icon: <>❤️</>,
+    color: '#e9669e',
   },
 
   // For open-source sites, a link to the source code is required
   opensource: {
     label: 'Open-Source',
     description: 'Open-Source Docusaurus sites can be useful for inspiration!',
-    icon: <>👨‍💻</>,
+    color: '#39ca30',
   },
 
   product: {
     label: 'Product',
     description: 'Docusaurus sites associated to a commercial product!',
-    icon: <>💵</>,
+    color: '#dfd545',
   },
 
   design: {
     label: 'Design',
     description:
       'Beautiful Docusaurus sites, polished and standing out from the initial template!',
-    icon: <>💅</>,
+    color: '#a44fb7',
   },
 
   i18n: {
     label: 'I18n',
     description:
       'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-    icon: <>🏳️</>,
+    color: '#127f82',
   },
 
   versioning: {
     label: 'Versioning',
     description:
       'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
-    icon: <>👨‍👦‍👦</>,
-  },
-  // Sites using multi-instance plugins
-  multiInstance: {
-    label: 'Multi-Instance',
-    description:
-      'Docusaurus sites using multiple instances of the same plugin on the same site.',
-    icon: <>👨‍👩‍👧‍👦</>,
+    color: '#fe6829',
   },
 
   // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
   large: {
-    label: 'Large site',
+    label: 'Large',
     description:
       'Very large Docusaurus sites, including much more pages than the average!',
-    icon: <>💪</>,
+    color: '#8c2f00',
   },
 
   facebook: {
-    label: 'Facebook sites',
+    label: 'Facebook',
     description: 'Docusaurus sites of Facebook projects',
-    icon: <>👥</>,
+    color: '#4267b2', // Facebook blue
   },
 
   personal: {
-    label: 'Personal sites',
+    label: 'Personal',
     description:
       'Personal websites, blogs and digital gardens built with Docusaurus',
-    icon: <>🙋</>,
+    color: '#14cfc3',
   },
 
   rtl: {
     label: 'RTL Direction',
     description:
       'Docusaurus sites using the right-to-left reading direction support.',
-    icon: <>↪️</>,
+    color: '#ffcfc3',
   },
 };
 
@@ -548,6 +539,14 @@ const Users: User[] = [
     website: 'https://formatjs.io/',
     source: 'https://github.com/formatjs/formatjs/tree/main/website',
     tags: ['opensource'],
+  },
+  {
+    title: 'Froggit',
+    description: 'French software factory based entirely on Free Software.',
+    preview: require('./showcase/froggit.png'),
+    website: 'https://www.froggit.fr/',
+    source: 'https://lab.frogg.it/froggit/www/froggit.fr',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Gladys Assistant',
@@ -1251,6 +1250,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Shotstack',
+    description: 'The cloud video editing API',
+    preview: require('./showcase/shotstack.png'),
+    website: 'https://shotstack.io/docs/guide/',
+    source: 'https://github.com/shotstack/documentation',
+    tags: ['product', 'design', 'opensource'],
+  },
+  {
     title: 'social-embed',
     description:
       'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
@@ -1538,11 +1545,20 @@ const Users: User[] = [
   },
   {
     title: 'Matej Jellus',
-    description: 'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
+    description:
+      'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
     preview: require('./showcase/juffalow.png'),
     website: 'https://juffalow.com/',
     source: 'https://github.com/juffalow/juffalow-com',
     tags: ['personal', 'opensource'],
+  },
+  {
+    title: 'SigNoz',
+    description: 'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
+    preview: require('./showcase/signoz.png'),
+    website: 'https://signoz.io/',
+    source: null,
+    tags: ['product', 'design'],
   },
 
   /*
@@ -1561,7 +1577,7 @@ function sortUsers() {
   return result;
 }
 
-export const SortedUsers = sortUsers();
+export const sortedUsers = sortUsers();
 
 // Fail-fast on common errors
 function ensureUserValid(user: User) {

@@ -250,35 +250,38 @@ describe('extending PostCSS', () => {
     }
 
     // Run multiple times: ensure last run does not override previous runs
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-1'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           createFakePlugin('postcss-plugin-2'),
           ...postCssOptions.plugins,
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-3'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
     // @ts-expect-error: relax type
     const postCssLoader1 = webpackConfig.module?.rules[0].use[2];

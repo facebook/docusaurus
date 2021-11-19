@@ -203,8 +203,8 @@ Code tag + double pipe: <code>||</code>
 
 ## Images edge cases
 
-![](/dogfooding/新控制器空间/图片.png)
+![](/新控制器空间/图片.png)
 
-![](/dogfooding/4/图片.png)
+![](/4/图片.png)
 
-![](/dogfooding/4/docu.png)
+![](/4/docu.png)

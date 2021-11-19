@@ -112,6 +112,7 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  staticDirectories: ['static', path.join(__dirname, '_dogfooding/_asset-tests')],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
@@ -301,6 +302,11 @@ const config = {
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
         },
+        gtag: !isDeployPreview
+          ? {
+              trackingID: 'UA-141789564-1',
+            }
+          : undefined,
       }),
     ],
   ],
@@ -327,12 +333,7 @@ const config = {
         additionalLanguages: ['java'],
       },
       image: 'img/docusaurus-soc.png',
-      // metadatas: [{name: 'twitter:card', content: 'summary'}],
-      gtag: !isDeployPreview
-        ? {
-            trackingID: 'UA-141789564-1',
-          }
-        : undefined,
+      // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
