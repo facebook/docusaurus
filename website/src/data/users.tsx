@@ -1434,6 +1434,15 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
   {
+    title: 'Webiny',
+    description:
+      'Serverless Application Framework and CMS - Build Full-Stack applications, GraphQL APIs, Websites & Microservices on top of the serverless infrastructure.',
+    preview: require('./showcase/webiny.png'),
+    website: 'https://www.webiny.com/docs/',
+    source: 'https://github.com/webiny/docs.webiny.com',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
