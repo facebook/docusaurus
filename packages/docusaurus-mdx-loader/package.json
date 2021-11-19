@@ -1,38 +1,59 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.61",
+  "version": "2.0.0-beta.9",
   "description": "Docusaurus Loader for MDX",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/mdx-loader.d.ts",
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-mdx-loader"
+  },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.9.4",
-    "@babel/traverse": "^7.9.0",
-    "@docusaurus/core": "^2.0.0-alpha.61",
-    "@mdx-js/mdx": "^1.5.8",
-    "@mdx-js/react": "^1.5.8",
+    "@babel/parser": "^7.12.16",
+    "@babel/traverse": "^7.12.13",
+    "@docusaurus/core": "2.0.0-beta.9",
+    "@docusaurus/utils": "2.0.0-beta.9",
+    "@mdx-js/mdx": "^1.6.21",
+    "@mdx-js/react": "^1.6.21",
+    "chalk": "^4.1.2",
     "escape-html": "^1.0.3",
-    "file-loader": "^6.0.0",
-    "fs-extra": "^8.1.0",
-    "github-slugger": "^1.3.0",
-    "gray-matter": "^4.0.2",
-    "loader-utils": "^1.2.3",
-    "mdast-util-to-string": "^1.1.0",
+    "file-loader": "^6.2.0",
+    "fs-extra": "^10.0.0",
+    "github-slugger": "^1.4.0",
+    "gray-matter": "^4.0.3",
+    "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.2",
-    "url-loader": "^4.1.0"
+    "url-loader": "^4.1.1",
+    "webpack": "^5.61.0"
   },
   "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9",
+    "@types/escape-html": "^1.0.1",
+    "@types/mdast": "^3.0.7",
+    "@types/stringify-object": "^3.3.1",
+    "@types/unist": "^2.0.6",
     "remark": "^12.0.0",
-    "remark-mdx": "^1.5.8",
+    "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
-    "unist-util-remove-position": "^2.0.1"
+    "unist-util-remove-position": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=14"
   }
 }

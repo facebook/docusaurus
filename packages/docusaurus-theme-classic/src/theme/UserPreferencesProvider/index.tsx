@@ -5,24 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {useMemo} from 'react';
 
 import useTabGroupChoice from '@theme/hooks/useTabGroupChoice';
-import useAnnouncementBar from '@theme/hooks/useAnnouncementBar';
 import UserPreferencesContext from '@theme/UserPreferencesContext';
+import type {Props} from '@theme/UserPreferencesProvider';
 
-function UserPreferencesProvider(props: {children: ReactNode}): JSX.Element {
+function UserPreferencesProvider(props: Props): JSX.Element {
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
-  const {isAnnouncementBarClosed, closeAnnouncementBar} = useAnnouncementBar();
-
+  const contextValue = useMemo(
+    () => ({
+      tabGroupChoices,
+      setTabGroupChoices,
+    }),
+    [tabGroupChoices, setTabGroupChoices],
+  );
   return (
-    <UserPreferencesContext.Provider
-      value={{
-        tabGroupChoices,
-        setTabGroupChoices,
-        isAnnouncementBarClosed,
-        closeAnnouncementBar,
-      }}>
+    <UserPreferencesContext.Provider value={contextValue}>
       {props.children}
     </UserPreferencesContext.Provider>
   );

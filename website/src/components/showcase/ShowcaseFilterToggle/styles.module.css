@@ -1,0 +1,57 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.checkboxLabel {
+  display: flex;
+  width: 80px;
+  height: 25px;
+  position: relative;
+  border-radius: 25px;
+  border: 2px solid var(--ifm-color-primary-darkest);
+  overflow: hidden;
+  background-color: transparent;
+  cursor: pointer;
+  justify-content: space-around;
+  align-items: center;
+  opacity: 0.75;
+  transition: opacity 200ms ease-out;
+}
+
+input:focus ~ .checkboxLabel,
+input:focus-visible ~ .checkboxLabel,
+.checkboxLabel:hover {
+  opacity: 1;
+  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
+}
+
+.checkboxLabel > * {
+  font-size: 0.8rem;
+  color: inherit;
+  transition: opacity 150ms ease-in 50ms;
+}
+
+.checkboxToggle {
+  position: absolute;
+  content: '';
+  top: -2px;
+  left: -2px;
+  width: 40px;
+  height: 25px;
+  border-radius: 20px;
+  background-color: var(--ifm-color-primary-darkest);
+  box-sizing: border-box;
+  border: 0.04em solid var(--ifm-color-primary-darkest);
+  transition-property: transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  transition-delay: 150ms;
+  transform: translateX(38px);
+}
+
+input:checked ~ .checkboxLabel > .checkboxToggle {
+  transform: translateX(0);
+}

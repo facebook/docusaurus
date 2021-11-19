@@ -1,6 +1,6 @@
 # Contributing to Docusaurus
 
-[Docusaurus](https://docusaurus.io) is our way to hopefully help creating open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/en/users.html), with many more planned. If you're interested in contributing to Docusaurus, hopefully this document makes the process for contributing clear.
+[Docusaurus](https://docusaurus.io) is our way to hopefully help to create open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
@@ -15,10 +15,10 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
-- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
+- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
 - If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
-- Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
+- Read through the [Docusaurus docs](https://docusaurus.io/docs/installation). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
@@ -27,8 +27,8 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 If you only want to make content changes you just need to know about versioned docs.
 
-- `/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/en/next/installation.
-- `website-1.x/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/en/X.Y.Z/installation.
+- `website/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/next/installation.
+- `website/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/X.Y.Z/installation.
 
 To make a fix to the published versions you must edit the corresponding markdown file in both folders. If you only made changes in `docs`, be sure to be viewing the `next` version to see the updates (ensure there's `next` in the URL).
 
@@ -36,9 +36,7 @@ To make a fix to the published versions you must edit the corresponding markdown
 
 ### Join our Discord Channel
 
-We have `#docusaurus-dev` on [Discord](https://discord.gg/docusaurus) to discuss all things Docusaurus development.
-
-To participate in Docusaurus 2 dev, we have the [`#docusaurus-2-dev`](https://discord.gg/n8nQEAS) channel.
+We have the [`#contributors`](https://discord.gg/6g6ASPA) channel on [Discord](https://discord.gg/docusaurus) to discuss all things about Docusaurus development.
 
 ### Triaging Issues and Pull Requests
 
@@ -57,19 +55,15 @@ When a change made on GitHub is approved, it will be checked by our continuous i
 
 ### Branch Organization
 
-Docusaurus has two primary branches: `master` and `gh-pages`.
-
-`master` is where our code lives and development takes place. We will do our best to keep `master` in good shape, with tests passing at all times. We will also do our best not to publish updated `npm` packages that will break sites. But in order to move fast, we may make changes that could break existing sites. We will do our best to communicate these changes and version appropriately so you can lock into a specific Docusaurus version if need be.
-
-`gh-pages` contains the [Docusaurus documentation](https://docusaurus.io). This branch is pushed to by CI and not generally managed manually.
+Docusaurus has one primary branch `main` and we use feature branches with deploy previews to deliver new features with pull requests.
 
 ## Bugs
 
-We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our public bugs. If you would like to report a problem, take a look around and see if someone already opened an issue about it. If you a are certain this is a new, unreported bug, you can submit a [bug report](#reporting-new-issues).
+We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our public bugs. If you would like to report a problem, take a look around and see if someone already opened an issue about it. If you are certain this is a new, unreported bug, you can submit a [bug report](#reporting-new-issues).
 
 If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
 
-You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md)
+You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/main/.github/ISSUE_TEMPLATE/feature.md)
 
 ## Reporting New Issues
 
@@ -117,11 +111,11 @@ We have a list of [beginner friendly issues](https://github.com/facebook/docusau
 
 ### Proposing a Change
 
-If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md).
+If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with the [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md).
 
-If you intend to change the public API (e.g., something in `siteConfig.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
+If you intend to change the public API (e.g., something in `siteConfig.js`) or make any non-trivial changes to the implementation, we recommend filing an issue with the [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
 
-If you're only fixing a bug, it's fine to submit a pull request right away but we still recommend to file an issue detailing what you're fixing. This is helpful in case we don't accept that specific fix but want to keep track of the issue.
+If you're only fixing a bug, it's fine to submit a pull request right away but we still recommend filing an issue detailing what you're fixing. This is helpful in case we don't accept that specific fix but want to keep track of the issue.
 
 ### Sending a Pull Request
 
@@ -129,14 +123,14 @@ Small pull requests are much easier to review and more likely to get merged. Mak
 
 Please make sure the following is done when submitting a pull request:
 
-1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
+1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `main`.
 1. Add the copyright notice to the top of any code new files you've added.
-1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
+1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/main/admin/testing-changes-on-Docusaurus-itself.md)!
 1. Make sure your code lints (`yarn prettier && yarn lint`).
 1. Make sure your Jest tests pass (`yarn test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
 
-All pull requests should be opened against the `master` branch.
+All pull requests should be opened against the `main` branch.
 
 #### Test Plan
 
@@ -210,7 +204,7 @@ The various types of commits:
 - `feat`: (new feature for the user, not a new feature for build script)
 - `fix`: (bug fix for the user, not a fix to a build script)
 - `docs`: (changes to the documentation)
-- `style`: (formatting, missing semi colons, etc; no production code change)
+- `style`: (formatting, missing semicolons, etc; no production code change)
 - `refactor`: (refactoring production code, eg. renaming a variable)
 - `test`: (adding missing tests, refactoring tests; no production code change)
 - `chore`: (updating grunt tasks etc; no production code change)

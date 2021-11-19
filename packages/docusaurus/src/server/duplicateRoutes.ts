@@ -4,8 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {getAllFinalRoutes, reportMessage} from './utils';
+import {ReportingSeverity, RouteConfig} from '@docusaurus/types';
+import {reportMessage} from '@docusaurus/utils';
+import {getAllFinalRoutes} from './utils';
 
 export function getAllDuplicateRoutes(
   pluginsRouteConfigs: RouteConfig[],
@@ -13,16 +14,15 @@ export function getAllDuplicateRoutes(
   const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
     (routeConfig) => routeConfig.path,
   );
-  const seenRoutes: Record<string, any> = {};
-  const duplicateRoutes: string[] = allRoutes.filter(function (route) {
-    if (seenRoutes.hasOwnProperty(route)) {
+  const seenRoutes: Record<string, boolean> = {};
+  return allRoutes.filter((route) => {
+    if (Object.prototype.hasOwnProperty.call(seenRoutes, route)) {
       return true;
     } else {
       seenRoutes[route] = true;
       return false;
     }
   });
-  return duplicateRoutes;
 }
 
 export function getDuplicateRoutesMessage(

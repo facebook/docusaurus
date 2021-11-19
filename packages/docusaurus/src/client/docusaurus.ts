@@ -11,14 +11,14 @@ import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';
 
-const fetched = {};
-const loaded = {};
+const fetched: Record<string, boolean> = {};
+const loaded: Record<string, boolean> = {};
 
 declare global {
-  // eslint-disable-next-line camelcase, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line camelcase
   const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
-    connection: any;
+    connection: {effectiveType: string; saveData: boolean};
   }
 }
 
@@ -41,6 +41,27 @@ const canPrefetch = (routePath: string) =>
 const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
+const flatten = <T>(arrays: T[][]): T[] =>
+  Array.prototype.concat.apply([], arrays);
+
+// Remove the last part containing the route hash
+// input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
+// output: /blog/2018/12/14/Happy-First-Birthday-Slash
+const removeRouteNameHash = (str: string) => str.replace(/(-[^-]+)$/, '');
+
+const getChunkNamesToLoad = (path: string): string[] =>
+  flatten(
+    Object.entries(routesChunkNames)
+      .filter(
+        ([routeNameWithHash]) =>
+          removeRouteNameHash(routeNameWithHash) === path,
+      )
+      .map(([, routeChunks]) =>
+        // flat() is useful for nested chunk names, it's not like array.flat()
+        Object.values(flat(routeChunks)),
+      ),
+  );
+
 const docusaurus = {
   prefetch: (routePath: string): boolean => {
     if (!canPrefetch(routePath)) {
@@ -51,21 +72,16 @@ const docusaurus = {
 
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
-    const chunkNamesNeeded = matches.reduce((arr: string[], match) => {
-      const chunk = routesChunkNames[match.route.path as string];
-      if (!chunk) {
-        return arr;
-      }
 
-      const chunkNames = Object.values(flat(chunk)) as string[];
-      return arr.concat(chunkNames);
-    }, []);
+    const chunkNamesNeeded = flatten(
+      matches.map((match) => getChunkNamesToLoad(match.route.path as string)),
+    );
 
     // Prefetch all webpack chunk assets file needed.
     chunkNamesNeeded.forEach((chunkName) => {
       // "__webpack_require__.gca" is a custom function provided by ChunkAssetPlugin.
       // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk.
-      // eslint-disable-next-line no-undef
+      // eslint-disable-next-line camelcase
       const chunkAsset = __webpack_require__.gca(chunkName);
 
       // In some cases, webpack might decide to optimize further & hence the chunk assets are merged to another chunk/previous chunk.

@@ -6,29 +6,51 @@
  */
 
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
-  --ifm-color-feedback-background: #fff;
+  /*
+  See css var + hsl color palette technique:
+  https://blog.maximeheckel.com/posts/the-power-of-composition-with-css-variables/
+   */
+  --site-primary-hue-saturation: 167, 68%;
+  --site-primary-hue-saturation-light: 167, 56%; /* do we really need this extra one? */
+
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
+  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation), 41%);
+  --ifm-color-primary-darker: hsl(var(--site-primary-hue-saturation), 38%);
+  --ifm-color-primary-darkest: hsl(var(--site-primary-hue-saturation), 32%);
+
+  --ifm-color-primary-light: hsl(var(--site-primary-hue-saturation-light), 54%);
+  --ifm-color-primary-lighter: hsl(
+    var(--site-primary-hue-saturation-light),
+    62%
+  );
+  --ifm-color-primary-lightest: hsl(
+    var(--site-primary-hue-saturation-light),
+    73%
+  );
+
+  --site-color-feedback-background: #fff;
+  --site-color-favorite-background: #f6fdfd;
+  --site-color-tooltip: #fff;
+  --site-color-tooltip-background: #353738;
+  --site-color-svgIcon-favorite: #e9669e;
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
 }
 
 html[data-theme='dark'] {
-  --ifm-color-feedback-background: #f0f8ff;
+  --site-color-feedback-background: #f0f8ff;
+  --site-color-favorite-background: #1d1e1e;
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgb(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgb(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .header-github-link:hover {
@@ -49,12 +71,28 @@ html[data-theme='dark'] .header-github-link:before {
     no-repeat;
 }
 
-/*
-TODO temporary, should be handled by infima next release
-https://github.com/facebookincubator/infima/commit/7820399af53c182b1879aa6d7fceb4d296f78ce0
- */
-.navbar__item.dropdown .navbar__link[href] {
-  pointer-events: all;
+.footer--dark {
+  --ifm-footer-background-color: #2b3137;
+}
+
+.unique-tabs .tabs__item {
+  line-height: 16px;
+  margin-right: 8px;
+}
+
+.unique-tabs .tabs__item--active {
+  border: 0;
+  color: #fff;
+  border-radius: var(--ifm-global-radius);
+  background-color: var(--ifm-tabs-color-active);
+}
+
+html[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: greenyellow;
+}
+
+html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
+  fill: seagreen;
 }
 
 html[data-theme='light'] .DocSearch {
@@ -95,4 +133,41 @@ html[data-theme='dark'] .DocSearch {
     var(--ifm-color-emphasis-200) 0%,
     var(--ifm-color-emphasis-100) 100%
   );
+}
+
+div[class^='announcementBar_'] {
+  --site-announcement-bar-stripe-color1: hsl(
+    var(--site-primary-hue-saturation),
+    85%
+  );
+  --site-announcement-bar-stripe-color2: hsl(
+    var(--site-primary-hue-saturation),
+    95%
+  );
+  background: repeating-linear-gradient(
+    35deg,
+    var(--site-announcement-bar-stripe-color1),
+    var(--site-announcement-bar-stripe-color1) 20px,
+    var(--site-announcement-bar-stripe-color2) 10px,
+    var(--site-announcement-bar-stripe-color2) 40px
+  );
+  font-weight: bold;
+}
+
+.red > a {
+  color: red;
+}
+
+.screen-reader-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

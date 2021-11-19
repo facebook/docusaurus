@@ -8,10 +8,11 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy} from 'lodash';
+import {mapValues, pickBy, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix} from '@docusaurus/utils';
-import {getAllFinalRoutes, reportMessage} from './utils';
+import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import {getAllFinalRoutes} from './utils';
+import path from 'path';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -47,7 +48,9 @@ function getPageBrokenLinks({
   }
 
   function isBrokenLink(link: string) {
-    const matchedRoutes = matchRoutes(toReactRouterRoutes(routes), link);
+    const matchedRoutes = [link, decodeURI(link)]
+      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
+      .reduce((prev, cur) => prev.concat(cur));
     return matchedRoutes.length === 0;
   }
 
@@ -72,9 +75,9 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) => {
-    return getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes});
-  });
+  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  );
 
   // remove pages without any broken link
   return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -98,14 +101,44 @@ export function getBrokenLinksErrorMessage(
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `\n\n- Page path = ${pagePath}:\n   -> link to ${brokenLinks
+    return `\n- On source page path = ${pagePath}:\n   -> linking to ${brokenLinks
       .map(brokenLinkMessage)
-      .join('\n   -> link to ')}`;
+      .join('\n   -> linking to ')}`;
+  }
+
+  // If there's a broken link appearing very often, it is probably a broken link on the layout!
+  // Add an additional message in such case to help user figure this out.
+  // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
+  function getLayoutBrokenLinksHelpMessage() {
+    const flatList = Object.entries(allBrokenLinks).flatMap(
+      ([pagePage, brokenLinks]) =>
+        brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
+    );
+
+    const countedBrokenLinks = countBy(
+      flatList,
+      (item) => item.brokenLink.link,
+    );
+
+    const FrequencyThreshold = 5; // Is this a good value?
+    const frequentLinks = Object.entries(countedBrokenLinks)
+      .filter(([, count]) => count >= FrequencyThreshold)
+      .map(([link]) => link);
+
+    if (frequentLinks.length === 0) {
+      return '';
+    }
+
+    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
+      `\n- `,
+    )}\n`;
   }
 
   return (
-    `Broken links found!` +
-    `${Object.entries(allBrokenLinks)
+    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
+    `\n\nExhaustive list of all broken links found:\n${Object.entries(
+      allBrokenLinks,
+    )
       .map(([pagePath, brokenLinks]) =>
         pageBrokenLinksMessage(pagePath, brokenLinks),
       )
@@ -114,9 +147,17 @@ export function getBrokenLinksErrorMessage(
   );
 }
 
+function isExistingFile(filePath: string) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (e) {
+    return false;
+  }
+}
+
 // If a file actually exist on the file system, we know the link is valid
 // even if docusaurus does not know about this file, so we don't report it
-async function filterExistingFileLinks({
+export async function filterExistingFileLinks({
   baseUrl,
   outDir,
   allCollectedLinks,
@@ -127,17 +168,27 @@ async function filterExistingFileLinks({
 }): Promise<Record<string, string[]>> {
   // not easy to make this async :'(
   function linkFileExists(link: string): boolean {
-    const filePath = `${outDir}/${removePrefix(link, baseUrl)}`;
-    try {
-      return fs.statSync(filePath).isFile(); // only consider files
-    } catch (e) {
-      return false;
+    // /baseUrl/javadoc/ -> /outDir/javadoc
+    const baseFilePath = removeSuffix(
+      `${outDir}/${removePrefix(link, baseUrl)}`,
+      '/',
+    );
+
+    // -> /outDir/javadoc
+    // -> /outDir/javadoc.html
+    // -> /outDir/javadoc/index.html
+    const filePathsToTry: string[] = [baseFilePath];
+    if (!path.extname(baseFilePath)) {
+      filePathsToTry.push(`${baseFilePath}.html`);
+      filePathsToTry.push(path.join(baseFilePath, 'index.html'));
     }
+
+    return filePathsToTry.some(isExistingFile);
   }
 
-  return mapValues(allCollectedLinks, (links) => {
-    return links.filter((link) => !linkFileExists(link));
-  });
+  return mapValues(allCollectedLinks, (links) =>
+    links.filter((link) => !linkFileExists(link)),
+  );
 }
 
 export async function handleBrokenLinks({
@@ -152,7 +203,7 @@ export async function handleBrokenLinks({
   routes: RouteConfig[];
   baseUrl: string;
   outDir: string;
-}) {
+}): Promise<void> {
   if (onBrokenLinks === 'ignore') {
     return;
   }
@@ -172,7 +223,6 @@ export async function handleBrokenLinks({
 
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
-    const finalMessage = `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n\n`;
-    reportMessage(finalMessage, onBrokenLinks);
+    reportMessage(errorMessage, onBrokenLinks);
   }
 }

@@ -1,6 +1,6 @@
 # `@docusaurus/mdx-loader`
 
-Docusaurus webpack loader of [MDX](https://github.com/mdx-js/mdx)
+Docusaurus webpack loader for [MDX](https://github.com/mdx-js/mdx).
 
 ## Installation
 

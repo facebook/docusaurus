@@ -28,9 +28,7 @@ describe('normalizePluginOptions', () => {
   });
 
   test('should override all default options with valid user options', () => {
-    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => {
-      return [];
-    };
+    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => [];
     expect(
       normalizePluginOptions({
         fromExtensions: ['exe', 'zip'],
@@ -50,7 +48,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad fromExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        fromExtensions: ([null, undefined, 123, true] as unknown) as string[],
+        fromExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -58,7 +56,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad toExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        toExtensions: ([null, undefined, 123, true] as unknown) as string[],
+        toExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -66,10 +64,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad createRedirects user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        createRedirects: ([
-          'bad',
-          'value',
-        ] as unknown) as CreateRedirectsFnOption,
+        createRedirects: ['bad', 'value'] as unknown as CreateRedirectsFnOption,
       }),
     ).toThrowErrorMatchingSnapshot();
   });

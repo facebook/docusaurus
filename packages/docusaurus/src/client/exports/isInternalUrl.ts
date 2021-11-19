@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function hasProtocol(url: string) {
+export function hasProtocol(url: string): boolean {
   return /^(\w*:|\/\/)/.test(url) === true;
 }
 

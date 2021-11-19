@@ -11,4 +11,8 @@ module.exports = {
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
 };

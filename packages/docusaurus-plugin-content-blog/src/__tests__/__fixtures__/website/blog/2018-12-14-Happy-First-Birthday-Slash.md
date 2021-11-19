@@ -1,5 +1,8 @@
 ---
 title: Happy 1st Birthday Slash!
+authors:
+  - name: Yangshun Tay
+  - slorber
 ---
 
-pattern name
+Happy birthday!

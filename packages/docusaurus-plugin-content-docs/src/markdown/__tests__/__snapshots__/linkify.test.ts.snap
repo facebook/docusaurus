@@ -35,6 +35,8 @@ exports[`transform to correct links 1`] = `
 
 - [doc1](/docs/doc1)
 - [doc2](/docs/doc2)
+
+- [doc-localized](/fr/doc-localized)
 "
 `;
 

@@ -5,198 +5,197 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="@docusaurus/module-type-aliases" />
 
-export type DocsVersion = string | null; // null = unversioned sites
+import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {
+  BrokenMarkdownLink as IBrokenMarkdownLink,
+  ContentPaths,
+} from '@docusaurus/utils/lib/markdownLinks';
+import type {SidebarItemsGeneratorOption, Sidebars} from './sidebars/types';
 
-export interface MetadataOptions {
-  routeBasePath: string;
-  homePageId?: string;
-  editUrl?: string;
-  showLastUpdateTime?: boolean;
-  showLastUpdateAuthor?: boolean;
-}
-
-export interface PathOptions {
-  path: string;
-  sidebarPath: string;
-}
-
-export interface PluginOptions extends MetadataOptions, PathOptions {
-  id?: string;
-  include: string[];
-  docLayoutComponent: string;
-  docItemComponent: string;
-  remarkPlugins: ([Function, object] | Function)[];
-  rehypePlugins: string[];
-  admonitions: any;
-  disableVersioning: boolean;
-  excludeNextVersionDocs: boolean;
-}
-
-export type SidebarItemDoc = {
-  type: 'doc' | 'ref';
-  id: string;
+export type DocFile = {
+  contentPath: string; // /!\ may be localized
+  filePath: string; // /!\ may be localized
+  source: string;
+  content: string;
+  lastUpdate: LastUpdateData;
 };
 
-export interface SidebarItemLink {
-  type: 'link';
-  href: string;
-  label: string;
-}
+export type VersionName = string;
 
-export interface SidebarItemCategory {
-  type: 'category';
-  label: string;
-  items: SidebarItem[];
-  collapsed: boolean;
-}
+export type VersionMetadata = ContentPaths & {
+  versionName: VersionName; // 1.0.0
+  versionLabel: string; // Version 1.0.0
+  versionPath: string; // /baseUrl/docs/1.0.0
+  tagsPath: string;
+  versionEditUrl?: string | undefined;
+  versionEditUrlLocalized?: string | undefined;
+  versionBanner: VersionBanner | null;
+  versionBadge: boolean;
+  versionClassName: string;
+  isLast: boolean;
+  sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
+  routePriority: number | undefined; // -1 for the latest docs
+};
 
-export interface SidebarItemCategoryRaw {
-  type: 'category';
-  label: string;
-  items: SidebarItemRaw[];
-  collapsed?: boolean;
-}
+export type EditUrlFunction = (editUrlParams: {
+  version: string;
+  versionDocsDirPath: string;
+  docPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
 
-export type SidebarItem =
-  | SidebarItemDoc
-  | SidebarItemLink
-  | SidebarItemCategory;
+export type MetadataOptions = {
+  routeBasePath: string;
+  homePageId?: string;
+  editUrl?: string | EditUrlFunction;
+  editCurrentVersion: boolean;
+  editLocalizedFiles: boolean;
+  showLastUpdateTime?: boolean;
+  showLastUpdateAuthor?: boolean;
+  numberPrefixParser: NumberPrefixParser;
+};
 
-export type SidebarItemRaw =
-  | string
-  | SidebarCategoryShorthandRaw
-  | SidebarItemDoc
-  | SidebarItemLink
-  | SidebarItemCategoryRaw
-  | {
-      type: string;
-      [key: string]: unknown;
-    };
+export type PathOptions = {
+  path: string;
+  sidebarPath?: string | false | undefined;
+};
 
-export interface SidebarCategoryShorthandRaw {
-  [sidebarCategory: string]: SidebarItemRaw[];
-}
+// TODO support custom version banner? {type: "error", content: "html content"}
+export type VersionBanner = 'unreleased' | 'unmaintained';
 
-// Sidebar given by user that is not normalized yet. e.g: sidebars.json
-export interface SidebarRaw {
-  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
-}
+export type VersionOptions = {
+  path?: string;
+  label?: string;
+  banner?: 'none' | VersionBanner;
+  badge?: boolean;
+  className?: string;
+};
 
-export interface Sidebar {
-  [sidebarId: string]: SidebarItem[];
-}
+export type VersionsOptions = {
+  lastVersion?: string;
+  versions: Record<string, VersionOptions>;
+  onlyIncludeVersions?: string[];
+};
 
-export interface DocsSidebarItemCategory {
-  type: 'category';
-  label: string;
-  items: DocsSidebarItem[];
-  collapsed?: boolean;
-}
+export type SidebarOptions = {
+  sidebarCollapsible: boolean;
+  sidebarCollapsed: boolean;
+};
 
-export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;
+export type PluginOptions = MetadataOptions &
+  PathOptions &
+  VersionsOptions &
+  RemarkAndRehypePluginOptions &
+  SidebarOptions & {
+    id: string;
+    include: string[];
+    exclude: string[];
+    docLayoutComponent: string;
+    docItemComponent: string;
+    docTagDocListComponent: string;
+    docTagsListComponent: string;
+    admonitions: Record<string, unknown>;
+    disableVersioning: boolean;
+    includeCurrentVersion: boolean;
+    sidebarItemsGenerator: SidebarItemsGeneratorOption;
+    tagsBasePath: string;
+  };
 
-export interface DocsSidebar {
-  [sidebarId: string]: DocsSidebarItem[];
-}
-
-export interface OrderMetadata {
-  previous?: string;
-  next?: string;
-  sidebar?: string;
-}
-
-export interface Order {
-  [id: string]: OrderMetadata;
-}
-
-export interface LastUpdateData {
+export type LastUpdateData = {
   lastUpdatedAt?: number;
+  formattedLastUpdatedAt?: string;
   lastUpdatedBy?: string;
-}
+};
 
-export interface MetadataRaw extends LastUpdateData {
+export type DocFrontMatter = {
+  // Front matter uses snake case
+  id?: string;
+  title?: string;
+  tags?: FrontMatterTag[];
+  hide_title?: boolean;
+  hide_table_of_contents?: boolean;
+  keywords?: string[];
+  image?: string;
+  description?: string;
+  slug?: string;
+  sidebar_label?: string;
+  sidebar_position?: number;
+  sidebar_class_name?: string;
+  pagination_label?: string;
+  custom_edit_url?: string | null;
+  parse_number_prefixes?: boolean;
+  toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
+  pagination_next?: string | null;
+  pagination_prev?: string | null;
+};
+
+export type DocMetadataBase = LastUpdateData & {
+  version: VersionName;
   unversionedId: string;
   id: string;
   isDocsHomePage: boolean;
   title: string;
   description: string;
   source: string;
+  sourceDirName: string; // relative to the docs folder (can be ".")
   slug: string;
   permalink: string;
-  sidebar_label?: string;
+  sidebarPosition?: number;
   editUrl?: string | null;
-  version?: string;
-}
+  tags: Tag[];
+  frontMatter: DocFrontMatter & Record<string, unknown>;
+};
 
-export interface Paginator {
+export type DocNavLink = {
   title: string;
   permalink: string;
-}
+};
 
-export interface Metadata extends MetadataRaw {
+export type DocMetadata = DocMetadataBase & {
   sidebar?: string;
-  previous?: Paginator;
-  next?: Paginator;
-}
+  previous?: DocNavLink;
+  next?: DocNavLink;
+};
 
-export interface DocsMetadata {
-  [id: string]: Metadata;
-}
-
-export interface DocsMetadataRaw {
-  [id: string]: MetadataRaw;
-}
-
-export interface SourceToPermalink {
+export type SourceToPermalink = {
   [source: string]: string;
-}
-
-export interface PermalinkToSidebar {
-  [permalink: string]: string;
-}
-
-export interface VersionToSidebars {
-  [version: string]: Set<string>;
-}
-
-export interface LoadedContent {
-  docsMetadata: DocsMetadata;
-  docsDir: string;
-  docsSidebars: DocsSidebar;
-  permalinkToSidebar: PermalinkToSidebar;
-  versionToSidebars: VersionToSidebars;
-}
-
-export type DocsBaseMetadata = Pick<
-  LoadedContent,
-  'docsSidebars' | 'permalinkToSidebar'
-> & {
-  version: string | null;
 };
 
-export type VersioningEnv = {
-  enabled: boolean;
-  latestVersion: string | null;
-  versions: string[];
-  docsDir: string;
-  sidebarsDir: string;
+export type VersionTag = {
+  name: string; // normalized name/label of the tag
+  docIds: string[]; // all doc ids having this tag
+  permalink: string; // pathname of the tag
+};
+export type VersionTags = {
+  [key: string]: VersionTag;
 };
 
-export interface Env {
-  versioning: VersioningEnv;
-  // TODO: translation
-}
+export type LoadedVersion = VersionMetadata & {
+  versionPath: string;
+  mainDocId: string;
+  docs: DocMetadata[];
+  sidebars: Sidebars;
+};
+
+export type LoadedContent = {
+  loadedVersions: LoadedVersion[];
+};
 
 export type GlobalDoc = {
   id: string;
   path: string;
+  sidebar: string | undefined;
 };
 
 export type GlobalVersion = {
-  name: DocsVersion;
+  name: VersionName;
+  label: string;
+  isLast: boolean;
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
@@ -204,6 +203,19 @@ export type GlobalVersion = {
 
 export type GlobalPluginData = {
   path: string;
-  latestVersionName: DocsVersion;
   versions: GlobalVersion[];
+};
+
+export type BrokenMarkdownLink = IBrokenMarkdownLink<VersionMetadata>;
+
+export type DocsMarkdownOption = {
+  versionsMetadata: VersionMetadata[];
+  siteDir: string;
+  sourceToPermalink: SourceToPermalink;
+  onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
+};
+
+export type NumberPrefixParser = (filename: string) => {
+  filename: string;
+  numberPrefix?: number;
 };

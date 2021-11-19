@@ -6,26 +6,29 @@
  */
 
 import React from 'react';
-import DefaultNavbarItem from './DefaultNavbarItem';
-import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import {
+  useActiveVersion,
+  useLatestVersion,
+  GlobalVersion,
+} from '@theme/hooks/useDocs';
+import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
+import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
-const getVersionMainDoc = (version) =>
-  version.docs.find((doc) => doc.id === version.mainDocId);
-
-const versionLabel = (version, nextVersionLabel) =>
-  version.name === 'next' ? nextVersionLabel : version.name;
+const getVersionMainDoc = (version: GlobalVersion) =>
+  version.docs.find((doc) => doc.id === version.mainDocId)!;
 
 export default function DocsVersionNavbarItem({
   label: staticLabel,
   to: staticTo,
   docsPluginId,
-  nextVersionLabel,
   ...props
-}) {
+}: Props): JSX.Element {
   const activeVersion = useActiveVersion(docsPluginId);
+  const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
-  const version = activeVersion ?? latestVersion;
-  const label = staticLabel ?? versionLabel(version, nextVersionLabel);
+  const version = activeVersion ?? preferredVersion ?? latestVersion;
+  const label = staticLabel ?? version.label;
   const path = staticTo ?? getVersionMainDoc(version).path;
   return <DefaultNavbarItem {...props} label={label} to={path} />;
 }

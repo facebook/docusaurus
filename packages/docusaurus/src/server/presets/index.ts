@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createRequire} from 'module';
 import importFresh from 'import-fresh';
 import {
   LoadContext,
@@ -13,12 +14,14 @@ import {
   PresetConfig,
 } from '@docusaurus/types';
 
-export default function loadPresets(
-  context: LoadContext,
-): {
+export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
+  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
+  // declares the dependency on these plugins.
+  const pluginRequire = createRequire(context.siteConfigPath);
+
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
@@ -34,7 +37,15 @@ export default function loadPresets(
       throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule: any = importFresh(presetModuleImport);
+    type PresetInitializeFunction = (
+      context: LoadContext,
+      presetOptions: Record<string, unknown>,
+    ) => Preset;
+    const presetModule = importFresh<
+      PresetInitializeFunction & {
+        default?: PresetInitializeFunction;
+      }
+    >(pluginRequire.resolve(presetModuleImport));
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,

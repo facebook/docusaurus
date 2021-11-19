@@ -1,6 +1,6 @@
 # `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).
 
 ## Installation
 

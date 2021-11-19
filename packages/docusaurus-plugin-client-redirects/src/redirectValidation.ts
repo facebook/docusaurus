@@ -5,25 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from '@hapi/joi';
-import {isValidPathname} from '@docusaurus/utils';
 import {RedirectMetadata} from './types';
-
-export const PathnameValidator = Joi.string()
-  .custom((val) => {
-    if (!isValidPathname(val)) {
-      throw new Error();
-    } else {
-      return val;
-    }
-  })
-  .message(
-    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
-  );
+import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
 
 const RedirectSchema = Joi.object<RedirectMetadata>({
-  from: PathnameValidator.required(),
-  to: PathnameValidator.required(),
+  from: PathnameSchema.required(),
+  to: PathnameSchema.required(),
 });
 
 export function validateRedirect(redirect: RedirectMetadata): void {
