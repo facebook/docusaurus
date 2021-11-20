@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "חיפוש",
+  "theme.SearchPage.algoliaLabel": "חיפוש by Algolia",
+  "theme.SearchPage.documentsFound.plurals": "נמצא מסמך אחד|{count} מסמכים נמצאו|{count} מסמכים נמצאו|{count} מסמכים נמצאו",
+  "theme.SearchPage.emptyResultsTitle": "חפש בדוקומנטאציה",
+  "theme.SearchPage.existingResultsTitle": "תוצאות חיפוש עבור \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "טוען תוצאות חיפוש חדשות...",
+  "theme.SearchPage.inputLabel": "חיפוש",
+  "theme.SearchPage.inputPlaceholder": "הקלד כאן לחיפוש",
+  "theme.SearchPage.noResultsText": "לא נמצאו תוצאות"
+}
