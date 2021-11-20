@@ -35,7 +35,7 @@ const config = {
     algolia: {
       // highlight-start
       appId: '<NEW_APP_ID>',
-      apiKey: '<NEW_API_KEY>',
+      apiKey: '<NEW_SEARCH_API_KEY>',
       // highlight-end
     },
   },
