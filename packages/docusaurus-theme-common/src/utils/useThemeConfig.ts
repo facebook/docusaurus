@@ -113,7 +113,7 @@ export type ThemeConfig = {
   footer?: Footer;
   hideableSidebar: boolean;
   image?: string;
-  metadatas: Array<Record<string, string>>;
+  metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };

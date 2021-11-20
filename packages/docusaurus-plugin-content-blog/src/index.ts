@@ -17,10 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
-import {
-  STATIC_DIR_NAME,
-  DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {translateContent, getTranslationFiles} from './translations';
 
 import {
@@ -323,9 +320,9 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
+              items: items.map((postID) =>
                 // To tell routes.js this is an import and not a nested object to recurse.
-                return {
+                ({
                   content: {
                     __import: true,
                     path: blogItemsToMetadata[postID].source,
@@ -333,8 +330,8 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                };
-              }),
+                }),
+              ),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -466,7 +463,10 @@ export default function pluginContentBlog(
                     rehypePlugins,
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,
@@ -491,14 +491,12 @@ export default function pluginContentBlog(
                     }: {
                       frontMatter: BlogPostFrontMatter;
                       metadata: MetaData;
-                    }): Assets => {
-                      return {
-                        image: frontMatter.image,
-                        authorsImageUrls: metadata.authors.map(
-                          (author) => author.imageURL,
-                        ),
-                      };
-                    },
+                    }): Assets => ({
+                      image: frontMatter.image,
+                      authorsImageUrls: metadata.authors.map(
+                        (author) => author.imageURL,
+                      ),
+                    }),
                   },
                 },
                 {

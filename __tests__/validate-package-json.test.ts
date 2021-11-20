@@ -22,12 +22,10 @@ async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await glob('packages/*/package.json');
 
   return Promise.all(
-    files.map(async (file) => {
-      return {
-        file,
-        content: JSON.parse(await readFile(file, 'utf8')),
-      };
-    }),
+    files.map(async (file) => ({
+      file,
+      content: JSON.parse(await readFile(file, 'utf8')),
+    })),
   );
 }
 

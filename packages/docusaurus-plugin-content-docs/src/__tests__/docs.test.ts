@@ -15,7 +15,7 @@ import {
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
-import {
+import type {
   DocFile,
   DocMetadataBase,
   MetadataOptions,
@@ -24,7 +24,7 @@ import {
   EditUrlFunction,
   DocNavLink,
 } from '../types';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';

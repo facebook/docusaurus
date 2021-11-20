@@ -19,7 +19,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
 import {
@@ -291,7 +291,7 @@ export function processDocMetadata(args: {
   } catch (e) {
     console.error(
       chalk.red(
-        `Can't process doc metadatas for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
+        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
       ),
     );
     throw e;

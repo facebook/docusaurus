@@ -49,20 +49,22 @@ function FooterLink({
   );
 }
 
-const FooterLogo = ({
+function FooterLogo({
   sources,
   alt,
   width,
   height,
-}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) => (
-  <ThemedImage
-    className="footer__logo"
-    alt={alt}
-    sources={sources}
-    width={width}
-    height={height}
-  />
-);
+}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) {
+  return (
+    <ThemedImage
+      className="footer__logo"
+      alt={alt}
+      sources={sources}
+      width={width}
+      height={height}
+    />
+  );
+}
 
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();

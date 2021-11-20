@@ -22,7 +22,7 @@ declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
   const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+  export = siteMetadata;
 }
 
 declare module '@generated/registry' {
@@ -48,13 +48,13 @@ declare module '@generated/routes' {
 
 declare module '@generated/routesChunkNames' {
   const routesChunkNames: Record<string, Record<string, string>>;
-  export default routesChunkNames;
+  export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const globalData: Record<string, any>;
-  export default globalData;
+  export = globalData;
 }
 
 declare module '@generated/i18n' {
@@ -64,12 +64,12 @@ declare module '@generated/i18n' {
     currentLocale: string;
     localeConfigs: Record<string, {label: string; direction: string}>;
   };
-  export default i18n;
+  export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
   const codeTranslations: Record<string, string>;
-  export default codeTranslations;
+  export = codeTranslations;
 }
 
 declare module '@theme-original/*';
@@ -317,6 +317,14 @@ declare module '@docusaurus/useGlobalData' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
+}
+
+declare module '*.svg' {
+  import type {ComponentType, SVGProps} from 'react';
+
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+
+  export default ReactComponent;
 }
 
 declare module '*.module.css' {

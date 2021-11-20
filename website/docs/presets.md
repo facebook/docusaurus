@@ -106,6 +106,10 @@ module.exports = {
         pages: {},
         // Will be passed to @docusaurus/plugin-content-sitemap (false to disable)
         sitemap: {},
+        // Will be passed to @docusaurus/plugin-google-gtag (only enabled when explicitly specified)
+        gtag: {},
+        // Will be passed to @docusaurus/plugin-google-analytics (only enabled when explicitly specified)
+        googleAnalytics: {},
       },
     ],
   ],

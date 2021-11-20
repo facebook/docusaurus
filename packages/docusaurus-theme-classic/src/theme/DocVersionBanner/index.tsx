@@ -21,7 +21,7 @@ import {
 
 import type {Props} from '@theme/DocVersionBanner';
 import clsx from 'clsx';
-import type {VersionBanner} from '@docusaurus/plugin-content-docs-types';
+import type {VersionBanner} from '@docusaurus/plugin-content-docs';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
@@ -154,11 +154,11 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   );
 }
 
-function DocVersionBanner({versionMetadata}: Props): JSX.Element {
+function DocVersionBanner({versionMetadata}: Props): JSX.Element | null {
   if (versionMetadata.banner) {
     return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
   }
-  return <></>;
+  return null;
 }
 
 export default DocVersionBanner;

@@ -22,7 +22,13 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
-export {parseCodeBlockTitle} from './utils/codeBlockUtils';
+export {useContextualSearchFilters} from './utils/useContextualSearchFilters';
+
+export {
+  parseCodeBlockTitle,
+  parseLanguage,
+  parseLines,
+} from './utils/codeBlockUtils';
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
@@ -59,7 +65,7 @@ export {
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
-export {duplicates} from './utils/jsUtils';
+export {duplicates, uniq} from './utils/jsUtils';
 
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
