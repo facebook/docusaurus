@@ -64,7 +64,7 @@ We haven't provided any translation, and the site is **mostly untranslated**.
 
 Docusaurus provides **default translations** for generic theme labels, such as "Next" and "Previous" for the pagination.
 
-Please help us complete those **[default translations](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/codeTranslations)**.
+Please help us complete those **[default translations](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)**.
 
 :::
 
