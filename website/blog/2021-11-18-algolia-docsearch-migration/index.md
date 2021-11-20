@@ -20,7 +20,7 @@ Docusaurus site owners should upgrade their configuration with [their new creden
 
 ## Upgrading your Docusaurus site
 
-In the next few weeks, Docusaurus site owners will receive an email inviting them to join an Algolia application.
+In the next few weeks, Docusaurus site owners will receive an email inviting them to join their personal Algolia application.
 
 This email will include a new `appId` and `apiKey` to use in your Docusaurus configuration.
 
