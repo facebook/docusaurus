@@ -1591,8 +1591,8 @@ const Users: User[] = [
     description: 'Library for logs visible only during development.',
     preview: require('./showcase/logrocker.png'),
     website: 'https://logrocker.com/',
-    source: 'https://github.com/patrikmasiar/logrocker',
-    tags: ['opensource', 'versioning'],
+    source: 'https://github.com/patrikmasiar/logrocker-docusaurus',
+    tags: ['opensource'],
   },
 
   /*
