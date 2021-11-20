@@ -62,7 +62,7 @@ You can [read more here](https://docsearch.algolia.com/docs/what-is-docsearch/),
 
 ## What is this migration about?
 
-### Motivations
+### Motivation
 
 With the upcoming stable release of [DocSearch UI](https://docsearch.algolia.com/docs/DocSearch-v3), we wanted to go further and provide better tooling for our users to improve their search, but also leverage the full potential of Algolia.
 
