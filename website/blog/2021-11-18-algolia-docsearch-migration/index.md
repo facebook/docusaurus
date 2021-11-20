@@ -104,7 +104,7 @@ We wrote a small [migration guide](https://docsearch.algolia.com/docs/migrating-
 
 Please contact us via either [email](mailto:docsearch@algolia.com) or [DocSearch's Discord](https://discord.gg/bRTacwYrfX) or on [Docusaurus's Discord #algolia channel](https://discordapp.com/invite/docusaurus)
 
-### I have feedbacks!
+### I have feedback!
 
 For any feedback regarding our documentation or the DocSearch UI component, you can open an issue [on our GitHub repository](https://github.com/algolia/docsearch/issues), but also contact us via the methods above.
 
