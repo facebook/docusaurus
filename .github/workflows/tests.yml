@@ -47,6 +47,13 @@ jobs:
         run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
       - name: Docusaurus Jest Tests
         run: yarn test
+      - name: Create a deep path
+        # https://github.com/facebook/docusaurus/pull/4899
+        # https://github.com/facebook/docusaurus/issues/5793
+        run: |
+          mkdir -p website/_dogfooding/_pages tests/deep-file-path-test/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar
+          cd $_
+          echo "# hello" > test-file.md
       - name: Docusaurus Build
         run: yarn build:website --locale en
         env:
