@@ -12,7 +12,7 @@ import Link from '@docusaurus/Link';
 
 import styles from './styles.module.css';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
-import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import Tooltip from '../ShowcaseTooltip';
 import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
 

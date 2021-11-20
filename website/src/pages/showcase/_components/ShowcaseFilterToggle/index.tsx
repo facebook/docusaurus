@@ -9,6 +9,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
+import clsx from 'clsx';
 
 export type Operator = 'OR' | 'AND';
 
@@ -36,7 +37,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
   }, [operator, location, history]);
 
   return (
-    <div className="shadow--md">
+    <div>
       <input
         type="checkbox"
         id={id}
@@ -51,7 +52,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
         checked={operator}
       />
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label htmlFor={id} className={styles.checkboxLabel}>
+      <label htmlFor={id} className={clsx(styles.checkboxLabel, 'shadow--md')}>
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
         <span className={styles.checkboxToggle} aria-hidden />
