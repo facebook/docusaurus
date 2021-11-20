@@ -3,19 +3,19 @@ id: installation
 title: Installation
 ---
 
-Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/master/packages).
+Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
 
 :::tip
 
 Use the **[Fast Track](introduction.md#fast-track)** to understand Docusaurus in **5 minutes ⏱**!
 
-Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immediately in your browser!
+Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in your browser!
 
 :::
 
 ## Requirements {#requirements}
 
-- [Node.js](https://nodejs.org/en/download/) version >= 12.13.0 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
+- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
 - [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website {#scaffold-project-website}
@@ -23,33 +23,35 @@ Use **[new.docusaurus.io](https://new.docusaurus.io)** to test Docusaurus immedi
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/init@latest init [name] [template]
+npx create-docusaurus@latest [name] [template]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic
+npx create-docusaurus@latest website classic
 ```
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+
+The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory.
 
 **[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
-npx @docusaurus/init@latest init my-website facebook
-```
-
-**[Experimental]:** If you want setting up a new website using [bootstrap](https://getbootstrap.com/), use the `bootstrap` template, like the following:
-
-```bash
-npx @docusaurus/init@latest init my-website bootstrap
+npx create-docusaurus@latest my-website facebook
 ```
 
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic --skip-install
+npx create-docusaurus@latest my-website classic --skip-install
+```
+
+You can also use the template's TypeScript variant by passing the `--typescript` flag.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
 ```
 
 ## Project structure {#project-structure}
@@ -84,7 +86,7 @@ my-website
 
 ### Project structure rundown {#project-structure-rundown}
 
-- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.md)
+- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.mdx)
 - `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. More details can be found in the [docs guide](./guides/docs/docs-markdown-features.mdx)
 - `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files in here but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
   - `/src/pages` - Any files within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
@@ -151,8 +153,14 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```bash
-yarn upgrade @docusaurus/core@2.0.0-beta.0 @docusaurus/preset-classic@2.0.0-beta.0
+yarn upgrade @docusaurus/core@latest @docusaurus/preset-classic@latest
 ```
+
+:::tip
+
+Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/community/canary)
+
+:::
 
 ## Problems? {#problems}
 

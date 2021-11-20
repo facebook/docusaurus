@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-duplicates */
-/* eslint-disable spaced-comment */
 /// <reference types="@docusaurus/module-type-aliases" />
 /// <reference types="@docusaurus/plugin-content-blog" />
 /// <reference types="@docusaurus/plugin-content-docs" />

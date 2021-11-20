@@ -77,7 +77,9 @@ describe('extending generated webpack config', () => {
       return {};
     };
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -105,7 +107,9 @@ describe('extending generated webpack config', () => {
       },
     });
 
-    config = applyConfigureWebpack(configureWebpack, config, false);
+    config = applyConfigureWebpack(configureWebpack, config, false, undefined, {
+      content: 42,
+    });
     expect(config).toEqual({
       entry: 'entry.js',
       output: {
@@ -137,6 +141,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack(),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(defaultStrategyMergeConfig).toEqual({
       module: {
@@ -148,6 +154,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({'module.rules': 'prepend'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(prependRulesStrategyConfig).toEqual({
       module: {
@@ -159,6 +167,8 @@ describe('extending generated webpack config', () => {
       createConfigureWebpack({uselessAttributeName: 'append'}),
       config,
       false,
+      undefined,
+      {content: 42},
     );
     expect(uselessMergeStrategyConfig).toEqual({
       module: {
@@ -240,42 +250,44 @@ describe('extending PostCSS', () => {
     }
 
     // Run multiple times: ensure last run does not override previous runs
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-1'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           createFakePlugin('postcss-plugin-2'),
           ...postCssOptions.plugins,
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-3'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
     // @ts-expect-error: relax type
     const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
     expect(postCssLoader1.loader).toEqual('postcss-loader-1');
 
     const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
-      // @ts-expect-error: relax type
       (p: unknown) => p[0],
     );
     expect(pluginNames1).toHaveLength(4);
@@ -291,7 +303,6 @@ describe('extending PostCSS', () => {
     expect(postCssLoader2.loader).toEqual('postcss-loader-2');
 
     const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
-      // @ts-expect-error: relax type
       (p: unknown) => p[0],
     );
     expect(pluginNames2).toHaveLength(4);

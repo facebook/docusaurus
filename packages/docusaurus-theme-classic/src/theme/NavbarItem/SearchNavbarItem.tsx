@@ -8,16 +8,11 @@
 import React from 'react';
 import type {Props} from '@theme/NavbarItem/SearchNavbarItem';
 import SearchBar from '@theme/SearchBar';
-import styles from './styles.module.css';
 
 export default function SearchNavbarItem({mobile}: Props): JSX.Element | null {
   if (mobile) {
     return null;
   }
 
-  return (
-    <div className={styles.searchWrapper}>
-      <SearchBar />
-    </div>
-  );
+  return <SearchBar />;
 }

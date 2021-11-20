@@ -7,6 +7,7 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import {
   useVersions,
   useLatestVersion,
@@ -14,9 +15,11 @@ import {
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {translate} from '@docusaurus/Translate';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
 
-const getVersionMainDoc = (version) =>
-  version.docs.find((doc) => doc.id === version.mainDocId);
+const getVersionMainDoc = (version: GlobalDataVersion) =>
+  version.docs.find((doc) => doc.id === version.mainDocId)!;
 
 export default function DocsVersionDropdownNavbarItem({
   mobile,
@@ -30,9 +33,8 @@ export default function DocsVersionDropdownNavbarItem({
   const versions = useVersions(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
-  const {preferredVersion, savePreferredVersionName} = useDocsPreferredVersion(
-    docsPluginId,
-  );
+  const {preferredVersion, savePreferredVersionName} =
+    useDocsPreferredVersion(docsPluginId);
 
   function getItems() {
     const versionLinks = versions.map((version) => {
@@ -52,38 +54,49 @@ export default function DocsVersionDropdownNavbarItem({
       };
     });
 
-    const items = [
-      ...dropdownItemsBefore,
-      ...versionLinks,
-      ...dropdownItemsAfter,
-    ];
-
-    // We don't want to render a version dropdown with 0 or 1 item
-    // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
-    // We'd rather render a button instead of a dropdown
-    if (items.length <= 1) {
-      return undefined;
-    }
-
-    return items;
+    return [...dropdownItemsBefore, ...versionLinks, ...dropdownItemsAfter];
   }
+
+  const items = getItems();
 
   const dropdownVersion =
     activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
 
-  // Mobile is handled a bit differently
-  const dropdownLabel = mobile ? 'Versions' : dropdownVersion.label;
-  const dropdownTo = mobile
-    ? undefined
-    : getVersionMainDoc(dropdownVersion).path;
+  // Mobile dropdown is handled a bit differently
+  const dropdownLabel =
+    mobile && items
+      ? translate({
+          id: 'theme.navbar.mobileVersionsDropdown.label',
+          message: 'Versions',
+          description:
+            'The label for the navbar versions dropdown on mobile view',
+        })
+      : dropdownVersion.label;
+  const dropdownTo =
+    mobile && items ? undefined : getVersionMainDoc(dropdownVersion).path;
+
+  // We don't want to render a version dropdown with 0 or 1 item
+  // If we build the site with a single docs version (onlyIncludeVersions: ['1.0.0'])
+  // We'd rather render a button instead of a dropdown
+  if (items.length <= 1) {
+    return (
+      <DefaultNavbarItem
+        {...props}
+        mobile={mobile}
+        label={dropdownLabel}
+        to={dropdownTo}
+        isActive={dropdownActiveClassDisabled ? () => false : undefined}
+      />
+    );
+  }
 
   return (
-    <DefaultNavbarItem
+    <DropdownNavbarItem
       {...props}
       mobile={mobile}
       label={dropdownLabel}
       to={dropdownTo}
-      items={getItems()}
+      items={items}
       isActive={dropdownActiveClassDisabled ? () => false : undefined}
     />
   );

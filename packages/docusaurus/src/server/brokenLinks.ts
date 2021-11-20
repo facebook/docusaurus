@@ -8,7 +8,7 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy, flatten, countBy} from 'lodash';
+import {mapValues, pickBy, countBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
@@ -75,9 +75,9 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) => {
-    return getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes});
-  });
+  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  );
 
   // remove pages without any broken link
   return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -110,10 +110,9 @@ export function getBrokenLinksErrorMessage(
   // Add an additional message in such case to help user figure this out.
   // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
   function getLayoutBrokenLinksHelpMessage() {
-    const flatList = flatten(
-      Object.entries(allBrokenLinks).map(([pagePage, brokenLinks]) =>
+    const flatList = Object.entries(allBrokenLinks).flatMap(
+      ([pagePage, brokenLinks]) =>
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
-      ),
     );
 
     const countedBrokenLinks = countBy(
@@ -187,9 +186,9 @@ export async function filterExistingFileLinks({
     return filePathsToTry.some(isExistingFile);
   }
 
-  return mapValues(allCollectedLinks, (links) => {
-    return links.filter((link) => !linkFileExists(link));
-  });
+  return mapValues(allCollectedLinks, (links) =>
+    links.filter((link) => !linkFileExists(link)),
+  );
 }
 
 export async function handleBrokenLinks({

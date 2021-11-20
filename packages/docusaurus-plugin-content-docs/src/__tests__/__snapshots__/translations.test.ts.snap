@@ -151,7 +151,6 @@ Object {
       ],
       "isLast": true,
       "mainDocId": "",
-      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {
@@ -292,7 +291,6 @@ Object {
       ],
       "isLast": true,
       "mainDocId": "",
-      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {
@@ -433,7 +431,6 @@ Object {
       ],
       "isLast": true,
       "mainDocId": "",
-      "permalinkToSidebar": Object {},
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": Object {

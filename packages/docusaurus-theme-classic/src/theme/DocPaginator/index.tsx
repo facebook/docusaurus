@@ -15,7 +15,7 @@ function DocPaginator(props: Props): JSX.Element {
 
   return (
     <nav
-      className="pagination-nav"
+      className="pagination-nav docusaurus-mt-lg"
       aria-label={translate({
         id: 'theme.docs.paginator.navAriaLabel',
         message: 'Docs pages navigation',

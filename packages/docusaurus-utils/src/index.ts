@@ -8,7 +8,7 @@
 import chalk from 'chalk';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, kebabCase, mapValues} from 'lodash';
+import {camelCase, mapValues} from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -18,10 +18,15 @@ import {
   TranslationFile,
 } from '@docusaurus/types';
 
-// @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
+import {simpleHash, docuHash} from './hashUtils';
+import {normalizeUrl} from './normalizeUrl';
+
+export * from './mdxUtils';
+export * from './normalizeUrl';
+export * from './tags';
 
 export const posixPath = posixPathImport;
 
@@ -29,6 +34,13 @@ export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {
+  Globby,
+  GlobExcludeDefault,
+  createMatcher,
+  createAbsoluteFilePathMatcher,
+} from './globUtils';
 
 const fileHash = new Map();
 export async function generate(
@@ -96,22 +108,6 @@ export function encodePath(userpath: string): string {
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
-}
-
-export function simpleHash(str: string, length: number): string {
-  return createHash('md5').update(str).digest('hex').substr(0, length);
-}
-
-/**
- * Given an input string, convert to kebab-case and append a hash.
- * Avoid str collision.
- */
-export function docuHash(str: string): string {
-  if (str === '/') {
-    return 'index';
-  }
-  const shortHash = simpleHash(str, 3);
-  return `${kebabCase(str)}-${shortHash}`;
 }
 
 /**
@@ -198,80 +194,6 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
-export function normalizeUrl(rawUrls: string[]): string {
-  const urls = [...rawUrls];
-  const resultArray = [];
-
-  let hasStartingSlash = false;
-  let hasEndingSlash = false;
-
-  // If the first part is a plain protocol, we combine it with the next part.
-  if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
-    const first = urls.shift();
-    urls[0] = first + urls[0];
-  }
-
-  // There must be two or three slashes in the file protocol,
-  // two slashes in anything else.
-  const replacement = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
-  urls[0] = urls[0].replace(/^([^/:]+):\/*/, replacement);
-
-  // eslint-disable-next-line
-  for (let i = 0; i < urls.length; i++) {
-    let component = urls[i];
-
-    if (typeof component !== 'string') {
-      throw new TypeError(`Url must be a string. Received ${typeof component}`);
-    }
-
-    if (component === '') {
-      if (i === urls.length - 1 && hasEndingSlash) {
-        resultArray.push('/');
-      }
-      // eslint-disable-next-line
-      continue;
-    }
-
-    if (component !== '/') {
-      if (i > 0) {
-        // Removing the starting slashes for each component but the first.
-        component = component.replace(
-          /^[/]+/,
-          // Special case where the first element of rawUrls is empty ["", "/hello"] => /hello
-          component[0] === '/' && !hasStartingSlash ? '/' : '',
-        );
-      }
-
-      hasEndingSlash = component[component.length - 1] === '/';
-      // Removing the ending slashes for each component but the last.
-      // For the last component we will combine multiple slashes to a single one.
-      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
-    }
-
-    hasStartingSlash = true;
-    resultArray.push(component);
-  }
-
-  let str = resultArray.join('/');
-  // Each input component is now separated by a single slash
-  // except the possible first plain protocol part.
-
-  // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(\?|&|#[^!])/g, '$1');
-
-  // Replace ? in parameters with &.
-  const parts = str.split('?');
-  str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
-
-  // Dedupe forward slashes in the entire path, avoiding protocol slashes.
-  str = str.replace(/([^:]\/)\/+/g, '$1');
-
-  // Dedupe forward slashes at the beginning of the path.
-  str = str.replace(/^\/+/g, '/');
-
-  return str;
-}
-
 /**
  * Alias filepath relative to site directory, very useful so that we
  * don't expose user's site structure.
@@ -313,13 +235,15 @@ export function resolvePathname(to: string, from?: string): string {
 export function addLeadingSlash(str: string): string {
   return str.startsWith('/') ? str : `/${str}`;
 }
-export function addTrailingSlash(str: string): string {
-  return str.endsWith('/') ? str : `${str}/`;
-}
+
 export function addTrailingPathSeparator(str: string): string {
   return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
 }
 
+// TODO deduplicate: also present in @docusaurus/utils-common
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
@@ -335,13 +259,7 @@ export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
-export function getFilePathForRoutePath(routePath: string): string {
-  const fileName = path.basename(routePath);
-  const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}/index.html`);
-}
-
-export function getElementsAround<T extends unknown>(
+export function getElementsAround<T>(
   array: T[],
   aroundIndex: number,
 ): {
@@ -352,7 +270,7 @@ export function getElementsAround<T extends unknown>(
   const max = array.length - 1;
   if (aroundIndex < min || aroundIndex > max) {
     throw new Error(
-      `Valid aroundIndex for array (of size ${array.length}) are between ${min} and ${max}, but you provided aroundIndex=${aroundIndex}`,
+      `Valid "aroundIndex" for array (of size ${array.length}) are between ${min} and ${max}, but you provided ${aroundIndex}.`,
     );
   }
   const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
@@ -388,14 +306,13 @@ export function getPluginI18nPath({
   );
 }
 
-export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+export async function mapAsyncSequencial<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
     results.push(result);
   }
@@ -408,7 +325,6 @@ export async function findAsyncSequential<T>(
 ): Promise<T | undefined> {
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
       return t;
     }
@@ -437,7 +353,7 @@ export async function getFolderContainingFile(
   // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
     throw new Error(
-      `relativeFilePath=[${relativeFilePath}] does not exist in any of these folders: \n- ${folderPaths.join(
+      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
         '\n- ',
       )}]`,
     );
@@ -465,7 +381,7 @@ export function reportMessage(
       throw new Error(message);
     default:
       throw new Error(
-        `unexpected reportingSeverity value: ${reportingSeverity}`,
+        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
       );
   }
 }
@@ -473,9 +389,7 @@ export function reportMessage(
 export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
-  return contents.reduce((acc, content) => {
-    return {...acc, ...content};
-  }, {});
+  return contents.reduce((acc, content) => ({...acc, ...content}), {});
 }
 
 export function getSwizzledComponent(
@@ -509,9 +423,7 @@ export function updateTranslationFileMessages(
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(
-  heading: string,
-): {
+export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {

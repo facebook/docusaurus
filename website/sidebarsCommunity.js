@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -18,8 +18,13 @@ module.exports = {
     },
     {
       type: 'link',
-      href: '/feedback',
-      label: 'Feedback',
+      href: '/feature-requests',
+      label: 'Feature Requests',
+    },
+    {
+      type: 'link',
+      label: 'Chat with us on Discord',
+      href: 'https://discord.gg/docusaurus',
     },
   ],
 };

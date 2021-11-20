@@ -27,7 +27,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 ### Join our Discord channel {#join-our-discord-channel}
 
-To participate in Docusaurus 2 dev, join the [#docusaurus-2-dev](https://discord.gg/Je6Ash6) channel.
+To participate in Docusaurus 2 dev, join the [#contributors](https://discord.gg/6g6ASPA) channel.
 
 ## Our development process {#our-development-process}
 
@@ -53,6 +53,10 @@ You can also file issues as [feature requests or enhancements](https://github.co
 ### Reporting security bugs {#reporting-security-bugs}
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
+
+### Testing new features
+
+You can become an early adopter of new features by using the [`@canary` npm dist tag](/community/canary) and test new features on your site as soon as the pull-request is merged. This helps us catch problems before the official release.
 
 ## Working on Docusaurus code {#working-on-docusaurus-code}
 
@@ -136,14 +140,14 @@ Small pull requests are much easier to review and more likely to get merged. Mak
 
 Please make sure the following is done when submitting a pull request:
 
-1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
+1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `main`.
 1. Add the copyright notice to the top of any code new files you've added.
-1. Describe your [test plan](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md/)!
+1. Describe your [test plan](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/main/admin/testing-changes-on-Docusaurus-itself.md/)!
 1. Make sure your code lints (`yarn prettier && yarn lint`).
 1. Make sure your Jest tests pass (`yarn test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
 
-All pull requests should be opened against the `master` branch.
+All pull requests should be opened against the `main` branch.
 
 #### Test plan {#test-plan}
 

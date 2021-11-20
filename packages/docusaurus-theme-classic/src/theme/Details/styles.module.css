@@ -1,0 +1,13 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.details {
+  --docusaurus-details-decoration-color: var(--ifm-alert-border-color);
+  --docusaurus-details-transition: transform var(--ifm-transition-fast) ease;
+  margin: 0 0 var(--ifm-spacing-vertical);
+  border: 1px solid var(--ifm-alert-border-color);
+}

@@ -20,20 +20,29 @@ export const isValidationDisabledEscapeHatch =
 if (isValidationDisabledEscapeHatch) {
   console.error(
     chalk.red(
-      'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed',
+      'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed.',
     ),
   );
 }
 
 export const logValidationBugReportHint = (): void => {
   console.log(
-    `\n${chalk.red('A validation error occured.')}${chalk.cyanBright(
+    `\n${chalk.red('A validation error occurred.')}${chalk.cyanBright(
       '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +
         '\nWe may have made some mistakes.' +
         '\nIf you think your configuration is valid and should keep working, please open a bug report.',
     )}\n`,
   );
 };
+
+export function printWarning(warning?: Joi.ValidationError): void {
+  if (warning) {
+    const warningMessages = warning.details
+      .map(({message}) => message)
+      .join('\n');
+    console.log(chalk.yellow(warningMessages));
+  }
+}
 
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
@@ -44,9 +53,12 @@ export function normalizePluginOptions<T extends {id?: string}>(
   const finalSchema = schema.append({
     id: PluginIdSchema,
   });
-  const {error, value} = finalSchema.validate(options, {
+  const {error, warning, value} = finalSchema.validate(options, {
     convert: false,
   });
+
+  printWarning(warning);
+
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
@@ -56,6 +68,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
       throw error;
     }
   }
+
   return value;
 }
 
@@ -68,9 +81,11 @@ export function normalizeThemeConfig<T>(
   // otherwise one theme would fail validating the data of another theme
   const finalSchema = schema.unknown();
 
-  const {error, value} = finalSchema.validate(themeConfig, {
+  const {error, warning, value} = finalSchema.validate(themeConfig, {
     convert: false,
   });
+
+  printWarning(warning);
 
   if (error) {
     logValidationBugReportHint();
@@ -84,24 +99,6 @@ export function normalizeThemeConfig<T>(
   return value;
 }
 
-// Enhance the default Joi.string() type so that it can convert number to strings
-// If user use frontmatter "tag: 2021", we shouldn't need to ask the user to write "tag: '2021'"
-// Also yaml tries to convert patterns like "2019-01-01" to dates automatically
-// see https://github.com/facebook/docusaurus/issues/4642
-// see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
-const JoiFrontMatterString: Joi.Extension = {
-  type: 'string',
-  base: Joi.string(),
-  // Fix Yaml that tries to auto-convert many things to string out of the box
-  prepare: (value) => {
-    if (typeof value === 'number' || value instanceof Date) {
-      return {value: value.toString()};
-    }
-    return {value};
-  },
-};
-export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);
-
 export function validateFrontMatter<T>(
   frontMatter: Record<string, unknown>,
   schema: Joi.ObjectSchema<T>,
@@ -111,6 +108,8 @@ export function validateFrontMatter<T>(
     allowUnknown: true,
     abortEarly: false,
   });
+
+  printWarning(warning);
 
   if (error) {
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
@@ -124,19 +123,12 @@ export function validateFrontMatter<T>(
 
     console.error(
       chalk.red(
-        `The following FrontMatter:\n${chalk.yellow(
+        `The following frontmatter:\n${chalk.yellow(
           frontMatterString,
         )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
       ),
     );
     throw error;
-  }
-
-  if (warning) {
-    const warningMessages = warning.details
-      .map(({message}) => message)
-      .join('\n');
-    console.log(chalk.yellow(warningMessages));
   }
 
   return value;

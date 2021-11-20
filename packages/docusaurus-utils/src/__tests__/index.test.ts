@@ -8,13 +8,10 @@
 import path from 'path';
 import {
   fileToPath,
-  simpleHash,
-  docuHash,
   genComponentName,
   genChunkName,
   idx,
   getSubFolder,
-  normalizeUrl,
   posixPath,
   objectWithKeySorted,
   aliasedSitePath,
@@ -23,7 +20,6 @@ import {
   removeTrailingSlash,
   removeSuffix,
   removePrefix,
-  getFilePathForRoutePath,
   addLeadingSlash,
   getElementsAround,
   mergeTranslations,
@@ -65,37 +61,6 @@ describe('load utils', () => {
     };
     Object.keys(asserts).forEach((file) => {
       expect(genComponentName(file)).toBe(asserts[file]);
-    });
-  });
-
-  test('simpleHash', () => {
-    const asserts: Record<string, string> = {
-      '': 'd41',
-      '/foo-bar': '096',
-      '/foo/bar': '1df',
-      '/endi/lie': '9fa',
-      '/endi-lie': 'fd3',
-      '/yangshun/tay': '48d',
-      '/yangshun-tay': 'f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(simpleHash(file, 3)).toBe(asserts[file]);
-    });
-  });
-
-  test('docuHash', () => {
-    const asserts: Record<string, string> = {
-      '': '-d41',
-      '/': 'index',
-      '/foo-bar': 'foo-bar-096',
-      '/foo/bar': 'foo-bar-1df',
-      '/endi/lie': 'endi-lie-9fa',
-      '/endi-lie': 'endi-lie-fd3',
-      '/yangshun/tay': 'yangshun-tay-48d',
-      '/yangshun-tay': 'yangshun-tay-f3b',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(docuHash(file)).toBe(asserts[file]);
     });
   });
 
@@ -252,113 +217,6 @@ describe('load utils', () => {
     expect(getSubFolder(testE, 'docs')).toBeNull();
   });
 
-  test('normalizeUrl', () => {
-    const asserts = [
-      {
-        input: ['/', ''],
-        output: '/',
-      },
-      {
-        input: ['', '/'],
-        output: '/',
-      },
-      {
-        input: ['/'],
-        output: '/',
-      },
-      {
-        input: [''],
-        output: '',
-      },
-      {
-        input: ['/', '/'],
-        output: '/',
-      },
-      {
-        input: ['/', 'docs'],
-        output: '/docs',
-      },
-      {
-        input: ['/', 'docs', 'en', 'next', 'blog'],
-        output: '/docs/en/next/blog',
-      },
-      {
-        input: ['/test/', '/docs', 'ro', 'doc1'],
-        output: '/test/docs/ro/doc1',
-      },
-      {
-        input: ['/test/', '/', 'ro', 'doc1'],
-        output: '/test/ro/doc1',
-      },
-      {
-        input: ['/', '/', '2020/02/29/leap-day'],
-        output: '/2020/02/29/leap-day',
-      },
-      {
-        input: ['', '/', 'ko', 'hello'],
-        output: '/ko/hello',
-      },
-      {
-        input: ['hello', 'world'],
-        output: 'hello/world',
-      },
-      {
-        input: ['http://www.google.com/', 'foo/bar', '?test=123'],
-        output: 'http://www.google.com/foo/bar?test=123',
-      },
-      {
-        input: ['http:', 'www.google.com///', 'foo/bar', '?test=123'],
-        output: 'http://www.google.com/foo/bar?test=123',
-      },
-      {
-        input: ['http://foobar.com', '', 'test'],
-        output: 'http://foobar.com/test',
-      },
-      {
-        input: ['http://foobar.com', '', 'test', '/'],
-        output: 'http://foobar.com/test/',
-      },
-      {
-        input: ['/', '', 'hello', '', '/', '/', '', '/', '/world'],
-        output: '/hello/world',
-      },
-      {
-        input: ['', '', '/tt', 'ko', 'hello'],
-        output: '/tt/ko/hello',
-      },
-      {
-        input: ['', '///hello///', '', '///world'],
-        output: '/hello/world',
-      },
-      {
-        input: ['', '/hello/', ''],
-        output: '/hello/',
-      },
-      {
-        input: ['', '/', ''],
-        output: '/',
-      },
-      {
-        input: ['///', '///'],
-        output: '/',
-      },
-      {
-        input: ['/', '/hello/world/', '///'],
-        output: '/hello/world/',
-      },
-    ];
-    asserts.forEach((testCase) => {
-      expect(normalizeUrl(testCase.input)).toBe(testCase.output);
-    });
-
-    expect(() =>
-      // @ts-expect-error undefined for test
-      normalizeUrl(['http:example.com', undefined]),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Url must be a string. Received undefined"`,
-    );
-  });
-
   test('isValidPathname', () => {
     expect(isValidPathname('/')).toBe(true);
     expect(isValidPathname('/hey')).toBe(true);
@@ -434,22 +292,6 @@ describe('removePrefix', () => {
   });
 });
 
-describe('getFilePathForRoutePath', () => {
-  test('works for /', () => {
-    expect(posixPath(getFilePathForRoutePath('/'))).toEqual('/index.html');
-  });
-  test('works for /somePath', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath'))).toEqual(
-      '/somePath/index.html',
-    );
-  });
-  test('works for /somePath/', () => {
-    expect(posixPath(getFilePathForRoutePath('/somePath/'))).toEqual(
-      '/somePath/index.html',
-    );
-  });
-});
-
 describe('getElementsAround', () => {
   test('can return elements around', () => {
     expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
@@ -474,12 +316,12 @@ describe('getElementsAround', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=-1"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided -1."`,
     );
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], 4),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid aroundIndex for array (of size 4) are between 0 and 3, but you provided aroundIndex=4"`,
+      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided 4."`,
     );
   });
 });
@@ -509,7 +351,9 @@ describe('mergeTranslations', () => {
 
 describe('mapAsyncSequencial', () => {
   function sleep(timeout: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
   }
 
   test('map sequentially', async () => {
@@ -548,7 +392,9 @@ describe('mapAsyncSequencial', () => {
 
 describe('findAsyncSequencial', () => {
   function sleep(timeout: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
   }
 
   test('find sequentially', async () => {

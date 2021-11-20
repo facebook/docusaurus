@@ -6,7 +6,8 @@
  */
 
 import Joi from '../Joi';
-import {JoiFrontMatter, validateFrontMatter} from '../validationUtils';
+import {JoiFrontMatter} from '../JoiFrontMatter';
+import {validateFrontMatter} from '../validationUtils';
 
 describe('validateFrontMatter', () => {
   test('should accept good values', () => {
@@ -31,7 +32,7 @@ describe('validateFrontMatter', () => {
       validateFrontMatter(frontMatter, schema),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"test\\" must be a string"`);
     expect(consoleError).toHaveBeenCalledWith(
-      expect.stringContaining('The following FrontMatter'),
+      expect.stringContaining('The following frontmatter'),
     );
   });
 

@@ -7,39 +7,64 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import DropdownNavbarItem, {
+  Props as DropdownNavbarItemProps,
+} from '@theme/NavbarItem/DropdownNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
-import type {Props} from '@theme/NavbarItem';
+import type {Types, Props} from '@theme/NavbarItem';
 
-const NavbarItemComponents = {
+const NavbarItemComponents: Record<
+  Exclude<Types, undefined>,
+  // TODO: properly type this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  () => (props: any) => JSX.Element
+> = {
   default: () => DefaultNavbarItem,
   localeDropdown: () => LocaleDropdownNavbarItem,
   search: () => SearchNavbarItem,
+  dropdown: () => DropdownNavbarItem,
 
   // Need to lazy load these items as we don't know for sure the docs plugin is loaded
   // See https://github.com/facebook/docusaurus/issues/3360
-  docsVersion: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-    require('@theme/NavbarItem/DocsVersionNavbarItem').default,
+  /* eslint-disable @typescript-eslint/no-var-requires, global-require */
+  docsVersion: () => require('@theme/NavbarItem/DocsVersionNavbarItem').default,
   docsVersionDropdown: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
     require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
-  doc: () =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-    require('@theme/NavbarItem/DocNavbarItem').default,
+  doc: () => require('@theme/NavbarItem/DocNavbarItem').default,
+  /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
-const getNavbarItemComponent = (
-  type: keyof typeof NavbarItemComponents = 'default',
-) => {
-  const navbarItemComponent = NavbarItemComponents[type];
-  if (!navbarItemComponent) {
-    throw new Error(`No NavbarItem component found for type=${type}.`);
+type NavbarItemComponentType = keyof typeof NavbarItemComponents;
+
+const getNavbarItemComponent = (type: NavbarItemComponentType) => {
+  const navbarItemComponentFn = NavbarItemComponents[type];
+  if (!navbarItemComponentFn) {
+    throw new Error(`No NavbarItem component found for type "${type}".`);
   }
-  return navbarItemComponent();
+  return navbarItemComponentFn();
 };
 
+function getComponentType(
+  type: Types,
+  isDropdown: boolean,
+): NavbarItemComponentType {
+  // Backward compatibility: navbar item with no type set
+  // but containing dropdown items should use the type "dropdown"
+  if (!type || type === 'default') {
+    return isDropdown ? 'dropdown' : 'default';
+  }
+  return type as NavbarItemComponentType;
+}
+
+export const getInfimaActiveClassName = (mobile?: boolean): string =>
+  mobile ? 'menu__link--active' : 'navbar__link--active';
+
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
-  const NavbarItemComponent = getNavbarItemComponent(type);
+  const componentType = getComponentType(
+    type,
+    (props as DropdownNavbarItemProps).items !== undefined,
+  );
+  const NavbarItemComponent = getNavbarItemComponent(componentType);
   return <NavbarItemComponent {...props} />;
 }

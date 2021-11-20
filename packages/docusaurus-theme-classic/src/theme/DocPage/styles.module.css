@@ -7,6 +7,7 @@
 
 :root {
   --doc-sidebar-width: 300px;
+  --doc-sidebar-hidden-width: 30px;
 }
 
 :global(.docs-wrapper) {
@@ -19,6 +20,10 @@
   width: 100%;
 }
 
+.docSidebarContainer {
+  display: none;
+}
+
 @media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;
@@ -26,10 +31,11 @@
   }
 
   .docMainContainerEnhanced {
-    max-width: none;
+    max-width: calc(100% - var(--doc-sidebar-hidden-width));
   }
 
   .docSidebarContainer {
+    display: block;
     width: var(--doc-sidebar-width);
     margin-top: calc(-1 * var(--ifm-navbar-height));
     border-right: 1px solid var(--ifm-toc-border-color);
@@ -39,7 +45,7 @@
   }
 
   .docSidebarContainerHidden {
-    width: 30px;
+    width: var(--doc-sidebar-hidden-width);
     cursor: pointer;
   }
 
@@ -72,27 +78,8 @@
   }
 
   .docItemWrapperEnhanced {
-    max-width: calc(var(--ifm-container-width) + var(--doc-sidebar-width)) !important;
-  }
-}
-
-@media (max-width: 996px) {
-  .docSidebarContainer {
-    margin-top: 0;
-  }
-}
-
-@media (min-width: 997px) and (max-width: 1320px) {
-  .docItemWrapper {
     max-width: calc(
-      var(--ifm-container-width) - var(--doc-sidebar-width) -
-        var(--ifm-spacing-horizontal) * 2
-    );
-  }
-
-  .docItemWrapperEnhanced {
-    max-width: calc(
-      var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2
-    );
+      var(--ifm-container-width) + var(--doc-sidebar-width)
+    ) !important;
   }
 }

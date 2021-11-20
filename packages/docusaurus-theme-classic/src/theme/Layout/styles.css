@@ -19,3 +19,9 @@ body {
 .main-wrapper {
   flex: 1 0 auto;
 }
+
+/* Docusaurus-specific utility classes */
+
+.docusaurus-mt-lg {
+  margin-top: 3rem;
+}

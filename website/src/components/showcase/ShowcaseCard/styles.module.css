@@ -5,31 +5,125 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.showcaseCard {
-  height: 100%;
-}
-
 .showcaseCardImage {
-  max-height: 175px;
   overflow: hidden;
+  max-height: 150px;
+  border-bottom: 4px solid var(--ifm-color-primary);
 }
 
-.titleIconsRow {
+.showcaseCardHeader {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-.titleIconsRowTitle {
-  flex: 1;
+.showcaseCardTitle {
+  margin-bottom: 0;
+  flex: 1 1 auto;
 }
 
-.titleIconsRowIcons {
+.showcaseCardTitle a {
+  text-decoration: none;
+  position: relative;
+}
+
+.showcaseCardTitle a::after {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  transition: width ease-out 200ms;
+  background-color: var(--ifm-color-primary);
+  bottom: 0;
+  left: 0;
+}
+
+.showcaseCardTitle a:hover::after,
+.showcaseCardTitle a:focus-visible::after {
+  width: 100%;
+}
+
+.showcaseCardTitle,
+.showcaseCardHeader .svgIconFavorite {
+  margin-right: 0.25rem;
+}
+
+.showcaseCardHeader .svgIconFavorite {
+  color: var(--site-color-svgIcon-favorite);
+}
+
+.showcaseCardSrcBtn {
+  margin-left: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  z-index: 1;
   flex-grow: 0;
   flex-shrink: 0;
+  border: 0;
 }
 
-.tagIcon {
-  margin: 0.2rem;
-  user-select: none;
+html[data-theme='dark'] .showcaseCardSrcBtn {
+  background-color: var(--ifm-color-emphasis-200) !important;
+  color: inherit;
+}
+
+html[data-theme='dark'] .showcaseCardSrcBtn:hover {
+  background-color: var(--ifm-color-emphasis-300) !important;
+}
+
+.showcaseCardSrcBtn:focus,
+.showcaseCardTitle a:focus {
+  outline: none;
+}
+
+.showcaseCardSrcBtn:focus-visible {
+  background-color: var(--ifm-color-secondary-dark);
+}
+
+.showcaseCardBody {
+  font-size: smaller;
+  line-height: 1.66;
+}
+
+.cardFooter {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tag {
+  font-size: 0.675rem;
+  border: 1px solid var(--ifm-color-secondary-darkest);
+  white-space: nowrap;
+  margin-right: 6px;
+  margin-bottom: 6px !important;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  cursor: default;
+  outline: 0px;
+  text-decoration: none;
+  z-index: 5;
+  padding: 0px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.tag .textLabel {
+  overflow: hidden;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.tag .colorLabel {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 6px;
+  margin-right: 6px;
 }

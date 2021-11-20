@@ -9,12 +9,28 @@ import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
+import {getInfimaActiveClassName} from './index';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
+
+function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
+  const allDocs = versions.flatMap((version) => version.docs);
+  const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
+  if (!doc) {
+    const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');
+    throw new Error(
+      `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
+        versions.length ? 's' : ''
+      } ${versions.map((version) => version.name).join(', ')}".
+Available doc ids are:\n- ${docIds}`,
+    );
+  }
+  return doc;
+}
 
 export default function DocNavbarItem({
   docId,
-  activeSidebarClassName,
   label: staticLabel,
   docsPluginId,
   ...props
@@ -23,25 +39,24 @@ export default function DocNavbarItem({
   const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
 
-  const version = activeVersion ?? preferredVersion ?? latestVersion;
-
-  const doc = version.docs.find((versionDoc) => versionDoc.id === docId);
-  if (!doc) {
-    const docIds = version.docs.map((versionDoc) => versionDoc.id).join('\n- ');
-    throw new Error(
-      `DocNavbarItem: couldn't find any doc with id=${docId} in version ${version.name}.
-Available docIds=\n- ${docIds}`,
-    );
-  }
+  // Versions used to look for the doc to link to, ordered + no duplicate
+  const versions = uniq(
+    [activeVersion, preferredVersion, latestVersion].filter(
+      Boolean,
+    ) as GlobalDataVersion[],
+  );
+  const doc = getDocInVersions(versions, docId);
+  const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
     <DefaultNavbarItem
       exact
       {...props}
       className={clsx(props.className, {
-        [activeSidebarClassName]:
-          activeDoc && activeDoc.sidebar === doc.sidebar,
+        [activeDocInfimaClassName]:
+          activeDoc?.sidebar && activeDoc.sidebar === doc.sidebar,
       })}
+      activeClassName={activeDocInfimaClassName}
       label={staticLabel ?? doc.id}
       to={doc.path}
     />

@@ -12,9 +12,11 @@ import {
   AdmonitionsSchema,
   URISchema,
 } from '@docusaurus/utils-validation';
+import {GlobExcludeDefault} from '@docusaurus/utils';
+import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS = {
-  feedOptions: {type: ['rss', 'atom']},
+export const DEFAULT_OPTIONS: PluginOptions = {
+  feedOptions: {type: ['rss', 'atom'], copyright: ''},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
@@ -31,22 +33,30 @@ export const DEFAULT_OPTIONS = {
   blogSidebarCount: 5,
   blogSidebarTitle: 'Recent posts',
   postsPerPage: 10,
-  include: ['*.md', '*.mdx'],
+  include: ['**/*.{md,mdx}'],
+  exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
+  tagsBasePath: 'tags',
+  archiveBasePath: 'archive',
   path: 'blog',
   editLocalizedFiles: false,
+  authorsMapPath: 'authors.yml',
+  readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
+  sortPosts: 'descending',
 };
 
-export const PluginOptionSchema = Joi.object({
+export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
+  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
-  postsPerPage: Joi.number()
-    .integer()
-    .min(1)
+  exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
+  postsPerPage: Joi.alternatives()
+    .try(Joi.equal('ALL').required(), Joi.number().integer().min(1).required())
     .default(DEFAULT_OPTIONS.postsPerPage),
   blogListComponent: Joi.string().default(DEFAULT_OPTIONS.blogListComponent),
   blogPostComponent: Joi.string().default(DEFAULT_OPTIONS.blogPostComponent),
@@ -61,7 +71,7 @@ export const PluginOptionSchema = Joi.object({
     .allow('')
     .default(DEFAULT_OPTIONS.blogDescription),
   blogSidebarCount: Joi.alternatives()
-    .try(Joi.equal('ALL').required(), Joi.number().required())
+    .try(Joi.equal('ALL').required(), Joi.number().integer().min(0).required())
     .default(DEFAULT_OPTIONS.blogSidebarCount),
   blogSidebarTitle: Joi.string().default(DEFAULT_OPTIONS.blogSidebarTitle),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
@@ -94,7 +104,19 @@ export const PluginOptionSchema = Joi.object({
       .default(DEFAULT_OPTIONS.feedOptions.type),
     title: Joi.string().allow(''),
     description: Joi.string().allow(''),
-    copyright: Joi.string(),
+    // only add default value when user actually wants a feed (type is not null)
+    copyright: Joi.when('type', {
+      is: Joi.any().valid(null),
+      then: Joi.string().optional(),
+      otherwise: Joi.string()
+        .allow('')
+        .default(DEFAULT_OPTIONS.feedOptions.copyright),
+    }),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
+  authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
+  readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
+  sortPosts: Joi.string()
+    .valid('descending', 'ascending')
+    .default(DEFAULT_OPTIONS.sortPosts),
 });

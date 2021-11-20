@@ -6,8 +6,9 @@
  */
 
 import React, {useRef} from 'react';
+import {useHistory} from '@docusaurus/router';
 import Translate from '@docusaurus/Translate';
-import {useChangeRoute} from '@docusaurus/theme-common';
+import {useLocationChange} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -19,6 +20,7 @@ function programmaticFocus(el: HTMLElement) {
 
 function SkipToContent(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
+  const {action} = useHistory();
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
@@ -31,15 +33,16 @@ function SkipToContent(): JSX.Element {
     }
   };
 
-  useChangeRoute(() => {
-    if (containerRef.current) {
+  useLocationChange(({location}) => {
+    if (containerRef.current && !location.hash && action === 'PUSH') {
       programmaticFocus(containerRef.current);
     }
   });
 
   return (
     <div ref={containerRef}>
-      <a href="#main" className={styles.skipToContent} onClick={handleSkip}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a href="#" className={styles.skipToContent} onClick={handleSkip}>
         <Translate
           id="theme.common.skipToMainContent"
           description="The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation">

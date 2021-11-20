@@ -7,37 +7,30 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {useThemeConfig} from '@docusaurus/theme-common';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
+import {useThemeConfig, useAnnouncementBar} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
+import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
 function AnnouncementBar(): JSX.Element | null {
-  const {
-    isAnnouncementBarClosed,
-    closeAnnouncementBar,
-  } = useUserPreferencesContext();
+  const {isActive, close} = useAnnouncementBar();
   const {announcementBar} = useThemeConfig();
 
-  if (!announcementBar) {
+  if (!isActive) {
     return null;
   }
 
-  const {content, backgroundColor, textColor, isCloseable} = announcementBar;
-  if (!content || (isCloseable && isAnnouncementBarClosed)) {
-    return null;
-  }
+  const {content, backgroundColor, textColor, isCloseable} = announcementBar!;
 
   return (
     <div
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
+      {isCloseable && <div className={styles.announcementBarPlaceholder} />}
       <div
-        className={clsx(styles.announcementBarContent, {
-          [styles.announcementBarCloseable]: isCloseable,
-        })}
+        className={styles.announcementBarContent}
         // Developer provided the HTML, so assume it's safe.
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{__html: content}}
@@ -45,14 +38,14 @@ function AnnouncementBar(): JSX.Element | null {
       {isCloseable ? (
         <button
           type="button"
-          className={styles.announcementBarClose}
-          onClick={closeAnnouncementBar}
+          className={clsx('clean-btn close', styles.announcementBarClose)}
+          onClick={close}
           aria-label={translate({
             id: 'theme.AnnouncementBar.closeButtonAriaLabel',
             message: 'Close',
             description: 'The ARIA label for close button of announcement bar',
           })}>
-          <span aria-hidden="true">×</span>
+          <IconClose width={14} height={14} strokeWidth={3.1} />
         </button>
       ) : null}
     </div>

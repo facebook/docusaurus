@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
-import minimatch from 'minimatch';
-import slash from 'slash';
 import {
   encodePath,
   fileToPath,
@@ -18,6 +15,9 @@ import {
   getPluginI18nPath,
   getFolderContainingFile,
   addTrailingPathSeparator,
+  Globby,
+  createAbsoluteFilePathMatcher,
+  normalizeUrl,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -29,10 +29,7 @@ import {
 import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
-  DEFAULT_PLUGIN_ID,
-  STATIC_DIR_NAME,
-} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,
@@ -40,7 +37,6 @@ import {
   Metadata,
   PagesContentPaths,
 } from './types';
-import {flatten} from 'lodash';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -81,31 +77,14 @@ export default function pluginContentPages(
   );
   const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
 
-  const excludeRegex = new RegExp(
-    options.exclude
-      .map((pattern) => minimatch.makeRe(pattern).source)
-      .join('|'),
-  );
   return {
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
       const {include = []} = options;
-      return flatten(
-        getContentPathList(contentPaths).map((contentPath) => {
-          return include.map((pattern) => `${contentPath}/${pattern}`);
-        }),
+      return getContentPathList(contentPaths).flatMap((contentPath) =>
+        include.map((pattern) => `${contentPath}/${pattern}`),
       );
-    },
-
-    getClientModules() {
-      const modules = [];
-
-      if (options.admonitions) {
-        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
-      }
-
-      return modules;
     },
 
     async loadContent() {
@@ -116,7 +95,7 @@ export default function pluginContentPages(
       }
 
       const {baseUrl} = siteConfig;
-      const pagesFiles = await globby(include, {
+      const pagesFiles = await Globby(include, {
         cwd: contentPaths.contentPath,
         ignore: options.exclude,
       });
@@ -130,9 +109,13 @@ export default function pluginContentPages(
 
         const source = path.join(contentPath, relativeSource);
         const aliasedSourcePath = aliasedSitePath(source, siteDir);
-        const pathName = encodePath(fileToPath(relativeSource));
-        const permalink = pathName.replace(/^\//, baseUrl || '');
+        const permalink = normalizeUrl([
+          baseUrl,
+          options.routeBasePath,
+          encodePath(fileToPath(relativeSource)),
+        ]);
         if (isMarkdownSource(relativeSource)) {
+          // TODO: missing frontmatter validation/normalization here
           return {
             type: 'mdx',
             permalink,
@@ -200,6 +183,7 @@ export default function pluginContentPages(
         beforeDefaultRehypePlugins,
         beforeDefaultRemarkPlugins,
       } = options;
+      const contentDirs = getContentPathList(contentPaths);
       return {
         resolve: {
           alias: {
@@ -210,7 +194,7 @@ export default function pluginContentPages(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: getContentPathList(contentPaths)
+              include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
               use: [
@@ -222,22 +206,23 @@ export default function pluginContentPages(
                     rehypePlugins,
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
-                    keepContentTitle: true,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
-                    // Note that metadataPath must be the same/in-sync as
-                    // the path from createData for each MDX.
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
+                    isMDXPartial: createAbsoluteFilePathMatcher(
+                      options.exclude,
+                      contentDirs,
+                    ),
                     metadataPath: (mdxPath: string) => {
-                      if (excludeRegex.test(slash(mdxPath))) {
-                        return null;
-                      }
+                      // Note that metadataPath must be the same/in-sync as
+                      // the path from createData for each MDX.
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(
                         dataDir,
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
-                    forbidFrontMatter: (mdxPath: string) =>
-                      excludeRegex.test(slash(mdxPath)),
                   },
                 },
                 {

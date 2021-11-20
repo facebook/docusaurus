@@ -4,3 +4,95 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+.filterCheckbox {
+  justify-content: space-between;
+}
+
+.filterCheckbox,
+.checkboxList {
+  display: flex;
+  align-items: center;
+}
+
+.filterCheckbox > span {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.filterCheckbox > span > * {
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+
+.checkboxList {
+  flex-wrap: wrap;
+}
+
+.checkboxList,
+.showcaseList {
+  padding: 0px;
+  list-style: none;
+}
+
+.checkboxListItem {
+  position: relative;
+  background-color: transparent;
+  user-select: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  outline: 0px;
+  text-decoration: none;
+  padding: 0px;
+  font-size: 0.8rem;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.checkboxListItem {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.checkboxListItem:last-child {
+  margin-right: 0;
+}
+
+.showcaseList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  position: relative;
+}
+
+.showcaseFavorite {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: var(--site-color-favorite-background);
+}
+
+.showcaseFavoriteHeader {
+  display: flex;
+  align-items: center;
+}
+
+.showcaseFavoriteHeader > h3 {
+  margin-bottom: 0;
+}
+
+.svgIconFavoriteXs,
+.svgIconFavorite {
+  color: var(--site-color-svgIcon-favorite);
+}
+
+.svgIconFavoriteXs {
+  margin-left: 0.625rem;
+  font-size: 1rem;
+}
+
+.svgIconFavorite {
+  margin-left: 1rem;
+}

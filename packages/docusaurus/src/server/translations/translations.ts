@@ -6,12 +6,12 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
-import {InitPlugin} from '../plugins/init';
 import {mapValues, difference} from 'lodash';
 import {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
+  InitializedPlugin,
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
@@ -57,7 +57,7 @@ export async function readTranslationFileContent(
       return content;
     } catch (e) {
       throw new Error(
-        `Invalid translation file at path=${filePath}.\n${e.message}`,
+        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
       );
     }
   }
@@ -135,9 +135,9 @@ Maybe you should remove them?
         .padStart(
           3,
           ' ',
-        )} translations will be written at ${toMessageRelativeFilePath(
+        )} translations will be written at "${toMessageRelativeFilePath(
         filePath,
-      )}`,
+      )}".`,
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
@@ -183,7 +183,7 @@ export async function writeCodeTranslations(
 function addTranslationFileExtension(translationFilePath: string) {
   if (translationFilePath.endsWith('.json')) {
     throw new Error(
-      `Translation file path does  not need to end  with .json, we addt the extension automatically. translationFilePath=${translationFilePath}`,
+      `Translation file path at "${translationFilePath}" does not need to end with ".json", we add the extension automatically.`,
     );
   }
   return `${translationFilePath}.json`;
@@ -195,7 +195,7 @@ function getPluginTranslationFilePath({
   locale,
   translationFilePath,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFilePath: string;
 }): string {
   const dirPath = getPluginI18nPath({
@@ -215,7 +215,7 @@ export async function writePluginTranslations({
   translationFile,
   options,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFile: TranslationFile;
   options?: WriteTranslationsOptions;
 }): Promise<void> {
@@ -238,7 +238,7 @@ export async function localizePluginTranslationFile({
   locale,
   translationFile,
 }: TranslationContext & {
-  plugin: InitPlugin;
+  plugin: InitializedPlugin;
   translationFile: TranslationFile;
 }): Promise<TranslationFile> {
   const filePath = getPluginTranslationFilePath({
@@ -265,15 +265,16 @@ export async function localizePluginTranslationFile({
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(
-  plugins: InitPlugin[],
+  plugins: InitializedPlugin[],
 ): Promise<Record<string, string>> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
 
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
+  return pluginsMessages.reduce(
+    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
+    {},
+  );
 }
 
 export function applyDefaultCodeTranslations({
@@ -298,11 +299,9 @@ Please report this Docusaurus issue.
 
   return mapValues(
     extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
+    (messageTranslation, messageId) => ({
+      ...messageTranslation,
+      message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+    }),
   );
 }

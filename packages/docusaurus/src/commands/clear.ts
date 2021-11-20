@@ -13,10 +13,10 @@ function removePath(fsPath: string) {
   return fs
     .remove(path.join(fsPath))
     .then(() => {
-      console.log(`${chalk.green(`Removing ${fsPath}`)}`);
+      console.log(chalk.green(`Successfully removed "${fsPath}" directory.`));
     })
     .catch((err) => {
-      console.error(`Could not remove ${fsPath}`);
+      console.error(`Could not remove ${fsPath} directory.`);
       console.error(err);
     });
 }

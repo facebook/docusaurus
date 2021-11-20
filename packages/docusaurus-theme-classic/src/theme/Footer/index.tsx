@@ -11,8 +11,10 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
 import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
+import IconExternalLink from '@theme/IconExternalLink';
 
 function FooterLink({
   to,
@@ -35,17 +37,34 @@ function FooterLink({
             to: toUrl,
           })}
       {...props}>
-      {label}
+      {href && !isInternalUrl(href) ? (
+        <span>
+          {label}
+          <IconExternalLink />
+        </span>
+      ) : (
+        label
+      )}
     </Link>
   );
 }
 
-const FooterLogo = ({
+function FooterLogo({
   sources,
   alt,
-}: Pick<ThemedImageProps, 'sources' | 'alt'>) => (
-  <ThemedImage className="footer__logo" alt={alt} sources={sources} />
-);
+  width,
+  height,
+}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) {
+  return (
+    <ThemedImage
+      className="footer__logo"
+      alt={alt}
+      sources={sources}
+      width={width}
+      height={height}
+    />
+  );
+}
 
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
@@ -106,7 +125,12 @@ function Footer(): JSX.Element | null {
               <div className="margin-bottom--sm">
                 {logo.href ? (
                   <Link href={logo.href} className={styles.footerLogoLink}>
-                    <FooterLogo alt={logo.alt} sources={sources} />
+                    <FooterLogo
+                      alt={logo.alt}
+                      sources={sources}
+                      width={logo.width}
+                      height={logo.height}
+                    />
                   </Link>
                 ) : (
                   <FooterLogo alt={logo.alt} sources={sources} />

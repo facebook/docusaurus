@@ -1,9 +1,11 @@
 ---
+sidebar_position: 0
 id: docusaurus.config.js
-title: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
-slug: /docusaurus.config.js
+slug: /api/docusaurus-config
 ---
+
+# `docusaurus.config.js`
 
 ## Overview {#overview}
 
@@ -20,37 +22,6 @@ Title for your website.
 ```js title="docusaurus.config.js"
 module.exports = {
   title: 'Docusaurus',
-};
-```
-
-### `favicon` {#favicon}
-
-- Type: `string`
-
-URL for site favicon. Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'https://docusaurus.io/favicon.ico',
-};
-```
-
-You can also use the favicon URL relative to the `static` directory of your site. For example, your site has the following directory structure:
-
-```bash
-.
-├── README.md
-├ # ... other files in root directory
-└─ static
-    └── img
-        └── favicon.ico
-```
-
-So you can refer it like below:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  favicon: 'img/favicon.ico',
 };
 ```
 
@@ -79,6 +50,38 @@ module.exports = {
 ```
 
 ## Optional fields {#optional-fields}
+
+### `favicon` {#favicon}
+
+- Type: `string | undefined`
+
+Path to your site favicon
+
+Example, if your favicon is in `static/img/favicon.ico`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  favicon: '/img/favicon.ico',
+};
+```
+
+### `trailingSlash` {#trailing-slash}
+
+- Type: `boolean | undefined`
+
+Allow to customize the presence/absence of a trailing slash at the end of URLs/links, and how static HTML files are generated:
+
+- `undefined` (default): keeps URLs untouched, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `true`: add trailing slashes to URLs/links, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `false`: remove trailing slashes from URLs/links, and emit `/docs/myDoc.html` for `/docs/myDoc.md`
+
+:::tip
+
+Each static hosting provider serve static files differently (this behavior may even change over time).
+
+Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
+
+:::
 
 ### `i18n` {#i18n}
 
@@ -192,6 +195,18 @@ module.exports = {
 };
 ```
 
+### `deploymentBranch` {#deploymentbranch}
+
+- Type: `string`
+
+The name of the branch to deploy the static files to. Used by the deployment command.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  deploymentBranch: 'gh-pages',
+};
+```
+
 ### `githubHost` {#githubhost}
 
 - Type: `string`
@@ -250,6 +265,8 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -278,6 +295,8 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
@@ -342,6 +361,20 @@ Attempting to add unknown field in the config will lead to error in build time:
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
+### `staticDirectories` {#staticdirectories}
+
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
+
+- Type: `string[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  staticDirectories: ['static'],
+};
+```
+
 ### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
@@ -359,8 +392,7 @@ module.exports = {
     'https://docusaurus.io/script.js',
     // Object format.
     {
-      src:
-        'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
       async: true,
     },
   ],
@@ -398,33 +430,33 @@ module.exports = {
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% if (it.noIndex) { %>
+      <meta name="robots" content="noindex, nofollow" />
+    <% } %>
     <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
     <% }); %>
     <% it.stylesheets.forEach((stylesheet) => { %>
-      <link rel="stylesheet" type="text/css" href="<%= it.baseUrl %><%= stylesheet %>" />
+      <link rel="stylesheet" href="<%= it.baseUrl %><%= stylesheet %>" />
     <% }); %>
     <% it.scripts.forEach((script) => { %>
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
     <% }); %>
   </head>
-  <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+  <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
     <div id="__docusaurus">
       <%~ it.appHtml %>
     </div>
-    <div id="outside-docusaurus">
-      <span>Custom markup</span>
-    </div>
     <% it.scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= it.baseUrl %><%= script %>"></script>
+      <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
-</html>
+</html>`,
 };
 ```
 
@@ -444,7 +476,6 @@ module.exports = {
     // Object format.
     {
       href: 'http://mydomain.com/style.css',
-      type: 'text/css',
     },
   ],
 };

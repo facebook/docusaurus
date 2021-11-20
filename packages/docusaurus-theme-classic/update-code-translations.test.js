@@ -14,7 +14,7 @@ const {mapValues, pickBy} = require('lodash');
 jest.setTimeout(15000);
 
 describe('update-code-translations', () => {
-  test(`to have base.json contain all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-classic update-code-translations" to keep base.json up-to-date.`, async () => {
+  test(`to have base.json contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-classic update-code-translations" to keep base.json up-to-date.`, async () => {
     const baseMessages = pickBy(
       JSON.parse(
         await fs.readFile(

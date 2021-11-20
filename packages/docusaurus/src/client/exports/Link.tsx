@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, ComponentType} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
+import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
+import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 import type {LinkProps} from '@docusaurus/Link';
 import type docusaurus from '../docusaurus';
@@ -39,6 +41,9 @@ function Link({
   autoAddBaseUrl = true,
   ...props
 }: LinkProps): JSX.Element {
+  const {
+    siteConfig: {trailingSlash, baseUrl},
+  } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
@@ -69,26 +74,32 @@ function Link({
 
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
-  const targetLink =
+  let targetLink =
     typeof targetLinkWithoutPathnameProtocol !== 'undefined'
       ? maybeAddBaseUrl(targetLinkWithoutPathnameProtocol)
       : undefined;
 
+  if (targetLink && isInternal) {
+    targetLink = applyTrailingSlash(targetLink, {trailingSlash, baseUrl});
+  }
+
   const preloaded = useRef(false);
-  const LinkComponent = isNavLink ? NavLink : RRLink;
+  const LinkComponent = (
+    isNavLink ? NavLink : RRLink
+  ) as ComponentType<LinkProps>;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  let io: IntersectionObserver;
+  const ioRef = useRef<IntersectionObserver>();
   const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
-    io = new window.IntersectionObserver((entries) => {
+    ioRef.current = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
           // If element is in viewport, stop listening/observing and run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
-            io.unobserve(el);
-            io.disconnect();
+            ioRef.current!.unobserve(el);
+            ioRef.current!.disconnect();
             cb();
           }
         }
@@ -96,7 +107,7 @@ function Link({
     });
 
     // Add element to the observer.
-    io.observe(el);
+    ioRef.current!.observe(el);
   };
 
   const handleRef = (ref: HTMLAnchorElement | null) => {
@@ -127,11 +138,11 @@ function Link({
 
     // When unmounting, stop intersection observer from watching.
     return () => {
-      if (IOSupported && io) {
-        io.disconnect();
+      if (IOSupported && ioRef.current) {
+        ioRef.current.disconnect();
       }
     };
-  }, [targetLink, IOSupported, isInternal]);
+  }, [ioRef, targetLink, IOSupported, isInternal]);
 
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;

@@ -5,30 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable camelcase */
-
 import {
   JoiFrontMatter as Joi, // Custom instance for frontmatter
+  URISchema,
+  FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-
-export type DocFrontMatter = {
-  id?: string;
-  title?: string;
-  hide_title?: boolean;
-  hide_table_of_contents?: boolean;
-  keywords?: string[];
-  image?: string;
-  description?: string;
-  slug?: string;
-  sidebar_label?: string;
-  sidebar_position?: number;
-  custom_edit_url?: string | null;
-  parse_number_prefixes?: boolean;
-};
+import type {DocFrontMatter} from './types';
 
 // NOTE: we don't add any default value on purpose here
-// We don't want default values to magically appear in doc metadatas and props
+// We don't want default values to magically appear in doc metadata and props
 // While the user did not provide those values explicitly
 // We use default values in code instead
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
@@ -37,13 +24,19 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   hide_title: Joi.boolean(),
   hide_table_of_contents: Joi.boolean(),
   keywords: Joi.array().items(Joi.string().required()),
-  image: Joi.string().uri({allowRelative: false}),
+  image: URISchema,
   description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   slug: Joi.string(),
   sidebar_label: Joi.string(),
-  sidebar_position: Joi.number().min(0),
-  custom_edit_url: Joi.string().uri({allowRelative: true}).allow('', null),
+  sidebar_position: Joi.number(),
+  sidebar_class_name: Joi.string(),
+  tags: FrontMatterTagsSchema,
+  pagination_label: Joi.string(),
+  custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  pagination_next: Joi.string().allow(null),
+  pagination_prev: Joi.string().allow(null),
+  ...FrontMatterTOCHeadingLevels,
 }).unknown();
 
 export function validateDocFrontMatter(

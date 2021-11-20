@@ -70,7 +70,7 @@ function useLocalePluralForms(): LocalePluralForms {
       try {
         return createLocalePluralForms(currentLocale);
       } catch (e) {
-        console.error(`Failed to use Intl.PluralRules for locale=${currentLocale}.
+        console.error(`Failed to use Intl.PluralRules for locale "${currentLocale}".
 Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
 `);
         return EnglishPluralForms;
@@ -107,11 +107,12 @@ function selectPluralMessage(
   }
 }
 
-export function usePluralForm() {
+export function usePluralForm(): {
+  selectMessage: (count: number, pluralMessages: string) => string;
+} {
   const localePluralForm = useLocalePluralForms();
   return {
-    selectMessage: (count: number, pluralMessages: string): string => {
-      return selectPluralMessage(pluralMessages, count, localePluralForm);
-    },
+    selectMessage: (count: number, pluralMessages: string): string =>
+      selectPluralMessage(pluralMessages, count, localePluralForm),
   };
 }

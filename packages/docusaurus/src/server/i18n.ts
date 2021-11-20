@@ -14,9 +14,7 @@ import chalk from 'chalk';
 function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
   // https://v8.dev/features/intl-displaynames
-  // @ts-expect-error: wait for TS support of ES2021 feature
   if (typeof Intl.DisplayNames !== 'undefined') {
-    // @ts-expect-error: wait for TS support of ES2021 feature
     return new Intl.DisplayNames([locale], {type: 'language'}).of(locale);
   }
   return locale;
@@ -29,7 +27,10 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   };
 }
 
-export function shouldWarnAboutNodeVersion(version: number, locales: string[]) {
+export function shouldWarnAboutNodeVersion(
+  version: number,
+  locales: string[],
+): boolean {
   const isOnlyEnglish = locales.length === 1 && locales.includes('en');
   const isOlderNodeVersion = version < 14;
   return isOlderNodeVersion && !isOnlyEnglish;
@@ -46,9 +47,9 @@ export async function loadI18n(
   if (!i18nConfig.locales.includes(currentLocale)) {
     console.warn(
       chalk.yellow(
-        `The locale=${currentLocale} was not found in your site configuration: config.i18n.locales=[${i18nConfig.locales.join(
+        `The locale "${currentLocale}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
           ',',
-        )}]
+        )}.
 Note: Docusaurus only support running one locale at a time.`,
       ),
     );
@@ -61,7 +62,7 @@ Note: Docusaurus only support running one locale at a time.`,
   if (shouldWarnAboutNodeVersion(NODE_MAJOR_VERSION, locales)) {
     console.warn(
       chalk.yellow(
-        `To use Docusaurus i18n, it is strongly advised to use NodeJS >= 14 (instead of ${NODE_MAJOR_VERSION})`,
+        `To use Docusaurus i18n, it is strongly advised to use Node.js 14 or later (instead of ${NODE_MAJOR_VERSION}).`,
       ),
     );
   }
@@ -73,9 +74,10 @@ Note: Docusaurus only support running one locale at a time.`,
     };
   }
 
-  const localeConfigs = locales.reduce((acc, locale) => {
-    return {...acc, [locale]: getLocaleConfig(locale)};
-  }, {});
+  const localeConfigs = locales.reduce(
+    (acc, locale) => ({...acc, [locale]: getLocaleConfig(locale)}),
+    {},
+  );
 
   return {
     defaultLocale: i18nConfig.defaultLocale,
@@ -113,7 +115,7 @@ export function localizePath({
     }
     // should never happen
     else {
-      throw new Error(`unhandled pathType=${pathType}`);
+      throw new Error(`Unhandled path type "${pathType}".`);
     }
   } else {
     return originalPath;
