@@ -118,7 +118,7 @@ declare module '@theme/DocPaginator' {
 }
 
 declare module '@theme/DocSidebar' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly path: string;
@@ -134,7 +134,7 @@ declare module '@theme/DocSidebar' {
 }
 
 declare module '@theme/DocSidebarItem' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs-types';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
@@ -166,6 +166,13 @@ declare module '@theme/EditThisPage' {
   }
   const EditThisPage: (props: Props) => JSX.Element;
   export default EditThisPage;
+}
+
+declare module '@theme/ErrorPageContent' {
+  import ErrorComponent from '@theme/Error';
+
+  const ErrorPageContent: typeof ErrorComponent;
+  export default ErrorPageContent;
 }
 
 declare module '@theme/Footer' {
@@ -297,7 +304,7 @@ declare module '@theme/Layout' {
     readonly permalink?: string;
     readonly wrapperClassName?: string;
     readonly pageClassName?: string;
-    readonly searchMetadatas?: {
+    readonly searchMetadata?: {
       readonly version?: string;
       readonly tag?: string;
     };
@@ -316,15 +323,15 @@ declare module '@theme/LayoutHead' {
   export default LayoutHead;
 }
 
-declare module '@theme/SearchMetadatas' {
+declare module '@theme/SearchMetadata' {
   export interface Props {
     readonly locale?: string;
     readonly version?: string;
     readonly tag?: string;
   }
 
-  const SearchMetadatas: (props: Props) => JSX.Element;
-  export default SearchMetadatas;
+  const SearchMetadata: (props: Props) => JSX.Element;
+  export default SearchMetadata;
 }
 
 declare module '@theme/LastUpdated' {
@@ -804,7 +811,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink}>;
+  export type Tag = Readonly<{label: string; permalink: string}>;
   export interface Props {
     readonly tags: readonly Tag[];
   }
@@ -826,11 +833,4 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
-}
-
-declare module 'prism-react-renderer/prism' {
-  import type * as PrismNamespace from 'prismjs';
-
-  const Prism: typeof PrismNamespace;
-  export default Prism;
 }
