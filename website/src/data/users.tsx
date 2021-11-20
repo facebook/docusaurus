@@ -384,6 +384,15 @@ const Users: User[] = [
     tags: ['opensource', 'i18n', 'large'],
   },
   {
+    title: 'Darklang',
+    description:
+      'A new way of building serverless backends, with no infra, framework or deployment nightmares.',
+    preview: require('./showcase/darklang.png'),
+    website: 'https://docs.darklang.com/',
+    source: 'https://github.com/darklang/docs',
+    tags: ['product', 'opensource'],
+  },
+  {
     title: 'Dart Code Metrics',
     description:
       'Static analysis tool that helps analyse and improve Dart code quality.',
@@ -1160,6 +1169,14 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'versioning'],
   },
   {
+    title: 'Remirror',
+    description: 'The editor that makes ProseMirror fun to use for React developers',
+    preview: require('./showcase/remirror.png'),
+    website: 'https://remirror.io/',
+    source: 'https://github.com/remirror/remirror',
+    tags: ['opensource', 'design', 'large'],
+  },
+  {
     title: 'Remotion',
     description: 'Write videos programmatically in React',
     preview: require('./showcase/remotion.png'),
@@ -1423,6 +1440,15 @@ const Users: User[] = [
     website: 'https://webdriver.io/',
     source: 'https://github.com/webdriverio/webdriverio',
     tags: ['opensource', 'design', 'large', 'favorite'],
+  },
+  {
+    title: 'Webiny',
+    description:
+      'Serverless Application Framework and CMS - Build Full-Stack applications, GraphQL APIs, Websites & Microservices on top of the serverless infrastructure.',
+    preview: require('./showcase/webiny.png'),
+    website: 'https://www.webiny.com/docs/',
+    source: 'https://github.com/webiny/docs.webiny.com',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'Wisdom',
