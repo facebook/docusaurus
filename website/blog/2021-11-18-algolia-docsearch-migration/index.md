@@ -12,7 +12,7 @@ tags: [search]
 image: ./img/social-card.png
 ---
 
-[DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system.
+[DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system, which gives users their own Algolia application and new credentials.
 
 Docusaurus site owners should upgrade their site configuration **by February 1, 2022**
 
