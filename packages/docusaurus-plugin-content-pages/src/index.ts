@@ -25,9 +25,7 @@ import {
   Plugin,
   OptionValidationContext,
   ValidationResult,
-  ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
@@ -173,11 +171,7 @@ export default function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(_config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -224,7 +218,7 @@ export default function pluginContentPages(
                         `${docuHash(aliasedSource)}.json`,
                       );
                     },
-                    parseFrontMatter: async (fileString: string) =>
+                    parseFrontMatter: (fileString: string) =>
                       siteConfig.markdown.frontMatterParser({
                         plugin: {name: 'content-pages', id: options.id},
                         content: fileString,

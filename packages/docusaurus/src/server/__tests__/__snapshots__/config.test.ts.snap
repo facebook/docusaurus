@@ -24,6 +24,9 @@ Object {
       "en",
     ],
   },
+  "markdown": Object {
+    "frontMatterParser": [Function],
+  },
   "noIndex": false,
   "onBrokenLinks": "throw",
   "onBrokenMarkdownLinks": "warn",
