@@ -9,6 +9,18 @@ declare module '@docusaurus/theme-classic' {
   export type Options = Partial<import('./index').PluginOptions>;
 }
 
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default AnnouncementBar;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
