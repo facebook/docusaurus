@@ -156,7 +156,6 @@ export default async function mdxLoader(
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have an associated metadata file or frontmatter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
-
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.

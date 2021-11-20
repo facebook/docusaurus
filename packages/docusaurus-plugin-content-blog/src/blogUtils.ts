@@ -101,12 +101,6 @@ function formatBlogPostDate(locale: string, date: Date): string {
   }
 }
 
-async function parseBlogPostMarkdown(content: string) {
-  return parseMarkdownString(content, {
-    removeContentTitle: true,
-  });
-}
-
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
@@ -150,9 +144,9 @@ async function processBlogSourceFile(
         plugin: {name: 'content-blog', id: options.id},
       });
     const frontMatter = validateBlogPostFrontMatter(unsafeFrontMatter);
-    const {content, contentTitle, excerpt} = await parseBlogPostMarkdown(
-      rawContent,
-    );
+    const {content, contentTitle, excerpt} = parseMarkdownString(rawContent, {
+      removeContentTitle: true,
+    });
 
     const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
