@@ -22,9 +22,8 @@ const DocsPreferredVersionStorage = {
   read: (
     pluginId: string,
     persistence: DocsVersionPersistence,
-  ): string | null => {
-    return createStorageSlot(storageKey(pluginId), {persistence}).get();
-  },
+  ): string | null =>
+    createStorageSlot(storageKey(pluginId), {persistence}).get(),
 
   clear: (pluginId: string, persistence: DocsVersionPersistence): void => {
     createStorageSlot(storageKey(pluginId), {persistence}).del();

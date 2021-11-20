@@ -47,12 +47,10 @@ function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
   params: ApplyTrailingSlashParams,
 ) {
-  return redirects.map((redirect) => {
-    return {
-      ...redirect,
-      to: applyTrailingSlash(redirect.to, params),
-    };
-  });
+  return redirects.map((redirect) => ({
+    ...redirect,
+    to: applyTrailingSlash(redirect.to, params),
+  }));
 }
 
 function validateCollectedRedirects(
@@ -181,12 +179,10 @@ function createCreateRedirectsOptionRedirects(
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;
 
-    return froms.map((from) => {
-      return {
-        from,
-        to: path,
-      };
-    });
+    return froms.map((from) => ({
+      from,
+      to: path,
+    }));
   }
 
   return paths.flatMap(createPathRedirects);

@@ -19,7 +19,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
 import {

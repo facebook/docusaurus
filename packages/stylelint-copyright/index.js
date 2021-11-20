@@ -12,8 +12,9 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: 'Missing copyright in the header comment',
 });
 
-module.exports = stylelint.createPlugin(ruleName, (actual) => {
-  return (root, result) => {
+module.exports = stylelint.createPlugin(
+  ruleName,
+  (actual) => (root, result) => {
     const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual,
     });
@@ -48,8 +49,8 @@ module.exports = stylelint.createPlugin(ruleName, (actual) => {
         ruleName,
       });
     });
-  };
-});
+  },
+);
 
 module.exports.ruleName = ruleName;
 module.exports.messages = messages;

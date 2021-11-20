@@ -75,9 +75,9 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) => {
-    return getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes});
-  });
+  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  );
 
   // remove pages without any broken link
   return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -186,9 +186,9 @@ export async function filterExistingFileLinks({
     return filePathsToTry.some(isExistingFile);
   }
 
-  return mapValues(allCollectedLinks, (links) => {
-    return links.filter((link) => !linkFileExists(link));
-  });
+  return mapValues(allCollectedLinks, (links) =>
+    links.filter((link) => !linkFileExists(link)),
+  );
 }
 
 export async function handleBrokenLinks({

@@ -6,7 +6,7 @@
  */
 
 import type {SidebarOptions} from '../types';
-import {
+import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
   NormalizedSidebars,
@@ -15,9 +15,9 @@ import {
   SidebarItemConfig,
   SidebarConfig,
   SidebarsConfig,
-  isCategoriesShorthand,
 } from './types';
 import {mapValues} from 'lodash';
+import {isCategoriesShorthand} from './utils';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,

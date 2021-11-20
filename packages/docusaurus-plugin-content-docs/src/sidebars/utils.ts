@@ -13,10 +13,18 @@ import type {
   SidebarItemLink,
   SidebarItemDoc,
   SidebarItemType,
+  SidebarCategoriesShorthand,
+  SidebarItemConfig,
 } from './types';
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import type {DocMetadataBase} from '../types';
+
+export function isCategoriesShorthand(
+  item: SidebarItemConfig,
+): item is SidebarCategoriesShorthand {
+  return typeof item !== 'string' && !item.type;
+}
 
 export function transformSidebarItems(
   sidebar: Sidebar,
@@ -66,9 +74,9 @@ export function collectSidebarLinks(sidebar: Sidebar): SidebarItemLink[] {
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
-  return mapValues(sidebars, (sidebar) => {
-    return collectSidebarDocItems(sidebar).map((docItem) => docItem.id);
-  });
+  return mapValues(sidebars, (sidebar) =>
+    collectSidebarDocItems(sidebar).map((docItem) => docItem.id),
+  );
 }
 
 export function createSidebarsUtils(

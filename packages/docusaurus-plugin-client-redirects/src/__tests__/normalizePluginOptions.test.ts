@@ -28,9 +28,7 @@ describe('normalizePluginOptions', () => {
   });
 
   test('should override all default options with valid user options', () => {
-    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => {
-      return [];
-    };
+    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => [];
     expect(
       normalizePluginOptions({
         fromExtensions: ['exe', 'zip'],

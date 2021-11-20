@@ -15,7 +15,7 @@ const RootName = null;
 
 // Seems ReactJson does not work with SSR
 // https://github.com/mac-s-g/react-json-view/issues/121
-const BrowserOnlyReactJson = (props: ReactJsonViewProps) => {
+function BrowserOnlyReactJson(props: ReactJsonViewProps) {
   return (
     <BrowserOnly>
       {() => {
@@ -25,13 +25,11 @@ const BrowserOnlyReactJson = (props: ReactJsonViewProps) => {
       }}
     </BrowserOnly>
   );
-};
+}
 
 function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
   return (
     <BrowserOnlyReactJson
-      // Prop type defined by react-json-view
-      // eslint-disable-next-line @typescript-eslint/ban-types
       src={src as object}
       style={{
         marginTop: '10px',
@@ -41,12 +39,12 @@ function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
       }}
       name={RootName}
       theme="paraiso"
-      shouldCollapse={(field) => {
+      shouldCollapse={(field) =>
         // By default, we collapse the json for performance reasons
         // See https://github.com/mac-s-g/react-json-view/issues/235
         // Non-root elements that are larger than 50 fields are collapsed
-        return field.name !== RootName && Object.keys(field.src).length > 50;
-      }}
+        field.name !== RootName && Object.keys(field.src).length > 50
+      }
       collapsed={collapseDepth}
       groupArraysAfterLength={5}
       enableClipboard={false}

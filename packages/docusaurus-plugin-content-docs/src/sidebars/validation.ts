@@ -6,7 +6,7 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {
+import type {
   SidebarItemConfig,
   SidebarCategoriesShorthand,
   SidebarItemBase,
@@ -15,8 +15,8 @@ import {
   SidebarItemLink,
   SidebarItemCategoryConfig,
   SidebarsConfig,
-  isCategoriesShorthand,
 } from './types';
+import {isCategoriesShorthand} from './utils';
 
 // NOTE: we don't add any default values during validation on purpose!
 // Config types are exposed to users for typechecking and we use the same type in normalization

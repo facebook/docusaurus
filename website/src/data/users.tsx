@@ -7,8 +7,7 @@
 
 /* eslint-disable global-require */
 
-import React from 'react';
-import {difference, sortBy} from '../utils/jsUtils';
+import {difference, sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -44,7 +43,7 @@ import {difference, sortBy} from '../utils/jsUtils';
 export type Tag = {
   label: string;
   description: string;
-  icon: JSX.Element;
+  color: string;
 };
 
 export type TagType =
@@ -54,7 +53,6 @@ export type TagType =
   | 'design'
   | 'i18n'
   | 'versioning'
-  | 'multiInstance'
   | 'large'
   | 'facebook'
   | 'personal'
@@ -65,7 +63,7 @@ export type User = {
   description: string;
   preview: any;
   website: string;
-  source: string;
+  source: string | null;
   tags: TagType[];
 };
 
@@ -78,76 +76,69 @@ export const Tags: Record<TagType, Tag> = {
     label: 'Favorite',
     description:
       'Our favorite Docusaurus sites that you must absolutely check-out!',
-    icon: <>❤️</>,
+    color: '#e9669e',
   },
 
   // For open-source sites, a link to the source code is required
   opensource: {
     label: 'Open-Source',
     description: 'Open-Source Docusaurus sites can be useful for inspiration!',
-    icon: <>👨‍💻</>,
+    color: '#39ca30',
   },
 
   product: {
     label: 'Product',
     description: 'Docusaurus sites associated to a commercial product!',
-    icon: <>💵</>,
+    color: '#dfd545',
   },
 
   design: {
     label: 'Design',
     description:
       'Beautiful Docusaurus sites, polished and standing out from the initial template!',
-    icon: <>💅</>,
+    color: '#a44fb7',
   },
 
   i18n: {
     label: 'I18n',
     description:
       'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
-    icon: <>🏳️</>,
+    color: '#127f82',
   },
 
   versioning: {
     label: 'Versioning',
     description:
       'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
-    icon: <>👨‍👦‍👦</>,
-  },
-  // Sites using multi-instance plugins
-  multiInstance: {
-    label: 'Multi-Instance',
-    description:
-      'Docusaurus sites using multiple instances of the same plugin on the same site.',
-    icon: <>👨‍👩‍👧‍👦</>,
+    color: '#fe6829',
   },
 
   // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
   large: {
-    label: 'Large site',
+    label: 'Large',
     description:
       'Very large Docusaurus sites, including much more pages than the average!',
-    icon: <>💪</>,
+    color: '#8c2f00',
   },
 
   facebook: {
-    label: 'Facebook sites',
+    label: 'Facebook',
     description: 'Docusaurus sites of Facebook projects',
-    icon: <>👥</>,
+    color: '#4267b2', // Facebook blue
   },
 
   personal: {
-    label: 'Personal sites',
+    label: 'Personal',
     description:
       'Personal websites, blogs and digital gardens built with Docusaurus',
-    icon: <>🙋</>,
+    color: '#14cfc3',
   },
 
   rtl: {
     label: 'RTL Direction',
     description:
       'Docusaurus sites using the right-to-left reading direction support.',
-    icon: <>↪️</>,
+    color: '#ffcfc3',
   },
 };
 
@@ -391,6 +382,15 @@ const Users: User[] = [
     website: 'https://covid-fr.misterfishup.com/en/',
     source: 'https://github.com/MisterFISHUP/covid-19-in-france',
     tags: ['opensource', 'i18n', 'large'],
+  },
+  {
+    title: 'Darklang',
+    description:
+      'A new way of building serverless backends, with no infra, framework or deployment nightmares.',
+    preview: require('./showcase/darklang.png'),
+    website: 'https://docs.darklang.com/',
+    source: 'https://github.com/darklang/docs',
+    tags: ['product', 'opensource'],
   },
   {
     title: 'Dart Code Metrics',
@@ -1169,6 +1169,14 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'versioning'],
   },
   {
+    title: 'Remirror',
+    description: 'The editor that makes ProseMirror fun to use for React developers',
+    preview: require('./showcase/remirror.png'),
+    website: 'https://remirror.io/',
+    source: 'https://github.com/remirror/remirror',
+    tags: ['opensource', 'design', 'large'],
+  },
+  {
     title: 'Remotion',
     description: 'Write videos programmatically in React',
     preview: require('./showcase/remotion.png'),
@@ -1434,6 +1442,15 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
   {
+    title: 'Webiny',
+    description:
+      'Serverless Application Framework and CMS - Build Full-Stack applications, GraphQL APIs, Websites & Microservices on top of the serverless infrastructure.',
+    preview: require('./showcase/webiny.png'),
+    website: 'https://www.webiny.com/docs/',
+    source: 'https://github.com/webiny/docs.webiny.com',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
     preview: require('./showcase/wisdom.png'),
@@ -1562,12 +1579,12 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
-    title: 'Signoz',
+    title: 'SigNoz',
     description: 'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
     preview: require('./showcase/signoz.png'),
     website: 'https://signoz.io/',
-    source: 'https://github.com/SigNoz/signoz',
-    tags: ['opensource', 'product'],
+    source: null,
+    tags: ['product', 'design'],
   },
 
   /*
@@ -1586,7 +1603,7 @@ function sortUsers() {
   return result;
 }
 
-export const SortedUsers = sortUsers();
+export const sortedUsers = sortUsers();
 
 // Fail-fast on common errors
 function ensureUserValid(user: User) {

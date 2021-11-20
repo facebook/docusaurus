@@ -10,20 +10,15 @@ import remark from 'remark';
 // TODO change to `../index` after migrating to ESM
 import npm2yarn from '../../lib/index';
 import vfile from 'to-vfile';
-import {join, relative} from 'path';
+import path from 'path';
 import mdx from 'remark-mdx';
 
-const staticDir = `./${relative(process.cwd(), join(__dirname, 'fixtures'))}`;
-
-const processFixture = async (
-  name: string,
-  options: {sync?: boolean; staticDir: string},
-) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
-  const file = await vfile.read(path);
+const processFixture = async (name: string, options?: {sync?: boolean}) => {
+  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(mdx)
-    .use(npm2yarn, {...options, filePath: path})
+    .use(npm2yarn, {...options, filePath})
     .process(file);
 
   return result.toString();
@@ -31,41 +26,31 @@ const processFixture = async (
 
 describe('npm2yarn plugin', () => {
   test('test: installation file', async () => {
-    const result = await processFixture('installation', {
-      staticDir,
-    });
+    const result = await processFixture('installation');
 
     expect(result).toMatchSnapshot();
   });
 
   test('test: plugin file', async () => {
-    const result = await processFixture('plugin', {
-      staticDir,
-    });
+    const result = await processFixture('plugin');
 
     expect(result).toMatchSnapshot();
   });
 
   test('test: language was not setted', async () => {
-    const result = await processFixture('syntax-not-properly-set', {
-      staticDir,
-    });
+    const result = await processFixture('syntax-not-properly-set');
 
     expect(result).toMatchSnapshot();
   });
 
   test('test: already imported tabs components above are not re-imported', async () => {
-    const result = await processFixture('import-tabs-above', {
-      staticDir,
-    });
+    const result = await processFixture('import-tabs-above');
 
     expect(result).toMatchSnapshot();
   });
 
   test('test: already imported tabs components below are not re-imported', async () => {
-    const result = await processFixture('import-tabs-below', {
-      staticDir,
-    });
+    const result = await processFixture('import-tabs-below');
 
     expect(result).toMatchSnapshot();
   });
