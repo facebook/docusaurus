@@ -55,7 +55,6 @@ export default function ShowcaseFilterToggle(): JSX.Element {
       <label htmlFor={id} className={clsx(styles.checkboxLabel, 'shadow--md')}>
         <span className={styles.checkboxLabelOr}>OR</span>
         <span className={styles.checkboxLabelAnd}>AND</span>
-        <span className={styles.checkboxToggle} aria-hidden />
       </label>
     </div>
   );

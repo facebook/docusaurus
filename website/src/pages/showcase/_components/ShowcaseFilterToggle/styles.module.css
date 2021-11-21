@@ -6,26 +6,30 @@
  */
 
 .checkboxLabel {
+  --height: 25px;
+  --width: 80px;
+  --border: 2px;
   display: flex;
-  width: 80px;
-  height: 25px;
+  width: var(--width);
+  height: var(--height);
   position: relative;
-  border-radius: 25px;
-  border: 2px solid var(--ifm-color-primary-darkest);
-  overflow: hidden;
-  background-color: transparent;
+  border-radius: var(--height);
+  border: var(--border) solid var(--ifm-color-primary-darkest);
   cursor: pointer;
   justify-content: space-around;
   align-items: center;
   opacity: 0.75;
-  transition: opacity 200ms ease-out;
+  transition: opacity var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  box-shadow: var(--ifm-global-shadow-md);
 }
 
 input:focus ~ .checkboxLabel,
 input:focus-visible ~ .checkboxLabel,
 .checkboxLabel:hover {
   opacity: 1;
-  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
+  box-shadow: var(--ifm-global-shadow-md),
+    0px 0px 2px 1px var(--ifm-color-primary-dark);
 }
 
 .checkboxLabel > * {
@@ -34,24 +38,19 @@ input:focus-visible ~ .checkboxLabel,
   transition: opacity 150ms ease-in 50ms;
 }
 
-.checkboxToggle {
+.checkboxLabel::after {
   position: absolute;
   content: '';
-  top: -2px;
-  left: -2px;
-  width: 40px;
-  height: 25px;
-  border-radius: 20px;
+  inset: 0;
+  width: calc(var(--width) / 2);
+  height: 100%;
+  border-radius: var(--height);
   background-color: var(--ifm-color-primary-darkest);
-  box-sizing: border-box;
-  border: 0.04em solid var(--ifm-color-primary-darkest);
-  transition-property: transform;
-  transition-duration: 200ms;
-  transition-timing-function: ease-out;
-  transition-delay: 150ms;
-  transform: translateX(38px);
+  transition: transform var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
+  transform: translateX(calc(var(--width) / 2 - var(--border)));
 }
 
-input:checked ~ .checkboxLabel > .checkboxToggle {
-  transform: translateX(0);
+input:checked ~ .checkboxLabel::after {
+  transform: translateX(calc(-1 * var(--border)));
 }
