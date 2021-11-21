@@ -151,9 +151,11 @@ export function translateThemeConfig({
   themeConfig,
   translationFiles,
 }: {
-  themeConfig: ThemeConfig;
+  // Why partial? To make TS correctly figure out the contravariance in parameter.
+  // In practice it's always normalized
+  themeConfig: Partial<ThemeConfig>;
   translationFiles: TranslationFile[];
-}): ThemeConfig {
+}): Partial<ThemeConfig> {
   const translationFilesMap: Record<string, TranslationFile> = keyBy(
     translationFiles,
     (f) => f.path,
@@ -161,10 +163,9 @@ export function translateThemeConfig({
 
   return {
     ...themeConfig,
-    navbar: translateNavbar(
-      themeConfig.navbar,
-      translationFilesMap.navbar.content,
-    ),
+    navbar: themeConfig.navbar
+      ? translateNavbar(themeConfig.navbar, translationFilesMap.navbar.content)
+      : undefined,
     footer: themeConfig.footer
       ? translateFooter(themeConfig.footer, translationFilesMap.footer.content)
       : undefined,
