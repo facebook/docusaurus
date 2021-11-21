@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadedVersion, VersionTag, DocMetadata} from './types';
+import type {LoadedVersion, VersionTag, DocMetadata} from './types';
 import type {
   SidebarItemDoc,
   SidebarItemLink,

@@ -11,13 +11,13 @@ import ReactLiveScope from '@theme/ReactLiveScope';
 import CodeBlock from '@theme-init/CodeBlock';
 
 const withLiveEditor = (Component) => {
-  const WrappedComponent = (props) => {
+  function WrappedComponent(props) {
     if (props.live) {
       return <Playground scope={ReactLiveScope} {...props} />;
     }
 
     return <Component {...props} />;
-  };
+  }
 
   return WrappedComponent;
 };

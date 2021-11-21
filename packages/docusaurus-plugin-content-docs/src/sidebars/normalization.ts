@@ -6,7 +6,7 @@
  */
 
 import type {NormalizeSidebarsParams, SidebarOptions} from '../types';
-import {
+import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
   NormalizedSidebars,
@@ -15,10 +15,10 @@ import {
   SidebarItemConfig,
   SidebarConfig,
   SidebarsConfig,
-  isCategoriesShorthand,
   SidebarItemCategoryLink,
   NormalizedSidebarItemCategory,
 } from './types';
+import {isCategoriesShorthand} from './utils';
 import {mapValues} from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 
@@ -106,7 +106,5 @@ export function normalizeSidebars(
   sidebars: SidebarsConfig,
   params: NormalizeSidebarsParams,
 ): NormalizedSidebars {
-  return mapValues(sidebars, (items) => {
-    return normalizeSidebar(items, params);
-  });
+  return mapValues(sidebars, (items) => normalizeSidebar(items, params));
 }

@@ -112,8 +112,7 @@ export function usePluralForm(): {
 } {
   const localePluralForm = useLocalePluralForms();
   return {
-    selectMessage: (count: number, pluralMessages: string): string => {
-      return selectPluralMessage(pluralMessages, count, localePluralForm);
-    },
+    selectMessage: (count: number, pluralMessages: string): string =>
+      selectPluralMessage(pluralMessages, count, localePluralForm),
   };
 }

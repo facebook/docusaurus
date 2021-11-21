@@ -36,14 +36,16 @@ describe('DefaultSidebarItemsGenerator', () => {
   function mockCategoryMetadataFiles(
     categoryMetadataFiles: Record<string, Partial<CategoryMetadataFile>>,
   ) {
-    jest.spyOn(fs, 'pathExists').mockImplementation((metadataFilePath) => {
-      return typeof categoryMetadataFiles[metadataFilePath] !== 'undefined';
-    });
+    jest
+      .spyOn(fs, 'pathExists')
+      .mockImplementation(
+        (metadataFilePath) =>
+          typeof categoryMetadataFiles[metadataFilePath] !== 'undefined',
+      );
     jest.spyOn(fs, 'readFile').mockImplementation(
       // @ts-expect-error: annoying TS error due to overrides
-      async (metadataFilePath: string) => {
-        return JSON.stringify(categoryMetadataFiles[metadataFilePath]);
-      },
+      async (metadataFilePath: string) =>
+        JSON.stringify(categoryMetadataFiles[metadataFilePath]),
     );
   }
 

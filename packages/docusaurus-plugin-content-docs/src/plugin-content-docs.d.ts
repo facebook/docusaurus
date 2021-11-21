@@ -77,12 +77,10 @@ declare module '@theme/DocItem' {
     readonly title: string;
     readonly image?: string;
     readonly keywords?: readonly string[];
-    /* eslint-disable camelcase */
     readonly hide_title?: boolean;
     readonly hide_table_of_contents?: boolean;
     readonly toc_min_heading_level?: number;
     readonly toc_max_heading_level?: number;
-    /* eslint-enable camelcase */
   };
 
   export type Metadata = {

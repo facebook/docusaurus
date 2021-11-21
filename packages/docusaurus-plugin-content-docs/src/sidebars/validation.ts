@@ -6,7 +6,7 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {
+import type {
   SidebarItemConfig,
   SidebarCategoriesShorthand,
   SidebarItemBase,
@@ -16,10 +16,10 @@ import {
   SidebarItemCategoryConfig,
   SidebarItemCategoryLink,
   SidebarsConfig,
-  isCategoriesShorthand,
   SidebarItemCategoryLinkDoc,
   SidebarItemCategoryLinkGeneratedIndex,
 } from './types';
+import {isCategoriesShorthand} from './utils';
 import {CategoryMetadataFile} from './generator';
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({

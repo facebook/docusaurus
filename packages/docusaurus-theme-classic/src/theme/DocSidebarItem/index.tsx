@@ -57,11 +57,8 @@ function isActiveSidebarItem(
 // Optimize sidebar at each "level"
 // TODO this item should probably not receive the "activePath" props
 // TODO this triggers whole sidebar re-renders on navigation
-export const DocSidebarItems = memo(function DocSidebarItems({
-  items,
-  ...props
-}: DocSidebarItemsProps): JSX.Element {
-  return (
+export const DocSidebarItems = memo(
+  ({items, ...props}: DocSidebarItemsProps): JSX.Element => (
     <>
       {items.map((item, index) => (
         <DocSidebarItem
@@ -71,8 +68,8 @@ export const DocSidebarItems = memo(function DocSidebarItems({
         />
       ))}
     </>
-  );
-});
+  ),
+);
 
 export default function DocSidebarItem({
   item,

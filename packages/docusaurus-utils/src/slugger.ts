@@ -19,8 +19,6 @@ export type Slugger = {
 export function createSlugger(): Slugger {
   const githubSlugger = new GithubSlugger();
   return {
-    slug: (value, options) => {
-      return githubSlugger.slug(value, options?.maintainCase);
-    },
+    slug: (value, options) => githubSlugger.slug(value, options?.maintainCase),
   };
 }

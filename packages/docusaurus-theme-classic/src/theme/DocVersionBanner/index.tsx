@@ -154,11 +154,11 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   );
 }
 
-function DocVersionBanner({versionMetadata}: Props): JSX.Element {
+function DocVersionBanner({versionMetadata}: Props): JSX.Element | null {
   if (versionMetadata.banner) {
     return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
   }
-  return <></>;
+  return null;
 }
 
 export default DocVersionBanner;

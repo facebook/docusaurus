@@ -7,10 +7,7 @@
 
 import path from 'path';
 
-import {
-  STATIC_DIR_NAME,
-  DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -20,7 +17,7 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
@@ -38,7 +35,7 @@ import {
   DocsMarkdownOption,
   VersionTag,
 } from './types';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {keyBy, mapValues} from 'lodash';
@@ -337,7 +334,10 @@ export default function pluginContentDocs(
                 rehypePlugins,
                 beforeDefaultRehypePlugins,
                 beforeDefaultRemarkPlugins,
-                staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                staticDirs: siteConfig.staticDirectories.map((dir) =>
+                  path.resolve(siteDir, dir),
+                ),
+                siteDir,
                 isMDXPartial: createAbsoluteFilePathMatcher(
                   options.exclude,
                   contentDirs,
