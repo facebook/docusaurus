@@ -47,7 +47,7 @@ input:focus-visible ~ .checkboxLabel,
   border-radius: var(--height);
   background-color: var(--ifm-color-primary-darkest);
   transition: transform var(--ifm-transition-fast)
-    var(--ifm-transition-timing-default) 150ms;
+    var(--ifm-transition-timing-default);
   transform: translateX(calc(var(--width) / 2 - var(--border)));
 }
 
