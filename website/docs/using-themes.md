@@ -200,7 +200,7 @@ It can be quite hard to wrap your mind around these aliases. Let's imagine the f
 +-------------------------------------------------+
 ```
 
-The components in this "stack" are loaded in the order of `site > themes > plugins > preset themes > preset plugins`, so the swizzled component in `website/src/theme` always comes out on top.
+The components in this "stack" are pushed in the order of `preset plugins > preset themes > plugins > themes > site`, so the swizzled component in `website/src/theme` always comes out on top because it's loaded last.
 
 `@theme/*` always points to the topmost component—when code block is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
 
