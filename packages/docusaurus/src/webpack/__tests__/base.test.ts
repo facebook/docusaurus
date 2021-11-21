@@ -103,6 +103,16 @@ describe('base webpack config', () => {
           );
         },
       },
+      {
+        getThemePath() {
+          return path.resolve(
+            __dirname,
+            '__fixtures__',
+            'base_test_site',
+            'secondPluginThemeFolder',
+          );
+        },
+      },
     ],
   };
 

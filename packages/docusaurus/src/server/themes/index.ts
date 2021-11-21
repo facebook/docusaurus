@@ -25,8 +25,9 @@ export function loadThemeAliases(
       // @theme-init is only applied once: to the initial theme that provided this component
       if (aliasKey in aliases) {
         const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-        if (!(`@theme-init/${componentName}` in aliases)) {
-          aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
+        const initAlias = `@theme-init/${componentName}`;
+        if (!(initAlias in aliases)) {
+          aliases[initAlias] = aliases[aliasKey];
         }
       }
       aliases[aliasKey] = themeAliases[aliasKey];
