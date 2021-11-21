@@ -8,10 +8,10 @@
 import type {LoadedVersion, VersionTag, DocMetadata} from './types';
 import type {
   SidebarItemDoc,
-  SidebarItemLink,
   SidebarItem,
   SidebarItemCategory,
   SidebarItemCategoryLink,
+  PropVersionDocs,
 } from './sidebars/types';
 import type {
   PropSidebars,
@@ -20,6 +20,7 @@ import type {
   PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
+  PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import {compact, keyBy, mapValues} from 'lodash';
 
@@ -39,7 +40,7 @@ Available document ids are:
     return docMetadata;
   }
 
-  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
+  const convertDocLink = (item: SidebarItemDoc): PropSidebarItemLink => {
     const docMetadata = getDocById(item.id);
     const {
       title,
@@ -52,6 +53,7 @@ Available document ids are:
       href: permalink,
       className: item.className,
       customProps: item.customProps,
+      docId: docMetadata.unversionedId,
     };
   };
 
@@ -93,6 +95,18 @@ Available document ids are:
   return mapValues(loadedVersion.sidebars, (items) => items.map(normalizeItem));
 }
 
+function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
+  return mapValues(
+    keyBy(loadedVersion.docs, (doc) => doc.unversionedId),
+    (doc) => ({
+      id: doc.unversionedId,
+      title: doc.title,
+      description: doc.description,
+      sidebar: doc.sidebar,
+    }),
+  );
+}
+
 export function toVersionMetadataProp(
   pluginId: string,
   loadedVersion: LoadedVersion,
@@ -106,6 +120,7 @@ export function toVersionMetadataProp(
     className: loadedVersion.versionClassName,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
+    docs: toVersionDocsProp(loadedVersion),
   };
 }
 

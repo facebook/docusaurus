@@ -34,6 +34,9 @@ export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
 export {
   isDocsPluginEnabled,
+  DocsVersionProvider,
+  useDocsVersion,
+  useDocById,
   DocsSidebarProvider,
   useDocsSidebar,
   useCategoryGeneratedIndexSidebarItem,

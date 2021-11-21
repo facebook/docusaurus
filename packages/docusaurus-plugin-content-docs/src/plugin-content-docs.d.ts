@@ -15,6 +15,9 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type {GlobalDataVersion, GlobalDataDoc};
 
+  export type PropVersionDoc = import('./sidebars/types').PropVersionDoc;
+  export type PropVersionDocs = import('./sidebars/types').PropVersionDocs;
+
   export type PropVersionMetadata = {
     pluginId: string;
     version: string;
@@ -24,6 +27,7 @@ declare module '@docusaurus/plugin-content-docs' {
     className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
+    docs: PropVersionDocs;
   };
 
   export type PropCategoryGeneratedIndex = {
@@ -32,7 +36,8 @@ declare module '@docusaurus/plugin-content-docs' {
     permalink: string;
   };
 
-  export type PropSidebarItemLink = import('./sidebars/types').SidebarItemLink;
+  export type PropSidebarItemLink =
+    import('./sidebars/types').PropSidebarItemLink;
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;

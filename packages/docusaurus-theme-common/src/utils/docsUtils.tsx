@@ -11,6 +11,8 @@ import {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
+  PropVersionDoc,
+  PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
@@ -20,6 +22,45 @@ export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 // Using a Symbol because null is a valid  context value (a doc can have no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
+
+const DocsVersionContext = createContext<
+  PropVersionMetadata | typeof EmptyContextValue
+>(EmptyContextValue);
+
+export function DocsVersionProvider({
+  children,
+  version,
+}: {
+  children: ReactNode;
+  version: PropVersionMetadata | typeof EmptyContextValue;
+}): JSX.Element {
+  return (
+    <DocsVersionContext.Provider value={version}>
+      {children}
+    </DocsVersionContext.Provider>
+  );
+}
+
+export function useDocsVersion(): PropVersionMetadata {
+  const version = useContext(DocsVersionContext);
+  if (version === EmptyContextValue) {
+    throw new Error('This hook requires usage of <DocsVersionProvider>');
+  }
+  return version;
+}
+
+export function useDocById(id: string): PropVersionDoc;
+export function useDocById(id: string | undefined): PropVersionDoc | undefined {
+  const version = useDocsVersion();
+  if (!id) {
+    return undefined;
+  }
+  const doc = version.docs[id];
+  if (!doc) {
+    throw new Error(`no version doc found by id=${id}`);
+  }
+  return doc;
+}
 
 const DocsSidebarContext = createContext<
   PropSidebar | null | typeof EmptyContextValue
@@ -42,7 +83,7 @@ export function DocsSidebarProvider({
 export function useDocsSidebar(): PropSidebar | null {
   const sidebar = useContext(DocsSidebarContext);
   if (sidebar === EmptyContextValue) {
-    throw new Error('This hook requires usage of <DocSidebarContextProvider>');
+    throw new Error('This hook requires usage of <DocsSidebarProvider>');
   }
   return sidebar;
 }

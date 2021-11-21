@@ -28,6 +28,7 @@ import {
   docVersionSearchTag,
   DocsSidebarProvider,
   useDocsSidebar,
+  DocsVersionProvider,
 } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 
@@ -166,14 +167,16 @@ function DocPage(props: Props): JSX.Element {
         {/* TODO we should add a core addRoute({htmlClassName}) generic plugin option */}
         <html className={versionMetadata.className} />
       </Head>
-      <DocsSidebarProvider sidebar={sidebar}>
-        <DocPageContent
-          currentDocRoute={currentDocRoute}
-          versionMetadata={versionMetadata}
-          sidebarName={sidebarName}>
-          {renderRoutes(docRoutes, {versionMetadata})}
-        </DocPageContent>
-      </DocsSidebarProvider>
+      <DocsVersionProvider version={versionMetadata}>
+        <DocsSidebarProvider sidebar={sidebar}>
+          <DocPageContent
+            currentDocRoute={currentDocRoute}
+            versionMetadata={versionMetadata}
+            sidebarName={sidebarName}>
+            {renderRoutes(docRoutes, {versionMetadata})}
+          </DocPageContent>
+        </DocsSidebarProvider>
+      </DocsVersionProvider>
     </>
   );
 }

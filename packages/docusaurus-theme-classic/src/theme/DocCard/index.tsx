@@ -13,7 +13,7 @@ import {
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import type {Props} from '@theme/DocCard';
-import {findFirstCategoryLink} from '@docusaurus/theme-common';
+import {findFirstCategoryLink, useDocById} from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -69,7 +69,7 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
   return (
     <CardLayout
       href={href}
-      icon="🗄️"
+      icon="🗃️"
       title={item.label}
       description={`${item.items.length} items`}
     />
@@ -78,12 +78,13 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
 
 function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
   const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
+  const doc = useDocById(item.docId);
   return (
     <CardLayout
       href={item.href}
       icon={icon}
       title={item.label}
-      description="No Doc description for now TODO lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"
+      description={doc?.description}
     />
   );
 }

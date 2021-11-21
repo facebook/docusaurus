@@ -135,10 +135,25 @@ export type PropSidebarItemCategory = Expand<
   }
 >;
 
-export type PropSidebarItem = SidebarItemLink | PropSidebarItemCategory;
+// we may want to use a union type in props instead of this generic link?
+type PropSidebarItemLink = SidebarItemLink & {
+  docId?: string;
+};
+
+export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
 export type PropSidebar = PropSidebarItem[];
 export type PropSidebars = {
   [sidebarId: string]: PropSidebar;
+};
+
+export type PropVersionDoc = {
+  id: string;
+  title: string;
+  description?: string;
+  sidebar?: string;
+};
+export type PropVersionDocs = {
+  [docId: string]: PropVersionDoc;
 };
 
 // Reduce API surface for options.sidebarItemsGenerator
