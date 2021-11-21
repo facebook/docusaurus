@@ -50,6 +50,7 @@ export function useDocsVersion(): PropVersionMetadata {
 }
 
 export function useDocById(id: string): PropVersionDoc;
+export function useDocById(id: string | undefined): PropVersionDoc | undefined;
 export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   const version = useDocsVersion();
   if (!id) {

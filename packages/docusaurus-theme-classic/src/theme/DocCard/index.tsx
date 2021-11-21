@@ -78,7 +78,7 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
 
 function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
   const icon = isInternalUrl(item.href) ? '📄️' : '🔗';
-  const doc = useDocById(item.docId);
+  const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
       href={item.href}

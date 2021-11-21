@@ -18,6 +18,7 @@ import type {
 } from './types';
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
+import {DocMetadataBase, DocNavLink} from '../types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
@@ -97,8 +98,8 @@ export function createSidebarsUtils(sidebars: Sidebars): {
   getSidebarNameByDocId: (docId: string) => string | undefined;
   getDocNavigation: (docId: string) => {
     sidebarName: string | undefined;
-    previousId: string | undefined;
-    nextId: string | undefined;
+    previous: DocNavLink | undefined;
+    next: DocNavLink | undefined;
   };
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 } {
@@ -118,26 +119,38 @@ export function createSidebarsUtils(sidebars: Sidebars): {
     return docIdToSidebarName[docId];
   }
 
+  // TODO we need to handle navigation for category generated index too!
   function getDocNavigation(docId: string): {
     sidebarName: string | undefined;
-    previousId: string | undefined;
-    nextId: string | undefined;
+    previous: DocNavLink | undefined;
+    next: DocNavLink | undefined;
   } {
     const sidebarName = getSidebarNameByDocId(docId);
     if (sidebarName) {
+      // TODO needs deeper refactoring to make it work!
       const docIds = sidebarNameToDocIds[sidebarName];
       const currentIndex = docIds.indexOf(docId);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const {previous, next} = getElementsAround(docIds, currentIndex);
       return {
         sidebarName,
-        previousId: previous,
-        nextId: next,
+        previous: {
+          // TODO BAD temporary
+          // title: paginationLabel ?? sidebarLabel ?? title,
+          // permalink,
+          title: 'TODO',
+          permalink: '/todo',
+        },
+        next: {
+          title: 'TODO',
+          permalink: '/todo',
+        },
       };
     } else {
       return {
         sidebarName: undefined,
-        previousId: undefined,
-        nextId: undefined,
+        previous: undefined,
+        next: undefined,
       };
     }
   }
@@ -165,4 +178,16 @@ Available document ids are:
     getDocNavigation,
     checkSidebarsDocIds,
   };
+}
+
+export function toDocNavLink(doc: DocMetadataBase): DocNavLink {
+  const {
+    title,
+    permalink,
+    frontMatter: {
+      pagination_label: paginationLabel,
+      sidebar_label: sidebarLabel,
+    },
+  } = doc;
+  return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
 }

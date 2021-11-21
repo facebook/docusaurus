@@ -136,7 +136,7 @@ export type PropSidebarItemCategory = Expand<
 >;
 
 // we may want to use a union type in props instead of this generic link?
-type PropSidebarItemLink = SidebarItemLink & {
+export type PropSidebarItemLink = SidebarItemLink & {
   docId?: string;
 };
 

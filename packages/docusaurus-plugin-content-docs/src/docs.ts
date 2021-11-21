@@ -39,7 +39,7 @@ import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
 import type {Sidebars} from './sidebars/types';
-import {createSidebarsUtils} from './sidebars/utils';
+import {createSidebarsUtils, toDocNavLink} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -305,40 +305,35 @@ export function handleNavigation(
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
-    const toDocNavLink = (
+    const navigation = getDocNavigation(doc.id);
+
+    const toDocNavLinkById = (
       docId: string | null | undefined,
       type: 'prev' | 'next',
     ): DocNavLink | undefined => {
       if (!docId) {
         return undefined;
       }
-      if (!docsBaseById[docId]) {
+      const navDoc = docsBaseById[docId];
+      if (!navDoc) {
         // This could only happen if user provided the ID through front matter
         throw new Error(
           `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
         );
       }
-      const {
-        title,
-        permalink,
-        frontMatter: {
-          pagination_label: paginationLabel,
-          sidebar_label: sidebarLabel,
-        },
-      } = docsBaseById[docId];
-      return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+      return toDocNavLink(navDoc);
     };
-    const {
-      frontMatter: {
-        pagination_next: paginationNext = nextId,
-        pagination_prev: paginationPrev = previousId,
-      },
-    } = doc;
-    const previous = toDocNavLink(paginationPrev, 'prev');
-    const next = toDocNavLink(paginationNext, 'next');
-    return {...doc, sidebar: sidebarName, previous, next};
+
+    const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
+      ? toDocNavLinkById(doc.frontMatter.pagination_prev, 'prev')
+      : navigation.previous;
+    const next: DocNavLink | undefined = doc.frontMatter.pagination_next
+      ? toDocNavLinkById(doc.frontMatter.pagination_next, 'next')
+      : navigation.next;
+
+    return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
+
   const docs = docsBase.map(addNavData);
   // sort to ensure consistent output for tests
   docs.sort((a, b) => a.id.localeCompare(b.id));
