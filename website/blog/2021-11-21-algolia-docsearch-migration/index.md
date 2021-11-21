@@ -12,17 +12,15 @@ tags: [search]
 image: ./img/social-card.png
 ---
 
-[DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system.
+[DocSearch](https://docsearch.algolia.com/) is migrating to a new, more powerful system, which gives users their own Algolia application and new credentials.
 
-Docusaurus site owners should upgrade their site configuration **by February 1, 2022**
-
-Existing search indexes will be frozen and become read-only state.
+Docusaurus site owners should upgrade their configuration with [their new credentials](#im-using-docusaurus-and-docsearch-can-i-migrate) **by February 1, 2022**, existing search indexes will be frozen and become read-only after this date.
 
 <!--truncate-->
 
 ## Upgrading your Docusaurus site
 
-In the next few weeks, Docusaurus site owners will receive an email inviting them to join an Algolia application.
+In the next few weeks, Docusaurus site owners will receive an email inviting them to join their personal Algolia application.
 
 This email will include a new `appId` and `apiKey` to use in your Docusaurus configuration.
 
@@ -37,7 +35,7 @@ const config = {
     algolia: {
       // highlight-start
       appId: '<NEW_APP_ID>',
-      apiKey: '<NEW_API_KEY>',
+      apiKey: '<NEW_SEARCH_API_KEY>',
       // highlight-end
     },
   },
@@ -64,7 +62,7 @@ You can [read more here](https://docsearch.algolia.com/docs/what-is-docsearch/),
 
 ## What is this migration about?
 
-### Motivations
+### Motivation
 
 With the upcoming stable release of [DocSearch UI](https://docsearch.algolia.com/docs/DocSearch-v3), we wanted to go further and provide better tooling for our users to improve their search, but also leverage the full potential of Algolia.
 
@@ -106,7 +104,7 @@ We wrote a small [migration guide](https://docsearch.algolia.com/docs/migrating-
 
 Please contact us via either [email](mailto:docsearch@algolia.com) or [DocSearch's Discord](https://discord.gg/bRTacwYrfX) or on [Docusaurus's Discord #algolia channel](https://discordapp.com/invite/docusaurus)
 
-### I have feedbacks!
+### I have feedback!
 
 For any feedback regarding our documentation or the DocSearch UI component, you can open an issue [on our GitHub repository](https://github.com/algolia/docsearch/issues), but also contact us via the methods above.
 
