@@ -18,16 +18,20 @@ interface IconProps {
   style: CSSProperties;
 }
 
-const Dark = ({icon, style}: IconProps): JSX.Element => (
-  <span className={clsx(styles.toggleIcon, styles.dark)} style={style}>
-    {icon}
-  </span>
-);
-const Light = ({icon, style}: IconProps): JSX.Element => (
-  <span className={clsx(styles.toggleIcon, styles.light)} style={style}>
-    {icon}
-  </span>
-);
+function Dark({icon, style}: IconProps): JSX.Element {
+  return (
+    <span className={clsx(styles.toggleIcon, styles.dark)} style={style}>
+      {icon}
+    </span>
+  );
+}
+function Light({icon, style}: IconProps): JSX.Element {
+  return (
+    <span className={clsx(styles.toggleIcon, styles.light)} style={style}>
+      {icon}
+    </span>
+  );
+}
 
 // Based on react-toggle (https://github.com/aaronshaf/react-toggle/).
 const Toggle = memo(

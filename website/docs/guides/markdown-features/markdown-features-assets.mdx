@@ -5,9 +5,7 @@ description: Handling assets in Docusaurus Markdown
 slug: /markdown-features/assets
 ---
 
-Sometimes you want to link to static assets directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
-
-We have setup Webpack loaders to handle most common file types, so that when you import a file, you get its url, and the asset is automatically copied to the output folder.
+Sometimes you want to link to assets (e.g. docx files, images...) directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
 
 Let's imagine the following file structure:
 
@@ -145,3 +143,16 @@ import ThemedImage from '@theme/ThemedImage';
   }}
 />
 ```
+
+## Static assets {#static-assets}
+
+If a Markdown link or image has an absolute path, the path will be seen as a file path and will be resolved from the static directories. For example, if you have configured [static directories](../../static-assets.md) to be `['public', 'static']`, then for the following image:
+
+```md title="my-doc.md"
+![An image from the static](/img/docusaurus.png)
+```
+
+Docusaurus will try to look for it in both `static/img/docusaurus.png` and `public/img/docusaurus.png`. The link will then be converted to a `require` call instead of staying as a URL. This is desirable in two regards:
+
+1. You don't have to worry about base URL, which Docusaurus will take care of when serving the asset;
+2. The image enters Webpack's build pipeline and its name will be appended by a hash, which enables browsers to aggressively cache the image and improves your site's performance.
