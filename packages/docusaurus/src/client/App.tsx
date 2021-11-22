@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+// Load this at the very top!
+// client modules have to be loaded before anything else...
+import './client-lifecycles-dispatcher';
 
+import React from 'react';
 import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
 import {BrowserContextProvider} from './exports/browserContext';
@@ -16,8 +19,6 @@ import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
 import Root from '@theme/Root';
 import Error from '@theme/Error';
-
-import './client-lifecycles-dispatcher';
 
 function App(): JSX.Element {
   return (
