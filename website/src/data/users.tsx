@@ -959,6 +959,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'PREFS',
+    description: 'PREFS Python library website and documentation',
+    preview: require('./showcase/prefs.png'),
+    website: 'https://patitotective.github.io/PREFS/',
+    source: 'https://github.com/Patitotective/PREFS',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'Prismatic',
     description: 'An Integration Platform for B2B Software Companies',
     preview: require('./showcase/prismatic.png'),
