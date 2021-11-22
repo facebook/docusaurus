@@ -60,7 +60,7 @@ const docusaurus = {
     const matches = matchRoutes(routes, routePath);
 
     const chunkNamesNeeded = matches.flatMap((match) =>
-      getChunkNamesToLoad(match.route.path as string),
+      getChunkNamesToLoad(match.route.path),
     );
 
     // Prefetch all webpack chunk assets file needed.
