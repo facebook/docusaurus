@@ -12,6 +12,7 @@ import CodeBlock, {Props} from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
 import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
+import {useMDXComponents} from '@mdx-js/react';
 
 import './styles.css';
 
@@ -50,6 +51,7 @@ const MDXComponents: MDXComponentsObject = {
   a: (props) => <Link {...props} />,
   pre: (props) => {
     const {children} = props;
+    const Block = useMDXComponents().code ?? CodeBlock;
 
     // See comment for `code` above
     if (isValidElement(children) && isValidElement(children?.props?.children)) {
@@ -57,7 +59,7 @@ const MDXComponents: MDXComponentsObject = {
     }
 
     return (
-      <CodeBlock
+      <Block
         {...((isValidElement(children)
           ? children?.props
           : {...props}) as Props)}
