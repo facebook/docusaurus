@@ -47,7 +47,8 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: Record<string, Record<string, string>>;
+  export type Tree = {[x: string | number]: string | Tree};
+  const routesChunkNames: Record<string, Tree>;
   export = routesChunkNames;
 }
 
