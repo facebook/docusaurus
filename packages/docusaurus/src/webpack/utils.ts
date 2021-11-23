@@ -296,7 +296,7 @@ export function compile(config: Configuration[]): Promise<void> {
       compiler.close((errClose) => {
         if (errClose) {
           console.error(
-            pico.red('Error while closing Webpack compiler:', errClose),
+            pico.red(`Error while closing Webpack compiler: ${errClose}`),
           );
           reject(errClose);
         } else {
