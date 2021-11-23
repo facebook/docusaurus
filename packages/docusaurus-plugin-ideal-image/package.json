@@ -21,13 +21,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9",
     "fs-extra": "^10.0.0"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/lqip-loader": "2.0.0-beta.9",
     "@docusaurus/responsive-loader": "1.4.0",
-    "@docusaurus/types": "2.0.0-beta.9",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
     "sharp": "^0.29.1",
