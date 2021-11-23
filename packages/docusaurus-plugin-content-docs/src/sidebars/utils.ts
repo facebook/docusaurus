@@ -139,11 +139,11 @@ export function createSidebarsUtils(sidebars: Sidebars): {
           // title: paginationLabel ?? sidebarLabel ?? title,
           // permalink,
           title: 'TODO',
-          permalink: '/todo',
+          permalink: '/',
         },
         next: {
           title: 'TODO',
-          permalink: '/todo',
+          permalink: '/',
         },
       };
     } else {
