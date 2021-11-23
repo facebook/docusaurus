@@ -34,8 +34,13 @@ const sidebars = {
       items: [
         'guides/creating-pages',
         {
-          Docs: [
-            'guides/docs/introduction',
+          type: 'category',
+          label: 'Docs',
+          link: {
+            type: 'doc',
+            id: 'guides/docs/introduction',
+          },
+          items: [
             'guides/docs/create-doc',
             'guides/docs/sidebar',
             'guides/docs/versioning',
@@ -47,8 +52,11 @@ const sidebars = {
         {
           type: 'category',
           label: 'Markdown Features',
+          link: {
+            type: 'doc',
+            id: 'guides/markdown-features/introduction',
+          },
           items: [
-            'guides/markdown-features/introduction',
             'guides/markdown-features/react',
             'guides/markdown-features/tabs',
             'guides/markdown-features/code-blocks',
