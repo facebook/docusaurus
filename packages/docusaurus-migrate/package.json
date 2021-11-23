@@ -25,7 +25,6 @@
   "dependencies": {
     "@babel/preset-env": "^7.15.6",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
-    "chalk": "^4.1.2",
     "color": "^4.0.1",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",
@@ -35,6 +34,7 @@
     "html-tags": "^3.1.0",
     "import-fresh": "^3.2.2",
     "jscodeshift": "^0.13.0",
+    "picocolors": "^1.0.0",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+const pico = require('picocolors');
 const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
@@ -100,11 +100,11 @@ if (
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
+    `Update available ${pico.dim(`${notifier.update.current}`)}${pico.reset(
       ' → ',
-    )}${chalk.green(
+    )}${pico.green(
       `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
+    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${pico.cyan(
       `${upgradeCommand}`,
     )}`,
     boxenOptions,
@@ -116,8 +116,8 @@ if (
 // notify user if node version needs to be updated
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum Node version not met :(`) +
-      chalk.yellow(
+    pico.red(`\nMinimum Node version not met :(`) +
+      pico.yellow(
         `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
       ),
   );

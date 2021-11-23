@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import pico from 'picocolors';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 
@@ -167,7 +167,7 @@ export function parseMarkdownString(
     };
   } catch (e) {
     console.error(
-      chalk.red(`Error while parsing Markdown frontmatter.
+      pico.red(`Error while parsing Markdown frontmatter.
 This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
     );
     throw e;

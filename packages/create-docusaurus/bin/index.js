@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+const pico = require('picocolors');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
@@ -15,8 +15,8 @@ const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum Node.js version not met :)`) +
-      chalk.yellow(
+    pico.red(`\nMinimum Node.js version not met :)`) +
+      pico.yellow(
         `\nYou are using Node.js ${process.version}, Requirement: Node.js ${requiredVersion}.\n`,
       ),
   );
@@ -26,7 +26,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
-      console.error(chalk.red(err.stack));
+      console.error(pico.red(err.stack));
       process.exitCode = 1;
     });
 }
@@ -58,7 +58,7 @@ program
 
 program.arguments('<command>').action((cmd) => {
   program.outputHelp();
-  console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
+  console.log(`  ${pico.red(`\n  Unknown command ${pico.yellow(cmd)}.`)}`);
   console.log();
 });
 

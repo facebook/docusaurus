@@ -15,7 +15,7 @@ import {
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import chalk from 'chalk';
+import pico from 'picocolors';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -115,7 +115,7 @@ export async function writeTranslationFileContent({
   );
   if (unknownKeys.length > 0) {
     console.warn(
-      chalk.yellow(`Some translation keys looks unknown to us in file ${filePath}
+      pico.yellow(`Some translation keys looks unknown to us in file ${filePath}
 Maybe you should remove them?
 - ${unknownKeys.join('\n- ')}`),
     );
@@ -290,7 +290,7 @@ export function applyDefaultCodeTranslations({
   );
   if (unusedDefaultCodeMessages.length > 0) {
     console.warn(
-      chalk.yellow(`Unused default message codes found.
+      pico.yellow(`Unused default message codes found.
 Please report this Docusaurus issue.
 - ${unusedDefaultCodeMessages.join('\n- ')}
 `),

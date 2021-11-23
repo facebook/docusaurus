@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {keyBy} from 'lodash';
 import {
   aliasedSitePath,
@@ -283,7 +283,7 @@ export function processDocMetadata(args: {
     return doProcessDocMetadata(args);
   } catch (e) {
     console.error(
-      chalk.red(
+      pico.red(
         `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
       ),
     );

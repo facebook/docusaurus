@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import pico from 'picocolors';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -47,7 +47,7 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
+      // console.log(pico.green(`Site successfully built in locale=${locale}`));
       return await buildLocale({
         siteDir,
         locale,
@@ -74,7 +74,7 @@ export default async function build(
   } else {
     if (i18n.locales.length > 1) {
       console.log(
-        chalk.yellow(
+        pico.yellow(
           `\nWebsite will be built for all these locales:
 - ${i18n.locales.join('\n- ')}`,
         ),
@@ -113,7 +113,7 @@ async function buildLocale({
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(
-    chalk.blue(`\n[${locale}] Creating an optimized production build...`),
+    pico.blue(`\n[${locale}] Creating an optimized production build...`),
   );
 
   const props: Props = await load(siteDir, {
@@ -239,14 +239,14 @@ async function buildLocale({
   });
 
   console.log(
-    `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
+    `${pico.green(`Success!`)} Generated static files in "${pico.cyan(
       path.relative(process.cwd(), outDir),
     )}".`,
   );
 
   if (isLastLocale) {
     console.log(
-      `\nUse ${chalk.greenBright(
+      `\nUse ${pico.green(
         '`npm run serve`',
       )} command to test your build locally.\n`,
     );

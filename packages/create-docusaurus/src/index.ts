@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import pico from 'picocolors';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
@@ -131,7 +131,7 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error(chalk.red('A website name is required.'));
+    throw new Error(pico.red('A website name is required.'));
   }
 
   const dest = path.resolve(rootDir, name);
@@ -171,7 +171,7 @@ export default async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }
-        return chalk.red(`Invalid repository URL`);
+        return pico.red(`Invalid repository URL`);
       },
       message:
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
@@ -187,11 +187,9 @@ export default async function init(
           if (fs.existsSync(fullDir)) {
             return true;
           }
-          return chalk.red(
-            `The path ${chalk.magenta(fullDir)} does not exist.`,
-          );
+          return pico.red(`The path ${pico.magenta(fullDir)} does not exist.`);
         }
-        return chalk.red('Please enter a valid path.');
+        return pico.red('Please enter a valid path.');
       },
       message:
         'Enter a local folder path, relative to the current working directory.',
@@ -204,16 +202,16 @@ export default async function init(
   }
 
   console.log(`
-${chalk.cyan('Creating new Docusaurus project...')}
+${pico.cyan('Creating new Docusaurus project...')}
 `);
 
   if (isValidGitRepoUrl(template)) {
-    console.log(`Cloning Git template ${chalk.cyan(template)}...`);
+    console.log(`Cloning Git template ${pico.cyan(template)}...`);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(chalk.red(`Cloning Git template ${template} failed!`));
+      throw new Error(pico.red(`Cloning Git template ${template} failed!`));
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
@@ -228,9 +226,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      console.log(
-        `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
-      );
+      console.log(`Copying Docusaurus template ${pico.cyan(template)} failed!`);
       throw err;
     }
   } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
@@ -253,7 +249,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
       private: true,
     });
   } catch (err) {
-    console.log(chalk.red('Failed to update package.json.'));
+    console.log(pico.red('Failed to update package.json.'));
     throw err;
   }
 
@@ -270,7 +266,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
+    console.log(`Installing dependencies with ${pico.cyan(pkgManager)}...`);
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
@@ -284,7 +280,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
         },
       );
     } catch (err) {
-      console.log(chalk.red('Installation failed.'));
+      console.log(pico.red('Installation failed.'));
       throw err;
     }
   }
@@ -297,25 +293,25 @@ ${chalk.cyan('Creating new Docusaurus project...')}
       : path.relative(process.cwd(), name);
 
   console.log(`
-Successfully created "${chalk.cyan(cdpath)}".
+Successfully created "${pico.cyan(cdpath)}".
 Inside that directory, you can run several commands:
 
-  ${chalk.cyan(`${pkgManager} start`)}
+  ${pico.cyan(`${pkgManager} start`)}
     Starts the development server.
 
-  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+  ${pico.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
     Bundles your website into static files for production.
 
-  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+  ${pico.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
     Serves the built website locally.
 
-  ${chalk.cyan(`${pkgManager} deploy`)}
+  ${pico.cyan(`${pkgManager} deploy`)}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  ${chalk.cyan('cd')} ${cdpath}
-  ${chalk.cyan(`${pkgManager} start`)}
+  ${pico.cyan('cd')} ${cdpath}
+  ${pico.cyan(`${pkgManager} start`)}
 
 Happy building awesome websites!
 `);

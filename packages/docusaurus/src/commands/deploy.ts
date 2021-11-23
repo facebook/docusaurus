@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import shell from 'shelljs';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {loadContext} from '../server';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
@@ -26,13 +26,13 @@ function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
     console.log(
-      `${chalk.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${chalk.cyan(
+      `${pico.cyan('CMD:')} ${obfuscateGitPass(cmd)} ${pico.cyan(
         `(code: ${result.code})`,
       )}`,
     );
     return result;
   } catch (e) {
-    console.log(`${chalk.red('CMD:')} ${obfuscateGitPass(cmd)}`);
+    console.log(`${pico.red('CMD:')} ${obfuscateGitPass(cmd)}`);
     throw e;
   }
 }
@@ -85,7 +85,7 @@ export default async function deploy(
 
   if (typeof siteConfig.trailingSlash === 'undefined') {
     console.warn(
-      chalk.yellow(`
+      pico.yellow(`
 Docusaurus recommendation:
 When deploying to GitHub Pages, it is better to use an explicit "trailingSlash" site config.
 Otherwise, GitHub Pages will add an extra trailing slash to your site urls only on direct-access (not when navigation) with a server redirect.
@@ -135,7 +135,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project organization name. Did you forget to define "organizationName" in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('organizationName:')} ${organizationName}`);
+  console.log(`${pico.cyan('organizationName:')} ${organizationName}`);
 
   const projectName =
     process.env.PROJECT_NAME ||
@@ -146,7 +146,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project name. Did you forget to define "projectName" in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
-  console.log(`${chalk.cyan('projectName:')} ${projectName}`);
+  console.log(`${pico.cyan('projectName:')} ${projectName}`);
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -173,7 +173,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
-  console.log(`${chalk.cyan('deploymentBranch:')} ${deploymentBranch}`);
+  console.log(`${pico.cyan('deploymentBranch:')} ${deploymentBranch}`);
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
@@ -200,7 +200,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   }
 
   console.log(
-    `${chalk.cyan('Remote repo URL:')} ${obfuscateGitPass(deploymentRepoURL)}`,
+    `${pico.cyan('Remote repo URL:')} ${obfuscateGitPass(deploymentRepoURL)}`,
   );
 
   // Check if this is a cross-repo publish.

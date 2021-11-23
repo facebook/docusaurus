@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import pico from 'picocolors';
 import path from 'path';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
@@ -46,7 +46,7 @@ export default function createClientConfig(
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
             console.log(
-              chalk.red(
+              pico.red(
                 'Client bundle compiled with errors therefore further build is impossible.',
               ),
             );

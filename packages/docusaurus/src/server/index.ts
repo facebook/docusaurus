@@ -7,7 +7,7 @@
 
 import {generate} from '@docusaurus/utils';
 import path, {join} from 'path';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   DEFAULT_BUILD_DIR_NAME,
@@ -419,7 +419,7 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
         // should we throw instead?
         // It still could work with different versions
         console.warn(
-          chalk.red(
+          pico.red(
             `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
           ),
         );

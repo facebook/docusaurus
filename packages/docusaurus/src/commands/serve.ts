@@ -8,7 +8,7 @@
 import http from 'http';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import path from 'path';
 import {loadSiteConfig} from '../server';
 import build from './build';
@@ -73,7 +73,7 @@ export default async function serve(
 
   console.log(
     boxen(
-      chalk.green(
+      pico.green(
         `Serving "${cliOptions.dir}" directory at "${servingUrl + baseUrl}".`,
       ),
       {

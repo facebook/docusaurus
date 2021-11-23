@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+const pico = require('picocolors');
 const path = require('path');
 const fs = require('fs-extra');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
@@ -71,7 +71,7 @@ function logSection(title) {
   console.log(``);
   console.log(``);
   console.log(`##############################`);
-  console.log(`## ${chalk.blue(title)}`);
+  console.log(`## ${pico.blue(title)}`);
 }
 
 function logKeys(keys) {
@@ -165,7 +165,7 @@ async function updateBaseFile(baseFile, targetDirs) {
 
   if (unknownMessages.length) {
     console.log(
-      chalk.red(`Some messages exist in base locale but were not found by the code extractor!
+      pico.red(`Some messages exist in base locale but were not found by the code extractor!
 They won't be removed automatically, so do the cleanup manually if necessary!
 ${logKeys(unknownMessages)}`),
     );
@@ -209,7 +209,7 @@ async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
 
   if (unknownMessages.length) {
     console.log(
-      chalk.red(`Some localized messages do not exist in base.json!
+      pico.red(`Some localized messages do not exist in base.json!
 You may want to delete these!
 ${logKeys(unknownMessages)}`),
     );
@@ -226,7 +226,7 @@ ${logKeys(unknownMessages)}`),
 
   if (untranslatedKeys.length) {
     console.warn(
-      chalk.yellow(`Some messages do not seem to be translated!
+      pico.yellow(`Some messages do not seem to be translated!
 ${logKeys(untranslatedKeys)}`),
     );
   }
@@ -247,13 +247,13 @@ async function updateCodeTranslations() {
       if (!fs.existsSync(newLocalePath)) {
         await writeMessagesFile(newLocalePath, baseFileMessages);
         console.error(
-          chalk.green(
+          pico.green(
             `Locale file ${path.basename(newLocalePath)} have been created.`,
           ),
         );
       } else {
         console.error(
-          chalk.red(
+          pico.red(
             `Locale file ${path.basename(newLocalePath)} was already created!`,
           ),
         );
@@ -276,12 +276,12 @@ function run() {
   updateCodeTranslations().then(
     () => {
       console.log('');
-      console.log(chalk.green('updateCodeTranslations end'));
+      console.log(pico.green('updateCodeTranslations end'));
       console.log('');
     },
     (e) => {
       console.log('');
-      console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
+      console.error(pico.red(`updateCodeTranslations failure: ${e.message}`));
       console.log('');
       console.error(e.stack);
       console.log('');

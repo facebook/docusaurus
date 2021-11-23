@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import pico from 'picocolors';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
@@ -100,14 +100,14 @@ function themeComponents(
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${chalk.red('No component to swizzle.')}`;
+    return `${pico.red('No component to swizzle.')}`;
   }
 
   return `
-${chalk.cyan('Theme components available for swizzle.')}
+${pico.cyan('Theme components available for swizzle.')}
 
-${chalk.green('green  =>')} safe: lower breaking change risk
-${chalk.red('red    =>')} unsafe: higher breaking change risk
+${pico.green('green  =>')} safe: lower breaking change risk
+${pico.red('red    =>')} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
@@ -135,8 +135,8 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(`safe: ${component}`)),
-    ...redComponents.map((component) => chalk.red(`unsafe: ${component}`)),
+    ...greenComponents.map((component) => pico.green(`safe: ${component}`)),
+    ...redComponents.map((component) => pico.red(`unsafe: ${component}`)),
   ];
 }
 
@@ -175,7 +175,7 @@ export default async function swizzle(
         suggestion = name;
       }
     });
-    chalk.red(
+    pico.red(
       `Theme ${themeName} not found. ${
         suggestion
           ? `Did you mean "${suggestion}" ?`
@@ -219,7 +219,7 @@ export default async function swizzle(
 
   if (!themePath) {
     console.warn(
-      chalk.yellow(
+      pico.yellow(
         typescript
           ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
           : `${themeName} does not provide any theme code.`,
@@ -257,8 +257,8 @@ export default async function swizzle(
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
       console.log(
-        chalk.red(`Component "${componentName}" doesn't exist.`),
-        chalk.yellow(
+        pico.red(`Component "${componentName}" doesn't exist.`),
+        pico.yellow(
           `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
         ),
       );
@@ -283,7 +283,7 @@ export default async function swizzle(
           suggestion = name;
         }
       });
-      console.warn(chalk.red(`Component ${mostSuitableComponent} not found.`));
+      console.warn(pico.red(`Component ${mostSuitableComponent} not found.`));
       console.warn(
         suggestion
           ? `Did you mean "${suggestion}"?`
@@ -295,7 +295,7 @@ export default async function swizzle(
 
   if (!components.includes(mostSuitableComponent) && !danger) {
     console.warn(
-      chalk.red(
+      pico.red(
         `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
       ),
     );
@@ -305,12 +305,12 @@ export default async function swizzle(
   await fs.copy(fromPath, toPath);
 
   const relativeDir = path.relative(process.cwd(), toPath);
-  const fromMsg = chalk.blue(
+  const fromMsg = pico.blue(
     mostSuitableComponent
-      ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
+      ? `${themeName} ${pico.yellow(mostSuitableComponent)}`
       : themeName,
   );
-  const toMsg = chalk.cyan(relativeDir);
+  const toMsg = pico.cyan(relativeDir);
 
-  console.log(`\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
+  console.log(`\n${pico.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
 }

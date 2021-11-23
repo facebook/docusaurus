@@ -21,7 +21,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {TransformOptions} from '@babel/core';
 import {
   ConfigureWebpackFn,
@@ -166,7 +166,7 @@ export const getCustomizableJSLoader =
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
   console.warn(
-    chalk.yellow(
+    pico.yellow(
       'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
     ),
   );
@@ -182,7 +182,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
   console.warn(
-    chalk.yellow(
+    pico.yellow(
       'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
     ),
   );
@@ -296,7 +296,7 @@ export function compile(config: Configuration[]): Promise<void> {
       compiler.close((errClose) => {
         if (errClose) {
           console.error(
-            chalk.red('Error while closing Webpack compiler:', errClose),
+            pico.red('Error while closing Webpack compiler:', errClose),
           );
           reject(errClose);
         } else {
@@ -445,7 +445,7 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
+      `The certificate "${pico.yellow(crtFile)}" is invalid.\n${
         (err as Error).message
       }`,
     );
@@ -456,7 +456,7 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
+      `The certificate key "${pico.yellow(keyFile)}" is invalid.\n${
         (err as Error).message
       }`,
     );
@@ -467,9 +467,9 @@ function validateKeyAndCerts({
 function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${chalk.cyan(
+      `You specified ${pico.cyan(
         type,
-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`,
+      )} in your env, but the file "${pico.yellow(file)}" can't be found.`,
     );
   }
   return fs.readFileSync(file);

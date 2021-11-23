@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
@@ -148,17 +148,17 @@ export default async function writeHeadingIds(
 
   if (pathsModified.length) {
     console.log(
-      chalk.green(`Heading ids added to Markdown files (${
+      pico.green(`Heading ids added to Markdown files (${
         pathsModified.length
       }/${markdownFiles.length} files):
 - ${pathsModified.join('\n- ')}`),
     );
   } else {
     console.log(
-      chalk.yellow(
+      pico.yellow(
         `${
           markdownFiles.length
-        } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${chalk.cyan(
+        } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${pico.cyan(
           '--overwrite',
         )} option.`,
       ),

@@ -6,14 +6,14 @@
  */
 import fs from 'fs-extra';
 import path from 'path';
-import chalk = require('chalk');
+import pico from 'picocolors';
 import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
 function removePath(fsPath: string) {
   return fs
     .remove(path.join(fsPath))
     .then(() => {
-      console.log(chalk.green(`Successfully removed "${fsPath}" directory.`));
+      console.log(pico.green(`Successfully removed "${fsPath}" directory.`));
     })
     .catch((err) => {
       console.error(`Could not remove ${fsPath} directory.`);

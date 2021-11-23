@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
@@ -152,7 +152,7 @@ async function processBlogSourceFile(
 
   if (frontMatter.id) {
     console.warn(
-      chalk.yellow(
+      pico.yellow(
         `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
       ),
     );
@@ -277,7 +277,7 @@ export async function generateBlogPosts(
           );
         } catch (e) {
           console.error(
-            chalk.red(
+            pico.red(
               `Processing of blog source file failed for path "${blogSourceFile}"`,
             ),
           );

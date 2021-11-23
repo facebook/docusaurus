@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import Joi from './Joi';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {PluginIdSchema} from './validationSchemas';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
@@ -19,7 +19,7 @@ export const isValidationDisabledEscapeHatch =
 
 if (isValidationDisabledEscapeHatch) {
   console.error(
-    chalk.red(
+    pico.red(
       'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed.',
     ),
   );
@@ -27,7 +27,7 @@ if (isValidationDisabledEscapeHatch) {
 
 export const logValidationBugReportHint = (): void => {
   console.log(
-    `\n${chalk.red('A validation error occurred.')}${chalk.cyanBright(
+    `\n${pico.red('A validation error occurred.')}${pico.cyan(
       '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +
         '\nWe may have made some mistakes.' +
         '\nIf you think your configuration is valid and should keep working, please open a bug report.',
@@ -40,7 +40,7 @@ export function printWarning(warning?: Joi.ValidationError): void {
     const warningMessages = warning.details
       .map(({message}) => message)
       .join('\n');
-    console.log(chalk.yellow(warningMessages));
+    console.log(pico.yellow(warningMessages));
   }
 }
 
@@ -122,8 +122,8 @@ export function validateFrontMatter<T>(
     logValidationBugReportHint();
 
     console.error(
-      chalk.red(
-        `The following frontmatter:\n${chalk.yellow(
+      pico.red(
+        `The following frontmatter:\n${pico.yellow(
           frontMatterString,
         )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
       ),

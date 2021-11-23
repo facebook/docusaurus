@@ -6,7 +6,7 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import chalk = require('chalk');
+import pico from 'picocolors';
 import chokidar from 'chokidar';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -35,7 +35,7 @@ export default async function start(
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  console.log(chalk.blue('Starting the development server...'));
+  console.log(pico.blue('Starting the development server...'));
 
   function loadSite() {
     return load(siteDir, {
@@ -61,9 +61,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(
-    chalk.cyanBright(`Docusaurus website is running at "${openUrl}".`),
-  );
+  console.log(pico.cyan(`Docusaurus website is running at "${openUrl}".`));
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -72,14 +70,12 @@ export default async function start(
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
           console.log(
-            chalk.cyanBright(
-              `Docusaurus website is running at "${newOpenUrl}".`,
-            ),
+            pico.cyan(`Docusaurus website is running at "${newOpenUrl}".`),
           );
         }
       })
       .catch((err) => {
-        console.error(chalk.red(err.stack));
+        console.error(pico.red(err.stack));
       });
   }, 500);
   const {siteConfig, plugins = []} = props;

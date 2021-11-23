@@ -46,7 +46,7 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import {getVersionTags} from './tags';
 import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
@@ -187,7 +187,7 @@ export default function pluginContentDocs(
           return await doLoadVersion(versionMetadata);
         } catch (e) {
           console.error(
-            chalk.red(
+            pico.red(
               `Loading of version failed for version "${versionMetadata.versionName}"`,
             ),
           );
@@ -330,7 +330,7 @@ export default function pluginContentDocs(
           return await doCreateVersionRoutes(loadedVersion);
         } catch (e) {
           console.error(
-            chalk.red(
+            pico.red(
               `Can't create version routes for version "${loadedVersion.versionName}"`,
             ),
           );

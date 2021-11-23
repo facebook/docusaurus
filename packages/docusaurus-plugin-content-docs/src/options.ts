@@ -18,7 +18,7 @@ import type {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
@@ -150,7 +150,7 @@ export function validateOptions({
     }
     if (options.sidebarCollapsed) {
       console.warn(
-        chalk.yellow(
+        pico.yellow(
           'The docs plugin config is inconsistent. It does not make sense to use sidebarCollapsible=false and sidebarCollapsed=true at the same time. sidebarCollapsed=false will be ignored.',
         ),
       );
@@ -165,7 +165,7 @@ export function validateOptions({
   // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
     console.log(
-      chalk.red(
+      pico.red(
         `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
       ),
     );

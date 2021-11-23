@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+const pico = require('picocolors');
 const fs = require('fs');
 const cli = require('commander');
 const {
@@ -219,7 +219,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}.`);
+  console.log(`  ${pico.red(`\n  Unknown command ${pico.yellow(cmd)}.`)}.`);
   console.log();
 });
 
@@ -251,6 +251,6 @@ async function run() {
 run();
 
 process.on('unhandledRejection', (err) => {
-  console.error(chalk.red(err.stack));
+  console.error(pico.red(err.stack));
   process.exit(1);
 });

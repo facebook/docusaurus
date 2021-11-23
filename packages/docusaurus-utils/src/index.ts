@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import pico from 'picocolors';
 import path from 'path';
 import {createHash} from 'crypto';
 import {camelCase, mapValues} from 'lodash';
@@ -368,13 +368,13 @@ export function reportMessage(
     case 'ignore':
       break;
     case 'log':
-      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      console.log(pico.bold(pico.blue('info ')) + pico.blue(message));
       break;
     case 'warn':
-      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      console.warn(pico.bold(pico.yellow('warn ')) + pico.yellow(message));
       break;
     case 'error':
-      console.error(chalk.bold.red('error ') + chalk.red(message));
+      console.error(pico.bold(pico.red('error ')) + pico.red(message));
       break;
     case 'throw':
       throw new Error(message);

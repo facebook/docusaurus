@@ -24,7 +24,7 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import chalk from 'chalk';
+import pico from 'picocolors';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
@@ -44,7 +44,7 @@ export default async function render(locals) {
     return await doRender(locals);
   } catch (e) {
     console.error(
-      chalk.red(
+      pico.red(
         `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
       ),
     );
@@ -54,7 +54,7 @@ export default async function render(locals) {
 
     if (isNotDefinedErrorRegex.test(e.message)) {
       console.error(
-        chalk.green(
+        pico.green(
           'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
         ),
       );
@@ -143,7 +143,7 @@ async function doRender(locals) {
     });
   } catch (e) {
     console.error(
-      chalk.red(
+      pico.red(
         `Minification page with path "${locals.path}" failed because of following error:\n\n${e.stack}\n`,
       ),
     );

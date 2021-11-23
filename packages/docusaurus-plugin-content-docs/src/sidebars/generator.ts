@@ -15,7 +15,7 @@ import type {
 import {keyBy, sortBy} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import chalk from 'chalk';
+import pico from 'picocolors';
 import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
@@ -72,7 +72,7 @@ async function readCategoryMetadataFile(
       return Joi.attempt(unsafeContent, CategoryMetadataFileSchema);
     } catch (e) {
       console.error(
-        chalk.red(
+        pico.red(
           `The docs sidebar category metadata file looks invalid!\nPath: ${filePath}`,
         ),
       );
@@ -119,7 +119,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
 
     if (docs.length === 0) {
       console.warn(
-        chalk.yellow(
+        pico.yellow(
           `No docs found in dir ${autogenDir}: can't auto-generate a sidebar.`,
         ),
       );
