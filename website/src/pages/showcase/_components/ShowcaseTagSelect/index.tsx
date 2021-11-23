@@ -51,7 +51,11 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
       const tags = readSearchTags(location.search);
       const newTags = toggleListItem(tags, tag);
       const newSearch = replaceSearchTags(location.search, newTags);
-      history.push({...location, search: newSearch});
+      history.push({
+        ...location,
+        search: newSearch,
+        state: {scroll: window.scrollY},
+      });
     }, [tag, location, history]);
     return (
       <>
@@ -64,15 +68,23 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
               toggleTag();
             }
           }}
+          onFocus={(e) => {
+            if (e.relatedTarget) {
+              e.target.nextElementSibling.dispatchEvent(
+                new KeyboardEvent('focus'),
+              );
+            }
+          }}
+          onBlur={(e) => {
+            e.target.nextElementSibling.dispatchEvent(
+              new KeyboardEvent('blur'),
+            );
+          }}
           onChange={toggleTag}
           checked={selected}
           {...rest}
         />
-        <label
-          ref={ref}
-          htmlFor={id}
-          className={styles.checkboxLabel}
-          aria-describedby={id}>
+        <label ref={ref} htmlFor={id} className={styles.checkboxLabel}>
           {label}
           {icon}
         </label>

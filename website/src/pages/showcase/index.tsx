@@ -22,6 +22,7 @@ import ShowcaseCard from './_components/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
@@ -30,6 +31,12 @@ const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
+
+function setScrollTopPosition(position: number = 0) {
+  if (ExecutionEnvironment.canUseDOM) {
+    window.scrollTo({top: position});
+  }
+}
 
 function filterUsers(
   users: User[],
@@ -56,6 +63,9 @@ function useFilteredUsers() {
   const location = useLocation();
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
+    // Restore previous scroll position
+    setScrollTopPosition(location.state?.scroll);
+
     setOperator(readOperator(location.search));
   }, [location]);
   return useMemo(
@@ -67,6 +77,9 @@ function useFilteredUsers() {
 function useSelectedTags() {
   // The search query-string is the source of truth!
   const location = useLocation();
+
+  // Restore previous scroll position
+  setScrollTopPosition(location.state?.scroll);
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
@@ -101,18 +114,18 @@ function ShowcaseFilters() {
   return (
     <section className="container margin-top--l margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
-        <span>
+        <div>
           <h2>Filters</h2>
           <span>{`(${filteredUsers.length} site${
             filteredUsers.length > 1 ? 's' : ''
           })`}</span>
-        </span>
+        </div>
         <ShowcaseFilterToggle />
       </div>
       <ul className={styles.checkboxList}>
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
-          const id = `showcase_checkbox_id_${tag};`;
+          const id = `showcase_checkbox_id_${tag}`;
 
           return (
             <li key={i} className={styles.checkboxListItem}>

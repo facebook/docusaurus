@@ -33,7 +33,11 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete(OperatorQueryKey);
     searchParams.append(OperatorQueryKey, operator ? 'OR' : 'AND');
-    history.push({...location, search: searchParams.toString()});
+    history.push({
+      ...location,
+      search: searchParams.toString(),
+      state: {scroll: window.scrollY},
+    });
   }, [operator, location, history]);
 
   return (
