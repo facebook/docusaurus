@@ -12,6 +12,7 @@ import type {
   NumberPrefixParser,
   SidebarOptions,
 } from '../types';
+import {Required} from 'utility-types';
 
 // Makes all properties visible when hovering over the type
 type Expand<T extends Record<string, unknown>> = {[P in keyof T]: T[P]};
@@ -116,10 +117,17 @@ export type SidebarItemCategory = Expand<
   }
 >;
 
+export type SidebarItemCategoryWithLink = Required<SidebarItemCategory, 'link'>;
+
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategory;
+
+// A sidebar item that is part of the previous/next ordered navigation
+export type SidebarNavigationItem =
+  | SidebarItemDoc
+  | SidebarItemCategoryWithLink;
 
 export type Sidebar = SidebarItem[];
 export type SidebarItemType = SidebarItem['type'];

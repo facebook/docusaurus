@@ -16,9 +16,11 @@ import type {
   SidebarCategoriesShorthand,
   SidebarItemConfig,
 } from './types';
+
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {DocMetadataBase, DocNavLink} from '../types';
+import {SidebarItemCategoryWithLink, SidebarNavigationItem} from './types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
@@ -87,10 +89,30 @@ export function collectSidebarDocIds(sidebar: Sidebar): string[] {
   });
 }
 
+export function collectSidebarNavigation(
+  sidebar: Sidebar,
+): SidebarNavigationItem[] {
+  return flattenSidebarItems(sidebar).flatMap((item) => {
+    if (item.type === 'category' && item.link) {
+      return [item as SidebarNavigationItem];
+    }
+    if (item.type === 'doc') {
+      return [item];
+    }
+    return [];
+  });
+}
+
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
   return mapValues(sidebars, collectSidebarDocIds);
+}
+
+export function collectSidebarsNavigations(
+  sidebars: Sidebars,
+): Record<string, SidebarNavigationItem[]> {
+  return mapValues(sidebars, collectSidebarNavigation);
 }
 
 export function createSidebarsUtils(sidebars: Sidebars): {
@@ -98,12 +120,14 @@ export function createSidebarsUtils(sidebars: Sidebars): {
   getSidebarNameByDocId: (docId: string) => string | undefined;
   getDocNavigation: (docId: string) => {
     sidebarName: string | undefined;
-    previous: DocNavLink | undefined;
-    next: DocNavLink | undefined;
+    previous: SidebarNavigationItem | undefined;
+    next: SidebarNavigationItem | undefined;
   };
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 } {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
+  const sidebarNameToNavigationItems = collectSidebarsNavigations(sidebars);
+
   // Reverse mapping
   const docIdToSidebarName = Object.fromEntries(
     Object.entries(sidebarNameToDocIds).flatMap(([sidebarName, docIds]) =>
@@ -119,33 +143,29 @@ export function createSidebarsUtils(sidebars: Sidebars): {
     return docIdToSidebarName[docId];
   }
 
-  // TODO we need to handle navigation for category generated index too!
   function getDocNavigation(docId: string): {
     sidebarName: string | undefined;
-    previous: DocNavLink | undefined;
-    next: DocNavLink | undefined;
+    previous: SidebarNavigationItem | undefined;
+    next: SidebarNavigationItem | undefined;
   } {
     const sidebarName = getSidebarNameByDocId(docId);
     if (sidebarName) {
-      // TODO needs deeper refactoring to make it work!
-      const docIds = sidebarNameToDocIds[sidebarName];
-      const currentIndex = docIds.indexOf(docId);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const {previous, next} = getElementsAround(docIds, currentIndex);
-      return {
-        sidebarName,
-        previous: {
-          // TODO BAD temporary
-          // title: paginationLabel ?? sidebarLabel ?? title,
-          // permalink,
-          title: 'TODO',
-          permalink: '/',
-        },
-        next: {
-          title: 'TODO',
-          permalink: '/',
-        },
-      };
+      const navigationItems = sidebarNameToNavigationItems[sidebarName];
+      const currentDocItemIndex = navigationItems.findIndex((item) => {
+        if (item.type === 'doc') {
+          return item.id === docId;
+        }
+        if (item.type === 'category' && item.link.type === 'doc') {
+          return item.link.id === docId;
+        }
+        return false;
+      });
+
+      const {previous, next} = getElementsAround(
+        navigationItems,
+        currentDocItemIndex,
+      );
+      return {sidebarName, previous, next};
     } else {
       return {
         sidebarName: undefined,
@@ -180,7 +200,7 @@ Available document ids are:
   };
 }
 
-export function toDocNavLink(doc: DocMetadataBase): DocNavLink {
+export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
   const {
     title,
     permalink,
@@ -190,4 +210,30 @@ export function toDocNavLink(doc: DocMetadataBase): DocNavLink {
     },
   } = doc;
   return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+}
+
+export function toNavigationLink(
+  navigationItem: SidebarNavigationItem,
+  allDocs: Record<string, DocMetadataBase>,
+): DocNavLink {
+  function handleCategory(category: SidebarItemCategoryWithLink): DocNavLink {
+    if (category.link.type === 'doc') {
+      return toDocNavigationLink(allDocs[category.link.id]);
+    } else if (category.link.type === 'generated-index') {
+      return {
+        title: category.label,
+        permalink: category.link.permalink,
+      };
+    } else {
+      throw new Error('unexpected category link type');
+    }
+  }
+
+  if (navigationItem.type === 'doc') {
+    return toDocNavigationLink(allDocs[navigationItem.id]);
+  } else if (navigationItem.type === 'category') {
+    return handleCategory(navigationItem);
+  } else {
+    throw new Error('unexpected navigation item');
+  }
 }

@@ -39,7 +39,11 @@ import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
 import type {Sidebars} from './sidebars/types';
-import {createSidebarsUtils, toDocNavLink} from './sidebars/utils';
+import {
+  createSidebarsUtils,
+  toDocNavigationLink,
+  toNavigationLink,
+} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -307,7 +311,7 @@ export function handleNavigation(
   function addNavData(doc: DocMetadataBase): DocMetadata {
     const navigation = getDocNavigation(doc.id);
 
-    const toDocNavLinkById = (
+    const toNavigationLinkByDocId = (
       docId: string | null | undefined,
       type: 'prev' | 'next',
     ): DocNavLink | undefined => {
@@ -321,15 +325,19 @@ export function handleNavigation(
           `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
         );
       }
-      return toDocNavLink(navDoc);
+      return toDocNavigationLink(navDoc);
     };
 
     const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
-      ? toDocNavLinkById(doc.frontMatter.pagination_prev, 'prev')
-      : navigation.previous;
+      ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
+      : navigation.previous
+      ? toNavigationLink(navigation.previous, docsBaseById)
+      : undefined;
     const next: DocNavLink | undefined = doc.frontMatter.pagination_next
-      ? toDocNavLinkById(doc.frontMatter.pagination_next, 'next')
-      : navigation.next;
+      ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
+      : navigation.next
+      ? toNavigationLink(navigation.next, docsBaseById)
+      : undefined;
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
