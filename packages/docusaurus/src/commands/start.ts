@@ -28,8 +28,6 @@ import {
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
-import type {ServerOptions} from 'https';
-
 export default async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions>,
@@ -203,7 +201,7 @@ export default async function start(
         typeof httpsConfig === 'object'
           ? {
               type: 'https',
-              options: httpsConfig as ServerOptions,
+              options: httpsConfig,
             }
           : 'https',
     }),
