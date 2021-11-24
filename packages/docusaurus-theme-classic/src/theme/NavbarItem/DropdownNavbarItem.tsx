@@ -88,7 +88,7 @@ function DropdownNavbarItemDesktop({
         'dropdown--show': showDropdown,
       })}>
       <NavLink
-        href="#"
+        href={props.to ? undefined : "#"}
         className={clsx('navbar__link', className)}
         {...props}
         onClick={props.to ? undefined : (e) => e.preventDefault()}
