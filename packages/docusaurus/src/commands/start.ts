@@ -8,7 +8,6 @@
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
-import {ServerOptions} from 'https';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash';
@@ -28,6 +27,8 @@ import {
 } from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
+
+import type {ServerOptions} from 'https';
 
 export default async function start(
   siteDir: string,
@@ -198,10 +199,13 @@ export default async function start(
       },
     })),
     ...(httpsConfig && {
-      server: {
-        type: 'https',
-        options: httpsConfig as ServerOptions,
-      },
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig as ServerOptions,
+            }
+          : 'https',
     }),
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
