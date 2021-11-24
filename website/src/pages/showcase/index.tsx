@@ -32,10 +32,31 @@ const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 
-function setScrollTopPosition(position: number = 0) {
+type UserLocationState = {
+  scrollTopPosition?: number;
+  focusedElementId?: string;
+};
+
+function restoreUserState({
+  scrollTopPosition = 0,
+  focusedElementId,
+}: UserLocationState = {}) {
   if (ExecutionEnvironment.canUseDOM) {
-    window.scrollTo({top: position});
+    document.getElementById(focusedElementId)?.focus();
+
+    window.scrollTo({top: scrollTopPosition});
   }
+}
+
+export function prepareUserState(): UserLocationState {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement.id,
+    };
+  }
+
+  return undefined;
 }
 
 function filterUsers(
@@ -63,10 +84,9 @@ function useFilteredUsers() {
   const location = useLocation();
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
-    // Restore previous scroll position
-    setScrollTopPosition(location.state?.scroll);
-
     setOperator(readOperator(location.search));
+
+    restoreUserState(location.state);
   }, [location]);
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
@@ -78,9 +98,6 @@ function useSelectedTags() {
   // The search query-string is the source of truth!
   const location = useLocation();
 
-  // Restore previous scroll position
-  setScrollTopPosition(location.state?.scroll);
-
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
@@ -88,6 +105,8 @@ function useSelectedTags() {
   useEffect(() => {
     const tags = readSearchTags(location.search);
     setSelectedTags(tags);
+
+    restoreUserState(location.state);
   }, [location]);
 
   return selectedTags;

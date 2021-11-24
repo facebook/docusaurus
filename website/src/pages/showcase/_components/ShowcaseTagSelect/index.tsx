@@ -15,6 +15,7 @@ import React, {
 } from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 import {toggleListItem} from '@site/src/utils/jsUtils';
+import {prepareUserState} from '../../index';
 import type {TagType} from '@site/src/data/users';
 
 import styles from './styles.module.css';
@@ -54,7 +55,7 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
       history.push({
         ...location,
         search: newSearch,
-        state: {scroll: window.scrollY},
+        state: prepareUserState(),
       });
     }, [tag, location, history]);
     return (

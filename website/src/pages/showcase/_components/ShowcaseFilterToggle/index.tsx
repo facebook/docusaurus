@@ -8,6 +8,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 
+import {prepareUserState} from '../../index';
+
 import styles from './styles.module.css';
 import clsx from 'clsx';
 
@@ -36,7 +38,7 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     history.push({
       ...location,
       search: searchParams.toString(),
-      state: {scroll: window.scrollY},
+      state: prepareUserState(),
     });
   }, [operator, location, history]);
 
