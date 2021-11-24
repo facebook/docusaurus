@@ -38,9 +38,8 @@ import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import type {Sidebars} from './sidebars/types';
 import {
-  createSidebarsUtils,
+  SidebarsUtils,
   toDocNavigationLink,
   toNavigationLink,
 } from './sidebars/utils';
@@ -295,21 +294,19 @@ export function processDocMetadata(args: {
   }
 }
 
-export function handleNavigation(
+export function addDocNavigation(
   docsBase: DocMetadataBase[],
-  sidebars: Sidebars,
+  sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
-): Pick<LoadedVersion, 'mainDocId' | 'docs'> {
+): LoadedVersion['docs'] {
   const docsBaseById = keyBy(docsBase, (doc) => doc.id);
-  const {checkSidebarsDocIds, getDocNavigation, getFirstDocIdOfFirstSidebar} =
-    createSidebarsUtils(sidebars);
 
   const validDocIds = Object.keys(docsBaseById);
-  checkSidebarsDocIds(validDocIds, sidebarFilePath);
+  sidebarsUtils.checkSidebarsDocIds(validDocIds, sidebarFilePath);
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const navigation = getDocNavigation(doc.id);
+    const navigation = sidebarsUtils.getDocNavigation(doc.id);
 
     const toNavigationLinkByDocId = (
       docId: string | null | undefined,
@@ -346,16 +343,27 @@ export function handleNavigation(
   // sort to ensure consistent output for tests
   docs.sort((a, b) => a.id.localeCompare(b.id));
 
-  /**
-   * The "main doc" is the "version entry point"
-   * We browse this doc by clicking on a version:
-   * - the "home" doc (at '/docs/')
-   * - the first doc of the first sidebar
-   * - a random doc (if no docs are in any sidebar... edge case)
-   */
+  return docs;
+}
+
+/**
+ * The "main doc" is the "version entry point"
+ * We browse this doc by clicking on a version:
+ * - the "home" doc (at '/docs/')
+ * - the first doc of the first sidebar
+ * - a random doc (if no docs are in any sidebar... edge case)
+ */
+export function getMainDocId({
+  docs,
+  sidebarsUtils,
+}: {
+  docs: DocMetadataBase[];
+  sidebarsUtils: SidebarsUtils;
+}): string {
   function getMainDoc(): DocMetadata {
     const versionHomeDoc = docs.find((doc) => doc.slug === '/');
-    const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
+    const firstDocIdOfFirstSidebar =
+      sidebarsUtils.getFirstDocIdOfFirstSidebar();
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
@@ -365,5 +373,5 @@ export function handleNavigation(
     }
   }
 
-  return {mainDocId: getMainDoc().unversionedId, docs};
+  return getMainDoc().unversionedId;
 }

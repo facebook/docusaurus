@@ -11,7 +11,7 @@ import {
   processDocMetadata,
   readVersionDocs,
   readDocFile,
-  handleNavigation,
+  addDocNavigation,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
@@ -141,7 +141,7 @@ function createTestUtils({
         sidebarCollapsible: true,
       },
     });
-    return handleNavigation(
+    return addDocNavigation(
       rawDocs,
       sidebars,
       versionMetadata.sidebarFilePath as string,

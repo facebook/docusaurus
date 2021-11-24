@@ -119,6 +119,9 @@ export type SidebarItemCategory = Expand<
 
 export type SidebarItemCategoryWithLink = Required<SidebarItemCategory, 'link'>;
 
+export type SidebarItemCategoryWithGeneratedIndex =
+  SidebarItemCategoryWithLink & {link: SidebarItemCategoryLinkGeneratedIndex};
+
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink

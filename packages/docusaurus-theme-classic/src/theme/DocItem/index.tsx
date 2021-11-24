@@ -95,7 +95,7 @@ export default function DocItem(props: Props): JSX.Element {
               <DocItemFooter {...props} />
             </article>
 
-            <DocPaginator metadata={metadata} />
+            <DocPaginator previous={metadata.previous} next={metadata.next} />
           </div>
         </div>
         {renderTocDesktop && (

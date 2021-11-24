@@ -167,6 +167,15 @@ export type DocMetadata = DocMetadataBase & {
   next?: DocNavLink;
 };
 
+export type CategoryGeneratedIndexMetadata = {
+  title: string;
+  slug: string;
+  permalink: string;
+  sidebar: string;
+  previous?: DocNavLink;
+  next?: DocNavLink;
+};
+
 export type SourceToPermalink = {
   [source: string]: string;
 };
@@ -185,6 +194,7 @@ export type LoadedVersion = VersionMetadata & {
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
+  categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };
 
 export type LoadedContent = {

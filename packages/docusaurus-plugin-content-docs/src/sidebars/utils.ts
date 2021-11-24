@@ -20,7 +20,11 @@ import type {
 import {mapValues, difference} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {DocMetadataBase, DocNavLink} from '../types';
-import {SidebarItemCategoryWithLink, SidebarNavigationItem} from './types';
+import {
+  SidebarItemCategoryWithGeneratedIndex,
+  SidebarItemCategoryWithLink,
+  SidebarNavigationItem,
+} from './types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
@@ -115,16 +119,27 @@ export function collectSidebarsNavigations(
   return mapValues(sidebars, collectSidebarNavigation);
 }
 
-export function createSidebarsUtils(sidebars: Sidebars): {
+type SidebarNavigation = {
+  sidebarName: string | undefined;
+  previous: SidebarNavigationItem | undefined;
+  next: SidebarNavigationItem | undefined;
+};
+
+// A convenient and performant way to query the sidebars content
+export type SidebarsUtils = {
+  sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
   getSidebarNameByDocId: (docId: string) => string | undefined;
-  getDocNavigation: (docId: string) => {
-    sidebarName: string | undefined;
-    previous: SidebarNavigationItem | undefined;
-    next: SidebarNavigationItem | undefined;
-  };
+  getDocNavigation: (docId: string) => SidebarNavigation;
+  getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
+  getCategoryGeneratedIndexNavigation: (
+    category: SidebarItemCategoryWithGeneratedIndex,
+  ) => SidebarNavigation;
+
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
-} {
+};
+
+export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
   const sidebarNameToNavigationItems = collectSidebarsNavigations(sidebars);
 
@@ -143,15 +158,19 @@ export function createSidebarsUtils(sidebars: Sidebars): {
     return docIdToSidebarName[docId];
   }
 
-  function getDocNavigation(docId: string): {
-    sidebarName: string | undefined;
-    previous: SidebarNavigationItem | undefined;
-    next: SidebarNavigationItem | undefined;
-  } {
+  function emptySidebarNavigation(): SidebarNavigation {
+    return {
+      sidebarName: undefined,
+      previous: undefined,
+      next: undefined,
+    };
+  }
+
+  function getDocNavigation(docId: string): SidebarNavigation {
     const sidebarName = getSidebarNameByDocId(docId);
     if (sidebarName) {
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
-      const currentDocItemIndex = navigationItems.findIndex((item) => {
+      const currentItemIndex = navigationItems.findIndex((item) => {
         if (item.type === 'doc') {
           return item.id === docId;
         }
@@ -163,15 +182,48 @@ export function createSidebarsUtils(sidebars: Sidebars): {
 
       const {previous, next} = getElementsAround(
         navigationItems,
-        currentDocItemIndex,
+        currentItemIndex,
       );
       return {sidebarName, previous, next};
     } else {
-      return {
-        sidebarName: undefined,
-        previous: undefined,
-        next: undefined,
-      };
+      return emptySidebarNavigation();
+    }
+  }
+
+  function getCategoryGeneratedIndexList(): SidebarItemCategoryWithGeneratedIndex[] {
+    return Object.values(sidebarNameToNavigationItems)
+      .flat()
+      .flatMap((item) => {
+        if (item.type === 'category' && item.link.type === 'generated-index') {
+          return [item as SidebarItemCategoryWithGeneratedIndex];
+        }
+        return [];
+      });
+  }
+
+  // TODO current implementation is fragile and relies on object identity
+  // TODO should we identify category generated index by its permalink?
+  function getCategoryGeneratedIndexNavigation(
+    category: SidebarItemCategoryWithGeneratedIndex,
+  ): SidebarNavigation {
+    const sidebarName = Object.entries(sidebarNameToNavigationItems).find(
+      ([, navigationItems]) => navigationItems.includes(category), // TODO avoid using identity
+    )?.[0];
+    if (sidebarName) {
+      const navigationItems = sidebarNameToNavigationItems[sidebarName];
+      const currentItemIndex = navigationItems.findIndex(
+        (item) =>
+          item.type === 'category' &&
+          // TODO avoid using identity
+          item === category,
+      );
+      const {previous, next} = getElementsAround(
+        navigationItems,
+        currentItemIndex,
+      );
+      return {sidebarName, previous, next};
+    } else {
+      return emptySidebarNavigation();
     }
   }
 
@@ -193,9 +245,12 @@ Available document ids are:
   }
 
   return {
+    sidebars,
     getFirstDocIdOfFirstSidebar,
     getSidebarNameByDocId,
     getDocNavigation,
+    getCategoryGeneratedIndexList,
+    getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
   };
 }
@@ -214,11 +269,11 @@ export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
 
 export function toNavigationLink(
   navigationItem: SidebarNavigationItem,
-  allDocs: Record<string, DocMetadataBase>,
+  docsById: Record<string, DocMetadataBase>,
 ): DocNavLink {
   function handleCategory(category: SidebarItemCategoryWithLink): DocNavLink {
     if (category.link.type === 'doc') {
-      return toDocNavigationLink(allDocs[category.link.id]);
+      return toDocNavigationLink(docsById[category.link.id]);
     } else if (category.link.type === 'generated-index') {
       return {
         title: category.label,
@@ -230,7 +285,7 @@ export function toNavigationLink(
   }
 
   if (navigationItem.type === 'doc') {
-    return toDocNavigationLink(allDocs[navigationItem.id]);
+    return toDocNavigationLink(docsById[navigationItem.id]);
   } else if (navigationItem.type === 'category') {
     return handleCategory(navigationItem);
   } else {

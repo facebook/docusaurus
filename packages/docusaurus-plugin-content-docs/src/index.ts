@@ -20,7 +20,12 @@ import {
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
-import {readVersionDocs, processDocMetadata, handleNavigation} from './docs';
+import {
+  readVersionDocs,
+  processDocMetadata,
+  addDocNavigation,
+  getMainDocId,
+} from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import {
@@ -49,6 +54,8 @@ import chalk from 'chalk';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
 import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
+import {createSidebarsUtils} from './sidebars/utils';
+import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -157,28 +164,36 @@ export default function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docsBase: DocMetadataBase[] = await loadVersionDocsBase(
+        const docs: DocMetadataBase[] = await loadVersionDocsBase(
           versionMetadata,
         );
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
           numberPrefixParser: options.numberPrefixParser,
-          docs: docsBase,
+          docs,
           version: versionMetadata,
           options: {
             sidebarCollapsed: options.sidebarCollapsed,
             sidebarCollapsible: options.sidebarCollapsible,
           },
         });
+
+        const sidebarsUtils = createSidebarsUtils(sidebars);
+
         return {
           ...versionMetadata,
-          ...handleNavigation(
-            docsBase,
-            sidebars,
+          docs: addDocNavigation(
+            docs,
+            sidebarsUtils,
             versionMetadata.sidebarFilePath as string,
           ),
           sidebars,
+          mainDocId: getMainDocId({docs, sidebarsUtils}),
+          categoryGeneratedIndices: getCategoryGeneratedIndexMetadataList({
+            docs,
+            sidebarsUtils,
+          }),
         };
       }
 

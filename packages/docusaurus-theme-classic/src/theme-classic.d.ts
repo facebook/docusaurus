@@ -107,11 +107,12 @@ declare module '@theme/CodeBlock' {
 }
 
 declare module '@theme/DocPaginator' {
+  import type {PropNavigation} from '@docusaurus/plugin-content-docs';
+
   type PageInfo = {readonly permalink: string; readonly title: string};
 
-  export interface Props {
-    readonly metadata: {readonly previous?: PageInfo; readonly next?: PageInfo};
-  }
+  // May be simpler to provide a {navigation: PropNavigation} prop?
+  export interface Props extends PropNavigation {}
 
   const DocPaginator: (props: Props) => JSX.Element;
   export default DocPaginator;

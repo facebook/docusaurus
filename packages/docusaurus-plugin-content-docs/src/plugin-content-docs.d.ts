@@ -15,6 +15,15 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type {GlobalDataVersion, GlobalDataDoc};
 
+  export type PropNavigationLink = {
+    readonly title: string;
+    readonly permalink: string;
+  };
+  export type PropNavigation = {
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
+  };
+
   export type PropVersionDoc = import('./sidebars/types').PropVersionDoc;
   export type PropVersionDocs = import('./sidebars/types').PropVersionDocs;
 
@@ -31,9 +40,10 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type PropCategoryGeneratedIndex = {
-    label: string;
+    title: string;
     slug: string;
     permalink: string;
+    navigation: PropNavigation;
   };
 
   export type PropSidebarItemLink =
@@ -68,7 +78,10 @@ declare module '@docusaurus/plugin-content-docs' {
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
+  import type {
+    PropNavigationLink,
+    PropVersionMetadata,
+  } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -97,8 +110,8 @@ declare module '@theme/DocItem' {
     readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
-    readonly previous?: {readonly permalink: string; readonly title: string};
-    readonly next?: {readonly permalink: string; readonly title: string};
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -145,7 +158,7 @@ declare module '@theme/DocCategoryGeneratedIndexPage' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    categoryIndex: PropCategoryGeneratedIndex;
+    categoryGeneratedIndex: PropCategoryGeneratedIndex;
   }
 
   export default function DocCategoryGeneratedIndexPage(

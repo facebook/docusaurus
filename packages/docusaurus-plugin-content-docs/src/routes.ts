@@ -5,44 +5,44 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  Sidebar,
-  SidebarItemCategory,
-  SidebarItemCategoryLinkGeneratedIndex,
-} from './sidebars/types';
 import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
-import {collectSidebarCategories} from './sidebars/utils';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import {DocMetadata, LoadedVersion} from './types';
+import {
+  CategoryGeneratedIndexMetadata,
+  DocMetadata,
+  LoadedVersion,
+} from './types';
 import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 import {toVersionMetadataProp} from './props';
 import chalk from 'chalk';
 
-async function createSidebarRoutes({
-  sidebarName,
-  sidebar,
-  versionPath,
+export async function createCategoryGeneratedIndexRoutes({
+  version,
   actions,
 }: {
-  sidebarName: string;
-  sidebar: Sidebar;
-  versionPath: string;
+  version: LoadedVersion;
   actions: PluginContentLoadedActions;
 }): Promise<RouteConfig[]> {
   const slugs = createSlugger();
 
   async function createCategoryGeneratedIndexRoute(
-    category: SidebarItemCategory,
-    link: SidebarItemCategoryLinkGeneratedIndex,
+    categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
+    const {sidebar, title, slug, permalink, previous, next} =
+      categoryGeneratedIndex;
+
     const propFileName = slugs.slug(
-      `${versionPath}-${sidebarName}-category-${category.label}`,
+      `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
     );
 
     const prop: PropCategoryGeneratedIndex = {
-      label: category.label,
-      slug: link.slug,
-      permalink: link.permalink,
+      title,
+      slug,
+      permalink,
+      navigation: {
+        previous,
+        next,
+      },
     };
 
     const propData = await actions.createData(
@@ -51,52 +51,20 @@ async function createSidebarRoutes({
     );
 
     return {
-      path: link.permalink,
+      path: permalink,
       component: '@theme/DocCategoryGeneratedIndexPage', // TODO option
       exact: true,
       modules: {
-        categoryIndex: propData,
+        categoryGeneratedIndex: propData,
       },
       // Same as doc, this sidebar route attribute permits to associate this subpage to the given sidebar
-      ...(sidebarName && {sidebar: sidebarName}),
+      ...(sidebar && {sidebar}),
     };
   }
 
-  async function createCategoryRoute(
-    category: SidebarItemCategory,
-  ): Promise<RouteConfig | undefined> {
-    if (category.link?.type === 'generated-index') {
-      return createCategoryGeneratedIndexRoute(category, category.link);
-    }
-    return undefined;
-  }
-
-  const routes = await Promise.all(
-    collectSidebarCategories(sidebar).map(createCategoryRoute),
+  return Promise.all(
+    version.categoryGeneratedIndices.map(createCategoryGeneratedIndexRoute),
   );
-
-  return routes.filter(Boolean) as RouteConfig[];
-}
-
-export async function createSidebarsRoutes({
-  version,
-  actions,
-}: {
-  version: LoadedVersion;
-  actions: PluginContentLoadedActions;
-}): Promise<RouteConfig[]> {
-  return (
-    await Promise.all(
-      Object.entries(version.sidebars).map(([sidebarName, sidebar]) =>
-        createSidebarRoutes({
-          sidebarName,
-          sidebar,
-          versionPath: version.versionPath,
-          actions,
-        }),
-      ),
-    )
-  ).flat();
 }
 
 export async function createDocRoutes({
@@ -161,7 +129,7 @@ export async function createVersionRoutes({
     async function createVersionSubRoutes() {
       const [docRoutes, sidebarsRoutes] = await Promise.all([
         createDocRoutes({docs: version.docs, actions, docItemComponent}),
-        createSidebarsRoutes({version, actions}),
+        createCategoryGeneratedIndexRoutes({version, actions}),
       ]);
 
       const routes = [...docRoutes, ...sidebarsRoutes];
