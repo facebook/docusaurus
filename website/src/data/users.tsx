@@ -1599,7 +1599,7 @@ const Users: User[] = [
     description: 'Stop puzzling and start planning with Dime.Scheduler, the resource and project planning solution for the Microsoft Dynamics product suite.',
     preview: require('./showcase/dimeschedulersdk.png'),
     website: 'https://sdk.dimescheduler.com',
-    source: null,
+    source: 'https://github.com/dime-scheduler/sdk-dotnet',
     tags: ['product', 'opensource'],
   },
   /*
