@@ -9,31 +9,6 @@ import {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
 import {SidebarsUtils, toNavigationLink} from './sidebars/utils';
 import {keyBy} from 'lodash';
 
-export function createCategoryGeneratedIndexMetadata({
-  category,
-  sidebarUtils,
-  docsById,
-}: {
-  category: SidebarItemCategoryWithGeneratedIndex;
-  sidebarUtils: SidebarsUtils;
-  docsById: Record<string, DocMetadataBase>;
-}): CategoryGeneratedIndexMetadata {
-  const {sidebarName, previous, next} =
-    sidebarUtils.getCategoryGeneratedIndexNavigation(category);
-  if (!sidebarName) {
-    throw new Error('unexpected');
-  }
-
-  return {
-    title: category.label,
-    slug: category.link.slug,
-    permalink: category.link.permalink,
-    sidebar: sidebarName,
-    previous: previous ? toNavigationLink(previous, docsById) : undefined,
-    next: next ? toNavigationLink(next, docsById) : undefined,
-  };
-}
-
 export function getCategoryGeneratedIndexMetadata({
   category,
   sidebarsUtils,
@@ -50,7 +25,8 @@ export function getCategoryGeneratedIndexMetadata({
   }
 
   return {
-    title: category.label,
+    title: category.link.title ?? category.label,
+    description: category.link.description,
     slug: category.link.slug,
     permalink: category.link.permalink,
     sidebar: sidebarName,

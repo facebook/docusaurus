@@ -41,6 +41,7 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type PropCategoryGeneratedIndex = {
     title: string;
+    description?: string;
     slug: string;
     permalink: string;
     navigation: PropNavigation;
@@ -189,14 +190,19 @@ declare module '@theme/DocTagDocListPage' {
 }
 
 declare module '@theme/DocVersionBanner' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
-
   export interface Props {
-    readonly versionMetadata: PropVersionMetadata;
+    className?: string;
   }
 
-  const DocVersionBanner: (props: Props) => JSX.Element;
-  export default DocVersionBanner;
+  export default function DocVersionBanner(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBadge' {
+  export interface Props {
+    className?: string;
+  }
+
+  export default function DocVersionBadge(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPage' {

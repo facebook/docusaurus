@@ -68,6 +68,8 @@ export const sidebarItemCategoryLinkSchema =
           then: Joi.object<SidebarItemCategoryLinkGeneratedIndex>({
             type: 'generated-index',
             slug: Joi.string().optional(),
+            title: Joi.string().optional(),
+            description: Joi.string().optional(),
           }),
         },
         {

@@ -169,6 +169,7 @@ export type DocMetadata = DocMetadataBase & {
 
 export type CategoryGeneratedIndexMetadata = {
   title: string;
+  description?: string;
   slug: string;
   permalink: string;
   sidebar: string;

@@ -13,6 +13,9 @@ import {useCategoryGeneratedIndexSidebarItem} from '@docusaurus/theme-common';
 import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
+import Seo from '@theme/Seo';
+import DocVersionBanner from '@theme/DocVersionBanner';
+import DocVersionBadge from '@theme/DocVersionBadge';
 
 export default function DocCategoryGeneratedIndexPage(
   props: Props,
@@ -20,19 +23,30 @@ export default function DocCategoryGeneratedIndexPage(
   const {categoryGeneratedIndex} = props;
   const category = useCategoryGeneratedIndexSidebarItem(categoryGeneratedIndex);
   return (
-    <div className={styles.page}>
-      <header>
-        <h1>{category.label}</h1>
-      </header>
-      <main className="margin-top--lg">
-        <DocCardList items={category.items} />
-      </main>
-      <footer className="margin-top--lg">
-        <DocPaginator
-          previous={categoryGeneratedIndex.navigation.previous}
-          next={categoryGeneratedIndex.navigation.next}
-        />
-      </footer>
-    </div>
+    <>
+      <Seo
+        title={categoryGeneratedIndex.title}
+        description={categoryGeneratedIndex.description}
+      />
+      <div className={styles.page}>
+        <DocVersionBanner />
+        <DocVersionBadge />
+        <header>
+          <h1 className={styles.title}>{categoryGeneratedIndex.title}</h1>
+          {categoryGeneratedIndex.description && (
+            <p>{categoryGeneratedIndex.description}</p>
+          )}
+        </header>
+        <main className="margin-top--lg">
+          <DocCardList items={category.items} />
+        </main>
+        <footer className="margin-top--lg">
+          <DocPaginator
+            previous={categoryGeneratedIndex.navigation.previous}
+            next={categoryGeneratedIndex.navigation.next}
+          />
+        </footer>
+      </div>
+    </>
   );
 }

@@ -30,6 +30,8 @@ const sidebars = {
       label: 'Guides',
       link: {
         type: 'generated-index',
+        title: 'Docusaurus Guides',
+        description: "Let's learn about the most import Docusaurus concepts!",
       },
       items: [
         'guides/creating-pages',

@@ -51,11 +51,15 @@ export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
 export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   type: 'generated-index';
   slug?: string;
+  title?: string;
+  description?: string;
 };
 export type SidebarItemCategoryLinkGeneratedIndex = {
   type: 'generated-index';
   slug: string;
   permalink: string;
+  title?: string;
+  description?: string;
 };
 
 export type SidebarItemCategoryLinkConfig =
