@@ -61,11 +61,7 @@ It is highly recommended using a config similar to the [**Docusaurus 2 website c
 Docusaurus' own `@docusaurus/preset-classic` supports Algolia DocSearch integration. If you use the classic preset, no additional installation is needed.
 
 <details>
-<summary>
-
-Installation steps when not using `@docusaurus/preset-classic`
-
-</summary>
+<summary>Installation steps when not using <code>@docusaurus/preset-classic</code></summary>
 
 1. Install the package:
 
