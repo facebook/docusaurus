@@ -268,9 +268,9 @@ export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
 }
 
 export function toNavigationLink(
-  navigationItem: SidebarNavigationItem,
+  navigationItem: SidebarNavigationItem | undefined,
   docsById: Record<string, DocMetadataBase>,
-): DocNavLink {
+): DocNavLink | undefined {
   function handleCategory(category: SidebarItemCategoryWithLink): DocNavLink {
     if (category.link.type === 'doc') {
       return toDocNavigationLink(docsById[category.link.id]);
@@ -282,6 +282,9 @@ export function toNavigationLink(
     } else {
       throw new Error('unexpected category link type');
     }
+  }
+  if (!navigationItem) {
+    return undefined;
   }
 
   if (navigationItem.type === 'doc') {

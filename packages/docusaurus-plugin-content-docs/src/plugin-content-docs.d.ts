@@ -139,7 +139,7 @@ declare module '@theme/DocCard' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    item: PropSidebarItem;
+    readonly item: PropSidebarItem;
   }
 
   export default function DocCard(props: Props): JSX.Element;
@@ -149,7 +149,7 @@ declare module '@theme/DocCardList' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    items: PropSidebarItem[];
+    readonly items: PropSidebarItem[];
   }
 
   export default function DocCardList(props: Props): JSX.Element;
@@ -159,7 +159,7 @@ declare module '@theme/DocCategoryGeneratedIndexPage' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
-    categoryGeneratedIndex: PropCategoryGeneratedIndex;
+    readonly categoryGeneratedIndex: PropCategoryGeneratedIndex;
   }
 
   export default function DocCategoryGeneratedIndexPage(
@@ -191,7 +191,7 @@ declare module '@theme/DocTagDocListPage' {
 
 declare module '@theme/DocVersionBanner' {
   export interface Props {
-    className?: string;
+    readonly className?: string;
   }
 
   export default function DocVersionBanner(props: Props): JSX.Element;
@@ -199,7 +199,7 @@ declare module '@theme/DocVersionBanner' {
 
 declare module '@theme/DocVersionBadge' {
   export interface Props {
-    className?: string;
+    readonly className?: string;
   }
 
   export default function DocVersionBadge(props: Props): JSX.Element;

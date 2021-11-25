@@ -327,14 +327,10 @@ export function addDocNavigation(
 
     const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
       ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
-      : navigation.previous
-      ? toNavigationLink(navigation.previous, docsBaseById)
-      : undefined;
+      : toNavigationLink(navigation.previous, docsBaseById);
     const next: DocNavLink | undefined = doc.frontMatter.pagination_next
       ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
-      : navigation.next
-      ? toNavigationLink(navigation.next, docsBaseById)
-      : undefined;
+      : toNavigationLink(navigation.next, docsBaseById);
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }

@@ -18,10 +18,9 @@ import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
 import {MainHeading} from '@theme/Heading';
 
-export default function DocCategoryGeneratedIndexPage(
-  props: Props,
-): JSX.Element {
-  const {categoryGeneratedIndex} = props;
+export default function DocCategoryGeneratedIndexPage({
+  categoryGeneratedIndex,
+}: Props): JSX.Element {
   const category = useCategoryGeneratedIndexSidebarItem(categoryGeneratedIndex);
   return (
     <>

@@ -30,8 +30,8 @@ export function getCategoryGeneratedIndexMetadata({
     slug: category.link.slug,
     permalink: category.link.permalink,
     sidebar: sidebarName,
-    previous: previous ? toNavigationLink(previous, docsById) : undefined,
-    next: next ? toNavigationLink(next, docsById) : undefined,
+    previous: toNavigationLink(previous, docsById),
+    next: toNavigationLink(next, docsById),
   };
 }
 
