@@ -134,6 +134,11 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
+"@armano/npm-to-yarn@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@armano/npm-to-yarn/-/npm-to-yarn-1.0.3.tgz#2e7a6ad7331be432dce54a942c4e210448781614"
+  integrity sha512-7xrLjaL7P05wR0KbE3iixwDbhDijGjE+2t3zAgIOYRLxJgZN2VMmb0Yx40Pz9iY23CK47V2kYxrfhDKKJsda6Q==
+
 "@babel/cli@^7.16.0":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.16.0.tgz#a729b7a48eb80b49f48a339529fc4129fd7bcef3"
@@ -14968,11 +14973,6 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
-
-npm-to-yarn@^1.0.0-2, npm-to-yarn@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/npm-to-yarn/-/npm-to-yarn-1.0.1.tgz#6cdb95114c4ff0be50a7a2381d4d16131a5f52df"
-  integrity sha512-bp8T8oNMfLW+N/fE0itFfSu7RReytwhqNd9skbkfHfzGYC+5CCdzS2HnaXz6JiG4AlK2eA0qlT6NJN1SoFvcWQ==
 
 npmlog@^4.0.1, npmlog@^4.0.2, npmlog@^4.1.2:
   version "4.1.2"

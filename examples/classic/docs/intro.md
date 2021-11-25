@@ -16,7 +16,7 @@ Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new
 
 Generate a new Docusaurus site using the **classic template**:
 
-```shell
+```shell npm2yarn
 npm init docusaurus@latest my-website classic
 ```
 

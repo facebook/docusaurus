@@ -9,7 +9,7 @@ import type {Code, Content, Literal} from 'mdast';
 import type {Plugin, Transformer} from 'unified';
 import type {Node, Parent} from 'unist';
 import visit from 'unist-util-visit';
-import npmToYarn from 'npm-to-yarn';
+import npmToYarn from '@armano/npm-to-yarn';
 
 interface PluginOptions {
   sync?: boolean;
