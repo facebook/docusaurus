@@ -53,7 +53,7 @@ npm init docusaurus@latest [name] [template]
 
 Example:
 
-```bash npm2yarn
+```bash
 npm init docusaurus@latest my-website classic
 ```
 
