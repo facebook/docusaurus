@@ -19,7 +19,7 @@ export function getCategoryGeneratedIndexMetadata({
   docsById: Record<string, DocMetadataBase>;
 }): CategoryGeneratedIndexMetadata {
   const {sidebarName, previous, next} =
-    sidebarsUtils.getCategoryGeneratedIndexNavigation(category);
+    sidebarsUtils.getCategoryGeneratedIndexNavigation(category.link.permalink);
   if (!sidebarName) {
     throw new Error('unexpected');
   }

@@ -119,7 +119,7 @@ export function collectSidebarsNavigations(
   return mapValues(sidebars, collectSidebarNavigation);
 }
 
-type SidebarNavigation = {
+export type SidebarNavigation = {
   sidebarName: string | undefined;
   previous: SidebarNavigationItem | undefined;
   next: SidebarNavigationItem | undefined;
@@ -133,7 +133,7 @@ export type SidebarsUtils = {
   getDocNavigation: (docId: string) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
-    category: SidebarItemCategoryWithGeneratedIndex,
+    categoryGeneratedIndexPermalink: string,
   ) => SidebarNavigation;
 
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
@@ -201,21 +201,30 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       });
   }
 
-  // TODO current implementation is fragile and relies on object identity
-  // TODO should we identify category generated index by its permalink?
+  // We identity the category generated index by its permalink (should be unique)
+  // More reliable than using object identity
   function getCategoryGeneratedIndexNavigation(
-    category: SidebarItemCategoryWithGeneratedIndex,
+    categoryGeneratedIndexPermalink: string,
   ): SidebarNavigation {
+    function isCurrentCategoryGeneratedIndexItem(
+      item: SidebarNavigationItem,
+    ): boolean {
+      return (
+        item.type === 'category' &&
+        item.link?.type === 'generated-index' &&
+        item.link.permalink === categoryGeneratedIndexPermalink
+      );
+    }
+
     const sidebarName = Object.entries(sidebarNameToNavigationItems).find(
-      ([, navigationItems]) => navigationItems.includes(category), // TODO avoid using identity
+      ([, navigationItems]) =>
+        navigationItems.find(isCurrentCategoryGeneratedIndexItem),
     )?.[0];
+
     if (sidebarName) {
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
       const currentItemIndex = navigationItems.findIndex(
-        (item) =>
-          item.type === 'category' &&
-          // TODO avoid using identity
-          item === category,
+        isCurrentCategoryGeneratedIndexItem,
       );
       const {previous, next} = getElementsAround(
         navigationItems,
