@@ -15,6 +15,7 @@ import {
   PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
+import {isSamePath} from './pathUtils';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -158,4 +159,31 @@ export function findFirstCategoryLink(
     }
   }
   return undefined;
+}
+
+function containsActiveSidebarItem(
+  items: PropSidebarItem[],
+  activePath: string,
+): boolean {
+  return items.some((subItem) => isActiveSidebarItem(subItem, activePath));
+}
+
+export function isActiveSidebarItem(
+  item: PropSidebarItem,
+  activePath: string,
+): boolean {
+  const isActive = (testedPath: string | undefined) =>
+    typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
+
+  if (item.type === 'link') {
+    return isActive(item.href);
+  }
+
+  if (item.type === 'category') {
+    return (
+      isActive(item.href) || containsActiveSidebarItem(item.items, activePath)
+    );
+  }
+
+  return false;
 }

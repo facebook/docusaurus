@@ -41,6 +41,7 @@ export {
   useDocsSidebar,
   useCategoryGeneratedIndexSidebarItem,
   findFirstCategoryLink,
+  isActiveSidebarItem,
 } from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
