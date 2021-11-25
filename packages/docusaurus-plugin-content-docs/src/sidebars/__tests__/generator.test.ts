@@ -5,10 +5,100 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {CategoryMetadataFile, DefaultSidebarItemsGenerator} from '../generator';
+import {
+  CategoryMetadataFile,
+  DefaultSidebarItemsGenerator,
+  isConventionalCategoryDocLink,
+} from '../generator';
 import {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
+
+describe('isConventionalCategoryDocLink', () => {
+  test('supports readme', () => {
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'readme',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'README',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'parent/ReAdMe',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports index', () => {
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'index',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'INDEX',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'parent/InDeX',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports <categoryName>/<categoryName>.md', () => {
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'someCategory',
+        docId: 'someCategory',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'some_category',
+        docId: 'SOME_CATEGORY',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'some_category',
+        docId: 'parent/some_category',
+      }),
+    ).toEqual(true);
+  });
+
+  test('reject other cases', () => {
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'someCategory',
+        docId: 'some_Category',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'read_me',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalCategoryDocLink({
+        folderName: 'doesNotMatter',
+        docId: 'the index',
+      }),
+    ).toEqual(false);
+  });
+});
 
 describe('DefaultSidebarItemsGenerator', () => {
   function testDefaultSidebarItemsGenerator(

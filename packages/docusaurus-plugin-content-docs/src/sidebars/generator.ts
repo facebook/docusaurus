@@ -31,15 +31,15 @@ function getLocalDocId(docId: string): string {
 
 // By convention, Docusaurus turns certain doc filenames as category doc links
 // TODO make this function configurable?
-function isConventionalCategoryDocLink({
+export function isConventionalCategoryDocLink({
   folderName,
-  item,
+  docId,
 }: {
   folderName: string;
-  item: SidebarItemDoc;
+  docId: string;
 }): boolean {
-  // TODO using the id is not 100% accurate, but good enough for now?
-  const docName = getLocalDocId(item.id)!;
+  // TODO using the "local id" is not 100% accurate, but good enough for now?
+  const docName = getLocalDocId(docId);
 
   const eligibleDocIndexNames = ['index', 'readme', folderName.toLowerCase()];
 
@@ -237,7 +237,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         return allItems.find(
           (item) =>
             item.type === 'doc' &&
-            isConventionalCategoryDocLink({folderName, item}),
+            isConventionalCategoryDocLink({folderName, docId: item.id}),
         ) as SidebarItemDoc | undefined;
       }
 
