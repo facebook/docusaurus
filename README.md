@@ -47,7 +47,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 Use the initialization cli to create your site:
 
-```bash npm2yarn
+```bash
 npm init docusaurus@latest [name] [template]
 ```
 
