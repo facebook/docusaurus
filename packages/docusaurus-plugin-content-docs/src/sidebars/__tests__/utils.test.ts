@@ -13,8 +13,11 @@ import {
   transformSidebarItems,
   collectSidebarsDocIds,
   SidebarNavigation,
+  toDocNavigationLink,
+  toNavigationLink,
 } from '../utils';
 import type {Sidebar, Sidebars} from '../types';
+import {DocMetadataBase, DocNavLink} from '../../types';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [
@@ -525,5 +528,168 @@ describe('transformSidebarItems', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('toDocNavigationLink', () => {
+  type TestDoc = Pick<DocMetadataBase, 'permalink' | 'title' | 'frontMatter'>;
+  function testDoc(data: TestDoc) {
+    return data as DocMetadataBase;
+  }
+
+  test('with no frontmatter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {},
+        }),
+      ),
+    ).toEqual({
+      title: 'Doc Title',
+      permalink: '/docPermalink',
+    } as DocNavLink);
+  });
+
+  test('with pagination_label frontmatter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            pagination_label: 'pagination_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as DocNavLink);
+  });
+
+  test('with sidebar_label frontmatter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'sidebar_label',
+      permalink: '/docPermalink',
+    } as DocNavLink);
+  });
+
+  test('with pagination_label + sidebar_label frontmatter', () => {
+    expect(
+      toDocNavigationLink(
+        testDoc({
+          title: 'Doc Title',
+          permalink: '/docPermalink',
+          frontMatter: {
+            pagination_label: 'pagination_label',
+            sidebar_label: 'sidebar_label',
+          },
+        }),
+      ),
+    ).toEqual({
+      title: 'pagination_label',
+      permalink: '/docPermalink',
+    } as DocNavLink);
+  });
+});
+
+describe('toNavigationLink', () => {
+  type TestDoc = Pick<DocMetadataBase, 'permalink' | 'title'>;
+  function testDoc(data: TestDoc) {
+    return {...data, frontMatter: {}} as DocMetadataBase;
+  }
+
+  const docsById: Record<string, DocMetadataBase> = {
+    doc1: testDoc({
+      title: 'Doc 1',
+      permalink: '/doc1',
+    }),
+    doc2: testDoc({
+      title: 'Doc 1',
+      permalink: '/doc1',
+    }),
+  };
+
+  test('with doc items', () => {
+    expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
+      toDocNavigationLink(docsById.doc1),
+    );
+    expect(toNavigationLink({type: 'doc', id: 'doc2'}, docsById)).toEqual(
+      toDocNavigationLink(docsById.doc2),
+    );
+    expect(() =>
+      toNavigationLink({type: 'doc', id: 'doc3'}, docsById),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't create navigation link: no doc found with id=doc3"`,
+    );
+  });
+
+  test('with category item and doc link', () => {
+    expect(
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'doc',
+            id: 'doc1',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toEqual(toDocNavigationLink(docsById.doc1));
+    expect(() =>
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'doc',
+            id: 'doc3',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Can't create navigation link: no doc found with id=doc3"`,
+    );
+  });
+
+  test('with category item and generated-index link', () => {
+    expect(
+      toNavigationLink(
+        {
+          type: 'category',
+          label: 'Category',
+          items: [],
+          link: {
+            type: 'generated-index',
+            slug: 'slug',
+            permalink: 'generated-index-permalink',
+          },
+          collapsed: true,
+          collapsible: true,
+        },
+        docsById,
+      ),
+    ).toEqual({title: 'Category', permalink: 'generated-index-permalink'});
   });
 });

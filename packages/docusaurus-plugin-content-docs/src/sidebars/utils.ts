@@ -280,9 +280,19 @@ export function toNavigationLink(
   navigationItem: SidebarNavigationItem | undefined,
   docsById: Record<string, DocMetadataBase>,
 ): DocNavLink | undefined {
+  function getDocById(docId: string) {
+    const doc = docsById[docId];
+    if (!doc) {
+      throw new Error(
+        `Can't create navigation link: no doc found with id=${docId}`,
+      );
+    }
+    return doc;
+  }
+
   function handleCategory(category: SidebarItemCategoryWithLink): DocNavLink {
     if (category.link.type === 'doc') {
-      return toDocNavigationLink(docsById[category.link.id]);
+      return toDocNavigationLink(getDocById(category.link.id));
     } else if (category.link.type === 'generated-index') {
       return {
         title: category.label,
@@ -297,7 +307,7 @@ export function toNavigationLink(
   }
 
   if (navigationItem.type === 'doc') {
-    return toDocNavigationLink(docsById[navigationItem.id]);
+    return toDocNavigationLink(getDocById(navigationItem.id));
   } else if (navigationItem.type === 'category') {
     return handleCategory(navigationItem);
   } else {
