@@ -146,7 +146,7 @@ export function findFirstCategoryLink(
       case 'link':
         return subItem.href;
       case 'category': {
-        const categoryLink = findFirstCategoryLink(item);
+        const categoryLink = findFirstCategoryLink(subItem);
         if (categoryLink) {
           return categoryLink;
         }

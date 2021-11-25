@@ -5,10 +5,86 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isActiveSidebarItem} from '../docsUtils';
-import {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+import {findFirstCategoryLink, isActiveSidebarItem} from '../docsUtils';
+import {
+  PropSidebarItem,
+  PropSidebarItemCategory,
+} from '@docusaurus/plugin-content-docs';
+
+// Make tests more readable with some useful category item defaults
+function category(
+  item: Partial<PropSidebarItemCategory>,
+): PropSidebarItemCategory {
+  return {
+    type: 'category',
+    href: undefined,
+    label: 'Category label',
+    items: [],
+    collapsed: true,
+    collapsible: true,
+    ...item,
+  };
+}
 
 describe('docsUtils', () => {
+  describe('findFirstCategoryLink', () => {
+    test('category without link nor child', () => {
+      expect(
+        findFirstCategoryLink(
+          category({
+            href: undefined,
+          }),
+        ),
+      ).toEqual(undefined);
+    });
+
+    test('category with link', () => {
+      expect(
+        findFirstCategoryLink(
+          category({
+            href: '/itemPath',
+          }),
+        ),
+      ).toEqual('/itemPath');
+    });
+
+    test('category with deeply nested category link', () => {
+      expect(
+        findFirstCategoryLink(
+          category({
+            href: undefined,
+            items: [
+              category({
+                href: undefined,
+                items: [
+                  category({
+                    href: '/itemPath',
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ),
+      ).toEqual('/itemPath');
+    });
+
+    test('category with deeply nested link', () => {
+      expect(
+        findFirstCategoryLink(
+          category({
+            href: undefined,
+            items: [
+              category({
+                href: undefined,
+                items: [{type: 'link', href: '/itemPath', label: 'Label'}],
+              }),
+            ],
+          }),
+        ),
+      ).toEqual('/itemPath');
+    });
+  });
+
   describe('isActiveSidebarItem', () => {
     test('with link href', () => {
       const item: PropSidebarItem = {
@@ -29,14 +105,9 @@ describe('docsUtils', () => {
     });
 
     test('with category href', () => {
-      const item: PropSidebarItem = {
-        type: 'category',
+      const item: PropSidebarItem = category({
         href: '/itemPath',
-        label: 'Label',
-        items: [],
-        collapsed: true,
-        collapsible: true,
-      };
+      });
 
       expect(isActiveSidebarItem(item, '/unexistingPath')).toEqual(false);
 
@@ -50,20 +121,16 @@ describe('docsUtils', () => {
     });
 
     test('with category nested items', () => {
-      const item: PropSidebarItem = {
-        type: 'category',
+      const item: PropSidebarItem = category({
         href: '/category-path',
-        label: 'Label',
         items: [
           {
             type: 'link',
             href: '/sub-link-path',
             label: 'Label',
           },
-          {
-            type: 'category',
+          category({
             href: '/sub-category-path',
-            label: 'Label',
             items: [
               {
                 type: 'link',
@@ -71,13 +138,9 @@ describe('docsUtils', () => {
                 label: 'Label',
               },
             ],
-            collapsed: true,
-            collapsible: true,
-          },
+          }),
         ],
-        collapsed: true,
-        collapsible: true,
-      };
+      });
 
       expect(isActiveSidebarItem(item, '/unexistingPath')).toEqual(false);
 
