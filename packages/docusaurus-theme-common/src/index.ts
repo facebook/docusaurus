@@ -39,7 +39,7 @@ export {
   useDocById,
   DocsSidebarProvider,
   useDocsSidebar,
-  useCategoryGeneratedIndexSidebarItem,
+  findSidebarCategory,
   findFirstCategoryLink,
   isActiveSidebarItem,
 } from './utils/docsUtils';

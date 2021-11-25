@@ -14,7 +14,6 @@ import {
   PropVersionDoc,
   PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
-import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
 
 // TODO not ideal, see also "useDocs"
@@ -92,44 +91,24 @@ export function useDocsSidebar(): PropSidebar | null {
 
 // Use the components props and the sidebar in context
 // to get back the related sidebar category that we want to render
-export function useCategoryGeneratedIndexSidebarItem(
-  categoryGeneratedIndex: PropCategoryGeneratedIndex,
-): PropSidebarItemCategory {
-  const sidebar = useDocsSidebar();
-  if (!sidebar) {
-    throw new Error(
-      `unexpected: a category index should have a sidebar: ${JSON.stringify(
-        categoryGeneratedIndex,
-      )}`,
-    );
-  }
-
-  // TODO more performant algo returning single element
-  function collectCategoriesMatch(
-    items: PropSidebarItem[],
-  ): PropSidebarItemCategory[] {
-    return items.flatMap((item) => {
-      if (item.type === 'category') {
-        if (item.href === categoryGeneratedIndex.permalink) {
-          return [item];
+export function findSidebarCategory(
+  sidebar: PropSidebar,
+  predicate: (category: PropSidebarItemCategory) => boolean,
+): PropSidebarItemCategory | undefined {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const item of sidebar) {
+    if (item.type === 'category') {
+      if (predicate(item)) {
+        return item;
+      } else {
+        const subItem = findSidebarCategory(item.items, predicate);
+        if (subItem) {
+          return subItem;
         }
-        return collectCategoriesMatch(item.items);
       }
-      return [];
-    });
+    }
   }
-
-  const [sidebarCategory] = collectCategoriesMatch(sidebar);
-
-  if (!sidebarCategory) {
-    throw new Error(
-      `Unexpected: sidebar category could not be found for categoryIndex=${JSON.stringify(
-        categoryGeneratedIndex,
-      )}`,
-    );
-  }
-
-  return sidebarCategory;
+  return undefined;
 }
 
 // If a category card has no link => link to the first subItem having a link
@@ -139,7 +118,7 @@ export function findFirstCategoryLink(
   if (item.href) {
     return item.href;
   }
-  // Seems fine, see https://github.com/airbnb/javascript/issues/1271
+
   // eslint-disable-next-line no-restricted-syntax
   for (const subItem of item.items) {
     switch (subItem.type) {
