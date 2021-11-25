@@ -25,23 +25,26 @@ const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
 const docIdPrefix = '$doc$/';
 
+function getLastPathSegment(str: string): string {
+  return last(str.split('/'))!;
+}
+
+// Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
-  return last(docId.split('/'))!;
+  return getLastPathSegment(docId);
 }
 
 // By convention, Docusaurus turns certain doc filenames as category doc links
 // TODO make this function configurable?
-export function isConventionalCategoryDocLink({
-  folderName,
-  docId,
-}: {
-  folderName: string;
-  docId: string;
-}): boolean {
-  // TODO using the "local id" is not 100% accurate, but good enough for now?
-  const docName = getLocalDocId(docId);
+export function isConventionalCategoryDocLink(
+  doc: Pick<SidebarItemsGeneratorDoc, 'source' | 'sourceDirName'>,
+): boolean {
+  // "@site/docs/folder/subFolder/myDoc.md" => "myDoc"
+  const docName = path.parse(doc.source).name;
+  // "folder/subFolder" => "subFolder"
+  const dirName = getLastPathSegment(doc.sourceDirName);
 
-  const eligibleDocIndexNames = ['index', 'readme', folderName.toLowerCase()];
+  const eligibleDocIndexNames = ['index', 'readme', dirName.toLowerCase()];
 
   return eligibleDocIndexNames.includes(docName.toLowerCase());
 }
@@ -237,7 +240,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         return allItems.find(
           (item) =>
             item.type === 'doc' &&
-            isConventionalCategoryDocLink({folderName, docId: item.id}),
+            isConventionalCategoryDocLink(getDoc(item.id)),
         ) as SidebarItemDoc | undefined;
       }
 

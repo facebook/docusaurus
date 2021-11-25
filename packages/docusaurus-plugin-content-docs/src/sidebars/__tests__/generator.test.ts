@@ -18,20 +18,26 @@ describe('isConventionalCategoryDocLink', () => {
   test('supports readme', () => {
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'readme',
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'README',
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.mdx',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'parent/ReAdMe',
+        sourceDirName: 'doesNotMatter',
+        source: 'README.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/ReAdMe',
       }),
     ).toEqual(true);
   });
@@ -39,20 +45,26 @@ describe('isConventionalCategoryDocLink', () => {
   test('supports index', () => {
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'index',
+        sourceDirName: 'doesNotMatter',
+        source: 'index.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'INDEX',
+        sourceDirName: 'doesNotMatter',
+        source: 'index.mdx',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'parent/InDeX',
+        sourceDirName: 'doesNotMatter',
+        source: 'INDEX.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/InDeX',
       }),
     ).toEqual(true);
   });
@@ -60,20 +72,32 @@ describe('isConventionalCategoryDocLink', () => {
   test('supports <categoryName>/<categoryName>.md', () => {
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'someCategory',
-        docId: 'someCategory',
+        sourceDirName: 'someCategory',
+        source: 'someCategory',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'some_category',
-        docId: 'SOME_CATEGORY',
+        sourceDirName: 'someCategory',
+        source: 'someCategory.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'some_category',
-        docId: 'parent/some_category',
+        sourceDirName: 'someCategory',
+        source: 'someCategory.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        sourceDirName: 'some_category',
+        source: 'SOME_CATEGORY.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalCategoryDocLink({
+        sourceDirName: 'some_category',
+        source: 'parent/some_category',
       }),
     ).toEqual(true);
   });
@@ -81,20 +105,20 @@ describe('isConventionalCategoryDocLink', () => {
   test('reject other cases', () => {
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'someCategory',
-        docId: 'some_Category',
+        sourceDirName: 'someCategory',
+        source: 'some_Category',
       }),
     ).toEqual(false);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'read_me',
+        sourceDirName: 'doesNotMatter',
+        source: 'read_me',
       }),
     ).toEqual(false);
     expect(
       isConventionalCategoryDocLink({
-        folderName: 'doesNotMatter',
-        docId: 'the index',
+        sourceDirName: 'doesNotMatter',
+        source: 'the index',
       }),
     ).toEqual(false);
   });
@@ -219,7 +243,7 @@ describe('DefaultSidebarItemsGenerator', () => {
 
   test('generates complex nested sidebar', async () => {
     mockCategoryMetadataFiles({
-      '02-Guides/_category_.json': {collapsed: false},
+      '02-Guides/_category_.json': {collapsed: false} as CategoryMetadataFile,
       '02-Guides/01-SubGuides/_category_.yml': {
         label: 'SubGuides (metadata file label)',
       },
