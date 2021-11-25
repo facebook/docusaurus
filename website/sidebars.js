@@ -31,7 +31,8 @@ const sidebars = {
       link: {
         type: 'generated-index',
         title: 'Docusaurus Guides',
-        description: "Let's learn about the most import Docusaurus concepts!",
+        description:
+          "Let's learn about the most important Docusaurus concepts!",
       },
       items: [
         'guides/creating-pages',

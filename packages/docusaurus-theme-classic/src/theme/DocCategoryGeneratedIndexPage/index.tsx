@@ -28,7 +28,7 @@ export default function DocCategoryGeneratedIndexPage(
         title={categoryGeneratedIndex.title}
         description={categoryGeneratedIndex.description}
       />
-      <div className={styles.page}>
+      <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
         <DocVersionBadge />
         <header>

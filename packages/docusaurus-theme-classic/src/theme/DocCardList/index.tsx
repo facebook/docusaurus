@@ -21,7 +21,7 @@ export default function DocCardList({
   return (
     <ul className={clsx('row', styles.docCardList)}>
       {items.map((item, index) => (
-        <li key={index} className="col col--4">
+        <li key={index} className="col col--6">
           <DocCard item={item} />
         </li>
       ))}

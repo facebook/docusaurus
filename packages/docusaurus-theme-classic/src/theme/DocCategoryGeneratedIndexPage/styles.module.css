@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.generatedIndexPage {
-
+@media (min-width: 997px) {
+  .generatedIndexPage {
+    max-width: 75% !important;
+  }
 }
 
 .title {
