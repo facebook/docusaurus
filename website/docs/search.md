@@ -60,12 +60,6 @@ It is highly recommended using a config similar to the [**Docusaurus 2 website c
 
 Docusaurus' own `@docusaurus/preset-classic` supports an Algolia DocSearch integration.
 
-To connect your docs with Algolia, first add the package to your website:
-
-```bash npm2yarn
-npm install --save @docusaurus/theme-search-algolia
-```
-
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
 ```jsx title="docusaurus.config.js"
