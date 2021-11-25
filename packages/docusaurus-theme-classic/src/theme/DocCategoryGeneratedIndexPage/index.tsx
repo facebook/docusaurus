@@ -16,6 +16,7 @@ import styles from './styles.module.css';
 import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
+import {MainHeading} from '@theme/Heading';
 
 export default function DocCategoryGeneratedIndexPage(
   props: Props,
@@ -32,7 +33,9 @@ export default function DocCategoryGeneratedIndexPage(
         <DocVersionBanner />
         <DocVersionBadge />
         <header>
-          <h1 className={styles.title}>{categoryGeneratedIndex.title}</h1>
+          <MainHeading className={styles.title}>
+            {categoryGeneratedIndex.title}
+          </MainHeading>
           {categoryGeneratedIndex.description && (
             <p>{categoryGeneratedIndex.description}</p>
           )}
