@@ -1,4 +1,5 @@
 ---
+sidebar_position: 0
 id: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
 slug: /api/docusaurus-config
@@ -264,6 +265,8 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -292,6 +295,8 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
@@ -354,6 +359,20 @@ Attempting to add unknown field in the config will lead to error in build time:
 
 ```bash
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
+```
+
+### `staticDirectories` {#staticdirectories}
+
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
+
+- Type: `string[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  staticDirectories: ['static'],
+};
 ```
 
 ### `scripts` {#scripts}

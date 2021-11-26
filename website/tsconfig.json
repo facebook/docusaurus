@@ -4,7 +4,8 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["@types/jest"]
   },
   "exclude": ["src/sw.js"]
 }

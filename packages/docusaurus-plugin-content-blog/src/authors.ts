@@ -43,12 +43,8 @@ export async function readAuthorsMapFile(
 ): Promise<AuthorsMap | undefined> {
   if (await fs.pathExists(filePath)) {
     const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-    const parse =
-      filePath.endsWith('.yml') || filePath.endsWith('.yaml')
-        ? Yaml.load
-        : JSON.parse;
     try {
-      const unsafeContent = parse(contentString);
+      const unsafeContent = Yaml.load(contentString);
       return validateAuthorsMapFile(unsafeContent);
     } catch (e) {
       // TODO replace later by error cause: see https://v8.dev/features/error-cause

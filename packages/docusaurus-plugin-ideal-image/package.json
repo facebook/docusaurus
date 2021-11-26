@@ -1,12 +1,15 @@
 {
   "name": "@docusaurus/plugin-ideal-image",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).",
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
-    "watch": "node copyUntypedFiles.js && tsc --watch"
+    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:prettier",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:copy": "node copyUntypedFiles.js",
+    "build:prettier": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "publishConfig": {
     "access": "public"
@@ -18,13 +21,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9",
     "fs-extra": "^10.0.0"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.8",
-    "@docusaurus/lqip-loader": "2.0.0-beta.8",
+    "@docusaurus/core": "2.0.0-beta.9",
+    "@docusaurus/lqip-loader": "2.0.0-beta.9",
     "@docusaurus/responsive-loader": "1.4.0",
-    "@docusaurus/types": "2.0.0-beta.8",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
     "sharp": "^0.29.1",

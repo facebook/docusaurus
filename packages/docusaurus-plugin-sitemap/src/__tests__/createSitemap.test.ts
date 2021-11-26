@@ -27,13 +27,12 @@ describe('createSitemap', () => {
     );
   });
 
-  test('empty site', () => {
-    return expect(async () => {
+  test('empty site', () =>
+    expect(async () => {
       await createSitemap({} as DocusaurusConfig, [], {});
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
-    );
-  });
+    ));
 
   test('exclusion of 404 page', async () => {
     const sitemap = await createSitemap(

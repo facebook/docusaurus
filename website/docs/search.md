@@ -58,13 +58,31 @@ It is highly recommended using a config similar to the [**Docusaurus 2 website c
 
 ### Connecting Algolia {#connecting-algolia}
 
-Docusaurus' own `@docusaurus/preset-classic` supports an Algolia DocSearch integration.
+Docusaurus' own `@docusaurus/preset-classic` supports Algolia DocSearch integration. If you use the classic preset, no additional installation is needed.
 
-To connect your docs with Algolia, first add the package to your website:
+<details>
+<summary>Installation steps when not using <code>@docusaurus/preset-classic</code></summary>
+
+1. Install the package:
 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-search-algolia
 ```
+
+2. Register the theme in `docusaurus.config.js`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'My site',
+  // ...
+  themes: ['@docusaurus/theme-search-algolia'],
+  themeConfig: {
+    // ...
+  },
+};
+```
+
+</details>
 
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
@@ -88,9 +106,6 @@ module.exports = {
 
       // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
       externalUrlRegex: 'external\\.com|domain\\.com',
-
-      // Optional: see doc section below
-      appId: 'YOUR_APP_ID',
 
       // Optional: Algolia search parameters
       searchParameters: {},
