@@ -38,14 +38,11 @@ type UserLocationState = {
 };
 
 function restoreUserState({
-  scrollTopPosition = 0,
+  scrollTopPosition,
   focusedElementId,
-}: UserLocationState = {}) {
-  if (ExecutionEnvironment.canUseDOM) {
-    document.getElementById(focusedElementId)?.focus();
-
-    window.scrollTo({top: scrollTopPosition});
-  }
+}: UserLocationState) {
+  document.getElementById(focusedElementId)?.focus();
+  window.scrollTo({top: scrollTopPosition});
 }
 
 export function prepareUserState(): UserLocationState {
@@ -56,7 +53,10 @@ export function prepareUserState(): UserLocationState {
     };
   }
 
-  return undefined;
+  return {
+    scrollTopPosition: 0,
+    focusedElementId: null,
+  };
 }
 
 function filterUsers(
