@@ -6,64 +6,16 @@ There are two reasonable ways to use a local version of the Docusaurus npm packa
 
 ## Install from a local Docusaurus repo
 
-> If you want to use the docusaurus init script for testing, you will have to update the `initialize.js` file to point to the local Docusaurus repo instead of installing it from the npm server. In some ways, it is just easier to do the manual steps.
-
-### Install the package from the Docusaurus repo
-
-```bash
-cd /path/to/testing_project
-mkdir website # if this does not exist already
-cd website
-```
-
-If you do not have a `package.json` file in the `website` directory, create one with the following content:
-
-```json
-{
-  "scripts": {
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "examples": "docusaurus-examples"
-  }
-}
-```
-
-Then:
-
-```sh
-# Path to your Docusaurus clone
-npm install ../../path/to/docusaurus/
-```
-
-#### Clowntown!
-
-Now, we have a bit of clowntown here in the way symlinks are handled. The above `npm install`, creates a `node_modules` directory with a symlink in it. And errors will result if you try to access the local site after starting the server (as you do below). You will get something like this error:
-
-```
-ReferenceError: Unknown plugin "transform-class-properties" specified in "base" at 1, attempted to resolve relative to "/Users/joelm/dev/testing-local-Docusaurus-changes-site/website/core"
-
-```
-
-So, you should install these packages locally. **Base the versions on the versions defined in the Docusaurus `package.json`**. e.g.,
-
-```bash
-# Still in the website directory of the testing project
-npm install babel-plugin-transform-class-properties@^6.24.1
-npm install babel-plugin-transform-object-rest-spread@^6.26.0
-npm install react@^16.4.1
-npm install babel-preset-env@^1.7.0
-npm install babel-preset-react@^6.24.1
-```
-
 ### Install in an existing project
 
 Let's say you have an existing project with this snippet inside package.json:
 
 ```json
-"dependencies": {
-  "@docusaurus/core": "^2.0.0-beta.8",
-  "@docusaurus/preset-classic": "^2.0.0-beta.8",
+{
+  "dependencies": {
+    "@docusaurus/core": "^2.0.0-beta.8",
+    "@docusaurus/preset-classic": "^2.0.0-beta.8"
+  }
 }
 ```
 
@@ -108,76 +60,22 @@ Note that:
   yarn add ../../local/docusaurus/packages/docusaurus
   ```
 - You cannot use `npm install` instead of `yarn add` for this purpose.
-
-### Test
-
-```bash
-./node_modules/.bin/docusaurus-examples # or whatever you want to test, if anything
-./node_modules/.bin/docusaurus-start
-```
+- `yarn link` is very likely to fail with react, unless you also manually link react. See https://github.com/facebook/react/issues/14257.
 
 ## Use Verdaccio
 
 Verdaccio is a good local npm server that you can use to test your packages.
 
-### Install verdaccio
+We have a script `test:build:website` that starts a docker with verdaccio, publishes the packages, and initializes a new website in the parent directory. Alternatively, after you have set up the verdaccio service, run
 
 ```bash
-npm install --global verdaccio
+npm_config_registry="http://localhost:4873" yarn install @docusaurus/core@"$NEW_VERSION"
 ```
 
-### Publish to verdaccio
+to install a package in the existing project. You can refer to [the implementation](./scripts/test-release.sh) for more details.
 
-When you are ready to test the code that could make up the next version of your package, you can publish locally to verdaccio
-
-Run verdaccio in a **separate terminal window**:
+If you don't have docker, you can still invoke the CLI manually.
 
 ```bash
-verdaccio
-```
-
-In another terminal window, get ready to publish your local npm package:
-
-```bash
-# Your clone of Docusaurus
-cd /path/to/docusaurus/
-
-# use anything for user, password, email
-# You should only have to do this once as long as you keep verdaccio installed
-npm adduser --registry http://localhost:4873
-
-npm publish --registry http://localhost:4873
-```
-
-You can navigate to localhost:4873 and you can see that your package was published. You can also see it showing you the steps you ran above as well.
-
-### Install the local npm package and test
-
-Now install the package in the repo you want to test Docusaurus on.
-
-```bash
-cd /path/to/testing_project/
-mkdir website # if this does not exist already
-cd website
-```
-
-If you do not have a `package.json` file in the `website` directory, create one with the following content:
-
-```json
-{
-  "scripts": {
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "examples": "docusaurus-examples"
-  }
-}
-```
-
-Then:
-
-```bash
-npm install docusaurus --registry http://localhost:4873 # this may be slower than the normal npm registry
-npm run examples # or whatever you want to test, if anything
-npm run start
+npx verdaccio --listen 4873 --config admin/verdaccio.yaml
 ```
