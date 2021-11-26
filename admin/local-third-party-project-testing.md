@@ -38,9 +38,11 @@ yarn add @docusaurus/core@../../local/docusaurus/packages/docusaurus
 Check package.json again and you will find this:
 
 ```json
-"dependencies": {
-  "@docusaurus/core": "../../local/docusaurus/packages/docusaurus",
-  "@docusaurus/preset-classic": "^2.0.0-beta.8",
+{
+  "dependencies": {
+    "@docusaurus/core": "../../local/docusaurus/packages/docusaurus",
+    "@docusaurus/preset-classic": "^2.0.0-beta.8"
+  }
 }
 ```
 
@@ -66,15 +68,15 @@ Note that:
 
 Verdaccio is a good local npm server that you can use to test your packages.
 
-We have a script `test:build:website` that starts a docker with verdaccio, publishes the packages, and initializes a new website in the parent directory. Alternatively, after you have set up the verdaccio service, run
+We have a script `test:build:website` that starts a docker with verdaccio, publishes the packages, and initializes a new website in the parent directory. Alternatively, to install a package in the existing project, after you have started the verdaccio service, run
 
 ```bash
-npm_config_registry="http://localhost:4873" yarn install @docusaurus/core@"$NEW_VERSION"
+npm_config_registry="http://localhost:4873" yarn install @docusaurus/core@"2.0.0-beta.8.NEW" # The version should be the latest
 ```
 
-to install a package in the existing project. You can refer to [the implementation](./scripts/test-release.sh) for more details.
+You can refer to [the implementation](./scripts/test-release.sh) for more details.
 
-If you don't have docker, you can still invoke the CLI manually.
+If you don't have docker, you can still invoke the CLI manually to start the service.
 
 ```bash
 npx verdaccio --listen 4873 --config admin/verdaccio.yaml
