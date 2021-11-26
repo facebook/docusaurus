@@ -16,6 +16,7 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  createSlugger,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
@@ -173,10 +174,11 @@ export default function pluginContentDocs(
           numberPrefixParser: options.numberPrefixParser,
           docs,
           version: versionMetadata,
-          options: {
+          sidebarOptions: {
             sidebarCollapsed: options.sidebarCollapsed,
             sidebarCollapsible: options.sidebarCollapsible,
           },
+          categoryLabelSlugger: createSlugger(),
         });
 
         const sidebarsUtils = createSidebarsUtils(sidebars);

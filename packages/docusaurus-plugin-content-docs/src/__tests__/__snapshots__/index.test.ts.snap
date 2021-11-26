@@ -618,12 +618,14 @@ Object {
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"Bar\\",
-                \\"href\\": \\"/docs/foo/bar\\"
+                \\"href\\": \\"/docs/foo/bar\\",
+                \\"docId\\": \\"foo/bar\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"baz\\",
-                \\"href\\": \\"/docs/foo/bazSlug.html\\"
+                \\"href\\": \\"/docs/foo/bazSlug.html\\",
+                \\"docId\\": \\"foo/baz\\"
               }
             ],
             \\"collapsible\\": true,
@@ -636,22 +638,26 @@ Object {
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootAbsoluteSlug\\",
-                \\"href\\": \\"/docs/rootAbsoluteSlug\\"
+                \\"href\\": \\"/docs/rootAbsoluteSlug\\",
+                \\"docId\\": \\"rootAbsoluteSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootRelativeSlug\\",
-                \\"href\\": \\"/docs/rootRelativeSlug\\"
+                \\"href\\": \\"/docs/rootRelativeSlug\\",
+                \\"docId\\": \\"rootRelativeSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootResolvedSlug\\",
-                \\"href\\": \\"/docs/hey/rootResolvedSlug\\"
+                \\"href\\": \\"/docs/hey/rootResolvedSlug\\",
+                \\"docId\\": \\"rootResolvedSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootTryToEscapeSlug\\",
-                \\"href\\": \\"/docs/rootTryToEscapeSlug\\"
+                \\"href\\": \\"/docs/rootTryToEscapeSlug\\",
+                \\"docId\\": \\"rootTryToEscapeSlug\\"
               }
             ],
             \\"collapsible\\": true,
@@ -660,7 +666,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"My heading as title\\",
-            \\"href\\": \\"/docs/headingAsTitle\\"
+            \\"href\\": \\"/docs/headingAsTitle\\",
+            \\"docId\\": \\"headingAsTitle\\"
           },
           {
             \\"type\\": \\"link\\",
@@ -670,7 +677,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"Hello sidebar_label\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       },
@@ -683,11 +691,92 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"Hello sidebar_label\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"Bar\\",
+      \\"description\\": \\"This is custom description\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"foo/baz\\": {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Images\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"headingAsTitle\\": {
+      \\"id\\": \\"headingAsTitle\\",
+      \\"title\\": \\"My heading as title\\",
+      \\"description\\": \\"\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"Hello, World !\\",
+      \\"description\\": \\"Hi, Endilie here :)\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"ipsum\\": {
+      \\"id\\": \\"ipsum\\",
+      \\"title\\": \\"ipsum\\",
+      \\"description\\": \\"Lorem ipsum.\\"
+    },
+    \\"lorem\\": {
+      \\"id\\": \\"lorem\\",
+      \\"title\\": \\"lorem\\",
+      \\"description\\": \\"Lorem ipsum.\\"
+    },
+    \\"rootAbsoluteSlug\\": {
+      \\"id\\": \\"rootAbsoluteSlug\\",
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootRelativeSlug\\": {
+      \\"id\\": \\"rootRelativeSlug\\",
+      \\"title\\": \\"rootRelativeSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootResolvedSlug\\": {
+      \\"id\\": \\"rootResolvedSlug\\",
+      \\"title\\": \\"rootResolvedSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootTryToEscapeSlug\\": {
+      \\"id\\": \\"rootTryToEscapeSlug\\",
+      \\"title\\": \\"rootTryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
 }
