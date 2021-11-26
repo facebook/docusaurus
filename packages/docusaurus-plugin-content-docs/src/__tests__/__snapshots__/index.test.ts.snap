@@ -1244,9 +1244,18 @@ Object {
       {
         \\"type\\": \\"link\\",
         \\"label\\": \\"team\\",
-        \\"href\\": \\"/community/team\\"
+        \\"href\\": \\"/community/team\\",
+        \\"docId\\": \\"team\\"
       }
     ]
+  },
+  \\"docs\\": {
+    \\"team\\": {
+      \\"id\\": \\"team\\",
+      \\"title\\": \\"team\\",
+      \\"description\\": \\"Team 1.0.0\\",
+      \\"sidebar\\": \\"version-1.0.0/community\\"
+    }
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -1262,9 +1271,18 @@ Object {
       {
         \\"type\\": \\"link\\",
         \\"label\\": \\"Team title translated\\",
-        \\"href\\": \\"/community/next/team\\"
+        \\"href\\": \\"/community/next/team\\",
+        \\"docId\\": \\"team\\"
       }
     ]
+  },
+  \\"docs\\": {
+    \\"team\\": {
+      \\"id\\": \\"team\\",
+      \\"title\\": \\"Team title translated\\",
+      \\"description\\": \\"Team current version (translated)\\",
+      \\"sidebar\\": \\"community\\"
+    }
   }
 }",
 }
@@ -1890,12 +1908,14 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/1.0.0/foo/barSlug\\"
+            \\"href\\": \\"/docs/1.0.0/foo/barSlug\\",
+            \\"docId\\": \\"foo/bar\\"
           },
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"baz\\",
-            \\"href\\": \\"/docs/1.0.0/foo/baz\\"
+            \\"href\\": \\"/docs/1.0.0/foo/baz\\",
+            \\"docId\\": \\"foo/baz\\"
           }
         ]
       },
@@ -1908,11 +1928,32 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/1.0.0/\\"
+            \\"href\\": \\"/docs/1.0.0/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"Bar 1.0.0 !\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    },
+    \\"foo/baz\\": {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Baz 1.0.0 ! This will be deleted in next subsequent versions.\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    }
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
@@ -1934,7 +1975,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/foo/bar\\"
+            \\"href\\": \\"/docs/foo/bar\\",
+            \\"docId\\": \\"foo/bar\\"
           }
         ]
       },
@@ -1947,11 +1989,26 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"Bar 1.0.1 !\\",
+      \\"sidebar\\": \\"version-1.0.1/docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello 1.0.1 !\\",
+      \\"sidebar\\": \\"version-1.0.1/docs\\"
+    }
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -1973,7 +2030,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/next/foo/barSlug\\"
+            \\"href\\": \\"/docs/next/foo/barSlug\\",
+            \\"docId\\": \\"foo/bar\\"
           }
         ]
       },
@@ -1986,11 +2044,46 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/next/\\"
+            \\"href\\": \\"/docs/next/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"This is next version of bar.\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello next !\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
@@ -2012,11 +2105,55 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"rootAbsoluteSlug\\",
-            \\"href\\": \\"/docs/withSlugs/rootAbsoluteSlug\\"
+            \\"href\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
+            \\"docId\\": \\"rootAbsoluteSlug\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"rootAbsoluteSlug\\": {
+      \\"id\\": \\"rootAbsoluteSlug\\",
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"version-1.0.1/docs\\"
+    },
+    \\"rootRelativeSlug\\": {
+      \\"id\\": \\"rootRelativeSlug\\",
+      \\"title\\": \\"rootRelativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"rootResolvedSlug\\": {
+      \\"id\\": \\"rootResolvedSlug\\",
+      \\"title\\": \\"rootResolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"rootTryToEscapeSlug\\": {
+      \\"id\\": \\"rootTryToEscapeSlug\\",
+      \\"title\\": \\"rootTryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
 }
