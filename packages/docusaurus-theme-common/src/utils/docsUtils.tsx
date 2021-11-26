@@ -15,6 +15,7 @@ import {
   PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
+import {useLocation} from '@docusaurus/router';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
@@ -138,6 +139,23 @@ export function findFirstCategoryLink(
     }
   }
   return undefined;
+}
+
+export function useCurrentSidebarCategory() {
+  const {pathname} = useLocation();
+  const sidebar = useDocsSidebar();
+  if (!sidebar) {
+    throw new Error(`unexpected: cant find current sidebar in context`);
+  }
+  const category = findSidebarCategory(sidebar, (item) =>
+    isSamePath(item.href, pathname),
+  );
+  if (!category) {
+    throw new Error(
+      `Unexpected: sidebar category could not be found for pathname='${pathname}'\nHook useCurrentSidebarCategory() should only be used on Category pages`,
+    );
+  }
+  return category;
 }
 
 function containsActiveSidebarItem(

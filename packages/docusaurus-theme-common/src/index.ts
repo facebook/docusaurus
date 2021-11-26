@@ -41,6 +41,7 @@ export {
   useDocsSidebar,
   findSidebarCategory,
   findFirstCategoryLink,
+  useCurrentSidebarCategory,
   isActiveSidebarItem,
 } from './utils/docsUtils';
 
