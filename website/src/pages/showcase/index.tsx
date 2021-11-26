@@ -42,6 +42,7 @@ function restoreUserState(userState: UserState | null) {
     scrollTopPosition: 0,
     focusedElementId: undefined,
   };
+  // @ts-expect-error: if focusedElementId is undefined it returns null
   document.getElementById(focusedElementId)?.focus();
   window.scrollTo({top: scrollTopPosition});
 }
