@@ -80,7 +80,9 @@ export function normalizeItem(
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
       link,
-      items: item.items.flatMap((subItem) => normalizeItem(subItem, options)),
+      items: (item.items ?? []).flatMap((subItem) =>
+        normalizeItem(subItem, options),
+      ),
       collapsible: item.collapsible ?? options.sidebarCollapsible,
       collapsed: item.collapsed ?? options.sidebarCollapsed,
     };

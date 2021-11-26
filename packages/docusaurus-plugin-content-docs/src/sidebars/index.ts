@@ -11,7 +11,7 @@ import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
 import type {NormalizeSidebarsParams, PluginOptions} from '../types';
 import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
-import {processSidebars, SidebarProcessorProps} from './processor';
+import {processSidebars, SidebarProcessorParams} from './processor';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
 
@@ -79,10 +79,10 @@ export function loadNormalizedSidebars(
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps,
+  options: SidebarProcessorParams,
 ): Promise<Sidebars> {
   const normalizeSidebarsParams: NormalizeSidebarsParams = {
-    ...options.options,
+    ...options.sidebarOptions,
     version: options.version,
     categoryLabelSlugger: createSlugger(),
   };
@@ -90,5 +90,5 @@ export async function loadSidebars(
     sidebarFilePath,
     normalizeSidebarsParams,
   );
-  return processSidebars(normalizedSidebars, options, normalizeSidebarsParams);
+  return processSidebars(normalizedSidebars, options);
 }
