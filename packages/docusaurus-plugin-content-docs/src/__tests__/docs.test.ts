@@ -28,7 +28,8 @@ import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
-import {posixPath} from '@docusaurus/utils';
+import {createSlugger, posixPath} from '@docusaurus/utils';
+import {createSidebarsUtils} from '../sidebars/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -119,7 +120,7 @@ function createTestUtils({
 
   async function generateNavigation(
     docFiles: DocFile[],
-  ): Promise<[DocNavLink, DocNavLink][]> {
+  ): Promise<[DocNavLink | undefined, DocNavLink | undefined][]> {
     const rawDocs = await Promise.all(
       docFiles.map((docFile) =>
         processDocMetadata({
@@ -136,16 +137,19 @@ function createTestUtils({
       numberPrefixParser: options.numberPrefixParser,
       docs: rawDocs,
       version: versionMetadata,
-      options: {
+      sidebarOptions: {
         sidebarCollapsed: false,
         sidebarCollapsible: true,
       },
+      categoryLabelSlugger: createSlugger(),
     });
+    const sidebarsUtils = createSidebarsUtils(sidebars);
+
     return addDocNavigation(
       rawDocs,
-      sidebars,
+      sidebarsUtils,
       versionMetadata.sidebarFilePath as string,
-    ).docs.map((doc) => [doc.previous, doc.next]);
+    ).map((doc) => [doc.previous, doc.next]);
   }
 
   return {processDocFile, testMeta, testSlug, generateNavigation};
