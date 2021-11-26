@@ -22,6 +22,7 @@ import ShowcaseCard from './_components/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
@@ -30,6 +31,31 @@ const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
+
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function restoreUserState(userState: UserState | null) {
+  const {scrollTopPosition, focusedElementId} = userState ?? {
+    scrollTopPosition: 0,
+    focusedElementId: undefined,
+  };
+  document.getElementById(focusedElementId)?.focus();
+  window.scrollTo({top: scrollTopPosition});
+}
+
+export function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
 
 function filterUsers(
   users: User[],
@@ -53,10 +79,11 @@ function filterUsers(
 
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
-  const location = useLocation();
+  const location = useLocation<UserState>();
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
     setOperator(readOperator(location.search));
+    restoreUserState(location.state);
   }, [location]);
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
@@ -66,15 +93,15 @@ function useFilteredUsers() {
 
 function useSelectedTags() {
   // The search query-string is the source of truth!
-  const location = useLocation();
+  const location = useLocation<UserState>();
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelectedTags(tags);
+    setSelectedTags(readSearchTags(location.search));
+    restoreUserState(location.state);
   }, [location]);
 
   return selectedTags;
@@ -101,18 +128,18 @@ function ShowcaseFilters() {
   return (
     <section className="container margin-top--l margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
-        <span>
+        <div>
           <h2>Filters</h2>
           <span>{`(${filteredUsers.length} site${
             filteredUsers.length > 1 ? 's' : ''
           })`}</span>
-        </span>
+        </div>
         <ShowcaseFilterToggle />
       </div>
       <ul className={styles.checkboxList}>
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
-          const id = `showcase_checkbox_id_${tag};`;
+          const id = `showcase_checkbox_id_${tag}`;
 
           return (
             <li key={i} className={styles.checkboxListItem}>

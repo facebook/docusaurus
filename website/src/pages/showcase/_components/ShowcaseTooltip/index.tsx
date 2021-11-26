@@ -52,6 +52,7 @@ export default function Tooltip({
   );
 
   const timeout = useRef<number>(null);
+  const tooltipId = `${id}_tooltip`;
 
   useEffect(() => {
     if (anchorEl) {
@@ -116,12 +117,13 @@ export default function Tooltip({
     <>
       {React.cloneElement(children, {
         ref: setReferenceElement,
+        'aria-describedby': open ? tooltipId : undefined,
       })}
       {container
         ? ReactDOM.createPortal(
             open && (
               <div
-                id={id}
+                id={tooltipId}
                 role="tooltip"
                 ref={setPopperElement}
                 className={styles.tooltip}
