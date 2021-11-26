@@ -71,13 +71,13 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
           }}
           onFocus={(e) => {
             if (e.relatedTarget) {
-              e.target.nextElementSibling.dispatchEvent(
+              e.target.nextElementSibling?.dispatchEvent(
                 new KeyboardEvent('focus'),
               );
             }
           }}
           onBlur={(e) => {
-            e.target.nextElementSibling.dispatchEvent(
+            e.target.nextElementSibling?.dispatchEvent(
               new KeyboardEvent('blur'),
             );
           }}
