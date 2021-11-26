@@ -176,7 +176,12 @@ export type PropVersionDocs = {
 // A change to any of these metadata can be considered as a breaking change
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
-  'id' | 'frontMatter' | 'source' | 'sourceDirName' | 'sidebarPosition'
+  | 'id'
+  | 'unversionedId'
+  | 'frontMatter'
+  | 'source'
+  | 'sourceDirName'
+  | 'sidebarPosition'
 >;
 export type SidebarItemsGeneratorVersion = Pick<
   VersionMetadata,

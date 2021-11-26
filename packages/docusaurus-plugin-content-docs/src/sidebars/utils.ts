@@ -17,7 +17,7 @@ import type {
   SidebarItemConfig,
 } from './types';
 
-import {mapValues, difference} from 'lodash';
+import {mapValues, difference, uniq} from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {DocMetadataBase, DocNavLink} from '../types';
 import {
@@ -130,7 +130,10 @@ export type SidebarsUtils = {
   sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
   getSidebarNameByDocId: (docId: string) => string | undefined;
-  getDocNavigation: (docId: string) => SidebarNavigation;
+  getDocNavigation: (
+    unversionedId: string,
+    versionedId: string,
+  ) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
@@ -166,8 +169,18 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     };
   }
 
-  function getDocNavigation(docId: string): SidebarNavigation {
-    const sidebarName = getSidebarNameByDocId(docId);
+  function getDocNavigation(
+    unversionedId: string,
+    versionedId: string,
+  ): SidebarNavigation {
+    // TODO legacy id retro-compatibility!
+    let docId = unversionedId;
+    let sidebarName = getSidebarNameByDocId(docId);
+    if (!sidebarName) {
+      docId = versionedId;
+      sidebarName = getSidebarNameByDocId(docId);
+    }
+
     if (sidebarName) {
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
       const currentItemIndex = navigationItems.findIndex((item) => {
@@ -248,7 +261,7 @@ These sidebar document ids do not exist:
 - ${invalidSidebarDocIds.sort().join('\n- ')}
 
 Available document ids are:
-- ${validDocIds.sort().join('\n- ')}`,
+- ${uniq(validDocIds).sort().join('\n- ')}`,
       );
     }
   }

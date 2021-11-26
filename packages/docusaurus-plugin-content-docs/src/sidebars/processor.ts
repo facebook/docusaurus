@@ -46,6 +46,7 @@ function toSidebarItemsGeneratorDoc(
 ): SidebarItemsGeneratorDoc {
   return pick(doc, [
     'id',
+    'unversionedId',
     'frontMatter',
     'source',
     'sourceDirName',

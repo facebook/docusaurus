@@ -1,5 +1,5 @@
 {
-  "version-2.0.0-beta.9/docs": [
+  "VersionedSideBarNameDoesNotMatter/docs": [
     {
       "type": "doc",
       "id": "version-2.0.0-beta.9/introduction"
@@ -34,7 +34,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/guides/creating-pages"
+          "id": "guides/creating-pages"
         },
         {
           "type": "category",
@@ -44,33 +44,33 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/introduction"
+              "id": "guides/docs/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/create-doc"
+              "id": "guides/docs/create-doc"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/sidebar"
+              "id": "guides/docs/sidebar"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/versioning"
+              "id": "guides/docs/versioning"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/markdown-features"
+              "id": "guides/docs/markdown-features"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/docs/multi-instance"
+              "id": "guides/docs/multi-instance"
             }
           ]
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/blog"
+          "id": "blog"
         },
         {
           "type": "category",
@@ -78,47 +78,47 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/introduction"
+              "id": "guides/markdown-features/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/react"
+              "id": "guides/markdown-features/react"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/tabs"
+              "id": "guides/markdown-features/tabs"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/code-blocks"
+              "id": "guides/markdown-features/code-blocks"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/admonitions"
+              "id": "guides/markdown-features/admonitions"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/headings"
+              "id": "guides/markdown-features/headings"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/inline-toc"
+              "id": "guides/markdown-features/inline-toc"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/assets"
+              "id": "guides/markdown-features/assets"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/plugins"
+              "id": "guides/markdown-features/plugins"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/math-equations"
+              "id": "guides/markdown-features/math-equations"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/guides/markdown-features/head-metadatas"
+              "id": "guides/markdown-features/head-metadatas"
             }
           ],
           "collapsible": true,
@@ -126,23 +126,23 @@
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/styling-layout"
+          "id": "styling-layout"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/static-assets"
+          "id": "static-assets"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/search"
+          "id": "search"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/browser-support"
+          "id": "browser-support"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/deployment"
+          "id": "deployment"
         },
         {
           "type": "category",
@@ -150,19 +150,19 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/i18n/introduction"
+              "id": "i18n/introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/i18n/tutorial"
+              "id": "i18n/tutorial"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/i18n/git"
+              "id": "i18n/git"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-beta.9/i18n/crowdin"
+              "id": "i18n/crowdin"
             }
           ],
           "collapsible": true,
@@ -178,15 +178,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/using-plugins"
+          "id": "using-plugins"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/using-themes"
+          "id": "using-themes"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/presets"
+          "id": "presets"
         }
       ],
       "collapsible": true,
@@ -198,45 +198,45 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/migration/migration-overview"
+          "id": "migration/migration-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/migration/migration-automated"
+          "id": "migration/migration-automated"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/migration/migration-manual"
+          "id": "migration/migration-manual"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/migration/migration-versioned-sites"
+          "id": "migration/migration-versioned-sites"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/migration/migration-translated-sites"
+          "id": "migration/migration-translated-sites"
         }
       ],
       "collapsible": true,
       "collapsed": true
     }
   ],
-  "version-2.0.0-beta.9/api": [
+  "api": [
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.9/cli"
+      "id": "cli"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.9/docusaurus-core"
+      "id": "docusaurus-core"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.9/api/docusaurus.config.js"
+      "id": "api/docusaurus.config.js"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-beta.9/lifecycle-apis"
+      "id": "lifecycle-apis"
     },
     {
       "type": "category",
@@ -244,47 +244,47 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugins-overview"
+          "id": "api/plugins/plugins-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-docs"
+          "id": "api/plugins/plugin-content-docs"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-blog"
+          "id": "api/plugins/plugin-content-blog"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-content-pages"
+          "id": "api/plugins/plugin-content-pages"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-client-redirects"
+          "id": "api/plugins/plugin-client-redirects"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-debug"
+          "id": "api/plugins/plugin-debug"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-google-analytics"
+          "id": "api/plugins/plugin-google-analytics"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-google-gtag"
+          "id": "api/plugins/plugin-google-gtag"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-ideal-image"
+          "id": "api/plugins/plugin-ideal-image"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-pwa"
+          "id": "api/plugins/plugin-pwa"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/plugins/plugin-sitemap"
+          "id": "api/plugins/plugin-sitemap"
         }
       ],
       "collapsible": true,
@@ -296,23 +296,23 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/themes/themes-overview"
+          "id": "api/themes/themes-overview"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/themes/theme-configuration"
+          "id": "api/themes/theme-configuration"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/themes/theme-classic"
+          "id": "api/themes/theme-classic"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/themes/theme-live-codeblock"
+          "id": "api/themes/theme-live-codeblock"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-beta.9/api/themes/theme-search-algolia"
+          "id": "api/themes/theme-search-algolia"
         }
       ],
       "collapsible": true,

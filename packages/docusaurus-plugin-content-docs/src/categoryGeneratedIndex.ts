@@ -7,7 +7,7 @@
 import {CategoryGeneratedIndexMetadata, DocMetadataBase} from './types';
 import {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
 import {SidebarsUtils, toNavigationLink} from './sidebars/utils';
-import {keyBy} from 'lodash';
+import {createDocsByIdIndex} from './docs';
 
 export function getCategoryGeneratedIndexMetadata({
   category,
@@ -42,11 +42,15 @@ export function getCategoryGeneratedIndexMetadataList({
   sidebarsUtils: SidebarsUtils;
   docs: DocMetadataBase[];
 }): CategoryGeneratedIndexMetadata[] {
-  const docsById = keyBy(docs, (doc) => doc.id);
+  const docsById = createDocsByIdIndex(docs);
 
   const categoryGeneratedIndexItems =
     sidebarsUtils.getCategoryGeneratedIndexList();
   return categoryGeneratedIndexItems.map((category) =>
-    getCategoryGeneratedIndexMetadata({category, sidebarsUtils, docsById}),
+    getCategoryGeneratedIndexMetadata({
+      category,
+      sidebarsUtils,
+      docsById,
+    }),
   );
 }

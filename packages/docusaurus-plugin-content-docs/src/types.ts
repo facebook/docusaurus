@@ -140,9 +140,9 @@ export type DocFrontMatter = {
 };
 
 export type DocMetadataBase = LastUpdateData & {
+  id: string; // TODO legacy versioned id => try to remove
+  unversionedId: string; // TODO new unversioned id => try to rename to "id"
   version: VersionName;
-  unversionedId: string;
-  id: string;
   isDocsHomePage: boolean;
   title: string;
   description: string;

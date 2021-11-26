@@ -13,13 +13,14 @@ import type {
   SidebarItemsGeneratorDoc,
   SidebarItemCategoryLink,
 } from './types';
-import {keyBy, sortBy, last} from 'lodash';
+import {sortBy, last} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
 import {validateCategoryMetadataFile} from './validation';
+import {createDocsByIdIndex} from '../docs';
 
 const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
@@ -121,7 +122,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   item: {dirName: autogenDir},
   version,
 }) => {
-  const docsById = keyBy(allDocs, (doc) => doc.id);
+  const docsById = createDocsByIdIndex(allDocs);
   const findDoc = (docId: string): SidebarItemsGeneratorDoc | undefined =>
     docsById[docId];
   const getDoc = (docId: string): SidebarItemsGeneratorDoc => {

@@ -23,13 +23,13 @@ import type {
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import {compact, keyBy, mapValues} from 'lodash';
+import {createDocsByIdIndex} from './docs';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
-  const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
+  const docsById = createDocsByIdIndex(loadedVersion.docs);
 
   function getDocById(docId: string): DocMetadata {
     const docMetadata = docsById[docId];
-
     if (!docMetadata) {
       throw new Error(
         `Invalid sidebars file. The document with id "${docId}" was used in the sidebar, but no document with this id could be found.

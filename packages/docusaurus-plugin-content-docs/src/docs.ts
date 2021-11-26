@@ -299,14 +299,19 @@ export function addDocNavigation(
   sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
 ): LoadedVersion['docs'] {
-  const docsBaseById = keyBy(docsBase, (doc) => doc.id);
+  const docsById = createDocsByIdIndex(docsBase);
 
-  const validDocIds = Object.keys(docsBaseById);
-  sidebarsUtils.checkSidebarsDocIds(validDocIds, sidebarFilePath);
+  sidebarsUtils.checkSidebarsDocIds(
+    docsBase.flatMap(getDocIds),
+    sidebarFilePath,
+  );
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const navigation = sidebarsUtils.getDocNavigation(doc.id);
+    const navigation = sidebarsUtils.getDocNavigation(
+      doc.unversionedId,
+      doc.id,
+    );
 
     const toNavigationLinkByDocId = (
       docId: string | null | undefined,
@@ -315,7 +320,7 @@ export function addDocNavigation(
       if (!docId) {
         return undefined;
       }
-      const navDoc = docsBaseById[docId];
+      const navDoc = docsById[docId];
       if (!navDoc) {
         // This could only happen if user provided the ID through front matter
         throw new Error(
@@ -327,19 +332,18 @@ export function addDocNavigation(
 
     const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
       ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
-      : toNavigationLink(navigation.previous, docsBaseById);
+      : toNavigationLink(navigation.previous, docsById);
     const next: DocNavLink | undefined = doc.frontMatter.pagination_next
       ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
-      : toNavigationLink(navigation.next, docsBaseById);
+      : toNavigationLink(navigation.next, docsById);
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
 
-  const docs = docsBase.map(addNavData);
+  const docsWithNavigation = docsBase.map(addNavData);
   // sort to ensure consistent output for tests
-  docs.sort((a, b) => a.id.localeCompare(b.id));
-
-  return docs;
+  docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
+  return docsWithNavigation;
 }
 
 /**
@@ -370,4 +374,23 @@ export function getMainDocId({
   }
 
   return getMainDoc().unversionedId;
+}
+
+// Return both doc ids
+// TODO legacy retro-compatibility due to old versioned sidebars using versioned doc ids
+// ("id" should be removed & "versionedId" should be renamed to "id")
+export function getDocIds(doc: DocMetadataBase): [string, string] {
+  return [doc.unversionedId, doc.id];
+}
+
+// docs are indexed by both versioned and unversioned ids at the same time
+// TODO legacy retro-compatibility due to old versioned sidebars using versioned doc ids
+// ("id" should be removed & "versionedId" should be renamed to "id")
+export function createDocsByIdIndex<
+  Doc extends {id: string; unversionedId: string},
+>(docs: Doc[]): Record<string, Doc> {
+  return {
+    ...keyBy(docs, (doc) => doc.unversionedId),
+    ...keyBy(docs, (doc) => doc.id),
+  };
 }
