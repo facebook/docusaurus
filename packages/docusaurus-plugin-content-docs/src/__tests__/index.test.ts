@@ -237,7 +237,7 @@ describe('empty/no docs website', () => {
   });
 });
 
-describe('simple website', () => {
+describe.only('simple website', () => {
   async function loadSite() {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext(siteDir);
