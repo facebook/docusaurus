@@ -32,30 +32,29 @@ const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 
-type UserLocationState = {
-  scrollTopPosition?: number;
-  focusedElementId?: string;
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
 };
 
-function restoreUserState(
-  {scrollTopPosition, focusedElementId}: UserLocationState = {
+function restoreUserState(userState: UserState | null) {
+  const {scrollTopPosition, focusedElementId} = userState ?? {
     scrollTopPosition: 0,
-    focusedElementId: null,
-  },
-) {
+    focusedElementId: undefined,
+  };
   document.getElementById(focusedElementId)?.focus();
   window.scrollTo({top: scrollTopPosition});
 }
 
-export function prepareUserState(): UserLocationState {
+export function prepareUserState(): UserState | undefined {
   if (ExecutionEnvironment.canUseDOM) {
     return {
       scrollTopPosition: window.scrollY,
-      focusedElementId: document.activeElement.id,
+      focusedElementId: document.activeElement?.id,
     };
   }
 
-  return null;
+  return undefined;
 }
 
 function filterUsers(
@@ -80,7 +79,7 @@ function filterUsers(
 
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
-  const location = useLocation();
+  const location = useLocation<UserState>();
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
     setOperator(readOperator(location.search));
@@ -94,7 +93,7 @@ function useFilteredUsers() {
 
 function useSelectedTags() {
   // The search query-string is the source of truth!
-  const location = useLocation();
+  const location = useLocation<UserState>();
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
