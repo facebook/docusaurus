@@ -1388,7 +1388,7 @@ const Users: User[] = [
       'An early-stage event processing system for unstructured data with rich support for structural pattern-matching, filtering and transformation.',
     preview: require('./showcase/tremor.png'),
     website: 'https://www.tremor.rs/',
-    source: 'https://github.com/tremor-rs',
+    source: 'https://github.com/tremor-rs/tremor-www',
     tags: ['opensource', 'versioning'],
   },
   {
