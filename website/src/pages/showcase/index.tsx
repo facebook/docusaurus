@@ -37,10 +37,12 @@ type UserLocationState = {
   focusedElementId?: string;
 };
 
-function restoreUserState({
-  scrollTopPosition,
-  focusedElementId,
-}: UserLocationState) {
+function restoreUserState(
+  {scrollTopPosition, focusedElementId}: UserLocationState = {
+    scrollTopPosition: 0,
+    focusedElementId: null,
+  },
+) {
   document.getElementById(focusedElementId)?.focus();
   window.scrollTo({top: scrollTopPosition});
 }
@@ -53,10 +55,7 @@ export function prepareUserState(): UserLocationState {
     };
   }
 
-  return {
-    scrollTopPosition: 0,
-    focusedElementId: null,
-  };
+  return null;
 }
 
 function filterUsers(
@@ -85,7 +84,6 @@ function useFilteredUsers() {
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
     setOperator(readOperator(location.search));
-
     restoreUserState(location.state);
   }, [location]);
   return useMemo(
@@ -103,9 +101,7 @@ function useSelectedTags() {
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelectedTags(tags);
-
+    setSelectedTags(readSearchTags(location.search));
     restoreUserState(location.state);
   }, [location]);
 
