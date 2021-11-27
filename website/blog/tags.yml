@@ -1,0 +1,30 @@
+i18n:
+  label: i18n
+docusaurus:
+  label: docusaurus
+meta:
+  label: meta
+recap:
+  label: recap
+birth:
+  label: birth
+blog:
+  label: blog
+documentation:
+  label: documentation
+profilo:
+  label: profilo
+adoption:
+  label: adoption
+endi:
+  label: endi
+tribute:
+  label: tribute
+release:
+  label: release
+beta:
+  label: beta
+new:
+  label: new
+search:
+  label: search
