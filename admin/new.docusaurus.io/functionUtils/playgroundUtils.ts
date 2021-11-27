@@ -52,7 +52,7 @@ export function createPlaygroundResponse(
 // Inspired by https://stackoverflow.com/a/3409200/82609
 function parseCookieString(cookieString: string): Record<string, string> {
   const result: Record<string, string> = {};
-  cookieString.split(';').forEach(function (cookie) {
+  cookieString.split(';').forEach((cookie) => {
     const [name, value] = cookie.split('=');
     result[name.trim()] = decodeURI(value);
   });

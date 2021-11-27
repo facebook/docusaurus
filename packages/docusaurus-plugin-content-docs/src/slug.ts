@@ -15,7 +15,7 @@ import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,
 } from './numberPrefix';
-import {NumberPrefixParser} from './types';
+import type {NumberPrefixParser} from './types';
 
 export default function getSlug({
   baseID,

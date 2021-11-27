@@ -24,12 +24,12 @@ export function useHistoryActionHandler(handler: HistoryBlockHandler): void {
     lastHandlerRef.current = handler;
   }, [handler]);
 
-  useEffect(() => {
-    // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-    return block((location, action) => {
-      return lastHandlerRef.current(location, action);
-    });
-  }, [block, lastHandlerRef]);
+  useEffect(
+    () =>
+      // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
+      block((location, action) => lastHandlerRef.current(location, action)),
+    [block, lastHandlerRef],
+  );
 }
 
 /*

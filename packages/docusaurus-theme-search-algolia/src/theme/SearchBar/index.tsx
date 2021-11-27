@@ -152,8 +152,8 @@ function DocSearch({
   }).current;
 
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) => {
-      return items.map((item) => {
+    (items) =>
+      items.map((item) => {
         // If Algolia contains a external domain, we should navigate without relative URL
         if (isRegexpStringMatch(externalUrlRegex, item.url)) {
           return item;
@@ -165,11 +165,11 @@ function DocSearch({
           ...item,
           url: withBaseUrl(`${url.pathname}${url.hash}`),
         };
-      });
-    },
+      }),
   ).current;
 
   const resultsFooterComponent = useMemo(
+    // eslint-disable-next-line react/no-unstable-nested-components
     () => (footerProps: ResultsFooterProps) =>
       <ResultsFooter {...footerProps} onClose={onClose} />,
     [onClose],
@@ -250,7 +250,7 @@ function DocSearch({
   );
 }
 
-function SearchBar() {
+function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   // @ts-ignore
   return <DocSearch {...siteConfig.themeConfig.algolia} />;

@@ -101,7 +101,7 @@ export default function LayoutHead(props: Props): JSX.Element {
     <>
       <Head>
         <html lang={htmlLang} dir={htmlDir} />
-        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+        {favicon && <link rel="icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
         <meta name="twitter:card" content="summary_large_image" />

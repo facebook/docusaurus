@@ -45,7 +45,7 @@ const allDocHomesPaths = [
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
-  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
@@ -112,6 +112,7 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  staticDirectories: ['static', path.join(__dirname, '_dogfooding/_asset-tests')],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['live-codeblock'],
   plugins: [

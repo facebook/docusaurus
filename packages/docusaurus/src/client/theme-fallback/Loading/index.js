@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-export default ({error, retry, pastDelay}) => {
+export default function Loading({error, retry, pastDelay}) {
   if (error) {
     return (
       <div
@@ -133,4 +133,4 @@ export default ({error, retry, pastDelay}) => {
   }
 
   return null;
-};
+}

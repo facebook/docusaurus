@@ -13,10 +13,13 @@ import BlogPostAuthor from '@theme/BlogPostAuthor';
 import styles from './styles.module.css';
 
 // Component responsible for the authors layout
-export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
+export default function BlogPostAuthors({
+  authors,
+  assets,
+}: Props): JSX.Element | null {
   const authorsCount = authors.length;
   if (authorsCount === 0) {
-    return <></>;
+    return null;
   }
   return (
     <div className="row margin-top--md margin-bottom--sm">

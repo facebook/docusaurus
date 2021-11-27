@@ -29,7 +29,7 @@ type ExtraProps = {
   toggleSidebar: () => void;
 };
 
-export type MobileSecondaryMenuComponent<Props extends unknown> = ComponentType<
+export type MobileSecondaryMenuComponent<Props> = ComponentType<
   Props & ExtraProps
 >;
 
@@ -108,9 +108,7 @@ export function MobileSecondaryMenuFiller<
     setState({component, props: memoizedProps});
   }, [setState, component, memoizedProps]);
 
-  useEffect(() => {
-    return () => setState(null);
-  }, [setState]);
+  useEffect(() => () => setState(null), [setState]);
 
   return null;
 }

@@ -351,7 +351,9 @@ describe('mergeTranslations', () => {
 
 describe('mapAsyncSequencial', () => {
   function sleep(timeout: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
   }
 
   test('map sequentially', async () => {
@@ -390,7 +392,9 @@ describe('mapAsyncSequencial', () => {
 
 describe('findAsyncSequencial', () => {
   function sleep(timeout: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
   }
 
   test('find sequentially', async () => {

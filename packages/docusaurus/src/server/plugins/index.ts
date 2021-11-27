@@ -124,12 +124,12 @@ export async function loadPlugins({
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
+    .mapValues((nameItems) =>
+      chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
+        .value(),
+    )
     .value();
 
   // 3. Plugin Lifecycle - contentLoaded.
