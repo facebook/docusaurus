@@ -25,8 +25,8 @@ import {
   HtmlTagObject,
   LoadContext,
   LoadedPlugin,
-  Props,
   PluginConfig,
+  Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
