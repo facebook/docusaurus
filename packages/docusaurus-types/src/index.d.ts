@@ -158,7 +158,7 @@ export type PresetInitializeFunction = (
   presetOptions: Record<string, unknown>,
 ) => Preset;
 
-export type PresetModuleImport = PresetInitializeFunction & {
+export type ImportedPresetModule = PresetInitializeFunction & {
   default?: PresetInitializeFunction;
 };
 
@@ -331,8 +331,6 @@ export type ImportedPluginModule = PluginModule & {
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
 export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
-
-export type PluginType = 'plugin' | 'theme';
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 

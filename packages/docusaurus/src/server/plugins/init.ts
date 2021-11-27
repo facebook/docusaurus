@@ -6,7 +6,6 @@
  */
 
 import {createRequire} from 'module';
-import importFresh from 'import-fresh';
 import {
   DocusaurusPluginVersionInformation,
   ImportedPluginModule,
@@ -15,11 +14,11 @@ import {
   PluginConfig,
   PluginOptions,
   InitializedPlugin,
-  PluginType,
   PluginConfigs,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {getPluginVersion} from '../versions';
+import loadModule from '../loadModule';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {
   normalizePluginOptions,
@@ -37,72 +36,24 @@ type NormalizedPluginConfig = {
   };
 };
 
-function resolvePluginModule(
-  pluginModuleImport: string,
-  pluginRequire: NodeRequire,
-): string | undefined {
-  try {
-    return pluginRequire.resolve(pluginModuleImport);
-  } catch (e) {
-    return undefined;
-  }
-}
-
-function importPluginModule(pluginPath: string): ImportedPluginModule {
-  return importFresh<ImportedPluginModule>(pluginPath);
-}
-
-function resolvePluginModuleWithAliases(
-  pluginModuleImport: string,
-  pluginRequire: NodeRequire,
-  pluginType: PluginType,
-): string {
-  const resolvedPluginModules = [
-    `docusaurus-${pluginType}-${pluginModuleImport}`,
-    `@docusaurus/${pluginType}-${pluginModuleImport}`,
-    `@${pluginModuleImport}/docusaurus-${pluginType}`,
-    pluginModuleImport,
-  ]
-    .map((pluginModuleImportAttempt) =>
-      resolvePluginModule(pluginModuleImportAttempt, pluginRequire),
-    )
-    .filter((pluginModule) => pluginModule !== undefined) as string[];
-
-  if (resolvedPluginModules.length === 0) {
-    throw new Error(
-      `Docusaurus was unable to resolve the ${pluginModuleImport} ${pluginType}. Make sure one of the following packages are installed:\n${resolvedPluginModules.map(
-        (pluginModuleImportAttempt) => `* ${pluginModuleImportAttempt}\n`,
-      )}`,
-    );
-  }
-
-  return resolvedPluginModules[0];
-}
-
 function normalizePluginConfig(
   pluginConfig: PluginConfig,
   pluginRequire: NodeRequire,
-  pluginType: PluginType,
+  pluginType: 'plugin' | 'theme',
 ): NormalizedPluginConfig {
-  // plugins: ['./{plugin}']
-  // plugins: ['docusaurus-plugin-{plugin}']
-  // plugins: ['@docusaurus/plugin-{plugin}']
-  // plugins: ['@{company}/docusaurus-plugin']
   if (typeof pluginConfig === 'string') {
-    const pluginModuleImport = pluginConfig;
-    const pluginModulePath = resolvePluginModuleWithAliases(
-      pluginModuleImport,
+    const pluginModule = loadModule<ImportedPluginModule>(
+      pluginConfig,
       pluginRequire,
       pluginType,
     );
-    const pluginModule = importPluginModule(pluginModulePath);
     return {
-      resolvedPath: pluginModulePath,
-      plugin: pluginModule?.default ?? pluginModule,
+      resolvedPath: pluginModule.path,
+      plugin: pluginModule.module.default ?? pluginModule.module,
       options: {},
       pluginModule: {
-        path: pluginModuleImport,
-        module: pluginModule,
+        path: pluginConfig,
+        module: pluginModule.module,
       },
     };
   }
@@ -120,19 +71,18 @@ function normalizePluginConfig(
     //   ['./plugin',options],
     // ]
     if (typeof pluginConfig[0] === 'string') {
-      const pluginModuleImport = pluginConfig[0];
-      const pluginModulePath = resolvePluginModuleWithAliases(
-        pluginModuleImport,
+      const pluginModule = loadModule<ImportedPluginModule>(
+        pluginConfig[0],
         pluginRequire,
         pluginType,
       );
-      const pluginModule = importPluginModule(pluginModulePath);
       return {
-        plugin: pluginModule?.default ?? pluginModule,
+        resolvedPath: pluginModule.path,
+        plugin: pluginModule.module.default ?? pluginModule.module,
         options: pluginConfig[1] ?? {},
         pluginModule: {
-          path: pluginModuleImport,
-          module: pluginModule,
+          path: pluginConfig[0],
+          module: pluginModule.module,
         },
       };
     }
@@ -245,7 +195,7 @@ export default function initPlugins({
   const pluginTypes = ['theme', 'plugin'] as const;
 
   const plugins: InitializedPlugin[] = pluginTypes
-    .flatMap((pluginType: PluginType) =>
+    .flatMap((pluginType) =>
       pluginConfigs[pluginType].map((pluginConfig) => {
         if (!pluginConfig) {
           return null;

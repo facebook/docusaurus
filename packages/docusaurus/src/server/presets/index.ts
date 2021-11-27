@@ -6,55 +6,13 @@
  */
 
 import {createRequire} from 'module';
-import importFresh from 'import-fresh';
 import {
   LoadContext,
   PluginConfig,
-  Preset,
   PresetConfig,
-  PresetModuleImport,
+  ImportedPresetModule,
 } from '@docusaurus/types';
-
-function resolvePresetModule(
-  pluginModuleImport: string,
-  pluginRequire: NodeRequire,
-): PresetModuleImport | undefined {
-  try {
-    const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    return importFresh<PresetModuleImport>(pluginPath);
-  } catch (e) {
-    return undefined;
-  }
-}
-
-function loadPresetModule(
-  presetModuleImport: string,
-  pluginRequire: NodeRequire,
-): PresetModuleImport {
-  const presetModulesPatterns = [
-    `docusaurus-preset-${presetModuleImport}`,
-    `@docusaurus/preset-${presetModuleImport}`,
-    `@${presetModuleImport}/docusaurus-preset`,
-    presetModuleImport,
-  ];
-  const resolvedPresetModules = presetModulesPatterns
-    .map((presetModulePattern) =>
-      resolvePresetModule(presetModulePattern, pluginRequire),
-    )
-    .filter(
-      (presetModule) => presetModule !== undefined,
-    ) as PresetModuleImport[];
-
-  if (resolvedPresetModules.length === 0) {
-    const error = `Docusaurus was unable to resolve the ${presetModuleImport} preset. Make sure one of the following packages are installed:`;
-    presetModulesPatterns.forEach((presetModulePattern) => {
-      return error.concat(`\n* ${presetModulePattern}`);
-    });
-    throw new Error(error);
-  }
-
-  return resolvedPresetModules[0];
-}
+import loadModule from '../loadModule';
 
 export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
@@ -79,8 +37,12 @@ export default function loadPresets(context: LoadContext): {
       throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule = loadPresetModule(presetModuleImport, presetRequire);
-    const preset: Preset = (presetModule.default || presetModule)(
+    const presetModule = loadModule<ImportedPresetModule>(
+      presetModuleImport,
+      presetRequire,
+      'preset',
+    ).module;
+    const preset = (presetModule.default ?? presetModule)(
       context,
       presetOptions,
     );
@@ -94,7 +56,7 @@ export default function loadPresets(context: LoadContext): {
   });
 
   return {
-    plugins: ([] as PluginConfig[]).concat(...unflatPlugins).filter(Boolean),
-    themes: ([] as PluginConfig[]).concat(...unflatThemes).filter(Boolean),
+    plugins: unflatPlugins.flat().filter(Boolean),
+    themes: unflatThemes.flat().filter(Boolean),
   };
 }
