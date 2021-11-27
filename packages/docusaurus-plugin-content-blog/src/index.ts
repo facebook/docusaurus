@@ -93,7 +93,7 @@ export default function pluginContentBlog(
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath} = options;
+      const {include, authorsMapPath, tagsMapPath} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
@@ -106,7 +106,13 @@ export default function pluginContentBlog(
         authorsMapPath,
       );
 
-      return [authorsMapFilePath, ...contentMarkdownGlobs];
+      const pathsToWatch = [authorsMapFilePath, ...contentMarkdownGlobs];
+
+      if (tagsMapPath) {
+        pathsToWatch.push(path.join(contentPaths.contentPath, tagsMapPath));
+      }
+
+      return pathsToWatch;
     },
 
     async getTranslationFiles() {

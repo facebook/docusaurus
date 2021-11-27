@@ -33,6 +33,7 @@ import {
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {TagsMap, getTagsMap, validateTags} from './tags';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -119,6 +120,7 @@ async function processBlogSourceFile(
   context: LoadContext,
   options: PluginOptions,
   authorsMap?: AuthorsMap,
+  tagsMap?: TagsMap,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -218,6 +220,17 @@ async function processBlogSourceFile(
   ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
+  const tags = normalizeFrontMatterTags(tagsBasePath, frontMatter.tags);
+
+  if (tagsMap) {
+    validateTags({
+      tagsMap,
+      tags,
+      failOnUnlisted: options.failOnUnlistedTags,
+      blogSource: blogSourceRelative,
+    });
+  }
+
   return {
     id: frontMatter.slug ?? title,
     metadata: {
@@ -228,7 +241,7 @@ async function processBlogSourceFile(
       description,
       date,
       formattedDate,
-      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
+      tags,
       readingTime: showReadingTime
         ? options.readingTime({
             content,
@@ -264,6 +277,11 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  const tagsMap = await getTagsMap({
+    contentPaths,
+    tagsMapPath: options.tagsMapPath,
+  });
+
   const blogPosts = (
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
@@ -274,6 +292,7 @@ export async function generateBlogPosts(
             context,
             options,
             authorsMap,
+            tagsMap,
           );
         } catch (e) {
           console.error(

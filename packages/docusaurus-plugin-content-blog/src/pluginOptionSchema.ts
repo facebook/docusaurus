@@ -41,6 +41,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
+  failOnUnlistedTags: true,
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
   sortPosts: 'descending',
 };
@@ -115,6 +116,8 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
+  tagsMapPath: Joi.string(),
+  failOnUnlistedTags: Joi.boolean().default(DEFAULT_OPTIONS.failOnUnlistedTags),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
   sortPosts: Joi.string()
     .valid('descending', 'ascending')

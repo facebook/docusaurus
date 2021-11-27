@@ -95,6 +95,8 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
+  tagsMapPath?: string; // Providing this is optional and has no default. It varies from authors because if once provided it must exist (compared to authors which can rely on legacy authors)
+  failOnUnlistedTags: boolean;
   readingTime: ReadingTimeFunctionOption;
   sortPosts: 'ascending' | 'descending';
 };
