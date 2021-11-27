@@ -153,13 +153,12 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
-export type PresetInitializeFunction = (
-  context: LoadContext,
-  presetOptions: Record<string, unknown>,
-) => Preset;
+export type PresetModule = {
+  <T>(context: LoadContext, presetOptions: T): Preset;
+};
 
-export type ImportedPresetModule = PresetInitializeFunction & {
-  default?: PresetInitializeFunction;
+export type ImportedPresetModule = PresetModule & {
+  default?: PresetModule;
 };
 
 export type PresetConfig =
@@ -342,7 +341,8 @@ export type PluginConfig =
   | PluginModule;
 
 export type PluginConfigs = {
-  [type in PluginType]: PluginConfig[];
+  plugin: PluginConfig[];
+  theme: PluginConfig[];
 };
 
 export interface ChunkRegistry {
