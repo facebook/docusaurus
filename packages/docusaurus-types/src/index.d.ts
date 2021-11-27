@@ -340,11 +340,6 @@ export type PluginConfig =
   | [PluginModule, PluginOptions]
   | PluginModule;
 
-export type PluginConfigs = {
-  plugin: PluginConfig[];
-  theme: PluginConfig[];
-};
-
 export interface ChunkRegistry {
   loader: string;
   modulePath: string;

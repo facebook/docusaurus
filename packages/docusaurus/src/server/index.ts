@@ -25,8 +25,8 @@ import {
   HtmlTagObject,
   LoadContext,
   LoadedPlugin,
-  PluginConfigs,
   Props,
+  PluginConfig,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
@@ -39,6 +39,8 @@ import {
 import {mapValues} from 'lodash';
 import {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
+import {createRequire} from 'module';
+import {resolveModuleName} from './moduleShorthand';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -126,21 +128,46 @@ export async function loadContext(
   };
 }
 
-export function loadPluginConfigs(context: LoadContext): PluginConfigs {
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
-  return {
-    plugin: [
-      ...presetPlugins,
-      // Site config should be the highest priority.
-      ...(siteConfig.plugins || []),
-    ],
-    theme: [
-      ...presetThemes,
-      // Site config should be the highest priority.
-      ...(siteConfig.themes || []),
-    ],
-  };
+export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
+  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+  const {siteConfig, siteConfigPath} = context;
+  const require = createRequire(siteConfigPath);
+  function normalizeShorthand(
+    pluginConfig: PluginConfig,
+    pluginType: 'plugin' | 'theme',
+  ): PluginConfig {
+    if (typeof pluginConfig === 'string') {
+      return resolveModuleName(pluginConfig, require, pluginType);
+    } else if (
+      Array.isArray(pluginConfig) &&
+      typeof pluginConfig[0] === 'string'
+    ) {
+      return [
+        resolveModuleName(pluginConfig[0], require, pluginType),
+        pluginConfig[1] ?? {},
+      ];
+    }
+    return pluginConfig;
+  }
+  presetPlugins = presetPlugins.map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  presetThemes = presetThemes.map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
+  const standalonePlugins = (siteConfig.plugins || []).map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  const standaloneThemes = (siteConfig.themes || []).map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
+  return [
+    ...presetPlugins,
+    ...presetThemes,
+    // Site config should be the highest priority.
+    ...standalonePlugins,
+    ...standaloneThemes,
+  ];
 }
 
 // Make a fake plugin to:
@@ -268,7 +295,7 @@ export async function load(
     codeTranslations,
   } = context;
   // Plugins.
-  const pluginConfigs: PluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
     await loadPlugins({pluginConfigs, context});
 

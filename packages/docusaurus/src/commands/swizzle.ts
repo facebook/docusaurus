@@ -148,11 +148,10 @@ export default async function swizzle(
   danger?: boolean,
 ): Promise<void> {
   const context = await loadContext(siteDir);
-  const rawPluginConfigs = loadPluginConfigs(context);
-  const pluginConfigs = [...rawPluginConfigs.plugin, ...rawPluginConfigs.theme];
+  const pluginConfigs = loadPluginConfigs(context);
   const pluginNames = getPluginNames(pluginConfigs);
   const plugins = initPlugins({
-    pluginConfigs: rawPluginConfigs,
+    pluginConfigs,
     context,
   });
   const themeNames = pluginNames.filter((_, index) =>

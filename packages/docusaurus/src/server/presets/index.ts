@@ -6,13 +6,14 @@
  */
 
 import {createRequire} from 'module';
+import importFresh from 'import-fresh';
 import {
   LoadContext,
   PluginConfig,
   PresetConfig,
   ImportedPresetModule,
 } from '@docusaurus/types';
-import loadModule from '../loadModule';
+import {resolveModuleName} from '../moduleShorthand';
 
 export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
@@ -36,12 +37,15 @@ export default function loadPresets(context: LoadContext): {
     } else {
       throw new Error('Invalid presets format detected in config.');
     }
-
-    const presetModule = loadModule<ImportedPresetModule>(
+    const presetName = resolveModuleName(
       presetModuleImport,
       presetRequire,
       'preset',
-    ).module;
+    );
+
+    const presetModule = importFresh<ImportedPresetModule>(
+      presetRequire.resolve(presetName),
+    );
     const preset = (presetModule.default ?? presetModule)(
       context,
       presetOptions,
