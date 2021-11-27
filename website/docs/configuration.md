@@ -48,6 +48,27 @@ module.exports = {
 };
 ```
 
+:::tip
+
+Docusaurus supports **module shorthands**. When it sees a plugin / theme / preset name, it tries to load one of the following:
+
+- `{name}`
+- `@docusaurus/{plugin|theme|preset}-{name}`
+- `docusaurus-{plugin|theme|preset}-{name}`
+- `@{name}/docusaurus-{plugin|theme|preset}`
+
+The above configuration can therefore be simplified as:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+:::
+
 They can also be loaded from local directories:
 
 ```js title="docusaurus.config.js"
@@ -66,7 +87,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      'content-blog',
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -74,7 +95,7 @@ module.exports = {
         // ...
       },
     ],
-    '@docusaurus/plugin-content-pages',
+    'content-pages',
   ],
 };
 ```
@@ -99,6 +120,12 @@ module.exports = {
   ],
 };
 ```
+
+:::tip
+
+The `presets: [['classic', {...}]]` shorthand works as well.
+
+:::
 
 For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
 
