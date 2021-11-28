@@ -130,15 +130,10 @@ Maybe you should remove them? %a`,
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    console.log(
-      `${Object.keys(mergedContent)
-        .length.toString()
-        .padStart(
-          3,
-          ' ',
-        )} translations will be written at "${toMessageRelativeFilePath(
-        filePath,
-      )}".`,
+    logger.info(
+      `%n translations will be written at %p.`,
+      Object.keys(mergedContent).length,
+      toMessageRelativeFilePath(filePath),
     );
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));

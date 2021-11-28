@@ -18,7 +18,7 @@ const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
-      console.error(pico.red(err.stack));
+      logger.error(err.stack);
       process.exitCode = 1;
     });
 }

@@ -79,7 +79,7 @@ export async function migrateDocusaurusProject(
 ): Promise<void> {
   function createMigrationContext(): MigrationContext {
     const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
-    console.log('Starting migration from v1 to v2...');
+    logger.info('Starting migration from v1 to v2...');
     const partialMigrationContext = {
       siteDir,
       newDir,
@@ -405,7 +405,7 @@ function createPages(newDir: string, siteDir: string): void {
       createDefaultLandingPage(newDir);
     }
   } else {
-    console.log('Ignoring Pages');
+    logger.info('Ignoring Pages');
   }
 }
 

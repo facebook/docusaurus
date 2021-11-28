@@ -6,7 +6,6 @@
  */
 
 const logger = require('@docusaurus/logger');
-const pico = require('picocolors');
 const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
@@ -54,7 +53,7 @@ try {
   }
 } catch (e) {
   // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
-  console.error(e);
+  logger.error(e);
 }
 
 // We don't want to display update message for canary releases
@@ -101,13 +100,12 @@ if (
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${pico.dim(`${notifier.update.current}`)}${pico.reset(
-      ' → ',
-    )}${pico.green(
-      `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${pico.cyan(
-      `${upgradeCommand}`,
-    )}`,
+    `Update available ${logger.dim(
+      `${notifier.update.current}`,
+    )} → ${logger.green(`${notifier.update.latest}`)}
+
+To upgrade Docusaurus packages with the latest version, run the following command:
+${logger.code(upgradeCommand)}`,
     boxenOptions,
   );
 

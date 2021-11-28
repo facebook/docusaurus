@@ -86,10 +86,14 @@ const logger = {
       )}`,
     );
   },
-  error(msg: string, ...values: InterpolatableValue[]): void {
-    console.error(
-      `${pico.red(pico.bold('[ERROR] '))}${this.interpolate(msg, ...values)}`,
-    );
+  error(msg: string | Error, ...values: InterpolatableValue[]): void {
+    if (msg instanceof Error) {
+      console.error(msg);
+    } else {
+      console.error(
+        `${pico.red(pico.bold('[ERROR] '))}${this.interpolate(msg, ...values)}`,
+      );
+    }
   },
   success(msg: string, ...values: InterpolatableValue[]): void {
     console.log(

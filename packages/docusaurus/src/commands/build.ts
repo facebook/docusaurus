@@ -56,7 +56,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      console.error(`Unable to build website for locale "${locale}".`);
+      logger.error(`Unable to build website for locale %i.`, locale);
       throw e;
     }
   }

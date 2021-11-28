@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import pico from 'picocolors';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
@@ -33,6 +32,7 @@ import {
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -151,10 +151,11 @@ async function processBlogSourceFile(
   }
 
   if (frontMatter.id) {
-    console.warn(
-      pico.yellow(
-        `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-      ),
+    logger.warn(
+      `%i header option is deprecated in %p file. Please use %i option instead.`,
+      'id',
+      blogSourceRelative,
+      'slug',
     );
   }
 
@@ -276,10 +277,9 @@ export async function generateBlogPosts(
             authorsMap,
           );
         } catch (e) {
-          console.error(
-            pico.red(
-              `Processing of blog source file failed for path "${blogSourceFile}"`,
-            ),
+          logger.error(
+            `Processing of blog source file failed for path %p`,
+            blogSourceFile,
           );
           throw e;
         }

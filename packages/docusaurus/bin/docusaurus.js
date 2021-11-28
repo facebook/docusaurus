@@ -220,7 +220,6 @@ cli
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   logger.error('    Unknown command %i.', cmd);
-  console.log();
 });
 
 function isInternalCommand(command) {

@@ -93,7 +93,6 @@
     "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^1.6.0",
     "nprogress": "^0.2.0",
-    "picocolors": "^1.0.0",
     "postcss": "^8.3.7",
     "postcss-loader": "^6.1.1",
     "prompts": "^2.4.1",

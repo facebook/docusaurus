@@ -272,11 +272,11 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        console.error(err.stack || err);
+        logger.error(err.stack || err);
         // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
           // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
-          console.error(err.details);
+          logger.error(err.details);
         }
         reject(err);
       }
@@ -287,7 +287,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          console.warn(warning);
+          logger.warn(`${warning}`);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works

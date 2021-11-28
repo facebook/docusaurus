@@ -26,7 +26,6 @@
     "eta": "^1.12.3",
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
-    "picocolors": "^1.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
