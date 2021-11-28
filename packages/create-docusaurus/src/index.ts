@@ -206,21 +206,19 @@ export default async function init(
   logger.log('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.log(`Cloning Git template ${logger.idC(template)}...`);
+    logger.log('Cloning Git template %p...', template);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(`Cloning Git template ${logger.idC(template)} failed!`);
+      throw new Error(`Cloning Git template ${template} failed!`);
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
         throw new Error(
-          `Template ${logger.idC(
-            template,
-          )} doesn't provide the Typescript variant.`,
+          `Template ${template} doesn't provide the Typescript variant.`,
         );
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
@@ -228,9 +226,7 @@ export default async function init(
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      logger.error(
-        `Copying Docusaurus template ${logger.idC(template)} failed!`,
-      );
+      logger.error('Copying Docusaurus template %i failed!', template);
       throw err;
     }
   } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
@@ -238,7 +234,7 @@ export default async function init(
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {
-      logger.error(`Copying local template ${logger.pathC(template)} failed!`);
+      logger.error('Copying local template %p failed!', template);
       throw err;
     }
   } else {
@@ -270,7 +266,7 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    logger.log(`Installing dependencies with ${logger.idC(pkgManager)}...`);
+    logger.log('Installing dependencies with %i...', pkgManager);
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
