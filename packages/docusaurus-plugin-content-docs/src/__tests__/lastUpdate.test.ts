@@ -60,7 +60,9 @@ describe('lastUpdate', () => {
     const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
-      'Sorry, the docs plugin last update options require Git.',
+      expect.stringMatching(
+        /.*\[WARNING\].* Sorry, the docs plugin last update options require Git\..*/,
+      ),
     );
 
     consoleMock.mockRestore();
