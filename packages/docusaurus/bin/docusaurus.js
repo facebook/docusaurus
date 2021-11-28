@@ -219,7 +219,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error(`    Unknown command ${logger.idC(cmd)}.`);
+  logger.error('    Unknown command %i.', cmd);
   console.log();
 });
 

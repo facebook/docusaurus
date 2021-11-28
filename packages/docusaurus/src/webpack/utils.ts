@@ -166,9 +166,9 @@ export const getCustomizableJSLoader =
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
   logger.warn(
-    `Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): ${logger.codeC(
-      'getBabelLoader(isServer)',
-    )} is now deprecated in favor of ${logger.codeC('getJSLoader(isServer)')}.`,
+    `Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): %c is now deprecated in favor of %c.`,
+    'getBabelLoader(isServer)',
+    'getJSLoader(isServer)',
   );
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
@@ -182,9 +182,8 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
   logger.warn(
-    `Docusaurus uses Webpack 5 and ${logger.codeC(
-      'getCacheLoader()',
-    )} usage is now deprecated.`,
+    `Docusaurus uses Webpack 5 and %c usage is now deprecated.`,
+    'getCacheLoader()',
   );
 });
 function getCacheLoaderDeprecated() {
@@ -443,9 +442,8 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${logger.pathC(crtFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate ${crtFile} is invalid.
+${err}`,
     );
   }
 
@@ -454,9 +452,8 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${logger.pathC(keyFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate key ${keyFile} is invalid.
+${err}`,
     );
   }
 }
@@ -465,9 +462,7 @@ function validateKeyAndCerts({
 function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${logger.codeC(
-        type,
-      )} in your env, but the file "${logger.pathC(file)}" can't be found.`,
+      `You specified ${type} in your env, but the file "${file}" can't be found.`,
     );
   }
   return fs.readFileSync(file);

@@ -203,10 +203,10 @@ export default async function init(
     throw new Error('Template should not be empty');
   }
 
-  logger.log('Creating new Docusaurus project...');
+  logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.log('Cloning Git template %p...', template);
+    logger.info('Cloning Git template %p...', template);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
@@ -266,7 +266,7 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    logger.log('Installing dependencies with %i...', pkgManager);
+    logger.info('Installing dependencies with %i...', pkgManager);
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
@@ -291,27 +291,36 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  logger.info(`
-Successfully created "${logger.pathC(cdpath)}".
+  logger.info(
+    `
+Successfully created %p.
 Inside that directory, you can run several commands:
 
-  ${logger.codeC(`${pkgManager} start`)}
+  %c
     Starts the development server.
 
-  ${logger.codeC(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+  %c
     Bundles your website into static files for production.
 
-  ${logger.codeC(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+  %c
     Serves the built website locally.
 
-  ${logger.codeC(`${pkgManager} deploy`)}
+  %c
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  ${logger.codeC('cd')} ${cdpath}
-  ${logger.codeC(`${pkgManager} start`)}
+  %c
+  %c
 
 Happy building awesome websites!
-`);
+`,
+    cdpath,
+    `${pkgManager} start`,
+    `${pkgManager} ${useYarn ? '' : 'run '}build`,
+    `${pkgManager} ${useYarn ? '' : 'run '}serve`,
+    `${pkgManager} deploy`,
+    `cd ${cdpath}`,
+    `${pkgManager} start`,
+  );
 }

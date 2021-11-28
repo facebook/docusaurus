@@ -34,7 +34,7 @@ export default async function start(
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  logger.log('Starting the development server...');
+  logger.info('Starting the development server...');
 
   function loadSite() {
     return load(siteDir, {
@@ -60,9 +60,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  logger.success(
-    `Docusaurus website is running at "${logger.pathC(openUrl)}".`,
-  );
+  logger.success('Docusaurus website is running at %p.', openUrl);
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -70,9 +68,7 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          logger.success(
-            `Docusaurus website is running at "${logger.pathC(newOpenUrl)}".`,
-          );
+          logger.success('Docusaurus website is running at %p.', newOpenUrl);
         }
       })
       .catch((err) => {

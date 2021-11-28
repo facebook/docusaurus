@@ -12,10 +12,10 @@ import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 async function removePath(fsPath: string) {
   try {
     fs.remove(path.join(fsPath));
-    logger.success(`Removed the "${logger.pathC(fsPath)}" directory.`);
+    logger.success('Removed the %p directory.', fsPath);
   } catch (e) {
-    logger.error(`Could not remove ${logger.pathC(fsPath)} directory.`);
-    logger.error((e as Error).message);
+    logger.error('Could not remove %p directory.', fsPath);
+    logger.error(e as string);
   }
 }
 

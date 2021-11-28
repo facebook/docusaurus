@@ -71,9 +71,9 @@ export default async function serve(
   });
 
   logger.success(
-    `Serving "${logger.pathC(cliOptions.dir)}" directory at "${logger.pathC(
-      servingUrl + baseUrl,
-    )}".`,
+    'Serving %p directory at %p.',
+    cliOptions.dir,
+    servingUrl + baseUrl,
   );
   server.listen(port);
 }

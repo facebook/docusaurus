@@ -45,12 +45,10 @@ export async function loadI18n(
 
   if (!i18nConfig.locales.includes(currentLocale)) {
     logger.warn(
-      `The locale "${logger.idC(
-        currentLocale,
-      )}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
-        ',',
-      )}.
+      `The locale %i was not found in your site configuration: Available locales are: %a.
 Note: Docusaurus only support running one locale at a time.`,
+      currentLocale,
+      i18nConfig.locales,
     );
   }
 

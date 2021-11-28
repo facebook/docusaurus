@@ -43,22 +43,26 @@ export default async function render(locals) {
   try {
     return await doRender(locals);
   } catch (e) {
-    logger.error(`Docusaurus Node/SSR could not render static page with path "${logger.pathC(
+    logger.error(
+      `Docusaurus Node/SSR could not render static page with path %p because of following error:
+${e.stack}`,
       locals.path,
-    )}" because of following error:
-${e.stack}`);
+    );
 
     const isNotDefinedErrorRegex =
       /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
-      logger.tip(`It looks like you are using code that should run on the client-side only.
-To get around it, try using ${logger.idC(
+      logger.tip(
+        `It looks like you are using code that should run on the client-side only.
+To get around it, try using %c (%p) or %c (%p).
+It might also require to wrap your client code in %c hook and/or import a third-party library dynamically (if any).`,
         '<BrowserOnly>',
-      )} (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ${logger.idC(
+        'https://docusaurus.io/docs/docusaurus-core/#browseronly',
         'ExecutionEnvironment',
-      )} (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).
-It might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).`);
+        'https://docusaurus.io/docs/docusaurus-core/#executionenvironment',
+        'useEffect',
+      );
     }
 
     throw new Error('Server-side rendering fails due to the error above.');
@@ -143,10 +147,11 @@ async function doRender(locals) {
       minifyJS: true,
     });
   } catch (e) {
-    logger.error(`Minification page with path "${logger.pathC(
+    logger.error(
+      `Minification page with path %p failed because of following error:
+${e.stack}`,
       locals.path,
-    )}" failed because of following error:
-${e.stack}`);
+    );
     throw e;
   }
 }

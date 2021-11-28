@@ -115,10 +115,9 @@ function logSourceCodeFileTranslationsWarnings(
   sourceCodeFilesTranslations.forEach(({sourceCodeFilePath, warnings}) => {
     if (warnings.length > 0) {
       logger.warn(
-        `Translation extraction warnings for file ${logger.pathC(
-          sourceCodeFilePath,
-        )}:
-- ${logger.warnC(warnings.join('\n\n- '))}`,
+        `Translation extraction warnings for file %p:%a`,
+        sourceCodeFilePath,
+        warnings,
       );
     }
   });

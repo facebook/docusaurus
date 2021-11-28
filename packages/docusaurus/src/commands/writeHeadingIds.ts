@@ -147,17 +147,16 @@ export default async function writeHeadingIds(
   const pathsModified = result.filter(Boolean) as string[];
 
   if (pathsModified.length) {
-    logger.success(`Heading ids added to Markdown files (${
-      pathsModified.length
-    }/${markdownFiles.length} files):
-- ${pathsModified.join('\n- ')}`);
+    logger.success(
+      `Heading ids added to Markdown files (%n files):%a`,
+      `${pathsModified.length}/${markdownFiles.length}`,
+      pathsModified,
+    );
   } else {
     logger.warn(
-      `${
-        markdownFiles.length
-      } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${logger.codeC(
-        '--overwrite',
-      )} option.`,
+      `%n Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the %c option.`,
+      markdownFiles.length,
+      '--overwrite',
     );
   }
 }

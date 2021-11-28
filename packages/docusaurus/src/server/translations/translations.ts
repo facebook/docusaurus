@@ -114,11 +114,12 @@ export async function writeTranslationFileContent({
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    logger.warn(`Some translation keys looks unknown to us in file ${logger.pathC(
+    logger.warn(
+      `Some translation keys looks unknown to us in file %p.
+Maybe you should remove them? %a`,
       filePath,
-    )}
-Maybe you should remove them?
-- ${unknownKeys.join('\n- ')}`);
+      unknownKeys,
+    );
   }
 
   const mergedContent = mergeTranslationFileContent({

@@ -104,17 +104,13 @@ function themeComponents(
   }
 
   return `
-'Theme components available for swizzle.'
+Theme components available for swizzle.
 
 ${logger.successC('green  =>')} safe: lower breaking change risk
 ${logger.errorC('red    =>')} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
-}
-
-function formattedThemeNames(themeNames: string[]): string {
-  return `Themes available for swizzle:\n- ${themeNames.join('\n- ')}`;
 }
 
 function colorCode(
@@ -135,10 +131,12 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) =>
-      logger.successC(`safe: ${component}`),
+    ...greenComponents.map(
+      (component) => `${logger.successC('safe:')}   ${component}`,
     ),
-    ...redComponents.map((component) => logger.errorC(`unsafe: ${component}`)),
+    ...redComponents.map(
+      (component) => `${logger.errorC('unsafe:')} ${component}`,
+    ),
   ];
 }
 
@@ -163,26 +161,26 @@ export default async function swizzle(
   );
 
   if (!themeName) {
-    logger.error(formattedThemeNames(themeNames));
-    process.exit(1);
+    logger.info('Themes available for swizzle:\n%a', themeNames);
+    return;
   }
 
   let pluginModule: ImportedPluginModule;
   try {
     pluginModule = importFresh(themeName);
   } catch {
-    let suggestion;
+    let suggestion: string | undefined;
     themeNames.forEach((name) => {
       if (leven(name, themeName) < 4) {
         suggestion = name;
       }
     });
     logger.error(
-      `Theme ${logger.idC(themeName)} not found. ${
-        suggestion
-          ? `Did you mean "${logger.idC(suggestion)}" ?`
-          : formattedThemeNames(themeNames)
+      `Theme %i not found. ${
+        suggestion ? `Did you mean %i ?` : 'Themes available for swizzle:%a'
       }`,
+      themeName,
+      suggestion ?? themeNames,
     );
     process.exit(1);
   }
@@ -229,8 +227,8 @@ export default async function swizzle(
   }
 
   if (!componentName) {
-    console.warn(themeComponents(themePath, pluginModule));
-    process.exit(1);
+    logger.info(themeComponents(themePath, pluginModule));
+    return;
   }
 
   const components = getComponentName(themePath, pluginModule, Boolean(danger));
@@ -256,11 +254,11 @@ export default async function swizzle(
 
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
-      logger.error(`Component "${logger.idC(componentName)}" doesn't exist.`);
+      logger.error("Component %i doesn't exist.", componentName);
       logger.info(
-        `"${logger.idC(
-          mostSuitableComponent,
-        )}" is swizzled instead of "${logger.idC(componentName)}".`,
+        `%i is swizzled instead of %i.`,
+        mostSuitableComponent,
+        componentName,
       );
     }
   }
@@ -277,18 +275,21 @@ export default async function swizzle(
     } else if (fs.existsSync(`${fromPath}.js`)) {
       [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
     } else {
-      let suggestion;
+      let suggestion: string | undefined;
       components.forEach((name) => {
         if (leven(name, mostSuitableComponent) < 3) {
           suggestion = name;
         }
       });
       logger.error(
-        `Component ${logger.idC(mostSuitableComponent)} not found. ${
+        `Component %i not found. ${
           suggestion
-            ? `Did you mean "${logger.idC(suggestion)}"?`
-            : `${themeComponents(themePath, pluginModule)}`
+            ? `Did you mean %i ?`
+            : themeComponents(themePath, pluginModule)
+        }
         }`,
+        mostSuitableComponent,
+        suggestion!,
       );
       process.exit(1);
     }
@@ -296,11 +297,9 @@ export default async function swizzle(
 
   if (!components.includes(mostSuitableComponent) && !danger) {
     logger.error(
-      `${logger.idC(
-        mostSuitableComponent,
-      )} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the ${logger.codeC(
-        '--danger',
-      )} flag.`,
+      '%i is an internal component and has a higher breaking change probability. If you want to swizzle it, use the %c flag.',
+      mostSuitableComponent,
+      '--danger',
     );
     process.exit(1);
   }
@@ -308,10 +307,8 @@ export default async function swizzle(
   await fs.copy(fromPath, toPath);
 
   logger.success(
-    `Copied ${logger.codeC(
-      mostSuitableComponent
-        ? `${themeName} ${mostSuitableComponent}`
-        : themeName,
-    )} to ${logger.pathC(path.relative(process.cwd(), toPath))}.`,
+    `Copied %c to %p.`,
+    mostSuitableComponent ? `${themeName} ${mostSuitableComponent}` : themeName,
+    path.relative(process.cwd(), toPath),
   );
 }

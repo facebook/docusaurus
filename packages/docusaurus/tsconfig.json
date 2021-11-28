@@ -6,7 +6,8 @@
     "rootDir": "src",
     "outDir": "lib",
     "jsx": "react",
-    "allowJs": true
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**/*", "src/client"]

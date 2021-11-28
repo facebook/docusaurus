@@ -122,7 +122,7 @@ export default async function choosePort(
       }),
     (err) => {
       throw new Error(
-        `Could not find an open port at ${logger.idC(host)}.
+        `Could not find an open port at ${host}.
 ${`Network error message: "${err.message || err}".`}`,
       );
     },

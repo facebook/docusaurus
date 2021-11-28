@@ -108,7 +108,7 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  logger.log(`[${locale}] Creating an optimized production build...`);
+  logger.info('[%i] Creating an optimized production build...', locale);
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
@@ -233,17 +233,12 @@ async function buildLocale({
   });
 
   logger.success(
-    `Generated static files in ${logger.pathC(
-      path.relative(process.cwd(), outDir),
-    )}.`,
+    'Generated static files in %p.',
+    path.relative(process.cwd(), outDir),
   );
 
   if (isLastLocale) {
-    logger.info(
-      `Use ${logger.codeC(
-        'npm run serve',
-      )} command to test your build locally.`,
-    );
+    logger.info('Use %c command to test your build locally.', 'npm run serve');
   }
 
   if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {
