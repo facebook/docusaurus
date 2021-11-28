@@ -26,7 +26,7 @@ function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
     logger.info(
-      `${obfuscateGitPass(cmd)} ${logger.subdueC(`(code: ${result.code})`)}`,
+      `${obfuscateGitPass(cmd)} ${logger.subdue(`(code: ${result.code})`)}`,
     );
     return result;
   } catch (e) {
