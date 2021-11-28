@@ -56,7 +56,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      logger.error(`Unable to build website for locale %i.`, locale);
+      logger.error`Unable to build website for locale %i${locale}.`;
       throw e;
     }
   }
@@ -73,8 +73,7 @@ export default async function build(
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
   } else {
     if (i18n.locales.length > 1) {
-      logger.info(`Website will be built for all these locales:
-- ${i18n.locales.join('\n- ')}`);
+      logger.info`Website will be built for all these locales: ${i18n.locales}`;
     }
 
     // We need the default locale to always be the 1st in the list
@@ -108,7 +107,7 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  logger.info('[%i] Creating an optimized production build...', locale);
+  logger.info`%i${`[${locale}]`} Creating an optimized production build...`;
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
@@ -232,13 +231,13 @@ async function buildLocale({
     baseUrl,
   });
 
-  logger.success(
-    'Generated static files in %p.',
-    path.relative(process.cwd(), outDir),
-  );
+  logger.success`Generated static files in %p${path.relative(
+    process.cwd(),
+    outDir,
+  )}.`;
 
   if (isLastLocale) {
-    logger.info('Use %c command to test your build locally.', 'npm run serve');
+    logger.info`Use %c${'npm run serve'} command to test your build locally.`;
   }
 
   if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {

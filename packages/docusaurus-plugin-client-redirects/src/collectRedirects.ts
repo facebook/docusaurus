@@ -99,13 +99,10 @@ function filterUnwantedRedirects(
   Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
-        logger.error(
-          `%i: multiple redirects are created with the same "from" pathname: %p
-It is not possible to redirect the same pathname to multiple destinations:%a`,
-          '@docusaurus/plugin-client-redirects',
-          from,
-          groupedFromRedirects.map((r) => JSON.stringify(r)),
-        );
+        logger.error`%i${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: %p${from}
+It is not possible to redirect the same pathname to multiple destinations: ${groupedFromRedirects.map(
+          (r) => JSON.stringify(r),
+        )}`;
       }
     },
   );
@@ -116,11 +113,9 @@ It is not possible to redirect the same pathname to multiple destinations:%a`,
     (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
-    logger.error(
-      `%i: some redirects would override existing paths, and will be ignored:%a`,
-      '@docusaurus/plugin-client-redirects',
-      redirectsOverridingExistingPath.map((r) => JSON.stringify(r)),
-    );
+    logger.error`%i${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored: ${redirectsOverridingExistingPath.map(
+      (r) => JSON.stringify(r),
+    )}`;
   }
   return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),

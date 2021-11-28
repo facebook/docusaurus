@@ -258,13 +258,9 @@ export function createConfigFile({
       customConfigFields[key] = value;
     }
   });
-  logger.info(
-    `Following Fields from %p will be added to %p in %c:%a`,
-    'siteConfig.js',
-    'docusaurus.config.js',
-    'customFields',
-    Object.keys(customConfigFields),
-  );
+  logger.info`Following Fields from %p${'siteConfig.js'} will be added to %p${'docusaurus.config.js'} in %c${'customFields'}: ${Object.keys(
+    customConfigFields,
+  )}`;
 
   let v2DocsPath: string | undefined;
   if (siteConfig.customDocsPath) {
@@ -766,5 +762,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  logger.success(`Successfully migrated %p to %p`, siteDir, newDir);
+  logger.success`Successfully migrated %p${siteDir} to %p${newDir}`;
 }

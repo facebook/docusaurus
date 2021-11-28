@@ -7,25 +7,7 @@
 
 import pico from 'picocolors';
 
-type InterpolatableValue = string | number | string[];
-
-function assertIsArray(value: InterpolatableValue): asserts value is string[] {
-  if (!Array.isArray(value)) {
-    throw new Error(
-      'Bad Docusaurus logging message. This is likely an internal bug, please report it',
-    );
-  }
-}
-
-function assertIsStrNum(
-  value: InterpolatableValue,
-): asserts value is string | number {
-  if (typeof value !== 'string' && typeof value !== 'number') {
-    throw new Error(
-      'Bad Docusaurus logging message. This is likely an internal bug, please report it',
-    );
-  }
-}
+type InterpolatableValue = string | number | string[] | number[];
 
 const path: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(pico.underline(msg));
@@ -36,73 +18,132 @@ const code: import('picocolors/types').Formatter = (msg) =>
 const subdue = pico.gray;
 const num = pico.yellow;
 
+function interpolate(
+  msgs: TemplateStringsArray,
+  ...values: InterpolatableValue[]
+): string {
+  let res = '';
+  values.forEach((value, idx) => {
+    const flag = msgs[idx].match(/%[a-z]+$/);
+    const cleanValue = Array.isArray(value)
+      ? `\n- ${value.join('\n- ')}\n`
+      : String(value);
+    res += msgs[idx].replace(/%[a-z]+$/, '');
+    if (!flag) {
+      res += cleanValue;
+      return;
+    }
+    switch (flag[0]) {
+      case '%p':
+        res += path(cleanValue);
+        break;
+      case '%n':
+        res += num(cleanValue);
+        break;
+      case '%i':
+        res += id(cleanValue);
+        break;
+      case '%s':
+        res += subdue(cleanValue);
+        break;
+      case '%c':
+        res += code(cleanValue);
+        break;
+      default:
+        throw new Error(
+          'Bad Docusaurus logging message. This is likely an internal bug, please report it',
+        );
+    }
+  });
+  res += msgs.slice(-1)[0];
+  return res;
+}
+
+function info(msg: string): void;
+function info(
+  msg: TemplateStringsArray,
+  ...values: InterpolatableValue[]
+): void;
+function info(
+  msg: TemplateStringsArray | string,
+  ...values: InterpolatableValue[]
+): void {
+  if (typeof msg === 'string') {
+    console.info(`${pico.cyan(pico.bold('[INFO]'))} ${msg}`);
+    return;
+  }
+  console.info(
+    `${pico.cyan(pico.bold('[INFO]'))} ${interpolate(msg, ...values)}`,
+  );
+}
+function warn(msg: string): void;
+function warn(
+  msg: TemplateStringsArray,
+  ...values: InterpolatableValue[]
+): void;
+function warn(
+  msg: TemplateStringsArray | string,
+  ...values: InterpolatableValue[]
+): void {
+  if (typeof msg === 'string') {
+    console.warn(pico.yellow(`${pico.bold('[WARNING]')} ${msg}`));
+    return;
+  }
+  console.warn(
+    pico.yellow(`${pico.bold('[WARNING]')} ${interpolate(msg, ...values)}`),
+  );
+}
+function error(msg: string | Error): void;
+function error(
+  msg: TemplateStringsArray,
+  ...values: InterpolatableValue[]
+): void;
+function error(
+  msg: TemplateStringsArray | Error | string,
+  ...values: InterpolatableValue[]
+): void {
+  if (msg instanceof Error) {
+    console.error(msg);
+    return;
+  }
+  if (typeof msg === 'string') {
+    console.error(pico.red(`${pico.bold('[ERROR]')} ${msg}`));
+    return;
+  }
+  console.error(
+    pico.red(`${pico.bold('[ERROR]')} ${interpolate(msg, ...values)}`),
+  );
+}
+function success(msg: string): void;
+function success(
+  msg: TemplateStringsArray,
+  ...values: InterpolatableValue[]
+): void;
+function success(
+  msg: TemplateStringsArray | string,
+  ...values: InterpolatableValue[]
+): void {
+  if (typeof msg === 'string') {
+    console.log(`${pico.green(pico.bold('[SUCCESS]'))} ${msg}`);
+    return;
+  }
+  console.log(
+    `${pico.green(pico.bold('[SUCCESS]'))} ${interpolate(msg, ...values)}`,
+  );
+}
+
 const logger = {
   ...pico,
   path,
   id,
   code,
   subdue,
+  interpolate,
   num,
-  interpolate(msg: string, ...values: InterpolatableValue[]): string {
-    let index = 0;
-    function replacer(match: string) {
-      if (index >= values.length) {
-        return match;
-      }
-      const newStr = values[index];
-      index += 1;
-      if (match === '%a') {
-        assertIsArray(newStr);
-        return `\n- ${newStr.join('\n- ')}\n`;
-      }
-      assertIsStrNum(newStr);
-      switch (match) {
-        case '%p':
-          return path(newStr);
-        case '%c':
-          return code(newStr);
-        case '%i':
-          return id(newStr);
-        case '%n':
-          return num(newStr);
-        default:
-          throw new Error(
-            'Bad Docusaurus logging message. This is likely an internal bug, please report it',
-          );
-      }
-    }
-    return msg.replace(/%[A-Za-z]/g, replacer);
-  },
-  info(msg: string, ...values: InterpolatableValue[]): void {
-    console.info(
-      `${pico.cyan(pico.bold('[INFO] '))}${this.interpolate(msg, ...values)}`,
-    );
-  },
-  warn(msg: string, ...values: InterpolatableValue[]): void {
-    console.warn(
-      `${pico.yellow(pico.bold('[WARNING] '))}${this.interpolate(
-        msg,
-        ...values,
-      )}`,
-    );
-  },
-  error(msg: string | Error, ...values: InterpolatableValue[]): void {
-    if (msg instanceof Error) {
-      console.error(msg);
-    } else {
-      console.error(
-        `${pico.red(pico.bold('[ERROR] '))}${this.interpolate(msg, ...values)}`,
-      );
-    }
-  },
-  success(msg: string, ...values: InterpolatableValue[]): void {
-    console.log(
-      `${pico.green(pico.bold('[SUCCESS] '))}${this.interpolate(
-        msg,
-        ...values,
-      )}`,
-    );
-  },
+  info,
+  warn,
+  error,
+  success,
 };
 
 export default logger;

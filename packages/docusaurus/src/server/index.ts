@@ -414,15 +414,14 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       if (
         versionInfo.type === 'package' &&
         versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
         // should we throw instead?
         // It still could work with different versions
-        logger.error(
-          `Invalid ${plugin} version ${versionInfo.version}.
-All official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).
-Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-        );
+        logger.error`Invalid %i${plugin} version %n${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (%n${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },
   );

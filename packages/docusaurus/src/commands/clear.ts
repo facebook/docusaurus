@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
 import path from 'path';
 import logger from '@docusaurus/logger';
@@ -12,10 +13,10 @@ import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 async function removePath(fsPath: string) {
   try {
     fs.remove(path.join(fsPath));
-    logger.success('Removed the %p directory.', fsPath);
+    logger.success`Removed the %p${fsPath} directory.`;
   } catch (e) {
-    logger.error('Could not remove %p directory.', fsPath);
-    logger.error(e as string);
+    logger.error`Could not remove %p${fsPath} directory.
+${e as string}`;
   }
 }
 

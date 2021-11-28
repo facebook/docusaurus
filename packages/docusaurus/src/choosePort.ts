@@ -68,9 +68,7 @@ function getProcessForPort(port: number): string | null {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
-    return `${logger.code(command)} ${logger.subdue(
-      `(pid ${processId})`,
-    )} in ${logger.path(directory)}`;
+    return logger.interpolate`%c${command} %s${`(pid ${processId})`} in %p${directory}`;
   } catch (e) {
     return null;
   }

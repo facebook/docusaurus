@@ -129,7 +129,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project organization name. Did you forget to define "organizationName" in ${siteConfigPath}? You may also export it via the ORGANIZATION_NAME environment variable.`,
     );
   }
-  logger.info('organizationName: %i', organizationName);
+  logger.info`organizationName: %i${organizationName}`;
 
   const projectName =
     process.env.PROJECT_NAME ||
@@ -140,7 +140,7 @@ This behavior can have SEO impacts and create relative link issues.
       `Missing project name. Did you forget to define "projectName" in ${siteConfigPath}? You may also export it via the PROJECT_NAME environment variable.`,
     );
   }
-  logger.info('projectName: %i', projectName);
+  logger.info`projectName: %i${projectName}`;
 
   // We never deploy on pull request.
   const isPullRequest =
@@ -167,7 +167,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
   const deploymentBranch =
     process.env.DEPLOYMENT_BRANCH || siteConfig.deploymentBranch || 'gh-pages';
-  logger.info('deploymentBranch: %i', deploymentBranch);
+  logger.info`deploymentBranch: %i${deploymentBranch}`;
 
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
@@ -193,7 +193,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     );
   }
 
-  logger.info('Remote repo URL: %i', obfuscateGitPass(deploymentRepoURL));
+  logger.info`Remote repo URL: %i${obfuscateGitPass(deploymentRepoURL)}`;
 
   // Check if this is a cross-repo publish.
   const crossRepoPublish = !sourceRepoUrl.endsWith(

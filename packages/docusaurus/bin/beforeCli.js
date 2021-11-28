@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const logger = require('@docusaurus/logger');
+// @ts-check
+
+const logger = require('@docusaurus/logger').default;
 const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
@@ -74,6 +76,7 @@ if (
   notifier.config.set('update', notifier.update);
 
   if (ignoreUpdate(notifier.update)) {
+    // @ts-expect-error: it works
     return;
   }
 
@@ -91,6 +94,7 @@ if (
     ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
     : `npm i ${siteDocusaurusPackagesForUpdate}`;
 
+  /** @type {import('boxen').Options} */
   const boxenOptions = {
     padding: 1,
     margin: 1,
@@ -115,10 +119,6 @@ ${logger.code(upgradeCommand)}`,
 // notify user if node version needs to be updated
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
-  logger.info(
-    `You are using Node.js %n, Requirement: Node.js %n.`,
-    process.version,
-    requiredVersion,
-  );
+  logger.info`You are using Node.js %n${process.version}, Requirement: Node.js %n${requiredVersion}.`;
   process.exit(1);
 }

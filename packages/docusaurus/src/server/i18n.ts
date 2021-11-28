@@ -44,12 +44,8 @@ export async function loadI18n(
   const currentLocale = options.locale ?? i18nConfig.defaultLocale;
 
   if (!i18nConfig.locales.includes(currentLocale)) {
-    logger.warn(
-      `The locale %i was not found in your site configuration: Available locales are: %a.
-Note: Docusaurus only support running one locale at a time.`,
-      currentLocale,
-      i18nConfig.locales,
-    );
+    logger.warn`The locale %i${currentLocale} was not found in your site configuration: Available locales are: ${i18nConfig.locales}
+Note: Docusaurus only support running one locale at a time.`;
   }
 
   const locales = i18nConfig.locales.includes(currentLocale)

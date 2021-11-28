@@ -173,8 +173,8 @@ export default async function init(
         }
         return logger.red('Invalid repository URL');
       },
-      message:
-        'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
+      message: `Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
+(e.g: %p${'https://github.com/ownerName/repoName.git'})`,
     });
     template = repoPrompt.gitRepoUrl;
   } else if (template === 'Local template') {
@@ -204,7 +204,7 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.info('Cloning Git template %p...', template);
+    logger.info`Cloning Git template %p${template}...`;
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
@@ -224,7 +224,7 @@ export default async function init(
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      logger.error('Copying Docusaurus template %i failed!', template);
+      logger.error`Copying Docusaurus template %i${template} failed!`;
       throw err;
     }
   } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
@@ -232,7 +232,7 @@ export default async function init(
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {
-      logger.error('Copying local template %p failed!', template);
+      logger.error`Copying local template %p${template} failed!`;
       throw err;
     }
   } else {
@@ -264,7 +264,7 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    logger.info('Installing dependencies with %i...', pkgManager);
+    logger.info`Installing dependencies with %i${pkgManager}...`;
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
@@ -289,36 +289,27 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  logger.info(
-    `
-Successfully created %p.
+  logger.info`
+Successfully created %p${cdpath}.
 Inside that directory, you can run several commands:
 
-  %c
+  %c${`${pkgManager} start`}
     Starts the development server.
 
-  %c
+  %c${`${pkgManager} ${useYarn ? '' : 'run '}build`}
     Bundles your website into static files for production.
 
-  %c
+  %c${`${pkgManager} ${useYarn ? '' : 'run '}serve`}
     Serves the built website locally.
 
-  %c
+  %c${`${pkgManager} deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  %c
-  %c
+  %c${`cd ${cdpath}`}
+  %c${`${pkgManager} start`}
 
 Happy building awesome websites!
-`,
-    cdpath,
-    `${pkgManager} start`,
-    `${pkgManager} ${useYarn ? '' : 'run '}build`,
-    `${pkgManager} ${useYarn ? '' : 'run '}serve`,
-    `${pkgManager} deploy`,
-    `cd ${cdpath}`,
-    `${pkgManager} start`,
-  );
+`;
 }

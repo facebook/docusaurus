@@ -161,7 +161,7 @@ export default async function swizzle(
   );
 
   if (!themeName) {
-    logger.info('Themes available for swizzle:\n%a', themeNames);
+    logger.info`Themes available for swizzle: %i${themeNames}`;
     return;
   }
 
@@ -175,13 +175,11 @@ export default async function swizzle(
         suggestion = name;
       }
     });
-    logger.error(
-      `Theme %i not found. ${
-        suggestion ? `Did you mean %i ?` : 'Themes available for swizzle:%a'
-      }`,
-      themeName,
-      suggestion ?? themeNames,
-    );
+    logger.error`Theme %i${themeName} not found. ${
+      suggestion
+        ? logger.interpolate`Did you mean %i${suggestion}?`
+        : logger.interpolate`Themes available for swizzle: ${themeNames}`
+    }`;
     process.exit(1);
   }
 
@@ -220,8 +218,8 @@ export default async function swizzle(
   if (!themePath) {
     logger.warn(
       typescript
-        ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
-        : `${themeName} does not provide any theme code.`,
+        ? logger.interpolate`%i${themeName} does not provide TypeScript theme code via ${'getTypeScriptThemePath()'}.`
+        : logger.interpolate`%i${themeName} does not provide any theme code.`,
     );
     process.exit(1);
   }
@@ -254,12 +252,8 @@ export default async function swizzle(
 
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
-      logger.error("Component %i doesn't exist.", componentName);
-      logger.info(
-        `%i is swizzled instead of %i.`,
-        mostSuitableComponent,
-        componentName,
-      );
+      logger.error`Component %i${componentName} doesn't exist.`;
+      logger.info`%i${mostSuitableComponent} is swizzled instead of %i${componentName}.`;
     }
   }
 
@@ -281,34 +275,23 @@ export default async function swizzle(
           suggestion = name;
         }
       });
-      logger.error(
-        `Component %i not found. ${
-          suggestion
-            ? `Did you mean %i ?`
-            : themeComponents(themePath, pluginModule)
-        }
-        }`,
-        mostSuitableComponent,
-        suggestion!,
-      );
+      logger.error`Component %i${mostSuitableComponent} not found. ${
+        suggestion
+          ? logger.interpolate`Did you mean %i${suggestion} ?`
+          : themeComponents(themePath, pluginModule)
+      }`;
       process.exit(1);
     }
   }
 
   if (!components.includes(mostSuitableComponent) && !danger) {
-    logger.error(
-      '%i is an internal component and has a higher breaking change probability. If you want to swizzle it, use the %c flag.',
-      mostSuitableComponent,
-      '--danger',
-    );
+    logger.error`%i${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the %c${'--danger'} flag.`;
     process.exit(1);
   }
 
   await fs.copy(fromPath, toPath);
 
-  logger.success(
-    `Copied %c to %p.`,
-    mostSuitableComponent ? `${themeName} ${mostSuitableComponent}` : themeName,
-    path.relative(process.cwd(), toPath),
-  );
+  logger.success`Copied %c${
+    mostSuitableComponent ? `${themeName} ${mostSuitableComponent}` : themeName
+  } to %p${path.relative(process.cwd(), toPath)}.`;
 }

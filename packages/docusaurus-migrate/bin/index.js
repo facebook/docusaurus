@@ -6,7 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const logger = require('@docusaurus/logger');
+// @ts-check
+
+const logger = require('@docusaurus/logger').default;
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
@@ -25,11 +27,7 @@ function wrapCommand(fn) {
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
-  logger.info(
-    `You are using Node.js %n, Requirement: Node.js %n.`,
-    process.version,
-    requiredVersion,
-  );
+  logger.info`You are using Node.js %n${process.version}, Requirement: Node.js %n${requiredVersion}.`;
   process.exit(1);
 }
 

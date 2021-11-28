@@ -60,7 +60,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  logger.success('Docusaurus website is running at %p.', openUrl);
+  logger.success`Docusaurus website is running at %p${openUrl}.`;
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -68,7 +68,7 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          logger.success('Docusaurus website is running at %p.', newOpenUrl);
+          logger.success`Docusaurus website is running at %p${newOpenUrl}.`;
         }
       })
       .catch((err) => {

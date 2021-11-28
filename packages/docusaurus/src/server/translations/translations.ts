@@ -114,12 +114,8 @@ export async function writeTranslationFileContent({
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    logger.warn(
-      `Some translation keys looks unknown to us in file %p.
-Maybe you should remove them? %a`,
-      filePath,
-      unknownKeys,
-    );
+    logger.warn`Some translation keys looks unknown to us in file %p${filePath}.
+Maybe you should remove them? ${unknownKeys}`;
   }
 
   const mergedContent = mergeTranslationFileContent({
@@ -130,11 +126,11 @@ Maybe you should remove them? %a`,
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    logger.info(
-      `%n translations will be written at %p.`,
-      Object.keys(mergedContent).length,
-      toMessageRelativeFilePath(filePath),
-    );
+    logger.info`%n${
+      Object.keys(mergedContent).length
+    } translations will be written at %p${toMessageRelativeFilePath(
+      filePath,
+    )}.`;
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
   }
@@ -285,10 +281,8 @@ export function applyDefaultCodeTranslations({
     Object.keys(extractedCodeTranslations),
   );
   if (unusedDefaultCodeMessages.length > 0) {
-    logger.warn(`Unused default message codes found.
-Please report this Docusaurus issue.
-- ${unusedDefaultCodeMessages.join('\n- ')}
-`);
+    logger.warn`Unused default message codes found.
+Please report this Docusaurus issue. %i${unusedDefaultCodeMessages}`;
   }
 
   return mapValues(
