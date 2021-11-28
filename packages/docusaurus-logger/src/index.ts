@@ -25,35 +25,31 @@ function interpolate(
   let res = '';
   values.forEach((value, idx) => {
     const flag = msgs[idx].match(/%[a-z]+$/);
-    const cleanValue = Array.isArray(value)
-      ? `\n- ${value.join('\n- ')}`
-      : String(value);
     res += msgs[idx].replace(/%[a-z]+$/, '');
-    if (!flag) {
-      res += cleanValue;
-      return;
-    }
-    switch (flag[0]) {
-      case '%p':
-        res += path(cleanValue);
-        break;
-      case '%n':
-        res += num(cleanValue);
-        break;
-      case '%i':
-        res += id(cleanValue);
-        break;
-      case '%s':
-        res += subdue(cleanValue);
-        break;
-      case '%c':
-        res += code(cleanValue);
-        break;
-      default:
-        throw new Error(
-          'Bad Docusaurus logging message. This is likely an internal bug, please report it',
-        );
-    }
+    const format = (function () {
+      if (!flag) {
+        return (a: string | number) => a;
+      }
+      switch (flag[0]) {
+        case '%p':
+          return path;
+        case '%n':
+          return num;
+        case '%i':
+          return id;
+        case '%s':
+          return subdue;
+        case '%c':
+          return code;
+        default:
+          throw new Error(
+            'Bad Docusaurus logging message. This is likely an internal bug, please report it.',
+          );
+      }
+    })();
+    res += Array.isArray(value)
+      ? `\n- ${value.map((v) => format(v)).join('\n- ')}`
+      : format(value);
   });
   res += msgs.slice(-1)[0];
   return res;
