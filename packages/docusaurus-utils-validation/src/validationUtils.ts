@@ -56,7 +56,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error);
       return options as T;
     } else {
       throw error;
@@ -84,7 +84,7 @@ export function normalizeThemeConfig<T>(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error);
       return themeConfig as T;
     } else {
       throw error;

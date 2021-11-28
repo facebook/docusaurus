@@ -10,6 +10,7 @@ import fs from 'fs';
 import {defaultConfig, compile} from 'eta';
 import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import logger from '@docusaurus/logger';
 import openSearchTemplate from './templates/opensearch';
 import {memoize} from 'lodash';
 
@@ -83,9 +84,9 @@ export default function theme(
             favicon: favicon ? normalizeUrl([url, baseUrl, favicon]) : null,
           }),
         );
-      } catch (err) {
-        console.error(err);
-        throw new Error(`Generating OpenSearch file failed: ${err}`);
+      } catch (e) {
+        logger.error('Generating OpenSearch file failed.');
+        throw e;
       }
     },
 

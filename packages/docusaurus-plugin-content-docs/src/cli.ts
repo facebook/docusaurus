@@ -17,6 +17,7 @@ import {transformSidebarItems} from './sidebars/utils';
 import type {SidebarItem, NormalizedSidebars, Sidebar} from './sidebars/types';
 import {loadUnprocessedSidebars, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import logger from '@docusaurus/logger';
 
 function createVersionedSidebarFile({
   siteDir,
@@ -163,5 +164,5 @@ export function cliDocsVersionCommand(
   fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
-  console.log(`${pluginIdLogPrefix}: version ${version} created!`);
+  logger.success`%i${pluginIdLogPrefix}: version %i${version} created!`;
 }
