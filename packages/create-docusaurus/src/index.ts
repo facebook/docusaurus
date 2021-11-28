@@ -131,12 +131,14 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error('A website name is required.');
+    logger.error('A website name is required.');
+    process.exit(1);
   }
 
   const dest = path.resolve(rootDir, name);
   if (fs.existsSync(dest)) {
-    throw new Error(`Directory already exists at "${dest}"!`);
+    logger.error`Directory already exists at %p${dest}!`;
+    process.exit(1);
   }
 
   let template = reqTemplate;
@@ -198,7 +200,8 @@ export default async function init(
   }
 
   if (!template) {
-    throw new Error('Template should not be empty');
+    logger.error('Template should not be empty');
+    process.exit(1);
   }
 
   logger.info('Creating new Docusaurus project...');
@@ -209,15 +212,15 @@ export default async function init(
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(`Cloning Git template ${template} failed!`);
+      logger.error`Cloning Git template %i${template} failed!`;
+      process.exit(1);
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
-        throw new Error(
-          `Template ${template} doesn't provide the Typescript variant.`,
-        );
+        logger.error`Template %i${template} doesn't provide the Typescript variant.`;
+        process.exit(1);
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
     }
@@ -236,7 +239,8 @@ export default async function init(
       throw err;
     }
   } else {
-    throw new Error('Invalid template.');
+    logger.error('Invalid template.');
+    process.exit(1);
   }
 
   // Update package.json info.

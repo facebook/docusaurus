@@ -103,8 +103,7 @@ function themeComponents(
     return 'No component to swizzle.';
   }
 
-  return `
-Theme components available for swizzle.
+  return `Theme components available for swizzle.
 
 ${logger.green(logger.bold('green  =>'))} safe: lower breaking change risk
 ${logger.red(logger.bold('red    =>'))} unsafe: higher breaking change risk
