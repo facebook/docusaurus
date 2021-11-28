@@ -9,6 +9,7 @@
   opacity: 0;
   padding-left: 0.5rem;
   transition: opacity var(--ifm-transition-fast);
+  user-select: none;
 }
 
 .hash-link:before {

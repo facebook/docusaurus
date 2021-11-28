@@ -45,7 +45,7 @@ const allDocHomesPaths = [
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
-  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;

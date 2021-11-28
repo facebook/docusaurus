@@ -8,7 +8,6 @@
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
-
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash';
@@ -112,6 +111,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
+  const httpsConfig = getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -175,7 +175,6 @@ export default async function start(
         errors: true,
       },
     },
-    https: getHttpsConfig(),
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -195,6 +194,15 @@ export default async function start(
         ...{pollingOptions},
       },
     })),
+    ...(httpsConfig && {
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig,
+            }
+          : 'https',
+    }),
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
