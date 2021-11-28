@@ -27,10 +27,11 @@ The template literal tag evaluates the template and expressions embedded. `inter
 ```js
 logger.info`Hello %i${name}! You have %n${money} dollars. Here are the ${
   items.length > 1 ? 'items' : 'item'
-} on the shelf: ${items}`;
+} on the shelf: ${items}
+To buy anything, enter %c${'buy x'} where %c${'x'} is the item's name; to quit, press %c${'Ctrl + C'}.`;
 ```
 
-An embedded expression is optionally preceded by a flag in the form `%[a-z]+` (a percentage sign followed by a few lowercase letters). The expression is first casted to a string—if it's an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets line ends on both ends). If it's not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
+An embedded expression is optionally preceded by a flag in the form `%[a-z]+` (a percentage sign followed by a few lowercase letters). The expression is first casted to a string—if it's an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). If it's not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
 
 - `%p`: `path`
 - `%i`: `id`

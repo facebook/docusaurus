@@ -26,7 +26,7 @@ function interpolate(
   values.forEach((value, idx) => {
     const flag = msgs[idx].match(/%[a-z]+$/);
     const cleanValue = Array.isArray(value)
-      ? `\n- ${value.join('\n- ')}\n`
+      ? `\n- ${value.join('\n- ')}`
       : String(value);
     res += msgs[idx].replace(/%[a-z]+$/, '');
     if (!flag) {
@@ -145,13 +145,5 @@ const logger = {
   error,
   success,
 };
-
-const name = 'Josh';
-const money = 100;
-const items = ['Hotdogs', 'Macbooks', 'Vinyl discs'];
-
-logger.info`Hello %i${name}! You have %n${money} dollars. Here are the ${
-  items.length > 1 ? 'items' : 'item'
-} on the shelf: ${items}`;
 
 export default logger;
