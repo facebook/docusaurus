@@ -15,7 +15,7 @@ const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
-  logger.error(
+  logger.info(
     'You are using Node.js %n, Requirement: Node.js %n.',
     process.version,
     requiredVersion,
