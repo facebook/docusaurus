@@ -47,7 +47,6 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      // console.log(pico.green(`Site successfully built in locale=${locale}`));
       return await buildLocale({
         siteDir,
         locale,

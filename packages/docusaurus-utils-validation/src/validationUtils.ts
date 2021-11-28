@@ -4,8 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import Joi from './Joi';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {PluginIdSchema} from './validationSchemas';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
@@ -18,21 +19,14 @@ export const isValidationDisabledEscapeHatch =
   process.env.DISABLE_DOCUSAURUS_VALIDATION === 'true';
 
 if (isValidationDisabledEscapeHatch) {
-  console.error(
-    pico.red(
-      'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed.',
-    ),
-  );
+  logger.error`You should avoid using %c${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
 }
 
 export const logValidationBugReportHint = (): void => {
-  console.log(
-    `\n${pico.red('A validation error occurred.')}${pico.cyan(
-      '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +
-        '\nWe may have made some mistakes.' +
-        '\nIf you think your configuration is valid and should keep working, please open a bug report.',
-    )}\n`,
-  );
+  logger.error('A validation error occurred.');
+  logger.info(`The validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.
+We may have made some mistakes.
+If you think your configuration is valid and should keep working, please open a bug report.`);
 };
 
 export function printWarning(warning?: Joi.ValidationError): void {
@@ -40,7 +34,7 @@ export function printWarning(warning?: Joi.ValidationError): void {
     const warningMessages = warning.details
       .map(({message}) => message)
       .join('\n');
-    console.log(pico.yellow(warningMessages));
+    logger.warn(warningMessages);
   }
 }
 
@@ -115,19 +109,14 @@ export function validateFrontMatter<T>(
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
-    const errorMessages = errorDetails
-      .map(({message}) => ` - ${message}`)
-      .join('\n');
 
     logValidationBugReportHint();
 
-    console.error(
-      pico.red(
-        `The following frontmatter:\n${pico.yellow(
-          frontMatterString,
-        )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
-      ),
-    );
+    logger.error`The following frontmatter:
+${logger.yellow(frontMatterString)}
+contains invalid values for field(s): ${invalidFields}.
+${errorDetails.map(({message}) => message)}
+`;
     throw error;
   }
 

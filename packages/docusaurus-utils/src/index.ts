@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
 import {camelCase, mapValues} from 'lodash';
@@ -368,13 +368,13 @@ export function reportMessage(
     case 'ignore':
       break;
     case 'log':
-      console.log(pico.bold(pico.blue('info ')) + pico.blue(message));
+      logger.info(message);
       break;
     case 'warn':
-      console.warn(pico.bold(pico.yellow('warn ')) + pico.yellow(message));
+      logger.warn(message);
       break;
     case 'error':
-      console.error(pico.bold(pico.red('error ')) + pico.red(message));
+      logger.error(message);
       break;
     case 'throw':
       throw new Error(message);

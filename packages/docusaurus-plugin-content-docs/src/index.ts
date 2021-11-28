@@ -46,7 +46,7 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
@@ -186,11 +186,7 @@ export default function pluginContentDocs(
         try {
           return await doLoadVersion(versionMetadata);
         } catch (e) {
-          console.error(
-            pico.red(
-              `Loading of version failed for version "${versionMetadata.versionName}"`,
-            ),
-          );
+          logger.error`Loading of version failed for version %i${versionMetadata.versionName}`;
           throw e;
         }
       }
@@ -329,11 +325,7 @@ export default function pluginContentDocs(
         try {
           return await doCreateVersionRoutes(loadedVersion);
         } catch (e) {
-          console.error(
-            pico.red(
-              `Can't create version routes for version "${loadedVersion.versionName}"`,
-            ),
-          );
+          logger.error`Can't create version routes for version %i${loadedVersion.versionName}`;
           throw e;
         }
       }

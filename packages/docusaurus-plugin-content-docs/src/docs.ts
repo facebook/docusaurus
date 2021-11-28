@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {keyBy} from 'lodash';
 import {
   aliasedSitePath,
@@ -282,11 +282,7 @@ export function processDocMetadata(args: {
   try {
     return doProcessDocMetadata(args);
   } catch (e) {
-    console.error(
-      pico.red(
-        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
-      ),
-    );
+    logger.error`Can't process doc metadata for doc at path %p${args.docFile.filePath} in version %i${args.versionMetadata.versionName}`;
     throw e;
   }
 }

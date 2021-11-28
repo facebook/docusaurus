@@ -289,8 +289,7 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  logger.info`
-Successfully created %p${cdpath}.
+  logger.info`Successfully created %p${cdpath}.
 Inside that directory, you can run several commands:
 
   %c${`${pkgManager} start`}
