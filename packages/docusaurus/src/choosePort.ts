@@ -68,9 +68,9 @@ function getProcessForPort(port: number): string | null {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
-    return `${logger.codeC(command)} ${logger.subdueC(
+    return `${logger.code(command)} ${logger.subdue(
       `(pid ${processId})`,
-    )} in ${logger.pathC(directory)}`;
+    )} in ${logger.path(directory)}`;
   } catch (e) {
     return null;
   }
@@ -101,11 +101,11 @@ export default async function choosePort(
           const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
-            message: `${logger.warnC(
-              `${message}${
-                existingProcess ? ` Probably:\n  ${existingProcess}` : ''
-              }`,
-            )}\n\nWould you like to run the app on another port instead?`,
+            message: `${logger.yellow(logger.bold('[WARNING]'))} ${message}${
+              existingProcess ? ` Probably:\n  ${existingProcess}` : ''
+            }
+
+Would you like to run the app on another port instead?`,
             initial: true,
           };
           prompts(question).then((answer) => {

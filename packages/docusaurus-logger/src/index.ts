@@ -27,28 +27,22 @@ function assertIsStrNum(
   }
 }
 
-const pathC: import('picocolors/types').Formatter = (msg) =>
+const path: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(pico.underline(msg));
-const idC: import('picocolors/types').Formatter = (msg) =>
+const id: import('picocolors/types').Formatter = (msg) =>
   pico.blue(pico.bold(msg));
-const errorC = pico.red;
-const codeC: import('picocolors/types').Formatter = (msg) =>
+const code: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(`\`${msg}\``);
-const subdueC = pico.gray;
-const warnC = pico.yellow;
-const successC = pico.green;
-const numC = pico.yellow;
+const subdue = pico.gray;
+const num = pico.yellow;
 
 const logger = {
   ...pico,
-  pathC,
-  idC,
-  errorC,
-  codeC,
-  subdueC,
-  warnC,
-  successC,
-  numC,
+  path,
+  id,
+  code,
+  subdue,
+  num,
   interpolate(msg: string, ...values: InterpolatableValue[]): string {
     let index = 0;
     function replacer(match: string) {
@@ -64,13 +58,13 @@ const logger = {
       assertIsStrNum(newStr);
       switch (match) {
         case '%p':
-          return pathC(newStr);
+          return path(newStr);
         case '%c':
-          return codeC(newStr);
+          return code(newStr);
         case '%i':
-          return idC(newStr);
+          return id(newStr);
         case '%n':
-          return numC(newStr);
+          return num(newStr);
         default:
           throw new Error(
             'Bad Docusaurus logging message. This is likely an internal bug, please report it',

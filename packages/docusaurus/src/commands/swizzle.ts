@@ -106,8 +106,8 @@ function themeComponents(
   return `
 Theme components available for swizzle.
 
-${logger.successC('green  =>')} safe: lower breaking change risk
-${logger.errorC('red    =>')} unsafe: higher breaking change risk
+${logger.green(logger.bold('green  =>'))} safe: lower breaking change risk
+${logger.red(logger.bold('red    =>'))} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
@@ -132,10 +132,10 @@ function colorCode(
 
   return [
     ...greenComponents.map(
-      (component) => `${logger.successC('safe:')}   ${component}`,
+      (component) => `${logger.green(logger.bold('safe:'))}   ${component}`,
     ),
     ...redComponents.map(
-      (component) => `${logger.errorC('unsafe:')} ${component}`,
+      (component) => `${logger.red(logger.bold('unsafe:'))} ${component}`,
     ),
   ];
 }

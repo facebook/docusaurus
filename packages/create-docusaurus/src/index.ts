@@ -171,7 +171,7 @@ export default async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }
-        return logger.errorC('Invalid repository URL');
+        return logger.red('Invalid repository URL');
       },
       message:
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
@@ -187,11 +187,9 @@ export default async function init(
           if (fs.existsSync(fullDir)) {
             return true;
           }
-          return logger.errorC(
-            `The path ${logger.pathC(fullDir)} does not exist.`,
-          );
+          return logger.red(`The path ${logger.path(fullDir)} does not exist.`);
         }
-        return logger.errorC('Please enter a valid path.');
+        return logger.red('Please enter a valid path.');
       },
       message:
         'Enter a local folder path, relative to the current working directory.',
