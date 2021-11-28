@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
@@ -131,7 +131,7 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error(pico.red('A website name is required.'));
+    throw new Error('A website name is required.');
   }
 
   const dest = path.resolve(rootDir, name);
@@ -171,7 +171,7 @@ export default async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }
-        return pico.red(`Invalid repository URL`);
+        return logger.errorC('Invalid repository URL');
       },
       message:
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
@@ -187,9 +187,11 @@ export default async function init(
           if (fs.existsSync(fullDir)) {
             return true;
           }
-          return pico.red(`The path ${pico.magenta(fullDir)} does not exist.`);
+          return logger.errorC(
+            `The path ${logger.pathC(fullDir)} does not exist.`,
+          );
         }
-        return pico.red('Please enter a valid path.');
+        return logger.errorC('Please enter a valid path.');
       },
       message:
         'Enter a local folder path, relative to the current working directory.',
@@ -201,24 +203,24 @@ export default async function init(
     throw new Error('Template should not be empty');
   }
 
-  console.log(`
-${pico.cyan('Creating new Docusaurus project...')}
-`);
+  logger.log('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    console.log(`Cloning Git template ${pico.cyan(template)}...`);
+    logger.log(`Cloning Git template ${logger.idC(template)}...`);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(pico.red(`Cloning Git template ${template} failed!`));
+      throw new Error(`Cloning Git template ${logger.idC(template)} failed!`);
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
         throw new Error(
-          `Template ${template} doesn't provide the Typescript variant.`,
+          `Template ${logger.idC(
+            template,
+          )} doesn't provide the Typescript variant.`,
         );
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
@@ -226,7 +228,9 @@ ${pico.cyan('Creating new Docusaurus project...')}
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      console.log(`Copying Docusaurus template ${pico.cyan(template)} failed!`);
+      logger.error(
+        `Copying Docusaurus template ${logger.idC(template)} failed!`,
+      );
       throw err;
     }
   } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
@@ -234,7 +238,7 @@ ${pico.cyan('Creating new Docusaurus project...')}
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {
-      console.log(`Copying local template ${templateDir} failed!`);
+      logger.error(`Copying local template ${logger.pathC(template)} failed!`);
       throw err;
     }
   } else {
@@ -249,7 +253,7 @@ ${pico.cyan('Creating new Docusaurus project...')}
       private: true,
     });
   } catch (err) {
-    console.log(pico.red('Failed to update package.json.'));
+    logger.error('Failed to update package.json.');
     throw err;
   }
 
@@ -266,7 +270,7 @@ ${pico.cyan('Creating new Docusaurus project...')}
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with ${pico.cyan(pkgManager)}...`);
+    logger.log(`Installing dependencies with ${logger.idC(pkgManager)}...`);
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
@@ -280,11 +284,10 @@ ${pico.cyan('Creating new Docusaurus project...')}
         },
       );
     } catch (err) {
-      console.log(pico.red('Installation failed.'));
+      logger.error('Installation failed.');
       throw err;
     }
   }
-  console.log();
 
   // Display the most elegant way to cd.
   const cdpath =
@@ -292,26 +295,26 @@ ${pico.cyan('Creating new Docusaurus project...')}
       ? name
       : path.relative(process.cwd(), name);
 
-  console.log(`
-Successfully created "${pico.cyan(cdpath)}".
+  logger.info(`
+Successfully created "${logger.pathC(cdpath)}".
 Inside that directory, you can run several commands:
 
-  ${pico.cyan(`${pkgManager} start`)}
+  ${logger.codeC(`${pkgManager} start`)}
     Starts the development server.
 
-  ${pico.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+  ${logger.codeC(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
     Bundles your website into static files for production.
 
-  ${pico.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+  ${logger.codeC(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
     Serves the built website locally.
 
-  ${pico.cyan(`${pkgManager} deploy`)}
+  ${logger.codeC(`${pkgManager} deploy`)}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  ${pico.cyan('cd')} ${cdpath}
-  ${pico.cyan(`${pkgManager} start`)}
+  ${logger.codeC('cd')} ${cdpath}
+  ${logger.codeC(`${pkgManager} start`)}
 
 Happy building awesome websites!
 `);

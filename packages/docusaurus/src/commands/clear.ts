@@ -6,19 +6,17 @@
  */
 import fs from 'fs-extra';
 import path from 'path';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 
-function removePath(fsPath: string) {
-  return fs
-    .remove(path.join(fsPath))
-    .then(() => {
-      console.log(pico.green(`Successfully removed "${fsPath}" directory.`));
-    })
-    .catch((err) => {
-      console.error(`Could not remove ${fsPath} directory.`);
-      console.error(err);
-    });
+async function removePath(fsPath: string) {
+  try {
+    fs.remove(path.join(fsPath));
+    logger.success(`Removed the "${logger.pathC(fsPath)}" directory.`);
+  } catch (e) {
+    logger.error(`Could not remove ${logger.pathC(fsPath)} directory.`);
+    logger.error((e as Error).message);
+  }
 }
 
 export default async function clear(siteDir: string): Promise<unknown> {

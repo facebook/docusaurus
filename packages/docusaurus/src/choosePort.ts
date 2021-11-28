@@ -13,7 +13,7 @@
 import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
@@ -68,12 +68,9 @@ function getProcessForPort(port: number): string | null {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
-    return (
-      pico.cyan(command) +
-      pico.gray(` (pid ${processId})\n`) +
-      pico.blue('  in ') +
-      pico.cyan(directory)
-    );
+    return `${logger.codeC(command)} ${logger.subdueC(
+      `(pid ${processId})`,
+    )} in ${logger.pathC(directory)}`;
   } catch (e) {
     return null;
   }
@@ -104,7 +101,7 @@ export default async function choosePort(
           const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
-            message: `${pico.yellow(
+            message: `${logger.warnC(
               `${message}${
                 existingProcess ? ` Probably:\n  ${existingProcess}` : ''
               }`,
@@ -119,15 +116,14 @@ export default async function choosePort(
             }
           });
         } else {
-          console.log(pico.red(message));
+          logger.error(message);
           resolve(null);
         }
       }),
     (err) => {
       throw new Error(
-        `${pico.red(`Could not find an open port at ${pico.bold(host)}.`)}\n${
-          `Network error message: "${err.message}".` || err
-        }\n`,
+        `Could not find an open port at ${logger.idC(host)}.
+${`Network error message: "${err.message || err}".`}`,
       );
     },
   );

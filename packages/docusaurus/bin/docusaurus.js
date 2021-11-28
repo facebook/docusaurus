@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const pico = require('picocolors');
+const logger = require('@docusaurus/logger');
 const fs = require('fs');
 const cli = require('commander');
 const {
@@ -219,7 +219,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  console.log(`  ${pico.red(`\n  Unknown command ${pico.yellow(cmd)}.`)}.`);
+  logger.error(`    Unknown command ${logger.idC(cmd)}.`);
   console.log();
 });
 
@@ -251,6 +251,6 @@ async function run() {
 run();
 
 process.on('unhandledRejection', (err) => {
-  console.error(pico.red(err.stack));
+  logger.error(err.stack);
   process.exit(1);
 });

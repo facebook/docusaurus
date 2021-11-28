@@ -8,8 +8,7 @@ import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
-import {NODE_MAJOR_VERSION} from '../constants';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 
 function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
@@ -45,27 +44,19 @@ export async function loadI18n(
   const currentLocale = options.locale ?? i18nConfig.defaultLocale;
 
   if (!i18nConfig.locales.includes(currentLocale)) {
-    console.warn(
-      pico.yellow(
-        `The locale "${currentLocale}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
-          ',',
-        )}.
+    logger.warn(
+      `The locale "${logger.idC(
+        currentLocale,
+      )}" was not found in your site configuration: Available locales are: ${i18nConfig.locales.join(
+        ',',
+      )}.
 Note: Docusaurus only support running one locale at a time.`,
-      ),
     );
   }
 
   const locales = i18nConfig.locales.includes(currentLocale)
     ? i18nConfig.locales
     : (i18nConfig.locales.concat(currentLocale) as [string, ...string[]]);
-
-  if (shouldWarnAboutNodeVersion(NODE_MAJOR_VERSION, locales)) {
-    console.warn(
-      pico.yellow(
-        `To use Docusaurus i18n, it is strongly advised to use Node.js 14 or later (instead of ${NODE_MAJOR_VERSION}).`,
-      ),
-    );
-  }
 
   function getLocaleConfig(locale: string): I18nLocaleConfig {
     return {

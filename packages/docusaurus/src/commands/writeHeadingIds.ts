@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import GithubSlugger from 'github-slugger';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
@@ -147,21 +147,17 @@ export default async function writeHeadingIds(
   const pathsModified = result.filter(Boolean) as string[];
 
   if (pathsModified.length) {
-    console.log(
-      pico.green(`Heading ids added to Markdown files (${
-        pathsModified.length
-      }/${markdownFiles.length} files):
-- ${pathsModified.join('\n- ')}`),
-    );
+    logger.success(`Heading ids added to Markdown files (${
+      pathsModified.length
+    }/${markdownFiles.length} files):
+- ${pathsModified.join('\n- ')}`);
   } else {
-    console.log(
-      pico.yellow(
-        `${
-          markdownFiles.length
-        } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${pico.cyan(
-          '--overwrite',
-        )} option.`,
-      ),
+    logger.warn(
+      `${
+        markdownFiles.length
+      } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${logger.codeC(
+        '--overwrite',
+      )} option.`,
     );
   }
 }

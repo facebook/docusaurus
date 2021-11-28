@@ -6,7 +6,7 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -35,7 +35,7 @@ export default async function start(
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  console.log(pico.blue('Starting the development server...'));
+  logger.log('Starting the development server...');
 
   function loadSite() {
     return load(siteDir, {
@@ -61,7 +61,9 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(pico.cyan(`Docusaurus website is running at "${openUrl}".`));
+  logger.success(
+    `Docusaurus website is running at "${logger.pathC(openUrl)}".`,
+  );
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -69,13 +71,13 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          console.log(
-            pico.cyan(`Docusaurus website is running at "${newOpenUrl}".`),
+          logger.success(
+            `Docusaurus website is running at "${logger.pathC(newOpenUrl)}".`,
           );
         }
       })
       .catch((err) => {
-        console.error(pico.red(err.stack));
+        logger.error(err.stack);
       });
   }, 500);
   const {siteConfig, plugins = []} = props;
@@ -214,10 +216,10 @@ export default async function start(
   if (process.env.E2E_TEST) {
     compiler.hooks.done.tap('done', (stats) => {
       if (stats.hasErrors()) {
-        console.log('E2E_TEST: Project has compiler errors.');
+        logger.error('E2E_TEST: Project has compiler errors.');
         process.exit(1);
       }
-      console.log('E2E_TEST: Project can compile.');
+      logger.success('E2E_TEST: Project can compile.');
       process.exit(0);
     });
   }

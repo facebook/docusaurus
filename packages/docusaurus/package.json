@@ -57,6 +57,7 @@
     "@babel/runtime-corejs3": "^7.15.4",
     "@babel/traverse": "^7.12.13",
     "@docusaurus/cssnano-preset": "2.0.0-beta.9",
+    "@docusaurus/logger": "2.0.0-beta.9",
     "@docusaurus/react-loadable": "5.5.2",
     "@docusaurus/utils": "2.0.0-beta.9",
     "@docusaurus/utils-common": "2.0.0-beta.9",

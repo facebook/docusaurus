@@ -24,7 +24,7 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
@@ -43,21 +43,22 @@ export default async function render(locals) {
   try {
     return await doRender(locals);
   } catch (e) {
-    console.error(
-      pico.red(
-        `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
-      ),
-    );
+    logger.error(`Docusaurus Node/SSR could not render static page with path "${logger.pathC(
+      locals.path,
+    )}" because of following error:
+${e.stack}`);
 
     const isNotDefinedErrorRegex =
       /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
-      console.error(
-        pico.green(
-          'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
-        ),
-      );
+      logger.tip(`It looks like you are using code that should run on the client-side only.
+To get around it, try using ${logger.idC(
+        '<BrowserOnly>',
+      )} (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ${logger.idC(
+        'ExecutionEnvironment',
+      )} (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).
+It might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).`);
     }
 
     throw new Error('Server-side rendering fails due to the error above.');
@@ -142,11 +143,10 @@ async function doRender(locals) {
       minifyJS: true,
     });
   } catch (e) {
-    console.error(
-      pico.red(
-        `Minification page with path "${locals.path}" failed because of following error:\n\n${e.stack}\n`,
-      ),
-    );
+    logger.error(`Minification page with path "${logger.pathC(
+      locals.path,
+    )}" failed because of following error:
+${e.stack}`);
     throw e;
   }
 }

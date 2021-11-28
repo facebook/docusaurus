@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const pico = require('picocolors');
+const logger = require('@docusaurus/logger');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
@@ -14,11 +14,9 @@ const {default: init} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    pico.red(`\nMinimum Node.js version not met :)`) +
-      pico.yellow(
-        `\nYou are using Node.js ${process.version}, Requirement: Node.js ${requiredVersion}.\n`,
-      ),
+  logger.error('Minimum Node.js version not met :(');
+  logger.error(
+    `You are using Node.js ${process.version}, Requirement: Node.js ${requiredVersion}.`,
   );
   process.exit(1);
 }
@@ -26,7 +24,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
-      console.error(pico.red(err.stack));
+      logger.error(err.stack);
       process.exitCode = 1;
     });
 }
@@ -58,7 +56,7 @@ program
 
 program.arguments('<command>').action((cmd) => {
   program.outputHelp();
-  console.log(`  ${pico.red(`\n  Unknown command ${pico.yellow(cmd)}.`)}`);
+  logger.error(`    Unknown command ${logger.idC(cmd)}.`);
   console.log();
 });
 

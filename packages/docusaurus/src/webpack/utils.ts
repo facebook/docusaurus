@@ -21,7 +21,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {TransformOptions} from '@babel/core';
 import {
   ConfigureWebpackFn,
@@ -165,10 +165,10 @@ export const getCustomizableJSLoader =
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
-  console.warn(
-    pico.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
-    ),
+  logger.warn(
+    `Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): ${logger.codeC(
+      'getBabelLoader(isServer)',
+    )} is now deprecated in favor of ${logger.codeC('getJSLoader(isServer)')}.`,
   );
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
@@ -181,10 +181,10 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
-  console.warn(
-    pico.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
-    ),
+  logger.warn(
+    `Docusaurus uses Webpack 5 and ${logger.codeC(
+      'getCacheLoader()',
+    )} usage is now deprecated.`,
   );
 });
 function getCacheLoaderDeprecated() {
@@ -295,9 +295,7 @@ export function compile(config: Configuration[]): Promise<void> {
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
         if (errClose) {
-          console.error(
-            pico.red(`Error while closing Webpack compiler: ${errClose}`),
-          );
+          logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
           resolve();
@@ -445,7 +443,7 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${pico.yellow(crtFile)}" is invalid.\n${
+      `The certificate "${logger.pathC(crtFile)}" is invalid.\n${
         (err as Error).message
       }`,
     );
@@ -456,7 +454,7 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${pico.yellow(keyFile)}" is invalid.\n${
+      `The certificate key "${logger.pathC(keyFile)}" is invalid.\n${
         (err as Error).message
       }`,
     );
@@ -467,9 +465,9 @@ function validateKeyAndCerts({
 function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${pico.cyan(
+      `You specified ${logger.codeC(
         type,
-      )} in your env, but the file "${pico.yellow(file)}" can't be found.`,
+      )} in your env, but the file "${logger.pathC(file)}" can't be found.`,
     );
   }
   return fs.readFileSync(file);

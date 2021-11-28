@@ -7,8 +7,7 @@
 
 import http from 'http';
 import serveHandler from 'serve-handler';
-import boxen from 'boxen';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {loadSiteConfig} from '../server';
 import build from './build';
@@ -71,18 +70,10 @@ export default async function serve(
     });
   });
 
-  console.log(
-    boxen(
-      pico.green(
-        `Serving "${cliOptions.dir}" directory at "${servingUrl + baseUrl}".`,
-      ),
-      {
-        borderColor: 'green',
-        padding: 1,
-        margin: 1,
-        align: 'center',
-      },
-    ),
+  logger.success(
+    `Serving "${logger.pathC(cliOptions.dir)}" directory at "${logger.pathC(
+      servingUrl + baseUrl,
+    )}".`,
   );
   server.listen(port);
 }

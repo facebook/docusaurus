@@ -1,0 +1,31 @@
+{
+  "name": "@docusaurus/logger",
+  "version": "2.0.0-beta.9",
+  "description": "An encapsulated logger for different levels of messages",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-logger"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/docusaurus/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "picocolors": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "@types/supports-color": "^8.1.1"
+  }
+}

@@ -20,7 +20,7 @@ import {
   InitializedPlugin,
 } from '@docusaurus/types';
 import initPlugins from './init';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
@@ -212,10 +212,8 @@ export async function loadPlugins({
       // TODO remove this deprecated lifecycle soon
       // deprecated since alpha-60
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
-      console.error(
-        pico.red(
-          'Plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
-        ),
+      logger.error(
+        'Plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
       );
 
       return plugin.routesLoaded(pluginsRouteConfigs);

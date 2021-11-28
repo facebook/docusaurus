@@ -15,7 +15,7 @@ import {
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -114,11 +114,11 @@ export async function writeTranslationFileContent({
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    console.warn(
-      pico.yellow(`Some translation keys looks unknown to us in file ${filePath}
+    logger.warn(`Some translation keys looks unknown to us in file ${logger.pathC(
+      filePath,
+    )}
 Maybe you should remove them?
-- ${unknownKeys.join('\n- ')}`),
-    );
+- ${unknownKeys.join('\n- ')}`);
   }
 
   const mergedContent = mergeTranslationFileContent({
@@ -289,12 +289,10 @@ export function applyDefaultCodeTranslations({
     Object.keys(extractedCodeTranslations),
   );
   if (unusedDefaultCodeMessages.length > 0) {
-    console.warn(
-      pico.yellow(`Unused default message codes found.
+    logger.warn(`Unused default message codes found.
 Please report this Docusaurus issue.
 - ${unusedDefaultCodeMessages.join('\n- ')}
-`),
-    );
+`);
   }
 
   return mapValues(

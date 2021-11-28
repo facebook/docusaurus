@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const pico = require('picocolors');
+const logger = require('@docusaurus/logger');
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
@@ -24,11 +24,9 @@ function wrapCommand(fn) {
 }
 
 if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    pico.red(`\nMinimum Node.js version not met :(`) +
-      pico.yellow(
-        `\n\nYou are using Node ${process.version}. We require Node.js ${requiredVersion} or up!\n`,
-      ),
+  logger.error('Minimum Node.js version not met :(');
+  logger.error(
+    `You are using Node.js ${process.version}, Requirement: Node.js ${requiredVersion}.`,
   );
   process.exit(1);
 }

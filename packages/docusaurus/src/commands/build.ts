@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -73,12 +73,8 @@ export default async function build(
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
   } else {
     if (i18n.locales.length > 1) {
-      console.log(
-        pico.yellow(
-          `\nWebsite will be built for all these locales:
-- ${i18n.locales.join('\n- ')}`,
-        ),
-      );
+      logger.info(`Website will be built for all these locales:
+- ${i18n.locales.join('\n- ')}`);
     }
 
     // We need the default locale to always be the 1st in the list
@@ -112,9 +108,7 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  console.log(
-    pico.blue(`\n[${locale}] Creating an optimized production build...`),
-  );
+  logger.log(`[${locale}] Creating an optimized production build...`);
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
@@ -238,17 +232,17 @@ async function buildLocale({
     baseUrl,
   });
 
-  console.log(
-    `${pico.green(`Success!`)} Generated static files in "${pico.cyan(
+  logger.success(
+    `Generated static files in ${logger.pathC(
       path.relative(process.cwd(), outDir),
-    )}".`,
+    )}.`,
   );
 
   if (isLastLocale) {
-    console.log(
-      `\nUse ${pico.green(
-        '`npm run serve`',
-      )} command to test your build locally.\n`,
+    logger.info(
+      `Use ${logger.codeC(
+        'npm run serve',
+      )} command to test your build locally.`,
     );
   }
 

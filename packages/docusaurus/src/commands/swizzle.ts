@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import pico from 'picocolors';
+import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
@@ -100,14 +100,14 @@ function themeComponents(
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${pico.red('No component to swizzle.')}`;
+    return 'No component to swizzle.';
   }
 
   return `
-${pico.cyan('Theme components available for swizzle.')}
+'Theme components available for swizzle.'
 
-${pico.green('green  =>')} safe: lower breaking change risk
-${pico.red('red    =>')} unsafe: higher breaking change risk
+${logger.successC('green  =>')} safe: lower breaking change risk
+${logger.errorC('red    =>')} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
@@ -135,8 +135,10 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => pico.green(`safe: ${component}`)),
-    ...redComponents.map((component) => pico.red(`unsafe: ${component}`)),
+    ...greenComponents.map((component) =>
+      logger.successC(`safe: ${component}`),
+    ),
+    ...redComponents.map((component) => logger.errorC(`unsafe: ${component}`)),
   ];
 }
 
@@ -161,7 +163,7 @@ export default async function swizzle(
   );
 
   if (!themeName) {
-    console.log(formattedThemeNames(themeNames));
+    logger.error(formattedThemeNames(themeNames));
     process.exit(1);
   }
 
@@ -175,10 +177,10 @@ export default async function swizzle(
         suggestion = name;
       }
     });
-    pico.red(
-      `Theme ${themeName} not found. ${
+    logger.error(
+      `Theme ${logger.idC(themeName)} not found. ${
         suggestion
-          ? `Did you mean "${suggestion}" ?`
+          ? `Did you mean "${logger.idC(suggestion)}" ?`
           : formattedThemeNames(themeNames)
       }`,
     );
@@ -218,12 +220,10 @@ export default async function swizzle(
     : pluginInstance.getThemePath?.();
 
   if (!themePath) {
-    console.warn(
-      pico.yellow(
-        typescript
-          ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
-          : `${themeName} does not provide any theme code.`,
-      ),
+    logger.warn(
+      typescript
+        ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
+        : `${themeName} does not provide any theme code.`,
     );
     process.exit(1);
   }
@@ -256,11 +256,11 @@ export default async function swizzle(
 
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
-      console.log(
-        pico.red(`Component "${componentName}" doesn't exist.`),
-        pico.yellow(
-          `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
-        ),
+      logger.error(`Component "${logger.idC(componentName)}" doesn't exist.`);
+      logger.info(
+        `"${logger.idC(
+          mostSuitableComponent,
+        )}" is swizzled instead of "${logger.idC(componentName)}".`,
       );
     }
   }
@@ -283,34 +283,35 @@ export default async function swizzle(
           suggestion = name;
         }
       });
-      console.warn(pico.red(`Component ${mostSuitableComponent} not found.`));
-      console.warn(
-        suggestion
-          ? `Did you mean "${suggestion}"?`
-          : `${themeComponents(themePath, pluginModule)}`,
+      logger.error(
+        `Component ${logger.idC(mostSuitableComponent)} not found. ${
+          suggestion
+            ? `Did you mean "${logger.idC(suggestion)}"?`
+            : `${themeComponents(themePath, pluginModule)}`
+        }`,
       );
       process.exit(1);
     }
   }
 
   if (!components.includes(mostSuitableComponent) && !danger) {
-    console.warn(
-      pico.red(
-        `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
-      ),
+    logger.error(
+      `${logger.idC(
+        mostSuitableComponent,
+      )} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the ${logger.codeC(
+        '--danger',
+      )} flag.`,
     );
     process.exit(1);
   }
 
   await fs.copy(fromPath, toPath);
 
-  const relativeDir = path.relative(process.cwd(), toPath);
-  const fromMsg = pico.blue(
-    mostSuitableComponent
-      ? `${themeName} ${pico.yellow(mostSuitableComponent)}`
-      : themeName,
+  logger.success(
+    `Copied ${logger.codeC(
+      mostSuitableComponent
+        ? `${themeName} ${mostSuitableComponent}`
+        : themeName,
+    )} to ${logger.pathC(path.relative(process.cwd(), toPath))}.`,
   );
-  const toMsg = pico.cyan(relativeDir);
-
-  console.log(`\n${pico.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
 }
