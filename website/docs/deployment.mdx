@@ -64,18 +64,37 @@ There are a few common hosting options:
 
 If you are unsure of which one to choose, ask the following questions:
 
-1. **How much resource (person-hours, money) am I willing to invest in this?**
-   - Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services is almost never free, and setting up an on-site server and connecting it to the WAN can be more costly.
-   - Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Build time can be limited—you would need to pay in order to get more build time quota. Check the pricing page of your provider for details.
-   - The GitHub pages deployment workflow can be tedious to set up. (Evidence: compare the length of [Deploying to Netlify](#deploying-to-netlify) and [Deploying to GitHub pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free, and we have detailed instructions to help you make it work.
-2. **How many server-side configuration would I need?**
-   - With self-hosting, you have access to the entire server's configuration. You can configure the virtual host to serve different content based on the request URL; you can do complicated server-side redirects; you can put part of the site behind authentication... If you need a lot of server-side features, self-host your website.
-   - Jamstack usually offers some server-side configurations, e.g. URLs formatting (trailing slashes), server-side redirects...
-   - GitHub pages doesn't expose server-side configurations besides enforcing HTTPS and setting CNAME.
-3. **Do I have needs to cooperate?**
-   - Self-hosted services can achieve the same effect as Netlify, but with much more heavy-lifting.
-   - Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review others' work before doing a production build.
-   - GitHub pages cannot do deploy previews in a non-convoluted way. One repo can only be associated with one site deployment.
+<details>
+
+<summary>
+  How much resource (person-hours, money) am I willing to invest in this?
+</summary>
+
+- 🔴 Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services is almost never free, and setting up an on-site server and connecting it to the WAN can be more costly.
+- 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Build time can be limited—you would need to pay in order to get more build time quota. Check the pricing page of your provider for details.
+- 🟡 The GitHub pages deployment workflow can be tedious to set up. (Evidence: compare the length of [Deploying to Netlify](#deploying-to-netlify) and [Deploying to GitHub pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free, and we have detailed instructions to help you make it work.
+
+</details>
+
+<details>
+
+<summary>How much server-side configuration would I need?</summary>
+
+- 🟢 With self-hosting, you have access to the entire server's configuration. You can configure the virtual host to serve different content based on the request URL; you can do complicated server-side redirects; you can put part of the site behind authentication... If you need a lot of server-side features, self-host your website.
+- 🟡 Jamstack usually offers some server-side configurations, e.g. URLs formatting (trailing slashes), server-side redirects...
+- 🔴 GitHub pages doesn't expose server-side configurations besides enforcing HTTPS and setting CNAME.
+
+</details>
+
+<details>
+
+<summary>Do I have needs to cooperate?</summary>
+
+- 🟡 Self-hosted services can achieve the same effect as Netlify, but with much more heavy-lifting. Usually, you would have a specific person who looks after the deployment, and the workflow won't be very git-based as opposed to the other two options.
+- 🟢 Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review others' work before doing a production build. You can also manage a team with different access to the deployment.
+- 🟡 GitHub pages cannot do deploy previews in a non-convoluted way. One repo can only be associated with one site deployment. On the other hand, you can control who has write access to the site's deployment.
+
+</details>
 
 There isn't a silver bullet. You need to weigh your needs and resources before making your choice.
 
