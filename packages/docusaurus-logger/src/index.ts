@@ -146,4 +146,12 @@ const logger = {
   success,
 };
 
+const name = 'Josh';
+const money = 100;
+const items = ['Hotdogs', 'Macbooks', 'Vinyl discs'];
+
+logger.info`Hello %i${name}! You have %n${money} dollars. Here are the ${
+  items.length > 1 ? 'items' : 'item'
+} on the shelf: ${items}`;
+
 export default logger;
