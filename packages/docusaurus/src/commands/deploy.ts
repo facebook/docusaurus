@@ -25,12 +25,10 @@ function obfuscateGitPass(str: string) {
 function shellExecLog(cmd: string) {
   try {
     const result = shell.exec(cmd);
-    logger.info(
-      `${obfuscateGitPass(cmd)} ${logger.subdue(`(code: ${result.code})`)}`,
-    );
+    logger.info`%c${obfuscateGitPass(cmd)} %s${`code: ${result.code}`}`;
     return result;
   } catch (e) {
-    logger.error(`${obfuscateGitPass(cmd)}`);
+    logger.error`%c${obfuscateGitPass(cmd)}`;
     throw e;
   }
 }

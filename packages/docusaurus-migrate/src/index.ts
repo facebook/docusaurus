@@ -194,9 +194,7 @@ export async function migrateDocusaurusProject(
     errorCount += 1;
   }
   if (errorCount) {
-    logger.warn(
-      `Migration from v1 to v2 failed with ${errorCount} errors: please check the log above`,
-    );
+    logger.warn`Migration from v1 to v2 failed with %n${errorCount} errors: please check the log above`;
   } else {
     logger.success('Completed migration from v1 to v2');
   }
@@ -472,8 +470,7 @@ function handleVersioning(
       versionRegex,
       migrateMDFiles,
     );
-    logger.success(`Migrated version docs and sidebar. The following doc versions have been created:
-- ${loadedVersions.join('\n- ')}`);
+    logger.success`Migrated version docs and sidebar. The following doc versions have been created:%i${loadedVersions}`;
   } else {
     logger.warn(
       'Versioned docs not found. Skipping migration for versioned docs',

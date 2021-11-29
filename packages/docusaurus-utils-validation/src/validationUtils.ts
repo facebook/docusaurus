@@ -114,7 +114,7 @@ export function validateFrontMatter<T>(
 
     logger.error`The following frontmatter:
 ${logger.yellow(frontMatterString)}
-contains invalid values for field(s): ${invalidFields}.
+contains invalid values for field(s): ${logger.yellow(invalidFields)}.
 ${errorDetails.map(({message}) => message)}
 `;
     throw error;
