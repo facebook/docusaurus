@@ -4,10 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
 import pico from 'picocolors';
 
-type InterpolatableValue = string | number | string[] | number[];
+type InterpolatableValue = string | number | (string | number)[];
 
 const path: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(pico.underline(msg));
@@ -55,76 +56,64 @@ function interpolate(
   return res;
 }
 
-function info(msg: string): void;
+function info(msg: any): void;
 function info(
   msg: TemplateStringsArray,
-  ...values: InterpolatableValue[]
+  ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function info(
-  msg: TemplateStringsArray | string,
-  ...values: InterpolatableValue[]
-): void {
-  if (typeof msg === 'string') {
-    console.info(`${pico.cyan(pico.bold('[INFO]'))} ${msg}`);
-    return;
-  }
+function info(msg: any, ...values: InterpolatableValue[]): void {
   console.info(
-    `${pico.cyan(pico.bold('[INFO]'))} ${interpolate(msg, ...values)}`,
+    `${pico.cyan(pico.bold('[INFO]'))} ${
+      values.length === 0
+        ? msg
+        : interpolate(msg as TemplateStringsArray, ...values)
+    }`,
   );
 }
-function warn(msg: string): void;
+function warn(msg: any): void;
 function warn(
   msg: TemplateStringsArray,
-  ...values: InterpolatableValue[]
+  ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function warn(
-  msg: TemplateStringsArray | string,
-  ...values: InterpolatableValue[]
-): void {
-  if (typeof msg === 'string') {
-    console.warn(pico.yellow(`${pico.bold('[WARNING]')} ${msg}`));
-    return;
-  }
+function warn(msg: any, ...values: InterpolatableValue[]): void {
   console.warn(
-    pico.yellow(`${pico.bold('[WARNING]')} ${interpolate(msg, ...values)}`),
+    pico.yellow(
+      `${pico.bold('[WARNING]')} ${
+        values.length === 0
+          ? msg
+          : interpolate(msg as TemplateStringsArray, ...values)
+      }`,
+    ),
   );
 }
-function error(msg: string | Error): void;
+function error(msg: any): void;
 function error(
   msg: TemplateStringsArray,
-  ...values: InterpolatableValue[]
+  ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function error(
-  msg: TemplateStringsArray | Error | string,
-  ...values: InterpolatableValue[]
-): void {
-  if (msg instanceof Error) {
-    console.error(msg);
-    return;
-  }
-  if (typeof msg === 'string') {
-    console.error(pico.red(`${pico.bold('[ERROR]')} ${msg}`));
-    return;
-  }
+function error(msg: any, ...values: InterpolatableValue[]): void {
   console.error(
-    pico.red(`${pico.bold('[ERROR]')} ${interpolate(msg, ...values)}`),
+    pico.red(
+      `${pico.bold('[ERROR]')} ${
+        values.length === 0
+          ? msg
+          : interpolate(msg as TemplateStringsArray, ...values)
+      }`,
+    ),
   );
 }
-function success(msg: string): void;
+function success(msg: any): void;
 function success(
   msg: TemplateStringsArray,
-  ...values: InterpolatableValue[]
+  ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function success(
-  msg: TemplateStringsArray | string,
-  ...values: InterpolatableValue[]
-): void {
-  if (typeof msg === 'string') {
-    console.log(`${pico.green(pico.bold('[SUCCESS]'))} ${msg}`);
-    return;
-  }
+function success(msg: any, ...values: InterpolatableValue[]): void {
   console.log(
-    `${pico.green(pico.bold('[SUCCESS]'))} ${interpolate(msg, ...values)}`,
+    `${pico.green(pico.bold('[SUCCESS]'))} ${
+      values.length === 0
+        ? msg
+        : interpolate(msg as TemplateStringsArray, ...values)
+    }`,
   );
 }
 
@@ -134,8 +123,8 @@ const logger = {
   id,
   code,
   subdue,
-  interpolate,
   num,
+  interpolate,
   info,
   warn,
   error,

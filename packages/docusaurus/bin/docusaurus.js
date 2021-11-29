@@ -253,7 +253,6 @@ async function run() {
 run();
 
 process.on('unhandledRejection', (err) => {
-  // @ts-expect-error: Hmmm
   logger.error(err.stack);
   process.exit(1);
 });
