@@ -22,7 +22,9 @@ function Version(): JSX.Element {
   } = useDocusaurusContext();
   const versions = useVersions();
   const latestVersion = useLatestVersion();
-  const currentVersion = versions.find((version) => version.name === 'current');
+  const currentVersion = versions.find(
+    (version) => version.name === 'current',
+  )!;
   const pastVersions = versions.filter(
     (version) => version !== latestVersion && version.name !== 'current',
   );

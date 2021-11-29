@@ -26,10 +26,12 @@ export default function Tooltip({
   delay,
 }: Props): JSX.Element {
   const [open, setOpen] = useState(false);
-  const [referenceElement, setReferenceElement] = useState<HTMLElement>(null);
-  const [popperElement, setPopperElement] = useState<HTMLElement>(null);
-  const [arrowElement, setArrowElement] = useState<HTMLElement>(null);
-  const [container, setContainer] = useState<Element>(null);
+  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
+    null,
+  );
+  const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
+  const [arrowElement, setArrowElement] = useState<HTMLElement | null>(null);
+  const [container, setContainer] = useState<Element | null>(null);
   const {styles: popperStyles, attributes} = usePopper(
     referenceElement,
     popperElement,
@@ -51,7 +53,8 @@ export default function Tooltip({
     },
   );
 
-  const timeout = useRef<number>(null);
+  const timeout = useRef<number | null>(null);
+  const tooltipId = `${id}_tooltip`;
 
   useEffect(() => {
     if (anchorEl) {
@@ -77,7 +80,7 @@ export default function Tooltip({
 
       // Remove the title ahead of time to avoid displaying
       // two tooltips at the same time (native + this one).
-      referenceElement.removeAttribute('title');
+      referenceElement?.removeAttribute('title');
 
       timeout.current = window.setTimeout(() => {
         setOpen(true);
@@ -85,7 +88,7 @@ export default function Tooltip({
     };
 
     const handleClose = () => {
-      clearInterval(timeout.current);
+      clearInterval(timeout.current!);
       setOpen(false);
     };
 
@@ -116,12 +119,13 @@ export default function Tooltip({
     <>
       {React.cloneElement(children, {
         ref: setReferenceElement,
+        'aria-describedby': open ? tooltipId : undefined,
       })}
       {container
         ? ReactDOM.createPortal(
             open && (
               <div
-                id={id}
+                id={tooltipId}
                 role="tooltip"
                 ref={setPopperElement}
                 className={styles.tooltip}

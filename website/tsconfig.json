@@ -5,6 +5,7 @@
     "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "strict": true,
     "types": ["@types/jest"]
   },
   "exclude": ["src/sw.js"]
