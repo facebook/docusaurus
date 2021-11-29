@@ -1,5 +1,7 @@
 {
   "name": "root",
+  "version": "0.0.0",
+  "license": "MIT",
   "private": true,
   "workspaces": [
     "packages/*",
@@ -130,5 +132,6 @@
   },
   "engines": {
     "node": ">=14"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

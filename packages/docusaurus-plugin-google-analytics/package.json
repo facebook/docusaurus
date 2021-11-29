@@ -18,11 +18,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
-    "@docusaurus/utils-validation": "2.0.0-beta.9"
+    "@docusaurus/core": "workspace:*",
+    "@docusaurus/utils-validation": "workspace:*"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.9"
+    "@docusaurus/types": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
