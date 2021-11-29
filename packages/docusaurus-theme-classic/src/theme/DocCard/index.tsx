@@ -6,7 +6,6 @@
  */
 
 import React, {ReactNode} from 'react';
-
 import Link from '@docusaurus/Link';
 import {
   PropSidebarItemCategory,

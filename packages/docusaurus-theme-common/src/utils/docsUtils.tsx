@@ -20,7 +20,7 @@ import {useLocation} from '@docusaurus/router';
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid  context value (a doc can have no sidebar)
+// Using a Symbol because null is a valid context value (a doc can have no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
@@ -122,37 +122,36 @@ export function findFirstCategoryLink(
 
   // eslint-disable-next-line no-restricted-syntax
   for (const subItem of item.items) {
-    switch (subItem.type) {
-      case 'link':
-        return subItem.href;
-      case 'category': {
-        const categoryLink = findFirstCategoryLink(subItem);
-        if (categoryLink) {
-          return categoryLink;
-        }
-        break;
+    if (subItem.type === 'link') {
+      return subItem.href;
+    }
+    if (subItem.type === 'category') {
+      const categoryLink = findFirstCategoryLink(subItem);
+      if (categoryLink) {
+        return categoryLink;
       }
-      default:
-        throw new Error(
-          `unexpected category item type for ${JSON.stringify(subItem)}`,
-        );
+    } else {
+      throw new Error(
+        `Unexpected category item type for ${JSON.stringify(subItem)}`,
+      );
     }
   }
   return undefined;
 }
 
-export function useCurrentSidebarCategory() {
+export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   const {pathname} = useLocation();
   const sidebar = useDocsSidebar();
   if (!sidebar) {
-    throw new Error(`unexpected: cant find current sidebar in context`);
+    throw new Error('Unexpected: cant find current sidebar in context');
   }
   const category = findSidebarCategory(sidebar, (item) =>
     isSamePath(item.href, pathname),
   );
   if (!category) {
     throw new Error(
-      `Unexpected: sidebar category could not be found for pathname='${pathname}'\nHook useCurrentSidebarCategory() should only be used on Category pages`,
+      `Unexpected: sidebar category could not be found for pathname='${pathname}'.
+Hook useCurrentSidebarCategory() should only be used on Category pages`,
     );
   }
   return category;

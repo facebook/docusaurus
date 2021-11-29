@@ -4,12 +4,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {CategoryGeneratedIndexMetadata, DocMetadataBase} from './types';
 import {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
 import {SidebarsUtils, toNavigationLink} from './sidebars/utils';
 import {createDocsByIdIndex} from './docs';
 
-export function getCategoryGeneratedIndexMetadata({
+function getCategoryGeneratedIndexMetadata({
   category,
   sidebarsUtils,
   docsById,

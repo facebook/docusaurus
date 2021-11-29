@@ -6,17 +6,16 @@
  */
 
 import React from 'react';
-
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
 import type {Props} from '@theme/DocCategoryGeneratedIndexPage';
 import DocCardList from '@theme/DocCardList';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
 import DocPaginator from '@theme/DocPaginator';
-
-import styles from './styles.module.css';
 import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
 import {MainHeading} from '@theme/Heading';
+
+import styles from './styles.module.css';
 
 export default function DocCategoryGeneratedIndexPage({
   categoryGeneratedIndex,
