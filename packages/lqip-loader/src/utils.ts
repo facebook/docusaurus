@@ -12,9 +12,8 @@ import type {Palette} from 'node-vibrant/lib/color';
  * it returns a Base64 image string with required formatting
  * to work on the web (<img src=".." /> or in CSS url('..'))
  */
-const toBase64 = (extMimeType: string, data: Buffer): string => {
-  return `data:${extMimeType};base64,${data.toString('base64')}`;
-};
+const toBase64 = (extMimeType: string, data: Buffer): string =>
+  `data:${extMimeType};base64,${data.toString('base64')}`;
 
 /**
  * takes a color swatch object, converts it to an array & returns

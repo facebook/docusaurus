@@ -28,19 +28,17 @@ export default function BlogSidebar({sidebar}: Props): JSX.Element | null {
         {sidebar.title}
       </div>
       <ul className={styles.sidebarItemList}>
-        {sidebar.items.map((item) => {
-          return (
-            <li key={item.permalink} className={styles.sidebarItem}>
-              <Link
-                isNavLink
-                to={item.permalink}
-                className={styles.sidebarItemLink}
-                activeClassName={styles.sidebarItemLinkActive}>
-                {item.title}
-              </Link>
-            </li>
-          );
-        })}
+        {sidebar.items.map((item) => (
+          <li key={item.permalink} className={styles.sidebarItem}>
+            <Link
+              isNavLink
+              to={item.permalink}
+              className={styles.sidebarItemLink}
+              activeClassName={styles.sidebarItemLinkActive}>
+              {item.title}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );

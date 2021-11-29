@@ -5,30 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
-import type {ThemeConfig} from '@docusaurus/plugin-google-analytics';
+import {Joi} from '@docusaurus/utils-validation';
+import type {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+  ValidationResult,
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-google-analytics';
 
-export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
-  const {
-    siteConfig: {themeConfig},
-  } = context;
-  const {googleAnalytics} = themeConfig as ThemeConfig;
-
-  if (!googleAnalytics) {
-    throw new Error(
-      `You need to specify "googleAnalytics" object in "themeConfig" with "trackingId" field in it to use docusaurus-plugin-google-analytics.`,
-    );
-  }
-
-  const {trackingID, anonymizeIP} = googleAnalytics;
-
-  if (!trackingID) {
-    throw new Error(
-      'You specified the "googleAnalytics" object in "themeConfig" but the "trackingID" field was missing. ' +
-        'Please ensure this is not a mistake.',
-    );
-  }
-
+export default function pluginGoogleAnalytics(
+  context: LoadContext,
+  options: PluginOptions,
+): Plugin {
+  const {trackingID, anonymizeIP} = options;
   const isProd = process.env.NODE_ENV === 'production';
 
   return {
@@ -68,8 +60,31 @@ export default function pluginGoogleAnalytics(context: LoadContext): Plugin {
               src: 'https://www.google-analytics.com/analytics.js',
             },
           },
-        ] as HtmlTags,
+        ],
       };
     },
   };
+}
+
+const pluginOptionsSchema = Joi.object<PluginOptions>({
+  trackingID: Joi.string().required(),
+  anonymizeIP: Joi.boolean().default(false),
+});
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+  return validate(pluginOptionsSchema, options);
+}
+
+export function validateThemeConfig({
+  themeConfig,
+}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
+  if (themeConfig.googleAnalytics) {
+    throw new Error(
+      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+  return themeConfig;
 }

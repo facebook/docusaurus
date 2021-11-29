@@ -8,6 +8,6 @@
 .main {
   padding: var(--ifm-spacing-horizontal);
   border-radius: 4px;
-  background: var(--ifm-color-feedback-background);
+  background: var(--site-color-feedback-background);
   min-height: 500px;
 }

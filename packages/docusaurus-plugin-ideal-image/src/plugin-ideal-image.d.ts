@@ -41,10 +41,23 @@ declare module '@docusaurus/plugin-ideal-image' {
 declare module '@theme/IdealImage' {
   import type {ComponentProps} from 'react';
 
-  export interface Props extends ComponentProps<'img'> {
-    img: any;
-  }
+  export type SrcType = {
+    width: number;
+    path?: string;
+    size?: number;
+    format?: 'webp' | 'jpeg' | 'png' | 'gif';
+  };
+
+  export type SrcImage = {
+    height?: number;
+    width?: number;
+    preSrc: string;
+    src: string;
+    images: SrcType[];
+  };
+
+  export type Props = ComponentProps<'img'> & {
+    img: {default: string} | {src: SrcImage; preSrc: string} | string;
+  };
   export default function IdealImage(props: Props): JSX.Element;
 }
-
-declare module '@endiliey/react-ideal-image';

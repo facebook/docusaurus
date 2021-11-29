@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadedVersion, VersionTag, DocMetadata} from './types';
+import type {LoadedVersion, VersionTag, DocMetadata} from './types';
 import type {
   SidebarItemDoc,
   SidebarItemLink,
@@ -17,7 +17,7 @@ import type {
   PropSidebarItem,
   PropTagDocList,
   PropTagDocListDoc,
-} from '@docusaurus/plugin-content-docs-types';
+} from '@docusaurus/plugin-content-docs';
 import {compact, keyBy, mapValues} from 'lodash-es';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {

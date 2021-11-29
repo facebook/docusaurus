@@ -13,7 +13,7 @@ import {
   transformSidebarItems,
   collectSidebarLinks,
 } from './sidebars/utils';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationFiles,
@@ -49,7 +49,7 @@ function getNormalizedSidebarName({
 }
 
 /*
-// Do we need to translate doc metadatas?
+// Do we need to translate doc metadata?
 // It seems translating frontmatter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
@@ -166,16 +166,16 @@ function translateSidebars(
   version: LoadedVersion,
   sidebarsTranslations: TranslationFileContent,
 ): Sidebars {
-  return mapValues(version.sidebars, (sidebar, sidebarName) => {
-    return translateSidebar({
+  return mapValues(version.sidebars, (sidebar, sidebarName) =>
+    translateSidebar({
       sidebar,
       sidebarName: getNormalizedSidebarName({
         sidebarName,
         versionName: version.versionName,
       }),
       sidebarsTranslations,
-    });
-  });
+    }),
+  );
 }
 
 function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {

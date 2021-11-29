@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Maghanap",
+  "theme.SearchPage.algoliaLabel": "Paghahanap hatid ng Algolia",
+  "theme.SearchPage.documentsFound.plurals": "Isang dokumento ang nahanap|{count} na mga dokumento ang nahanap",
+  "theme.SearchPage.emptyResultsTitle": "Maghanap sa dokumentasyón",
+  "theme.SearchPage.existingResultsTitle": "Resulta ng paghahanap para sa \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Kumukuha ng mga bagong resulta...",
+  "theme.SearchPage.inputLabel": "Maghanap",
+  "theme.SearchPage.inputPlaceholder": "I-type and inyong hinahanap dito",
+  "theme.SearchPage.noResultsText": "Walang resultang nahanap"
+}

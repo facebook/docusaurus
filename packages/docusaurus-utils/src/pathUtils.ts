@@ -16,11 +16,10 @@ const SPACE_FOR_APPENDING = 10;
 const isMacOs = process.platform === `darwin`;
 const isWindows = process.platform === `win32`;
 
-export const isNameTooLong = (str: string): boolean => {
-  return isMacOs || isWindows
+export const isNameTooLong = (str: string): boolean =>
+  isMacOs || isWindows
     ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
     : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
-};
 
 export const shortName = (str: string): string => {
   if (isMacOs || isWindows) {

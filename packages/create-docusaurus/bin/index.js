@@ -44,7 +44,12 @@ program
   .option('--typescript')
   .description('Initialize website.')
   .action(
-    (siteName, template, rootDir = '.', {useNpm, skipInstall, typescript}) => {
+    (
+      siteName,
+      template,
+      rootDir = '.',
+      {useNpm, skipInstall, typescript} = {},
+    ) => {
       wrapCommand(init)(path.resolve(rootDir), siteName, template, {
         useNpm,
         skipInstall,

@@ -13,7 +13,6 @@ import {
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-  STATIC_DIR_NAME,
 } from '../constants';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
@@ -193,7 +192,13 @@ function createBootstrapPlugin({
 // Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
 // This allows to do things such as importing repo/README.md as a partial from another doc
 // Not ideal solution though, but good enough for now
-function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
+function createMDXFallbackPlugin({
+  siteDir,
+  siteConfig,
+}: {
+  siteDir: string;
+  siteConfig: DocusaurusConfig;
+}): LoadedPlugin {
   return {
     name: 'docusaurus-mdx-fallback-plugin',
     content: null,
@@ -223,7 +228,10 @@ function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
                     remarkPlugins: [admonitions],
@@ -273,7 +281,7 @@ export async function load(
   );
 
   plugins.push(createBootstrapPlugin({siteConfig}));
-  plugins.push(createMDXFallbackPlugin({siteDir}));
+  plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
 
   // Load client modules.
   const clientModules = loadClientModules(plugins);

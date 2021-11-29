@@ -1,0 +1,207 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-pwa';
+import {normalizeUrl} from '@docusaurus/utils';
+import {compile} from '@docusaurus/core/lib/webpack/utils';
+import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+
+import path from 'path';
+import webpack, {Configuration} from 'webpack';
+import Terser from 'terser-webpack-plugin';
+
+import {injectManifest} from 'workbox-build';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+function getSWBabelLoader() {
+  return {
+    loader: 'babel-loader',
+    options: {
+      babelrc: false,
+      configFile: false,
+      presets: [
+        [
+          require.resolve('@babel/preset-env'),
+          {
+            useBuiltIns: 'entry',
+            corejs: '3',
+            // See https://twitter.com/jeffposnick/status/1280223070876315649
+            targets: 'chrome >= 56',
+          },
+        ],
+      ],
+      plugins: [
+        require.resolve('@babel/plugin-proposal-object-rest-spread'),
+        require.resolve('@babel/plugin-proposal-optional-chaining'),
+        require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
+      ],
+    },
+  };
+}
+
+export default function (
+  context: LoadContext,
+  options: PluginOptions,
+): Plugin<void> {
+  const {
+    outDir,
+    baseUrl,
+    i18n: {currentLocale},
+  } = context;
+  const {
+    debug,
+    offlineModeActivationStrategies,
+    injectManifestConfig,
+    reloadPopup,
+    pwaHead,
+    swCustom,
+    swRegister,
+  } = options;
+
+  return {
+    name: 'docusaurus-plugin-pwa',
+
+    getThemePath() {
+      return new URL('./theme', import.meta.url).pathname;
+    },
+
+    getClientModules() {
+      return isProd ? [swRegister] : [];
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'plugin-pwa',
+      });
+    },
+
+    configureWebpack(config) {
+      if (!isProd) {
+        return {};
+      }
+
+      return {
+        plugins: [
+          new webpack.EnvironmentPlugin({
+            PWA_DEBUG: debug,
+            PWA_SERVICE_WORKER_URL: path.posix.resolve(
+              `${config.output?.publicPath || '/'}`,
+              'sw.js',
+            ),
+            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES:
+              offlineModeActivationStrategies,
+            PWA_RELOAD_POPUP: reloadPopup,
+          }),
+        ],
+      };
+    },
+
+    injectHtmlTags() {
+      const headTags: HtmlTags = [];
+      if (isProd && pwaHead) {
+        pwaHead.forEach(({tagName, ...attributes}) => {
+          (['href', 'content'] as const).forEach((attribute) => {
+            const attributeValue = attributes[attribute];
+
+            if (!attributeValue) {
+              return;
+            }
+
+            const attributePath =
+              !!path.extname(attributeValue) && attributeValue;
+
+            if (attributePath && !attributePath.startsWith(baseUrl)) {
+              attributes[attribute] = normalizeUrl([baseUrl, attributeValue]);
+            }
+          });
+
+          return headTags.push({
+            tagName,
+            attributes,
+          });
+        });
+      }
+      return {headTags};
+    },
+
+    async postBuild(props) {
+      if (!isProd) {
+        return;
+      }
+
+      const swSourceFileTest = /\.m?js$/;
+
+      const swWebpackConfig: Configuration = {
+        entry: new URL('sw.js', import.meta.url).pathname,
+        output: {
+          path: outDir,
+          filename: 'sw.js',
+          publicPath: baseUrl,
+        },
+        target: 'webworker',
+        mode: debug ? 'development' : 'production',
+        devtool: debug ? 'source-map' : false,
+        optimization: {
+          splitChunks: false,
+          minimize: !debug,
+          // see https://developers.google.com/web/tools/workbox/guides/using-bundlers#webpack
+          minimizer: debug
+            ? []
+            : [
+                new Terser({
+                  test: swSourceFileTest,
+                }),
+              ],
+        },
+        plugins: [
+          new webpack.EnvironmentPlugin({
+            PWA_SW_CUSTOM: swCustom || '', // fallback value required with Webpack 5
+          }),
+          new LogPlugin({
+            name: 'Service Worker',
+            color: 'red',
+          }),
+        ],
+        module: {
+          rules: [
+            {
+              test: swSourceFileTest,
+              exclude: /(node_modules)/,
+              use: getSWBabelLoader(),
+            },
+          ],
+        },
+      };
+
+      await compile([swWebpackConfig]);
+
+      const swDest = path.resolve(props.outDir, 'sw.js');
+
+      await injectManifest({
+        ...injectManifestConfig,
+        globPatterns: [
+          '**/*.{js,json,css,html}',
+          '**/*.{png,jpg,jpeg,gif,svg,ico}',
+          '**/*.{woff,woff2,eot,ttf,otf}',
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ...(injectManifest.globPatterns || []),
+        ],
+        // those attributes are not overrideable
+        swDest,
+        swSrc: swDest,
+        globDirectory: props.outDir,
+      });
+    },
+  };
+}
+
+export {validateOptions} from './options';

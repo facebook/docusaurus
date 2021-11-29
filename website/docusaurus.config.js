@@ -12,8 +12,11 @@ import katex from 'rehype-katex';
 import VersionsArchived from './versionsArchived.json';
 import {dogfoodingPluginInstances} from './_dogfooding/dogfooding.config';
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import lightTheme from 'prism-react-renderer/themes/github';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import darkTheme from 'prism-react-renderer/themes/dracula';
+import FeatureRequestsPlugin from './src/featureRequests/FeatureRequestsPlugin';
 import {createRequire} from 'module';
 
 const ArchivedVersionsDropdownItems =
@@ -42,7 +45,7 @@ const allDocHomesPaths = [
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
-  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
@@ -84,6 +87,7 @@ const config = {
   ],
   i18n: {
     defaultLocale: 'en',
+    // eslint-disable-next-line no-nested-ternary
     locales: isDeployPreview
       ? // Deploy preview: keep it fast!
         ['en']
@@ -110,10 +114,11 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
+  staticDirectories: ['static', new URL('_dogfooding/_asset-tests', import.meta.url).pathname],
   clientModules: [new URL('./_dogfooding/clientModuleExample.ts', import.meta.url).pathname],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    new URL('./src/featureRequests/FeatureRequestsPlugin', import.meta.url).pathname,
+    FeatureRequestsPlugin,
     [
       '@docusaurus/plugin-content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -138,12 +143,13 @@ const config = {
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
         fromExtensions: ['html'],
-        createRedirects: function (path) {
+        createRedirects(routePath) {
           // redirect to /docs from /docs/introduction,
           // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
+          if (allDocHomesPaths.includes(routePath)) {
+            return [`${routePath}/introduction`];
           }
+          return [];
         },
         redirects: [
           {
@@ -263,6 +269,7 @@ const config = {
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
+          // eslint-disable-next-line no-nested-ternary
           onlyIncludeVersions: isBuildFast
             ? ['current']
             : !isVersioningDisabled && (isDev || isDeployPreview)
@@ -297,6 +304,11 @@ const config = {
         theme: {
           customCss: [new URL('./src/css/custom.css', import.meta.url).pathname],
         },
+        gtag: !isDeployPreview
+          ? {
+              trackingID: 'UA-141789564-1',
+            }
+          : undefined,
       }),
     ],
   ],
@@ -323,12 +335,7 @@ const config = {
         additionalLanguages: ['java'],
       },
       image: 'img/docusaurus-soc.png',
-      // metadatas: [{name: 'twitter:card', content: 'summary'}],
-      gtag: !isDeployPreview
-        ? {
-            trackingID: 'UA-141789564-1',
-          }
-        : undefined,
+      // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',

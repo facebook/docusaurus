@@ -47,11 +47,10 @@ function sanitizedFileContent(
 ): string {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, [key, value]) => {
-      return `${metaData}\n${key}: ${
+    (metaData, [key, value]) =>
+      `${metaData}\n${key}: ${
         shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
-      }`;
-    },
+      }`,
     '',
   );
   const sanitizedData = `---${extractedMetaData}\n---\n${
@@ -618,28 +617,26 @@ function migrateVersionedSidebar(
       const newSidebar = Object.entries(sidebar.entries).reduce(
         (acc: SidebarEntries, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
-          acc[key] = Object.entries(val[1]).map((value) => {
-            return {
-              type: 'category',
-              label: value[0],
-              items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
-                if (typeof sidebarItem === 'string') {
-                  return {
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${sidebarItem}`,
-                  };
-                }
+          acc[key] = Object.entries(val[1]).map((value) => ({
+            type: 'category',
+            label: value[0],
+            items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
+              if (typeof sidebarItem === 'string') {
                 return {
-                  type: 'category',
-                  label: sidebarItem.label,
-                  items: sidebarItem.ids.map((id: string) => ({
-                    type: 'doc',
-                    id: `version-${sidebar.version}/${id}`,
-                  })),
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${sidebarItem}`,
                 };
-              }),
-            };
-          });
+              }
+              return {
+                type: 'category',
+                label: sidebarItem.label,
+                items: sidebarItem.ids.map((id: string) => ({
+                  type: 'doc',
+                  id: `version-${sidebar.version}/${id}`,
+                })),
+              };
+            }),
+          }));
           return acc;
         },
         {},

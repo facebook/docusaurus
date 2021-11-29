@@ -82,7 +82,7 @@ describe('base webpack config', () => {
   const props: Props = {
     outDir: '',
     siteDir: new URL('__fixtures__/base_test_site', import.meta.url).pathname,
-    siteConfig: {},
+    siteConfig: {staticDirectories: ['static']},
     baseUrl: '',
     generatedFilesDir: '',
     routesPaths: [''],

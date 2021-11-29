@@ -11,7 +11,7 @@ import {getTranslationFiles, translateThemeConfig} from './translations';
 import {createRequire} from 'module';
 import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 const requireFromDocusaurusCore = createRequire(
   '@docusaurus/core/package.json',
@@ -26,8 +26,7 @@ const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => {
-  return `(function() {
+}: ThemeConfig['colorMode']) => `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
@@ -62,7 +61,6 @@ const noFlashColorMode = ({
     }
   }
 })();`;
-};
 
 // Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
 // TODO: import from theme-common once we only support Node.js with ESM support
@@ -125,10 +123,10 @@ export default function docusaurusThemeClassic(
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () => {
+    getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: new URL('../codeTranslations', import.meta.url).pathname,
         locale: currentLocale,
+        name: 'theme-common',
       });
     },
 

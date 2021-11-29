@@ -8,7 +8,6 @@
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
-
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash-es';
@@ -20,7 +19,6 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
@@ -115,6 +113,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
+  const httpsConfig = getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -178,7 +177,6 @@ export default async function start(
         errors: true,
       },
     },
-    https: getHttpsConfig(),
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -187,9 +185,9 @@ export default async function start(
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       stats: 'summary',
     },
-    static: {
+    static: siteConfig.staticDirectories.map((dir) => ({
       publicPath: baseUrl,
-      directory: path.resolve(siteDir, STATIC_DIR_NAME),
+      directory: path.resolve(siteDir, dir),
       watch: {
         // Useful options for our own monorepo using symlinks!
         // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
@@ -197,7 +195,16 @@ export default async function start(
         ignored: /node_modules\/(?!@docusaurus)/,
         ...{pollingOptions},
       },
-    },
+    })),
+    ...(httpsConfig && {
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig,
+            }
+          : 'https',
+    }),
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
     },

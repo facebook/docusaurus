@@ -16,13 +16,15 @@ import VersionsArchived from '@site/versionsArchived.json';
 
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
-function Version() {
+function Version(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();
   const versions = useVersions();
   const latestVersion = useLatestVersion();
-  const currentVersion = versions.find((version) => version.name === 'current');
+  const currentVersion = versions.find(
+    (version) => version.name === 'current',
+  )!;
   const pastVersions = versions.filter(
     (version) => version !== latestVersion && version.name !== 'current',
   );
@@ -128,7 +130,9 @@ function Version() {
               <tr>
                 <th>1.x</th>
                 <td>
-                  <a href={`https://v1.docusaurus.io/docs/en/installation`}>
+                  <a
+                    href="https://v1.docusaurus.io/docs/en/installation"
+                    rel="noreferrer">
                     Documentation
                   </a>
                 </td>

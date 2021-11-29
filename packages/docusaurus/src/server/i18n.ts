@@ -74,9 +74,10 @@ Note: Docusaurus only support running one locale at a time.`,
     };
   }
 
-  const localeConfigs = locales.reduce((acc, locale) => {
-    return {...acc, [locale]: getLocaleConfig(locale)};
-  }, {});
+  const localeConfigs = locales.reduce(
+    (acc, locale) => ({...acc, [locale]: getLocaleConfig(locale)}),
+    {},
+  );
 
   return {
     defaultLocale: i18nConfig.defaultLocale,

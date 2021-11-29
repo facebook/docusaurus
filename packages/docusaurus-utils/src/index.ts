@@ -30,7 +30,6 @@ export * from './tags';
 
 export const posixPath = posixPathImport;
 
-export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
@@ -259,7 +258,7 @@ export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
-export function getElementsAround<T extends unknown>(
+export function getElementsAround<T>(
   array: T[],
   aroundIndex: number,
 ): {
@@ -306,7 +305,7 @@ export function getPluginI18nPath({
   );
 }
 
-export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+export async function mapAsyncSequencial<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
@@ -389,9 +388,7 @@ export function reportMessage(
 export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
-  return contents.reduce((acc, content) => {
-    return {...acc, ...content};
-  }, {});
+  return contents.reduce((acc, content) => ({...acc, ...content}), {});
 }
 
 export function getSwizzledComponent(

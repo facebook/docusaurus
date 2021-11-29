@@ -5,14 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Plugin} from '@docusaurus/types';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
-export default function theme(): Plugin {
+export default function theme(context: DocusaurusContext): Plugin {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
       return new URL('./theme', import.meta.url).pathname;
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'theme-live-codeblock',
+      });
     },
 
     configureWebpack() {
