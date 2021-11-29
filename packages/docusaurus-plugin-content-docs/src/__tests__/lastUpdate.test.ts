@@ -29,8 +29,7 @@ describe('lastUpdate', () => {
   });
 
   test('non-existing file', async () => {
-    const consoleMock = jest.spyOn(console, 'error');
-    consoleMock.mockImplementation();
+    const consoleMock = jest.spyOn(console, 'error').mockImplementation();
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
       __dirname,
@@ -39,8 +38,8 @@ describe('lastUpdate', () => {
     );
     expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls[0][0].message).toContain(
-      ' with exit code 128',
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/with exit code 128/),
     );
     expect(await getFileLastUpdate(null)).toBeNull();
     expect(await getFileLastUpdate(undefined)).toBeNull();

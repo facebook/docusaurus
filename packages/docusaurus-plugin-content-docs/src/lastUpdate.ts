@@ -53,7 +53,7 @@ export async function getFileLastUpdate(
     }
     return getTimestampAndAuthor(result.stdout.trim());
   } catch (e) {
-    logger.error(e as Error);
+    logger.error(e);
   }
 
   return null;
