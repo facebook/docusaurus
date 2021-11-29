@@ -90,6 +90,4 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   return transformer;
 };
 
-// To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ
-// TODO change to export default after migrating to ESM
-export = plugin;
+export default plugin;
