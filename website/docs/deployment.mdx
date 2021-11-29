@@ -60,7 +60,7 @@ There are a few common hosting options:
 
 - [Self hosting](#self-hosting) with an HTTP server like Apache2 or Nginx;
 - Jamstack providers, e.g. [Netlify](#deploying-to-netlify) and [Vercel](#deploying-to-vercel). We will use Netlify as reference, but the same reasoning can apply to other providers.
-- [GitHub pages](#deploying-to-github-pages). (By definition, it is also Jamstack, but we compare it separately.)
+- [GitHub Pages](#deploying-to-github-pages). (By definition, it is also Jamstack, but we compare it separately.)
 
 If you are unsure of which one to choose, ask the following questions:
 
@@ -72,7 +72,7 @@ If you are unsure of which one to choose, ask the following questions:
 
 - 🔴 Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services is almost never free, and setting up an on-site server and connecting it to the WAN can be more costly.
 - 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Build time can be limited—you would need to pay in order to get more build time quota. Check the pricing page of your provider for details.
-- 🟡 The GitHub pages deployment workflow can be tedious to set up. (Evidence: compare the length of [Deploying to Netlify](#deploying-to-netlify) and [Deploying to GitHub pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free, and we have detailed instructions to help you make it work.
+- 🟡 The GitHub Pages deployment workflow can be tedious to set up. (Evidence: compare the length of [Deploying to Netlify](#deploying-to-netlify) and [Deploying to GitHub Pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free, and we have detailed instructions to help you make it work.
 
 </details>
 
@@ -82,7 +82,7 @@ If you are unsure of which one to choose, ask the following questions:
 
 - 🟢 With self-hosting, you have access to the entire server's configuration. You can configure the virtual host to serve different content based on the request URL; you can do complicated server-side redirects; you can put part of the site behind authentication... If you need a lot of server-side features, self-host your website.
 - 🟡 Jamstack usually offers some server-side configurations, e.g. URLs formatting (trailing slashes), server-side redirects...
-- 🔴 GitHub pages doesn't expose server-side configurations besides enforcing HTTPS and setting CNAME.
+- 🔴 GitHub Pages doesn't expose server-side configurations besides enforcing HTTPS and setting CNAME.
 
 </details>
 
@@ -91,8 +91,8 @@ If you are unsure of which one to choose, ask the following questions:
 <summary>Do I have needs to cooperate?</summary>
 
 - 🟡 Self-hosted services can achieve the same effect as Netlify, but with much more heavy-lifting. Usually, you would have a specific person who looks after the deployment, and the workflow won't be very git-based as opposed to the other two options.
-- 🟢 Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review others' work before doing a production build. You can also manage a team with different access to the deployment.
-- 🟡 GitHub pages cannot do deploy previews in a non-convoluted way. One repo can only be associated with one site deployment. On the other hand, you can control who has write access to the site's deployment.
+- 🟢 Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review work before merging to production. You can also manage a team with different access to the deployment.
+- 🟡 GitHub Pages cannot do deploy previews in a non-convoluted way. One repo can only be associated with one site deployment. On the other hand, you can control who has write access to the site's deployment.
 
 </details>
 
@@ -166,7 +166,7 @@ If you decide to use the `website` folder as Netlify's base directory, Netlify w
 
 By default, Netlify adds trailing slashes to Docusaurus URLs.
 
-It is recommended to disable the Netlify setting `Post Processing > Asset Optimization > Pretty Urls` to prevent lowercased URLs, unnecessary redirects and 404 errors.
+It is recommended to disable the Netlify setting `Post Processing > Asset Optimization > Pretty Urls` to prevent lowercased URLs, unnecessary redirects, and 404 errors.
 
 **Be very careful**: the `Disable asset optimization` global checkbox is broken and does not really disable the `Pretty URLs` setting in practice. Please make sure to **uncheck it independently**.
 
@@ -184,7 +184,7 @@ To deploy your Docusaurus project with a [Vercel for Git Integration](https://ve
 
 Import the project into Vercel using the [Import Flow](https://vercel.com/import/git). During the import, you will find all relevant options preconfigured for you; however, you can choose to change any of these options, a list of which can be found [here](https://vercel.com/docs/build-step#build-&-development-settings).
 
-After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (commonly "main") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
+After your project has been imported, all subsequent pushes to branches will generate [Preview Deployments](https://vercel.com/docs/platform/deployments#preview), and all changes made to the [Production Branch](https://vercel.com/docs/git-integrations#production-branch) (usually "main" or "master") will result in a [Production Deployment](https://vercel.com/docs/platform/deployments#production).
 
 ## Deploying to GitHub Pages {#deploying-to-github-pages}
 
@@ -598,7 +598,7 @@ trigger:
       from_secret: git_deploy_private_key
 ```
 
-Now, whenever you push a new tag to github, this trigger will start the drone ci job to publish your website.
+Now, whenever you push a new tag to GitHub, this trigger will start the drone CI job to publish your website.
 
 ## Deploying to Render {#deploying-to-render}
 
