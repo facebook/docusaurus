@@ -9,14 +9,15 @@ import path from 'path';
 import fs from 'fs';
 import {defaultConfig, compile} from 'eta';
 import {normalizeUrl, getSwizzledComponent} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import openSearchTemplate from './templates/opensearch';
 import {memoize} from 'lodash';
 
 import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
-const getCompiledOpenSearchTemplate = memoize(() => {
-  return compile(openSearchTemplate.trim());
-});
+const getCompiledOpenSearchTemplate = memoize(() =>
+  compile(openSearchTemplate.trim()),
+);
 
 function renderOpenSearchTemplate(data: {
   title: string;
@@ -35,6 +36,7 @@ export default function theme(
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
+    i18n: {currentLocale},
   } = context;
   const pageComponent = './theme/SearchPage/index.js';
   const pagePath =
@@ -54,6 +56,13 @@ export default function theme(
 
     getTypeScriptThemePath() {
       return path.resolve(__dirname, '..', 'src', 'theme');
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'theme-search-algolia',
+      });
     },
 
     async contentLoaded({actions: {addRoute}}) {

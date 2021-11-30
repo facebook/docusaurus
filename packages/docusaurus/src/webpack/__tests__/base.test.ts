@@ -82,7 +82,7 @@ describe('base webpack config', () => {
   const props: Props = {
     outDir: '',
     siteDir: path.resolve(__dirname, '__fixtures__', 'base_test_site'),
-    siteConfig: {},
+    siteConfig: {staticDirectories: ['static']},
     baseUrl: '',
     generatedFilesDir: '',
     routesPaths: [''],

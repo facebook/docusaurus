@@ -88,7 +88,7 @@ Each GitHub repository is associated with a GitHub Pages service. If the deploym
 
 :::info
 
-In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment. When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`.
+In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment. When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`, and also set your `url` to your custom domain.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
 
@@ -496,7 +496,7 @@ To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first 
 
 ```js {2-3} title="docusaurus.config.js"
 module.exports = {
-  url: 'https://docusaurus-2.netlify.com', // Url to your site with no trailing slash
+  url: 'https://docusaurus-2.netlify.app', // Url to your site with no trailing slash
   baseUrl: '/', // Base directory of your site relative to your repo
   // ...
 };

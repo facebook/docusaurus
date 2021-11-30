@@ -19,11 +19,13 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "workspace:*",
-    "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "fs-extra": "^10.0.0",
     "react-json-view": "^1.21.3",
     "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

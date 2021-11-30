@@ -20,14 +20,15 @@
   "dependencies": {
     "@docusaurus/core": "workspace:*",
     "@docusaurus/mdx-loader": "workspace:*",
-    "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "globby": "^11.0.2",
-    "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",
     "webpack": "^5.61.0"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

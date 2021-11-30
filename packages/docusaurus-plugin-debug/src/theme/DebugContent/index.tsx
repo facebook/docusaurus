@@ -11,26 +11,28 @@ import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
 import type {Props} from '@theme/DebugContent';
 
-const PluginInstanceContent = ({
+function PluginInstanceContent({
   pluginId,
   pluginInstanceContent,
 }: {
   pluginId: string;
   pluginInstanceContent: unknown;
-}) => (
-  <section style={{marginBottom: 30}}>
-    <code>{pluginId}</code>
-    <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
-  </section>
-);
+}) {
+  return (
+    <section style={{marginBottom: 30}}>
+      <code>{pluginId}</code>
+      <DebugJsonView src={pluginInstanceContent} collapseDepth={2} />
+    </section>
+  );
+}
 
-const PluginContent = ({
+function PluginContent({
   pluginName,
   pluginContent,
 }: {
   pluginName: string;
   pluginContent: Record<string, unknown>;
-}) => {
+}) {
   return (
     <section style={{marginBottom: 60}}>
       <h3>{pluginName}</h3>
@@ -40,19 +42,17 @@ const PluginContent = ({
           .filter(
             ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
           )
-          .map(([pluginId, pluginInstanceContent]) => {
-            return (
-              <PluginInstanceContent
-                key={pluginId}
-                pluginId={pluginId}
-                pluginInstanceContent={pluginInstanceContent}
-              />
-            );
-          })}
+          .map(([pluginId, pluginInstanceContent]) => (
+            <PluginInstanceContent
+              key={pluginId}
+              pluginId={pluginId}
+              pluginInstanceContent={pluginInstanceContent}
+            />
+          ))}
       </div>
     </section>
   );
-};
+}
 
 function DebugContent({allContent}: Props): JSX.Element {
   return (
@@ -66,15 +66,13 @@ function DebugContent({allContent}: Props): JSX.Element {
               (instanceContent) => !!instanceContent,
             ),
           )
-          .map(([pluginName, pluginContent]) => {
-            return (
-              <PluginContent
-                key={pluginName}
-                pluginName={pluginName}
-                pluginContent={pluginContent}
-              />
-            );
-          })}
+          .map(([pluginName, pluginContent]) => (
+            <PluginContent
+              key={pluginName}
+              pluginName={pluginName}
+              pluginContent={pluginContent}
+            />
+          ))}
       </div>
     </DebugLayout>
   );

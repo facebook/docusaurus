@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import type {
   DocMetadataBase,
   VersionMetadata,
@@ -55,12 +55,6 @@ export type SidebarItemCategoryConfig = Expand<
 export type SidebarCategoriesShorthand = {
   [sidebarCategory: string]: SidebarItemConfig[];
 };
-
-export function isCategoriesShorthand(
-  item: SidebarItemConfig,
-): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
-}
 
 export type SidebarItemConfig =
   | SidebarItemDoc
