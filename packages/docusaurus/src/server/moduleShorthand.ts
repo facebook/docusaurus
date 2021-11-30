@@ -5,17 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export function getNamePatterns(
+  moduleName: string,
+  moduleType: 'preset' | 'theme' | 'plugin',
+): string[] {
+  if (moduleName.startsWith('@')) {
+    // Pure scope: `@scope` => `@scope/docusaurus-plugin`
+    if (!moduleName.includes('/')) {
+      return [`${moduleName}/docusaurus-${moduleType}`];
+    }
+    const [scope, packageName] = moduleName.split(/\/(.*)/);
+    return [
+      `${scope}/${packageName}`,
+      `${scope}/docusaurus-${moduleType}-${packageName}`,
+    ];
+  }
+  return [
+    moduleName,
+    `@docusaurus/${moduleType}-${moduleName}`,
+    `docusaurus-${moduleType}-${moduleName}`,
+  ];
+}
+
 export function resolveModuleName(
   moduleName: string,
   moduleRequire: NodeRequire,
   moduleType: 'preset' | 'theme' | 'plugin',
 ): string {
-  const modulePatterns = [
-    moduleName,
-    `@docusaurus/${moduleType}-${moduleName}`,
-    `docusaurus-${moduleType}-${moduleName}`,
-    `@${moduleName}/docusaurus-${moduleType}`,
-  ];
+  const modulePatterns = getNamePatterns(moduleName, moduleType);
   // eslint-disable-next-line no-restricted-syntax
   for (const module of modulePatterns) {
     try {

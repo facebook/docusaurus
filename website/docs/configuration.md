@@ -50,14 +50,7 @@ module.exports = {
 
 :::tip
 
-Docusaurus supports **module shorthands**. When it sees a plugin / theme / preset name, it tries to load one of the following:
-
-- `{name}`
-- `@docusaurus/{plugin|theme|preset}-{name}`
-- `docusaurus-{plugin|theme|preset}-{name}`
-- `@{name}/docusaurus-{plugin|theme|preset}`
-
-The above configuration can therefore be simplified as:
+Docusaurus supports **module shorthands**, allowing you to simplify the above configuration as:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -66,6 +59,51 @@ module.exports = {
   themes: ['classic'],
 };
 ```
+
+<details>
+
+<summary>How are shorthands resolved?</summary>
+
+When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
+
+- `{name}`
+- `@docusaurus/{type}-{name}`
+- `docusaurus-{type}-{name}`,
+
+where `type` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
+
+If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
+
+```
+@scope
+^----^
+ scope  (no name!)
+
+@scope/awesome
+^----^ ^-----^
+ scope   name
+
+@scope/awesome/main
+^----^ ^----------^
+ scope     name
+```
+
+If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
+
+- `{scope}/{name}`
+- `{scope}/docusaurus-{type}-{name}`
+
+Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
+
+| Declaration | May be resolved as |
+| --- | --- |
+| `awesome` | `docusaurus-plugin-awesome` |
+| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
+| `@joshcena` | `@joshcena/docusaurus-plugin` (the only possible resolution!) |
+| `@joshcena/awesome` | `@joshcena/docusaurus-plugin-awesome` |
+| `@joshcena/awesome/web` | `@joshcena/docusaurus-plugin-awesome/web` |
+
+</details>
 
 :::
 
