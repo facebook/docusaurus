@@ -134,10 +134,10 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@armano/npm-to-yarn@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@armano/npm-to-yarn/-/npm-to-yarn-1.0.3.tgz#2e7a6ad7331be432dce54a942c4e210448781614"
-  integrity sha512-7xrLjaL7P05wR0KbE3iixwDbhDijGjE+2t3zAgIOYRLxJgZN2VMmb0Yx40Pz9iY23CK47V2kYxrfhDKKJsda6Q==
+"@armano/npm-to-yarn@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@armano/npm-to-yarn/-/npm-to-yarn-1.1.2.tgz#3518758123bf1bdb447949053721d283fc8bf2ae"
+  integrity sha512-rDxYtk9LEZqZkLth/sIZLmC4boUgSKY/8/zgd+OA9x8W2s2MAPAcxGlfvBpIkXloEFKt3OLgfHVSWTFR1f3YpA==
 
 "@babel/cli@^7.16.0":
   version "7.16.0"
