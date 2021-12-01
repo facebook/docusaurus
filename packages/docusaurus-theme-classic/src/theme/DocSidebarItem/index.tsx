@@ -16,6 +16,7 @@ import {
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {translate} from '@docusaurus/Translate';
 import IconExternalLink from '@theme/IconExternalLink';
 
 import type {Props, DocSidebarItemsProps} from '@theme/DocSidebarItem';
@@ -25,7 +26,6 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 
 import styles from './styles.module.css';
-import {translate} from '@docusaurus/Translate';
 
 // Optimize sidebar at each "level"
 // TODO this item should probably not receive the "activePath" props
