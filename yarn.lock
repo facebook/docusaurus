@@ -2273,7 +2273,7 @@ __metadata:
     workbox-precaching: ^6.1.1
     workbox-window: ^6.1.1
   peerDependencies:
-    "@babel/core": ">=7.0.0"
+    "@babel/core": ^7.0.0
     react: ^16.8.4 || ^17.0.0
     react-dom: ^16.8.4 || ^17.0.0
   languageName: unknown
@@ -2528,7 +2528,7 @@ __metadata:
     tslib: ^2.3.1
     webpack-merge: ^5.8.0
   peerDependencies:
-    "@babel/core": ">=7.12.0"
+    "@babel/core": ^7.0.0
     react: "*"
     react-dom: "*"
     webpack: 5.x
