@@ -141,9 +141,9 @@ function DocSidebarItemCategory({
           aria-label={translate(
             {
               id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
-              message: "Toggle the collapsed sidebar category '{label}'",
+              message: "Toggle the collapsible sidebar category '{label}'",
               description:
-                'The ARIA label to toggle the collapsed sidebar category',
+                'The ARIA label to toggle the collapsible sidebar category',
             },
             {label},
           )}

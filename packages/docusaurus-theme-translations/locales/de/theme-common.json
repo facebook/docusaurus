@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Kopiert",
   "theme.CodeBlock.copy": "Kopieren",
   "theme.CodeBlock.copyButtonAriaLabel": "In die Zwischenablage kopieren",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Wir konnten nicht finden, wonach Sie gesucht haben.",
