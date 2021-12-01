@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Loadable from '@docusaurus/react-loadable';
+import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';

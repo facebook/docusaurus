@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.13",
-    "@babel/plugin-proposal-optional-chaining": "^7.12.16",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "@docusaurus/core": "workspace:*",
     "@docusaurus/theme-common": "workspace:*",
     "@docusaurus/theme-translations": "workspace:*",
@@ -43,7 +43,7 @@
     "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": ">=7.0.0",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   }

@@ -8,7 +8,7 @@
 import {generate} from '@docusaurus/utils';
 import path, {join} from 'path';
 import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template.js';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,

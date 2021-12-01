@@ -6,9 +6,13 @@
 .changelog
 
 node_modules
-.yarn/cache
-.yarn/install-state.gz
-.yarn/unplugged
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 .eslintcache
 

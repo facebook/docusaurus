@@ -11,7 +11,7 @@ import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {Helmet} from 'react-helmet';
 import {getBundles} from 'react-loadable-ssr-addon-v5-slorber';
-import Loadable from '@docusaurus/react-loadable';
+import Loadable from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
 import path from 'path';

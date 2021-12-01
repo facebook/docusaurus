@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/utils": "2.0.0-beta.9",
+    "@docusaurus/utils": "workspace:*",
     "chalk": "^4.1.2",
     "joi": "^17.4.2",
     "tslib": "^2.3.1"

@@ -18,8 +18,7 @@
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node generateExamples",
-    "build": "yarn build:packages && yarn build:website",
-    "build:packages": "yarn workspaces foreach run build --no-private",
+    "build:packages": "yarn workspaces foreach --no-private run build",
     "build:website": "yarn workspace website build",
     "build:website:baseUrl": "yarn workspace website build:baseUrl",
     "build:website:blogOnly": "yarn workspace website build:blogOnly",
@@ -105,6 +104,7 @@
     "jest": "^26.6.3",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.5.4",
+    "monodeploy": "^2.8.16",
     "netlify-cli": "^2.58.0",
     "nodemon": "^2.0.13",
     "npm-run-all": "^4.1.5",
@@ -116,7 +116,7 @@
     "serve": "^12.0.1",
     "stylelint": "^13.10.0",
     "tslib": "^2.3.1",
-    "typescript": "4.4.4"
+    "typescript": "^4.5.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -130,8 +130,5 @@
   "engines": {
     "node": ">=14"
   },
-  "packageManager": "yarn@3.1.1",
-  "dependencies": {
-    "monodeploy": "^2.8.16"
-  }
+  "packageManager": "yarn@3.1.1"
 }

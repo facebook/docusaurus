@@ -23,7 +23,7 @@ import {
   applyConfigurePostCss,
   applyConfigureWebpack,
   compile,
-} from '@docusaurus/utils/lib/webpackUtils';
+} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequencial} from '@docusaurus/utils';
