@@ -23,6 +23,6 @@ jobs:
       - name: Lint
         run: yarn lint:ci
       - name: Prettier Code
-        run: yarn prettier:diff
+        run: yarn format:diff
       - name: Prettier Docs
-        run: yarn prettier-docs:diff
+        run: yarn format-docs:diff
