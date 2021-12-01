@@ -15,9 +15,7 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
-  "bin": {
-    "create-docusaurus": "bin/index.js"
-  },
+  "bin": "bin/index.js",
   "publishConfig": {
     "access": "public"
   },

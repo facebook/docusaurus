@@ -20,7 +20,7 @@
   "dependencies": {
     "@babel/parser": "^7.12.16",
     "@babel/traverse": "^7.12.13",
-    "@docusaurus/utils": "2.0.0-beta.9",
+    "@docusaurus/utils": "workspace:*",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "chalk": "^4.1.2",
@@ -49,9 +49,9 @@
     "unist-util-remove-position": "^3.0.0"
   },
   "peerDependencies": {
+    "@docusaurus/core": "*",
     "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0",
-    "@docusaurus/core": "*"
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=14"

@@ -19,7 +19,7 @@
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node generateExamples",
     "build": "yarn build:packages && yarn build:website",
-    "build:packages": "lerna run build --no-private",
+    "build:packages": "yarn workspaces foreach run build --no-private",
     "build:website": "yarn workspace website build",
     "build:website:baseUrl": "yarn workspace website build:baseUrl",
     "build:website:blogOnly": "yarn workspace website build:blogOnly",
@@ -40,8 +40,7 @@
     "canary:bumpVersion": "yarn lerna version `yarn --silent canary:version` --exact --no-push --yes",
     "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access",
     "changelog": "lerna-changelog",
-    "postinstall": "run-p postinstall:**",
-    "postinstall:main": "yarn lock:update && yarn build:packages",
+    "postinstall": "run-p postinstall:\"**\"",
     "postinstall:dev": "is-ci || husky install",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx,json}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,json}\"",
@@ -54,10 +53,9 @@
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
-    "watch": "yarn lerna run --parallel watch",
+    "watch": "yarn workspaces foreach --parallel run watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
-    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
-    "lock:update": "npx yarn-deduplicate"
+    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
