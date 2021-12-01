@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, memo} from 'react';
+import React, {useEffect, memo, useMemo} from 'react';
 import clsx from 'clsx';
 import {
   isActiveSidebarItem,
   usePrevious,
   Collapsible,
   useCollapsible,
+  findFirstCategoryLink,
   ThemeClassNames,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
@@ -26,6 +27,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 
 import styles from './styles.module.css';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 // Optimize sidebar at each "level"
 // TODO this item should probably not receive the "activePath" props
@@ -79,6 +81,28 @@ function useAutoExpandActiveCategory({
   }, [isActive, wasActive, collapsed, setCollapsed]);
 }
 
+// When a collapsible category has no link, we still link it to its first child during SSR as a temporary fallback
+// This allows to be able to navigate inside the category even when JS fails to load, is delayed or simply disabled
+// React hydration becomes an optional progressive enhancement
+// see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
+// see https://github.com/facebook/docusaurus/issues/3030
+function useCategoryHrefWithSSRFallback(
+  item: PropSidebarItemCategory,
+): string | undefined {
+  const isBrowser = useIsBrowser();
+  return useMemo(() => {
+    if (item.href) {
+      return item.href;
+    }
+    // In these cases, it's not necessary to render a fallback
+    // We skip the "findFirstCategoryLink" computation
+    if (isBrowser || !item.collapsible) {
+      return undefined;
+    }
+    return findFirstCategoryLink(item);
+  }, [item, isBrowser]);
+}
+
 function DocSidebarItemCategory({
   item,
   onItemClick,
@@ -87,6 +111,7 @@ function DocSidebarItemCategory({
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible, className, href} = item;
+  const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
 
@@ -132,7 +157,7 @@ function DocSidebarItemCategory({
               }
             : undefined
         }
-        href={collapsible ? href ?? '#' : href}
+        href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
         {...props}>
         {label}
       </Link>
