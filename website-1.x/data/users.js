@@ -519,6 +519,13 @@ const users = [
     pinned: false,
   },
   {
+    caption: 'phpseclib',
+    image: '/img/users/phpseclib.png',
+    infoLink: 'https://phpseclib.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'pnpm',
     image: '/img/users/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
