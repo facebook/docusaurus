@@ -48,6 +48,7 @@ Accepted fields:
 | `docItemComponent` | `string` | `'@theme/DocItem'` | Main doc container, with TOC, pagination, etc. |
 | `docTagsListComponent` | `string` | `'@theme/DocTagsListPage'` | Root component of the tags list page |
 | `docTagDocListComponent` | `string` | `'@theme/DocTagDocListPage'` | Root component of the "docs containing tag" page. |
+| `docCategoryGeneratedIndexComponent` | `string` | `'@theme/DocCategoryGeneratedIndexPage'` | Root component of the generated category index page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
