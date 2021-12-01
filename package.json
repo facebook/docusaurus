@@ -40,6 +40,7 @@
     "canary:publish": "yarn lerna publish from-package --dist-tag canary --yes --no-verify-access",
     "changelog": "lerna-changelog",
     "postinstall": "run-p postinstall:\"**\"",
+    "postinstall:main": "yarn build:packages",
     "postinstall:dev": "is-ci || husky install",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx,json}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,json}\"",
@@ -53,7 +54,7 @@
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn workspaces foreach --parallel run watch",
-    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
+    "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn workspaces foreach run yarn rimraf lib lib-next",
     "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl"
   },
   "devDependencies": {
