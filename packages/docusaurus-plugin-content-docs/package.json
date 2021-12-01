@@ -19,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*",
+    "@docusaurus/types": "workspace:*",
     "@types/js-yaml": "^4.0.0",
     "@types/picomatch": "^2.2.1",
     "commander": "^5.1.0",
@@ -28,7 +29,6 @@
   "dependencies": {
     "@docusaurus/core": "workspace:*",
     "@docusaurus/mdx-loader": "workspace:*",
-    "@docusaurus/types": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "chalk": "^4.1.2",
