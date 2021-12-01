@@ -11,7 +11,10 @@ export function difference<T>(...arrays: T[][]): T[] {
 }
 
 // Inspired by https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_sortby-and-_orderby
-export function sortBy<T>(array: T[], getter: (item: T) => unknown): T[] {
+export function sortBy<T>(
+  array: T[],
+  getter: (item: T) => string | number | boolean,
+): T[] {
   const sortedArray = [...array];
   sortedArray.sort((a, b) =>
     // eslint-disable-next-line no-nested-ternary

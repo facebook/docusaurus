@@ -29,7 +29,7 @@ export type DetailsProps = {
   summary?: ReactElement;
 } & ComponentProps<'details'>;
 
-const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
+function Details({summary, children, ...props}: DetailsProps): JSX.Element {
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -89,6 +89,6 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
       </Collapsible>
     </details>
   );
-};
+}
 
 export default Details;

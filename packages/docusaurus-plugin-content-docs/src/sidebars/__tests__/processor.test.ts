@@ -21,9 +21,7 @@ describe('processSidebars', () => {
   ];
 
   const StaticSidebarItemsGenerator: SidebarItemsGenerator = jest.fn(
-    async () => {
-      return StaticGeneratedSidebarSlice;
-    },
+    async () => StaticGeneratedSidebarSlice,
   );
 
   async function testProcessSidebars(unprocessedSidebars: NormalizedSidebars) {

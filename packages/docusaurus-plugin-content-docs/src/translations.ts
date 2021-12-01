@@ -14,7 +14,7 @@ import {
   transformSidebarItems,
   collectSidebarLinks,
 } from './sidebars/utils';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationFiles,
@@ -164,16 +164,16 @@ function translateSidebars(
   version: LoadedVersion,
   sidebarsTranslations: TranslationFileContent,
 ): Sidebars {
-  return mapValues(version.sidebars, (sidebar, sidebarName) => {
-    return translateSidebar({
+  return mapValues(version.sidebars, (sidebar, sidebarName) =>
+    translateSidebar({
       sidebar,
       sidebarName: getNormalizedSidebarName({
         sidebarName,
         versionName: version.versionName,
       }),
       sidebarsTranslations,
-    });
-  });
+    }),
+  );
 }
 
 function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {

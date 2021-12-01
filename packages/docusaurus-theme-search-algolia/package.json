@@ -22,6 +22,7 @@
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
     "@docusaurus/theme-common": "workspace:*",
+    "@docusaurus/theme-translations": "workspace:*",
     "@docusaurus/utils": "workspace:*",
     "@docusaurus/utils-validation": "workspace:*",
     "algoliasearch": "^4.10.5",

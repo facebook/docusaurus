@@ -28,11 +28,11 @@ import chalk from 'chalk';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
-const getCompiledSSRTemplate = memoize((template) => {
-  return eta.compile(template.trim(), {
+const getCompiledSSRTemplate = memoize((template) =>
+  eta.compile(template.trim(), {
     rmWhitespace: true,
-  });
-});
+  }),
+);
 
 function renderSSRTemplate(ssrTemplate, data) {
   const compiled = getCompiledSSRTemplate(ssrTemplate);
