@@ -16,7 +16,7 @@ import {
   getFileLoaderUtils,
   getCustomBabelConfigFilePath,
   getMinimizer,
-} from './utils';
+} from '@docusaurus/utils/lib/webpackUtils';
 import {loadPluginsThemeAliases} from '../server/themes';
 import {md5Hash} from '@docusaurus/utils';
 

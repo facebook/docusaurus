@@ -50,7 +50,6 @@
     "unist-util-remove-position": "^3.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "*",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },

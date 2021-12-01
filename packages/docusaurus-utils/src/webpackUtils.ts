@@ -29,12 +29,16 @@ import {
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {
-  BABEL_CONFIG_FILE_NAME,
-  OUTPUT_STATIC_ASSETS_DIR_NAME,
-  WEBPACK_URL_LOADER_LIMIT,
-} from '../constants';
 import {memoize} from 'lodash';
+
+// Temporary fix for https://github.com/facebook/docusaurus/issues/5493
+export const WEBPACK_URL_LOADER_LIMIT =
+  process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
+
+export const OUTPUT_STATIC_ASSETS_DIR_NAME = 'assets'; // files handled by webpack, hashed (can be cached aggressively)
+
+export const BABEL_CONFIG_FILE_NAME =
+  process.env.DOCUSAURUS_BABEL_CONFIG_FILE_NAME || 'babel.config.js';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -559,6 +563,7 @@ export function getMinimizer(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
       new CssMinimizerPlugin({
+        // @ts-expect-error Typescript problems I think
         minimizerOptions: [
           // CssNano options
           {
@@ -566,7 +571,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {
@@ -581,6 +585,7 @@ export function getMinimizer(
             },
           },
         ],
+        // @ts-expect-error Same as above, but it should be fine
         minify: [
           CssMinimizerPlugin.cssnanoMinify,
           CssMinimizerPlugin.cleanCssMinify,

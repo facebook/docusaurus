@@ -24,7 +24,7 @@
     "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "build": "tsc && tsc -p tsconfig.client.json && node copyUntypedFiles.js",
+    "build": "tsc -p tsconfig.client.json && node copyUntypedFiles.js && tsc",
     "watch": "node copyUntypedFiles.js && concurrently -n \"server,client\" --kill-others \"tsc --watch\" \"tsc -p tsconfig.client.json --watch\""
   },
   "bugs": {

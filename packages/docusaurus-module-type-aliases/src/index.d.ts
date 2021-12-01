@@ -270,7 +270,7 @@ declare module '@docusaurus/ExecutionEnvironment' {
 }
 
 declare module '@docusaurus/ComponentCreator' {
-  import type Loadable from 'react-loadable';
+  import type Loadable from '@docusaurus/react-loadable';
 
   function ComponentCreator(
     path: string,

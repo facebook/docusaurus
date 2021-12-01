@@ -36,7 +36,11 @@
 
     /* Use tslib */
     "importHelpers": true,
-    "noEmitHelpers": true
+    "noEmitHelpers": true,
+    "paths": {
+      // hack to make TS assume our RL fork is the same as normal RL, type wise
+      "@docusaurus/react-loadable": ["./node_modules/react-loadable"]
+    }
   },
   "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }
