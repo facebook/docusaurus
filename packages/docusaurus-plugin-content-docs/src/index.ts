@@ -223,7 +223,11 @@ export default function pluginContentDocs(
 
     async contentLoaded({content, actions}) {
       const {loadedVersions} = content;
-      const {docLayoutComponent, docItemComponent} = options;
+      const {
+        docLayoutComponent,
+        docItemComponent,
+        docCategoryGeneratedIndexComponent,
+      } = options;
       const {addRoute, createData, setGlobalData} = actions;
 
       async function createVersionTagsRoutes(version: LoadedVersion) {
@@ -287,6 +291,7 @@ export default function pluginContentDocs(
             loadedVersion,
             docItemComponent,
             docLayoutComponent,
+            docCategoryGeneratedIndexComponent,
             pluginId,
             aliasedSource,
             actions,

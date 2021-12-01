@@ -19,9 +19,11 @@ import chalk from 'chalk';
 export async function createCategoryGeneratedIndexRoutes({
   version,
   actions,
+  docCategoryGeneratedIndexComponent,
 }: {
   version: LoadedVersion;
   actions: PluginContentLoadedActions;
+  docCategoryGeneratedIndexComponent: string;
 }): Promise<RouteConfig[]> {
   const slugs = createSlugger();
 
@@ -53,7 +55,7 @@ export async function createCategoryGeneratedIndexRoutes({
 
     return {
       path: permalink,
-      component: '@theme/DocCategoryGeneratedIndexPage', // TODO option
+      component: docCategoryGeneratedIndexComponent,
       exact: true,
       modules: {
         categoryGeneratedIndex: propData,
@@ -110,6 +112,7 @@ export async function createVersionRoutes({
   actions,
   docItemComponent,
   docLayoutComponent,
+  docCategoryGeneratedIndexComponent,
   pluginId,
   aliasedSource,
 }: {
@@ -117,6 +120,7 @@ export async function createVersionRoutes({
   actions: PluginContentLoadedActions;
   docLayoutComponent: string;
   docItemComponent: string;
+  docCategoryGeneratedIndexComponent: string;
   pluginId: string;
   aliasedSource: (str: string) => string;
 }): Promise<void> {
@@ -130,7 +134,11 @@ export async function createVersionRoutes({
     async function createVersionSubRoutes() {
       const [docRoutes, sidebarsRoutes] = await Promise.all([
         createDocRoutes({docs: version.docs, actions, docItemComponent}),
-        createCategoryGeneratedIndexRoutes({version, actions}),
+        createCategoryGeneratedIndexRoutes({
+          version,
+          actions,
+          docCategoryGeneratedIndexComponent,
+        }),
       ]);
 
       const routes = [...docRoutes, ...sidebarsRoutes];

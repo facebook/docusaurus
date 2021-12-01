@@ -103,6 +103,7 @@ export type PluginOptions = MetadataOptions &
     docItemComponent: string;
     docTagDocListComponent: string;
     docTagsListComponent: string;
+    docCategoryGeneratedIndexComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     includeCurrentVersion: boolean;
