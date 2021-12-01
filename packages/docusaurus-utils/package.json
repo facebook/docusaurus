@@ -47,7 +47,7 @@
     "dedent": "^0.7.0"
   },
   "peerDependencies": {
-    "@babel/core": ">=7.12.0",
+    "@babel/core": "^7.0.0",
     "react": "*",
     "react-dom": "*",
     "webpack": "5.x"
