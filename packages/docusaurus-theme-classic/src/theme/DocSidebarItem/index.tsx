@@ -25,6 +25,7 @@ import type {
 } from '@docusaurus/plugin-content-docs';
 
 import styles from './styles.module.css';
+import {translate} from '@docusaurus/Translate';
 
 // Optimize sidebar at each "level"
 // TODO this item should probably not receive the "activePath" props
@@ -115,7 +116,7 @@ function DocSidebarItemCategory({
       )}>
       <Link
         className={clsx('menu__link', {
-          'menu__link--sublist': collapsible,
+          'menu__link--sublist': collapsible && !href,
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
         })}
@@ -135,6 +136,25 @@ function DocSidebarItemCategory({
         {...props}>
         {label}
       </Link>
+      {href && (
+        <button
+          aria-label={translate(
+            {
+              id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
+              message: "Toggle the collapsed sidebar category '{label}'",
+              description:
+                'The ARIA label to toggle the collapsed sidebar category',
+            },
+            {label},
+          )}
+          type="button"
+          className="clean-btn menu__caret"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleCollapsed();
+          }}
+        />
+      )}
 
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         <DocSidebarItems
