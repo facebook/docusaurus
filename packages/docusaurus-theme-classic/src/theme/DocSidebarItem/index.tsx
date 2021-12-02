@@ -139,47 +139,49 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <Link
-        className={clsx('menu__link', {
-          'menu__link--sublist': collapsible && !href,
-          'menu__link--active': collapsible && isActive,
-          [styles.menuLinkText]: !collapsible,
-        })}
-        onClick={
-          collapsible
-            ? (e) => {
-                if (href) {
-                  setCollapsed(false);
-                } else {
-                  e.preventDefault();
-                  toggleCollapsed();
+      <div className="menu__list-item-collapsible">
+        <Link
+          className={clsx('menu__link', {
+            'menu__link--sublist': collapsible && !href,
+            'menu__link--active': collapsible && isActive,
+            [styles.menuLinkText]: !collapsible,
+          })}
+          onClick={
+            collapsible
+              ? (e) => {
+                  if (href) {
+                    setCollapsed(false);
+                  } else {
+                    e.preventDefault();
+                    toggleCollapsed();
+                  }
                 }
-              }
-            : undefined
-        }
-        href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
-        {...props}>
-        {label}
-      </Link>
-      {href && (
-        <button
-          aria-label={translate(
-            {
-              id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
-              message: "Toggle the collapsible sidebar category '{label}'",
-              description:
-                'The ARIA label to toggle the collapsible sidebar category',
-            },
-            {label},
-          )}
-          type="button"
-          className="clean-btn menu__caret"
-          onClick={(e) => {
-            e.preventDefault();
-            toggleCollapsed();
-          }}
-        />
-      )}
+              : undefined
+          }
+          href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
+          {...props}>
+          {label}
+        </Link>
+        {href && (
+          <button
+            aria-label={translate(
+              {
+                id: 'theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel',
+                message: "Toggle the collapsible sidebar category '{label}'",
+                description:
+                  'The ARIA label to toggle the collapsible sidebar category',
+              },
+              {label},
+            )}
+            type="button"
+            className="clean-btn menu__caret"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleCollapsed();
+            }}
+          />
+        )}
+      </div>
 
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         <DocSidebarItems
