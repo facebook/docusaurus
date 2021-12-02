@@ -59,7 +59,7 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 There are a few common hosting options:
 
 - [Self hosting](#self-hosting) with an HTTP server like Apache2 or Nginx;
-- Jamstack providers, e.g. [Netlify](#deploying-to-netlify) and [Vercel](#deploying-to-vercel). We will use Netlify as reference, but the same reasoning can apply to other providers.
+- Jamstack providers, e.g. [Netlify](#deploying-to-netlify) and [Vercel](#deploying-to-vercel). We will use them as references, but the same reasoning can apply to other providers.
 - [GitHub Pages](#deploying-to-github-pages). (By definition, it is also Jamstack, but we compare it separately.)
 
 If you are unsure of which one to choose, ask the following questions:
@@ -71,8 +71,8 @@ If you are unsure of which one to choose, ask the following questions:
 </summary>
 
 - 🔴 Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services is almost never free, and setting up an on-site server and connecting it to the WAN can be more costly.
-- 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Build time can be limited—you would need to pay in order to get more build time quota. Check the pricing page of your provider for details.
-- 🟡 The GitHub Pages deployment workflow can be tedious to set up. (Evidence: compare the length of [Deploying to Netlify](#deploying-to-netlify) and [Deploying to GitHub Pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free, and we have detailed instructions to help you make it work.
+- 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Many providers offer generous build time quota even for free plans that you would almost never exceed. However, it's still ultimately limited—you would need to pay once you hit the limit. Check the pricing page of your provider for details.
+- 🟡 The GitHub Pages deployment workflow can be tedious to set up. (Evidence: see the length of [Deploying to GitHub Pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free for public repositories, and we have detailed instructions to help you make it work.
 
 </details>
 
@@ -91,12 +91,12 @@ If you are unsure of which one to choose, ask the following questions:
 <summary>Do I have needs to cooperate?</summary>
 
 - 🟡 Self-hosted services can achieve the same effect as Netlify, but with much more heavy-lifting. Usually, you would have a specific person who looks after the deployment, and the workflow won't be very git-based as opposed to the other two options.
-- 🟢 Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review work before merging to production. You can also manage a team with different access to the deployment.
+- 🟢 Netlify and Vercel have deploy previews for every pull request, which is useful for a team to review work before merging to production. You can also manage a team with different member access to the deployment.
 - 🟡 GitHub Pages cannot do deploy previews in a non-convoluted way. One repo can only be associated with one site deployment. On the other hand, you can control who has write access to the site's deployment.
 
 </details>
 
-There isn't a silver bullet. You need to weigh your needs and resources before making your choice.
+There isn't a silver bullet. You need to weigh your needs and resources before making a choice.
 
 ## Self-Hosting {#self-hosting}
 
@@ -114,7 +114,7 @@ It is not the best option, compared to a static hosting provider / CDN.
 
 :::warning
 
-In the following sections, we will introduce a few common hosting providers and how they should be configured to deploy Docusaurus sites most efficiently. The documentation may not be up-to-date: recent changes in their API may not be reflected on our side. If you see outdated content, PRs are welcome.
+In the following sections, we will introduce a few common hosting providers and how they should be configured to deploy Docusaurus sites most efficiently. Some of the writeups are provided by external contributors. Docusaurus is not interest-related with any of the services. The documentation may not be up-to-date: recent changes in their API may not be reflected on our side. If you see outdated content, PRs are welcome.
 
 For the same concern of up-to-datedness, we have stopped accepting PRs adding new hosting options. You can, however, publish your writeup on a separate site (e.g. your blog, or the provider's official website), and ask us to include a link to your writeup.
 
