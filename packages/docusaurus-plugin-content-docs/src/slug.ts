@@ -20,13 +20,13 @@ import type {NumberPrefixParser} from './types';
 export default function getSlug({
   baseID,
   frontmatterSlug,
-  dirName,
+  sourceDirName,
   stripDirNumberPrefixes = true,
   numberPrefixParser = DefaultNumberPrefixParser,
 }: {
   baseID: string;
   frontmatterSlug?: string;
-  dirName: string;
+  sourceDirName: string;
   stripDirNumberPrefixes?: boolean;
   numberPrefixParser?: NumberPrefixParser;
 }): string {
@@ -36,10 +36,10 @@ export default function getSlug({
     slug = baseSlug;
   } else {
     const dirNameStripped = stripDirNumberPrefixes
-      ? stripPathNumberPrefixes(dirName, numberPrefixParser)
-      : dirName;
+      ? stripPathNumberPrefixes(sourceDirName, numberPrefixParser)
+      : sourceDirName;
     const resolveDirname =
-      dirName === '.'
+      sourceDirName === '.'
         ? '/'
         : addLeadingSlash(addTrailingSlash(dirNameStripped));
     slug = resolvePathname(baseSlug, resolveDirname);
@@ -47,7 +47,7 @@ export default function getSlug({
 
   if (!isValidPathname(slug)) {
     throw new Error(
-      `We couldn't compute a valid slug for document with id "${baseID}" in "${dirName}" directory.
+      `We couldn't compute a valid slug for document with id "${baseID}" in "${sourceDirName}" directory.
 The slug we computed looks invalid: ${slug}.
 Maybe your slug frontmatter is incorrect or you use weird chars in the file path?
 By using the slug frontmatter, you should be able to fix this error, by using the slug of your choice:

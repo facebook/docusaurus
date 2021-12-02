@@ -9,8 +9,8 @@ import getSlug from '../slug';
 
 describe('getSlug', () => {
   test('should default to dirname/id', () => {
-    expect(getSlug({baseID: 'doc', dirName: '/dir'})).toEqual('/dir/doc');
-    expect(getSlug({baseID: 'doc', dirName: '/dir/subdir'})).toEqual(
+    expect(getSlug({baseID: 'doc', sourceDirName: '/dir'})).toEqual('/dir/doc');
+    expect(getSlug({baseID: 'doc', sourceDirName: '/dir/subdir'})).toEqual(
       '/dir/subdir/doc',
     );
   });
@@ -19,14 +19,14 @@ describe('getSlug', () => {
     expect(
       getSlug({
         baseID: 'doc',
-        dirName: '/001-dir1/002-dir2',
+        sourceDirName: '/001-dir1/002-dir2',
         stripDirNumberPrefixes: true,
       }),
     ).toEqual('/dir1/dir2/doc');
     expect(
       getSlug({
         baseID: 'doc',
-        dirName: '/001-dir1/002-dir2',
+        sourceDirName: '/001-dir1/002-dir2',
         stripDirNumberPrefixes: false,
       }),
     ).toEqual('/001-dir1/002-dir2/doc');
@@ -35,26 +35,30 @@ describe('getSlug', () => {
   // See https://github.com/facebook/docusaurus/issues/3223
   test('should handle special chars in doc path', () => {
     expect(
-      getSlug({baseID: 'my dôc', dirName: '/dir with spâce/hey $hello'}),
+      getSlug({baseID: 'my dôc', sourceDirName: '/dir with spâce/hey $hello'}),
     ).toEqual('/dir with spâce/hey $hello/my dôc');
   });
 
   test('should handle current dir', () => {
-    expect(getSlug({baseID: 'doc', dirName: '.'})).toEqual('/doc');
-    expect(getSlug({baseID: 'doc', dirName: '/'})).toEqual('/doc');
+    expect(getSlug({baseID: 'doc', sourceDirName: '.'})).toEqual('/doc');
+    expect(getSlug({baseID: 'doc', sourceDirName: '/'})).toEqual('/doc');
   });
 
   test('should resolve absolute slug frontmatter', () => {
     expect(
-      getSlug({baseID: 'any', dirName: '.', frontmatterSlug: '/abc/def'}),
-    ).toEqual('/abc/def');
-    expect(
-      getSlug({baseID: 'any', dirName: './any', frontmatterSlug: '/abc/def'}),
+      getSlug({baseID: 'any', sourceDirName: '.', frontmatterSlug: '/abc/def'}),
     ).toEqual('/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: './any/any',
+        sourceDirName: './any',
+        frontmatterSlug: '/abc/def',
+      }),
+    ).toEqual('/abc/def');
+    expect(
+      getSlug({
+        baseID: 'any',
+        sourceDirName: './any/any',
         frontmatterSlug: '/abc/def',
       }),
     ).toEqual('/abc/def');
@@ -62,46 +66,54 @@ describe('getSlug', () => {
 
   test('should resolve relative slug frontmatter', () => {
     expect(
-      getSlug({baseID: 'any', dirName: '.', frontmatterSlug: 'abc/def'}),
+      getSlug({baseID: 'any', sourceDirName: '.', frontmatterSlug: 'abc/def'}),
     ).toEqual('/abc/def');
     expect(
-      getSlug({baseID: 'any', dirName: '/dir', frontmatterSlug: 'abc/def'}),
+      getSlug({
+        baseID: 'any',
+        sourceDirName: '/dir',
+        frontmatterSlug: 'abc/def',
+      }),
     ).toEqual('/dir/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: 'unslashedDir',
+        sourceDirName: 'unslashedDir',
         frontmatterSlug: 'abc/def',
       }),
     ).toEqual('/unslashedDir/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: 'dir/subdir',
+        sourceDirName: 'dir/subdir',
         frontmatterSlug: 'abc/def',
       }),
     ).toEqual('/dir/subdir/abc/def');
     expect(
-      getSlug({baseID: 'any', dirName: '/dir', frontmatterSlug: './abc/def'}),
+      getSlug({
+        baseID: 'any',
+        sourceDirName: '/dir',
+        frontmatterSlug: './abc/def',
+      }),
     ).toEqual('/dir/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir',
+        sourceDirName: '/dir',
         frontmatterSlug: './abc/../def',
       }),
     ).toEqual('/dir/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir/subdir',
+        sourceDirName: '/dir/subdir',
         frontmatterSlug: '../abc/def',
       }),
     ).toEqual('/dir/abc/def');
     expect(
       getSlug({
         baseID: 'any',
-        dirName: '/dir/subdir',
+        sourceDirName: '/dir/subdir',
         frontmatterSlug: '../../../../../abc/../def',
       }),
     ).toEqual('/def');

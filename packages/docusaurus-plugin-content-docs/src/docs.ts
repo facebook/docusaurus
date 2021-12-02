@@ -208,7 +208,7 @@ function doProcessDocMetadata({
     ? '/'
     : getSlug({
         baseID,
-        dirName: sourceDirName,
+        sourceDirName,
         frontmatterSlug: frontMatter.slug,
         stripDirNumberPrefixes: parseNumberPrefixes,
         numberPrefixParser: options.numberPrefixParser,
