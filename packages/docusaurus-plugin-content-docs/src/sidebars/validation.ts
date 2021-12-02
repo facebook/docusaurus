@@ -67,7 +67,7 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
         then: Joi.object<SidebarItemCategoryLinkGeneratedIndex>({
           type: 'generated-index',
           slug: Joi.string().optional(),
-          permalink: Joi.string().optional(),
+          // permalink: Joi.string().optional(), // No, this one is not in the user config, only in the normalized version
           title: Joi.string().optional(),
           description: Joi.string().optional(),
         }),

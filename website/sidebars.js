@@ -81,12 +81,8 @@ const sidebars = {
         {
           type: 'category',
           label: 'Internationalization',
+          link: {type: 'doc', id: 'i18n/introduction'},
           items: [
-            {
-              type: 'doc',
-              id: 'i18n/introduction',
-              label: 'Introduction',
-            },
             {
               type: 'doc',
               id: 'i18n/tutorial',
