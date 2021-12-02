@@ -79,6 +79,10 @@ Please only call storage APIs in effects and event handlers.`);
 
 /**
  * Creates an object for accessing a particular key in localStorage.
+ * The API is fail-safe, and usage of browser storage should be considered unreliable
+ * Local storage might simply be unavailable (iframe + browser security) or operations might fail individually
+ * Please assume that using this API can be a NO-OP
+ * See also https://github.com/facebook/docusaurus/issues/6036
  */
 export const createStorageSlot = (
   key: string,
@@ -92,9 +96,28 @@ export const createStorageSlot = (
     return NoopStorageSlot;
   }
   return {
-    get: () => browserStorage.getItem(key),
-    set: (value) => browserStorage.setItem(key, value),
-    del: () => browserStorage.removeItem(key),
+    get: () => {
+      try {
+        return browserStorage.getItem(key);
+      } catch (e) {
+        console.error(`Docusaurus storage error, can't get key=${key}`, e);
+        return null;
+      }
+    },
+    set: (value) => {
+      try {
+        browserStorage.setItem(key, value);
+      } catch (e) {
+        console.error(`Docusaurus storage error, can't set ${key}=${value}`, e);
+      }
+    },
+    del: () => {
+      try {
+        browserStorage.removeItem(key);
+      } catch (e) {
+        console.error(`Docusaurus storage error, can't delete key=${key}`, e);
+      }
+    },
   };
 };
 
