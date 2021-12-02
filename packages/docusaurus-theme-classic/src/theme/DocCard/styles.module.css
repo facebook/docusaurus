@@ -15,6 +15,7 @@
 
   /* box-shadow: var(--ifm-global-shadow-lw); */
   box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--ifm-color-emphasis-200);
   transition: box-shadow var(--ifm-transition-fast) ease,
     background-color var(--ifm-transition-fast) ease;
 }

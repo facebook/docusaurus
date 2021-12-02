@@ -10,21 +10,18 @@ import React from 'react';
 import DocCard from '@theme/DocCard';
 import {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-import clsx from 'clsx';
-import styles from './styles.module.css';
-
 export default function DocCardList({
   items,
 }: {
   items: PropSidebarItem[];
 }): JSX.Element {
   return (
-    <ul className={clsx('row', styles.docCardList)}>
+    <div className="row">
       {items.map((item, index) => (
-        <li key={index} className="col col--6">
+        <article key={index} className="col col--6">
           <DocCard item={item} />
-        </li>
+        </article>
       ))}
-    </ul>
+    </div>
   );
 }
