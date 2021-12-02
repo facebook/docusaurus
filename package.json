@@ -50,12 +50,12 @@
     "lint:ci": "yarn lint:js --quiet --report-unused-disable-directives && yarn lint:style",
     "lint:js": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
     "lint:style": "stylelint \"**/*.css\"",
-    "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn workspaces foreach --parallel run watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn workspaces foreach run yarn rimraf lib lib-next",
-    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl"
+    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
+    "monodeploy": "monodeploy"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
