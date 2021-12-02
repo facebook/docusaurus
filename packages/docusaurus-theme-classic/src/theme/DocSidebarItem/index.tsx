@@ -143,8 +143,9 @@ function DocSidebarItemCategory({
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
-            'menu__link--active': collapsible && isActive,
+            'menu__link--active': isActive,
             [styles.menuLinkText]: !collapsible,
+            [styles.hasHref]: !!hrefWithSSRFallback,
           })}
           onClick={
             collapsible
@@ -162,7 +163,7 @@ function DocSidebarItemCategory({
           {...props}>
           {label}
         </Link>
-        {href && (
+        {href && collapsible && (
           <button
             aria-label={translate(
               {
