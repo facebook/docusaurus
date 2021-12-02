@@ -70,7 +70,6 @@ describe('validateCategoryMetadataFile', () => {
       link: {
         type: 'generated-index',
         slug: 'slug',
-        permalink: 'permalink',
         title: 'title',
         description: 'description',
       },
@@ -79,5 +78,28 @@ describe('validateCategoryMetadataFile', () => {
       position: 3,
     };
     expect(validateCategoryMetadataFile(content)).toEqual(content);
+  });
+
+  test('rejects permalink', async () => {
+    const content: CategoryMetadataFile = {
+      className: 'className',
+      label: 'Category Label',
+      link: {
+        type: 'generated-index',
+        slug: 'slug',
+        // @ts-expect-error: rejected on purpose
+        permalink: 'somePermalink',
+        title: 'title',
+        description: 'description',
+      },
+      collapsible: true,
+      collapsed: true,
+      position: 3,
+    };
+    expect(() =>
+      validateCategoryMetadataFile(content),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"link.permalink\\" is not allowed"`,
+    );
   });
 });

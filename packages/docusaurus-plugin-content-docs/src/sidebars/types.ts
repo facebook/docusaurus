@@ -197,7 +197,9 @@ export type SidebarItemsGeneratorArgs = {
 };
 export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,
-) => Promise<SidebarItem[]>;
+) => // TODO TS issue: the generator can generate un-normalized items!
+Promise<SidebarItem[]>;
+// Promise<SidebarItemConfig[]>;
 
 // Also inject the default generator to conveniently wrap/enhance/sort the default sidebar gen logic
 // see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320

@@ -135,7 +135,6 @@ describe('DefaultSidebarItemsGenerator', () => {
         link: {
           type: 'generated-index',
           slug: 'subguides-generated-index-slug',
-          permalink: 'subguides-generated-index-permalink',
           title: 'subguides-title',
           description: 'subguides-description',
         },
@@ -258,7 +257,6 @@ describe('DefaultSidebarItemsGenerator', () => {
             link: {
               type: 'generated-index',
               slug: 'subguides-generated-index-slug',
-              permalink: 'subguides-generated-index-permalink',
               title: 'subguides-title',
               description: 'subguides-description',
             },
