@@ -12,6 +12,7 @@ import {
   readVersionDocs,
   readDocFile,
   addDocNavigation,
+  isConventionalDocIndex,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
@@ -1024,5 +1025,115 @@ describe('versioned site', () => {
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
     });
+  });
+});
+
+describe('isConventionalDocIndex', () => {
+  test('supports readme', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'README.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/ReAdMe',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports index', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'index.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'index.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'INDEX.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/InDeX',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports <categoryName>/<categoryName>.md', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'some_category',
+        source: 'SOME_CATEGORY.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'some_category',
+        source: 'parent/some_category',
+      }),
+    ).toEqual(true);
+  });
+
+  test('reject other cases', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'some_Category',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'read_me',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'the index',
+      }),
+    ).toEqual(false);
   });
 });

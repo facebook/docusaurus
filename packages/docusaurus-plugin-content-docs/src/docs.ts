@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
-import {keyBy} from 'lodash';
+import {keyBy, last} from 'lodash';
 import {
   aliasedSitePath,
   getEditUrl,
@@ -208,6 +208,7 @@ function doProcessDocMetadata({
     ? '/'
     : getSlug({
         baseID,
+        source,
         sourceDirName,
         frontmatterSlug: frontMatter.slug,
         stripDirNumberPrefixes: parseNumberPrefixes,
@@ -374,6 +375,33 @@ export function getMainDocId({
   }
 
   return getMainDoc().unversionedId;
+}
+
+function getLastPathSegment(str: string): string {
+  return last(str.split('/'))!;
+}
+
+// By convention, Docusaurus considers some docs are "indexes":
+// - index.md
+// - readme.md
+// - <folder>/<folder>.md
+//
+// Those index docs produce a different behavior
+// - Slugs do not end with a weird "/index" suffix
+// - Auto-generated sidebar categories link to them as intro
+export function isConventionalDocIndex(doc: {
+  source: DocMetadataBase['slug'];
+  sourceDirName: DocMetadataBase['sourceDirName'];
+}): boolean {
+  // "@site/docs/folder/subFolder/subSubFolder/myDoc.md" => "myDoc"
+  const docName = path.parse(doc.source).name;
+
+  // "folder/subFolder/subSubFolder" => "subSubFolder"
+  const lastDirName = getLastPathSegment(doc.sourceDirName);
+
+  const eligibleDocIndexNames = ['index', 'readme', lastDirName.toLowerCase()];
+
+  return eligibleDocIndexNames.includes(docName.toLowerCase());
 }
 
 // Return both doc ids

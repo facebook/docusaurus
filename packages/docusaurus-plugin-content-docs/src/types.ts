@@ -147,8 +147,8 @@ export type DocMetadataBase = LastUpdateData & {
   isDocsHomePage: boolean;
   title: string;
   description: string;
-  source: string;
-  sourceDirName: string; // relative to the docs folder (can be ".")
+  source: string; // @site aliased source => "@site/docs/folder/subFolder/subSubFolder/myDoc.md"
+  sourceDirName: string; // relative to the versioned docs folder (can be ".") => "folder/subFolder/subSubFolder"
   slug: string;
   permalink: string;
   sidebarPosition?: number;

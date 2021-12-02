@@ -20,34 +20,15 @@ import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
 import {validateCategoryMetadataFile} from './validation';
-import {createDocsByIdIndex} from '../docs';
+import {createDocsByIdIndex, isConventionalDocIndex} from '../docs';
 
 const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
 const docIdPrefix = '$doc$/';
 
-function getLastPathSegment(str: string): string {
-  return last(str.split('/'))!;
-}
-
 // Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
-  return getLastPathSegment(docId);
-}
-
-// By convention, Docusaurus turns certain doc filenames as category doc links
-// TODO make this function configurable?
-export function isConventionalCategoryDocLink(
-  doc: Pick<SidebarItemsGeneratorDoc, 'source' | 'sourceDirName'>,
-): boolean {
-  // "@site/docs/folder/subFolder/myDoc.md" => "myDoc"
-  const docName = path.parse(doc.source).name;
-  // "folder/subFolder" => "subFolder"
-  const dirName = getLastPathSegment(doc.sourceDirName);
-
-  const eligibleDocIndexNames = ['index', 'readme', dirName.toLowerCase()];
-
-  return eligibleDocIndexNames.includes(docName.toLowerCase());
+  return last(docId.split('/'))!;
 }
 
 export const CategoryMetadataFilenameBase = '_category_';
@@ -240,8 +221,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       function findConventionalCategoryDocLink(): SidebarItemDoc | undefined {
         return allItems.find(
           (item) =>
-            item.type === 'doc' &&
-            isConventionalCategoryDocLink(getDoc(item.id)),
+            item.type === 'doc' && isConventionalDocIndex(getDoc(item.id)),
         ) as SidebarItemDoc | undefined;
       }
 
