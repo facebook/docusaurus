@@ -12,34 +12,31 @@ import themeAlias, {sortAliases} from './alias';
 
 const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
 
-function buildThemeAliases(
-  themeAliases: ThemeAliases,
-  aliases: ThemeAliases = {},
-): ThemeAliases {
-  Object.keys(themeAliases).forEach((aliasKey) => {
-    if (aliasKey in aliases) {
-      const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-      aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
-    }
-    aliases[aliasKey] = themeAliases[aliasKey];
-  });
-  return aliases;
-}
-
 export function loadThemeAliases(
   themePaths: string[],
-  userThemePaths: string[] = [],
+  userThemePaths: string[],
 ): ThemeAliases {
-  let aliases = {}; // TODO refactor, inelegant side-effect
+  const aliases: ThemeAliases = {};
 
   themePaths.forEach((themePath) => {
     const themeAliases = themeAlias(themePath, true);
-    aliases = {...aliases, ...buildThemeAliases(themeAliases, aliases)};
+    Object.keys(themeAliases).forEach((aliasKey) => {
+      // If this alias shadows a previous one, use @theme-init to preserve the initial one.
+      // @theme-init is only applied once: to the initial theme that provided this component
+      if (aliasKey in aliases) {
+        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+        const initAlias = `@theme-init/${componentName}`;
+        if (!(initAlias in aliases)) {
+          aliases[initAlias] = aliases[aliasKey];
+        }
+      }
+      aliases[aliasKey] = themeAliases[aliasKey];
+    });
   });
 
   userThemePaths.forEach((themePath) => {
     const userThemeAliases = themeAlias(themePath, false);
-    aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
+    Object.assign(aliases, userThemeAliases);
   });
 
   return sortAliases(aliases);
