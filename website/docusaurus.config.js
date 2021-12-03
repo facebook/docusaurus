@@ -277,7 +277,7 @@ const config = {
             : undefined,
           versions: {
             current: {
-              path: isDev ? 'next' : undefined,
+              path: isDev || isBuildFast ? 'next' : undefined,
               label: `${getNextBetaVersionName()} 🚧`,
             },
           },
