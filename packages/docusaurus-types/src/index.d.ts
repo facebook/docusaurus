@@ -153,6 +153,14 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
+export type PresetModule = {
+  <T>(context: LoadContext, presetOptions: T): Preset;
+};
+
+export type ImportedPresetModule = PresetModule & {
+  default?: PresetModule;
+};
+
 export type PresetConfig =
   | [string, Record<string, unknown>]
   | [string]
