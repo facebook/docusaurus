@@ -12,4 +12,8 @@
   .menuLinkText:hover {
     background: none;
   }
+
+  .menuLinkText.hasHref {
+    cursor: pointer;
+  }
 }

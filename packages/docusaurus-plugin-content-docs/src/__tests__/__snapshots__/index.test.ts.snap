@@ -43,6 +43,7 @@ Object {
             },
           ],
           "label": "foo",
+          "link": undefined,
           "type": "category",
         },
         Object {
@@ -67,6 +68,7 @@ Object {
             },
           ],
           "label": "Slugs",
+          "link": undefined,
           "type": "category",
         },
         Object {
@@ -84,6 +86,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -96,6 +99,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -614,12 +618,14 @@ Object {
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"Bar\\",
-                \\"href\\": \\"/docs/foo/bar\\"
+                \\"href\\": \\"/docs/foo/bar\\",
+                \\"docId\\": \\"foo/bar\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"baz\\",
-                \\"href\\": \\"/docs/foo/bazSlug.html\\"
+                \\"href\\": \\"/docs/foo/bazSlug.html\\",
+                \\"docId\\": \\"foo/baz\\"
               }
             ],
             \\"collapsible\\": true,
@@ -632,22 +638,26 @@ Object {
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootAbsoluteSlug\\",
-                \\"href\\": \\"/docs/rootAbsoluteSlug\\"
+                \\"href\\": \\"/docs/rootAbsoluteSlug\\",
+                \\"docId\\": \\"rootAbsoluteSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootRelativeSlug\\",
-                \\"href\\": \\"/docs/rootRelativeSlug\\"
+                \\"href\\": \\"/docs/rootRelativeSlug\\",
+                \\"docId\\": \\"rootRelativeSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootResolvedSlug\\",
-                \\"href\\": \\"/docs/hey/rootResolvedSlug\\"
+                \\"href\\": \\"/docs/hey/rootResolvedSlug\\",
+                \\"docId\\": \\"rootResolvedSlug\\"
               },
               {
                 \\"type\\": \\"link\\",
                 \\"label\\": \\"rootTryToEscapeSlug\\",
-                \\"href\\": \\"/docs/rootTryToEscapeSlug\\"
+                \\"href\\": \\"/docs/rootTryToEscapeSlug\\",
+                \\"docId\\": \\"rootTryToEscapeSlug\\"
               }
             ],
             \\"collapsible\\": true,
@@ -656,7 +666,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"My heading as title\\",
-            \\"href\\": \\"/docs/headingAsTitle\\"
+            \\"href\\": \\"/docs/headingAsTitle\\",
+            \\"docId\\": \\"headingAsTitle\\"
           },
           {
             \\"type\\": \\"link\\",
@@ -666,7 +677,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"Hello sidebar_label\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       },
@@ -679,11 +691,92 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"Hello sidebar_label\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"Bar\\",
+      \\"description\\": \\"This is custom description\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"foo/baz\\": {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Images\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"headingAsTitle\\": {
+      \\"id\\": \\"headingAsTitle\\",
+      \\"title\\": \\"My heading as title\\",
+      \\"description\\": \\"\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"Hello, World !\\",
+      \\"description\\": \\"Hi, Endilie here :)\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"ipsum\\": {
+      \\"id\\": \\"ipsum\\",
+      \\"title\\": \\"ipsum\\",
+      \\"description\\": \\"Lorem ipsum.\\"
+    },
+    \\"lorem\\": {
+      \\"id\\": \\"lorem\\",
+      \\"title\\": \\"lorem\\",
+      \\"description\\": \\"Lorem ipsum.\\"
+    },
+    \\"rootAbsoluteSlug\\": {
+      \\"id\\": \\"rootAbsoluteSlug\\",
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootRelativeSlug\\": {
+      \\"id\\": \\"rootRelativeSlug\\",
+      \\"title\\": \\"rootRelativeSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootResolvedSlug\\": {
+      \\"id\\": \\"rootResolvedSlug\\",
+      \\"title\\": \\"rootResolvedSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"rootTryToEscapeSlug\\": {
+      \\"id\\": \\"rootTryToEscapeSlug\\",
+      \\"title\\": \\"rootTryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
 }
@@ -1068,6 +1161,7 @@ Object {
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
       "sourceDirName": "3-API/01_Core APIs",
+      "unversionedId": "API/Core APIs/Client API",
     },
     Object {
       "frontMatter": Object {},
@@ -1075,6 +1169,7 @@ Object {
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
       "sourceDirName": "3-API/01_Core APIs",
+      "unversionedId": "API/Core APIs/Server API",
     },
     Object {
       "frontMatter": Object {},
@@ -1082,6 +1177,7 @@ Object {
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
       "sourceDirName": "3-API/02_Extension APIs",
+      "unversionedId": "API/Extension APIs/Plugin API",
     },
     Object {
       "frontMatter": Object {},
@@ -1089,6 +1185,7 @@ Object {
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
       "sourceDirName": "3-API/02_Extension APIs",
+      "unversionedId": "API/Extension APIs/Theme API",
     },
     Object {
       "frontMatter": Object {},
@@ -1096,6 +1193,7 @@ Object {
       "sidebarPosition": 3,
       "source": "@site/docs/3-API/03_api-end.md",
       "sourceDirName": "3-API",
+      "unversionedId": "API/api-end",
     },
     Object {
       "frontMatter": Object {},
@@ -1103,6 +1201,7 @@ Object {
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/00_api-overview.md",
       "sourceDirName": "3-API",
+      "unversionedId": "API/api-overview",
     },
     Object {
       "frontMatter": Object {
@@ -1113,6 +1212,7 @@ Object {
       "sidebarPosition": 1,
       "source": "@site/docs/Guides/z-guide1.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide1",
     },
     Object {
       "frontMatter": Object {
@@ -1122,6 +1222,7 @@ Object {
       "sidebarPosition": 2,
       "source": "@site/docs/Guides/02-guide2.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide2",
     },
     Object {
       "frontMatter": Object {
@@ -1132,6 +1233,7 @@ Object {
       "sidebarPosition": 2.5,
       "source": "@site/docs/Guides/0-guide2.5.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide2.5",
     },
     Object {
       "frontMatter": Object {
@@ -1142,6 +1244,7 @@ Object {
       "sidebarPosition": 3,
       "source": "@site/docs/Guides/guide3.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide3",
     },
     Object {
       "frontMatter": Object {
@@ -1151,6 +1254,7 @@ Object {
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/a-guide4.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide4",
     },
     Object {
       "frontMatter": Object {
@@ -1160,6 +1264,7 @@ Object {
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/b-guide5.md",
       "sourceDirName": "Guides",
+      "unversionedId": "Guides/guide5",
     },
     Object {
       "frontMatter": Object {},
@@ -1167,6 +1272,7 @@ Object {
       "sidebarPosition": 0,
       "source": "@site/docs/0-getting-started.md",
       "sourceDirName": ".",
+      "unversionedId": "getting-started",
     },
     Object {
       "frontMatter": Object {},
@@ -1174,6 +1280,7 @@ Object {
       "sidebarPosition": 1,
       "source": "@site/docs/1-installation.md",
       "sourceDirName": ".",
+      "unversionedId": "installation",
     },
   ],
   "item": Object {
@@ -1438,9 +1545,18 @@ Object {
       {
         \\"type\\": \\"link\\",
         \\"label\\": \\"team\\",
-        \\"href\\": \\"/community/team\\"
+        \\"href\\": \\"/community/team\\",
+        \\"docId\\": \\"team\\"
       }
     ]
+  },
+  \\"docs\\": {
+    \\"team\\": {
+      \\"id\\": \\"team\\",
+      \\"title\\": \\"team\\",
+      \\"description\\": \\"Team 1.0.0\\",
+      \\"sidebar\\": \\"version-1.0.0/community\\"
+    }
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -1456,9 +1572,18 @@ Object {
       {
         \\"type\\": \\"link\\",
         \\"label\\": \\"Team title translated\\",
-        \\"href\\": \\"/community/next/team\\"
+        \\"href\\": \\"/community/next/team\\",
+        \\"docId\\": \\"team\\"
       }
     ]
+  },
+  \\"docs\\": {
+    \\"team\\": {
+      \\"id\\": \\"team\\",
+      \\"title\\": \\"Team title translated\\",
+      \\"description\\": \\"Team current version (translated)\\",
+      \\"sidebar\\": \\"community\\"
+    }
   }
 }",
 }
@@ -1566,6 +1691,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1578,6 +1704,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1586,17 +1713,18 @@ Object {
 
 exports[`versioned website content: 101 version sidebars 1`] = `
 Object {
-  "version-1.0.1/docs": Array [
+  "VersionedSideBarNameDoesNotMatter/docs": Array [
     Object {
       "collapsed": true,
       "collapsible": true,
       "items": Array [
         Object {
-          "id": "version-1.0.1/foo/bar",
+          "id": "foo/bar",
           "type": "doc",
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1609,6 +1737,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1628,6 +1757,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -1640,6 +1770,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],
@@ -1849,7 +1980,7 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
   \\"frontMatter\\": {},
-  \\"sidebar\\": \\"version-1.0.1/docs\\",
+  \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\",
   \\"next\\": {
     \\"title\\": \\"hello\\",
     \\"permalink\\": \\"/docs/\\"
@@ -1868,7 +1999,7 @@ Object {
   \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
   \\"frontMatter\\": {},
-  \\"sidebar\\": \\"version-1.0.1/docs\\",
+  \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
     \\"permalink\\": \\"/docs/foo/bar\\"
@@ -2078,12 +2209,14 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/1.0.0/foo/barSlug\\"
+            \\"href\\": \\"/docs/1.0.0/foo/barSlug\\",
+            \\"docId\\": \\"foo/bar\\"
           },
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"baz\\",
-            \\"href\\": \\"/docs/1.0.0/foo/baz\\"
+            \\"href\\": \\"/docs/1.0.0/foo/baz\\",
+            \\"docId\\": \\"foo/baz\\"
           }
         ]
       },
@@ -2096,11 +2229,32 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/1.0.0/\\"
+            \\"href\\": \\"/docs/1.0.0/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"Bar 1.0.0 !\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    },
+    \\"foo/baz\\": {
+      \\"id\\": \\"foo/baz\\",
+      \\"title\\": \\"baz\\",
+      \\"description\\": \\"Baz 1.0.0 ! This will be deleted in next subsequent versions.\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello 1.0.0 ! (translated en)\\",
+      \\"sidebar\\": \\"version-1.0.0/docs\\"
+    }
   }
 }",
   "version-1-0-1-metadata-prop-e87.json": "{
@@ -2112,7 +2266,7 @@ Object {
   \\"className\\": \\"docs-version-1.0.1\\",
   \\"isLast\\": true,
   \\"docsSidebars\\": {
-    \\"version-1.0.1/docs\\": [
+    \\"VersionedSideBarNameDoesNotMatter/docs\\": [
       {
         \\"type\\": \\"category\\",
         \\"collapsed\\": true,
@@ -2122,7 +2276,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/foo/bar\\"
+            \\"href\\": \\"/docs/foo/bar\\",
+            \\"docId\\": \\"foo/bar\\"
           }
         ]
       },
@@ -2135,11 +2290,26 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/\\"
+            \\"href\\": \\"/docs/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"Bar 1.0.1 !\\",
+      \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello 1.0.1 !\\",
+      \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\"
+    }
   }
 }",
   "version-current-metadata-prop-751.json": "{
@@ -2161,7 +2331,8 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"bar\\",
-            \\"href\\": \\"/docs/next/foo/barSlug\\"
+            \\"href\\": \\"/docs/next/foo/barSlug\\",
+            \\"docId\\": \\"foo/bar\\"
           }
         ]
       },
@@ -2174,11 +2345,46 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"hello\\",
-            \\"href\\": \\"/docs/next/\\"
+            \\"href\\": \\"/docs/next/\\",
+            \\"docId\\": \\"hello\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"foo/bar\\": {
+      \\"id\\": \\"foo/bar\\",
+      \\"title\\": \\"bar\\",
+      \\"description\\": \\"This is next version of bar.\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"hello\\": {
+      \\"id\\": \\"hello\\",
+      \\"title\\": \\"hello\\",
+      \\"description\\": \\"Hello next !\\",
+      \\"sidebar\\": \\"docs\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
   "version-with-slugs-metadata-prop-2bf.json": "{
@@ -2200,11 +2406,55 @@ Object {
           {
             \\"type\\": \\"link\\",
             \\"label\\": \\"rootAbsoluteSlug\\",
-            \\"href\\": \\"/docs/withSlugs/rootAbsoluteSlug\\"
+            \\"href\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
+            \\"docId\\": \\"rootAbsoluteSlug\\"
           }
         ]
       }
     ]
+  },
+  \\"docs\\": {
+    \\"rootAbsoluteSlug\\": {
+      \\"id\\": \\"rootAbsoluteSlug\\",
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"description\\": \\"Lorem\\",
+      \\"sidebar\\": \\"version-1.0.1/docs\\"
+    },
+    \\"rootRelativeSlug\\": {
+      \\"id\\": \\"rootRelativeSlug\\",
+      \\"title\\": \\"rootRelativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"rootResolvedSlug\\": {
+      \\"id\\": \\"rootResolvedSlug\\",
+      \\"title\\": \\"rootResolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"rootTryToEscapeSlug\\": {
+      \\"id\\": \\"rootTryToEscapeSlug\\",
+      \\"title\\": \\"rootTryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/absoluteSlug\\": {
+      \\"id\\": \\"slugs/absoluteSlug\\",
+      \\"title\\": \\"absoluteSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/relativeSlug\\": {
+      \\"id\\": \\"slugs/relativeSlug\\",
+      \\"title\\": \\"relativeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/resolvedSlug\\": {
+      \\"id\\": \\"slugs/resolvedSlug\\",
+      \\"title\\": \\"resolvedSlug\\",
+      \\"description\\": \\"Lorem\\"
+    },
+    \\"slugs/tryToEscapeSlug\\": {
+      \\"id\\": \\"slugs/tryToEscapeSlug\\",
+      \\"title\\": \\"tryToEscapeSlug\\",
+      \\"description\\": \\"Lorem\\"
+    }
   }
 }",
 }
@@ -2260,12 +2510,12 @@ Object {
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
-              "sidebar": "version-1.0.1/docs",
+              "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
             },
             Object {
               "id": "hello",
               "path": "/docs/",
-              "sidebar": "version-1.0.1/docs",
+              "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
             },
           ],
           "isLast": true,
@@ -2578,7 +2828,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
         "path": "/docs/",
-        "sidebar": "version-1.0.1/docs",
+        "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
       },
       Object {
         "component": "@theme/DocItem",
@@ -2587,7 +2837,7 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
-        "sidebar": "version-1.0.1/docs",
+        "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
       },
     ],
   },
@@ -2607,6 +2857,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
   ],

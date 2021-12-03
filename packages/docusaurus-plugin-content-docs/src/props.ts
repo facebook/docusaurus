@@ -8,25 +8,28 @@
 import type {LoadedVersion, VersionTag, DocMetadata} from './types';
 import type {
   SidebarItemDoc,
-  SidebarItemLink,
   SidebarItem,
+  SidebarItemCategory,
+  SidebarItemCategoryLink,
+  PropVersionDocs,
 } from './sidebars/types';
 import type {
   PropSidebars,
   PropVersionMetadata,
   PropSidebarItem,
+  PropSidebarItemCategory,
   PropTagDocList,
   PropTagDocListDoc,
+  PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
 import {compact, keyBy, mapValues} from 'lodash';
+import {createDocsByIdIndex} from './docs';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
-  const docsById = keyBy(loadedVersion.docs, (doc) => doc.id);
+  const docsById = createDocsByIdIndex(loadedVersion.docs);
 
-  const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-    const docId = item.id;
+  function getDocById(docId: string): DocMetadata {
     const docMetadata = docsById[docId];
-
     if (!docMetadata) {
       throw new Error(
         `Invalid sidebars file. The document with id "${docId}" was used in the sidebar, but no document with this id could be found.
@@ -34,26 +37,49 @@ Available document ids are:
 - ${Object.keys(docsById).sort().join('\n- ')}`,
       );
     }
+    return docMetadata;
+  }
 
+  const convertDocLink = (item: SidebarItemDoc): PropSidebarItemLink => {
+    const docMetadata = getDocById(item.id);
     const {
       title,
       permalink,
       frontMatter: {sidebar_label: sidebarLabel},
     } = docMetadata;
-
     return {
       type: 'link',
       label: sidebarLabel || item.label || title,
       href: permalink,
       className: item.className,
       customProps: item.customProps,
+      docId: docMetadata.unversionedId,
     };
   };
 
-  const normalizeItem = (item: SidebarItem): PropSidebarItem => {
+  function getCategoryLinkHref(
+    link: SidebarItemCategoryLink | undefined,
+  ): string | undefined {
+    switch (link?.type) {
+      case 'doc':
+        return getDocById(link.id).permalink;
+      case 'generated-index':
+        return link.permalink;
+      default:
+        return undefined;
+    }
+  }
+
+  function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
+    const {link, ...rest} = item;
+    const href = getCategoryLinkHref(link);
+    return {...rest, items: item.items.map(normalizeItem), ...(href && {href})};
+  }
+
+  function normalizeItem(item: SidebarItem): PropSidebarItem {
     switch (item.type) {
       case 'category':
-        return {...item, items: item.items.map(normalizeItem)};
+        return convertCategory(item);
       case 'ref':
       case 'doc':
         return convertDocLink(item);
@@ -61,12 +87,24 @@ Available document ids are:
       default:
         return item;
     }
-  };
+  }
 
   // Transform the sidebar so that all sidebar item will be in the
   // form of 'link' or 'category' only.
   // This is what will be passed as props to the UI component.
   return mapValues(loadedVersion.sidebars, (items) => items.map(normalizeItem));
+}
+
+function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
+  return mapValues(
+    keyBy(loadedVersion.docs, (doc) => doc.unversionedId),
+    (doc) => ({
+      id: doc.unversionedId,
+      title: doc.title,
+      description: doc.description,
+      sidebar: doc.sidebar,
+    }),
+  );
 }
 
 export function toVersionMetadataProp(
@@ -82,6 +120,7 @@ export function toVersionMetadataProp(
     className: loadedVersion.versionClassName,
     isLast: loadedVersion.isLast,
     docsSidebars: toSidebarsProp(loadedVersion),
+    docs: toVersionDocsProp(loadedVersion),
   };
 }
 

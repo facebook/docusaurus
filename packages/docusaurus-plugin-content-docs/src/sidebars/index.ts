@@ -8,11 +8,12 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
-import type {PluginOptions} from '../types';
+import type {NormalizeSidebarsParams, PluginOptions} from '../types';
 import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
-import {processSidebars, SidebarProcessorProps} from './processor';
+import {processSidebars, SidebarProcessorParams} from './processor';
 import path from 'path';
+import {createSlugger} from '@docusaurus/utils';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [
@@ -36,7 +37,7 @@ export function resolveSidebarPathOption(
     : sidebarPathOption;
 }
 
-function loadSidebarFile(
+function loadSidebarsFileUnsafe(
   sidebarFilePath: string | false | undefined,
 ): SidebarsConfig {
   // false => no sidebars
@@ -60,25 +61,34 @@ function loadSidebarFile(
   return importFresh(sidebarFilePath);
 }
 
-export function loadUnprocessedSidebars(
+export function loadSidebarsFile(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps['options'],
-): NormalizedSidebars {
-  const sidebarsConfig = loadSidebarFile(sidebarFilePath);
+): SidebarsConfig {
+  const sidebarsConfig = loadSidebarsFileUnsafe(sidebarFilePath);
   validateSidebars(sidebarsConfig);
+  return sidebarsConfig;
+}
 
-  const normalizedSidebars = normalizeSidebars(sidebarsConfig, options);
-  return normalizedSidebars;
+export function loadNormalizedSidebars(
+  sidebarFilePath: string | false | undefined,
+  params: NormalizeSidebarsParams,
+): NormalizedSidebars {
+  return normalizeSidebars(loadSidebarsFile(sidebarFilePath), params);
 }
 
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorProps,
+  options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const unprocessedSidebars = loadUnprocessedSidebars(
+  const normalizeSidebarsParams: NormalizeSidebarsParams = {
+    ...options.sidebarOptions,
+    version: options.version,
+    categoryLabelSlugger: createSlugger(),
+  };
+  const normalizedSidebars = loadNormalizedSidebars(
     sidebarFilePath,
-    options.options,
+    normalizeSidebarsParams,
   );
-  return processSidebars(unprocessedSidebars, options);
+  return processSidebars(normalizedSidebars, options);
 }

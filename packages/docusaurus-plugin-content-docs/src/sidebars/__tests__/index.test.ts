@@ -7,27 +7,31 @@
 
 import path from 'path';
 import {
-  loadUnprocessedSidebars,
+  loadNormalizedSidebars,
   DefaultSidebars,
   DisabledSidebars,
 } from '../index';
-import type {SidebarOptions} from '../../types';
+import type {NormalizeSidebarsParams, VersionMetadata} from '../../types';
 
-describe('loadUnprocessedSidebars', () => {
+describe('loadNormalizedSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
-  const options: SidebarOptions = {
+  const options: NormalizeSidebarsParams = {
     sidebarCollapsed: true,
     sidebarCollapsible: true,
+    version: {
+      versionName: 'version',
+      versionPath: 'versionPath',
+    } as VersionMetadata,
   };
   test('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars with deep level of category', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-category.js');
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
@@ -37,8 +41,8 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-category-shorthand.js',
     );
-    const sidebar1 = loadUnprocessedSidebars(sidebarPath1, options);
-    const sidebar2 = loadUnprocessedSidebars(sidebarPath2, options);
+    const sidebar1 = loadNormalizedSidebars(sidebarPath1, options);
+    const sidebar2 = loadNormalizedSidebars(sidebarPath2, options);
     expect(sidebar1).toEqual(sidebar2);
   });
 
@@ -47,7 +51,7 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-items.json',
     );
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"category\\",
@@ -64,7 +68,7 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-category-wrong-label.json',
     );
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"category\\",
@@ -83,7 +87,7 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-doc-id-not-string.json',
     );
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"doc\\",
@@ -101,19 +105,19 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-first-level-not-category.js',
     );
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link.json');
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link wrong label', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"link\\",
@@ -127,7 +131,7 @@ describe('loadUnprocessedSidebars', () => {
 
   test('sidebars link wrong href', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"link\\",
@@ -143,7 +147,7 @@ describe('loadUnprocessedSidebars', () => {
 
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"superman\\",
@@ -156,7 +160,7 @@ describe('loadUnprocessedSidebars', () => {
 
   test('sidebars with known sidebar item type but wrong field', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
-    expect(() => loadUnprocessedSidebars(sidebarPath, options))
+    expect(() => loadNormalizedSidebars(sidebarPath, options))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"category\\",
@@ -170,24 +174,22 @@ describe('loadUnprocessedSidebars', () => {
   });
 
   test('unexisting path', () => {
-    expect(loadUnprocessedSidebars('badpath', options)).toEqual(
+    expect(loadNormalizedSidebars('badpath', options)).toEqual(
       DisabledSidebars,
     );
   });
 
   test('undefined path', () => {
-    expect(loadUnprocessedSidebars(undefined, options)).toEqual(
-      DefaultSidebars,
-    );
+    expect(loadNormalizedSidebars(undefined, options)).toEqual(DefaultSidebars);
   });
 
   test('literal false path', () => {
-    expect(loadUnprocessedSidebars(false, options)).toEqual(DisabledSidebars);
+    expect(loadNormalizedSidebars(false, options)).toEqual(DisabledSidebars);
   });
 
   test('sidebars with category.collapsed property', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 
@@ -196,7 +198,7 @@ describe('loadUnprocessedSidebars', () => {
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
-    const result = loadUnprocessedSidebars(sidebarPath, options);
+    const result = loadNormalizedSidebars(sidebarPath, options);
     expect(result).toMatchSnapshot();
   });
 });

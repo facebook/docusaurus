@@ -8,6 +8,14 @@ Array [
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
       },
+      "sidebar.docs.category.Getting started.link.generated-index.description": Object {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": Object {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
+      },
       "sidebar.docs.link.Link label": Object {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
@@ -25,6 +33,14 @@ Array [
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
       },
+      "sidebar.docs.category.Getting started.link.generated-index.description": Object {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": Object {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
+      },
       "sidebar.docs.link.Link label": Object {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
@@ -41,6 +57,14 @@ Array [
       "sidebar.docs.category.Getting started": Object {
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.description": Object {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": Object {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
       },
       "sidebar.docs.link.Link label": Object {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
@@ -177,6 +201,13 @@ Object {
               },
             ],
             "label": "Getting started (translated)",
+            "link": Object {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
           Object {
@@ -317,6 +348,13 @@ Object {
               },
             ],
             "label": "Getting started (translated)",
+            "link": Object {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
           Object {
@@ -457,6 +495,13 @@ Object {
               },
             ],
             "label": "Getting started (translated)",
+            "link": Object {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
           Object {

@@ -13,15 +13,16 @@ import clsx from 'clsx';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
 import ShowcaseTagSelect, {
   readSearchTags,
-} from '@site/src/components/showcase/ShowcaseTagSelect';
+} from './_components/ShowcaseTagSelect';
 import ShowcaseFilterToggle, {
   Operator,
   readOperator,
-} from '@site/src/components/showcase/ShowcaseFilterToggle';
-import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
+} from './_components/ShowcaseFilterToggle';
+import ShowcaseCard from './_components/ShowcaseCard';
 import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
-import Tooltip from '@site/src/components/showcase/ShowcaseTooltip';
+import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
@@ -30,6 +31,32 @@ const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
+
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function restoreUserState(userState: UserState | null) {
+  const {scrollTopPosition, focusedElementId} = userState ?? {
+    scrollTopPosition: 0,
+    focusedElementId: undefined,
+  };
+  // @ts-expect-error: if focusedElementId is undefined it returns null
+  document.getElementById(focusedElementId)?.focus();
+  window.scrollTo({top: scrollTopPosition});
+}
+
+export function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
 
 function filterUsers(
   users: User[],
@@ -53,10 +80,11 @@ function filterUsers(
 
 function useFilteredUsers() {
   const selectedTags = useSelectedTags();
-  const location = useLocation();
+  const location = useLocation<UserState>();
   const [operator, setOperator] = useState<Operator>('OR');
   useEffect(() => {
     setOperator(readOperator(location.search));
+    restoreUserState(location.state);
   }, [location]);
   return useMemo(
     () => filterUsers(sortedUsers, selectedTags, operator),
@@ -66,15 +94,15 @@ function useFilteredUsers() {
 
 function useSelectedTags() {
   // The search query-string is the source of truth!
-  const location = useLocation();
+  const location = useLocation<UserState>();
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelectedTags(tags);
+    setSelectedTags(readSearchTags(location.search));
+    restoreUserState(location.state);
   }, [location]);
 
   return selectedTags;
@@ -82,15 +110,15 @@ function useSelectedTags() {
 
 function ShowcaseHeader() {
   return (
-    <section className="margin-top--lg margin-bottom--xl text--center">
+    <section className="margin-top--lg margin-bottom--lg text--center">
       <h1>{TITLE}</h1>
       <p>{DESCRIPTION}</p>
       <a
-        className={clsx('button button--primary', styles.showcaseCardSrcBtn)}
+        className="button button--primary"
         href={EDIT_URL}
         target="_blank"
         rel="noreferrer">
-        🙏 Add your site
+        🙏 Please add your site
       </a>
     </section>
   );
@@ -99,24 +127,27 @@ function ShowcaseHeader() {
 function ShowcaseFilters() {
   const filteredUsers = useFilteredUsers();
   return (
-    <section className="container margin-top--xl margin-bottom--lg">
+    <section className="container margin-top--l margin-bottom--lg">
       <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
-        <span>
-          <h3>Filter</h3>
-          <p>{`(${filteredUsers.length} site${
+        <div>
+          <h2>Filters</h2>
+          <span>{`(${filteredUsers.length} site${
             filteredUsers.length > 1 ? 's' : ''
-          })`}</p>
-        </span>
+          })`}</span>
+        </div>
         <ShowcaseFilterToggle />
       </div>
       <ul className={styles.checkboxList}>
         {TagList.map((tag, i) => {
           const {label, description, color} = Tags[tag];
-          const id = `showcase_checkbox_id_${tag};`;
+          const id = `showcase_checkbox_id_${tag}`;
 
           return (
             <li key={i} className={styles.checkboxListItem}>
-              <Tooltip id={id} text={description} anchorEl="#__docusaurus">
+              <ShowcaseTooltip
+                id={id}
+                text={description}
+                anchorEl="#__docusaurus">
                 <ShowcaseTagSelect
                   tag={tag}
                   id={id}
@@ -137,7 +168,7 @@ function ShowcaseFilters() {
                     )
                   }
                 />
-              </Tooltip>
+              </ShowcaseTooltip>
             </li>
           );
         })}
@@ -161,7 +192,7 @@ function ShowcaseCards() {
     return (
       <section className="margin-top--lg margin-bottom--xl">
         <div className="container padding-vert--md text--center">
-          <h3>No result</h3>
+          <h2>No result</h2>
         </div>
       </section>
     );
@@ -178,7 +209,7 @@ function ShowcaseCards() {
                   'margin-bottom--md',
                   styles.showcaseFavoriteHeader,
                 )}>
-                <h3>Our favorites</h3>
+                <h2>Our favorites</h2>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
               </div>
               <ul className={clsx('container', styles.showcaseList)}>
@@ -188,8 +219,8 @@ function ShowcaseCards() {
               </ul>
             </div>
           </div>
-          <div className="container margin-top--xl">
-            <h3 className={styles.showcaseHeader}>All sites</h3>
+          <div className="container margin-top--lg">
+            <h2 className={styles.showcaseHeader}>All sites</h2>
             <ul className={styles.showcaseList}>
               {otherUsers.map((user) => (
                 <ShowcaseCard key={user.title} user={user} />

@@ -30,19 +30,22 @@ jobs:
       - name: Installation
         run: yarn
       - name: Generate test-website project against main branch
-        run: |
-          KEEP_CONTAINER=true yarn test:build:website -s
-          mv test-website ../test-website
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn v1
-        run: cd ../test-website && yarn install
+        run: yarn install
+        working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
       - name: Start test-website project
-        run: cd ../test-website && yarn start --no-open
+        run: yarn start --no-open
+        working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd ../test-website && yarn build
+        run: yarn build
+        working-directory: ../test-website
         env:
           CI: true
 
@@ -63,15 +66,12 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-
       - name: Generate test-website project against main branch
-        run: |
-          KEEP_CONTAINER=true yarn test:build:website -s
-          mv test-website ../test-website
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
-          cd ../test-website
-
           # we have to switch to berry first before setting the version we want
           yarn set version berry
           # temporary using canary for #5342
@@ -84,13 +84,16 @@ jobs:
           yarn config set enableGlobalCache true
 
           yarn install
+        working-directory: ../test-website
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
       - name: Start test-website project
-        run: cd ../test-website && yarn start --no-open
+        run: yarn start --no-open
+        working-directory: ../test-website
         env:
           E2E_TEST: true
       - name: Build test-website project
-        run: cd ../test-website && yarn build
+        run: yarn build
+        working-directory: ../test-website
         env:
           CI: true
