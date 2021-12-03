@@ -5,6 +5,7 @@
   "theme.CodeBlock.copy": "Copier",
   "theme.CodeBlock.copyButtonAriaLabel": "Copier le code",
   "theme.CodeBlock.expandButtonAriaLabel": "Expand code block",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "Cette page a planté.",
   "theme.ErrorPageContent.tryAgain": "Réessayer",
   "theme.NotFound.p1": "Nous n'avons pas trouvé ce que vous recherchez.",

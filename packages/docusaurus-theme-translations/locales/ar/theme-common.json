@@ -5,6 +5,7 @@
   "theme.CodeBlock.copy": "نسخ",
   "theme.CodeBlock.copyButtonAriaLabel": "نسخ الرمز إلى الحافظة",
   "theme.CodeBlock.expandButtonAriaLabel": "Expand code block",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "لم نتمكن من العثور على ما كنت تبحث عنه.",

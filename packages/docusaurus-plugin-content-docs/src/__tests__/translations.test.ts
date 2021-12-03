@@ -68,6 +68,13 @@ function createSampleVersion(
           type: 'category',
           label: 'Getting started',
           collapsed: false,
+          link: {
+            type: 'generated-index',
+            slug: '/category/getting-started-index-slug',
+            permalink: '/docs/category/getting-started-index-slug',
+            title: 'Getting started index title',
+            description: 'Getting started index description',
+          },
           items: [
             {
               type: 'doc',

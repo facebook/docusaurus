@@ -909,6 +909,15 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'Pearl UI',
+    description:
+      'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
+    preview: require('./showcase/pearl-ui.png'),
+    website: 'https://www.pearl-ui.dev/',
+    source: 'https://github.com/agrawal-rohit/pearl-ui',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
@@ -957,6 +966,14 @@ const Users: User[] = [
     website: 'https://gitbrent.github.io/PptxGenJS/',
     source: 'https://github.com/gitbrent/PptxGenJS',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'PREFS',
+    description: 'PREFS Python library website and documentation',
+    preview: require('./showcase/prefs.png'),
+    website: 'https://patitotective.github.io/PREFS/',
+    source: 'https://github.com/Patitotective/PREFS',
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'Prismatic',
@@ -1375,6 +1392,15 @@ const Users: User[] = [
     tags: ['personal', 'opensource', 'i18n'],
   },
   {
+    title: 'Tremor',
+    description:
+      'An early-stage event processing system for unstructured data with rich support for structural pattern-matching, filtering and transformation.',
+    preview: require('./showcase/tremor.png'),
+    website: 'https://www.tremor.rs/',
+    source: 'https://github.com/tremor-rs/tremor-www',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'TRPG Engine',
     description: 'IM Application which build for TRPG, like slack and discord',
     preview: require('./showcase/trpgengine.png'),
@@ -1586,7 +1612,14 @@ const Users: User[] = [
     source: null,
     tags: ['product', 'design'],
   },
-
+  {
+    title: 'Dime.Scheduler',
+    description: 'Stop puzzling and start planning with Dime.Scheduler, the resource and project planning solution for the Microsoft Dynamics product suite.',
+    preview: require('./showcase/dimeschedulersdk.png'),
+    website: 'https://sdk.dimescheduler.com',
+    source: 'https://github.com/dime-scheduler/sdk-dotnet',
+    tags: ['product', 'opensource'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.

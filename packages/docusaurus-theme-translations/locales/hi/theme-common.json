@@ -5,6 +5,7 @@
   "theme.CodeBlock.copy": "कॉपी",
   "theme.CodeBlock.copyButtonAriaLabel": "क्लिपबोर्ड पर कोड कॉपी करें",
   "theme.CodeBlock.expandButtonAriaLabel": "Expand code block",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "हमें वह नहीं मिला, जिसकी आपको तलाश थी।",

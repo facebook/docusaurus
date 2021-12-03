@@ -5,6 +5,7 @@
   "theme.CodeBlock.copy": "复制",
   "theme.CodeBlock.copyButtonAriaLabel": "复制代码到剪贴板",
   "theme.CodeBlock.expandButtonAriaLabel": "展开代码块",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "打开/收起侧边栏菜单「{label}」",
   "theme.ErrorPageContent.title": "页面已崩溃。",
   "theme.ErrorPageContent.tryAgain": "重试",
   "theme.NotFound.p1": "我们找不到您要找的页面。",

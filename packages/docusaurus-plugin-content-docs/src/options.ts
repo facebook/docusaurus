@@ -39,6 +39,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
+  docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -108,6 +109,9 @@ export const OptionsSchema = Joi.object({
   ),
   docTagDocListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
+  docCategoryGeneratedIndexComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docCategoryGeneratedIndexComponent,
   ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
