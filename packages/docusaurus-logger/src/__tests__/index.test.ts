@@ -12,7 +12,7 @@ describe('formatters', () => {
     expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4mhey[24m[39m"`);
   });
   test('id', () => {
-    expect(logger.id('hey')).toMatchInlineSnapshot(`"[34m[1mhey[22m[39m"`);
+    expect(logger.name('hey')).toMatchInlineSnapshot(`"[34m[1mhey[22m[39m"`);
   });
   test('code', () => {
     expect(logger.code('hey')).toMatchInlineSnapshot(`"[36m\`hey\`[39m"`);

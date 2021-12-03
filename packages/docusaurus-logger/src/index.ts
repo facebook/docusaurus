@@ -12,7 +12,7 @@ type InterpolatableValue = string | number | (string | number)[];
 
 const path: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(pico.underline(msg));
-const id: import('picocolors/types').Formatter = (msg) =>
+const name: import('picocolors/types').Formatter = (msg) =>
   pico.blue(pico.bold(msg));
 const code: import('picocolors/types').Formatter = (msg) =>
   pico.cyan(`\`${msg}\``);
@@ -37,7 +37,7 @@ function interpolate(
         case 'number=':
           return num;
         case 'name=':
-          return id;
+          return name;
         case 'subdue=':
           return subdue;
         case 'code=':
@@ -120,7 +120,7 @@ function success(msg: any, ...values: InterpolatableValue[]): void {
 const logger = {
   ...pico,
   path,
-  id,
+  name,
   code,
   subdue,
   num,
