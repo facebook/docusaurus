@@ -48,6 +48,65 @@ module.exports = {
 };
 ```
 
+:::tip
+
+Docusaurus supports **module shorthands**, allowing you to simplify the above configuration as:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+<details>
+
+<summary>How are shorthands resolved?</summary>
+
+When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
+
+- `{name}`
+- `@docusaurus/{type}-{name}`
+- `docusaurus-{type}-{name}`,
+
+where `type` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
+
+If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
+
+```
+@scope
+^----^
+ scope  (no name!)
+
+@scope/awesome
+^----^ ^-----^
+ scope   name
+
+@scope/awesome/main
+^----^ ^----------^
+ scope     name
+```
+
+If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
+
+- `{scope}/{name}`
+- `{scope}/docusaurus-{type}-{name}`
+
+Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
+
+| Declaration | May be resolved as |
+| --- | --- |
+| `awesome` | `docusaurus-plugin-awesome` |
+| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
+| `@mycompany` | `@mycompany/docusaurus-plugin` (the only possible resolution!) |
+| `@mycompany/awesome` | `@mycompany/docusaurus-plugin-awesome` |
+| `@mycompany/awesome/web` | `@mycompany/docusaurus-plugin-awesome/web` |
+
+</details>
+
+:::
+
 They can also be loaded from local directories:
 
 ```js title="docusaurus.config.js"
@@ -66,7 +125,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      'content-blog',
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -74,7 +133,7 @@ module.exports = {
         // ...
       },
     ],
-    '@docusaurus/plugin-content-pages',
+    'content-pages',
   ],
 };
 ```
@@ -99,6 +158,12 @@ module.exports = {
   ],
 };
 ```
+
+:::tip
+
+The `presets: [['classic', {...}]]` shorthand works as well.
+
+:::
 
 For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
 

@@ -29,20 +29,20 @@ describe('users', () => {
     for (const file of files) {
       const size = imageSize(path.join(imageDir, file));
 
-      if (size.width < minCardImageWidth) {
+      if (size.width! < minCardImageWidth) {
         throw new Error(
           `Image width should be >= ${minCardImageWidth}
 Image=${file}`,
         );
       }
-      if (size.height < minCardImageHeight) {
+      if (size.height! < minCardImageHeight) {
         throw new Error(
           `Image height should be >= ${minCardImageHeight}
 Image=${file}`,
         );
       }
 
-      const scaledHeight = size.height / (size.width / minCardImageWidth);
+      const scaledHeight = size.height! / (size.width! / minCardImageWidth);
       if (scaledHeight < minCardImageHeightScaled) {
         throw new Error(
           `Image height is too small compared to width
@@ -159,7 +159,9 @@ function ensureUserValid(user: User) {
     checkOpenSource();
   } catch (e) {
     throw new Error(
-      `Showcase site with title=${user.title} contains errors:\n${e.message}`,
+      `Showcase site with title=${user.title} contains errors:\n${
+        (e as Error).message
+      }`,
     );
   }
 }

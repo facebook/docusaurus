@@ -11,7 +11,7 @@
 [build.environment]
   NETLIFY_USE_YARN = "true"
   YARN_VERSION = "1.22.5"
-  NODE_VERSION = "14"
+  NODE_VERSION = "16"
 
 [context.production]
   command = "yarn --cwd .. build:packages && yarn netlify:build:production"

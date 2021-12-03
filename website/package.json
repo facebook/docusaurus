@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^26.0.20",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.0.0",
     "image-size": "^1.0.0",
