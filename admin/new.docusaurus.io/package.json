@@ -6,9 +6,9 @@
     "start": "netlify dev"
   },
   "dependencies": {
-    "@netlify/functions": "^0.7.2"
+    "@netlify/functions": "^0.10.0"
   },
   "devDependencies": {
-    "netlify-cli": "^5.2.2"
+    "netlify-cli": "^8.0.5"
   }
 }

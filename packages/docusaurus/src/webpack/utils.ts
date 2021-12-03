@@ -388,7 +388,16 @@ export function getFileLoaderUtils(): FileLoaderUtils {
                 prettier: false,
                 svgo: true,
                 svgoConfig: {
-                  plugins: [{removeViewBox: false}],
+                  plugins: [
+                    {
+                      name: 'preset-default',
+                      params: {
+                        overrides: {
+                          removeViewBox: false,
+                        },
+                      },
+                    },
+                  ],
                 },
                 titleProp: true,
                 ref: ![path],

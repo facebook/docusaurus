@@ -14,12 +14,12 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn prettier:lib-next",
+    "build": "tsc --noEmit && yarn babel:lib && yarn babel:lib-next && yarn format:lib-next",
     "watch": "concurrently --names \"lib,lib-next,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\" \"yarn tsc --watch\"",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
-    "prettier:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\"",
+    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
+    "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\"",
     "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
   },
   "dependencies": {
