@@ -619,6 +619,32 @@ describe('versioned website', () => {
         {label: 'barTag 3', permalink: '/docs/next/tags/barTag-3-permalink'},
       ],
     });
+    expect(getDocById(version101, 'foo/bar')).toEqual({
+      ...defaultDocMetadata,
+      id: 'version-1.0.1/foo/bar',
+      unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
+      isDocsHomePage: false,
+      permalink: '/docs/foo/bar',
+      slug: '/foo/bar',
+      source: path.posix.join(
+        '@site',
+        posixPath(path.relative(siteDir, version101.contentPath)),
+        'foo',
+        'bar.md',
+      ),
+      title: 'bar',
+      description: 'Bar 1.0.1 !',
+      frontMatter: {},
+      version: '1.0.1',
+      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
+      next: {
+        title: 'hello',
+        permalink: '/docs/',
+      },
+      tags: [],
+    });
+
     expect(getDocById(currentVersion, 'hello')).toEqual({
       ...defaultDocMetadata,
       id: 'hello',
@@ -659,7 +685,7 @@ describe('versioned website', () => {
       description: 'Hello 1.0.1 !',
       frontMatter: {},
       version: '1.0.1',
-      sidebar: 'version-1.0.1/docs',
+      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
       previous: {
         title: 'bar',
         permalink: '/docs/foo/bar',

@@ -19,8 +19,10 @@ const lightTheme = require('prism-react-renderer/themes/github');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const darkTheme = require('prism-react-renderer/themes/dracula');
 
-const ArchivedVersionsDropdownItems =
-  Object.entries(VersionsArchived).splice(0, 5);
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -112,7 +114,10 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  staticDirectories: ['static', path.join(__dirname, '_dogfooding/_asset-tests')],
+  staticDirectories: [
+    'static',
+    path.join(__dirname, '_dogfooding/_asset-tests'),
+  ],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
@@ -260,10 +265,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [
-            math,
-            [npm2yarn, {sync: true}],
-          ],
+          remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
@@ -275,6 +277,7 @@ const config = {
             : undefined,
           versions: {
             current: {
+              path: isDev || isBuildFast ? 'next' : undefined,
               label: `${getNextBetaVersionName()} 🚧`,
             },
           },
