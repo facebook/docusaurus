@@ -18,7 +18,7 @@ describe('users', () => {
   });
 
   test('have valid images', async () => {
-    const minCardImageWidth = 304;
+    const minCardImageWidth = 640;
     const minCardImageHeight = 150;
     const minCardImageHeightScaled = 140;
     const imageDir = path.join(__dirname, '../showcase');
@@ -31,13 +31,13 @@ describe('users', () => {
 
       if (size.width! < minCardImageWidth) {
         throw new Error(
-          `Image width should be >= ${minCardImageWidth}
+          `Image width should be >= ${minCardImageWidth} but was ${size.width}
 Image=${file}`,
         );
       }
       if (size.height! < minCardImageHeight) {
         throw new Error(
-          `Image height should be >= ${minCardImageHeight}
+          `Image height should be >= ${minCardImageHeight} but was ${size.height}
 Image=${file}`,
         );
       }
