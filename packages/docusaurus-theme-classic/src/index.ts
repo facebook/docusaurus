@@ -132,7 +132,12 @@ export default function docusaurusThemeClassic(
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
-    translateThemeConfig,
+
+    translateThemeConfig: (params) =>
+      translateThemeConfig({
+        themeConfig: params.themeConfig as ThemeConfig,
+        translationFiles: params.translationFiles,
+      }),
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
