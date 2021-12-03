@@ -12,10 +12,10 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "ci": "yarn lint && yarn prettier:diff",
+    "ci": "yarn lint && yarn format:diff",
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
-    "prettier": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
-    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
+    "format": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
+    "format:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,md,mdx}\"",
     "dev": "docusaurus start"
   },
   "dependencies": {

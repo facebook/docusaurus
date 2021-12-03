@@ -9,51 +9,51 @@ import {
   transformMarkdownHeadingLine,
   transformMarkdownContent,
 } from '../writeHeadingIds';
-import GithubSlugger from 'github-slugger';
+import {createSlugger} from '@docusaurus/utils';
 
 describe('transformMarkdownHeadingLine', () => {
   test('throws when not a heading', () => {
     expect(() =>
-      transformMarkdownHeadingLine('ABC', new GithubSlugger()),
+      transformMarkdownHeadingLine('ABC', createSlugger()),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Line is not a Markdown heading: ABC."`,
     );
   });
 
   test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
+    expect(transformMarkdownHeadingLine('## ABC', createSlugger())).toEqual(
       '## ABC {#abc}',
     );
   });
 
   test('works for simple level-3 heading', () => {
-    expect(
-      transformMarkdownHeadingLine('### ABC', new GithubSlugger()),
-    ).toEqual('### ABC {#abc}');
+    expect(transformMarkdownHeadingLine('### ABC', createSlugger())).toEqual(
+      '### ABC {#abc}',
+    );
   });
 
   test('works for simple level-4 heading', () => {
-    expect(
-      transformMarkdownHeadingLine('#### ABC', new GithubSlugger()),
-    ).toEqual('#### ABC {#abc}');
+    expect(transformMarkdownHeadingLine('#### ABC', createSlugger())).toEqual(
+      '#### ABC {#abc}',
+    );
   });
 
   test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
+    expect(transformMarkdownHeadingLine('## ABC', createSlugger())).toEqual(
       '## ABC {#abc}',
     );
   });
 
   test('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
-    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
+    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
       `${input} {#hello-facebook-crowdin}`,
     );
   });
 
   test('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
-    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
+    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
       `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
@@ -62,7 +62,7 @@ describe('transformMarkdownHeadingLine', () => {
     expect(
       transformMarkdownHeadingLine(
         '## hello world {#hello-world}',
-        new GithubSlugger(),
+        createSlugger(),
       ),
     ).toEqual('## hello world {#hello-world}');
   });
@@ -71,7 +71,7 @@ describe('transformMarkdownHeadingLine', () => {
     expect(
       transformMarkdownHeadingLine(
         '## New heading {#old-heading}',
-        new GithubSlugger(),
+        createSlugger(),
       ),
     ).toEqual('## New heading {#old-heading}');
   });
@@ -80,7 +80,7 @@ describe('transformMarkdownHeadingLine', () => {
     expect(
       transformMarkdownHeadingLine(
         '## New heading {#old-heading}',
-        new GithubSlugger(),
+        createSlugger(),
         {overwrite: true},
       ),
     ).toEqual('## New heading {#new-heading}');
@@ -88,7 +88,7 @@ describe('transformMarkdownHeadingLine', () => {
 
   test('maintains casing when asked to', () => {
     expect(
-      transformMarkdownHeadingLine('## getDataFromAPI()', new GithubSlugger(), {
+      transformMarkdownHeadingLine('## getDataFromAPI()', createSlugger(), {
         maintainCase: true,
       }),
     ).toEqual('## getDataFromAPI() {#getDataFromAPI}');

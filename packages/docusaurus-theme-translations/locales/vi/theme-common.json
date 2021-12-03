@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Đã sao chép",
   "theme.CodeBlock.copy": "Sao chép",
   "theme.CodeBlock.copyButtonAriaLabel": "Sao chép code vào bộ nhớ tạm",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Chúng tôi không thể tìm thấy những gì bạn đang tìm kiếm.",

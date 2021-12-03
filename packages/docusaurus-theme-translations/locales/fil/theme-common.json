@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Kinopya",
   "theme.CodeBlock.copy": "Kopyahin",
   "theme.CodeBlock.copyButtonAriaLabel": "Kopyahin ang code sa clipboard",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Hindi namin mahanap ang iyong hinananap.",

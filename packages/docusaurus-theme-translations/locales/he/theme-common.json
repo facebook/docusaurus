@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "הועתק",
   "theme.CodeBlock.copy": "העתק",
   "theme.CodeBlock.copyButtonAriaLabel": "העתק קוד ללוח העריכה",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "אנחנו לא מוצאים את מה שאתה מנסה לחפש.",
