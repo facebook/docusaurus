@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getNamePatterns} from '../moduleShorthand';
+import {getNamePatterns, resolveModuleName} from '../moduleShorthand';
 
 describe('getNamePatterns', () => {
   test('should resolve plain names', () => {
@@ -54,5 +54,37 @@ describe('getNamePatterns', () => {
       '@joshcena/awesome/web',
       '@joshcena/docusaurus-theme-awesome/web',
     ]);
+  });
+});
+
+describe('resolveModuleName', () => {
+  test('should resolve longhand', () => {
+    expect(
+      resolveModuleName('@docusaurus/plugin-content-docs', require, 'plugin'),
+    ).toBeDefined();
+  });
+
+  test('should resolve shorthand', () => {
+    expect(resolveModuleName('content-docs', require, 'plugin')).toBeDefined();
+  });
+
+  test('should throw good error message for longhand', () => {
+    expect(() =>
+      resolveModuleName('@docusaurus/plugin-content-doc', require, 'plugin'),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus was unable to resolve the \\"@docusaurus/plugin-content-doc\\" plugin. Make sure one of the following packages are installed:
+      - @docusaurus/plugin-content-doc
+      - @docusaurus/docusaurus-plugin-plugin-content-doc"
+    `);
+  });
+
+  test('should throw good error message for shorthand', () => {
+    expect(() => resolveModuleName('content-doc', require, 'plugin'))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Docusaurus was unable to resolve the \\"content-doc\\" plugin. Make sure one of the following packages are installed:
+      - content-doc
+      - @docusaurus/plugin-content-doc
+      - docusaurus-plugin-content-doc"
+    `);
   });
 });

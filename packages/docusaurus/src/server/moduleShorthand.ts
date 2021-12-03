@@ -41,5 +41,5 @@ export function resolveModuleName(
     } catch (e) {}
   }
   throw new Error(`Docusaurus was unable to resolve the "${moduleName}" ${moduleType}. Make sure one of the following packages are installed:
-  ${modulePatterns.map((module) => `- ${module}`).join('\n')}`);
+${modulePatterns.map((module) => `- ${module}`).join('\n')}`);
 }
