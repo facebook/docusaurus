@@ -23,27 +23,30 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import {ThemeClassNames, docVersionSearchTag} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  docVersionSearchTag,
+  DocsSidebarProvider,
+  useDocsSidebar,
+  DocsVersionProvider,
+} from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
   readonly versionMetadata: PropVersionMetadata;
   readonly children: ReactNode;
+  readonly sidebarName: string | undefined;
 };
 
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
   children,
+  sidebarName,
 }: DocPageContentProps): JSX.Element {
+  const sidebar = useDocsSidebar();
   const {pluginId, version} = versionMetadata;
-
-  const sidebarName = currentDocRoute.sidebar;
-  const sidebar = sidebarName
-    ? versionMetadata.docsSidebars[sidebarName]
-    : undefined;
-
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
   const toggleSidebar = useCallback(() => {
@@ -150,17 +153,30 @@ function DocPage(props: Props): JSX.Element {
   if (!currentDocRoute) {
     return <NotFound />;
   }
+
+  // For now, the sidebarName is added as route config: not ideal!
+  const sidebarName = currentDocRoute.sidebar;
+
+  const sidebar = sidebarName
+    ? versionMetadata.docsSidebars[sidebarName]
+    : null;
+
   return (
     <>
       <Head>
         {/* TODO we should add a core addRoute({htmlClassName}) generic plugin option */}
         <html className={versionMetadata.className} />
       </Head>
-      <DocPageContent
-        currentDocRoute={currentDocRoute}
-        versionMetadata={versionMetadata}>
-        {renderRoutes(docRoutes, {versionMetadata})}
-      </DocPageContent>
+      <DocsVersionProvider version={versionMetadata}>
+        <DocsSidebarProvider sidebar={sidebar}>
+          <DocPageContent
+            currentDocRoute={currentDocRoute}
+            versionMetadata={versionMetadata}
+            sidebarName={sidebarName}>
+            {renderRoutes(docRoutes, {versionMetadata})}
+          </DocPageContent>
+        </DocsSidebarProvider>
+      </DocsVersionProvider>
     </>
   );
 }

@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "کپی شد",
   "theme.CodeBlock.copy": "کپی",
   "theme.CodeBlock.copyButtonAriaLabel": "کپی به کلیپ بورد",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "صفحه ای که دنبال آن بودید پیدا نشد.",

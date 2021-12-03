@@ -1,7 +1,7 @@
 {
-  "version-1.0.1/docs": {
+  "VersionedSideBarNameDoesNotMatter/docs": {
     "Test": [
-      "version-1.0.1/foo/bar"
+      "foo/bar"
     ],
     "Guides": [
       "version-1.0.1/hello"

@@ -8,7 +8,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-import type {Tag, FrontMatterTag} from '@docusaurus/utils';
+import type {Tag, FrontMatterTag, Slugger} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
@@ -86,6 +86,11 @@ export type SidebarOptions = {
   sidebarCollapsed: boolean;
 };
 
+export type NormalizeSidebarsParams = SidebarOptions & {
+  version: VersionMetadata;
+  categoryLabelSlugger: Slugger;
+};
+
 export type PluginOptions = MetadataOptions &
   PathOptions &
   VersionsOptions &
@@ -98,6 +103,7 @@ export type PluginOptions = MetadataOptions &
     docItemComponent: string;
     docTagDocListComponent: string;
     docTagsListComponent: string;
+    docCategoryGeneratedIndexComponent: string;
     admonitions: Record<string, unknown>;
     disableVersioning: boolean;
     includeCurrentVersion: boolean;
@@ -135,14 +141,14 @@ export type DocFrontMatter = {
 };
 
 export type DocMetadataBase = LastUpdateData & {
+  id: string; // TODO legacy versioned id => try to remove
+  unversionedId: string; // TODO new unversioned id => try to rename to "id"
   version: VersionName;
-  unversionedId: string;
-  id: string;
   isDocsHomePage: boolean;
   title: string;
   description: string;
-  source: string;
-  sourceDirName: string; // relative to the docs folder (can be ".")
+  source: string; // @site aliased source => "@site/docs/folder/subFolder/subSubFolder/myDoc.md"
+  sourceDirName: string; // relative to the versioned docs folder (can be ".") => "folder/subFolder/subSubFolder"
   slug: string;
   permalink: string;
   sidebarPosition?: number;
@@ -158,6 +164,16 @@ export type DocNavLink = {
 
 export type DocMetadata = DocMetadataBase & {
   sidebar?: string;
+  previous?: DocNavLink;
+  next?: DocNavLink;
+};
+
+export type CategoryGeneratedIndexMetadata = {
+  title: string;
+  description?: string;
+  slug: string;
+  permalink: string;
+  sidebar: string;
   previous?: DocNavLink;
   next?: DocNavLink;
 };
@@ -180,6 +196,7 @@ export type LoadedVersion = VersionMetadata & {
   mainDocId: string;
   docs: DocMetadata[];
   sidebars: Sidebars;
+  categoryGeneratedIndices: CategoryGeneratedIndexMetadata[];
 };
 
 export type LoadedContent = {
