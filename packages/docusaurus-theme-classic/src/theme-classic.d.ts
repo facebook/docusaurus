@@ -139,7 +139,7 @@ declare module '@theme/DocSidebarItem' {
 
   type DocSidebarPropsBase = {
     readonly activePath: string;
-    readonly onItemClick?: () => void;
+    readonly onItemClick?: (item: PropSidebarItem) => void;
     readonly level: number;
     readonly tabIndex?: number;
   };

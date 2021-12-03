@@ -150,6 +150,7 @@ function DocSidebarItemCategory({
           onClick={
             collapsible
               ? (e) => {
+                  onItemClick?.(item);
                   if (href) {
                     setCollapsed(false);
                   } else {
@@ -157,7 +158,9 @@ function DocSidebarItemCategory({
                     toggleCollapsed();
                   }
                 }
-              : undefined
+              : () => {
+                  onItemClick?.(item);
+                }
           }
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
@@ -222,7 +225,7 @@ function DocSidebarItemLink({
         aria-current={isActive ? 'page' : undefined}
         to={href}
         {...(isInternalUrl(href) && {
-          onClick: onItemClick,
+          onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
         {isInternalUrl(href) ? (
