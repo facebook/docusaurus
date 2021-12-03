@@ -19,8 +19,10 @@ const lightTheme = require('prism-react-renderer/themes/github');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const darkTheme = require('prism-react-renderer/themes/dracula');
 
-const ArchivedVersionsDropdownItems =
-  Object.entries(VersionsArchived).splice(0, 5);
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -275,6 +277,7 @@ const config = {
             : undefined,
           versions: {
             current: {
+              path: isDev ? 'next' : undefined,
               label: `${getNextBetaVersionName()} 🚧`,
             },
           },
