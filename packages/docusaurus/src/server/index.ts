@@ -419,8 +419,8 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       ) {
         // should we throw instead?
         // It still could work with different versions
-        logger.error`Invalid %i${plugin} version %n${versionInfo.version}.
-All official @docusaurus/* packages should have the exact same version as @docusaurus/core (%n${docusaurusVersion}).
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
 Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },

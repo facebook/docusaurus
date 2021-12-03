@@ -212,7 +212,7 @@ export async function loadPlugins({
       // TODO remove this deprecated lifecycle soon
       // deprecated since alpha-60
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
-      logger.error`Plugin %c${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: %p${'https://github.com/facebook/docusaurus/issues/3918'}`;
+      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: path=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
       return plugin.routesLoaded(pluginsRouteConfigs);
     }),

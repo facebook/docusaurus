@@ -160,7 +160,7 @@ export default async function swizzle(
   );
 
   if (!themeName) {
-    logger.info`Themes available for swizzle: %i${themeNames}`;
+    logger.info`Themes available for swizzle: name=${themeNames}`;
     return;
   }
 
@@ -174,9 +174,9 @@ export default async function swizzle(
         suggestion = name;
       }
     });
-    logger.error`Theme %i${themeName} not found. ${
+    logger.error`Theme name=${themeName} not found. ${
       suggestion
-        ? logger.interpolate`Did you mean %i${suggestion}?`
+        ? logger.interpolate`Did you mean name=${suggestion}?`
         : logger.interpolate`Themes available for swizzle: ${themeNames}`
     }`;
     process.exit(1);
@@ -217,8 +217,8 @@ export default async function swizzle(
   if (!themePath) {
     logger.warn(
       typescript
-        ? logger.interpolate`%i${themeName} does not provide TypeScript theme code via ${'getTypeScriptThemePath()'}.`
-        : logger.interpolate`%i${themeName} does not provide any theme code.`,
+        ? logger.interpolate`name=${themeName} does not provide TypeScript theme code via ${'getTypeScriptThemePath()'}.`
+        : logger.interpolate`name=${themeName} does not provide any theme code.`,
     );
     process.exit(1);
   }
@@ -251,8 +251,8 @@ export default async function swizzle(
 
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
-      logger.error`Component %i${componentName} doesn't exist.`;
-      logger.info`%i${mostSuitableComponent} is swizzled instead of %i${componentName}.`;
+      logger.error`Component name=${componentName} doesn't exist.`;
+      logger.info`name=${mostSuitableComponent} is swizzled instead of name=${componentName}.`;
     }
   }
 
@@ -274,9 +274,9 @@ export default async function swizzle(
           suggestion = name;
         }
       });
-      logger.error`Component %i${mostSuitableComponent} not found. ${
+      logger.error`Component name=${mostSuitableComponent} not found. ${
         suggestion
-          ? logger.interpolate`Did you mean %i${suggestion} ?`
+          ? logger.interpolate`Did you mean name=${suggestion} ?`
           : themeComponents(themePath, pluginModule)
       }`;
       process.exit(1);
@@ -284,13 +284,13 @@ export default async function swizzle(
   }
 
   if (!components.includes(mostSuitableComponent) && !danger) {
-    logger.error`%i${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the %c${'--danger'} flag.`;
+    logger.error`name=${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag.`;
     process.exit(1);
   }
 
   await fs.copy(fromPath, toPath);
 
-  logger.success`Copied %c${
+  logger.success`Copied code=${
     mostSuitableComponent ? `${themeName} ${mostSuitableComponent}` : themeName
-  } to %p${path.relative(process.cwd(), toPath)}.`;
+  } to path=${path.relative(process.cwd(), toPath)}.`;
 }

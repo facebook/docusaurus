@@ -165,7 +165,7 @@ export const getCustomizableJSLoader =
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
-  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): %c${'getBabelLoader(isServer)'} is now deprecated in favor of %c${'getJSLoader(isServer)'}.`;
+  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
   isServer: boolean,
@@ -177,7 +177,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
-  logger.warn`Docusaurus uses Webpack 5 and %c${'getCacheLoader()'} usage is now deprecated.`;
+  logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
 });
 function getCacheLoaderDeprecated() {
   warnCacheLoaderOnce();

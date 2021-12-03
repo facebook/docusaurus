@@ -137,7 +137,7 @@ export default async function init(
 
   const dest = path.resolve(rootDir, name);
   if (fs.existsSync(dest)) {
-    logger.error`Directory already exists at %p${dest}!`;
+    logger.error`Directory already exists at path=${dest}!`;
     process.exit(1);
   }
 
@@ -176,7 +176,7 @@ export default async function init(
         return logger.red('Invalid repository URL');
       },
       message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
-(e.g: %p${'https://github.com/ownerName/repoName.git'})`,
+(e.g: path=${'https://github.com/ownerName/repoName.git'})`,
     });
     template = repoPrompt.gitRepoUrl;
   } else if (template === 'Local template') {
@@ -190,7 +190,7 @@ export default async function init(
             return true;
           }
           return logger.red(
-            logger.interpolate`The path %p${fullDir} does not exist.`,
+            logger.interpolate`path=${fullDir} does not exist.`,
           );
         }
         return logger.red('Please enter a valid path.');
@@ -209,19 +209,19 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.info`Cloning Git template %p${template}...`;
+    logger.info`Cloning Git template path=${template}...`;
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      logger.error`Cloning Git template %i${template} failed!`;
+      logger.error`Cloning Git template name=${template} failed!`;
       process.exit(1);
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
-        logger.error`Template %i${template} doesn't provide the Typescript variant.`;
+        logger.error`Template name=${template} doesn't provide the Typescript variant.`;
         process.exit(1);
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
@@ -229,7 +229,7 @@ export default async function init(
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      logger.error`Copying Docusaurus template %i${template} failed!`;
+      logger.error`Copying Docusaurus template name=${template} failed!`;
       throw err;
     }
   } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
@@ -237,7 +237,7 @@ export default async function init(
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {
-      logger.error`Copying local template %p${template} failed!`;
+      logger.error`Copying local template path=${template} failed!`;
       throw err;
     }
   } else {
@@ -270,7 +270,7 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   if (!cliOptions.skipInstall) {
-    logger.info`Installing dependencies with %i${pkgManager}...`;
+    logger.info`Installing dependencies with name=${pkgManager}...`;
 
     try {
       // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
@@ -295,25 +295,25 @@ export default async function init(
       ? name
       : path.relative(process.cwd(), name);
 
-  logger.info`Successfully created %p${cdpath}.
+  logger.info`Successfully created path=${cdpath}.
 Inside that directory, you can run several commands:
 
-  %c${`${pkgManager} start`}
+  code=${`${pkgManager} start`}
     Starts the development server.
 
-  %c${`${pkgManager} ${useYarn ? '' : 'run '}build`}
+  code=${`${pkgManager} ${useYarn ? '' : 'run '}build`}
     Bundles your website into static files for production.
 
-  %c${`${pkgManager} ${useYarn ? '' : 'run '}serve`}
+  code=${`${pkgManager} ${useYarn ? '' : 'run '}serve`}
     Serves the built website locally.
 
-  %c${`${pkgManager} deploy`}
+  code=${`${pkgManager} deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  %c${`cd ${cdpath}`}
-  %c${`${pkgManager} start`}
+  code=${`cd ${cdpath}`}
+  code=${`${pkgManager} start`}
 
 Happy building awesome websites!
 `;

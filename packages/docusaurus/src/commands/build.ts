@@ -55,7 +55,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      logger.error`Unable to build website for locale %i${locale}.`;
+      logger.error`Unable to build website for locale name=${locale}.`;
       throw e;
     }
   }
@@ -106,7 +106,7 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  logger.info`%i${`[${locale}]`} Creating an optimized production build...`;
+  logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
@@ -230,13 +230,13 @@ async function buildLocale({
     baseUrl,
   });
 
-  logger.success`Generated static files in %p${path.relative(
+  logger.success`Generated static files in path=${path.relative(
     process.cwd(),
     outDir,
   )}.`;
 
   if (isLastLocale) {
-    logger.info`Use %c${'npm run serve'} command to test your build locally.`;
+    logger.info`Use code=${'npm run serve'} command to test your build locally.`;
   }
 
   if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {

@@ -25,19 +25,19 @@ It exports a single object as default export: `logger`. `logger` has the followi
 The template literal tag evaluates the template and expressions embedded. `interpolate` returns a new string, while other logging functions prints it. Below is a typical usage:
 
 ```js
-logger.info`Hello %i${name}! You have %n${money} dollars. Here are the ${
+logger.info`Hello name=${name}! You have number=${money} dollars. Here are the ${
   items.length > 1 ? 'items' : 'item'
 } on the shelf: ${items}
-To buy anything, enter %c${'buy x'} where %c${'x'} is the item's name; to quit, press %c${'Ctrl + C'}.`;
+To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to quit, press code=${'Ctrl + C'}.`;
 ```
 
 An embedded expression is optionally preceded by a flag in the form `%[a-z]+` (a percentage sign followed by a few lowercase letters). If it's not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
 
-- `%p`: `path`
-- `%i`: `id`
-- `%c`: `code`
-- `%s`: `subdue`
-- `%n`: `num`
+- `path=`: `path`
+- `name=`: `id`
+- `code=`: `code`
+- `subdue=`: `subdue`
+- `number=`: `num`
 
 If the expression is an array, it's formatted by `` `\n- ${array.join('\n- ')}\n` `` (note it automatically gets a leading line end). Each member is formatted by itself and the bullet is not formatted. So you would see the above message printed as:
 

@@ -149,7 +149,7 @@ export function validateOptions({
       };
     }
     if (options.sidebarCollapsed) {
-      logger.warn`The docs plugin config is inconsistent. It does not make sense to use %c${'sidebarCollapsible: false'} and %c${'sidebarCollapsed: true'} at the same time. %c${'sidebarCollapsed: true'} will be ignored.`;
+      logger.warn`The docs plugin config is inconsistent. It does not make sense to use code=${'sidebarCollapsible: false'} and code=${'sidebarCollapsed: true'} at the same time. code=${'sidebarCollapsed: true'} will be ignored.`;
       options = {
         ...options,
         sidebarCollapsed: false,
@@ -160,7 +160,7 @@ export function validateOptions({
   // TODO remove homePageId before end of 2020
   // "slug: /" is better because the home doc can be different across versions
   if (options.homePageId) {
-    logger.warn`The docs plugin option %c${`homePageId: ${options.homePageId}`} is deprecated. To make a doc the "home", prefer frontmatter: %c${'slug: /'}`;
+    logger.warn`The docs plugin option code=${`homePageId: ${options.homePageId}`} is deprecated. To make a doc the "home", prefer frontmatter: code=${'slug: /'}`;
   }
 
   const normalizedOptions = validate(OptionsSchema, options);

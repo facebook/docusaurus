@@ -36,14 +36,14 @@ describe('interpolate', () => {
   });
   test('should recognize valid flags', () => {
     expect(
-      logger.interpolate`The package at %p${'packages/docusaurus'} has %n${10} files. %i${'Babel'} is exported here %s${'(as a preset)'} that you can with %c${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
+      logger.interpolate`The package at path=${'packages/docusaurus'} has number=${10} files. name=${'Babel'} is exported here subdue=${'(as a preset)'} that you can with code=${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
     ).toMatchInlineSnapshot(
       `"The package at [36m[4mpackages/docusaurus[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
     );
   });
   test('should interpolate arrays with flags', () => {
     expect(
-      logger.interpolate`The following commands are available:%c${[
+      logger.interpolate`The following commands are available:code=${[
         'docusaurus start',
         'docusaurus build',
         'docusaurus deploy',
@@ -57,15 +57,15 @@ describe('interpolate', () => {
   });
   test('should print detached flags as-is', () => {
     expect(
-      logger.interpolate`You can use placeholders like %c ${'and it will'} be replaced with the succeeding arguments`,
+      logger.interpolate`You can use placeholders like code= ${'and it will'} be replaced with the succeeding arguments`,
     ).toMatchInlineSnapshot(
-      `"You can use placeholders like %c and it will be replaced with the succeeding arguments"`,
+      `"You can use placeholders like code= and it will be replaced with the succeeding arguments"`,
     );
   });
   test('should throw with bad flags', () => {
     expect(
       () =>
-        logger.interpolate`I mistyped this: %a${'this code'} and I will be damned`,
+        logger.interpolate`I mistyped this: cde=${'this code'} and I will be damned`,
     ).toThrowErrorMatchingInlineSnapshot(
       `"Bad Docusaurus logging message. This is likely an internal bug, please report it."`,
     );

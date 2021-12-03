@@ -19,7 +19,7 @@ export const isValidationDisabledEscapeHatch =
   process.env.DISABLE_DOCUSAURUS_VALIDATION === 'true';
 
 if (isValidationDisabledEscapeHatch) {
-  logger.error`You should avoid using %c${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
+  logger.error`You should avoid using code=${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
 }
 
 export const logValidationBugReportHint = (): void => {

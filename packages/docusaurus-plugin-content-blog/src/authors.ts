@@ -88,7 +88,7 @@ export async function getAuthorsMap(
     return await readAuthorsMapFile(filePath);
   } catch (e) {
     // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    logger.error`Couldn't read blog authors map at path %p${filePath}`;
+    logger.error`Couldn't read blog authors map at path=${filePath}`;
     throw e;
   }
 }

@@ -186,7 +186,7 @@ export default function pluginContentDocs(
         try {
           return await doLoadVersion(versionMetadata);
         } catch (e) {
-          logger.error`Loading of version failed for version %i${versionMetadata.versionName}`;
+          logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
           throw e;
         }
       }
@@ -325,7 +325,7 @@ export default function pluginContentDocs(
         try {
           return await doCreateVersionRoutes(loadedVersion);
         } catch (e) {
-          logger.error`Can't create version routes for version %i${loadedVersion.versionName}`;
+          logger.error`Can't create version routes for version name=${loadedVersion.versionName}`;
           throw e;
         }
       }

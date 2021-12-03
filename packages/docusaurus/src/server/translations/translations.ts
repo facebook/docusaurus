@@ -114,7 +114,7 @@ export async function writeTranslationFileContent({
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    logger.warn`Some translation keys looks unknown to us in file %p${filePath}.
+    logger.warn`Some translation keys looks unknown to us in file path=${filePath}.
 Maybe you should remove them? ${unknownKeys}`;
   }
 
@@ -126,9 +126,9 @@ Maybe you should remove them? ${unknownKeys}`;
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    logger.info`%n${
+    logger.info`number=${
       Object.keys(mergedContent).length
-    } translations will be written at %p${toMessageRelativeFilePath(
+    } translations will be written at path=${toMessageRelativeFilePath(
       filePath,
     )}.`;
     await fs.ensureDir(path.dirname(filePath));
@@ -282,7 +282,7 @@ export function applyDefaultCodeTranslations({
   );
   if (unusedDefaultCodeMessages.length > 0) {
     logger.warn`Unused default message codes found.
-Please report this Docusaurus issue. %i${unusedDefaultCodeMessages}`;
+Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
   return mapValues(

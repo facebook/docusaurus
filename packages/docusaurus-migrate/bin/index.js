@@ -27,7 +27,7 @@ function wrapCommand(fn) {
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
-  logger.info`You are using Node.js %n${process.version}, Requirement: Node.js %n${requiredVersion}.`;
+  logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
 }
 

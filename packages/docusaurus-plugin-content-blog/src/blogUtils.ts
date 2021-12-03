@@ -151,7 +151,7 @@ async function processBlogSourceFile(
   }
 
   if (frontMatter.id) {
-    logger.warn`%i${'id'} header option is deprecated in %p${blogSourceRelative} file. Please use %i${'slug'} option instead.`;
+    logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
   }
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
@@ -272,7 +272,7 @@ export async function generateBlogPosts(
             authorsMap,
           );
         } catch (e) {
-          logger.error`Processing of blog source file failed for path %p${blogSourceFile}.`;
+          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
           throw e;
         }
       }),

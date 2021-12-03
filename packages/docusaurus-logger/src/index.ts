@@ -25,22 +25,22 @@ function interpolate(
 ): string {
   let res = '';
   values.forEach((value, idx) => {
-    const flag = msgs[idx].match(/%[a-z]+$/);
-    res += msgs[idx].replace(/%[a-z]+$/, '');
+    const flag = msgs[idx].match(/[a-z]+=$/);
+    res += msgs[idx].replace(/[a-z]+=$/, '');
     const format = (function () {
       if (!flag) {
         return (a: string | number) => a;
       }
       switch (flag[0]) {
-        case '%p':
+        case 'path=':
           return path;
-        case '%n':
+        case 'number=':
           return num;
-        case '%i':
+        case 'name=':
           return id;
-        case '%s':
+        case 'subdue=':
           return subdue;
-        case '%c':
+        case 'code=':
           return code;
         default:
           throw new Error(

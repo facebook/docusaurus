@@ -45,7 +45,7 @@ export default async function render(locals) {
   try {
     return await doRender(locals);
   } catch (e) {
-    logger.error`Docusaurus Node/SSR could not render static page with path %p${locals.path} because of following error:
+    logger.error`Docusaurus Node/SSR could not render static page with path path=${locals.path} because of following error:
 ${e.stack}`;
 
     const isNotDefinedErrorRegex =
@@ -53,8 +53,8 @@ ${e.stack}`;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
       logger.info`It looks like you are using code that should run on the client-side only.
-To get around it, try using %c${'<BrowserOnly>'} (%p${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or %c${'ExecutionEnvironment'} (%p${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
-It might also require to wrap your client code in %c${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
+To get around it, try using code=${'<BrowserOnly>'} (path=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (path=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
+It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
     }
 
     throw new Error('Server-side rendering fails due to the error above.');
@@ -139,7 +139,7 @@ async function doRender(locals) {
       minifyJS: true,
     });
   } catch (e) {
-    logger.error`Minification page with path %p${locals.path} failed because of following error:
+    logger.error`Minification of page path=${locals.path} failed because of following error:
 ${e.stack}`;
     throw e;
   }

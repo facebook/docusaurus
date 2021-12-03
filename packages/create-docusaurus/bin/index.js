@@ -17,7 +17,7 @@ const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
-  logger.info`You are using Node.js %n${process.version}, Requirement: Node.js %n${requiredVersion}.`;
+  logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
 }
 
@@ -56,7 +56,7 @@ program
 
 program.arguments('<command>').action((cmd) => {
   program.outputHelp();
-  logger.error`Unknown command %c${cmd}.`;
+  logger.error`Unknown command code=${cmd}.`;
 });
 
 program.parse(process.argv);

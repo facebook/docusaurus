@@ -164,5 +164,5 @@ export function cliDocsVersionCommand(
   fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
-  logger.success`%i${pluginIdLogPrefix}: version %i${version} created!`;
+  logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

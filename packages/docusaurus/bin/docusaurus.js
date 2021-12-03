@@ -221,7 +221,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  logger.error`    Unknown command %i${cmd}.`;
+  logger.error`    Unknown command name=${cmd}.`;
 });
 
 function isInternalCommand(command) {

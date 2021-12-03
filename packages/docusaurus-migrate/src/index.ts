@@ -194,7 +194,7 @@ export async function migrateDocusaurusProject(
     errorCount += 1;
   }
   if (errorCount) {
-    logger.warn`Migration from v1 to v2 failed with %n${errorCount} errors: please check the log above`;
+    logger.warn`Migration from v1 to v2 failed with number=${errorCount} errors: please check the log above`;
   } else {
     logger.success('Completed migration from v1 to v2');
   }
@@ -256,7 +256,7 @@ export function createConfigFile({
       customConfigFields[key] = value;
     }
   });
-  logger.info`Following Fields from %p${'siteConfig.js'} will be added to %p${'docusaurus.config.js'} in %c${'customFields'}: ${Object.keys(
+  logger.info`Following Fields from path=${'siteConfig.js'} will be added to path=${'docusaurus.config.js'} in code=${'customFields'}: ${Object.keys(
     customConfigFields,
   )}`;
 
@@ -470,7 +470,7 @@ function handleVersioning(
       versionRegex,
       migrateMDFiles,
     );
-    logger.success`Migrated version docs and sidebar. The following doc versions have been created:%i${loadedVersions}`;
+    logger.success`Migrated version docs and sidebar. The following doc versions have been created:name=${loadedVersions}`;
   } else {
     logger.warn(
       'Versioned docs not found. Skipping migration for versioned docs',
@@ -759,5 +759,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  logger.success`Successfully migrated %p${siteDir} to %p${newDir}`;
+  logger.success`Successfully migrated path=${siteDir} to path=${newDir}`;
 }
