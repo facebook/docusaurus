@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import {DocusaurusContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import {createRequire} from 'module';
-import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
@@ -132,7 +132,12 @@ export default function docusaurusThemeClassic(
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
-    translateThemeConfig,
+
+    translateThemeConfig: (params) =>
+      translateThemeConfig({
+        themeConfig: params.themeConfig as ThemeConfig,
+        translationFiles: params.translationFiles,
+      }),
 
     getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
@@ -178,7 +183,7 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions: {plugins: AcceptedPlugin[]}) {
+    configurePostCss(postCssOptions: PostCssOptions) {
       if (direction === 'rtl') {
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
