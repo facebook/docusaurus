@@ -181,7 +181,10 @@ export default function pluginContentDocs(
           categoryLabelSlugger: createSlugger(),
         });
 
-        const sidebarsUtils = createSidebarsUtils(sidebars);
+        const sidebarsUtils = createSidebarsUtils(
+          sidebars,
+          keyBy(docs, (doc) => doc.id),
+        );
 
         return {
           ...versionMetadata,

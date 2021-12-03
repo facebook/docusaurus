@@ -129,7 +129,7 @@ export type SidebarNavigation = {
 export type SidebarsUtils = {
   sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
-  getSidebarNameByDocId: (docId: string) => string | undefined;
+  getSidebarNameByDocId: (docId: string) => string | null | undefined;
   getDocNavigation: (
     unversionedId: string,
     versionedId: string,
@@ -142,7 +142,10 @@ export type SidebarsUtils = {
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 };
 
-export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
+export function createSidebarsUtils(
+  sidebars: Sidebars,
+  docsById: Record<string, DocMetadataBase>,
+): SidebarsUtils {
   const sidebarNameToDocIds = collectSidebarsDocIds(sidebars);
   const sidebarNameToNavigationItems = collectSidebarsNavigations(sidebars);
 
@@ -187,6 +190,11 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     }
 
     if (sidebarName) {
+      if (!sidebarNameToNavigationItems[sidebarName]) {
+        throw new Error(
+          `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
+        );
+      }
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
       const currentItemIndex = navigationItems.findIndex((item) => {
         if (item.type === 'doc') {

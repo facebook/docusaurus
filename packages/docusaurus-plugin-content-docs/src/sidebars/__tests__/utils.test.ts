@@ -97,13 +97,21 @@ describe('createSidebarsUtils', () => {
 
   const sidebars: Sidebars = {sidebar1, sidebar2, sidebar3};
 
+  const docsById = {
+    doc1: {frontMatter: {}},
+    doc2: {frontMatter: {}},
+    doc3: {frontMatter: {}},
+    doc4: {frontMatter: {}},
+  };
+
   const {
     getFirstDocIdOfFirstSidebar,
     getSidebarNameByDocId,
     getDocNavigation,
     getCategoryGeneratedIndexNavigation,
     getCategoryGeneratedIndexList,
-  } = createSidebarsUtils(sidebars);
+    // @ts-expect-error: good enough for tests
+  } = createSidebarsUtils(sidebars, docsById);
 
   test('getFirstDocIdOfFirstSidebar', async () => {
     expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');

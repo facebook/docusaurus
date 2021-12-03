@@ -31,6 +31,7 @@ import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
 import {createSlugger, posixPath} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
+import {keyBy} from 'lodash';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -144,7 +145,10 @@ function createTestUtils({
       },
       categoryLabelSlugger: createSlugger(),
     });
-    const sidebarsUtils = createSidebarsUtils(sidebars);
+    const sidebarsUtils = createSidebarsUtils(
+      sidebars,
+      keyBy(docs, (doc) => doc.id),
+    );
 
     return addDocNavigation(
       rawDocs,
