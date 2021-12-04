@@ -279,6 +279,14 @@ const Users: User[] = [
     source: 'https://github.com/boxyhq/website',
     tags: ['opensource'],
   },
+    {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
+    tags: ['opensource'],
+  },
   {
     title: 'Build Tracker',
     description:
