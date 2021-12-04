@@ -6,9 +6,12 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {PropNavigation} from '@docusaurus/plugin-content-docs';
+
+import styles from './styles.module.css';
 
 function DocPaginator(props: PropNavigation): JSX.Element {
   const {previous, next} = props;
@@ -31,8 +34,8 @@ function DocPaginator(props: PropNavigation): JSX.Element {
                 Previous
               </Translate>
             </div>
-            <div className="pagination-nav__label">
-              &laquo; {previous.title}
+            <div className={clsx(styles.labelPrev, 'pagination-nav__label')}>
+              {previous.title}
             </div>
           </Link>
         )}
@@ -47,7 +50,9 @@ function DocPaginator(props: PropNavigation): JSX.Element {
                 Next
               </Translate>
             </div>
-            <div className="pagination-nav__label">{next.title} &raquo;</div>
+            <div className={clsx(styles.labelNext, 'pagination-nav__label')}>
+              {next.title}
+            </div>
           </Link>
         )}
       </div>

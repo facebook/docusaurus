@@ -1,0 +1,7 @@
+.labelPrev::before {
+  content: '« ';
+}
+
+.labelNext::after {
+  content: ' »';
+}
