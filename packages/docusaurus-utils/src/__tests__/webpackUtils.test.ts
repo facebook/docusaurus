@@ -13,7 +13,7 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
   getFileLoaderUtils,
-} from '../utils';
+} from '../webpackUtils';
 import {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,

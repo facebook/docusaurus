@@ -29,12 +29,14 @@ import {
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {
-  BABEL_CONFIG_FILE_NAME,
-  OUTPUT_STATIC_ASSETS_DIR_NAME,
-  WEBPACK_URL_LOADER_LIMIT,
-} from '../constants';
 import {memoize} from 'lodash';
+
+export const BABEL_CONFIG_FILE_NAME =
+  process.env.DOCUSAURUS_BABEL_CONFIG_FILE_NAME || 'babel.config.js';
+export const OUTPUT_STATIC_ASSETS_DIR_NAME = 'assets'; // files handled by webpack, hashed (can be cached aggressively)
+// Temporary fix for https://github.com/facebook/docusaurus/issues/5493
+export const WEBPACK_URL_LOADER_LIMIT =
+  process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
 
 // Utility method to get style loaders
 export function getStyleLoaders(

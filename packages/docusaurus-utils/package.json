@@ -45,6 +45,13 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "webpack": "5.x",
+    "mini-css-extract-plugin": "^1.6.0",
+    "webpack-merge": "^5.8.0",
+    "terser-webpack-plugin": "^5.2.4",
+    "css-minimizer-webpack-plugin": "^3.0.2",
+    "@babel/core": "^7.16.0",
+    "autoprefixer": "^10.3.5"
   }
 }

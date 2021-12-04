@@ -20,7 +20,7 @@ import {
   extractSiteSourceCodeTranslations,
   globSourceCodeFilePaths,
 } from '../server/translations/translationsExtractor';
-import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
+import {getCustomBabelConfigFilePath, getBabelOptions} from '@docusaurus/utils';
 
 // This is a hack, so that @docusaurus/theme-common translations are extracted!
 // A theme doesn't have a way to express that one of its dependency (like @docusaurus/theme-common) also has translations to extract

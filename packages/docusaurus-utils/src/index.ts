@@ -41,6 +41,7 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
+export * from './webpackUtils';
 
 const fileHash = new Map();
 export async function generate(

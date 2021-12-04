@@ -5,7 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  posixPath,
+  applyConfigureWebpack,
+  applyConfigurePostCss,
+  getHttpsConfig,
+} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -20,11 +26,6 @@ import merge from 'webpack-merge';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
-import {
-  applyConfigureWebpack,
-  applyConfigurePostCss,
-  getHttpsConfig,
-} from '../webpack/utils';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 

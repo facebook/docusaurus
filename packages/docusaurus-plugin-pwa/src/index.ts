@@ -7,8 +7,7 @@
 
 import type {HtmlTags, LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
-import {normalizeUrl} from '@docusaurus/utils';
-import {compile} from '@docusaurus/core/lib/webpack/utils';
+import {normalizeUrl, compile} from '@docusaurus/utils';
 import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
