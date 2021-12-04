@@ -237,7 +237,7 @@ export default async function init(
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {
-      logger.error`Copying local template path=${template} failed!`;
+      logger.error`Copying local template path=${templateDir} failed!`;
       throw err;
     }
   } else {
