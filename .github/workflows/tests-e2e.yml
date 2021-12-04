@@ -79,7 +79,7 @@ jobs:
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
 
-          # Patch package so that peer deps are provided. This is fixed in terser by making acorn a direct dependency, waiting on the next release
+          # Patch package so that peer deps are provided. This has been fixed in terser by making acorn a direct dependency—we just need to wait for the next release
           yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}, "html-minifier-terser@*": {"dependencies": {"acorn": "^8.6.0"}}}'
 
           yarn install
