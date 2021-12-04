@@ -47,6 +47,10 @@ npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset -
 # Revert version changes
 git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 
+
+# The website is generated outside the repo to minimize chances of yarn resolving the wrong version
+cd ..
+
 # Build skeleton website with new version
 npm_config_registry="$CUSTOM_REGISTRY_URL" npm init docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
 

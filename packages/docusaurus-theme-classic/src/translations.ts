@@ -151,6 +151,8 @@ export function translateThemeConfig({
   themeConfig,
   translationFiles,
 }: {
+  // Why partial? To make TS correctly figure out the contravariance in parameter.
+  // In practice it's always normalized
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {

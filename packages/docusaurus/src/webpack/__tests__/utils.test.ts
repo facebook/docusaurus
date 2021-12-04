@@ -186,7 +186,16 @@ describe('getFileLoaderUtils()', () => {
         loader: '@svgr/webpack',
         options: expect.objectContaining({
           svgoConfig: {
-            plugins: [{removeViewBox: false}],
+            plugins: [
+              {
+                name: 'preset-default',
+                params: {
+                  overrides: {
+                    removeViewBox: false,
+                  },
+                },
+              },
+            ],
           },
         }),
       }),
