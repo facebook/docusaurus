@@ -13,9 +13,8 @@ import {
   getDocusaurusAliases,
   createBaseConfig,
 } from '../base';
-import * as utils from '../utils';
+import * as utils from '@docusaurus/utils';
 import {mapValues} from 'lodash';
-import {posixPath} from '@docusaurus/utils';
 import {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
@@ -72,7 +71,7 @@ describe('getDocusaurusAliases()', () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = mapValues(
       getDocusaurusAliases(),
-      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
+      (aliasValue) => utils.posixPath(path.relative(__dirname, aliasValue)),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
@@ -126,7 +125,7 @@ describe('base webpack config', () => {
       createBaseConfig(props, true).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
     const relativeAliases = mapValues(aliases, (a) =>
-      posixPath(path.relative(props.siteDir, a)),
+      utils.posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
   });

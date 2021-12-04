@@ -18,9 +18,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.16.0",
     "@docusaurus/types": "2.0.0-beta.9",
     "@mdx-js/runtime": "^1.6.22",
+    "autoprefixer": "^10.3.5",
     "chalk": "^4.1.2",
+    "css-minimizer-webpack-plugin": "^3.0.2",
     "escape-string-regexp": "^4.0.0",
     "fs-extra": "^10.0.0",
     "github-slugger": "^1.4.0",
@@ -28,10 +31,13 @@
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.20",
     "micromatch": "^4.0.4",
+    "mini-css-extract-plugin": "^1.6.0",
     "remark-mdx-remove-exports": "^1.6.22",
     "remark-mdx-remove-imports": "^1.6.22",
     "resolve-pathname": "^3.0.0",
-    "tslib": "^2.3.1"
+    "terser-webpack-plugin": "^5.2.4",
+    "tslib": "^2.3.1",
+    "webpack-merge": "^5.8.0"
   },
   "engines": {
     "node": ">=14"
@@ -44,14 +50,8 @@
     "dedent": "^0.7.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.16.0",
-    "autoprefixer": "^10.3.5",
-    "css-minimizer-webpack-plugin": "^3.0.2",
-    "mini-css-extract-plugin": "^1.6.0",
     "react": "*",
     "react-dom": "*",
-    "terser-webpack-plugin": "^5.2.4",
-    "webpack": "5.x",
-    "webpack-merge": "^5.8.0"
+    "webpack": "5.x"
   }
 }
