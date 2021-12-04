@@ -13,7 +13,9 @@ import {
   getDocusaurusAliases,
   createBaseConfig,
 } from '../base';
-import * as utils from '@docusaurus/utils';
+// TODO seems to be a bug with how TS does star exports
+import * as utils from '@docusaurus/utils/lib/webpackUtils';
+import {posixPath} from '@docusaurus/utils';
 import {mapValues} from 'lodash';
 import {Props, ThemeAliases} from '@docusaurus/types';
 
@@ -71,7 +73,7 @@ describe('getDocusaurusAliases()', () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = mapValues(
       getDocusaurusAliases(),
-      (aliasValue) => utils.posixPath(path.relative(__dirname, aliasValue)),
+      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
@@ -125,7 +127,7 @@ describe('base webpack config', () => {
       createBaseConfig(props, true).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
     const relativeAliases = mapValues(aliases, (a) =>
-      utils.posixPath(path.relative(props.siteDir, a)),
+      posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
   });
