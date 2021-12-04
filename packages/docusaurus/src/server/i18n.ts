@@ -15,7 +15,10 @@ function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
   // https://v8.dev/features/intl-displaynames
   if (typeof Intl.DisplayNames !== 'undefined') {
-    return new Intl.DisplayNames([locale], {type: 'language'}).of(locale);
+    const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
+      locale,
+    );
+    return languageName.charAt(0).toUpperCase() + languageName.slice(1);
   }
   return locale;
 }
