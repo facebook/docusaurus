@@ -72,7 +72,6 @@ jobs:
           KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
-          # we have to switch to berry first before setting the version we want
           yarn set version berry
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
