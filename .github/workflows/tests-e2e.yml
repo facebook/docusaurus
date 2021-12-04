@@ -80,7 +80,7 @@ jobs:
           yarn config set enableGlobalCache true
 
           # Patch package so that peer deps are provided
-          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.5.0"}}}'
+          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}}'
 
           yarn install
         working-directory: ../test-website
