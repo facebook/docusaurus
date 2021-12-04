@@ -29,6 +29,8 @@
   .collapseSidebarButtonIcon {
     transform: rotate(180deg);
     margin-top: 4px;
+    /* todo: use variable */
+    color: #7a7a7a;
   }
 
   [dir='rtl'] .collapseSidebarButtonIcon {

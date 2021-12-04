@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import IconLanguage from './icon.svg';
+import IconWordWrap from './icon.svg';
 
-export default IconLanguage;
+export default IconWordWrap;

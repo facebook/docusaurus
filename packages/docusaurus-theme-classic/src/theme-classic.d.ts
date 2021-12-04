@@ -1422,6 +1422,22 @@ declare module '@theme/Icon/Menu' {
   export default function IconMenu(props: Props): JSX.Element;
 }
 
+declare module '@theme/Icon/Copy' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconCopy(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/Check' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconCheck(props: Props): JSX.Element;
+}
+
 declare module '@theme/Icon/Close' {
   import type {ComponentProps} from 'react';
 
@@ -1444,6 +1460,14 @@ declare module '@theme/Icon/ExternalLink' {
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconExternalLink(props: Props): JSX.Element;
+}
+
+declare module '@theme/Icon/WordWrap' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconWordWrap(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {

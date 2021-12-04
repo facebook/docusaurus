@@ -26,6 +26,8 @@
 
   .expandButtonIcon {
     transform: rotate(0);
+    /* todo: use variable */
+    color: #7a7a7a;
   }
 
   [dir='rtl'] .expandButtonIcon {
