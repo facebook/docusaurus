@@ -19,7 +19,8 @@ describe('lqip library', () => {
   });
 
   it('should generate a valid base64', async () => {
-    await expect(lqip.base64(imgPath)).resolves.toMatchInlineSnapshot();
+    const expectedBase64 = 'data:image/jpeg;base64,/9j/2wBDA';
+    await expect(lqip.base64(imgPath)).resolves.toContain(expectedBase64);
   });
 
   it('should generate a valid color palette', async () => {
