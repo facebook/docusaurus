@@ -4,20 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
-import pico from 'picocolors';
+import chalk, {Chalk} from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path: import('picocolors/types').Formatter = (msg) =>
-  pico.cyan(pico.underline(msg));
-const name: import('picocolors/types').Formatter = (msg) =>
-  pico.blue(pico.bold(msg));
-const code: import('picocolors/types').Formatter = (msg) =>
-  pico.cyan(`\`${msg}\``);
-const subdue = pico.gray;
-const num = pico.yellow;
+const path = (msg: unknown): string => chalk.cyan(chalk.underline(msg));
+const name = (msg: unknown): string => chalk.blue(chalk.bold(msg));
+const code = (msg: unknown): string => chalk.cyan(`\`${msg}\``);
+const subdue: Chalk = chalk.gray;
+const num: Chalk = chalk.yellow;
 
 function interpolate(
   msgs: TemplateStringsArray,
@@ -56,29 +52,29 @@ function interpolate(
   return res;
 }
 
-function info(msg: any): void;
+function info(msg: unknown): void;
 function info(
   msg: TemplateStringsArray,
   ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function info(msg: any, ...values: InterpolatableValue[]): void {
+function info(msg: unknown, ...values: InterpolatableValue[]): void {
   console.info(
-    `${pico.cyan(pico.bold('[INFO]'))} ${
+    `${chalk.cyan(chalk.bold('[INFO]'))} ${
       values.length === 0
         ? msg
         : interpolate(msg as TemplateStringsArray, ...values)
     }`,
   );
 }
-function warn(msg: any): void;
+function warn(msg: unknown): void;
 function warn(
   msg: TemplateStringsArray,
   ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function warn(msg: any, ...values: InterpolatableValue[]): void {
+function warn(msg: unknown, ...values: InterpolatableValue[]): void {
   console.warn(
-    pico.yellow(
-      `${pico.bold('[WARNING]')} ${
+    chalk.yellow(
+      `${chalk.bold('[WARNING]')} ${
         values.length === 0
           ? msg
           : interpolate(msg as TemplateStringsArray, ...values)
@@ -86,15 +82,15 @@ function warn(msg: any, ...values: InterpolatableValue[]): void {
     ),
   );
 }
-function error(msg: any): void;
+function error(msg: unknown): void;
 function error(
   msg: TemplateStringsArray,
   ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function error(msg: any, ...values: InterpolatableValue[]): void {
+function error(msg: unknown, ...values: InterpolatableValue[]): void {
   console.error(
-    pico.red(
-      `${pico.bold('[ERROR]')} ${
+    chalk.red(
+      `${chalk.bold('[ERROR]')} ${
         values.length === 0
           ? msg
           : interpolate(msg as TemplateStringsArray, ...values)
@@ -102,14 +98,14 @@ function error(msg: any, ...values: InterpolatableValue[]): void {
     ),
   );
 }
-function success(msg: any): void;
+function success(msg: unknown): void;
 function success(
   msg: TemplateStringsArray,
   ...values: [InterpolatableValue, ...InterpolatableValue[]]
 ): void;
-function success(msg: any, ...values: InterpolatableValue[]): void {
+function success(msg: unknown, ...values: InterpolatableValue[]): void {
   console.log(
-    `${pico.green(pico.bold('[SUCCESS]'))} ${
+    `${chalk.green(chalk.bold('[SUCCESS]'))} ${
       values.length === 0
         ? msg
         : interpolate(msg as TemplateStringsArray, ...values)
@@ -118,7 +114,11 @@ function success(msg: any, ...values: InterpolatableValue[]): void {
 }
 
 const logger = {
-  ...pico,
+  red: chalk.red,
+  yellow: chalk.yellow,
+  green: chalk.green,
+  bold: chalk.bold,
+  dim: chalk.dim,
   path,
   name,
   code,

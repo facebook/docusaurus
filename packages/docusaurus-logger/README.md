@@ -6,7 +6,7 @@ An encapsulated logger for semantically formatting console messages.
 
 It exports a single object as default export: `logger`. `logger` has the following properties:
 
-- All fields of `picocolors`. This includes `yellow`, `createColors`, `isColorSupported`, etc.
+- Some useful colors.
 - Formatters. These functions have the same signature as the formatters of `picocolors`. Note that their implementations are not guaranteed. You should only care about their semantics.
   - `path`: formats a file path or URL.
   - `id`: formats an identifier.

@@ -99,11 +99,11 @@ export default async function choosePort(
           const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
-            message: `${logger.yellow(logger.bold('[WARNING]'))} ${message}${
+            message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
               existingProcess ? ` Probably:\n  ${existingProcess}` : ''
             }
 
-Would you like to run the app on another port instead?`,
+Would you like to run the app on another port instead?`),
             initial: true,
           };
           prompts(question).then((answer) => {
