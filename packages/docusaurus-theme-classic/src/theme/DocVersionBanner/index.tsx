@@ -17,15 +17,19 @@ import {
 import {
   ThemeClassNames,
   useDocsPreferredVersion,
+  useDocsVersion,
 } from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocVersionBanner';
 import clsx from 'clsx';
-import type {VersionBanner} from '@docusaurus/plugin-content-docs';
+import type {
+  VersionBanner,
+  PropVersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 
 type BannerLabelComponentProps = {
   siteTitle: string;
-  versionMetadata: Props['versionMetadata'];
+  versionMetadata: PropVersionMetadata;
 };
 
 function UnreleasedVersionLabel({
@@ -114,7 +118,12 @@ function LatestVersionSuggestionLabel({
   );
 }
 
-function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
+function DocVersionBannerEnabled({
+  className,
+  versionMetadata,
+}: Props & {
+  versionMetadata: PropVersionMetadata;
+}): JSX.Element {
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
@@ -136,6 +145,7 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   return (
     <div
       className={clsx(
+        className,
         ThemeClassNames.docs.docVersionBanner,
         'alert alert--warning margin-bottom--md',
       )}
@@ -154,11 +164,17 @@ function DocVersionBannerEnabled({versionMetadata}: Props): JSX.Element {
   );
 }
 
-function DocVersionBanner({versionMetadata}: Props): JSX.Element | null {
+export default function DocVersionBanner({
+  className,
+}: Props): JSX.Element | null {
+  const versionMetadata = useDocsVersion();
   if (versionMetadata.banner) {
-    return <DocVersionBannerEnabled versionMetadata={versionMetadata} />;
+    return (
+      <DocVersionBannerEnabled
+        className={className}
+        versionMetadata={versionMetadata}
+      />
+    );
   }
   return null;
 }
-
-export default DocVersionBanner;

@@ -51,6 +51,8 @@ describe('normalizeDocsPluginOptions', () => {
       docItemComponent: '@theme/DocItem',
       docTagDocListComponent: '@theme/DocTagDocListPage',
       docTagsListComponent: '@theme/DocTagsListPage',
+      docCategoryGeneratedIndexComponent:
+        '@theme/DocCategoryGeneratedIndexPage',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],

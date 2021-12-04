@@ -32,7 +32,18 @@ export {
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {isDocsPluginEnabled} from './utils/docsUtils';
+export {
+  isDocsPluginEnabled,
+  DocsVersionProvider,
+  useDocsVersion,
+  useDocById,
+  DocsSidebarProvider,
+  useDocsSidebar,
+  findSidebarCategory,
+  findFirstCategoryLink,
+  useCurrentSidebarCategory,
+  isActiveSidebarItem,
+} from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
 

@@ -13,9 +13,7 @@ import {
 import fs from 'fs-extra';
 import path from 'path';
 import type {PathOptions, SidebarOptions} from './types';
-import {transformSidebarItems} from './sidebars/utils';
-import type {SidebarItem, NormalizedSidebars, Sidebar} from './sidebars/types';
-import {loadUnprocessedSidebars, resolveSidebarPathOption} from './sidebars';
+import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 function createVersionedSidebarFile({
@@ -23,47 +21,20 @@ function createVersionedSidebarFile({
   pluginId,
   sidebarPath,
   version,
-  options,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
   version: string;
-  options: SidebarOptions;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  const loadedSidebars = loadUnprocessedSidebars(sidebarPath, options);
+  // Note: we don't need the sidebars file to be normalized: it's ok to let plugin option changes to impact older, versioned sidebars
+  const sidebars = loadSidebarsFile(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
-  const shouldCreateVersionedSidebarFile =
-    Object.keys(loadedSidebars).length > 0;
+  const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
-    // TODO try to get rid of it
-    // Transform id in original sidebar to versioned id.
-    const prependVersion = (item: SidebarItem): SidebarItem => {
-      if (item.type === 'ref' || item.type === 'doc') {
-        return {
-          type: item.type,
-          id: `version-${version}/${item.id}`,
-        };
-      }
-      return item;
-    };
-
-    const versionedSidebar = Object.entries(loadedSidebars).reduce(
-      (acc: NormalizedSidebars, [sidebarId, sidebar]) => {
-        const versionedId = `version-${version}/${sidebarId}`;
-        acc[versionedId] = transformSidebarItems(
-          sidebar as Sidebar,
-          prependVersion,
-        );
-        return acc;
-      },
-      {},
-    );
-
     const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(
       versionedSidebarsDir,
@@ -72,7 +43,7 @@ function createVersionedSidebarFile({
     fs.ensureDirSync(path.dirname(newSidebarFile));
     fs.writeFileSync(
       newSidebarFile,
-      `${JSON.stringify(versionedSidebar, null, 2)}\n`,
+      `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
   }
@@ -155,7 +126,6 @@ export function cliDocsVersionCommand(
     pluginId,
     version,
     sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
-    options,
   });
 
   // Update versions.json file.

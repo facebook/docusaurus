@@ -12,7 +12,7 @@ import path from 'path';
 import {createRequire} from 'module';
 import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -134,11 +134,12 @@ export default function docusaurusThemeClassic(
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
     translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () =>
-      readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
         locale: currentLocale,
-      }),
+        name: 'theme-common',
+      });
+    },
 
     getClientModules() {
       const modules = [
