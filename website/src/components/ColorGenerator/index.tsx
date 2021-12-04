@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
+import useThemeContext from '@theme/hooks/useThemeContext';
 
 import styles from './styles.module.css';
 
@@ -65,18 +66,22 @@ const COLOR_SHADES: Record<
 };
 
 const DEFAULT_PRIMARY_COLOR = '#25c2a0';
-const LIGHT_BACKGROUND_COLOR = 'white';
+const LIGHT_BACKGROUND_COLOR = '#ffffff';
 const DARK_BACKGROUND_COLOR = '#181920';
 
 function wcagContrast(foreground: string, background: string) {
   const contrast = Color(foreground).contrast(Color(background));
   // eslint-disable-next-line no-nested-ternary
-  return contrast > 7 ? 'AAA' : contrast > 4.5 ? 'AA' : 'Fail';
+  return contrast > 7 ? 'AAA 🏅' : contrast > 4.5 ? 'AA 👍' : 'Fail 🔴';
 }
 
 function ColorGenerator(): JSX.Element {
   const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
   const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [darkBackground, setDarkBackground] = useState(DARK_BACKGROUND_COLOR);
+  const [lightBackground, setLightBackground] = useState(
+    LIGHT_BACKGROUND_COLOR,
+  );
   const [shades, setShades] = useState(COLOR_SHADES);
   const color = Color(baseColor);
   const adjustedColors = Object.keys(shades)
@@ -101,6 +106,19 @@ function ColorGenerator(): JSX.Element {
       // Don't update for invalid colors.
     }
   }
+
+  const {isDarkTheme} = useThemeContext();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    adjustedColors.forEach((value) => {
+      root.style.setProperty(value.variableName, value.hex);
+      root.style.setProperty(
+        '--ifm-background-color',
+        isDarkTheme ? darkBackground : lightBackground,
+      );
+    });
+  }, [adjustedColors, darkBackground, lightBackground, isDarkTheme]);
   return (
     <div>
       <p>
@@ -121,6 +139,34 @@ function ColorGenerator(): JSX.Element {
           // value has to always be a valid color, so baseColor instead of inputColor
           value={baseColor}
           onChange={updateColor}
+        />
+      </p>
+      <p>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="light_color">
+          <strong className="margin-right--sm">Light background:</strong>
+        </label>
+        <input
+          id="light_color"
+          type="color"
+          className={styles.colorInput}
+          defaultValue={lightBackground}
+          onChange={(e) => {
+            setLightBackground(e.target.value);
+          }}
+        />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="dark_color">
+          <strong className="margin-right--sm">Dark background:</strong>
+        </label>
+        <input
+          id="dark_color"
+          type="color"
+          className={styles.colorInput}
+          defaultValue={darkBackground}
+          onChange={(e) => {
+            setDarkBackground(e.target.value);
+          }}
         />
       </p>
       <div>
@@ -183,18 +229,18 @@ function ColorGenerator(): JSX.Element {
                     <td
                       style={{
                         fontSize: 'medium',
-                        backgroundColor: LIGHT_BACKGROUND_COLOR,
+                        backgroundColor: lightBackground,
                         color: hex,
                       }}>
-                      <b>{wcagContrast(hex, LIGHT_BACKGROUND_COLOR)}</b>
+                      <b>{wcagContrast(hex, lightBackground)}</b>
                     </td>
                     <td
                       style={{
                         fontSize: 'medium',
-                        backgroundColor: DARK_BACKGROUND_COLOR,
+                        backgroundColor: darkBackground,
                         color: hex,
                       }}>
-                      <b>{wcagContrast(hex, DARK_BACKGROUND_COLOR)}</b>
+                      <b>{wcagContrast(hex, darkBackground)}</b>
                     </td>
                   </tr>
                 );
@@ -207,10 +253,24 @@ function ColorGenerator(): JSX.Element {
         variables.
       </p>
       <CodeBlock className="language-css">
-        {adjustedColors
-          .sort((a, b) => a.codeOrder - b.codeOrder)
-          .map((value) => `${value.variableName}: ${value.hex.toLowerCase()};`)
-          .join('\n')}
+        {`:root {
+${adjustedColors
+  .sort((a, b) => a.codeOrder - b.codeOrder)
+  .map((value) => `  ${value.variableName}: ${value.hex.toLowerCase()};`)
+  .join('\n')}${
+          lightBackground !== LIGHT_BACKGROUND_COLOR
+            ? `\n  --ifm-background-color: ${lightBackground};`
+            : ''
+        }
+}${
+          darkBackground !== DARK_BACKGROUND_COLOR
+            ? `
+
+html[data-theme='dark'] {
+  --ifm-background-color: ${darkBackground};
+}`
+            : ''
+        }`}
       </CodeBlock>
     </div>
   );

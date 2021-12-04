@@ -61,7 +61,7 @@ Alternatively, use the following tool to generate the different shades for your 
 
 :::tip
 
-Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) to ensure readability. You can use [alternative palettes in dark mode](#dark-mode) because one color doesn't usually work in both light and dark mode.
+Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) for the primary color to ensure readability. Use the Docusaurus website itself to preview how your color palette would look like. You can use [alternative palettes in dark mode](#dark-mode) because one color doesn't usually work in both light and dark mode.
 
 :::
 
