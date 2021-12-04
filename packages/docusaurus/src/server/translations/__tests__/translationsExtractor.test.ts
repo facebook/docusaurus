@@ -11,7 +11,7 @@ import {
   extractSourceCodeFileTranslations,
   extractSiteSourceCodeTranslations,
 } from '../translationsExtractor';
-import {getBabelOptions} from '@docusaurus/utils';
+import {getBabelOptions} from '../../../webpack/utils';
 import path from 'path';
 import {InitializedPlugin} from '@docusaurus/types';
 import {SRC_DIR_NAME} from '../../../constants';

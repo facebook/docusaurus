@@ -20,6 +20,9 @@ export const DEFAULT_BUILD_DIR_NAME = 'build';
 // Can be overridden with cli option --config
 export const DEFAULT_CONFIG_FILE_NAME = 'docusaurus.config.js';
 
+export const BABEL_CONFIG_FILE_NAME =
+  process.env.DOCUSAURUS_BABEL_CONFIG_FILE_NAME || 'babel.config.js';
+
 export const GENERATED_FILES_DIR_NAME =
   process.env.DOCUSAURUS_GENERATED_FILES_DIR_NAME || '.docusaurus';
 
