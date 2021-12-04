@@ -74,11 +74,8 @@ jobs:
         run: |
           # we have to switch to berry first before setting the version we want
           yarn set version berry
-          # temporary using canary for #5342
-          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
-          yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
