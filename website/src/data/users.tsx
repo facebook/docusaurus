@@ -906,7 +906,7 @@ const Users: User[] = [
     preview: require('./showcase/overwolf.png'),
     website: 'https://overwolf.github.io',
     source: 'https://github.com/overwolf/overwolf.github.io',
-    tags: ['product', 'large'],
+    tags: ['opensource', 'product', 'large'],
   },
   {
     title: 'Oxidizer',
