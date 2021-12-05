@@ -11,14 +11,14 @@ import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
 import {BrowserContextProvider} from './exports/browserContext';
 import {DocusaurusContextProvider} from './exports/docusaurusContext';
-import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import Root from '@theme/Root';
 
 import './client-lifecycles-dispatcher';
 
 // TODO, quick fix for CSS insertion order
-import Root from '@theme/Root';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
 function App(): JSX.Element {
