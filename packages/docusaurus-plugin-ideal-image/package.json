@@ -20,19 +20,19 @@
     "directory": "packages/docusaurus-plugin-ideal-image"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.9",
-    "fs-extra": "^10.0.0"
-  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/lqip-loader": "2.0.0-beta.9",
-    "@docusaurus/responsive-loader": "1.4.0",
+    "@docusaurus/responsive-loader": "1.5.0",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
     "sharp": "^0.29.1",
     "tslib": "^2.3.1",
     "webpack": "^5.61.0"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9",
+    "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
