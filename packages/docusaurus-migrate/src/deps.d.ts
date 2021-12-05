@@ -8,5 +8,3 @@
 declare module '@mapbox/hast-util-to-jsx';
 
 declare module 'hast-util-to-string';
-
-declare module 'color';

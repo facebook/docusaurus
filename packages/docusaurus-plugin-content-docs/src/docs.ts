@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
-import {keyBy} from 'lodash';
+import {keyBy, last} from 'lodash';
 import {
   aliasedSitePath,
   getEditUrl,
@@ -38,8 +38,11 @@ import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import type {Sidebars} from './sidebars/types';
-import {createSidebarsUtils} from './sidebars/utils';
+import {
+  SidebarsUtils,
+  toDocNavigationLink,
+  toNavigationLink,
+} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -205,7 +208,8 @@ function doProcessDocMetadata({
     ? '/'
     : getSlug({
         baseID,
-        dirName: sourceDirName,
+        source,
+        sourceDirName,
         frontmatterSlug: frontMatter.slug,
         stripDirNumberPrefixes: parseNumberPrefixes,
         numberPrefixParser: options.numberPrefixParser,
@@ -291,68 +295,76 @@ export function processDocMetadata(args: {
   }
 }
 
-export function handleNavigation(
+export function addDocNavigation(
   docsBase: DocMetadataBase[],
-  sidebars: Sidebars,
+  sidebarsUtils: SidebarsUtils,
   sidebarFilePath: string,
-): Pick<LoadedVersion, 'mainDocId' | 'docs'> {
-  const docsBaseById = keyBy(docsBase, (doc) => doc.id);
-  const {checkSidebarsDocIds, getDocNavigation, getFirstDocIdOfFirstSidebar} =
-    createSidebarsUtils(sidebars);
+): LoadedVersion['docs'] {
+  const docsById = createDocsByIdIndex(docsBase);
 
-  const validDocIds = Object.keys(docsBaseById);
-  checkSidebarsDocIds(validDocIds, sidebarFilePath);
+  sidebarsUtils.checkSidebarsDocIds(
+    docsBase.flatMap(getDocIds),
+    sidebarFilePath,
+  );
 
   // Add sidebar/next/previous to the docs
   function addNavData(doc: DocMetadataBase): DocMetadata {
-    const {sidebarName, previousId, nextId} = getDocNavigation(doc.id);
-    const toDocNavLink = (
+    const navigation = sidebarsUtils.getDocNavigation(
+      doc.unversionedId,
+      doc.id,
+    );
+
+    const toNavigationLinkByDocId = (
       docId: string | null | undefined,
       type: 'prev' | 'next',
     ): DocNavLink | undefined => {
       if (!docId) {
         return undefined;
       }
-      if (!docsBaseById[docId]) {
+      const navDoc = docsById[docId];
+      if (!navDoc) {
         // This could only happen if user provided the ID through front matter
         throw new Error(
           `Error when loading ${doc.id} in ${doc.sourceDirName}: the pagination_${type} front matter points to a non-existent ID ${docId}.`,
         );
       }
-      const {
-        title,
-        permalink,
-        frontMatter: {
-          pagination_label: paginationLabel,
-          sidebar_label: sidebarLabel,
-        },
-      } = docsBaseById[docId];
-      return {title: paginationLabel ?? sidebarLabel ?? title, permalink};
+      return toDocNavigationLink(navDoc);
     };
-    const {
-      frontMatter: {
-        pagination_next: paginationNext = nextId,
-        pagination_prev: paginationPrev = previousId,
-      },
-    } = doc;
-    const previous = toDocNavLink(paginationPrev, 'prev');
-    const next = toDocNavLink(paginationNext, 'next');
-    return {...doc, sidebar: sidebarName, previous, next};
-  }
-  const docs = docsBase.map(addNavData);
-  // sort to ensure consistent output for tests
-  docs.sort((a, b) => a.id.localeCompare(b.id));
 
-  /**
-   * The "main doc" is the "version entry point"
-   * We browse this doc by clicking on a version:
-   * - the "home" doc (at '/docs/')
-   * - the first doc of the first sidebar
-   * - a random doc (if no docs are in any sidebar... edge case)
-   */
+    const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
+      ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
+      : toNavigationLink(navigation.previous, docsById);
+    const next: DocNavLink | undefined = doc.frontMatter.pagination_next
+      ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
+      : toNavigationLink(navigation.next, docsById);
+
+    return {...doc, sidebar: navigation.sidebarName, previous, next};
+  }
+
+  const docsWithNavigation = docsBase.map(addNavData);
+  // sort to ensure consistent output for tests
+  docsWithNavigation.sort((a, b) => a.id.localeCompare(b.id));
+  return docsWithNavigation;
+}
+
+/**
+ * The "main doc" is the "version entry point"
+ * We browse this doc by clicking on a version:
+ * - the "home" doc (at '/docs/')
+ * - the first doc of the first sidebar
+ * - a random doc (if no docs are in any sidebar... edge case)
+ */
+export function getMainDocId({
+  docs,
+  sidebarsUtils,
+}: {
+  docs: DocMetadataBase[];
+  sidebarsUtils: SidebarsUtils;
+}): string {
   function getMainDoc(): DocMetadata {
     const versionHomeDoc = docs.find((doc) => doc.slug === '/');
-    const firstDocIdOfFirstSidebar = getFirstDocIdOfFirstSidebar();
+    const firstDocIdOfFirstSidebar =
+      sidebarsUtils.getFirstDocIdOfFirstSidebar();
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
@@ -362,5 +374,51 @@ export function handleNavigation(
     }
   }
 
-  return {mainDocId: getMainDoc().unversionedId, docs};
+  return getMainDoc().unversionedId;
+}
+
+function getLastPathSegment(str: string): string {
+  return last(str.split('/'))!;
+}
+
+// By convention, Docusaurus considers some docs are "indexes":
+// - index.md
+// - readme.md
+// - <folder>/<folder>.md
+//
+// Those index docs produce a different behavior
+// - Slugs do not end with a weird "/index" suffix
+// - Auto-generated sidebar categories link to them as intro
+export function isConventionalDocIndex(doc: {
+  source: DocMetadataBase['slug'];
+  sourceDirName: DocMetadataBase['sourceDirName'];
+}): boolean {
+  // "@site/docs/folder/subFolder/subSubFolder/myDoc.md" => "myDoc"
+  const docName = path.parse(doc.source).name;
+
+  // "folder/subFolder/subSubFolder" => "subSubFolder"
+  const lastDirName = getLastPathSegment(doc.sourceDirName);
+
+  const eligibleDocIndexNames = ['index', 'readme', lastDirName.toLowerCase()];
+
+  return eligibleDocIndexNames.includes(docName.toLowerCase());
+}
+
+// Return both doc ids
+// TODO legacy retro-compatibility due to old versioned sidebars using versioned doc ids
+// ("id" should be removed & "versionedId" should be renamed to "id")
+export function getDocIds(doc: DocMetadataBase): [string, string] {
+  return [doc.unversionedId, doc.id];
+}
+
+// docs are indexed by both versioned and unversioned ids at the same time
+// TODO legacy retro-compatibility due to old versioned sidebars using versioned doc ids
+// ("id" should be removed & "versionedId" should be renamed to "id")
+export function createDocsByIdIndex<
+  Doc extends {id: string; unversionedId: string},
+>(docs: Doc[]): Record<string, Doc> {
+  return {
+    ...keyBy(docs, (doc) => doc.unversionedId),
+    ...keyBy(docs, (doc) => doc.id),
+  };
 }

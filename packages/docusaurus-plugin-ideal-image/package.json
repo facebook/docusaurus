@@ -5,11 +5,11 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:prettier",
+    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:format",
     "build:server": "tsc --project tsconfig.server.json",
     "build:browser": "tsc --project tsconfig.browser.json",
     "build:copy": "node copyUntypedFiles.js",
-    "build:prettier": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "publishConfig": {
     "access": "public"
@@ -20,10 +20,6 @@
     "directory": "packages/docusaurus-plugin-ideal-image"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@docusaurus/types": "workspace:*",
-    "fs-extra": "^10.0.0"
-  },
   "dependencies": {
     "@docusaurus/core": "workspace:*",
     "@docusaurus/lqip-loader": "workspace:*",
@@ -33,6 +29,10 @@
     "sharp": "^0.29.1",
     "tslib": "^2.3.1",
     "webpack": "^5.61.0"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "workspace:*",
+    "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
     "jimp": "*",

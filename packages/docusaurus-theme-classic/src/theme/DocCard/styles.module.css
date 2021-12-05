@@ -1,0 +1,43 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.cardContainer {
+  height: 8rem;
+
+  color: var(--ifm-color-emphasis-800);
+  --ifm-link-color: var(--ifm-color-emphasis-800);
+  --ifm-link-hover-color: var(--ifm-color-emphasis-800);
+  --ifm-link-hover-decoration: none;
+
+  /* box-shadow: var(--ifm-global-shadow-lw); */
+  box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: box-shadow var(--ifm-transition-fast) ease,
+    background-color var(--ifm-transition-fast) ease;
+}
+
+.cardContainer.cardContainerLink:hover {
+  /* box-shadow: var(--ifm-global-shadow-md); */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+html[data-theme='dark'] .cardContainer.cardContainerLink:hover {
+  --ifm-card-background-color: #2d2d2d; /* original, non-hovered color is #242526 */
+}
+
+.cardContainer:not(.cardContainerLink) {
+  cursor: not-allowed;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  min-height: 1.2rem;
+}
+
+.cardDescription {
+  font-size: 0.8rem;
+  min-height: 0.8rem;
+}

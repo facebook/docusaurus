@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable import/no-extraneous-dependencies */
+
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs-extra');
@@ -235,6 +237,8 @@ ${logKeys(untranslatedKeys)}`),
 }
 
 async function updateCodeTranslations() {
+  // Order is important. The log messages must be in the same order as execution
+  // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
     logSection(`Will update base file for ${theme.name}`);
@@ -259,6 +263,7 @@ async function updateCodeTranslations() {
         );
       }
     } else {
+      // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
         logSection(
           `Will update ${path.basename(

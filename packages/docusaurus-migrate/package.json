@@ -23,7 +23,7 @@
     "docusaurus-migrate": "bin/index.js"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-env": "^7.16.4",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
     "chalk": "^4.1.2",
     "color": "^4.0.1",

@@ -22,8 +22,11 @@
     "update": "node -e 'require(\"./update.js\").run()'"
   },
   "dependencies": {
+    "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/core": "workspace:*",
     "chalk": "^4.1.2",
-    "fs-extra": "^10.0.0",
     "lodash": "^4.17.20"
   },
   "engines": {

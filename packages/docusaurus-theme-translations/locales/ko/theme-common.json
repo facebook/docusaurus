@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "복사했습니다",
   "theme.CodeBlock.copy": "복사",
   "theme.CodeBlock.copyButtonAriaLabel": "클립보드에 코드 복사",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "원하는 페이지를 찾을 수 없습니다.",

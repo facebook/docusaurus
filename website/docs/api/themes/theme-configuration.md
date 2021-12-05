@@ -2,6 +2,7 @@
 sidebar_position: 1
 id: theme-configuration
 title: 'Theme configuration'
+sidebar_label: 'Configuration'
 slug: '/api/themes/configuration'
 toc_max_heading_level: 4
 ---

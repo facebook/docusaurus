@@ -31,6 +31,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "workspace:*",
     "@docusaurus/types": "workspace:*",
+    "@testing-library/react-hooks": "^7.0.2",
     "lodash": "^4.17.20"
   },
   "peerDependencies": {
