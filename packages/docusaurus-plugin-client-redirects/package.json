@@ -19,7 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.9",
-    "@docusaurus/types": "2.0.0-beta.9",
     "@docusaurus/utils": "2.0.0-beta.9",
     "@docusaurus/utils-common": "2.0.0-beta.9",
     "@docusaurus/utils-validation": "2.0.0-beta.9",
@@ -28,6 +27,9 @@
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
     "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "2.0.0-beta.9"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
