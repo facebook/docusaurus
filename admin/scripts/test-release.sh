@@ -39,7 +39,7 @@ fi
 docker run -d --rm --name "$CONTAINER_NAME" -p 4873:4873 -v "$PWD/admin/verdaccio.yaml":/verdaccio/conf/config.yaml verdaccio/verdaccio:latest
 
 # Build packages
-yarn build
+yarn build:packages
 
 # Publish the monorepo
 npx --no-install monodeploy --exact --yes --no-verify-access --no-git-reset --no-git-tag-version --no-push --registry "$CUSTOM_REGISTRY_URL" "$NEW_VERSION"

@@ -18,7 +18,7 @@
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
     "examples:generate": "node generateExamples",
-    "build:packages": "yarn workspaces foreach --no-private run build",
+    "build:packages": "yarn workspaces foreach -t --no-private run build",
     "build:website": "yarn workspace website build",
     "build:website:baseUrl": "yarn workspace website build:baseUrl",
     "build:website:blogOnly": "yarn workspace website build:blogOnly",
