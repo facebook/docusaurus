@@ -254,7 +254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:>=7.9.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.11.1, @babel/core@npm:^7.11.4, @babel/core@npm:^7.12.16, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.15.5, @babel/core@npm:^7.16.0, @babel/core@npm:^7.7.5":
+"@babel/core@npm:>=7.9.0, @babel/core@npm:^7.1.0, @babel/core@npm:^7.11.1, @babel/core@npm:^7.11.4, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.15.5, @babel/core@npm:^7.16.0, @babel/core@npm:^7.7.5":
   version: 7.16.0
   resolution: "@babel/core@npm:7.16.0"
   dependencies:
@@ -277,7 +277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.15.7, @babel/eslint-parser@npm:^7.16.3":
+"@babel/eslint-parser@npm:^7.16.3":
   version: 7.16.3
   resolution: "@babel/eslint-parser@npm:7.16.3"
   dependencies:
@@ -291,7 +291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.12.15, @babel/generator@npm:^7.12.5, @babel/generator@npm:^7.16.0":
+"@babel/generator@npm:^7.12.5, @babel/generator@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/generator@npm:7.16.0"
   dependencies:
@@ -574,7 +574,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.0.0, @babel/parser@npm:^7.1.0, @babel/parser@npm:^7.12.16, @babel/parser@npm:^7.12.7, @babel/parser@npm:^7.13.16, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.15.7, @babel/parser@npm:^7.16.0, @babel/parser@npm:^7.16.3":
+"@babel/parser@npm:^7.0.0, @babel/parser@npm:^7.1.0, @babel/parser@npm:^7.12.7, @babel/parser@npm:^7.13.16, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.15.7, @babel/parser@npm:^7.16.0, @babel/parser@npm:^7.16.3, @babel/parser@npm:^7.16.4":
   version: 7.16.4
   resolution: "@babel/parser@npm:7.16.4"
   bin:
@@ -693,7 +693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-nullish-coalescing-operator@npm:^7.12.13, @babel/plugin-proposal-nullish-coalescing-operator@npm:^7.13.8, @babel/plugin-proposal-nullish-coalescing-operator@npm:^7.16.0":
+"@babel/plugin-proposal-nullish-coalescing-operator@npm:^7.13.8, @babel/plugin-proposal-nullish-coalescing-operator@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/plugin-proposal-nullish-coalescing-operator@npm:7.16.0"
   dependencies:
@@ -757,7 +757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-optional-chaining@npm:^7.12.16, @babel/plugin-proposal-optional-chaining@npm:^7.13.12, @babel/plugin-proposal-optional-chaining@npm:^7.16.0":
+"@babel/plugin-proposal-optional-chaining@npm:^7.13.12, @babel/plugin-proposal-optional-chaining@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/plugin-proposal-optional-chaining@npm:7.16.0"
   dependencies:
@@ -1397,7 +1397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.15.0":
+"@babel/plugin-transform-runtime@npm:^7.16.0":
   version: 7.16.4
   resolution: "@babel/plugin-transform-runtime@npm:7.16.4"
   dependencies:
@@ -1505,7 +1505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.11.0, @babel/preset-env@npm:^7.11.5, @babel/preset-env@npm:^7.15.6":
+"@babel/preset-env@npm:^7.11.0, @babel/preset-env@npm:^7.11.5, @babel/preset-env@npm:^7.15.6, @babel/preset-env@npm:^7.16.4":
   version: 7.16.4
   resolution: "@babel/preset-env@npm:7.16.4"
   dependencies:
@@ -1617,7 +1617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.12.13, @babel/preset-react@npm:^7.14.5":
+"@babel/preset-react@npm:^7.14.5, @babel/preset-react@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/preset-react@npm:7.16.0"
   dependencies:
@@ -1633,7 +1633,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.12.16, @babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.15.0, @babel/preset-typescript@npm:^7.16.0":
+"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.15.0, @babel/preset-typescript@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/preset-typescript@npm:7.16.0"
   dependencies:
@@ -1661,7 +1661,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime-corejs3@npm:^7.10.2, @babel/runtime-corejs3@npm:^7.15.4":
+"@babel/runtime-corejs3@npm:^7.10.2, @babel/runtime-corejs3@npm:^7.16.3":
   version: 7.16.3
   resolution: "@babel/runtime-corejs3@npm:7.16.3"
   dependencies:
@@ -1691,7 +1691,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.1.0, @babel/traverse@npm:^7.12.13, @babel/traverse@npm:^7.12.9, @babel/traverse@npm:^7.13.0, @babel/traverse@npm:^7.16.0, @babel/traverse@npm:^7.16.3":
+"@babel/traverse@npm:^7.1.0, @babel/traverse@npm:^7.12.9, @babel/traverse@npm:^7.13.0, @babel/traverse@npm:^7.16.0, @babel/traverse@npm:^7.16.3":
   version: 7.16.3
   resolution: "@babel/traverse@npm:7.16.3"
   dependencies:
@@ -1885,18 +1885,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@docusaurus/core@workspace:packages/docusaurus"
   dependencies:
-    "@babel/core": ^7.12.16
-    "@babel/generator": ^7.12.15
+    "@babel/core": ^7.16.0
+    "@babel/generator": ^7.16.0
     "@babel/plugin-syntax-dynamic-import": ^7.8.3
-    "@babel/plugin-transform-runtime": ^7.15.0
-    "@babel/preset-env": ^7.15.6
-    "@babel/preset-react": ^7.12.13
-    "@babel/preset-typescript": ^7.12.16
-    "@babel/runtime": ^7.15.4
-    "@babel/runtime-corejs3": ^7.15.4
-    "@babel/traverse": ^7.12.13
+    "@babel/plugin-transform-runtime": ^7.16.0
+    "@babel/preset-env": ^7.16.4
+    "@babel/preset-react": ^7.16.0
+    "@babel/preset-typescript": ^7.16.0
+    "@babel/runtime": ^7.16.3
+    "@babel/runtime-corejs3": ^7.16.3
+    "@babel/traverse": ^7.16.3
     "@docusaurus/cssnano-preset": "workspace:*"
     "@docusaurus/module-type-aliases": "workspace:*"
+    "@docusaurus/react-loadable": 5.5.2
     "@docusaurus/types": "workspace:*"
     "@docusaurus/utils": "workspace:*"
     "@docusaurus/utils-common": "workspace:*"
@@ -1906,7 +1907,6 @@ __metadata:
     "@types/copy-webpack-plugin": ^8.0.1
     "@types/css-minimizer-webpack-plugin": ^3.0.2
     "@types/detect-port": ^1.3.0
-    "@types/github-slugger": ^1.3.0
     "@types/mini-css-extract-plugin": ^1.4.3
     "@types/nprogress": ^0.2.0
     "@types/react-dom": ^17.0.9
@@ -1932,7 +1932,6 @@ __metadata:
     eta: ^1.12.3
     file-loader: ^6.2.0
     fs-extra: ^10.0.0
-    github-slugger: ^1.4.0
     globby: ^11.0.2
     html-minifier-terser: ^6.0.2
     html-tags: ^3.1.0
@@ -2003,19 +2002,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@docusaurus/mdx-loader@workspace:*, @docusaurus/mdx-loader@workspace:packages/docusaurus-mdx-loader":
+"@docusaurus/mdx-loader@2.0.0-beta.9, @docusaurus/mdx-loader@workspace:*, @docusaurus/mdx-loader@workspace:packages/docusaurus-mdx-loader":
   version: 0.0.0-use.local
   resolution: "@docusaurus/mdx-loader@workspace:packages/docusaurus-mdx-loader"
   dependencies:
-    "@babel/parser": ^7.12.16
-    "@babel/traverse": ^7.12.13
+    "@babel/parser": ^7.16.4
+    "@babel/traverse": ^7.16.3
     "@docusaurus/core": "workspace:*"
     "@docusaurus/types": "workspace:*"
     "@docusaurus/utils": "workspace:*"
     "@mdx-js/mdx": ^1.6.21
     "@mdx-js/react": ^1.6.21
     "@types/escape-html": ^1.0.1
-    "@types/github-slugger": ^1.3.0
     "@types/mdast": ^3.0.7
     "@types/stringify-object": ^3.3.1
     "@types/unist": ^2.0.6
@@ -2023,7 +2021,6 @@ __metadata:
     escape-html: ^1.0.3
     file-loader: ^6.2.0
     fs-extra: ^10.0.0
-    github-slugger: ^1.4.0
     gray-matter: ^4.0.3
     mdast-util-to-string: ^2.0.0
     remark: ^12.0.0
@@ -2046,7 +2043,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@docusaurus/migrate@workspace:packages/docusaurus-migrate"
   dependencies:
-    "@babel/preset-env": ^7.15.6
+    "@babel/preset-env": ^7.16.4
     "@mapbox/hast-util-to-jsx": ^1.0.0
     "@types/color": ^3.0.1
     "@types/jscodeshift": ^0.11.2
@@ -2135,12 +2132,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@docusaurus/plugin-content-docs@workspace:packages/docusaurus-plugin-content-docs"
   dependencies:
-    "@docusaurus/core": "workspace:*"
-    "@docusaurus/mdx-loader": "workspace:*"
+    "@docusaurus/core": 2.0.0-beta.9
+    "@docusaurus/mdx-loader": 2.0.0-beta.9
     "@docusaurus/module-type-aliases": "workspace:*"
     "@docusaurus/types": "workspace:*"
-    "@docusaurus/utils": "workspace:*"
-    "@docusaurus/utils-validation": "workspace:*"
+    "@docusaurus/utils": 2.0.0-beta.9
+    "@docusaurus/utils-validation": 2.0.0-beta.9
     "@types/js-yaml": ^4.0.0
     "@types/picomatch": ^2.2.1
     chalk: ^4.1.2
@@ -2254,9 +2251,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@docusaurus/plugin-pwa@workspace:packages/docusaurus-plugin-pwa"
   dependencies:
-    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.12.13
-    "@babel/plugin-proposal-optional-chaining": ^7.12.16
-    "@babel/preset-env": ^7.15.6
+    "@babel/plugin-proposal-nullish-coalescing-operator": ^7.16.0
+    "@babel/plugin-proposal-optional-chaining": ^7.16.0
+    "@babel/preset-env": ^7.16.4
     "@docusaurus/core": "workspace:*"
     "@docusaurus/module-type-aliases": "workspace:*"
     "@docusaurus/theme-common": "workspace:*"
@@ -2318,6 +2315,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@docusaurus/react-loadable@npm:5.5.2, react-loadable@npm:@docusaurus/react-loadable@5.5.2":
+  version: 5.5.2
+  resolution: "@docusaurus/react-loadable@npm:5.5.2"
+  dependencies:
+    "@types/react": "*"
+    prop-types: ^15.6.2
+  peerDependencies:
+    react: "*"
+  checksum: 930fb9e2936412a12461f210acdc154a433283921ca43ac3fc3b84cb6c12eb738b3a3719373022bf68004efeb1a928dbe36c467d7a1f86454ed6241576d936e7
+  languageName: node
+  linkType: hard
+
 "@docusaurus/remark-plugin-npm2yarn@workspace:*, @docusaurus/remark-plugin-npm2yarn@workspace:packages/docusaurus-remark-plugin-npm2yarn":
   version: 0.0.0-use.local
   resolution: "@docusaurus/remark-plugin-npm2yarn@workspace:packages/docusaurus-remark-plugin-npm2yarn"
@@ -2376,7 +2385,7 @@ __metadata:
     cross-env: ^7.0.3
     fs-extra: ^10.0.0
     globby: ^11.0.2
-    infima: 0.2.0-alpha.34
+    infima: 0.2.0-alpha.36
     lodash: ^4.17.20
     postcss: ^8.3.7
     prism-react-renderer: ^1.2.1
@@ -2401,6 +2410,7 @@ __metadata:
     "@docusaurus/plugin-content-docs": "workspace:*"
     "@docusaurus/plugin-content-pages": "workspace:*"
     "@docusaurus/types": "workspace:*"
+    "@testing-library/react-hooks": ^7.0.2
     clsx: ^1.1.1
     fs-extra: ^10.0.0
     lodash: ^4.17.20
@@ -2463,6 +2473,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@docusaurus/theme-translations@workspace:packages/docusaurus-theme-translations"
   dependencies:
+    "@docusaurus/core": "workspace:*"
     chalk: ^4.1.2
     fs-extra: ^10.0.0
     lodash: ^4.17.20
@@ -2491,7 +2502,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@docusaurus/utils-validation@workspace:*, @docusaurus/utils-validation@workspace:packages/docusaurus-utils-validation":
+"@docusaurus/utils-validation@2.0.0-beta.9, @docusaurus/utils-validation@workspace:*, @docusaurus/utils-validation@workspace:packages/docusaurus-utils-validation":
   version: 0.0.0-use.local
   resolution: "@docusaurus/utils-validation@workspace:packages/docusaurus-utils-validation"
   dependencies:
@@ -2502,19 +2513,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@docusaurus/utils@workspace:*, @docusaurus/utils@workspace:packages/docusaurus-utils":
+"@docusaurus/utils@2.0.0-beta.9, @docusaurus/utils@workspace:*, @docusaurus/utils@workspace:packages/docusaurus-utils":
   version: 0.0.0-use.local
   resolution: "@docusaurus/utils@workspace:packages/docusaurus-utils"
   dependencies:
     "@docusaurus/types": "workspace:*"
     "@mdx-js/runtime": ^1.6.22
     "@types/dedent": ^0.7.0
+    "@types/github-slugger": ^1.3.0
     "@types/micromatch": ^4.0.2
     "@types/react-dom": ^17.0.1
     chalk: ^4.1.2
     dedent: ^0.7.0
     escape-string-regexp: ^4.0.0
     fs-extra: ^10.0.0
+    github-slugger: ^1.4.0
     globby: ^11.0.4
     gray-matter: ^4.0.3
     lodash: ^4.17.20
@@ -4515,6 +4528,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/react-hooks@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@testing-library/react-hooks@npm:7.0.2"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    "@types/react": ">=16.9.0"
+    "@types/react-dom": ">=16.9.0"
+    "@types/react-test-renderer": ">=16.9.0"
+    react-error-boundary: ^3.1.0
+  peerDependencies:
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+    react-test-renderer: ">=16.9.0"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-test-renderer:
+      optional: true
+  checksum: 27c6169b5c9832bd02dcea232e6a0a3cd8d4504e13ecb49d57eb5ab6bea5e2f1bff65f3102068b7e57eec3cbd671326dc0b277335014b0edfbdedf11a1fe6db5
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -5255,7 +5290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.1, @types/react-dom@npm:^17.0.9":
+"@types/react-dom@npm:>=16.9.0, @types/react-dom@npm:^17.0.1, @types/react-dom@npm:^17.0.9":
   version: 17.0.11
   resolution: "@types/react-dom@npm:17.0.11"
   dependencies:
@@ -5305,7 +5340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:^17.0.1":
+"@types/react-test-renderer@npm:>=16.9.0, @types/react-test-renderer@npm:^17.0.1":
   version: 17.0.1
   resolution: "@types/react-test-renderer@npm:17.0.1"
   dependencies:
@@ -5314,7 +5349,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.2":
+"@types/react@npm:*, @types/react@npm:>=16.9.0, @types/react@npm:^17.0.2":
   version: 17.0.37
   resolution: "@types/react@npm:17.0.37"
   dependencies:
@@ -10358,7 +10393,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docusaurus-2-facebook-template@workspace:packages/create-docusaurus/templates/facebook"
   dependencies:
-    "@babel/eslint-parser": ^7.15.7
+    "@babel/eslint-parser": ^7.16.3
     "@docusaurus/core": 2.0.0-beta.9
     "@docusaurus/preset-classic": 2.0.0-beta.9
     "@mdx-js/react": ^1.6.21
@@ -10373,7 +10408,7 @@ __metadata:
     eslint-plugin-react: ^7.27.0
     eslint-plugin-react-hooks: ^4.3.0
     file-loader: ^6.2.0
-    prettier: ^2.4.1
+    prettier: ^2.5.0
     react: ^17.0.1
     react-dom: ^17.0.1
     stylelint: ^13.2.1
@@ -13781,10 +13816,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"infima@npm:0.2.0-alpha.34":
-  version: 0.2.0-alpha.34
-  resolution: "infima@npm:0.2.0-alpha.34"
-  checksum: 58f7854e0d05e0c3f663ed60a8666235a495af8d1aff0f31592f96d1ca41bbff1f62705a2c13e6d5036228e0f1542379f56883ca5d807c0ae54e5e07f60d7280
+"infima@npm:0.2.0-alpha.36":
+  version: 0.2.0-alpha.36
+  resolution: "infima@npm:0.2.0-alpha.36"
+  checksum: 1f7ab5e8a30c9a43b8c4c89e9d83ffd64a23b3958e2a2be6cfdcf531ced0e0db2728f172d0c735d20c2d61455376763c088453372741eb0e9f3a8d4f4a4fa37e
   languageName: node
   linkType: hard
 
@@ -19703,12 +19738,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.4.1":
-  version: 2.5.0
-  resolution: "prettier@npm:2.5.0"
+"prettier@npm:^2.5.0":
+  version: 2.5.1
+  resolution: "prettier@npm:2.5.1"
   bin:
     prettier: bin-prettier.js
-  checksum: aad1b35b73e7c14596d389d90977a83dad0db689ba5802a0ef319c357b7867f55b885db197972aa6a56c30f53088c9f8e0d7f7930ae074c275a4e9cbe091d21d
+  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
   languageName: node
   linkType: hard
 
@@ -20248,6 +20283,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-error-boundary@npm:^3.1.0":
+  version: 3.1.4
+  resolution: "react-error-boundary@npm:3.1.4"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+  peerDependencies:
+    react: ">=16.13.1"
+  checksum: f36270a5d775a25c8920f854c0d91649ceea417b15b5bc51e270a959b0476647bb79abb4da3be7dd9a4597b029214e8fe43ea914a7f16fa7543c91f784977f1b
+  languageName: node
+  linkType: hard
+
 "react-error-overlay@npm:7.0.0-next.54+1465357b":
   version: 7.0.0-next.54
   resolution: "react-error-overlay@npm:7.0.0-next.54"
@@ -20343,18 +20389,6 @@ __metadata:
     react-loadable: "*"
     webpack: ">=4.41.1 || 5.x"
   checksum: 1cf7ceb488d329a5be15f891dae16727fb7ade08ef57826addd21e2c3d485e2440259ef8be94f4d54e9afb4bcbd2fcc22c3c5bad92160c9c06ae6ba7b5562497
-  languageName: node
-  linkType: hard
-
-"react-loadable@npm:@docusaurus/react-loadable@5.5.2":
-  version: 5.5.2
-  resolution: "@docusaurus/react-loadable@npm:5.5.2"
-  dependencies:
-    "@types/react": "*"
-    prop-types: ^15.6.2
-  peerDependencies:
-    react: "*"
-  checksum: 930fb9e2936412a12461f210acdc154a433283921ca43ac3fc3b84cb6c12eb738b3a3719373022bf68004efeb1a928dbe36c467d7a1f86454ed6241576d936e7
   languageName: node
   linkType: hard
 
@@ -21391,7 +21425,7 @@ __metadata:
     netlify-cli: ^8.0.5
     nodemon: ^2.0.13
     npm-run-all: ^4.1.5
-    prettier: ^2.4.1
+    prettier: ^2.5.0
     react: ^17.0.1
     react-dom: ^17.0.1
     react-test-renderer: ^17.0.2
@@ -23926,7 +23960,7 @@ __metadata:
 
 "typescript@patch:typescript@^3.9.7#~builtin<compat/typescript>":
   version: 3.9.10
-  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=de8f8a"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -23936,11 +23970,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.1.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
   version: 4.5.2
-  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=493e53"
+  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=de8f8a"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 53838d56aba6fcc947d63aa0771e5d966b1b648fddafed6e221d7f38c71219c4e036ece8cfe9e35ed80cf5a35ff4eb958934c993f99c3233773ec4f9ccd53f69
+  checksum: e25e689eba64f7da7cfc43f8ea76cac7176b56caba42655f0a4cb29c0b7c36e67ca54f33df95902859f56108464245d8b45bcdfe21e3d66d9560feb8db780246
   languageName: node
   linkType: hard
 
