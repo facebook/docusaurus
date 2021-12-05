@@ -901,6 +901,14 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'Overwolf',
+    description: 'Easily create apps for PC gamers',
+    preview: require('./showcase/overwolf.png'),
+    website: 'https://www.overwolf.com/',
+    source: 'https://overwolf.github.io',
+    tags: ['product', 'large'],
+  },
+  {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
