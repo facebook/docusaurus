@@ -904,8 +904,8 @@ const Users: User[] = [
     title: 'Overwolf',
     description: 'Easily create apps for PC gamers',
     preview: require('./showcase/overwolf.png'),
-    website: 'https://www.overwolf.com/',
-    source: 'https://overwolf.github.io',
+    website: 'https://overwolf.github.io',
+    source: 'https://github.com/overwolf/overwolf.github.io',
     tags: ['product', 'large'],
   },
   {
