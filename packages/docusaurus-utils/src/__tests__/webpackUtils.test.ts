@@ -12,7 +12,7 @@ describe('getFileLoaderUtils()', () => {
     const {oneOf} = getFileLoaderUtils().rules.svg();
     expect(oneOf[0].use).toContainEqual(
       expect.objectContaining({
-        loader: '@svgr/webpack',
+        loader: require.resolve('@svgr/webpack'),
         options: expect.objectContaining({
           svgoConfig: {
             plugins: [
