@@ -21,7 +21,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@docusaurus/types": "workspace:*"
+    "@docusaurus/types": "2.0.0-beta.9"
   },
   "engines": {
     "node": ">=14"
