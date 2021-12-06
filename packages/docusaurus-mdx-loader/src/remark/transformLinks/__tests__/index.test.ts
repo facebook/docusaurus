@@ -30,7 +30,7 @@ const processFixture = async (name: string, options?) => {
     })
     .process(file);
 
-  return result.toString();
+  return result.toString().replaceAll(process.cwd(), '[CWD]');
 };
 
 describe('transformAsset plugin', () => {
@@ -42,19 +42,11 @@ describe('transformAsset plugin', () => {
 
   test('transform md links to <a />', async () => {
     const result = await processFixture('asset');
-    expect(
-      result
-        .replace(require.resolve('url-loader'), 'url-loader')
-        .replace(require.resolve('file-loader'), 'file-loader'),
-    ).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
     const result = await processFixture('pathname');
-    expect(
-      result
-        .replace(require.resolve('url-loader'), 'url-loader')
-        .replace(require.resolve('file-loader'), 'file-loader'),
-    ).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 });

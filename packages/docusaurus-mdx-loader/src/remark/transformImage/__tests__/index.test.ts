@@ -21,7 +21,7 @@ const processFixture = async (name, options) => {
     .use(plugin, {...options, filePath})
     .process(file);
 
-  return result.toString();
+  return result.toString().replaceAll(process.cwd(), '[CWD]');
 };
 
 const staticDirs = [
@@ -50,19 +50,11 @@ describe('transformImage plugin', () => {
 
   test('transform md images to <img />', async () => {
     const result = await processFixture('img', {staticDirs});
-    expect(
-      result
-        .replace(require.resolve('url-loader'), 'url-loader')
-        .replace(require.resolve('file-loader'), 'file-loader'),
-    ).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
     const result = await processFixture('pathname', {staticDirs});
-    expect(
-      result
-        .replace(require.resolve('url-loader'), 'url-loader')
-        .replace(require.resolve('file-loader'), 'file-loader'),
-    ).toMatchSnapshot();
+    expect(result).toMatchSnapshot();
   });
 });
