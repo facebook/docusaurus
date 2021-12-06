@@ -17,8 +17,6 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn install --immutable
-      - name: Check immutable yarn.lock
-        run: git diff --exit-code
       - name: Lint
         run: yarn lint:ci
       - name: Prettier Code
