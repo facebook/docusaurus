@@ -42,11 +42,19 @@ describe('transformAsset plugin', () => {
 
   test('transform md links to <a />', async () => {
     const result = await processFixture('asset');
-    expect(result).toMatchSnapshot();
+    expect(
+      result
+        .replace(require.resolve('url-loader'), 'url-loader')
+        .replace(require.resolve('file-loader'), 'file-loader'),
+    ).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
     const result = await processFixture('pathname');
-    expect(result).toMatchSnapshot();
+    expect(
+      result
+        .replace(require.resolve('url-loader'), 'url-loader')
+        .replace(require.resolve('file-loader'), 'file-loader'),
+    ).toMatchSnapshot();
   });
 });

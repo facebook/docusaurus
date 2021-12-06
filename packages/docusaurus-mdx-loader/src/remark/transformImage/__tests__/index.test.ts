@@ -50,11 +50,19 @@ describe('transformImage plugin', () => {
 
   test('transform md images to <img />', async () => {
     const result = await processFixture('img', {staticDirs});
-    expect(result).toMatchSnapshot();
+    expect(
+      result
+        .replace(require.resolve('url-loader'), 'url-loader')
+        .replace(require.resolve('file-loader'), 'file-loader'),
+    ).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
     const result = await processFixture('pathname', {staticDirs});
-    expect(result).toMatchSnapshot();
+    expect(
+      result
+        .replace(require.resolve('url-loader'), 'url-loader')
+        .replace(require.resolve('file-loader'), 'file-loader'),
+    ).toMatchSnapshot();
   });
 });
