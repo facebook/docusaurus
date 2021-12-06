@@ -99,7 +99,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
         {
           use: [
             {
-              loader: '@svgr/webpack',
+              loader: require.resolve('@svgr/webpack'),
               options: {
                 prettier: false,
                 svgo: true,
