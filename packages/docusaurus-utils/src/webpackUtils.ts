@@ -7,6 +7,7 @@
 
 import type {RuleSetRule} from 'webpack';
 import path from 'path';
+import {posixPath} from './posixPath';
 
 export const OUTPUT_STATIC_ASSETS_DIR_NAME = 'assets'; // files handled by webpack, hashed (can be cached aggressively)
 // Temporary fix for https://github.com/facebook/docusaurus/issues/5493
@@ -48,11 +49,11 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       },
     }),
     url: (options: {folder: AssetFolder}) => ({
-      loader: require.resolve(`url-loader`),
+      loader: require.resolve('url-loader'),
       options: {
         limit: urlLoaderLimit,
         name: fileLoaderFileName(options.folder),
-        fallback: require.resolve(`file-loader`),
+        fallback: require.resolve('file-loader'),
       },
     }),
 
@@ -61,12 +62,14 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     // Maybe with the ideal image plugin, all md images should be "ideal"?
     // This is used to force url-loader+file-loader on markdown images
     // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
+    inlineMarkdownImageFileLoader: `!${posixPath(
+      require.resolve('url-loader'),
+    )}?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
-    )}&fallback=file-loader!`,
-    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
-      'files',
-    )}!`,
+    )}&fallback=${posixPath(require.resolve('file-loader'))}!`,
+    inlineMarkdownLinkFileLoader: `!${posixPath(
+      require.resolve('file-loader'),
+    )}?name=${fileLoaderFileName('files')}!`,
   };
 
   const rules: FileLoaderUtils['rules'] = {
