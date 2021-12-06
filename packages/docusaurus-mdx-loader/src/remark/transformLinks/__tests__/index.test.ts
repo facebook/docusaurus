@@ -30,7 +30,7 @@ const processFixture = async (name: string, options?) => {
     })
     .process(file);
 
-  return result.toString().replaceAll(process.cwd(), '[CWD]');
+  return result.toString().replace(new RegExp(process.cwd(), 'g'), '[CWD]');
 };
 
 describe('transformAsset plugin', () => {

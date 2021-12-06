@@ -21,7 +21,7 @@ const processFixture = async (name, options) => {
     .use(plugin, {...options, filePath})
     .process(file);
 
-  return result.toString().replaceAll(process.cwd(), '[CWD]');
+  return result.toString().replace(new RegExp(process.cwd(), 'g'), '[CWD]');
 };
 
 const staticDirs = [
