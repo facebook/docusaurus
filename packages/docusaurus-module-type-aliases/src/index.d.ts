@@ -47,8 +47,9 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  export type Tree = {[x: string | number]: string | Tree};
-  const routesChunkNames: Record<string, Tree>;
+  import type {RouteChunksTree} from '@docusaurus/types';
+
+  const routesChunkNames: Record<string, RouteChunksTree>;
   export = routesChunkNames;
 }
 
