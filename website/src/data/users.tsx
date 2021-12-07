@@ -810,12 +810,11 @@ const Users: User[] = [
   },
   {
     title: 'moja global',
-    description: 'Community Website for moja global. moja global is a not for profit, collaborative project that brings together a community of experts to develop open-source software that allows users to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector.',
+    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
     preview: require('./showcase/mojaglobal.png'),
     website: 'https://community.moja.global/',
     source: 'https://github.com/moja-global/community-website',
-    tags: ['opensource', 'large']
-
+    tags: ['opensource', 'large', 'i18n', 'design'],
   },
   {
     title: 'nanos world documentation',
