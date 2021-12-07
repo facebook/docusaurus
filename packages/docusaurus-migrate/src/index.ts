@@ -309,7 +309,6 @@ export function createConfigFile({
         {
           docs: {
             ...(v2DocsPath && {path: v2DocsPath}),
-            homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             editUrl: siteConfig.editUrl,

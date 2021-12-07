@@ -25,7 +25,7 @@ Array [
   Array [
     undefined,
     Object {
-      "permalink": "/docs/hello",
+      "permalink": "/docs/",
       "title": "Hello sidebar_label",
     },
   ],
@@ -41,7 +41,7 @@ Array [
   ],
   Array [
     Object {
-      "permalink": "/docs/hello",
+      "permalink": "/docs/",
       "title": "Hello sidebar_label",
     },
     Object {

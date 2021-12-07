@@ -50,7 +50,6 @@ export type EditUrlFunction = (editUrlParams: {
 
 export type MetadataOptions = {
   routeBasePath: string;
-  homePageId?: string;
   editUrl?: string | EditUrlFunction;
   editCurrentVersion: boolean;
   editLocalizedFiles: boolean;

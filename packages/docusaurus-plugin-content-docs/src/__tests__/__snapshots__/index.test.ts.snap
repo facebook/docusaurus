@@ -314,7 +314,8 @@ Object {
     \\"tags\\": [
       \\"tag-1\\",
       \\"tag 3\\"
-    ]
+    ],
+    \\"slug\\": \\"/\\"
   },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
@@ -1528,7 +1529,9 @@ Object {
   \\"permalink\\": \\"/docs/next/\\",
   \\"tags\\": [],
   \\"version\\": \\"current\\",
-  \\"frontMatter\\": {},
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/\\"
+  },
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -1606,7 +1609,9 @@ Object {
   \\"permalink\\": \\"/docs/1.0.0/\\",
   \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
-  \\"frontMatter\\": {},
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/\\"
+  },
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz\\",
@@ -1684,7 +1689,9 @@ Object {
   \\"permalink\\": \\"/docs/\\",
   \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
-  \\"frontMatter\\": {},
+  \\"frontMatter\\": {
+    \\"slug\\": \\"/\\"
+  },
   \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
