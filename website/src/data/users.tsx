@@ -153,7 +153,7 @@ const Users: User[] = [
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
     source: 'https://github.com/AideJeune',
-    tags: ['opensource'],
+    tags: ['opensource', 'large'],
   },
   {
     title: 'AgileTs',
@@ -807,6 +807,15 @@ const Users: User[] = [
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
     tags: ['opensource'],
+  },
+  {
+    title: 'moja global',
+    description: 'Community Website for moja global. moja global is a not for profit, collaborative project that brings together a community of experts to develop open-source software that allows users to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector.',
+    preview: require('./showcase/mojaglobal.png'),
+    website: 'https://community.moja.global/',
+    source: 'https://github.com/moja-global/community-website',
+    tags: ['opensource', ]
+
   },
   {
     title: 'nanos world documentation',
