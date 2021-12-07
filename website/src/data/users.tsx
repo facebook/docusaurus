@@ -153,7 +153,7 @@ const Users: User[] = [
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
     source: 'https://github.com/AideJeune',
-    tags: ['opensource', 'large'],
+    tags: ['opensource'],
   },
   {
     title: 'AgileTs',
@@ -814,7 +814,7 @@ const Users: User[] = [
     preview: require('./showcase/mojaglobal.png'),
     website: 'https://community.moja.global/',
     source: 'https://github.com/moja-global/community-website',
-    tags: ['opensource', ]
+    tags: ['opensource', 'large']
 
   },
   {
