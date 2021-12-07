@@ -442,3 +442,5 @@ export interface TOCItem {
   readonly children: TOCItem[];
   readonly level: number;
 }
+
+export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
