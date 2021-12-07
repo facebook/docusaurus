@@ -52,7 +52,7 @@ module.exports = {
       title: 'Docusaurus',
       logo: {src: 'img/docusaurus.svg'},
       items: [
-        {to: 'docs/', label: 'Docs', position: 'left'},
+        {to: 'docs/installation', label: 'Docs', position: 'left'},
         {to: 'docs/tutorial-setup', label: 'Tutorial', position: 'left'},
         {to: '/users', label: 'Users', position: 'left'},
         {
