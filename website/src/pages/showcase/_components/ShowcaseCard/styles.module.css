@@ -24,24 +24,16 @@
 
 .showcaseCardTitle a {
   text-decoration: none;
-  position: relative;
+  background: linear-gradient(
+      var(--ifm-color-primary),
+      var(--ifm-color-primary)
+    )
+    0% 100% / 0% 1px no-repeat;
+  transition: background-size ease-out 200ms;
 }
 
-.showcaseCardTitle a::after {
-  display: block;
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 1px;
-  transition: width ease-out 200ms;
-  background-color: var(--ifm-color-primary);
-  bottom: 0;
-  left: 0;
-}
-
-.showcaseCardTitle a:hover::after,
-.showcaseCardTitle a:focus-visible::after {
-  width: 100%;
+.showcaseCardTitle a:not(:focus):hover {
+  background-size: 100% 1px;
 }
 
 .showcaseCardTitle,
@@ -57,10 +49,7 @@
   margin-left: 6px;
   padding-left: 12px;
   padding-right: 12px;
-  z-index: 1;
-  flex-grow: 0;
-  flex-shrink: 0;
-  border: 0;
+  border: none;
 }
 
 html[data-theme='dark'] .showcaseCardSrcBtn {
@@ -70,11 +59,6 @@ html[data-theme='dark'] .showcaseCardSrcBtn {
 
 html[data-theme='dark'] .showcaseCardSrcBtn:hover {
   background-color: var(--ifm-color-emphasis-300) !important;
-}
-
-.showcaseCardSrcBtn:focus,
-.showcaseCardTitle a:focus {
-  outline: none;
 }
 
 .showcaseCardSrcBtn:focus-visible {
@@ -87,37 +71,23 @@ html[data-theme='dark'] .showcaseCardSrcBtn:hover {
 }
 
 .cardFooter {
-  list-style: none;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
 }
 
 .tag {
   font-size: 0.675rem;
   border: 1px solid var(--ifm-color-secondary-darkest);
-  white-space: nowrap;
+  cursor: default;
   margin-right: 6px;
   margin-bottom: 6px !important;
   border-radius: 12px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  height: 20px;
-  cursor: default;
-  outline: 0px;
-  text-decoration: none;
-  z-index: 5;
-  padding: 0px;
-  vertical-align: middle;
-  box-sizing: border-box;
-  background-color: transparent;
 }
 
 .tag .textLabel {
-  overflow: hidden;
   margin-left: 8px;
-  white-space: nowrap;
 }
 
 .tag .colorLabel {

@@ -19,8 +19,10 @@ const lightTheme = require('prism-react-renderer/themes/github');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const darkTheme = require('prism-react-renderer/themes/dracula');
 
-const ArchivedVersionsDropdownItems =
-  Object.entries(VersionsArchived).splice(0, 5);
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -45,7 +47,7 @@ const allDocHomesPaths = [
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
-  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
@@ -112,13 +114,16 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  staticDirectories: ['static', path.join(__dirname, '_dogfooding/_asset-tests')],
+  staticDirectories: [
+    'static',
+    path.join(__dirname, '_dogfooding/_asset-tests'),
+  ],
   clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['live-codeblock'],
   plugins: [
     FeatureRequestsPlugin,
     [
-      '@docusaurus/plugin-content-docs',
+      'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
         id: 'community',
@@ -137,7 +142,7 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-client-redirects',
+      'client-redirects',
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
         fromExtensions: ['html'],
@@ -166,7 +171,7 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-ideal-image',
+      'ideal-image',
       {
         quality: 70,
         max: 1030, // max resized image's size.
@@ -175,7 +180,7 @@ const config = {
       },
     ],
     [
-      '@docusaurus/plugin-pwa',
+      'pwa',
       {
         debug: isDeployPreview,
         offlineModeActivationStrategies: [
@@ -239,7 +244,7 @@ const config = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
@@ -260,10 +265,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [
-            math,
-            [npm2yarn, {sync: true}],
-          ],
+          remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev ? 'current' : undefined,
@@ -275,6 +277,7 @@ const config = {
             : undefined,
           versions: {
             current: {
+              path: isDev || isBuildFast ? 'next' : undefined,
               label: `${getNextBetaVersionName()} 🚧`,
             },
           },

@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Kopyalandı",
   "theme.CodeBlock.copy": "Kopyala",
   "theme.CodeBlock.copyButtonAriaLabel": "Kodu panoya kopyala",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "Aradığınız şeyi bulamadık.",

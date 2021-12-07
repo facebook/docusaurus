@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Скопировано",
   "theme.CodeBlock.copy": "Скопировать",
   "theme.CodeBlock.copyButtonAriaLabel": "Скопировать в буфер обмена",
+  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Toggle the collapsible sidebar category '{label}'",
   "theme.ErrorPageContent.title": "This page crashed.",
   "theme.ErrorPageContent.tryAgain": "Try again",
   "theme.NotFound.p1": "К сожалению, мы не смогли найти запрашиваемую вами страницу.",

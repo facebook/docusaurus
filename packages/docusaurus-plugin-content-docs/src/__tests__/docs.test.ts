@@ -11,7 +11,8 @@ import {
   processDocMetadata,
   readVersionDocs,
   readDocFile,
-  handleNavigation,
+  addDocNavigation,
+  isConventionalDocIndex,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
@@ -28,7 +29,8 @@ import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
-import {posixPath} from '@docusaurus/utils';
+import {createSlugger, posixPath} from '@docusaurus/utils';
+import {createSidebarsUtils} from '../sidebars/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -119,7 +121,7 @@ function createTestUtils({
 
   async function generateNavigation(
     docFiles: DocFile[],
-  ): Promise<[DocNavLink, DocNavLink][]> {
+  ): Promise<[DocNavLink | undefined, DocNavLink | undefined][]> {
     const rawDocs = await Promise.all(
       docFiles.map((docFile) =>
         processDocMetadata({
@@ -136,16 +138,19 @@ function createTestUtils({
       numberPrefixParser: options.numberPrefixParser,
       docs: rawDocs,
       version: versionMetadata,
-      options: {
+      sidebarOptions: {
         sidebarCollapsed: false,
         sidebarCollapsible: true,
       },
+      categoryLabelSlugger: createSlugger(),
     });
-    return handleNavigation(
+    const sidebarsUtils = createSidebarsUtils(sidebars);
+
+    return addDocNavigation(
       rawDocs,
-      sidebars,
+      sidebarsUtils,
       versionMetadata.sidebarFilePath as string,
-    ).docs.map((doc) => [doc.previous, doc.next]);
+    ).map((doc) => [doc.previous, doc.next]);
   }
 
   return {processDocFile, testMeta, testSlug, generateNavigation};
@@ -215,7 +220,6 @@ describe('simple site', () => {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'Bar',
@@ -232,7 +236,6 @@ describe('simple site', () => {
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'Hello, World !',
@@ -273,7 +276,6 @@ describe('simple site', () => {
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Hello, World !',
@@ -314,7 +316,6 @@ describe('simple site', () => {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       title: 'Bar',
@@ -347,7 +348,6 @@ describe('simple site', () => {
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
@@ -386,7 +386,6 @@ describe('simple site', () => {
       id: 'lorem',
       unversionedId: 'lorem',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
@@ -423,7 +422,6 @@ describe('simple site', () => {
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
@@ -482,7 +480,6 @@ describe('simple site', () => {
       id: 'lorem',
       unversionedId: 'lorem',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
@@ -674,7 +671,6 @@ describe('versioned site', () => {
       version: 'current',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
@@ -710,7 +706,6 @@ describe('versioned site', () => {
       version: 'current',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/next/hello',
       slug: '/hello',
       title: 'hello',
@@ -727,7 +722,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
@@ -740,7 +734,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -755,7 +748,6 @@ describe('versioned site', () => {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'bar',
@@ -768,7 +760,6 @@ describe('versioned site', () => {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/hello',
       slug: '/hello',
       title: 'hello',
@@ -860,7 +851,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -902,7 +892,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -936,7 +925,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -971,7 +959,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -1007,7 +994,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/fr/docs/1.0.0/hello',
       slug: '/hello',
       title: 'hello',
@@ -1020,5 +1006,115 @@ describe('versioned site', () => {
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
     });
+  });
+});
+
+describe('isConventionalDocIndex', () => {
+  test('supports readme', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'readme.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'README.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/ReAdMe',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports index', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'index.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'index.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'INDEX.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'parent/InDeX',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports <categoryName>/<categoryName>.md', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'someCategory.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'some_category',
+        source: 'SOME_CATEGORY.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'some_category',
+        source: 'parent/some_category',
+      }),
+    ).toEqual(true);
+  });
+
+  test('reject other cases', () => {
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'someCategory',
+        source: 'some_Category',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'read_me',
+      }),
+    ).toEqual(false);
+    expect(
+      isConventionalDocIndex({
+        sourceDirName: 'doesNotMatter',
+        source: 'the index',
+      }),
+    ).toEqual(false);
   });
 });

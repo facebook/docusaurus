@@ -8,6 +8,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 
+import {prepareUserState} from '../../index';
+
 import styles from './styles.module.css';
 import clsx from 'clsx';
 
@@ -33,7 +35,11 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete(OperatorQueryKey);
     searchParams.append(OperatorQueryKey, operator ? 'OR' : 'AND');
-    history.push({...location, search: searchParams.toString()});
+    history.push({
+      ...location,
+      search: searchParams.toString(),
+      state: prepareUserState(),
+    });
   }, [operator, location, history]);
 
   return (

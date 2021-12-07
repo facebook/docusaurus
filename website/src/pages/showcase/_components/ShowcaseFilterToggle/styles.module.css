@@ -17,19 +17,20 @@
   border: var(--border) solid var(--ifm-color-primary-darkest);
   cursor: pointer;
   justify-content: space-around;
-  align-items: center;
   opacity: 0.75;
   transition: opacity var(--ifm-transition-fast)
     var(--ifm-transition-timing-default);
   box-shadow: var(--ifm-global-shadow-md);
 }
 
-input:focus ~ .checkboxLabel,
-input:focus-visible ~ .checkboxLabel,
 .checkboxLabel:hover {
   opacity: 1;
   box-shadow: var(--ifm-global-shadow-md),
     0px 0px 2px 1px var(--ifm-color-primary-dark);
+}
+
+input:focus-visible ~ .checkboxLabel::after {
+  outline: 2px solid currentColor;
 }
 
 .checkboxLabel > * {

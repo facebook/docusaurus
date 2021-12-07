@@ -21,7 +21,7 @@ describe('theme-translations package', () => {
       await fs
         .readdirSync(baseMessagesDirPath)
         .reduce(async (messages, baseMessagesFile) => {
-          messages = {
+          const newMessages = {
             ...(await messages),
             ...JSON.parse(
               await fs.readFile(
@@ -29,7 +29,7 @@ describe('theme-translations package', () => {
               ),
             ),
           };
-          return messages;
+          return newMessages;
         }, {}),
       (_, key) => !key.endsWith('___DESCRIPTION'),
     );

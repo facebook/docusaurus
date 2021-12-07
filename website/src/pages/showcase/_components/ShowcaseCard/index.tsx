@@ -16,17 +16,9 @@ import Tooltip from '../ShowcaseTooltip';
 import {Tags, TagList, TagType, User, Tag} from '@site/src/data/users';
 import {sortBy} from '@site/src/utils/jsUtils';
 
-interface Props extends Tag {
-  id: string;
-}
-
-const TagComp = React.forwardRef<HTMLLIElement, Props>(
-  ({id, label, color, description}, ref) => (
-    <li
-      ref={ref}
-      aria-describedby={id}
-      className={styles.tag}
-      title={description}>
+const TagComp = React.forwardRef<HTMLLIElement, Tag>(
+  ({label, color, description}, ref) => (
+    <li ref={ref} className={styles.tag} title={description}>
       <span className={styles.textLabel}>{label.toLowerCase()}</span>
       <span className={styles.colorLabel} style={{backgroundColor: color}} />
     </li>
@@ -52,7 +44,7 @@ function ShowcaseCardTag({tags}: {tags: TagType[]}) {
             text={tagObject.description}
             anchorEl="#__docusaurus"
             id={id}>
-            <TagComp id={id} key={index} {...tagObject} />
+            <TagComp key={index} {...tagObject} />
           </Tooltip>
         );
       })}
@@ -68,10 +60,7 @@ const ShowcaseCard = memo(({user}: {user: User}) => (
     <div className="card__body">
       <div className={clsx(styles.showcaseCardHeader)}>
         <h4 className={styles.showcaseCardTitle}>
-          <Link
-            href={user.website}
-            tabIndex={0}
-            className={styles.showcaseCardLink}>
+          <Link href={user.website} className={styles.showcaseCardLink}>
             {user.title}
           </Link>
         </h4>
@@ -81,7 +70,6 @@ const ShowcaseCard = memo(({user}: {user: User}) => (
         {user.source && (
           <Link
             href={user.source}
-            tabIndex={0}
             className={clsx(
               'button button--secondary button--sm',
               styles.showcaseCardSrcBtn,

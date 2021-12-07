@@ -8,10 +8,10 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
-import type {Props} from '@theme/DocPaginator';
+import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
-function DocPaginator(props: Props): JSX.Element {
-  const {metadata} = props;
+function DocPaginator(props: PropNavigation): JSX.Element {
+  const {previous, next} = props;
 
   return (
     <nav
@@ -22,10 +22,8 @@ function DocPaginator(props: Props): JSX.Element {
         description: 'The ARIA label for the docs pagination',
       })}>
       <div className="pagination-nav__item">
-        {metadata.previous && (
-          <Link
-            className="pagination-nav__link"
-            to={metadata.previous.permalink}>
+        {previous && (
+          <Link className="pagination-nav__link" to={previous.permalink}>
             <div className="pagination-nav__sublabel">
               <Translate
                 id="theme.docs.paginator.previous"
@@ -34,14 +32,14 @@ function DocPaginator(props: Props): JSX.Element {
               </Translate>
             </div>
             <div className="pagination-nav__label">
-              &laquo; {metadata.previous.title}
+              &laquo; {previous.title}
             </div>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
-        {metadata.next && (
-          <Link className="pagination-nav__link" to={metadata.next.permalink}>
+        {next && (
+          <Link className="pagination-nav__link" to={next.permalink}>
             <div className="pagination-nav__sublabel">
               <Translate
                 id="theme.docs.paginator.next"
@@ -49,9 +47,7 @@ function DocPaginator(props: Props): JSX.Element {
                 Next
               </Translate>
             </div>
-            <div className="pagination-nav__label">
-              {metadata.next.title} &raquo;
-            </div>
+            <div className="pagination-nav__label">{next.title} &raquo;</div>
           </Link>
         )}
       </div>
