@@ -29,7 +29,7 @@ import {
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {BABEL_CONFIG_FILE_NAME} from '../constants';
+import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import {memoize} from 'lodash';
 
 // Utility method to get style loaders

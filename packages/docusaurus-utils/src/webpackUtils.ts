@@ -8,11 +8,10 @@
 import type {RuleSetRule} from 'webpack';
 import path from 'path';
 import {posixPath} from './posixPath';
-
-export const OUTPUT_STATIC_ASSETS_DIR_NAME = 'assets'; // files handled by webpack, hashed (can be cached aggressively)
-// Temporary fix for https://github.com/facebook/docusaurus/issues/5493
-export const WEBPACK_URL_LOADER_LIMIT =
-  process.env.WEBPACK_URL_LOADER_LIMIT ?? 10000;
+import {
+  WEBPACK_URL_LOADER_LIMIT,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+} from './constants';
 
 type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
 

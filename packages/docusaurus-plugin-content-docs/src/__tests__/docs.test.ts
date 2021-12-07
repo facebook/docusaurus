@@ -26,10 +26,9 @@ import type {
   DocNavLink,
 } from '../types';
 import type {LoadContext} from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {DEFAULT_OPTIONS} from '../options';
 import {Optional} from 'utility-types';
-import {createSlugger, posixPath} from '@docusaurus/utils';
+import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');

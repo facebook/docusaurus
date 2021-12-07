@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-} from '../constants';
+} from '@docusaurus/utils';
+import path, {join} from 'path';
+import chalk from 'chalk';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';

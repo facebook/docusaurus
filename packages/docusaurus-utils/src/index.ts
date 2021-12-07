@@ -24,6 +24,7 @@ import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
 import {normalizeUrl} from './normalizeUrl';
 
+export * from './constants';
 export * from './mdxUtils';
 export * from './normalizeUrl';
 export * from './tags';

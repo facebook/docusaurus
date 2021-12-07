@@ -6,9 +6,8 @@
  */
 import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, NODE_MAJOR_VERSION} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
-import {NODE_MAJOR_VERSION} from '../constants';
 import chalk from 'chalk';
 
 function getDefaultLocaleLabel(locale: string) {
