@@ -236,14 +236,15 @@ describe('simple site', () => {
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/hello',
-      slug: '/hello',
+      permalink: '/docs/',
+      slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        slug: '/',
         tags: ['tag-1', 'tag 3'],
       },
       tags: [
@@ -256,76 +257,6 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag-3',
         },
       ],
-    });
-  });
-
-  test('homePageId doc', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {homePageId: 'hello'},
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-
-    await testUtilsLocal.testMeta(path.join('hello.md'), {
-      version: 'current',
-      id: 'hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      permalink: '/docs/',
-      slug: '/',
-      title: 'Hello, World !',
-      description: `Hi, Endilie here :)`,
-      frontMatter: {
-        id: 'hello',
-        title: 'Hello, World !',
-        sidebar_label: 'Hello sidebar_label',
-        tags: ['tag-1', 'tag 3'],
-      },
-      tags: [
-        {
-          label: 'tag-1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 3',
-          permalink: '/docs/tags/tag-3',
-        },
-      ],
-    });
-  });
-
-  test('homePageId doc nested', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {homePageId: 'foo/bar'},
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-
-    await testUtilsLocal.testMeta(path.join('foo', 'bar.md'), {
-      version: 'current',
-      id: 'foo/bar',
-      unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
-      permalink: '/docs/',
-      slug: '/',
-      title: 'Bar',
-      description: 'This is custom description',
-      frontMatter: {
-        description: 'This is custom description',
-        id: 'bar',
-        title: 'Bar',
-      },
-      tags: [],
     });
   });
 
@@ -550,33 +481,6 @@ describe('simple site', () => {
     );
   });
 
-  test('docs with slug on doc home', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        homePageId: 'homePageId',
-      },
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-    expect(() => {
-      testUtilsLocal.processDocFile(
-        createFakeDocFile({
-          source: 'homePageId',
-          frontmatter: {
-            slug: '/x/y',
-          },
-        }),
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to choose either homePageId or slug, not both"`,
-    );
-  });
-
   test('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
@@ -706,11 +610,13 @@ describe('versioned site', () => {
       version: 'current',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/next/hello',
-      slug: '/hello',
+      permalink: '/docs/next/',
+      slug: '/',
       title: 'hello',
       description: 'Hello next !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       tags: [],
     });
   });
@@ -734,11 +640,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -760,12 +668,14 @@ describe('versioned site', () => {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/hello',
-      slug: '/hello',
+      permalink: '/docs/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       tags: [],
     });
   });
@@ -851,11 +761,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -868,7 +780,7 @@ describe('versioned site', () => {
       version: '1.0.0',
       versionDocsDirPath: 'versioned_docs/version-1.0.0',
       docPath: path.join('hello.md'),
-      permalink: '/docs/1.0.0/hello',
+      permalink: '/docs/1.0.0/',
       locale: 'en',
     });
   });
@@ -892,11 +804,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -925,11 +839,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -959,11 +875,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/fr/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/fr/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -994,11 +912,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      permalink: '/fr/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/fr/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',

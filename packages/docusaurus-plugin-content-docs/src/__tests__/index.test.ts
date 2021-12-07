@@ -247,7 +247,6 @@ describe('simple website', () => {
       normalizePluginOptions(OptionsSchema, {
         path: 'docs',
         sidebarPath,
-        homePageId: 'hello',
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -405,6 +404,7 @@ describe('simple website', () => {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        slug: '/',
         tags: ['tag-1', 'tag 3'],
       },
       tags: [
@@ -476,7 +476,6 @@ describe('versioned website', () => {
       normalizePluginOptions(OptionsSchema, {
         routeBasePath,
         sidebarPath,
-        homePageId: 'hello',
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -654,7 +653,9 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello next !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: 'current',
       sidebar: 'docs',
       previous: {
@@ -676,7 +677,9 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello 1.0.1 !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.1',
       sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
       previous: {
@@ -892,7 +895,6 @@ describe('site with doc label', () => {
       normalizePluginOptions(OptionsSchema, {
         path: 'docs',
         sidebarPath,
-        homePageId: 'hello-1',
       }),
     );
 
