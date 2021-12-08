@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/plugin-content-blog": "2.0.0-beta.9",
     "@docusaurus/plugin-content-docs": "2.0.0-beta.9",
     "@docusaurus/plugin-content-pages": "2.0.0-beta.9",
@@ -35,6 +34,7 @@
     "lodash": "^4.17.20"
   },
   "peerDependencies": {
+    "@docusaurus/core": "2.0.0-beta.9",
     "prism-react-renderer": "^1.2.1",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"

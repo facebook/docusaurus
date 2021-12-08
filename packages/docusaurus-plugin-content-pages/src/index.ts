@@ -18,6 +18,7 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -29,7 +30,6 @@ import {
 import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,

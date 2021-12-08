@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/utils": "2.0.0-beta.9",
     "@docusaurus/utils-common": "2.0.0-beta.9",
     "@docusaurus/utils-validation": "2.0.0-beta.9",
@@ -29,9 +28,11 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/types": "2.0.0-beta.9"
   },
   "peerDependencies": {
+    "@docusaurus/core": "2.0.0-beta.9",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },

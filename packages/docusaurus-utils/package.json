@@ -19,8 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "@mdx-js/runtime": "^1.6.22",
+    "@svgr/webpack": "^6.0.0",
     "chalk": "^4.1.2",
     "escape-string-regexp": "^4.0.0",
+    "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
     "github-slugger": "^1.4.0",
     "globby": "^11.0.4",
@@ -30,7 +32,8 @@
     "remark-mdx-remove-exports": "^1.6.22",
     "remark-mdx-remove-imports": "^1.6.22",
     "resolve-pathname": "^3.0.0",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "url-loader": "^4.1.1"
   },
   "engines": {
     "node": ">=14"
@@ -45,6 +48,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "webpack": "5.x"
   }
 }

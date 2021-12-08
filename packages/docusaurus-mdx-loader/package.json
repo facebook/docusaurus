@@ -20,7 +20,6 @@
   "dependencies": {
     "@babel/parser": "^7.16.4",
     "@babel/traverse": "^7.16.3",
-    "@docusaurus/core": "2.0.0-beta.9",
     "@docusaurus/utils": "2.0.0-beta.9",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
@@ -32,6 +31,7 @@
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
+    "tslib": "^2.3.1",
     "unist-util-visit": "^2.0.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.61.0"

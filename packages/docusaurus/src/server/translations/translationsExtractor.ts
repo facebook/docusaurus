@@ -15,7 +15,7 @@ import {
   TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
-import {SRC_DIR_NAME} from '../../constants';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files

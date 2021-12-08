@@ -9,6 +9,7 @@ import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
@@ -16,7 +17,6 @@ import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Link, Literal} from 'mdast';
 
