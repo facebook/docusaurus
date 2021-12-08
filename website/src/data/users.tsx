@@ -809,6 +809,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'moja global',
+    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
+    preview: require('./showcase/mojaglobal.png'),
+    website: 'https://community.moja.global/',
+    source: 'https://github.com/moja-global/community-website',
+    tags: ['opensource', 'large', 'i18n', 'design'],
+  },
+  {
     title: 'nanos world documentation',
     description:
       'nanos world is the next-generation multiplayer open world sandbox game.',
