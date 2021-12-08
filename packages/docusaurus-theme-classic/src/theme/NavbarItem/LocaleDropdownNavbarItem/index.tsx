@@ -53,7 +53,6 @@ export default function LocaleDropdownNavbarItem({
   return (
     <DropdownNavbarItem
       {...props}
-      href="#"
       mobile={mobile}
       label={
         <span>
