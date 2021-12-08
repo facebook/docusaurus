@@ -18,7 +18,10 @@ function getDefaultLocaleLabel(locale: string) {
     const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
       locale,
     );
-    return languageName.charAt(0).toLocaleUpperCase() + languageName.slice(1);
+    return (
+      languageName.charAt(0).toLocaleUpperCase(locale) +
+      languageName.substring(1)
+    );
   }
   return locale;
 }
