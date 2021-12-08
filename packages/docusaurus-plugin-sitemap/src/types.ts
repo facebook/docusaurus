@@ -7,8 +7,8 @@
 
 import {EnumChangefreq} from 'sitemap';
 
-export interface PluginOptions {
+export type PluginOptions = {
   changefreq?: EnumChangefreq;
   priority?: number;
   trailingSlash?: boolean;
-}
+};

@@ -5,13 +5,15 @@ description: Using the power of React in Docusaurus Markdown documents, thanks t
 slug: /markdown-features/react
 ---
 
+# MDX and React
+
 ```mdx-code-block
 import BrowserWindow from '@site/src/components/BrowserWindow';
 ```
 
 ## Using JSX in Markdown {#using-jsx-in-markdown}
 
-Docusaurus has built-in support for [MDX](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
+Docusaurus has built-in support for [MDX v1](https://mdxjs.com/), which allows you to write JSX within your Markdown files and render them as React components.
 
 :::note
 
@@ -23,7 +25,7 @@ While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are t
 
 MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018).
 
-Use the **[MDX playground](https://mdxjs.com/playground)** to ensure that your syntax is valid MDX.
+Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
 :::
 
@@ -169,3 +171,48 @@ This way, you can reuse contents among multiple pages and avoid duplicating mate
 The table-of-contents does not currently contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
 
 :::
+
+## Available exports
+
+Within the MDX page, the following variables are available as globals:
+
+- `frontMatter`: the front matter as a record of string keys and values;
+- `toc`: the table of contents, as a tree of headings. See also [Inline TOC](./markdown-features-inline-toc.mdx) for a more concrete use-case.
+- `contentTitle`: the Markdown title, which is the first `h1` heading in the Markdown text. It's `undefined` if there isn't one (e.g. title specified in the front matter).
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+import CodeBlock from '@theme/CodeBlock';
+
+The table of contents for this page, serialized:
+
+<CodeBlock className="language-json">{JSON.stringify(toc, null, 2)}</CodeBlock>
+
+The front matter of this page:
+
+<ul>
+  {Object.entries(frontMatter).map(([key, value]) => <li key={key}><b>{key}</b>: {value}</li>)}
+</ul>
+
+<p>The title of this page is: <b>{contentTitle}</b></p>
+```
+
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+
+The table of contents for this page, serialized:
+
+<CodeBlock className="language-json">{JSON.stringify(toc, null, 2)}</CodeBlock>
+
+The front matter of this page:
+
+<ul>
+  {Object.entries(frontMatter).map(([key, value]) => <li key={key}><b>{key}</b>: {value}</li>)}
+</ul>
+
+<p>The title of this page is: <b>{contentTitle}</b></p>
+
+</BrowserWindow>
+```

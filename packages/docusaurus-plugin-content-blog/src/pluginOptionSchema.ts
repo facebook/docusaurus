@@ -36,17 +36,23 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   include: ['**/*.{md,mdx}'],
   exclude: GlobExcludeDefault,
   routeBasePath: 'blog',
+  tagsBasePath: 'tags',
+  archiveBasePath: 'archive',
   path: 'blog',
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
+  readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
+  sortPosts: 'descending',
 };
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
+  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')
     .default(DEFAULT_OPTIONS.routeBasePath),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   postsPerPage: Joi.alternatives()
@@ -109,4 +115,8 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
+  readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
+  sortPosts: Joi.string()
+    .valid('descending', 'ascending')
+    .default(DEFAULT_OPTIONS.sortPosts),
 });

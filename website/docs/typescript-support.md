@@ -3,24 +3,24 @@ id: typescript-support
 title: TypeScript Support
 ---
 
-Docusaurus is written in TypeScript, and provide first-class TypeScript support.
+Docusaurus is written in TypeScript, and provides first-class TypeScript support.
 
 ## Initialization {#initialization}
 
 Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
-npx @docusaurus/init@latest init my-website classic --typescript
+npx create-docusaurus@latest my-website classic --typescript
 ```
 
 Below are some guides on how to migrate an existing project to TypeScript.
 
 ## Setup {#setup}
 
-To start using TypeScript, add `@docusaurus/module-type-aliases` and some `@types` dependencies to your project:
+To start using TypeScript, add `@docusaurus/module-type-aliases` and the base TS config to your project:
 
 ```bash npm2yarn
-npm install --save-dev typescript @docusaurus/module-type-aliases @types/react @types/react-router-dom @types/react-helmet @tsconfig/docusaurus
+npm install --save-dev typescript @docusaurus/module-type-aliases @tsconfig/docusaurus
 ```
 
 Then add `tsconfig.json` to your project root with the following content:
@@ -44,6 +44,10 @@ We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/
 
 ```js title="docusaurus.config.js"
 // highlight-start
+// @ts-check
+// highlight-end
+
+// highlight-start
 /** @type {import('@docusaurus/types').Plugin} */
 // highlight-end
 function MyPlugin(context, options) {
@@ -53,9 +57,9 @@ function MyPlugin(context, options) {
 }
 
 // highlight-start
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
+/** @type {import('@docusaurus/types').Config} */
 // highlight-end
-(module.exports = {
+const config = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
@@ -97,7 +101,9 @@ function MyPlugin(context, options) {
         },
       },
     }),
-});
+};
+
+module.exports = config;
 ```
 
 :::tip
@@ -105,6 +111,18 @@ function MyPlugin(context, options) {
 Type annotations are very useful and help your IDE understand the type of config objects!
 
 The best IDEs (VSCode, WebStorm, Intellij...) will provide a nice auto-completion experience.
+
+:::
+
+:::info
+
+By default, the Docusaurus TypeScript config does not type-check JavaScript files.
+
+The `// @ts-check` comment ensures the config file is properly type-checked when running:
+
+```bash npm2yarn
+npm run tsc
+```
 
 :::
 
@@ -116,4 +134,4 @@ For themes that supports TypeScript theme components, you can add the `--typescr
 npm run swizzle @docusaurus/theme-classic Footer -- --typescript
 ```
 
-At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./lifecycle-apis.md#gettypescriptthemepath).
+At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/lifecycle-apis.md#gettypescriptthemepath).

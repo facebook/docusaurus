@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Hledat",
+  "theme.SearchPage.algoliaLabel": "Vyhledávání od Algolia",
+  "theme.SearchPage.documentsFound.plurals": "Jeden dokument nalezen|{count} dokumenty nalezeny||{count} dokumentů nalezeno||{count} dokumentů nalezeno",
+  "theme.SearchPage.emptyResultsTitle": "Prohledat dokumentaci",
+  "theme.SearchPage.existingResultsTitle": "Výsledky vyhledávání pro \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Stahuji nové výsledky...",
+  "theme.SearchPage.inputLabel": "Hledat",
+  "theme.SearchPage.inputPlaceholder": "Zde napište hledaný text",
+  "theme.SearchPage.noResultsText": "Nic nebylo nalezeno"
+}

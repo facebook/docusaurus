@@ -11,7 +11,7 @@
   font-size: smaller;
 }
 
-@media only screen and (min-width: 997px) {
+@media (min-width: 997px) {
   .lastUpdated {
     text-align: right;
   }

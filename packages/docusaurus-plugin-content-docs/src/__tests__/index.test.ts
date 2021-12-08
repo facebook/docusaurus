@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
@@ -16,25 +14,23 @@ import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
-import {RouteConfig} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
+import type {RouteConfig} from '@docusaurus/types';
+import {posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import * as cliDocs from '../cli';
 import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {
-  DocMetadata,
-  LoadedVersion,
+import type {DocMetadata, LoadedVersion} from '../types';
+import type {
   SidebarItem,
   SidebarItemsGeneratorOption,
   SidebarItemsGeneratorOptionArgs,
-} from '../types';
+} from '../sidebars/types';
 import {toSidebarsProp} from '../props';
 
 import {validate} from 'webpack';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
 
 function findDocById(version: LoadedVersion, unversionedId: string) {
@@ -250,7 +246,6 @@ describe('simple website', () => {
       normalizePluginOptions(OptionsSchema, {
         path: 'docs',
         sidebarPath,
-        homePageId: 'hello',
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -340,7 +335,6 @@ describe('simple website', () => {
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       previous: {
@@ -348,10 +342,11 @@ describe('simple website', () => {
         permalink: '/docs/foo/bar',
       },
       next: {
-        title: 'Hello sidebar_label',
-        permalink: '/docs/',
+        title: 'rootAbsoluteSlug',
+        permalink: '/docs/rootAbsoluteSlug',
       },
       sidebar: 'docs',
+      sidebarPosition: undefined,
       source: path.posix.join(
         '@site',
         posixPath(path.relative(siteDir, currentVersion.contentPath)),
@@ -390,12 +385,11 @@ describe('simple website', () => {
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       previous: {
-        title: 'baz pagination_label',
-        permalink: '/docs/foo/bazSlug.html',
+        title: 'My heading as title',
+        permalink: '/docs/headingAsTitle',
       },
       sidebar: 'docs',
       source: path.posix.join(
@@ -409,6 +403,7 @@ describe('simple website', () => {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        slug: '/',
         tags: ['tag-1', 'tag 3'],
       },
       tags: [
@@ -429,7 +424,6 @@ describe('simple website', () => {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       next: {
         title: 'baz pagination_label',
         permalink: '/docs/foo/bazSlug.html',
@@ -481,7 +475,6 @@ describe('versioned website', () => {
       normalizePluginOptions(OptionsSchema, {
         routeBasePath,
         sidebarPath,
-        homePageId: 'hello',
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -577,12 +570,8 @@ describe('versioned website', () => {
     const {siteDir, plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(4);
-    const [
-      currentVersion,
-      version101,
-      version100,
-      versionWithSlugs,
-    ] = content.loadedVersions;
+    const [currentVersion, version101, version100, versionWithSlugs] =
+      content.loadedVersions;
 
     // foo/baz.md only exists in version -1.0.0
     expect(findDocById(currentVersion, 'foo/baz')).toBeUndefined();
@@ -594,7 +583,6 @@ describe('versioned website', () => {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       source: path.posix.join(
@@ -625,12 +613,36 @@ describe('versioned website', () => {
         {label: 'barTag 3', permalink: '/docs/next/tags/barTag-3-permalink'},
       ],
     });
+    expect(getDocById(version101, 'foo/bar')).toEqual({
+      ...defaultDocMetadata,
+      id: 'version-1.0.1/foo/bar',
+      unversionedId: 'foo/bar',
+      sourceDirName: 'foo',
+      permalink: '/docs/foo/bar',
+      slug: '/foo/bar',
+      source: path.posix.join(
+        '@site',
+        posixPath(path.relative(siteDir, version101.contentPath)),
+        'foo',
+        'bar.md',
+      ),
+      title: 'bar',
+      description: 'Bar 1.0.1 !',
+      frontMatter: {},
+      version: '1.0.1',
+      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
+      next: {
+        title: 'hello',
+        permalink: '/docs/',
+      },
+      tags: [],
+    });
+
     expect(getDocById(currentVersion, 'hello')).toEqual({
       ...defaultDocMetadata,
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: true,
       permalink: '/docs/next/',
       slug: '/',
       source: path.posix.join(
@@ -640,7 +652,9 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello next !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: 'current',
       sidebar: 'docs',
       previous: {
@@ -653,7 +667,6 @@ describe('versioned website', () => {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: true,
       permalink: '/docs/',
       slug: '/',
       source: path.posix.join(
@@ -663,9 +676,11 @@ describe('versioned website', () => {
       ),
       title: 'hello',
       description: 'Hello 1.0.1 !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.1',
-      sidebar: 'version-1.0.1/docs',
+      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
       previous: {
         title: 'bar',
         permalink: '/docs/foo/bar',
@@ -676,7 +691,6 @@ describe('versioned website', () => {
       id: 'version-1.0.0/foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       slug: '/foo/baz',
       source: path.posix.join(
@@ -753,13 +767,8 @@ describe('versioned website (community)', () => {
   }
 
   test('extendCli - docsVersion', async () => {
-    const {
-      siteDir,
-      routeBasePath,
-      sidebarPath,
-      pluginId,
-      plugin,
-    } = await loadSite();
+    const {siteDir, routeBasePath, sidebarPath, pluginId, plugin} =
+      await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
@@ -829,7 +838,6 @@ describe('versioned website (community)', () => {
       id: 'team',
       unversionedId: 'team',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/community/next/team',
       slug: '/team',
       source:
@@ -845,7 +853,6 @@ describe('versioned website (community)', () => {
       id: 'version-1.0.0/team',
       unversionedId: 'team',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/community/team',
       slug: '/team',
       source: path.posix.join(
@@ -887,7 +894,6 @@ describe('site with doc label', () => {
       normalizePluginOptions(OptionsSchema, {
         path: 'docs',
         sidebarPath,
-        homePageId: 'hello-1',
       }),
     );
 
@@ -1032,7 +1038,7 @@ describe('site with full autogenerated sidebar', () => {
     });
   });
 
-  test('docs in fully generated sidebar have correct metadatas', async () => {
+  test('docs in fully generated sidebar have correct metadata', async () => {
     const {content, siteDir} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -1041,7 +1047,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'getting-started',
       unversionedId: 'getting-started',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/getting-started',
       slug: '/getting-started',
       source: path.posix.join(
@@ -1067,7 +1072,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'installation',
       unversionedId: 'installation',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/installation',
       slug: '/installation',
       source: path.posix.join(
@@ -1096,7 +1100,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide1',
       unversionedId: 'Guides/guide1',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide1',
       slug: '/Guides/guide1',
       source: path.posix.join(
@@ -1129,7 +1132,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide2',
       unversionedId: 'Guides/guide2',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide2',
       slug: '/Guides/guide2',
       source: path.posix.join(
@@ -1161,7 +1163,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide2.5',
       unversionedId: 'Guides/guide2.5',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide2.5',
       slug: '/Guides/guide2.5',
       source: path.posix.join(
@@ -1194,7 +1195,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide3',
       unversionedId: 'Guides/guide3',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide3',
       slug: '/Guides/guide3',
       source: path.posix.join(
@@ -1227,7 +1227,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide4',
       unversionedId: 'Guides/guide4',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide4',
       slug: '/Guides/guide4',
       source: path.posix.join(
@@ -1259,7 +1258,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'Guides/guide5',
       unversionedId: 'Guides/guide5',
       sourceDirName: 'Guides',
-      isDocsHomePage: false,
       permalink: '/docs/Guides/guide5',
       slug: '/Guides/guide5',
       source: path.posix.join(
@@ -1291,7 +1289,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/api-overview',
       unversionedId: 'API/api-overview',
       sourceDirName: '3-API',
-      isDocsHomePage: false,
       permalink: '/docs/API/api-overview',
       slug: '/API/api-overview',
       source: path.posix.join(
@@ -1321,7 +1318,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/Core APIs/Client API',
       unversionedId: 'API/Core APIs/Client API',
       sourceDirName: '3-API/01_Core APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Core APIs/Client API',
       slug: '/API/Core APIs/Client API',
       source: path.posix.join(
@@ -1352,7 +1348,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/Core APIs/Server API',
       unversionedId: 'API/Core APIs/Server API',
       sourceDirName: '3-API/01_Core APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Core APIs/Server API',
       slug: '/API/Core APIs/Server API',
       source: path.posix.join(
@@ -1383,7 +1378,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/Extension APIs/Plugin API',
       unversionedId: 'API/Extension APIs/Plugin API',
       sourceDirName: '3-API/02_Extension APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Extension APIs/Plugin API',
       slug: '/API/Extension APIs/Plugin API',
       source: path.posix.join(
@@ -1414,7 +1408,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/Extension APIs/Theme API',
       unversionedId: 'API/Extension APIs/Theme API',
       sourceDirName: '3-API/02_Extension APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Extension APIs/Theme API',
       slug: '/API/Extension APIs/Theme API',
       source: path.posix.join(
@@ -1445,7 +1438,6 @@ describe('site with full autogenerated sidebar', () => {
       id: 'API/api-end',
       unversionedId: 'API/api-end',
       sourceDirName: '3-API',
-      isDocsHomePage: false,
       permalink: '/docs/API/api-end',
       slug: '/API/api-end',
       source: path.posix.join(
@@ -1529,18 +1521,17 @@ describe('site with partial autogenerated sidebars', () => {
     });
   });
 
-  test('docs in partially generated sidebar have correct metadatas', async () => {
+  test('docs in partially generated sidebar have correct metadata', async () => {
     const {content, siteDir} = await loadSite();
     const version = content.loadedVersions[0];
 
-    // Only looking at the docs of the autogen sidebar, others metadatas should not be affected
+    // Only looking at the docs of the autogen sidebar, others metadata should not be affected
 
     expect(getDocById(version, 'API/api-end')).toEqual({
       ...defaultDocMetadata,
       id: 'API/api-end',
       unversionedId: 'API/api-end',
       sourceDirName: '3-API',
-      isDocsHomePage: false,
       permalink: '/docs/API/api-end',
       slug: '/API/api-end',
       source: path.posix.join(
@@ -1567,7 +1558,6 @@ describe('site with partial autogenerated sidebars', () => {
       id: 'API/api-overview',
       unversionedId: 'API/api-overview',
       sourceDirName: '3-API',
-      isDocsHomePage: false,
       permalink: '/docs/API/api-overview',
       slug: '/API/api-overview',
       source: path.posix.join(
@@ -1597,7 +1587,6 @@ describe('site with partial autogenerated sidebars', () => {
       id: 'API/Extension APIs/Plugin API',
       unversionedId: 'API/Extension APIs/Plugin API',
       sourceDirName: '3-API/02_Extension APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Extension APIs/Plugin API',
       slug: '/API/Extension APIs/Plugin API',
       source: path.posix.join(
@@ -1628,7 +1617,6 @@ describe('site with partial autogenerated sidebars', () => {
       id: 'API/Extension APIs/Theme API',
       unversionedId: 'API/Extension APIs/Theme API',
       sourceDirName: '3-API/02_Extension APIs',
-      isDocsHomePage: false,
       permalink: '/docs/API/Extension APIs/Theme API',
       slug: '/API/Extension APIs/Theme API',
       source: path.posix.join(
@@ -1786,12 +1774,11 @@ describe('site with custom sidebar items generator', () => {
   });
 
   test('sidebar is autogenerated according to a custom sidebarItemsGenerator', async () => {
-    const customSidebarItemsGenerator: SidebarItemsGeneratorOption = async () => {
-      return [
+    const customSidebarItemsGenerator: SidebarItemsGeneratorOption =
+      async () => [
         {type: 'doc', id: 'API/api-overview'},
         {type: 'doc', id: 'API/api-end'},
       ];
-    };
 
     const {content} = await loadSite(customSidebarItemsGenerator);
     const version = content.loadedVersions[0];

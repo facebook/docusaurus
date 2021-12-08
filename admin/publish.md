@@ -153,12 +153,11 @@ npm access ls-packages
   "@docusaurus/theme-live-codeblock": "read-write",
   "@docusaurus/plugin-google-analytics": "read-write",
   "@docusaurus/plugin-google-gtag": "read-write",
-  "@docusaurus/init": "read-write",
   "@docusaurus/plugin-content-docs-legacy": "read-write",
   "@docusaurus/plugin-ideal-image": "read-write",
   "@docusaurus/types": "read-write",
+  "create-docusaurus": "read-write",
   "docusaurus": "read-write",
-  "docusaurus-init": "read-write",
   "stylelint-copyright": "read-write"
 }
 </pre>
@@ -166,11 +165,10 @@ npm access ls-packages
 
 It can happen that some accesses are not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
 
-Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
+Please **double-check your permissions on these packages**, otherwise you'll publish a half-release and will have to release a new version.
 
 ```
-  "docusaurus": "read-write",
-  "docusaurus-init": "read-write",
+  "create-docusaurus": "read-write",
   "stylelint-copyright": "read-write"
 ```
 
@@ -207,7 +205,7 @@ Create a separate branch/PR and run `yarn examples:generate`
 
 ### 9. Notify people about new release (optional but desirable)
 
-After new release, it is cool to notify our users about this in the Discord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
+After new release, it is cool to notify our users about this in the Discord chat (`#announcements` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 

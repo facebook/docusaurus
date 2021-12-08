@@ -5,32 +5,35 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-:root {
-  --docusaurus-btt-background: var(--ifm-color-primary);
-  --docusaurus-btt-color: #fff;
-}
-
 .backToTopButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: fixed;
   right: 1.3rem;
   bottom: 1.3rem;
   border-radius: 50%;
-  background: var(--docusaurus-btt-background);
-  color: var(--docusaurus-btt-color);
+  background-color: var(--ifm-color-emphasis-200);
   width: 3rem;
   height: 3rem;
   z-index: var(--ifm-z-index-fixed);
-  box-shadow: 0 0.125rem 0.3125rem 0 rgba(0, 0, 0, 0.3);
-  transition: all var(--ifm-transition-fast) ease-in-out;
+  box-shadow: var(--ifm-global-shadow-lw);
+  transition: all var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
   opacity: 0;
   transform: scale(0);
 }
 
-.backToTopButton:not(:focus):hover {
-  opacity: 0.8;
+.backToTopButton:after {
+  content: ' ';
+  display: inline-block;
+  mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;
+  background-color: var(--ifm-color-emphasis-1000);
+  width: 100%;
+  height: 100%;
+}
+
+@media (hover: hover) {
+  .backToTopButton:hover {
+    background-color: var(--ifm-color-emphasis-300);
+  }
 }
 
 .backToTopButtonShow {

@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {
+import type {
   PluginOptions,
   VersionBanner,
   VersionMetadata,
@@ -21,9 +21,13 @@ import {
   CURRENT_VERSION_NAME,
 } from './constants';
 
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
-import {LoadContext} from '@docusaurus/types';
-import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
+import type {LoadContext} from '@docusaurus/types';
+import {
+  getPluginI18nPath,
+  normalizeUrl,
+  posixPath,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/utils';
 import {difference} from 'lodash';
 import {resolveSidebarPathOption} from './sidebars';
 
@@ -349,20 +353,14 @@ function createVersionMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'versions'
     | 'editUrl'
     | 'editCurrentVersion'
   >;
 }): VersionMetadata {
-  const {
-    sidebarFilePath,
-    contentPath,
-    contentPathLocalized,
-  } = getVersionMetadataPaths({
-    versionName,
-    context,
-    options,
-  });
+  const {sidebarFilePath, contentPath, contentPathLocalized} =
+    getVersionMetadataPaths({versionName, context, options});
 
   const isLast = versionName === lastVersionName;
 
@@ -400,7 +398,7 @@ function createVersionMetadata({
 
   // the path that will be used to refer the docs tags
   // example below will be using /docs/tags
-  const tagsPath = normalizeUrl([versionPath, 'tags']);
+  const tagsPath = normalizeUrl([versionPath, options.tagsBasePath]);
 
   return {
     versionName,
@@ -561,6 +559,7 @@ export function readVersionsMetadata({
     | 'path'
     | 'sidebarPath'
     | 'routeBasePath'
+    | 'tagsBasePath'
     | 'includeCurrentVersion'
     | 'disableVersioning'
     | 'lastVersion'

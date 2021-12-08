@@ -51,9 +51,8 @@ function useWindowSize(): WindowSize {
       setWindowSize(getWindowSize());
     }
 
-    // @ts-expect-error: annoying TS setTimeout typing...
-    const timeout: number | undefined = DevSimulateSSR
-      ? setTimeout(updateWindowSize, 1000)
+    const timeout = DevSimulateSSR
+      ? window.setTimeout(updateWindowSize, 1000)
       : undefined;
 
     window.addEventListener('resize', updateWindowSize);

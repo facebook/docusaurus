@@ -11,6 +11,8 @@ import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
+import {Overwrite} from 'utility-types';
+import {BlogPostFrontMatter} from './blogFrontMatter';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -24,6 +26,20 @@ export interface BlogContent {
 
 export type FeedType = 'rss' | 'atom';
 
+export type FeedOptions = {
+  type?: FeedType[] | null;
+  title?: string;
+  description?: string;
+  copyright: string;
+  language?: string;
+};
+
+// Feed options, as provided by user config
+export type UserFeedOptions = Overwrite<
+  Partial<FeedOptions>,
+  {type?: FeedOptions['type'] | 'all'} // Handle the type: "all" shortcut
+>;
+
 export type EditUrlFunction = (editUrlParams: {
   blogDirPath: string;
   blogPath: string;
@@ -31,10 +47,30 @@ export type EditUrlFunction = (editUrlParams: {
   locale: string;
 }) => string | undefined;
 
-export interface PluginOptions extends RemarkAndRehypePluginOptions {
+// Duplicate from ngryman/reading-time to keep stability of API
+type ReadingTimeOptions = {
+  wordsPerMinute?: number;
+  wordBound?: (char: string) => boolean;
+};
+
+export type ReadingTimeFunction = (params: {
+  content: string;
+  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+  options?: ReadingTimeOptions;
+}) => number;
+
+export type ReadingTimeFunctionOption = (
+  params: Required<Omit<Parameters<ReadingTimeFunction>[0], 'options'>> & {
+    defaultReadingTime: ReadingTimeFunction;
+  },
+) => number | undefined;
+
+export type PluginOptions = RemarkAndRehypePluginOptions & {
   id?: string;
   path: string;
   routeBasePath: string;
+  tagsBasePath: string;
+  archiveBasePath: string;
   include: string[];
   exclude: string[];
   postsPerPage: number | 'ALL';
@@ -59,7 +95,15 @@ export interface PluginOptions extends RemarkAndRehypePluginOptions {
   editLocalizedFiles?: boolean;
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
-}
+  readingTime: ReadingTimeFunctionOption;
+  sortPosts: 'ascending' | 'descending';
+};
+
+// Options, as provided in the user config (before normalization)
+export type UserPluginOptions = Overwrite<
+  Partial<PluginOptions>,
+  {feedOptions?: UserFeedOptions}
+>;
 
 export interface BlogTags {
   [key: string]: BlogTag;
@@ -74,6 +118,7 @@ export interface BlogTag {
 export interface BlogPost {
   id: string;
   metadata: MetaData;
+  content: string;
 }
 
 export interface BlogPaginatedMetadata {

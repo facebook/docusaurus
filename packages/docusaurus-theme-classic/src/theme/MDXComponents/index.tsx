@@ -13,6 +13,8 @@ import Heading from '@theme/Heading';
 import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
+import './styles.css';
+
 // MDX elements are wrapped through the MDX pragma
 // In some cases (notably usage with Head/Helmet) we need to unwrap those elements.
 function unwrapMDXElement(element: ReactElement) {

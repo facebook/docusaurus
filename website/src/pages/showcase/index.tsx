@@ -5,25 +5,58 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 
 import Layout from '@theme/Layout';
-import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
-import ShowcaseSelect from '@site/src/components/showcase/ShowcaseSelect';
-import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
 import clsx from 'clsx';
 
-import {useHistory, useLocation} from '@docusaurus/router';
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import ShowcaseTagSelect, {
+  readSearchTags,
+} from './_components/ShowcaseTagSelect';
+import ShowcaseFilterToggle, {
+  Operator,
+  readOperator,
+} from './_components/ShowcaseFilterToggle';
+import ShowcaseCard from './_components/ShowcaseCard';
+import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
+import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
-import {toggleListItem} from '../../utils/jsUtils';
-import {SortedUsers, Tags, TagList, User, TagType} from '../../data/users';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useLocation} from '@docusaurus/router';
 
-type Operator = 'OR' | 'AND';
+import styles from './styles.module.css';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
+
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function restoreUserState(userState: UserState | null) {
+  const {scrollTopPosition, focusedElementId} = userState ?? {
+    scrollTopPosition: 0,
+    focusedElementId: undefined,
+  };
+  // @ts-expect-error: if focusedElementId is undefined it returns null
+  document.getElementById(focusedElementId)?.focus();
+  window.scrollTo({top: scrollTopPosition});
+}
+
+export function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
 
 function filterUsers(
   users: User[],
@@ -45,172 +78,176 @@ function filterUsers(
   });
 }
 
-function useFilteredUsers(
-  users: User[],
-  selectedTags: TagType[],
-  operator: Operator,
-) {
-  return useMemo(() => filterUsers(users, selectedTags, operator), [
-    users,
-    selectedTags,
-    operator,
-  ]);
-}
-
-const TagQueryStringKey = 'tags';
-
-function readSearchTags(search: string) {
-  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
-}
-
-function replaceSearchTags(search: string, newTags: TagType[]) {
-  const searchParams = new URLSearchParams(search);
-  searchParams.delete(TagQueryStringKey);
-  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
-  return searchParams.toString();
+function useFilteredUsers() {
+  const selectedTags = useSelectedTags();
+  const location = useLocation<UserState>();
+  const [operator, setOperator] = useState<Operator>('OR');
+  useEffect(() => {
+    setOperator(readOperator(location.search));
+    restoreUserState(location.state);
+  }, [location]);
+  return useMemo(
+    () => filterUsers(sortedUsers, selectedTags, operator),
+    [selectedTags, operator],
+  );
 }
 
 function useSelectedTags() {
   // The search query-string is the source of truth!
-  const location = useLocation();
-  const {push} = useHistory();
+  const location = useLocation<UserState>();
 
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelectedTags(tags);
-  }, [location, setSelectedTags]);
+    setSelectedTags(readSearchTags(location.search));
+    restoreUserState(location.state);
+  }, [location]);
 
-  // Update the QS value
-  const toggleTag = useCallback(
-    (tag: TagType) => {
-      const tags = readSearchTags(location.search);
-      const newTags = toggleListItem(tags, tag);
-      const newSearch = replaceSearchTags(location.search, newTags);
-      push({...location, search: newSearch});
-      // no need to call setSelectedTags, useEffect will do the sync
-    },
-    [location, push],
-  );
-
-  return {selectedTags, toggleTag};
+  return selectedTags;
 }
 
 function ShowcaseHeader() {
   return (
-    <div className="text--center">
+    <section className="margin-top--lg margin-bottom--lg text--center">
       <h1>{TITLE}</h1>
       <p>{DESCRIPTION}</p>
-      <p>
-        <a
-          className={'button button--primary'}
-          href={EDIT_URL}
-          target={'_blank'}>
-          🙏 Add your site now!
-        </a>
-      </p>
-    </div>
-  );
-}
-
-interface Props {
-  selectedTags: TagType[];
-  toggleTag: (tag: TagType) => void;
-  operator: Operator;
-  setOperator: (op: Operator) => void;
-}
-
-function ShowcaseFilters({
-  selectedTags,
-  toggleTag,
-  operator,
-  setOperator,
-}: Props) {
-  return (
-    <div className="margin-top--l margin-bottom--md container">
-      <div className="row">
-        {TagList.map((tag) => {
-          const {label, description, icon} = Tags[tag];
-          return (
-            <div key={tag} className="col col--2">
-              <ShowcaseCheckbox
-                // TODO add a proper tooltip
-                title={`${label}: ${description}`}
-                name={tag}
-                label={
-                  icon ? (
-                    <>
-                      {icon} {label}
-                    </>
-                  ) : (
-                    label
-                  )
-                }
-                onChange={() => toggleTag(tag)}
-                checked={selectedTags.includes(tag)}
-              />
-            </div>
-          );
-        })}
-        <div className="col col--2">
-          <ShowcaseSelect
-            name="operator"
-            label="Filter: "
-            value={operator}
-            onChange={(e) => setOperator(e.target.value as Operator)}>
-            <option value="OR">OR</option>
-            <option value="AND">AND</option>
-          </ShowcaseSelect>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ShowcaseCards({filteredUsers}: {filteredUsers: User[]}) {
-  return (
-    <section className="container margin-top--lg">
-      <h2>
-        {filteredUsers.length} site{filteredUsers.length > 1 ? 's' : ''}
-      </h2>
-      <div className="margin-top--lg">
-        {filteredUsers.length > 0 ? (
-          <div className="row">
-            {filteredUsers.map((user) => (
-              <ShowcaseCard
-                key={user.title} // Title should be unique
-                user={user}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className={clsx('padding-vert--md text--center')}>
-            <h3>No result</h3>
-          </div>
-        )}
-      </div>
+      <a
+        className="button button--primary"
+        href={EDIT_URL}
+        target="_blank"
+        rel="noreferrer">
+        🙏 Please add your site
+      </a>
     </section>
   );
 }
 
-function Showcase() {
-  const {selectedTags, toggleTag} = useSelectedTags();
-  const [operator, setOperator] = useState<Operator>('OR');
-  const filteredUsers = useFilteredUsers(SortedUsers, selectedTags, operator);
+function ShowcaseFilters() {
+  const filteredUsers = useFilteredUsers();
+  return (
+    <section className="container margin-top--l margin-bottom--lg">
+      <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
+        <div>
+          <h2>Filters</h2>
+          <span>{`(${filteredUsers.length} site${
+            filteredUsers.length > 1 ? 's' : ''
+          })`}</span>
+        </div>
+        <ShowcaseFilterToggle />
+      </div>
+      <ul className={styles.checkboxList}>
+        {TagList.map((tag, i) => {
+          const {label, description, color} = Tags[tag];
+          const id = `showcase_checkbox_id_${tag}`;
+
+          return (
+            <li key={i} className={styles.checkboxListItem}>
+              <ShowcaseTooltip
+                id={id}
+                text={description}
+                anchorEl="#__docusaurus">
+                <ShowcaseTagSelect
+                  tag={tag}
+                  id={id}
+                  label={label}
+                  icon={
+                    tag === 'favorite' ? (
+                      <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
+                    ) : (
+                      <span
+                        style={{
+                          backgroundColor: color,
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          marginLeft: 8,
+                        }}
+                      />
+                    )
+                  }
+                />
+              </ShowcaseTooltip>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+const favoriteUsers = sortedUsers.filter((user) =>
+  user.tags.includes('favorite'),
+);
+const otherUsers = sortedUsers.filter(
+  (user) => !user.tags.includes('favorite'),
+);
+
+function ShowcaseCards() {
+  const selectedTags = useSelectedTags();
+  const filteredUsers = useFilteredUsers();
+
+  if (filteredUsers.length === 0) {
+    return (
+      <section className="margin-top--lg margin-bottom--xl">
+        <div className="container padding-vert--md text--center">
+          <h2>No result</h2>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="margin-top--lg margin-bottom--xl">
+      {selectedTags.length === 0 ? (
+        <>
+          <div className={styles.showcaseFavorite}>
+            <div className="container">
+              <div
+                className={clsx(
+                  'margin-bottom--md',
+                  styles.showcaseFavoriteHeader,
+                )}>
+                <h2>Our favorites</h2>
+                <FavoriteIcon svgClass={styles.svgIconFavorite} />
+              </div>
+              <ul className={clsx('container', styles.showcaseList)}>
+                {favoriteUsers.map((user) => (
+                  <ShowcaseCard key={user.title} user={user} />
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="container margin-top--lg">
+            <h2 className={styles.showcaseHeader}>All sites</h2>
+            <ul className={styles.showcaseList}>
+              {otherUsers.map((user) => (
+                <ShowcaseCard key={user.title} user={user} />
+              ))}
+            </ul>
+          </div>
+        </>
+      ) : (
+        <div className="container">
+          <ul className={styles.showcaseList}>
+            {filteredUsers.map((user) => (
+              <ShowcaseCard key={user.title} user={user} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function Showcase(): JSX.Element {
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
-      <main className="container margin-vert--lg">
+      <main className="margin-vert--lg">
         <ShowcaseHeader />
-        <ShowcaseFilters
-          selectedTags={selectedTags}
-          toggleTag={toggleTag}
-          operator={operator}
-          setOperator={setOperator}
-        />
-        <ShowcaseCards filteredUsers={filteredUsers} />
+        <ShowcaseFilters />
+        <ShowcaseCards />
       </main>
     </Layout>
   );

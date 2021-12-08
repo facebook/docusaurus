@@ -10,7 +10,7 @@ import {DocFrontMatter} from '../types';
 import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
-  fieldName: keyof DocFrontMatter;
+  prefix: string;
   validFrontMatters: DocFrontMatter[];
   convertibleFrontMatter?: [
     ConvertableFrontMatter: Record<string, unknown>,
@@ -21,40 +21,38 @@ function testField(params: {
     ErrorMessage: string,
   ][];
 }) {
-  describe(`"${params.fieldName}" field`, () => {
-    test('accept valid values', () => {
-      params.validFrontMatters.forEach((frontMatter) => {
-        expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
-      });
+  test(`[${params.prefix}] accept valid values`, () => {
+    params.validFrontMatters.forEach((frontMatter) => {
+      expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
     });
+  });
 
-    test('convert valid values', () => {
-      params.convertibleFrontMatter?.forEach(
-        ([convertibleFrontMatter, convertedFrontMatter]) => {
-          expect(validateDocFrontMatter(convertibleFrontMatter)).toEqual(
-            convertedFrontMatter,
-          );
-        },
-      );
-    });
+  test(`[${params.prefix}] convert valid values`, () => {
+    params.convertibleFrontMatter?.forEach(
+      ([convertibleFrontMatter, convertedFrontMatter]) => {
+        expect(validateDocFrontMatter(convertibleFrontMatter)).toEqual(
+          convertedFrontMatter,
+        );
+      },
+    );
+  });
 
-    test('throw error for values', () => {
-      params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
-        try {
-          validateDocFrontMatter(frontMatter);
-          fail(
-            new Error(
-              `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
-                frontMatter,
-                null,
-                2,
-              )}`,
-            ),
-          );
-        } catch (e) {
-          expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
-        }
-      });
+  test(`[${params.prefix}] throw error for values`, () => {
+    params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
+      try {
+        validateDocFrontMatter(frontMatter);
+        fail(
+          new Error(
+            `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+              frontMatter,
+              null,
+              2,
+            )}`,
+          ),
+        );
+      } catch (e) {
+        expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+      }
     });
   });
 }
@@ -73,7 +71,7 @@ describe('validateDocFrontMatter', () => {
 
 describe('validateDocFrontMatter id', () => {
   testField({
-    fieldName: 'id',
+    prefix: 'id',
     validFrontMatters: [{id: '123'}, {id: 'unique_id'}],
     invalidFrontMatters: [[{id: ''}, 'is not allowed to be empty']],
   });
@@ -81,7 +79,7 @@ describe('validateDocFrontMatter id', () => {
 
 describe('validateDocFrontMatter title', () => {
   testField({
-    fieldName: 'title',
+    prefix: 'title',
     validFrontMatters: [
       // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
       {title: ''},
@@ -92,7 +90,7 @@ describe('validateDocFrontMatter title', () => {
 
 describe('validateDocFrontMatter hide_title', () => {
   testField({
-    fieldName: 'hide_title',
+    prefix: 'hide_title',
     validFrontMatters: [{hide_title: true}, {hide_title: false}],
     convertibleFrontMatter: [
       [{hide_title: 'true'}, {hide_title: true}],
@@ -108,7 +106,7 @@ describe('validateDocFrontMatter hide_title', () => {
 
 describe('validateDocFrontMatter hide_table_of_contents', () => {
   testField({
-    fieldName: 'hide_table_of_contents',
+    prefix: 'hide_table_of_contents',
     validFrontMatters: [
       {hide_table_of_contents: true},
       {hide_table_of_contents: false},
@@ -127,7 +125,7 @@ describe('validateDocFrontMatter hide_table_of_contents', () => {
 
 describe('validateDocFrontMatter keywords', () => {
   testField({
-    fieldName: 'keywords',
+    prefix: 'keywords',
     validFrontMatters: [
       {keywords: ['hello']},
       {keywords: ['hello', 'world']},
@@ -144,7 +142,7 @@ describe('validateDocFrontMatter keywords', () => {
 
 describe('validateDocFrontMatter image', () => {
   testField({
-    fieldName: 'image',
+    prefix: 'image',
     validFrontMatters: [
       {image: 'https://docusaurus.io/blog/image.png'},
       {image: '/absolute/image.png'},
@@ -158,7 +156,7 @@ describe('validateDocFrontMatter image', () => {
 
 describe('validateDocFrontMatter description', () => {
   testField({
-    fieldName: 'description',
+    prefix: 'description',
     validFrontMatters: [
       // See https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
       {description: ''},
@@ -169,7 +167,7 @@ describe('validateDocFrontMatter description', () => {
 
 describe('validateDocFrontMatter slug', () => {
   testField({
-    fieldName: 'slug',
+    prefix: 'slug',
     validFrontMatters: [
       {slug: '/'},
       {slug: 'slug'},
@@ -186,7 +184,7 @@ describe('validateDocFrontMatter slug', () => {
 
 describe('validateDocFrontMatter sidebar_label', () => {
   testField({
-    fieldName: 'sidebar_label',
+    prefix: 'sidebar_label',
     validFrontMatters: [{sidebar_label: 'Awesome docs'}],
     invalidFrontMatters: [[{sidebar_label: ''}, 'is not allowed to be empty']],
   });
@@ -194,7 +192,7 @@ describe('validateDocFrontMatter sidebar_label', () => {
 
 describe('validateDocFrontMatter sidebar_position', () => {
   testField({
-    fieldName: 'sidebar_position',
+    prefix: 'sidebar_position',
     validFrontMatters: [
       {sidebar_position: -5},
       {sidebar_position: -3.5},
@@ -212,7 +210,7 @@ describe('validateDocFrontMatter sidebar_position', () => {
 
 describe('validateDocFrontMatter custom_edit_url', () => {
   testField({
-    fieldName: 'custom_edit_url',
+    prefix: 'custom_edit_url',
     validFrontMatters: [
       // See https://github.com/demisto/content-docs/pull/616#issuecomment-827087566
       {custom_edit_url: ''},
@@ -226,7 +224,7 @@ describe('validateDocFrontMatter custom_edit_url', () => {
 
 describe('validateDocFrontMatter parse_number_prefixes', () => {
   testField({
-    fieldName: 'parse_number_prefixes',
+    prefix: 'parse_number_prefixes',
     validFrontMatters: [
       {parse_number_prefixes: true},
       {parse_number_prefixes: false},
@@ -239,6 +237,123 @@ describe('validateDocFrontMatter parse_number_prefixes', () => {
       [{parse_number_prefixes: 'yes'}, 'must be a boolean'],
       [{parse_number_prefixes: 'no'}, 'must be a boolean'],
       [{parse_number_prefixes: ''}, 'must be a boolean'],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter tags', () => {
+  testField({
+    prefix: 'tags',
+    validFrontMatters: [{}, {tags: undefined}, {tags: ['tag1', 'tag2']}],
+    convertibleFrontMatter: [[{tags: ['tag1', 42]}, {tags: ['tag1', '42']}]],
+    invalidFrontMatters: [
+      [{tags: 42}, '"tags" does not look like a valid FrontMatter Yaml array.'],
+      [
+        {tags: 'tag1, tag2'},
+        '"tags" does not look like a valid FrontMatter Yaml array.',
+      ],
+      [{tags: [{}]}, '"tags[0]" does not look like a valid tag'],
+      [{tags: [true]}, '"tags[0]" does not look like a valid tag'],
+      [
+        {tags: ['tag1', {hey: 'test'}]},
+        '"tags[1]" does not look like a valid tag',
+      ],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter toc_min_heading_level', () => {
+  testField({
+    prefix: 'toc_min_heading_level',
+    validFrontMatters: [
+      {},
+      {toc_min_heading_level: undefined},
+      {toc_min_heading_level: 2},
+      {toc_min_heading_level: 3},
+      {toc_min_heading_level: 4},
+      {toc_min_heading_level: 5},
+      {toc_min_heading_level: 6},
+    ],
+    convertibleFrontMatter: [
+      [{toc_min_heading_level: '2'}, {toc_min_heading_level: 2}],
+    ],
+    invalidFrontMatters: [
+      [
+        {toc_min_heading_level: 1},
+        '"toc_min_heading_level" must be greater than or equal to 2',
+      ],
+      [
+        {toc_min_heading_level: 7},
+        '"toc_min_heading_level" must be less than or equal to 6',
+      ],
+      [
+        {toc_min_heading_level: 'hello'},
+        '"toc_min_heading_level" must be a number',
+      ],
+      [
+        {toc_min_heading_level: true},
+        '"toc_min_heading_level" must be a number',
+      ],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter toc_max_heading_level', () => {
+  testField({
+    prefix: 'toc_max_heading_level',
+    validFrontMatters: [
+      {},
+      {toc_max_heading_level: undefined},
+      {toc_max_heading_level: 2},
+      {toc_max_heading_level: 3},
+      {toc_max_heading_level: 4},
+      {toc_max_heading_level: 5},
+      {toc_max_heading_level: 6},
+    ],
+    convertibleFrontMatter: [
+      [{toc_max_heading_level: '2'}, {toc_max_heading_level: 2}],
+    ],
+    invalidFrontMatters: [
+      [
+        {toc_max_heading_level: 1},
+        '"toc_max_heading_level" must be greater than or equal to 2',
+      ],
+      [
+        {toc_max_heading_level: 7},
+        '"toc_max_heading_level" must be less than or equal to 6',
+      ],
+      [
+        {toc_max_heading_level: 'hello'},
+        '"toc_max_heading_level" must be a number',
+      ],
+      [
+        {toc_max_heading_level: true},
+        '"toc_max_heading_level" must be a number',
+      ],
+    ],
+  });
+});
+
+describe('validateDocFrontMatter toc min/max consistency', () => {
+  testField({
+    prefix: 'toc min/max',
+    validFrontMatters: [
+      {},
+      {toc_min_heading_level: undefined, toc_max_heading_level: undefined},
+      {toc_min_heading_level: 2, toc_max_heading_level: 2},
+      {toc_min_heading_level: 2, toc_max_heading_level: 6},
+      {toc_min_heading_level: 2, toc_max_heading_level: 3},
+      {toc_min_heading_level: 3, toc_max_heading_level: 3},
+    ],
+    invalidFrontMatters: [
+      [
+        {toc_min_heading_level: 4, toc_max_heading_level: 3},
+        '"toc_min_heading_level" must be less than or equal to ref:toc_max_heading_level',
+      ],
+      [
+        {toc_min_heading_level: 6, toc_max_heading_level: 2},
+        '"toc_min_heading_level" must be less than or equal to ref:toc_max_heading_level',
+      ],
     ],
   });
 });

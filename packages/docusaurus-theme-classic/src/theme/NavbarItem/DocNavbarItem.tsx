@@ -11,9 +11,8 @@ import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
 import {getInfimaActiveClassName} from './index';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
-import {uniq} from '@docusaurus/utils-common';
-import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
+import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
 
 function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
   const allDocs = versions.flatMap((version) => version.docs);

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten, uniqBy, difference, groupBy} from 'lodash';
+import {uniqBy, difference, groupBy} from 'lodash';
 import {
   PluginContext,
   RedirectMetadata,
@@ -47,25 +47,23 @@ function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
   params: ApplyTrailingSlashParams,
 ) {
-  return redirects.map((redirect) => {
-    return {
-      ...redirect,
-      to: applyTrailingSlash(redirect.to, params),
-    };
-  });
+  return redirects.map((redirect) => ({
+    ...redirect,
+    to: applyTrailingSlash(redirect.to, params),
+  }));
 }
 
 function validateCollectedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ) {
-  const redirectValidationErrors: string[] = redirects
+  const redirectValidationErrors = redirects
     .map((redirect) => {
       try {
         validateRedirect(redirect);
         return undefined;
       } catch (e) {
-        return e.message;
+        return (e as Error).message;
       }
     })
     .filter(Boolean);
@@ -165,7 +163,7 @@ function createRedirectsOptionRedirects(
     }));
   }
 
-  return flatten(redirectsOption.map(optionToRedirects));
+  return redirectsOption.flatMap(optionToRedirects);
 }
 
 // Create redirects from the "createRedirects" fn provided by the user
@@ -181,13 +179,11 @@ function createCreateRedirectsOptionRedirects(
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;
 
-    return froms.map((from) => {
-      return {
-        from,
-        to: path,
-      };
-    });
+    return froms.map((from) => ({
+      from,
+      to: path,
+    }));
   }
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

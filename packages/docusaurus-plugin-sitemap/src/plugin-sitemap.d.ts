@@ -5,4 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type Options = import('./types').PluginOptions;
+export type Options = Partial<import('./types').PluginOptions>;

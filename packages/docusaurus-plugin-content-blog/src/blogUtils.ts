@@ -9,15 +9,14 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
-import {Feed, Author as FeedAuthor} from 'feed';
-import {compact, keyBy, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  Author,
+  ReadingTimeFunction,
 } from './types';
 import {
   parseMarkdownFile,
@@ -53,16 +52,15 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-  return mapValues(groups, (group) => {
-    return {
-      name: group.tag.label,
-      items: group.items.map((item) => item.id),
-      permalink: group.tag.permalink,
-    };
-  });
+  return mapValues(groups, (group) => ({
+    name: group.tag.label,
+    items: group.items.map((item) => item.id),
+    permalink: group.tag.permalink,
+  }));
 }
 
-const DATE_FILENAME_REGEX = /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+const DATE_FILENAME_REGEX =
+  /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -102,65 +100,6 @@ function formatBlogPostDate(locale: string, date: Date): string {
   }
 }
 
-export async function generateBlogFeed(
-  contentPaths: BlogContentPaths,
-  context: LoadContext,
-  options: PluginOptions,
-): Promise<Feed | null> {
-  if (!options.feedOptions) {
-    throw new Error(
-      'Invalid options: "feedOptions" is not expected to be null.',
-    );
-  }
-  const {siteConfig} = context;
-  const blogPosts = await generateBlogPosts(contentPaths, context, options);
-  if (!blogPosts.length) {
-    return null;
-  }
-
-  const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
-
-  const updated =
-    (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00');
-
-  const feed = new Feed({
-    id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
-    updated,
-    language: feedOptions.language,
-    link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
-    copyright: feedOptions.copyright,
-  });
-
-  function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
-  }
-
-  blogPosts.forEach((post) => {
-    const {
-      id,
-      metadata: {title: metadataTitle, permalink, date, description, authors},
-    } = post;
-    feed.addItem({
-      title: metadataTitle,
-      id,
-      link: normalizeUrl([siteUrl, permalink]),
-      date,
-      description,
-      author: authors.map(toFeedAuthor),
-    });
-  });
-
-  return feed;
-}
-
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
   const result = await parseMarkdownFile(blogSourceAbsolute, {
     removeContentTitle: true,
@@ -170,6 +109,9 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
     frontMatter: validateBlogPostFrontMatter(result.frontMatter),
   };
 }
+
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
+  readingTime(content, options).minutes;
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -183,7 +125,13 @@ async function processBlogSourceFile(
     siteDir,
     i18n,
   } = context;
-  const {routeBasePath, truncateMarker, showReadingTime, editUrl} = options;
+  const {
+    routeBasePath,
+    tagsBasePath: tagsRouteBasePath,
+    truncateMarker,
+    showReadingTime,
+    editUrl,
+  } = options;
 
   // Lookup in localized folder in priority
   const blogDirPath = await getFolderContainingFile(
@@ -193,12 +141,8 @@ async function processBlogSourceFile(
 
   const blogSourceAbsolute = path.join(blogDirPath, blogSourceRelative);
 
-  const {
-    frontMatter,
-    content,
-    contentTitle,
-    excerpt,
-  } = await parseBlogPostMarkdownFile(blogSourceAbsolute);
+  const {frontMatter, content, contentTitle, excerpt} =
+    await parseBlogPostMarkdownFile(blogSourceAbsolute);
 
   const aliasedSource = aliasedSitePath(blogSourceAbsolute, siteDir);
 
@@ -267,11 +211,15 @@ async function processBlogSourceFile(
     return undefined;
   }
 
-  const tagsBasePath = normalizeUrl([baseUrl, options.routeBasePath, 'tags']); // make this configurable?
+  const tagsBasePath = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    tagsRouteBasePath,
+  ]);
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
-    id: frontMatter.slug ?? title,
+    id: slug,
     metadata: {
       permalink,
       editUrl: getBlogEditUrl(),
@@ -281,10 +229,17 @@ async function processBlogSourceFile(
       date,
       formattedDate,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
-      readingTime: showReadingTime ? readingTime(content).minutes : undefined,
+      readingTime: showReadingTime
+        ? options.readingTime({
+            content,
+            frontMatter,
+            defaultReadingTime,
+          })
+        : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
     },
+    content,
   };
 }
 
@@ -309,7 +264,7 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
-  const blogPosts: BlogPost[] = compact(
+  const blogPosts = (
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
         try {
@@ -329,13 +284,16 @@ export async function generateBlogPosts(
           throw e;
         }
       }),
-    ),
-  );
+    )
+  ).filter(Boolean) as BlogPost[];
 
   blogPosts.sort(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );
 
+  if (options.sortPosts === 'ascending') {
+    return blogPosts.reverse();
+  }
   return blogPosts;
 }
 

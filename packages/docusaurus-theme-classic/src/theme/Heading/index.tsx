@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */
-
 import React from 'react';
 import clsx from 'clsx';
 import type {HeadingType, Props} from '@theme/Heading';
@@ -18,23 +16,21 @@ import styles from './styles.module.css';
 
 type HeadingComponent = (props: Props) => JSX.Element;
 
-export const MainHeading: HeadingComponent = function MainHeading({...props}) {
-  return (
-    <header>
-      <h1
-        {...props}
-        id={undefined} // h1 headings do not need an id because they don't appear in the TOC
-      >
-        {props.children}
-      </h1>
-    </header>
-  );
-};
+// eslint-disable-next-line react/function-component-definition
+export const MainHeading: HeadingComponent = ({...props}) => (
+  <header>
+    <h1
+      {...props}
+      id={undefined} // h1 headings do not need an id because they don't appear in the TOC
+    >
+      {props.children}
+    </h1>
+  </header>
+);
 
-const createAnchorHeading = (
-  Tag: HeadingType,
-): ((props: Props) => JSX.Element) =>
-  function TargetComponent({id, ...props}) {
+const createAnchorHeading =
+  (Tag: HeadingType) =>
+  ({id, ...props}: Props) => {
     const {
       navbar: {hideOnScroll},
     } = useThemeConfig();
@@ -44,18 +40,16 @@ const createAnchorHeading = (
     }
 
     return (
-      <Tag {...props}>
-        <a
-          aria-hidden="true"
-          tabIndex={-1}
-          className={clsx('anchor', `anchor__${Tag}`, {
-            [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
-            [styles.anchorWithStickyNavbar]: !hideOnScroll,
-          })}
-          id={id}
-        />
+      <Tag
+        {...props}
+        className={clsx('anchor', {
+          [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
+          [styles.anchorWithStickyNavbar]: !hideOnScroll,
+        })}
+        id={id}>
         {props.children}
         <a
+          aria-hidden="true"
           className="hash-link"
           href={`#${id}`}
           title={translate({
@@ -63,14 +57,13 @@ const createAnchorHeading = (
             message: 'Direct link to heading',
             description: 'Title for link to heading',
           })}>
-          #
+          &#8203;
         </a>
       </Tag>
     );
   };
 
-const Heading = (headingType: HeadingType): ((props: Props) => JSX.Element) => {
-  return headingType === 'h1' ? MainHeading : createAnchorHeading(headingType);
-};
+const Heading = (headingType: HeadingType): ((props: Props) => JSX.Element) =>
+  headingType === 'h1' ? MainHeading : createAnchorHeading(headingType);
 
 export default Heading;

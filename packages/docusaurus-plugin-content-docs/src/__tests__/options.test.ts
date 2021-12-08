@@ -7,7 +7,7 @@
 
 import {OptionsSchema, DEFAULT_OPTIONS, validateOptions} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import {DefaultSidebarItemsGenerator} from '../sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
@@ -40,7 +40,7 @@ describe('normalizeDocsPluginOptions', () => {
     const userOptions = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
-      homePageId: 'home', // Document id for docs home page.
+      tagsBasePath: 'tags', // URL Tags Route.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       exclude: GlobExcludeDefault,
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
@@ -50,6 +50,8 @@ describe('normalizeDocsPluginOptions', () => {
       docItemComponent: '@theme/DocItem',
       docTagDocListComponent: '@theme/DocTagDocListPage',
       docTagsListComponent: '@theme/DocTagsListPage',
+      docCategoryGeneratedIndexComponent:
+        '@theme/DocCategoryGeneratedIndexPage',
       remarkPlugins: [markdownPluginsObjectStub],
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],

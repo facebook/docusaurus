@@ -9,6 +9,8 @@ import path from 'path';
 
 import {loadContext, LoadContextOptions, loadPluginConfigs} from '../../index';
 import initPlugins from '../init';
+import {sortConfig} from '../index';
+import {RouteConfig} from '@docusaurus/types';
 
 describe('initPlugins', () => {
   async function loadSite(options: LoadContextOptions = {}) {
@@ -40,5 +42,87 @@ describe('initPlugins', () => {
         customConfigFilePath: 'badPlugins.docusaurus.config.js',
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+});
+
+describe('sortConfig', () => {
+  test('should sort route config correctly', () => {
+    const routes: RouteConfig[] = [
+      {
+        path: '/',
+        component: '',
+        routes: [
+          {path: '/someDoc', component: ''},
+          {path: '/someOtherDoc', component: ''},
+        ],
+      },
+      {
+        path: '/',
+        component: '',
+      },
+      {
+        path: '/',
+        component: '',
+        routes: [{path: '/subroute', component: ''}],
+      },
+      {
+        path: '/docs',
+        component: '',
+        routes: [
+          {path: '/docs/someDoc', component: ''},
+          {path: '/docs/someOtherDoc', component: ''},
+        ],
+      },
+      {
+        path: '/community',
+        component: '',
+      },
+      {
+        path: '/some-page',
+        component: '',
+      },
+    ];
+
+    sortConfig(routes);
+
+    expect(routes).toMatchSnapshot();
+  });
+
+  test('should sort route config given a baseURL', () => {
+    const baseURL = '/latest';
+    const routes: RouteConfig[] = [
+      {
+        path: baseURL,
+        component: '',
+        routes: [
+          {path: `${baseURL}/someDoc`, component: ''},
+          {path: `${baseURL}/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/example`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/docs`,
+        component: '',
+        routes: [
+          {path: `${baseURL}/docs/someDoc`, component: ''},
+          {path: `${baseURL}/docs/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/community`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/some-page`,
+        component: '',
+      },
+    ];
+
+    sortConfig(routes, baseURL);
+
+    expect(routes).toMatchSnapshot();
   });
 });

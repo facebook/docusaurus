@@ -220,12 +220,10 @@ describe('collectRedirects', () => {
       collectRedirects(
         createTestPluginContext(
           {
-            createRedirects: (routePath) => {
-              return [
-                `${removeTrailingSlash(routePath)}/some/path/suffix1`,
-                `${removeTrailingSlash(routePath)}/some/other/path/suffix2`,
-              ];
-            },
+            createRedirects: (routePath) => [
+              `${removeTrailingSlash(routePath)}/some/path/suffix1`,
+              `${removeTrailingSlash(routePath)}/some/other/path/suffix2`,
+            ],
           },
           ['/', '/testpath', '/otherPath.html'],
         ),
@@ -291,7 +289,7 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return ([[`/fromPath`]] as unknown) as string;
+                return [[`/fromPath`]] as unknown as string;
               }
               return undefined;
             },

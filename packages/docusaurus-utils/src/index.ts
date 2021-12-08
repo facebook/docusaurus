@@ -18,22 +18,24 @@ import {
   TranslationFile,
 } from '@docusaurus/types';
 
-// @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
 
 import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
 import {normalizeUrl} from './normalizeUrl';
+import {DEFAULT_PLUGIN_ID} from './constants';
 
+export * from './constants';
+export * from './mdxUtils';
 export * from './normalizeUrl';
 export * from './tags';
 
 export const posixPath = posixPathImport;
 
-export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export * from './slugger';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
 export {
   Globby,
@@ -41,6 +43,7 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
+export * from './webpackUtils';
 
 const fileHash = new Map();
 export async function generate(
@@ -259,7 +262,7 @@ export function removePrefix(str: string, prefix: string): string {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
-export function getElementsAround<T extends unknown>(
+export function getElementsAround<T>(
   array: T[],
   aroundIndex: number,
 ): {
@@ -282,7 +285,7 @@ export function getPluginI18nPath({
   siteDir,
   locale,
   pluginName,
-  pluginId = 'default', // TODO duplicated constant
+  pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
   siteDir: string;
@@ -298,22 +301,18 @@ export function getPluginI18nPath({
     locale,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
-    `${pluginName}${
-      // TODO duplicate constant :(
-      pluginId === 'default' ? '' : `-${pluginId}`
-    }`,
+    `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
     ...subPaths,
   );
 }
 
-export async function mapAsyncSequencial<T extends unknown, R extends unknown>(
+export async function mapAsyncSequencial<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     const result = await action(t);
     results.push(result);
   }
@@ -326,7 +325,6 @@ export async function findAsyncSequential<T>(
 ): Promise<T | undefined> {
   // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
-    // eslint-disable-next-line no-await-in-loop
     if (await predicate(t)) {
       return t;
     }
@@ -391,9 +389,7 @@ export function reportMessage(
 export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
-  return contents.reduce((acc, content) => {
-    return {...acc, ...content};
-  }, {});
+  return contents.reduce((acc, content) => ({...acc, ...content}), {});
 }
 
 export function getSwizzledComponent(
@@ -427,9 +423,7 @@ export function updateTranslationFileMessages(
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(
-  heading: string,
-): {
+export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {

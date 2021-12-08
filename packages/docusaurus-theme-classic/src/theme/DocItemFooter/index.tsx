@@ -59,16 +59,11 @@ function EditMetaRow({
   );
 }
 
-export default function DocItemFooter(props: Props): JSX.Element {
+export default function DocItemFooter(props: Props): JSX.Element | null {
   const {content: DocContent} = props;
   const {metadata} = DocContent;
-  const {
-    editUrl,
-    lastUpdatedAt,
-    formattedLastUpdatedAt,
-    lastUpdatedBy,
-    tags,
-  } = metadata;
+  const {editUrl, lastUpdatedAt, formattedLastUpdatedAt, lastUpdatedBy, tags} =
+    metadata;
 
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
@@ -76,7 +71,7 @@ export default function DocItemFooter(props: Props): JSX.Element {
   const canDisplayFooter = canDisplayTagsRow || canDisplayEditMetaRow;
 
   if (!canDisplayFooter) {
-    return <></>;
+    return null;
   }
 
   return (

@@ -13,7 +13,6 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
 import {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import {STATIC_DIR_NAME} from '../constants';
 import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
@@ -36,6 +35,10 @@ export default async function build(
   // TODO what's the purpose of this arg ?
   forceTerminate: boolean = true,
 ): Promise<string> {
+  ['SIGINT', 'SIGTERM'].forEach((sig) => {
+    process.on(sig, () => process.exit());
+  });
+
   async function tryToBuildLocale({
     locale,
     isLastLocale,
@@ -125,7 +128,7 @@ async function buildLocale({
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {baseUrl, onBrokenLinks},
+    siteConfig: {baseUrl, onBrokenLinks, staticDirectories},
     routes,
   } = props;
 
@@ -158,21 +161,16 @@ async function buildLocale({
     },
   });
 
-  const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
-  if (await fs.pathExists(staticDir)) {
-    serverConfig = merge(serverConfig, {
-      plugins: [
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: staticDir,
-              to: outDir,
-            },
-          ],
-        }),
-      ],
-    });
-  }
+  serverConfig = merge(serverConfig, {
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: staticDirectories
+          .map((dir) => path.resolve(siteDir, dir))
+          .filter(fs.existsSync)
+          .map((dir) => ({from: dir, to: outDir})),
+      }),
+    ],
+  });
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {

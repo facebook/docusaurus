@@ -24,7 +24,7 @@ export default function pluginDebug({
     name: 'docusaurus-plugin-debug',
 
     getThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return path.resolve(__dirname, '../lib/theme');
     },
 
     async contentLoaded({actions: {createData, addRoute}, allContent}) {

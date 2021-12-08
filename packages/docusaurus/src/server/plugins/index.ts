@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -21,15 +21,25 @@ import {
 } from '@docusaurus/types';
 import initPlugins from './init';
 import chalk from 'chalk';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
-export function sortConfig(routeConfigs: RouteConfig[]): void {
+export function sortConfig(
+  routeConfigs: RouteConfig[],
+  baseUrl: string = '/',
+): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
+    // Root route should get placed last.
+    if (a.path === baseUrl && b.path !== baseUrl) {
+      return 1;
+    }
+    if (a.path !== baseUrl && b.path === baseUrl) {
+      return -1;
+    }
+
     if (a.routes && !b.routes) {
       return 1;
     }
@@ -87,43 +97,44 @@ export async function loadPlugins({
   type ContentLoadedTranslatedPlugin = LoadedPlugin & {
     translationFiles: TranslationFiles;
   };
-  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] = await Promise.all(
-    loadedPlugins.map(async (contentLoadedPlugin) => {
-      const translationFiles =
-        (await contentLoadedPlugin?.getTranslationFiles?.({
-          content: contentLoadedPlugin.content,
-        })) ?? [];
-      const localizedTranslationFiles = await Promise.all(
-        translationFiles.map((translationFile) =>
-          localizePluginTranslationFile({
-            locale: context.i18n.currentLocale,
-            siteDir: context.siteDir,
-            translationFile,
-            plugin: contentLoadedPlugin,
-          }),
-        ),
-      );
-      return {
-        ...contentLoadedPlugin,
-        translationFiles: localizedTranslationFiles,
-      };
-    }),
-  );
+  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] =
+    await Promise.all(
+      loadedPlugins.map(async (contentLoadedPlugin) => {
+        const translationFiles =
+          (await contentLoadedPlugin?.getTranslationFiles?.({
+            content: contentLoadedPlugin.content,
+          })) ?? [];
+        const localizedTranslationFiles = await Promise.all(
+          translationFiles.map((translationFile) =>
+            localizePluginTranslationFile({
+              locale: context.i18n.currentLocale,
+              siteDir: context.siteDir,
+              translationFile,
+              plugin: contentLoadedPlugin,
+            }),
+          ),
+        );
+        return {
+          ...contentLoadedPlugin,
+          translationFiles: localizedTranslationFiles,
+        };
+      }),
+    );
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
+    .mapValues((nameItems) =>
+      chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
+        .value(),
+    )
     .value();
 
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
-  const globalData = {};
+  const globalData: Record<string, Record<string, unknown>> = {};
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(
@@ -212,7 +223,7 @@ export async function loadPlugins({
 
   // Sort the route config. This ensures that route with nested
   // routes are always placed last.
-  sortConfig(pluginsRouteConfigs);
+  sortConfig(pluginsRouteConfigs, context.siteConfig.baseUrl);
 
   // Apply each plugin one after the other to translate the theme config
   function translateThemeConfig(

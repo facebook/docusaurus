@@ -8,7 +8,7 @@
 /*
 Hide toggle in small viewports
  */
-@media screen and (max-width: 997px) {
+@media (max-width: 996px) {
   .toggle {
     display: none;
   }
@@ -20,4 +20,8 @@ Hide toggle in small viewports
 
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
+}
+
+.navbarSidebarToggle {
+  margin-right: 1rem;
 }

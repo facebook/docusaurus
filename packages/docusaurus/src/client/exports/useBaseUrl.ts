@@ -42,13 +42,10 @@ function addBaseUrl(
 }
 
 export function useBaseUrlUtils(): BaseUrlUtils {
-  const {
-    siteConfig: {baseUrl = '/', url: siteUrl} = {},
-  } = useDocusaurusContext();
+  const {siteConfig: {baseUrl = '/', url: siteUrl} = {}} =
+    useDocusaurusContext();
   return {
-    withBaseUrl: (url, options) => {
-      return addBaseUrl(siteUrl, baseUrl, url, options);
-    },
+    withBaseUrl: (url, options) => addBaseUrl(siteUrl, baseUrl, url, options),
   };
 }
 

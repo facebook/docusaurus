@@ -36,7 +36,7 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadatas title === description
+      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -53,7 +53,7 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadatas title === description
+      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -128,6 +128,19 @@ describe('createExcerpt', () => {
           ## Markdown title {#my-anchor-id}
         `),
     ).toEqual('Markdown title');
+  });
+
+  test('should create excerpt for content with various code blocks', () => {
+    expect(
+      createExcerpt(dedent`
+          \`\`\`jsx
+          import React from 'react';
+          import Layout from '@theme/Layout';
+          \`\`\`
+
+          Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
+        `),
+    ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 });
 

@@ -9,24 +9,29 @@ exports[`inline code should be escaped 1`] = `
 			{
 				value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
 				id: 'headtesthead',
-				children: []
+				children: [],
+				level: 3
 			}
-		]
+		],
+		level: 2
 	},
 	{
 		value: '<code>&lt;div /&gt;</code>',
 		id: 'div-',
-		children: []
+		children: [],
+		level: 2
 	},
 	{
 		value: '<code>&lt;div&gt; Test &lt;/div&gt;</code>',
 		id: 'div-test-div',
-		children: []
+		children: [],
+		level: 2
 	},
 	{
 		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
 		id: 'divitestidiv',
-		children: []
+		children: [],
+		level: 2
 	}
 ];
 
@@ -51,24 +56,29 @@ exports[`non text phrasing content 1`] = `
 			{
 				value: '<strong>Importance</strong>',
 				id: 'importance',
-				children: []
+				children: [],
+				level: 3
 			}
-		]
+		],
+		level: 2
 	},
 	{
 		value: '<del>Strikethrough</del>',
 		id: 'strikethrough',
-		children: []
+		children: [],
+		level: 2
 	},
 	{
 		value: '<i>HTML</i>',
 		id: 'html',
-		children: []
+		children: [],
+		level: 2
 	},
 	{
 		value: '<code>inline.code()</code>',
 		id: 'inlinecode',
-		children: []
+		children: [],
+		level: 2
 	}
 ];
 

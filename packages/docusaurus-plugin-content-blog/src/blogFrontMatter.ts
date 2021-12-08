@@ -10,6 +10,7 @@ import {
   URISchema,
   validateFrontMatter,
   FrontMatterTagsSchema,
+  FrontMatterTOCHeadingLevels,
 } from '@docusaurus/utils-validation';
 import type {FrontMatterTag} from '@docusaurus/utils';
 
@@ -38,7 +39,6 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
   .rename('image_url', 'imageURL', {alias: true});
 
 export type BlogPostFrontMatter = {
-  /* eslint-disable camelcase */
   id?: string;
   title?: string;
   description?: string;
@@ -65,7 +65,8 @@ export type BlogPostFrontMatter = {
   image?: string;
   keywords?: string[];
   hide_table_of_contents?: boolean;
-  /* eslint-enable camelcase */
+  toc_min_heading_level?: number;
+  toc_max_heading_level?: number;
 };
 
 const FrontMatterAuthorErrorMessage =
@@ -111,6 +112,8 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   image: URISchema,
   keywords: Joi.array().items(Joi.string().required()),
   hide_table_of_contents: Joi.boolean(),
+
+  ...FrontMatterTOCHeadingLevels,
 }).messages({
   'deprecate.error':
     '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',

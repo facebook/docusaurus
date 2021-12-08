@@ -1,4 +1,5 @@
 ---
+sidebar_position: 7
 id: plugin-google-gtag
 title: '📦 plugin-google-gtag'
 slug: '/api/plugins/@docusaurus/plugin-google-gtag'
@@ -26,16 +27,74 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ## Configuration {#configuration}
 
+Accepted fields:
+
+<small>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `trackingID` | `string` | **Required** | The tracking ID of your gtag service. |
+| `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
+
+</small>
+
+## Example configuration {#ex-config}
+
+Here's an example configuration object.
+
+You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+
+:::tip
+
+Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+
+:::
+
+```js
+const config = {
+  trackingID: 'UA-141789564-1',
+  anonymizeIP: true,
+};
+```
+
+### Preset options {#ex-config-preset}
+
+If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
+
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
-  themeConfig: {
-    gtag: {
-      // You can also use your "G-" Measurement ID here.
-      trackingID: 'UA-141789564-1',
-      // Optional fields.
-      anonymizeIP: true, // Should IPs be anonymized?
-    },
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // highlight-start
+        gtag: {
+          trackingID: 'UA-141789564-1',
+          anonymizeIP: true,
+        },
+        // highlight-end
+      },
+    ],
+  ],
+};
+```
+
+### Plugin options {#ex-config-plugin}
+
+If you are using a standalone plugin, provide options directly to the plugin:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-google-gtag',
+      // highlight-start
+      {
+        trackingID: 'UA-141789564-1',
+        anonymizeIP: true,
+      },
+      // highlight-end
+    ],
+  ],
 };
 ```

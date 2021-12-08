@@ -87,12 +87,12 @@ export default async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
-  // @ts-expect-error: bad lib typedef?
-  return detect(defaultPort, host).then(
+  return detect({port: defaultPort, hostname: host}).then(
     (port) =>
       new Promise((resolve) => {
         if (port === defaultPort) {
-          return resolve(port);
+          resolve(port);
+          return;
         }
         const message =
           process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
@@ -122,7 +122,6 @@ export default async function choosePort(
           console.log(chalk.red(message));
           resolve(null);
         }
-        return null;
       }),
     (err) => {
       throw new Error(

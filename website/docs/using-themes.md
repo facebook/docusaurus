@@ -51,7 +51,7 @@ website
 
 `website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
 
-**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (i.e., Bootstrap).
+**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs.
 
 For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
@@ -182,6 +182,34 @@ Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-c
 
 :::
 
+<details>
+
+<summary>How are theme aliases resolved?</summary>
+
+It can be quite hard to wrap your mind around these aliases. Let's imagine the following case with a super convoluted setup where three themes/plugins and the site itself all try to define the same component. Internally, Docusaurus loads these themes as a "stack".
+
+```text
++-------------------------------------------------+
+|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock` always points to the top
++-------------------------------------------------+
+| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock` points to the topmost non-swizzled component
++-------------------------------------------------+
+|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
++-------------------------------------------------+
+|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock` always points to the bottom
++-------------------------------------------------+
+```
+
+The components in this "stack" are pushed in the order of `preset plugins > preset themes > plugins > themes > site`, so the swizzled component in `website/src/theme` always comes out on top because it's loaded last.
+
+`@theme/*` always points to the topmost component—when code block is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
+
+`@theme-original/*` always points to the topmost non-swizzled component. That's why you can import `@theme-original/CodeBlock` in the swizzled component—it points to the next one in the "component stack", a theme-provided one. Plugin authors should not try to use this because your component could be the topmost component and cause a self-import.
+
+`@theme-init/*` always points to the bottommost component—usually this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
+
+</details>
+
 ## Themes design {#themes-design}
 
 While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
@@ -210,13 +238,13 @@ website
 
 There are two lifecycle methods that are essential to theme implementation:
 
-- [`getThemePath()`](lifecycle-apis.md#getthemepath)
-- [`getClientModules()`](lifecycle-apis.md#getclientmodules)
+- [`getThemePath()`](./api/lifecycle-apis.md#getthemepath)
+- [`getClientModules()`](./api/lifecycle-apis.md#getclientmodules)
 
-These lifecycle method are not essential but recommended:
+These lifecycle methods are not essential but recommended:
 
-- [`validateThemeConfig({themeConfig, validate})`](lifecycle-apis.md#validatethemeconfigthemeconfig-validate)
-- [`validateOptions({options, validate})`](lifecycle-apis.md#validateoptionsoptions-validate)
+- [`validateThemeConfig({themeConfig, validate})`](./api/lifecycle-apis.md#validatethemeconfigthemeconfig-validate)
+- [`validateOptions({options, validate})`](./api/lifecycle-apis.md#validateoptionsoptions-validate)
 
 <!--
 
@@ -231,7 +259,7 @@ Related pieces
 ---
 
 - [Advanced Guides – Themes](using-themes.md)
-- [Lifecycle APIs](lifecycle-apis.md)
+- [Lifecycle APIs](./api/lifecycle-apis.md)
 
 References
 ---

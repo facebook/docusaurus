@@ -6,7 +6,7 @@
  */
 
 declare module '@docusaurus/plugin-content-blog' {
-  export type Options = import('./types').PluginOptions;
+  export type Options = Partial<import('./types').UserPluginOptions>;
 }
 
 declare module '@theme/BlogSidebar' {
@@ -16,9 +16,9 @@ declare module '@theme/BlogSidebar' {
     items: BlogSidebarItem[];
   };
 
-  export type Props = {
+  export interface Props {
     readonly sidebar: BlogSidebar;
-  };
+  }
 
   const BlogSidebar: (props: Props) => JSX.Element;
   export default BlogSidebar;
@@ -57,10 +57,10 @@ declare module '@theme/BlogPostPage' {
     (): JSX.Element;
   };
 
-  export type Props = {
+  export interface Props {
     readonly sidebar: BlogSidebar;
     readonly content: Content;
-  };
+  }
 
   const BlogPostPage: (props: Props) => JSX.Element;
   export default BlogPostPage;
@@ -69,10 +69,6 @@ declare module '@theme/BlogPostPage' {
 declare module '@theme/BlogListPage' {
   import type {Content} from '@theme/BlogPostPage';
   import type {BlogSidebar} from '@theme/BlogSidebar';
-
-  export type Item = {
-    readonly content: () => JSX.Element;
-  };
 
   export type Metadata = {
     readonly blogTitle: string;
@@ -86,11 +82,11 @@ declare module '@theme/BlogListPage' {
     readonly totalPages: number;
   };
 
-  export type Props = {
+  export interface Props {
     readonly sidebar: BlogSidebar;
     readonly metadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
-  };
+  }
 
   const BlogListPage: (props: Props) => JSX.Element;
   export default BlogListPage;
@@ -107,10 +103,10 @@ declare module '@theme/BlogTagsListPage' {
     slug: string;
   };
 
-  export type Props = {
+  export interface Props {
     readonly sidebar: BlogSidebar;
     readonly tags: Readonly<Record<string, Tag>>;
-  };
+  }
 
   const BlogTagsListPage: (props: Props) => JSX.Element;
   export default BlogTagsListPage;
@@ -121,12 +117,26 @@ declare module '@theme/BlogTagsPostsPage' {
   import type {Tag} from '@theme/BlogTagsListPage';
   import type {Content} from '@theme/BlogPostPage';
 
-  export type Props = {
+  export interface Props {
     readonly sidebar: BlogSidebar;
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
-  };
+  }
 
   const BlogTagsPostsPage: (props: Props) => JSX.Element;
   export default BlogTagsPostsPage;
+}
+
+declare module '@theme/BlogArchivePage' {
+  import type {Content} from '@theme/BlogPostPage';
+
+  export type ArchiveBlogPost = Content;
+
+  export interface Props {
+    readonly archive: {
+      readonly blogPosts: readonly ArchiveBlogPost[];
+    };
+  }
+
+  export default function BlogArchivePage(props: Props): JSX.Element;
 }

@@ -17,18 +17,24 @@ import Root from '@theme/Root';
 
 import './client-lifecycles-dispatcher';
 
+// TODO, quick fix for CSS insertion order
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import Error from '@theme/Error';
+
 function App(): JSX.Element {
   return (
-    <DocusaurusContextProvider>
-      <BrowserContextProvider>
-        <Root>
-          <BaseUrlIssueBanner />
-          <PendingNavigation routes={routes}>
-            {renderRoutes(routes)}
-          </PendingNavigation>
-        </Root>
-      </BrowserContextProvider>
-    </DocusaurusContextProvider>
+    <ErrorBoundary fallback={Error}>
+      <DocusaurusContextProvider>
+        <BrowserContextProvider>
+          <Root>
+            <BaseUrlIssueBanner />
+            <PendingNavigation routes={routes} delay={1000}>
+              {renderRoutes(routes)}
+            </PendingNavigation>
+          </Root>
+        </BrowserContextProvider>
+      </DocusaurusContextProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -1,7 +1,8 @@
 ---
+sidebar_position: 0
 id: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
-slug: /docusaurus.config.js
+slug: /api/docusaurus-config
 ---
 
 # `docusaurus.config.js`
@@ -194,6 +195,18 @@ module.exports = {
 };
 ```
 
+### `deploymentBranch` {#deploymentbranch}
+
+- Type: `string`
+
+The name of the branch to deploy the static files to. Used by the deployment command.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  deploymentBranch: 'gh-pages',
+};
+```
+
 ### `githubHost` {#githubhost}
 
 - Type: `string`
@@ -252,6 +265,8 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -280,6 +295,8 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
@@ -344,6 +361,20 @@ Attempting to add unknown field in the config will lead to error in build time:
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
 
+### `staticDirectories` {#staticdirectories}
+
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
+
+- Type: `string[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  staticDirectories: ['static'],
+};
+```
+
 ### `scripts` {#scripts}
 
 An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
@@ -361,8 +392,7 @@ module.exports = {
     'https://docusaurus.io/script.js',
     // Object format.
     {
-      src:
-        'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
       async: true,
     },
   ],
@@ -400,8 +430,11 @@ module.exports = {
 <html <%~ it.htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Docusaurus v<%= it.version %>">
+    <% if (it.noIndex) { %>
+      <meta name="robots" content="noindex, nofollow" />
+    <% } %>
     <%~ it.headTags %>
     <% it.metaAttributes.forEach((metaAttribute) => { %>
       <%~ metaAttribute %>
@@ -413,20 +446,17 @@ module.exports = {
       <link rel="preload" href="<%= it.baseUrl %><%= script %>" as="script">
     <% }); %>
   </head>
-  <body <%~ it.bodyAttributes %> itemscope="" itemtype="http://schema.org/Organization">
+  <body <%~ it.bodyAttributes %>>
     <%~ it.preBodyTags %>
     <div id="__docusaurus">
       <%~ it.appHtml %>
-    </div>
-    <div id="outside-docusaurus">
-      <span>Custom markup</span>
     </div>
     <% it.scripts.forEach((script) => { %>
       <script src="<%= it.baseUrl %><%= script %>"></script>
     <% }); %>
     <%~ it.postBodyTags %>
   </body>
-</html>
+</html>`,
 };
 ```
 

@@ -8,7 +8,7 @@
   <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/backers/badge.svg" /></a>
   <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/sponsors/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/@docusaurus/core"><img src="https://img.shields.io/npm/v/@docusaurus/core.svg?style=flat" alt="npm version"></a>
-  <a href="https://github.com/facebook/docusaurus/actions/workflows/v2-tests.yml"><img src="https://github.com/facebook/docusaurus/actions/workflows/v2-tests.yml/badge.svg" alt="Github Actions status"></a>
+  <a href="https://github.com/facebook/docusaurus/actions/workflows/tests.yml"><img src="https://github.com/facebook/docusaurus/actions/workflows/tests.yml/badge.svg" alt="Github Actions status"></a>
   <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/discord/102860784329052160.svg" align="right" alt="Discord Chat" /></a>
   <a href= "https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
@@ -27,7 +27,7 @@
 
 Docusaurus is a project for building, deploying, and maintaining open source project websites easily.
 
-No time? Check our [5 minutes tutorial ⏱️](https://tutorial.docusaurus.io).
+Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusaurus.io)!
 
 **Tip**: use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately in a playground.
 
@@ -48,13 +48,13 @@ No time? Check our [5 minutes tutorial ⏱️](https://tutorial.docusaurus.io).
 Use the initialization cli to create your site:
 
 ```bash
-npx @docusaurus/init@latest init [name] [template]
+npm init docusaurus@latest [name] [template]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init@latest init my-website classic
+npm init docusaurus@latest my-website classic
 ```
 
 ## Contributing
@@ -77,9 +77,9 @@ To help you get your feet wet and get you familiar with our contribution process
 
 We have a few channels for contact:
 
-- [Discord](https://discord.gg/docusaurus) with two text channels:
-  - `#docusaurus-users` for those using Docusaurus.
-  - `#docusaurus-dev` for those wanting to contribute to the Docusaurus core.
+- [Discord](https://discord.gg/docusaurus):
+  - `#general` for those using Docusaurus.
+  - `#contributors` for those wanting to contribute to the Docusaurus core.
 - [@docusaurus](https://twitter.com/docusaurus) on Twitter
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 

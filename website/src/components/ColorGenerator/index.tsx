@@ -66,10 +66,10 @@ const COLOR_SHADES: Record<
 
 const DEFAULT_PRIMARY_COLOR = '3578e5';
 
-function ColorGenerator() {
+function ColorGenerator(): JSX.Element {
   const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
   const [shades, setShades] = useState(COLOR_SHADES);
-  const color = Color('#' + baseColor);
+  const color = Color(`#${baseColor}`);
   const adjustedColors = Object.keys(shades)
     .map((shade) => ({
       ...shades[shade],
@@ -83,6 +83,7 @@ function ColorGenerator() {
   return (
     <div>
       <p>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="primary_color">
           <strong className="margin-right--sm">Primary Color:</strong>
         </label>{' '}
@@ -91,9 +92,12 @@ function ColorGenerator() {
           className={styles.input}
           defaultValue={baseColor}
           onChange={(event) => {
-            const colorValue = event.target.value;
+            // Replace all the prefix '#' with an empty string.
+            // For example, '#ccc' -> 'ccc', '##ccc' -> 'ccc'
+            const colorValue = event.target.value.replace(/^#+/, '');
+
             try {
-              Color('#' + colorValue);
+              Color(`#${baseColor}`);
               setBaseColor(colorValue);
             } catch {
               // Don't update for invalid colors.
@@ -147,7 +151,7 @@ function ColorGenerator() {
                               [variableName]: {
                                 ...shades[variableName],
                                 adjustmentInput: event.target.value,
-                                adjustment: isNaN(newValue)
+                                adjustment: Number.isNaN(newValue)
                                   ? adjustment
                                   : newValue / 100.0,
                               },

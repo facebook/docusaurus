@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import Joi from './Joi';
-import {isValidPathname} from '@docusaurus/utils';
+import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {Tag} from '@docusaurus/utils';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[a-zA-Z_-]+$/)
-  // duplicate core constant, otherwise cyclic dependency is created :(
-  .default('default');
+  .default(DEFAULT_PLUGIN_ID);
 
 const MarkdownPluginsSchema = Joi.array()
   .items(
@@ -61,12 +61,33 @@ export const PathnameSchema = Joi.string()
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',
   );
 
-export const FrontMatterTagsSchema = JoiFrontMatter.array().items(
-  JoiFrontMatter.alternatives().try(
+const FrontMatterTagSchema = JoiFrontMatter.alternatives()
+  .try(
     JoiFrontMatter.string().required(),
     JoiFrontMatter.object<Tag>({
       label: JoiFrontMatter.string().required(),
       permalink: JoiFrontMatter.string().required(),
     }).required(),
-  ),
-);
+  )
+  .messages({
+    'alternatives.match': '{{#label}} does not look like a valid tag',
+    'alternatives.types': '{{#label}} does not look like a valid tag',
+  });
+
+export const FrontMatterTagsSchema = JoiFrontMatter.array()
+  .items(FrontMatterTagSchema)
+  .messages({
+    'array.base':
+      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+  });
+
+export const FrontMatterTOCHeadingLevels = {
+  toc_min_heading_level: JoiFrontMatter.number().when('toc_max_heading_level', {
+    is: JoiFrontMatter.exist(),
+    then: JoiFrontMatter.number()
+      .min(2)
+      .max(JoiFrontMatter.ref('toc_max_heading_level')),
+    otherwise: JoiFrontMatter.number().min(2).max(6),
+  }),
+  toc_max_heading_level: JoiFrontMatter.number().min(2).max(6),
+};

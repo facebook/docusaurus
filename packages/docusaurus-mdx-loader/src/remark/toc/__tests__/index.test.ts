@@ -12,7 +12,7 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
-const processFixture = async (name, options) => {
+const processFixture = async (name, options?) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
@@ -41,7 +41,8 @@ test('text content', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: []
+    		children: [],
+    		level: 3
     	},
     	{
     		value: 'Endi',
@@ -50,14 +51,17 @@ test('text content', async () => {
     			{
     				value: 'Yangshun',
     				id: 'yangshun',
-    				children: []
+    				children: [],
+    				level: 3
     			}
-    		]
+    		],
+    		level: 2
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: []
+    		children: [],
+    		level: 2
     	}
     ];
 
@@ -87,7 +91,8 @@ test('should export even with existing name', async () => {
     	{
     		value: 'Thanos',
     		id: 'thanos',
-    		children: []
+    		children: [],
+    		level: 2
     	},
     	{
     		value: 'Tony Stark',
@@ -96,9 +101,11 @@ test('should export even with existing name', async () => {
     			{
     				value: 'Avengers',
     				id: 'avengers',
-    				children: []
+    				children: [],
+    				level: 3
     			}
-    		]
+    		],
+    		level: 2
     	}
     ];
 
@@ -121,7 +128,8 @@ test('should export with custom name', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: []
+    		children: [],
+    		level: 3
     	},
     	{
     		value: 'Endi',
@@ -130,14 +138,17 @@ test('should export with custom name', async () => {
     			{
     				value: 'Yangshun',
     				id: 'yangshun',
-    				children: []
+    				children: [],
+    				level: 3
     			}
-    		]
+    		],
+    		level: 2
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: []
+    		children: [],
+    		level: 2
     	}
     ];
 
@@ -171,7 +182,8 @@ test('should insert below imports', async () => {
     	{
     		value: 'Title',
     		id: 'title',
-    		children: []
+    		children: [],
+    		level: 2
     	},
     	{
     		value: 'Test',
@@ -180,9 +192,11 @@ test('should insert below imports', async () => {
     			{
     				value: 'Again',
     				id: 'again',
-    				children: []
+    				children: [],
+    				level: 3
     			}
-    		]
+    		],
+    		level: 2
     	}
     ];
 

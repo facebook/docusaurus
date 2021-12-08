@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import {DocusaurusContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
-import Module from 'module';
-import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
+import {createRequire} from 'module';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
-const createRequire = Module.createRequire || Module.createRequireFromPath;
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
@@ -28,8 +27,7 @@ const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => {
-  return `(function() {
+}: ThemeConfig['colorMode']) => `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
@@ -64,7 +62,6 @@ const noFlashColorMode = ({
     }
   }
 })();`;
-};
 
 // Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
 // TODO: import from theme-common once we only support Node.js with ESM support
@@ -93,7 +90,7 @@ function getInfimaCSSFile(direction: string) {
 }
 
 export type PluginOptions = {
-  customCss?: string;
+  customCss?: string | string[];
 };
 
 export default function docusaurusThemeClassic(
@@ -135,12 +132,17 @@ export default function docusaurusThemeClassic(
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
-    translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () => {
+    translateThemeConfig: (params) =>
+      translateThemeConfig({
+        themeConfig: params.themeConfig as ThemeConfig,
+        translationFiles: params.translationFiles,
+      }),
+
+    getDefaultCodeTranslationMessages() {
       return readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
         locale: currentLocale,
+        name: 'theme-common',
       });
     },
 
@@ -181,7 +183,7 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions: {plugins: AcceptedPlugin[]}) {
+    configurePostCss(postCssOptions: PostCssOptions) {
       if (direction === 'rtl') {
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
@@ -192,7 +194,7 @@ export default function docusaurusThemeClassic(
             if (file === resolvedInfimaFile) {
               return {};
             }
-            return rtlcss((result.root as unknown) as rtlcss.ConfigOptions);
+            return rtlcss(result.root as unknown as rtlcss.ConfigOptions);
           },
         };
         postCssOptions.plugins.push(plugin);

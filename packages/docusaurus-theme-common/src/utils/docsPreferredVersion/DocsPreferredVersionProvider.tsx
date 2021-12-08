@@ -120,7 +120,7 @@ function useContextValue() {
     return {
       savePreferredVersion,
     };
-  }, [setState]);
+  }, [versionPersistence]);
 
   return [state, api] as const;
 }
@@ -132,7 +132,7 @@ const Context = createContext<DocsPreferredVersionContextValue | null>(null);
 export function DocsPreferredVersionContextProvider({
   children,
 }: {
-  children: ReactNode;
+  children: JSX.Element;
 }): JSX.Element {
   if (isDocsPluginEnabled) {
     return (
@@ -141,7 +141,7 @@ export function DocsPreferredVersionContextProvider({
       </DocsPreferredVersionContextProviderUnsafe>
     );
   } else {
-    return <>{children}</>;
+    return children;
   }
 }
 

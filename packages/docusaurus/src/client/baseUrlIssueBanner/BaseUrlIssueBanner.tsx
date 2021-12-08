@@ -72,6 +72,12 @@ function insertBanner() {
 `;
 }
 
+declare global {
+  interface Window {
+    __DOCUSAURUS_INSERT_BASEURL_BANNER: boolean;
+  }
+}
+
 function BaseUrlIssueBannerEnabled() {
   const {
     siteConfig: {baseUrl},

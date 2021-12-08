@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {PluginOptions} from './types';
+import type {PluginOptions} from './types';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,10 +14,13 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
+import type {
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 import chalk from 'chalk';
 import admonitions from 'remark-admonitions';
-import {DefaultSidebarItemsGenerator} from './sidebarItemsGenerator';
+import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
   DefaultNumberPrefixParser,
   DisabledNumberPrefixParser,
@@ -26,7 +29,7 @@ import {
 export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
-  homePageId: undefined, // TODO remove soon, deprecated
+  tagsBasePath: 'tags', // URL Tags Route.
   include: ['**/*.{md,mdx}'], // Extensions to include.
   exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
@@ -35,6 +38,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
+  docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -73,7 +77,12 @@ export const OptionsSchema = Joi.object({
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
-  homePageId: Joi.string().optional(),
+  tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
+  homePageId: Joi.any().forbidden().messages({
+    'any.unknown':
+      'The docs plugin option homePageId is not supported anymore. To make a doc the "home", please add "slug: /" in its front matter. See: https://docusaurus.io/docs/next/docs-introduction#home-page-docs',
+  }),
+
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   sidebarPath: Joi.alternatives().try(
@@ -103,6 +112,9 @@ export const OptionsSchema = Joi.object({
   ),
   docTagDocListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
+  docCategoryGeneratedIndexComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docCategoryGeneratedIndexComponent,
   ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
@@ -154,16 +166,6 @@ export function validateOptions({
         sidebarCollapsed: false,
       };
     }
-  }
-
-  // TODO remove homePageId before end of 2020
-  // "slug: /" is better because the home doc can be different across versions
-  if (options.homePageId) {
-    console.log(
-      chalk.red(
-        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-      ),
-    );
   }
 
   const normalizedOptions = validate(OptionsSchema, options);

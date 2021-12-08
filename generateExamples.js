@@ -21,13 +21,13 @@ function generateTemplateExample(template) {
 
     // run the docusaurus script to bootstrap the template in the examples folder
     const command = template.endsWith('-typescript')
-      ? template.replace('-typescript', ' --typescript')
+      ? template.replace('-typescript', ' -- --typescript')
       : template;
     execSync(
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
-      `npx @docusaurus/init@latest init examples/${template} ${command}`,
+      `npm init docusaurus@latest examples/${template} ${command}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
       {
         stdio: 'inherit',
@@ -102,25 +102,45 @@ See https://github.com/jamstack/jamstack.org/pull/609
 Button visible here: https://jamstack.org/generators/
  */
 function updateStarters() {
-  execSync(
-    'git subtree push --prefix examples/classic --squash origin starter',
-  );
-  console.log(
-    'Update success for https://github.com/facebook/docusaurus/tree/starter',
-  );
-
-  try {
-    execSync(
-      'git subtree push --prefix examples/classic --squash git@github.com:slorber/docusaurus-starter.git main --squash',
-    );
-    console.log(
-      'Update success for https://github.com/slorber/docusaurus-starter',
-    );
-  } catch {
-    console.error(
-      'could not update https://github.com/slorber/docusaurus-starter , ask permission to @slorber if needed',
-    );
+  function forcePushGitSubtree({subfolder, remote, remoteBranch}) {
+    console.log('');
+    // See https://stackoverflow.com/questions/33172857/how-do-i-force-a-subtree-push-to-overwrite-remote-changes
+    const command = `git push ${remote} \`git subtree split --prefix ${subfolder}\`:${remoteBranch} --force`;
+    try {
+      console.log(`forcePushGitSubtree command: ${command}`);
+      execSync(command);
+      console.log('forcePushGitSubtree success!');
+    } catch (e) {
+      console.error(
+        `Can't force push to git subtree with command '${command}'`,
+      );
+      console.error(`If it's a permission problem, ask @slorber`);
+      console.error(e);
+    }
+    console.log('');
   }
+
+  console.log('');
+
+  console.log('Updating https://github.com/facebook/docusaurus/tree/starter');
+  forcePushGitSubtree({
+    subfolder: 'examples/classic',
+    remote: 'origin',
+    remoteBranch: 'starter',
+  });
+
+  console.log('');
+  console.log('');
+
+  // TODO replace by starter repo in Docusaurus-community org (if we get it)
+  console.log('Updating https://github.com/slorber/docusaurus-starter');
+  forcePushGitSubtree({
+    subfolder: 'examples/classic',
+    remote: 'git@github.com:slorber/docusaurus-starter.git',
+    remoteBranch: 'main',
+  });
+
+  console.log('');
 }
 
 function run() {
@@ -148,19 +168,21 @@ function run() {
   rimraf.sync('./examples/classic');
   rimraf.sync('./examples/classic-typescript');
   rimraf.sync('./examples/facebook');
-  rimraf.sync('./examples/bootstrap');
   console.log('');
 
   // get the list of all available templates
   console.log('-------');
   console.log('## Generate example folders...');
   console.log('');
-  const data = readdirSync('./packages/docusaurus-init/templates');
-  const templates = data.filter((i) => i !== 'README.MD');
+  const excludes = ['README.md', 'shared'];
+  const templates = readdirSync(
+    './packages/create-docusaurus/templates',
+  ).filter((name) => !excludes.includes(name));
+  console.log(`Will generate examples for templates: ${templates}`);
   templates.forEach(generateTemplateExample);
   console.log('Commiting changes');
   execSync('git add examples');
-  execSync("git commit -am 'update examples'");
+  execSync("git commit -am 'update examples' --allow-empty");
   console.log('');
 
   // update starters

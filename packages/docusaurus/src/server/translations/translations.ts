@@ -56,7 +56,9 @@ export async function readTranslationFileContent(
       ensureTranslationFileContent(content);
       return content;
     } catch (e) {
-      throw new Error(`Invalid translation file at ${filePath}.\n${e.message}`);
+      throw new Error(
+        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
+      );
     }
   }
   return undefined;
@@ -269,9 +271,10 @@ export async function getPluginsDefaultCodeTranslationMessages(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
 
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
+  return pluginsMessages.reduce(
+    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
+    {},
+  );
 }
 
 export function applyDefaultCodeTranslations({
@@ -296,11 +299,9 @@ Please report this Docusaurus issue.
 
   return mapValues(
     extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
+    (messageTranslation, messageId) => ({
+      ...messageTranslation,
+      message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+    }),
   );
 }

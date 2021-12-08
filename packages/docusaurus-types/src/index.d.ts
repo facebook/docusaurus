@@ -9,6 +9,7 @@ import type {RuleSetRule, Configuration} from 'webpack';
 import type {Command} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
+import type {Overwrite, DeepPartial} from 'utility-types';
 
 // Convert webpack-merge webpack-merge enum to union type
 // For type retro-compatible webpack-merge upgrade: we used string literals before)
@@ -21,6 +22,7 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+// Docusaurus config, after validation/normalization
 export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
@@ -37,6 +39,7 @@ export interface DocusaurusConfig {
   noIndex: boolean;
   organizationName?: string;
   projectName?: string;
+  deploymentBranch?: string;
   githubHost?: string;
   githubPort?: string;
   plugins?: PluginConfig[];
@@ -55,6 +58,7 @@ export interface DocusaurusConfig {
   )[];
   clientModules?: string[];
   ssrTemplate?: string;
+  staticDirectories: string[];
   stylesheets?: (
     | string
     | {
@@ -67,6 +71,19 @@ export interface DocusaurusConfig {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
 }
+
+// Docusaurus config, as provided by the user (partial/unnormalized)
+// This type is used to provide type-safety / IDE auto-complete on the config file
+// See https://docusaurus.io/docs/typescript-support
+export type Config = Overwrite<
+  Partial<DocusaurusConfig>,
+  {
+    title: Required<DocusaurusConfig['title']>;
+    url: Required<DocusaurusConfig['url']>;
+    baseUrl: Required<DocusaurusConfig['baseUrl']>;
+    i18n?: DeepPartial<DocusaurusConfig['i18n']>;
+  }
+>;
 
 /**
  * - `type: 'package'`, plugin is in a different package.
@@ -136,6 +153,14 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
+export type PresetModule = {
+  <T>(context: LoadContext, presetOptions: T): Preset;
+};
+
+export type ImportedPresetModule = PresetModule & {
+  default?: PresetModule;
+};
+
 export type PresetConfig =
   | [string, Record<string, unknown>]
   | [string]
@@ -196,17 +221,17 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
-  siteMetadata: DocusaurusSiteMetadata;
-  routes: RouteConfig[];
-  routesPaths: string[];
-  plugins: LoadedPlugin[];
+  readonly siteMetadata: DocusaurusSiteMetadata;
+  readonly routes: RouteConfig[];
+  readonly routesPaths: string[];
+  readonly plugins: LoadedPlugin[];
 }
 
 export interface PluginContentLoadedActions {
-  addRoute(config: RouteConfig): void;
+  addRoute: (config: RouteConfig) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createData(name: string, data: any): Promise<string>;
-  setGlobalData<T = unknown>(data: T): void;
+  createData: (name: string, data: any) => Promise<string>;
+  setGlobalData: <T = unknown>(data: T) => void;
 }
 
 export type AllContent = Record<
@@ -222,36 +247,32 @@ export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 
 export interface Plugin<Content = unknown> {
   name: string;
-  loadContent?(): Promise<Content>;
-  contentLoaded?({
+  loadContent?: () => Promise<Content>;
+  contentLoaded?: ({
     content,
     actions,
   }: {
     content: Content; // the content loaded by this plugin instance
     allContent: AllContent; // content loaded by ALL the plugins
     actions: PluginContentLoadedActions;
-  }): Promise<void>;
-  routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?(props: Props): void;
-  postStart?(props: Props): void;
+  }) => Promise<void>;
+  routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
+  postBuild?: (props: Props) => void;
+  postStart?: (props: Props) => void;
   // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
-  configureWebpack?(
+  configureWebpack?: (
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
     content: Content,
-  ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
-  configurePostCss?(options: PostCssOptions): PostCssOptions;
-  getThemePath?(): string;
-  getTypeScriptThemePath?(): string;
-  getPathsToWatch?(): string[];
-  getClientModules?(): string[];
-  extendCli?(cli: Command): void;
-  injectHtmlTags?({
-    content,
-  }: {
-    content: Content;
-  }): {
+  ) => Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  configurePostCss?: (options: PostCssOptions) => PostCssOptions;
+  getThemePath?: () => string;
+  getTypeScriptThemePath?: () => string;
+  getPathsToWatch?: () => string[];
+  getClientModules?: () => string[];
+  extendCli?: (cli: Command) => void;
+  injectHtmlTags?: ({content}: {content: Content}) => {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
@@ -259,31 +280,31 @@ export interface Plugin<Content = unknown> {
   // TODO before/afterDevServer implementation
 
   // translations
-  getTranslationFiles?({
+  getTranslationFiles?: ({
     content,
   }: {
     content: Content;
-  }): Promise<TranslationFiles>;
-  getDefaultCodeTranslationMessages?(): Promise<
+  }) => Promise<TranslationFiles>;
+  getDefaultCodeTranslationMessages?: () => Promise<
     Record<
       string, // id
       string // message
     >
   >;
-  translateContent?({
+  translateContent?: ({
     content,
     translationFiles,
   }: {
     content: Content; // the content loaded by this plugin instance
     translationFiles: TranslationFiles;
-  }): Content;
-  translateThemeConfig?({
+  }) => Content;
+  translateThemeConfig?: ({
     themeConfig,
     translationFiles,
   }: {
     themeConfig: ThemeConfig;
     translationFiles: TranslationFiles;
-  }): ThemeConfig;
+  }) => ThemeConfig;
 }
 
 export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
@@ -297,9 +318,9 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
 
 export type PluginModule = {
   <T, X>(context: LoadContext, options: T): Plugin<X>;
-  validateOptions?<T>(data: OptionValidationContext<T>): T;
-  validateThemeConfig?<T>(data: ThemeConfigValidationContext<T>): T;
-  getSwizzleComponentList?(): string[];
+  validateOptions?: <T>(data: OptionValidationContext<T>) => T;
+  validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
+  getSwizzleComponentList?: () => string[];
 };
 
 export type ImportedPluginModule = PluginModule & {
@@ -385,9 +406,7 @@ interface HtmlTagObject {
    * Attributes of the html tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
    */
-  attributes?: {
-    [attributeName: string]: string | boolean;
-  };
+  attributes?: Partial<Record<string, string | boolean>>;
   /**
    * The tag name e.g. `div`, `script`, `link`, `meta`
    */
@@ -421,4 +440,7 @@ export interface TOCItem {
   readonly value: string;
   readonly id: string;
   readonly children: TOCItem[];
+  readonly level: number;
 }
+
+export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};

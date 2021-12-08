@@ -8,22 +8,17 @@
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
-import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
-import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-// import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
-import evalSourceMapMiddleware from '../webpack/react-dev-utils-webpack5/evalSourceMapMiddleware';
+import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {STATIC_DIR_NAME} from '../constants';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
@@ -88,14 +83,14 @@ export default async function start(
   }, 500);
   const {siteConfig, plugins = []} = props;
 
-  const normalizeToSiteDir = (filepath) => {
+  const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
       return posixPath(path.relative(siteDir, filepath));
     }
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = ([] as string[])
+  const pluginPaths = ([] as string[])
     .concat(
       ...plugins
         .map((plugin) => plugin.getPathsToWatch?.() ?? [])
@@ -103,7 +98,7 @@ export default async function start(
     )
     .map(normalizeToSiteDir);
 
-  const pathsToWatch: string[] = [
+  const pathsToWatch = [
     ...pluginPaths,
     props.siteConfigPath,
     getTranslationsLocaleDirPath({
@@ -112,13 +107,17 @@ export default async function start(
     }),
   ];
 
-  const fsWatcher = chokidar.watch(pathsToWatch, {
-    cwd: siteDir,
-    ignoreInitial: true,
+  const pollingOptions = {
     usePolling: !!cliOptions.poll,
     interval: Number.isInteger(cliOptions.poll)
       ? (cliOptions.poll as number)
       : undefined,
+  };
+  const httpsConfig = getHttpsConfig();
+  const fsWatcher = chokidar.watch(pathsToWatch, {
+    cwd: siteDir,
+    ignoreInitial: true,
+    ...{pollingOptions},
   });
 
   ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
@@ -126,6 +125,10 @@ export default async function start(
   );
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
+    infrastructureLogging: {
+      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+      level: 'warn',
+    },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
@@ -141,8 +144,6 @@ export default async function start(
         preBodyTags,
         postBodyTags,
       }),
-      // This is necessary to emit hot updates for webpack-dev-server.
-      new HotModuleReplacementPlugin(),
     ],
   });
 
@@ -167,50 +168,60 @@ export default async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    ...{
-      compress: true,
-      clientLogLevel: 'error',
-      hot: true,
-      hotOnly: cliOptions.hotOnly,
-      // Use 'ws' instead of 'sockjs-node' on server since we're using native
-      // websockets in `webpackHotDevClient`.
-      transportMode: 'ws',
-      // Prevent a WS client from getting injected as we're already including
-      // `webpackHotDevClient`.
-      injectClient: false,
-      quiet: true,
-      https: getHttpsConfig(),
-      headers: {
-        'access-control-allow-origin': '*',
+    hot: cliOptions.hotOnly ? 'only' : true,
+    liveReload: false,
+    client: {
+      progress: true,
+      overlay: {
+        warnings: false,
+        errors: true,
       },
+    },
+    headers: {
+      'access-control-allow-origin': '*',
+    },
+    devMiddleware: {
       publicPath: baseUrl,
-      watchOptions: {
-        poll: cliOptions.poll,
-
+      // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
+      stats: 'summary',
+    },
+    static: siteConfig.staticDirectories.map((dir) => ({
+      publicPath: baseUrl,
+      directory: path.resolve(siteDir, dir),
+      watch: {
         // Useful options for our own monorepo using symlinks!
         // See https://github.com/webpack/webpack/issues/11612#issuecomment-879259806
         followSymlinks: true,
         ignored: /node_modules\/(?!@docusaurus)/,
+        ...{pollingOptions},
       },
-      historyApiFallback: {
-        rewrites: [{from: /\/*/, to: baseUrl}],
-      },
-      disableHostCheck: true,
-      // Disable overlay on browser since we use CRA's overlay error reporting.
-      overlay: false,
-      host,
-      before: (app, server) => {
-        app.use(
-          baseUrl,
-          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
-        );
-        // This lets us fetch source contents from webpack for the error overlay.
-        app.use(evalSourceMapMiddleware(server));
-        // This lets us open files from the runtime error overlay.
-        app.use(errorOverlayMiddleware());
-      },
+    })),
+    ...(httpsConfig && {
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig,
+            }
+          : 'https',
+    }),
+    historyApiFallback: {
+      rewrites: [{from: /\/*/, to: baseUrl}],
+    },
+    allowedHosts: 'all',
+    host,
+    port,
+    onBeforeSetupMiddleware: (devServer) => {
+      // This lets us fetch source contents from webpack for the error overlay.
+      devServer.app.use(
+        evalSourceMapMiddleware(
+          // @ts-expect-error: bad types
+          devServer,
+        ),
+      );
     },
   };
+
   const compiler = webpack(config);
   if (process.env.E2E_TEST) {
     compiler.hooks.done.tap('done', (stats) => {
@@ -223,18 +234,16 @@ export default async function start(
     });
   }
 
-  const devServer = new WebpackDevServer(compiler, devServerConfig);
-  devServer.listen(port, host, (err) => {
-    if (err) {
-      console.log(err);
-    }
+  const devServer = new WebpackDevServer(devServerConfig, compiler);
+  devServer.startCallback(() => {
     if (cliOptions.open) {
       openBrowser(openUrl);
     }
   });
+
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
-    process.on(sig as NodeJS.Signals, () => {
-      devServer.close();
+    process.on(sig, () => {
+      devServer.stop();
       process.exit();
     });
   });

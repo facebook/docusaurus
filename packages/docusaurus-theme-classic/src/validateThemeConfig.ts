@@ -32,7 +32,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
-  metadatas: [],
+  metadata: [],
   prism: {
     additionalLanguages: [],
   },
@@ -41,8 +41,11 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  tableOfContents: {
+    minHeadingLevel: 2,
+    maxHeadingLevel: 3,
+  },
 };
-exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
@@ -260,12 +263,16 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
-  metadatas: Joi.array()
+  metadata: Joi.array()
     .items(HtmlMetadataSchema)
-    .default(DEFAULT_CONFIG.metadatas),
+    .default(DEFAULT_CONFIG.metadata),
+  metadatas: Joi.any().forbidden().messages({
+    'any.unknown':
+      'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
+  }),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
-    content: Joi.string(),
+    content: Joi.string().required(),
     backgroundColor: Joi.string(),
     textColor: Joi.string(),
     isCloseable: Joi.bool().default(true),
@@ -286,6 +293,8 @@ const ThemeConfigSchema = Joi.object({
       alt: Joi.string().allow(''),
       src: Joi.string().required(),
       srcDark: Joi.string(),
+      width: Joi.alternatives().try(Joi.string(), Joi.number()),
+      height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
       target: Joi.string(),
     }),
@@ -296,6 +305,9 @@ const ThemeConfigSchema = Joi.object({
       alt: Joi.string().allow(''),
       src: Joi.string(),
       srcDark: Joi.string(),
+      // TODO infer this from reading the image
+      width: Joi.alternatives().try(Joi.string(), Joi.number()),
+      height: Joi.alternatives().try(Joi.string(), Joi.number()),
       href: Joi.string(),
     }),
     copyright: Joi.string(),
@@ -329,9 +341,27 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
   }),
+  tableOfContents: Joi.object({
+    minHeadingLevel: Joi.number()
+      .default(DEFAULT_CONFIG.tableOfContents.minHeadingLevel)
+      .when('maxHeadingLevel', {
+        is: Joi.exist(),
+        then: Joi.number()
+          .integer()
+          .min(2)
+          .max(6)
+          .max(Joi.ref('maxHeadingLevel')),
+        otherwise: Joi.number().integer().min(2).max(6),
+      }),
+    maxHeadingLevel: Joi.number()
+      .integer()
+      .min(2)
+      .max(6)
+      .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
+  }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
-export {ThemeConfigSchema};
+export {DEFAULT_CONFIG, ThemeConfigSchema};
 
 export function validateThemeConfig({
   validate,

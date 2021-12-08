@@ -6,16 +6,14 @@
  */
 
 import {groupTaggedItems} from '@docusaurus/utils';
-import {VersionTags, DocMetadata} from './types';
+import type {VersionTags, DocMetadata} from './types';
 import {mapValues} from 'lodash';
 
 export function getVersionTags(docs: DocMetadata[]): VersionTags {
   const groups = groupTaggedItems(docs, (doc) => doc.tags);
-  return mapValues(groups, (group) => {
-    return {
-      name: group.tag.label,
-      docIds: group.items.map((item) => item.id),
-      permalink: group.tag.permalink,
-    };
-  });
+  return mapValues(groups, (group) => ({
+    name: group.tag.label,
+    docIds: group.items.map((item) => item.id),
+    permalink: group.tag.permalink,
+  }));
 }

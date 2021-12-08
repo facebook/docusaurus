@@ -7,8 +7,6 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
-/* eslint-disable no-param-reassign */
-
 import remark from 'remark';
 import u from 'unist-builder';
 import removePosition from 'unist-util-remove-position';

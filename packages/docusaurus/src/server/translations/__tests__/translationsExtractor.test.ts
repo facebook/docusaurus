@@ -14,7 +14,7 @@ import {
 import {getBabelOptions} from '../../../webpack/utils';
 import path from 'path';
 import {InitializedPlugin} from '@docusaurus/types';
-import {SRC_DIR_NAME} from '../../../constants';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 
 const TestBabelOptions = getBabelOptions({
   isServer: true,
@@ -84,7 +84,7 @@ const unrelated =  42;
     });
   });
 
-  test('extract from a translate() function call', async () => {
+  test('extract from a translate() functions calls', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -92,6 +92,8 @@ export default function MyComponent() {
   return (
     <div>
       <input text={translate({id: 'codeId',message: 'code message',description: 'code description'})}/>
+
+      <input text={translate({id: 'codeId1'})}/>
     </div>
   );
 }
@@ -107,12 +109,13 @@ export default function MyComponent() {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
+        codeId1: {message: 'codeId1'},
       },
       warnings: [],
     });
   });
 
-  test('extract from a <Translate> component', async () => {
+  test('extract from a <Translate> components', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -122,6 +125,8 @@ export default function MyComponent() {
       <Translate id="codeId" description={"code description"}>
         code message
       </Translate>
+
+      <Translate id="codeId1" />
     </div>
   );
 }
@@ -137,6 +142,7 @@ export default function MyComponent() {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
+        codeId1: {message: 'codeId1'},
       },
       warnings: [],
     });

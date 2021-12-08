@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {
@@ -17,13 +16,9 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-} from '@docusaurus/utils';
-import {
-  STATIC_DIR_NAME,
   DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+} from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
-import {flatten, take} from 'lodash';
 
 import {
   PluginOptions,
@@ -49,13 +44,13 @@ import {
 } from '@docusaurus/types';
 import {Configuration} from 'webpack';
 import {
-  generateBlogFeed,
   generateBlogPosts,
   getContentPathList,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
+import {createBlogFeedFiles} from './feed';
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -69,10 +64,11 @@ export default function pluginContentBlog(
 
   const {
     siteDir,
-    siteConfig: {onBrokenMarkdownLinks, baseUrl},
+    siteConfig,
     generatedFilesDir,
     i18n: {currentLocale},
   } = context;
+  const {onBrokenMarkdownLinks, baseUrl} = siteConfig;
 
   const contentPaths: BlogContentPaths = {
     contentPath: path.resolve(siteDir, options.path),
@@ -98,10 +94,8 @@ export default function pluginContentBlog(
 
     getPathsToWatch() {
       const {include, authorsMapPath} = options;
-      const contentMarkdownGlobs = flatten(
-        getContentPathList(contentPaths).map((contentPath) => {
-          return include.map((pattern) => `${contentPath}/${pattern}`);
-        }),
+      const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
+        (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
       // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
@@ -124,6 +118,7 @@ export default function pluginContentBlog(
       const {
         postsPerPage: postsPerPageOption,
         routeBasePath,
+        tagsBasePath,
         blogDescription,
         blogTitle,
         blogSidebarTitle,
@@ -201,7 +196,7 @@ export default function pluginContentBlog(
 
       const blogTags: BlogTags = getBlogTags(blogPosts);
 
-      const tagsPath = normalizeUrl([baseBlogUrl, 'tags']);
+      const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
       const blogTagsListPath =
         Object.keys(blogTags).length > 0 ? tagsPath : null;
@@ -225,6 +220,8 @@ export default function pluginContentBlog(
         blogPostComponent,
         blogTagsListComponent,
         blogTagsPostsComponent,
+        routeBasePath,
+        archiveBasePath,
       } = options;
 
       const {addRoute, createData} = actions;
@@ -241,7 +238,27 @@ export default function pluginContentBlog(
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
-          : take(blogPosts, options.blogSidebarCount);
+          : blogPosts.slice(0, options.blogSidebarCount);
+
+      const archiveUrl = normalizeUrl([
+        baseUrl,
+        routeBasePath,
+        archiveBasePath,
+      ]);
+
+      // creates a blog archive route
+      const archiveProp = await createData(
+        `${docuHash(archiveUrl)}.json`,
+        JSON.stringify({blogPosts}, null, 2),
+      );
+      addRoute({
+        path: archiveUrl,
+        component: '@theme/BlogArchivePage',
+        exact: true,
+        modules: {
+          archive: aliasedSource(archiveProp),
+        },
+      });
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
@@ -302,9 +319,9 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
+              items: items.map((postID) =>
                 // To tell routes.js this is an import and not a nested object to recurse.
-                return {
+                ({
                   content: {
                     __import: true,
                     path: blogItemsToMetadata[postID].source,
@@ -312,8 +329,8 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                };
-              }),
+                }),
+              ),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -445,7 +462,10 @@ export default function pluginContentBlog(
                     rehypePlugins,
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,
@@ -470,14 +490,12 @@ export default function pluginContentBlog(
                     }: {
                       frontMatter: BlogPostFrontMatter;
                       metadata: MetaData;
-                    }): Assets => {
-                      return {
-                        image: frontMatter.image,
-                        authorsImageUrls: metadata.authors.map(
-                          (author) => author.imageURL,
-                        ),
-                      };
-                    },
+                    }): Assets => ({
+                      image: frontMatter.image,
+                      authorsImageUrls: metadata.authors.map(
+                        (author) => author.imageURL,
+                      ),
+                    }),
                   },
                 },
                 {
@@ -496,29 +514,18 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feed = await generateBlogFeed(contentPaths, context, options);
-
-      if (!feed) {
+      // TODO: we shouldn't need to re-read the posts here!
+      // postBuild should receive loadedContent
+      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      if (!blogPosts.length) {
         return;
       }
-
-      const feedTypes = options.feedOptions.type;
-
-      await Promise.all(
-        feedTypes.map(async (feedType) => {
-          const feedPath = path.join(
-            outDir,
-            options.routeBasePath,
-            `${feedType}.xml`,
-          );
-          const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
-          try {
-            await fs.outputFile(feedPath, feedContent);
-          } catch (err) {
-            throw new Error(`Generating ${feedType} feed failed: ${err}.`);
-          }
-        }),
-      );
+      await createBlogFeedFiles({
+        blogPosts,
+        options,
+        outDir,
+        siteConfig,
+      });
     },
 
     injectHtmlTags({content}) {
@@ -531,19 +538,17 @@ export default function pluginContentBlog(
       }
 
       const feedTypes = options.feedOptions.type;
-      const {
-        siteConfig: {title},
-      } = context;
+      const feedTitle = options.feedOptions.title ?? context.siteConfig.title;
       const feedsConfig = {
         rss: {
           type: 'application/rss+xml',
           path: 'rss.xml',
-          title: `${title} Blog RSS Feed`,
+          title: `${feedTitle} RSS Feed`,
         },
         atom: {
           type: 'application/atom+xml',
           path: 'atom.xml',
-          title: `${title} Blog Atom Feed`,
+          title: `${feedTitle} Atom Feed`,
         },
       };
       const headTags: HtmlTags = [];

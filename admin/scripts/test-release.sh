@@ -32,7 +32,7 @@ shift $((OPTIND-1))
 
 if [ ! -z $EXTRA_OPTS ]
 then
-  echo docusaurus-init extra options = ${EXTRA_OPTS}
+  echo create-docusaurus extra options = ${EXTRA_OPTS}
 fi
 
 # Run Docker container with private npm registry Verdaccio
@@ -47,8 +47,12 @@ npx --no-install lerna publish --exact --yes --no-verify-access --no-git-reset -
 # Revert version changes
 git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 
+
+# The website is generated outside the repo to minimize chances of yarn resolving the wrong version
+cd ..
+
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" npx @docusaurus/init@"$NEW_VERSION" init test-website classic $EXTRA_OPTS
+npm_config_registry="$CUSTOM_REGISTRY_URL" npm init docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
 
 # Stop Docker container
 if [[ -z "${KEEP_CONTAINER:-}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then

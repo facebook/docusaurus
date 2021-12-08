@@ -6,6 +6,7 @@
  */
 
 declare module '@generated/client-modules' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clientModules: readonly any[];
   export default clientModules;
 }
@@ -21,11 +22,12 @@ declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
   const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+  export = siteMetadata;
 }
 
 declare module '@generated/registry' {
   const registry: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly [key: string]: [() => Promise<any>, string, string];
   };
   export default registry;
@@ -38,19 +40,23 @@ declare module '@generated/routes' {
     readonly path: string;
     readonly component: RouteConfig['component'];
     readonly exact?: boolean;
+    readonly routes?: Route[];
   };
   const routes: Route[];
   export default routes;
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: Record<string, Record<string, string>>;
-  export default routesChunkNames;
+  import type {RouteChunksTree} from '@docusaurus/types';
+
+  const routesChunkNames: Record<string, RouteChunksTree>;
+  export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
-  const globalData: Record<string, unknown>;
-  export default globalData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalData: Record<string, any>;
+  export = globalData;
 }
 
 declare module '@generated/i18n' {
@@ -60,19 +66,68 @@ declare module '@generated/i18n' {
     currentLocale: string;
     localeConfigs: Record<string, {label: string; direction: string}>;
   };
-  export default i18n;
+  export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
   const codeTranslations: Record<string, string>;
-  export default codeTranslations;
+  export = codeTranslations;
 }
-
-declare module '@theme/*';
 
 declare module '@theme-original/*';
 
-declare module '@docusaurus/*';
+declare module '@theme/Error' {
+  export interface Props {
+    readonly error: Error;
+    readonly tryAgain: () => void;
+  }
+  export default function Error(props: Props): JSX.Element;
+}
+
+declare module '@theme/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly title?: string;
+    readonly description?: string;
+  }
+  export default function Layout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Loading' {
+  import type {LoadingComponentProps} from 'react-loadable';
+
+  export default function Loading(props: LoadingComponentProps): JSX.Element;
+}
+
+declare module '@theme/NotFound' {
+  export default function NotFound(): JSX.Element;
+}
+
+declare module '@theme/Root' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function Root({children}: Props): JSX.Element;
+}
+
+declare module '@docusaurus/constants' {
+  export const DEFAULT_PLUGIN_ID: 'default';
+}
+
+declare module '@docusaurus/ErrorBoundary' {
+  import type {ReactNode} from 'react';
+  import ErrorComponent from '@theme/Error';
+
+  export interface Props {
+    readonly fallback?: typeof ErrorComponent;
+    readonly children: ReactNode;
+  }
+  export default function ErrorBoundary(props: Props): JSX.Element;
+}
 
 declare module '@docusaurus/Head' {
   import type {HelmetProps} from 'react-helmet';
@@ -85,16 +140,21 @@ declare module '@docusaurus/Head' {
 }
 
 declare module '@docusaurus/Link' {
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
-  export type LinkProps = NavLinkProps & {
-    readonly isNavLink?: boolean;
-    readonly to?: string;
-    readonly href?: string;
-    readonly autoAddBaseUrl?: boolean;
+  import type {CSSProperties, ComponentProps} from 'react';
 
-    // escape hatch in case broken links check is annoying for a specific link
-    readonly 'data-noBrokenLinkCheck'?: boolean;
-  };
+  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  export type LinkProps = NavLinkProps &
+    ComponentProps<'a'> & {
+      readonly className?: string;
+      readonly style?: CSSProperties;
+      readonly isNavLink?: boolean;
+      readonly to?: string;
+      readonly href?: string;
+      readonly autoAddBaseUrl?: boolean;
+
+      // escape hatch in case broken links check is annoying for a specific link
+      readonly 'data-noBrokenLinkCheck'?: boolean;
+    };
   const Link: (props: LinkProps) => JSX.Element;
   export default Link;
 }
@@ -109,7 +169,7 @@ declare module '@docusaurus/Interpolate' {
 
   export type InterpolateValues<
     Str extends string,
-    Value extends ReactNode
+    Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
   // TS function overload: if all the values are plain strings, then interpolate returns a simple string
@@ -135,16 +195,16 @@ declare module '@docusaurus/Interpolate' {
 }
 
 declare module '@docusaurus/Translate' {
-  import type {
-    InterpolateProps,
-    InterpolateValues,
-  } from '@docusaurus/Interpolate';
+  import type {ReactNode} from 'react';
+  import type {InterpolateValues} from '@docusaurus/Interpolate';
 
-  export type TranslateParam<Str extends string> = Partial<
-    InterpolateProps<Str>
-  > & {
-    message: Str;
-    id?: string;
+  // TS type to ensure that at least one of id or message is always provided
+  // (Generic permits to handled message provided as React children)
+  type IdOrMessage<MessageKey extends 'children' | 'message'> =
+    | ({[key in MessageKey]: string} & {id?: string})
+    | ({[key in MessageKey]?: string} & {id: string});
+
+  export type TranslateParam<Str extends string> = IdOrMessage<'message'> & {
     description?: string;
     values?: InterpolateValues<Str, string | number>;
   };
@@ -154,9 +214,9 @@ declare module '@docusaurus/Translate' {
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  export type TranslateProps<Str extends string> = InterpolateProps<Str> & {
-    id?: string;
+  export type TranslateProps<Str extends string> = IdOrMessage<'children'> & {
     description?: string;
+    values?: InterpolateValues<Str, ReactNode>;
   };
 
   export default function Translate<Str extends string>(
@@ -222,10 +282,10 @@ declare module '@docusaurus/ComponentCreator' {
 }
 
 declare module '@docusaurus/BrowserOnly' {
-  export type Props = {
-    children?: () => JSX.Element;
-    fallback?: JSX.Element;
-  };
+  export interface Props {
+    readonly children?: () => JSX.Element;
+    readonly fallback?: JSX.Element;
+  }
   const BrowserOnly: (props: Props) => JSX.Element | null;
   export default BrowserOnly;
 }
@@ -256,8 +316,17 @@ declare module '@docusaurus/useGlobalData' {
     pluginId?: string,
   ): T;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
+}
+
+declare module '*.svg' {
+  import type {ComponentType, SVGProps} from 'react';
+
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+
+  export default ReactComponent;
 }
 
 declare module '*.module.css' {

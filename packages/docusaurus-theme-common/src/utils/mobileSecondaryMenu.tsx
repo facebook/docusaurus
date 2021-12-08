@@ -29,7 +29,7 @@ type ExtraProps = {
   toggleSidebar: () => void;
 };
 
-export type MobileSecondaryMenuComponent<Props extends unknown> = ComponentType<
+export type MobileSecondaryMenuComponent<Props> = ComponentType<
   Props & ExtraProps
 >;
 
@@ -83,13 +83,14 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
   return useMemo(
     () => obj,
     // Is this safe?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [...Object.keys(obj), ...Object.values(obj)],
   );
 }
 
 // Fill the secondary menu placeholder with some real content
 export function MobileSecondaryMenuFiller<
-  Props extends Record<string, unknown>
+  Props extends Record<string, unknown>,
 >({
   component,
   props,
@@ -107,9 +108,7 @@ export function MobileSecondaryMenuFiller<
     setState({component, props: memoizedProps});
   }, [setState, component, memoizedProps]);
 
-  useEffect(() => {
-    return () => setState(null);
-  }, [setState]);
+  useEffect(() => () => setState(null), [setState]);
 
   return null;
 }

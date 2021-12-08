@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.9",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -16,6 +16,7 @@
     "build:baseUrl": "cross-env BASE_URL='/build/' yarn build",
     "start:blogOnly": "cross-env yarn start --config=docusaurus.config-blog-only.js",
     "build:blogOnly": "cross-env yarn build --config=docusaurus.config-blog-only.js",
+    "build:fast": "cross-env BUILD_FAST=true yarn build --locale en",
     "netlify:build:production": "yarn docusaurus write-translations && yarn netlify:crowdin:delay && yarn netlify:crowdin:uploadSources && yarn netlify:crowdin:downloadTranslations && yarn build",
     "netlify:build:deployPreview": "yarn docusaurus write-translations --locale fr --messagePrefix '(fr) ' && yarn build",
     "netlify:crowdin:delay": "node delayCrowdin.js",
@@ -24,26 +25,30 @@
     "netlify:crowdin:downloadTranslationsFailSafe": "yarn netlify:crowdin:wait && (yarn --cwd .. crowdin:download:website || echo 'Crowdin translation download failure (only internal PRs have access to the Crowdin env token)')",
     "netlify:crowdin:uploadSources": "yarn --cwd .. crowdin:upload:website",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "watch": "tsc --watch"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.5.2",
+    "@crowdin/cli": "^3.7.1",
     "@crowdin/crowdin-api-client": "^1.10.6",
-    "@docusaurus/core": "2.0.0-beta.5",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.5",
-    "@docusaurus/plugin-ideal-image": "2.0.0-beta.5",
-    "@docusaurus/plugin-pwa": "2.0.0-beta.5",
-    "@docusaurus/preset-classic": "2.0.0-beta.5",
-    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.5",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.5",
+    "@docusaurus/core": "2.0.0-beta.9",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.9",
+    "@docusaurus/plugin-ideal-image": "2.0.0-beta.9",
+    "@docusaurus/plugin-pwa": "2.0.0-beta.9",
+    "@docusaurus/preset-classic": "2.0.0-beta.9",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.9",
+    "@docusaurus/theme-live-codeblock": "2.0.0-beta.9",
+    "@docusaurus/utils": "2.0.0-beta.9",
+    "@popperjs/core": "^2.10.2",
     "clsx": "^1.1.1",
-    "color": "^3.1.3",
+    "color": "^4.0.1",
     "esbuild-loader": "2.13.1",
     "hast-util-is-element": "1.1.0",
     "netlify-plugin-cache": "^1.0.3",
     "npm-to-yarn": "^1.0.0-2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-popper": "^2.2.5",
     "rehype-katex": "^4.0.0",
     "remark-math": "^3.0.1",
     "workbox-routing": "^5.0.0",
@@ -63,7 +68,10 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
+    "@types/jest": "^26.0.20",
     "cross-env": "^7.0.3",
+    "fs-extra": "^10.0.0",
+    "image-size": "^1.0.0",
     "raw-loader": "^4.0.2"
   }
 }

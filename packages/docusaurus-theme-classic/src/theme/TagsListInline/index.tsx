@@ -13,7 +13,7 @@ import type {Props} from '@theme/TagsListInline';
 
 import styles from './styles.module.css';
 
-export default function TagsListInline({tags}: Props) {
+export default function TagsListInline({tags}: Props): JSX.Element {
   return (
     <>
       <b>

@@ -28,11 +28,18 @@
     73%
   );
 
-  --ifm-color-feedback-background: #fff;
+  --site-color-feedback-background: #fff;
+  --site-color-favorite-background: #f6fdfd;
+  --site-color-tooltip: #fff;
+  --site-color-tooltip-background: #353738;
+  --site-color-svgIcon-favorite: #e9669e;
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
 }
 
 html[data-theme='dark'] {
-  --ifm-color-feedback-background: #f0f8ff;
+  --site-color-feedback-background: #f0f8ff;
+  --site-color-favorite-background: #1d1e1e;
+  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
 }
 
 .docusaurus-highlight-code-line {
@@ -145,4 +152,22 @@ div[class^='announcementBar_'] {
     var(--site-announcement-bar-stripe-color2) 40px
   );
   font-weight: bold;
+}
+
+.red > a {
+  color: red;
+}
+
+.screen-reader-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

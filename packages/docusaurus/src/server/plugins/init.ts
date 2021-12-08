@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Module from 'module';
+import {createRequire} from 'module';
 import importFresh from 'import-fresh';
 import {
   DocusaurusPluginVersionInformation,
@@ -16,7 +16,7 @@ import {
   PluginOptions,
   InitializedPlugin,
 } from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {
@@ -133,9 +133,6 @@ export default function initPlugins({
 }): InitializedPlugin[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
-  // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
-  // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
-  const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(context.siteConfigPath);
 
   function doGetPluginVersion(
@@ -196,9 +193,8 @@ export default function initPlugins({
         pluginConfig,
         pluginRequire,
       );
-      const pluginVersion: DocusaurusPluginVersionInformation = doGetPluginVersion(
-        normalizedPluginConfig,
-      );
+      const pluginVersion: DocusaurusPluginVersionInformation =
+        doGetPluginVersion(normalizedPluginConfig);
       const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
       // Side-effect: merge the normalized theme config in the original one
