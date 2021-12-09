@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import WebpackBar from 'webpackbar';
 import {Compiler} from 'webpack';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
