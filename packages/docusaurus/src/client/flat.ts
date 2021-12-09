@@ -5,24 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Too dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function flat(target: unknown): Record<string, any> {
+import type {RouteChunksTree} from '@docusaurus/types';
+
+const isTree = (x: string | RouteChunksTree): x is RouteChunksTree =>
+  typeof x === 'object' && !!x && Object.keys(x).length > 0;
+
+function flat(target: RouteChunksTree): Record<string, string> {
   const delimiter = '.';
-  const output: Record<string, any> = {};
+  const output: Record<string, string> = {};
 
-  function step(object: any, prev?: string) {
-    Object.keys(object).forEach((key) => {
+  function step(object: RouteChunksTree, prefix?: string | number) {
+    Object.keys(object).forEach((key: string | number) => {
       const value = object[key];
-      const type = typeof value;
-      const isObject = type === 'object' && !!value;
-      const newKey = prev ? prev + delimiter + key : key;
+      const newKey = prefix ? `${prefix}${delimiter}${key}` : key;
 
-      if (isObject && Object.keys(value).length) {
+      if (isTree(value)) {
         step(value, newKey);
-        return;
+      } else {
+        output[newKey] = value;
       }
-      output[newKey] = value;
     });
   }
 

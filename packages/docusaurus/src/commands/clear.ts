@@ -4,10 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
 import path from 'path';
-import chalk = require('chalk');
-import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import chalk from 'chalk';
+import {
+  DEFAULT_BUILD_DIR_NAME,
+  GENERATED_FILES_DIR_NAME,
+} from '@docusaurus/utils';
 
 function removePath(fsPath: string) {
   return fs

@@ -72,16 +72,16 @@ jobs:
           KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
-          # we have to switch to berry first before setting the version we want
           yarn set version berry
-          # temporary using canary for #5342
-          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
-          yarn config set pnpMode loose
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn config set enableGlobalCache true
+
+          # Patch package so that peer deps are provided. This has been fixed in terser by making acorn a direct dependency
+          # TODO watch out for the next terser release. Commit: https://github.com/terser/terser/commit/05b23eeb682d732484ad51b19bf528258fd5dc2a
+          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}, "html-minifier-terser@*": {"dependencies": {"acorn": "^8.6.0"}}}'
 
           yarn install
         working-directory: ../test-website
