@@ -97,11 +97,7 @@
     {
       "type": "category",
       "label": "Advanced Guides",
-      "items": [
-        "using-plugins",
-        "using-themes",
-        "presets"
-      ]
+      "items": ["using-plugins", "using-themes", "presets"]
     },
     {
       "type": "category",
