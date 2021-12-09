@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-beta.9",
+  "version": "2.0.0-beta.10",
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/theme-classic.d.ts",
@@ -23,13 +23,13 @@
     "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
   },
   "dependencies": {
-    "@docusaurus/plugin-content-blog": "2.0.0-beta.9",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.9",
-    "@docusaurus/plugin-content-pages": "2.0.0-beta.9",
-    "@docusaurus/theme-common": "2.0.0-beta.9",
-    "@docusaurus/theme-translations": "2.0.0-beta.9",
-    "@docusaurus/utils": "2.0.0-beta.9",
-    "@docusaurus/utils-validation": "2.0.0-beta.9",
+    "@docusaurus/plugin-content-blog": "2.0.0-beta.10",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.10",
+    "@docusaurus/plugin-content-pages": "2.0.0-beta.10",
+    "@docusaurus/theme-common": "2.0.0-beta.10",
+    "@docusaurus/theme-translations": "2.0.0-beta.10",
+    "@docusaurus/utils": "2.0.0-beta.10",
+    "@docusaurus/utils-validation": "2.0.0-beta.10",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "chalk": "^4.1.2",
@@ -45,8 +45,8 @@
     "rtlcss": "^3.3.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.9",
-    "@docusaurus/types": "2.0.0-beta.9",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.10",
+    "@docusaurus/types": "2.0.0-beta.10",
     "@types/mdx-js__react": "^1.5.4",
     "@types/parse-numeric-range": "^0.0.1",
     "@types/rtlcss": "^3.1.1",
