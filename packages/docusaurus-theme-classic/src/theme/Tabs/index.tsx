@@ -149,6 +149,7 @@ function TabsComponent(props: Props): JSX.Element {
             role="tab"
             tabIndex={selectedValue === value ? 0 : -1}
             aria-selected={selectedValue === value}
+            data-value={value}
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
