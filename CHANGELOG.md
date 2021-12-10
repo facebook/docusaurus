@@ -1,8 +1,12 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.13 (2021-12-10)
+
+Good npm publish, same code as beta.11
+
 ## 2.0.0-beta.12 (2021-12-10)
 
-Same code as beta.11
+Bad npm publish, use beta.13 instead
 
 ## 2.0.0-beta.11 (2021-12-10)
 
