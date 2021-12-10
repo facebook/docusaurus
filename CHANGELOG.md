@@ -1,5 +1,17 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.11 (2021-12-10)
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-client-redirects`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-plugin-debug`, `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus-plugin-ideal-image`, `docusaurus-plugin-pwa`, `docusaurus-plugin-sitemap`, `docusaurus-preset-classic`, `docusaurus-theme-classic`, `docusaurus-theme-common`, `docusaurus-theme-live-codeblock`, `docusaurus-theme-search-algolia`
+  - [#6078](https://github.com/facebook/docusaurus/pull/6078) fix: move docusaurus core back to hard dependencies ([@pranabdas](https://github.com/pranabdas))
+
+#### Committers: 2
+
+- Pranab Das ([@pranabdas](https://github.com/pranabdas))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+
 ## 2.0.0-beta.10 (2021-12-09)
 
 #### :rocket: New Feature
@@ -2169,7 +2181,7 @@ Starting with this release for a proper work of i18n functionality, you need to 
 - [@wolf20482](https://github.com/wolf20482)
 - moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
 - Çağlar Turalı ([@caglarturali](https://github.com/caglarturali))
-- 琚致远 ([@juzhiyuan](https://github.com/juzhiyuan)) ✨ Done in 15.23s.
+- 琚致远 ([@juzhiyuan](https://github.com/juzhiyuan))
 
 ## 2.0.0-alpha.70 (2020-12-17)
 
@@ -3033,7 +3045,7 @@ Failed release
 - Méril ([@mpsq](https://github.com/mpsq))
 - Sébastien Lorber ([@slorber](https://github.com/slorber))
 - Teik Jun ([@teikjun](https://github.com/teikjun))
-- Xuqian ([@zxuqian](https://github.com/zxuqian)) ✨ Done in 3.58s.
+- Xuqian ([@zxuqian](https://github.com/zxuqian))
 
 ## 2.0.0-alpha.60 (2020-07-29)
 
