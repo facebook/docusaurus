@@ -23,6 +23,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
     "@babel/plugin-proposal-optional-chaining": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
+    "@docusaurus/core": "2.0.0-beta.10",
     "@docusaurus/theme-common": "2.0.0-beta.10",
     "@docusaurus/theme-translations": "2.0.0-beta.10",
     "@docusaurus/utils": "2.0.0-beta.10",
@@ -43,7 +44,6 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0",
-    "@docusaurus/core": "2.0.0-beta.9",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   }

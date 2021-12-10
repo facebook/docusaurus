@@ -45,6 +45,7 @@
     "rtlcss": "^3.3.0"
   },
   "devDependencies": {
+    "@docusaurus/core": "2.0.0-beta.10",
     "@docusaurus/module-type-aliases": "2.0.0-beta.10",
     "@docusaurus/types": "2.0.0-beta.10",
     "@types/mdx-js__react": "^1.5.4",
@@ -55,7 +56,6 @@
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },

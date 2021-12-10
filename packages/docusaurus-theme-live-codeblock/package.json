@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.10",
     "@docusaurus/theme-translations": "2.0.0-beta.10",
     "@docusaurus/utils": "2.0.0-beta.10",
     "@docusaurus/utils-validation": "2.0.0-beta.10",
@@ -28,12 +29,10 @@
     "react-live": "2.2.3"
   },
   "devDependencies": {
-    "@docusaurus/core": "2.0.0-beta.10",
     "@docusaurus/types": "2.0.0-beta.10",
     "@types/buble": "^0.20.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "2.0.0-beta.9",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
