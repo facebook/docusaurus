@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-beta.11",
+  "version": "2.0.0-beta.12",
   "description": "Blog plugin for Docusaurus.",
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
@@ -18,10 +18,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.11",
-    "@docusaurus/mdx-loader": "2.0.0-beta.11",
-    "@docusaurus/utils": "2.0.0-beta.11",
-    "@docusaurus/utils-validation": "2.0.0-beta.11",
+    "@docusaurus/core": "2.0.0-beta.12",
+    "@docusaurus/mdx-loader": "2.0.0-beta.12",
+    "@docusaurus/utils": "2.0.0-beta.12",
+    "@docusaurus/utils-validation": "2.0.0-beta.12",
     "chalk": "^4.1.2",
     "escape-string-regexp": "^4.0.0",
     "feed": "^4.2.2",
@@ -37,7 +37,7 @@
     "webpack": "^5.61.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.11"
+    "@docusaurus/types": "2.0.0-beta.12"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
