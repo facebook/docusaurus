@@ -1,5 +1,9 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.12 (2021-12-10)
+
+Same code as the broken beta.11
+
 ## 2.0.0-beta.11 (2021-12-10)
 
 #### :bug: Bug Fix
