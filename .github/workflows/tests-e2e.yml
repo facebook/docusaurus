@@ -148,7 +148,9 @@ jobs:
         env:
           KEEP_CONTAINER: true
       - name: Install test-website project with PNPM
-        run: pnpm install
+        run: |
+          curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+          pnpm install
         working-directory: ../test-website
         env:
           npm_config_registry: http://localhost:4873
