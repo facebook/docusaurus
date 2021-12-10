@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-translations",
-  "version": "2.0.0-beta.12",
+  "version": "2.0.0-beta.13",
   "description": "Docusaurus theme translations.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
