@@ -55,14 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14']
         nodeLinker: [pnp, node-modules]
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node }}
+      - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '16'
           cache: yarn
       - name: Installation
         run: yarn
@@ -94,6 +93,74 @@ jobs:
           E2E_TEST: true
       - name: Build test-website project
         run: yarn build
+        working-directory: ../test-website
+        env:
+          CI: true
+
+  npm:
+    name: E2E — NPM
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with NPM
+        run: npm install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: npm run start -- --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: npm run build
+        working-directory: ../test-website
+        env:
+          CI: true
+
+  pnpm:
+    name: E2E — PNPM
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with PNPM
+        run: |
+          curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+          pnpm install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: pnpm run start -- --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: pnpm run build
         working-directory: ../test-website
         env:
           CI: true
