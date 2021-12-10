@@ -55,14 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14']
         nodeLinker: [pnp, node-modules]
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node }}
+      - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '16'
           cache: yarn
       - name: Installation
         run: yarn
