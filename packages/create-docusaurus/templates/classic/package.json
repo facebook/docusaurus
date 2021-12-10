@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-classic-template",
-  "version": "2.0.0-beta.11",
+  "version": "2.0.0-beta.13",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -14,8 +14,8 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.11",
-    "@docusaurus/preset-classic": "2.0.0-beta.11",
+    "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/preset-classic": "2.0.0-beta.13",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "prism-react-renderer": "^1.2.1",

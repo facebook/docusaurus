@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-facebook-template",
-  "version": "2.0.0-beta.11",
+  "version": "2.0.0-beta.13",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -18,8 +18,8 @@
     "format:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,md,mdx}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.11",
-    "@docusaurus/preset-classic": "2.0.0-beta.11",
+    "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/preset-classic": "2.0.0-beta.13",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
