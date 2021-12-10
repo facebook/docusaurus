@@ -461,6 +461,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design'],
   },
   {
+    title: 'Enarx',
+    description:
+      'Open source framework for running applications in TEEs (Trusted Execution Environments) based on WebAssembly, allowing developers to deploy architecture-independent applications',
+    preview: require('./showcase/enarx.png'),
+    website: 'https://enarx.dev/',
+    source: 'https://github.com/enarx/enarx.github.io',
+    tags: ['opensource']
+  },
+  {
     title: 'Erxes',
     description:
       'Combine all your business tools into one streamlined and integrated open-source framework',
