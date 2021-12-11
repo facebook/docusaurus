@@ -2,3 +2,5 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
+
+src
