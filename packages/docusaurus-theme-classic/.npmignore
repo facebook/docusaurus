@@ -8,4 +8,8 @@ src/**
 !src/types.ts
 !src/theme/**
 
+lib/theme
+lib-next/**
+!lib-next/theme/**
+
 babel.config.js
