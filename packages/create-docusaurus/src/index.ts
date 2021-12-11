@@ -295,28 +295,28 @@ ${chalk.cyan('Creating new Docusaurus project...')}
 
   if (isInstallSuccessful) {
     console.log(`
-  Successfully created "${chalk.cyan(cdpath)}".
-  Inside that directory, you can run several commands:
+Successfully created "${chalk.cyan(cdpath)}".
+Inside that directory, you can run several commands:
 
-    ${chalk.cyan(`${pkgManager} start`)}
-      Starts the development server.
+  ${chalk.cyan(`${pkgManager} start`)}
+    Starts the development server.
 
-    ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
-      Bundles your website into static files for production.
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+    Bundles your website into static files for production.
 
-    ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
-      Serves the built website locally.
+  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+    Serves the built website locally.
 
-    ${chalk.cyan(`${pkgManager} deploy`)}
-      Publishes the website to GitHub pages.
+  ${chalk.cyan(`${pkgManager} deploy`)}
+    Publishes the website to GitHub pages.
 
-  We recommend that you begin by typing:
+We recommend that you begin by typing:
 
-    ${chalk.cyan('cd')} ${cdpath}
-    ${chalk.cyan(`${pkgManager} start`)}
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} start`)}
 
-  Happy building awesome websites!
-  `);
+Happy building awesome websites!
+`);
   } else {
     console.error(chalk.red('Dependency installation failed.'));
     console.log(`The site directory has been created, and you can retry by typing:
