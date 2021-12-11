@@ -118,7 +118,7 @@ export const Tags: Record<TagType, Tag> = {
   large: {
     label: 'Large',
     description:
-      'Very large Docusaurus sites, including much more pages than the average!',
+      'Very large Docusaurus sites, including many more pages than the average!',
     color: '#8c2f00',
   },
 
