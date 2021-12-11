@@ -1273,7 +1273,7 @@ const Users: User[] = [
     preview: require('./showcase/sapphire.png'),
     website: 'https://www.sapphirejs.dev',
     source: 'https://github.com/sapphiredev/website',
-    tags: ['opensource'],
+    tags: ['opensource', 'large'],
   },
   {
     title: 'SCI WP Framework',
