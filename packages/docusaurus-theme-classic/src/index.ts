@@ -13,7 +13,7 @@ import {createRequire} from 'module';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import {PluginOptions} from './types';
+import type {Options} from '@docusaurus/theme-classic';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -92,7 +92,7 @@ function getInfimaCSSFile(direction: string) {
 
 export default function docusaurusThemeClassic(
   context: DocusaurusContext, // TODO: LoadContext is missing some of properties
-  options: PluginOptions,
+  options: Options,
 ): Plugin<void> {
   const {
     siteConfig: {themeConfig: roughlyTypedThemeConfig},

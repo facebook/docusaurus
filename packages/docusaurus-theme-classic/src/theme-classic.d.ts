@@ -6,7 +6,9 @@
  */
 
 declare module '@docusaurus/theme-classic' {
-  export type Options = Partial<import('./types').PluginOptions>;
+  export type Options = {
+    customCss?: string | string[];
+  };
 }
 
 declare module '@theme/AnnouncementBar' {
