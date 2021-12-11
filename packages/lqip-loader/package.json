@@ -20,7 +20,8 @@
     "file-loader": "^6.2.0",
     "lodash": "^4.17.20",
     "node-vibrant": "^3.1.5",
-    "sharp": "^0.29.1"
+    "sharp": "^0.29.1",
+    "tslib": "^2.3.1"
   },
   "engines": {
     "node": ">=14"

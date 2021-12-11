@@ -32,6 +32,7 @@
     "clsx": "^1.1.1",
     "core-js": "^3.18.0",
     "terser-webpack-plugin": "^5.2.4",
+    "tslib": "^2.3.1",
     "webpack": "^5.61.0",
     "webpack-merge": "^5.7.3",
     "workbox-build": "^6.1.1",
