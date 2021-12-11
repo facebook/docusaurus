@@ -2,3 +2,9 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
+
+src/**
+!src/plugin-content-blog.d.ts
+!src/types.ts
+!src/blogFrontMatter.ts
+!src/theme/**

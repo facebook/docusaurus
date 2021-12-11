@@ -2,3 +2,6 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
+
+src/**
+!src/theme/**

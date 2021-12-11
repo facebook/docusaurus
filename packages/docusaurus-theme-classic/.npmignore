@@ -3,4 +3,9 @@ copyUntypedFiles.js
 tsconfig*
 __tests__
 
+src/**
+!src/theme-classic.d.ts
+!src/types.ts
+!src/theme/**
+
 babel.config.js

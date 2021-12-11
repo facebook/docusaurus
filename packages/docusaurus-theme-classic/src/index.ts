@@ -13,6 +13,7 @@ import {createRequire} from 'module';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import {PluginOptions} from './types';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -88,10 +89,6 @@ function getInfimaCSSFile(direction: string) {
     direction === 'rtl' ? '-rtl' : ''
   }.css`;
 }
-
-export type PluginOptions = {
-  customCss?: string | string[];
-};
 
 export default function docusaurusThemeClassic(
   context: DocusaurusContext, // TODO: LoadContext is missing some of properties

@@ -3,5 +3,5 @@ copyUntypedFiles.js
 __tests__
 
 # Files in the templates need to stay
-./tsconfig*
-./src
+/tsconfig*
+/src
