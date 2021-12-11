@@ -1,3 +1,4 @@
 src
 copyUntypedFiles.js
 .tsbuildinfo
+tsconfig*

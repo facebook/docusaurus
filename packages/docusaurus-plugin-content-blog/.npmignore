@@ -1,1 +1,3 @@
 .tsbuildinfo
+tsconfig.json
+__tests__
