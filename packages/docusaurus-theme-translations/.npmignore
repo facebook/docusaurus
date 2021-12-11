@@ -1,4 +1,7 @@
-src
+copyUntypedFiles.js
 .tsbuildinfo
-tsconfig.json
+tsconfig*
+__tests__
+
+src
 update*

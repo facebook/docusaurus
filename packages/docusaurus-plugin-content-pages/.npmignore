@@ -1,3 +1,4 @@
+copyUntypedFiles.js
 .tsbuildinfo
-tsconfig.json
+tsconfig*
 __tests__

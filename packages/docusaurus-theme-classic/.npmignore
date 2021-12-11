@@ -1,5 +1,6 @@
 copyUntypedFiles.js
 .tsbuildinfo
-babel.config.js
-tsconfig.json
+tsconfig*
 __tests__
+
+babel.config.js
