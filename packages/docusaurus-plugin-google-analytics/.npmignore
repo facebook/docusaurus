@@ -5,5 +5,4 @@ __tests__
 
 src/**
 !src/plugin-google-analytics.d.ts
-!src/types.ts
 !src/theme/**

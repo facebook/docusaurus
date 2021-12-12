@@ -5,7 +5,6 @@ __tests__
 
 src/**
 !src/theme-classic.d.ts
-!src/types.ts
 !src/theme/**
 
 lib/theme
