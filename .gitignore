@@ -24,6 +24,8 @@ packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
+packages/docusaurus-*/cypress/screenshots/*
+packages/docusaurus-*/cypress/videos/*
 
 website/netlifyDeployPreview/*
 !website/netlifyDeployPreview/index.html
@@ -34,3 +36,4 @@ website/i18n/**/*
 #!website/i18n/fr/**/*
 
 .netlify
+

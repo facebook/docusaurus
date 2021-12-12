@@ -6,7 +6,10 @@
   "types": "src/plugin-content-blog.d.ts",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start:simple-website": "docusaurus start --no-open --port=3000 ./src/__tests__/__fixtures__/website",
+    "test:cypress": "yarn start:simple-website & yarn test:cypress:simple-website",
+    "test:cypress:simple-website": "wait-on http://localhost:3000 && cypress open --env PORT=3000"
   },
   "repository": {
     "type": "git",
