@@ -23,6 +23,7 @@
     "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
   },
   "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.13",
     "@docusaurus/plugin-content-blog": "2.0.0-beta.13",
     "@docusaurus/plugin-content-docs": "2.0.0-beta.13",
     "@docusaurus/plugin-content-pages": "2.0.0-beta.13",
@@ -45,7 +46,6 @@
     "rtlcss": "^3.3.0"
   },
   "devDependencies": {
-    "@docusaurus/core": "2.0.0-beta.13",
     "@docusaurus/module-type-aliases": "2.0.0-beta.13",
     "@docusaurus/types": "2.0.0-beta.13",
     "@types/mdx-js__react": "^1.5.4",
