@@ -51,7 +51,12 @@ function TabsComponent(props: Props): JSX.Element {
     );
   });
   const values =
-    valuesProp ?? children.map(({props: {value, label}}) => ({value, label}));
+    valuesProp ??
+    children.map(({props: {value, label, attributes}}) => ({
+      value,
+      label,
+      attributes,
+    }));
   const dup = duplicates(values, (a, b) => a.value === b.value);
   if (dup.length > 0) {
     throw new Error(
@@ -144,12 +149,11 @@ function TabsComponent(props: Props): JSX.Element {
           },
           className,
         )}>
-        {values.map(({value, label}) => (
+        {values.map(({value, label, attributes}) => (
           <li
             role="tab"
             tabIndex={selectedValue === value ? 0 : -1}
             aria-selected={selectedValue === value}
-            data-value={value}
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
@@ -157,7 +161,8 @@ function TabsComponent(props: Props): JSX.Element {
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={handleKeydown}
             onFocus={handleTabChange}
-            onClick={handleTabChange}>
+            onClick={handleTabChange}
+            {...(attributes ?? {})}>
             {label ?? value}
           </li>
         ))}

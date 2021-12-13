@@ -526,6 +526,7 @@ declare module '@theme/TabItem' {
     readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
+    readonly attributes?: Record<string, unknown>;
   }
 
   const TabItem: (props: Props) => JSX.Element;
@@ -541,7 +542,11 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string | null;
-    readonly values?: readonly {value: string; label?: string}[];
+    readonly values?: readonly {
+      value: string;
+      label?: string;
+      attributes?: Record<string, unknown>;
+    }[];
     readonly groupId?: string;
     readonly className?: string;
   }
