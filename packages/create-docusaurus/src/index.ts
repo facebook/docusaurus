@@ -269,7 +269,11 @@ ${chalk.cyan('Creating new Docusaurus project...')}
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
-  let isInstallSuccessful = true;
+  // Display the most elegant way to cd.
+  const cdpath =
+    path.join(process.cwd(), name) === dest
+      ? name
+      : path.relative(process.cwd(), name);
   if (!cliOptions.skipInstall) {
     console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
     if (
@@ -284,17 +288,16 @@ ${chalk.cyan('Creating new Docusaurus project...')}
         },
       ).code !== 0
     ) {
-      isInstallSuccessful = false;
+      console.error(chalk.red('Dependency installation failed.'));
+      console.log(`The site directory has already been created, and you can retry by typing:
+
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} install`)}`);
+      process.exit(0);
     }
   }
-  // Display the most elegant way to cd.
-  const cdpath =
-    path.join(process.cwd(), name) === dest
-      ? name
-      : path.relative(process.cwd(), name);
 
-  if (isInstallSuccessful) {
-    console.log(`
+  console.log(`
 Successfully created "${chalk.cyan(cdpath)}".
 Inside that directory, you can run several commands:
 
@@ -317,11 +320,4 @@ We recommend that you begin by typing:
 
 Happy building awesome websites!
 `);
-  } else {
-    console.error(chalk.red('Dependency installation failed.'));
-    console.log(`The site directory has been created, and you can retry by typing:
-
-  ${chalk.cyan('cd')} ${cdpath}
-  ${chalk.cyan(`${pkgManager} install`)}`);
-  }
 }
