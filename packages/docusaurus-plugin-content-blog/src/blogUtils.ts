@@ -219,7 +219,7 @@ async function processBlogSourceFile(
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
-    id: frontMatter.slug ?? title,
+    id: slug,
     metadata: {
       permalink,
       editUrl: getBlogEditUrl(),

@@ -226,9 +226,6 @@ export function createConfigFile({
   'v1Config' | 'siteDir' | 'newDir'
 >): VersionTwoConfig {
   const siteConfig = v1Config;
-  const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
-    .doc;
-
   const customConfigFields: Record<string, unknown> = {};
   // add fields that are unknown to v2 to customConfigFields
   Object.keys(siteConfig).forEach((key) => {
@@ -309,7 +306,6 @@ export function createConfigFile({
         {
           docs: {
             ...(v2DocsPath && {path: v2DocsPath}),
-            homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             editUrl: siteConfig.editUrl,
@@ -334,7 +330,7 @@ export function createConfigFile({
             const position = 'left';
             if (doc) {
               return {
-                to: `docs/${doc === homePageId ? '' : doc}`,
+                to: `docs/${doc}`,
                 label,
                 position,
               };
