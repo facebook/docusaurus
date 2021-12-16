@@ -809,6 +809,15 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Molecule',
+    description:
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
+    preview: require('./showcase/molecule-home.png'),
+    website: 'https://dtstack.github.io/molecule/en',
+    source: 'https://github.com/DTStack/molecule',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
