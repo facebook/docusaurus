@@ -811,7 +811,7 @@ const Users: User[] = [
   {
     title: 'Molecule',
     description:
-      'The Molecule is a lightweight Web IDE UI framework which is built with React.js and inspired by the VSCode.',
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
     preview: require('./showcase/molecule-home.png'),
     website: 'https://dtstack.github.io/molecule/en',
     source: 'https://github.com/DTStack/molecule',
