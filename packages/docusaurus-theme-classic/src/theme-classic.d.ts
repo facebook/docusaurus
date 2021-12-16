@@ -202,18 +202,6 @@ declare module '@theme/hooks/useHideableNavbar' {
   export default useHideableNavbar;
 }
 
-declare module '@theme/hooks/useLocationHash' {
-  import type {Dispatch, SetStateAction} from 'react';
-
-  export type useLocationHashReturns = readonly [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ];
-
-  const useLocationHash: (initialHash: string) => useLocationHashReturns;
-  export default useLocationHash;
-}
-
 declare module '@theme/hooks/useLockBodyScroll' {
   const useLockBodyScroll: (lock?: boolean) => void;
   export default useLockBodyScroll;
