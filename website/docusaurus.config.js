@@ -268,13 +268,15 @@ const config = {
           remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev ? 'current' : undefined,
-          // eslint-disable-next-line no-nested-ternary
-          onlyIncludeVersions: isBuildFast
-            ? ['current']
-            : !isVersioningDisabled && (isDev || isDeployPreview)
-            ? ['current', ...versions.slice(0, 2)]
-            : undefined,
+          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          onlyIncludeVersions: (() => {
+            if (isBuildFast) {
+              return ['current'];
+            } else if (!isVersioningDisabled && (isDev || isDeployPreview)) {
+              return ['current', ...versions.slice(0, 2)];
+            }
+            return undefined;
+          })(),
           versions: {
             current: {
               path: isDev || isBuildFast ? 'next' : undefined,
