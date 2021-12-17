@@ -2,7 +2,3 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
-
-src/**
-!src/plugin-debug.d.ts
-!src/theme/**

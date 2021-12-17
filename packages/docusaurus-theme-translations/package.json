@@ -4,10 +4,6 @@
   "description": "Docusaurus theme translations.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "locales",
-    "lib"
-  ],
   "publishConfig": {
     "access": "public"
   },

@@ -2,7 +2,3 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
-
-src/**
-!src/theme-search-algolia.d.ts
-!src/theme/**

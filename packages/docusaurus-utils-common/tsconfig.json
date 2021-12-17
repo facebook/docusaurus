@@ -3,6 +3,8 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "sourceMap": true,
+    "declarationMap": true,
     "rootDir": "src",
     "outDir": "lib",
     "noEmitHelpers": false

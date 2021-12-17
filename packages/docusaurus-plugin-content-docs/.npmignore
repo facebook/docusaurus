@@ -2,9 +2,3 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
-
-src/**
-!src/plugin-content-docs.d.ts
-!src/types.ts
-!src/sidebars/types.ts
-!src/theme/**

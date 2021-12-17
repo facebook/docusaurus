@@ -3,10 +3,6 @@ copyUntypedFiles.js
 tsconfig*
 __tests__
 
-src/**
-!src/theme-classic.d.ts
-!src/theme/**
-
 lib/theme
 lib-next/**
 !lib-next/theme/**

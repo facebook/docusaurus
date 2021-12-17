@@ -2,7 +2,3 @@ copyUntypedFiles.js
 .tsbuildinfo
 tsconfig*
 __tests__
-
-src/**
-!src/plugin-sitemap.d.ts
-!src/theme/**
