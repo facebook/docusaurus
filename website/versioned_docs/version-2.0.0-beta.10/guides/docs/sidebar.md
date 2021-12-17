@@ -391,7 +391,7 @@ module.exports = {
 };
 ```
 
-See it in action in the [Docusaurus Guides pages](/docs/next/category/guides).
+See it in action in the [Docusaurus Guides pages](/docs/category/guides).
 
 :::tip
 
