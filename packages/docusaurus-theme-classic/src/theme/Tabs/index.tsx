@@ -52,6 +52,7 @@ function TabsComponent(props: Props): JSX.Element {
   });
   const values =
     valuesProp ??
+    // We only pick keys that we recognize. MDX would inject some keys by default
     children.map(({props: {value, label, attributes}}) => ({
       value,
       label,
@@ -154,15 +155,20 @@ function TabsComponent(props: Props): JSX.Element {
             role="tab"
             tabIndex={selectedValue === value ? 0 : -1}
             aria-selected={selectedValue === value}
-            className={clsx('tabs__item', styles.tabItem, {
-              'tabs__item--active': selectedValue === value,
-            })}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={handleKeydown}
             onFocus={handleTabChange}
             onClick={handleTabChange}
-            {...(attributes ?? {})}>
+            {...attributes}
+            className={clsx(
+              'tabs__item',
+              styles.tabItem,
+              attributes?.className as string,
+              {
+                'tabs__item--active': selectedValue === value,
+              },
+            )}>
             {label ?? value}
           </li>
         ))}
