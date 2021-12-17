@@ -3,4 +3,4 @@ copyUntypedFiles.js
 tsconfig*
 __tests__
 
-src
+update*
