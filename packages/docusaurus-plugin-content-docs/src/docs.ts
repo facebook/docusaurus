@@ -356,7 +356,11 @@ export function getMainDocId({
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
-      return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+      return docs.find(
+        (doc) =>
+          doc.id === firstDocIdOfFirstSidebar ||
+          doc.unversionedId === firstDocIdOfFirstSidebar,
+      )!;
     } else {
       return docs[0];
     }

@@ -17,10 +17,10 @@ usage() { echo "Usage: $0 [-n] [-s]" 1>&2; exit 1; }
 while getopts ":ns" o; do
   case "${o}" in
     n)
-      EXTRA_OPTS="--use-npm"
+      EXTRA_OPTS="${EXTRA_OPTS} --use-npm"
       ;;
     s)
-      EXTRA_OPTS="--skip-install"
+      EXTRA_OPTS="${EXTRA_OPTS} --skip-install"
       ;;
     *)
       usage
@@ -52,7 +52,7 @@ git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 cd ..
 
 # Build skeleton website with new version
-npm_config_registry="$CUSTOM_REGISTRY_URL" npm init docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
+npm_config_registry="$CUSTOM_REGISTRY_URL" npx create-docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
 
 # Stop Docker container
 if [[ -z "${KEEP_CONTAINER:-}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then

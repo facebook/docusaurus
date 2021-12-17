@@ -166,8 +166,20 @@ export default async function start(
     }
   });
 
+  const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        console.log('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      console.log('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
+
   // https://webpack.js.org/configuration/dev-server
-  const devServerConfig: WebpackDevServer.Configuration = {
+  const defaultDevServerConfig: WebpackDevServer.Configuration = {
     hot: cliOptions.hotOnly ? 'only' : true,
     liveReload: false,
     client: {
@@ -222,17 +234,10 @@ export default async function start(
     },
   };
 
-  const compiler = webpack(config);
-  if (process.env.E2E_TEST) {
-    compiler.hooks.done.tap('done', (stats) => {
-      if (stats.hasErrors()) {
-        console.log('E2E_TEST: Project has compiler errors.');
-        process.exit(1);
-      }
-      console.log('E2E_TEST: Project can compile.');
-      process.exit(0);
-    });
-  }
+  // Allow plugin authors to customize/override devServer config
+  const devServerConfig: WebpackDevServer.Configuration = merge(
+    [defaultDevServerConfig, config.devServer].filter(Boolean),
+  );
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
   devServer.startCallback(() => {
