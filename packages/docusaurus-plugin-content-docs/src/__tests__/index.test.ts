@@ -21,7 +21,7 @@ import {sortConfig} from '@docusaurus/core/src/server/plugins';
 import * as cliDocs from '../cli';
 import {OptionsSchema} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {DocMetadata, LoadedVersion} from '../types';
+import type {LoadedVersion} from '../types';
 import type {
   SidebarItem,
   SidebarItemsGeneratorOption,
@@ -48,16 +48,6 @@ Available ids are:\n- ${version.docs.map((d) => d.unversionedId).join('\n- ')}`,
   }
   return doc;
 }
-
-const defaultDocMetadata: Partial<DocMetadata> = {
-  next: undefined,
-  previous: undefined,
-  editUrl: undefined,
-  lastUpdatedAt: undefined,
-  lastUpdatedBy: undefined,
-  formattedLastUpdatedAt: undefined,
-  tags: [],
-};
 
 const createFakeActions = (contentDir: string) => {
   const routeConfigs: RouteConfig[] = [];
@@ -324,127 +314,16 @@ describe('simple website', () => {
   });
 
   test('content', async () => {
-    const {siteDir, plugin, pluginContentDir} = await loadSite();
+    const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(1);
     const [currentVersion] = content.loadedVersions;
 
-    expect(findDocById(currentVersion, 'foo/baz')).toEqual({
-      ...defaultDocMetadata,
-      version: 'current',
-      id: 'foo/baz',
-      unversionedId: 'foo/baz',
-      sourceDirName: 'foo',
-      permalink: '/docs/foo/bazSlug.html',
-      slug: '/foo/bazSlug.html',
-      previous: {
-        title: 'Bar',
-        permalink: '/docs/foo/bar',
-      },
-      next: {
-        title: 'rootAbsoluteSlug',
-        permalink: '/docs/rootAbsoluteSlug',
-      },
-      sidebar: 'docs',
-      sidebarPosition: undefined,
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, currentVersion.contentPath)),
-        'foo',
-        'baz.md',
-      ),
-      title: 'baz',
-      description: 'Images',
-      frontMatter: {
-        id: 'baz',
-        title: 'baz',
-        slug: 'bazSlug.html',
-        pagination_label: 'baz pagination_label',
-        tags: [
-          'tag 1',
-          'tag-1', // This one will be de-duplicated as it would lead to the same permalink as the first
-          {label: 'tag 2', permalink: 'tag2-custom-permalink'},
-        ],
-      },
+    expect(findDocById(currentVersion, 'foo/baz')).toMatchSnapshot();
 
-      tags: [
-        {
-          label: 'tag 1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 2',
-          permalink: '/docs/tags/tag2-custom-permalink',
-        },
-      ],
-    });
+    expect(findDocById(currentVersion, 'hello')).toMatchSnapshot();
 
-    expect(findDocById(currentVersion, 'hello')).toEqual({
-      ...defaultDocMetadata,
-      version: 'current',
-      id: 'hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      permalink: '/docs/',
-      slug: '/',
-      previous: {
-        title: 'My heading as title',
-        permalink: '/docs/headingAsTitle',
-      },
-      sidebar: 'docs',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, currentVersion.contentPath)),
-        'hello.md',
-      ),
-      title: 'Hello, World !',
-      description: 'Hi, Endilie here :)',
-      frontMatter: {
-        id: 'hello',
-        title: 'Hello, World !',
-        sidebar_label: 'Hello sidebar_label',
-        slug: '/',
-        tags: ['tag-1', 'tag 3'],
-      },
-      tags: [
-        {
-          label: 'tag-1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 3',
-          permalink: '/docs/tags/tag-3',
-        },
-      ],
-    });
-
-    expect(getDocById(currentVersion, 'foo/bar')).toEqual({
-      ...defaultDocMetadata,
-      version: 'current',
-      id: 'foo/bar',
-      unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
-      next: {
-        title: 'baz pagination_label',
-        permalink: '/docs/foo/bazSlug.html',
-      },
-      permalink: '/docs/foo/bar',
-      slug: '/foo/bar',
-      sidebar: 'docs',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, currentVersion.contentPath)),
-        'foo',
-        'bar.md',
-      ),
-      title: 'Bar',
-      description: 'This is custom description',
-      frontMatter: {
-        description: 'This is custom description',
-        id: 'bar',
-        title: 'Bar',
-      },
-    });
+    expect(getDocById(currentVersion, 'foo/bar')).toMatchSnapshot();
 
     expect(currentVersion.sidebars).toMatchSnapshot();
 
@@ -567,7 +446,7 @@ describe('versioned website', () => {
   });
 
   test('content', async () => {
-    const {siteDir, plugin, pluginContentDir} = await loadSite();
+    const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
@@ -578,142 +457,12 @@ describe('versioned website', () => {
     expect(findDocById(version101, 'foo/baz')).toBeUndefined();
     expect(findDocById(versionWithSlugs, 'foo/baz')).toBeUndefined();
 
-    expect(getDocById(currentVersion, 'foo/bar')).toEqual({
-      ...defaultDocMetadata,
-      id: 'foo/bar',
-      unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
-      permalink: '/docs/next/foo/barSlug',
-      slug: '/foo/barSlug',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, currentVersion.contentPath)),
-        'foo',
-        'bar.md',
-      ),
-      title: 'bar',
-      description: 'This is next version of bar.',
-      frontMatter: {
-        slug: 'barSlug',
-        tags: [
-          'barTag 1',
-          'barTag-2',
-          {label: 'barTag 3', permalink: 'barTag-3-permalink'},
-        ],
-      },
-      version: 'current',
-      sidebar: 'docs',
-      next: {
-        title: 'hello',
-        permalink: '/docs/next/',
-      },
-      tags: [
-        {label: 'barTag 1', permalink: '/docs/next/tags/bar-tag-1'},
-        {label: 'barTag-2', permalink: '/docs/next/tags/bar-tag-2'},
-        {label: 'barTag 3', permalink: '/docs/next/tags/barTag-3-permalink'},
-      ],
-    });
-    expect(getDocById(version101, 'foo/bar')).toEqual({
-      ...defaultDocMetadata,
-      id: 'version-1.0.1/foo/bar',
-      unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
-      permalink: '/docs/foo/bar',
-      slug: '/foo/bar',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version101.contentPath)),
-        'foo',
-        'bar.md',
-      ),
-      title: 'bar',
-      description: 'Bar 1.0.1 !',
-      frontMatter: {},
-      version: '1.0.1',
-      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
-      next: {
-        title: 'hello',
-        permalink: '/docs/',
-      },
-      tags: [],
-    });
+    expect(getDocById(currentVersion, 'foo/bar')).toMatchSnapshot();
+    expect(getDocById(version101, 'foo/bar')).toMatchSnapshot();
 
-    expect(getDocById(currentVersion, 'hello')).toEqual({
-      ...defaultDocMetadata,
-      id: 'hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      permalink: '/docs/next/',
-      slug: '/',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, currentVersion.contentPath)),
-        'hello.md',
-      ),
-      title: 'hello',
-      description: 'Hello next !',
-      frontMatter: {
-        slug: '/',
-      },
-      version: 'current',
-      sidebar: 'docs',
-      previous: {
-        title: 'bar',
-        permalink: '/docs/next/foo/barSlug',
-      },
-    });
-    expect(getDocById(version101, 'hello')).toEqual({
-      ...defaultDocMetadata,
-      id: 'version-1.0.1/hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      permalink: '/docs/',
-      slug: '/',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version101.contentPath)),
-        'hello.md',
-      ),
-      title: 'hello',
-      description: 'Hello 1.0.1 !',
-      frontMatter: {
-        slug: '/',
-      },
-      version: '1.0.1',
-      sidebar: 'VersionedSideBarNameDoesNotMatter/docs',
-      previous: {
-        title: 'bar',
-        permalink: '/docs/foo/bar',
-      },
-    });
-    expect(getDocById(version100, 'foo/baz')).toEqual({
-      ...defaultDocMetadata,
-      id: 'version-1.0.0/foo/baz',
-      unversionedId: 'foo/baz',
-      sourceDirName: 'foo',
-      permalink: '/docs/1.0.0/foo/baz',
-      slug: '/foo/baz',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version100.contentPath)),
-        'foo',
-        'baz.md',
-      ),
-      title: 'baz',
-      description:
-        'Baz 1.0.0 ! This will be deleted in next subsequent versions.',
-      frontMatter: {},
-      version: '1.0.0',
-      sidebar: 'version-1.0.0/docs',
-      next: {
-        title: 'hello',
-        permalink: '/docs/1.0.0/',
-      },
-      previous: {
-        title: 'bar',
-        permalink: '/docs/1.0.0/foo/barSlug',
-      },
-    });
+    expect(getDocById(currentVersion, 'hello')).toMatchSnapshot();
+    expect(getDocById(version101, 'hello')).toMatchSnapshot();
+    expect(getDocById(version100, 'foo/baz')).toMatchSnapshot();
 
     expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
     expect(version101.sidebars).toMatchSnapshot('101 version sidebars');
@@ -828,44 +577,13 @@ describe('versioned website (community)', () => {
   });
 
   test('content', async () => {
-    const {siteDir, plugin, pluginContentDir} = await loadSite();
+    const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(2);
     const [currentVersion, version100] = content.loadedVersions;
 
-    expect(getDocById(currentVersion, 'team')).toEqual({
-      ...defaultDocMetadata,
-      id: 'team',
-      unversionedId: 'team',
-      sourceDirName: '.',
-      permalink: '/community/next/team',
-      slug: '/team',
-      source:
-        '@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md',
-      title: 'Team title translated',
-      description: 'Team current version (translated)',
-      version: 'current',
-      sidebar: 'community',
-      frontMatter: {title: 'Team title translated'},
-    });
-    expect(getDocById(version100, 'team')).toEqual({
-      ...defaultDocMetadata,
-      id: 'version-1.0.0/team',
-      unversionedId: 'team',
-      sourceDirName: '.',
-      permalink: '/community/team',
-      slug: '/team',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version100.contentPath)),
-        'team.md',
-      ),
-      title: 'team',
-      description: 'Team 1.0.0',
-      version: '1.0.0',
-      sidebar: 'version-1.0.0/community',
-      frontMatter: {},
-    });
+    expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
+    expect(getDocById(version100, 'team')).toMatchSnapshot();
 
     expect(currentVersion.sidebars).toMatchSnapshot('current version sidebars');
     expect(version100.sidebars).toMatchSnapshot('100 version sidebars');
@@ -943,521 +661,31 @@ describe('site with full autogenerated sidebar', () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toEqual({
-      defaultSidebar: [
-        {
-          type: 'doc',
-          id: 'getting-started',
-        },
-        {
-          type: 'doc',
-          id: 'installation',
-        },
-        {
-          type: 'category',
-          label: 'Guides',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'Guides/guide1',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide2',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide2.5',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide3',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide4',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide5',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'API (label from _category_.json)',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'API/api-overview',
-            },
-            {
-              type: 'category',
-              label: 'Core APIs',
-              collapsed: true,
-              collapsible: true,
-              items: [
-                {
-                  type: 'doc',
-
-                  id: 'API/Core APIs/Client API',
-                },
-                {
-                  type: 'doc',
-                  id: 'API/Core APIs/Server API',
-                },
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Extension APIs (label from _category_.yml)',
-              collapsed: true,
-              collapsible: true,
-              items: [
-                {
-                  type: 'doc',
-                  id: 'API/Extension APIs/Plugin API',
-                },
-                {
-                  type: 'doc',
-                  id: 'API/Extension APIs/Theme API',
-                },
-              ],
-            },
-            {
-              type: 'doc',
-              id: 'API/api-end',
-            },
-          ],
-        },
-      ],
-    });
+    expect(version.sidebars).toMatchSnapshot();
   });
 
   test('docs in fully generated sidebar have correct metadata', async () => {
-    const {content, siteDir} = await loadSite();
+    const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
-    expect(getDocById(version, 'getting-started')).toEqual({
-      ...defaultDocMetadata,
-      id: 'getting-started',
-      unversionedId: 'getting-started',
-      sourceDirName: '.',
-      permalink: '/docs/getting-started',
-      slug: '/getting-started',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '0-getting-started.md',
-      ),
-      title: 'Getting Started',
-      description: 'Getting started text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 0,
-      previous: undefined,
-      next: {
-        permalink: '/docs/installation',
-        title: 'Installation',
-      },
-    });
-
-    expect(getDocById(version, 'installation')).toEqual({
-      ...defaultDocMetadata,
-      id: 'installation',
-      unversionedId: 'installation',
-      sourceDirName: '.',
-      permalink: '/docs/installation',
-      slug: '/installation',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '1-installation.md',
-      ),
-      title: 'Installation',
-      description: 'Installation text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 1,
-      previous: {
-        permalink: '/docs/getting-started',
-        title: 'Getting Started',
-      },
-      next: {
-        permalink: '/docs/Guides/guide1',
-        title: 'Guide 1',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide1')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide1',
-      unversionedId: 'Guides/guide1',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide1',
-      slug: '/Guides/guide1',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        'z-guide1.md',
-      ),
-      title: 'Guide 1',
-      description: 'Guide 1 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide1',
-        sidebar_position: 1,
-      },
-      sidebarPosition: 1,
-      previous: {
-        permalink: '/docs/installation',
-        title: 'Installation',
-      },
-      next: {
-        permalink: '/docs/Guides/guide2',
-        title: 'Guide 2',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide2')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide2',
-      unversionedId: 'Guides/guide2',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide2',
-      slug: '/Guides/guide2',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        '02-guide2.md',
-      ),
-      title: 'Guide 2',
-      description: 'Guide 2 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide2',
-      },
-      sidebarPosition: 2,
-      previous: {
-        permalink: '/docs/Guides/guide1',
-        title: 'Guide 1',
-      },
-      next: {
-        permalink: '/docs/Guides/guide2.5',
-        title: 'Guide 2.5',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide2.5')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide2.5',
-      unversionedId: 'Guides/guide2.5',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide2.5',
-      slug: '/Guides/guide2.5',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        '0-guide2.5.md',
-      ),
-      title: 'Guide 2.5',
-      description: 'Guide 2.5 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide2.5',
-        sidebar_position: 2.5,
-      },
-      sidebarPosition: 2.5,
-      previous: {
-        permalink: '/docs/Guides/guide2',
-        title: 'Guide 2',
-      },
-      next: {
-        permalink: '/docs/Guides/guide3',
-        title: 'Guide 3',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide3')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide3',
-      unversionedId: 'Guides/guide3',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide3',
-      slug: '/Guides/guide3',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        'guide3.md',
-      ),
-      title: 'Guide 3',
-      description: 'Guide 3 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide3',
-        sidebar_position: 3,
-      },
-      sidebarPosition: 3,
-      previous: {
-        permalink: '/docs/Guides/guide2.5',
-        title: 'Guide 2.5',
-      },
-      next: {
-        permalink: '/docs/Guides/guide4',
-        title: 'Guide 4',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide4')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide4',
-      unversionedId: 'Guides/guide4',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide4',
-      slug: '/Guides/guide4',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        'a-guide4.md',
-      ),
-      title: 'Guide 4',
-      description: 'Guide 4 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide4',
-      },
-      sidebarPosition: undefined,
-      previous: {
-        permalink: '/docs/Guides/guide3',
-        title: 'Guide 3',
-      },
-      next: {
-        permalink: '/docs/Guides/guide5',
-        title: 'Guide 5',
-      },
-    });
-
-    expect(getDocById(version, 'Guides/guide5')).toEqual({
-      ...defaultDocMetadata,
-      id: 'Guides/guide5',
-      unversionedId: 'Guides/guide5',
-      sourceDirName: 'Guides',
-      permalink: '/docs/Guides/guide5',
-      slug: '/Guides/guide5',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        'Guides',
-        'b-guide5.md',
-      ),
-      title: 'Guide 5',
-      description: 'Guide 5 text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {
-        id: 'guide5',
-      },
-      sidebarPosition: undefined,
-      previous: {
-        permalink: '/docs/Guides/guide4',
-        title: 'Guide 4',
-      },
-      next: {
-        permalink: '/docs/API/api-overview',
-        title: 'API Overview',
-      },
-    });
-
-    expect(getDocById(version, 'API/api-overview')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/api-overview',
-      unversionedId: 'API/api-overview',
-      sourceDirName: '3-API',
-      permalink: '/docs/API/api-overview',
-      slug: '/API/api-overview',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '00_api-overview.md',
-      ),
-      title: 'API Overview',
-      description: 'API Overview text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 0,
-      previous: {
-        permalink: '/docs/Guides/guide5',
-        title: 'Guide 5',
-      },
-      next: {
-        permalink: '/docs/API/Core APIs/Client API',
-        title: 'Client API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Core APIs/Client API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Core APIs/Client API',
-      unversionedId: 'API/Core APIs/Client API',
-      sourceDirName: '3-API/01_Core APIs',
-      permalink: '/docs/API/Core APIs/Client API',
-      slug: '/API/Core APIs/Client API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '01_Core APIs',
-        '0 --- Client API.md',
-      ),
-      title: 'Client API',
-      description: 'Client API text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 0,
-      previous: {
-        permalink: '/docs/API/api-overview',
-        title: 'API Overview',
-      },
-      next: {
-        permalink: '/docs/API/Core APIs/Server API',
-        title: 'Server API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Core APIs/Server API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Core APIs/Server API',
-      unversionedId: 'API/Core APIs/Server API',
-      sourceDirName: '3-API/01_Core APIs',
-      permalink: '/docs/API/Core APIs/Server API',
-      slug: '/API/Core APIs/Server API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '01_Core APIs',
-        '1 --- Server API.md',
-      ),
-      title: 'Server API',
-      description: 'Server API text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 1,
-      previous: {
-        permalink: '/docs/API/Core APIs/Client API',
-        title: 'Client API',
-      },
-      next: {
-        permalink: '/docs/API/Extension APIs/Plugin API',
-        title: 'Plugin API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Extension APIs/Plugin API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Extension APIs/Plugin API',
-      unversionedId: 'API/Extension APIs/Plugin API',
-      sourceDirName: '3-API/02_Extension APIs',
-      permalink: '/docs/API/Extension APIs/Plugin API',
-      slug: '/API/Extension APIs/Plugin API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '02_Extension APIs',
-        '0. Plugin API.md',
-      ),
-      title: 'Plugin API',
-      description: 'Plugin API text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 0,
-      previous: {
-        permalink: '/docs/API/Core APIs/Server API',
-        title: 'Server API',
-      },
-      next: {
-        permalink: '/docs/API/Extension APIs/Theme API',
-        title: 'Theme API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Extension APIs/Theme API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Extension APIs/Theme API',
-      unversionedId: 'API/Extension APIs/Theme API',
-      sourceDirName: '3-API/02_Extension APIs',
-      permalink: '/docs/API/Extension APIs/Theme API',
-      slug: '/API/Extension APIs/Theme API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '02_Extension APIs',
-        '1. Theme API.md',
-      ),
-      title: 'Theme API',
-      description: 'Theme API text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 1,
-      previous: {
-        permalink: '/docs/API/Extension APIs/Plugin API',
-        title: 'Plugin API',
-      },
-      next: {
-        permalink: '/docs/API/api-end',
-        title: 'API End',
-      },
-    });
-
-    expect(getDocById(version, 'API/api-end')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/api-end',
-      unversionedId: 'API/api-end',
-      sourceDirName: '3-API',
-      permalink: '/docs/API/api-end',
-      slug: '/API/api-end',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '03_api-end.md',
-      ),
-      title: 'API End',
-      description: 'API End text',
-      version: 'current',
-      sidebar: 'defaultSidebar',
-      frontMatter: {},
-      sidebarPosition: 3,
-      previous: {
-        permalink: '/docs/API/Extension APIs/Theme API',
-        title: 'Theme API',
-      },
-      next: undefined,
-    });
+    expect(getDocById(version, 'getting-started')).toMatchSnapshot();
+    expect(getDocById(version, 'installation')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide1')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide2')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide2.5')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide3')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide4')).toMatchSnapshot();
+    expect(getDocById(version, 'Guides/guide5')).toMatchSnapshot();
+    expect(getDocById(version, 'API/api-overview')).toMatchSnapshot();
+    expect(getDocById(version, 'API/Core APIs/Client API')).toMatchSnapshot();
+    expect(getDocById(version, 'API/Core APIs/Server API')).toMatchSnapshot();
+    expect(
+      getDocById(version, 'API/Extension APIs/Plugin API'),
+    ).toMatchSnapshot();
+    expect(
+      getDocById(version, 'API/Extension APIs/Theme API'),
+    ).toMatchSnapshot();
+    expect(getDocById(version, 'API/api-end')).toMatchSnapshot();
   });
 });
 
@@ -1491,153 +719,23 @@ describe('site with partial autogenerated sidebars', () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toEqual({
-      someSidebar: [
-        {
-          type: 'doc',
-          id: 'API/api-end',
-        },
-        {
-          type: 'category',
-          label: 'Some category',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'API/api-overview',
-            },
-            {
-              type: 'doc',
-              id: 'API/Extension APIs/Plugin API',
-            },
-            {
-              type: 'doc',
-              id: 'API/Extension APIs/Theme API',
-            },
-          ],
-        },
-      ],
-    });
+    expect(version.sidebars).toMatchSnapshot();
   });
 
   test('docs in partially generated sidebar have correct metadata', async () => {
-    const {content, siteDir} = await loadSite();
+    const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
     // Only looking at the docs of the autogen sidebar, others metadata should not be affected
 
-    expect(getDocById(version, 'API/api-end')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/api-end',
-      unversionedId: 'API/api-end',
-      sourceDirName: '3-API',
-      permalink: '/docs/API/api-end',
-      slug: '/API/api-end',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '03_api-end.md',
-      ),
-      title: 'API End',
-      description: 'API End text',
-      version: 'current',
-      sidebar: 'someSidebar',
-      frontMatter: {},
-      sidebarPosition: 3, // ignored (not part of the autogenerated sidebar slice)
-      previous: undefined,
-      next: {
-        permalink: '/docs/API/api-overview',
-        title: 'API Overview',
-      },
-    });
-
-    expect(getDocById(version, 'API/api-overview')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/api-overview',
-      unversionedId: 'API/api-overview',
-      sourceDirName: '3-API',
-      permalink: '/docs/API/api-overview',
-      slug: '/API/api-overview',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '00_api-overview.md',
-      ),
-      title: 'API Overview',
-      description: 'API Overview text',
-      version: 'current',
-      sidebar: 'someSidebar',
-      frontMatter: {},
-      sidebarPosition: 0, // ignored (not part of the autogenerated sidebar slice)
-      previous: {
-        permalink: '/docs/API/api-end',
-        title: 'API End',
-      },
-      next: {
-        permalink: '/docs/API/Extension APIs/Plugin API',
-        title: 'Plugin API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Extension APIs/Plugin API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Extension APIs/Plugin API',
-      unversionedId: 'API/Extension APIs/Plugin API',
-      sourceDirName: '3-API/02_Extension APIs',
-      permalink: '/docs/API/Extension APIs/Plugin API',
-      slug: '/API/Extension APIs/Plugin API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '02_Extension APIs',
-        '0. Plugin API.md',
-      ),
-      title: 'Plugin API',
-      description: 'Plugin API text',
-      version: 'current',
-      sidebar: 'someSidebar',
-      frontMatter: {},
-      sidebarPosition: 0,
-      previous: {
-        permalink: '/docs/API/api-overview',
-        title: 'API Overview',
-      },
-      next: {
-        permalink: '/docs/API/Extension APIs/Theme API',
-        title: 'Theme API',
-      },
-    });
-
-    expect(getDocById(version, 'API/Extension APIs/Theme API')).toEqual({
-      ...defaultDocMetadata,
-      id: 'API/Extension APIs/Theme API',
-      unversionedId: 'API/Extension APIs/Theme API',
-      sourceDirName: '3-API/02_Extension APIs',
-      permalink: '/docs/API/Extension APIs/Theme API',
-      slug: '/API/Extension APIs/Theme API',
-      source: path.posix.join(
-        '@site',
-        posixPath(path.relative(siteDir, version.contentPath)),
-        '3-API',
-        '02_Extension APIs',
-        '1. Theme API.md',
-      ),
-      title: 'Theme API',
-      description: 'Theme API text',
-      version: 'current',
-      sidebar: 'someSidebar',
-      frontMatter: {},
-      sidebarPosition: 1,
-      previous: {
-        permalink: '/docs/API/Extension APIs/Plugin API',
-        title: 'Plugin API',
-      },
-      next: undefined,
-    });
+    expect(getDocById(version, 'API/api-end')).toMatchSnapshot();
+    expect(getDocById(version, 'API/api-overview')).toMatchSnapshot();
+    expect(
+      getDocById(version, 'API/Extension APIs/Plugin API'),
+    ).toMatchSnapshot();
+    expect(
+      getDocById(version, 'API/Extension APIs/Theme API'),
+    ).toMatchSnapshot();
   });
 });
 
@@ -1673,55 +771,7 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toEqual({
-      someSidebar: [
-        {
-          type: 'doc',
-          id: 'API/api-end',
-        },
-        {
-          type: 'doc',
-          id: 'API/api-overview',
-        },
-        {
-          type: 'category',
-          label: 'Core APIs',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-
-              id: 'API/Core APIs/Client API',
-            },
-            {
-              type: 'doc',
-              id: 'API/Core APIs/Server API',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Extension APIs (label from _category_.yml)', // Fix #4638
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'API/Extension APIs/Plugin API',
-            },
-            {
-              type: 'doc',
-              id: 'API/Extension APIs/Theme API',
-            },
-          ],
-        },
-        {
-          type: 'doc',
-          id: 'API/api-end',
-        },
-      ],
-    });
+    expect(version.sidebars).toMatchSnapshot();
   });
 });
 
@@ -1783,12 +833,7 @@ describe('site with custom sidebar items generator', () => {
     const {content} = await loadSite(customSidebarItemsGenerator);
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toEqual({
-      defaultSidebar: [
-        {type: 'doc', id: 'API/api-overview'},
-        {type: 'doc', id: 'API/api-end'},
-      ],
-    });
+    expect(version.sidebars).toMatchSnapshot();
   });
 
   test('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
@@ -1814,97 +859,6 @@ describe('site with custom sidebar items generator', () => {
     const {content} = await loadSite(reversedSidebarItemsGenerator);
     const version = content.loadedVersions[0];
 
-    expect(version.sidebars).toEqual({
-      defaultSidebar: [
-        {
-          type: 'category',
-          label: 'API (label from _category_.json)',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'API/api-end',
-            },
-            {
-              type: 'category',
-              label: 'Extension APIs (label from _category_.yml)',
-              collapsed: true,
-              collapsible: true,
-              items: [
-                {
-                  type: 'doc',
-                  id: 'API/Extension APIs/Theme API',
-                },
-                {
-                  type: 'doc',
-                  id: 'API/Extension APIs/Plugin API',
-                },
-              ],
-            },
-            {
-              type: 'category',
-              label: 'Core APIs',
-              collapsed: true,
-              collapsible: true,
-              items: [
-                {
-                  type: 'doc',
-                  id: 'API/Core APIs/Server API',
-                },
-                {
-                  type: 'doc',
-                  id: 'API/Core APIs/Client API',
-                },
-              ],
-            },
-            {
-              type: 'doc',
-              id: 'API/api-overview',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          label: 'Guides',
-          collapsed: true,
-          collapsible: true,
-          items: [
-            {
-              type: 'doc',
-              id: 'Guides/guide5',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide4',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide3',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide2.5',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide2',
-            },
-            {
-              type: 'doc',
-              id: 'Guides/guide1',
-            },
-          ],
-        },
-        {
-          type: 'doc',
-          id: 'installation',
-        },
-        {
-          type: 'doc',
-          id: 'getting-started',
-        },
-      ],
-    });
+    expect(version.sidebars).toMatchSnapshot();
   });
 });
