@@ -55,7 +55,6 @@ function DropdownNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownMenuRef = useRef<HTMLUListElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -98,7 +97,7 @@ function DropdownNavbarItemDesktop({
         }}>
         {props.children ?? props.label}
       </NavLink>
-      <ul ref={dropdownMenuRef} className="dropdown__menu">
+      <ul className="dropdown__menu">
         {items.map((childItemProps, i) => (
           <NavbarItem
             isDropdownItem
