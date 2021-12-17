@@ -69,6 +69,12 @@ keywords: [keywords, describing, the main topics]
 
 When creating your React page, adding these fields in `Layout` would also improve SEO.
 
+:::tip
+
+Prefer to use front matter for fields like `description` and `keywords`: Docusaurus will automatically apply this to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
 ## Static HTML generation {#static-html-generation}
 
 Docusaurus is a static site generator—HTML files are statically generated for every URL route, which helps search engines discover your content more easily.
