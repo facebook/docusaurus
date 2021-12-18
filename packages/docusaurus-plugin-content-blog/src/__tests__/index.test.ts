@@ -394,4 +394,15 @@ describe('loadBlog', () => {
       truncated: false,
     });
   });
+
+  test('test ascending sort direction of blog post', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const normalOrder = await getBlogPosts(siteDir);
+    const reversedOrder = await getBlogPosts(siteDir, {
+      sortPosts: 'ascending',
+    });
+    expect(normalOrder.reverse().map((x) => x.metadata.date)).toEqual(
+      reversedOrder.map((x) => x.metadata.date),
+    );
+  });
 });

@@ -13,6 +13,7 @@ import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import headings from './remark/headings';
@@ -20,7 +21,6 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 import type {Processor} from 'unified';
@@ -45,7 +45,8 @@ const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
 const compilerCache = new Map<string | Options, [Processor, Options]>();
 
 type Options = RemarkAndRehypePluginOptions & {
-  staticDir?: string;
+  staticDirs: string[];
+  siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
   isMDXPartialFrontMatterWarningDisabled?: boolean;
   removeContentTitle?: boolean;
@@ -133,23 +134,23 @@ export default async function mdxLoader(
       remarkPlugins: [
         ...(reqOptions.beforeDefaultRemarkPlugins || []),
         ...DEFAULT_OPTIONS.remarkPlugins,
-        [
-          transformImage,
-          {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
-        ],
+        [transformImage, {staticDirs: reqOptions.staticDirs, filePath}],
         [
           transformLinks,
-          {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+          {
+            staticDirs: reqOptions.staticDirs,
+            filePath,
+            siteDir: reqOptions.siteDir,
+          },
         ],
         ...(reqOptions.remarkPlugins || []),
       ],
       rehypePlugins: [
         ...(reqOptions.beforeDefaultRehypePlugins || []),
         ...DEFAULT_OPTIONS.rehypePlugins,
-
         ...(reqOptions.rehypePlugins || []),
       ],
-      filepath: this.resourcePath,
+      filepath: filePath,
     };
     compilerCache.set(this.query, [
       createCompiler(options as MDXOptions),

@@ -40,6 +40,9 @@ Object {
   ],
   "presets": Array [],
   "projectName": "hello",
+  "staticDirectories": Array [
+    "static",
+  ],
   "tagline": "Hello World",
   "themeConfig": Object {},
   "themes": Array [],

@@ -7,6 +7,7 @@ on:
 
 jobs:
   lint:
+    name: Lint
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +23,6 @@ jobs:
       - name: Lint
         run: yarn lint:ci
       - name: Prettier Code
-        run: yarn prettier:diff
+        run: yarn format:diff
       - name: Prettier Docs
-        run: yarn prettier-docs:diff
+        run: yarn format-docs:diff

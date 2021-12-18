@@ -13,9 +13,9 @@ import {
   readVersionsMetadata,
 } from '../versions';
 import {DEFAULT_OPTIONS} from '../options';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {PluginOptions, VersionMetadata} from '../types';
-import {I18n} from '@docusaurus/types';
+import type {I18n} from '@docusaurus/types';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -600,11 +600,9 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with invalid versions.json file', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => {
-      return {
-        invalid: 'json',
-      };
-    });
+    const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => ({
+      invalid: 'json',
+    }));
 
     expect(() => {
       readVersionsMetadata({

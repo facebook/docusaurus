@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface ThemeConfig {
-  gtag?: {
-    trackingID: string;
-    anonymizeIP?: boolean;
-  };
-}
+export type PluginOptions = {
+  trackingID: string;
+  anonymizeIP: boolean;
+};
+
+export type Options = Partial<PluginOptions>;

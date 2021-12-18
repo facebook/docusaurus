@@ -4,9 +4,12 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - website/**
 
 jobs:
   test:
+    name: Tests
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:

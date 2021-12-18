@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
 import traverse, {Node} from '@babel/traverse';
 import generate from '@babel/generator';
@@ -15,7 +16,7 @@ import {
   TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
-import {SRC_DIR_NAME} from '../../constants';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
@@ -85,9 +86,10 @@ export async function extractSiteSourceCodeTranslations(
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
-    return sourceCodeFileTranslations.reduce((acc, item) => {
-      return {...acc, ...item.translations};
-    }, {});
+    return sourceCodeFileTranslations.reduce(
+      (acc, item) => ({...acc, ...item.translations}),
+      {},
+    );
   }
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);

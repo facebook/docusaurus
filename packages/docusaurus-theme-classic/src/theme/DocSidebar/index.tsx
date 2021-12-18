@@ -90,22 +90,29 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
   );
 }
 
+// eslint-disable-next-line react/function-component-definition
 const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
   toggleSidebar,
   sidebar,
   path,
-}) => {
-  return (
-    <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-      <DocSidebarItems
-        items={sidebar}
-        activePath={path}
-        onItemClick={() => toggleSidebar()}
-        level={1}
-      />
-    </ul>
-  );
-};
+}) => (
+  <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
+    <DocSidebarItems
+      items={sidebar}
+      activePath={path}
+      onItemClick={(item) => {
+        // Mobile sidebar should only be closed if the category has a link
+        if (item.type === 'category' && item.href) {
+          toggleSidebar();
+        }
+        if (item.type === 'link') {
+          toggleSidebar();
+        }
+      }}
+      level={1}
+    />
+  </ul>
+);
 
 function DocSidebarMobile(props: Props) {
   return (

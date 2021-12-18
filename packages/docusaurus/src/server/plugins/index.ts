@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -21,7 +21,6 @@ import {
 } from '@docusaurus/types';
 import initPlugins from './init';
 import chalk from 'chalk';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
@@ -124,12 +123,12 @@ export async function loadPlugins({
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
+    .mapValues((nameItems) =>
+      chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
+        .value(),
+    )
     .value();
 
   // 3. Plugin Lifecycle - contentLoaded.

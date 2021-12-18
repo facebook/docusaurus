@@ -105,12 +105,13 @@ function useSecondaryMenu({
   });
   const previousContent = usePrevious(content);
 
-  const [shown, setShown] = useState<boolean>(() => {
-    // /!\ content is set with useEffect,
-    // so it's not available on mount anyway
-    // "return !!content" => always returns false
-    return false;
-  });
+  const [shown, setShown] = useState<boolean>(
+    () =>
+      // /!\ content is set with useEffect,
+      // so it's not available on mount anyway
+      // "return !!content" => always returns false
+      false,
+  );
 
   // When content is become available for the first time (set in useEffect)
   // we set this content to be shown!

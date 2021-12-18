@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import path from 'path';
 import fs from 'fs-extra';
 import {mapValues, difference} from 'lodash';
@@ -271,9 +272,10 @@ export async function getPluginsDefaultCodeTranslationMessages(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
 
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
+  return pluginsMessages.reduce(
+    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
+    {},
+  );
 }
 
 export function applyDefaultCodeTranslations({
@@ -298,11 +300,9 @@ Please report this Docusaurus issue.
 
   return mapValues(
     extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
+    (messageTranslation, messageId) => ({
+      ...messageTranslation,
+      message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+    }),
   );
 }

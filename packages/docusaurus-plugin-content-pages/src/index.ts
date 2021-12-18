@@ -18,6 +18,7 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -29,10 +30,6 @@ import {
 import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
-  DEFAULT_PLUGIN_ID,
-  STATIC_DIR_NAME,
-} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,
@@ -209,7 +206,10 @@ export default function pluginContentPages(
                     rehypePlugins,
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,

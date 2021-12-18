@@ -29,11 +29,7 @@ import {
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {
-  BABEL_CONFIG_FILE_NAME,
-  OUTPUT_STATIC_ASSETS_DIR_NAME,
-  WEBPACK_URL_LOADER_LIMIT,
-} from '../constants';
+import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
 import {memoize} from 'lodash';
 
 // Utility method to get style loaders
@@ -164,7 +160,7 @@ export const getCustomizableJSLoader =
       : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
-const warnBabelLoaderOnce = memoize(function () {
+const warnBabelLoaderOnce = memoize(() => {
   console.warn(
     chalk.yellow(
       'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
@@ -180,7 +176,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 };
 
 // TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = memoize(function () {
+const warnCacheLoaderOnce = memoize(() => {
   console.warn(
     chalk.yellow(
       'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
@@ -305,139 +301,6 @@ export function compile(config: Configuration[]): Promise<void> {
       });
     });
   });
-}
-
-type AssetFolder = 'images' | 'files' | 'fonts' | 'medias';
-
-type FileLoaderUtils = {
-  loaders: {
-    file: (options: {folder: AssetFolder}) => RuleSetRule;
-    url: (options: {folder: AssetFolder}) => RuleSetRule;
-    inlineMarkdownImageFileLoader: string;
-    inlineMarkdownLinkFileLoader: string;
-  };
-  rules: {
-    images: () => RuleSetRule;
-    fonts: () => RuleSetRule;
-    media: () => RuleSetRule;
-    svg: () => RuleSetRule;
-    otherAssets: () => RuleSetRule;
-  };
-};
-
-// Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < urlLoaderLimit will be inlined as base64 strings directly in the html
-  const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
-
-  // defines the path/pattern of the assets handled by webpack
-  const fileLoaderFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[hash].[ext]`;
-
-  const loaders: FileLoaderUtils['loaders'] = {
-    file: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`file-loader`),
-        options: {
-          name: fileLoaderFileName(options.folder),
-        },
-      };
-    },
-    url: (options: {folder: AssetFolder}) => {
-      return {
-        loader: require.resolve(`url-loader`),
-        options: {
-          limit: urlLoaderLimit,
-          name: fileLoaderFileName(options.folder),
-          fallback: require.resolve(`file-loader`),
-        },
-      };
-    },
-
-    // TODO find a better solution to avoid conflicts with the ideal-image plugin
-    // TODO this may require a little breaking change for ideal-image users?
-    // Maybe with the ideal image plugin, all md images should be "ideal"?
-    // This is used to force url-loader+file-loader on markdown images
-    // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!url-loader?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
-      'images',
-    )}&fallback=file-loader!`,
-    inlineMarkdownLinkFileLoader: `!file-loader?name=${fileLoaderFileName(
-      'files',
-    )}!`,
-  };
-
-  const rules: FileLoaderUtils['rules'] = {
-    /**
-     * Loads image assets, inlines images via a data URI if they are below
-     * the size threshold
-     */
-    images: () => {
-      return {
-        use: [loaders.url({folder: 'images'})],
-        test: /\.(ico|jpg|jpeg|png|gif|webp)(\?.*)?$/,
-      };
-    },
-
-    fonts: () => {
-      return {
-        use: [loaders.url({folder: 'fonts'})],
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-      };
-    },
-
-    /**
-     * Loads audio and video and inlines them via a data URI if they are below
-     * the size threshold
-     */
-    media: () => {
-      return {
-        use: [loaders.url({folder: 'medias'})],
-        test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
-      };
-    },
-
-    svg: () => {
-      return {
-        test: /\.svg?$/,
-        oneOf: [
-          {
-            use: [
-              {
-                loader: '@svgr/webpack',
-                options: {
-                  prettier: false,
-                  svgo: true,
-                  svgoConfig: {
-                    plugins: [{removeViewBox: false}],
-                  },
-                  titleProp: true,
-                  ref: ![path],
-                },
-              },
-            ],
-            // We don't want to use SVGR loader for non-React source code
-            // ie we don't want to use SVGR for CSS files...
-            issuer: {
-              and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
-            },
-          },
-          {
-            use: [loaders.url({folder: 'images'})],
-          },
-        ],
-      };
-    },
-
-    otherAssets: () => {
-      return {
-        use: [loaders.file({folder: 'files'})],
-        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
-      };
-    },
-  };
-
-  return {loaders, rules};
 }
 
 // Ensure the certificate and key provided are valid and if not

@@ -52,13 +52,11 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-  return mapValues(groups, (group) => {
-    return {
-      name: group.tag.label,
-      items: group.items.map((item) => item.id),
-      permalink: group.tag.permalink,
-    };
-  });
+  return mapValues(groups, (group) => ({
+    name: group.tag.label,
+    items: group.items.map((item) => item.id),
+    permalink: group.tag.permalink,
+  }));
 }
 
 const DATE_FILENAME_REGEX =
@@ -112,9 +110,8 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
   };
 }
 
-const defaultReadingTime: ReadingTimeFunction = ({content, options}) => {
-  return readingTime(content, options).minutes;
-};
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
+  readingTime(content, options).minutes;
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -222,7 +219,7 @@ async function processBlogSourceFile(
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
-    id: frontMatter.slug ?? title,
+    id: slug,
     metadata: {
       permalink,
       editUrl: getBlogEditUrl(),
@@ -294,6 +291,9 @@ export async function generateBlogPosts(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );
 
+  if (options.sortPosts === 'ascending') {
+    return blogPosts.reverse();
+  }
   return blogPosts;
 }
 

@@ -82,13 +82,11 @@ const QUOTES = [
 
 function Home(): JSX.Element {
   const {
-    siteConfig: {
-      customFields: {description},
-      tagline,
-    },
+    siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
+  const {description} = customFields as {description: string};
   return (
-    <Layout title={tagline} description={description as string}>
+    <Layout title={tagline} description={description}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>

@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import React, {
   createContext,
   ReactNode,
@@ -132,7 +133,7 @@ const Context = createContext<DocsPreferredVersionContextValue | null>(null);
 export function DocsPreferredVersionContextProvider({
   children,
 }: {
-  children: ReactNode;
+  children: JSX.Element;
 }): JSX.Element {
   if (isDocsPluginEnabled) {
     return (
@@ -141,7 +142,7 @@ export function DocsPreferredVersionContextProvider({
       </DocsPreferredVersionContextProviderUnsafe>
     );
   } else {
-    return <>{children}</>;
+    return children;
   }
 }
 

@@ -14,7 +14,7 @@ import {
   getVersionsFilePath,
   getVersionedSidebarsDirPath,
 } from '../versions';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 

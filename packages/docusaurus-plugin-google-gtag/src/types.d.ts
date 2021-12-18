@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable camelcase */
 /// <reference types="@docusaurus/module-type-aliases" />
 
 interface Window {

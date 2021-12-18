@@ -63,6 +63,7 @@ function createTemplateChoices(templates: string[]) {
   return [
     ...templates.map((template) => makeNameAndValueChoice(template)),
     makeNameAndValueChoice('Git repository'),
+    makeNameAndValueChoice('Local template'),
   ];
 }
 
@@ -176,13 +177,37 @@ export default async function init(
         'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
     });
     template = repoPrompt.gitRepoUrl;
+  } else if (template === 'Local template') {
+    const dirPrompt = await prompts({
+      type: 'text',
+      name: 'templateDir',
+      validate: (dir?: string) => {
+        if (dir) {
+          const fullDir = path.resolve(process.cwd(), dir);
+          if (fs.existsSync(fullDir)) {
+            return true;
+          }
+          return chalk.red(
+            `The path ${chalk.magenta(fullDir)} does not exist.`,
+          );
+        }
+        return chalk.red('Please enter a valid path.');
+      },
+      message:
+        'Enter a local folder path, relative to the current working directory.',
+    });
+    template = dirPrompt.templateDir;
+  }
+
+  if (!template) {
+    throw new Error('Template should not be empty');
   }
 
   console.log(`
 ${chalk.cyan('Creating new Docusaurus project...')}
 `);
 
-  if (template && isValidGitRepoUrl(template)) {
+  if (isValidGitRepoUrl(template)) {
     console.log(`Cloning Git template ${chalk.cyan(template)}...`);
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
@@ -190,7 +215,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
     ) {
       throw new Error(chalk.red(`Cloning Git template ${template} failed!`));
     }
-  } else if (template && templates.includes(template)) {
+  } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
@@ -206,6 +231,14 @@ ${chalk.cyan('Creating new Docusaurus project...')}
       console.log(
         `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
       );
+      throw err;
+    }
+  } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
+    const templateDir = path.resolve(process.cwd(), template);
+    try {
+      await fs.copy(templateDir, dest);
+    } catch (err) {
+      console.log(`Copying local template ${templateDir} failed!`);
       throw err;
     }
   } else {
@@ -236,32 +269,33 @@ ${chalk.cyan('Creating new Docusaurus project...')}
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
-  if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
-
-    try {
-      // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
-      shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
-        {
-          env: {
-            ...process.env,
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-          },
-        },
-      );
-    } catch (err) {
-      console.log(chalk.red('Installation failed.'));
-      throw err;
-    }
-  }
-  console.log();
-
   // Display the most elegant way to cd.
   const cdpath =
     path.join(process.cwd(), name) === dest
       ? name
       : path.relative(process.cwd(), name);
+  if (!cliOptions.skipInstall) {
+    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
+    if (
+      shell.exec(
+        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
+        },
+      ).code !== 0
+    ) {
+      console.error(chalk.red('Dependency installation failed.'));
+      console.log(`The site directory has already been created, and you can retry by typing:
+
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} install`)}`);
+      process.exit(0);
+    }
+  }
 
   console.log(`
 Successfully created "${chalk.cyan(cdpath)}".

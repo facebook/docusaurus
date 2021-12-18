@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {PrismTheme} from 'prism-react-renderer';
 import {CSSProperties} from 'react';
@@ -113,7 +114,7 @@ export type ThemeConfig = {
   footer?: Footer;
   hideableSidebar: boolean;
   image?: string;
-  metadatas: Array<Record<string, string>>;
+  metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };

@@ -1,6 +1,6 @@
 name: 🐛 Bug Report
 description: Submit a bug report to help us improve
-labels: [bug, needs triage]
+labels: [bug, 'status: needs triage']
 body:
   - type: markdown
     attributes:
