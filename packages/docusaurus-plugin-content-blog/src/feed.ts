@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Feed, Author as FeedAuthor} from 'feed';
+import {Feed, Author as FeedAuthor, Item as FeedItem} from 'feed';
 import {PluginOptions, Author, BlogPost, FeedType} from './types';
 import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
 import {DocusaurusConfig} from '@docusaurus/types';
@@ -68,15 +68,24 @@ export async function generateBlogFeed({
       id,
       metadata: {title: metadataTitle, permalink, date, description, authors},
     } = post;
-    feed.addItem({
+
+    const feedItem: FeedItem = {
       title: metadataTitle,
       id,
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
       content: mdxToFeedContent(post.content),
-      author: authors.map(toFeedAuthor),
-    });
+    };
+
+    // json1() method takes the first item of authors array
+    // it causes an error when authors array is empty
+    const feedItemAuthors = authors.map(toFeedAuthor);
+    if (feedItemAuthors.length > 0) {
+      feedItem.author = feedItemAuthors;
+    }
+
+    feed.addItem(feedItem);
   });
 
   return feed;
@@ -91,7 +100,20 @@ async function createBlogFeedFile({
   feedType: FeedType;
   filePath: string;
 }) {
-  const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
+  let feedContent = '';
+  switch (feedType) {
+    case 'rss':
+      feedContent = feed.rss2();
+      break;
+    case 'json':
+      feedContent = feed.json1();
+      break;
+    case 'atom':
+      feedContent = feed.atom1();
+      break;
+    default:
+      throw new Error(`Feed type ${feedType} is not supported.`);
+  }
   try {
     await fs.outputFile(filePath, feedContent);
   } catch (err) {
@@ -119,10 +141,11 @@ export async function createBlogFeedFiles({
 
   await Promise.all(
     feedTypes.map(async (feedType) => {
+      const fileName = feedType === 'json' ? 'feed.json' : `${feedType}.xml`;
       await createBlogFeedFile({
         feed,
         feedType,
-        filePath: path.join(outDir, options.routeBasePath, `${feedType}.xml`),
+        filePath: path.join(outDir, options.routeBasePath, fileName),
       });
     }),
   );
