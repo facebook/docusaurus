@@ -31,9 +31,7 @@ function DocPaginator(props: PropNavigation): JSX.Element {
                 Previous
               </Translate>
             </div>
-            <div className="pagination-nav__label">
-              {previous.title}
-            </div>
+            <div className="pagination-nav__label">{previous.title}</div>
           </Link>
         )}
       </div>
