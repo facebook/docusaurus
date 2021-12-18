@@ -319,12 +319,14 @@ export function addDocNavigation(
       return toDocNavigationLink(navDoc);
     };
 
-    const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
-      : toNavigationLink(navigation.previous, docsById);
-    const next: DocNavLink | undefined = doc.frontMatter.pagination_next
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
-      : toNavigationLink(navigation.next, docsById);
+    const previous =
+      doc.frontMatter.pagination_prev !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
+        : toNavigationLink(navigation.previous, docsById);
+    const next =
+      doc.frontMatter.pagination_next !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
+        : toNavigationLink(navigation.next, docsById);
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
