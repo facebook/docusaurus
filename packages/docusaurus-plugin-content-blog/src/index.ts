@@ -550,6 +550,11 @@ export default function pluginContentBlog(
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
         },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
+        },
       };
       const headTags: HtmlTags = [];
 
