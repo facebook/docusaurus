@@ -56,8 +56,8 @@ Accepted fields:
 | `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
 | `readingTime` | `ReadingTimeFunctionOption` | The default reading time | A callback to customize the reading time number displayed. |
 | `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory specified with `path`. Can also be a `json` file. |
-| `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. If undefined, no rss feed will be generated. |
-| `feedOptions.type` | <code>'rss' \| 'atom' \| 'all'</code> (or array of multiple options) | **Required** | Type of feed to be generated. |
+| `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. |
+| `feedOptions.type` | <code>FeedType \| FeedType[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
 | `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
 | `feedOptions.description` | `string` | <code>\`${siteConfig.title} Blog\`</code> | Description of the feed. |
 | `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
@@ -90,6 +90,8 @@ type ReadingTimeFunctionOption = (params: {
   frontMatter: BlogPostFrontMatter & Record<string, unknown>;
   defaultReadingTime: ReadingTimeFunction;
 }) => number | undefined;
+
+type FeedType = 'rss' | 'atom' | 'json';
 ```
 
 ## Example configuration {#ex-config}
