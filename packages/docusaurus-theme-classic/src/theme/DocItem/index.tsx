@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
+import DocVersionBadge from '@theme/DocVersionBadge';
 import Seo from '@theme/Seo';
 import type {Props} from '@theme/DocItem';
 import DocItemFooter from '@theme/DocItemFooter';
@@ -20,7 +21,7 @@ import styles from './styles.module.css';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
-  const {content: DocContent, versionMetadata} = props;
+  const {content: DocContent} = props;
   const {metadata, frontMatter} = DocContent;
   const {
     image,
@@ -55,18 +56,10 @@ export default function DocItem(props: Props): JSX.Element {
           className={clsx('col', {
             [styles.docItemCol]: !hideTableOfContents,
           })}>
-          <DocVersionBanner versionMetadata={versionMetadata} />
+          <DocVersionBanner />
           <div className={styles.docItemContainer}>
             <article>
-              {versionMetadata.badge && (
-                <span
-                  className={clsx(
-                    ThemeClassNames.docs.docVersionBadge,
-                    'badge badge--secondary',
-                  )}>
-                  Version: {versionMetadata.label}
-                </span>
-              )}
+              <DocVersionBadge />
 
               {canRenderTOC && (
                 <TOCCollapsible
@@ -95,7 +88,7 @@ export default function DocItem(props: Props): JSX.Element {
               <DocItemFooter {...props} />
             </article>
 
-            <DocPaginator metadata={metadata} />
+            <DocPaginator previous={metadata.previous} next={metadata.next} />
           </div>
         </div>
         {renderTocDesktop && (

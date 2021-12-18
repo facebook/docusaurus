@@ -16,8 +16,8 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {translateContent, getTranslationFiles} from './translations';
 
 import {

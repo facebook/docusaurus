@@ -137,7 +137,7 @@ A good test plan has the exact commands you ran and their output, provides scree
 
 - If you've changed APIs, update the documentation.
 
-If you need help testing your changes locally, you can check out the doc on doing [local third party testing](./admin/local-third-party-project-testing.md).
+If you need help testing your changes locally, you can check out the doc on doing [local third party testing](https://github.com/facebook/docusaurus/blob/main/admin/local-third-party-project-testing.md).
 
 #### Breaking Changes
 

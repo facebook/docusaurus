@@ -23,7 +23,9 @@ import resolvePathnameUnsafe from 'resolve-pathname';
 import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
 import {normalizeUrl} from './normalizeUrl';
+import {DEFAULT_PLUGIN_ID} from './constants';
 
+export * from './constants';
 export * from './mdxUtils';
 export * from './normalizeUrl';
 export * from './tags';
@@ -33,6 +35,7 @@ export const posixPath = posixPathImport;
 export * from './markdownParser';
 export * from './markdownLinks';
 export * from './escapePath';
+export * from './slugger';
 export {md5Hash, simpleHash, docuHash} from './hashUtils';
 export {
   Globby,
@@ -40,6 +43,7 @@ export {
   createMatcher,
   createAbsoluteFilePathMatcher,
 } from './globUtils';
+export * from './webpackUtils';
 
 const fileHash = new Map();
 export async function generate(
@@ -281,7 +285,7 @@ export function getPluginI18nPath({
   siteDir,
   locale,
   pluginName,
-  pluginId = 'default', // TODO duplicated constant
+  pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
   siteDir: string;
@@ -297,10 +301,7 @@ export function getPluginI18nPath({
     locale,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
-    `${pluginName}${
-      // TODO duplicate constant :(
-      pluginId === 'default' ? '' : `-${pluginId}`
-    }`,
+    `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
     ...subPaths,
   );
 }

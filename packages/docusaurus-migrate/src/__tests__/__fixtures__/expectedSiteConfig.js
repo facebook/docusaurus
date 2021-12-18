@@ -37,7 +37,6 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          homePageId: 'installation',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           editUrl: 'https://github.com/facebook/docusaurus/edit/main/docs/',
@@ -53,7 +52,7 @@ module.exports = {
       title: 'Docusaurus',
       logo: {src: 'img/docusaurus.svg'},
       items: [
-        {to: 'docs/', label: 'Docs', position: 'left'},
+        {to: 'docs/installation', label: 'Docs', position: 'left'},
         {to: 'docs/tutorial-setup', label: 'Tutorial', position: 'left'},
         {to: '/users', label: 'Users', position: 'left'},
         {

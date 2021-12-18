@@ -9,6 +9,7 @@ slug: /markdown-features/tabs
 import BrowserWindow from '@site/src/components/BrowserWindow';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import styles from './markdown-features-tabs-styles.module.css';
 ```
 
 Docusaurus provides `<Tabs>` components that you can use thanks to [MDX](./markdown-features-react.mdx):
@@ -229,15 +230,12 @@ Tab choices with different `groupId`s will not interfere with each other:
 You might want to customize the appearance of certain set of tabs. To do that you can pass the string in `className` prop and the specified CSS class will be added to the `Tabs` component:
 
 ```jsx
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 // highlight-next-line
 <Tabs className="unique-tabs">
   <TabItem value="Apple">This is an apple 🍎</TabItem>
   <TabItem value="Orange">This is an orange 🍊</TabItem>
   <TabItem value="Banana">This is a banana 🍌</TabItem>
-</Tabs>;
+</Tabs>
 ```
 
 ```mdx-code-block
@@ -249,3 +247,76 @@ import TabItem from '@theme/TabItem';
   </Tabs>
 </BrowserWindow>
 ```
+
+### Customizing tab headings
+
+You can also customize each tab heading independently by using the `attributes` field. The extra props can be passed to the headings either through the `values` prop in `Tabs`, or props of each `TabItem`—in the same way as you declare `label`.
+
+<!-- prettier-ignore-start -->
+```jsx title="some-doc.mdx"
+import styles from './styles.module.css';
+
+<Tabs>
+  <TabItem value="apple" label="Apple" attributes={{className: styles.red}}>
+    This is an apple 🍎
+  </TabItem>
+  <TabItem value="orange" label="Orange" attributes={{className: styles.orange}}>
+    This is an orange 🍊
+  </TabItem>
+  <TabItem value="banana" label="Banana" attributes={{className: styles.yellow}}>
+    This is a banana 🍌
+  </TabItem>
+</Tabs>
+```
+<!-- prettier-ignore-end -->
+
+```css title="styles.module.css"
+.red {
+  color: red;
+}
+.red[aria-selected='true'] {
+  border-bottom-color: red;
+}
+
+.orange {
+  color: orange;
+}
+.orange[aria-selected='true'] {
+  border-bottom-color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+.yellow[aria-selected='true'] {
+  border-bottom-color: yellow;
+}
+```
+
+```mdx-code-block
+<BrowserWindow>
+  <Tabs>
+    <TabItem value="apple" label="Apple" attributes={{className: styles.red}}>
+      This is an apple 🍎
+    </TabItem>
+    <TabItem value="orange" label="Orange" attributes={{className: styles.orange}}>
+      This is an orange 🍊
+    </TabItem>
+    <TabItem value="banana" label="Banana" attributes={{className: styles.yellow}}>
+      This is a banana 🍌
+    </TabItem>
+  </Tabs>
+</BrowserWindow>
+```
+
+:::tip
+
+`className` would be merged with other default class names. You may also use a custom `data-value` field (`{'data-value': 'apple'}`) paired with CSS attribute selectors:
+
+```css title="styles.module.css"
+li[role='tab'][data-value='apple'] {
+  color: red;
+}
+```
+
+:::

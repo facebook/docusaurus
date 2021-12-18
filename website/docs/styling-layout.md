@@ -114,6 +114,7 @@ import CodeBlock from '@theme/CodeBlock';
   {ThemeClassNamesCode
     // remove source comments
     .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
+    .replace(/^ *\n/gm,'')
     .trim()}
 </CodeBlock>
 ```

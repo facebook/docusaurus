@@ -7,19 +7,16 @@
 
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
-import {parseMarkdownHeadingId} from '@docusaurus/utils';
+import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import visit, {Visitor} from 'unist-util-visit';
 import toString from 'mdast-util-to-string';
-import Slugger from 'github-slugger';
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';
 import type {Heading, Text} from 'mdast';
 
-const slugs = new Slugger();
-
 function headings(): Transformer {
   const transformer: Transformer = (ast) => {
-    slugs.reset();
+    const slugs = createSlugger();
 
     const visitor: Visitor<Heading> = (headingNode) => {
       const data = headingNode.data || (headingNode.data = {});
@@ -29,7 +26,7 @@ function headings(): Transformer {
       let {id} = properties;
 
       if (id) {
-        id = slugs.slug(id, true);
+        id = slugs.slug(id, {maintainCase: true});
       } else {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),

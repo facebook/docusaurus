@@ -232,7 +232,7 @@ async function processBlogSourceFile(
   }
 
   return {
-    id: frontMatter.slug ?? title,
+    id: slug,
     metadata: {
       permalink,
       editUrl: getBlogEditUrl(),
