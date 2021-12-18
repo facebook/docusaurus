@@ -94,28 +94,26 @@ export async function generateBlogFeed({
 async function createBlogFeedFile({
   feed,
   feedType,
-  filePath,
+  generatePath,
 }: {
   feed: Feed;
   feedType: FeedType;
-  filePath: string;
+  generatePath: string;
 }) {
-  let feedContent = '';
-  switch (feedType) {
-    case 'rss':
-      feedContent = feed.rss2();
-      break;
-    case 'json':
-      feedContent = feed.json1();
-      break;
-    case 'atom':
-      feedContent = feed.atom1();
-      break;
-    default:
-      throw new Error(`Feed type ${feedType} is not supported.`);
-  }
+  const [feedContent, feedPath] = (() => {
+    switch (feedType) {
+      case 'rss':
+        return [feed.rss2(), 'rss.xml'];
+      case 'json':
+        return [feed.json1(), 'feed.json'];
+      case 'atom':
+        return [feed.atom1(), 'atom.xml'];
+      default:
+        throw new Error(`Feed type ${feedType} not supported.`);
+    }
+  })();
   try {
-    await fs.outputFile(filePath, feedContent);
+    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed: ${err}.`);
   }
@@ -140,13 +138,12 @@ export async function createBlogFeedFiles({
   }
 
   await Promise.all(
-    feedTypes.map(async (feedType) => {
-      const fileName = feedType === 'json' ? 'feed.json' : `${feedType}.xml`;
-      await createBlogFeedFile({
+    feedTypes.map((feedType) =>
+      createBlogFeedFile({
         feed,
         feedType,
-        filePath: path.join(outDir, options.routeBasePath, fileName),
-      });
-    }),
+        generatePath: path.join(outDir, options.routeBasePath),
+      }),
+    ),
   );
 }

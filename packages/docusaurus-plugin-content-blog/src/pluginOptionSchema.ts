@@ -16,7 +16,7 @@ import {GlobExcludeDefault} from '@docusaurus/utils';
 import {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
-  feedOptions: {type: ['rss', 'atom', 'json'], copyright: ''},
+  feedOptions: {type: ['rss', 'atom'], copyright: ''},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   admonitions: {},
@@ -90,7 +90,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   feedOptions: Joi.object({
     type: Joi.alternatives()
       .try(
-        Joi.array().items(Joi.string()),
+        Joi.array().items(Joi.string().equal('rss', 'atom', 'json')),
         Joi.alternatives().conditional(
           Joi.string().equal('all', 'rss', 'atom', 'json'),
           {
