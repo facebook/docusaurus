@@ -127,15 +127,14 @@ Object {
   "frontMatter": Object {
     "description": "This is custom description",
     "id": "bar",
+    "pagination_next": null,
+    "pagination_prev": null,
     "title": "Bar",
   },
   "id": "foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
-    "permalink": "/docs/foo/bazSlug.html",
-    "title": "baz pagination_label",
-  },
+  "next": undefined,
   "permalink": "/docs/foo/bar",
   "previous": undefined,
   "sidebar": "docs",
@@ -341,13 +340,11 @@ Object {
   \\"frontMatter\\": {
     \\"id\\": \\"bar\\",
     \\"title\\": \\"Bar\\",
-    \\"description\\": \\"This is custom description\\"
+    \\"description\\": \\"This is custom description\\",
+    \\"pagination_next\\": null,
+    \\"pagination_prev\\": null
   },
-  \\"sidebar\\": \\"docs\\",
-  \\"next\\": {
-    \\"title\\": \\"baz pagination_label\\",
-    \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
-  }
+  \\"sidebar\\": \\"docs\\"
 }",
   "site-docs-foo-baz-md-a69.json": "{
   \\"unversionedId\\": \\"foo/baz\\",
