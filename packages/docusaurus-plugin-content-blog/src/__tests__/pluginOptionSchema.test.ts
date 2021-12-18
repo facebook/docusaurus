@@ -78,7 +78,7 @@ test('should convert all feed type to array with other feed type', () => {
   });
   expect(value).toEqual({
     ...DEFAULT_OPTIONS,
-    feedOptions: {type: ['rss', 'atom'], copyright: ''},
+    feedOptions: {type: ['rss', 'atom', 'json'], copyright: ''},
   });
 });
 
@@ -93,20 +93,20 @@ test('should accept null type and return same', () => {
   expect(error).toBe(undefined);
 });
 
-test('should contain array with rss + atom for missing feed type', () => {
+test('should contain array with rss + atom + json for missing feed type', () => {
   const {value} = PluginOptionSchema.validate({
     feedOptions: {},
   });
   expect(value).toEqual(DEFAULT_OPTIONS);
 });
 
-test('should have array with rss + atom, title for missing feed type', () => {
+test('should have array with rss + atom + json, title for missing feed type', () => {
   const {value} = PluginOptionSchema.validate({
     feedOptions: {title: 'title'},
   });
   expect(value).toEqual({
     ...DEFAULT_OPTIONS,
-    feedOptions: {type: ['rss', 'atom'], title: 'title', copyright: ''},
+    feedOptions: {type: ['rss', 'atom', 'json'], title: 'title', copyright: ''},
   });
 });
 
