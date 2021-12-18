@@ -7,6 +7,9 @@
 
 import logger from '../index';
 
+// Test with colors on
+process.env.FORCE_COLOR = '1';
+
 describe('formatters', () => {
   test('path', () => {
     expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4mhey[24m[39m"`);
