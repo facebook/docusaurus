@@ -455,12 +455,14 @@ module.exports = {
 
 ## Feed {#feed}
 
-You can generate RSS/Atom feed by passing `feedOptions`. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
+You can generate RSS / Atom / JSON feed by passing `feedOptions`. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
+type FeedType = 'rss' | 'atom' | 'json';
+
 type BlogOptions = {
   feedOptions?: {
-    type?: 'rss' | 'atom' | 'json' | 'all' | null;
+    type?: FeedType | 'all' | FeedType[] | null;
     title?: string;
     description?: string;
     copyright: string;
