@@ -8,7 +8,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import logger from '@docusaurus/logger';
-import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import {
+  DEFAULT_BUILD_DIR_NAME,
+  GENERATED_FILES_DIR_NAME,
+} from '@docusaurus/utils';
 
 async function removePath(fsPath: string) {
   try {

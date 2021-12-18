@@ -222,6 +222,7 @@ You may want to delete these! code=${unknownMessages}`;
 }
 
 async function updateCodeTranslations() {
+  // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);

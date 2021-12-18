@@ -269,34 +269,36 @@ export default async function init(
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
-  if (!cliOptions.skipInstall) {
-    logger.info`Installing dependencies with name=${pkgManager}...`;
-
-    try {
-      // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
-      shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
-        {
-          env: {
-            ...process.env,
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-          },
-        },
-      );
-    } catch (err) {
-      logger.error('Installation failed.');
-      throw err;
-    }
-  }
-
   // Display the most elegant way to cd.
   const cdpath =
     path.join(process.cwd(), name) === dest
       ? name
       : path.relative(process.cwd(), name);
+  if (!cliOptions.skipInstall) {
+    logger.info`Installing dependencies with name=${pkgManager}...`;
+    if (
+      shell.exec(
+        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
+        },
+      ).code !== 0
+    ) {
+      logger.error('Dependency installation failed.');
+      logger.info`The site directory has already been created, and you can retry by typing:
 
-  logger.info`Successfully created path=${cdpath}.
-Inside that directory, you can run several commands:
+  code=${`cd ${cdpath}`}
+  code=${`${pkgManager} install`}`;
+      process.exit(0);
+    }
+  }
+
+  logger.success`Created path=${cdpath}.`;
+  logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
     Starts the development server.

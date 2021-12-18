@@ -49,14 +49,7 @@ module.exports = {
     'import/no-unresolved': [
       ERROR,
       {
-        ignore: [
-          '^@theme',
-          '^@docusaurus',
-          '^@generated',
-          '^@site',
-          'unist',
-          'mdast',
-        ],
+        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
       },
     ],
     'import/extensions': OFF,
@@ -149,6 +142,7 @@ module.exports = {
         allowSingleExtends: true,
       },
     ],
+    '@typescript-eslint/method-signature-style': ERROR,
     'no-restricted-imports': [
       ERROR,
       {

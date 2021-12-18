@@ -1,6 +1,6 @@
 name: 💅 Feature design / RFC
 description: Submit a detailed feature request with a concrete proposal, including an exhaustive API / UI design
-labels: [feature, needs triage]
+labels: [feature, 'status: needs triage']
 body:
   - type: markdown
     attributes:

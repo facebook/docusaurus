@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
@@ -14,7 +15,13 @@ function getDefaultLocaleLabel(locale: string) {
   // Intl.DisplayNames is ES2021 - Node14+
   // https://v8.dev/features/intl-displaynames
   if (typeof Intl.DisplayNames !== 'undefined') {
-    return new Intl.DisplayNames([locale], {type: 'language'}).of(locale);
+    const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
+      locale,
+    );
+    return (
+      languageName.charAt(0).toLocaleUpperCase(locale) +
+      languageName.substring(1)
+    );
   }
   return locale;
 }

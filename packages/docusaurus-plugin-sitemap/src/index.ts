@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {PluginOptions} from './types';
+import type {Options} from '@docusaurus/plugin-sitemap';
 import createSitemap from './createSitemap';
 import {
   LoadContext,
@@ -20,7 +20,7 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 
 export default function pluginSitemap(
   _context: LoadContext,
-  options: PluginOptions,
+  options: Options,
 ): Plugin<void> {
   return {
     name: 'docusaurus-plugin-sitemap',
@@ -47,7 +47,7 @@ export default function pluginSitemap(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options>): ValidationResult<Options> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }

@@ -6,7 +6,7 @@
  */
 
 import {groupBy} from 'lodash';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {InitializedPlugin} from '@docusaurus/types';
 
 // It is forbidden to have 2 plugins of the same name sharing the same id

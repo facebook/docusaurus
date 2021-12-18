@@ -12,7 +12,7 @@ import path from 'path';
 import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 import {partition} from 'lodash';
-import {THEME_PATH} from '../constants';
+import {THEME_PATH} from '@docusaurus/utils';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';

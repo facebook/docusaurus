@@ -16,7 +16,6 @@ import {updateTranslationFileMessages} from '@docusaurus/utils';
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
     editUrl: 'any',
-    isDocsHomePage: false,
     lastUpdatedAt: 0,
     lastUpdatedBy: 'any',
     next: undefined,

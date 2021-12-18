@@ -10,17 +10,18 @@ import importFresh from 'import-fresh';
 import {
   LoadContext,
   PluginConfig,
-  Preset,
   PresetConfig,
+  ImportedPresetModule,
 } from '@docusaurus/types';
+import {resolveModuleName} from '../moduleShorthand';
 
 export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these plugins.
-  const pluginRequire = createRequire(context.siteConfigPath);
+  // We need to resolve presets from the perspective of the siteDir, since the siteDir's package.json
+  // declares the dependency on these presets.
+  const presetRequire = createRequire(context.siteConfigPath);
 
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: PluginConfig[][] = [];
@@ -36,17 +37,16 @@ export default function loadPresets(context: LoadContext): {
     } else {
       throw new Error('Invalid presets format detected in config.');
     }
+    const presetName = resolveModuleName(
+      presetModuleImport,
+      presetRequire,
+      'preset',
+    );
 
-    type PresetInitializeFunction = (
-      context: LoadContext,
-      presetOptions: Record<string, unknown>,
-    ) => Preset;
-    const presetModule = importFresh<
-      PresetInitializeFunction & {
-        default?: PresetInitializeFunction;
-      }
-    >(pluginRequire.resolve(presetModuleImport));
-    const preset: Preset = (presetModule.default || presetModule)(
+    const presetModule = importFresh<ImportedPresetModule>(
+      presetRequire.resolve(presetName),
+    );
+    const preset = (presetModule.default ?? presetModule)(
       context,
       presetOptions,
     );
@@ -60,7 +60,7 @@ export default function loadPresets(context: LoadContext): {
   });
 
   return {
-    plugins: ([] as PluginConfig[]).concat(...unflatPlugins).filter(Boolean),
-    themes: ([] as PluginConfig[]).concat(...unflatThemes).filter(Boolean),
+    plugins: unflatPlugins.flat().filter(Boolean),
+    themes: unflatThemes.flat().filter(Boolean),
   };
 }

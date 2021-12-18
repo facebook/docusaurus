@@ -5,46 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, memo, CSSProperties} from 'react';
+import React, {useState, useRef, memo} from 'react';
 import type {Props} from '@theme/Toggle';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig, ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-interface IconProps {
-  icon: string;
-  style: CSSProperties;
-}
-
-function Dark({icon, style}: IconProps): JSX.Element {
-  return (
-    <span className={clsx(styles.toggleIcon, styles.dark)} style={style}>
-      {icon}
-    </span>
-  );
-}
-function Light({icon, style}: IconProps): JSX.Element {
-  return (
-    <span className={clsx(styles.toggleIcon, styles.light)} style={style}>
-      {icon}
-    </span>
-  );
-}
-
 // Based on react-toggle (https://github.com/aaronshaf/react-toggle/).
-const Toggle = memo(
+const ToggleComponent = memo(
   ({
     className,
-    icons,
+    switchConfig,
     checked: defaultChecked,
     disabled,
     onChange,
   }: Props & {
-    icons: {checked: JSX.Element; unchecked: JSX.Element};
+    switchConfig: ColorModeConfig['switchConfig'];
     disabled: boolean;
   }): JSX.Element => {
+    const {darkIcon, darkIconStyle, lightIcon, lightIconStyle} = switchConfig;
     const [checked, setChecked] = useState(defaultChecked);
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -62,8 +43,16 @@ const Toggle = memo(
           role="button"
           tabIndex={-1}
           onClick={() => inputRef.current?.click()}>
-          <div className={styles.toggleTrackCheck}>{icons.checked}</div>
-          <div className={styles.toggleTrackX}>{icons.unchecked}</div>
+          <div className={styles.toggleTrackCheck}>
+            <span className={styles.toggleIcon} style={darkIconStyle}>
+              {darkIcon}
+            </span>
+          </div>
+          <div className={styles.toggleTrackX}>
+            <span className={styles.toggleIcon} style={lightIconStyle}>
+              {lightIcon}
+            </span>
+          </div>
           <div className={styles.toggleTrackThumb} />
         </div>
 
@@ -88,21 +77,16 @@ const Toggle = memo(
   },
 );
 
-export default function (props: Props): JSX.Element {
+export default function Toggle(props: Props): JSX.Element {
   const {
-    colorMode: {
-      switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
-    },
+    colorMode: {switchConfig},
   } = useThemeConfig();
   const isBrowser = useIsBrowser();
 
   return (
-    <Toggle
+    <ToggleComponent
+      switchConfig={switchConfig}
       disabled={!isBrowser}
-      icons={{
-        checked: <Dark icon={darkIcon} style={darkIconStyle} />,
-        unchecked: <Light icon={lightIcon} style={lightIconStyle} />,
-      }}
       {...props}
     />
   );
