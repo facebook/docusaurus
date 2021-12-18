@@ -9,7 +9,6 @@
   margin-bottom: var(--ifm-leading);
   border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
-  overflow: hidden;
 }
 
 .codeBlockContent {
