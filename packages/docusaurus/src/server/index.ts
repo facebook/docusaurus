@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-} from '../constants';
+} from '@docusaurus/utils';
+import path, {join} from 'path';
+import chalk from 'chalk';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
@@ -39,6 +39,8 @@ import {
 import {mapValues} from 'lodash';
 import {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
+import {createRequire} from 'module';
+import {resolveModuleName} from './moduleShorthand';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -127,14 +129,44 @@ export async function loadContext(
 }
 
 export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
+  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+  const {siteConfig, siteConfigPath} = context;
+  const require = createRequire(siteConfigPath);
+  function normalizeShorthand(
+    pluginConfig: PluginConfig,
+    pluginType: 'plugin' | 'theme',
+  ): PluginConfig {
+    if (typeof pluginConfig === 'string') {
+      return resolveModuleName(pluginConfig, require, pluginType);
+    } else if (
+      Array.isArray(pluginConfig) &&
+      typeof pluginConfig[0] === 'string'
+    ) {
+      return [
+        resolveModuleName(pluginConfig[0], require, pluginType),
+        pluginConfig[1] ?? {},
+      ];
+    }
+    return pluginConfig;
+  }
+  presetPlugins = presetPlugins.map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  presetThemes = presetThemes.map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
+  const standalonePlugins = (siteConfig.plugins || []).map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  const standaloneThemes = (siteConfig.themes || []).map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
   return [
     ...presetPlugins,
     ...presetThemes,
     // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
+    ...standalonePlugins,
+    ...standaloneThemes,
   ];
 }
 

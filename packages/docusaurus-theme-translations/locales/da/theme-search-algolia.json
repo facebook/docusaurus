@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "Søg",
+  "theme.SearchPage.algoliaLabel": "Søg med Algolia",
+  "theme.SearchPage.documentsFound.plurals": "Et dokument fundet|{count} dokumenter fundet",
+  "theme.SearchPage.emptyResultsTitle": "Søg i dokumentationen",
+  "theme.SearchPage.existingResultsTitle": "Søgeresultater for \"{query}\"",
+  "theme.SearchPage.fetchingNewResults": "Henter nye resultater...",
+  "theme.SearchPage.inputLabel": "Søg",
+  "theme.SearchPage.inputPlaceholder": "Indtast din søgning her",
+  "theme.SearchPage.noResultsText": "Ingen resultater fundet"
+}

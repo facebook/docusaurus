@@ -15,12 +15,13 @@
   align-items: center;
 }
 
-.filterCheckbox > span {
+.filterCheckbox > div:first-child {
   display: flex;
   flex: 1 1 auto;
+  align-items: center;
 }
 
-.filterCheckbox > span > * {
+.filterCheckbox > div > * {
   margin-bottom: 0;
   margin-right: 8px;
 }
@@ -36,20 +37,10 @@
 }
 
 .checkboxListItem {
-  position: relative;
-  background-color: transparent;
   user-select: none;
   white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   height: 32px;
-  outline: 0px;
-  text-decoration: none;
-  padding: 0px;
   font-size: 0.8rem;
-  vertical-align: middle;
-  box-sizing: border-box;
 }
 
 .checkboxListItem {
@@ -65,12 +56,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
-  position: relative;
 }
 
 .showcaseFavorite {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   background-color: var(--site-color-favorite-background);
 }
 
@@ -79,8 +69,13 @@
   align-items: center;
 }
 
-.showcaseFavoriteHeader > h3 {
+.showcaseFavoriteHeader > h2 {
   margin-bottom: 0;
+}
+
+.showcaseFavoriteHeader > svg {
+  width: 30px;
+  height: 30px;
 }
 
 .svgIconFavoriteXs,

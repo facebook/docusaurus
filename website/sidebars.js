@@ -14,6 +14,9 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
+      link: {
+        type: 'generated-index',
+      },
       collapsed: false,
       items: [
         'installation',
@@ -25,11 +28,22 @@ const sidebars = {
     {
       type: 'category',
       label: 'Guides',
+      link: {
+        type: 'generated-index',
+        title: 'Docusaurus Guides',
+        description:
+          "Let's learn about the most important Docusaurus concepts!",
+      },
       items: [
         'guides/creating-pages',
         {
-          Docs: [
-            'guides/docs/introduction',
+          type: 'category',
+          label: 'Docs',
+          link: {
+            type: 'doc',
+            id: 'guides/docs/introduction',
+          },
+          items: [
             'guides/docs/create-doc',
             'guides/docs/sidebar',
             'guides/docs/versioning',
@@ -41,8 +55,11 @@ const sidebars = {
         {
           type: 'category',
           label: 'Markdown Features',
+          link: {
+            type: 'doc',
+            id: 'guides/markdown-features/introduction',
+          },
           items: [
-            'guides/markdown-features/introduction',
             'guides/markdown-features/react',
             'guides/markdown-features/tabs',
             'guides/markdown-features/code-blocks',
@@ -64,12 +81,8 @@ const sidebars = {
         {
           type: 'category',
           label: 'Internationalization',
+          link: {type: 'doc', id: 'i18n/introduction'},
           items: [
-            {
-              type: 'doc',
-              id: 'i18n/introduction',
-              label: 'Introduction',
-            },
             {
               type: 'doc',
               id: 'i18n/tutorial',

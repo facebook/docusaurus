@@ -12,6 +12,7 @@ import type {
   NumberPrefixParser,
   SidebarOptions,
 } from '../types';
+import {Required} from 'utility-types';
 
 // Makes all properties visible when hovering over the type
 type Expand<T extends Record<string, unknown>> = {[P in keyof T]: T[P]};
@@ -45,10 +46,35 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   collapsible: boolean;
 };
 
+export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
+
+export type SidebarItemCategoryLinkGeneratedIndexConfig = {
+  type: 'generated-index';
+  slug?: string;
+  title?: string;
+  description?: string;
+};
+export type SidebarItemCategoryLinkGeneratedIndex = {
+  type: 'generated-index';
+  slug: string;
+  permalink: string;
+  title?: string;
+  description?: string;
+};
+
+export type SidebarItemCategoryLinkConfig =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkGeneratedIndexConfig;
+
+export type SidebarItemCategoryLink =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkGeneratedIndex;
+
 // The user-given configuration in sidebars.js, before normalization
 export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarItemConfig[];
+    link?: SidebarItemCategoryLinkConfig;
   }
 >;
 
@@ -73,6 +99,7 @@ export type SidebarsConfig = {
 export type NormalizedSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: NormalizedSidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
 
@@ -90,13 +117,24 @@ export type NormalizedSidebars = {
 export type SidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: SidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
+
+export type SidebarItemCategoryWithLink = Required<SidebarItemCategory, 'link'>;
+
+export type SidebarItemCategoryWithGeneratedIndex =
+  SidebarItemCategoryWithLink & {link: SidebarItemCategoryLinkGeneratedIndex};
 
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategory;
+
+// A sidebar item that is part of the previous/next ordered navigation
+export type SidebarNavigationItem =
+  | SidebarItemDoc
+  | SidebarItemCategoryWithLink;
 
 export type Sidebar = SidebarItem[];
 export type SidebarItemType = SidebarItem['type'];
@@ -108,13 +146,29 @@ export type Sidebars = {
 export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
+    href?: string;
   }
 >;
 
-export type PropSidebarItem = SidebarItemLink | PropSidebarItemCategory;
+// we may want to use a union type in props instead of this generic link?
+export type PropSidebarItemLink = SidebarItemLink & {
+  docId?: string;
+};
+
+export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
 export type PropSidebar = PropSidebarItem[];
 export type PropSidebars = {
   [sidebarId: string]: PropSidebar;
+};
+
+export type PropVersionDoc = {
+  id: string;
+  title: string;
+  description?: string;
+  sidebar?: string;
+};
+export type PropVersionDocs = {
+  [docId: string]: PropVersionDoc;
 };
 
 // Reduce API surface for options.sidebarItemsGenerator
@@ -122,7 +176,12 @@ export type PropSidebars = {
 // A change to any of these metadata can be considered as a breaking change
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
-  'id' | 'frontMatter' | 'source' | 'sourceDirName' | 'sidebarPosition'
+  | 'id'
+  | 'unversionedId'
+  | 'frontMatter'
+  | 'source'
+  | 'sourceDirName'
+  | 'sidebarPosition'
 >;
 export type SidebarItemsGeneratorVersion = Pick<
   VersionMetadata,
@@ -138,7 +197,9 @@ export type SidebarItemsGeneratorArgs = {
 };
 export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,
-) => Promise<SidebarItem[]>;
+) => // TODO TS issue: the generator can generate un-normalized items!
+Promise<SidebarItem[]>;
+// Promise<SidebarItemConfig[]>;
 
 // Also inject the default generator to conveniently wrap/enhance/sort the default sidebar gen logic
 // see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320

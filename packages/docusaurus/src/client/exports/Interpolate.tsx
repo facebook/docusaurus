@@ -41,9 +41,9 @@ export function interpolate<Str extends string, Value extends ReactNode>(
 
   const processedText = text.replace(ValueRegexp, (match: string) => {
     // remove {{ and }} around the placeholder
-    const key = match.substr(
+    const key = match.substring(
       1,
-      match.length - 2,
+      match.length - 1,
     ) as ExtractInterpolatePlaceholders<Str>;
 
     const value = values?.[key];

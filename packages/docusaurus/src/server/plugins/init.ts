@@ -16,7 +16,7 @@ import {
   PluginOptions,
   InitializedPlugin,
 } from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {

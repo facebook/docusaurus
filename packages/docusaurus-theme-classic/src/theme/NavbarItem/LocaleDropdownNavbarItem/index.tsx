@@ -42,7 +42,6 @@ export default function LocaleDropdownNavbarItem({
       target: '_self',
       autoAddBaseUrl: false,
       className: locale === currentLocale ? 'dropdown__link--active' : '',
-      style: {textTransform: 'capitalize'},
     };
   });
 
@@ -54,7 +53,6 @@ export default function LocaleDropdownNavbarItem({
   return (
     <DropdownNavbarItem
       {...props}
-      href="#"
       mobile={mobile}
       label={
         <span>

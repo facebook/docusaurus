@@ -13,7 +13,7 @@ import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
-import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '../constants';
+import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import StaticSiteGeneratorPlugin from '@slorber/static-site-generator-webpack-plugin';

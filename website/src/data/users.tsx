@@ -7,7 +7,7 @@
 
 /* eslint-disable global-require */
 
-import {difference, sortBy} from '@site/src/utils/jsUtils';
+import {sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
@@ -27,7 +27,7 @@ import {difference, sortBy} from '@site/src/utils/jsUtils';
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
  * If you edit this file through the Github interface, you can:
- * - Submit first your users.js edit PR
+ * - Submit first your users.tsx edit PR
  * - This will create a branch on your Docusaurus fork (usually "patch-1")
  * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
  * - Drag-and-drop an image here to add it to your existing PR
@@ -54,7 +54,7 @@ export type TagType =
   | 'i18n'
   | 'versioning'
   | 'large'
-  | 'facebook'
+  | 'meta'
   | 'personal'
   | 'rtl';
 
@@ -69,7 +69,8 @@ export type User = {
 
 // LIST OF AVAILABLE TAGS
 // Available tags to assign to your site
-// Please choose widely, we'll remove unappropriate tags
+// Please choose all tags that you think might apply.
+// We'll remove inappropriate tags, but it's less likely that we add tags.
 export const Tags: Record<TagType, Tag> = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
@@ -117,13 +118,13 @@ export const Tags: Record<TagType, Tag> = {
   large: {
     label: 'Large',
     description:
-      'Very large Docusaurus sites, including much more pages than the average!',
+      'Very large Docusaurus sites, including many more pages than the average!',
     color: '#8c2f00',
   },
 
-  facebook: {
-    label: 'Facebook',
-    description: 'Docusaurus sites of Facebook projects',
+  meta: {
+    label: 'Meta',
+    description: 'Docusaurus sites of Meta (formerly Facebook) projects',
     color: '#4267b2', // Facebook blue
   },
 
@@ -258,7 +259,7 @@ const Users: User[] = [
   {
     title: 'Blogasaurus',
     description: 'A blog written using Docasaurus.',
-    preview: require('./showcase/Blogasaurus.png'),
+    preview: require('./showcase/blogasaurus.png'),
     website: 'https://blog.palashsh.me/',
     source: 'https://github.com/BattleOfPlassey/blogasaurus',
     tags: ['personal', 'opensource'],
@@ -277,6 +278,14 @@ const Users: User[] = [
     preview: require('./showcase/boxyhq.png'),
     website: 'https://boxyhq.com/',
     source: 'https://github.com/boxyhq/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
     tags: ['opensource'],
   },
   {
@@ -330,7 +339,7 @@ const Users: User[] = [
     preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
     source: 'https://github.com/facebook/componentkit',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'ConfigCat Feature Flags',
@@ -363,7 +372,7 @@ const Users: User[] = [
     preview: require('./showcase/create-react-app.png'),
     website: 'https://facebook.github.io/create-react-app/',
     source: 'https://github.com/facebook/create-react-app',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'CryptoDevHub',
@@ -432,7 +441,7 @@ const Users: User[] = [
     preview: require('./showcase/draftjs.png'),
     website: 'https://draftjs.org/',
     source: 'https://github.com/facebook/draft-js',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Easyjwt',
@@ -450,6 +459,15 @@ const Users: User[] = [
     website: 'https://infinum.github.io/eightshift-docs/',
     source: 'https://github.com/infinum/eightshift-docs',
     tags: ['opensource', 'favorite', 'design'],
+  },
+  {
+    title: 'Enarx',
+    description:
+      'Open source framework for running applications in TEEs (Trusted Execution Environments) based on WebAssembly, allowing developers to deploy architecture-independent applications',
+    preview: require('./showcase/enarx.png'),
+    website: 'https://enarx.dev/',
+    source: 'https://github.com/enarx/enarx.github.io',
+    tags: ['opensource']
   },
   {
     title: 'Erxes',
@@ -483,7 +501,7 @@ const Users: User[] = [
     preview: require('./showcase/fbt.png'),
     website: 'https://facebookincubator.github.io/fbt/',
     source: 'https://github.com/facebook/fbt',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Fenghua Frontend Developer',
@@ -515,7 +533,7 @@ const Users: User[] = [
     preview: require('./showcase/flipper.png'),
     website: 'https://fbflipper.com',
     source: 'https://github.com/facebook/flipper',
-    tags: ['opensource', 'design', 'facebook'],
+    tags: ['opensource', 'design', 'meta'],
   },
   {
     title: 'FlexIt Analytics',
@@ -531,7 +549,7 @@ const Users: User[] = [
     preview: require('./showcase/flux.png'),
     website: 'https://facebook.github.io/flux/',
     source: 'https://github.com/facebook/flux',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'FoalTS',
@@ -629,7 +647,7 @@ const Users: User[] = [
     preview: require('./showcase/hermes.png'),
     website: 'https://hermesengine.dev',
     source: 'https://github.com/facebook/hermes',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Home Assistant',
@@ -645,7 +663,7 @@ const Users: User[] = [
     preview: require('./showcase/idb.png'),
     website: 'https://www.fbidb.io/',
     source: 'https://github.com/facebook/idb',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'IntelAGENT Billing',
@@ -736,7 +754,7 @@ const Users: User[] = [
     preview: require('./showcase/mapillaryjs.png'),
     website: 'https://mapillary.github.io/mapillary-js/',
     source: 'https://github.com/mapillary/mapillary-js',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'MediaMachine',
@@ -761,7 +779,7 @@ const Users: User[] = [
     preview: require('./showcase/metro.png'),
     website: 'https://facebook.github.io/metro/',
     source: 'https://github.com/facebook/metro',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Mia-Platform',
@@ -791,6 +809,15 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Molecule',
+    description:
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
+    preview: require('./showcase/molecule-home.png'),
+    website: 'https://dtstack.github.io/molecule/en',
+    source: 'https://github.com/DTStack/molecule',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
@@ -798,6 +825,14 @@ const Users: User[] = [
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
     tags: ['opensource'],
+  },
+  {
+    title: 'moja global',
+    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
+    preview: require('./showcase/mojaglobal.png'),
+    website: 'https://community.moja.global/',
+    source: 'https://github.com/moja-global/community-website',
+    tags: ['opensource', 'large', 'i18n', 'design'],
   },
   {
     title: 'nanos world documentation',
@@ -909,6 +944,15 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'Pearl UI',
+    description:
+      'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
+    preview: require('./showcase/pearl-ui.png'),
+    website: 'https://www.pearl-ui.dev/',
+    source: 'https://github.com/agrawal-rohit/pearl-ui',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
@@ -959,6 +1003,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'PREFS',
+    description: 'PREFS Python library website and documentation',
+    preview: require('./showcase/prefs.png'),
+    website: 'https://patitotective.github.io/PREFS/',
+    source: 'https://github.com/Patitotective/PREFS',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'Prismatic',
     description: 'An Integration Platform for B2B Software Companies',
     preview: require('./showcase/prismatic.png'),
@@ -969,10 +1021,10 @@ const Users: User[] = [
   {
     title: 'Profilo',
     description: 'An Android performance library',
-    preview: require('./showcase/profolo.png'),
+    preview: require('./showcase/profilo.png'),
     website: 'https://facebookincubator.github.io/profilo/',
     source: 'https://github.com/facebookincubator/profilo',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'Pyre',
@@ -980,7 +1032,7 @@ const Users: User[] = [
     preview: require('./showcase/pyre.png'),
     website: 'https://pyre-check.org',
     source: 'https://github.com/facebook/pyre-check',
-    tags: ['opensource', 'facebook'],
+    tags: ['opensource', 'meta'],
   },
   {
     title: 'QA-Board',
@@ -1042,7 +1094,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/react-native-website',
     tags: [
       'opensource',
-      'facebook',
+      'meta',
       'large',
       'favorite',
       'design',
@@ -1234,6 +1286,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'versioning'],
   },
   {
+    title: 'Sapphire',
+    description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
+    preview: require('./showcase/sapphire.png'),
+    website: 'https://www.sapphirejs.dev',
+    source: 'https://github.com/sapphiredev/website',
+    tags: ['opensource', 'large'],
+  },
+  {
     title: 'SCI WP Framework',
     description: 'A PHP framework to create MVC plugins for WordPress',
     preview: require('./showcase/sciwp.png'),
@@ -1363,7 +1423,7 @@ const Users: User[] = [
     preview: require('./showcase/the-diff.png'),
     website: 'https://thediffpodcast.com',
     source: null,
-    tags: ['facebook'],
+    tags: ['meta'],
   },
   {
     title: 'Tinaël Devresse',
@@ -1373,6 +1433,15 @@ const Users: User[] = [
     website: 'https://tinaeldevresse.eu/',
     source: 'https://github.com/hunteroi/tinaeldevresse.eu',
     tags: ['personal', 'opensource', 'i18n'],
+  },
+  {
+    title: 'Tremor',
+    description:
+      'An early-stage event processing system for unstructured data with rich support for structural pattern-matching, filtering and transformation.',
+    preview: require('./showcase/tremor.png'),
+    website: 'https://www.tremor.rs/',
+    source: 'https://github.com/tremor-rs/tremor-www',
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'TRPG Engine',
@@ -1586,7 +1655,14 @@ const Users: User[] = [
     source: null,
     tags: ['product', 'design'],
   },
-
+  {
+    title: 'Dime.Scheduler',
+    description: 'Stop puzzling and start planning with Dime.Scheduler, the resource and project planning solution for the Microsoft Dynamics product suite.',
+    preview: require('./showcase/dimeschedulersdk.png'),
+    website: 'https://sdk.dimescheduler.com',
+    source: 'https://github.com/dime-scheduler/sdk-dotnet',
+    tags: ['product', 'opensource'],
+  },
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
@@ -1604,114 +1680,3 @@ function sortUsers() {
 }
 
 export const sortedUsers = sortUsers();
-
-// Fail-fast on common errors
-function ensureUserValid(user: User) {
-  function checkFields() {
-    const keys = Object.keys(user);
-    const validKeys = [
-      'title',
-      'description',
-      'preview',
-      'website',
-      'source',
-      'tags',
-    ];
-    const unknownKeys = difference(keys, validKeys);
-    if (unknownKeys.length > 0) {
-      throw new Error(
-        `Site contains unknown attribute names=[${unknownKeys.join(',')}]`,
-      );
-    }
-  }
-
-  function checkTitle() {
-    if (!user.title) {
-      throw new Error('Site title is missing');
-    }
-  }
-
-  function checkDescription() {
-    if (!user.description) {
-      throw new Error('Site description is missing');
-    }
-  }
-
-  function checkWebsite() {
-    if (!user.website) {
-      throw new Error('Site website is missing');
-    }
-    const isHttpUrl =
-      user.website.startsWith('http://') || user.website.startsWith('https://');
-    if (!isHttpUrl) {
-      throw new Error(
-        `Site website does not look like a valid url: ${user.website}`,
-      );
-    }
-  }
-
-  function checkPreview() {
-    if (
-      !user.preview ||
-      (user.preview instanceof String &&
-        (user.preview.startsWith('http') || user.preview.startsWith('//')))
-    ) {
-      throw new Error(
-        `Site has bad image preview=[${user.preview}].\nThe image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs`,
-      );
-    }
-  }
-
-  function checkTags() {
-    if (
-      !user.tags ||
-      !(user.tags instanceof Array) ||
-      (user.tags as string[]).includes('')
-    ) {
-      throw new Error(`Bad showcase tags=[${JSON.stringify(user.tags)}]`);
-    }
-    const unknownTags = difference(user.tags, TagList);
-    if (unknownTags.length > 0) {
-      throw new Error(
-        `Unknown tags=[${unknownTags.join(
-          ',',
-        )}\nThe available tags are ${TagList.join(',')}`,
-      );
-    }
-  }
-
-  function checkOpenSource() {
-    if (typeof user.source === 'undefined') {
-      throw new Error(
-        "The source attribute is required.\nIf your Docusaurus site is not open-source, please make it explicit with 'source: null'",
-      );
-    } else {
-      const hasOpenSourceTag = user.tags.includes('opensource');
-      if (user.source === null && hasOpenSourceTag) {
-        throw new Error(
-          "You can't add the opensource tag to a site that does not have a link to source code.",
-        );
-      } else if (user.source && !hasOpenSourceTag) {
-        throw new Error(
-          "For open-source sites, please add the 'opensource' tag",
-        );
-      }
-    }
-  }
-
-  try {
-    checkFields();
-    checkTitle();
-    checkDescription();
-    checkWebsite();
-    checkPreview();
-    checkTags();
-    checkOpenSource();
-  } catch (e) {
-    throw new Error(
-      `Showcase site with title=${user.title} contains errors:\n${e.message}`,
-    );
-  }
-}
-
-Users.forEach(ensureUserValid);

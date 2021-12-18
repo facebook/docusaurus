@@ -6,12 +6,15 @@
  */
 
 import fs from 'fs-extra';
-import GithubSlugger from 'github-slugger';
 import chalk from 'chalk';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
-import {parseMarkdownHeadingId} from '@docusaurus/utils';
+import {
+  parseMarkdownHeadingId,
+  createSlugger,
+  Slugger,
+} from '@docusaurus/utils';
 import {safeGlobby} from '../server/utils';
 
 type Options = {
@@ -25,7 +28,7 @@ function unwrapMarkdownLinks(line: string): string {
 
 function addHeadingId(
   line: string,
-  slugger: GithubSlugger,
+  slugger: Slugger,
   maintainCase: boolean,
 ): string {
   let headingLevel = 0;
@@ -36,7 +39,7 @@ function addHeadingId(
   const headingText = line.slice(headingLevel).trimEnd();
   const headingHashes = line.slice(0, headingLevel);
   const slug = slugger
-    .slug(unwrapMarkdownLinks(headingText).trim(), maintainCase)
+    .slug(unwrapMarkdownLinks(headingText).trim(), {maintainCase})
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 
@@ -45,7 +48,7 @@ function addHeadingId(
 
 export function transformMarkdownHeadingLine(
   line: string,
-  slugger: GithubSlugger,
+  slugger: Slugger,
   options: Options = {maintainCase: false, overwrite: false},
 ): string {
   const {maintainCase = false, overwrite = false} = options;
@@ -64,7 +67,7 @@ export function transformMarkdownHeadingLine(
 
 function transformMarkdownLine(
   line: string,
-  slugger: GithubSlugger,
+  slugger: Slugger,
   options?: Options,
 ): string {
   // Ignore h1 headings on purpose, as we don't create anchor links for those
@@ -77,7 +80,7 @@ function transformMarkdownLine(
 
 function transformMarkdownLines(lines: string[], options?: Options): string[] {
   let inCode = false;
-  const slugger = new GithubSlugger();
+  const slugger = createSlugger();
 
   return lines.map((line) => {
     if (line.startsWith('```')) {

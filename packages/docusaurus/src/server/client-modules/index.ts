@@ -10,9 +10,5 @@ import {Plugin} from '@docusaurus/types';
 export default function loadClientModules(
   plugins: Plugin<unknown>[],
 ): string[] {
-  return ([] as string[]).concat(
-    ...plugins
-      .map((plugin) => plugin.getClientModules?.() ?? [])
-      .filter(Boolean),
-  );
+  return plugins.flatMap((plugin) => plugin.getClientModules?.() ?? []);
 }
