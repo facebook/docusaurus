@@ -22,12 +22,19 @@
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+}
+
+.codeBlockTitle + .codeBlockContent .codeBlock {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .codeBlock {
   margin: 0;
   padding: 0;
-  border-radius: 0;
+  border-radius: var(--ifm-global-radius);
 }
 
 .copyButton {
