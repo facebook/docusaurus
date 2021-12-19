@@ -20,7 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "tslib": "^2.3.1"
   },
   "engines": {
     "node": ">=14"
