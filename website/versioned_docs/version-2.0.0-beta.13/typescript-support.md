@@ -134,4 +134,4 @@ For themes that supports TypeScript theme components, you can add the `--typescr
 npm run swizzle @docusaurus/theme-classic Footer -- --typescript
 ```
 
-At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/lifecycle-apis.md#gettypescriptthemepath).
+At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/plugin-methods/extend-infrastructure.md#getTypeScriptThemePath).
