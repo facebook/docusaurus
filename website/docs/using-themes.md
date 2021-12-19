@@ -5,6 +5,32 @@ title: Themes
 
 Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
 
+**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
+
+For example, a Docusaurus blog consists of a blog plugin and a blog theme.
+
+:::note
+
+This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
 ## Available themes {#available-themes}
 
 We maintain a [list of official themes](./api/themes/overview.md).
@@ -33,10 +59,18 @@ import Navbar from '@theme/Navbar';
 The alias `@theme` can refer to a few directories, in the following priority:
 
 1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
-1. A Docusaurus theme packages's `theme` directory.
-1. Fallback components provided by Docusaurus core (usually not needed).
+2. A Docusaurus theme packages's `theme` directory.
+3. Fallback components provided by Docusaurus core (usually not needed).
 
-Given the following structure
+## Swizzling theme components {#swizzling-theme-components}
+
+```mdx-code-block
+import SwizzleWarning from "./_partials/swizzleWarning.mdx"
+
+<SwizzleWarning/>
+```
+
+Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`. Given the following structure:
 
 ```
 website
@@ -50,61 +84,6 @@ website
 ```
 
 `website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
-
-**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs.
-
-For example, a Docusaurus blog consists of a blog plugin and a blog theme.
-
-```js title="docusaurus.config.js"
-{
-  theme: ['theme-blog'],
-  plugins: ['plugin-content-blog'],
-}
-```
-
-And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
-
-```js title="docusaurus.config.js"
-{
-  theme: ['theme-blog-bootstrap'],
-  plugins: ['plugin-content-blog'],
-}
-```
-
-## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
-
-A `<Root>` theme component is rendered at the very top of your Docusaurus site.
-
-It allows you to wrap your site with additional logic, by creating a file at `src/theme/Root.js`:
-
-```js title="website/src/theme/Root.js"
-import React from 'react';
-
-// Default implementation, that you can customize
-function Root({children}) {
-  return <>{children}</>;
-}
-
-export default Root;
-```
-
-This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
-
-:::tip
-
-Use this component to render React Context providers and global stateful logic.
-
-:::
-
-## Swizzling theme components {#swizzling-theme-components}
-
-```mdx-code-block
-import SwizzleWarning from "./_partials/swizzleWarning.mdx"
-
-<SwizzleWarning/>
-```
-
-Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 
@@ -209,6 +188,29 @@ The components in this "stack" are pushed in the order of `preset plugins > pres
 `@theme-init/*` always points to the bottommost component—usually this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
 
 </details>
+
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
+
+A `<Root>` theme component is rendered at the very top of your Docusaurus site. It allows you to wrap your site with additional logic, by creating a file at `src/theme/Root.js`:
+
+```js title="website/src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+function Root({children}) {
+  return <>{children}</>;
+}
+
+export default Root;
+```
+
+This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
+
+:::tip
+
+Use this component to render React Context providers and global stateful logic.
+
+:::
 
 ## Themes design {#themes-design}
 

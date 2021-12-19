@@ -6,7 +6,19 @@ description: A Docusaurus site is a pre-rendered single-page React application. 
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
 
-## Traditional CSS {#traditional-css}
+:::tip
+
+This section discusses about styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./using-themes.md#swizzling-theme-components).
+
+:::
+
+A Docusaurus site is a single-page React application. You can style it the way you style React apps.
+
+There are a few approaches/frameworks which will work, depending on your preferences and the type of website you are trying to build. Websites that are highly interactive and behave more like web apps will benefit from a more modern styling approaches that co-locate styles with the components. Component styling can also be particularly useful when you wish to customize or swizzle a component.
+
+## Global styles {#global-styles}
+
+This is the most traditional way of styling that most developers (including non-front end developers) would be familiar with. It works fine for small websites that do not have much customization.
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
@@ -28,13 +40,47 @@ module.exports = {
 };
 ```
 
-Any CSS you write within that file will be available globally and can be referenced directly using string literals. This is the most traditional approach to writing CSS and is fine for small websites that do not have much customization.
+Any CSS you write within that file will be available globally and can be referenced directly using string literals.
 
-## Styling your site with Infima {#styling-your-site-with-infima}
+```css title="/src/css/custom.css"
+.purple-text {
+  color: rebeccapurple;
+}
+```
+
+```jsx
+function MyComponent() {
+  return (
+    <main>
+      <h1 className="purple-text">Purple Heading!</h1>
+    </main>
+  );
+}
+```
+
+### Theme Class Names
+
+We provide some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
+
+```mdx-code-block
+import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
+
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-ts">
+  {ThemeClassNamesCode
+    // remove source comments
+    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
+    .replace(/^ *\n/gm,'')
+    .trim()}
+</CodeBlock>
+```
+
+### Styling your site with Infima {#styling-your-site-with-infima}
 
 `@docusaurus/preset-classic` uses [Infima](https://infima.dev/) as the underlying styling framework. Infima provides flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima.dev/).
 
-When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
+When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
 /**
@@ -59,7 +105,7 @@ Alternatively, use the following tool to generate the different shades for your 
 
 <ColorGenerator/>
 
-### Dark Mode {#dark-mode}
+#### Dark Mode {#dark-mode}
 
 To customize the Infima variables for dark mode you can add the following to `src/css/custom.css`.
 
@@ -73,53 +119,7 @@ html[data-theme='dark'] {
 
 <!-- TODO need more refinement here -->
 
-## Styling approaches {#styling-approaches}
-
-A Docusaurus site is a single-page React application. You can style it the way you style React apps.
-
-There are a few approaches/frameworks which will work, depending on your preferences and the type of website you are trying to build. Websites that are highly interactive and behave more like web apps will benefit from a more modern styling approaches that co-locate styles with the components. Component styling can also be particularly useful when you wish to customize or swizzle a component.
-
-### Global styles {#global-styles}
-
-This is the most traditional way of styling that most developers (including non-front end developers) would be familiar with.
-
-Assuming you are using `@docusaurus/preset-classic` and `/src/css/custom.css` was passed in to the preset config, styles inside that file would be available globally.
-
-```css title="/src/css/custom.css"
-.purple-text {
-  color: rebeccapurple;
-}
-```
-
-```jsx
-function MyComponent() {
-  return (
-    <main>
-      <h1 className="purple-text">Purple Heading!</h1>
-    </main>
-  );
-}
-```
-
-#### Theme Class Names
-
-We provide some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
-
-```mdx-code-block
-import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
-
-import CodeBlock from '@theme/CodeBlock';
-
-<CodeBlock className="language-ts">
-  {ThemeClassNamesCode
-    // remove source comments
-    .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'')
-    .replace(/^ *\n/gm,'')
-    .trim()}
-</CodeBlock>
-```
-
-### CSS modules {#css-modules}
+## CSS modules {#css-modules}
 
 To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
 
@@ -152,7 +152,7 @@ function MyComponent() {
 
 The class names which will be processed by webpack into a globally unique class name during build.
 
-### CSS-in-JS {#css-in-js}
+## CSS-in-JS {#css-in-js}
 
 :::caution
 
@@ -160,7 +160,7 @@ This section is a work in progress. [Welcoming PRs](https://github.com/facebook/
 
 :::
 
-### Sass/SCSS {#sassscss}
+## Sass/SCSS {#sassscss}
 
 To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus 2 plugin [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). This plugin works for both global styles and the CSS modules approach:
 
@@ -182,7 +182,7 @@ module.exports = {
 
 3. Write and import your stylesheets in Sass/SCSS as normal.
 
-#### Global styles using Sass/SCSS {#global-styles-using-sassscss}
+### Global styles using Sass/SCSS {#global-styles-using-sassscss}
 
 You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
 
@@ -203,7 +203,7 @@ module.exports = {
 };
 ```
 
-#### Modules using Sass/SCSS {#modules-using-sassscss}
+### Modules using Sass/SCSS {#modules-using-sassscss}
 
 Name your stylesheet files with the `.module.scss` suffix (e.g. `welcome.module.scss`) instead of `.css`. Webpack will use `sass-loader` to preprocess your stylesheets and load them as CSS modules.
 
