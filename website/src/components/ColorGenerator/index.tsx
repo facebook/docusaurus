@@ -78,6 +78,7 @@ function wcagContrast(foreground: string, background: string) {
 }
 
 const storage = createStorageSlot('ifm-theme-colors');
+
 type ColorState = {
   baseColor: string;
   lightBackground: string;
@@ -86,20 +87,21 @@ type ColorState = {
 };
 
 function ColorGenerator(): JSX.Element {
-  const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
-  const [inputColor, setInputColor] = useState(
-    storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR,
-  );
-  const [baseColor, setBaseColor] = useState(
-    storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR,
-  );
-  const [darkBackground, setDarkBackground] = useState(
-    storedValues.darkBackground ?? DARK_BACKGROUND_COLOR,
-  );
+  const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [darkBackground, setDarkBackground] = useState(DARK_BACKGROUND_COLOR);
   const [lightBackground, setLightBackground] = useState(
-    storedValues.lightBackground ?? LIGHT_BACKGROUND_COLOR,
+    LIGHT_BACKGROUND_COLOR,
   );
-  const [shades, setShades] = useState(storedValues.shades ?? COLOR_SHADES);
+  const [shades, setShades] = useState(COLOR_SHADES);
+  useEffect(() => {
+    const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
+    setInputColor(storedValues.baseColor);
+    setBaseColor(storedValues.baseColor);
+    setDarkBackground(storedValues.darkBackground);
+    setLightBackground(storedValues.lightBackground);
+    setShades(storedValues.shades);
+  }, []);
   const adjustedColors = Object.keys(shades)
     .map((shade) => ({
       ...shades[shade],
