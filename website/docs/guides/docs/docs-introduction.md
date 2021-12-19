@@ -45,6 +45,8 @@ slug: part1.html
 ---
 Lorem ipsum
 ```
+Note that you don't necessarily have to give up on using blog; all that <code>routeBasePath: '/'</code> does is that instead of serving the docs through <code>https://example.com/docs/some-doc</code>, they are now at the site root: <code>https://example.com/some-doc</code>.
+Don't forget to put some page at the root (<code>https://example.com/) through adding the front matter:
 
 :::note
 
@@ -69,9 +71,44 @@ Lorem ipsum
 
 ## Docs-only mode {#docs-only-mode}
 
-If you only want the documentation feature, you can run your Docusaurus 2 site without a landing page and display your documentation page as the index page instead.
+You are looking for docs-only mode. I assume you have the following in your <code>docusaurus.config.js</code>:
+```
+presets: [
+  '@docusaurus/preset-classic',
+  {
+    docs: {/* ... */},
+    blog: {/* ... */},
+    // ...
+  },
+],
+```
+To enter docs-only mode, change it to like this:
+```
+presets: [
+  '@docusaurus/preset-classic',
+  {
+    docs: {
+      routeBasePath: '/',
+      // ...
+    },
+    blog: false,
+    // ...
+  },
+],
+```
+::: Note 
+  You don't necessarily have to give up on using blog; all that <code>routeBasePath: '/'</code> does is that instead of serving the docs through <code>https://example.com/docs/some-doc</code>, they are now at the site root: <code>https://example.com/some-doc</code>.
+  Don't forget to put some page at the root (<code>https://example.com/</code>) through adding the front matter:
+  ```
+  ---
+  sidebar_position: 0
+  slug: /
+  ---
+  # Home
+  
+  This page will appear as the home page.
+  ```
 
-To enable docs-only mode, set the docs plugin `routeBasePath: '/'`, and use the frontmatter `slug: /` on the document that should be the index page ([more info](#home-page-docs)).
 
 :::caution
 
