@@ -66,17 +66,14 @@ export type PrismConfig = {
   additionalLanguages?: string[];
 };
 
-export type FooterLinkItem = {
+export type FooterItem = {
   label?: string;
   to?: string;
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
 };
-export type FooterLinks = {
-  title?: string;
-  items: FooterLinkItem[];
-};
+
 export type Footer = {
   style: 'light' | 'dark';
   logo?: {
@@ -88,7 +85,17 @@ export type Footer = {
     href?: string;
   };
   copyright?: string;
-  links: FooterLinks[];
+};
+
+export type MultiColumnFooter = Footer & {
+  links: Array<{
+    title: string;
+    items: FooterItem[];
+  }>;
+};
+
+export type SimpleFooter = Footer & {
+  links: FooterItem[];
 };
 
 export type TableOfContents = {
@@ -111,7 +118,7 @@ export type ThemeConfig = {
   colorMode: ColorModeConfig;
   announcementBar?: AnnouncementBarConfig;
   prism: PrismConfig;
-  footer?: Footer;
+  footer?: MultiColumnFooter | SimpleFooter;
   hideableSidebar: boolean;
   image?: string;
   metadata: Array<Record<string, string>>;

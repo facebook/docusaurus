@@ -9,7 +9,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import {FooterLinkItem, useThemeConfig} from '@docusaurus/theme-common';
+import {FooterItem, useThemeConfig} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
@@ -22,7 +22,7 @@ function FooterLink({
   label,
   prependBaseUrlToHref,
   ...props
-}: FooterLinkItem) {
+}: FooterItem) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -66,6 +66,66 @@ function FooterLogo({
   );
 }
 
+function MultiColumnLinks({
+  links,
+}: {
+  links: Array<{title: string; items: FooterItem[]}>;
+}) {
+  return (
+    <>
+      {links.map((linkItem, i) => (
+        <div key={i} className="col footer__col">
+          <div className="footer__title">{linkItem.title}</div>
+          <ul className="footer__items">
+            {linkItem.items.map((item, key) =>
+              item.html ? (
+                <li
+                  key={key}
+                  className="footer__item"
+                  // Developer provided the HTML, so assume it's safe.
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{
+                    __html: item.html,
+                  }}
+                />
+              ) : (
+                <li key={item.href || item.to} className="footer__item">
+                  <FooterLink {...item} />
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function SimpleLinks({links}: {links: FooterItem[]}) {
+  return (
+    <div className="footer__links">
+      {links.map((item, key) => (
+        <>
+          {item.html ? (
+            <span
+              key={key}
+              className="footer__link-item"
+              // Developer provided the HTML, so assume it's safe.
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: item.html,
+              }}
+            />
+          ) : (
+            <FooterLink {...item} />
+          )}
+          <span className="footer__link-separator">·</span>
+        </>
+      ))}
+    </div>
+  );
+}
+
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
 
@@ -87,36 +147,13 @@ function Footer(): JSX.Element | null {
       <div className="container">
         {links && links.length > 0 && (
           <div className="row footer__links">
-            {links.map((linkItem, i) => (
-              <div key={i} className="col footer__col">
-                {linkItem.title != null ? (
-                  <div className="footer__title">{linkItem.title}</div>
-                ) : null}
-                {linkItem.items != null &&
-                Array.isArray(linkItem.items) &&
-                linkItem.items.length > 0 ? (
-                  <ul className="footer__items">
-                    {linkItem.items.map((item, key) =>
-                      item.html ? (
-                        <li
-                          key={key}
-                          className="footer__item"
-                          // Developer provided the HTML, so assume it's safe.
-                          // eslint-disable-next-line react/no-danger
-                          dangerouslySetInnerHTML={{
-                            __html: item.html,
-                          }}
-                        />
-                      ) : (
-                        <li key={item.href || item.to} className="footer__item">
-                          <FooterLink {...item} />
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                ) : null}
-              </div>
-            ))}
+            {'title' in links[0] ? (
+              <MultiColumnLinks
+                links={links as Array<{title: string; items: FooterItem[]}>}
+              />
+            ) : (
+              <SimpleLinks links={links as FooterItem[]} />
+            )}
           </div>
         )}
         {(logo || copyright) && (

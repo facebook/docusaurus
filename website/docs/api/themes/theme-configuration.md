@@ -701,18 +701,18 @@ module.exports = {
 
 You can add links to the footer via `themeConfig.footer.links`.
 
-Accepted fields of each link section:
+Multi-column footer links have a `title` and a list of `FooterItems` for each column.
 
 <APITable name="footer-links">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` | `string` | `undefined` | Label of the section of these links. |
-| `items` | `FooterLink[]` | `[]` | Links in this section. |
+| `items` | `FooterItem[]` | `[]` | Links in this section. |
 
 </APITable>
 
-Accepted fields of each item in `items`:
+Accepted fields of each `FooterItem`:
 
 <APITable name="footer-items">
 
@@ -725,7 +725,7 @@ Accepted fields of each item in `items`:
 
 </APITable>
 
-Example configuration:
+Example multi-column configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -768,6 +768,40 @@ module.exports = {
               `,
           },
         ],
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+Simple footer links are a list of `FooterItems` that are displayed in a row with a seperator between each item.
+
+Example simple configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'Twitter',
+        href: 'https://twitter.com/docusaurus',
+      },
+      {
+        html: `
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+            </a>
+          `,
       },
     ],
     // highlight-end
