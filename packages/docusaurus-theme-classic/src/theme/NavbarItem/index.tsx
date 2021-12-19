@@ -32,6 +32,7 @@ const NavbarItemComponents: Record<
   docsVersionDropdown: () =>
     require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
   doc: () => require('@theme/NavbarItem/DocNavbarItem').default,
+  docSidebar: () => require('@theme/NavbarItem/DocSidebarNavbarItem').default,
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
