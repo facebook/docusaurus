@@ -1,4 +1,4 @@
-# Plugin APIs
+# Plugin Method References
 
 :::caution
 
