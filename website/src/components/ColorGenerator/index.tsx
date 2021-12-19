@@ -68,7 +68,8 @@ const COLOR_SHADES: Shades = {
   },
 };
 
-const DEFAULT_PRIMARY_COLOR = '#25c2a0';
+const LIGHT_PRIMARY_COLOR = '#18816a';
+const DARK_PRIMARY_COLOR = '#25c2a0';
 const LIGHT_BACKGROUND_COLOR = '#ffffff';
 const DARK_BACKGROUND_COLOR = '#181920';
 
@@ -101,6 +102,9 @@ function getAdjustedColors(shades: Shades, baseColor: string) {
 
 function ColorGenerator(): JSX.Element {
   const {isDarkTheme, setDarkTheme, setLightTheme} = useThemeContext();
+  const DEFAULT_PRIMARY_COLOR = isDarkTheme
+    ? DARK_PRIMARY_COLOR
+    : LIGHT_PRIMARY_COLOR;
   const DEFAULT_BACKGROUND_COLOR = isDarkTheme
     ? DARK_BACKGROUND_COLOR
     : LIGHT_BACKGROUND_COLOR;
@@ -116,14 +120,14 @@ function ColorGenerator(): JSX.Element {
   useEffect(() => {
     darkStorage.set(
       JSON.stringify({
-        baseColor: DEFAULT_PRIMARY_COLOR,
+        baseColor: DARK_PRIMARY_COLOR,
         background: DARK_BACKGROUND_COLOR,
         shades: COLOR_SHADES,
       }),
     );
     lightStorage.set(
       JSON.stringify({
-        baseColor: DEFAULT_PRIMARY_COLOR,
+        baseColor: LIGHT_PRIMARY_COLOR,
         background: LIGHT_BACKGROUND_COLOR,
         shades: COLOR_SHADES,
       }),
@@ -140,7 +144,7 @@ function ColorGenerator(): JSX.Element {
     setBaseColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
     setBackground(storedValues.background ?? DEFAULT_BACKGROUND_COLOR);
     setShades(storedValues.shades ?? COLOR_SHADES);
-  }, [storage, DEFAULT_BACKGROUND_COLOR, isDarkTheme]);
+  }, [storage, DEFAULT_BACKGROUND_COLOR, DEFAULT_PRIMARY_COLOR]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -298,7 +302,7 @@ function ColorGenerator(): JSX.Element {
         Replace the variables in <code>src/css/custom.css</code> with these new
         variables.
       </p>
-      <CodeBlock className="language-css">
+      <CodeBlock className="language-css" title="/src/css/custom.css">
         {`${isDarkTheme ? "html[data-theme='dark']" : ':root'} {
 ${getAdjustedColors(shades, baseColor)
   .sort((a, b) => a.codeOrder - b.codeOrder)

@@ -83,19 +83,8 @@ import CodeBlock from '@theme/CodeBlock';
 When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
-/**
- * You can override the default Infima variables here.
- * Note: this is not a complete list of --ifm- variables.
- */
 :root {
   --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
-  --ifm-code-font-size: 95%;
 }
 ```
 
