@@ -327,3 +327,23 @@ export function toNavigationLink(
     throw new Error('unexpected navigation item');
   }
 }
+
+export function getFirstDocIdOfSidebar(sidebar: Sidebar): string {
+  const firstSidebarItem = sidebar[0];
+  if (firstSidebarItem.type === 'doc' || firstSidebarItem.type === 'ref') {
+    return firstSidebarItem.id;
+  } else if (firstSidebarItem.type === 'link') {
+    return firstSidebarItem.href;
+  } else if (firstSidebarItem.type === 'category') {
+    const firstCategoryLink = firstSidebarItem.link;
+    if (firstCategoryLink) {
+      if (firstCategoryLink.type === 'doc') {
+        return firstCategoryLink.id;
+      } else if (firstCategoryLink.type === 'generated-index') {
+        return firstCategoryLink.slug;
+      }
+    }
+    return getFirstDocIdOfSidebar([firstSidebarItem]);
+  }
+  return '';
+}
