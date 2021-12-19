@@ -118,20 +118,24 @@ function ColorGenerator(): JSX.Element {
   );
 
   useEffect(() => {
-    darkStorage.set(
-      JSON.stringify({
-        baseColor: DARK_PRIMARY_COLOR,
-        background: DARK_BACKGROUND_COLOR,
-        shades: COLOR_SHADES,
-      }),
-    );
-    lightStorage.set(
-      JSON.stringify({
-        baseColor: LIGHT_PRIMARY_COLOR,
-        background: LIGHT_BACKGROUND_COLOR,
-        shades: COLOR_SHADES,
-      }),
-    );
+    if (darkStorage.get() === null) {
+      darkStorage.set(
+        JSON.stringify({
+          baseColor: DARK_PRIMARY_COLOR,
+          background: DARK_BACKGROUND_COLOR,
+          shades: COLOR_SHADES,
+        }),
+      );
+    }
+    if (lightStorage.get() === null) {
+      lightStorage.set(
+        JSON.stringify({
+          baseColor: LIGHT_PRIMARY_COLOR,
+          background: LIGHT_BACKGROUND_COLOR,
+          shades: COLOR_SHADES,
+        }),
+      );
+    }
   }, []);
 
   useEffect(() => {
