@@ -13,7 +13,7 @@ import {createStorageSlot} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
-const COLOR_SHADES: Record<
+type Shades = Record<
   string,
   {
     adjustment: number;
@@ -21,7 +21,8 @@ const COLOR_SHADES: Record<
     displayOrder: number;
     codeOrder: number;
   }
-> = {
+>;
+const COLOR_SHADES: Shades = {
   '--ifm-color-primary': {
     adjustment: 0,
     adjustmentInput: '0',
@@ -77,14 +78,20 @@ function wcagContrast(foreground: string, background: string) {
 }
 
 const storage = createStorageSlot('ifm-theme-colors');
+type ColorState = {
+  baseColor: string;
+  lightBackground: string;
+  darkBackground: string;
+  shades: Shades;
+};
 
 function ColorGenerator(): JSX.Element {
-  const storedValues = JSON.parse(storage.get() ?? '{}');
+  const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
   const [inputColor, setInputColor] = useState(
-    storedValues.adjustedColors?.[0].hex ?? DEFAULT_PRIMARY_COLOR,
+    storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR,
   );
   const [baseColor, setBaseColor] = useState(
-    storedValues.adjustedColors?.[0].hex ?? DEFAULT_PRIMARY_COLOR,
+    storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR,
   );
   const [darkBackground, setDarkBackground] = useState(
     storedValues.darkBackground ?? DARK_BACKGROUND_COLOR,
@@ -93,19 +100,15 @@ function ColorGenerator(): JSX.Element {
     storedValues.lightBackground ?? LIGHT_BACKGROUND_COLOR,
   );
   const [shades, setShades] = useState(storedValues.shades ?? COLOR_SHADES);
-  const adjustedColors = React.useMemo(
-    () =>
-      Object.keys(shades)
-        .map((shade) => ({
-          ...shades[shade],
-          variableName: shade,
-        }))
-        .map((value) => ({
-          ...value,
-          hex: Color(baseColor).darken(value.adjustment).hex(),
-        })),
-    [shades, baseColor],
-  );
+  const adjustedColors = Object.keys(shades)
+    .map((shade) => ({
+      ...shades[shade],
+      variableName: shade,
+    }))
+    .map((value) => ({
+      ...value,
+      hex: Color(baseColor).darken(value.adjustment).hex(),
+    }));
 
   function updateColor(event: React.ChangeEvent<HTMLInputElement>) {
     // Only prepend # when there isn't one.
