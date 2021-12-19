@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import Joi from './Joi';
-import {isValidPathname} from '@docusaurus/utils';
+import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {Tag} from '@docusaurus/utils';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
   .regex(/^[a-zA-Z_-]+$/)
-  // duplicate core constant, otherwise cyclic dependency is created :(
-  .default('default');
+  .default(DEFAULT_PLUGIN_ID);
 
 const MarkdownPluginsSchema = Joi.array()
   .items(

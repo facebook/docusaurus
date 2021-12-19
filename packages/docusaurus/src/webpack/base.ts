@@ -13,12 +13,11 @@ import {Props} from '@docusaurus/types';
 import {
   getCustomizableJSLoader,
   getStyleLoaders,
-  getFileLoaderUtils,
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
 import {loadPluginsThemeAliases} from '../server/themes';
-import {md5Hash} from '@docusaurus/utils';
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;

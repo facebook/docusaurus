@@ -15,8 +15,7 @@ function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (!isPlainObject(val)) {
     throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
-  // @ts-expect-error: If tagName doesn't exist, it will throw.
-  if (typeof val.tagName !== 'string') {
+  if (typeof (val as HtmlTagObject).tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
         val,

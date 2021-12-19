@@ -16,8 +16,8 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {translateContent, getTranslationFiles} from './translations';
 
 import {
@@ -549,6 +549,11 @@ export default function pluginContentBlog(
           type: 'application/atom+xml',
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
+        },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
         },
       };
       const headTags: HtmlTags = [];

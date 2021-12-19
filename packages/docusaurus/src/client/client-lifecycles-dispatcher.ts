@@ -5,19 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// too dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import clientModules from '@generated/client-modules';
 
 interface Dispatchers {
-  onRouteUpdate: (...args: any) => void;
-  onRouteUpdateDelayed: (...args: any) => void;
+  onRouteUpdate: (...args: unknown[]) => void;
+  onRouteUpdateDelayed: (...args: unknown[]) => void;
 }
 
 function dispatchLifecycleAction(
   lifecycleAction: keyof Dispatchers,
-  ...args: any[]
+  ...args: unknown[]
 ) {
   clientModules.forEach((clientModule) => {
     const lifecycleFunction =

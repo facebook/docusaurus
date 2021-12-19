@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {matchRoutes} from 'react-router-config';
 import routesChunkNames from '@generated/routesChunkNames';
 import routes from '@generated/routes';
@@ -22,18 +23,10 @@ declare global {
   }
 }
 
-const isSlowConnection = () => {
-  // If user is on slow or constrained connection.
-  if (`connection` in navigator) {
-    if (
-      (navigator.connection.effectiveType || ``).indexOf(`2g`) !== -1 &&
-      navigator.connection.saveData
-    ) {
-      return true;
-    }
-  }
-  return false;
-};
+// If user is on slow or constrained connection.
+const isSlowConnection = () =>
+  navigator.connection?.effectiveType.includes('2g') &&
+  navigator.connection?.saveData;
 
 const canPrefetch = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath] && !fetched[routePath];
@@ -41,26 +34,20 @@ const canPrefetch = (routePath: string) =>
 const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
-const flatten = <T>(arrays: T[][]): T[] =>
-  Array.prototype.concat.apply([], arrays);
-
 // Remove the last part containing the route hash
 // input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
 // output: /blog/2018/12/14/Happy-First-Birthday-Slash
 const removeRouteNameHash = (str: string) => str.replace(/(-[^-]+)$/, '');
 
 const getChunkNamesToLoad = (path: string): string[] =>
-  flatten(
-    Object.entries(routesChunkNames)
-      .filter(
-        ([routeNameWithHash]) =>
-          removeRouteNameHash(routeNameWithHash) === path,
-      )
-      .map(([, routeChunks]) =>
-        // flat() is useful for nested chunk names, it's not like array.flat()
-        Object.values(flat(routeChunks)),
-      ),
-  );
+  Object.entries(routesChunkNames)
+    .filter(
+      ([routeNameWithHash]) => removeRouteNameHash(routeNameWithHash) === path,
+    )
+    .flatMap(([, routeChunks]) =>
+      // flat() is useful for nested chunk names, it's not like array.flat()
+      Object.values(flat(routeChunks)),
+    );
 
 const docusaurus = {
   prefetch: (routePath: string): boolean => {
@@ -73,8 +60,8 @@ const docusaurus = {
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
 
-    const chunkNamesNeeded = flatten(
-      matches.map((match) => getChunkNamesToLoad(match.route.path as string)),
+    const chunkNamesNeeded = matches.flatMap((match) =>
+      getChunkNamesToLoad(match.route.path),
     );
 
     // Prefetch all webpack chunk assets file needed.

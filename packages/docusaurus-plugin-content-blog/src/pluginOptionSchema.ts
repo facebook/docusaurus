@@ -90,12 +90,12 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   feedOptions: Joi.object({
     type: Joi.alternatives()
       .try(
-        Joi.array().items(Joi.string()),
+        Joi.array().items(Joi.string().equal('rss', 'atom', 'json')),
         Joi.alternatives().conditional(
-          Joi.string().equal('all', 'rss', 'atom'),
+          Joi.string().equal('all', 'rss', 'atom', 'json'),
           {
             then: Joi.custom((val) =>
-              val === 'all' ? ['rss', 'atom'] : [val],
+              val === 'all' ? ['rss', 'atom', 'json'] : [val],
             ),
           },
         ),

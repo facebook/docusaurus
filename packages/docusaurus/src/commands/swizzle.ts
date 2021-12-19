@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 import {partition} from 'lodash';
-import {THEME_PATH} from '../constants';
+import {THEME_PATH} from '@docusaurus/utils';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
