@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react';
 import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
 import useThemeContext from '@theme/hooks/useThemeContext';
+import {createStorageSlot} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -75,24 +76,36 @@ function wcagContrast(foreground: string, background: string) {
   return contrast > 7 ? 'AAA 🏅' : contrast > 4.5 ? 'AA 👍' : 'Fail 🔴';
 }
 
+const storage = createStorageSlot('ifm-theme-colors');
+
 function ColorGenerator(): JSX.Element {
-  const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
-  const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
-  const [darkBackground, setDarkBackground] = useState(DARK_BACKGROUND_COLOR);
-  const [lightBackground, setLightBackground] = useState(
-    LIGHT_BACKGROUND_COLOR,
+  const storedValues = JSON.parse(storage.get() ?? '{}');
+  const [inputColor, setInputColor] = useState(
+    storedValues.adjustedColors?.[0].hex ?? DEFAULT_PRIMARY_COLOR,
   );
-  const [shades, setShades] = useState(COLOR_SHADES);
-  const color = Color(baseColor);
-  const adjustedColors = Object.keys(shades)
-    .map((shade) => ({
-      ...shades[shade],
-      variableName: shade,
-    }))
-    .map((value) => ({
-      ...value,
-      hex: color.darken(value.adjustment).hex(),
-    }));
+  const [baseColor, setBaseColor] = useState(
+    storedValues.adjustedColors?.[0].hex ?? DEFAULT_PRIMARY_COLOR,
+  );
+  const [darkBackground, setDarkBackground] = useState(
+    storedValues.darkBackground ?? DARK_BACKGROUND_COLOR,
+  );
+  const [lightBackground, setLightBackground] = useState(
+    storedValues.lightBackground ?? LIGHT_BACKGROUND_COLOR,
+  );
+  const [shades, setShades] = useState(storedValues.shades ?? COLOR_SHADES);
+  const adjustedColors = React.useMemo(
+    () =>
+      Object.keys(shades)
+        .map((shade) => ({
+          ...shades[shade],
+          variableName: shade,
+        }))
+        .map((value) => ({
+          ...value,
+          hex: Color(baseColor).darken(value.adjustment).hex(),
+        })),
+    [shades, baseColor],
+  );
 
   function updateColor(event: React.ChangeEvent<HTMLInputElement>) {
     // Only prepend # when there isn't one.
@@ -118,7 +131,18 @@ function ColorGenerator(): JSX.Element {
         isDarkTheme ? darkBackground : lightBackground,
       );
     });
-  }, [adjustedColors, darkBackground, lightBackground, isDarkTheme]);
+    storage.set(
+      JSON.stringify({baseColor, lightBackground, darkBackground, shades}),
+    );
+  }, [
+    adjustedColors,
+    darkBackground,
+    lightBackground,
+    isDarkTheme,
+    baseColor,
+    shades,
+  ]);
+
   return (
     <div>
       <p>
