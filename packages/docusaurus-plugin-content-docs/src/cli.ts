@@ -14,7 +14,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {PathOptions, SidebarOptions} from './types';
 import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 
 function createVersionedSidebarFile({
   siteDir,

@@ -10,11 +10,11 @@ import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import {
   posixPath,
   escapePath,
   toMessageRelativeFilePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';

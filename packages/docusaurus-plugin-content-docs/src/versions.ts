@@ -21,9 +21,13 @@ import {
   CURRENT_VERSION_NAME,
 } from './constants';
 
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import type {LoadContext} from '@docusaurus/types';
-import {getPluginI18nPath, normalizeUrl, posixPath} from '@docusaurus/utils';
+import {
+  getPluginI18nPath,
+  normalizeUrl,
+  posixPath,
+  DEFAULT_PLUGIN_ID,
+} from '@docusaurus/utils';
 import {difference} from 'lodash';
 import {resolveSidebarPathOption} from './sidebars';
 

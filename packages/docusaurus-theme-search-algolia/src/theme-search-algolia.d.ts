@@ -12,10 +12,8 @@ declare module '@docusaurus/theme-search-algolia' {
 declare module '@theme/hooks/useSearchQuery' {
   export interface SearchQuery {
     searchQuery: string;
-
-    setSearchQuery(newSearchQuery: string): void;
-
-    generateSearchPageLink(targetSearchQuery: string): string;
+    setSearchQuery: (newSearchQuery: string) => void;
+    generateSearchPageLink: (targetSearchQuery: string) => string;
   }
 
   export default function useSearchQuery(): SearchQuery;

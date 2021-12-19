@@ -39,11 +39,11 @@ describe('defaultLocaleConfig', () => {
 
   test('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
-      label: canComputeLabel ? 'français' : 'fr',
+      label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
-      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      label: canComputeLabel ? 'Français (France)' : 'fr-FR',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({

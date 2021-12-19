@@ -103,6 +103,3 @@
   justify-content: center;
   width: 10px;
 }
-.toggle::before {
-  position: absolute;
-}
