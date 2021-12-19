@@ -154,8 +154,8 @@ function ColorGenerator(): JSX.Element {
     const root = document.documentElement;
     getAdjustedColors(shades, baseColor).forEach((value) => {
       root.style.setProperty(value.variableName, value.hex);
-      root.style.setProperty('--ifm-background-color', background);
     });
+    root.style.setProperty('--ifm-background-color', background);
     storage.set(JSON.stringify({baseColor, background, shades}));
   }, [baseColor, background, shades, storage]);
 
