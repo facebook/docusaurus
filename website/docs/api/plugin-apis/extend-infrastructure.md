@@ -4,11 +4,11 @@ sidebar_position: 2
 
 # Extending infrastructure
 
-Docusaurus has some infrastructure like hot reloading, CLI, and swizzling that can be extended by external plugins.
+Docusaurus has some infrastructure like hot reloading, CLI, and swizzling, that can be extended by external plugins.
 
 ## `getPathsToWatch()` {#getPathsToWatch}
 
-Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
+Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site. Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
 
 Example:
 
@@ -27,7 +27,13 @@ module.exports = function (context, options) {
 
 ## `extendCli(cli)` {#extendCli}
 
-Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
+Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
+
+:::caution
+
+The commander version matters! We use commander v5, and make sure you are referring to the right version documentation for available APIs.
+
+:::
 
 Example:
 
@@ -51,14 +57,14 @@ module.exports = function (context, options) {
 
 Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
-If you use the folder directory above, your `getThemePath` can be:
+For example, your `getThemePath` can be:
 
 ```js {6-8} title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   return {
-    name: 'name-of-my-theme',
+    name: 'my-theme',
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
@@ -68,9 +74,15 @@ module.exports = function (context, options) {
 
 ## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
 
-Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
 
-If you want to support TypeScript component swizzling for your theme, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+:::tip
+
+For TypeScript theme authors: you are strongly advised to make your compiled output as human-readable as possible. Only strip type annotations and don't transpile any syntaxes, because they will be handled by Webpack's Babel loader based on the targeted browser versions.
+
+You should also format these files with Prettier. Remember—JS files can and will be directly consumed by your users.
+
+:::
 
 Example:
 
@@ -79,14 +91,14 @@ const path = require('path');
 
 module.exports = function (context, options) {
   return {
-    name: 'name-of-my-theme',
+    name: 'my-theme',
     getThemePath() {
       // Where compiled JavaScript output lives
-      return path.join(__dirname, '..', 'lib', 'theme');
+      return path.join(__dirname, '../lib/theme');
     },
     getTypeScriptThemePath() {
       // Where TypeScript source code lives
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../src/theme');
     },
   };
 };
@@ -94,9 +106,9 @@ module.exports = function (context, options) {
 
 ## `getSwizzleComponentList()` {#getSwizzleComponentList}
 
-**This is a static method not attached to any plugin instance.**
+**This is a static method, not attached to any plugin instance.**
 
-Returns a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned then all components are considered unstable, if `undefined` is returned then all component are considered stable.
+Returns a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all component are considered stable.
 
 ```js {0-12} title="my-theme/src/index.js"
 const swizzleAllowedComponents = [
@@ -109,5 +121,5 @@ const swizzleAllowedComponents = [
   'prism-include-languages',
 ];
 
-module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
+myTheme.getSwizzleComponentList = () => swizzleAllowedComponents;
 ```

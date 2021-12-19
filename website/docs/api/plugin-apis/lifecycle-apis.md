@@ -5,16 +5,15 @@ toc_max_heading_level: 4
 
 # Lifecycle APIs
 
-During build, plugins are loaded in parallel to fetch their own contents and render them to pages. Plugins may also configure webpack or post-process the generated files.
+During build, plugins are loaded in parallel to fetch their own contents and render them to routes. Plugins may also configure webpack or post-process the generated files.
 
 ## `async loadContent()` {#loadContent}
 
 Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc.) or do some server processing. The return value is the content it needs.
 
-For example, this plugin below return a random integer between 1 to 10 as content;
+For example, this plugin below return a random integer between 1 to 10 as content.
 
 ```js {5-6} title="docusaurus-plugin/src/index.js"
-const path = require('path');
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -27,7 +26,7 @@ module.exports = function (context, options) {
 
 ## `async contentLoaded({content, actions})` {#contentLoaded}
 
-Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data (optional).
+The data that was loaded in `loadContent` will be consumed in `contentLoaded`. It can be rendered to routes, registered as global data, etc.
 
 ### `content` {#content}
 
@@ -37,7 +36,7 @@ Plugins should use the data loaded in `loadContent` and construct the pages/rout
 
 `actions` contain three functions:
 
-#### `addRoute(config: RouteConfig): void`
+#### `addRoute(config: RouteConfig): void` {#addRoute}
 
 Create a route to add to the website.
 
@@ -62,7 +61,7 @@ type Module =
   | string;
 ```
 
-#### `createData(name: string, data: any): Promise<string>`
+#### `createData(name: string, data: any): Promise<string>` {#createData}
 
 A declarative callback to create static data (generally json or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
 
@@ -387,10 +386,3 @@ module.exports = function (context, options) {
   };
 };
 ```
-
-<!--
-For example, the in docusaurus-plugin-content-docs:
-
-    In loadContent, it loads the doc Markdown files based on the specified directory in options (defaulting to docs).
-    In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
- -->

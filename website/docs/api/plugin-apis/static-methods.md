@@ -44,7 +44,7 @@ myPlugin.validateOptions = ({options, validate}) => {
 module.exports = myPlugin;
 ```
 
-You can also use ES modules style exports.
+In TypeScript, you can also choose to export this as a separate named export.
 
 ```ts {8-11} title="my-plugin/src/index.ts"
 export default function (context, options) {
@@ -98,7 +98,7 @@ myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
 module.exports = validateThemeConfig;
 ```
 
-You can also use ES modules style exports.
+In TypeScript, you can also choose to export this as a separate named export.
 
 ```ts {8-11} title="my-theme/src/index.ts"
 export default function (context, options) {

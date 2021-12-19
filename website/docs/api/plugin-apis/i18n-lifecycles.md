@@ -12,8 +12,8 @@ Plugins declare the JSON translation files they want to use.
 
 Returns translation files `{path: string, content: ChromeI18nJSON}`:
 
-- Path: relative to the plugin localized folder `i18n/<locale>/pluginName`. Extension `.json` is not necessary.
-- Content: using the Chrome i18n JSON format.
+- `path`: relative to the plugin localized folder `i18n/<locale>/pluginName`. Extension `.json` should be omitted to remain generic.
+- `content`: using the Chrome i18n JSON format.
 
 These files will be written by the [`write-translations` CLI](../../cli.md#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translateContent) and [`translateThemeConfig()`](#translateThemeConfig)
 
