@@ -240,13 +240,13 @@ website
 
 There are two lifecycle methods that are essential to theme implementation:
 
-- [`getThemePath()`](./api/plugin-apis/extend-infrastructure.md#getThemePath)
-- [`getClientModules()`](./api/plugin-apis/lifecycle-apis.md#getClientModules)
+- [`getThemePath()`](./api/plugin-methods/extend-infrastructure.md#getThemePath)
+- [`getClientModules()`](./api/plugin-methods/lifecycle-apis.md#getClientModules)
 
 These lifecycle methods are not essential but recommended:
 
-- [`validateThemeConfig({themeConfig, validate})`](./api/plugin-apis/static-methods.md#validateThemeConfig)
-- [`validateOptions({options, validate})`](./api/plugin-apis/static-methods.md#validateOptions)
+- [`validateThemeConfig({themeConfig, validate})`](./api/plugin-methods/static-methods.md#validateThemeConfig)
+- [`validateOptions({options, validate})`](./api/plugin-methods/static-methods.md#validateOptions)
 
 <!--
 
