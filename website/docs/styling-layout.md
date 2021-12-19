@@ -107,25 +107,11 @@ Alternatively, use the following tool to generate the different shades for your 
 
 :::tip
 
-Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) for the primary color to ensure readability. Use the Docusaurus website itself to preview how your color palette would look like. You can use [alternative palettes in dark mode](#dark-mode) because one color doesn't usually work in both light and dark mode.
+Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) for the primary color to ensure readability. Use the Docusaurus website itself to preview how your color palette would look like. You can use alternative palettes in dark mode because one color doesn't usually work in both light and dark mode.
 
 :::
 
 <ColorGenerator />
-
-#### Dark Mode {#dark-mode}
-
-To customize the Infima variables for dark mode you can add the following to `src/css/custom.css`.
-
-```css title="/src/css/custom.css"
-html[data-theme='dark'] {
-  --ifm-color-primary: #4e89e8;
-  --ifm-color-primary-dark: #5a91ea;
-  /* any other colors you wish to overwrite */
-}
-```
-
-<!-- TODO need more refinement here -->
 
 ## CSS modules {#css-modules}
 

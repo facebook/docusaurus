@@ -27,7 +27,6 @@
   border-radius: var(--ifm-global-radius);
   border-style: solid;
   border-width: var(--ifm-global-border-width);
-  margin: 0.4rem;
 }
 
 .colorTable {

@@ -6,6 +6,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
+import clsx from 'clsx';
 import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
 import useThemeContext from '@theme/hooks/useThemeContext';
@@ -77,32 +78,17 @@ function wcagContrast(foreground: string, background: string) {
   return contrast > 7 ? 'AAA 🏅' : contrast > 4.5 ? 'AA 👍' : 'Fail 🔴';
 }
 
-const storage = createStorageSlot('ifm-theme-colors');
-
 type ColorState = {
   baseColor: string;
-  lightBackground: string;
-  darkBackground: string;
+  background: string;
   shades: Shades;
 };
 
-function ColorGenerator(): JSX.Element {
-  const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
-  const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
-  const [darkBackground, setDarkBackground] = useState(DARK_BACKGROUND_COLOR);
-  const [lightBackground, setLightBackground] = useState(
-    LIGHT_BACKGROUND_COLOR,
-  );
-  const [shades, setShades] = useState(COLOR_SHADES);
-  useEffect(() => {
-    const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
-    setInputColor(storedValues.baseColor);
-    setBaseColor(storedValues.baseColor);
-    setDarkBackground(storedValues.darkBackground);
-    setLightBackground(storedValues.lightBackground);
-    setShades(storedValues.shades);
-  }, []);
-  const adjustedColors = Object.keys(shades)
+const lightStorage = createStorageSlot('ifm-theme-colors-light');
+const darkStorage = createStorageSlot('ifm-theme-colors-dark');
+
+function getAdjustedColors(shades: Shades, baseColor: string) {
+  return Object.keys(shades)
     .map((shade) => ({
       ...shades[shade],
       variableName: shade,
@@ -111,6 +97,59 @@ function ColorGenerator(): JSX.Element {
       ...value,
       hex: Color(baseColor).darken(value.adjustment).hex(),
     }));
+}
+
+function ColorGenerator(): JSX.Element {
+  const {isDarkTheme, setDarkTheme, setLightTheme} = useThemeContext();
+  const DEFAULT_BACKGROUND_COLOR = isDarkTheme
+    ? DARK_BACKGROUND_COLOR
+    : LIGHT_BACKGROUND_COLOR;
+
+  const [inputColor, setInputColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [baseColor, setBaseColor] = useState(DEFAULT_PRIMARY_COLOR);
+  const [background, setBackground] = useState(DEFAULT_BACKGROUND_COLOR);
+  const [shades, setShades] = useState(COLOR_SHADES);
+  const [storage, setStorage] = useState(
+    isDarkTheme ? darkStorage : lightStorage,
+  );
+
+  useEffect(() => {
+    darkStorage.set(
+      JSON.stringify({
+        baseColor: DEFAULT_PRIMARY_COLOR,
+        background: DARK_BACKGROUND_COLOR,
+        shades: COLOR_SHADES,
+      }),
+    );
+    lightStorage.set(
+      JSON.stringify({
+        baseColor: DEFAULT_PRIMARY_COLOR,
+        background: LIGHT_BACKGROUND_COLOR,
+        shades: COLOR_SHADES,
+      }),
+    );
+  }, []);
+
+  useEffect(() => {
+    setStorage(isDarkTheme ? darkStorage : lightStorage);
+  }, [isDarkTheme]);
+
+  useEffect(() => {
+    const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
+    setInputColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
+    setBaseColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
+    setBackground(storedValues.background ?? DEFAULT_BACKGROUND_COLOR);
+    setShades(storedValues.shades ?? COLOR_SHADES);
+  }, [storage, DEFAULT_BACKGROUND_COLOR, isDarkTheme]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    getAdjustedColors(shades, baseColor).forEach((value) => {
+      root.style.setProperty(value.variableName, value.hex);
+      root.style.setProperty('--ifm-background-color', background);
+    });
+    storage.set(JSON.stringify({baseColor, background, shades}));
+  }, [baseColor, background, shades, storage]);
 
   function updateColor(event: React.ChangeEvent<HTMLInputElement>) {
     // Only prepend # when there isn't one.
@@ -125,29 +164,6 @@ function ColorGenerator(): JSX.Element {
     }
   }
 
-  const {isDarkTheme} = useThemeContext();
-
-  useEffect(() => {
-    const root = document.documentElement;
-    adjustedColors.forEach((value) => {
-      root.style.setProperty(value.variableName, value.hex);
-      root.style.setProperty(
-        '--ifm-background-color',
-        isDarkTheme ? darkBackground : lightBackground,
-      );
-    });
-    storage.set(
-      JSON.stringify({baseColor, lightBackground, darkBackground, shades}),
-    );
-  }, [
-    adjustedColors,
-    darkBackground,
-    lightBackground,
-    isDarkTheme,
-    baseColor,
-    shades,
-  ]);
-
   return (
     <div>
       <p>
@@ -158,7 +174,7 @@ function ColorGenerator(): JSX.Element {
         <input
           id="primary_color"
           type="text"
-          className={styles.input}
+          className={clsx(styles.input, 'margin-right--sm')}
           value={inputColor}
           onChange={updateColor}
         />
@@ -169,32 +185,42 @@ function ColorGenerator(): JSX.Element {
           value={baseColor}
           onChange={updateColor}
         />
+        <button
+          type="button"
+          className="clean-btn button button--primary margin-left--md"
+          onClick={() => {
+            if (isDarkTheme) {
+              setLightTheme();
+            } else {
+              setDarkTheme();
+            }
+          }}>
+          Edit {isDarkTheme ? 'light' : 'dark'} mode
+        </button>
+        <button
+          type="button"
+          className="clean-btn button button--secondary margin-left--md"
+          onClick={() => {
+            setInputColor(DEFAULT_PRIMARY_COLOR);
+            setBaseColor(DEFAULT_PRIMARY_COLOR);
+            setBackground(DEFAULT_BACKGROUND_COLOR);
+            setShades(COLOR_SHADES);
+          }}>
+          Reset
+        </button>
       </p>
       <p>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label htmlFor="light_color">
-          <strong className="margin-right--sm">Light background:</strong>
+        <label htmlFor="background_color">
+          <strong className="margin-right--sm">Background:</strong>
         </label>
         <input
-          id="light_color"
+          id="background_color"
           type="color"
-          className={styles.colorInput}
-          defaultValue={lightBackground}
+          className={clsx(styles.colorInput, 'margin-right--sm')}
+          value={background}
           onChange={(e) => {
-            setLightBackground(e.target.value);
-          }}
-        />
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label htmlFor="dark_color">
-          <strong className="margin-right--sm">Dark background:</strong>
-        </label>
-        <input
-          id="dark_color"
-          type="color"
-          className={styles.colorInput}
-          defaultValue={darkBackground}
-          onChange={(e) => {
-            setDarkBackground(e.target.value);
+            setBackground(e.target.value);
           }}
         />
       </p>
@@ -205,12 +231,11 @@ function ColorGenerator(): JSX.Element {
               <th>CSS Variable Name</th>
               <th>Hex</th>
               <th>Adjustment</th>
-              <th>Light contrast</th>
-              <th>Dark contrast</th>
+              <th>Contrast Rating</th>
             </tr>
           </thead>
           <tbody>
-            {adjustedColors
+            {getAdjustedColors(shades, baseColor)
               .sort((a, b) => a.displayOrder - b.displayOrder)
               .map((value) => {
                 const {variableName, adjustment, adjustmentInput, hex} = value;
@@ -258,18 +283,10 @@ function ColorGenerator(): JSX.Element {
                     <td
                       style={{
                         fontSize: 'medium',
-                        backgroundColor: lightBackground,
+                        backgroundColor: background,
                         color: hex,
                       }}>
-                      <b>{wcagContrast(hex, lightBackground)}</b>
-                    </td>
-                    <td
-                      style={{
-                        fontSize: 'medium',
-                        backgroundColor: darkBackground,
-                        color: hex,
-                      }}>
-                      <b>{wcagContrast(hex, darkBackground)}</b>
+                      <b>{wcagContrast(hex, background)}</b>
                     </td>
                   </tr>
                 );
@@ -282,24 +299,16 @@ function ColorGenerator(): JSX.Element {
         variables.
       </p>
       <CodeBlock className="language-css">
-        {`:root {
-${adjustedColors
+        {`${isDarkTheme ? "html[data-theme='dark']" : ':root'} {
+${getAdjustedColors(shades, baseColor)
   .sort((a, b) => a.codeOrder - b.codeOrder)
   .map((value) => `  ${value.variableName}: ${value.hex.toLowerCase()};`)
   .join('\n')}${
-          lightBackground !== LIGHT_BACKGROUND_COLOR
-            ? `\n  --ifm-background-color: ${lightBackground};`
+          background !== DEFAULT_BACKGROUND_COLOR
+            ? `\n  --ifm-background-color: ${background};`
             : ''
         }
-}${
-          darkBackground !== DARK_BACKGROUND_COLOR
-            ? `
-
-html[data-theme='dark'] {
-  --ifm-background-color: ${darkBackground};
-}`
-            : ''
-        }`}
+}`}
       </CodeBlock>
     </div>
   );
