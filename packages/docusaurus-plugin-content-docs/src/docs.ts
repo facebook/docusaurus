@@ -126,7 +126,6 @@ function doProcessDocMetadata({
   options: MetadataOptions;
 }): DocMetadataBase {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
-  const {homePageId} = options;
   const {siteDir, i18n} = context;
 
   const {
@@ -196,24 +195,14 @@ function doProcessDocMetadata({
   // legacy versioned id, requires a breaking change to modify this
   const id = [versionIdPrefix, unversionedId].filter(Boolean).join('/');
 
-  // TODO remove soon, deprecated homePageId
-  const isDocsHomePage = unversionedId === (homePageId ?? '_index');
-  if (frontMatter.slug && isDocsHomePage) {
-    throw new Error(
-      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to choose either homePageId or slug, not both`,
-    );
-  }
-
-  const docSlug = isDocsHomePage
-    ? '/'
-    : getSlug({
-        baseID,
-        source,
-        sourceDirName,
-        frontmatterSlug: frontMatter.slug,
-        stripDirNumberPrefixes: parseNumberPrefixes,
-        numberPrefixParser: options.numberPrefixParser,
-      });
+  const docSlug = getSlug({
+    baseID,
+    source,
+    sourceDirName,
+    frontmatterSlug: frontMatter.slug,
+    stripDirNumberPrefixes: parseNumberPrefixes,
+    numberPrefixParser: options.numberPrefixParser,
+  });
 
   // Note: the title is used by default for page title, sidebar label, pagination buttons...
   // frontMatter.title should be used in priority over contentTitle (because it can contain markdown/JSX syntax)
@@ -255,7 +244,6 @@ function doProcessDocMetadata({
   return {
     unversionedId,
     id,
-    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),
@@ -331,12 +319,14 @@ export function addDocNavigation(
       return toDocNavigationLink(navDoc);
     };
 
-    const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
-      : toNavigationLink(navigation.previous, docsById);
-    const next: DocNavLink | undefined = doc.frontMatter.pagination_next
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
-      : toNavigationLink(navigation.next, docsById);
+    const previous =
+      doc.frontMatter.pagination_prev !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
+        : toNavigationLink(navigation.previous, docsById);
+    const next =
+      doc.frontMatter.pagination_next !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
+        : toNavigationLink(navigation.next, docsById);
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
@@ -368,7 +358,11 @@ export function getMainDocId({
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
-      return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+      return docs.find(
+        (doc) =>
+          doc.id === firstDocIdOfFirstSidebar ||
+          doc.unversionedId === firstDocIdOfFirstSidebar,
+      )!;
     } else {
       return docs[0];
     }

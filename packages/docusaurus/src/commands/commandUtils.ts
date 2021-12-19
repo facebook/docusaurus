@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import choosePort from '../choosePort';
 import {HostPortCLIOptions} from '@docusaurus/types';
-import {DEFAULT_PORT} from '../constants';
+import {DEFAULT_PORT} from '@docusaurus/utils';
 
 export function getCLIOptionHost(
   hostOption: HostPortCLIOptions['host'],

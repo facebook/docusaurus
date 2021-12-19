@@ -6,7 +6,7 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import {PluginOptions} from './types';
+import type {Options} from '@docusaurus/plugin-sitemap';
 import {DocusaurusConfig} from '@docusaurus/types';
 import {addTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
@@ -14,7 +14,7 @@ import {applyTrailingSlash} from '@docusaurus/utils-common';
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
-  options: PluginOptions,
+  options: Options,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {

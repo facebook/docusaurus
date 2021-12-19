@@ -35,6 +35,7 @@ export const ThemeClassNames = {
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
     expandCodeBlockButton: 'theme-expand-code-block-button',
+    codeBlock: 'theme-code-block',
   },
   layout: {
     // TODO add other stable classNames here

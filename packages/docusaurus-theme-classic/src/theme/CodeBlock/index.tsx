@@ -90,7 +90,12 @@ export default function CodeBlock({
       code={code}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={clsx(styles.codeBlockContainer, blockClassName)}>
+        <div
+          className={clsx(
+            styles.codeBlockContainer,
+            blockClassName,
+            ThemeClassNames.common.codeBlock,
+          )}>
           {(codeBlockTitle || collapsible) && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
