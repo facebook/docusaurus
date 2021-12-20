@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Feed, Author as FeedAuthor} from 'feed';
+import {Feed, Author as FeedAuthor, Item as FeedItem} from 'feed';
 import {PluginOptions, Author, BlogPost, FeedType} from './types';
 import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
 import {DocusaurusConfig} from '@docusaurus/types';
@@ -68,15 +68,24 @@ export async function generateBlogFeed({
       id,
       metadata: {title: metadataTitle, permalink, date, description, authors},
     } = post;
-    feed.addItem({
+
+    const feedItem: FeedItem = {
       title: metadataTitle,
       id,
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
       content: mdxToFeedContent(post.content),
-      author: authors.map(toFeedAuthor),
-    });
+    };
+
+    // json1() method takes the first item of authors array
+    // it causes an error when authors array is empty
+    const feedItemAuthors = authors.map(toFeedAuthor);
+    if (feedItemAuthors.length > 0) {
+      feedItem.author = feedItemAuthors;
+    }
+
+    feed.addItem(feedItem);
   });
 
   return feed;
@@ -85,15 +94,26 @@ export async function generateBlogFeed({
 async function createBlogFeedFile({
   feed,
   feedType,
-  filePath,
+  generatePath,
 }: {
   feed: Feed;
   feedType: FeedType;
-  filePath: string;
+  generatePath: string;
 }) {
-  const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
+  const [feedContent, feedPath] = (() => {
+    switch (feedType) {
+      case 'rss':
+        return [feed.rss2(), 'rss.xml'];
+      case 'json':
+        return [feed.json1(), 'feed.json'];
+      case 'atom':
+        return [feed.atom1(), 'atom.xml'];
+      default:
+        throw new Error(`Feed type ${feedType} not supported.`);
+    }
+  })();
   try {
-    await fs.outputFile(filePath, feedContent);
+    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed: ${err}.`);
   }
@@ -118,12 +138,12 @@ export async function createBlogFeedFiles({
   }
 
   await Promise.all(
-    feedTypes.map(async (feedType) => {
-      await createBlogFeedFile({
+    feedTypes.map((feedType) =>
+      createBlogFeedFile({
         feed,
         feedType,
-        filePath: path.join(outDir, options.routeBasePath, `${feedType}.xml`),
-      });
-    }),
+        generatePath: path.join(outDir, options.routeBasePath),
+      }),
+    ),
   );
 }

@@ -11,6 +11,7 @@ import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
+import {posixPath} from '@docusaurus/utils';
 
 const processFixture = async (name, options) => {
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
@@ -21,7 +22,9 @@ const processFixture = async (name, options) => {
     .use(plugin, {...options, filePath})
     .process(file);
 
-  return result.toString();
+  return result
+    .toString()
+    .replace(new RegExp(posixPath(process.cwd()), 'g'), '[CWD]');
 };
 
 const staticDirs = [

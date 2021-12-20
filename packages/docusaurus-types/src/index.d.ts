@@ -468,3 +468,5 @@ export type FrontMatterParserOption = (
   frontMatter: Record<string, unknown>;
   content: string;
 }>;
+
+export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};

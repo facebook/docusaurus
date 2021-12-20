@@ -6,7 +6,9 @@
  */
 
 declare module '@docusaurus/theme-classic' {
-  export type Options = Partial<import('./index').PluginOptions>;
+  export type Options = {
+    customCss?: string | string[];
+  };
 }
 
 declare module '@theme/AnnouncementBar' {
@@ -200,18 +202,6 @@ declare module '@theme/hooks/useHideableNavbar' {
 
   const useHideableNavbar: (hideOnScroll: boolean) => useHideableNavbarReturns;
   export default useHideableNavbar;
-}
-
-declare module '@theme/hooks/useLocationHash' {
-  import type {Dispatch, SetStateAction} from 'react';
-
-  export type useLocationHashReturns = readonly [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ];
-
-  const useLocationHash: (initialHash: string) => useLocationHashReturns;
-  export default useLocationHash;
 }
 
 declare module '@theme/hooks/useLockBodyScroll' {
@@ -526,6 +516,7 @@ declare module '@theme/TabItem' {
     readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
+    readonly attributes?: Record<string, unknown>;
   }
 
   const TabItem: (props: Props) => JSX.Element;
@@ -541,7 +532,11 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string | null;
-    readonly values?: readonly {value: string; label?: string}[];
+    readonly values?: readonly {
+      value: string;
+      label?: string;
+      attributes?: Record<string, unknown>;
+    }[];
     readonly groupId?: string;
     readonly className?: string;
   }

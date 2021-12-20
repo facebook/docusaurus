@@ -6,7 +6,7 @@
  */
 
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
   Joi,
   logValidationBugReportHint,

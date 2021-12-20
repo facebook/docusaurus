@@ -19,6 +19,7 @@ import {
   createAbsoluteFilePathMatcher,
   normalizeUrl,
   parseFrontMatter,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -28,7 +29,6 @@ import {
 } from '@docusaurus/types';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,

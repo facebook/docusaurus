@@ -69,7 +69,8 @@ export type User = {
 
 // LIST OF AVAILABLE TAGS
 // Available tags to assign to your site
-// Please choose widely, we'll remove unappropriate tags
+// Please choose all tags that you think might apply.
+// We'll remove inappropriate tags, but it's less likely that we add tags.
 export const Tags: Record<TagType, Tag> = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
@@ -117,7 +118,7 @@ export const Tags: Record<TagType, Tag> = {
   large: {
     label: 'Large',
     description:
-      'Very large Docusaurus sites, including much more pages than the average!',
+      'Very large Docusaurus sites, including many more pages than the average!',
     color: '#8c2f00',
   },
 
@@ -460,6 +461,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design'],
   },
   {
+    title: 'Enarx',
+    description:
+      'Open source framework for running applications in TEEs (Trusted Execution Environments) based on WebAssembly, allowing developers to deploy architecture-independent applications',
+    preview: require('./showcase/enarx.png'),
+    website: 'https://enarx.dev/',
+    source: 'https://github.com/enarx/enarx.github.io',
+    tags: ['opensource']
+  },
+  {
     title: 'Erxes',
     description:
       'Combine all your business tools into one streamlined and integrated open-source framework',
@@ -799,6 +809,15 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Molecule',
+    description:
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
+    preview: require('./showcase/molecule-home.png'),
+    website: 'https://dtstack.github.io/molecule/en',
+    source: 'https://github.com/DTStack/molecule',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
@@ -806,6 +825,14 @@ const Users: User[] = [
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
     tags: ['opensource'],
+  },
+  {
+    title: 'moja global',
+    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
+    preview: require('./showcase/mojaglobal.png'),
+    website: 'https://community.moja.global/',
+    source: 'https://github.com/moja-global/community-website',
+    tags: ['opensource', 'large', 'i18n', 'design'],
   },
   {
     title: 'nanos world documentation',
@@ -1257,6 +1284,14 @@ const Users: User[] = [
     website: 'https://docs.getsaleor.com/',
     source: 'https://github.com/mirumee/saleor-docs',
     tags: ['opensource', 'product', 'versioning'],
+  },
+  {
+    title: 'Sapphire',
+    description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
+    preview: require('./showcase/sapphire.png'),
+    website: 'https://www.sapphirejs.dev',
+    source: 'https://github.com/sapphiredev/website',
+    tags: ['opensource', 'large'],
   },
   {
     title: 'SCI WP Framework',

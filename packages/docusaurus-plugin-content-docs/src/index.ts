@@ -7,7 +7,6 @@
 
 import path from 'path';
 
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -18,6 +17,7 @@ import {
   createAbsoluteFilePathMatcher,
   parseFrontMatter,
   createSlugger,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';

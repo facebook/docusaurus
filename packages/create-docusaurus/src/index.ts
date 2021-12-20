@@ -269,32 +269,33 @@ ${chalk.cyan('Creating new Docusaurus project...')}
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
-  if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
-
-    try {
-      // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
-      shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
-        {
-          env: {
-            ...process.env,
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-          },
-        },
-      );
-    } catch (err) {
-      console.log(chalk.red('Installation failed.'));
-      throw err;
-    }
-  }
-  console.log();
-
   // Display the most elegant way to cd.
   const cdpath =
     path.join(process.cwd(), name) === dest
       ? name
       : path.relative(process.cwd(), name);
+  if (!cliOptions.skipInstall) {
+    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
+    if (
+      shell.exec(
+        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
+        },
+      ).code !== 0
+    ) {
+      console.error(chalk.red('Dependency installation failed.'));
+      console.log(`The site directory has already been created, and you can retry by typing:
+
+  ${chalk.cyan('cd')} ${cdpath}
+  ${chalk.cyan(`${pkgManager} install`)}`);
+      process.exit(0);
+    }
+  }
 
   console.log(`
 Successfully created "${chalk.cyan(cdpath)}".
