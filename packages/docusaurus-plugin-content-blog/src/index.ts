@@ -490,7 +490,7 @@ export default function pluginContentBlog(
                     parseFrontMatter: (fileString: string) =>
                       frontMatterParser({
                         content: fileString,
-                        plugin: {name: 'content-docs', id: options.id},
+                        plugin: {name: 'content-blog', id: options.id},
                         defaultFrontMatterParser: async (props) =>
                           parseFrontMatter(props.content),
                       }),

@@ -11,6 +11,7 @@ import chalk from 'chalk';
 import emoji from 'remark-emoji';
 import {
   parseMarkdownContentTitle,
+  parseFrontMatter,
   escapePath,
   getFileLoaderUtils,
 } from '@docusaurus/utils';
@@ -140,6 +141,31 @@ export default async function mdxLoader(
     filepath: filePath,
   };
 
+  // MDX partials are MDX files starting with _ or in a folder starting with _
+  // Partial are not expected to have an associated metadata file or frontmatter
+  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+  if (isMDXPartial) {
+    // Use default parser to extract front matter, and only error if there's
+    // "apparent" front matter—not user-generated ones.
+    const {frontMatter} = parseFrontMatter(fileString);
+    const hasFrontMatter = Object.keys(frontMatter).length > 0;
+    if (hasFrontMatter) {
+      const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+  Those partial files use the _ prefix as a convention by default, but this is configurable.
+  File at ${filePath} contains FrontMatter that will be ignored:
+  ${JSON.stringify(frontMatter, null, 2)}`;
+
+      if (!options.isMDXPartialFrontMatterWarningDisabled) {
+        const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
+        if (shouldError) {
+          return callback(new Error(errorMessage));
+        } else {
+          console.warn(chalk.yellow(errorMessage));
+        }
+      }
+    }
+  }
+
   const {frontMatter, content: contentWithTitle} =
     await reqOptions.parseFrontMatter(fileString);
 
@@ -147,32 +173,11 @@ export default async function mdxLoader(
     removeContentTitle: reqOptions.removeContentTitle,
   });
 
-  const hasFrontMatter = Object.keys(frontMatter).length > 0;
-
   let result;
   try {
     result = await mdx(content, options);
   } catch (err) {
     return callback(err as Error);
-  }
-
-  // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or frontmatter
-  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
-  if (isMDXPartial && hasFrontMatter) {
-    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
-Those partial files use the _ prefix as a convention by default, but this is configurable.
-File at ${filePath} contains FrontMatter that will be ignored:
-${JSON.stringify(frontMatter, null, 2)}`;
-
-    if (!options.isMDXPartialFrontMatterWarningDisabled) {
-      const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
-      if (shouldError) {
-        return callback(new Error(errorMessage));
-      } else {
-        console.warn(chalk.yellow(errorMessage));
-      }
-    }
   }
 
   function getMetadataPath(): string | undefined {
