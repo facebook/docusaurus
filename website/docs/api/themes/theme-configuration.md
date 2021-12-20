@@ -668,11 +668,11 @@ Accepted fields:
 <APITable name="footer">
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
 | `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
 | `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
-| `links` | `(Column | FooterLink)[]` | `[]` | The link groups to be present. |
+| `links` | <code>(Column \| FooterLink)[]</code> | `[]` | The link groups to be present. |
 
 </APITable>
 
