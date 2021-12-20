@@ -11,6 +11,18 @@ declare module '@docusaurus/theme-classic' {
   };
 }
 
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default function Admonition(props: Props): JSX.Element;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
