@@ -37,21 +37,6 @@ Available sidebar ids are:\n- ${sidebarIds}`,
   );
 }
 
-function findDocById(docId: string, versions: GlobalDataVersion[]) {
-  const allDocs = versions.flatMap((version) => version.docs);
-  const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
-  if (!doc) {
-    const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');
-    throw new Error(
-      `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
-        versions.length ? 's' : ''
-      } ${versions.map((version) => version.name).join(', ')}".
-  Available doc ids are:\n- ${docIds}`,
-    );
-  }
-  return doc;
-}
-
 export default function DocSidebarNavbarItem({
   id,
   label: staticLabel,
@@ -69,7 +54,6 @@ export default function DocSidebarNavbarItem({
     ) as GlobalDataVersion[],
   );
   const sidebarLink = getSidebarInVersion(versions, id);
-  const doc = findDocById(sidebarLink.path, versions);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
@@ -81,8 +65,8 @@ export default function DocSidebarNavbarItem({
           activeDoc?.sidebar && activeDoc.sidebar === id,
       })}
       activeClassName={activeDocInfimaClassName}
-      label={staticLabel ?? sidebarLink.label ?? doc.id}
-      to={doc.path}
+      label={staticLabel ?? sidebarLink.label ?? sidebarLink.label}
+      to={sidebarLink.path}
     />
   );
 }
