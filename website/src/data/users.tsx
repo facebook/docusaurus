@@ -1438,9 +1438,9 @@ const Users: User[] = [
     title: 'ToolJet',
     description: 'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
     preview: require('./showcase/tooljet.png'),
-    website: 'https://tooljet.com/',
+    website: 'https://docs.tooljet.com/docs/intro/',
     source: 'https://github.com/tooljet/tooljet',
-    tags: ['opensource', 'favorite', 'design', 'large', 'product'],
+    tags: ['opensource', 'design', 'large', 'product'],
   },
   {
     title: 'Tremor',
