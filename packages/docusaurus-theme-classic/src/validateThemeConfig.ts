@@ -311,14 +311,17 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array()
-      .items(
-        Joi.object({
-          title: Joi.string().allow(null),
-          items: Joi.array().items(FooterLinkItemSchema).default([]),
-        }),
-      )
-      .default([]),
+    links: [
+      Joi.array()
+        .items(
+          Joi.object({
+            title: Joi.string().allow(null),
+            items: Joi.array().items(FooterLinkItemSchema).default([]),
+          }),
+        )
+        .default([]),
+      Joi.array().items(FooterLinkItemSchema).default([]),
+    ],
   }).optional(),
   prism: Joi.object({
     theme: Joi.object({
