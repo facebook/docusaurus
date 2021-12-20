@@ -21,7 +21,6 @@
     "@docusaurus/logger": "2.0.0-beta.13",
     "@docusaurus/utils": "2.0.0-beta.13",
     "joi": "^17.4.2",
-    "picocolors": "^1.0.0",
     "tslib": "^2.3.1"
   },
   "peerDependencies": {
