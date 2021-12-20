@@ -69,6 +69,27 @@ Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
+## Usage with Prettier
+
+If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might autoformatting your code which results in invalid the admonition syntax. To avoid this problem, add empty lines around your content. This is also why the examples we show here all have empty lines around the content.
+
+```md
+<!-- Prettier doesn't change this -->
+::: note
+
+Hello world
+
+:::
+
+<!-- Prettier changes this -->
+::: note
+Hello world
+:::
+
+<!-- to this -->
+::: note Hello world:::
+```
+
 ## Specifying title {#specifying-title}
 
 You may also specify an optional title
