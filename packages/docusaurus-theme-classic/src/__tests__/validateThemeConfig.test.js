@@ -345,6 +345,68 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow simple links in footer', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            label: 'Privacy',
+            href: 'https://opensource.facebook.com/legal/privacy/',
+          },
+          {
+            label: 'Terms',
+            href: 'https://opensource.facebook.com/legal/terms/',
+          },
+          {
+            label: 'Data Policy',
+            href: 'https://opensource.facebook.com/legal/data-policy/',
+          },
+          {
+            label: 'Cookie Policy',
+            href: 'https://opensource.facebook.com/legal/cookie-policy/',
+          },
+        ],
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+      },
+    });
+  });
+
+  test('should reject mix of simple and multi-column links in footer', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            title: 'Learn',
+            items: [
+              {
+                label: 'Introduction',
+                to: 'docs',
+              },
+            ],
+          },
+          {
+            label: 'Privacy',
+            href: 'https://opensource.facebook.com/legal/privacy/',
+          },
+        ],
+      },
+    };
+
+    expect(() =>
+      testValidateThemeConfig(partialConfig),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"footer.links\\" does not match any of the allowed types"`,
+    );
+  });
+
   test('should allow width and height specification for logo ', () => {
     const altTagConfig = {
       navbar: {
