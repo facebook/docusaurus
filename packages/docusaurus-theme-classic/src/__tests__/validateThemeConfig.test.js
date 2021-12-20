@@ -403,7 +403,7 @@ describe('themeConfig', () => {
     expect(() =>
       testValidateThemeConfig(partialConfig),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"footer.links\\" does not match any of the allowed types"`,
+      `"The footer must be either simple or multi-column, and not a mix of the two. See: https://docusaurus.io/docs/api/themes/configuration#footer-links"`,
     );
   });
 
