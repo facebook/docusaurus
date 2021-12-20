@@ -89,7 +89,7 @@ export type FooterBase = {
 
 export type MultiColumnFooter = FooterBase & {
   links: Array<{
-    title: string;
+    title: string | null;
     items: FooterLinkItem[];
   }>;
 };

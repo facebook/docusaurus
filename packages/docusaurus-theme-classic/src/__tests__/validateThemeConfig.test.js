@@ -379,6 +379,42 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow footer column with no title', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            items: [
+              {
+                label: 'Data Policy',
+                href: 'https://opensource.facebook.com/legal/data-policy/',
+              },
+              {
+                label: 'Cookie Policy',
+                href: 'https://opensource.facebook.com/legal/cookie-policy/',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+        links: [
+          {
+            title: null, // Default value is important to distinguish simple footer from multi-column footer
+            items: partialConfig.footer.links[0].items,
+          },
+        ],
+      },
+    });
+  });
+
   test('should reject mix of simple and multi-column links in footer', () => {
     const partialConfig = {
       footer: {
