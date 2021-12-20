@@ -9,7 +9,12 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
-import {FooterItem, useThemeConfig} from '@docusaurus/theme-common';
+import {
+  FooterItem,
+  MultiColumnFooter,
+  SimpleFooter,
+  useThemeConfig,
+} from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
@@ -128,6 +133,12 @@ function SimpleLinks({links}: {links: FooterItem[]}) {
   );
 }
 
+function isMultiColumnFooterLinks(
+  links: MultiColumnFooter['links'] | SimpleFooter['links'],
+): links is MultiColumnFooter['links'] {
+  return 'title' in links[0];
+}
+
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
 
@@ -149,12 +160,10 @@ function Footer(): JSX.Element | null {
       <div className="container container-fluid">
         {links && links.length > 0 && (
           <div className={clsx({row: 'title' in links[0]}, 'footer__links')}>
-            {'title' in links[0] ? (
-              <MultiColumnLinks
-                links={links as Array<{title: string; items: FooterItem[]}>}
-              />
+            {isMultiColumnFooterLinks(links) ? (
+              <MultiColumnLinks links={links} />
             ) : (
-              <SimpleLinks links={links as FooterItem[]} />
+              <SimpleLinks links={links} />
             )}
           </div>
         )}
