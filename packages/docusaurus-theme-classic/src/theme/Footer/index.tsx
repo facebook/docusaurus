@@ -10,10 +10,10 @@ import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
 import {
-  FooterItem,
+  FooterLinkItem,
+  useThemeConfig,
   MultiColumnFooter,
   SimpleFooter,
-  useThemeConfig,
 } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -27,7 +27,7 @@ function FooterLink({
   label,
   prependBaseUrlToHref,
   ...props
-}: FooterItem) {
+}: FooterLinkItem) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
@@ -71,11 +71,7 @@ function FooterLogo({
   );
 }
 
-function MultiColumnLinks({
-  links,
-}: {
-  links: Array<{title: string; items: FooterItem[]}>;
-}) {
+function MultiColumnLinks({links}: {links: MultiColumnFooter['links']}) {
   return (
     <>
       {links.map((linkItem, i) => (
@@ -106,7 +102,7 @@ function MultiColumnLinks({
   );
 }
 
-function SimpleLinks({links}: {links: FooterItem[]}) {
+function SimpleLinks({links}: {links: SimpleFooter['links']}) {
   return (
     <div className="footer__links">
       {links.map((item, key) => (

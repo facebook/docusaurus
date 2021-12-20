@@ -668,11 +668,11 @@ Accepted fields:
 <APITable name="footer">
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
 | `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
 | `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
-| `items` | `FooterItem[]` | `[]` | The link groups to be present. |
+| `links` | `(Column | FooterLink)[]` | `[]` | The link groups to be present. |
 
 </APITable>
 
@@ -699,9 +699,9 @@ module.exports = {
 
 ### Footer Links {#footer-links}
 
-You can add links to the footer via `themeConfig.footer.links`.
+You can add links to the footer via `themeConfig.footer.links`. There are two types of footer configurations: **multi-column footers** and **simple footers**.
 
-Multi-column footer links have a `title` and a list of `FooterItems` for each column.
+Multi-column footer links have a `title` and a list of `FooterItem`s for each column.
 
 <APITable name="footer-links">
 
@@ -775,7 +775,7 @@ module.exports = {
 };
 ```
 
-Simple footer links are a list of `FooterItems` that are displayed in a row with a seperator between each item.
+A simple footer just has a list of `FooterItem`s displayed in a row.
 
 Example simple configuration:
 

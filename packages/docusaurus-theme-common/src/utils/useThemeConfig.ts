@@ -66,7 +66,7 @@ export type PrismConfig = {
   additionalLanguages?: string[];
 };
 
-export type FooterItem = {
+export type FooterLinkItem = {
   label?: string;
   to?: string;
   href?: string;
@@ -74,7 +74,7 @@ export type FooterItem = {
   prependBaseUrlToHref?: string;
 };
 
-export type Footer = {
+export type FooterBase = {
   style: 'light' | 'dark';
   logo?: {
     alt?: string;
@@ -87,16 +87,18 @@ export type Footer = {
   copyright?: string;
 };
 
-export type MultiColumnFooter = Footer & {
+export type MultiColumnFooter = FooterBase & {
   links: Array<{
     title: string;
-    items: FooterItem[];
+    items: FooterLinkItem[];
   }>;
 };
 
-export type SimpleFooter = Footer & {
-  links: FooterItem[];
+export type SimpleFooter = FooterBase & {
+  links: FooterLinkItem[];
 };
+
+export type Footer = MultiColumnFooter | SimpleFooter;
 
 export type TableOfContents = {
   minHeadingLevel: number;
@@ -118,7 +120,7 @@ export type ThemeConfig = {
   colorMode: ColorModeConfig;
   announcementBar?: AnnouncementBarConfig;
   prism: PrismConfig;
-  footer?: MultiColumnFooter | SimpleFooter;
+  footer?: Footer;
   hideableSidebar: boolean;
   image?: string;
   metadata: Array<Record<string, string>>;
