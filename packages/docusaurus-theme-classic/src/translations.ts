@@ -78,14 +78,6 @@ function isMultiColumnFooterLinks(
 }
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
-  const copyright: TranslationFileContent = footer.copyright
-    ? {
-        copyright: {
-          message: footer.copyright,
-          description: 'The footer copyright',
-        },
-      }
-    : {};
   const footerLinkTitles: TranslationFileContent = isMultiColumnFooterLinks(
     footer.links,
   )
@@ -113,6 +105,16 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
       } linking to ${linkItem.to ?? linkItem.href}`,
     }))
     .value();
+
+  const copyright: TranslationFileContent = footer.copyright
+    ? {
+        copyright: {
+          message: footer.copyright,
+          description: 'The footer copyright',
+        },
+      }
+    : {};
+
   return mergeTranslations([footerLinkTitles, footerLinkLabels, copyright]);
 }
 function translateFooter(
