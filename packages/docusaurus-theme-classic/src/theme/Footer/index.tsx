@@ -154,15 +154,17 @@ function Footer(): JSX.Element | null {
         'footer--dark': footer.style === 'dark',
       })}>
       <div className="container container-fluid">
-        {links && links.length > 0 && (
-          <div className={clsx({row: 'title' in links[0]}, 'footer__links')}>
-            {isMultiColumnFooterLinks(links) ? (
+        {links &&
+          links.length > 0 &&
+          (isMultiColumnFooterLinks(links) ? (
+            <div className="row footer__links">
               <MultiColumnLinks links={links} />
-            ) : (
+            </div>
+          ) : (
+            <div className="footer__links">
               <SimpleLinks links={links} />
-            )}
-          </div>
-        )}
+            </div>
+          ))}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">
             {logo && (logo.src || logo.srcDark) && (
