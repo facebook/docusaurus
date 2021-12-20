@@ -328,7 +328,7 @@ authors:
 The configuration file can be localized, just create a localized copy of it at:
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-blog/authors.yml
+website/i18n/{{locale}}/docusaurus-plugin-content-blog/authors.yml
 ```
 
 </details>
@@ -522,19 +522,21 @@ https://example.com/blog/feed.json
 
 ### Blog-only mode {#blog-only-mode}
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
+You can run your Docusaurus 2 site without a dedicated landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to serve the blog through the root route `example.com/` instead of the subroute `example.com/blog/`.
 
-```js {10} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
     [
       '@docusaurus/preset-classic',
       {
-        docs: false,
+        // highlight-next-line
+        docs: false, // Optional: disable the docs plugin
         blog: {
-          path: './blog',
-          routeBasePath: '/', // Set this value to '/'.
+          // highlight-next-line
+          routeBasePath: '/', // Serve the blog at the site's root
+          /* other blog options */
         },
       },
     ],
@@ -545,6 +547,12 @@ module.exports = {
 :::caution
 
 Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
+
+:::
+
+:::tip
+
+There's also a "Docs-only mode" for those who only want to use the docs. Read [Docs-only mode](./guides/docs/docs-introduction.md) for detailed instructions or a more elaborated explanation of `routeBasePath`.
 
 :::
 
