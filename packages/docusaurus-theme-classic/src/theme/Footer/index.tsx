@@ -119,7 +119,9 @@ function SimpleLinks({links}: {links: FooterItem[]}) {
           ) : (
             <FooterLink {...item} />
           )}
-          <span className="footer__link-separator">·</span>
+          {links.length !== key + 1 && (
+            <span className="footer__link-separator">·</span>
+          )}
         </>
       ))}
     </div>
@@ -144,9 +146,9 @@ function Footer(): JSX.Element | null {
       className={clsx('footer', {
         'footer--dark': footer.style === 'dark',
       })}>
-      <div className="container">
+      <div className="container container-fluid">
         {links && links.length > 0 && (
-          <div className="row footer__links">
+          <div className={clsx({row: 'title' in links[0]}, 'footer__links')}>
             {'title' in links[0] ? (
               <MultiColumnLinks
                 links={links as Array<{title: string; items: FooterItem[]}>}
