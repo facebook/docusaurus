@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.16.4",
+    "@docusaurus/logger": "2.0.0-beta.13",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
-    "chalk": "^4.1.2",
     "color": "^4.0.1",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",

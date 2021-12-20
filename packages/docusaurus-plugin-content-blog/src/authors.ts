@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {Author, BlogContentPaths} from './types';
 import {findFolderContainingFile} from '@docusaurus/utils';
@@ -48,7 +48,7 @@ export async function readAuthorsMapFile(
       return validateAuthorsMapFile(unsafeContent);
     } catch (e) {
       // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      console.error(chalk.red('The author list file looks invalid!'));
+      logger.error('The author list file looks invalid!');
       throw e;
     }
   }
@@ -88,9 +88,7 @@ export async function getAuthorsMap(
     return await readAuthorsMapFile(filePath);
   } catch (e) {
     // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.error(
-      chalk.red(`Couldn't read blog authors map at path ${filePath}`),
-    );
+    logger.error`Couldn't read blog authors map at path=${filePath}`;
     throw e;
   }
 }

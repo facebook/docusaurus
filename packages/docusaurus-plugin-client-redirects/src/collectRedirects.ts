@@ -22,7 +22,7 @@ import {
   ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
@@ -99,14 +99,10 @@ function filterUnwantedRedirects(
   Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
-        console.error(
-          chalk.red(
-            `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
-It is not possible to redirect the same pathname to multiple destinations:
-- ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-          ),
-        );
+        logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
+It is not possible to redirect the same pathname to multiple destinations: ${groupedFromRedirects.map(
+          (r) => JSON.stringify(r),
+        )}`;
       }
     },
   );
@@ -117,13 +113,9 @@ It is not possible to redirect the same pathname to multiple destinations:
     (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
-    console.error(
-      chalk.red(
-        `@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
-- ${redirectsOverridingExistingPath.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-      ),
-    );
+    logger.error`name=${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored: ${redirectsOverridingExistingPath.map(
+      (r) => JSON.stringify(r),
+    )}`;
   }
   return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),

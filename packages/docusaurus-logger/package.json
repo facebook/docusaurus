@@ -1,36 +1,26 @@
 {
-  "name": "create-docusaurus",
+  "name": "@docusaurus/logger",
   "version": "2.0.0-beta.13",
-  "description": "Create Docusaurus apps easily.",
+  "description": "An encapsulated logger for semantically formatting console messages.",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
-    "directory": "packages/create-docusaurus"
+    "directory": "packages/docusaurus-logger"
   },
   "bugs": {
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
-    "create-docusaurus": "create-docusaurus",
     "build": "tsc",
     "watch": "tsc --watch"
-  },
-  "bin": {
-    "create-docusaurus": "bin/index.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "2.0.0-beta.13",
-    "commander": "^5.1.0",
-    "fs-extra": "^10.0.0",
-    "lodash": "^4.17.20",
-    "prompts": "^2.4.1",
-    "semver": "^7.3.4",
-    "shelljs": "^0.8.4",
-    "supports-color": "^8.1.1",
+    "chalk": "^4.1.2",
     "tslib": "^2.3.1"
   },
   "engines": {

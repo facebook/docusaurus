@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
@@ -200,7 +201,7 @@ export function validateConfig(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error.message);
       return config as DocusaurusConfig;
     }
 

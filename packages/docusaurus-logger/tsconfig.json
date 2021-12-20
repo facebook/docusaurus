@@ -3,11 +3,9 @@
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "sourceMap": true,
+    "declarationMap": true,
     "rootDir": "src",
-    "outDir": "lib",
-    "jsx": "react",
-    "allowJs": true
-  },
-  "include": ["src"],
-  "exclude": ["**/__tests__/**/*", "src/client"]
+    "outDir": "lib"
+  }
 }

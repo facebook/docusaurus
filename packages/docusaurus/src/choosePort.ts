@@ -13,7 +13,7 @@
 import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
@@ -68,12 +68,7 @@ function getProcessForPort(port: number): string | null {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
-    return (
-      chalk.cyan(command) +
-      chalk.grey(` (pid ${processId})\n`) +
-      chalk.blue('  in ') +
-      chalk.cyan(directory)
-    );
+    return logger.interpolate`code=${command} subdue=${`(pid ${processId})`} in path=${directory}`;
   } catch (e) {
     return null;
   }
@@ -104,11 +99,11 @@ export default async function choosePort(
           const question: prompts.PromptObject = {
             type: 'confirm',
             name: 'shouldChangePort',
-            message: `${chalk.yellow(
-              `${message}${
-                existingProcess ? ` Probably:\n  ${existingProcess}` : ''
-              }`,
-            )}\n\nWould you like to run the app on another port instead?`,
+            message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
+              existingProcess ? ` Probably:\n  ${existingProcess}` : ''
+            }
+
+Would you like to run the app on another port instead?`),
             initial: true,
           };
           prompts(question).then((answer) => {
@@ -119,15 +114,14 @@ export default async function choosePort(
             }
           });
         } else {
-          console.log(chalk.red(message));
+          logger.error(message);
           resolve(null);
         }
       }),
     (err) => {
       throw new Error(
-        `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: "${err.message}".` || err
-        }\n`,
+        `Could not find an open port at ${host}.
+${`Network error message: "${err.message || err}".`}`,
       );
     },
   );
