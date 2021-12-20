@@ -161,7 +161,7 @@ function Footer(): JSX.Element | null {
               <MultiColumnLinks links={links} />
             </div>
           ) : (
-            <div className="footer__links">
+            <div className="footer__links text--center">
               <SimpleLinks links={links} />
             </div>
           ))}
