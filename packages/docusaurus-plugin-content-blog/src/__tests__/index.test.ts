@@ -69,6 +69,10 @@ describe('loadBlog', () => {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
+      markdown: {
+        frontMatterParser: ({defaultFrontMatterParser, ...rest}) =>
+          defaultFrontMatterParser({...rest}),
+      },
     } as DocusaurusConfig;
     return pluginContentBlog(
       {

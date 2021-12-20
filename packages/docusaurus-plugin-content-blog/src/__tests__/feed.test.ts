@@ -93,6 +93,10 @@ describe('blogFeed', () => {
           baseUrl: '/myBaseUrl/',
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
+          markdown: {
+            frontMatterParser: ({defaultFrontMatterParser, ...rest}) =>
+              defaultFrontMatterParser({...rest}),
+          },
         };
 
         const feed = await testGenerateFeeds(
