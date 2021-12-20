@@ -345,6 +345,104 @@ describe('themeConfig', () => {
     });
   });
 
+  test('should allow simple links in footer', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            label: 'Privacy',
+            href: 'https://opensource.facebook.com/legal/privacy/',
+          },
+          {
+            label: 'Terms',
+            href: 'https://opensource.facebook.com/legal/terms/',
+          },
+          {
+            label: 'Data Policy',
+            href: 'https://opensource.facebook.com/legal/data-policy/',
+          },
+          {
+            label: 'Cookie Policy',
+            href: 'https://opensource.facebook.com/legal/cookie-policy/',
+          },
+        ],
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+      },
+    });
+  });
+
+  test('should allow footer column with no title', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            items: [
+              {
+                label: 'Data Policy',
+                href: 'https://opensource.facebook.com/legal/data-policy/',
+              },
+              {
+                label: 'Cookie Policy',
+                href: 'https://opensource.facebook.com/legal/cookie-policy/',
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const normalizedConfig = testValidateThemeConfig(partialConfig);
+
+    expect(normalizedConfig).toEqual({
+      ...normalizedConfig,
+      footer: {
+        ...normalizedConfig.footer,
+        ...partialConfig.footer,
+        links: [
+          {
+            title: null, // Default value is important to distinguish simple footer from multi-column footer
+            items: partialConfig.footer.links[0].items,
+          },
+        ],
+      },
+    });
+  });
+
+  test('should reject mix of simple and multi-column links in footer', () => {
+    const partialConfig = {
+      footer: {
+        links: [
+          {
+            title: 'Learn',
+            items: [
+              {
+                label: 'Introduction',
+                to: 'docs',
+              },
+            ],
+          },
+          {
+            label: 'Privacy',
+            href: 'https://opensource.facebook.com/legal/privacy/',
+          },
+        ],
+      },
+    };
+
+    expect(() =>
+      testValidateThemeConfig(partialConfig),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The footer must be either simple or multi-column, and not a mix of the two. See: https://docusaurus.io/docs/api/themes/configuration#footer-links"`,
+    );
+  });
+
   test('should allow width and height specification for logo ', () => {
     const altTagConfig = {
       navbar: {

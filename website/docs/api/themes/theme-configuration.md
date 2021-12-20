@@ -672,7 +672,7 @@ Accepted fields:
 | `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
 | `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
 | `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
-| `items` | `FooterItem[]` | `[]` | The link groups to be present. |
+| `links` | <code>(Column \| FooterLink)[]</code> | `[]` | The link groups to be present. |
 
 </APITable>
 
@@ -699,20 +699,20 @@ module.exports = {
 
 ### Footer Links {#footer-links}
 
-You can add links to the footer via `themeConfig.footer.links`.
+You can add links to the footer via `themeConfig.footer.links`. There are two types of footer configurations: **multi-column footers** and **simple footers**.
 
-Accepted fields of each link section:
+Multi-column footer links have a `title` and a list of `FooterItem`s for each column.
 
 <APITable name="footer-links">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` | `string` | `undefined` | Label of the section of these links. |
-| `items` | `FooterLink[]` | `[]` | Links in this section. |
+| `items` | `FooterItem[]` | `[]` | Links in this section. |
 
 </APITable>
 
-Accepted fields of each item in `items`:
+Accepted fields of each `FooterItem`:
 
 <APITable name="footer-items">
 
@@ -725,7 +725,7 @@ Accepted fields of each item in `items`:
 
 </APITable>
 
-Example configuration:
+Example multi-column configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -768,6 +768,40 @@ module.exports = {
               `,
           },
         ],
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
+A simple footer just has a list of `FooterItem`s displayed in a row.
+
+Example simple configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'Twitter',
+        href: 'https://twitter.com/docusaurus',
+      },
+      {
+        html: `
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+            </a>
+          `,
       },
     ],
     // highlight-end
