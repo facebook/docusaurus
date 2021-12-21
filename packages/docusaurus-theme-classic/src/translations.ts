@@ -74,21 +74,21 @@ function translateNavbar(
 function isMultiColumnFooterLinks(
   links: MultiColumnFooter['links'] | SimpleFooter['links'],
 ): links is MultiColumnFooter['links'] {
-  return 'title' in links[0];
+  return links.length > 0 && 'title' in links[0];
 }
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
-  const footerLinkTitles: TranslationFileContent = isMultiColumnFooterLinks(
-    footer.links,
+  const footerLinkTitles: TranslationFileContent = chain(
+    isMultiColumnFooterLinks(footer.links)
+      ? footer.links.filter((link) => !!link.title)
+      : [],
   )
-    ? chain(footer.links.filter((link) => !!link.title))
-        .keyBy((link) => `link.title.${link.title}`)
-        .mapValues((link) => ({
-          message: link.title!,
-          description: `The title of the footer links column with title=${link.title} in the footer`,
-        }))
-        .value()
-    : {};
+    .keyBy((link) => `link.title.${link.title}`)
+    .mapValues((link) => ({
+      message: link.title!,
+      description: `The title of the footer links column with title=${link.title} in the footer`,
+    }))
+    .value();
 
   const footerLinkLabels: TranslationFileContent = chain(
     isMultiColumnFooterLinks(footer.links)
