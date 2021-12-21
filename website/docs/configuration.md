@@ -66,11 +66,11 @@ module.exports = {
 
 When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
 
-- `{name}`
-- `@docusaurus/{type}-{name}`
-- `docusaurus-{type}-{name}`,
+- `[name]`
+- `@docusaurus/[moduleType]-[name]`
+- `docusaurus-[moduleType]-[name]`,
 
-where `type` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
+where `moduleType` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
 
 If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
 

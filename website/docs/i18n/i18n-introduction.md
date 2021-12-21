@@ -92,12 +92,12 @@ The translation files should be created at the correct filesystem location.
 Each locale and plugin has its own `i18n` subfolder:
 
 ```
-website/i18n/<locale>/<pluginName>/...
+website/i18n/[locale]/[pluginName]/...
 ```
 
 :::note
 
-For multi-instance plugins, the path is `website/i18n/<locale>/<pluginName>-<pluginId>/...`.
+For multi-instance plugins, the path is `website/i18n/[locale]/[pluginName]-[pluginId]/...`.
 
 :::
 
