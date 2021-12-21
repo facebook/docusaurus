@@ -69,8 +69,8 @@ npm run docusaurus docs:version 1.1.0
 
 When tagging a new version, the document versioning mechanism will:
 
-- Copy the full `docs/` folder contents into a new `versioned_docs/version-<version>/` folder.
-- Create a versioned sidebars file based from your current [sidebar](docs-introduction.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
+- Copy the full `docs/` folder contents into a new `versioned_docs/version-[versionName]/` folder.
+- Create a versioned sidebars file based from your current [sidebar](docs-introduction.md#sidebar) configuration (if it exists) - saved as `versioned_sidebars/version-[versionName]-sidebars.json`.
 - Append the new version number to `versions.json`.
 
 ## Docs {#docs}

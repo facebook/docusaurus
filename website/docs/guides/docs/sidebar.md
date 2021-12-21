@@ -423,7 +423,7 @@ See it in action in the [i18n introduction page](../../i18n/i18n-introduction.md
 
 ##### Generated index page {#generated-index-page}
 
-You can auto-generate an index page that displays all the direct children of this category. The `slug` allows you to customize the generated page's route, which defaults to `/category/{{category name}}`.
+You can auto-generate an index page that displays all the direct children of this category. The `slug` allows you to customize the generated page's route, which defaults to `/category/[categoryName]`.
 
 ```js title="sidebars.js"
 module.exports = {

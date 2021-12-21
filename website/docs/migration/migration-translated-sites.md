@@ -14,7 +14,7 @@ It is not tightly coupled to Crowdin, and you can use Git or another SaaS instea
 
 ### Different filesystem paths {#different-filesystem-paths}
 
-On Docusaurus v2, localized content is generally found at `website/i18n/<locale>`.
+On Docusaurus v2, localized content is generally found at `website/i18n/[locale]`.
 
 Docusaurus v2 is modular based on a plugin system, and each plugin is responsible to manage its own translations.
 
@@ -50,7 +50,7 @@ import Translate from '@docusaurus/Translate';
 
 The `write-translations` CLI still works to extract translations from your code.
 
-The code translations are now added to `i18n/<lang>/code.json` using Chrome i18n JSON format.
+The code translations are now added to `i18n/[locale]/code.json` using Chrome i18n JSON format.
 
 :::
 

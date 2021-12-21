@@ -302,15 +302,15 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
-- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
 
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-docs
+website/i18n/[locale]/docusaurus-plugin-content-docs
 │
 │ # translations for website/docs
 ├── current

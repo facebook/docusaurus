@@ -880,7 +880,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
+- **Base path**: `website/i18n/[locale]/docusaurus-theme-[themeName]`
 - **Multi-instance path**: N/A
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: N/A
@@ -888,7 +888,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-theme-classic
+website/i18n/[locale]/docusaurus-theme-classic
 │
 │ # translations for the theme
 ├── navbar.json

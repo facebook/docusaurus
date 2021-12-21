@@ -37,7 +37,7 @@ We recommend the following translation workflow:
 
 Crowdin provides a [CLI](https://support.crowdin.com/cli-tool/) to **upload sources** and **download translations**, allowing you to automate the translation process.
 
-The [`crowdin.yml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/<locale>/..`).
+The [`crowdin.yml` configuration file](https://support.crowdin.com/configuration-file/) is convenient for Docusaurus, and permits to **download the localized translation files at the expected location** (in `i18n/[locale]/..`).
 
 Read the **[official documentation](https://support.crowdin.com/)** to know more about advanced features and different translation workflows.
 
@@ -114,7 +114,7 @@ Your project is created, but it is empty for now. We will upload the files to tr
 This configuration ([doc](https://support.crowdin.com/configuration-file/)) provides a mapping for the Crowdin CLI to understand:
 
 - Where to find the source files to upload (JSON and Markdown)
-- Where to download the files after translation (in `i18n/<locale>`)
+- Where to download the files after translation (in `i18n/[locale]`)
 
 Create `crowdin.yml` in `website`:
 

@@ -114,7 +114,7 @@ Read more about the robots file in [the Google documentation](https://developers
 
 ## Sitemap file {#sitemap-file}
 
-Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/<baseUrl>/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
+Docusaurus provides the [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) plugin, which is shipped with `preset-classic` by default. It autogenerates a `sitemap.xml` file which will be available at `https://example.com/[baseUrl]/sitemap.xml` after the production build. This sitemap metadata helps search engine crawlers crawl your site more accurately.
 
 ## Human readable links {#human-readable-links}
 
