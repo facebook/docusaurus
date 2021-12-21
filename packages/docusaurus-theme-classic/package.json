@@ -36,7 +36,7 @@
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^3.0.1",
     "globby": "^11.0.2",
-    "infima": "0.2.0-alpha.36",
+    "infima": "0.2.0-alpha.37",
     "lodash": "^4.17.20",
     "postcss": "^8.3.7",
     "prism-react-renderer": "^1.2.1",
