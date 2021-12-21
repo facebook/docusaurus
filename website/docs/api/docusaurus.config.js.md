@@ -414,7 +414,7 @@ module.exports = {
 };
 ```
 
-See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules).
+See also: [`getClientModules()`](./plugin-methods/lifecycle-apis.md#getClientModules).
 
 ### `ssrTemplate` {#ssrtemplate}
 
