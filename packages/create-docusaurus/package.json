@@ -1,6 +1,6 @@
 {
   "name": "create-docusaurus",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "description": "Create Docusaurus apps easily.",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/logger": "2.0.0-beta.13",
+    "@docusaurus/logger": "2.0.0-beta.14",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
