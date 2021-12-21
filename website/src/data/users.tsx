@@ -1435,6 +1435,14 @@ const Users: User[] = [
     tags: ['personal', 'opensource', 'i18n'],
   },
   {
+    title: 'ToolJet',
+    description: 'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
+    preview: require('./showcase/tooljet.png'),
+    website: 'https://docs.tooljet.com/docs/intro/',
+    source: 'https://github.com/tooljet/tooljet',
+    tags: ['opensource', 'design', 'large', 'product'],
+  },
+  {
     title: 'Tremor',
     description:
       'An early-stage event processing system for unstructured data with rich support for structural pattern-matching, filtering and transformation.',
