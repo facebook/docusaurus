@@ -1310,6 +1310,14 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Smart Docs',
+    description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
+    preview: require('./showcase/smart-docs.png'),
+    website: 'https://smart-docs.vercel.app/',
+    source: 'https://github.com/wowtvds/smart-docs',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'smash.gg',
     description: 'Turning passions into careers',
     preview: require('./showcase/smashgg.png'),
