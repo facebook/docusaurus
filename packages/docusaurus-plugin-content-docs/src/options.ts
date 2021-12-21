@@ -19,7 +19,7 @@ import type {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
@@ -157,11 +157,7 @@ export function validateOptions({
       };
     }
     if (options.sidebarCollapsed) {
-      console.warn(
-        chalk.yellow(
-          'The docs plugin config is inconsistent. It does not make sense to use sidebarCollapsible=false and sidebarCollapsed=true at the same time. sidebarCollapsed=false will be ignored.',
-        ),
-      );
+      logger.warn`The docs plugin config is inconsistent. It does not make sense to use code=${'sidebarCollapsible: false'} and code=${'sidebarCollapsed: true'} at the same time. code=${'sidebarCollapsed: true'} will be ignored.`;
       options = {
         ...options,
         sidebarCollapsed: false,

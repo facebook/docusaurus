@@ -34,7 +34,6 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 }
 
 describe('defaultLocaleConfig', () => {
-  // @ts-expect-error: wait for TS support of ES2021 feature
   const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
 
   test('returns correct labels', () => {
@@ -174,7 +173,7 @@ describe('loadI18n', () => {
       'it',
     );
     expect(consoleSpy.mock.calls[0][0]).toMatch(
-      /The locale "it" was not found in your site configuration/,
+      /The locale .*it.* was not found in your site configuration/,
     );
   });
 });

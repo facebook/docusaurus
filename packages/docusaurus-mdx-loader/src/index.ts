@@ -7,7 +7,7 @@
 
 import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
@@ -164,7 +164,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       if (shouldError) {
         return callback(new Error(errorMessage));
       } else {
-        console.warn(chalk.yellow(errorMessage));
+        logger.warn(errorMessage);
       }
     }
   }

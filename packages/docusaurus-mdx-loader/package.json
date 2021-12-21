@@ -20,10 +20,10 @@
   "dependencies": {
     "@babel/parser": "^7.16.4",
     "@babel/traverse": "^7.16.3",
+    "@docusaurus/logger": "2.0.0-beta.13",
     "@docusaurus/utils": "2.0.0-beta.13",
     "@mdx-js/mdx": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
-    "chalk": "^4.1.2",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",

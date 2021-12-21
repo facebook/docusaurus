@@ -86,6 +86,86 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
 </feed>"
 `;
 
+exports[`blogFeed json shows feed item for each post 1`] = `
+"{
+    \\"version\\": \\"https://jsonfeed.org/version/1\\",
+    \\"title\\": \\"Hello Blog\\",
+    \\"home_page_url\\": \\"https://docusaurus.io/myBaseUrl/blog\\",
+    \\"description\\": \\"Hello Blog\\",
+    \\"items\\": [
+        {
+            \\"id\\": \\"/mdx-require-blog-post\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post\\",
+            \\"title\\": \\"MDX Blog Sample with require calls\\",
+            \\"summary\\": \\"Test MDX with require calls\\",
+            \\"date_modified\\": \\"2021-03-06T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/mdx-blog-post\\",
+            \\"content_html\\": \\"<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><div>Import DOM</div><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href=\\\\\\"https://v2.docusaurus.io/\\\\\\">link</a>\\\\n<img src=\\\\\\"https://v2.docusaurus.io/\\\\\\" alt=\\\\\\"image\\\\\\"/></p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post\\",
+            \\"title\\": \\"Full Blog Sample\\",
+            \\"summary\\": \\"HTML Heading 1\\",
+            \\"date_modified\\": \\"2021-03-05T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/hey/my super path/héllô\\",
+            \\"content_html\\": \\"<p>complex url slug</p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô\\",
+            \\"title\\": \\"Complex Slug\\",
+            \\"summary\\": \\"complex url slug\\",
+            \\"date_modified\\": \\"2020-08-16T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/simple/slug\\",
+            \\"content_html\\": \\"<p>simple url slug</p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/simple/slug\\",
+            \\"title\\": \\"Simple Slug\\",
+            \\"summary\\": \\"simple url slug\\",
+            \\"date_modified\\": \\"2020-08-15T00:00:00.000Z\\",
+            \\"author\\": {
+                \\"name\\": \\"Sébastien Lorber\\",
+                \\"url\\": \\"https://sebastienlorber.com\\"
+            }
+        },
+        {
+            \\"id\\": \\"/draft\\",
+            \\"content_html\\": \\"<p>this post should not be published yet</p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/draft\\",
+            \\"title\\": \\"draft\\",
+            \\"summary\\": \\"this post should not be published yet\\",
+            \\"date_modified\\": \\"2020-02-27T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/heading-as-title\\",
+            \\"content_html\\": \\"\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/heading-as-title\\",
+            \\"title\\": \\"some heading\\",
+            \\"date_modified\\": \\"2019-01-02T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/date-matter\\",
+            \\"content_html\\": \\"<p>date inside front matter</p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/date-matter\\",
+            \\"title\\": \\"date-matter\\",
+            \\"summary\\": \\"date inside front matter\\",
+            \\"date_modified\\": \\"2019-01-01T00:00:00.000Z\\"
+        },
+        {
+            \\"id\\": \\"/2018/12/14/Happy-First-Birthday-Slash\\",
+            \\"content_html\\": \\"<p>Happy birthday! (translated)</p>\\",
+            \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/2018/12/14/Happy-First-Birthday-Slash\\",
+            \\"title\\": \\"Happy 1st Birthday Slash! (translated)\\",
+            \\"summary\\": \\"Happy birthday! (translated)\\",
+            \\"date_modified\\": \\"2018-12-14T00:00:00.000Z\\",
+            \\"author\\": {
+                \\"name\\": \\"Yangshun Tay (translated)\\"
+            }
+        }
+    ]
+}"
+`;
+
 exports[`blogFeed rss shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <rss version=\\"2.0\\" xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\" xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\">

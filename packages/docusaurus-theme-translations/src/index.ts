@@ -9,11 +9,7 @@ import path from 'path';
 import fs from 'fs-extra';
 
 function getDefaultLocalesDirPath(): string {
-  const parentDirPath = path.join(__dirname, '..');
-  const pkg = JSON.parse(
-    fs.readFileSync(path.join(parentDirPath, 'package.json'), 'utf8'),
-  );
-  return path.join(parentDirPath, pkg.files[0]);
+  return path.join(__dirname, '../locales');
 }
 
 // Return an ordered list of locales we should try

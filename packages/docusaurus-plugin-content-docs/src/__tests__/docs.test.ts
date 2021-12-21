@@ -227,6 +227,8 @@ describe('simple site', () => {
         description: 'This is custom description',
         id: 'bar',
         title: 'Bar',
+        pagination_next: null,
+        pagination_prev: null,
       },
       tags: [],
     });

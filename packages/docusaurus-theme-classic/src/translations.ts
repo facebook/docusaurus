@@ -11,6 +11,8 @@ import {
   Navbar,
   NavbarItem,
   Footer,
+  MultiColumnFooter,
+  SimpleFooter,
 } from '@docusaurus/theme-common';
 
 import {keyBy, chain} from 'lodash';
@@ -69,20 +71,31 @@ function translateNavbar(
   };
 }
 
+function isMultiColumnFooterLinks(
+  links: MultiColumnFooter['links'] | SimpleFooter['links'],
+): links is MultiColumnFooter['links'] {
+  return 'title' in links[0];
+}
+
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
-  // TODO POC code
-  const footerLinkTitles: TranslationFileContent = chain(
-    footer.links.filter((link) => !!link.title),
+  const footerLinkTitles: TranslationFileContent = isMultiColumnFooterLinks(
+    footer.links,
   )
-    .keyBy((link) => `link.title.${link.title}`)
-    .mapValues((link) => ({
-      message: link.title!,
-      description: `The title of the footer links column with title=${link.title} in the footer`,
-    }))
-    .value();
+    ? chain(footer.links.filter((link) => !!link.title))
+        .keyBy((link) => `link.title.${link.title}`)
+        .mapValues((link) => ({
+          message: link.title!,
+          description: `The title of the footer links column with title=${link.title} in the footer`,
+        }))
+        .value()
+    : {};
 
   const footerLinkLabels: TranslationFileContent = chain(
-    footer.links.flatMap((link) => link.items).filter((link) => !!link.label),
+    isMultiColumnFooterLinks(footer.links)
+      ? footer.links
+          .flatMap((link) => link.items)
+          .filter((link) => !!link.label)
+      : footer.links.filter((link) => !!link.label),
   )
     .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
     .mapValues((linkItem) => ({
@@ -108,17 +121,24 @@ function translateFooter(
   footer: Footer,
   footerTranslations: TranslationFileContent,
 ): Footer {
-  const links = footer.links.map((link) => ({
-    ...link,
-    title:
-      footerTranslations[`link.title.${link.title}`]?.message ?? link.title,
-    items: link.items.map((linkItem) => ({
-      ...linkItem,
-      label:
-        footerTranslations[`link.item.label.${linkItem.label}`]?.message ??
-        linkItem.label,
-    })),
-  }));
+  const links = isMultiColumnFooterLinks(footer.links)
+    ? footer.links.map((link) => ({
+        ...link,
+        title:
+          footerTranslations[`link.title.${link.title}`]?.message ?? link.title,
+        items: link.items.map((linkItem) => ({
+          ...linkItem,
+          label:
+            footerTranslations[`link.item.label.${linkItem.label}`]?.message ??
+            linkItem.label,
+        })),
+      }))
+    : footer.links.map((link) => ({
+        ...link,
+        label:
+          footerTranslations[`link.item.label.${link.label}`]?.message ??
+          link.label,
+      }));
 
   const copyright = footerTranslations.copyright?.message ?? footer.copyright;
 

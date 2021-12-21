@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
@@ -100,21 +100,16 @@ function themeComponents(
   const components = colorCode(themePath, plugin);
 
   if (components.length === 0) {
-    return `${chalk.red('No component to swizzle.')}`;
+    return 'No component to swizzle.';
   }
 
-  return `
-${chalk.cyan('Theme components available for swizzle.')}
+  return `Theme components available for swizzle.
 
-${chalk.green('green  =>')} safe: lower breaking change risk
-${chalk.red('red    =>')} unsafe: higher breaking change risk
+${logger.green(logger.bold('green  =>'))} safe: lower breaking change risk
+${logger.red(logger.bold('red    =>'))} unsafe: higher breaking change risk
 
 ${components.join('\n')}
 `;
-}
-
-function formattedThemeNames(themeNames: string[]): string {
-  return `Themes available for swizzle:\n- ${themeNames.join('\n- ')}`;
 }
 
 function colorCode(
@@ -135,8 +130,12 @@ function colorCode(
   );
 
   return [
-    ...greenComponents.map((component) => chalk.green(`safe: ${component}`)),
-    ...redComponents.map((component) => chalk.red(`unsafe: ${component}`)),
+    ...greenComponents.map(
+      (component) => `${logger.green(logger.bold('safe:'))}   ${component}`,
+    ),
+    ...redComponents.map(
+      (component) => `${logger.red(logger.bold('unsafe:'))} ${component}`,
+    ),
   ];
 }
 
@@ -161,27 +160,25 @@ export default async function swizzle(
   );
 
   if (!themeName) {
-    console.log(formattedThemeNames(themeNames));
-    process.exit(1);
+    logger.info`Themes available for swizzle: name=${themeNames}`;
+    return;
   }
 
   let pluginModule: ImportedPluginModule;
   try {
     pluginModule = importFresh(themeName);
   } catch {
-    let suggestion;
+    let suggestion: string | undefined;
     themeNames.forEach((name) => {
       if (leven(name, themeName) < 4) {
         suggestion = name;
       }
     });
-    chalk.red(
-      `Theme ${themeName} not found. ${
-        suggestion
-          ? `Did you mean "${suggestion}" ?`
-          : formattedThemeNames(themeNames)
-      }`,
-    );
+    logger.error`Theme name=${themeName} not found. ${
+      suggestion
+        ? logger.interpolate`Did you mean name=${suggestion}?`
+        : logger.interpolate`Themes available for swizzle: ${themeNames}`
+    }`;
     process.exit(1);
   }
 
@@ -218,19 +215,17 @@ export default async function swizzle(
     : pluginInstance.getThemePath?.();
 
   if (!themePath) {
-    console.warn(
-      chalk.yellow(
-        typescript
-          ? `${themeName} does not provide TypeScript theme code via "getTypeScriptThemePath()".`
-          : `${themeName} does not provide any theme code.`,
-      ),
+    logger.warn(
+      typescript
+        ? logger.interpolate`name=${themeName} does not provide TypeScript theme code via ${'getTypeScriptThemePath()'}.`
+        : logger.interpolate`name=${themeName} does not provide any theme code.`,
     );
     process.exit(1);
   }
 
   if (!componentName) {
-    console.warn(themeComponents(themePath, pluginModule));
-    process.exit(1);
+    logger.info(themeComponents(themePath, pluginModule));
+    return;
   }
 
   const components = getComponentName(themePath, pluginModule, Boolean(danger));
@@ -256,12 +251,8 @@ export default async function swizzle(
 
     if (mostSuitableMatch !== componentName) {
       mostSuitableComponent = mostSuitableMatch;
-      console.log(
-        chalk.red(`Component "${componentName}" doesn't exist.`),
-        chalk.yellow(
-          `"${mostSuitableComponent}" is swizzled instead of "${componentName}".`,
-        ),
-      );
+      logger.error`Component name=${componentName} doesn't exist.`;
+      logger.info`name=${mostSuitableComponent} is swizzled instead of name=${componentName}.`;
     }
   }
 
@@ -277,40 +268,29 @@ export default async function swizzle(
     } else if (fs.existsSync(`${fromPath}.js`)) {
       [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
     } else {
-      let suggestion;
+      let suggestion: string | undefined;
       components.forEach((name) => {
         if (leven(name, mostSuitableComponent) < 3) {
           suggestion = name;
         }
       });
-      console.warn(chalk.red(`Component ${mostSuitableComponent} not found.`));
-      console.warn(
+      logger.error`Component name=${mostSuitableComponent} not found. ${
         suggestion
-          ? `Did you mean "${suggestion}"?`
-          : `${themeComponents(themePath, pluginModule)}`,
-      );
+          ? logger.interpolate`Did you mean name=${suggestion} ?`
+          : themeComponents(themePath, pluginModule)
+      }`;
       process.exit(1);
     }
   }
 
   if (!components.includes(mostSuitableComponent) && !danger) {
-    console.warn(
-      chalk.red(
-        `${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the "--danger" flag.`,
-      ),
-    );
+    logger.error`name=${mostSuitableComponent} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag.`;
     process.exit(1);
   }
 
   await fs.copy(fromPath, toPath);
 
-  const relativeDir = path.relative(process.cwd(), toPath);
-  const fromMsg = chalk.blue(
-    mostSuitableComponent
-      ? `${themeName} ${chalk.yellow(mostSuitableComponent)}`
-      : themeName,
-  );
-  const toMsg = chalk.cyan(relativeDir);
-
-  console.log(`\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`);
+  logger.success`Copied code=${
+    mostSuitableComponent ? `${themeName} ${mostSuitableComponent}` : themeName
+  } to path=${path.relative(process.cwd(), toPath)}.`;
 }

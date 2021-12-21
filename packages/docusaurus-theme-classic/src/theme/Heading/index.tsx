@@ -49,7 +49,6 @@ const createAnchorHeading =
         id={id}>
         {props.children}
         <a
-          aria-hidden="true"
           className="hash-link"
           href={`#${id}`}
           title={translate({

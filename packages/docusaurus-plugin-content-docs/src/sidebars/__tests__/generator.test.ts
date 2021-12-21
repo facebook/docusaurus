@@ -57,7 +57,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toEqual([]);
     expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringMatching(
-        /No docs found in dir .: can't auto-generate a sidebar/,
+        /.*\[WARNING\].* No docs found in .*\..*: can't auto-generate a sidebar\..*/,
       ),
     );
   });

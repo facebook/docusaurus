@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {EnumChangefreq} from 'sitemap';
+const chalk = require('chalk');
 
-export type PluginOptions = {
-  changefreq?: EnumChangefreq;
-  priority?: number;
-  trailingSlash?: boolean;
-};
+// Force coloring the output even in CI
+module.exports = new chalk.Instance({level: 3});

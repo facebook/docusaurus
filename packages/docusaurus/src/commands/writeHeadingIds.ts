@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
@@ -150,21 +150,10 @@ export default async function writeHeadingIds(
   const pathsModified = result.filter(Boolean) as string[];
 
   if (pathsModified.length) {
-    console.log(
-      chalk.green(`Heading ids added to Markdown files (${
-        pathsModified.length
-      }/${markdownFiles.length} files):
-- ${pathsModified.join('\n- ')}`),
-    );
+    logger.success`Heading ids added to Markdown files (number=${`${pathsModified.length}/${markdownFiles.length}`} files): ${pathsModified}`;
   } else {
-    console.log(
-      chalk.yellow(
-        `${
-          markdownFiles.length
-        } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the ${chalk.cyan(
-          '--overwrite',
-        )} option.`,
-      ),
-    );
+    logger.warn`number=${
+      markdownFiles.length
+    } Markdown files already have explicit heading IDs. If you intend to overwrite the existing heading IDs, use the code=${'--overwrite'} option.`;
   }
 }

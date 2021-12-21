@@ -1310,6 +1310,14 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Smart Docs',
+    description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
+    preview: require('./showcase/smart-docs.png'),
+    website: 'https://smart-docs.vercel.app/',
+    source: 'https://github.com/wowtvds/smart-docs',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'smash.gg',
     description: 'Turning passions into careers',
     preview: require('./showcase/smashgg.png'),
@@ -1435,6 +1443,14 @@ const Users: User[] = [
     tags: ['personal', 'opensource', 'i18n'],
   },
   {
+    title: 'ToolJet',
+    description: 'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
+    preview: require('./showcase/tooljet.png'),
+    website: 'https://docs.tooljet.com/docs/intro/',
+    source: 'https://github.com/tooljet/tooljet',
+    tags: ['opensource', 'design', 'large', 'product'],
+  },
+  {
     title: 'Tremor',
     description:
       'An early-stage event processing system for unstructured data with rich support for structural pattern-matching, filtering and transformation.',
@@ -1534,6 +1550,14 @@ const Users: User[] = [
     website: 'https://whirl.codes',
     source: 'https://github.com/whirl21/website',
     tags: ['opensource', 'personal'],
+  },
+  {
+    title: 'WoodpeckerCI',
+    description: "Woodpecker is a simple CI engine with great extensibility.",
+    preview: require('./showcase/woodpecker.png'),
+    website: 'https://woodpecker-ci.org/',
+    source: 'https://github.com/woodpecker-ci/woodpecker',
+    tags: ['opensource'],
   },
   {
     title: 'KubeVela',

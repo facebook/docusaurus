@@ -312,7 +312,7 @@ You can even omit a children prop and specify a translation string in your `code
 
 ## Hooks {#hooks}
 
-### `useDocusaurusContext` {#usedocusauruscontext}
+### `useDocusaurusContext` {#useDocusaurusContext}
 
 React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md), and some additional site metadata.
 
@@ -396,7 +396,7 @@ const MyComponent = () => {
 };
 ```
 
-### `useBaseUrl` {#usebaseurl}
+### `useBaseUrl` {#useBaseUrl}
 
 React hook to prepend your site `baseUrl` to a string.
 
@@ -446,7 +446,7 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 :::
 
-### `useBaseUrlUtils` {#usebaseurlutils}
+### `useBaseUrlUtils` {#useBaseUrlUtils}
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
@@ -466,7 +466,7 @@ const Component = () => {
 };
 ```
 
-### `useGlobalData` {#useglobaldata}
+### `useGlobalData` {#useGlobalData}
 
 React hook to access Docusaurus global data created by all the plugins.
 
@@ -507,7 +507,7 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 :::
 
-### `usePluginData` {#useplugindata}
+### `usePluginData` {#usePluginData}
 
 Access global data created by a specific plugin instance.
 
@@ -531,7 +531,7 @@ const MyComponent = () => {
 };
 ```
 
-### `useAllPluginInstancesData` {#useallplugininstancesdata}
+### `useAllPluginInstancesData` {#useAllPluginInstancesData}
 
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 

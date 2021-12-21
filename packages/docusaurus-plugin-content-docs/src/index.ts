@@ -51,7 +51,7 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
 import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
@@ -203,11 +203,7 @@ export default function pluginContentDocs(
         try {
           return await doLoadVersion(versionMetadata);
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Loading of version failed for version "${versionMetadata.versionName}"`,
-            ),
-          );
+          logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
           throw e;
         }
       }

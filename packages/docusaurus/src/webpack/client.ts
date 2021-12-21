@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
@@ -45,12 +45,9 @@ export default function createClientConfig(
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
-            console.log(
-              chalk.red(
-                'Client bundle compiled with errors therefore further build is impossible.',
-              ),
+            logger.error(
+              'Client bundle compiled with errors therefore further build is impossible.',
             );
-
             process.exit(1);
           }
         });

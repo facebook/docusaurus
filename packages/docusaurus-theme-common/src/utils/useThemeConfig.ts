@@ -73,11 +73,8 @@ export type FooterLinkItem = {
   html?: string;
   prependBaseUrlToHref?: string;
 };
-export type FooterLinks = {
-  title?: string;
-  items: FooterLinkItem[];
-};
-export type Footer = {
+
+export type FooterBase = {
   style: 'light' | 'dark';
   logo?: {
     alt?: string;
@@ -88,8 +85,20 @@ export type Footer = {
     href?: string;
   };
   copyright?: string;
-  links: FooterLinks[];
 };
+
+export type MultiColumnFooter = FooterBase & {
+  links: Array<{
+    title: string | null;
+    items: FooterLinkItem[];
+  }>;
+};
+
+export type SimpleFooter = FooterBase & {
+  links: FooterLinkItem[];
+};
+
+export type Footer = MultiColumnFooter | SimpleFooter;
 
 export type TableOfContents = {
   minHeadingLevel: number;

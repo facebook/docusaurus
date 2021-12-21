@@ -22,6 +22,7 @@
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
     "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/logger": "2.0.0-beta.13",
     "@docusaurus/theme-common": "2.0.0-beta.13",
     "@docusaurus/theme-translations": "2.0.0-beta.13",
     "@docusaurus/utils": "2.0.0-beta.13",

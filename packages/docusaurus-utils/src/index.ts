@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
 import {camelCase, mapValues} from 'lodash';
@@ -369,13 +369,13 @@ export function reportMessage(
     case 'ignore':
       break;
     case 'log':
-      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      logger.info(message);
       break;
     case 'warn':
-      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      logger.warn(message);
       break;
     case 'error':
-      console.error(chalk.bold.red('error ') + chalk.red(message));
+      logger.error(message);
       break;
     case 'throw':
       throw new Error(message);

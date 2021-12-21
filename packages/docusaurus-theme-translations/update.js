@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @ts-check
 /* eslint-disable import/no-extraneous-dependencies */
 
-const chalk = require('chalk');
+const logger = require('@docusaurus/logger').default;
 const path = require('path');
 const fs = require('fs-extra');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
@@ -69,17 +70,10 @@ function sortObjectKeys(obj) {
   }, {});
 }
 
-function logSection(title) {
-  console.log(``);
-  console.log(``);
-  console.log(`##############################`);
-  console.log(`## ${chalk.blue(title)}`);
-}
-
-function logKeys(keys) {
-  return `Keys:\n- ${keys.join('\n- ')}`;
-}
-
+/**
+ * @param {string[]} targetDirs
+ * @returns {Promise<import('@docusaurus/types').TranslationFileContent>}
+ */
 async function extractThemeCodeMessages(targetDirs = AllThemesSrcDirs) {
   // Unsafe import, should we create a package for the translationsExtractor ?
   const {
@@ -122,7 +116,7 @@ ${warning}
 }
 
 async function readMessagesFile(filePath) {
-  return JSON.parse(await fs.readFile(filePath));
+  return JSON.parse((await fs.readFile(filePath)).toString());
 }
 
 async function writeMessagesFile(filePath, messages) {
@@ -130,11 +124,11 @@ async function writeMessagesFile(filePath, messages) {
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
   await fs.outputFile(filePath, content);
-  console.log(
-    `${path.basename(filePath)} updated (${
-      Object.keys(sortedMessages).length
-    } messages)`,
-  );
+  logger.info`path=${path.basename(
+    filePath,
+  )} updated subdue=${logger.interpolate`(number=${
+    Object.keys(sortedMessages).length
+  } messages)`}\n`;
 }
 
 async function getCodeTranslationFiles(themeName) {
@@ -166,11 +160,8 @@ async function updateBaseFile(baseFile, targetDirs) {
   );
 
   if (unknownMessages.length) {
-    console.log(
-      chalk.red(`Some messages exist in base locale but were not found by the code extractor!
-They won't be removed automatically, so do the cleanup manually if necessary!
-${logKeys(unknownMessages)}`),
-    );
+    logger.error`Some messages exist in base locale but were not found by the code extractor!
+They won't be removed automatically, so do the cleanup manually if necessary! code=${unknownMessages}`;
   }
 
   const newBaseMessages = {
@@ -210,11 +201,8 @@ async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   );
 
   if (unknownMessages.length) {
-    console.log(
-      chalk.red(`Some localized messages do not exist in base.json!
-You may want to delete these!
-${logKeys(unknownMessages)}`),
-    );
+    logger.error`Some localized messages do not exist in base.json!
+You may want to delete these! code=${unknownMessages}`;
   }
 
   const newLocaleFileMessages = {
@@ -227,10 +215,7 @@ ${logKeys(unknownMessages)}`),
     .map(([key]) => key);
 
   if (untranslatedKeys.length) {
-    console.warn(
-      chalk.yellow(`Some messages do not seem to be translated!
-${logKeys(untranslatedKeys)}`),
-    );
+    logger.warn`Some messages do not seem to be translated! code=${untranslatedKeys}`;
   }
 
   await writeMessagesFile(localeFile, newLocaleFileMessages);
@@ -241,7 +226,7 @@ async function updateCodeTranslations() {
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
-    logSection(`Will update base file for ${theme.name}`);
+    logger.info`Will update base file for name=${theme.name}\n`;
     const baseFileMessages = await updateBaseFile(baseFile, theme.src);
     const [, newLocale] = process.argv;
 
@@ -250,26 +235,23 @@ async function updateCodeTranslations() {
 
       if (!fs.existsSync(newLocalePath)) {
         await writeMessagesFile(newLocalePath, baseFileMessages);
-        console.error(
-          chalk.green(
-            `Locale file ${path.basename(newLocalePath)} have been created.`,
-          ),
-        );
+        logger.success`Locale file path=${path.basename(
+          newLocalePath,
+        )} have been created.`;
       } else {
-        console.error(
-          chalk.red(
-            `Locale file ${path.basename(newLocalePath)} was already created!`,
-          ),
-        );
+        logger.warn`Locale file path=${path.basename(
+          newLocalePath,
+        )} was already created!`;
       }
     } else {
       // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
-        logSection(
-          `Will update ${path.basename(
-            path.dirname(localeFile),
-          )} locale in ${path.basename(localeFile, path.extname(localeFile))}`,
-        );
+        logger.info`Will update name=${path.basename(
+          path.dirname(localeFile),
+        )} locale in name=${path.basename(
+          localeFile,
+          path.extname(localeFile),
+        )}`;
 
         await updateLocaleCodeTranslations(localeFile, baseFileMessages);
       }
@@ -280,16 +262,12 @@ async function updateCodeTranslations() {
 function run() {
   updateCodeTranslations().then(
     () => {
-      console.log('');
-      console.log(chalk.green('updateCodeTranslations end'));
-      console.log('');
+      logger.success('updateCodeTranslations end\n');
     },
     (e) => {
-      console.log('');
-      console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
-      console.log('');
-      console.error(e.stack);
-      console.log('');
+      logger.error(
+        `\nupdateCodeTranslations failure: ${e.message}\n${e.stack}\n`,
+      );
       process.exit(1);
     },
   );

@@ -122,7 +122,7 @@ module.exports = {
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
-    'no-unused-expressions': WARNING,
+    'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,

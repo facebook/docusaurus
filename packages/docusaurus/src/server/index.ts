@@ -11,8 +11,8 @@ import {
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
+import path from 'path';
+import logger from '@docusaurus/logger';
 import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
@@ -385,9 +385,9 @@ ${Object.keys(registry)
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
+      path.join(__dirname, '../../package.json'),
     )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
     pluginVersions: {},
   };
   plugins
@@ -446,15 +446,14 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       if (
         versionInfo.type === 'package' &&
         versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
         // should we throw instead?
         // It still could work with different versions
-        console.warn(
-          chalk.red(
-            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-          ),
-        );
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },
   );
