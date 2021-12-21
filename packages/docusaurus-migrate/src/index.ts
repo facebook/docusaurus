@@ -699,7 +699,7 @@ function migrateLatestDocs(
     const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       if (path.extname(file) === '.md') {
-        const content = String(fs.readFileSync(file));
+        const content = fs.readFileSync(file).toString();
         fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
       }
     });
@@ -753,12 +753,10 @@ export async function migrateMDToMDX(
   fs.mkdirpSync(newDir);
   fs.copySync(siteDir, newDir);
   const files = walk(newDir);
-  files.forEach((file) => {
-    if (path.extname(file) === '.md') {
-      fs.writeFileSync(
-        file,
-        sanitizedFileContent(String(fs.readFileSync(file)), true),
-      );
+  files.forEach((filePath) => {
+    if (path.extname(filePath) === '.md') {
+      const content = fs.readFileSync(filePath).toString();
+      fs.writeFileSync(filePath, sanitizedFileContent(content, true));
     }
   });
   logger.success`Successfully migrated path=${siteDir} to path=${newDir}`;
