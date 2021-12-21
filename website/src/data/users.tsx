@@ -1536,6 +1536,14 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'WoodpeckerCI',
+    description: "Woodpecker is a simple CI engine with great extensibility.",
+    preview: require('./showcase/woodpecker.png'),
+    website: 'https://woodpecker-ci.org/',
+    source: 'https://github.com/woodpecker-ci/woodpecker',
+    tags: ['opensource'],
+  },
+  {
     title: 'KubeVela',
     description:
       "KubeVela is a modern application engine that adapts to your application's needs, not the other way around.",
