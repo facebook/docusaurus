@@ -60,7 +60,7 @@ export default function DocSidebarNavbarItem({
           activeDoc?.sidebar && activeDoc.sidebar === sidebarId,
       })}
       activeClassName={activeDocInfimaClassName}
-      label={label}
+      label={label ?? sidebarId}
       to={sidebarLink}
     />
   );
