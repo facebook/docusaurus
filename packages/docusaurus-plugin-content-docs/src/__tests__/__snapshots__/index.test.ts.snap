@@ -317,6 +317,11 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": "/docs/foo/bar",
+            },
+          },
         },
       ],
     },
@@ -978,6 +983,11 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": "/docs/foo/bar",
+            },
+          },
         },
       ],
     },
@@ -2322,6 +2332,11 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
+          "sidebars": Object {
+            "community": Object {
+              "link": "/community/next/team",
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -2336,6 +2351,11 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
+          "sidebars": Object {
+            "version-1.0.0/community": Object {
+              "link": "/community/team",
+            },
+          },
         },
       ],
     },
@@ -3370,6 +3390,11 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
+          "sidebars": Object {
+            "docs": Object {
+              "link": "/docs/next/foo/barSlug",
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3389,6 +3414,11 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
+          "sidebars": Object {
+            "VersionedSideBarNameDoesNotMatter/docs": Object {
+              "link": "/docs/foo/bar",
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3413,6 +3443,11 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
+          "sidebars": Object {
+            "version-1.0.0/docs": Object {
+              "link": "/docs/1.0.0/foo/barSlug",
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3462,6 +3497,11 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
+          "sidebars": Object {
+            "version-1.0.1/docs": Object {
+              "link": "/docs/withSlugs/rootAbsoluteSlug",
+            },
+          },
         },
       ],
     },

@@ -29,7 +29,7 @@ function getSidebarInVersion(versions: GlobalDataVersion[], sidebarId: string) {
 Available sidebar ids are:\n- ${sidebarIds}`,
     );
   }
-  if (sidebar.link && sidebar.link.path) {
+  if (sidebar.link) {
     return sidebar.link;
   }
   throw new Error(
@@ -39,7 +39,7 @@ Available sidebar ids are:\n- ${sidebarIds}`,
 
 export default function DocSidebarNavbarItem({
   id,
-  label: staticLabel,
+  label,
   docsPluginId,
   ...props
 }: Props): JSX.Element {
@@ -65,8 +65,8 @@ export default function DocSidebarNavbarItem({
           activeDoc?.sidebar && activeDoc.sidebar === id,
       })}
       activeClassName={activeDocInfimaClassName}
-      label={staticLabel ?? sidebarLink.label ?? sidebarLink.label}
-      to={sidebarLink.path}
+      label={label}
+      to={sidebarLink}
     />
   );
 }
