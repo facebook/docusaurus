@@ -1540,7 +1540,7 @@ const Users: User[] = [
     description: "Woodpecker is a simple CI engine with great extensibility.",
     preview: require('./showcase/woodpecker.png'),
     website: 'https://woodpecker-ci.org/',
-    source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
+    source: 'https://github.com/woodpecker-ci/woodpecker',
     tags: ['opensource'],
   },
   {
