@@ -87,7 +87,7 @@ const DocItemSchema = NavbarItemBaseSchema.append({
 
 const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docSidebar').required(),
-  id: Joi.string().required(),
+  sidebarId: Joi.string().required(),
   docsPluginId: Joi.string(),
 });
 

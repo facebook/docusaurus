@@ -38,7 +38,7 @@ Available sidebar ids are:\n- ${sidebarIds}`,
 }
 
 export default function DocSidebarNavbarItem({
-  id,
+  sidebarId,
   label,
   docsPluginId,
   ...props
@@ -53,7 +53,7 @@ export default function DocSidebarNavbarItem({
       Boolean,
     ) as GlobalDataVersion[],
   );
-  const sidebarLink = getSidebarInVersion(versions, id);
+  const sidebarLink = getSidebarInVersion(versions, sidebarId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
@@ -62,7 +62,7 @@ export default function DocSidebarNavbarItem({
       {...props}
       className={clsx(props.className, {
         [activeDocInfimaClassName]:
-          activeDoc?.sidebar && activeDoc.sidebar === id,
+          activeDoc?.sidebar && activeDoc.sidebar === sidebarId,
       })}
       activeClassName={activeDocInfimaClassName}
       label={label}

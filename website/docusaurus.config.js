@@ -364,7 +364,7 @@ const config = {
           {
             type: 'docSidebar',
             position: 'left',
-            id: 'api',
+            sidebarId: 'api',
             label: 'API',
           },
           {to: 'blog', label: 'Blog', position: 'left'},

@@ -483,7 +483,7 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
 
   export interface Props extends DefaultNavbarItemProps {
-    readonly id: string;
+    readonly sidebarId: string;
     readonly docsPluginId?: string;
   }
 
