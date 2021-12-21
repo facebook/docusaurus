@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
@@ -34,6 +33,7 @@ import {
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -155,11 +155,7 @@ async function processBlogSourceFile(
     }
 
     if (frontMatter.id) {
-      console.warn(
-        chalk.yellow(
-          `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-        ),
-      );
+      logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
     }
 
     const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
@@ -290,11 +286,7 @@ export async function generateBlogPosts(
             authorsMap,
           );
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Processing of blog source file failed for path "${blogSourceFile}"`,
-            ),
-          );
+          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
           throw e;
         }
       }),

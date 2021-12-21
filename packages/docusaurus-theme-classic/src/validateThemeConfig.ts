@@ -311,14 +311,19 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array()
-      .items(
-        Joi.object({
-          title: Joi.string().allow(null),
-          items: Joi.array().items(FooterLinkItemSchema).default([]),
-        }),
-      )
-      .default([]),
+    links: Joi.alternatives(
+      Joi.array()
+        .items(
+          Joi.object({
+            title: Joi.string().allow(null).default(null),
+            items: Joi.array().items(FooterLinkItemSchema).default([]),
+          }),
+        )
+        .default([]),
+      Joi.array().items(FooterLinkItemSchema).default([]),
+    ).messages({
+      'alternatives.match': `The footer must be either simple or multi-column, and not a mix of the two. See: https://docusaurus.io/docs/api/themes/configuration#footer-links`,
+    }),
   }).optional(),
   prism: Joi.object({
     theme: Joi.object({

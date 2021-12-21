@@ -468,7 +468,7 @@ describe('simple site', () => {
 
   test('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
-    await expect(
+    await expect(async () =>
       defaultTestUtils.processDocFile(
         createFakeDocFile({
           source: 'some/fake/path',

@@ -7,7 +7,7 @@
 
 import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseMarkdownContentTitle,
@@ -150,17 +150,17 @@ export default async function mdxLoader(
     const {frontMatter} = parseFrontMatter(fileString);
     const hasFrontMatter = Object.keys(frontMatter).length > 0;
     if (hasFrontMatter) {
-      const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
-  Those partial files use the _ prefix as a convention by default, but this is configurable.
-  File at ${filePath} contains FrontMatter that will be ignored:
-  ${JSON.stringify(frontMatter, null, 2)}`;
+      const errorMessage = logger.interpolate`Docusaurus MDX partial files should not contain front matter.
+Those partial files use the _ prefix as a convention by default, but this is configurable.
+File at path=${filePath} contains front matter that will be ignored:
+${JSON.stringify(frontMatter, null, 2)}`;
 
       if (!options.isMDXPartialFrontMatterWarningDisabled) {
         const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
         if (shouldError) {
           return callback(new Error(errorMessage));
         } else {
-          console.warn(chalk.yellow(errorMessage));
+          logger.warn(errorMessage);
         }
       }
     }

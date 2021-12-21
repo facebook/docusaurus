@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {keyBy, last} from 'lodash';
 import {
   aliasedSitePath,
@@ -288,11 +288,7 @@ export async function processDocMetadata(args: {
   try {
     return await doProcessDocMetadata(args);
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
-      ),
-    );
+    logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
     throw e;
   }
 }

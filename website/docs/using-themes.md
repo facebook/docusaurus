@@ -240,34 +240,10 @@ website
 
 There are two lifecycle methods that are essential to theme implementation:
 
-- [`getThemePath()`](./api/lifecycle-apis.md#getthemepath)
-- [`getClientModules()`](./api/lifecycle-apis.md#getclientmodules)
+- [`getThemePath()`](./api/plugin-methods/extend-infrastructure.md#getThemePath)
+- [`getClientModules()`](./api/plugin-methods/lifecycle-apis.md#getClientModules)
 
 These lifecycle methods are not essential but recommended:
 
-- [`validateThemeConfig({themeConfig, validate})`](./api/lifecycle-apis.md#validatethemeconfigthemeconfig-validate)
-- [`validateOptions({options, validate})`](./api/lifecycle-apis.md#validateoptionsoptions-validate)
-
-<!--
-
-Outline
----
-High-level overview about themes:
-- how to use a theme
-- how to pass theme configurations
-- how to swizzle components and the power of it
-
-Related pieces
----
-
-- [Advanced Guides – Themes](using-themes.md)
-- [Lifecycle APIs](./api/lifecycle-apis.md)
-
-References
----
-- [themes RFC](https://github.com/facebook/docusaurus/issues/1438)
-- [how classic template uses themes](/packages/docusaurus/templates/classic/docusaurus.config.js)
-- [using plugins doc](using-plugins.md)
-- [vuepress docs on themes](https://v1.vuepress.vuejs.org/theme/)
-
--->
+- [`validateThemeConfig({themeConfig, validate})`](./api/plugin-methods/static-methods.md#validateThemeConfig)
+- [`validateOptions({options, validate})`](./api/plugin-methods/static-methods.md#validateOptions)

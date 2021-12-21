@@ -19,10 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/logger": "2.0.0-beta.13",
     "@docusaurus/mdx-loader": "2.0.0-beta.13",
     "@docusaurus/utils": "2.0.0-beta.13",
     "@docusaurus/utils-validation": "2.0.0-beta.13",
-    "chalk": "^4.1.2",
     "combine-promises": "^1.1.0",
     "escape-string-regexp": "^4.0.0",
     "fs-extra": "^10.0.0",

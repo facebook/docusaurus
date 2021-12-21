@@ -21,7 +21,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {TransformOptions} from '@babel/core';
 import {
   ConfigureWebpackFn,
@@ -161,11 +161,7 @@ export const getCustomizableJSLoader =
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
-    ),
-  );
+  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
   isServer: boolean,
@@ -177,11 +173,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
-    ),
-  );
+  logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
 });
 function getCacheLoaderDeprecated() {
   warnCacheLoaderOnce();
@@ -269,11 +261,11 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        console.error(err.stack || err);
+        logger.error(err.stack || err);
         // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
           // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
-          console.error(err.details);
+          logger.error(err.details);
         }
         reject(err);
       }
@@ -284,16 +276,14 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          console.warn(warning);
+          logger.warn(`${warning}`);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
         if (errClose) {
-          console.error(
-            chalk.red('Error while closing Webpack compiler:', errClose),
-          );
+          logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
           resolve();
@@ -322,9 +312,8 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate ${crtFile} is invalid.
+${err}`,
     );
   }
 
@@ -333,9 +322,8 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate key ${keyFile} is invalid.
+${err}`,
     );
   }
 }
@@ -344,9 +332,7 @@ function validateKeyAndCerts({
 function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${chalk.cyan(
-        type,
-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`,
+      `You specified ${type} in your env, but the file "${file}" can't be found.`,
     );
   }
   return fs.readFileSync(file);

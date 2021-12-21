@@ -119,15 +119,11 @@ Docusaurus' implementation of the plugins system provides us with a convenient w
 
 ## Creating plugins {#creating-plugins}
 
-A plugin is a function that takes two parameters: `context` and `options`.
-
-It returns a plugin instance object, containing plugin [lifecycle APIs](./api/lifecycle-apis.md).
-
-It can be defined as a function or a module.
+A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object. You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
 
 ### Functional definition {#functional-definition}
 
-You can use a plugin as a function, directly in the Docusaurus config file:
+You can use a plugin as a function directly included in the Docusaurus config file:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -154,7 +150,7 @@ module.exports = {
 
 ### Module definition {#module-definition}
 
-You can use a plugin as a module, loading it from a separate file or NPM package:
+You can use a plugin as a module path referencing a separate file or NPM package:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -168,7 +164,7 @@ module.exports = {
 };
 ```
 
-Then in the folder `my-plugin` you can create an index.js such as this
+Then in the folder `my-plugin` you can create an index.js such as this:
 
 ```js title="my-plugin.js"
 module.exports = function myPlugin(context, options) {
@@ -185,25 +181,3 @@ module.exports = function myPlugin(context, options) {
   };
 };
 ```
-
-#### `context` {#context}
-
-`context` is plugin-agnostic, and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
-
-```ts
-interface LoadContext {
-  siteDir: string;
-  generatedFilesDir: string;
-  siteConfig: DocusaurusConfig;
-  outDir: string;
-  baseUrl: string;
-}
-```
-
-#### `options` {#options}
-
-`options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
-
-#### Return value {#return-value}
-
-The returned object value should implement the [lifecycle APIs](./api/lifecycle-apis.md).
