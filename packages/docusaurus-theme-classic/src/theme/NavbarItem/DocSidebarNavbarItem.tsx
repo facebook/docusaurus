@@ -21,20 +21,15 @@ function getSidebarInVersion(versions: GlobalDataVersion[], sidebarId: string) {
   }
   const sidebar = allSidebars[sidebarId];
   if (!sidebar) {
-    const sidebarIds = Object.keys(allSidebars).join('\n- ');
     throw new Error(
       `DocSidebarNavbarItem: couldn't find any sidebar with id "${sidebarId}" in version${
         versions.length ? 's' : ''
       } ${versions.map((version) => version.name).join(', ')}".
-Available sidebar ids are:\n- ${sidebarIds}`,
+Available sidebar ids are:
+- ${Object.keys(allSidebars).join('\n- ')}`,
     );
   }
-  if (sidebar.link) {
-    return sidebar.link;
-  }
-  throw new Error(
-    `DocSidebarNavbarItem: couldn't find a path for sidebar with id "${sidebarId}"`,
-  );
+  return sidebar.link;
 }
 
 export default function DocSidebarNavbarItem({

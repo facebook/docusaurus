@@ -218,7 +218,7 @@ export type GlobalVersion = {
 };
 
 export type GlobalSidebar = {
-  link?: string;
+  link: string;
   // ... we may add other things here later
 };
 
