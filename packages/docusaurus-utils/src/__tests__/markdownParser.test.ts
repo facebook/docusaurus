@@ -106,10 +106,10 @@ describe('createExcerpt', () => {
     expect(
       createExcerpt(dedent`
           import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
+          import Component2 from '@site/src/components/Component2'
           import './styles.css';
 
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
+          export function ItemCol2(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
 
           export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
 
@@ -118,7 +118,7 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, ~molestie~ et sagittis ut, varius ac justo :wink:.',
     );
   });
 
@@ -141,6 +141,28 @@ describe('createExcerpt', () => {
           Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
         `),
     ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+  });
+
+  test('should ignore comments for excerpt', () => {
+    expect(
+      createExcerpt(dedent`
+          <!-- hey -->
+
+          boola boola
+        `),
+    ).toEqual('boola boola');
+  });
+
+  test('should ignore multi-line comments for excerpt', () => {
+    expect(
+      createExcerpt(dedent`
+          <!--
+          hey
+          -->
+
+          boola boola
+        `),
+    ).toEqual('boola boola');
   });
 });
 
@@ -401,7 +423,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.trim().replace('# Markdown Title', ''),
+      content: markdown.trim().replace('# Markdown Title\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
@@ -410,7 +432,7 @@ Lorem Ipsum
     const markdown = dedent`
 
           import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
+          import Component2 from '@site/src/components/Component2'
           import './styles.css';
 
           Markdown Title
@@ -429,7 +451,7 @@ Lorem Ipsum
     const markdown = dedent`
 
           import Component from '@site/src/components/Component';
-          import Component from '@site/src/components/Component'
+          import Component2 from '@site/src/components/Component2'
           import './styles.css';
 
           Markdown Title
@@ -441,7 +463,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.replace('Markdown Title\n==============\n\n', ''),
+      content: markdown.replace('Markdown Title\n==============\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
@@ -544,7 +566,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.replace('# Markdown Title', ''),
+      content: markdown.replace('# Markdown Title\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
@@ -822,7 +844,8 @@ describe('parseMarkdownString', () => {
       ### test
       test3",
         "contentTitle": "test",
-        "excerpt": "test test test test test test",
+        "excerpt": "test test test test test test
+      test test test # test bar",
         "frontMatter": Object {},
       }
     `);

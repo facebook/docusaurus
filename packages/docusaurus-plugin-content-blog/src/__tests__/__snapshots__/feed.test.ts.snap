@@ -23,7 +23,7 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
         <id>/mdx-blog-post</id>
         <link href=\\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post\\"/>
         <updated>2021-03-05T00:00:00.000Z</updated>
-        <summary type=\\"html\\"><![CDATA[HTML Heading 1]]></summary>
+        <summary type=\\"html\\"><![CDATA[Heading 2]]></summary>
         <content type=\\"html\\"><![CDATA[<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><div>Import DOM</div><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href=\\"https://v2.docusaurus.io/\\">link</a>
 <img src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\"/></p>]]></content>
     </entry>
@@ -105,7 +105,7 @@ exports[`blogFeed json shows feed item for each post 1`] = `
             \\"content_html\\": \\"<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><div>Import DOM</div><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href=\\\\\\"https://v2.docusaurus.io/\\\\\\">link</a>\\\\n<img src=\\\\\\"https://v2.docusaurus.io/\\\\\\" alt=\\\\\\"image\\\\\\"/></p>\\",
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post\\",
             \\"title\\": \\"Full Blog Sample\\",
-            \\"summary\\": \\"HTML Heading 1\\",
+            \\"summary\\": \\"Heading 2\\",
             \\"date_modified\\": \\"2021-03-05T00:00:00.000Z\\"
         },
         {
@@ -189,7 +189,7 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
             <link>https://docusaurus.io/myBaseUrl/blog/mdx-blog-post</link>
             <guid>/mdx-blog-post</guid>
             <pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[HTML Heading 1]]></description>
+            <description><![CDATA[Heading 2]]></description>
             <content:encoded><![CDATA[<h1>HTML Heading 1</h1><h2>HTML Heading 2</h2><p>HTML Paragraph</p><div>Import DOM</div><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><ul><li>list1</li><li>list2</li><li>list3</li></ul><ul><li>list1</li><li>list2</li><li>list3</li></ul><p>Normal Text <em>Italics Text</em> <strong>Bold Text</strong></p><p><a href=\\"https://v2.docusaurus.io/\\">link</a>
 <img src=\\"https://v2.docusaurus.io/\\" alt=\\"image\\"/></p>]]></content:encoded>
         </item>
