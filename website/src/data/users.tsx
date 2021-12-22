@@ -212,7 +212,7 @@ const Users: User[] = [
     preview: require('./showcase/astronomer.png'),
     website: 'https://docs.astronomer.io',
     source: 'https://github.com/astronomer/docs',
-    tags: ['product', 'versioning'],
+    tags: ['product', 'versioning', 'opensource'],
   },
   {
     title: 'AttoBot',
