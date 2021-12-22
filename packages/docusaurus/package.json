@@ -103,7 +103,7 @@
     "wait-on": "^6.0.0",
     "webpack": "^5.61.0",
     "webpack-bundle-analyzer": "^4.4.2",
-    "webpack-dev-server": "^4.5.0",
+    "webpack-dev-server": "^4.7.1",
     "webpack-merge": "^5.8.0",
     "webpackbar": "^5.0.0-3"
   },
