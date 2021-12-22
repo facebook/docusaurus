@@ -217,14 +217,15 @@ export default async function start(
     allowedHosts: 'all',
     host,
     port,
-    onBeforeSetupMiddleware: (devServer) => {
+    setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      devServer.app.use(
+      middlewares.unshift(
         evalSourceMapMiddleware(
           // @ts-expect-error: bad types
           devServer,
         ),
       );
+      return middlewares;
     },
   };
 
