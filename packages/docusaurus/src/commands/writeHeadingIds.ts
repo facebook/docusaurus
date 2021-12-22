@@ -124,7 +124,7 @@ async function transformMarkdownFile(
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
-  const plugins = initPlugins({
+  const plugins = await initPlugins({
     pluginConfigs,
     context,
   });

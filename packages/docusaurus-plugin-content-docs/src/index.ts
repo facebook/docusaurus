@@ -58,10 +58,10 @@ import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
-export default function pluginContentDocs(
+export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent> {
+): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});

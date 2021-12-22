@@ -78,7 +78,7 @@ export default async function writeTranslations(
     locale: options.locale,
   });
   const pluginConfigs = loadPluginConfigs(context);
-  const plugins = initPlugins({
+  const plugins = await initPlugins({
     pluginConfigs,
     context,
   });
