@@ -515,4 +515,12 @@ const config = {
     }),
 };
 
-module.exports = config;
+// TODO temporary dogfood async config, remove soon
+async function createConfig() {
+  await new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+  return config;
+}
+
+module.exports = createConfig;
