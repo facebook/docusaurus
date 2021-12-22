@@ -1,0 +1,20 @@
+{
+  "theme.SearchBar.label": "Search",
+  "theme.SearchBar.label___DESCRIPTION": "The ARIA label and placeholder for search button",
+  "theme.SearchPage.algoliaLabel": "Search by Algolia",
+  "theme.SearchPage.algoliaLabel___DESCRIPTION": "The ARIA label for Algolia mention",
+  "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",
+  "theme.SearchPage.documentsFound.plurals___DESCRIPTION": "Pluralized label for \"{count} documents found\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)",
+  "theme.SearchPage.emptyResultsTitle": "Search the documentation",
+  "theme.SearchPage.emptyResultsTitle___DESCRIPTION": "The search page title for empty query",
+  "theme.SearchPage.existingResultsTitle": "Search results for \"{query}\"",
+  "theme.SearchPage.existingResultsTitle___DESCRIPTION": "The search page title for non-empty query",
+  "theme.SearchPage.fetchingNewResults": "Fetching new results...",
+  "theme.SearchPage.fetchingNewResults___DESCRIPTION": "The paragraph for fetching new search results",
+  "theme.SearchPage.inputLabel": "Search",
+  "theme.SearchPage.inputLabel___DESCRIPTION": "The ARIA label for search page input",
+  "theme.SearchPage.inputPlaceholder": "Type your search here",
+  "theme.SearchPage.inputPlaceholder___DESCRIPTION": "The placeholder for search page input",
+  "theme.SearchPage.noResultsText": "No results were found",
+  "theme.SearchPage.noResultsText___DESCRIPTION": "The paragraph for empty search result"
+}
