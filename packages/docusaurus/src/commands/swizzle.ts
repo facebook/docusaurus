@@ -149,7 +149,7 @@ export default async function swizzle(
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
   const pluginNames = getPluginNames(pluginConfigs);
-  const plugins = initPlugins({
+  const plugins = await initPlugins({
     pluginConfigs,
     context,
   });
@@ -209,7 +209,7 @@ export default async function swizzle(
 
   // support both commonjs and ES style exports
   const plugin = pluginModule.default ?? pluginModule;
-  const pluginInstance = plugin(context, pluginOptions);
+  const pluginInstance = await plugin(context, pluginOptions);
   const themePath = typescript
     ? pluginInstance.getTypeScriptThemePath?.()
     : pluginInstance.getThemePath?.();

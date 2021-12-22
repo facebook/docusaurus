@@ -22,6 +22,7 @@
     "@docusaurus/mdx-loader": "2.0.0-beta.14",
     "@docusaurus/utils": "2.0.0-beta.14",
     "@docusaurus/utils-validation": "2.0.0-beta.14",
+    "fs-extra": "^10.0.0",
     "globby": "^11.0.2",
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",

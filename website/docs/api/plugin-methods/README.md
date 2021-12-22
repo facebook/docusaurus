@@ -17,7 +17,7 @@ Every plugin is imported as a module. The module is expected to have the followi
 
 ## Plugin constructor
 
-The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin`.
+The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`.
 
 ### `context` {#context}
 
@@ -47,7 +47,7 @@ Here's a mind model for a presumptuous plugin implementation.
 // A JavaScript function that returns an object.
 // `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
 // `opts` is the user-defined options.
-function myPlugin(context, opts) {
+async function myPlugin(context, opts) {
   return {
     // A compulsory field used as the namespace for directories to cache
     // the intermediate data for each plugin.

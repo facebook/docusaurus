@@ -119,7 +119,7 @@ Docusaurus' implementation of the plugins system provides us with a convenient w
 
 ## Creating plugins {#creating-plugins}
 
-A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object. You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
+A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object (or a promise). You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
 
 ### Functional definition {#functional-definition}
 
@@ -130,7 +130,7 @@ module.exports = {
   // ...
   plugins: [
     // highlight-start
-    function myPlugin(context, options) {
+    async function myPlugin(context, options) {
       // ...
       return {
         name: 'my-plugin',
@@ -167,7 +167,7 @@ module.exports = {
 Then in the folder `my-plugin` you can create an index.js such as this:
 
 ```js title="my-plugin.js"
-module.exports = function myPlugin(context, options) {
+module.exports = async function myPlugin(context, options) {
   // ...
   return {
     name: 'my-plugin',

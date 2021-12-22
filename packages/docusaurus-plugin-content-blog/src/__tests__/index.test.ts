@@ -103,7 +103,7 @@ describe('loadBlog', () => {
       posixPath(path.relative(siteDir, p)),
     );
     expect(relativePathsToWatch).toEqual([
-      'blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/authors.yml',
       'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
       'blog/**/*.{md,mdx}',
     ]);
