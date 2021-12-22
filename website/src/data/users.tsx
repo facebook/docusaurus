@@ -206,6 +206,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Astronomer',
+    description:
+      'Enterprise-grade framework for Apache Airflow. Production-ready Airflow environments with just a few clicks',
+    preview: require('./showcase/astronomer.png'),
+    website: 'https://docs.astronomer.io',
+    source: 'https://github.com/astronomer/docs',
+    tags: ['product', 'versioning', 'opensource'],
+  },
+  {
     title: 'AttoBot',
     description:
       'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
