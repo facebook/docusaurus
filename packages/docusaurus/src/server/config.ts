@@ -20,6 +20,7 @@ export default async function loadConfig(
   const importedConfig = importFresh(configPath) as
     | Partial<DocusaurusConfig>
     | Promise<Partial<DocusaurusConfig>>
+    | (() => Partial<DocusaurusConfig>)
     | (() => Promise<Partial<DocusaurusConfig>>);
 
   const loadedConfig =

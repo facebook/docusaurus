@@ -21,6 +21,18 @@ describe('loadConfig', () => {
     expect(config).not.toEqual({});
   });
 
+  test('website with valid config creator function', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'configs',
+      'createConfig.config.js',
+    );
+    const config = await loadConfig(siteDir);
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
   test('website with valid async config', async () => {
     const siteDir = path.join(
       __dirname,
