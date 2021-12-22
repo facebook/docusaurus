@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 
@@ -166,10 +166,8 @@ export function parseMarkdownString(
       excerpt,
     };
   } catch (e) {
-    console.error(
-      chalk.red(`Error while parsing Markdown frontmatter.
-This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
-    );
+    logger.error(`Error while parsing Markdown frontmatter.
+This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
     throw e;
   }
 }
@@ -181,9 +179,9 @@ export async function parseMarkdownFile(
   const markdownString = await fs.readFile(source, 'utf-8');
   try {
     return parseMarkdownString(markdownString, options);
-  } catch (e: any) {
+  } catch (e) {
     throw new Error(
-      `Error while parsing Markdown file ${source}: "${e.message}".`,
+      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
     );
   }
 }

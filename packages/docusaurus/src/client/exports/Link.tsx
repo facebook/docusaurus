@@ -90,16 +90,16 @@ function Link({
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
-  let io: IntersectionObserver;
+  const ioRef = useRef<IntersectionObserver>();
   const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
-    io = new window.IntersectionObserver((entries) => {
+    ioRef.current = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
           // If element is in viewport, stop listening/observing and run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
-            io.unobserve(el);
-            io.disconnect();
+            ioRef.current!.unobserve(el);
+            ioRef.current!.disconnect();
             cb();
           }
         }
@@ -107,7 +107,7 @@ function Link({
     });
 
     // Add element to the observer.
-    io.observe(el);
+    ioRef.current!.observe(el);
   };
 
   const handleRef = (ref: HTMLAnchorElement | null) => {
@@ -138,11 +138,11 @@ function Link({
 
     // When unmounting, stop intersection observer from watching.
     return () => {
-      if (IOSupported && io) {
-        io.disconnect();
+      if (IOSupported && ioRef.current) {
+        ioRef.current.disconnect();
       }
     };
-  }, [targetLink, IOSupported, isInternal]);
+  }, [ioRef, targetLink, IOSupported, isInternal]);
 
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;

@@ -15,7 +15,7 @@ interface Props {
   url: string;
 }
 
-function BrowserWindow({children, minHeight, url}: Props) {
+function BrowserWindow({children, minHeight, url}: Props): JSX.Element {
   return (
     <div className={styles.browserWindow} style={{minHeight}}>
       <div className={styles.browserWindowHeader}>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -20,21 +20,23 @@ import {
   InitializedPlugin,
 } from '@docusaurus/types';
 import initPlugins from './init';
-import chalk from 'chalk';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
+import logger from '@docusaurus/logger';
 import {chain} from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
-export function sortConfig(routeConfigs: RouteConfig[]): void {
+export function sortConfig(
+  routeConfigs: RouteConfig[],
+  baseUrl: string = '/',
+): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
     // Root route should get placed last.
-    if (a.path === '/' && b.path !== '/') {
+    if (a.path === baseUrl && b.path !== baseUrl) {
       return 1;
     }
-    if (a.path !== '/' && b.path === '/') {
+    if (a.path !== baseUrl && b.path === baseUrl) {
       return -1;
     }
 
@@ -121,12 +123,12 @@ export async function loadPlugins({
 
   const allContent: AllContent = chain(loadedPlugins)
     .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
+    .mapValues((nameItems) =>
+      chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
+        .value(),
+    )
     .value();
 
   // 3. Plugin Lifecycle - contentLoaded.
@@ -209,11 +211,7 @@ export async function loadPlugins({
       // TODO remove this deprecated lifecycle soon
       // deprecated since alpha-60
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
-      console.error(
-        chalk.red(
-          'Plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
-        ),
-      );
+      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: path=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
       return plugin.routesLoaded(pluginsRouteConfigs);
     }),
@@ -221,7 +219,7 @@ export async function loadPlugins({
 
   // Sort the route config. This ensures that route with nested
   // routes are always placed last.
-  sortConfig(pluginsRouteConfigs);
+  sortConfig(pluginsRouteConfigs, context.siteConfig.baseUrl);
 
   // Apply each plugin one after the other to translate the theme config
   function translateThemeConfig(

@@ -1,0 +1,72 @@
+name: 💅 Feature design / RFC
+description: Submit a detailed feature request with a concrete proposal, including an exhaustive API / UI design
+labels: [feature, 'status: needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Important things:
+
+        - We expect you to submit a feature request including a real design (API / UI...), not just a basic idea.
+        - The design does not have to be perfect, we'll discuss it and fix it if needed.
+        - For a more "casual" feature request, consider using Canny instead: https://docusaurus.io/feature-requests.
+
+  - type: checkboxes
+    attributes:
+      label: Have you read the Contributing Guidelines on issues?
+      options:
+        - label: I have read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md#reporting-new-issues).
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the feature is.
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Has this been requested on Canny?
+      description: Please post the [Canny](https://docusaurus.io/feature-requests) link, it is helpful to see how much interest there is for this feature.
+
+  - type: textarea
+    attributes:
+      label: Motivation
+      description: Please outline the motivation for the proposal and why it should be implemented. Has this been requested by a lot of users?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: API design
+      description: |
+        Please describe how Docusaurus users will enable and configure this feature, and what it will look like.
+
+        Please explain in an exhaustive way what are the config/plugin options and their respective effects. For visual elements, please send us some screenshots/mockups of what it should look like. You can use https://excalidraw.com to create simple mockups.
+
+        > **What happens if you skip this step?** This issue may be closed without any in-depth discussion. Your feature request is just an idea for now, please use Canny for that: https://docusaurus.io/feature-requests.
+
+  - type: textarea
+    attributes:
+      label: Have you tried building it?
+      description: |
+        Please explain how you tried to build the feature by yourself, and how successful it was.
+
+        Docusaurus 2 has a plugin system and theming support. Quite often, this gives you the opportunity to build the feature you need by yourself.
+
+        We expect you to put your own work in this feature, particularly if it is not requested by a lot of users. If we see it in action on your own site, it is easier to understand its value, and how it should work.
+        If you can't build it yourself for technical reasons, please explain why. We are willing to help you, and eventually providing new APIs to make it possible.
+
+        > **What happens if you skip this step?** This issue may be closed without any in-depth discussion. Your feature request is just an idea for now, please use Canny for that: https://docusaurus.io/feature-requests.
+
+  - type: checkboxes
+    attributes:
+      label: Self-service
+      description: |
+        If you answered the question above as "no" because you feel like you could contribute directly to our repo, please check the box below. This would tell us and other people looking for contributions that someone's working on it.
+        If you do check this box, please send a pull request within 7 days after a maintainer's approval so we can still delegate this to someone else.
+
+        Note that for feature issues, we still require you to fully fill out this form and reach consensus with the maintainers on API design before rushing to implement it, so that you don't waste your time.
+      options:
+        - label: I'd be willing to contribute this feature to Docusaurus myself.

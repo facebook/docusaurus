@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten, uniqBy, difference, groupBy} from 'lodash';
+import {uniqBy, difference, groupBy} from 'lodash';
 import {
   PluginContext,
   RedirectMetadata,
@@ -22,7 +22,7 @@ import {
   ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
@@ -47,25 +47,23 @@ function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
   params: ApplyTrailingSlashParams,
 ) {
-  return redirects.map((redirect) => {
-    return {
-      ...redirect,
-      to: applyTrailingSlash(redirect.to, params),
-    };
-  });
+  return redirects.map((redirect) => ({
+    ...redirect,
+    to: applyTrailingSlash(redirect.to, params),
+  }));
 }
 
 function validateCollectedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ) {
-  const redirectValidationErrors: string[] = redirects
+  const redirectValidationErrors = redirects
     .map((redirect) => {
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e: any) {
-        return e.message;
+      } catch (e) {
+        return (e as Error).message;
       }
     })
     .filter(Boolean);
@@ -101,14 +99,10 @@ function filterUnwantedRedirects(
   Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
-        console.error(
-          chalk.red(
-            `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
-It is not possible to redirect the same pathname to multiple destinations:
-- ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-          ),
-        );
+        logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
+It is not possible to redirect the same pathname to multiple destinations: ${groupedFromRedirects.map(
+          (r) => JSON.stringify(r),
+        )}`;
       }
     },
   );
@@ -119,13 +113,9 @@ It is not possible to redirect the same pathname to multiple destinations:
     (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
-    console.error(
-      chalk.red(
-        `@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
-- ${redirectsOverridingExistingPath.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-      ),
-    );
+    logger.error`name=${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored: ${redirectsOverridingExistingPath.map(
+      (r) => JSON.stringify(r),
+    )}`;
   }
   return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
@@ -165,7 +155,7 @@ function createRedirectsOptionRedirects(
     }));
   }
 
-  return flatten(redirectsOption.map(optionToRedirects));
+  return redirectsOption.flatMap(optionToRedirects);
 }
 
 // Create redirects from the "createRedirects" fn provided by the user
@@ -181,13 +171,11 @@ function createCreateRedirectsOptionRedirects(
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;
 
-    return froms.map((from) => {
-      return {
-        from,
-        to: path,
-      };
-    });
+    return froms.map((from) => ({
+      from,
+      to: path,
+    }));
   }
 
-  return flatten(paths.map(createPathRedirects));
+  return paths.flatMap(createPathRedirects);
 }

@@ -4,6 +4,7 @@ node_modules
 build
 coverage
 .docusaurus
+packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
@@ -14,5 +15,6 @@ __fixtures__
 website/i18n
 website/versions.json
 website/docusaurus.config.js
+website/versioned_sidebars/*.json
 
 examples/

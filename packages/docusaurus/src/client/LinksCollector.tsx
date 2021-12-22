@@ -22,9 +22,7 @@ export const createStatefulLinksCollector = (): StatefulLinksCollector => {
     collectLink: (link: string): void => {
       allLinks.add(link);
     },
-    getCollectedLinks: (): string[] => {
-      return [...allLinks];
-    },
+    getCollectedLinks: (): string[] => [...allLinks],
   };
 };
 
@@ -35,16 +33,14 @@ const Context = createContext<LinksCollector>({
   },
 });
 
-export const useLinksCollector = (): LinksCollector => {
-  return useContext(Context);
-};
+export const useLinksCollector = (): LinksCollector => useContext(Context);
 
-export const ProvideLinksCollector = ({
+export function ProvideLinksCollector({
   children,
   linksCollector,
 }: {
   children: ReactNode;
   linksCollector: LinksCollector;
-}): JSX.Element => {
+}): JSX.Element {
   return <Context.Provider value={linksCollector}>{children}</Context.Provider>;
-};
+}

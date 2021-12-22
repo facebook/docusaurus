@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
 import prompts, {Choice} from 'prompts';
@@ -63,6 +63,7 @@ function createTemplateChoices(templates: string[]) {
   return [
     ...templates.map((template) => makeNameAndValueChoice(template)),
     makeNameAndValueChoice('Git repository'),
+    makeNameAndValueChoice('Local template'),
   ];
 }
 
@@ -130,12 +131,14 @@ export default async function init(
   }
 
   if (!name) {
-    throw new Error(chalk.red('A website name is required.'));
+    logger.error('A website name is required.');
+    process.exit(1);
   }
 
   const dest = path.resolve(rootDir, name);
   if (fs.existsSync(dest)) {
-    throw new Error(`Directory already exists at "${dest}"!`);
+    logger.error`Directory already exists at path=${dest}!`;
+    process.exit(1);
   }
 
   let template = reqTemplate;
@@ -170,46 +173,76 @@ export default async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }
-        return chalk.red(`Invalid repository URL`);
+        return logger.red('Invalid repository URL');
       },
-      message:
-        'Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.\n(e.g: https://github.com/ownerName/repoName.git)',
+      message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
+(e.g: path=${'https://github.com/ownerName/repoName.git'})`,
     });
     template = repoPrompt.gitRepoUrl;
+  } else if (template === 'Local template') {
+    const dirPrompt = await prompts({
+      type: 'text',
+      name: 'templateDir',
+      validate: (dir?: string) => {
+        if (dir) {
+          const fullDir = path.resolve(process.cwd(), dir);
+          if (fs.existsSync(fullDir)) {
+            return true;
+          }
+          return logger.red(
+            logger.interpolate`path=${fullDir} does not exist.`,
+          );
+        }
+        return logger.red('Please enter a valid path.');
+      },
+      message:
+        'Enter a local folder path, relative to the current working directory.',
+    });
+    template = dirPrompt.templateDir;
   }
 
-  console.log(`
-${chalk.cyan('Creating new Docusaurus project...')}
-`);
+  if (!template) {
+    logger.error('Template should not be empty');
+    process.exit(1);
+  }
 
-  if (template && isValidGitRepoUrl(template)) {
-    console.log(`Cloning Git template ${chalk.cyan(template)}...`);
+  logger.info('Creating new Docusaurus project...');
+
+  if (isValidGitRepoUrl(template)) {
+    logger.info`Cloning Git template path=${template}...`;
     if (
       shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
         .code !== 0
     ) {
-      throw new Error(chalk.red(`Cloning Git template ${template} failed!`));
+      logger.error`Cloning Git template name=${template} failed!`;
+      process.exit(1);
     }
-  } else if (template && templates.includes(template)) {
+  } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
       if (!hasTS(template)) {
-        throw new Error(
-          `Template ${template} doesn't provide the Typescript variant.`,
-        );
+        logger.error`Template name=${template} doesn't provide the Typescript variant.`;
+        process.exit(1);
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
     }
     try {
       await copyTemplate(templatesDir, template, dest);
     } catch (err) {
-      console.log(
-        `Copying Docusaurus template ${chalk.cyan(template)} failed!`,
-      );
+      logger.error`Copying Docusaurus template name=${template} failed!`;
+      throw err;
+    }
+  } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
+    const templateDir = path.resolve(process.cwd(), template);
+    try {
+      await fs.copy(templateDir, dest);
+    } catch (err) {
+      logger.error`Copying local template path=${templateDir} failed!`;
       throw err;
     }
   } else {
-    throw new Error('Invalid template.');
+    logger.error('Invalid template.');
+    process.exit(1);
   }
 
   // Update package.json info.
@@ -220,7 +253,7 @@ ${chalk.cyan('Creating new Docusaurus project...')}
       private: true,
     });
   } catch (err) {
-    console.log(chalk.red('Failed to update package.json.'));
+    logger.error('Failed to update package.json.');
     throw err;
   }
 
@@ -236,54 +269,54 @@ ${chalk.cyan('Creating new Docusaurus project...')}
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
-  if (!cliOptions.skipInstall) {
-    console.log(`Installing dependencies with ${chalk.cyan(pkgManager)}...`);
-
-    try {
-      // Use force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
-      shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
-        {
-          env: {
-            ...process.env,
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-          },
-        },
-      );
-    } catch (err) {
-      console.log(chalk.red('Installation failed.'));
-      throw err;
-    }
-  }
-  console.log();
-
   // Display the most elegant way to cd.
   const cdpath =
     path.join(process.cwd(), name) === dest
       ? name
       : path.relative(process.cwd(), name);
+  if (!cliOptions.skipInstall) {
+    logger.info`Installing dependencies with name=${pkgManager}...`;
+    if (
+      shell.exec(
+        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
+        },
+      ).code !== 0
+    ) {
+      logger.error('Dependency installation failed.');
+      logger.info`The site directory has already been created, and you can retry by typing:
 
-  console.log(`
-Successfully created "${chalk.cyan(cdpath)}".
-Inside that directory, you can run several commands:
+  code=${`cd ${cdpath}`}
+  code=${`${pkgManager} install`}`;
+      process.exit(0);
+    }
+  }
 
-  ${chalk.cyan(`${pkgManager} start`)}
+  logger.success`Created path=${cdpath}.`;
+  logger.info`Inside that directory, you can run several commands:
+
+  code=${`${pkgManager} start`}
     Starts the development server.
 
-  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}build`)}
+  code=${`${pkgManager} ${useYarn ? '' : 'run '}build`}
     Bundles your website into static files for production.
 
-  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}serve`)}
+  code=${`${pkgManager} ${useYarn ? '' : 'run '}serve`}
     Serves the built website locally.
 
-  ${chalk.cyan(`${pkgManager} deploy`)}
+  code=${`${pkgManager} deploy`}
     Publishes the website to GitHub pages.
 
 We recommend that you begin by typing:
 
-  ${chalk.cyan('cd')} ${cdpath}
-  ${chalk.cyan(`${pkgManager} start`)}
+  code=${`cd ${cdpath}`}
+  code=${`${pkgManager} start`}
 
 Happy building awesome websites!
-`);
+`;
 }

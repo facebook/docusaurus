@@ -7,16 +7,25 @@
 
 declare module '@docusaurus/plugin-content-docs' {
   export type Options = Partial<import('./types').PluginOptions>;
-}
-
-// TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
-declare module '@docusaurus/plugin-content-docs-types' {
+  export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
   export type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
   type VersionTag = import('./types').VersionTag;
 
   export type {GlobalDataVersion, GlobalDataDoc};
+
+  export type PropNavigationLink = {
+    readonly title: string;
+    readonly permalink: string;
+  };
+  export type PropNavigation = {
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
+  };
+
+  export type PropVersionDoc = import('./sidebars/types').PropVersionDoc;
+  export type PropVersionDocs = import('./sidebars/types').PropVersionDocs;
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -27,32 +36,24 @@ declare module '@docusaurus/plugin-content-docs-types' {
     className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
+    docs: PropVersionDocs;
   };
 
-  type PropsSidebarItemBase = {
-    className?: string;
-    customProps?: Record<string, unknown>;
+  export type PropCategoryGeneratedIndex = {
+    title: string;
+    description?: string;
+    slug: string;
+    permalink: string;
+    navigation: PropNavigation;
   };
 
-  export type PropSidebarItemLink = PropsSidebarItemBase & {
-    type: 'link';
-    href: string;
-    label: string;
-  };
-
-  export type PropSidebarItemCategory = PropsSidebarItemBase & {
-    type: 'category';
-    label: string;
-    items: PropSidebarItem[];
-    collapsed: boolean;
-    collapsible: boolean;
-  };
-
-  export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
-
-  export type PropSidebars = {
-    [sidebarId: string]: PropSidebarItem[];
-  };
+  export type PropSidebarItemLink =
+    import('./sidebars/types').PropSidebarItemLink;
+  export type PropSidebarItemCategory =
+    import('./sidebars/types').PropSidebarItemCategory;
+  export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebar = import('./sidebars/types').PropSidebar;
+  export type PropSidebars = import('./sidebars/types').PropSidebars;
 
   export type PropTagDocListDoc = {
     id: string;
@@ -78,7 +79,10 @@ declare module '@docusaurus/plugin-content-docs-types' {
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {
+    PropNavigationLink,
+    PropVersionMetadata,
+  } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -92,12 +96,10 @@ declare module '@theme/DocItem' {
     readonly title: string;
     readonly image?: string;
     readonly keywords?: readonly string[];
-    /* eslint-disable camelcase */
     readonly hide_title?: boolean;
     readonly hide_table_of_contents?: boolean;
     readonly toc_min_heading_level?: number;
     readonly toc_max_heading_level?: number;
-    /* eslint-enable camelcase */
   };
 
   export type Metadata = {
@@ -109,8 +111,8 @@ declare module '@theme/DocItem' {
     readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
-    readonly previous?: {readonly permalink: string; readonly title: string};
-    readonly next?: {readonly permalink: string; readonly title: string};
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -133,6 +135,38 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
+declare module '@theme/DocCard' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+  }
+
+  export default function DocCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCardList' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly items: PropSidebarItem[];
+  }
+
+  export default function DocCardList(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCategoryGeneratedIndexPage' {
+  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly categoryGeneratedIndex: PropCategoryGeneratedIndex;
+  }
+
+  export default function DocCategoryGeneratedIndexPage(
+    props: Props,
+  ): JSX.Element;
+}
+
 declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
@@ -140,14 +174,14 @@ declare module '@theme/DocItemFooter' {
 }
 
 declare module '@theme/DocTagsListPage' {
-  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends PropTagsListPage {}
   export default function DocTagsListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocTagDocListPage' {
-  import type {PropTagDocList} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly tag: PropTagDocList;
@@ -156,18 +190,23 @@ declare module '@theme/DocTagDocListPage' {
 }
 
 declare module '@theme/DocVersionBanner' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
-
   export interface Props {
-    readonly versionMetadata: PropVersionMetadata;
+    readonly className?: string;
   }
 
-  const DocVersionBanner: (props: Props) => JSX.Element;
-  export default DocVersionBanner;
+  export default function DocVersionBanner(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBadge' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function DocVersionBadge(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPage' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
 
   export interface Props {

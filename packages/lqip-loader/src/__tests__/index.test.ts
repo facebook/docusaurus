@@ -10,14 +10,14 @@ import Vibrant from 'node-vibrant';
 import {Palette} from 'node-vibrant/lib/color';
 
 import {toPalette, toBase64} from '../utils';
-import lqip from '../lqip';
+import * as lqip from '../lqip';
 
 describe('lqip-loader', () => {
   describe('toBase64', () => {
     test('should return a properly formatted Base64 image string', () => {
-      const expected = 'data:image/jpeg;base64,hello world';
+      const expected = 'data:image/jpeg;base64,aGVsbG8gd29ybGQ=';
       const mockedMimeType = 'image/jpeg';
-      const mockedBase64Data = 'hello world';
+      const mockedBase64Data = Buffer.from('hello world');
       expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(expected);
     });
   });

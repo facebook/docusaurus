@@ -1,0 +1,170 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - website/**
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - website/**
+
+jobs:
+  yarn-v1:
+    name: E2E — Yarn v1
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['14', '16', '17']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with Yarn v1
+        run: yarn install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: yarn start --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: yarn build
+        working-directory: ../test-website
+        env:
+          CI: true
+
+  yarn-berry:
+    name: E2E — Yarn Berry
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nodeLinker: [pnp, node-modules]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
+        run: |
+          yarn set version berry
+
+          yarn config set nodeLinker ${{ matrix.nodeLinker }}
+          yarn config set npmRegistryServer http://localhost:4873
+          yarn config set unsafeHttpWhitelist --json '["localhost"]'
+          yarn config set enableGlobalCache true
+
+          # Make PnP as strict as possible
+          # https://yarnpkg.com/features/pnp#fallback-mode
+          yarn config set pnpFallbackMode none
+
+          # Patch package so that peer deps are provided. This has been fixed in terser by making acorn a direct dependency
+          # TODO watch out for the next terser release. Commit: https://github.com/terser/terser/commit/05b23eeb682d732484ad51b19bf528258fd5dc2a
+          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}, "html-minifier-terser@*": {"dependencies": {"acorn": "^8.6.0"}}}'
+
+          yarn install
+        working-directory: ../test-website
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false # Yarn berry should create the lockfile, despite CI env
+      - name: Start test-website project
+        run: yarn start --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: yarn build
+        working-directory: ../test-website
+        env:
+          CI: true
+
+  npm:
+    name: E2E — NPM
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with NPM
+        run: npm install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: npm run start -- --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: npm run build
+        working-directory: ../test-website
+        env:
+          CI: true
+
+  pnpm:
+    name: E2E — PNPM
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Generate test-website project against main branch
+        run: yarn test:build:website -s
+        env:
+          KEEP_CONTAINER: true
+      - name: Install test-website project with PNPM
+        run: |
+          curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+          pnpm install
+        working-directory: ../test-website
+        env:
+          npm_config_registry: http://localhost:4873
+      - name: Start test-website project
+        run: pnpm run start -- --no-open
+        working-directory: ../test-website
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: pnpm run build
+        working-directory: ../test-website
+        env:
+          CI: true

@@ -11,20 +11,20 @@ import {
   Navbar,
   NavbarItem,
   Footer,
+  MultiColumnFooter,
+  SimpleFooter,
 } from '@docusaurus/theme-common';
 
-import {keyBy, chain, flatten} from 'lodash';
+import {keyBy, chain} from 'lodash';
 import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
   // TODO handle properly all the navbar item types here!
   function flattenNavbarItems(items: NavbarItem[]): NavbarItem[] {
-    const subItems = flatten(
-      items.map((item) => {
-        const allSubItems = flatten([item.items ?? []]);
-        return flattenNavbarItems(allSubItems);
-      }),
-    );
+    const subItems = items.flatMap((item) => {
+      const allSubItems = [item.items ?? []].flat();
+      return flattenNavbarItems(allSubItems);
+    });
     return [...items, ...subItems];
   }
 
@@ -71,10 +71,17 @@ function translateNavbar(
   };
 }
 
+function isMultiColumnFooterLinks(
+  links: MultiColumnFooter['links'] | SimpleFooter['links'],
+): links is MultiColumnFooter['links'] {
+  return links.length > 0 && 'title' in links[0];
+}
+
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
-  // TODO POC code
   const footerLinkTitles: TranslationFileContent = chain(
-    footer.links.filter((link) => !!link.title),
+    isMultiColumnFooterLinks(footer.links)
+      ? footer.links.filter((link) => !!link.title)
+      : [],
   )
     .keyBy((link) => `link.title.${link.title}`)
     .mapValues((link) => ({
@@ -84,9 +91,11 @@ function getFooterTranslationFile(footer: Footer): TranslationFileContent {
     .value();
 
   const footerLinkLabels: TranslationFileContent = chain(
-    flatten(footer.links.map((link) => link.items)).filter(
-      (link) => !!link.label,
-    ),
+    isMultiColumnFooterLinks(footer.links)
+      ? footer.links
+          .flatMap((link) => link.items)
+          .filter((link) => !!link.label)
+      : footer.links.filter((link) => !!link.label),
   )
     .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
     .mapValues((linkItem) => ({
@@ -112,17 +121,24 @@ function translateFooter(
   footer: Footer,
   footerTranslations: TranslationFileContent,
 ): Footer {
-  const links = footer.links.map((link) => ({
-    ...link,
-    title:
-      footerTranslations[`link.title.${link.title}`]?.message ?? link.title,
-    items: link.items.map((linkItem) => ({
-      ...linkItem,
-      label:
-        footerTranslations[`link.item.label.${linkItem.label}`]?.message ??
-        linkItem.label,
-    })),
-  }));
+  const links = isMultiColumnFooterLinks(footer.links)
+    ? footer.links.map((link) => ({
+        ...link,
+        title:
+          footerTranslations[`link.title.${link.title}`]?.message ?? link.title,
+        items: link.items.map((linkItem) => ({
+          ...linkItem,
+          label:
+            footerTranslations[`link.item.label.${linkItem.label}`]?.message ??
+            linkItem.label,
+        })),
+      }))
+    : footer.links.map((link) => ({
+        ...link,
+        label:
+          footerTranslations[`link.item.label.${link.label}`]?.message ??
+          link.label,
+      }));
 
   const copyright = footerTranslations.copyright?.message ?? footer.copyright;
 
@@ -155,6 +171,8 @@ export function translateThemeConfig({
   themeConfig,
   translationFiles,
 }: {
+  // Why partial? To make TS correctly figure out the contravariance in parameter.
+  // In practice it's always normalized
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {

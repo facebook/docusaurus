@@ -6,13 +6,13 @@ This is a test page to see if Docusaurus markdown features are working properly
 
 See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 
-- [/dogfooding/someFile.pdf](/dogfooding/someFile.pdf)
+- [/someFile.pdf](/someFile.pdf)
 
-- [/dogfooding/someFile.xyz](/dogfooding/someFile.xyz)
+- [/someFile.xyz](/someFile.xyz)
 
-- [@site/static/dogfooding/someFile.pdf](@site/static/dogfooding/someFile.pdf)
+- [@site/\_dogfooding/\_asset-tests/someFile.pdf](@site/_dogfooding/_asset-tests/someFile.pdf)
 
-- [@site/static/dogfooding/someFile.xyz](@site/static/dogfooding/someFile.xyz)
+- [@site/\_dogfooding/\_asset-tests/someFile.xyz](@site/_dogfooding/_asset-tests/someFile.xyz)
 
 ## Linking to non-SPA page hosted within website
 

@@ -13,20 +13,39 @@ export type {
   Navbar,
   NavbarItem,
   NavbarLogo,
+  MultiColumnFooter,
+  SimpleFooter,
   Footer,
-  FooterLinks,
   FooterLinkItem,
+  ColorModeConfig,
 } from './utils/useThemeConfig';
 
 export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
-export {parseCodeBlockTitle} from './utils/codeBlockUtils';
+export {useContextualSearchFilters} from './utils/useContextualSearchFilters';
+
+export {
+  parseCodeBlockTitle,
+  parseLanguage,
+  parseLines,
+} from './utils/codeBlockUtils';
 
 export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
 
-export {isDocsPluginEnabled} from './utils/docsUtils';
+export {
+  isDocsPluginEnabled,
+  DocsVersionProvider,
+  useDocsVersion,
+  useDocById,
+  DocsSidebarProvider,
+  useDocsSidebar,
+  findSidebarCategory,
+  findFirstCategoryLink,
+  useCurrentSidebarCategory,
+  isActiveSidebarItem,
+} from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
 
@@ -59,6 +78,8 @@ export {
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
 
+export {duplicates, uniq} from './utils/jsUtils';
+
 export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
@@ -79,3 +100,17 @@ export {default as useTOCHighlight} from './utils/useTOCHighlight';
 export type {TOCHighlightConfig} from './utils/useTOCHighlight';
 
 export {useTOCFilter} from './utils/tocUtils';
+
+export {
+  ScrollControllerProvider,
+  useScrollController,
+  useScrollPosition,
+  useScrollPositionBlocker,
+} from './utils/scrollUtils';
+
+export {
+  useIsomorphicLayoutEffect,
+  useDynamicCallback,
+} from './utils/reactUtils';
+
+export {isRegexpStringMatch} from './utils/regexpUtils';

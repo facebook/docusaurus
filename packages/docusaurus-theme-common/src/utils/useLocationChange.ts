@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {Location} from '@docusaurus/history';
 import {usePrevious} from './usePrevious';
+import {useDynamicCallback} from './reactUtils';
 
 type LocationChangeEvent = {
   location: Location;
@@ -20,18 +21,15 @@ type OnLocationChange = (locationChangeEvent: LocationChangeEvent) => void;
 export function useLocationChange(onLocationChange: OnLocationChange): void {
   const location = useLocation();
   const previousLocation = usePrevious(location);
-  const isFirst = useRef<boolean>(true);
+
+  const onLocationChangeDynamic = useDynamicCallback(onLocationChange);
 
   useEffect(() => {
-    // Prevent first effect to trigger the listener on mount
-    if (isFirst.current) {
-      isFirst.current = false;
-      return;
+    if (location !== previousLocation) {
+      onLocationChangeDynamic({
+        location,
+        previousLocation,
+      });
     }
-
-    onLocationChange({
-      location,
-      previousLocation,
-    });
-  }, [location]);
+  }, [onLocationChangeDynamic, location, previousLocation]);
 }

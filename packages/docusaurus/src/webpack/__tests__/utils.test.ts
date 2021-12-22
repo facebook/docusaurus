@@ -12,7 +12,6 @@ import {
   getCustomizableJSLoader,
   applyConfigureWebpack,
   applyConfigurePostCss,
-  getFileLoaderUtils,
 } from '../utils';
 import {
   ConfigureWebpackFn,
@@ -178,22 +177,6 @@ describe('extending generated webpack config', () => {
   });
 });
 
-describe('getFileLoaderUtils()', () => {
-  test('plugin svgo/removeViewBox should be disabled', () => {
-    const {oneOf} = getFileLoaderUtils().rules.svg();
-    expect(oneOf[0].use).toContainEqual(
-      expect.objectContaining({
-        loader: '@svgr/webpack',
-        options: expect.objectContaining({
-          svgoConfig: {
-            plugins: [{removeViewBox: false}],
-          },
-        }),
-      }),
-    );
-  });
-});
-
 describe('extending PostCSS', () => {
   test('user plugin should be appended in PostCSS loader', () => {
     let webpackConfig: Configuration = {
@@ -250,35 +233,38 @@ describe('extending PostCSS', () => {
     }
 
     // Run multiple times: ensure last run does not override previous runs
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-1'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           createFakePlugin('postcss-plugin-2'),
           ...postCssOptions.plugins,
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
-    webpackConfig = applyConfigurePostCss((postCssOptions) => {
-      return {
+    webpackConfig = applyConfigurePostCss(
+      (postCssOptions) => ({
         ...postCssOptions,
         plugins: [
           ...postCssOptions.plugins,
           createFakePlugin('postcss-plugin-3'),
         ],
-      };
-    }, webpackConfig);
+      }),
+      webpackConfig,
+    );
 
     // @ts-expect-error: relax type
     const postCssLoader1 = webpackConfig.module?.rules[0].use[2];

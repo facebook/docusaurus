@@ -6,12 +6,7 @@
  */
 
 import useDocusaurusContext from './useDocusaurusContext';
-
-// TODO annoying constant duplication
-// if we import something from outside the /client folder,
-// the tsc directory structure is affected
-// import {DEFAULT_PLUGIN_ID} from '../../constants';
-const DEFAULT_PLUGIN_ID = 'default';
+import {DEFAULT_PLUGIN_ID} from './constants';
 
 export default function useGlobalData(): Record<string, unknown> {
   const {globalData} = useDocusaurusContext();

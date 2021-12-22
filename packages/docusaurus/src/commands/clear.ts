@@ -4,21 +4,23 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
 import path from 'path';
-import chalk = require('chalk');
-import {DEFAULT_BUILD_DIR_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import logger from '@docusaurus/logger';
+import {
+  DEFAULT_BUILD_DIR_NAME,
+  GENERATED_FILES_DIR_NAME,
+} from '@docusaurus/utils';
 
-function removePath(fsPath: string) {
-  return fs
-    .remove(path.join(fsPath))
-    .then(() => {
-      console.log(chalk.green(`Successfully removed "${fsPath}" directory.`));
-    })
-    .catch((err) => {
-      console.error(`Could not remove ${fsPath} directory.`);
-      console.error(err);
-    });
+async function removePath(fsPath: string) {
+  try {
+    fs.remove(path.join(fsPath));
+    logger.success`Removed the path=${fsPath} directory.`;
+  } catch (e) {
+    logger.error`Could not remove path=${fsPath} directory.
+${e as string}`;
+  }
 }
 
 export default async function clear(siteDir: string): Promise<unknown> {

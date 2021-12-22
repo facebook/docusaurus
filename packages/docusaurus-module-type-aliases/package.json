@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.14",
   "description": "Docusaurus module type aliases.",
   "types": "./src/index.d.ts",
   "publishConfig": {
@@ -12,9 +12,9 @@
     "directory": "packages/docusaurus-module-type-aliases"
   },
   "dependencies": {
+    "@docusaurus/types": "2.0.0-beta.14",
     "@types/react": "*",
     "@types/react-helmet": "*",
-    "@types/react-loadable": "*",
     "@types/react-router-config": "*",
     "@types/react-router-dom": "*"
   },

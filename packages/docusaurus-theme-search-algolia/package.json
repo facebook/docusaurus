@@ -1,8 +1,9 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.14",
   "description": "Algolia search component for Docusaurus.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "src/theme-search-algolia.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -12,23 +13,36 @@
     "directory": "packages/docusaurus-theme-search-algolia"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "yarn build:server && yarn build:browser && yarn build:copy",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:browser": "tsc --project tsconfig.browser.json",
+    "build:copy": "node copyUntypedFiles.js"
+  },
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",
-    "@docusaurus/core": "2.0.0-beta.6",
-    "@docusaurus/theme-common": "2.0.0-beta.6",
-    "@docusaurus/utils": "2.0.0-beta.6",
-    "@docusaurus/utils-validation": "2.0.0-beta.6",
+    "@docusaurus/core": "2.0.0-beta.14",
+    "@docusaurus/logger": "2.0.0-beta.14",
+    "@docusaurus/theme-common": "2.0.0-beta.14",
+    "@docusaurus/theme-translations": "2.0.0-beta.14",
+    "@docusaurus/utils": "2.0.0-beta.14",
+    "@docusaurus/utils-validation": "2.0.0-beta.14",
     "algoliasearch": "^4.10.5",
     "algoliasearch-helper": "^3.5.5",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.14",
+    "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   }
 }

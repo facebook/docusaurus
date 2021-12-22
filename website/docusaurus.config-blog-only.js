@@ -15,11 +15,11 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['live-codeblock'],
   plugins: [],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      'classic',
       {
         docs: false,
         pages: false,

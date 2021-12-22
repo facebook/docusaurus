@@ -1,9 +1,16 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const fs = require('fs');
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
   [
-    '@docusaurus/plugin-content-docs',
+    'content-docs', // dogfood shorthand
     /** @type {import('@docusaurus/plugin-content-docs').Options} */
     ({
       id: 'docs-tests',
@@ -17,7 +24,7 @@ const dogfoodingPluginInstances = [
   ],
 
   [
-    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-blog', // dogfood longhand
     /** @type {import('@docusaurus/plugin-content-blog').Options} */
     ({
       id: 'blog-tests',
@@ -28,13 +35,18 @@ const dogfoodingPluginInstances = [
       postsPerPage: 3,
       feedOptions: {
         type: 'all',
+        title: 'Docusaurus Tests Blog',
         copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
       },
+      readingTime: ({content, frontMatter, defaultReadingTime}) =>
+        frontMatter.hide_reading_time
+          ? undefined
+          : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
     }),
   ],
 
   [
-    '@docusaurus/plugin-content-pages',
+    require.resolve('@docusaurus/plugin-content-pages'), // dogfood longhand resolve
     /** @type {import('@docusaurus/plugin-content-pages').Options} */
     ({
       id: 'pages-tests',

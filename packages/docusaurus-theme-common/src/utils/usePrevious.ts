@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useRef, useEffect} from 'react';
+import {useRef} from 'react';
+import {useIsomorphicLayoutEffect} from './reactUtils';
 
 export function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>();
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     ref.current = value;
   });
 

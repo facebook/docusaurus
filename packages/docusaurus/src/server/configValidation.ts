@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME} from '../constants';
+import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
   Joi,
   logValidationBugReportHint,
@@ -37,6 +38,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'titleDelimiter'
   | 'noIndex'
   | 'baseUrlIssueBanner'
+  | 'staticDirectories'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -50,6 +52,7 @@ export const DEFAULT_CONFIG: Pick<
   titleDelimiter: '|',
   noIndex: false,
   baseUrlIssueBanner: true,
+  staticDirectories: [STATIC_DIR_NAME],
 };
 
 const PluginSchema = Joi.alternatives()
@@ -108,7 +111,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
+const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
   try {
     const {pathname} = new URL(value);
     if (pathname !== '/') {
@@ -124,7 +127,7 @@ const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
 export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
-    .regex(new RegExp('/$', 'm'))
+    .regex(/\/$/m)
     .message('{{#label}} must be a string with a trailing slash.'),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
@@ -142,7 +145,11 @@ export const ConfigSchema = Joi.object({
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
+  staticDirectories: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.staticDirectories),
   projectName: Joi.string().allow(''),
+  deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
@@ -194,7 +201,7 @@ export function validateConfig(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error.message);
       return config as DocusaurusConfig;
     }
 

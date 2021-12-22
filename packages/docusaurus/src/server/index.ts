@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-  STATIC_DIR_NAME,
-} from '../constants';
+} from '@docusaurus/utils';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
@@ -40,6 +39,8 @@ import {
 import {mapValues} from 'lodash';
 import {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
+import {createRequire} from 'module';
+import {resolveModuleName} from './moduleShorthand';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -128,14 +129,44 @@ export async function loadContext(
 }
 
 export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
+  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+  const {siteConfig, siteConfigPath} = context;
+  const require = createRequire(siteConfigPath);
+  function normalizeShorthand(
+    pluginConfig: PluginConfig,
+    pluginType: 'plugin' | 'theme',
+  ): PluginConfig {
+    if (typeof pluginConfig === 'string') {
+      return resolveModuleName(pluginConfig, require, pluginType);
+    } else if (
+      Array.isArray(pluginConfig) &&
+      typeof pluginConfig[0] === 'string'
+    ) {
+      return [
+        resolveModuleName(pluginConfig[0], require, pluginType),
+        pluginConfig[1] ?? {},
+      ];
+    }
+    return pluginConfig;
+  }
+  presetPlugins = presetPlugins.map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  presetThemes = presetThemes.map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
+  const standalonePlugins = (siteConfig.plugins || []).map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  const standaloneThemes = (siteConfig.themes || []).map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
   return [
     ...presetPlugins,
     ...presetThemes,
     // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
+    ...standalonePlugins,
+    ...standaloneThemes,
   ];
 }
 
@@ -193,7 +224,13 @@ function createBootstrapPlugin({
 // Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
 // This allows to do things such as importing repo/README.md as a partial from another doc
 // Not ideal solution though, but good enough for now
-function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
+function createMDXFallbackPlugin({
+  siteDir,
+  siteConfig,
+}: {
+  siteDir: string;
+  siteConfig: DocusaurusConfig;
+}): LoadedPlugin {
   return {
     name: 'docusaurus-mdx-fallback-plugin',
     content: null,
@@ -223,7 +260,10 @@ function createMDXFallbackPlugin({siteDir}: {siteDir: string}): LoadedPlugin {
                 {
                   loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
                     remarkPlugins: [admonitions],
@@ -273,7 +313,7 @@ export async function load(
   );
 
   plugins.push(createBootstrapPlugin({siteConfig}));
-  plugins.push(createMDXFallbackPlugin({siteDir}));
+  plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
 
   // Load client modules.
   const clientModules = loadClientModules(plugins);
@@ -345,9 +385,9 @@ ${Object.keys(registry)
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
+      path.join(__dirname, '../../package.json'),
     )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
     pluginVersions: {},
   };
   plugins
@@ -406,15 +446,14 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       if (
         versionInfo.type === 'package' &&
         versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
         // should we throw instead?
         // It still could work with different versions
-        console.warn(
-          chalk.red(
-            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-          ),
-        );
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },
   );

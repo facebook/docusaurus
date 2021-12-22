@@ -18,6 +18,7 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -29,10 +30,6 @@ import {
 import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
-  DEFAULT_PLUGIN_ID,
-  STATIC_DIR_NAME,
-} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,
@@ -40,7 +37,6 @@ import {
   Metadata,
   PagesContentPaths,
 } from './types';
-import {flatten} from 'lodash';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -86,10 +82,8 @@ export default function pluginContentPages(
 
     getPathsToWatch() {
       const {include = []} = options;
-      return flatten(
-        getContentPathList(contentPaths).map((contentPath) => {
-          return include.map((pattern) => `${contentPath}/${pattern}`);
-        }),
+      return getContentPathList(contentPaths).flatMap((contentPath) =>
+        include.map((pattern) => `${contentPath}/${pattern}`),
       );
     },
 
@@ -212,7 +206,10 @@ export default function pluginContentPages(
                     rehypePlugins,
                     beforeDefaultRehypePlugins,
                     beforeDefaultRemarkPlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,

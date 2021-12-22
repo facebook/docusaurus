@@ -1,0 +1,248 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadNormalizedSidebars sidebars link 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "href": "https://github.com",
+          "label": "category",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadNormalizedSidebars sidebars with category.collapsed property 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "collapsed": false,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "doc1",
+              "type": "doc",
+            },
+          ],
+          "label": "Introduction",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "collapsed": false,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "id": "doc2",
+              "type": "doc",
+            },
+          ],
+          "label": "Powering MDX",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "Reference",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadNormalizedSidebars sidebars with category.collapsed property at first level 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": false,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "doc1",
+          "type": "doc",
+        },
+      ],
+      "label": "Introduction",
+      "link": undefined,
+      "type": "category",
+    },
+    Object {
+      "collapsed": false,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Powering MDX",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadNormalizedSidebars sidebars with deep level of category 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "a",
+          "type": "doc",
+        },
+        Object {
+          "collapsed": true,
+          "collapsible": true,
+          "items": Array [
+            Object {
+              "collapsed": true,
+              "collapsible": true,
+              "items": Array [
+                Object {
+                  "id": "c",
+                  "type": "doc",
+                },
+                Object {
+                  "collapsed": true,
+                  "collapsible": true,
+                  "items": Array [
+                    Object {
+                      "id": "d",
+                      "type": "doc",
+                    },
+                    Object {
+                      "collapsed": true,
+                      "collapsible": true,
+                      "items": Array [
+                        Object {
+                          "id": "e",
+                          "type": "doc",
+                        },
+                      ],
+                      "label": "deeper more more",
+                      "link": undefined,
+                      "type": "category",
+                    },
+                  ],
+                  "label": "level 4",
+                  "link": undefined,
+                  "type": "category",
+                },
+              ],
+              "label": "level 3",
+              "link": undefined,
+              "type": "category",
+            },
+            Object {
+              "id": "f",
+              "type": "doc",
+            },
+          ],
+          "label": "level 2",
+          "link": undefined,
+          "type": "category",
+        },
+      ],
+      "label": "level 1",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadNormalizedSidebars sidebars with first level not a category 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "greeting",
+          "type": "doc",
+        },
+      ],
+      "label": "Getting Started",
+      "link": undefined,
+      "type": "category",
+    },
+    Object {
+      "id": "api",
+      "type": "doc",
+    },
+  ],
+}
+`;
+
+exports[`loadNormalizedSidebars sidebars with known sidebar item type 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
+          "type": "doc",
+        },
+        Object {
+          "href": "https://github.com",
+          "label": "Github",
+          "type": "link",
+        },
+        Object {
+          "id": "hello",
+          "type": "ref",
+        },
+      ],
+      "label": "Test",
+      "link": undefined,
+      "type": "category",
+    },
+    Object {
+      "collapsed": true,
+      "collapsible": true,
+      "items": Array [
+        Object {
+          "id": "hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "link": undefined,
+      "type": "category",
+    },
+  ],
+}
+`;

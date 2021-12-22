@@ -72,6 +72,12 @@ function insertBanner() {
 `;
 }
 
+declare global {
+  interface Window {
+    __DOCUSAURUS_INSERT_BASEURL_BANNER: boolean;
+  }
+}
+
 function BaseUrlIssueBannerEnabled() {
   const {
     siteConfig: {baseUrl},
@@ -80,8 +86,7 @@ function BaseUrlIssueBannerEnabled() {
   // useLayoutEffect fires before DOMContentLoaded.
   // It gives the opportunity to avoid inserting the banner in the first place
   useLayoutEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any)[InsertBannerWindowAttribute] = false;
+    window[InsertBannerWindowAttribute] = false;
   }, []);
 
   return (

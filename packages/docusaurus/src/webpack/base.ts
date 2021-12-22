@@ -13,14 +13,11 @@ import {Props} from '@docusaurus/types';
 import {
   getCustomizableJSLoader,
   getStyleLoaders,
-  getFileLoaderUtils,
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {STATIC_DIR_NAME} from '../constants';
-import SharedModuleAliases from './sharedModuleAliases';
 import {loadPluginsThemeAliases} from '../server/themes';
-import {md5Hash} from '@docusaurus/utils';
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -130,6 +127,7 @@ export function createBaseConfig(
         ? 'assets/js/[name].[contenthash:8].js'
         : '[name].js',
       publicPath: baseUrl,
+      hashFunction: 'xxhash64',
     },
     // Don't throw warning when asset created is over 250kb
     performance: {
@@ -144,13 +142,13 @@ export function createBaseConfig(
         // Allow resolution of url("/fonts/xyz.ttf") by webpack
         // See https://webpack.js.org/configuration/resolve/#resolveroots
         // See https://github.com/webpack-contrib/css-loader/issues/1256
-        path.join(siteDir, STATIC_DIR_NAME),
+        ...siteConfig.staticDirectories.map((dir) =>
+          path.resolve(siteDir, dir),
+        ),
         siteDir,
         process.cwd(),
       ],
       alias: {
-        ...SharedModuleAliases,
-
         '@site': siteDir,
         '@generated': generatedFilesDir,
 

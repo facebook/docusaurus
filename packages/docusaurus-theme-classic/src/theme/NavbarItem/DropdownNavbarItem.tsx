@@ -11,6 +11,7 @@ import {
   isSamePath,
   useCollapsible,
   Collapsible,
+  isRegexpStringMatch,
   useLocalPathname,
 } from '@docusaurus/theme-common';
 import type {
@@ -31,10 +32,7 @@ function isItemActive(
   if (isSamePath(item.to, localPathname)) {
     return true;
   }
-  if (
-    item.activeBaseRegex &&
-    new RegExp(item.activeBaseRegex).test(localPathname)
-  ) {
+  if (isRegexpStringMatch(item.activeBaseRegex, localPathname)) {
     return true;
   }
   if (item.activeBasePath && localPathname.startsWith(item.activeBasePath)) {
@@ -57,7 +55,6 @@ function DropdownNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownMenuRef = useRef<HTMLUListElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -88,6 +85,7 @@ function DropdownNavbarItemDesktop({
         'dropdown--show': showDropdown,
       })}>
       <NavLink
+        href={props.to ? undefined : '#'}
         className={clsx('navbar__link', className)}
         {...props}
         onClick={props.to ? undefined : (e) => e.preventDefault()}
@@ -99,7 +97,7 @@ function DropdownNavbarItemDesktop({
         }}>
         {props.children ?? props.label}
       </NavLink>
-      <ul ref={dropdownMenuRef} className="dropdown__menu">
+      <ul className="dropdown__menu">
         {items.map((childItemProps, i) => (
           <NavbarItem
             isDropdownItem
@@ -141,7 +139,7 @@ function DropdownNavbarItemMobile({
     if (containsActive) {
       setCollapsed(!containsActive);
     }
-  }, [localPathname, containsActive]);
+  }, [localPathname, containsActive, setCollapsed]);
 
   return (
     <li

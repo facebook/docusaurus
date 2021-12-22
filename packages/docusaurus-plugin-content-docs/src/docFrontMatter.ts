@@ -12,10 +12,10 @@ import {
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-import {DocFrontMatter} from './types';
+import type {DocFrontMatter} from './types';
 
 // NOTE: we don't add any default value on purpose here
-// We don't want default values to magically appear in doc metadatas and props
+// We don't want default values to magically appear in doc metadata and props
 // While the user did not provide those values explicitly
 // We use default values in code instead
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
@@ -34,6 +34,8 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
   parse_number_prefixes: Joi.boolean(),
+  pagination_next: Joi.string().allow(null),
+  pagination_prev: Joi.string().allow(null),
   ...FrontMatterTOCHeadingLevels,
 }).unknown();
 

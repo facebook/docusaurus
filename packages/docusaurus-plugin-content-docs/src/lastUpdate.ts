@@ -6,12 +6,11 @@
  */
 
 import shell from 'shelljs';
-import execa from 'execa';
-import path from 'path';
+import logger from '@docusaurus/logger';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
+const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
 
 let showedGitRequirementError = false;
 
@@ -38,24 +37,23 @@ export async function getFileLastUpdate(
     if (!shell.which('git')) {
       if (!showedGitRequirementError) {
         showedGitRequirementError = true;
-        console.warn('Sorry, the docs plugin last update options require Git.');
+        logger.warn('Sorry, the docs plugin last update options require Git.');
       }
 
       return null;
     }
 
-    const fileBasename = path.basename(filePath);
-    const fileDirname = path.dirname(filePath);
-    const {stdout} = await execa(
-      'git',
-      ['log', '-1', '--format=%ct, %an', fileBasename],
-      {
-        cwd: fileDirname,
-      },
-    );
-    return getTimestampAndAuthor(stdout);
-  } catch (error) {
-    console.error(error);
+    const result = shell.exec(`git log -1 --format=%ct,%an ${filePath}`, {
+      silent: true,
+    });
+    if (result.code !== 0) {
+      throw new Error(
+        `Retrieval of git history failed at ${filePath} with exit code ${result.code}: ${result.stderr}`,
+      );
+    }
+    return getTimestampAndAuthor(result.stdout.trim());
+  } catch (e) {
+    logger.error(e);
   }
 
   return null;

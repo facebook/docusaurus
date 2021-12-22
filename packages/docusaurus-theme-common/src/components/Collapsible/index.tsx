@@ -189,7 +189,7 @@ function CollapsibleBase({
 
   return (
     <As
-      // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
+      // @ts-expect-error: the "too complicated type" is produced from "CollapsibleElementType" being a huge union
       ref={collapsibleRef}
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {
@@ -197,21 +197,8 @@ function CollapsibleBase({
           return;
         }
 
-        const el = collapsibleRef.current!;
-        const currentCollapsibleElementHeight = el.style.height;
-
-        if (
-          !collapsed &&
-          parseInt(currentCollapsibleElementHeight, 10) === el.scrollHeight
-        ) {
-          applyCollapsedStyle(el, false);
-          onCollapseTransitionEnd?.(false);
-        }
-
-        if (currentCollapsibleElementHeight === CollapsedStyles.height) {
-          applyCollapsedStyle(el, true);
-          onCollapseTransitionEnd?.(true);
-        }
+        applyCollapsedStyle(collapsibleRef.current!, collapsed);
+        onCollapseTransitionEnd?.(collapsed);
       }}
       className={className}>
       {children}
