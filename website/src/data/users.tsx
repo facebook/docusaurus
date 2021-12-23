@@ -734,6 +734,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'LabVIEW 编程经验',
+    description: 'A book for LabVIEW Programming',
+    preview: require('./showcase/labviewbook.png'),
+    website: 'https://lv.qizhen.xyz',
+    source: 'https://github.com/ruanqizhen/labview_book',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
