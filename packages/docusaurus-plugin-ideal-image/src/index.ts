@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
+import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {Joi} from '@docusaurus/utils-validation';
 
 import path from 'path';
@@ -25,7 +25,11 @@ export default function pluginIdealImage(
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
+    },
+
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '../src/theme');
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {
