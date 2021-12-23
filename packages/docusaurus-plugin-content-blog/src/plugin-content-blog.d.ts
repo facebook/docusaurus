@@ -97,15 +97,15 @@ export type BlogMetadata = {
 export type Content = {
   readonly frontMatter: FrontMatter;
   readonly assets: Assets;
-  readonly metadata: Metadata;
+  readonly metadata: BlogPostMetadata;
   readonly toc: readonly TOCItem[];
   (): JSX.Element;
 };
 
-export type BlogSidebarItem = {title: string; permalink: string};
-export type BlogSidebar = {
+export type PropBlogSidebarItem = {title: string; permalink: string};
+export type PropBlogSidebar = {
   title: string;
-  items: BlogSidebarItem[];
+  items: PropBlogSidebarItem[];
 };
 
 export type Tag = {

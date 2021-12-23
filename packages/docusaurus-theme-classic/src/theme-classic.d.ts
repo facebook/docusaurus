@@ -97,10 +97,10 @@ declare module '@theme/BlogPostPaginator' {
 }
 
 declare module '@theme/BlogSidebar' {
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+  import type {PropBlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly sidebar: BlogSidebar;
+    readonly sidebar: PropBlogSidebar;
   }
 
   const BlogSidebar: (props: Props) => JSX.Element;
@@ -108,10 +108,10 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {BlogSidebar, Content} from '@docusaurus/plugin-content-blog';
+  import type {PropBlogSidebar, Content} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly sidebar: BlogSidebar;
+    readonly sidebar: PropBlogSidebar;
     readonly content: Content;
   }
 
@@ -121,13 +121,13 @@ declare module '@theme/BlogPostPage' {
 
 declare module '@theme/BlogListPage' {
   import type {
-    BlogSidebar,
+    PropBlogSidebar,
     Content,
     BlogMetadata,
   } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly sidebar: BlogSidebar;
+    readonly sidebar: PropBlogSidebar;
     readonly metadata: BlogMetadata;
     readonly items: readonly {readonly content: Content}[];
   }
@@ -137,10 +137,10 @@ declare module '@theme/BlogListPage' {
 }
 
 declare module '@theme/BlogTagsListPage' {
-  import type {BlogSidebar, Tag} from '@docusaurus/plugin-content-blog';
+  import type {PropBlogSidebar, Tag} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly sidebar: BlogSidebar;
+    readonly sidebar: PropBlogSidebar;
     readonly tags: Readonly<Record<string, Tag>>;
   }
 
@@ -150,13 +150,13 @@ declare module '@theme/BlogTagsListPage' {
 
 declare module '@theme/BlogTagsPostsPage' {
   import type {
-    BlogSidebar,
+    PropBlogSidebar,
     Content,
     Tag,
   } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly sidebar: BlogSidebar;
+    readonly sidebar: PropBlogSidebar;
     readonly metadata: Tag;
     readonly items: readonly {readonly content: Content}[];
   }
@@ -182,10 +182,10 @@ declare module '@theme/BlogArchivePage' {
 declare module '@theme/BlogLayout' {
   import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
-  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+  import type {PropBlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props extends LayoutProps {
-    readonly sidebar?: BlogSidebar;
+    readonly sidebar?: PropBlogSidebar;
     readonly toc?: ReactNode;
   }
 
