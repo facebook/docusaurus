@@ -49,7 +49,7 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 import {createBlogFeedFiles} from './feed';
 import {getAuthorsMapFilePath} from './authors';
 

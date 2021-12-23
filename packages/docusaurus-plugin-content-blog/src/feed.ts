@@ -6,9 +6,10 @@
  */
 
 import {Feed, Author as FeedAuthor, Item as FeedItem} from 'feed';
-import {PluginOptions, Author, BlogPost, FeedType} from './types';
+import type {PluginOptions, BlogPost, FeedType} from './types';
 import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
 import {DocusaurusConfig} from '@docusaurus/types';
+import type {Author} from '@docusaurus/plugin-content-blog';
 import path from 'path';
 import fs from 'fs-extra';
 

@@ -110,9 +110,7 @@ declare module '@theme/BlogSidebar' {
 declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {TOCItem} from '@docusaurus/types';
-
-  export type FrontMatter = import('./blogFrontMatter').BlogPostFrontMatter;
-  export type Assets = import('./types').Assets;
+  import type {Author} from '@docusaurus/plugin-content-blog';
 
   export type Metadata = {
     readonly title: string;
@@ -125,7 +123,7 @@ declare module '@theme/BlogPostPage' {
     readonly truncated?: string;
     readonly nextItem?: {readonly title: string; readonly permalink: string};
     readonly prevItem?: {readonly title: string; readonly permalink: string};
-    readonly authors: import('./types').Author[];
+    readonly authors: Author[];
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;

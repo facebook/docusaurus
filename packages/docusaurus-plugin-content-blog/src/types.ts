@@ -12,7 +12,10 @@ import type {
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
 import {Overwrite} from 'utility-types';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {
+  BlogPostFrontMatter,
+  Author,
+} from '@docusaurus/plugin-content-blog';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -136,14 +139,6 @@ export interface BlogPaginatedMetadata {
 export interface BlogPaginated {
   metadata: BlogPaginatedMetadata;
   items: string[];
-}
-
-// We allow passing custom fields to authors, e.g., twitter
-export interface Author extends Record<string, unknown> {
-  name?: string;
-  imageURL?: string;
-  url?: string;
-  title?: string;
 }
 
 export interface MetaData {

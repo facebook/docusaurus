@@ -8,14 +8,15 @@
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
 import path from 'path';
-import {Author, BlogContentPaths} from './types';
+import {BlogContentPaths} from './types';
 import {findFolderContainingFile} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {
+import type {
+  Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
-} from './blogFrontMatter';
+} from '@docusaurus/plugin-content-blog';
 import {getContentPathList} from './blogUtils';
 import Yaml from 'js-yaml';
 
