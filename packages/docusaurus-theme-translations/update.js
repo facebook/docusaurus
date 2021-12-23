@@ -285,8 +285,8 @@ function run() {
         const messages = locales.map(([name, stat]) => {
           const percentage = (messageCount - stat.untranslated) / messageCount;
           const filled = Math.floor(percentage * 30);
-          // eslint-disable-next-line no-nested-ternary
           const color =
+            // eslint-disable-next-line no-nested-ternary
             percentage > 0.99
               ? logger.green
               : percentage > 0.7
