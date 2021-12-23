@@ -95,7 +95,7 @@ export type BlogMetadata = {
 };
 
 export type Content = {
-  readonly frontMatter: FrontMatter;
+  readonly frontMatter: BlogPostFrontMatter;
   readonly assets: Assets;
   readonly metadata: BlogPostMetadata;
   readonly toc: readonly TOCItem[];
