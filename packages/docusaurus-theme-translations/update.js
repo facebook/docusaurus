@@ -34,10 +34,14 @@ const Themes = [
     name: 'plugin-pwa',
     src: [getPackageCodePath('docusaurus-plugin-pwa')],
   },
+  {
+    name: 'plugin-ideal-image',
+    src: [getPackageCodePath('docusaurus-plugin-ideal-image')],
+  },
 ];
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
-console.log('Will scan folders for code translations:', AllThemesSrcDirs);
+logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
 
 function getPackageCodePath(packageName) {
   const packagePath = path.join(__dirname, '..', packageName);
@@ -116,6 +120,10 @@ ${warning}
 }
 
 async function readMessagesFile(filePath) {
+  if (!(await fs.pathExists(filePath))) {
+    logger.info`File path=${filePath} not found. Creating new translation base file.`;
+    await fs.writeFile(filePath, '{}\n');
+  }
   return JSON.parse((await fs.readFile(filePath)).toString());
 }
 

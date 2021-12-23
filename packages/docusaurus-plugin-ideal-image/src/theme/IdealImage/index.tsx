@@ -6,9 +6,77 @@
  */
 
 import React from 'react';
-import ReactIdealImage from '@endiliey/react-ideal-image';
+import ReactIdealImage, {
+  type IconKey,
+  type State,
+} from '@endiliey/react-ideal-image';
+import {translate} from '@docusaurus/Translate';
 
 import type {Props} from '@theme/IdealImage';
+
+const bytesToSize = (bytes: number) => {
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) {
+    return 'n/a';
+  }
+  const scale = Math.floor(Math.log(bytes) / Math.log(1024));
+  if (scale === 0) {
+    return `${bytes} ${sizes[scale]}`;
+  }
+  return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]}`;
+};
+
+const getMessage = (icon: IconKey, state: State) => {
+  switch (icon) {
+    case 'noicon':
+    case 'loaded':
+      return null;
+    case 'loading':
+      return translate({
+        id: 'theme.IdealImageMessage.loading',
+        message: 'Loading...',
+        description: 'When the full-scale image is loading',
+      });
+    case 'load': {
+      // we can show `alt` here
+      const {pickedSrc} = state;
+      const {size} = pickedSrc;
+      const sizeMessage = size ? ` (${bytesToSize(size)}` : '';
+      return translate(
+        {
+          id: 'theme.IdealImageMessage.load',
+          message: 'Click to load{sizeMessage}',
+          description: 'To prompt users to load the full image',
+        },
+        {sizeMessage},
+      );
+    }
+    case 'offline':
+      return translate({
+        id: 'theme.IdealImageMessage.offline',
+        message: 'Your browser is offline. Image not loaded',
+        description: 'When the user is viewing an offline document',
+      });
+    case 'error': {
+      const {loadInfo} = state;
+      if (loadInfo === 404) {
+        return translate({
+          id: 'theme.IdealImageMessage.404error',
+          message: '404. Image not found',
+          description: 'When the image is not found',
+        });
+      } else {
+        return translate({
+          id: 'theme.IdealImageMessage.error',
+          message: 'Error. Click to reload',
+          description: 'When the image fails to load for unknown error',
+        });
+      }
+    }
+    default:
+      throw new Error(`Wrong icon: ${icon}`);
+  }
+};
 
 function IdealImage(props: Props): JSX.Element {
   const {alt, className, img} = props;
@@ -38,6 +106,7 @@ function IdealImage(props: Props): JSX.Element {
         ...image,
         src: image.path,
       }))}
+      getMessage={getMessage}
     />
   );
 }
