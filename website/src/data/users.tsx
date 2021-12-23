@@ -439,7 +439,7 @@ const Users: User[] = [
   {
     title: 'Digital Support Services Notes',
     description: 'All notes needed for Digital Support Services T Level',
-    preview: require('./showcase/digitalsupport.PNG'),
+    preview: require('./showcase/digitalsupport.png'),
     website: 'https://notes.nayanpatel.net',
     source: 'https://github.com/PatelN123/Digital-Support-Notes',
     tags: ['opensource', 'design', 'personal'],
