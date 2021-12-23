@@ -157,11 +157,6 @@ export interface MetaData {
   authors: Author[];
 }
 
-export interface Assets {
-  image?: string;
-  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
-}
-
 export interface Paginator {
   title: string;
   permalink: string;

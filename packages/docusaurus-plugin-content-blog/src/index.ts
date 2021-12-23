@@ -30,7 +30,6 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
-  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -49,7 +48,10 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
+import type {
+  BlogPostFrontMatter,
+  Assets,
+} from '@docusaurus/plugin-content-blog';
 import {createBlogFeedFiles} from './feed';
 import {getAuthorsMapFilePath} from './authors';
 

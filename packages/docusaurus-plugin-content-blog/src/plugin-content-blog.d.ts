@@ -6,6 +6,7 @@
  */
 
 import type {FrontMatterTag} from '@docusaurus/utils';
+import type {TOCItem} from '@docusaurus/types';
 
 export type Options = Partial<import('./types').UserPluginOptions>;
 
@@ -57,5 +58,60 @@ export type BlogPostFrontMatter = {
   toc_min_heading_level?: number;
   toc_max_heading_level?: number;
 };
-export type FrontMatter = import('./blogFrontMatter').BlogPostFrontMatter;
-export type Assets = import('./types').Assets;
+
+export type Assets = {
+  image?: string;
+  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
+};
+
+export type BlogPostMetadata = {
+  readonly title: string;
+  readonly date: string;
+  readonly formattedDate: string;
+  readonly permalink: string;
+  readonly description?: string;
+  readonly editUrl?: string;
+  readonly readingTime?: number;
+  readonly truncated?: string;
+  readonly nextItem?: {readonly title: string; readonly permalink: string};
+  readonly prevItem?: {readonly title: string; readonly permalink: string};
+  readonly authors: Author[];
+  readonly tags: readonly {
+    readonly label: string;
+    readonly permalink: string;
+  }[];
+};
+
+export type BlogMetadata = {
+  readonly blogTitle: string;
+  readonly blogDescription: string;
+  readonly nextPage?: string;
+  readonly page: number;
+  readonly permalink: string;
+  readonly postsPerPage: number;
+  readonly previousPage?: string;
+  readonly totalCount: number;
+  readonly totalPages: number;
+};
+
+export type Content = {
+  readonly frontMatter: FrontMatter;
+  readonly assets: Assets;
+  readonly metadata: Metadata;
+  readonly toc: readonly TOCItem[];
+  (): JSX.Element;
+};
+
+export type BlogSidebarItem = {title: string; permalink: string};
+export type BlogSidebar = {
+  title: string;
+  items: BlogSidebarItem[];
+};
+
+export type Tag = {
+  permalink: string;
+  name: string;
+  count: number;
+  allTagsPath: string;
+  slug: string;
+};

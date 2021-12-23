@@ -33,10 +33,10 @@ declare module '@theme/BackToTopButton' {
 }
 
 declare module '@theme/BlogListPaginator' {
-  import type {Metadata} from '@theme/BlogListPage';
+  import type {BlogMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly metadata: Metadata;
+    readonly metadata: BlogMetadata;
   }
 
   const BlogListPaginator: (props: Props) => JSX.Element;
@@ -44,12 +44,16 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Assets, Metadata} from '@theme/BlogPostPage';
+  import type {
+    BlogPostFrontMatter,
+    Assets,
+    BlogPostMetadata,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly frontMatter: FrontMatter;
+    readonly frontMatter: BlogPostFrontMatter;
     readonly assets: Assets;
-    readonly metadata: Metadata;
+    readonly metadata: BlogPostMetadata;
     readonly truncated?: string | boolean;
     readonly isBlogPostPage?: boolean;
     readonly children: JSX.Element;
@@ -60,20 +64,20 @@ declare module '@theme/BlogPostItem' {
 }
 
 declare module '@theme/BlogPostAuthor' {
-  import type {Metadata} from '@theme/BlogPostPage';
+  import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly author: Metadata['authors'][number];
+    readonly author: BlogPostMetadata['authors'][number];
   }
 
   export default function BlogPostAuthor(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostAuthors' {
-  import type {Metadata, Assets} from '@theme/BlogPostPage';
+  import type {BlogPostMetadata, Assets} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly authors: Metadata['authors'];
+    readonly authors: BlogPostMetadata['authors'];
     readonly assets: Assets;
   }
 
@@ -93,11 +97,7 @@ declare module '@theme/BlogPostPaginator' {
 }
 
 declare module '@theme/BlogSidebar' {
-  export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = {
-    title: string;
-    items: BlogSidebarItem[];
-  };
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -108,35 +108,7 @@ declare module '@theme/BlogSidebar' {
 }
 
 declare module '@theme/BlogPostPage' {
-  import type {BlogSidebar} from '@theme/BlogSidebar';
-  import type {TOCItem} from '@docusaurus/types';
-  import type {Author} from '@docusaurus/plugin-content-blog';
-
-  export type Metadata = {
-    readonly title: string;
-    readonly date: string;
-    readonly formattedDate: string;
-    readonly permalink: string;
-    readonly description?: string;
-    readonly editUrl?: string;
-    readonly readingTime?: number;
-    readonly truncated?: string;
-    readonly nextItem?: {readonly title: string; readonly permalink: string};
-    readonly prevItem?: {readonly title: string; readonly permalink: string};
-    readonly authors: Author[];
-    readonly tags: readonly {
-      readonly label: string;
-      readonly permalink: string;
-    }[];
-  };
-
-  export type Content = {
-    readonly frontMatter: FrontMatter;
-    readonly assets: Assets;
-    readonly metadata: Metadata;
-    readonly toc: readonly TOCItem[];
-    (): JSX.Element;
-  };
+  import type {BlogSidebar, Content} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -148,24 +120,15 @@ declare module '@theme/BlogPostPage' {
 }
 
 declare module '@theme/BlogListPage' {
-  import type {Content} from '@theme/BlogPostPage';
-  import type {BlogSidebar} from '@theme/BlogSidebar';
-
-  export type Metadata = {
-    readonly blogTitle: string;
-    readonly blogDescription: string;
-    readonly nextPage?: string;
-    readonly page: number;
-    readonly permalink: string;
-    readonly postsPerPage: number;
-    readonly previousPage?: string;
-    readonly totalCount: number;
-    readonly totalPages: number;
-  };
+  import type {
+    BlogSidebar,
+    Content,
+    BlogMetadata,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
-    readonly metadata: Metadata;
+    readonly metadata: BlogMetadata;
     readonly items: readonly {readonly content: Content}[];
   }
 
@@ -174,15 +137,7 @@ declare module '@theme/BlogListPage' {
 }
 
 declare module '@theme/BlogTagsListPage' {
-  import type {BlogSidebar} from '@theme/BlogSidebar';
-
-  export type Tag = {
-    permalink: string;
-    name: string;
-    count: number;
-    allTagsPath: string;
-    slug: string;
-  };
+  import type {BlogSidebar, Tag} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -194,9 +149,11 @@ declare module '@theme/BlogTagsListPage' {
 }
 
 declare module '@theme/BlogTagsPostsPage' {
-  import type {BlogSidebar} from '@theme/BlogSidebar';
-  import type {Tag} from '@theme/BlogTagsListPage';
-  import type {Content} from '@theme/BlogPostPage';
+  import type {
+    BlogSidebar,
+    Content,
+    Tag,
+  } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -209,7 +166,7 @@ declare module '@theme/BlogTagsPostsPage' {
 }
 
 declare module '@theme/BlogArchivePage' {
-  import type {Content} from '@theme/BlogPostPage';
+  import type {Content} from '@docusaurus/plugin-content-blog';
 
   export type ArchiveBlogPost = Content;
 
@@ -225,7 +182,7 @@ declare module '@theme/BlogArchivePage' {
 declare module '@theme/BlogLayout' {
   import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
-  import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props extends LayoutProps {
     readonly sidebar?: BlogSidebar;
