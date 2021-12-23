@@ -49,7 +49,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-popper": "^2.2.5",
-    "rehype-katex": "^4.0.0",
+    "rehype-katex": "^5.0.0",
     "remark-math": "^3.0.1",
     "workbox-routing": "^5.0.0",
     "workbox-strategies": "^5.0.0"
