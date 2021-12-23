@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
@@ -49,13 +49,46 @@ export default function CodeBlock({
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
+  // The user may use <pre> tags in markdown which maps to CodeBlocks.
+  // When the children of CodeBlock is not a simple string, we just return a styled block without actually parsing.
+  if (React.Children.toArray(children).some(isValidElement)) {
+    return (
+      <Highlight
+        {...defaultProps}
+        key={String(mounted)}
+        theme={prismTheme}
+        code=""
+        language={'text' as Language}>
+        {({className, style}) => (
+          <div
+            className={clsx(
+              styles.codeBlockContainer,
+              blockClassName,
+              ThemeClassNames.common.codeBlock,
+            )}>
+            <div className={clsx(styles.codeBlockContent)}>
+              <pre
+                /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+                tabIndex={0}
+                className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
+                style={style}>
+                <code className={styles.codeBlockLines}>{children}</code>
+              </pre>
+            </div>
+          </div>
+        )}
+      </Highlight>
+    );
+  }
+
   // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
   const content = Array.isArray(children)
     ? children.join('')
     : (children as string);
 
   const language =
-    parseLanguage(blockClassName) ?? (prism.defaultLanguage as Language);
+    parseLanguage(blockClassName) ??
+    (prism.defaultLanguage as Language | undefined);
   const {highlightLines, code} = parseLines(content, metastring, language);
 
   const handleCopyCode = () => {
@@ -71,7 +104,7 @@ export default function CodeBlock({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      language={language}>
+      language={language ?? ('text' as Language)}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(

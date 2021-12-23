@@ -8,7 +8,7 @@
 import React, {ComponentProps, isValidElement, ReactElement} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import CodeBlock, {Props} from '@theme/CodeBlock';
+import CodeBlock, {Props as CodeBlockProps} from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
 import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
@@ -48,25 +48,10 @@ const MDXComponents: MDXComponentsObject = {
     );
   },
   a: (props) => <Link {...props} />,
-  pre: (props) => {
-    const {children} = props;
-
-    // See comment for `code` above
-    if (isValidElement(children) && isValidElement(children?.props?.children)) {
-      return children.props.children;
-    }
-
-    return (
-      <CodeBlock
-        {...((isValidElement(children)
-          ? children?.props
-          : {...props}) as Props)}
-      />
-    );
-  },
+  pre: (props) => <CodeBlock {...(props as CodeBlockProps)} />,
   details: (props): JSX.Element => {
     const items = React.Children.toArray(props.children) as ReactElement[];
-    // Split summary item from the rest to pass it as a separate prop to the Detais theme component
+    // Split summary item from the rest to pass it as a separate prop to the Details theme component
     const summary: ReactElement<ComponentProps<'summary'>> = items.find(
       (item) => item?.props?.mdxType === 'summary',
     )!;

@@ -177,11 +177,29 @@ function Clock(props) {
 3
 </pre>
 
+<pre>
+1{'\n'}
+2{'\n'}
+3{'\n'}
+</pre>
+
+<pre>
+<strong>Input: </strong>a = "abcd", b = "cdabcdab"<br />
+<strong>Output: </strong>3<br />
+<strong>Explanation: </strong>a after three repetitions become "ab<strong>cdabcdab</strong>cd", at which time b is a substring.<br />
+</pre>
+
 ## Custom heading id {#custom}
 
 ## Children elements inside pre/code elements
 
 See https://github.com/facebook/docusaurus/pull/1584
+
+<pre>
+  <BrowserWindow url="http://localhost:3000" >
+    Lol bro
+  </BrowserWindow>
+</pre>
 
 <pre><code>
   <BrowserWindow url="http://localhost:3000" >
