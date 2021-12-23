@@ -739,7 +739,7 @@ const Users: User[] = [
     preview: require('./showcase/labviewbook.png'),
     website: 'https://lv.qizhen.xyz',
     source: 'https://github.com/ruanqizhen/labview_book',
-    tags: ['opensource', 'i18n', 'large'],
+    tags: ['opensource', 'i18n'],
   },
   {
     title: 'Lux Algo',
