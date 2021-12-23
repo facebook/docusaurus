@@ -9,6 +9,7 @@
 
 /**
  * @see https://github.com/endiliey/react-ideal-image/blob/master/index.d.ts
+ * Note: the original type definition is WRONG. getIcon & getMessage receive full state object.
  */
 declare module '@endiliey/react-ideal-image' {
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
