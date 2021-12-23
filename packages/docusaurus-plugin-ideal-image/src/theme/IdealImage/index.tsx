@@ -14,6 +14,7 @@ import {translate} from '@docusaurus/Translate';
 
 import type {Props} from '@theme/IdealImage';
 
+// Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/helpers.js#L59-L65
 const bytesToSize = (bytes: number) => {
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
   if (bytes === 0) {
@@ -26,6 +27,7 @@ const bytesToSize = (bytes: number) => {
   return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]}`;
 };
 
+// Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/IdealImage/index.js#L43-L75
 const getMessage = (icon: IconKey, state: State) => {
   switch (icon) {
     case 'noicon':
