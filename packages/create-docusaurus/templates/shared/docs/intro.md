@@ -21,7 +21,7 @@ Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new
     - Select the correct version for your machine. Windows Installer, macOS Installer...
     - Choose all the preset options during installation until the last step.
         - Ensure tools are set to automatically install, this will save time when installing packages. 
-        ![](./img/nodejs-install.png)
+        ![](/img/nodejs-install.png)
     - Let the installation run and finish completely, this may take a while. 
 
 ## Generate a new site
