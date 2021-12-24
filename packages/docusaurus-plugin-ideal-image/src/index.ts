@@ -8,18 +8,30 @@
 import {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Configuration} from 'webpack';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 import path from 'path';
 
 export default function (
-  _context: LoadContext,
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
       return path.resolve(__dirname, './theme');
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'plugin-ideal-image',
+      });
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {
