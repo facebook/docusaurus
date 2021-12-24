@@ -35,7 +35,7 @@ async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
 
-  await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
+  await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
 }
 
 function readTemplates(templatesDir: string) {
