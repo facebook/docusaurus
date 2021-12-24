@@ -634,6 +634,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'GTFS-to-HTML',
+    description: 'Generate human-readable HTML timetables from GTFS',
+    preview: require('./showcase/gtfs-to-html.png'),
+    website: 'https://gtfstohtml.com',
+    source: 'https://github.com/BlinkTagInc/gtfs-to-html',
+    tags: ['opensource'],
+  },
+  {
     title: 'Gulp',
     description: 'A toolkit to automate & enhance your workflow',
     preview: require('./showcase/gulp.png'),
