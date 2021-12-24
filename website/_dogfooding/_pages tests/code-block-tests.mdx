@@ -17,7 +17,12 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
 
 <pre>1 2 3</pre>
 
-<pre>1 2 3</pre>
+<!-- prettier-ignore -->
+<pre>
+1
+2
+3
+</pre>
 
 ### `pre > string[]`
 
@@ -35,14 +40,11 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
 
 <pre>
   <a href="/">Front page</a>
-  <br />
-  <strong>Input: </strong>a = "abcd", b = "cdabcdab"
-  <br />
-  <strong>Output: </strong>3<br />
-  <strong>Explanation: </strong>a after three repetitions become "ab<strong>
-    cdabcdab
-  </strong>cd", at which time b is a substring.
-  <br />
+  {'\n'}
+  <strong>Input: </strong>a = "abcd", b = "cdabcdab"{'\n'}
+  <strong>Output: </strong>3{'\n'}
+  <strong>Explanation: </strong>a after three repetitions become "ab
+  <strong>cdabcdab</strong>cd", at which time b is a substring.{'\n'}
 </pre>
 
 ### `pre > code > element`
@@ -56,8 +58,6 @@ Multi-line text inside `pre` will turn into one-liner, but it's okay (https://gi
 ## `code`
 
 ### `code > string`
-
-<code>1 2 3</code>
 
 <code>1 2 3</code>
 
