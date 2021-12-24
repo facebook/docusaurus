@@ -51,7 +51,7 @@ export default function CodeBlock({
 
   // The user may use <pre> tags in markdown which maps to CodeBlocks.
   // When the children of CodeBlock is not a simple string, we just return a styled block without actually parsing.
-  if (React.Children.toArray(children).some(isValidElement)) {
+  if (React.Children.toArray(children).some((el) => isValidElement(el))) {
     return (
       <Highlight
         {...defaultProps}
@@ -60,22 +60,20 @@ export default function CodeBlock({
         code=""
         language={'text' as Language}>
         {({className, style}) => (
-          <div
+          <pre
+            /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+            tabIndex={0}
             className={clsx(
+              className,
+              styles.codeBlockStandalone,
+              'thin-scrollbar',
               styles.codeBlockContainer,
               blockClassName,
               ThemeClassNames.common.codeBlock,
-            )}>
-            <div className={clsx(styles.codeBlockContent)}>
-              <pre
-                /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
-                tabIndex={0}
-                className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-                style={style}>
-                <code className={styles.codeBlockLines}>{children}</code>
-              </pre>
-            </div>
-          </div>
+            )}
+            style={style}>
+            <code className={styles.codeBlockLines}>{children}</code>
+          </pre>
         )}
       </Highlight>
     );
