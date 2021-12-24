@@ -49,8 +49,8 @@ export default function CodeBlock({
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
-  // The user may use <pre> tags in markdown which maps to CodeBlocks.
-  // When the children of CodeBlock is not a simple string, we just return a styled block without actually parsing.
+  // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
+  // When the children is not a simple string, we just return a styled block without actually highlighting.
   if (React.Children.toArray(children).some((el) => isValidElement(el))) {
     return (
       <Highlight
@@ -79,7 +79,7 @@ export default function CodeBlock({
     );
   }
 
-  // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
+  // The children is now guaranteed to be one/more plain strings
   const content = Array.isArray(children)
     ? children.join('')
     : (children as string);
