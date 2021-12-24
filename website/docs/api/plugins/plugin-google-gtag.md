@@ -52,7 +52,7 @@ Most Docusaurus users configure this plugin through the [preset options](#ex-con
 
 ```js
 const config = {
-  trackingID: 'UA-141789564-1',
+  trackingID: '141789564',
   anonymizeIP: true,
 };
 ```
@@ -69,7 +69,7 @@ module.exports = {
       {
         // highlight-start
         gtag: {
-          trackingID: 'UA-141789564-1',
+          trackingID: '141789564',
           anonymizeIP: true,
         },
         // highlight-end
@@ -90,7 +90,7 @@ module.exports = {
       '@docusaurus/plugin-google-gtag',
       // highlight-start
       {
-        trackingID: 'UA-141789564-1',
+        trackingID: '141789564',
         anonymizeIP: true,
       },
       // highlight-end
