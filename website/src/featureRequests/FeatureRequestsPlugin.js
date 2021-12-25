@@ -15,14 +15,16 @@ function FeatureRequestsPlugin(context) {
   return {
     name: 'feature-requests-plugin',
     async contentLoaded({actions}) {
-      const basePath = normalizeUrl([context.baseUrl, '/feature-requests']);
-      await actions.createData('paths.json', JSON.stringify(basePath));
+      const basePath = await actions.createData(
+        'paths.json',
+        JSON.stringify(normalizeUrl([context.baseUrl, '/feature-requests'])),
+      );
       actions.addRoute({
         path: basePath,
         exact: false,
         component: '@site/src/featureRequests/FeatureRequestsPage',
         modules: {
-          basePath: './feature-requests-plugin/default/paths.json',
+          basePath,
         },
       });
     },

@@ -5,11 +5,23 @@ title: '📦 plugin-google-gtag'
 slug: '/api/plugins/@docusaurus/plugin-google-gtag'
 ---
 
-The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin. It is a JavaScript tagging framework and API that allows you to send event data to Google Analytics, Google Ads, and Google Marketing Platform, **in the production build**. This section describes how to configure a Docusaurus site to enable global site tag for Google Analytics.
+```mdx-code-block
+import APITable from '@site/src/components/APITable';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin. It is a JavaScript tagging framework and API that allows you to send event data to Google Analytics, Google Ads, and Google Marketing Platform. This section describes how to configure a Docusaurus site to enable global site tag for Google Analytics.
 
 :::tip
 
 You can use [Google's Tag Assistant](https://tagassistant.google.com/) tool to check if your gtag is set up correctly!
+
+:::
+
+:::info production only
+
+This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
 
 :::
 
@@ -21,7 +33,9 @@ npm install --save @docusaurus/plugin-google-gtag
 
 :::tip
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the preset options.
 
 :::
 
@@ -29,37 +43,27 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `trackingID` | `string` | **Required** | The tracking ID of your gtag service. |
 | `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
 
-</small>
+</APITable>
 
 ## Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
-const config = {
-  trackingID: '141789564',
-  anonymizeIP: true,
-};
-```
-
-### Preset options {#ex-config-preset}
-
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
+<Tabs>
+<TabItem value="Preset Options">
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -79,7 +83,8 @@ module.exports = {
 };
 ```
 
-### Plugin options {#ex-config-plugin}
+</TabItem>
+<TabItem value="Plugin Options">
 
 If you are using a standalone plugin, provide options directly to the plugin:
 
@@ -98,3 +103,6 @@ module.exports = {
   ],
 };
 ```
+
+</TabItem>
+</Tabs>

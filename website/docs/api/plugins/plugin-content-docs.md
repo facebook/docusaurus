@@ -5,7 +5,11 @@ title: '📦 plugin-content-docs'
 slug: '/api/plugins/@docusaurus/plugin-content-docs'
 ---
 
+```mdx-code-block
 import APITable from '@site/src/components/APITable';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
 
 Provides the [Docs](../../guides/docs/docs-introduction.md) functionality and is the default docs plugin for Docusaurus.
 
@@ -19,7 +23,7 @@ npm install --save @docusaurus/plugin-content-docs
 
 If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+You can configure this plugin through the preset options.
 
 :::
 
@@ -103,98 +107,18 @@ type Versions = Record<
 >;
 ```
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
-const config = {
-  path: 'docs',
-  // Simple use-case: string editUrl
-  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
-  // Advanced use-case: functional editUrl
-  editUrl: ({versionDocsDirPath, docPath}) =>
-    `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
-  editLocalizedFiles: false,
-  editCurrentVersion: false,
-  routeBasePath: 'docs',
-  include: ['**/*.md', '**/*.mdx'],
-  exclude: [
-    '**/_*.{js,jsx,ts,tsx,md,mdx}',
-    '**/_*/**',
-    '**/*.test.{js,jsx,ts,tsx}',
-    '**/__tests__/**',
-  ],
-  sidebarPath: 'sidebars.js',
-  sidebarItemsGenerator: async function ({
-    defaultSidebarItemsGenerator,
-    numberPrefixParser,
-    item,
-    version,
-    docs,
-  }) {
-    // Use the provided data to generate a custom sidebar slice
-    return [
-      {type: 'doc', id: 'intro'},
-      {
-        type: 'category',
-        label: 'Tutorials',
-        items: [
-          {type: 'doc', id: 'tutorial1'},
-          {type: 'doc', id: 'tutorial2'},
-        ],
-      },
-    ];
-  },
-  numberPrefixParser: function (filename) {
-    // Implement your own logic to extract a potential number prefix
-    const numberPrefix = findNumberPrefix(filename);
-    // Prefix found: return it with the cleaned filename
-    if (numberPrefix) {
-      return {
-        numberPrefix,
-        filename: filename.replace(prefix, ''),
-      };
-    }
-    // No number prefix found
-    return {numberPrefix: undefined, filename};
-  },
-  docLayoutComponent: '@theme/DocPage',
-  docItemComponent: '@theme/DocItem',
-  remarkPlugins: [require('remark-math')],
-  rehypePlugins: [],
-  beforeDefaultRemarkPlugins: [],
-  beforeDefaultRehypePlugins: [],
-  showLastUpdateAuthor: false,
-  showLastUpdateTime: false,
-  disableVersioning: false,
-  includeCurrentVersion: true,
-  lastVersion: undefined,
-  versions: {
-    current: {
-      label: 'Android SDK v2.0.0 (WIP)',
-      path: 'android-2.0.0',
-      banner: 'none',
-    },
-    '1.0.0': {
-      label: 'Android SDK v1.0.0',
-      path: 'android-1.0.0',
-      banner: 'unmaintained',
-    },
-  },
-  onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
-};
-```
-
-### Preset options {#ex-config-preset}
+<Tabs>
+<TabItem value="Preset Options">
 
 If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
 
@@ -207,7 +131,79 @@ module.exports = {
         // highlight-start
         docs: {
           path: 'docs',
-          // ... configuration object here
+          // Simple use-case: string editUrl
+          // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          // Advanced use-case: functional editUrl
+          editUrl: ({versionDocsDirPath, docPath}) =>
+            `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
+          editLocalizedFiles: false,
+          editCurrentVersion: false,
+          routeBasePath: 'docs',
+          include: ['**/*.md', '**/*.mdx'],
+          exclude: [
+            '**/_*.{js,jsx,ts,tsx,md,mdx}',
+            '**/_*/**',
+            '**/*.test.{js,jsx,ts,tsx}',
+            '**/__tests__/**',
+          ],
+          sidebarPath: 'sidebars.js',
+          sidebarItemsGenerator: async function ({
+            defaultSidebarItemsGenerator,
+            numberPrefixParser,
+            item,
+            version,
+            docs,
+          }) {
+            // Use the provided data to generate a custom sidebar slice
+            return [
+              {type: 'doc', id: 'intro'},
+              {
+                type: 'category',
+                label: 'Tutorials',
+                items: [
+                  {type: 'doc', id: 'tutorial1'},
+                  {type: 'doc', id: 'tutorial2'},
+                ],
+              },
+            ];
+          },
+          numberPrefixParser: function (filename) {
+            // Implement your own logic to extract a potential number prefix
+            const numberPrefix = findNumberPrefix(filename);
+            // Prefix found: return it with the cleaned filename
+            if (numberPrefix) {
+              return {
+                numberPrefix,
+                filename: filename.replace(prefix, ''),
+              };
+            }
+            // No number prefix found
+            return {numberPrefix: undefined, filename};
+          },
+          docLayoutComponent: '@theme/DocPage',
+          docItemComponent: '@theme/DocItem',
+          remarkPlugins: [require('remark-math')],
+          rehypePlugins: [],
+          beforeDefaultRemarkPlugins: [],
+          beforeDefaultRehypePlugins: [],
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
+          disableVersioning: false,
+          includeCurrentVersion: true,
+          lastVersion: undefined,
+          versions: {
+            current: {
+              label: 'Android SDK v2.0.0 (WIP)',
+              path: 'android-2.0.0',
+              banner: 'none',
+            },
+            '1.0.0': {
+              label: 'Android SDK v1.0.0',
+              path: 'android-1.0.0',
+              banner: 'unmaintained',
+            },
+          },
+          onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
         },
         // highlight-end
       },
@@ -216,7 +212,8 @@ module.exports = {
 };
 ```
 
-### Plugin options {#ex-config-plugin}
+</TabItem>
+<TabItem value="Plugin Options">
 
 If you are using a standalone plugin, provide options directly to the plugin:
 
@@ -228,13 +225,88 @@ module.exports = {
       // highlight-start
       {
         path: 'docs',
-        // ... configuration object here
+        // Simple use-case: string editUrl
+        // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+        // Advanced use-case: functional editUrl
+        editUrl: ({versionDocsDirPath, docPath}) =>
+          `https://github.com/facebook/docusaurus/edit/main/website/${versionDocsDirPath}/${docPath}`,
+        editLocalizedFiles: false,
+        editCurrentVersion: false,
+        routeBasePath: 'docs',
+        include: ['**/*.md', '**/*.mdx'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        sidebarPath: 'sidebars.js',
+        sidebarItemsGenerator: async function ({
+          defaultSidebarItemsGenerator,
+          numberPrefixParser,
+          item,
+          version,
+          docs,
+        }) {
+          // Use the provided data to generate a custom sidebar slice
+          return [
+            {type: 'doc', id: 'intro'},
+            {
+              type: 'category',
+              label: 'Tutorials',
+              items: [
+                {type: 'doc', id: 'tutorial1'},
+                {type: 'doc', id: 'tutorial2'},
+              ],
+            },
+          ];
+        },
+        numberPrefixParser: function (filename) {
+          // Implement your own logic to extract a potential number prefix
+          const numberPrefix = findNumberPrefix(filename);
+          // Prefix found: return it with the cleaned filename
+          if (numberPrefix) {
+            return {
+              numberPrefix,
+              filename: filename.replace(prefix, ''),
+            };
+          }
+          // No number prefix found
+          return {numberPrefix: undefined, filename};
+        },
+        docLayoutComponent: '@theme/DocPage',
+        docItemComponent: '@theme/DocItem',
+        remarkPlugins: [require('remark-math')],
+        rehypePlugins: [],
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: false,
+        disableVersioning: false,
+        includeCurrentVersion: true,
+        lastVersion: undefined,
+        versions: {
+          current: {
+            label: 'Android SDK v2.0.0 (WIP)',
+            path: 'android-2.0.0',
+            banner: 'none',
+          },
+          '1.0.0': {
+            label: 'Android SDK v1.0.0',
+            path: 'android-1.0.0',
+            banner: 'unmaintained',
+          },
+        },
+        onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
       },
       // highlight-end
     ],
   ],
 };
 ```
+
+</TabItem>
+</Tabs>
 
 ## Markdown Frontmatter {#markdown-frontmatter}
 

@@ -9,6 +9,12 @@ import APITable from '@site/src/components/APITable';
 
 Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).
 
+:::info
+
+By default, the plugin is **inactive in development** so you could always view full-scale images. If you want to debug the ideal image behavior, you could set the [`disableInDev`](#disableInDev) option to `false`.
+
+:::
+
 ## Installation {#installation}
 
 ```bash npm2yarn
@@ -49,7 +55,7 @@ Accepted fields:
 
 </APITable>
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
 Here's an example configuration:
 

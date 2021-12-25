@@ -5,7 +5,11 @@ title: '📦 plugin-content-pages'
 slug: '/api/plugins/@docusaurus/plugin-content-pages'
 ---
 
+```mdx-code-block
 import APITable from '@site/src/components/APITable';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
 
 The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 
@@ -19,7 +23,7 @@ npm install --save @docusaurus/plugin-content-pages
 
 If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+You can configure this plugin through the preset options.
 
 :::
 
@@ -43,38 +47,18 @@ Accepted fields:
 
 </APITable>
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
-const config = {
-  path: 'src/pages',
-  routeBasePath: '',
-  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
-  exclude: [
-    '**/_*.{js,jsx,ts,tsx,md,mdx}',
-    '**/_*/**',
-    '**/*.test.{js,jsx,ts,tsx}',
-    '**/__tests__/**',
-  ],
-  mdxPageComponent: '@theme/MDXPage',
-  remarkPlugins: [require('remark-math')],
-  rehypePlugins: [],
-  beforeDefaultRemarkPlugins: [],
-  beforeDefaultRehypePlugins: [],
-};
-```
-
-### Preset options {#ex-config-preset}
+<Tabs>
+<TabItem value="Preset Options">
 
 If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
 
@@ -87,7 +71,19 @@ module.exports = {
         // highlight-start
         pages: {
           path: 'src/pages',
-          // ... configuration object here
+          routeBasePath: '',
+          include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+          exclude: [
+            '**/_*.{js,jsx,ts,tsx,md,mdx}',
+            '**/_*/**',
+            '**/*.test.{js,jsx,ts,tsx}',
+            '**/__tests__/**',
+          ],
+          mdxPageComponent: '@theme/MDXPage',
+          remarkPlugins: [require('remark-math')],
+          rehypePlugins: [],
+          beforeDefaultRemarkPlugins: [],
+          beforeDefaultRehypePlugins: [],
         },
         // highlight-end
       },
@@ -96,7 +92,8 @@ module.exports = {
 };
 ```
 
-### Plugin options {#ex-config-plugin}
+</TabItem>
+<TabItem value="Plugin Options">
 
 If you are using a standalone plugin, provide options directly to the plugin:
 
@@ -108,13 +105,28 @@ module.exports = {
       // highlight-start
       {
         path: 'src/pages',
-        // ... configuration object here
+        routeBasePath: '',
+        include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        mdxPageComponent: '@theme/MDXPage',
+        remarkPlugins: [require('remark-math')],
+        rehypePlugins: [],
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
       },
       // highlight-end
     ],
   ],
 };
 ```
+
+</TabItem>
+</Tabs>
 
 ## i18n {#i18n}
 
