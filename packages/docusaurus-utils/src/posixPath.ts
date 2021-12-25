@@ -10,6 +10,8 @@
  * E.g: endi\\lie -> endi/lie
  *
  * Returns original path if the posix counterpart is not valid Windows path.
+ * This makes the legacy code that uses posixPath safe; but also makes it less
+ * useful when you actually want a path with forward slashes (e.g. for URL)
  *
  * Adopted from https://github.com/sindresorhus/slash/blob/main/index.js
  */

@@ -7,6 +7,7 @@
 
 import {
   generate,
+  escapePath,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
@@ -323,8 +324,7 @@ export async function load(
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map((module) => `  require(${JSON.stringify(module)}),`)
+      .map((module) => `  require('${escapePath(module)}'),`)
       .join('\n')}\n];\n`,
   );
 
@@ -343,10 +343,9 @@ ${Object.keys(registry)
   .sort()
   .map(
     (key) =>
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
+      `  '${key}': [${registry[key].loader}, '${escapePath(
         registry[key].modulePath,
-      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
+      )}', require.resolveWeak('${escapePath(registry[key].modulePath)}')],`,
   )
   .join('\n')}};\n`,
   );
