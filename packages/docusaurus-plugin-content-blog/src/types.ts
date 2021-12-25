@@ -160,7 +160,7 @@ export interface MetaData {
   truncated: boolean;
   editUrl?: string;
   authors: Author[];
-  frontMatter: BlogPostFrontMatter;
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 }
 
 export interface Assets {

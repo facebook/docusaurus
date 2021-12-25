@@ -126,6 +126,9 @@ describe('loadBlog', () => {
       authors: [],
       date: new Date('2019-01-01'),
       formattedDate: 'January 1, 2019',
+      frontMatter: {
+        date: new Date('2019-01-01'),
+      },
       prevItem: undefined,
       tags: [],
       nextItem: {
@@ -161,6 +164,15 @@ describe('loadBlog', () => {
       ],
       date: new Date('2018-12-14'),
       formattedDate: 'December 14, 2018',
+      frontMatter: {
+        authors: [
+          {
+            name: 'Yangshun Tay (translated)',
+          },
+          'slorber',
+        ],
+        title: 'Happy 1st Birthday Slash! (translated)',
+      },
       tags: [],
       prevItem: {
         permalink: '/blog/date-matter',
@@ -187,6 +199,11 @@ describe('loadBlog', () => {
       },
       date: new Date('2020-08-16'),
       formattedDate: 'August 16, 2020',
+      frontMatter: {
+        date: new Date('2020-08-16'),
+        slug: '/hey/my super path/héllô',
+        title: 'Complex Slug',
+      },
       tags: [],
       truncated: false,
     });
@@ -216,6 +233,14 @@ describe('loadBlog', () => {
       },
       date: new Date('2020-08-15'),
       formattedDate: 'August 15, 2020',
+      frontMatter: {
+        author: 'Sébastien Lorber',
+        author_title: 'Docusaurus maintainer',
+        author_url: 'https://sebastienlorber.com',
+        date: new Date('2020-08-15'),
+        slug: '/simple/slug',
+        title: 'Simple Slug',
+      },
       tags: [],
       truncated: false,
     });
@@ -233,6 +258,9 @@ describe('loadBlog', () => {
       authors: [],
       date: new Date('2019-01-02'),
       formattedDate: 'January 2, 2019',
+      frontMatter: {
+        date: new Date('2019-01-02'),
+      },
       prevItem: undefined,
       tags: [],
       nextItem: {
@@ -388,6 +416,7 @@ describe('loadBlog', () => {
       authors: [],
       date: noDateSourceBirthTime,
       formattedDate,
+      frontMatter: {},
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
