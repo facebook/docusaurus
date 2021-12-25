@@ -224,6 +224,7 @@ async function processBlogSourceFile(
       description,
       date,
       formattedDate,
+      frontMatter,
       tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
       readingTime: showReadingTime
         ? options.readingTime({
