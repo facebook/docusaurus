@@ -14,6 +14,7 @@ export function ButtonExample(props: ComponentProps<'button'>): JSX.Element {
       {...props}
       style={{
         backgroundColor: 'white',
+        color: 'black',
         border: 'solid red',
         borderRadius: 20,
         padding: 10,
