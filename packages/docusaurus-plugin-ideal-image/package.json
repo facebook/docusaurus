@@ -23,6 +23,7 @@
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.14",
     "@docusaurus/lqip-loader": "2.0.0-beta.14",
+    "@docusaurus/utils-validation": "2.0.0-beta.14",
     "@docusaurus/responsive-loader": "1.5.0",
     "@endiliey/react-ideal-image": "^0.0.11",
     "react-waypoint": "^10.1.0",
