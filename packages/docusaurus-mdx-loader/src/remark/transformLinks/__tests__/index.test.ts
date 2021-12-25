@@ -11,7 +11,6 @@ import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '..';
 import transformImage from '../../transformImage';
-import {posixPath} from '@docusaurus/utils';
 
 const processFixture = async (name: string, options?) => {
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
@@ -33,7 +32,8 @@ const processFixture = async (name: string, options?) => {
 
   return result
     .toString()
-    .replace(new RegExp(posixPath(process.cwd()), 'g'), '[CWD]');
+    .replace(/\\\\/g, '/')
+    .replace(new RegExp(process.cwd().replace(/\\/g, '/'), 'g'), '[CWD]');
 };
 
 describe('transformAsset plugin', () => {
