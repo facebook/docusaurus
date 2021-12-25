@@ -43,12 +43,13 @@ const getMessage = (icon: IconKey, state: State) => {
       // we can show `alt` here
       const {pickedSrc} = state;
       const {size} = pickedSrc;
-      const sizeMessage = size ? ` (${bytesToSize(size)}` : '';
+      const sizeMessage = size ? ` (${bytesToSize(size)})` : '';
       return translate(
         {
           id: 'theme.IdealImageMessage.load',
           message: 'Click to load{sizeMessage}',
-          description: 'To prompt users to load the full image',
+          description:
+            'To prompt users to load the full image. sizeMessage is a parenthesized size figure.',
         },
         {sizeMessage},
       );
