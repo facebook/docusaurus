@@ -1,0 +1,136 @@
+import CodeBlock from '@theme/CodeBlock';
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+# Code block tests
+
+See:
+
+- https://github.com/facebook/docusaurus/pull/1584
+- https://github.com/facebook/docusaurus/pull/3749
+- https://github.com/facebook/docusaurus/pull/6177
+
+## `pre`
+
+### `pre > string`
+
+Multi-line text inside `pre` will turn into one-liner, but it's okay (https://github.com/mdx-js/mdx/issues/1095)
+
+<pre>1 2 3</pre>
+
+<!-- prettier-ignore -->
+<pre>
+1
+2
+3
+</pre>
+
+### `pre > string[]`
+
+<pre>
+  1{'\n'}2{'\n'}3{'\n'}
+</pre>
+
+### `pre > element`
+
+<pre>
+  <BrowserWindow url="http://localhost:3000">Lol bro</BrowserWindow>
+</pre>
+
+### `pre > element[]`
+
+<pre>
+  <a href="/">Front page</a>
+  {'\n'}
+  <strong>Input: </strong>a = "abcd", b = "cdabcdab"{'\n'}
+  <strong>Output: </strong>3{'\n'}
+  <strong>Explanation: </strong>a after three repetitions become "ab
+  <strong>cdabcdab</strong>cd", at which time b is a substring.{'\n'}
+</pre>
+
+### `pre > code > element`
+
+<pre>
+  <code>
+    <b>Hey bro</b>
+  </code>
+</pre>
+
+## `code`
+
+### `code > string`
+
+<code>1 2 3</code>
+
+<code>
+  {`link:
+  title: front page
+  path: /docs/`}
+</code>
+
+### `code > string[]`
+
+<code>
+  link:{' \n'}
+  {'  '}title: front page{'\n'}
+  {'  '}path: /docs/{'\n'}
+</code>
+
+### `code > element`
+
+<code>
+  <BrowserWindow url="http://localhost:3000">Lol bro</BrowserWindow>
+</code>
+
+### `code > element[]`
+
+<code>
+  <a href="/">Front page</a>
+  <br />
+  <strong>Input: </strong>a = "abcd", b = "cdabcdab"
+  <br />
+  <strong>Output: </strong>3<br />
+  <strong>Explanation: </strong>a after three repetitions become "ab<strong>
+    cdabcdab
+  </strong>cd", at which time b is a substring.
+  <br />
+</code>
+
+## `CodeBlock`
+
+### `CodeBlock > string`
+
+<CodeBlock>1 2 3</CodeBlock>
+
+<CodeBlock className="language-yaml" title="test">
+  {`link:
+  title: front page
+  path: /docs/`}
+</CodeBlock>
+
+### `CodeBlock > string[]`
+
+<CodeBlock className="language-yaml" title="test">
+  link:{'\n'}
+  {'  '}title: front page{'\n'}
+  {'  '}path: /docs/{'\n'}
+</CodeBlock>
+
+### `CodeBlock > element`
+
+<CodeBlock className="language-yaml" title="test">
+  <BrowserWindow url="http://localhost:3000">Lol bro</BrowserWindow>
+</CodeBlock>
+
+### `CodeBlock > element[]`
+
+<CodeBlock className="language-yaml" title="test">
+  <a href="/">Front page</a>
+  <br />
+  <strong>Input: </strong>a = "abcd", b = "cdabcdab"
+  <br />
+  <strong>Output: </strong>3<br />
+  <strong>Explanation: </strong>a after three repetitions become "ab<strong>
+    cdabcdab
+  </strong>cd", at which time b is a substring.
+  <br />
+</CodeBlock>
