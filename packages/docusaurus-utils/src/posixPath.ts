@@ -7,7 +7,7 @@
 
 /**
  * Convert Windows backslash paths to posix style paths.
- * E.g: endi\\lie -> endi/lie
+ * E.g: endi\lie -> endi/lie
  *
  * Returns original path if the posix counterpart is not valid Windows path.
  * This makes the legacy code that uses posixPath safe; but also makes it less

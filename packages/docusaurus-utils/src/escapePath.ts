@@ -11,8 +11,9 @@
  * For example, this would fail due to unescaped \: `<img src={require('${filePath}')} />`
  * But this would work: `<img src={require('${escapePath(filePath)}')} />`
  *
- * posixPath can't be used in all cases, because forward slashes are only valid Windows
- * paths when they don't contain non-ascii characters.
+ * posixPath can't be used in all cases, because forward slashes are only valid
+ * Windows paths when they don't contain non-ascii characters, and posixPath
+ * doesn't escape those that fail to be converted.
  */
 export function escapePath(str: string): string {
   const escaped = JSON.stringify(str);
