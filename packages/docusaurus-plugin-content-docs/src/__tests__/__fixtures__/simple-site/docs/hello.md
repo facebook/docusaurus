@@ -3,6 +3,7 @@ id: hello
 title: Hello, World !
 sidebar_label: Hello sidebar_label
 tags: [tag-1, tag 3]
+slug: /
 ---
 
 Hi, Endilie here :)

@@ -10,11 +10,23 @@ import importFresh from 'import-fresh';
 import {DocusaurusConfig} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
 
-export default function loadConfig(configPath: string): DocusaurusConfig {
+export default async function loadConfig(
+  configPath: string,
+): Promise<DocusaurusConfig> {
   if (!fs.existsSync(configPath)) {
     throw new Error(`Config file at "${configPath}" not found.`);
   }
 
-  const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
+  const importedConfig = importFresh(configPath) as
+    | Partial<DocusaurusConfig>
+    | Promise<Partial<DocusaurusConfig>>
+    | (() => Partial<DocusaurusConfig>)
+    | (() => Promise<Partial<DocusaurusConfig>>);
+
+  const loadedConfig =
+    importedConfig instanceof Function
+      ? await importedConfig()
+      : await importedConfig;
+
   return validateConfig(loadedConfig);
 }

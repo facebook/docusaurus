@@ -362,6 +362,48 @@ function MyPlayground(props) {
 }
 ```
 
+## Using JSX markup in code blocks
+
+Code blocks in Markdown always preserves its content as plain text, meaning you can't do something like:
+
+```ts
+type EditUrlFunction = (params: {
+  version: string;
+  // This doesn't turn into a link (for good reason!)
+  // See <a href="/docs/versioning">doc versioning</a>
+  versionDocsDirPath: string;
+  docPath: string;
+  permalink: string;
+  locale: string;
+}) => string | undefined;
+```
+
+If you want to embed HTML markup such as anchor links or bold type, you can use the `<pre>` tag, `<code>` tag, or `<CodeBlock>` component.
+
+```jsx
+<pre>
+  <b>Input: </b>1 2 3 4{'\n'}
+  <b>Output: </b>"366300745"{'\n'}
+</pre>
+```
+
+<pre>
+  <b>Input: </b>1 2 3 4{'\n'}
+  <b>Output: </b>"366300745"{'\n'}
+</pre>
+
+:::caution MDX is whitespace insensitive
+
+MDX is in line with JSX behavior: line break characters, even when inside `<pre>`, are turned into spaces. You have to explicitly write the new line character for it to be printed out.
+
+:::
+
+:::caution
+
+Syntax highlighting only works on plain strings. Docusaurus will not attempt to parse code block content containing JSX children.
+
+:::
+
 ## Multi-language support code blocks {#multi-language-support-code-blocks}
 
 With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.

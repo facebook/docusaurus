@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+// @ts-check
+
+const logger = require('@docusaurus/logger').default;
 const fs = require('fs-extra');
 const semver = require('semver');
 const path = require('path');
@@ -53,7 +55,7 @@ try {
   }
 } catch (e) {
   // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
-  console.error(e);
+  logger.error(e);
 }
 
 // We don't want to display update message for canary releases
@@ -74,6 +76,7 @@ if (
   notifier.config.set('update', notifier.update);
 
   if (ignoreUpdate(notifier.update)) {
+    // @ts-expect-error: it works
     return;
   }
 
@@ -91,6 +94,7 @@ if (
     ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
     : `npm i ${siteDocusaurusPackagesForUpdate}`;
 
+  /** @type {import('boxen').Options} */
   const boxenOptions = {
     padding: 1,
     margin: 1,
@@ -100,13 +104,12 @@ if (
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(
-      `${notifier.update.latest}`,
-    )}\n\nTo upgrade Docusaurus packages with the latest version, run the following command:\n${chalk.cyan(
-      `${upgradeCommand}`,
-    )}`,
+    `Update available ${logger.dim(
+      `${notifier.update.current}`,
+    )} → ${logger.green(`${notifier.update.latest}`)}
+
+To upgrade Docusaurus packages with the latest version, run the following command:
+${logger.code(upgradeCommand)}`,
     boxenOptions,
   );
 
@@ -115,11 +118,7 @@ if (
 
 // notify user if node version needs to be updated
 if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    chalk.red(`\nMinimum Node version not met :(`) +
-      chalk.yellow(
-        `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
-      ),
-  );
+  logger.error('Minimum Node.js version not met :(');
+  logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
 }

@@ -100,7 +100,15 @@ const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
     <DocSidebarItems
       items={sidebar}
       activePath={path}
-      onItemClick={() => toggleSidebar()}
+      onItemClick={(item) => {
+        // Mobile sidebar should only be closed if the category has a link
+        if (item.type === 'category' && item.href) {
+          toggleSidebar();
+        }
+        if (item.type === 'link') {
+          toggleSidebar();
+        }
+      }}
       level={1}
     />
   </ul>

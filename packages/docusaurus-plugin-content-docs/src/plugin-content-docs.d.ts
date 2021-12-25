@@ -15,6 +15,18 @@ declare module '@docusaurus/plugin-content-docs' {
 
   export type {GlobalDataVersion, GlobalDataDoc};
 
+  export type PropNavigationLink = {
+    readonly title: string;
+    readonly permalink: string;
+  };
+  export type PropNavigation = {
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
+  };
+
+  export type PropVersionDoc = import('./sidebars/types').PropVersionDoc;
+  export type PropVersionDocs = import('./sidebars/types').PropVersionDocs;
+
   export type PropVersionMetadata = {
     pluginId: string;
     version: string;
@@ -24,12 +36,23 @@ declare module '@docusaurus/plugin-content-docs' {
     className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
+    docs: PropVersionDocs;
   };
 
-  export type PropSidebarItemLink = import('./sidebars/types').SidebarItemLink;
+  export type PropCategoryGeneratedIndex = {
+    title: string;
+    description?: string;
+    slug: string;
+    permalink: string;
+    navigation: PropNavigation;
+  };
+
+  export type PropSidebarItemLink =
+    import('./sidebars/types').PropSidebarItemLink;
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
   export type PropTagDocListDoc = {
@@ -56,7 +79,10 @@ declare module '@docusaurus/plugin-content-docs' {
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
+  import type {
+    PropNavigationLink,
+    PropVersionMetadata,
+  } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -85,8 +111,8 @@ declare module '@theme/DocItem' {
     readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
-    readonly previous?: {readonly permalink: string; readonly title: string};
-    readonly next?: {readonly permalink: string; readonly title: string};
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -107,6 +133,38 @@ declare module '@theme/DocItem' {
 
   const DocItem: (props: Props) => JSX.Element;
   export default DocItem;
+}
+
+declare module '@theme/DocCard' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+  }
+
+  export default function DocCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCardList' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly items: PropSidebarItem[];
+  }
+
+  export default function DocCardList(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCategoryGeneratedIndexPage' {
+  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly categoryGeneratedIndex: PropCategoryGeneratedIndex;
+  }
+
+  export default function DocCategoryGeneratedIndexPage(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/DocItemFooter' {
@@ -132,14 +190,19 @@ declare module '@theme/DocTagDocListPage' {
 }
 
 declare module '@theme/DocVersionBanner' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
-
   export interface Props {
-    readonly versionMetadata: PropVersionMetadata;
+    readonly className?: string;
   }
 
-  const DocVersionBanner: (props: Props) => JSX.Element;
-  export default DocVersionBanner;
+  export default function DocVersionBanner(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBadge' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function DocVersionBadge(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPage' {

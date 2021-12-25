@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import {
   encodePath,
@@ -18,6 +18,7 @@ import {
   Globby,
   createAbsoluteFilePathMatcher,
   normalizeUrl,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {
   LoadContext,
@@ -29,7 +30,6 @@ import {
 import {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 
 import {
   PluginOptions,
@@ -45,10 +45,10 @@ export function getContentPathList(contentPaths: PagesContentPaths): string[] {
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
 
-export default function pluginContentPages(
+export default async function pluginContentPages(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null> {
+): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions || {}],
@@ -90,7 +90,7 @@ export default function pluginContentPages(
     async loadContent() {
       const {include} = options;
 
-      if (!fs.existsSync(contentPaths.contentPath)) {
+      if (!(await fs.pathExists(contentPaths.contentPath))) {
         return null;
       }
 

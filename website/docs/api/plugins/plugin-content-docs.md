@@ -48,6 +48,7 @@ Accepted fields:
 | `docItemComponent` | `string` | `'@theme/DocItem'` | Main doc container, with TOC, pagination, etc. |
 | `docTagsListComponent` | `string` | `'@theme/DocTagsListPage'` | Root component of the tags list page |
 | `docTagDocListComponent` | `string` | `'@theme/DocTagDocListPage'` | Root component of the "docs containing tag" page. |
+| `docCategoryGeneratedIndexComponent` | `string` | `'@theme/DocCategoryGeneratedIndexPage'` | Root component of the generated category index page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
@@ -302,15 +303,15 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
-- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
 
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-docs
+website/i18n/[locale]/docusaurus-plugin-content-docs
 │
 │ # translations for website/docs
 ├── current

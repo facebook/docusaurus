@@ -50,14 +50,26 @@ const ThemeConfigSample: ThemeConfig = {
   },
 };
 
-function getSampleTranslationFiles() {
+const ThemeConfigSampleSimpleFooter: ThemeConfig = {
+  ...ThemeConfigSample,
+  footer: {
+    copyright: 'Copyright FB',
+    style: 'light',
+    links: [
+      {label: 'Link 1', to: 'https://facebook.com'},
+      {label: 'Link 2', to: 'https://facebook.com'},
+    ],
+  },
+};
+
+function getSampleTranslationFiles(themeConfig: ThemeConfig) {
   return getTranslationFiles({
-    themeConfig: ThemeConfigSample,
+    themeConfig,
   });
 }
 
-function getSampleTranslationFilesTranslated() {
-  const translationFiles = getSampleTranslationFiles();
+function getSampleTranslationFilesTranslated(themeConfig: ThemeConfig) {
+  const translationFiles = getSampleTranslationFiles(themeConfig);
   return translationFiles.map((translationFile) =>
     updateTranslationFileMessages(
       translationFile,
@@ -68,27 +80,29 @@ function getSampleTranslationFilesTranslated() {
 
 describe('getTranslationFiles', () => {
   test('should return translation files matching snapshot', () => {
-    expect(getSampleTranslationFiles()).toMatchSnapshot();
+    expect(getSampleTranslationFiles(ThemeConfigSample)).toMatchSnapshot();
+    expect(
+      getSampleTranslationFiles(ThemeConfigSampleSimpleFooter),
+    ).toMatchSnapshot();
   });
 });
 
 describe('translateThemeConfig', () => {
   test('should not translate anything if translation files are untranslated', () => {
-    const translationFiles = getSampleTranslationFiles();
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
-        translationFiles,
+        translationFiles: getSampleTranslationFiles(ThemeConfigSample),
       }),
     ).toEqual(ThemeConfigSample);
   });
 
   test('should return translated themeConfig matching snapshot', () => {
-    const translationFiles = getSampleTranslationFilesTranslated();
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
-        translationFiles,
+        translationFiles:
+          getSampleTranslationFilesTranslated(ThemeConfigSample),
       }),
     ).toMatchSnapshot();
   });
@@ -96,16 +110,19 @@ describe('translateThemeConfig', () => {
 
 describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
   function verifyIsomorphism(themeConfig: ThemeConfig) {
-    const translationFiles = getTranslationFiles({themeConfig});
     const translatedThemeConfig = translateThemeConfig({
       themeConfig,
-      translationFiles,
+      translationFiles: getTranslationFiles({themeConfig}),
     });
     expect(translatedThemeConfig).toEqual(themeConfig);
   }
 
-  test('should be verified for main sample', () => {
+  test('should be verified for sample', () => {
     verifyIsomorphism(ThemeConfigSample);
+  });
+
+  test('should be verified for sample with simple footer', () => {
+    verifyIsomorphism(ThemeConfigSampleSimpleFooter);
   });
 
   // undefined footer should not make the translation code crash

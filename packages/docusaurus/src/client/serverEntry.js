@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @ts-check
+
 import * as eta from 'eta';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
@@ -24,7 +26,7 @@ import {
   createStatefulLinksCollector,
   ProvideLinksCollector,
 } from './LinksCollector';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 
@@ -43,21 +45,16 @@ export default async function render(locals) {
   try {
     return await doRender(locals);
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Docusaurus Node/SSR could not render static page with path "${locals.path}" because of following error:\n\n${e.stack}\n`,
-      ),
-    );
+    logger.error`Docusaurus Node/SSR could not render static page with path path=${locals.path} because of following error:
+${e.stack}`;
 
     const isNotDefinedErrorRegex =
       /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test(e.message)) {
-      console.error(
-        chalk.green(
-          'Pro tip: It looks like you are using code that should run on the client-side only.\nTo get around it, try using <BrowserOnly> (https://docusaurus.io/docs/docusaurus-core/#browseronly) or ExecutionEnvironment (https://docusaurus.io/docs/docusaurus-core/#executionenvironment).\nIt might also require to wrap your client code in useEffect hook and/or import a third-party library dynamically (if any).',
-        ),
-      );
+      logger.info`It looks like you are using code that should run on the client-side only.
+To get around it, try using code=${'<BrowserOnly>'} (path=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (path=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
+It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
     }
 
     throw new Error('Server-side rendering fails due to the error above.');
@@ -142,11 +139,8 @@ async function doRender(locals) {
       minifyJS: true,
     });
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Minification page with path "${locals.path}" failed because of following error:\n\n${e.stack}\n`,
-      ),
-    );
+    logger.error`Minification of page path=${locals.path} failed because of following error:
+${e.stack}`;
     throw e;
   }
 }

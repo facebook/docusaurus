@@ -7,12 +7,13 @@
 
 import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import headings from './remark/headings';
@@ -20,7 +21,6 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 
@@ -164,7 +164,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       if (shouldError) {
         return callback(new Error(errorMessage));
       } else {
-        console.warn(chalk.yellow(errorMessage));
+        logger.warn(errorMessage);
       }
     }
   }

@@ -6,9 +6,8 @@
  */
 
 import {normalizeUrl, posixPath} from '@docusaurus/utils';
-import chalk = require('chalk');
+import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
-
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import {debounce} from 'lodash';
@@ -35,7 +34,7 @@ export default async function start(
 ): Promise<void> {
   process.env.NODE_ENV = 'development';
   process.env.BABEL_ENV = 'development';
-  console.log(chalk.blue('Starting the development server...'));
+  logger.info('Starting the development server...');
 
   function loadSite() {
     return load(siteDir, {
@@ -61,9 +60,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(
-    chalk.cyanBright(`Docusaurus website is running at "${openUrl}".`),
-  );
+  logger.success`Docusaurus website is running at path=${openUrl}.`;
 
   // Reload files processing.
   const reload = debounce(() => {
@@ -71,15 +68,11 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          console.log(
-            chalk.cyanBright(
-              `Docusaurus website is running at "${newOpenUrl}".`,
-            ),
-          );
+          logger.success`Docusaurus website is running at path=${newOpenUrl}.`;
         }
       })
       .catch((err) => {
-        console.error(chalk.red(err.stack));
+        logger.error(err.stack);
       });
   }, 500);
   const {siteConfig, plugins = []} = props;
@@ -114,6 +107,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
+  const httpsConfig = getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -166,8 +160,20 @@ export default async function start(
     }
   });
 
+  const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        logger.error('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      logger.success('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
+
   // https://webpack.js.org/configuration/dev-server
-  const devServerConfig: WebpackDevServer.Configuration = {
+  const defaultDevServerConfig: WebpackDevServer.Configuration = {
     hot: cliOptions.hotOnly ? 'only' : true,
     liveReload: false,
     client: {
@@ -177,7 +183,6 @@ export default async function start(
         errors: true,
       },
     },
-    https: getHttpsConfig(),
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -197,34 +202,37 @@ export default async function start(
         ...{pollingOptions},
       },
     })),
+    ...(httpsConfig && {
+      server:
+        typeof httpsConfig === 'object'
+          ? {
+              type: 'https',
+              options: httpsConfig,
+            }
+          : 'https',
+    }),
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
     allowedHosts: 'all',
     host,
     port,
-    onBeforeSetupMiddleware: (devServer) => {
+    setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      devServer.app.use(
+      middlewares.unshift(
         evalSourceMapMiddleware(
           // @ts-expect-error: bad types
           devServer,
         ),
       );
+      return middlewares;
     },
   };
 
-  const compiler = webpack(config);
-  if (process.env.E2E_TEST) {
-    compiler.hooks.done.tap('done', (stats) => {
-      if (stats.hasErrors()) {
-        console.log('E2E_TEST: Project has compiler errors.');
-        process.exit(1);
-      }
-      console.log('E2E_TEST: Project can compile.');
-      process.exit(0);
-    });
-  }
+  // Allow plugin authors to customize/override devServer config
+  const devServerConfig: WebpackDevServer.Configuration = merge(
+    [defaultDevServerConfig, config.devServer].filter(Boolean),
+  );
 
   const devServer = new WebpackDevServer(devServerConfig, compiler);
   devServer.startCallback(() => {

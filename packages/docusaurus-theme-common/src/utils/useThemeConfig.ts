@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {PrismTheme} from 'prism-react-renderer';
 import {CSSProperties} from 'react';
@@ -72,11 +73,8 @@ export type FooterLinkItem = {
   html?: string;
   prependBaseUrlToHref?: string;
 };
-export type FooterLinks = {
-  title?: string;
-  items: FooterLinkItem[];
-};
-export type Footer = {
+
+export type FooterBase = {
   style: 'light' | 'dark';
   logo?: {
     alt?: string;
@@ -87,8 +85,20 @@ export type Footer = {
     href?: string;
   };
   copyright?: string;
-  links: FooterLinks[];
 };
+
+export type MultiColumnFooter = FooterBase & {
+  links: Array<{
+    title: string | null;
+    items: FooterLinkItem[];
+  }>;
+};
+
+export type SimpleFooter = FooterBase & {
+  links: FooterLinkItem[];
+};
+
+export type Footer = MultiColumnFooter | SimpleFooter;
 
 export type TableOfContents = {
   minHeadingLevel: number;

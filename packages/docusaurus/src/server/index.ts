@@ -5,15 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
+  escapePath,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-} from '../constants';
+} from '@docusaurus/utils';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
@@ -39,6 +40,8 @@ import {
 import {mapValues} from 'lodash';
 import {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
+import {createRequire} from 'module';
+import {resolveModuleName} from './moduleShorthand';
 
 export type LoadContextOptions = {
   customOutDir?: string;
@@ -127,14 +130,44 @@ export async function loadContext(
 }
 
 export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-  const {siteConfig} = context;
+  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+  const {siteConfig, siteConfigPath} = context;
+  const require = createRequire(siteConfigPath);
+  function normalizeShorthand(
+    pluginConfig: PluginConfig,
+    pluginType: 'plugin' | 'theme',
+  ): PluginConfig {
+    if (typeof pluginConfig === 'string') {
+      return resolveModuleName(pluginConfig, require, pluginType);
+    } else if (
+      Array.isArray(pluginConfig) &&
+      typeof pluginConfig[0] === 'string'
+    ) {
+      return [
+        resolveModuleName(pluginConfig[0], require, pluginType),
+        pluginConfig[1] ?? {},
+      ];
+    }
+    return pluginConfig;
+  }
+  presetPlugins = presetPlugins.map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  presetThemes = presetThemes.map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
+  const standalonePlugins = (siteConfig.plugins || []).map((plugin) =>
+    normalizeShorthand(plugin, 'plugin'),
+  );
+  const standaloneThemes = (siteConfig.themes || []).map((theme) =>
+    normalizeShorthand(theme, 'theme'),
+  );
   return [
     ...presetPlugins,
     ...presetThemes,
     // Site config should be the highest priority.
-    ...(siteConfig.plugins || []),
-    ...(siteConfig.themes || []),
+    ...standalonePlugins,
+    ...standaloneThemes,
   ];
 }
 
@@ -291,8 +324,7 @@ export async function load(
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map((module) => `  require(${JSON.stringify(module)}),`)
+      .map((module) => `  require('${escapePath(module)}'),`)
       .join('\n')}\n];\n`,
   );
 
@@ -311,10 +343,9 @@ ${Object.keys(registry)
   .sort()
   .map(
     (key) =>
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
+      `  '${key}': [${registry[key].loader}, '${escapePath(
         registry[key].modulePath,
-      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
+      )}', require.resolveWeak('${escapePath(registry[key].modulePath)}')],`,
   )
   .join('\n')}};\n`,
   );
@@ -353,9 +384,9 @@ ${Object.keys(registry)
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
+      path.join(__dirname, '../../package.json'),
     )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
     pluginVersions: {},
   };
   plugins
@@ -414,15 +445,14 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       if (
         versionInfo.type === 'package' &&
         versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
         // should we throw instead?
         // It still could work with different versions
-        console.warn(
-          chalk.red(
-            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-          ),
-        );
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },
   );

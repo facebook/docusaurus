@@ -11,6 +11,41 @@ slug: /api/docusaurus-config
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
+It usually exports a site configuration object:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // site config...
+};
+```
+
+<details>
+<summary>Config files also support config creator functions and async code.</summary>
+
+```js title="docusaurus.config.js"
+module.exports = function configCreator() {
+  return {
+    // site config...
+  };
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = async function configCreatorAsync() {
+  return {
+    // site config...
+  };
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = Promise.resolve({
+  // site config...
+});
+```
+
+</details>
+
 ## Required fields {#required-fields}
 
 ### `title` {#title}
@@ -414,7 +449,7 @@ module.exports = {
 };
 ```
 
-See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules).
+See also: [`getClientModules()`](./plugin-methods/lifecycle-apis.md#getClientModules).
 
 ### `ssrTemplate` {#ssrtemplate}
 

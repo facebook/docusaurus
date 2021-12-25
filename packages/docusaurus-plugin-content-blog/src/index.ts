@@ -16,8 +16,8 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
 import {translateContent, getTranslationFiles} from './translations';
 
 import {
@@ -51,11 +51,12 @@ import {
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
+import {getAuthorsMapFilePath} from './authors';
 
-export default function pluginContentBlog(
+export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent> {
+): Promise<Plugin<BlogContent>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -89,24 +90,23 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  const authorsMapFilePath = await getAuthorsMapFilePath({
+    authorsMapPath: options.authorsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath} = options;
+      const {include} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
-      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
-      // simplified impl, better than nothing for now:
-      const authorsMapFilePath = path.join(
-        contentPaths.contentPath,
-        authorsMapPath,
-      );
-
-      return [authorsMapFilePath, ...contentMarkdownGlobs];
+      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
+        Boolean,
+      ) as string[];
     },
 
     async getTranslationFiles() {
@@ -550,6 +550,11 @@ export default function pluginContentBlog(
           type: 'application/atom+xml',
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
+        },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
         },
       };
       const headTags: HtmlTags = [];

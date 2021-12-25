@@ -8,12 +8,10 @@ It is straightforward to test your Docusaurus changes with Docusaurus.
 
 ```bash
 cd /path/to/docusaurus-repo
-npm install
+yarn install
 cd website
-npm run start
+yarn start
 ```
-
-> If you look in the `website/package.json` file, you will notice that running `start` with `npm run` actually executes the local `start-server.js` file. This is how you know you are running with local code.
 
 ## Debugging Locally
 
@@ -43,4 +41,4 @@ Feel free to contribute debug instructions for other IDEs
 
 ### Observing changes
 
-Now that the server is running, you can make changes to the core Docusaurus code and docs to see the effects on the Docusaurus site. LiveReload will reflect changes to the local site in your browser, usually running at http://localhost:3000.
+Note that since most packages are built with TypeScript, you would need to compile them every time to see the effect. Alternatively, you can run `yarn watch` inside the package directory to start an incremental build. Now that the server is running, you can make changes to the core Docusaurus code and docs to see the effects on the Docusaurus site. LiveReload will reflect changes to the local site in your browser, usually running at http://localhost:3000.
