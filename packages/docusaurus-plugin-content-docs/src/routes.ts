@@ -100,6 +100,7 @@ export async function createDocRoutes({
         ...(metadataItem.sidebar && {
           sidebar: metadataItem.sidebar,
         }),
+        lastmod: metadataItem.lastmod,
       };
 
       return docRoute;
