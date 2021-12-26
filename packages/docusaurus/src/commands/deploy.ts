@@ -223,7 +223,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     // directory, check out a clean deployment branch and add remote.
     if (
       shellExecLog(
-        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${toPath}`,
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
       ).code === 0
     ) {
       shellExecLog('git rm -rf .');
