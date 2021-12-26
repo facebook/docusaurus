@@ -7,7 +7,7 @@
 
 import type {RuleSetRule} from 'webpack';
 import path from 'path';
-import {posixPath} from './posixPath';
+import {escapePath} from './escapePath';
 import {
   WEBPACK_URL_LOADER_LIMIT,
   OUTPUT_STATIC_ASSETS_DIR_NAME,
@@ -61,12 +61,12 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     // Maybe with the ideal image plugin, all md images should be "ideal"?
     // This is used to force url-loader+file-loader on markdown images
     // https://webpack.js.org/concepts/loaders/#inline
-    inlineMarkdownImageFileLoader: `!${posixPath(
+    inlineMarkdownImageFileLoader: `!${escapePath(
       require.resolve('url-loader'),
     )}?limit=${urlLoaderLimit}&name=${fileLoaderFileName(
       'images',
-    )}&fallback=${posixPath(require.resolve('file-loader'))}!`,
-    inlineMarkdownLinkFileLoader: `!${posixPath(
+    )}&fallback=${escapePath(require.resolve('file-loader'))}!`,
+    inlineMarkdownLinkFileLoader: `!${escapePath(
       require.resolve('file-loader'),
     )}?name=${fileLoaderFileName('files')}!`,
   };

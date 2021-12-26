@@ -80,9 +80,10 @@ export type BlogPostMetadata = {
     readonly label: string;
     readonly permalink: string;
   }[];
+  readonly frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 };
 
-export type BlogMetadata = {
+export type BlogPaginatedMetadata = {
   readonly blogTitle: string;
   readonly blogDescription: string;
   readonly nextPage?: string;

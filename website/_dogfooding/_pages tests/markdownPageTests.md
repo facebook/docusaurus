@@ -160,40 +160,7 @@ function Clock(props) {
 }
 ```
 
-<CodeBlock className="language-yaml" title="test">
-  test
-</CodeBlock>
-
-<code>test</code>
-
-## direct using of `pre`
-
-<pre>test</pre>
-
-<!-- Multi-line text inside `pre` will turn into one-liner, but it's okay (https://github.com/mdx-js/mdx/issues/1095) -->
-<pre>
-1
-2
-3
-</pre>
-
 ## Custom heading id {#custom}
-
-## Children elements inside pre/code elements
-
-See https://github.com/facebook/docusaurus/pull/1584
-
-<pre><code>
-  <BrowserWindow url="http://localhost:3000" >
-    Lol bro
-  </BrowserWindow>
-</code></pre>
-
-<code>
-  <BrowserWindow url="http://localhost:3000" >
-    Lol bro
-  </BrowserWindow>
-</code>
 
 ## Pipe
 

@@ -66,7 +66,7 @@ function generateTemplateExample(template) {
     // rewrite the package.json file with the new edit
     writeFileSync(
       `./examples/${template}/package.json`,
-      JSON.stringify(templatePackageJson, null, 2),
+      `${JSON.stringify(templatePackageJson, null, 2)}\n`,
     );
 
     // create sandbox.config.json file at the root of template
@@ -82,7 +82,7 @@ function generateTemplateExample(template) {
     };
     writeFileSync(
       `./examples/${template}/sandbox.config.json`,
-      JSON.stringify(codeSanboxConfig, null, 2),
+      `${JSON.stringify(codeSanboxConfig, null, 2)}\n`,
     );
 
     const stackBlitzConfig = {
@@ -91,7 +91,7 @@ function generateTemplateExample(template) {
     };
     writeFileSync(
       `./examples/${template}/.stackblitzrc`,
-      JSON.stringify(stackBlitzConfig, null, 2),
+      `${JSON.stringify(stackBlitzConfig, null, 2)}\n`,
     );
 
     console.log(`Generated example for template ${template}`);

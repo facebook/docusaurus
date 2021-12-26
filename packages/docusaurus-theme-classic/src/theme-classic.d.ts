@@ -33,10 +33,10 @@ declare module '@theme/BackToTopButton' {
 }
 
 declare module '@theme/BlogListPaginator' {
-  import type {BlogMetadata} from '@docusaurus/plugin-content-blog';
+  import type {BlogPaginatedMetadata} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
-    readonly metadata: BlogMetadata;
+    readonly metadata: BlogPaginatedMetadata;
   }
 
   const BlogListPaginator: (props: Props) => JSX.Element;
@@ -123,12 +123,12 @@ declare module '@theme/BlogListPage' {
   import type {
     PropBlogSidebar,
     Content,
-    BlogMetadata,
+    BlogPaginatedMetadata,
   } from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: PropBlogSidebar;
-    readonly metadata: BlogMetadata;
+    readonly metadata: BlogPaginatedMetadata;
     readonly items: readonly {readonly content: Content}[];
   }
 

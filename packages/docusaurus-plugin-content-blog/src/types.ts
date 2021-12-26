@@ -124,6 +124,7 @@ export interface BlogPost {
   content: string;
 }
 
+// TODO duplicated in exported type, remove later
 export interface BlogPaginatedMetadata {
   permalink: string;
   page: number;
@@ -141,6 +142,7 @@ export interface BlogPaginated {
   items: string[];
 }
 
+// TODO duplicated in exported type, remove later
 export interface MetaData {
   permalink: string;
   source: string;
@@ -155,6 +157,7 @@ export interface MetaData {
   truncated: boolean;
   editUrl?: string;
   authors: Author[];
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 }
 
 export interface Paginator {
