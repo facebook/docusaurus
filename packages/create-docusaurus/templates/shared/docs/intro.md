@@ -3,20 +3,19 @@ sidebar_position: 1
 ---
 
 # Tutorial Intro
-A beginners guide
 
 Let's discover **Docusaurus in less than 5 minutes**.
 
 ## Getting Started
 
-Get started by easily **creating a new site**
+Get started by easily **creating a new site**.
 
 Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
 ### What you'll need
 
 - [Node.js](https://nodejs.org/en/download/) version 14 or above:
-    - Ensure when downloading nodejs, all the check boxes relating to dependencies are checked.
+  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 
 ## Generate a new site
 
@@ -28,7 +27,7 @@ The classic template will automatically be added to your project after you run t
 npm init docusaurus@latest my-website classic
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, Visual Studio terminal, or any other code editors you may have.
+You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
 
 ## Start your site
 
@@ -36,14 +35,11 @@ Run the development server:
 
 ```shell
 cd my-website
-
 npm run start
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there. 
-
+The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
 
 The `npm run start` command will build your website locally ready for you to view it at [localhost:3000](localhost:3000)
-
 
 Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
