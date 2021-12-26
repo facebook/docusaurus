@@ -42,7 +42,7 @@ Accepted fields:
 
 </APITable>
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
 You can configure this plugin through preset options or plugin options.
 
