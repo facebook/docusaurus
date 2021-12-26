@@ -57,76 +57,27 @@ Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-<Tabs>
-<TabItem value="Preset Options">
+```js config-tabs
+// preset option name: pages
+// plugin name: @docusaurus/plugin-content-pages
 
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        pages: {
-          path: 'src/pages',
-          routeBasePath: '',
-          include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
-          exclude: [
-            '**/_*.{js,jsx,ts,tsx,md,mdx}',
-            '**/_*/**',
-            '**/*.test.{js,jsx,ts,tsx}',
-            '**/__tests__/**',
-          ],
-          mdxPageComponent: '@theme/MDXPage',
-          remarkPlugins: [require('remark-math')],
-          rehypePlugins: [],
-          beforeDefaultRemarkPlugins: [],
-          beforeDefaultRehypePlugins: [],
-        },
-        // highlight-end
-      },
-    ],
+const config = {
+  path: 'src/pages',
+  routeBasePath: '',
+  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
   ],
+  mdxPageComponent: '@theme/MDXPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
 };
 ```
-
-</TabItem>
-<TabItem value="Plugin Options">
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-pages',
-      // highlight-start
-      {
-        path: 'src/pages',
-        routeBasePath: '',
-        include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
-        exclude: [
-          '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/_*/**',
-          '**/*.test.{js,jsx,ts,tsx}',
-          '**/__tests__/**',
-        ],
-        mdxPageComponent: '@theme/MDXPage',
-        remarkPlugins: [require('remark-math')],
-        rehypePlugins: [],
-        beforeDefaultRemarkPlugins: [],
-        beforeDefaultRehypePlugins: [],
-      },
-      // highlight-end
-    ],
-  ],
-};
-```
-
-</TabItem>
-</Tabs>
 
 ## i18n {#i18n}
 

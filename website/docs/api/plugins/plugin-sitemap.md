@@ -5,11 +5,7 @@ title: '📦 plugin-sitemap'
 slug: '/api/plugins/@docusaurus/plugin-sitemap'
 ---
 
-```mdx-code-block
 import APITable from '@site/src/components/APITable';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-```
 
 This plugin creates sitemaps for your site so that search engine crawlers can crawl your site more accurately.
 
@@ -56,49 +52,12 @@ Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-<Tabs>
-<TabItem value="Preset Options">
+```js config-tabs
+// preset option name: sitemap
+// plugin name: @docusaurus/plugin-sitemap
 
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        sitemap: {
-          changefreq: 'weekly',
-          priority: 0.5,
-        },
-        // highlight-end
-      },
-    ],
-  ],
+const config = {
+  changefreq: 'weekly',
+  priority: 0.5,
 };
 ```
-
-</TabItem>
-<TabItem value="Plugin Options">
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-sitemap',
-      // highlight-start
-      {
-        changefreq: 'weekly',
-        priority: 0.5,
-      },
-      // highlight-end
-    ],
-  ],
-};
-```
-
-</TabItem>
-</Tabs>

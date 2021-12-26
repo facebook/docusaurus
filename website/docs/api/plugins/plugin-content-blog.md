@@ -5,11 +5,7 @@ title: '📦 plugin-content-blog'
 slug: '/api/plugins/@docusaurus/plugin-content-blog'
 ---
 
-```mdx-code-block
 import APITable from '@site/src/components/APITable';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-```
 
 Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
@@ -108,124 +104,50 @@ Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-<Tabs>
-<TabItem value="Preset Options">
+```js config-tabs
+// preset option name: blog
+// plugin name: @docusaurus/plugin-content-blog
 
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        blog: {
-          path: 'blog',
-          // Simple use-case: string editUrl
-          // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
-          // Advanced use-case: functional editUrl
-          editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-            return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
-          },
-          editLocalizedFiles: false,
-          blogTitle: 'Blog title',
-          blogDescription: 'Blog',
-          blogSidebarCount: 5,
-          blogSidebarTitle: 'All our posts',
-          routeBasePath: 'blog',
-          include: ['**/*.{md,mdx}'],
-          exclude: [
-            '**/_*.{js,jsx,ts,tsx,md,mdx}',
-            '**/_*/**',
-            '**/*.test.{js,jsx,ts,tsx}',
-            '**/__tests__/**',
-          ],
-          postsPerPage: 10,
-          blogListComponent: '@theme/BlogListPage',
-          blogPostComponent: '@theme/BlogPostPage',
-          blogTagsListComponent: '@theme/BlogTagsListPage',
-          blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-          remarkPlugins: [require('remark-math')],
-          rehypePlugins: [],
-          beforeDefaultRemarkPlugins: [],
-          beforeDefaultRehypePlugins: [],
-          truncateMarker: /<!--\s*(truncate)\s*-->/,
-          showReadingTime: true,
-          feedOptions: {
-            type: '',
-            title: '',
-            description: '',
-            copyright: '',
-            language: undefined,
-          },
-        },
-        // highlight-end
-      },
-    ],
+const config = {
+  path: 'blog',
+  // Simple use-case: string editUrl
+  // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+  // Advanced use-case: functional editUrl
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`,
+  editLocalizedFiles: false,
+  blogTitle: 'Blog title',
+  blogDescription: 'Blog',
+  blogSidebarCount: 5,
+  blogSidebarTitle: 'All our posts',
+  routeBasePath: 'blog',
+  include: ['**/*.{md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
   ],
+  postsPerPage: 10,
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [require('remark-math')],
+  rehypePlugins: [],
+  beforeDefaultRemarkPlugins: [],
+  beforeDefaultRehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/,
+  showReadingTime: true,
+  feedOptions: {
+    type: '',
+    title: '',
+    description: '',
+    copyright: '',
+    language: undefined,
+  },
 };
 ```
-
-</TabItem>
-<TabItem value="Plugin Options">
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-blog',
-      // highlight-start
-      {
-        path: 'blog',
-        // Simple use-case: string editUrl
-        // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
-        // Advanced use-case: functional editUrl
-        editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-          return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
-        },
-        editLocalizedFiles: false,
-        blogTitle: 'Blog title',
-        blogDescription: 'Blog',
-        blogSidebarCount: 5,
-        blogSidebarTitle: 'All our posts',
-        routeBasePath: 'blog',
-        include: ['**/*.{md,mdx}'],
-        exclude: [
-          '**/_*.{js,jsx,ts,tsx,md,mdx}',
-          '**/_*/**',
-          '**/*.test.{js,jsx,ts,tsx}',
-          '**/__tests__/**',
-        ],
-        postsPerPage: 10,
-        blogListComponent: '@theme/BlogListPage',
-        blogPostComponent: '@theme/BlogPostPage',
-        blogTagsListComponent: '@theme/BlogTagsListPage',
-        blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-        remarkPlugins: [require('remark-math')],
-        rehypePlugins: [],
-        beforeDefaultRemarkPlugins: [],
-        beforeDefaultRehypePlugins: [],
-        truncateMarker: /<!--\s*(truncate)\s*-->/,
-        showReadingTime: true,
-        feedOptions: {
-          type: '',
-          title: '',
-          description: '',
-          copyright: '',
-          language: undefined,
-        },
-      },
-      // highlight-end
-    ],
-  ],
-};
-```
-
-</TabItem>
-</Tabs>
 
 ## Markdown Frontmatter {#markdown-frontmatter}
 

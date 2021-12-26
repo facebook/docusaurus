@@ -22,8 +22,8 @@ If you use a standalone plugin, you may need to achieve the same effect by check
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  // highlight-next-line
   plugins: [
+    // highlight-next-line
     process.env.NODE_ENV === 'production' && '@docusaurus/plugin-debug',
   ].filter(Boolean),
 };
