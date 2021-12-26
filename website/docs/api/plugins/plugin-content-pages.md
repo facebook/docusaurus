@@ -5,11 +5,7 @@ title: '📦 plugin-content-pages'
 slug: '/api/plugins/@docusaurus/plugin-content-pages'
 ---
 
-```mdx-code-block
 import APITable from '@site/src/components/APITable';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-```
 
 The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](guides/creating-pages.md) functionality.
 

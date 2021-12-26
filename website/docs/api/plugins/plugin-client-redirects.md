@@ -11,7 +11,7 @@ Docusaurus Plugin to generate **client-side redirects**.
 
 This plugin will write additional HTML pages to your static site that redirect the user to your existing Docusaurus pages with JavaScript.
 
-:::info production only
+:::caution production only
 
 This plugin is always inactive in development and **only active in production** because it works on the build output.
 

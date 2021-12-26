@@ -9,6 +9,12 @@ import APITable from '@site/src/components/APITable';
 
 Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
+:::caution some features production only
+
+The [feed feature](../../blog.mdx#feed) works by extracting the build output, and is **only active in production**.
+
+:::
+
 ## Installation {#installation}
 
 ```bash npm2yarn
