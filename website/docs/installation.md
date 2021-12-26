@@ -15,7 +15,8 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 ## Requirements {#requirements}
 
-- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
+- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
+  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 - [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website {#scaffold-project-website}
@@ -164,4 +165,4 @@ Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/com
 
 ## Problems? {#problems}
 
-Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus) or [Twitter](https://twitter.com/docusaurus).
+Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord](https://discordapp.com/invite/docusaurus) or [Twitter](https://twitter.com/docusaurus).
