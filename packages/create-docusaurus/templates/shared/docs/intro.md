@@ -16,7 +16,7 @@ Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new
 ### What you'll need
 
 - [Node.js](https://nodejs.org/en/download/) version 14 or above:
-    - Ensure when downloading nodejs, all the check boxes relating to dependencies should all be checked.
+    - Ensure when downloading nodejs, all the check boxes relating to dependencies are checked.
 
 ## Generate a new site
 
