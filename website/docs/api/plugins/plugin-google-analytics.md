@@ -53,7 +53,7 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: ganalytics
+// preset option name: googleAnalytics
 // plugin name: @docusaurus/plugin-google-analytics
 
 const config = {

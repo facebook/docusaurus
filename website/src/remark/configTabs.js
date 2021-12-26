@@ -26,15 +26,14 @@ const plugin = () => {
         transformed = true;
         const {value} = node;
         const [presetMeta, pluginMeta] = value.split('\n');
-        const presetMetaPattern =
-          /preset option name: (?<presetOptionName>[A-Za-z]+)/;
-        const pluginMetaPattern = /plugin name: (?<pluginName>[A-Za-z@/-]+)/;
         const {
           groups: {presetOptionName},
-        } = presetMetaPattern.exec(presetMeta);
+        } = presetMeta.match(
+          /preset option name: (?<presetOptionName>[A-Za-z]+)/i,
+        );
         const {
           groups: {pluginName},
-        } = pluginMetaPattern.exec(pluginMeta);
+        } = pluginMeta.match(/plugin name: (?<pluginName>[A-Za-z@/-]+)/i);
         // Replace leading "const config = " and trailing semi
         const config = value
           .replace(presetMeta, '')
