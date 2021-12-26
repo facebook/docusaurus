@@ -16,7 +16,7 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 ## Requirements {#requirements}
 
 - [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
-  - Ensure when downloading nodejs, all the check boxes relating to dependencies are checked.
+  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 - [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website {#scaffold-project-website}
