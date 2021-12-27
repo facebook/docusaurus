@@ -6,6 +6,6 @@ npm install --save docusaurus-plugin-name
 npm install --save docusaurus-plugin-name
 ```
 
-```bash
+```shell
 npm install --save docusaurus-plugin-name
 ```
