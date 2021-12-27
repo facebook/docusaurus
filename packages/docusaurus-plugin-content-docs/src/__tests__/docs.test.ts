@@ -202,6 +202,7 @@ describe('simple site', () => {
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
+        'doc with space.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
