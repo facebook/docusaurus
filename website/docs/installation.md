@@ -37,11 +37,15 @@ If you do not specify `name` or `template`, it will prompt you for them. We reco
 
 The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory.
 
-**[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
+:::info FB-Only
+
+If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
 npx create-docusaurus@latest my-website facebook
 ```
+
+:::
 
 If you want to skip installing dependencies, use the `--skip-install` option, like the following:
 
@@ -59,7 +63,7 @@ npx create-docusaurus@latest my-website classic --typescript
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
 
-```sh
+```bash
 my-website
 ├── blog
 │   ├── 2019-05-28-hola.md
@@ -165,4 +169,4 @@ Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/com
 
 ## Problems? {#problems}
 
-Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord](https://discordapp.com/invite/docusaurus) or [Twitter](https://twitter.com/docusaurus).
+Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord server](https://discordapp.com/invite/docusaurus), or [Twitter](https://twitter.com/docusaurus).

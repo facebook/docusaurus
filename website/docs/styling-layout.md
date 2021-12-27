@@ -8,19 +8,19 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::tip
 
-This section discusses about styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./using-themes.md#swizzling-theme-components).
+This section is focused on styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./using-themes.md#swizzling-theme-components).
 
 :::
 
 A Docusaurus site is a single-page React application. You can style it the way you style React apps.
 
-There are a few approaches/frameworks which will work, depending on your preferences and the type of website you are trying to build. Websites that are highly interactive and behave more like web apps will benefit from a more modern styling approaches that co-locate styles with the components. Component styling can also be particularly useful when you wish to customize or swizzle a component.
+There are a few approaches/frameworks which will work, depending on your preferences and the type of website you are trying to build. Websites that are highly interactive and behave more like web apps will benefit from more modern styling approaches that co-locate styles with the components. Component styling can also be particularly useful when you wish to customize or swizzle a component.
 
 ## Global styles {#global-styles}
 
-This is the most traditional way of styling that most developers (including non-front end developers) would be familiar with. It works fine for small websites that do not have much customization.
+This is the most traditional way of styling that most developers (including non-front-end developers) would be familiar with. It works fine for small websites that do not have much customization.
 
-If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
+If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option into the preset.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -60,7 +60,7 @@ function MyComponent() {
 
 ### Theme Class Names
 
-We provide some predefined CSS class names to provide access for developers to style layout of a page globally in Docusaurus. The purpose is to have stable classnames shared by all themes that are meant to be targeted by custom CSS.
+We provide some predefined CSS class names for global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
 
 ```mdx-code-block
 import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
@@ -78,7 +78,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 ### Styling your site with Infima {#styling-your-site-with-infima}
 
-`@docusaurus/preset-classic` uses [Infima](https://infima.dev/) as the underlying styling framework. Infima provides flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima.dev/).
+`@docusaurus/preset-classic` uses [Infima](https://infima.dev/) as the underlying styling framework. Infima provides a flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima.dev/).
 
 When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
 
@@ -107,7 +107,7 @@ Alternatively, use the following tool to generate the different shades for your 
 
 #### Dark Mode {#dark-mode}
 
-To customize the Infima variables for dark mode you can add the following to `src/css/custom.css`.
+To customize the Infima variables for dark mode, you can add the following to `src/css/custom.css`.
 
 ```css title="/src/css/custom.css"
 html[data-theme='dark'] {
@@ -150,7 +150,7 @@ function MyComponent() {
 }
 ```
 
-The class names which will be processed by webpack into a globally unique class name during build.
+The class names will be processed by webpack into a globally unique class name during build.
 
 ## CSS-in-JS {#css-in-js}
 

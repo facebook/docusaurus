@@ -7,7 +7,7 @@ sidebar_label: Pages
 
 In this section, we will learn about creating pages in Docusaurus.
 
-This is useful for creating **one-off standalone pages** like a showcase page, playground page or support page.
+This is useful for creating **one-off standalone pages** like a showcase page, playground page, or support page.
 
 The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
@@ -26,6 +26,8 @@ Check the [Pages Plugin API Reference documentation](./../api/plugins/plugin-con
 :::
 
 ## Add a React page {#add-a-react-page}
+
+React is used as the UI library to create pages. Every page component should export a React component, and you can leverage the expressiveness of React to build rich and interactive content.
 
 Create a file `/src/pages/helloReact.js`:
 
@@ -55,7 +57,7 @@ function Hello() {
 export default Hello;
 ```
 
-Once you save the file, the development server will automatically reload the changes. Now open `http://localhost:3000/helloReact`, you will see the new page you just created.
+Once you save the file, the development server will automatically reload the changes. Now open `http://localhost:3000/helloReact` and you will see the new page you just created.
 
 Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
 
@@ -83,7 +85,7 @@ How are you?
 
 In the same way, a page will be created at `http://localhost:3000/helloMarkdown`.
 
-Markdown pages are less flexible than React pages, because it always uses the theme layout.
+Markdown pages are less flexible than React pages because it always uses the theme layout.
 
 Here's an [example Markdown page](/examples/markdownPageExample).
 
@@ -102,14 +104,22 @@ If you are familiar with other static site generators like Jekyll and Next, this
 - `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
 - `/src/pages/foo/index.js` → `[baseUrl]/foo/`
 
-In this component-based development era, it is encouraged to co-locate your styling, markup and behavior together into components. Each page is a component, and if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a "Support" page, you could do one of the following:
+In this component-based development era, it is encouraged to co-locate your styling, markup, and behavior together into components. Each page is a component, and if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a "Support" page, you could do one of the following:
 
 - Add a `/src/pages/support.js` file
 - Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
 
-The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommended directory structure and you will still need to manually import the CSS module file within your component module (`support/index.js`). By default, any Markdown or Javascript file starting with `_` will be ignored, and no routes will be created for that file (see the `exclude` option).
+The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page.
 
-```sh
+:::note
+
+This is merely a recommended directory structure, and you will still need to manually import the CSS module file within your component module (`support/index.js`).
+
+:::
+
+By default, any Markdown or Javascript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
+
+```bash
 my-website
 ├── src
 │   └── pages
@@ -124,14 +134,10 @@ my-website
 
 :::caution
 
-All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components into that directory, use the `exclude` option (by default, files prefixed with `_`, test files(`.test.js`) and files in `__tests__` directory are not turned into pages).
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. If you want to create reusable components into that directory, use the `exclude` option (by default, files prefixed with `_`, test files(`.test.js`), and files in `__tests__` directory are not turned into pages).
 
 :::
 
-## Using React {#using-react}
-
-React is used as the UI library to create pages. Every page component should export a React component, and you can leverage on the expressiveness of React to build rich and interactive content.
-
-## Duplicate Routes {#duplicate-routes}
+### Duplicate Routes {#duplicate-routes}
 
 You may accidentally create multiple pages that are meant to be accessed on the same route. When this happens, Docusaurus will warn you about duplicate routes when you run `yarn start` or `yarn build`, but the site will still be built successfully. The page that was created last will be accessible, but it will override other conflicting pages. To resolve this issue, you should modify or remove any conflicting routes.

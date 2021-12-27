@@ -49,7 +49,7 @@ Docusaurus uses this component to catch errors within the theme's layout, and al
 
 :::note
 
-This component doesn't catch build-time errors, and only protects against client-side render errors that can happen when using stateful React components.
+This component doesn't catch build-time errors and only protects against client-side render errors that can happen when using stateful React components.
 
 :::
 
@@ -135,9 +135,15 @@ The target location to navigate to. Example: `/docs/introduction`.
 <Link to="/courses" />
 ```
 
+:::tip
+
+Prefer this component to vanilla `<a>` tags because Docusaurus does a lot of optimizations (e.g. broken path detection, prefetching, applying base URL...) if you use `<Link>`.
+
+:::
+
 ### `<Redirect/>` {#redirect}
 
-Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
 
 Example usage:
 
@@ -158,11 +164,11 @@ const Home = () => {
 
 ### `<BrowserOnly/>` {#browseronly}
 
-The `<BrowserOnly>` component permits to render React components only in the browser, after the React app has hydrated.
+The `<BrowserOnly>` component permits to render React components only in the browser after the React app has hydrated.
 
 :::tip
 
-Use it for integrating with code that can't run in Node.js, because `window` or `document` objects are being accessed.
+Use it for integrating with code that can't run in Node.js, because the `window` or `document` objects are being accessed.
 
 :::
 
@@ -249,20 +255,20 @@ export default function VisitMyWebsiteMessage() {
 
 When [localizing your site](./i18n/i18n-introduction.md), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage. The `<Translate>` component supports [interpolation](#interpolate).
 
-The translation strings will be extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations-sitedir) CLI and create a `code.json` translation file in `website/i18n/[locale]`.
+The translation strings will statically extracted from your code with the [`docusaurus write-translations`](./cli.md#docusaurus-write-translations-sitedir) CLI and a `code.json` translation file will be created in `website/i18n/[locale]`.
 
 :::note
 
 The `<Translate/>` props **must be hardcoded strings**.
 
-Apart the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
+Apart from the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
 
 :::
 
 #### Props {#translate-props}
 
 - `children`: untranslated string in the default site locale (can contain [interpolation placeholders](#interpolate))
-- `id`: optional value to use as key in JSON translation files
+- `id`: optional value to be used as the key in JSON translation files
 - `description`: optional text to help the translator
 - `values`: optional object containing interpolation placeholder values
 
@@ -302,7 +308,7 @@ export default function Home() {
 
 :::note
 
-You can even omit a children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
+You can even omit the children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
 
 ```jsx
 <Translate id="homepage.title" />
@@ -314,7 +320,7 @@ You can even omit a children prop and specify a translation string in your `code
 
 ### `useDocusaurusContext` {#useDocusaurusContext}
 
-React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md), and some additional site metadata.
+React hook to access Docusaurus Context. The context contains the `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md) and some additional site metadata.
 
 ```ts
 type DocusaurusPluginVersionInformation =
@@ -368,6 +374,12 @@ const MyComponent = () => {
 };
 ```
 
+:::note
+
+The `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). Functions, regexes, etc. would be lost on the client side.
+
+:::
+
 ### `useIsBrowser` {#useIsBrowser}
 
 Returns `true` when the React app has successfully hydrated in the browser.
@@ -376,9 +388,7 @@ Returns `true` when the React app has successfully hydrated in the browser.
 
 Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
 
-The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js).
-
-Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
 
 :::
 
@@ -450,7 +460,7 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
 
-- `withBaseUrl`: useful if you need to add base urls to multiple urls at once.
+- `withBaseUrl`: useful if you need to add base URLs to multiple URLs at once.
 
 ```jsx
 import React from 'react';
@@ -470,11 +480,11 @@ const Component = () => {
 
 React hook to access Docusaurus global data created by all the plugins.
 
-Global data is namespaced by plugin name, and plugin id.
+Global data is namespaced by plugin name then by plugin ID.
 
 :::info
 
-Plugin id is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
+Plugin ID is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
 
 :::
 
@@ -511,7 +521,7 @@ Inspect your site's global data at `./docusaurus/globalData.json`
 
 Access global data created by a specific plugin instance.
 
-This is the most convenient hook to access plugin global data, and should be used most of the time.
+This is the most convenient hook to access plugin global data and should be used most of the time.
 
 `pluginId` is optional if you don't use multi-instance plugins.
 
@@ -646,7 +656,7 @@ export default function Home() {
 
 ### `ExecutionEnvironment` {#executionenvironment}
 
-A module which exposes a few boolean variables to check the current rendering environment.
+A module that exposes a few boolean variables to check the current rendering environment.
 
 :::caution
 

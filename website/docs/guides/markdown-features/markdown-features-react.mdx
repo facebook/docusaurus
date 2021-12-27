@@ -17,7 +17,7 @@ Docusaurus has built-in support for [MDX v1](https://mdxjs.com/), which allows y
 
 :::note
 
-While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax.
+While Docusaurus parses both `.md` and `.mdx` files using MDX, some of the syntaxes are treated slightly differently by third-party tools. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax.
 
 :::
 
@@ -86,7 +86,7 @@ Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore,
 
 ## Importing code snippets {#importing-code-snippets}
 
-You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, first you need to install it in your project:
+You can not only import a file containing a component definition, but also import any code file as raw text, and then insert it in a code block, thanks to [Webpack raw-loader](https://webpack.js.org/loaders/raw-loader/). In order to use `raw-loader`, you first need to install it in your project:
 
 ```bash npm2yarn
 npm install --save raw-loader
@@ -116,7 +116,7 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 <br />
 ```
 
-You can also pass `title` prop to `CodeBlock` component in order to appear it as header above your codeblock:
+You can also pass `title` prop to `CodeBlock` component in order for it to appear as header above your code block:
 
 ```jsx
 <CodeBlock className="language-jsx" title="/src/myComponent">
@@ -132,7 +132,7 @@ You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, 
 
 :::warning
 
-This feature is experimental and might be subject to API breaking changes in the future.
+This feature is experimental and might be subject to breaking API changes in the future.
 
 :::
 
@@ -164,11 +164,11 @@ import PartialExample from './_markdown-partial-example.mdx';
 <br />
 ```
 
-This way, you can reuse contents among multiple pages and avoid duplicating materials.
+This way, you can reuse content among multiple pages and avoid duplicating materials.
 
 :::caution
 
-The table-of-contents does not currently contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
+The table of contents does not currently contain the imported Markdown headings. This is a technical limitation that we are trying to solve ([issue](https://github.com/facebook/docusaurus/issues/3915)).
 
 :::
 
