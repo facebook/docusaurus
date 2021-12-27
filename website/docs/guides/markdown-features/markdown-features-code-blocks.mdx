@@ -9,7 +9,7 @@ Code blocks within documentation are super-powered 💪.
 
 ## Code title {#code-title}
 
-You can add a title to the code block by adding `title` key after the language (leave a space between them).
+You can add a title to the code block by adding a `title` key after the language (leave a space between them).
 
     ```jsx title="/src/components/HelloCodeTitle.js"
     function HelloCodeTitle(props) {
@@ -25,7 +25,7 @@ function HelloCodeTitle(props) {
 
 ## Syntax highlighting {#syntax-highlighting}
 
-Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
+Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
 
     ```jsx
     console.log('Every repo must come with a mascot.');
@@ -65,9 +65,9 @@ Some popular languages like Java, C#, or PHP are not enabled by default.
 
 :::
 
-To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), define it in an array of additional languages.
+To add syntax highlighting for any of the other [Prism-supported languages](https://prismjs.com/#supported-languages), define it in an array of additional languages.
 
-For example, if you want to add highlighting for the `powershell` language:
+For example, if you want to add highlighting for the PowerShell language:
 
 ```js {5} title="docusaurus.config.js"
 module.exports = {
@@ -148,7 +148,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 ```
 
-### Multiple line highlighting {#multiple-line-highlighting}
+### Multiple-line highlighting {#multiple-line-highlighting}
 
 To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
@@ -365,7 +365,7 @@ function MyPlayground(props) {
 
 ## Using JSX markup in code blocks
 
-Code blocks in Markdown always preserves its content as plain text, meaning you can't do something like:
+Code block in Markdown always preserves its content as plain text, meaning you can't do something like:
 
 ```ts
 type EditUrlFunction = (params: {
@@ -407,11 +407,11 @@ Syntax highlighting only works on plain strings. Docusaurus will not attempt to 
 
 ## Multi-language support code blocks {#multi-language-support-code-blocks}
 
-With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.
+With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switch between them using a tabs component.
 
 Instead of implementing a dedicated component for multi-language support code blocks, we've implemented a generic Tabs component in the classic theme so that you can use it for other non-code scenarios as well.
 
-The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block is **intentional**. This is a current limitation of MDX, you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
+The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block are **intentional**. This is a current limitation of MDX: you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
 
 ````jsx
 import Tabs from '@theme/Tabs';

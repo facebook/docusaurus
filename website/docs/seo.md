@@ -83,7 +83,7 @@ Docusaurus is a static site generator—HTML files are statically generated for 
 
 The alt tag for an image tells the search engine what the image is about, and is used when the image can't be visually seen, e.g. when using a screen reader, or when the image is broken. Alt tags are commonly supported in Markdown.
 
-You may also add a title for your image—this doesn't impact SEO much, but is displayed as tooltip when hovering above the image, usually used to provide hints.
+You may also add a title for your image—this doesn't impact SEO much but is displayed as a tooltip when hovering above the image, usually used to provide hints.
 
 ```md
 ![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
@@ -97,7 +97,7 @@ Docusaurus blogs support [rich search results](https://search.google.com/test/ri
 
 ## Robots file {#robots-file}
 
-To add a `robots.txt` file that regulates search engines' behavior about which should be displayed and which shouldn't, provide it as [static asset](./static-assets.md). The following would allow access to all sub-pages from all requests:
+A `robots.txt` file regulates search engines' behavior about which should be displayed and which shouldn't. You can provide it as [static asset](./static-assets.md). The following would allow access to all sub-pages from all requests:
 
 ```text title="static/robots.txt"
 User-agent: *
@@ -124,4 +124,4 @@ Docusaurus uses your file names as links, but you can always change that using s
 
 Search engines rely on the HTML markup such as `<h2>`, `<table>`, etc., to understand the structure of your webpage. When Docusaurus renders your pages, semantic markup, e.g. `<aside>`, `<nav>`, `<main>`, are used to divide the different sections of the page, helping the search engine to locate parts like sidebar, navbar, and the main page content.
 
-Most [CommonMark](https://spec.commonmark.org/0.30/#atx-headings) syntax have their corresponding HTML tags. By using Markdown consistently in your project, you will make it easier for search engines to understand your page content.
+Most [CommonMark](https://spec.commonmark.org/0.30/#atx-headings) syntaxes have their corresponding HTML tags. By using Markdown consistently in your project, you will make it easier for search engines to understand your page content.

@@ -27,22 +27,24 @@ website # Root directory of your site
       └── hello.md
 ```
 
-However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by the user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
-```yml
+```md
 ---
 id: part1
 ---
+
 Lorem ipsum
 ```
 
 If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
 
-```yml
+```md
 ---
 id: part1
 slug: part1.html
 ---
+
 Lorem ipsum
 ```
 
@@ -57,13 +59,14 @@ It is possible to use:
 
 ## Home page docs {#home-page-docs}
 
-If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug frontmatter:
+If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug front matter:
 
-```yml
+```md
 ---
 id: my-home-doc
 slug: /
 ---
+
 Lorem ipsum
 ```
 
@@ -83,7 +86,7 @@ example.com/blog/2021/08/01/mdx-blog-post   -> generated from `blog/2021-08-01-m
 ...
 ```
 
-All docs will be served under the subroute `docs/`. But what if **your site only has docs**, or you want to prioritize your docs by putting it at the root?
+All docs will be served under the subroute `docs/`. But what if **your site only has docs**, or you want to prioritize your docs by putting them at the root?
 
 Assume that you have the following in your configuration:
 
@@ -126,15 +129,16 @@ module.exports = {
 };
 ```
 
-Note that you **don't necessarily have to give up on using blog** or other plugins; all that `routeBasePath: '/'` does is that instead of serving the docs through `https://example.com/docs/some-doc`, they are now at the site root: `https://example.com/some-doc`. The blog, if enabled, can still be accessed through the `blog/` subroute.
+Note that you **don't necessarily have to give up on using the blog** or other plugins; all that `routeBasePath: '/'` does is that instead of serving the docs through `https://example.com/docs/some-doc`, they are now at the site root: `https://example.com/some-doc`. The blog, if enabled, can still be accessed through the `blog/` subroute.
 
 Don't forget to put some page at the root (`https://example.com/`) through adding the front matter:
 
-```yml title="docs/intro.md"
+```md title="docs/intro.md"
 ---
 # highlight-next-line
 slug: /
 ---
+
 This page will be the home page when users visit https://example.com/.
 ```
 

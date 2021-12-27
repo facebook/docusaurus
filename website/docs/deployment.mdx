@@ -25,7 +25,7 @@ A Docusaurus site is statically rendered, and it can generally work without Java
 
 ## Configuration {#configuration}
 
-The following parameters are required in `docusaurus.config.js` in order for Docusaurus to optimize routing and serve files from the correct location:
+The following parameters are required in `docusaurus.config.js` to optimize routing and serve files from the correct location:
 
 | Name | Description |
 | --- | --- |
@@ -34,7 +34,7 @@ The following parameters are required in `docusaurus.config.js` in order for Doc
 
 ## Testing your Build Locally {#testing-build-locally}
 
-It is important to test your build locally before deploying to production. Docusaurus provides a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) command for that:
+It is important to test your build locally before deploying it for production. Docusaurus provides a [`docusaurus serve`](cli.md#docusaurus-serve-sitedir) command for that:
 
 ```bash npm2yarn
 npm run serve
@@ -70,8 +70,8 @@ If you are unsure of which one to choose, ask the following questions:
   How much resource (person-hours, money) am I willing to invest in this?
 </summary>
 
-- 🔴 Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services is almost never free, and setting up an on-site server and connecting it to the WAN can be more costly.
-- 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Many providers offer generous build time quota even for free plans that you would almost never exceed. However, it's still ultimately limited—you would need to pay once you hit the limit. Check the pricing page of your provider for details.
+- 🔴 Self-hosting is the hardest to set up—you would usually need an experienced person to manage this. Cloud services are almost never free, and setting up an on-site server and connecting it to the WAN can be even more costly.
+- 🟢 Jamstack providers can help you set up a working website in almost no time and offers features like server-side redirects that are easily configurable. Many providers offer generous build time quotas even for free plans that you would almost never exceed. However, it's still ultimately limited—you would need to pay once you hit the limit. Check the pricing page of your provider for details.
 - 🟡 The GitHub Pages deployment workflow can be tedious to set up. (Evidence: see the length of [Deploying to GitHub Pages](#deploying-to-github-pages)!) However, this service (including build and deployment) is always free for public repositories, and we have detailed instructions to help you make it work.
 
 </details>
@@ -192,7 +192,7 @@ Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.githu
 
 ### Overview {#github-pages-overview}
 
-Usually, there are two repositories (at least, two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial they will be referred to as **"source"** and **"deployment"**, respectively.
+Usually, there are two repositories (at least, two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial, they will be referred to as **"source"** and **"deployment"**, respectively.
 
 Each GitHub repository is associated with a GitHub Pages service. If the deployment repository is called `my-org/my-project` (where `my-org` is the organization name or username), the deployed site will appear at `https://my-org.github.io/my-project/`. Specially, if the deployment repository is called `my-org/my-org.github.io` (the _organization GitHub Pages repo_), the site will appear at `https://my-org.github.io/`.
 
@@ -296,7 +296,7 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 
 Beginning in August 2021, GitHub requires every command-line sign-in to use the **personal access token** instead of the password. When GitHub prompts for your password, enter the PAT instead. See the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information.
 
-Alternatively, you can use SSH (`USE_SSH=true`) to login.
+Alternatively, you can use SSH (`USE_SSH=true`) to log in.
 
 :::
 
@@ -309,7 +309,7 @@ The workflow examples below assume your website source resides in the `main` bra
 Our goal is that:
 
 1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
-2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new built output will be served on the GitHub Pages site. This job will be called `deploy`.
+2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new build output will be served on the GitHub Pages site. This job will be called `deploy`.
 
 Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
 
@@ -571,10 +571,10 @@ steps:
 
 1. Create a new ssh key that will be the [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys) for your project.
 2. Name your private and public keys to be specific and so that it does not overwrite your other [ssh keys](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in our public key you just generated.
-4. Open your Drone.io dashboard and login. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
+3. Go to `https://github.com/USERNAME/REPO/settings/keys` and add a new deploy key by pasting in the public key you just generated.
+4. Open your Drone.io dashboard and log in. The URL looks like `https://cloud.drone.io/USERNAME/REPO`.
 5. Click on the repository, click on activate repository, and add a secret called `git_deploy_private_key` with your private key value that you just generated.
-6. Create a `.drone.yml` on the root of your repository with below text.
+6. Create a `.drone.yml` on the root of your repository with the below text.
 
 ```yml title=".drone.yml"
 kind: pipeline
@@ -602,11 +602,11 @@ Now, whenever you push a new tag to GitHub, this trigger will start the drone CI
 
 ## Deploying to Render {#deploying-to-render}
 
-[Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
+[Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN, and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
 
 ## Deploying to Qovery {#deploying-to-qovery}
 
-[Qovery](https://www.qovery.com) is a fully-managed cloud platform that runs on your AWS, Digital Ocean and Scaleway account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
+[Qovery](https://www.qovery.com) is a fully-managed cloud platform that runs on your AWS, Digital Ocean, and Scaleway account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
 
 1. Create a Qovery account. Visit the [Qovery dashboard](https://console.qovery.com) to create an account if you don't already have one.
 2. Create a project.
@@ -637,13 +637,13 @@ That's it. Watch the status and wait till the app is deployed. To open the appli
 
 2. Select the project to deploy.
 
-   If you are logged in to Hostman with your GitHub, GitLab or Bitbucket account, at this point you will see the repository with your projects, including the private ones.
+   If you are logged in to Hostman with your GitHub, GitLab, or Bitbucket account, at this point you will see the repository with your projects, including the private ones.
 
-   Choose the project you want to deploy. It must contain the directory with the project’s files (usually it is website or my-website).
+   Choose the project you want to deploy. It must contain the directory with the project's files (e.g. `website`).
 
    To access a different repository, click **Connect another repository**.
 
-   If you didn’t use your Git account credentials to log in, you’ll be able to access the necessary account now, and then select the project.
+   If you didn't use your Git account credentials to log in, you'll be able to access the necessary account now, and then select the project.
 
 3. Configure the build settings.
 
@@ -686,7 +686,7 @@ Deploy your app in a matter of seconds using surge with the following steps:
    surge build/
    ```
 
-First-time users of Surge would be prompted to create an account from the command line(happens only once).
+First-time users of Surge would be prompted to create an account from the command line (which happens only once).
 
 Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given (which can be edited).
 

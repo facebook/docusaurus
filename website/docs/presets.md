@@ -7,7 +7,7 @@ Presets are collections of plugins and themes.
 
 ## Using presets {#using-presets}
 
-A preset is usually a npm package, so you install them like other npm packages using npm.
+A preset is usually an npm package, so you install them like other npm packages using npm.
 
 ```bash npm2yarn
 npm install --save @docusaurus/preset-classic
