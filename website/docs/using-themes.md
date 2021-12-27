@@ -228,7 +228,7 @@ To summarize:
 
 A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
 
-```shell {5-7}
+```bash {5-7}
 website
 ├── package.json
 └── src

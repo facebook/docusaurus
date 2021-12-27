@@ -126,7 +126,7 @@ For example, if your `versions.json` looks like this in v1
 
 Docusaurus v1 creates versioned docs **if and only if the doc content is different**. Your docs structure might look like this if the only doc changed from v1.0.0 to v1.1.0 is `hello.md`.
 
-```shell
+```bash
 website
 ├── versioned_docs
 │   ├── version-1.1.0
@@ -141,7 +141,7 @@ website
 
 In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right front matter and id reference too).
 
-```shell {3-5,12}
+```bash {3-5,12}
 website
 ├── versioned_docs
 │   ├── version-1.1.0

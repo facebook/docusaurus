@@ -589,7 +589,7 @@ The blog RSS feed is now hosted at `/blog/rss.xml` instead of `/blog/feed.xml`. 
 
 After migration, your folder structure should look like this:
 
-```sh
+```bash
 my-project
 ├── docs
 └── website

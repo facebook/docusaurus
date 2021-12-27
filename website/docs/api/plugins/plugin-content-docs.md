@@ -63,7 +63,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type EditUrlFunction = (params: {
   version: string;
   versionDocsDirPath: string;
@@ -268,7 +268,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type Tag = string | {label: string; permalink: string};
 ```
 

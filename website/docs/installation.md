@@ -63,7 +63,7 @@ npx create-docusaurus@latest my-website classic --typescript
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
 
-```sh
+```bash
 my-website
 ├── blog
 │   ├── 2019-05-28-hola.md

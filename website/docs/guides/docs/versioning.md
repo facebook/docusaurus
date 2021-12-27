@@ -18,7 +18,7 @@ To better understand how versioning works and see if it suits your needs, you ca
 
 ## Directory structure {#directory-structure}
 
-```shell
+```bash
 website
 ├── sidebars.json        # sidebar for the current docs version
 ├── docs                 # docs directory for the current docs version
@@ -82,7 +82,7 @@ When tagging a new version, the document versioning mechanism will:
 
 **Current version docs**
 
-```shell
+```bash
 # The new file.
 docs/new.md
 
@@ -92,7 +92,7 @@ sidebar.js
 
 **Older version docs**
 
-```shell
+```bash
 # The new file.
 versioned_docs/version-1.0.0/new.md
 

@@ -66,7 +66,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type EditUrlFunction = (params: {
   blogDirPath: string;
   blogPath: string;
@@ -220,7 +220,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type Tag = string | {label: string; permalink: string};
 
 // An author key references an author from the global plugin authors.yml file

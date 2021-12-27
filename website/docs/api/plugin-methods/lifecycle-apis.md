@@ -300,7 +300,7 @@ Inject head and/or body HTML tags to Docusaurus generated HTML.
 
 `injectHtmlTags` will be called both with the content loaded by the plugin.
 
-```typescript
+```ts
 function injectHtmlTags(): {
   headTags?: HtmlTags;
   preBodyTags?: HtmlTags;

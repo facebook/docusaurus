@@ -247,7 +247,7 @@ We have introduced three types of item types in the above example: `doc`, `categ
 
 Use the `doc` type to link to a doc page and assign that doc to a sidebar:
 
-```typescript
+```ts
 type SidebarItemDoc =
   // Normal syntax
   | {
@@ -740,7 +740,7 @@ For hand-written sidebar definitions, you would provide metadata to sidebar item
 
 **For docs**: use additional front matter. The `label` and `className` attributes now become `sidebar_label` and `sidebar_class_name`, while there's an additional `sidebar_position` front matter.
 
-```yaml title="docs/tutorials/tutorial-easy.md"
+```md title="docs/tutorials/tutorial-easy.md"
 ---
 # highlight-start
 sidebar_position: 2
@@ -748,6 +748,7 @@ sidebar_label: Easy
 sidebar_class_name: green
 # highlight-end
 ---
+
 # Easy Tutorial
 
 This is the easy tutorial!
@@ -775,7 +776,7 @@ This is the easy tutorial!
 </TabItem>
 <TabItem value="YAML">
 
-```yaml title="docs/tutorials/_category_.yml"
+```yml title="docs/tutorials/_category_.yml"
 position: 2.5 # float position is supported
 label: 'Tutorial'
 collapsible: true # make the category collapsible

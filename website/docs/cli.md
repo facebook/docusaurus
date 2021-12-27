@@ -66,7 +66,7 @@ There are multiple ways to obtain a certificate. We will use [mkcert](https://gi
 
 3. Start the app with Docusaurus HTTPS env variables:
 
-```shell
+```bash
 HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 ```
 
