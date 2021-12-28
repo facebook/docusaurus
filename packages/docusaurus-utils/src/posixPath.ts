@@ -7,18 +7,20 @@
 
 /**
  * Convert Windows backslash paths to posix style paths.
- * E.g: endi\\lie -> endi/lie
+ * E.g: endi\lie -> endi/lie
  *
- * Looks like this code was originally copied from https://github.com/sindresorhus/slash/blob/main/index.js
+ * Returns original path if the posix counterpart is not valid Windows path.
+ * This makes the legacy code that uses posixPath safe; but also makes it less
+ * useful when you actually want a path with forward slashes (e.g. for URL)
  *
+ * Adopted from https://github.com/sindresorhus/slash/blob/main/index.js
  */
 export function posixPath(str: string): string {
   const isExtendedLengthPath = /^\\\\\?\\/.test(str);
 
-  // TODO not sure why we need this
-  // See https://github.com/sindresorhus/slash/pull/16#issuecomment-833528479
-  // See https://github.com/facebook/docusaurus/issues/4730#issuecomment-833530370
-  const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
+  // Forward slashes are only valid Windows paths when they don't contain non-ascii characters.
+  // eslint-disable-next-line no-control-regex
+  const hasNonAscii = /[^\u0000-\u0080]+/.test(str);
 
   if (isExtendedLengthPath || hasNonAscii) {
     return str;

@@ -5,13 +5,15 @@ title: '📦 plugin-client-redirects'
 slug: '/api/plugins/@docusaurus/plugin-client-redirects'
 ---
 
+import APITable from '@site/src/components/APITable';
+
 Docusaurus Plugin to generate **client-side redirects**.
 
-This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
+This plugin will write additional HTML pages to your static site that redirect the user to your existing Docusaurus pages with JavaScript.
 
-:::note
+:::caution production only
 
-This plugin only create redirects for the production build.
+This plugin is always inactive in development and **only active in production** because it works on the build output.
 
 :::
 
@@ -31,99 +33,65 @@ npm install --save @docusaurus/plugin-client-redirects
 
 ## Configuration {#configuration}
 
-Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this page from `/myDocusaurusPage.html`:
+Accepted fields:
 
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        fromExtensions: ['html'],
-      },
-    ],
-  ],
+<APITable>
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `fromExtensions` | `string[]` | `[]` | The extensions to be removed from the route after redirecting. |
+| `toExtensions` | `string[]` | `[]` | The extensions to be appended to the route after redirecting. |
+| `redirects` | `RedirectRule[]` | `[]` | The list of redirect rules. |
+| `createRedirects` | `CreateRedirectsFn` | `undefined` | A callback to create a redirect rule. |
+
+</APITable>
+
+```ts
+type RedirectRule = {
+  to: string;
+  from: string | string[];
 };
+
+type CreateRedirectsFn = (path: string) => string[] | string | null | undefined;
 ```
 
-Second usecase: you have `/myDocusaurusPage.html`, and you want to redirect to this page from `/myDocusaurusPage`.
+### Example configuration {#ex-config}
+
+Here's an example configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-client-redirects',
+      // highlight-start
       {
-        toExtensions: ['html'],
-      },
-    ],
-  ],
-};
-```
-
-For custom redirect logic, provide your own `createRedirects` function.
-
-Let's imagine you change the url of an existing page, you might want to make sure the old url still works:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
+        fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
+        toExtensions: ['exe', 'zip'], // /myAsset -> /myAsset.zip (if latter exists)
         redirects: [
+          // /docs/oldDoc -> /docs/newDoc
           {
-            to: '/docs/newDocPath', // string
-            from: ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'], // string | string[]
+            to: '/docs/newDoc',
+            from: '/docs/oldDoc',
+          },
+          // Redirect from multiple old paths to the new path
+          {
+            to: '/docs/newDoc2',
+            from: ['/docs/oldDocFrom2019', '/docs/legacyDocFrom2016'],
           },
         ],
-      },
-    ],
-  ],
-};
-```
-
-It's possible to use a function to create the redirects for each existing path:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        createRedirects: function (existingPath) {
-          if (existingPath === '/docs/newDocPath') {
-            return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016']; // string | string[]
+        createRedirects(existingPath) {
+          if (existingPath.includes('/community')) {
+            // Redirect from /docs/team/X to /community/X and /docs/support/X to /community/X
+            return [
+              existingPath.replace('/community', '/docs/team'),
+              existingPath.replace('/community', '/docs/support'),
+            ];
           }
+          return undefined; // Return a falsy value: no redirect created
         },
       },
-    ],
-  ],
-};
-```
-
-Finally, it's possible to use all options at the same time:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        fromExtensions: ['html', 'htm'],
-        toExtensions: ['exe', 'zip'],
-        redirects: [
-          {
-            to: '/docs/newDocPath',
-            from: '/docs/oldDocPath',
-          },
-        ],
-        createRedirects: function (existingPath) {
-          if (existingPath === '/docs/newDocPath2') {
-            return ['/docs/oldDocPath2'];
-          }
-        },
-      },
+      // highlight-end
     ],
   ],
 };

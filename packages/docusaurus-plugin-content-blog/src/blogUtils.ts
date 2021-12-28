@@ -234,6 +234,7 @@ async function processBlogSourceFile(
         : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
+      frontMatter,
     },
     content,
   };

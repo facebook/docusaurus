@@ -19,7 +19,7 @@ npm install --save @docusaurus/plugin-content-pages
 
 If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+You can configure this plugin through the preset options.
 
 :::
 
@@ -43,19 +43,20 @@ Accepted fields:
 
 </APITable>
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
+```js config-tabs
+// preset option name: pages
+// plugin name: @docusaurus/plugin-content-pages
+
 const config = {
   path: 'src/pages',
   routeBasePath: '',
@@ -74,63 +75,21 @@ const config = {
 };
 ```
 
-### Preset options {#ex-config-preset}
-
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        pages: {
-          path: 'src/pages',
-          // ... configuration object here
-        },
-        // highlight-end
-      },
-    ],
-  ],
-};
-```
-
-### Plugin options {#ex-config-plugin}
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-pages',
-      // highlight-start
-      {
-        path: 'src/pages',
-        // ... configuration object here
-      },
-      // highlight-end
-    ],
-  ],
-};
-```
-
 ## i18n {#i18n}
 
 Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
-- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-pages-<pluginId>`
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-pages-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-pages`
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-pages`
 
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-pages
+website/i18n/[locale]/docusaurus-plugin-content-pages
 │
 │ # translations for website/src/pages
 ├── first-markdown-page.md

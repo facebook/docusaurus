@@ -78,7 +78,7 @@ export async function loadPlugins({
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitializedPlugin[] = initPlugins({
+  const plugins: InitializedPlugin[] = await initPlugins({
     pluginConfigs,
     context,
   });

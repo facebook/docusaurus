@@ -13,7 +13,7 @@ The browser list by default is provided through the `package.json` file as a roo
 
 :::caution
 
-On old browsers, the compiled output will use unsupported (too recent) JS syntax, causing React to fail to initialize and ending up with a static website with only HTML/CSS and no JS.
+On old browsers, the compiled output will use unsupported (too recent) JS syntax, causing React to fail to initialize and end up with a static website with only HTML/CSS and no JS.
 
 :::
 
@@ -53,23 +53,29 @@ You can "evaluate" any config with the `browserlist` cli to obtain the actual li
 npx browserslist --env="production"
 ```
 
-The output are all browsers supported in production. Below is the output in May, 2021:
+The output is all browsers supported in production. Below is the output in December 2021:
 
 ```text
-and_chr 89
+and_chr 95
 and_uc 12.12
-chrome 89
-chrome 88
-chrome 87
-edge 89
-edge 88
-firefox 86
+chrome 95
+chrome 94
+chrome 93
+chrome 92
+edge 95
+edge 94
+firefox 93
+firefox 92
 ie 11
-ios_saf 14.0-14.5
-ios_saf 13.4-13.7
-safari 14
+ios_saf 15
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+ios_saf 12.2-12.5
+opera 79
+safari 15
+safari 14.1
 safari 13.1
-samsung 13.0
+samsung 15.0
 ```
 
 ## Read more {#read-more}

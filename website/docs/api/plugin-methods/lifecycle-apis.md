@@ -5,7 +5,7 @@ toc_max_heading_level: 4
 
 # Lifecycle APIs
 
-During build, plugins are loaded in parallel to fetch their own contents and render them to routes. Plugins may also configure webpack or post-process the generated files.
+During the build, plugins are loaded in parallel to fetch their own contents and render them to routes. Plugins may also configure webpack or post-process the generated files.
 
 ## `async loadContent()` {#loadContent}
 
@@ -63,9 +63,9 @@ type Module =
 
 #### `createData(name: string, data: any): Promise<string>` {#createData}
 
-A declarative callback to create static data (generally json or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
+A declarative callback to create static data (generally JSON or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
 
-For example, this plugin below create a `/friends` page which display `Your friends are: Yangshun, Sebastien`:
+For example, this plugin below creates a `/friends` page which displays `Your friends are: Yangshun, Sebastien`:
 
 ```jsx title="website/src/components/Friends.js"
 import React from 'react';
@@ -105,7 +105,7 @@ export default function friendsPlugin(context, options) {
 
 #### `setGlobalData(data: any): void`
 
-This function permits to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
+This function permits one to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
 
 This data becomes accessible to your client-side/theme code through the [`useGlobalData`](../../docusaurus-core.md#useGlobalData) and [`usePluginData`](../../docusaurus-core.md#usePluginData) hooks.
 
@@ -115,7 +115,7 @@ Global data is... global: its size affects the loading time of all pages of your
 
 :::
 
-For example, this plugin below create a `/friends` page which display `Your friends are: Yangshun, Sebastien`:
+For example, this plugin below creates a `/friends` page which displays `Your friends are: Yangshun, Sebastien`:
 
 ```jsx title="website/src/components/Friends.js"
 import React from 'react';
@@ -174,7 +174,7 @@ The API of `configureWebpack` will be modified in the future to accept an object
 
 You may use them to return your webpack configures conditionally.
 
-For example, this plugin below modify the webpack config to transpile `.foo` file.
+For example, this plugin below modify the webpack config to transpile `.foo` files.
 
 ```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
@@ -300,7 +300,7 @@ Inject head and/or body HTML tags to Docusaurus generated HTML.
 
 `injectHtmlTags` will be called both with the content loaded by the plugin.
 
-```typescript
+```ts
 function injectHtmlTags(): {
   headTags?: HtmlTags;
   preBodyTags?: HtmlTags;
@@ -369,7 +369,7 @@ module.exports = function (context, options) {
 
 ## `getClientModules()` {#getClientModules}
 
-Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
+Returns an array of paths to the modules that are to be imported into the client bundle. These modules are imported globally before React even renders the initial UI.
 
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 

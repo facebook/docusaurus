@@ -17,7 +17,7 @@ Every plugin is imported as a module. The module is expected to have the followi
 
 ## Plugin constructor
 
-The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin`.
+The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`.
 
 ### `context` {#context}
 
@@ -37,17 +37,17 @@ interface LoadContext {
 
 `options` are the [second optional parameter when the plugins are used](../../using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. If there's a [`validateOptions`](./static-methods.md#validateOptions) function exported, the `options` will be validated and normalized beforehand.
 
-Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
+Alternatively, if a preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to the individual plugin to define what options it takes.
 
 ## Example {#example}
 
-Here's a mind model for a presumptuous plugin implementation.
+Here's a mental model for a presumptuous plugin implementation.
 
 ```js
 // A JavaScript function that returns an object.
 // `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
 // `opts` is the user-defined options.
-function myPlugin(context, opts) {
+async function myPlugin(context, opts) {
   return {
     // A compulsory field used as the namespace for directories to cache
     // the intermediate data for each plugin.

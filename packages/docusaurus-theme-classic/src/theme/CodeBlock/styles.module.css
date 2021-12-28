@@ -37,6 +37,11 @@
   border-radius: var(--ifm-global-radius);
 }
 
+.codeBlockStandalone {
+  padding: 0;
+  border-radius: var(--ifm-global-radius);
+}
+
 .copyButton {
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--ifm-global-radius);

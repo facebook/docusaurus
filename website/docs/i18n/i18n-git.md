@@ -13,7 +13,7 @@ This strategy has advantages:
 - **Easy to get started**: just add the `i18n` folder to Git
 - **Easy for developers**: Git, GitHub and pull requests are mainstream developer tools
 - **Free** (or without any additional cost, assuming you already use Git)
-- **Low friction**: does not require signing-up to an external tool
+- **Low friction**: does not require signing up to an external tool
 - **Rewarding**: contributors are happy to have a nice contribution history
 
 Using Git also present some shortcomings:
@@ -163,7 +163,7 @@ To help you maintain the JSON translation files, it is possible to run again the
 npm run write-translations -- --locale fr
 ```
 
-New translation will be appended, and existing ones will not be overridden.
+New translations will be appended, and existing ones will not be overridden.
 
 :::tip
 
@@ -171,7 +171,7 @@ Reset your translations with the `--override` option.
 
 :::
 
-### Localize edit urls {#localize-edit-urls}
+### Localize edit URLs {#localize-edit-urls}
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 

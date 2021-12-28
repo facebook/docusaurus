@@ -15,7 +15,7 @@ export default async function externalCommand(
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
-  const plugins = initPlugins({pluginConfigs, context});
+  const plugins = await initPlugins({pluginConfigs, context});
 
   // Plugin Lifecycle - extendCli.
   plugins.forEach((plugin) => {

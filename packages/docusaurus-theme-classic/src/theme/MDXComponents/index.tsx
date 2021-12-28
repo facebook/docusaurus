@@ -8,7 +8,7 @@
 import React, {ComponentProps, isValidElement, ReactElement} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import CodeBlock, {Props} from '@theme/CodeBlock';
+import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
 import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
@@ -33,40 +33,25 @@ const MDXComponents: MDXComponentsObject = {
     return <Head {...props}>{unwrappedChildren}</Head>;
   },
   code: (props) => {
-    const {children} = props;
-
-    // For retrocompatibility purposes (pretty rare use case)
-    // See https://github.com/facebook/docusaurus/pull/1584
-    if (isValidElement(children)) {
-      return children;
-    }
-
-    return !children.includes('\n') ? (
-      <code {...props} />
-    ) : (
-      <CodeBlock {...props} />
+    const shouldBeInline = React.Children.toArray(props.children).every(
+      (el) => typeof el === 'string' && !el.includes('\n'),
     );
+
+    return shouldBeInline ? <code {...props} /> : <CodeBlock {...props} />;
   },
   a: (props) => <Link {...props} />,
-  pre: (props) => {
-    const {children} = props;
-
-    // See comment for `code` above
-    if (isValidElement(children) && isValidElement(children?.props?.children)) {
-      return children.props.children;
-    }
-
-    return (
-      <CodeBlock
-        {...((isValidElement(children)
-          ? children?.props
-          : {...props}) as Props)}
-      />
-    );
-  },
+  pre: (props) => (
+    <CodeBlock
+      // If this pre is created by a ``` fenced codeblock, unwrap the children
+      {...(isValidElement(props.children) &&
+      props.children.props.originalType === 'code'
+        ? props.children?.props
+        : {...props})}
+    />
+  ),
   details: (props): JSX.Element => {
     const items = React.Children.toArray(props.children) as ReactElement[];
-    // Split summary item from the rest to pass it as a separate prop to the Detais theme component
+    // Split summary item from the rest to pass it as a separate prop to the Details theme component
     const summary: ReactElement<ComponentProps<'summary'>> = items.find(
       (item) => item?.props?.mdxType === 'summary',
     )!;
