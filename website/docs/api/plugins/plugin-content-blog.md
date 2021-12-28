@@ -9,6 +9,12 @@ import APITable from '@site/src/components/APITable';
 
 Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
+:::caution some features production only
+
+The [feed feature](../../blog.mdx#feed) works by extracting the build output, and is **only active in production**.
+
+:::
+
 ## Installation {#installation}
 
 ```bash npm2yarn
@@ -94,27 +100,27 @@ type ReadingTimeFunctionOption = (params: {
 type FeedType = 'rss' | 'atom' | 'json';
 ```
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
+```js config-tabs
+// preset option name: blog
+// plugin name: @docusaurus/plugin-content-blog
+
 const config = {
   path: 'blog',
   // Simple use-case: string editUrl
   // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl
-  editUrl: ({locale, blogDirPath, blogPath, permalink}) => {
-    return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
-  },
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) =>
+    `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`,
   editLocalizedFiles: false,
   blogTitle: 'Blog title',
   blogDescription: 'Blog',
@@ -146,48 +152,6 @@ const config = {
     copyright: '',
     language: undefined,
   },
-};
-```
-
-### Preset options {#ex-config-preset}
-
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        blog: {
-          path: 'blog',
-          // ... configuration object here
-        },
-        // highlight-end
-      },
-    ],
-  ],
-};
-```
-
-### Plugin options {#ex-config-plugin}
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-blog',
-      // highlight-start
-      {
-        path: 'blog',
-        // ... configuration object here
-      },
-      // highlight-end
-    ],
-  ],
 };
 ```
 

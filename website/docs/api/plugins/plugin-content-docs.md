@@ -19,7 +19,7 @@ npm install --save @docusaurus/plugin-content-docs
 
 If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+You can configure this plugin through the preset options.
 
 :::
 
@@ -103,19 +103,20 @@ type Versions = Record<
 >;
 ```
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
+```js config-tabs
+// preset option name: docs
+// plugin name: @docusaurus/plugin-content-docs
+
 const config = {
   path: 'docs',
   // Simple use-case: string editUrl
@@ -134,7 +135,7 @@ const config = {
     '**/__tests__/**',
   ],
   sidebarPath: 'sidebars.js',
-  sidebarItemsGenerator: async function ({
+  async sidebarItemsGenerator({
     defaultSidebarItemsGenerator,
     numberPrefixParser,
     item,
@@ -154,7 +155,7 @@ const config = {
       },
     ];
   },
-  numberPrefixParser: function (filename) {
+  numberPrefixParser(filename) {
     // Implement your own logic to extract a potential number prefix
     const numberPrefix = findNumberPrefix(filename);
     // Prefix found: return it with the cleaned filename
@@ -191,48 +192,6 @@ const config = {
     },
   },
   onlyIncludeVersions: ['current', '1.0.0', '2.0.0'],
-};
-```
-
-### Preset options {#ex-config-preset}
-
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        docs: {
-          path: 'docs',
-          // ... configuration object here
-        },
-        // highlight-end
-      },
-    ],
-  ],
-};
-```
-
-### Plugin options {#ex-config-plugin}
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      // highlight-start
-      {
-        path: 'docs',
-        // ... configuration object here
-      },
-      // highlight-end
-    ],
-  ],
 };
 ```
 

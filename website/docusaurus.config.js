@@ -14,6 +14,7 @@ const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+const configTabs = require('./src/remark/configTabs');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const lightTheme = require('prism-react-renderer/themes/github');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -267,7 +268,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [math, [npm2yarn, {sync: true}]],
+          remarkPlugins: [math, [npm2yarn, {sync: true}], configTabs],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
