@@ -6,6 +6,7 @@ These sidebar document ids do not exist:
 - goku
 
 Available document ids are:
+- doc with space
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -242,6 +243,11 @@ Object {
         Object {
           "docs": Array [
             Object {
+              "id": "doc with space",
+              "path": "/docs/doc with space",
+              "sidebar": undefined,
+            },
+            Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "docs",
@@ -326,6 +332,19 @@ Object {
 
 exports[`simple website content: data 1`] = `
 Object {
+  "site-docs-doc-with-space-md-e90.json": "{
+  \\"unversionedId\\": \\"doc with space\\",
+  \\"id\\": \\"doc with space\\",
+  \\"title\\": \\"Hoo hoo, if this path tricks you...\\",
+  \\"description\\": \\"\\",
+  \\"source\\": \\"@site/docs/doc with space.md\\",
+  \\"sourceDirName\\": \\".\\",
+  \\"slug\\": \\"/doc with space\\",
+  \\"permalink\\": \\"/docs/doc with space\\",
+  \\"tags\\": [],
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {}
+}",
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
@@ -811,6 +830,11 @@ Object {
     ]
   },
   \\"docs\\": {
+    \\"doc with space\\": {
+      \\"id\\": \\"doc with space\\",
+      \\"title\\": \\"Hoo hoo, if this path tricks you...\\",
+      \\"description\\": \\"\\"
+    },
     \\"foo/bar\\": {
       \\"id\\": \\"foo/bar\\",
       \\"title\\": \\"Bar\\",
@@ -902,6 +926,11 @@ Object {
       "versions": Array [
         Object {
           "docs": Array [
+            Object {
+              "id": "doc with space",
+              "path": "/docs/doc with space",
+              "sidebar": undefined,
+            },
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
@@ -1044,6 +1073,14 @@ Array [
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
         "path": "/docs/absoluteSlug",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/doc with space.md",
+        },
+        "path": "/docs/doc with space",
       },
       Object {
         "component": "@theme/DocItem",

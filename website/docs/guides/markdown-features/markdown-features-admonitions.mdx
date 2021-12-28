@@ -5,39 +5,45 @@ description: Handling admonitions/callouts in Docusaurus Markdown
 slug: /markdown-features/admonitions
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions. Admonitions are wrapped by a set of 3 colons.
 
 Example:
 
-    :::note
+```md
+:::note
 
-    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
-    :::
+:::
 
-    :::tip
+:::tip
 
-    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
-    :::
+:::
 
-    :::info
+:::info
 
-    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
-    :::
+:::
 
-    :::caution
+:::caution
 
-    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
-    :::
+:::
 
-    :::danger
+:::danger
 
-    Some **content** with _markdown_ `syntax`. Check [this `api`](#).
+Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
-    :::
+:::
+```
+
+<BrowserWindow>
 
 :::note
 
@@ -69,6 +75,8 @@ Some **content** with _markdown_ `syntax`. Check [this `api`](#).
 
 :::
 
+</BrowserWindow>
+
 ## Usage with Prettier {#usage-with-prettier}
 
 If you use [Prettier](https://prettier.io) to format your Markdown files, Prettier might autoformat your code to invalid admonition syntax. To avoid this problem, add empty lines around the starting and ending directives. This is also why the examples we show here all have empty lines around the content.
@@ -95,17 +103,23 @@ Hello world
 
 You may also specify an optional title
 
-    :::note Your Title
+```md
+:::note Your Title
 
-    Some **content** with _markdown_ `syntax`.
+Some **content** with _markdown_ `syntax`.
 
-    :::
+:::
+```
+
+<BrowserWindow>
 
 :::note Your Title
 
 Some **content** with _markdown_ `syntax`.
 
 :::
+
+</BrowserWindow>
 
 ## Admonitions with MDX
 
@@ -175,7 +189,6 @@ The types that are accepted are the same as above: `note`, `tip`, `danger`, `inf
 
 ```mdx-code-block
 import Admonition from '@theme/Admonition';
-import BrowserWindow from '@site/src/components/BrowserWindow';
 
 <BrowserWindow>
 <Admonition type="tip" icon="💡" title="Did you know...">

@@ -45,7 +45,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | --- | --- | --- |
 | `--port` | `3000` | Specifies the port of the dev server. |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
-| `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
+| `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as a fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
@@ -66,7 +66,7 @@ There are multiple ways to obtain a certificate. We will use [mkcert](https://gi
 
 3. Start the app with Docusaurus HTTPS env variables:
 
-```shell
+```bash
 HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 ```
 
@@ -110,7 +110,7 @@ npm run swizzle @docusaurus/theme-classic DocSidebar
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
-`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle [themeName]` without `componentName` lists all the components available for swizzling.
 
 #### Options {#options-2}
 
@@ -149,7 +149,7 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | Name | Default | Description |
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
-| `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
+| `--skip-build` | `false` | Deploy website without building it. This may be useful when using a custom deploy script. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
 ### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
@@ -181,7 +181,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | `--locale` | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in |
 | `--override` | `false` | Override existing translation messages |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
-| `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
+| `--messagePrefix` | `''` | Allows adding a prefix to each translation message, to help you highlight untranslated strings |
 
 ### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 

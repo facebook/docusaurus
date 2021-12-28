@@ -44,12 +44,12 @@ We don't provide support for:
 Overview of the workflow to create a translated Docusaurus website:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
-1. **Translate**: put the translation files at the correct filesystem location
-1. **Deploy**: build and deploy your site using a single or multi-domain strategy
+2. **Translate**: put the translation files at the correct filesystem location
+3. **Deploy**: build and deploy your site using a single or multi-domain strategy
 
 ### Translation files {#translation-files}
 
-You will have to work with 2 kind of translation files.
+You will work with 2 kinds of translation files.
 
 #### Markdown files {#markdown-files}
 
@@ -83,7 +83,7 @@ The JSON format used is called **Chrome i18n**:
 The choice was made for 2 reasons:
 
 - **Description attribute**: to help translators with additional context
-- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)
+- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json), etc.
 
 ### Translation files location {#translation-files-location}
 

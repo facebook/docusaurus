@@ -3,7 +3,7 @@ id: using-themes
 title: Themes
 ---
 
-Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
+Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on the client-side, whereas plugins are more focused on server-side functionalities. Themes are also designed to be replaceable with other themes.
 
 **Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
 
@@ -59,7 +59,7 @@ import Navbar from '@theme/Navbar';
 The alias `@theme` can refer to a few directories, in the following priority:
 
 1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
-2. A Docusaurus theme packages's `theme` directory.
+2. A Docusaurus theme package's `theme` directory.
 3. Fallback components provided by Docusaurus core (usually not needed).
 
 ## Swizzling theme components {#swizzling-theme-components}
@@ -97,7 +97,7 @@ As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-class
 npm run swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
+This will copy the current `<Footer />` component used by the theme to an `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use the swizzled component in place of the original one from the theme.
 
 Although we highly discourage swizzling of all components, if you wish to do that, run:
 
@@ -111,7 +111,7 @@ npm run swizzle @docusaurus/theme-classic
 
 Sometimes, you just want to wrap an existing theme component with additional logic, and it can be a pain to have to maintain an almost duplicate copy of the original theme component.
 
-In such case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it.
+In this case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it.
 
 ### For site owners {#for-site-owners}
 
@@ -153,11 +153,11 @@ export default function CodeBlock(props) {
 }
 ```
 
-Check the code of `docusaurus-theme-live-codeblock` for details.
+Check the code of `@docusaurus/theme-live-codeblock` for details.
 
 :::caution
 
-Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-codeblock`), you likely don't need `@theme-init`.
+Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme-live-codeblock`), you likely don't need `@theme-init`.
 
 :::
 
@@ -165,7 +165,7 @@ Unless you want publish to npm a "theme enhancer" (like `docusaurus-theme-live-c
 
 <summary>How are theme aliases resolved?</summary>
 
-It can be quite hard to wrap your mind around these aliases. Let's imagine the following case with a super convoluted setup where three themes/plugins and the site itself all try to define the same component. Internally, Docusaurus loads these themes as a "stack".
+It can be quite hard to wrap your mind around these aliases. Let's imagine the following case with a super convoluted setup with three themes/plugins and the site itself all trying to define the same component. Internally, Docusaurus loads these themes as a "stack".
 
 ```text
 +-------------------------------------------------+
@@ -181,11 +181,11 @@ It can be quite hard to wrap your mind around these aliases. Let's imagine the f
 
 The components in this "stack" are pushed in the order of `preset plugins > preset themes > plugins > themes > site`, so the swizzled component in `website/src/theme` always comes out on top because it's loaded last.
 
-`@theme/*` always points to the topmost component—when code block is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
+`@theme/*` always points to the topmost component—when `CodeBlock` is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
 
 `@theme-original/*` always points to the topmost non-swizzled component. That's why you can import `@theme-original/CodeBlock` in the swizzled component—it points to the next one in the "component stack", a theme-provided one. Plugin authors should not try to use this because your component could be the topmost component and cause a self-import.
 
-`@theme-init/*` always points to the bottommost component—usually this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
+`@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
 
 </details>
 
@@ -216,7 +216,7 @@ Use this component to render React Context providers and global stateful logic.
 
 While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
 
-Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. So a typical theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which plugins would use. And it is typically accompanied by a `src/theme` directory full of components.
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. So a typical theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which plugins would use. And it is typically accompanied by an `src/theme` directory full of components.
 
 To summarize:
 
@@ -226,9 +226,9 @@ To summarize:
 
 ## Writing customized Docusaurus themes {#writing-customized-docusaurus-themes}
 
-A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
+A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
 
-```shell {5-7}
+```bash {5-7}
 website
 ├── package.json
 └── src

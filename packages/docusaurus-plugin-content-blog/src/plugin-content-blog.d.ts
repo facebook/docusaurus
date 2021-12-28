@@ -43,6 +43,7 @@ declare module '@theme/BlogPostPage' {
     readonly nextItem?: {readonly title: string; readonly permalink: string};
     readonly prevItem?: {readonly title: string; readonly permalink: string};
     readonly authors: import('./types').Author[];
+    readonly frontMatter: FrontMatter & Record<string, unknown>;
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;

@@ -3,7 +3,7 @@ id: using-plugins
 title: Plugins
 ---
 
-Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md).
+Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of a bundle via [presets](presets.md).
 
 ## Available plugins {#available-plugins}
 
@@ -11,7 +11,7 @@ We maintain a [list of official plugins](./api/plugins/overview.md), but the com
 
 ## Installing a plugin {#installing-a-plugin}
 
-A plugin is usually a npm package, so you install them like other npm packages using npm.
+A plugin is usually an npm package, so you install them like other npm packages using npm.
 
 ```bash npm2yarn
 npm install --save docusaurus-plugin-name
@@ -115,7 +115,7 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 ## Plugins design {#plugins-design}
 
-Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.
+Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but is not limited to) extending the webpack config, modifying the data loaded, and creating new components to be used in a page.
 
 ## Creating plugins {#creating-plugins}
 
@@ -164,7 +164,7 @@ module.exports = {
 };
 ```
 
-Then in the folder `my-plugin` you can create an index.js such as this:
+Then in the folder `my-plugin`, you can create an `index.js` such as this:
 
 ```js title="my-plugin.js"
 module.exports = async function myPlugin(context, options) {

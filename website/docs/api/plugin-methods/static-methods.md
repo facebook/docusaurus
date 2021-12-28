@@ -8,7 +8,7 @@ Static methods are not part of the plugin instance—they are attached to the co
 
 ## `validateOptions({options, validate})` {#validateOptions}
 
-Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during initialization.
+Returns validated and normalized options for the plugin. This method is called before the plugin is initialized. You must return the options since they will be passed to the plugin during initialization.
 
 ### `options` {#options}
 
@@ -16,7 +16,7 @@ Return validated and normalized options for the plugin. This method is called be
 
 ### `validate` {#validate}
 
-`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
@@ -70,7 +70,7 @@ Return validated and normalized configuration for the theme.
 
 ### `validate` {#validate-1}
 
-`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 

@@ -437,6 +437,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Digital Support Services Notes',
+    description: 'All notes needed for Digital Support Services T Level',
+    preview: require('./showcase/digitalsupportservices.png'),
+    website: 'https://notes.nayanpatel.net',
+    source: 'https://github.com/PatelN123/Digital-Support-Notes',
+    tags: ['opensource', 'design', 'personal'],
+  },
+  {
     title: 'Djamaile Rahamat',
     description: 'Djamaile Rahamat Blog on making cool stuff',
     preview: require('./showcase/djamaile.png'),
@@ -623,6 +631,14 @@ const Users: User[] = [
     preview: require('./showcase/graphql-mesh.png'),
     website: 'https://graphql-mesh.com',
     source: 'https://github.com/urigo/graphql-mesh',
+    tags: ['opensource'],
+  },
+  {
+    title: 'GTFS-to-HTML',
+    description: 'Generate human-readable HTML timetables from GTFS',
+    preview: require('./showcase/gtfs-to-html.png'),
+    website: 'https://gtfstohtml.com',
+    source: 'https://github.com/BlinkTagInc/gtfs-to-html',
     tags: ['opensource'],
   },
   {
