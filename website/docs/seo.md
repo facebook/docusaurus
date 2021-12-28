@@ -58,7 +58,7 @@ export default function page() {
 
 Docusaurus automatically adds `description`, `title`, canonical URL links, and other useful metadata to each Markdown page. They are configurable through front matter:
 
-```yml
+```md
 ---
 title: Title for search engines; can be different from the actual heading
 description: A short description of this page
