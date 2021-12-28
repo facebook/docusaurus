@@ -13,7 +13,7 @@ We document the usage of [Crowdin](https://crowdin.com/), as **one** possible **
 
 :::caution
 
-This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/) and [ReasonML](https://reasonml.github.io/).
+This is **not an endorsement of Crowdin** as the unique choice to translate a Docusaurus site, but it is successfully used by Facebook to translate documentation projects such as [Jest](https://jestjs.io/), [Docusaurus](https://docusaurus.io/), and [ReasonML](https://reasonml.github.io/).
 
 Refer to the **[Crowdin documentation](https://support.crowdin.com/)** and **[Crowdin support](mailto:support@crowdin.com)** for help.
 
@@ -21,7 +21,7 @@ Refer to the **[Crowdin documentation](https://support.crowdin.com/)** and **[Cr
 
 :::tip
 
-Use this **[community-driven GitHub issue](https://github.com/facebook/docusaurus/discussions/4052)** to discuss anything related to Docusaurus + Crowdin.
+Use this **[community-driven GitHub discussion](https://github.com/facebook/docusaurus/discussions/4052)** to discuss anything related to Docusaurus + Crowdin.
 
 :::
 
@@ -103,7 +103,7 @@ export default function Home() {
 
 Sign up on [Crowdin](https://crowdin.com/), and create a project.
 
-Use English as source language, and French as target language.
+Use English as the source language, and French as the target language.
 
 ![Create a Crowdin project with english as source language, and french as target language](/img/crowdin/crowdin-create-project.png)
 
@@ -187,9 +187,9 @@ You should **not commit** it, and it may be a good idea to create a dedicated **
 
 ### Install the Crowdin CLI {#install-the-crowdin-cli}
 
-This tutorial use the CLI in version `3.5.2`, but we expect `3.x` releases to keep working.
+This tutorial uses the CLI version `3.5.2`, but we expect `3.x` releases to keep working.
 
-Install the Crowdin CLI as a NPM package to your Docusaurus site:
+Install the Crowdin CLI as an NPM package to your Docusaurus site:
 
 ```bash npm2yarn
 npm install @crowdin/cli@3
@@ -298,13 +298,13 @@ Make sure that your website is now translated in French at `http://localhost:300
 
 ### Automate with CI {#automate-with-ci}
 
-We will configure the CI to **download the Crowdin translations at build time**, and keep them outside of Git.
+We will configure the CI to **download the Crowdin translations at build time** and keep them outside of Git.
 
 Add `website/i18n` to `.gitignore`.
 
 Set the `CROWDIN_PERSONAL_TOKEN` env variable on your CI.
 
-Create a npm script to `sync` Crowdin (extract sources, upload sources, download translations):
+Create an npm script to `sync` Crowdin (extract sources, upload sources, download translations):
 
 ```json title="package.json"
 {
@@ -342,17 +342,13 @@ Crowdin **does not support officially MDX**, but they added **support for the `.
 
 #### MDX problems {#mdx-problems}
 
-Crowdin thinks the JSX syntax is embedded HTML, and can mess-up with the JSX markup when you download the translations, leading to a site that fails to build due to invalid JSX.
+Crowdin thinks that the JSX syntax is embedded HTML and can mess up with the JSX markup when you download the translations, leading to a site that fails to build due to invalid JSX.
 
-Simple JSX fragments using simple string props like `<Username name="Sebastien"/>` will work fine.
-
-More complex JSX fragments using object/array props like `<User person={{name: "Sebastien"}}/>` are more likely to fail due to a syntax that does not look like HTML.
+Simple JSX fragments using simple string props like `<Username name="Sebastien"/>` will work fine; more complex JSX fragments using object/array props like `<User person={{name: "Sebastien"}}/>` are more likely to fail due to a syntax that does not look like HTML.
 
 #### MDX solutions {#mdx-solutions}
 
-We recommend moving the complex embedded JSX code as separate standalone components.
-
-We also added a `mdx-code-block` escape hatch syntax:
+We recommend extracting the complex embedded JSX code as separate standalone components. We also added an `mdx-code-block` escape hatch syntax:
 
 `````text
 # How to deploy Docusaurus
@@ -454,15 +450,15 @@ Crowdin has an [In-Context localization](https://support.crowdin.com/in-context-
 
 Unfortunately, it does not work yet for technical reasons, but we have good hope it can be solved.
 
-Crowdin replaces markdown strings with technical ids such as `crowdin:id12345`, but it does so too aggressively, including hidden strings, and mess-up with the frontmatter, admonitions, jsx...
+Crowdin replaces markdown strings with technical ids such as `crowdin:id12345`, but it does so too aggressively, including hidden strings, and messes up with front matter, admonitions, JSX...
 
 :::
 
-### Localize edit urls {#localize-edit-urls}
+### Localize edit URLs {#localize-edit-urls}
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 
-You may prefer the edit button to link to the Crowdin interface instead, and can use the `editUrl` function to customize the edit urls on a per-locale basis.
+You may prefer the edit button to link to the Crowdin interface instead by using the `editUrl` function to customize the edit URLs on a per-locale basis.
 
 ```js title="docusaurus.config.js"
 const DefaultLocale = 'en';

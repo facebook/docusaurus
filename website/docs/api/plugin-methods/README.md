@@ -37,11 +37,11 @@ interface LoadContext {
 
 `options` are the [second optional parameter when the plugins are used](../../using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. If there's a [`validateOptions`](./static-methods.md#validateOptions) function exported, the `options` will be validated and normalized beforehand.
 
-Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
+Alternatively, if a preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to the individual plugin to define what options it takes.
 
 ## Example {#example}
 
-Here's a mind model for a presumptuous plugin implementation.
+Here's a mental model for a presumptuous plugin implementation.
 
 ```js
 // A JavaScript function that returns an object.

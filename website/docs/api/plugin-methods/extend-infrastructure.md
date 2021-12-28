@@ -8,7 +8,9 @@ Docusaurus has some infrastructure like hot reloading, CLI, and swizzling, that 
 
 ## `getPathsToWatch()` {#getPathsToWatch}
 
-Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site. Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
+Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
+
+Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
 
 Example:
 
@@ -27,7 +29,7 @@ module.exports = function (context, options) {
 
 ## `extendCli(cli)` {#extendCli}
 
-Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
+Register an extra command to enhance the CLI of Docusaurus. `cli` is a [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
 
 :::caution
 
@@ -55,7 +57,7 @@ module.exports = function (context, options) {
 
 ## `getThemePath()` {#getThemePath}
 
-Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
+Returns the path to the directory where the theme components can be found. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
 For example, your `getThemePath` can be:
 
@@ -74,7 +76,7 @@ module.exports = function (context, options) {
 
 ## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
 
-Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement for `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make the path returned by `getThemePath()` be the compiled JavaScript output.
 
 :::tip
 
@@ -108,7 +110,7 @@ module.exports = function (context, options) {
 
 **This is a static method, not attached to any plugin instance.**
 
-Returns a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all component are considered stable.
+Returns a list of stable components that are considered safe for swizzling. These components will be swizzlable without `--danger`. All components are considered unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all components are considered stable.
 
 ```js {0-12} title="my-theme/src/index.js"
 const swizzleAllowedComponents = [
