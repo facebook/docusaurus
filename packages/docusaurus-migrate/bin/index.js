@@ -6,7 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+// @ts-check
+
+const logger = require('@docusaurus/logger').default;
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
@@ -18,18 +20,14 @@ const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
-      console.error(chalk.red(err.stack));
+      logger.error(err.stack);
       process.exitCode = 1;
     });
 }
 
 if (!semver.satisfies(process.version, requiredVersion)) {
-  console.log(
-    chalk.red(`\nMinimum Node.js version not met :(`) +
-      chalk.yellow(
-        `\n\nYou are using Node ${process.version}. We require Node.js ${requiredVersion} or up!\n`,
-      ),
-  );
+  logger.error('Minimum Node.js version not met :(');
+  logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
 }
 

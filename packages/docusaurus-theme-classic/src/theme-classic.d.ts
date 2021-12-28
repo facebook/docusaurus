@@ -11,6 +11,18 @@ declare module '@docusaurus/theme-classic' {
   };
 }
 
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default function Admonition(props: Props): JSX.Element;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
@@ -111,13 +123,22 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
-  type PageInfo = {readonly permalink: string; readonly title: string};
-
   // May be simpler to provide a {navigation: PropNavigation} prop?
   export interface Props extends PropNavigation {}
 
-  const DocPaginator: (props: Props) => JSX.Element;
-  export default DocPaginator;
+  export default function DocPaginator(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPaginatorNavLink' {
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  // May be simpler to provide a {navigation: PropNavigation} prop?
+  export interface Props {
+    navLink: PropNavigationLink;
+    next?: boolean;
+  }
+
+  export default function DocPaginatorNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar' {

@@ -66,7 +66,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type EditUrlFunction = (params: {
   blogDirPath: string;
   blogPath: string;
@@ -191,9 +191,9 @@ module.exports = {
 };
 ```
 
-## Markdown Frontmatter {#markdown-frontmatter}
+## Markdown front matter {#markdown-front-matter}
 
-Markdown documents can use the following Markdown FrontMatter metadata fields, enclosed by a line `---` on either side.
+Markdown documents can use the following Markdown front matter metadata fields, enclosed by a line `---` on either side.
 
 Accepted fields:
 
@@ -201,7 +201,7 @@ Accepted fields:
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` FrontMatter fields, even for single author blog posts. |
+| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` front matter fields, even for single author blog posts. |
 | `author` | `string` | `undefined` | ⚠️ Prefer using `authors`. The blog post author's name. |
 | `author_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
 | `author_image_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image. |
@@ -220,7 +220,7 @@ Accepted fields:
 
 </APITable>
 
-```typescript
+```ts
 type Tag = string | {label: string; permalink: string};
 
 // An author key references an author from the global plugin authors.yml file
@@ -234,13 +234,13 @@ type Author = {
   image_url?: string;
 };
 
-// The FrontMatter authors field allows various possible shapes
+// The front matter authors field allows various possible shapes
 type Authors = AuthorKey | Author | (AuthorKey | Author)[];
 ```
 
 Example:
 
-```yml
+```md
 ---
 title: Welcome Docusaurus v2
 authors:
@@ -255,6 +255,7 @@ description: This is my first post on Docusaurus 2.
 image: https://i.imgur.com/mErPwqL.png
 hide_table_of_contents: false
 ---
+
 A Markdown blog post
 ```
 
@@ -264,15 +265,15 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
-- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-blog-<pluginId>`
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-blog`
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-blog
+website/i18n/[locale]/docusaurus-plugin-content-blog
 │
 │ # translations for website/blog
 ├── authors.yml

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
@@ -52,13 +52,52 @@ export default function CodeBlock({
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
-  // In case interleaved Markdown (e.g. when using CodeBlock as standalone component).
+  useEffect(() => {
+    setHighlightExpanded(true);
+    const timer = window.setTimeout(() => {
+      setHighlightExpanded(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [collapsed]);
+
+  // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
+  // When the children is not a simple string, we just return a styled block without actually highlighting.
+  if (React.Children.toArray(children).some((el) => isValidElement(el))) {
+    return (
+      <Highlight
+        {...defaultProps}
+        key={String(mounted)}
+        theme={prismTheme}
+        code=""
+        language={'text' as Language}>
+        {({className, style}) => (
+          <pre
+            /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
+            tabIndex={0}
+            className={clsx(
+              className,
+              styles.codeBlockStandalone,
+              'thin-scrollbar',
+              styles.codeBlockContainer,
+              blockClassName,
+              ThemeClassNames.common.codeBlock,
+            )}
+            style={style}>
+            <code className={styles.codeBlockLines}>{children}</code>
+          </pre>
+        )}
+      </Highlight>
+    );
+  }
+
+  // The children is now guaranteed to be one/more plain strings
   const content = Array.isArray(children)
     ? children.join('')
     : (children as string);
 
   const language =
-    parseLanguage(blockClassName) ?? (prism.defaultLanguage as Language);
+    parseLanguage(blockClassName) ??
+    (prism.defaultLanguage as Language | undefined);
   const {highlightLines, sampleLines, code} = parseLines(
     content,
     metastring,
@@ -74,21 +113,13 @@ export default function CodeBlock({
 
   const collapsible = sampleLines.length > 0;
 
-  useEffect(() => {
-    setHighlightExpanded(true);
-    const timer = window.setTimeout(() => {
-      setHighlightExpanded(false);
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [collapsed]);
-
   return (
     <Highlight
       {...defaultProps}
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      language={language}>
+      language={language ?? ('text' as Language)}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(

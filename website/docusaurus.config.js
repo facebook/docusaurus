@@ -79,9 +79,10 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
       integrity:
-        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
       crossorigin: 'anonymous',
     },
   ],
@@ -177,6 +178,7 @@ const config = {
         max: 1030, // max resized image's size.
         min: 640, // min resized image's size. if original is lower, use that size.
         steps: 2, // the max number of images generated between min and max (inclusive)
+        disableInDev: false,
       },
     ],
     [
@@ -334,7 +336,11 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme,
-        additionalLanguages: ['java'],
+        // We need to load markdown again so that YAML is loaded before MD
+        // and the YAML front matter is highlighted correctly.
+        // TODO after we have forked prism-react-renderer, we should tweak the
+        // import order and fix it there
+        additionalLanguages: ['java', 'markdown'],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
@@ -515,4 +521,12 @@ const config = {
     }),
 };
 
-module.exports = config;
+// TODO temporary dogfood async config, remove soon
+async function createConfig() {
+  await new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+  return config;
+}
+
+module.exports = createConfig;

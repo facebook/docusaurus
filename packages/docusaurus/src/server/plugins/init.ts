@@ -124,13 +124,13 @@ function getThemeValidationFunction(
   }
 }
 
-export default function initPlugins({
+export default async function initPlugins({
   pluginConfigs,
   context,
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): InitializedPlugin[] {
+}): Promise<InitializedPlugin[]> {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
   const pluginRequire = createRequire(context.siteConfigPath);
@@ -184,37 +184,45 @@ export default function initPlugins({
     }
   }
 
-  const plugins: InitializedPlugin[] = pluginConfigs
-    .map((pluginConfig) => {
-      if (!pluginConfig) {
-        return null;
-      }
-      const normalizedPluginConfig = normalizePluginConfig(
-        pluginConfig,
-        pluginRequire,
-      );
-      const pluginVersion: DocusaurusPluginVersionInformation =
-        doGetPluginVersion(normalizedPluginConfig);
-      const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
+  async function initializePlugin(
+    pluginConfig: PluginConfig,
+  ): Promise<InitializedPlugin> {
+    const normalizedPluginConfig = normalizePluginConfig(
+      pluginConfig,
+      pluginRequire,
+    );
+    const pluginVersion: DocusaurusPluginVersionInformation =
+      doGetPluginVersion(normalizedPluginConfig);
+    const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
-      // Side-effect: merge the normalized theme config in the original one
-      context.siteConfig.themeConfig = {
-        ...context.siteConfig.themeConfig,
-        ...doValidateThemeConfig(normalizedPluginConfig),
-      };
+    // Side-effect: merge the normalized theme config in the original one
+    context.siteConfig.themeConfig = {
+      ...context.siteConfig.themeConfig,
+      ...doValidateThemeConfig(normalizedPluginConfig),
+    };
 
-      const pluginInstance = normalizedPluginConfig.plugin(
-        context,
-        pluginOptions,
-      );
+    const pluginInstance = await normalizedPluginConfig.plugin(
+      context,
+      pluginOptions,
+    );
 
-      return {
-        ...pluginInstance,
-        options: pluginOptions,
-        version: pluginVersion,
-      };
-    })
-    .filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
+    return {
+      ...pluginInstance,
+      options: pluginOptions,
+      version: pluginVersion,
+    };
+  }
+
+  const plugins: InitializedPlugin[] = (
+    await Promise.all(
+      pluginConfigs.map((pluginConfig) => {
+        if (!pluginConfig) {
+          return null;
+        }
+        return initializePlugin(pluginConfig);
+      }),
+    )
+  ).filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
 
   ensureUniquePluginInstanceIds(plugins);
 

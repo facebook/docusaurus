@@ -51,17 +51,17 @@ import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
 import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
-export default function pluginContentDocs(
+export default async function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent> {
+): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
   const versionsMetadata = readVersionsMetadata({context, options});
@@ -203,11 +203,7 @@ export default function pluginContentDocs(
         try {
           return await doLoadVersion(versionMetadata);
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Loading of version failed for version "${versionMetadata.versionName}"`,
-            ),
-          );
+          logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
           throw e;
         }
       }

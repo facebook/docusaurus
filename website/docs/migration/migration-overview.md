@@ -22,7 +22,7 @@ While our main focus will still be helping you get your documentations right and
 
 Your Docusaurus 1 site should have the following structure:
 
-```sh
+```bash
 ├── docs
 └── website
     ├── blog

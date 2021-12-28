@@ -13,8 +13,9 @@ export type {
   Navbar,
   NavbarItem,
   NavbarLogo,
+  MultiColumnFooter,
+  SimpleFooter,
   Footer,
-  FooterLinks,
   FooterLinkItem,
   ColorModeConfig,
 } from './utils/useThemeConfig';

@@ -42,7 +42,7 @@ $$
 To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
 ```bash npm2yarn
-npm install --save remark-math@3 rehype-katex@4 hast-util-is-element@1.1.0
+npm install --save remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
 ```
 
 :::caution
@@ -69,11 +69,13 @@ Include the KaTeX CSS in your config under `stylesheets`:
 
 ```js
 stylesheets: [
-    {
-        href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
-        integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
-        crossorigin: "anonymous",
-    },
+  {
+    href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+    type: 'text/css',
+    integrity:
+      'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+    crossorigin: 'anonymous',
+  },
 ],
 ```
 
@@ -105,9 +107,10 @@ module.exports = {
   // highlight-start
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
       integrity:
-        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
       crossorigin: 'anonymous',
     },
   ],

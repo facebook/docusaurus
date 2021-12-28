@@ -3,7 +3,7 @@ id: using-plugins
 title: Plugins
 ---
 
-Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md).
+Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of a bundle via [presets](presets.md).
 
 ## Available plugins {#available-plugins}
 
@@ -11,7 +11,7 @@ We maintain a [list of official plugins](./api/plugins/overview.md), but the com
 
 ## Installing a plugin {#installing-a-plugin}
 
-A plugin is usually a npm package, so you install them like other npm packages using npm.
+A plugin is usually an npm package, so you install them like other npm packages using npm.
 
 ```bash npm2yarn
 npm install --save docusaurus-plugin-name
@@ -115,26 +115,22 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 ## Plugins design {#plugins-design}
 
-Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.
+Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but is not limited to) extending the webpack config, modifying the data loaded, and creating new components to be used in a page.
 
 ## Creating plugins {#creating-plugins}
 
-A plugin is a function that takes two parameters: `context` and `options`.
-
-It returns a plugin instance object, containing plugin [lifecycle APIs](./api/lifecycle-apis.md).
-
-It can be defined as a function or a module.
+A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object (or a promise). You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
 
 ### Functional definition {#functional-definition}
 
-You can use a plugin as a function, directly in the Docusaurus config file:
+You can use a plugin as a function directly included in the Docusaurus config file:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
     // highlight-start
-    function myPlugin(context, options) {
+    async function myPlugin(context, options) {
       // ...
       return {
         name: 'my-plugin',
@@ -154,7 +150,7 @@ module.exports = {
 
 ### Module definition {#module-definition}
 
-You can use a plugin as a module, loading it from a separate file or NPM package:
+You can use a plugin as a module path referencing a separate file or NPM package:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -168,10 +164,10 @@ module.exports = {
 };
 ```
 
-Then in the folder `my-plugin` you can create an index.js such as this
+Then in the folder `my-plugin`, you can create an `index.js` such as this:
 
 ```js title="my-plugin.js"
-module.exports = function myPlugin(context, options) {
+module.exports = async function myPlugin(context, options) {
   // ...
   return {
     name: 'my-plugin',
@@ -185,25 +181,3 @@ module.exports = function myPlugin(context, options) {
   };
 };
 ```
-
-#### `context` {#context}
-
-`context` is plugin-agnostic, and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
-
-```ts
-interface LoadContext {
-  siteDir: string;
-  generatedFilesDir: string;
-  siteConfig: DocusaurusConfig;
-  outDir: string;
-  baseUrl: string;
-}
-```
-
-#### `options` {#options}
-
-`options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
-
-#### Return value {#return-value}
-
-The returned object value should implement the [lifecycle APIs](./api/lifecycle-apis.md).

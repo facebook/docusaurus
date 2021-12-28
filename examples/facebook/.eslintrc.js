@@ -23,7 +23,7 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
-  extends: ['airbnb', 'prettier', 'prettier/react'],
+  extends: ['airbnb', 'prettier'],
   plugins: ['react-hooks', 'header'],
   rules: {
     // Ignore certain webpack alias because it can't be resolved
@@ -56,5 +56,12 @@ module.exports = {
     'react/jsx-filename-extension': OFF,
     'react-hooks/rules-of-hooks': ERROR,
     'react/prop-types': OFF, // PropTypes aren't used much these days.
+    'react/function-component-definition': [
+      WARNING,
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
   },
 };
