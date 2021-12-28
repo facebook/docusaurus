@@ -64,7 +64,7 @@ export const Highlight = ({children, color}) => (
   </span>
 );
 
-<BrowserWindow minHeight={240} url="http://localhost:3000">
+<BrowserWindow minHeight={240}>
 
 <Highlight color="#25c2a0">Docusaurus green</Highlight>
 {` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
@@ -107,7 +107,7 @@ import MyComponentSource from '!!raw-loader!./myComponent';
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponent';
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
 
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 
@@ -157,7 +157,7 @@ import PartialExample from './_markdown-partial-example.mdx';
 ```mdx-code-block
 import PartialExample from './_markdown-partial-example.mdx';
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
   <PartialExample name="Sebastien" />
 </BrowserWindow>
 
