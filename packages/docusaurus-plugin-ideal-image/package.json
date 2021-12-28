@@ -26,12 +26,14 @@
     "@docusaurus/utils-validation": "2.0.0-beta.14",
     "@docusaurus/responsive-loader": "1.5.0",
     "@endiliey/react-ideal-image": "^0.0.11",
+    "@docusaurus/theme-translations": "2.0.0-beta.14",
     "react-waypoint": "^10.1.0",
     "sharp": "^0.29.1",
     "tslib": "^2.3.1",
     "webpack": "^5.61.0"
   },
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.14",
     "@docusaurus/types": "2.0.0-beta.14",
     "fs-extra": "^10.0.0"
   },

@@ -34,6 +34,10 @@ const Themes = [
     name: 'plugin-pwa',
     src: [getPackageCodePath('docusaurus-plugin-pwa')],
   },
+  {
+    name: 'plugin-ideal-image',
+    src: [getPackageCodePath('docusaurus-plugin-ideal-image')],
+  },
 ];
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
