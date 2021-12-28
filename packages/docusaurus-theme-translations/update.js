@@ -37,7 +37,7 @@ const Themes = [
 ];
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
-console.log('Will scan folders for code translations:', AllThemesSrcDirs);
+logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
 
 function getPackageCodePath(packageName) {
   const packagePath = path.join(__dirname, '..', packageName);
@@ -116,6 +116,10 @@ ${warning}
 }
 
 async function readMessagesFile(filePath) {
+  if (!(await fs.pathExists(filePath))) {
+    logger.info`File path=${filePath} not found. Creating new translation base file.`;
+    await fs.writeFile(filePath, '{}\n');
+  }
   return JSON.parse((await fs.readFile(filePath)).toString());
 }
 
@@ -219,16 +223,19 @@ You may want to delete these! code=${unknownMessages}`;
   }
 
   await writeMessagesFile(localeFile, newLocaleFileMessages);
+  return {untranslated: untranslatedKeys.length};
 }
 
 async function updateCodeTranslations() {
+  const stats = {};
+  let messageCount = 0;
+  const [, newLocale] = process.argv;
   // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
     logger.info`Will update base file for name=${theme.name}\n`;
     const baseFileMessages = await updateBaseFile(baseFile, theme.src);
-    const [, newLocale] = process.argv;
 
     if (newLocale) {
       const newLocalePath = getThemeLocalePath(newLocale, theme.name);
@@ -246,23 +253,57 @@ async function updateCodeTranslations() {
     } else {
       // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
-        logger.info`Will update name=${path.basename(
-          path.dirname(localeFile),
-        )} locale in name=${path.basename(
+        const localeName = path.basename(path.dirname(localeFile));
+        const pluginName = path.basename(localeFile, path.extname(localeFile));
+        logger.info`Will update name=${localeName} locale in name=${pluginName}`;
+        const stat = await updateLocaleCodeTranslations(
           localeFile,
-          path.extname(localeFile),
-        )}`;
+          baseFileMessages,
+        );
 
-        await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+        stats[localeName] ??= {untranslated: 0};
+        stats[localeName].untranslated += stat.untranslated;
       }
+      messageCount += Object.keys(baseFileMessages).length;
     }
   }
+  if (newLocale) {
+    return null;
+  }
+  return {stats, messageCount};
 }
 
 function run() {
   updateCodeTranslations().then(
-    () => {
+    (result) => {
       logger.success('updateCodeTranslations end\n');
+      if (result) {
+        const {stats, messageCount} = result;
+        const locales = Object.entries(stats).sort(
+          (a, b) => a[1].untranslated - b[1].untranslated,
+        );
+        const messages = locales.map(([name, stat]) => {
+          const percentage = (messageCount - stat.untranslated) / messageCount;
+          const filled = Math.floor(percentage * 30);
+          const color =
+            // eslint-disable-next-line no-nested-ternary
+            percentage > 0.99
+              ? logger.green
+              : percentage > 0.7
+              ? logger.yellow
+              : logger.red;
+          const progress = color(
+            `[${''.padStart(filled, '=')}${''.padStart(30 - filled, ' ')}]`,
+          );
+          return logger.interpolate`name=${name.padStart(8)} ${progress} ${(
+            percentage * 100
+          ).toFixed(1)} subdue=${`(${
+            messageCount - stat.untranslated
+          }/${messageCount})`}`;
+        });
+        logger.info`Translation coverage:
+${messages.join('\n')}`;
+      }
     },
     (e) => {
       logger.error(
