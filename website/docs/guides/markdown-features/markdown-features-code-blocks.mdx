@@ -217,7 +217,7 @@ export default MyComponent;
 
 :::tip prefer comments
 
-Prefer highlighting with comments where you can. This way, highlight is inlined in the code, and if you add/remove lines, you don't have to offset your line ranges. You also don't have to manually count the lines if your code block becomes long.
+Prefer highlighting with comments where you can. By inlining highlight in the code, you don't have to manually count the lines if your code block becomes long. If you add/remove lines, you also don't have to offset your line ranges.
 
 ````diff
 - ```jsx {3}
@@ -232,6 +232,8 @@ Prefer highlighting with comments where you can. This way, highlight is inlined 
   }
   ```
 ````
+
+In the future, we may extend the magic comment system and let you define custom directives and their functionalities. The magic comments would only be parsed if a highlight metastring is not present.
 
 :::
 
