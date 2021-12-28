@@ -109,80 +109,9 @@ You can refer to [Prism's official language definitions](https://github.com/Pris
 
 ## Line highlighting {#line-highlighting}
 
-You can bring emphasis to certain lines of code by specifying line ranges after the language meta string (leave a space after the language).
-
-    ```jsx {3}
-    function HighlightSomeText(highlight) {
-      if (highlight) {
-        return 'This text is highlighted!';
-      }
-
-      return 'Nothing highlighted';
-    }
-    ```
-
-```jsx {3}
-function HighlightSomeText(highlight) {
-  if (highlight) {
-    return 'This text is highlighted!';
-  }
-
-  return 'Nothing highlighted';
-}
-```
-
-To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
-
-```css title="/src/css/custom.css"
-.docusaurus-highlight-code-line {
-  background-color: rgb(72, 77, 91);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
-}
-
-/* If you have a different syntax highlighting theme for dark mode. */
-html[data-theme='dark'] .docusaurus-highlight-code-line {
-  /* Color which works with dark mode syntax highlighting theme */
-  background-color: rgb(100, 100, 100);
-}
-```
-
-### Multiple-line highlighting {#multiple-line-highlighting}
-
-To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
-
-    ```jsx {1,4-6,11}
-    import React from 'react';
-
-    function MyComponent(props) {
-      if (props.isBar) {
-        return <div>Bar</div>;
-      }
-
-      return <div>Foo</div>;
-    }
-
-    export default MyComponent;
-    ```
-
-```jsx {1,4-6,11}
-import React from 'react';
-
-function MyComponent(props) {
-  if (props.isBar) {
-    return <div>Bar</div>;
-  }
-
-  return <div>Foo</div>;
-}
-
-export default MyComponent;
-```
-
 ### Highlighting with comments {#highlighting-with-comments}
 
-You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
+You can use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
     ```jsx
     function HighlightSomeText(highlight) {
@@ -236,6 +165,77 @@ Supported commenting syntax:
 | HTML       | `<!-- ... -->`           |
 
 If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
+
+To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
+
+```css title="/src/css/custom.css"
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+/* If you have a different syntax highlighting theme for dark mode. */
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  /* Color which works with dark mode syntax highlighting theme */
+  background-color: rgb(100, 100, 100);
+}
+```
+
+### Highlighting with metadata string
+
+You can also specify highlighted line ranges within the language meta string (leave a space after the language). To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
+
+    ```jsx {1,4-6,11}
+    import React from 'react';
+
+    function MyComponent(props) {
+      if (props.isBar) {
+        return <div>Bar</div>;
+      }
+
+      return <div>Foo</div>;
+    }
+
+    export default MyComponent;
+    ```
+
+```jsx {1,4-6,11}
+import React from 'react';
+
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
+
+  return <div>Foo</div>;
+}
+
+export default MyComponent;
+```
+
+:::tip prefer comments
+
+Prefer highlighting with comments where you can. By inlining highlight in the code, you don't have to manually count the lines if your code block becomes long. If you add/remove lines, you also don't have to offset your line ranges.
+
+````diff
+- ```jsx {3}
++ ```jsx {4}
+  function HighlightSomeText(highlight) {
+    if (highlight) {
++     console.log('Highlighted text found');
+      return 'This text is highlighted!';
+    }
+
+    return 'Nothing highlighted';
+  }
+  ```
+````
+
+In the future, we may extend the magic comment system and let you define custom directives and their functionalities. The magic comments would only be parsed if a highlight metastring is not present.
+
+:::
 
 ## Interactive code editor {#interactive-code-editor}
 

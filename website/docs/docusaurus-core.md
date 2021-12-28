@@ -526,7 +526,7 @@ This is the most convenient hook to access plugin global data and should be used
 `pluginId` is optional if you don't use multi-instance plugins.
 
 ```ts
-usePluginData(pluginName: string, pluginId?: string)
+function usePluginData(pluginName: string, pluginId?: string);
 ```
 
 Usage example:
