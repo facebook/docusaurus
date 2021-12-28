@@ -98,11 +98,11 @@ export default function CodeBlock({
   const language =
     parseLanguage(blockClassName) ??
     (prism.defaultLanguage as Language | undefined);
-  const {highlightLines, sampleLines, code} = parseLines(
-    content,
-    metastring,
+
+  const {lineClassNames, code} = parseLines(content, metastring, {
     language,
-  );
+    magicComments: prism.magicComments,
+  });
 
   const handleCopyCode = () => {
     copy(code);
@@ -111,7 +111,9 @@ export default function CodeBlock({
     setTimeout(() => setShowCopied(false), 2000);
   };
 
-  const collapsible = sampleLines.length > 0;
+  const collapsible = Object.values(lineClassNames).some((line) =>
+    line.includes('docusaurus-collapsible-code-line'),
+  );
 
   return (
     <Highlight
@@ -170,19 +172,24 @@ export default function CodeBlock({
                   }
 
                   const lineProps = getLineProps({line, key: i});
+                  const customClassNames = lineClassNames[i] ?? [];
 
-                  if (highlightLines.includes(i)) {
-                    lineProps.className += ' docusaurus-highlight-code-line';
-                  }
+                  lineProps.className += ` ${customClassNames.join(' ')}`;
 
                   if (collapsible) {
                     if (collapsed) {
-                      if (!sampleLines.includes(i)) {
+                      if (
+                        !customClassNames.includes(
+                          'docusaurus-collapsible-code-line',
+                        )
+                      ) {
                         return null;
                       }
-                    } else if (!sampleLines.includes(i)) {
-                      lineProps.className +=
-                        ' docusaurus-collapsible-code-line';
+                    } else if (
+                      !customClassNames.includes(
+                        'docusaurus-collapsible-code-line',
+                      )
+                    ) {
                       if (highlightExpanded) {
                         lineProps.className +=
                           ' docusaurus-collapsible-code-line-highlighted';

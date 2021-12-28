@@ -9,6 +9,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {PrismTheme} from 'prism-react-renderer';
 import {CSSProperties} from 'react';
 import {DeepPartial} from 'utility-types';
+import type {MagicCommentConfig} from './codeBlockUtils';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -64,6 +65,7 @@ export type PrismConfig = {
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
   additionalLanguages?: string[];
+  magicComments: MagicCommentConfig[];
 };
 
 export type FooterLinkItem = {

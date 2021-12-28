@@ -35,6 +35,17 @@ const DEFAULT_CONFIG = {
   metadata: [],
   prism: {
     additionalLanguages: [],
+    magicComments: [
+      {
+        className: 'docusaurus-highlight-code-line',
+        line: 'highlight-next-line',
+        block: ['highlight-start', 'highlight-end'],
+      },
+      {
+        className: 'docusaurus-collapsible-code-line',
+        block: ['sample-start', 'sample-end'],
+      },
+    ],
   },
   navbar: {
     hideOnScroll: false,
@@ -338,6 +349,15 @@ const ThemeConfigSchema = Joi.object({
     additionalLanguages: Joi.array()
       .items(Joi.string())
       .default(DEFAULT_CONFIG.prism.additionalLanguages),
+    magicComments: Joi.array()
+      .items(
+        Joi.object({
+          className: Joi.string().required(),
+          line: Joi.string(),
+          block: Joi.array().items(Joi.string()).length(2),
+        }),
+      )
+      .default(DEFAULT_CONFIG.prism.magicComments),
   })
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
