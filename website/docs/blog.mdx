@@ -181,7 +181,7 @@ Blog post authors can be declared directly inside the front matter:
 <Tabs groupId="author-frontmatter">
   <TabItem value="single" label="Single author">
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors:
   name: Joel Marcey
@@ -194,7 +194,7 @@ authors:
   </TabItem>
   <TabItem value="multiple" label="Multiple authors">
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors:
   - name: Joel Marcey
@@ -222,7 +222,7 @@ This option works best to get started, or for casual, irregular authors.
 
 Prefer using the `authors` front matter, but the legacy `author_*` front matter remains supported:
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 author: Joel Marcey
 author_title: Co-creator of Docusaurus 1
@@ -265,7 +265,7 @@ In blog posts front matter, you can reference the authors declared in the global
 <Tabs groupId="author-frontmatter">
   <TabItem value="single" label="Single author">
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors: jmarcey
 ---
@@ -274,7 +274,7 @@ authors: jmarcey
   </TabItem>
   <TabItem value="multiple" label="Multiple authors">
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors: [jmarcey, slorber]
 ---
@@ -293,7 +293,7 @@ The `authors` system is very flexible and can suit more advanced use-case:
 
 You can use global authors most of the time, and still use inline authors:
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors:
   - jmarcey
@@ -312,7 +312,7 @@ authors:
 
 You can customize the global author's data on per-blog-post basis:
 
-```yml title="my-blog-post.md"
+```md title="my-blog-post.md"
 ---
 authors:
   - key: jmarcey
