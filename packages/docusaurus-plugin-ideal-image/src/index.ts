@@ -18,7 +18,7 @@ import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations
 
 import path from 'path';
 
-export default function (
+export default function pluginIdealImage(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
