@@ -6,74 +6,74 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-const darkTheme = require('prism-react-renderer/themes/dracula');
+const darkTheme = require('prism-react-renderer/themes/vsDark');
 
 module.exports = {
-  ...darkTheme,
+  plain: {
+    color: '#D4D4D4',
+    backgroundColor: '#1E1E1E',
+  },
   styles: [
     ...darkTheme.styles,
     {
       types: ['title'],
       style: {
-        color: '#BD93F9',
+        color: '#569CD6',
         fontWeight: 'bold',
       },
     },
     {
-      types: ['operator', 'unit'],
+      types: ['property', 'parameter'],
       style: {
-        color: '#FF79C6',
+        color: '#9CDCFE',
       },
     },
     {
-      types: ['keyword', 'property-access'],
+      types: ['script'],
       style: {
-        color: '#50FA7B',
+        color: '#D4D4D4',
       },
     },
     {
-      types: ['boolean', 'number', 'color'],
+      types: ['boolean', 'arrow', 'atrule', 'tag'],
       style: {
-        color: '#BD93F9',
+        color: '#569CD6',
       },
     },
     {
-      types: ['atrule'],
+      types: ['number', 'color', 'unit'],
       style: {
-        color: '#8BE9FD',
+        color: '#B5CEA8',
       },
     },
     {
-      types: ['keyword'],
+      types: ['font-matter'],
       style: {
-        color: '#FF79C6',
-        fontStyle: 'normal',
+        color: '#CE9178',
       },
     },
     {
-      types: ['string', 'font-matter'],
+      types: ['keyword', 'rule'],
       style: {
-        color: '#F1FA8C',
+        color: '#C586C0',
       },
     },
     {
-      types: ['property'],
+      types: ['regex'],
       style: {
-        color: '#8BE9FD',
+        color: '#D16969',
       },
     },
     {
-      types: ['parameter'],
+      types: ['maybe-class-name'],
       style: {
-        color: '#FFB86C',
-        fontStyle: 'italic',
+        color: '#4EC9B0',
       },
     },
     {
-      types: ['attr-name', 'selector'],
+      types: ['constant'],
       style: {
-        color: '#50FA7B',
-        fontStyle: 'italic',
+        color: '#4FC1FF',
       },
     },
   ],
