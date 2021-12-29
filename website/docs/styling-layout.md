@@ -172,7 +172,7 @@ npm install --save docusaurus-plugin-sass sass
 
 2. Include the plugin in your `docusaurus.config.js` file:
 
-```jsx {3} title="docusaurus.config.js"
+```js {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: ['docusaurus-plugin-sass'],
@@ -186,7 +186,7 @@ module.exports = {
 
 You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
 
-```jsx {8} title="docusaurus.config.js"
+```js {8} title="docusaurus.config.js"
 module.exports = {
   presets: [
     [

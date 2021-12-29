@@ -17,8 +17,7 @@ const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 const configTabs = require('./src/remark/configTabs');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const lightTheme = require('prism-react-renderer/themes/github');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const darkTheme = require('prism-react-renderer/themes/dracula');
+const darkTheme = require('./src/utils/prismDark');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
