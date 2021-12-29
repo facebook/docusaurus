@@ -515,7 +515,7 @@ declare module '@theme/PaginatorNavLink' {
   import type {ReactNode} from 'react';
   import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
 
-  export interface Props extends PropNavigationLink {
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
     readonly title: ReactNode;
     readonly subLabel?: JSX.Element;
   }
