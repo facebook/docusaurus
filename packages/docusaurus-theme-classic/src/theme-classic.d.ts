@@ -513,12 +513,12 @@ declare module '@theme/NavbarItem' {
 
 declare module '@theme/PaginatorNavLink' {
   import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+  import type {Optional} from 'utility-types';
 
   // May be simpler to provide a {navigation: PropNavigation} prop?
   export interface Props {
-    navLink: PropNavigationLink;
+    navLink: Optional<PropNavigationLink, 'title'>;
     subLabel: JSX.Element;
-    type: 'next' | 'prev';
   }
 
   export default function PaginatorNavLink(props: Props): JSX.Element;
