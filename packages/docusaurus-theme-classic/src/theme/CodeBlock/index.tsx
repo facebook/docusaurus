@@ -109,9 +109,8 @@ export default function CodeBlock({
             styles.codeBlockContainer,
             blockClassName,
             {
-              [`language-${languageProp}`]:
-                languageProp &&
-                !blockClassName.includes(`language-${languageProp}`),
+              [`language-${language}`]:
+                language && !blockClassName.includes(`language-${language}`),
             },
             ThemeClassNames.common.codeBlock,
           )}>
