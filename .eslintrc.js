@@ -153,7 +153,6 @@ module.exports = {
               // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
               'filter',
               'flatten',
-              'flatMap',
               'map',
               'reduce',
               'take',

@@ -22,6 +22,7 @@ export interface BlogContent {
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
   blogTagsListPath: string | null;
+  blogTagsPostListPaginated: BlogTagPostPaginated[];
 }
 
 export type FeedType = 'rss' | 'atom' | 'json';
@@ -134,6 +135,12 @@ export interface BlogPaginatedMetadata {
 }
 
 export interface BlogPaginated {
+  metadata: BlogPaginatedMetadata;
+  items: string[];
+}
+
+export interface BlogTagPostPaginated {
+  tag: string;
   metadata: BlogPaginatedMetadata;
   items: string[];
 }

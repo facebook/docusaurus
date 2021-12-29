@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
-import {keyBy, mapValues} from 'lodash';
+import {flatMap, keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
@@ -16,6 +16,7 @@ import {
   BlogMarkdownLoaderOptions,
   BlogTags,
   ReadingTimeFunction,
+  BlogTagPostPaginated,
 } from './types';
 import {
   parseMarkdownFile,
@@ -57,6 +58,62 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
     items: group.items.map((item) => item.id),
     permalink: group.tag.permalink,
   }));
+}
+
+export function getBlogTagsPostPaginated(
+  blogPosts: BlogPost[],
+  postsPerPageOption: number | 'ALL',
+  baseUrl: string,
+  routeBasePath: string,
+  blogDescription: string,
+  blogTitle: string,
+): BlogTagPostPaginated[] {
+  const groups = groupTaggedItems(
+    blogPosts,
+    (blogPost) => blogPost.metadata.tags,
+  );
+
+  return flatMap(groups, (group) => {
+    const totalCount = group.items.length;
+    const postsPerPage =
+      postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
+    const numberOfPages = Math.ceil(totalCount / postsPerPage);
+    const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
+
+    const blogTagsPostListPaginated: BlogTagPostPaginated[] = [];
+
+    function blogPaginationPermalink(page: number) {
+      return page > 0
+        ? normalizeUrl([
+            baseBlogUrl,
+            `tags/${group.tag.label}/page/${page + 1}`,
+          ])
+        : `${baseBlogUrl}/tags/${group.tag.label}`;
+    }
+
+    for (let page = 0; page < numberOfPages; page += 1) {
+      blogTagsPostListPaginated.push({
+        tag: group.tag.label,
+        metadata: {
+          permalink: blogPaginationPermalink(page),
+          page: page + 1,
+          postsPerPage,
+          totalPages: numberOfPages,
+          totalCount,
+          previousPage: page !== 0 ? blogPaginationPermalink(page - 1) : null,
+          nextPage:
+            page < numberOfPages - 1 ? blogPaginationPermalink(page + 1) : null,
+          blogDescription,
+          blogTitle,
+        },
+        items: group.items
+          .slice(page * postsPerPage, (page + 1) * postsPerPage)
+          .map((item) => item.id),
+      });
+    }
+
+    return blogTagsPostListPaginated;
+  });
 }
 
 const DATE_FILENAME_REGEX =

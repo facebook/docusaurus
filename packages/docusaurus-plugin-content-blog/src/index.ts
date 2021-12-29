@@ -31,6 +31,7 @@ import {
   BlogMarkdownLoaderOptions,
   MetaData,
   Assets,
+  BlogTagPostPaginated,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {
@@ -48,6 +49,7 @@ import {
   getContentPathList,
   getSourceToPermalink,
   getBlogTags,
+  getBlogTagsPostPaginated,
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
@@ -133,6 +135,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath: null,
+          blogTagsPostListPaginated: [],
         };
       }
 
@@ -195,6 +198,17 @@ export default async function pluginContentBlog(
       }
 
       const blogTags: BlogTags = getBlogTags(blogPosts);
+      const blogTagsPostListPaginated: BlogTagPostPaginated[] =
+        getBlogTagsPostPaginated(
+          blogPosts,
+          postsPerPageOption,
+          baseUrl,
+          routeBasePath,
+          blogDescription,
+          blogTitle,
+        );
+
+      console.log(blogTagsPostListPaginated);
 
       const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
@@ -207,6 +221,7 @@ export default async function pluginContentBlog(
         blogListPaginated,
         blogTags,
         blogTagsListPath,
+        blogTagsPostListPaginated,
       };
     },
 
@@ -231,6 +246,8 @@ export default async function pluginContentBlog(
         blogListPaginated,
         blogTags,
         blogTagsListPath,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        blogTagsPostListPaginated,
       } = blogContents;
 
       const blogItemsToMetadata: BlogItemsToMetadata = {};
