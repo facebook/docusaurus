@@ -24,7 +24,7 @@ function DocPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item">
         {previous && (
           <PaginatorNavLink
-            navLink={previous}
+            {...previous}
             subLabel={
               <Translate
                 id="theme.docs.paginator.previous"
@@ -38,7 +38,7 @@ function DocPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {next && (
           <PaginatorNavLink
-            navLink={next}
+            {...next}
             subLabel={
               <Translate
                 id="theme.docs.paginator.next"

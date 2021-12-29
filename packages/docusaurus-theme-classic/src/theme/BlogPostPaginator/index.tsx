@@ -24,7 +24,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item">
         {prevItem && (
           <PaginatorNavLink
-            navLink={prevItem}
+            {...prevItem}
             subLabel={
               <Translate
                 id="theme.blog.post.paginator.newerPost"
@@ -38,7 +38,7 @@ function BlogPostPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextItem && (
           <PaginatorNavLink
-            navLink={nextItem}
+            {...nextItem}
             subLabel={
               <Translate
                 id="theme.blog.post.paginator.olderPost"

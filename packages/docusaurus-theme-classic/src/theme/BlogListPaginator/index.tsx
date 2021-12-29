@@ -25,8 +25,8 @@ function BlogListPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item">
         {previousPage && (
           <PaginatorNavLink
-            navLink={{permalink: previousPage}}
-            subLabel={
+            permalink={previousPage}
+            title={
               <Translate
                 id="theme.blog.paginator.newerEntries"
                 description="The label used to navigate to the newer blog posts page (previous page)">
@@ -39,8 +39,8 @@ function BlogListPaginator(props: Props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <PaginatorNavLink
-            navLink={{permalink: nextPage}}
-            subLabel={
+            permalink={nextPage}
+            title={
               <Translate
                 id="theme.blog.paginator.olderEntries"
                 description="The label used to navigate to the older blog posts page (next page)">

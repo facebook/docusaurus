@@ -12,7 +12,7 @@ declare module '@docusaurus/theme-classic' {
 }
 
 declare module '@theme/Admonition' {
-  import type {ReactNode} from 'react';
+  import type {ReactNode, ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
@@ -512,13 +512,12 @@ declare module '@theme/NavbarItem' {
 }
 
 declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
   import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
-  import type {Optional} from 'utility-types';
 
-  // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props {
-    navLink: Optional<PropNavigationLink, 'title'>;
-    subLabel: JSX.Element;
+  export interface Props extends PropNavigationLink {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
   }
 
   export default function PaginatorNavLink(props: Props): JSX.Element;

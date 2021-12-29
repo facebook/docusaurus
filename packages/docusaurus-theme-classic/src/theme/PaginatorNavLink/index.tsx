@@ -10,13 +10,11 @@ import Link from '@docusaurus/Link';
 import type {Props} from '@theme/PaginatorNavLink';
 
 function PaginatorNavLink(props: Props): JSX.Element {
-  const {navLink, subLabel} = props;
+  const {permalink, title, subLabel} = props;
   return (
-    <Link className="pagination-nav__link" to={navLink.permalink}>
-      <div className="pagination-nav__sublabel">{subLabel}</div>
-      {navLink.title && (
-        <div className="pagination-nav__label">{navLink.title}</div>
-      )}
+    <Link className="pagination-nav__link" to={permalink}>
+      {subLabel && <div className="pagination-nav__sublabel">{subLabel}</div>}
+      <div className="pagination-nav__label">{title}</div>
     </Link>
   );
 }
