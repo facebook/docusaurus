@@ -12,7 +12,7 @@ declare module '@docusaurus/theme-classic' {
 }
 
 declare module '@theme/Admonition' {
-  import type {ReactNode, ReactNode} from 'react';
+  import type {ReactNode} from 'react';
 
   export interface Props {
     readonly children: ReactNode;
