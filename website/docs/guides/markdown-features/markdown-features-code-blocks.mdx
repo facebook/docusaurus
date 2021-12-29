@@ -5,6 +5,8 @@ description: Handling code blocks in Docusaurus Markdown
 slug: /markdown-features/code-blocks
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 Code blocks within documentation are super-powered 💪.
 
 ## Code title {#code-title}
@@ -17,11 +19,15 @@ You can add a title to the code block by adding a `title` key after the language
     }
     ```
 
+<BrowserWindow>
+
 ```jsx title="/src/components/HelloCodeTitle.js"
 function HelloCodeTitle(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 ```
+
+</BrowserWindow>
 
 ## Syntax highlighting {#syntax-highlighting}
 
@@ -35,9 +41,13 @@ Code blocks are text blocks wrapped around by strings of 3 backticks. You may ch
 
 Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer).
 
+<BrowserWindow>
+
 ```jsx
 console.log('Every repo must come with a mascot.');
 ```
+
+</BrowserWindow>
 
 ### Theming {#theming}
 
@@ -134,6 +144,9 @@ You can use comments with `highlight-next-line`, `highlight-start`, and `highlig
     }
     ```
 
+````mdx-code-block
+<BrowserWindow>
+
 ```jsx
 function HighlightSomeText(highlight) {
   if (highlight) {
@@ -154,6 +167,9 @@ function HighlightMoreText(highlight) {
   return 'Nothing highlighted';
 }
 ```
+
+</BrowserWindow>
+````
 
 Supported commenting syntax:
 
@@ -201,6 +217,8 @@ You can also specify highlighted line ranges within the language meta string (le
     export default MyComponent;
     ```
 
+<BrowserWindow>
+
 ```jsx {1,4-6,11}
 import React from 'react';
 
@@ -214,6 +232,8 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+</BrowserWindow>
 
 :::tip prefer comments
 
@@ -286,6 +306,8 @@ To use the plugin, create a code block with `live` attached to the language meta
 
 The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
 
+<BrowserWindow>
+
 ```jsx live
 function Clock(props) {
   const [date, setDate] = useState(new Date());
@@ -308,6 +330,8 @@ function Clock(props) {
   );
 }
 ```
+
+</BrowserWindow>
 
 ### Imports {#imports}
 
@@ -353,6 +377,8 @@ export default ReactLiveScope;
 
 The `ButtonExample` component is now available to use:
 
+<BrowserWindow>
+
 ```jsx live
 function MyPlayground(props) {
   return (
@@ -362,6 +388,8 @@ function MyPlayground(props) {
   );
 }
 ```
+
+</BrowserWindow>
 
 ## Using JSX markup in code blocks
 
@@ -388,10 +416,12 @@ If you want to embed HTML markup such as anchor links or bold type, you can use 
 </pre>
 ```
 
-<pre>
-  <b>Input: </b>1 2 3 4{'\n'}
-  <b>Output: </b>"366300745"{'\n'}
-</pre>
+<BrowserWindow>
+  <pre>
+    <b>Input: </b>1 2 3 4{'\n'}
+    <b>Output: </b>"366300745"{'\n'}
+  </pre>
+</BrowserWindow>
 
 :::caution MDX is whitespace insensitive
 
@@ -452,6 +482,7 @@ class HelloWorld {
 And you will get the following:
 
 ````mdx-code-block
+<BrowserWindow>
 <Tabs>
 <TabItem value="js" label="JavaScript">
 
@@ -482,6 +513,7 @@ class HelloWorld {
 
 </TabItem>
 </Tabs>
+</BrowserWindow>
 ````
 
 If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](markdown-features-tabs.mdx#syncing-tab-choices).

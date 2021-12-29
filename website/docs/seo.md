@@ -7,6 +7,8 @@ keywords:
   - positioning
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 Docusaurus supports search engine optimization in a variety of ways.
 
 ## Global metadata {#global-metadata}
@@ -89,7 +91,11 @@ You may also add a title for your image—this doesn't impact SEO much but is di
 ![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
 ```
 
+<BrowserWindow>
+
 ![Docusaurus banner](./assets/docusaurus-asset-example-banner.png 'Image title')
+
+</BrowserWindow>
 
 ## Rich search information {#rich-search-information}
 
