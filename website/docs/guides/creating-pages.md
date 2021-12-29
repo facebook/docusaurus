@@ -125,7 +125,7 @@ my-website
 │   └── pages
 │       ├── styles.module.css
 │       ├── index.js
-|       ├──_ignored.js
+│       ├──_ignored.js
 │       └── support
 │           ├── index.js
 │           └── styles.module.css
