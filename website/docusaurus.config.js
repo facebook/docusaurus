@@ -118,7 +118,6 @@ const config = {
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
   ],
-  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['live-codeblock'],
   plugins: [
     FeatureRequestsPlugin,
