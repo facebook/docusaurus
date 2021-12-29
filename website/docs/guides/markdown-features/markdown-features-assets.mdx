@@ -5,6 +5,8 @@ description: Handling assets in Docusaurus Markdown
 slug: /markdown-features/assets
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 Sometimes you want to link to assets (e.g. docx files, images...) directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
 
 Let's imagine the following file structure:
@@ -47,7 +49,11 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
 This results in displaying the image:
 
+<BrowserWindow>
+
 ![My image alternative text](../../assets/docusaurus-asset-example-banner.png)
+
+</BrowserWindow>
 
 :::note
 
@@ -73,6 +79,8 @@ or
 [Download this docx using Markdown](./assets/docusaurus-asset-example.docx)
 ```
 
+<BrowserWindow>
+
 <a
   target="_blank"
   href={require('../../assets/docusaurus-asset-example.docx').default}>
@@ -80,6 +88,8 @@ or
 </a>
 
 [Download this docx using Markdown](../../assets/docusaurus-asset-example.docx)
+
+</BrowserWindow>
 
 ## Inline SVGs {#inline-svgs}
 
@@ -91,9 +101,13 @@ import DocusaurusSvg from './docusaurus.svg';
 <DocusaurusSvg />;
 ```
 
+<BrowserWindow>
+
 import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
+
+</BrowserWindow>
 
 This can be useful if you want to alter the part of the SVG image via CSS. For example, you can change one of the SVG colors based on the current theme.
 
@@ -113,7 +127,9 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 }
 ```
 
-<DocusaurusSvg className="themedDocusaurus" />
+<BrowserWindow>
+  <DocusaurusSvg className="themedDocusaurus" />
+</BrowserWindow>
 
 ## Themed Images {#themed-images}
 
@@ -135,6 +151,7 @@ import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import ThemedImage from '@theme/ThemedImage';
 
+<BrowserWindow>
 <ThemedImage
   alt="Docusaurus themed image"
   sources={{
@@ -142,6 +159,7 @@ import ThemedImage from '@theme/ThemedImage';
     dark: useBaseUrl('/img/docusaurus_speed.svg'),
   }}
 />
+</BrowserWindow>
 ```
 
 ## Static assets {#static-assets}

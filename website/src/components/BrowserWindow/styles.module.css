@@ -35,15 +35,23 @@
   width: 10%;
 }
 
+html[data-theme='light'] {
+  --ifm-background-color: #fff;
+}
+
 .browserWindowAddressBar {
   flex: 1 0;
   margin: 0 1rem 0 0.5rem;
   border-radius: 12.5px;
-  background-color: #fff;
-  color: #666;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-color-gray-800);
   padding: 5px 15px;
   font: 400 13px Arial;
   user-select: none;
+}
+
+html[data-theme='dark'] .browserWindowAddressBar {
+  color: var(--ifm-color-gray-300);
 }
 
 .dot {
