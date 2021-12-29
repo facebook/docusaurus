@@ -96,7 +96,7 @@ export function parseLanguage(className: string): string | undefined {
   const languageClassName = className
     .split(' ')
     .find((str) => str.startsWith('language-'));
-  return languageClassName?.replace(/language-/, '') as string | undefined;
+  return languageClassName?.replace(/language-/, '');
 }
 
 /**
