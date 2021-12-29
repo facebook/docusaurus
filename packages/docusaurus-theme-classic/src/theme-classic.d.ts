@@ -129,18 +129,6 @@ declare module '@theme/DocPaginator' {
   export default function DocPaginator(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocPaginatorNavLink' {
-  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
-
-  // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props {
-    navLink: PropNavigationLink;
-    next?: boolean;
-  }
-
-  export default function DocPaginatorNavLink(props: Props): JSX.Element;
-}
-
 declare module '@theme/DocSidebar' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
@@ -521,6 +509,18 @@ declare module '@theme/NavbarItem' {
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
+  }
+
+  export default function PaginatorNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchBar' {
