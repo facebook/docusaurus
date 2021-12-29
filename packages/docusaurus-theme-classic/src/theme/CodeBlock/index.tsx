@@ -24,9 +24,10 @@ import styles from './styles.module.css';
 
 export default function CodeBlock({
   children,
-  className: blockClassName,
+  className: blockClassName = '',
   metastring,
   title,
+  language: languageProp,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
@@ -85,8 +86,7 @@ export default function CodeBlock({
     : (children as string);
 
   const language =
-    parseLanguage(blockClassName) ??
-    (prism.defaultLanguage as Language | undefined);
+    languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
 
   const handleCopyCode = () => {
@@ -102,12 +102,16 @@ export default function CodeBlock({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      language={language ?? ('text' as Language)}>
+      language={(language ?? 'text') as Language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(
             styles.codeBlockContainer,
             blockClassName,
+            {
+              [`language-${language}`]:
+                language && !blockClassName.includes(`language-${language}`),
+            },
             ThemeClassNames.common.codeBlock,
           )}>
           {codeBlockTitle && (

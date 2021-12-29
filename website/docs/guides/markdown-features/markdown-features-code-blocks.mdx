@@ -6,6 +6,7 @@ slug: /markdown-features/code-blocks
 ---
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import CodeBlock from '@theme/CodeBlock';
 
 Code blocks within documentation are super-powered 💪.
 
@@ -391,7 +392,7 @@ function MyPlayground(props) {
 
 </BrowserWindow>
 
-## Using JSX markup in code blocks
+## Using JSX markup in code blocks {using-jsx-markup}
 
 Code block in Markdown always preserves its content as plain text, meaning you can't do something like:
 
@@ -564,3 +565,39 @@ npm install @docusaurus/remark-plugin-npm2yarn
 ````
 
 Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
+
+## Usage in JSX {#usage-in-jsx}
+
+Outside of Markdown, you can use the `@theme/CodeBlock` component to get the same output.
+
+```jsx
+import CodeBlock from '@theme/CodeBlock';
+
+export default function MyReactPage() {
+  return (
+    <div>
+      {/* highlight-start */}
+      <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+        {`function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}`}
+      </CodeBlock>
+      {/* highlight-end */}
+    </div>
+  );
+}
+```
+
+<BrowserWindow>
+  <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+    {`function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}`}
+  </CodeBlock>
+</BrowserWindow>
+
+The props accepted are `language` and `title`, in the same way as you write Markdown code blocks.
+
+Although discouraged, you can also pass in a `metastring` prop like `metastring='{1-2} title="/src/components/HelloCodeTitle.js"'`, which is how Markdown code blocks are handled under the hood. However, we recommend you [use comments for highlighting lines](#highlighting-with-comments).
+
+As [previously stated](#using-jsx-markup), syntax highlighting is only applied when the children is a simple string.

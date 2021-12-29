@@ -114,6 +114,7 @@ declare module '@theme/CodeBlock' {
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
+    readonly language?: string;
   }
 
   const CodeBlock: (props: Props) => JSX.Element;
