@@ -55,6 +55,18 @@ const dogfoodingPluginInstances = [
       routeBasePath: '/tests/pages',
     }),
   ],
+
+  /** @type {import('@docusaurus/types').Plugin} */
+  function clientModuleTestPlugin() {
+    return {
+      getClientModules() {
+        return [
+          require.resolve('./clientModuleExample.ts'),
+          require.resolve('./clientModuleCSS.css'),
+        ];
+      },
+    };
+  },
 ];
 
 exports.dogfoodingPluginInstances = dogfoodingPluginInstances;

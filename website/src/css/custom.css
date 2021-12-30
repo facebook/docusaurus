@@ -171,3 +171,11 @@ div[class^='announcementBar_'] {
   width: 1px;
   white-space: nowrap;
 }
+
+/* Used to test CSS insertion order */
+.test-marker-site-custom-css-unique-rule {
+  content: "site-custom-css-unique-rule";
+}
+.test-marker-site-custom-css-shared-rule {
+  max-width: 100%;
+}
