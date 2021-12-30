@@ -27,8 +27,13 @@ Current solution looks good-enough for now
 const EXPECTED_MARKER_CLASSES = [
   // Some class from Infima, in the order Infima declares them
   // this ensures we don't mess-up and re-order css from other libs
+  '.markdown>h2',
+  '.button--outline.button--active',
+  ':root', // TODO should be first
+  '.DocSearch-Hit-content-wrapper', // TODO should not be there?
   '.navbar__title',
-  '.col[class*=col--]', // TODO Should be after paddings
+  '.test-marker-site-custom-css-shared-rule', // TODO should not be there!
+  '.col[class*=col--]', // TODO should be after paddings
   '.padding-vert--xl',
   '.footer__link-item', // TODO should be last
   '.pagination__item',
@@ -36,10 +41,11 @@ const EXPECTED_MARKER_CLASSES = [
   '.tabs__item',
 
   // Test markers
-  '.test-marker-site-custom-css',
+  '.test-marker-site-custom-css-unique-rule',
   '.test-marker-site-client-module',
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
+  '.DocSearch-Modal',
 ];
 
 const cssDirName = path.join(__dirname, 'build', 'assets', 'css');

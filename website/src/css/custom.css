@@ -173,6 +173,9 @@ div[class^='announcementBar_'] {
 }
 
 /* Used to test CSS insertion order */
-.test-marker-site-custom-css {
+.test-marker-site-custom-css-unique-rule {
   content: "site-custom-css";
+}
+.test-marker-site-custom-css-shared-rule {
+  max-width: 100%;
 }
