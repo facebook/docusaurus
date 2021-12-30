@@ -25,6 +25,17 @@ Current solution looks good-enough for now
 
 // TODO temporary, the current order is bad and we should change that
 const EXPECTED_MARKER_CLASSES = [
+  // Some class from Infima, in the order Infima declares them
+  // this ensures we don't mess-up and re-order css from other libs
+  '.navbar__title',
+  ".col[class*='col--']", // TODO Should be after paddings
+  '.padding-vert--xl',
+  '.footer__link-item', // TODO should be last
+  '.pagination__item',
+  '.pills__item',
+  '.tabs__item',
+
+  // Test markers
   '.test-marker-site-custom-css',
   '.test-marker-site-client-module',
   '.test-marker-theme-layout',
