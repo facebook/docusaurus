@@ -28,7 +28,7 @@ const EXPECTED_MARKER_CLASSES = [
   // Some class from Infima, in the order Infima declares them
   // this ensures we don't mess-up and re-order css from other libs
   '.navbar__title',
-  ".col[class*='col--']", // TODO Should be after paddings
+  '.col[class*=col--]', // TODO Should be after paddings
   '.padding-vert--xl',
   '.footer__link-item', // TODO should be last
   '.pagination__item',
