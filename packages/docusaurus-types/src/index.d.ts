@@ -87,6 +87,9 @@ export type Config = Overwrite<
     url: Required<DocusaurusConfig['url']>;
     baseUrl: Required<DocusaurusConfig['baseUrl']>;
     i18n?: DeepPartial<DocusaurusConfig['i18n']>;
+    styling?: Omit<StylingConfig, 'css'> & {
+      css?: string | string[];
+    };
   }
 >;
 
