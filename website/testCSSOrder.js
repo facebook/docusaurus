@@ -62,9 +62,9 @@ const cssMarkersWithPositions = EXPECTED_MARKER_CLASSES.map((marker) => {
   return {marker, position};
 });
 
-const missingCSSMarkers = cssMarkersWithPositions.filter(
-  (m) => m.position === -1,
-);
+const missingCSSMarkers = cssMarkersWithPositions
+  .filter((m) => m.position === -1)
+  .map((m) => m.marker);
 
 if (missingCSSMarkers.length > 0) {
   throw new Error(
