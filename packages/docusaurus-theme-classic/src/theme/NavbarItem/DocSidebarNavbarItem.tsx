@@ -15,7 +15,7 @@ import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
 
 function getSidebarInVersion(versions: GlobalDataVersion[], sidebarId: string) {
-  const allSidebars = versions.map((version) => version.sidebars)[0];
+  const allSidebars = versions.flatMap((version) => version.sidebars);
   if (!allSidebars) {
     throw new Error(`DocSidebarNavbarItem: couldn't find any sidebar`);
   }
