@@ -42,10 +42,10 @@ const EXPECTED_CSS_MARKERS = [
   '.tabs__item',
 
   // Test markers
-  '.test-marker-site-custom-css-unique-rule',
   '.test-marker-site-client-module',
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
+  '.test-marker-site-custom-css-unique-rule',
 
   // lazy loaded lib
   '.DocSearch-Modal',
