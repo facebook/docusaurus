@@ -134,10 +134,11 @@ You can delete/remove versions as well.
 
 Example:
 
-```diff {4}
+```diff
 [
   "2.0.0",
   "1.9.0",
+  // highlight-next-line
 - "1.8.0"
 ]
 ```

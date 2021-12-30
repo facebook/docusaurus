@@ -28,7 +28,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
-```js {8-11} title="my-plugin/src/index.js"
+```js title="my-plugin/src/index.js"
 function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -36,17 +36,19 @@ function myPlugin(context, options) {
   };
 }
 
+// highlight-start
 myPlugin.validateOptions = ({options, validate}) => {
   const validatedOptions = validate(myValidationSchema, options);
   return validationOptions;
 };
+// highlight-end
 
 module.exports = myPlugin;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.
 
-```ts {8-11} title="my-plugin/src/index.ts"
+```ts title="my-plugin/src/index.ts"
 export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -54,10 +56,12 @@ export default function (context, options) {
   };
 }
 
+// highlight-start
 export function validateOptions({options, validate}) {
   const validatedOptions = validate(myValidationSchema, options);
   return validationOptions;
 }
+// highlight-end
 ```
 
 ## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
@@ -82,7 +86,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
-```js {8-11} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -90,17 +94,19 @@ function myPlugin(context, options) {
   };
 }
 
+// highlight-start
 myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 };
+// highlight-end
 
 module.exports = validateThemeConfig;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.
 
-```ts {8-11} title="my-theme/src/index.ts"
+```ts title="my-theme/src/index.ts"
 export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -108,8 +114,10 @@ export default function (context, options) {
   };
 }
 
+// highlight-start
 export function validateThemeConfig({themeConfig, validate}) {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 }
+// highlight-end
 ```

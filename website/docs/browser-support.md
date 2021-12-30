@@ -21,10 +21,11 @@ On old browsers, the compiled output will use unsupported (too recent) JS syntax
 
 Websites initialized with the default classic template has the following in `package.json`:
 
-```json {4-11} title="package.json"
+```json title="package.json"
 {
   "name": "docusaurus",
   // ...
+  // highlight-start
   "browserslist": {
     "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
@@ -33,6 +34,7 @@ Websites initialized with the default classic template has the following in `pac
       "last 1 safari version"
     ]
   }
+  // highlight-end
   // ...
 }
 ```

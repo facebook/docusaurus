@@ -131,15 +131,17 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 
 Docusaurus supports themed images: the `ThemedImage` component (included in the themes) allows you to switch the image source based on the current theme.
 
-```jsx {5-8}
+```jsx
 import ThemedImage from '@theme/ThemedImage';
 
 <ThemedImage
   alt="Docusaurus themed image"
+  // highlight-start
   sources={{
     light: useBaseUrl('/img/docusaurus_light.svg'),
     dark: useBaseUrl('/img/docusaurus_dark.svg'),
   }}
+  // highlight-end
 />;
 ```
 

@@ -34,7 +34,7 @@ function HelloCodeTitle(props) {
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
 
-    ```jsx
+    ```js
     console.log('Every repo must come with a mascot.');
     ```
 
@@ -44,7 +44,7 @@ Use the matching language meta string for your code block, and Docusaurus will p
 
 <BrowserWindow>
 
-```jsx
+```js
 console.log('Every repo must come with a mascot.');
 ```
 
@@ -56,10 +56,11 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js {4} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
+      // highlight-next-line
       theme: require('prism-react-renderer/themes/dracula'),
     },
   },
@@ -80,11 +81,12 @@ To add syntax highlighting for any of the other [Prism-supported languages](http
 
 For example, if you want to add highlighting for the PowerShell language:
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     prism: {
+      // highlight-next-line
       additionalLanguages: ['powershell'],
     },
     // ...
@@ -102,14 +104,15 @@ npm run swizzle @docusaurus/theme-classic prism-include-languages
 
 It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:
 
-```js {8} title="src/theme/prism-include-languages.js"
+```js title="src/theme/prism-include-languages.js"
 const prismIncludeLanguages = (Prism) => {
   // ...
 
   additionalLanguages.forEach((lang) => {
-    require(`prismjs/components/prism-${lang}`); // eslint-disable-line
+    require(`prismjs/components/prism-${lang}`);
   });
 
+  // highlight-next-line
   require('/path/to/your/prism-language-definition');
 
   // ...
@@ -124,7 +127,7 @@ You can refer to [Prism's official language definitions](https://github.com/Pris
 
 You can use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
-    ```jsx
+    ```js
     function HighlightSomeText(highlight) {
       if (highlight) {
         // highlight-next-line
@@ -148,7 +151,7 @@ You can use comments with `highlight-next-line`, `highlight-start`, and `highlig
 ````mdx-code-block
 <BrowserWindow>
 
-```jsx
+```js
 function HighlightSomeText(highlight) {
   if (highlight) {
     // highlight-next-line
@@ -348,9 +351,10 @@ By default, all React imports are available. If you need more imports available,
 npm run swizzle @docusaurus/theme-live-codeblock ReactLiveScope
 ```
 
-```jsx {3-15,21} title="src/theme/ReactLiveScope/index.js"
+```jsx title="src/theme/ReactLiveScope/index.js"
 import React from 'react';
 
+// highlight-start
 const ButtonExample = (props) => (
   <button
     {...props}
@@ -365,11 +369,13 @@ const ButtonExample = (props) => (
     }}
   />
 );
+// highlight-end
 
 // Add react-live imports you need here
 const ReactLiveScope = {
   React,
   ...React,
+  // highlight-next-line
   ButtonExample,
 };
 
@@ -392,15 +398,14 @@ function MyPlayground(props) {
 
 </BrowserWindow>
 
-## Using JSX markup in code blocks {using-jsx-markup}
+## Using JSX markup in code blocks {#using-jsx-markup}
 
 Code block in Markdown always preserves its content as plain text, meaning you can't do something like:
 
 ```ts
 type EditUrlFunction = (params: {
-  version: string;
   // This doesn't turn into a link (for good reason!)
-  // See <a href="/docs/versioning">doc versioning</a>
+  version: <a href="/docs/versioning">Version</a>;
   versionDocsDirPath: string;
   docPath: string;
   permalink: string;

@@ -135,7 +135,7 @@ In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins fo
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -217,7 +217,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -251,7 +251,7 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx {6-19} title="docusaurus.config.js"
+```js {6-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -279,7 +279,7 @@ module.exports = {
 
 #### `algolia` {#algolia}
 
-```jsx {4-8} title="docusaurus.config.js"
+```js {4-8} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -305,7 +305,7 @@ You can contact the DocSearch team (@shortcuts, @s-pace) for support. They can u
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx {8} title="docusaurus.config.js"
+```js {8} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -332,7 +332,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {8-20} title="docusaurus.config.js"
+```js {8-20} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -363,7 +363,7 @@ module.exports = {
 
 #### `gaTrackingId` {#gatrackingid}
 
-```jsx {5} title="docusaurus.config.js"
+```js {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -377,7 +377,7 @@ module.exports = {
 
 #### `gaGtag` {#gagtag}
 
-```jsx {5} title="docusaurus.config.js"
+```js {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
