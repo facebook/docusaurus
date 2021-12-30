@@ -13,13 +13,15 @@ Plugins should use this lifecycle to fetch from data sources (filesystem, remote
 
 For example, this plugin below return a random integer between 1 to 10 as content.
 
-```js {5-6} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     async loadContent() {
       return 1 + Math.floor(Math.random() * 10);
     },
+    // highlight-end
   };
 };
 ```
@@ -75,10 +77,11 @@ export default function FriendsComponent({friends}) {
 }
 ```
 
-```js {4-23} title="docusaurus-friends-plugin/src/index.js"
+```js title="docusaurus-friends-plugin/src/index.js"
 export default function friendsPlugin(context, options) {
   return {
     name: 'docusaurus-friends-plugin',
+    // highlight-start
     async contentLoaded({content, actions}) {
       const {createData, addRoute} = actions;
       // Create friends.json
@@ -99,6 +102,7 @@ export default function friendsPlugin(context, options) {
         exact: true,
       });
     },
+    // highlight-end
   };
 }
 ```
@@ -127,10 +131,11 @@ export default function FriendsComponent() {
 }
 ```
 
-```js {4-14} title="docusaurus-friends-plugin/src/index.js"
+```js title="docusaurus-friends-plugin/src/index.js"
 export default function friendsPlugin(context, options) {
   return {
     name: 'docusaurus-friends-plugin',
+    // highlight-start
     async contentLoaded({content, actions}) {
       const {setGlobalData, addRoute} = actions;
       // Create friends global data
@@ -143,6 +148,7 @@ export default function friendsPlugin(context, options) {
         exact: true,
       });
     },
+    // highlight-end
   };
 }
 ```
@@ -280,16 +286,18 @@ interface Props {
 
 Example:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
       // Print out to console all the rendered routes.
       routesPaths.map((route) => {
         console.log(route);
       });
     },
+    // highlight-end
   };
 };
 ```
@@ -373,16 +381,18 @@ Returns an array of paths to the modules that are to be imported into the client
 
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 
-```js {7-9} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   const {customCss, customJs} = options || {};
   return {
     name: 'name-of-my-theme',
+    // highlight-start
     getClientModules() {
       return [customCss, customJs];
     },
+    // highlight-end
   };
 };
 ```
