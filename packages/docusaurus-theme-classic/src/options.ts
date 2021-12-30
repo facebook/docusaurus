@@ -28,8 +28,8 @@ Please use siteConfig.styling.css instead.
 Note that this also changes the CSS insertion order!
 This enables your site CSS to override default theme CSS more easily, without using !important
 
-Before: custom site CSS was inserted before Infima CSS and theme modules.
-After: custom site CSS will be inserted after Infima CSS and theme modules.
+Before: custom site CSS was inserted before Infima CSS and default theme CSS.
+After: custom site CSS will be inserted after Infima CSS and default theme CSS.
 
 See also https://github.com/facebook/docusaurus/pull/6227
 `,
