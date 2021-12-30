@@ -150,7 +150,6 @@ async function readMessagesFile(filePath) {
  */
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
-  console.log(filePath);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
   await fs.outputFile(filePath, content);
@@ -268,7 +267,6 @@ async function updateCodeTranslations() {
   /** @type {Record<string, {untranslated: number}>} */
   const stats = {};
   let messageCount = 0;
-  console.log(process.argv);
   const {2: newLocale} = process.argv;
   // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
