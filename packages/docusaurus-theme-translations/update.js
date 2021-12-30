@@ -43,6 +43,9 @@ const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
 logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
 
+/**
+ * @param {string} packageName
+ */
 function getPackageCodePath(packageName) {
   const packagePath = path.join(__dirname, '..', packageName);
   const packageJsonPath = path.join(packagePath, 'package.json');
@@ -54,17 +57,27 @@ function getPackageCodePath(packageName) {
     : packageSrcPath;
 }
 
+/**
+ * @param {string} locale
+ * @param {string} themeName
+ */
 function getThemeLocalePath(locale, themeName) {
   return path.join(LocalesDirPath, locale, `${themeName}.json`);
 }
 
+/**
+ * @param {string} key
+ */
 function removeDescriptionSuffix(key) {
-  if (key.replace('___DESCRIPTION')) {
+  if (key.replace('___DESCRIPTION', '')) {
     return key.replace('___DESCRIPTION', '');
   }
   return key;
 }
 
+/**
+ * @param {Record<string, string>} obj
+ */
 function sortObjectKeys(obj) {
   let keys = Object.keys(obj);
   keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
@@ -119,6 +132,10 @@ ${warning}
   return translations;
 }
 
+/**
+ * @param {string} filePath
+ * @returns {Promise<Record<string, string>>}
+ */
 async function readMessagesFile(filePath) {
   if (!(await fs.pathExists(filePath))) {
     logger.info`File path=${filePath} not found. Creating new translation base file.`;
@@ -127,8 +144,13 @@ async function readMessagesFile(filePath) {
   return JSON.parse((await fs.readFile(filePath)).toString());
 }
 
+/**
+ * @param {string} filePath
+ * @param {Record<string, string>} messages
+ */
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
+  console.log(filePath);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
   await fs.outputFile(filePath, content);
@@ -139,6 +161,9 @@ async function writeMessagesFile(filePath, messages) {
   } messages)`}\n`;
 }
 
+/**
+ * @param {string} themeName
+ */
 async function getCodeTranslationFiles(themeName) {
   const baseFile = getThemeLocalePath('base', themeName);
   const localesFiles = (await fs.readdir(LocalesDirPath))
@@ -149,6 +174,10 @@ async function getCodeTranslationFiles(themeName) {
 
 const DescriptionSuffix = '___DESCRIPTION';
 
+/**
+ * @param {string} baseFile
+ * @param {string[]} targetDirs
+ */
 async function updateBaseFile(baseFile, targetDirs) {
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
   const baseMessages = pickBy(
@@ -177,6 +206,7 @@ They won't be removed automatically, so do the cleanup manually if necessary! co
     ...codeMessages,
   };
 
+  /** @type {Record<string, string>} */
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
       const codeTranslation = codeExtractedTranslations[key];
@@ -200,6 +230,10 @@ They won't be removed automatically, so do the cleanup manually if necessary! co
   return newBaseMessages;
 }
 
+/**
+ * @param {string} localeFile
+ * @param {Record<string, string>} baseFileMessages
+ */
 async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   const localeFileMessages = await readMessagesFile(localeFile);
 
@@ -231,9 +265,11 @@ You may want to delete these! code=${unknownMessages}`;
 }
 
 async function updateCodeTranslations() {
+  /** @type {Record<string, {untranslated: number}>} */
   const stats = {};
   let messageCount = 0;
-  const [, newLocale] = process.argv;
+  console.log(process.argv);
+  const {2: newLocale} = process.argv;
   // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
@@ -277,7 +313,7 @@ async function updateCodeTranslations() {
   return {stats, messageCount};
 }
 
-function run() {
+if (require.main === module) {
   updateCodeTranslations().then(
     (result) => {
       logger.success('updateCodeTranslations end\n');
@@ -318,5 +354,4 @@ ${messages.join('\n')}`;
   );
 }
 
-exports.run = run;
 exports.extractThemeCodeMessages = extractThemeCodeMessages;
