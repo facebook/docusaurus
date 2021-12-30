@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// import order impacts CSS insertion ordering
+// See https://github.com/facebook/docusaurus/pull/6227
+import '@generated/client-modules';
+import '@generated/registry';
+import '@generated/css-client-modules';
+
 import React from 'react';
 import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';

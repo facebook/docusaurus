@@ -9,6 +9,8 @@ import React from 'react';
 import type {Props} from '@theme/CodeBlock';
 import CodeBlock from '@theme-original/CodeBlock';
 
+import './styles.module.css';
+
 // This component does nothing on purpose
 // Dogfood: wrapping a theme component already enhanced by another theme
 // See https://github.com/facebook/docusaurus/pull/5983

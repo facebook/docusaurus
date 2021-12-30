@@ -6,9 +6,13 @@
  */
 
 declare module '@generated/client-modules' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const clientModules: readonly any[];
+  const clientModules: readonly unknown[];
   export default clientModules;
+}
+
+declare module '@generated/css-client-modules' {
+  const cssClientModules: readonly unknown[];
+  export default cssClientModules;
 }
 
 declare module '@generated/docusaurus.config' {

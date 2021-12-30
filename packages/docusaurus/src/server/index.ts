@@ -279,22 +279,6 @@ function createMDXFallbackPlugin({
   };
 }
 
-function createSiteCSSPlugin({
-  siteConfig,
-}: {
-  siteConfig: DocusaurusConfig;
-}): LoadedPlugin {
-  return {
-    name: 'docusaurus-site-styling-css-plugin',
-    content: null,
-    options: {},
-    version: {type: 'synthetic'},
-    getClientModules() {
-      return siteConfig.styling.css;
-    },
-  };
-}
-
 export async function load(
   siteDir: string,
   options: LoadContextOptions = {},
@@ -331,9 +315,15 @@ export async function load(
 
   plugins.push(createBootstrapPlugin({siteConfig}));
   plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
-  // Added last, because the site CSS must be inserted after all other clientModules
-  // See also https://github.com/facebook/docusaurus/pull/6227
-  plugins.push(createSiteCSSPlugin({siteConfig}));
+
+  // Load CSS client modules
+  const genCSSClientModules = generate(
+    generatedFilesDir,
+    'css-client-modules.js',
+    `export default [\n${siteConfig.styling.css
+      .map((module) => `import('${escapePath(module)}'),`)
+      .join('\n')}\n];\n`,
+  );
 
   // Load client modules.
   const clientModules = loadClientModules(plugins);
@@ -421,6 +411,7 @@ ${Object.keys(registry)
   );
 
   await Promise.all([
+    genCSSClientModules,
     genClientModules,
     genSiteConfig,
     genRegistry,
