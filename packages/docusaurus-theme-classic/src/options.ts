@@ -26,12 +26,10 @@ export const Schema = Joi.object({
 Please use siteConfig.style.css instead.
 
 Note that this also changes the CSS insertion order!
-From
+This enables your site CSS to override default theme CSS more easily, without using !important
 
 Before: custom site CSS was inserted before Infima CSS and theme modules.
 After: custom site CSS will be inserted after Infima CSS and theme modules.
-
-This enables your site CSS to override default theme CSS more easily, without using !important
 
 See also https://github.com/facebook/docusaurus/pull/6227
 `,
