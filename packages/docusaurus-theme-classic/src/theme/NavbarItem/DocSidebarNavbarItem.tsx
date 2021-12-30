@@ -13,22 +13,21 @@ import {getInfimaActiveClassName} from './index';
 import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
+import {GlobalSidebar} from '@docusaurus/plugin-content-docs/src/types';
 
-function getSidebarInVersion(versions: GlobalDataVersion[], sidebarId: string) {
-  const allSidebars = versions.map((version) => version.sidebars);
-  if (!allSidebars) {
-    throw new Error(`DocSidebarNavbarItem: couldn't find any sidebar`);
-  }
-  const sidebar = allSidebars.map((versionSidebars) => {
-    if (versionSidebars) {
-      const sidebarItem = Object.entries(versionSidebars).find(
-        (sidebarItemArr) => sidebarItemArr[0] === sidebarId,
-      );
-      return sidebarItem ? sidebarItem[1] : undefined;
-    }
-    return undefined;
-  })[0];
-  if (!sidebar) {
+function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
+  const allSidebars = versions
+    .flatMap((version) => {
+      if (version.sidebars) {
+        return Object.entries(version.sidebars);
+      }
+      return undefined;
+    })
+    .filter(
+      (sidebarItem): sidebarItem is [string, GlobalSidebar] => !!sidebarItem,
+    );
+  const sidebarEntry = allSidebars.find((sidebar) => sidebar[0] === sidebarId);
+  if (!sidebarEntry) {
     throw new Error(
       `DocSidebarNavbarItem: couldn't find any sidebar with id "${sidebarId}" in version${
         versions.length ? 's' : ''
@@ -37,7 +36,12 @@ Available sidebar ids are:
 - ${Object.keys(allSidebars).join('\n- ')}`,
     );
   }
-  return sidebar.link;
+  if (!sidebarEntry[1].link) {
+    throw new Error(
+      `DocSidebarNavbarItem: couldn't find any document for sidebar with id "${sidebarId}"`,
+    );
+  }
+  return sidebarEntry[1].link;
 }
 
 export default function DocSidebarNavbarItem({
@@ -56,7 +60,7 @@ export default function DocSidebarNavbarItem({
       Boolean,
     ) as GlobalDataVersion[],
   );
-  const sidebarLink = getSidebarInVersion(versions, sidebarId);
+  const sidebarLink = getSidebarLink(versions, sidebarId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
@@ -64,12 +68,11 @@ export default function DocSidebarNavbarItem({
       exact
       {...props}
       className={clsx(props.className, {
-        [activeDocInfimaClassName]:
-          activeDoc?.sidebar && activeDoc.sidebar === sidebarId,
+        [activeDocInfimaClassName]: activeDoc?.sidebar === sidebarId,
       })}
       activeClassName={activeDocInfimaClassName}
-      label={label ?? sidebarId}
-      to={sidebarLink}
+      label={label ?? sidebarLink.label}
+      to={sidebarLink.path}
     />
   );
 }

@@ -217,8 +217,13 @@ export type GlobalVersion = {
   sidebars?: Record<string, GlobalSidebar>;
 };
 
+export type GlobalSidebarLink = {
+  label: string;
+  path: string;
+};
+
 export type GlobalSidebar = {
-  link: string;
+  link?: GlobalSidebarLink;
   // ... we may add other things here later
 };
 
