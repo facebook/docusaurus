@@ -23,19 +23,20 @@ Current solution looks good-enough for now
 
  */
 
-// TODO temporary, the current order is bad and we should change that
-const EXPECTED_MARKER_CLASSES = [
-  // Some class from Infima, in the order Infima declares them
-  // this ensures we don't mess-up and re-order css from other libs
+// TODO temporary, the current order is bad and we should change/fix that
+const EXPECTED_CSS_MARKERS = [
+  // Note, Infima and site classes are optimized/deduplicated and put at the top
+  // We don't agree yet on what should be the order for those classes
+  // See https://github.com/facebook/docusaurus/pull/6222
   '.markdown>h2',
   '.button--outline.button--active',
-  ':root', // TODO should be first
-  '.DocSearch-Hit-content-wrapper', // TODO should not be there?
+  '.DocSearch-Hit-content-wrapper',
   '.navbar__title',
-  '.test-marker-site-custom-css-shared-rule', // TODO should not be there!
-  '.col[class*=col--]', // TODO should be after paddings
+  '--ifm-color-scheme:light',
+  '.test-marker-site-custom-css-shared-rule',
+  '.col[class*=col--]',
   '.padding-vert--xl',
-  '.footer__link-item', // TODO should be last
+  '.footer__link-item',
   '.pagination__item',
   '.pills__item',
   '.tabs__item',
@@ -45,6 +46,8 @@ const EXPECTED_MARKER_CLASSES = [
   '.test-marker-site-client-module',
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',
+
+  // lazy loaded lib
   '.DocSearch-Modal',
 ];
 
@@ -63,7 +66,7 @@ console.log('Inspecting CSS file for test CSS markers', cssFile);
 
 const cssFileContent = fs.readFileSync(cssFile, 'utf8');
 
-const cssMarkersWithPositions = EXPECTED_MARKER_CLASSES.map((marker) => {
+const cssMarkersWithPositions = EXPECTED_CSS_MARKERS.map((marker) => {
   const position = cssFileContent.indexOf(marker);
   return {marker, position};
 });
@@ -90,16 +93,14 @@ const sortedCSSMarkers = cssMarkersWithPositions
   .sort(sortBy('position'))
   .map(({marker}) => marker);
 
-if (
-  JSON.stringify(sortedCSSMarkers) === JSON.stringify(EXPECTED_MARKER_CLASSES)
-) {
+if (JSON.stringify(sortedCSSMarkers) === JSON.stringify(EXPECTED_CSS_MARKERS)) {
   console.log(`Test CSS markers were found in the expected order:
 - ${sortedCSSMarkers.join('\n- ')}`);
 } else {
   throw new Error(`Test CSS markers were found in an incorrect order.
 
 Expected order:
-- ${EXPECTED_MARKER_CLASSES.join('\n- ')};
+- ${EXPECTED_CSS_MARKERS.join('\n- ')};
 
 Actual order:
 - ${sortedCSSMarkers.join('\n- ')};
