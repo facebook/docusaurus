@@ -1437,7 +1437,7 @@ const Users: User[] = [
     description: 'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
     preview: require('./showcase/talentbrick.png'),
     website: 'https://www.talentbrick.com/',
-    source: 'gitlab.com/talentbrick/talentbrick',
+    source: 'https://gitlab.com/talentbrick/talentbrick',
     tags: ['opensource', 'design']
   },
   {
