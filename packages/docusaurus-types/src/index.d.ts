@@ -22,6 +22,10 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
+export type StylingConfig = {
+  css: string[];
+};
+
 // Docusaurus config, after validation/normalization
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -33,6 +37,7 @@ export interface DocusaurusConfig {
   // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
   trailingSlash: boolean | undefined;
   i18n: I18nConfig;
+  styling: StylingConfig;
   onBrokenLinks: ReportingSeverity;
   onBrokenMarkdownLinks: ReportingSeverity;
   onDuplicateRoutes: ReportingSeverity;

@@ -23,7 +23,7 @@ export const Schema = Joi.object({
     .default(DEFAULT_OPTIONS.customCss)
     .warning('deprecate.error', {
       msg: `theme.customCss option is deprecated.
-Please use siteConfig.style.css instead.
+Please use siteConfig.styling.css instead.
 
 Note that this also changes the CSS insertion order!
 This enables your site CSS to override default theme CSS more easily, without using !important

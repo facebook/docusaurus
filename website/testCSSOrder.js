@@ -42,6 +42,7 @@ const EXPECTED_CSS_MARKERS = [
   '.tabs__item',
 
   // Test markers
+  '.test-marker-theme-custom-css-legacy', // TODO should be removed later
   '.test-marker-site-client-module',
   '.test-marker-theme-layout',
   '.test-marker-site-index-page',

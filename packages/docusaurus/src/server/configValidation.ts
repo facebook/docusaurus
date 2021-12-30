@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import {DocusaurusConfig, I18nConfig, StylingConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
   Joi,
@@ -24,9 +24,14 @@ export const DEFAULT_I18N_CONFIG: I18nConfig = {
   localeConfigs: {},
 };
 
+export const DEFAULT_STYLING_CONFIG: StylingConfig = {
+  css: [],
+};
+
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'i18n'
+  | 'styling'
   | 'onBrokenLinks'
   | 'onBrokenMarkdownLinks'
   | 'onDuplicateRoutes'
@@ -41,6 +46,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'staticDirectories'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
+  styling: DEFAULT_STYLING_CONFIG,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   onDuplicateRoutes: 'warn',
@@ -101,7 +107,7 @@ const LocaleConfigSchema = Joi.object({
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
 });
 
-const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
+const I18nConfigSchema = Joi.object<I18nConfig>({
   defaultLocale: Joi.string().required(),
   locales: Joi.array().items().min(1).items(Joi.string().required()).required(),
   localeConfigs: Joi.object()
@@ -123,6 +129,15 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
   return value;
 }, 'siteUrlCustomValidation');
 
+const StylingSchema = Joi.object({
+  css: Joi.alternatives()
+    .try(
+      Joi.array().items(Joi.string().required()).required(),
+      Joi.string().custom((val) => [val]), // normalize: string -> string[]
+    )
+    .default(DEFAULT_STYLING_CONFIG.css),
+}).default(DEFAULT_STYLING_CONFIG);
+
 // TODO move to @docusaurus/utils-validation
 export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
@@ -134,7 +149,8 @@ export const ConfigSchema = Joi.object({
   title: Joi.string().required(),
   url: SiteUrlSchema,
   trailingSlash: Joi.boolean(), // No default value! undefined = retrocompatible legacy behavior!
-  i18n: I18N_CONFIG_SCHEMA,
+  i18n: I18nConfigSchema,
+  styling: StylingSchema,
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),

@@ -76,6 +76,9 @@ const config = {
   // - force trailing slashes for deploy previews
   // - avoid trailing slashes in prod
   trailingSlash: isDeployPreview,
+  styling: {
+    css: require.resolve('./src/css/custom.css'),
+  },
   stylesheets: [
     {
       href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
@@ -304,7 +307,7 @@ const config = {
           remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [require.resolve('./src/css/customLegacy.css')],
         },
         gtag: !isDeployPreview
           ? {
