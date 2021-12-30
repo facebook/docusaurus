@@ -7,7 +7,7 @@
 
 declare module '@docusaurus/theme-classic' {
   export type Options = {
-    customCss?: string | string[];
+    customCss?: string | string[] | null;
   };
 }
 

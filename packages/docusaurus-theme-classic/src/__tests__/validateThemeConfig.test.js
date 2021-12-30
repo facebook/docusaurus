@@ -20,15 +20,6 @@ function testValidateThemeConfig(partialThemeConfig) {
   });
 }
 
-function testOk(partialThemeConfig) {
-  expect(
-    testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
-  ).toEqual({
-    ...DEFAULT_CONFIG,
-    ...partialThemeConfig,
-  });
-}
-
 describe('themeConfig', () => {
   test('should accept valid theme config', () => {
     const userConfig = {
@@ -477,31 +468,13 @@ describe('themeConfig', () => {
   });
 
   describe('customCss config', () => {
-    test('should accept customCss undefined', () => {
-      testOk({
-        customCss: undefined,
-      });
-    });
-
-    test('should accept customCss string', () => {
-      testOk({
-        customCss: './path/to/cssFile.css',
-      });
-    });
-
-    test('should accept customCss string array', () => {
-      testOk({
-        customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
-      });
-    });
-
-    test('should reject customCss number', () => {
+    test('should reject customCss string', () => {
       expect(() =>
         testValidateThemeConfig({
-          customCss: 42,
+          customCss: './path/to/cssFile.css',
         }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"\\"customCss\\" must be one of [array, string]"`,
+        `"themeConfig.customCss is invalid. Custom css used to be provided as themeOptions.customCss, but it is deprecated now."`,
       );
     });
   });

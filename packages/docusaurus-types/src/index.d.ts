@@ -419,6 +419,7 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
+// TODO weird useless type, refactor
 export type ValidationResult<T> = T;
 
 export type ValidationSchema<T> = Joi.ObjectSchema<T>;

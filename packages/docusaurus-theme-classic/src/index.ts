@@ -234,3 +234,4 @@ export function getSwizzleComponentList(): string[] {
 }
 
 export {validateThemeConfig} from './validateThemeConfig';
+export {validateOptions} from './options';
