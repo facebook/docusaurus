@@ -1433,6 +1433,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'TalentBrick',
+    description: 'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
+    preview: require('./showcase/talentbrick.png'),
+    website: 'https://www.talentbrick.com/',
+    source: 'https://gitlab.com/talentbrick/talentbrick',
+    tags: ['opensource', 'design']
+  },
+  {
     title: 'Taro',
     description: 'An open cross-end and cross-frame solution',
     preview: require('./showcase/docs-taro-zone.png'),
