@@ -15,11 +15,19 @@ import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
 
 function getSidebarInVersion(versions: GlobalDataVersion[], sidebarId: string) {
-  const allSidebars = versions.flatMap((version) => version.sidebars);
+  const allSidebars = versions.map((version) => version.sidebars);
   if (!allSidebars) {
     throw new Error(`DocSidebarNavbarItem: couldn't find any sidebar`);
   }
-  const sidebar = allSidebars[sidebarId];
+  const sidebar = allSidebars.map((versionSidebars) => {
+    if (versionSidebars) {
+      const sidebarItem = Object.entries(versionSidebars).find(
+        (sidebarItemArr) => sidebarItemArr[0] === sidebarId,
+      );
+      return sidebarItem ? sidebarItem[1] : undefined;
+    }
+    return undefined;
+  })[0];
   if (!sidebar) {
     throw new Error(
       `DocSidebarNavbarItem: couldn't find any sidebar with id "${sidebarId}" in version${
