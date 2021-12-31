@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {linkify} from '../linkify';
-import {
+import type {
   DocsMarkdownOption,
   SourceToPermalink,
   VersionMetadata,

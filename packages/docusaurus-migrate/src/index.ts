@@ -11,7 +11,7 @@ import logger from '@docusaurus/logger';
 import glob from 'glob';
 import Color from 'color';
 
-import {
+import type {
   ClassicPresetEntries,
   SidebarEntry,
   SidebarEntries,

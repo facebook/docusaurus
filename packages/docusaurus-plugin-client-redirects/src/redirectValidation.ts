@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {RedirectMetadata} from './types';
+import type {RedirectMetadata} from './types';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
 
 const RedirectSchema = Joi.object<RedirectMetadata>({

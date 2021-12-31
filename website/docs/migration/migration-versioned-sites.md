@@ -50,7 +50,7 @@ title: Hello, World !
 Hi, Endilie here :)
 ```
 
-Since we're going for snapshot and allow people to move (and edit) docs easily inside version. The `id` frontmatter is no longer altered and will remain the same. Internally, it is set as `version-${version}/${id}`.
+Since we're going for snapshot and allow people to move (and edit) docs easily inside version. The `id` front matter is no longer altered and will remain the same. Internally, it is set as `version-${version}/${id}`.
 
 Essentially, here are the necessary changes in each versioned_docs file:
 
@@ -92,7 +92,7 @@ original_id: hello
 Hi, Endilie here :)
 ```
 
-Since we don't allow `/` in v1 & v2 for frontmatter, conflicts are less likely to occur.
+Since we don't allow `/` in v1 & v2 for front matter, conflicts are less likely to occur.
 
 So v1 users need to migrate their versioned_sidebars file
 
@@ -126,7 +126,7 @@ For example, if your `versions.json` looks like this in v1
 
 Docusaurus v1 creates versioned docs **if and only if the doc content is different**. Your docs structure might look like this if the only doc changed from v1.0.0 to v1.1.0 is `hello.md`.
 
-```shell
+```bash
 website
 ├── versioned_docs
 │   ├── version-1.1.0
@@ -139,9 +139,9 @@ website
 │   └── version-1.0.0-sidebars.json
 ```
 
-In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right frontmatter and id reference too).
+In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right front matter and id reference too).
 
-```shell {3-5,12}
+```bash {3-5,12}
 website
 ├── versioned_docs
 │   ├── version-1.1.0

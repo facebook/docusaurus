@@ -18,7 +18,7 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import {load} from '../server';
-import {StartCLIOptions} from '@docusaurus/types';
+import type {StartCLIOptions} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,

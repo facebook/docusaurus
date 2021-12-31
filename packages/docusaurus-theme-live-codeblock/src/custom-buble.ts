@@ -11,8 +11,8 @@
 import {
   transform as bubleTransform,
   features as bubleFeatures,
-  TransformOptions,
-  TransformOutput,
+  type TransformOptions,
+  type TransformOutput,
 } from '@philpl/buble';
 
 // This file is designed to mimic what's written in

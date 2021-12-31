@@ -15,16 +15,14 @@ import type {
   SidebarItemType,
   SidebarCategoriesShorthand,
   SidebarItemConfig,
-} from './types';
-
-import {mapValues, difference, uniq} from 'lodash';
-import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
-import {DocMetadataBase, DocNavLink} from '../types';
-import {
   SidebarItemCategoryWithGeneratedIndex,
   SidebarItemCategoryWithLink,
   SidebarNavigationItem,
 } from './types';
+
+import {mapValues, difference, uniq} from 'lodash';
+import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
+import type {DocMetadataBase, DocNavLink} from '../types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,

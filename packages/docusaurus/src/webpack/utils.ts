@@ -12,9 +12,9 @@ import {
   customizeObject,
 } from 'webpack-merge';
 import webpack, {
-  Configuration,
-  RuleSetRule,
-  WebpackPluginInstance,
+  type Configuration,
+  type RuleSetRule,
+  type WebpackPluginInstance,
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
@@ -22,8 +22,8 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
 import logger from '@docusaurus/logger';
-import {TransformOptions} from '@babel/core';
-import {
+import type {TransformOptions} from '@babel/core';
+import type {
   ConfigureWebpackFn,
   ConfigurePostCssFn,
   PostCssOptions,

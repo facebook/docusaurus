@@ -107,13 +107,14 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import {ReactElement} from 'react';
+  import type {ReactElement} from 'react';
 
   export interface Props {
     readonly children: string | ReactElement;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
+    readonly language?: string;
   }
 
   const CodeBlock: (props: Props) => JSX.Element;
@@ -127,18 +128,6 @@ declare module '@theme/DocPaginator' {
   export interface Props extends PropNavigation {}
 
   export default function DocPaginator(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocPaginatorNavLink' {
-  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
-
-  // May be simpler to provide a {navigation: PropNavigation} prop?
-  export interface Props {
-    navLink: PropNavigationLink;
-    next?: boolean;
-  }
-
-  export default function DocPaginatorNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar' {
@@ -193,7 +182,7 @@ declare module '@theme/EditThisPage' {
 }
 
 declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   const ErrorPageContent: typeof ErrorComponent;
   export default ErrorPageContent;
@@ -231,7 +220,7 @@ declare module '@theme/hooks/useLockBodyScroll' {
 }
 
 declare module '@theme/hooks/usePrismTheme' {
-  import defaultTheme from 'prism-react-renderer/themes/palenight';
+  import type defaultTheme from 'prism-react-renderer/themes/palenight';
 
   const usePrismTheme: () => typeof defaultTheme;
   export default usePrismTheme;
@@ -523,6 +512,18 @@ declare module '@theme/NavbarItem' {
   export default NavbarItem;
 }
 
+declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
+  }
+
+  export default function PaginatorNavLink(props: Props): JSX.Element;
+}
+
 declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
 }
@@ -581,7 +582,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common';
 
   export interface Props extends DetailsProps {}
   export default Details;

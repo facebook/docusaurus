@@ -28,6 +28,22 @@ describe('lastUpdate', () => {
     expect(typeof timestamp).toBe('number');
   });
 
+  test('existing test file with spaces in path', async () => {
+    const filePathWithSpace = path.join(
+      __dirname,
+      '__fixtures__/simple-site/docs/doc with space.md',
+    );
+    const lastUpdateData = await getFileLastUpdate(filePathWithSpace);
+    expect(lastUpdateData).not.toBeNull();
+
+    const {author, timestamp} = lastUpdateData;
+    expect(author).not.toBeNull();
+    expect(typeof author).toBe('string');
+
+    expect(timestamp).not.toBeNull();
+    expect(typeof timestamp).toBe('number');
+  });
+
   test('non-existing file', async () => {
     const consoleMock = jest.spyOn(console, 'error').mockImplementation();
     const nonExistingFileName = '.nonExisting';

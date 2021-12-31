@@ -3,7 +3,7 @@ id: typescript-support
 title: TypeScript Support
 ---
 
-Docusaurus is written in TypeScript, and provides first-class TypeScript support.
+Docusaurus is written in TypeScript and provides first-class TypeScript support.
 
 ## Initialization {#initialization}
 
@@ -38,27 +38,24 @@ Now you can start writing TypeScript theme components.
 
 ## Typing the config file {#typing-config}
 
-It is **not possible** to use a TypeScript config file in Docusaurus, unless you compile it yourself to JavaScript.
+It is **not possible** to use a TypeScript config file in Docusaurus unless you compile it yourself to JavaScript.
 
 We recommend using [JSDoc type annotations](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html):
 
 ```js title="docusaurus.config.js"
-// highlight-start
+// highlight-next-line
 // @ts-check
-// highlight-end
 
-// highlight-start
+// highlight-next-line
 /** @type {import('@docusaurus/types').Plugin} */
-// highlight-end
 function MyPlugin(context, options) {
   return {
     name: 'my-plugin',
   };
 }
 
-// highlight-start
+// highlight-next-line
 /** @type {import('@docusaurus/types').Config} */
-// highlight-end
 const config = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
@@ -68,9 +65,8 @@ const config = {
   presets: [
     [
       '@docusaurus/preset-classic',
-      // highlight-start
+      // highlight-next-line
       /** @type {import('@docusaurus/preset-classic').Options} */
-      // highlight-end
       ({
         docs: {
           path: 'docs',
@@ -84,9 +80,8 @@ const config = {
     ],
   ],
   themeConfig:
-    // highlight-start
+    // highlight-next-line
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    // highlight-end
     ({
       colorMode: {
         defaultMode: 'dark',
@@ -110,7 +105,7 @@ module.exports = config;
 
 Type annotations are very useful and help your IDE understand the type of config objects!
 
-The best IDEs (VSCode, WebStorm, Intellij...) will provide a nice auto-completion experience.
+The best IDEs (VSCode, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
 
 :::
 
@@ -128,7 +123,7 @@ npm run tsc
 
 ## Swizzling TypeScript theme components {#swizzling-typescript-theme-components}
 
-For themes that supports TypeScript theme components, you can add the `--typescript` flag to the end of swizzling command to get TypeScript source code. For example, the following command will generate `index.tsx` and `styles.module.css` into `src/theme/Footer`.
+For themes that support TypeScript theme components, you can add the `--typescript` flag to the end of the `swizzle` command to get TypeScript source code. For example, the following command will generate `index.tsx` and `styles.module.css` into `src/theme/Footer`.
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Footer -- --typescript

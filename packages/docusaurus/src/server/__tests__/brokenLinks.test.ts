@@ -11,7 +11,7 @@ import {
   getAllBrokenLinks,
   filterExistingFileLinks,
 } from '../brokenLinks';
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('brokenLinks', () => {
   test('getBrokenLinksErrorMessage', async () => {

@@ -72,7 +72,7 @@ import MyComponent from './myComponent';
 <MyComponent />;
 ```
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
 
 <MyComponent/>
 
@@ -92,7 +92,7 @@ import CodeBlock from "@theme/CodeBlock"
 
 import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myComponent';
 
-<BrowserWindow url="http://localhost:3000">
+<BrowserWindow>
 
 <CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
 

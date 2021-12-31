@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, isValidElement, ReactElement} from 'react';
+import React, {
+  type ComponentProps,
+  isValidElement,
+  type ReactElement,
+} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';

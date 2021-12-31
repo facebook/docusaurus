@@ -10,7 +10,7 @@ import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import {loadContext} from '../server';
 import build from './build';
-import {BuildCLIOptions} from '@docusaurus/types';
+import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
 
@@ -223,7 +223,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     // directory, check out a clean deployment branch and add remote.
     if (
       shellExecLog(
-        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} ${toPath}`,
+        `git clone --depth 1 --branch ${deploymentBranch} ${deploymentRepoURL} "${toPath}"`,
       ).code === 0
     ) {
       shellExecLog('git rm -rf .');

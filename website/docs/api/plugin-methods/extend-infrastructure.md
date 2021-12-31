@@ -8,26 +8,30 @@ Docusaurus has some infrastructure like hot reloading, CLI, and swizzling, that 
 
 ## `getPathsToWatch()` {#getPathsToWatch}
 
-Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site. Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
+Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
+
+Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
 
 Example:
 
-```js {5-7} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 const path = require('path');
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     getPathsToWatch() {
       const contentPath = path.resolve(context.siteDir, options.path);
       return [`${contentPath}/**/*.{ts,tsx}`];
     },
+    // highlight-end
   };
 };
 ```
 
 ## `extendCli(cli)` {#extendCli}
 
-Register an extra command to enhance the CLI of Docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
+Register an extra command to enhance the CLI of Docusaurus. `cli` is a [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
 
 :::caution
 
@@ -37,10 +41,11 @@ The commander version matters! We use commander v5, and make sure you are referr
 
 Example:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     extendCli(cli) {
       cli
         .command('roll')
@@ -49,32 +54,35 @@ module.exports = function (context, options) {
           console.log(Math.floor(Math.random() * 1000 + 1));
         });
     },
+    // highlight-end
   };
 };
 ```
 
 ## `getThemePath()` {#getThemePath}
 
-Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
+Returns the path to the directory where the theme components can be found. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
 For example, your `getThemePath` can be:
 
-```js {6-8} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   return {
     name: 'my-theme',
+    // highlight-start
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
+    // highlight-end
   };
 };
 ```
 
 ## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
 
-Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement for `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make the path returned by `getThemePath()` be the compiled JavaScript output.
 
 :::tip
 
@@ -86,12 +94,13 @@ You should also format these files with Prettier. Remember—JS files can and wi
 
 Example:
 
-```js {6-13} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   return {
     name: 'my-theme',
+    // highlight-start
     getThemePath() {
       // Where compiled JavaScript output lives
       return path.join(__dirname, '../lib/theme');
@@ -100,6 +109,7 @@ module.exports = function (context, options) {
       // Where TypeScript source code lives
       return path.resolve(__dirname, '../src/theme');
     },
+    // highlight-end
   };
 };
 ```
@@ -108,9 +118,9 @@ module.exports = function (context, options) {
 
 **This is a static method, not attached to any plugin instance.**
 
-Returns a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all component are considered stable.
+Returns a list of stable components that are considered safe for swizzling. These components will be swizzlable without `--danger`. All components are considered unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all components are considered stable.
 
-```js {0-12} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const swizzleAllowedComponents = [
   'CodeBlock',
   'DocSidebar',

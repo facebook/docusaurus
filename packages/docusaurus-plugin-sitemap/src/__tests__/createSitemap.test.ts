@@ -6,7 +6,7 @@
  */
 
 import createSitemap from '../createSitemap';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {EnumChangefreq} from 'sitemap';
 
 describe('createSitemap', () => {

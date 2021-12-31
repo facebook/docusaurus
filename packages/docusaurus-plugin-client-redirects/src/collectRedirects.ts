@@ -6,7 +6,7 @@
  */
 
 import {uniqBy, difference, groupBy} from 'lodash';
-import {
+import type {
   PluginContext,
   RedirectMetadata,
   PluginOptions,
@@ -19,7 +19,7 @@ import {
 import {validateRedirect} from './redirectValidation';
 import {
   applyTrailingSlash,
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
 import logger from '@docusaurus/logger';

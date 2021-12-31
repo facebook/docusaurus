@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 
 export type PluginOptions = {
   id: string;

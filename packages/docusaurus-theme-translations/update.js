@@ -34,11 +34,18 @@ const Themes = [
     name: 'plugin-pwa',
     src: [getPackageCodePath('docusaurus-plugin-pwa')],
   },
+  {
+    name: 'plugin-ideal-image',
+    src: [getPackageCodePath('docusaurus-plugin-ideal-image')],
+  },
 ];
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
-console.log('Will scan folders for code translations:', AllThemesSrcDirs);
+logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
 
+/**
+ * @param {string} packageName
+ */
 function getPackageCodePath(packageName) {
   const packagePath = path.join(__dirname, '..', packageName);
   const packageJsonPath = path.join(packagePath, 'package.json');
@@ -50,17 +57,27 @@ function getPackageCodePath(packageName) {
     : packageSrcPath;
 }
 
+/**
+ * @param {string} locale
+ * @param {string} themeName
+ */
 function getThemeLocalePath(locale, themeName) {
   return path.join(LocalesDirPath, locale, `${themeName}.json`);
 }
 
+/**
+ * @param {string} key
+ */
 function removeDescriptionSuffix(key) {
-  if (key.replace('___DESCRIPTION')) {
+  if (key.replace('___DESCRIPTION', '')) {
     return key.replace('___DESCRIPTION', '');
   }
   return key;
 }
 
+/**
+ * @param {Record<string, string>} obj
+ */
 function sortObjectKeys(obj) {
   let keys = Object.keys(obj);
   keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
@@ -115,10 +132,22 @@ ${warning}
   return translations;
 }
 
+/**
+ * @param {string} filePath
+ * @returns {Promise<Record<string, string>>}
+ */
 async function readMessagesFile(filePath) {
+  if (!(await fs.pathExists(filePath))) {
+    logger.info`File path=${filePath} not found. Creating new translation base file.`;
+    await fs.writeFile(filePath, '{}\n');
+  }
   return JSON.parse((await fs.readFile(filePath)).toString());
 }
 
+/**
+ * @param {string} filePath
+ * @param {Record<string, string>} messages
+ */
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
 
@@ -131,6 +160,9 @@ async function writeMessagesFile(filePath, messages) {
   } messages)`}\n`;
 }
 
+/**
+ * @param {string} themeName
+ */
 async function getCodeTranslationFiles(themeName) {
   const baseFile = getThemeLocalePath('base', themeName);
   const localesFiles = (await fs.readdir(LocalesDirPath))
@@ -141,6 +173,10 @@ async function getCodeTranslationFiles(themeName) {
 
 const DescriptionSuffix = '___DESCRIPTION';
 
+/**
+ * @param {string} baseFile
+ * @param {string[]} targetDirs
+ */
 async function updateBaseFile(baseFile, targetDirs) {
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
   const baseMessages = pickBy(
@@ -169,6 +205,7 @@ They won't be removed automatically, so do the cleanup manually if necessary! co
     ...codeMessages,
   };
 
+  /** @type {Record<string, string>} */
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
       const codeTranslation = codeExtractedTranslations[key];
@@ -192,6 +229,10 @@ They won't be removed automatically, so do the cleanup manually if necessary! co
   return newBaseMessages;
 }
 
+/**
+ * @param {string} localeFile
+ * @param {Record<string, string>} baseFileMessages
+ */
 async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   const localeFileMessages = await readMessagesFile(localeFile);
 
@@ -219,16 +260,20 @@ You may want to delete these! code=${unknownMessages}`;
   }
 
   await writeMessagesFile(localeFile, newLocaleFileMessages);
+  return {untranslated: untranslatedKeys.length};
 }
 
 async function updateCodeTranslations() {
+  /** @type {Record<string, {untranslated: number}>} */
+  const stats = {};
+  let messageCount = 0;
+  const {2: newLocale} = process.argv;
   // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
     logger.info`Will update base file for name=${theme.name}\n`;
     const baseFileMessages = await updateBaseFile(baseFile, theme.src);
-    const [, newLocale] = process.argv;
 
     if (newLocale) {
       const newLocalePath = getThemeLocalePath(newLocale, theme.name);
@@ -246,23 +291,57 @@ async function updateCodeTranslations() {
     } else {
       // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
-        logger.info`Will update name=${path.basename(
-          path.dirname(localeFile),
-        )} locale in name=${path.basename(
+        const localeName = path.basename(path.dirname(localeFile));
+        const pluginName = path.basename(localeFile, path.extname(localeFile));
+        logger.info`Will update name=${localeName} locale in name=${pluginName}`;
+        const stat = await updateLocaleCodeTranslations(
           localeFile,
-          path.extname(localeFile),
-        )}`;
+          baseFileMessages,
+        );
 
-        await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+        stats[localeName] ??= {untranslated: 0};
+        stats[localeName].untranslated += stat.untranslated;
       }
+      messageCount += Object.keys(baseFileMessages).length;
     }
   }
+  if (newLocale) {
+    return null;
+  }
+  return {stats, messageCount};
 }
 
-function run() {
+if (require.main === module) {
   updateCodeTranslations().then(
-    () => {
+    (result) => {
       logger.success('updateCodeTranslations end\n');
+      if (result) {
+        const {stats, messageCount} = result;
+        const locales = Object.entries(stats).sort(
+          (a, b) => a[1].untranslated - b[1].untranslated,
+        );
+        const messages = locales.map(([name, stat]) => {
+          const percentage = (messageCount - stat.untranslated) / messageCount;
+          const filled = Math.floor(percentage * 30);
+          const color =
+            // eslint-disable-next-line no-nested-ternary
+            percentage > 0.99
+              ? logger.green
+              : percentage > 0.7
+              ? logger.yellow
+              : logger.red;
+          const progress = color(
+            `[${''.padStart(filled, '=')}${''.padStart(30 - filled, ' ')}]`,
+          );
+          return logger.interpolate`name=${name.padStart(8)} ${progress} ${(
+            percentage * 100
+          ).toFixed(1)} subdue=${`(${
+            messageCount - stat.untranslated
+          }/${messageCount})`}`;
+        });
+        logger.info`Translation coverage:
+${messages.join('\n')}`;
+      }
     },
     (e) => {
       logger.error(
@@ -273,5 +352,4 @@ function run() {
   );
 }
 
-exports.run = run;
 exports.extractThemeCodeMessages = extractThemeCodeMessages;

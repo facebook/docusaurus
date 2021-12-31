@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Optional} from 'utility-types';
+import type {Optional, Required} from 'utility-types';
 import type {
   DocMetadataBase,
   VersionMetadata,
   NumberPrefixParser,
   SidebarOptions,
 } from '../types';
-import {Required} from 'utility-types';
 
 // Makes all properties visible when hovering over the type
 type Expand<T extends Record<string, unknown>> = {[P in keyof T]: T[P]};
