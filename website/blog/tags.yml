@@ -12,12 +12,8 @@ blog:
   label: blog
 documentation:
   label: documentation
-profilo:
-  label: profilo
 adoption:
   label: adoption
-endi:
-  label: endi
 tribute:
   label: tribute
 release:

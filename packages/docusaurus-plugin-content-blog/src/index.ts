@@ -96,7 +96,7 @@ export default async function pluginContentBlog(
   });
 
   const tagsMapFilePath = await getDataFilePath({
-    filePath: options.authorsMapPath,
+    filePath: options.tagsMapPath,
     contentPaths,
   });
 

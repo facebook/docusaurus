@@ -7,22 +7,42 @@
 
 import {kebabCase, uniq, uniqBy} from 'lodash';
 import {normalizeUrl} from './urlUtils';
+import logger from '@docusaurus/logger';
 
 export type Tag = {
   label: string;
   permalink: string;
 };
 
-export type FrontMatterTag = string | Tag;
+export type FrontMatterTag = string | Partial<Tag>;
+export type TagsMap = Record<string, Partial<Tag>>;
 
 export function normalizeFrontMatterTag(
   tagsPath: string,
   frontMatterTag: FrontMatterTag,
+  tagsMap?: TagsMap | undefined,
 ): Tag {
   function toTagObject(tagString: string): Tag {
+    if (tagsMap) {
+      if (!tagsMap[tagString]) {
+        throw new Error(
+          logger.interpolate`The tag name=${tagString} can't be found in the tags map. Available tag keys are: name=${Object.keys(
+            tagsMap,
+          )}`,
+        );
+      }
+      return normalizeTagObject(tagsMap[tagString]);
+    }
     return {
       label: tagString,
       permalink: kebabCase(tagString),
+    };
+  }
+
+  function normalizeTagObject(tag: Partial<Tag>) {
+    return {
+      label: tag.label!,
+      permalink: tag.permalink ?? kebabCase(tag.label),
     };
   }
 
@@ -37,7 +57,7 @@ export function normalizeFrontMatterTag(
   const tag: Tag =
     typeof frontMatterTag === 'string'
       ? toTagObject(frontMatterTag)
-      : frontMatterTag;
+      : normalizeTagObject(frontMatterTag);
 
   return {
     label: tag.label,
@@ -48,9 +68,12 @@ export function normalizeFrontMatterTag(
 export function normalizeFrontMatterTags(
   tagsPath: string,
   frontMatterTags: FrontMatterTag[] | undefined,
+  tagsMap?: TagsMap | undefined,
 ): Tag[] {
   const tags =
-    frontMatterTags?.map((tag) => normalizeFrontMatterTag(tagsPath, tag)) ?? [];
+    frontMatterTags?.map((tag) =>
+      normalizeFrontMatterTag(tagsPath, tag, tagsMap),
+    ) ?? [];
 
   return uniqBy(tags, (tag) => tag.permalink);
 }

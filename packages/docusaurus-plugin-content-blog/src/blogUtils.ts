@@ -29,11 +29,12 @@ import {
   normalizeFrontMatterTags,
   groupTaggedItems,
   getContentPathList,
+  type TagsMap,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
-import {TagsMap, getTagsMap, validateTags} from './tags';
+import {getTagsMap} from './tags';
 import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
@@ -115,13 +116,16 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
+/**
+ * @param tagsMap When this is undefined, we fall back to treating tag values as labels rather than keys (no validation)
+ */
 async function processBlogSourceFile(
   blogSourceRelative: string,
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
-  authorsMap?: AuthorsMap,
-  tagsMap?: TagsMap,
+  authorsMap: AuthorsMap | undefined,
+  tagsMap: TagsMap | undefined,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -210,23 +214,19 @@ async function processBlogSourceFile(
     return undefined;
   }
 
+  const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
   const tagsBasePath = normalizeUrl([
     baseUrl,
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
-  const tags = normalizeFrontMatterTags(tagsBasePath, frontMatter.tags);
-
-  if (tagsMap) {
-    validateTags({
-      tagsMap,
-      tags,
-      failOnUnlisted: options.failOnUnlistedTags,
-      blogSource: blogSourceRelative,
-    });
-  }
+  const tags = normalizeFrontMatterTags(
+    tagsBasePath,
+    frontMatter.tags,
+    tagsMap,
+  );
 
   return {
     id: slug,
