@@ -50,7 +50,7 @@ async function testGenerateFeeds(
 }
 
 describe('blogFeed', () => {
-  (['atom', 'rss'] as const).forEach((feedType) => {
+  (['atom', 'rss', 'json'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
       test('should not show feed without posts', async () => {
         const siteDir = __dirname;
@@ -117,8 +117,22 @@ describe('blogFeed', () => {
               defaultReadingTime({content}),
           } as PluginOptions,
         );
-        const feedContent =
-          feed && (feedType === 'rss' ? feed.rss2() : feed.atom1());
+
+        let feedContent = '';
+        switch (feedType) {
+          case 'rss':
+            feedContent = feed.rss2();
+            break;
+          case 'json':
+            feedContent = feed.json1();
+            break;
+          case 'atom':
+            feedContent = feed.atom1();
+            break;
+          default:
+            break;
+        }
+
         expect(feedContent).toMatchSnapshot();
       });
     });

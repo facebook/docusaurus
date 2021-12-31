@@ -16,7 +16,7 @@ describe('docusaurus-plugin-content-pages', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext(siteDir);
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(
+    const plugin = await pluginContentPages(
       context,
       normalizePluginOptions({
         path: pluginPath,
@@ -77,7 +77,7 @@ describe('docusaurus-plugin-content-pages', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext(siteDir);
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(
+    const plugin = await pluginContentPages(
       {
         ...context,
         i18n: {

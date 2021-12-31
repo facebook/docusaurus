@@ -6,17 +6,15 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
-import path from 'path';
+import logger from '@docusaurus/logger';
 import {Author, BlogContentPaths} from './types';
-import {findFolderContainingFile} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
 } from './blogFrontMatter';
-import {getContentPathList} from './blogUtils';
+import {getDataFilePath} from './blogUtils';
 import Yaml from 'js-yaml';
 
 export type AuthorsMap = Record<string, Author>;
@@ -48,39 +46,21 @@ export async function readAuthorsMapFile(
       return validateAuthorsMapFile(unsafeContent);
     } catch (e) {
       // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      console.error(chalk.red('The author list file looks invalid!'));
+      logger.error('The author list file looks invalid!');
       throw e;
     }
   }
   return undefined;
 }
 
-type AuthorsMapParams = {
+export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
-};
-
-export async function getAuthorsMapFilePath({
-  authorsMapPath,
-  contentPaths,
-}: AuthorsMapParams): Promise<string | undefined> {
-  // Useful to load an eventually localize authors map
-  const contentPath = await findFolderContainingFile(
-    getContentPathList(contentPaths),
-    authorsMapPath,
-  );
-
-  if (contentPath) {
-    return path.join(contentPath, authorsMapPath);
-  }
-
-  return undefined;
-}
-
-export async function getAuthorsMap(
-  params: AuthorsMapParams,
-): Promise<AuthorsMap | undefined> {
-  const filePath = await getAuthorsMapFilePath(params);
+}): Promise<AuthorsMap | undefined> {
+  const filePath = await getDataFilePath({
+    dataFilePath: params.authorsMapPath,
+    contentPaths: params.contentPaths,
+  });
   if (!filePath) {
     return undefined;
   }
@@ -88,9 +68,7 @@ export async function getAuthorsMap(
     return await readAuthorsMapFile(filePath);
   } catch (e) {
     // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.error(
-      chalk.red(`Couldn't read blog authors map at path ${filePath}`),
-    );
+    logger.error`Couldn't read blog authors map at path=${filePath}`;
     throw e;
   }
 }

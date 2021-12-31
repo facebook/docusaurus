@@ -56,7 +56,7 @@ If you're only fixing a bug, it's fine to submit a pull request right away but w
 
 ### Reporting New Issues
 
-When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/choose), always make sure to fill out the issue template. **This step is very important!** Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
+When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/choose), always make sure to fill out the issue template. **This step is very important!** Not doing so may result in your issue not being managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
 
 - **One issue, one bug:** Please report a single bug per issue.
 - **Provide reproduction steps:** List all the steps necessary to reproduce the issue. The person reading your bug report should be able to follow these steps to reproduce your issue with minimal effort.
@@ -65,13 +65,17 @@ When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/cho
 
 We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our public bugs. If you would like to report a problem, take a look around and see if someone already opened an issue about it. If you are certain this is a new, unreported bug, you can submit a [bug report](#reporting-new-issues).
 
-If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
-
-You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/main/.github/ISSUE_TEMPLATE/feature.md)
-
 ### Security Bugs
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
+
+### Feature requests
+
+You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature%20request) in the form of an **elaborated RFC**. If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/main/.github/ISSUE_TEMPLATE/feature.md)
+
+### Questions
+
+If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
 
 ## Pull Requests
 
@@ -83,13 +87,13 @@ Working on your first Pull Request? You can learn how from this free video serie
 
 [**How to Contribute to an Open Source Project on GitHub**](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
-We have a list of [beginner friendly issues](https://github.com/facebook/docusaurus/labels/good%20first%20issue) to help you get your feet wet in the Docusaurus codebase and familiar with our contribution process. This is a great place to get started.
+We have a list of [beginner-friendly issues](https://github.com/facebook/docusaurus/labels/good%20first%20issue) to help you get your feet wet in the Docusaurus codebase and familiar with our contribution process. This is a great place to get started.
 
 ### Versioned Docs
 
 If you only want to make content changes you just need to be aware of versioned docs.
 
-- `website/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/next/installation.
+- `website/docs` - The files here are responsible for the "next" version at https://docusaurus.io/docs/next/installation.
 - `website/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/X.Y.Z/installation.
 
 To make a fix to the published versions you must edit the corresponding markdown file in both folders. If you only made changes in `docs`, be sure to be viewing the `next` version to see the updates (ensure there's `next` in the URL).
@@ -104,7 +108,7 @@ To make a fix to the published versions you must edit the corresponding markdown
 
 ### Online one-click setup for contributing
 
-You can use Gitpod (a free, online, VS Code-like IDE) for contributing. With a single click it will launch a workspace (for Docusaurus 2) and automatically:
+You can use Gitpod (a free, online, VS Code-like IDE) for contributing. With a single click, it will launch a workspace (for Docusaurus 2) and automatically:
 
 - clone the docusaurus repo.
 - install the dependencies.
@@ -123,7 +127,7 @@ Small pull requests are much easier to review and more likely to get merged. Mak
 Please make sure the following is done when submitting a pull request:
 
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `main`.
-1. Add the [copyright notice](#copyright-header-for-source-code) notice to the top of any code new files you've added.
+1. Add the [copyright notice](#copyright-header-for-source-code) to the top of any code new files you've added.
 1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/main/admin/testing-changes-on-Docusaurus-itself.md)!
 1. Make sure your code lints (`yarn prettier && yarn lint`).
 1. Make sure your Jest tests pass (`yarn test`).
@@ -133,11 +137,9 @@ All pull requests should be opened against the `main` branch.
 
 #### Test Plan
 
-A good test plan has the exact commands you ran and their output, provides screenshots or videos if the pull request changes UI.
+A good test plan has the exact commands you ran and their output and provides screenshots or videos if the pull request changes UI. If you've changed APIs, update the documentation.
 
-- If you've changed APIs, update the documentation.
-
-If you need help testing your changes locally, you can check out the doc on doing [local third party testing](https://github.com/facebook/docusaurus/blob/main/admin/local-third-party-project-testing.md).
+If you need help testing your changes locally, you can check out the doc on doing [local third-party testing](https://github.com/facebook/docusaurus/blob/main/admin/local-third-party-project-testing.md).
 
 #### Breaking Changes
 
@@ -224,7 +226,7 @@ Use lower case not title case!
 
 ### General
 
-- **Most important: Look around.** Match the style you see used in the rest of the project. This includes formatting, naming files, naming things in code, naming things in documentation.
+- **Most important: Look around.** Match the style you see used in the rest of the project. This includes formatting, naming files, naming things in code, naming things in documentation, etc.
 - "Attractive"
 - We do have Prettier (a formatter) and ESLint (a syntax linter) to catch most stylistic problems. If you are working locally, they should automatically fix some issues during every git commit.
 

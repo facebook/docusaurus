@@ -24,7 +24,7 @@ export interface BlogContent {
   blogTagsListPath: string | null;
 }
 
-export type FeedType = 'rss' | 'atom';
+export type FeedType = 'rss' | 'atom' | 'json';
 
 export type FeedOptions = {
   type?: FeedType[] | null;
@@ -162,6 +162,7 @@ export interface MetaData {
   truncated: boolean;
   editUrl?: string;
   authors: Author[];
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 }
 
 export interface Assets {

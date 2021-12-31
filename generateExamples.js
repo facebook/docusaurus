@@ -10,6 +10,13 @@ const rimraf = require('rimraf');
 const {readFileSync, writeFileSync, readdirSync} = require('fs');
 const {execSync} = require('child_process');
 
+const NODE_MAJOR_VERSION = parseInt(process.versions.node.split('.')[0], 10);
+if (NODE_MAJOR_VERSION < 16) {
+  throw new Error(
+    'This generateExamples Docusaurus script requires at least Node.js 16 and npm 7. See why here: https://github.com/facebook/docusaurus/pull/5722#issuecomment-948847891',
+  );
+}
+
 // Generate one example per init template
 // We use those generated examples as CodeSandbox projects
 // See https://github.com/facebook/docusaurus/issues/1699
@@ -59,7 +66,7 @@ function generateTemplateExample(template) {
     // rewrite the package.json file with the new edit
     writeFileSync(
       `./examples/${template}/package.json`,
-      JSON.stringify(templatePackageJson, null, 2),
+      `${JSON.stringify(templatePackageJson, null, 2)}\n`,
     );
 
     // create sandbox.config.json file at the root of template
@@ -75,7 +82,7 @@ function generateTemplateExample(template) {
     };
     writeFileSync(
       `./examples/${template}/sandbox.config.json`,
-      JSON.stringify(codeSanboxConfig, null, 2),
+      `${JSON.stringify(codeSanboxConfig, null, 2)}\n`,
     );
 
     const stackBlitzConfig = {
@@ -84,7 +91,7 @@ function generateTemplateExample(template) {
     };
     writeFileSync(
       `./examples/${template}/.stackblitzrc`,
-      JSON.stringify(stackBlitzConfig, null, 2),
+      `${JSON.stringify(stackBlitzConfig, null, 2)}\n`,
     );
 
     console.log(`Generated example for template ${template}`);

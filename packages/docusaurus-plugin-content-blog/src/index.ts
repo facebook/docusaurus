@@ -48,14 +48,15 @@ import {
   getContentPathList,
   getSourceToPermalink,
   getBlogTags,
+  getDataFilePath,
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
 
-export default function pluginContentBlog(
+export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent> {
+): Promise<Plugin<BlogContent>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -89,30 +90,30 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  const authorsMapFilePath = await getDataFilePath({
+    dataFilePath: options.authorsMapPath,
+    contentPaths,
+  });
+
+  const tagsMapFilePath = await getDataFilePath({
+    dataFilePath: options.authorsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath, tagsMapPath} = options;
+      const {include} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
-      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
-      // simplified impl, better than nothing for now:
-      const authorsMapFilePath = path.join(
-        contentPaths.contentPath,
-        authorsMapPath,
-      );
-
-      const pathsToWatch = [authorsMapFilePath, ...contentMarkdownGlobs];
-
-      if (tagsMapPath) {
-        pathsToWatch.push(path.join(contentPaths.contentPath, tagsMapPath));
-      }
-
-      return pathsToWatch;
+      return [
+        authorsMapFilePath,
+        tagsMapFilePath,
+        ...contentMarkdownGlobs,
+      ].filter(Boolean) as string[];
     },
 
     async getTranslationFiles() {
@@ -555,6 +556,11 @@ export default function pluginContentBlog(
           type: 'application/atom+xml',
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
+        },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
         },
       };
       const headTags: HtmlTags = [];

@@ -55,6 +55,49 @@ Array [
 ]
 `;
 
+exports[`getTranslationFiles should return translation files matching snapshot 2`] = `
+Array [
+  Object {
+    "content": Object {
+      "item.label.Dropdown": Object {
+        "description": "Navbar item with label Dropdown",
+        "message": "Dropdown",
+      },
+      "item.label.Dropdown item 1": Object {
+        "description": "Navbar item with label Dropdown item 1",
+        "message": "Dropdown item 1",
+      },
+      "item.label.Dropdown item 2": Object {
+        "description": "Navbar item with label Dropdown item 2",
+        "message": "Dropdown item 2",
+      },
+      "title": Object {
+        "description": "The title in the navbar",
+        "message": "navbar title",
+      },
+    },
+    "path": "navbar",
+  },
+  Object {
+    "content": Object {
+      "copyright": Object {
+        "description": "The footer copyright",
+        "message": "Copyright FB",
+      },
+      "link.item.label.Link 1": Object {
+        "description": "The label of footer link with label=Link 1 linking to https://facebook.com",
+        "message": "Link 1",
+      },
+      "link.item.label.Link 2": Object {
+        "description": "The label of footer link with label=Link 2 linking to https://facebook.com",
+        "message": "Link 2",
+      },
+    },
+    "path": "footer",
+  },
+]
+`;
+
 exports[`translateThemeConfig should return translated themeConfig matching snapshot 1`] = `
 Object {
   "announcementBar": Object {},

@@ -6,7 +6,7 @@
  */
 
 import Joi from './Joi';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {PluginIdSchema} from './validationSchemas';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
@@ -19,21 +19,14 @@ export const isValidationDisabledEscapeHatch =
   process.env.DISABLE_DOCUSAURUS_VALIDATION === 'true';
 
 if (isValidationDisabledEscapeHatch) {
-  console.error(
-    chalk.red(
-      'You should avoid using DISABLE_DOCUSAURUS_VALIDATION escape hatch, this will be removed.',
-    ),
-  );
+  logger.error`You should avoid using code=${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
 }
 
 export const logValidationBugReportHint = (): void => {
-  console.log(
-    `\n${chalk.red('A validation error occurred.')}${chalk.cyanBright(
-      '\nThe validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.' +
-        '\nWe may have made some mistakes.' +
-        '\nIf you think your configuration is valid and should keep working, please open a bug report.',
-    )}\n`,
-  );
+  logger.error('A validation error occurred.');
+  logger.info(`The validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.
+We may have made some mistakes.
+If you think your configuration is valid and should keep working, please open a bug report.`);
 };
 
 export function printWarning(warning?: Joi.ValidationError): void {
@@ -41,7 +34,7 @@ export function printWarning(warning?: Joi.ValidationError): void {
     const warningMessages = warning.details
       .map(({message}) => message)
       .join('\n');
-    console.log(chalk.yellow(warningMessages));
+    logger.warn(warningMessages);
   }
 }
 
@@ -63,7 +56,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error);
       return options as T;
     } else {
       throw error;
@@ -91,7 +84,7 @@ export function normalizeThemeConfig<T>(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error);
       return themeConfig as T;
     } else {
       throw error;
@@ -116,19 +109,14 @@ export function validateFrontMatter<T>(
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
-    const errorMessages = errorDetails
-      .map(({message}) => ` - ${message}`)
-      .join('\n');
 
     logValidationBugReportHint();
 
-    console.error(
-      chalk.red(
-        `The following frontmatter:\n${chalk.yellow(
-          frontMatterString,
-        )}\ncontains invalid values for field(s): ${invalidFields}.\n${errorMessages}\n`,
-      ),
-    );
+    logger.error`The following frontmatter:
+${logger.yellow(frontMatterString)}
+contains invalid values for field(s): ${logger.yellow(invalidFields)}.
+${errorDetails.map(({message}) => message)}
+`;
     throw error;
   }
 

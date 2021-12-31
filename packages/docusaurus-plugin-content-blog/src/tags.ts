@@ -6,13 +6,12 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import Yaml from 'js-yaml';
-import path from 'path';
-import {findFolderContainingFile, Tag} from '@docusaurus/utils';
+import {Tag} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import {BlogContentPaths} from './types';
-import {getContentPathList} from './blogUtils';
+import {getDataFilePath} from './blogUtils';
 
 export type TagsMap = Record<string, Tag>;
 
@@ -68,18 +67,12 @@ ${Object.keys(tagsMap)
     }
   }
   if (invalidTags.length) {
-    console.warn(
-      chalk.yellow(`At least one tag in ${blogSource} is unlisted:
-Unlisted tags: 
-${invalidTags.map((tag) => `- ${tag}`).join(`\n`)}
+    logger.warn`At least one tag in path=${blogSource} is unlisted:
+Unlisted tags:name=${invalidTags}
 
-Allowed tags are:
-${Object.keys(tagsMap)
-  .map((validKey) => `- ${validKey}`)
-  .join('\n')}
-          
-If you wish to fail your build on unlisted tags, set 'failOnUnlistedTags' to 'true'.\n`),
-    );
+Allowed tags are:name=${Object.keys(tagsMap)}
+
+If you wish to fail your build on unlisted tags, set code=${'failOnUnlistedTags'} to 'true'.`;
   }
 }
 
@@ -90,41 +83,18 @@ export async function getTagsMap(
   if (!params.tagsMapPath) {
     return undefined;
   }
-  const filePath = await getTagsMapFilePath(params);
+  const filePath = await getDataFilePath({
+    dataFilePath: params.tagsMapPath,
+    contentPaths: params.contentPaths,
+  });
   if (!filePath) {
     return undefined;
   }
   try {
     return await readTagsMapFile(filePath);
   } catch (e) {
-    // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.error(
-      chalk.yellow(`Couldn't read blog tags map at path ${filePath}`),
-    );
+    logger.error`Couldn't read tags map at path=${filePath}`;
     throw e;
-  }
-}
-
-// TODO: This can be refactored into the authors logic (same code)
-async function getTagsMapFilePath({
-  tagsMapPath,
-  contentPaths,
-}: TagsMapParams): Promise<string | undefined> {
-  if (!tagsMapPath) {
-    return undefined;
-  }
-  // Useful to load an eventually localize tags map
-  const contentPath = await findFolderContainingFile(
-    getContentPathList(contentPaths),
-    tagsMapPath,
-  );
-  if (contentPath) {
-    return path.join(contentPath, tagsMapPath);
-  } else {
-    // If a file is specified but does not exist, the build must break
-    throw new Error(
-      `The tags file you specified can not be found, make sure ${tagsMapPath} is within the context ${contentPaths.contentPath}.`,
-    );
   }
 }
 
@@ -137,7 +107,7 @@ async function readTagsMapFile(filePath: string): Promise<TagsMap | undefined> {
       return validateTagsMapFile(unsafeContent);
     } catch (e) {
       // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      console.error(chalk.red('The tags list file looks invalid!'));
+      logger.error('The tags list file looks invalid!');
       throw e;
     }
   }

@@ -6,7 +6,6 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
@@ -29,11 +28,13 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  findFolderContainingFile,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import {TagsMap, getTagsMap, validateTags} from './tags';
+import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -46,6 +47,26 @@ export function getSourceToPermalink(
     keyBy(blogPosts, (item) => item.metadata.source),
     (v) => v.metadata.permalink,
   );
+}
+
+export async function getDataFilePath({
+  dataFilePath,
+  contentPaths,
+}: {
+  dataFilePath: string;
+  contentPaths: BlogContentPaths;
+}): Promise<string | undefined> {
+  // Useful to load an eventually localize authors map
+  const contentPath = await findFolderContainingFile(
+    getContentPathList(contentPaths),
+    dataFilePath,
+  );
+
+  if (contentPath) {
+    return path.join(contentPath, dataFilePath);
+  }
+
+  return undefined;
 }
 
 export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
@@ -153,11 +174,7 @@ async function processBlogSourceFile(
   }
 
   if (frontMatter.id) {
-    console.warn(
-      chalk.yellow(
-        `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-      ),
-    );
+    logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
   }
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
@@ -251,6 +268,7 @@ async function processBlogSourceFile(
         : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
+      frontMatter,
     },
     content,
   };
@@ -295,11 +313,7 @@ export async function generateBlogPosts(
             tagsMap,
           );
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Processing of blog source file failed for path "${blogSourceFile}"`,
-            ),
-          );
+          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
           throw e;
         }
       }),

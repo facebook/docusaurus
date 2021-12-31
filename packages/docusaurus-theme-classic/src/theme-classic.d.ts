@@ -11,6 +11,18 @@ declare module '@docusaurus/theme-classic' {
   };
 }
 
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default function Admonition(props: Props): JSX.Element;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
@@ -102,6 +114,7 @@ declare module '@theme/CodeBlock' {
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
+    readonly language?: string;
   }
 
   const CodeBlock: (props: Props) => JSX.Element;
@@ -111,13 +124,10 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
-  type PageInfo = {readonly permalink: string; readonly title: string};
-
   // May be simpler to provide a {navigation: PropNavigation} prop?
   export interface Props extends PropNavigation {}
 
-  const DocPaginator: (props: Props) => JSX.Element;
-  export default DocPaginator;
+  export default function DocPaginator(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar' {
@@ -500,6 +510,18 @@ declare module '@theme/NavbarItem' {
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
+  }
+
+  export default function PaginatorNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchBar' {

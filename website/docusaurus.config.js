@@ -14,10 +14,9 @@ const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const lightTheme = require('prism-react-renderer/themes/github');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const darkTheme = require('prism-react-renderer/themes/dracula');
+const configTabs = require('./src/remark/configTabs');
+const lightTheme = require('./src/utils/prismLight');
+const darkTheme = require('./src/utils/prismDark');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -79,9 +78,10 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
       integrity:
-        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
       crossorigin: 'anonymous',
     },
   ],
@@ -118,7 +118,6 @@ const config = {
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
   ],
-  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['live-codeblock'],
   plugins: [
     FeatureRequestsPlugin,
@@ -177,6 +176,7 @@ const config = {
         max: 1030, // max resized image's size.
         min: 640, // min resized image's size. if original is lower, use that size.
         steps: 2, // the max number of images generated between min and max (inclusive)
+        disableInDev: false,
       },
     ],
     [
@@ -265,7 +265,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [math, [npm2yarn, {sync: true}]],
+          remarkPlugins: [math, [npm2yarn, {sync: true}], configTabs],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
@@ -334,7 +334,11 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme,
-        additionalLanguages: ['java'],
+        // We need to load markdown again so that YAML is loaded before MD
+        // and the YAML front matter is highlighted correctly.
+        // TODO after we have forked prism-react-renderer, we should tweak the
+        // import order and fix it there
+        additionalLanguages: ['java', 'markdown'],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],
@@ -515,4 +519,12 @@ const config = {
     }),
 };
 
-module.exports = config;
+// TODO temporary dogfood async config, remove soon
+async function createConfig() {
+  await new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+  return config;
+}
+
+module.exports = createConfig;
