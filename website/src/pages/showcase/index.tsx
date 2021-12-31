@@ -15,11 +15,17 @@ import ShowcaseTagSelect, {
   readSearchTags,
 } from './_components/ShowcaseTagSelect';
 import ShowcaseFilterToggle, {
-  Operator,
+  type Operator,
   readOperator,
 } from './_components/ShowcaseFilterToggle';
 import ShowcaseCard from './_components/ShowcaseCard';
-import {sortedUsers, Tags, TagList, User, TagType} from '@site/src/data/users';
+import {
+  sortedUsers,
+  Tags,
+  TagList,
+  type User,
+  type TagType,
+} from '@site/src/data/users';
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';

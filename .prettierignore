@@ -15,5 +15,6 @@ __fixtures__
 website/i18n
 website/versions.json
 website/docusaurus.config.js
+website/versioned_sidebars/*.json
 
 examples/

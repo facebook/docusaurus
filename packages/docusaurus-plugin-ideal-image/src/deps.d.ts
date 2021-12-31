@@ -5,11 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/// <reference types="@docusaurus/module-type-aliases" />
+
 /**
  * @see https://github.com/endiliey/react-ideal-image/blob/master/index.d.ts
+ * Note: the original type definition is WRONG. getIcon & getMessage receive full state object.
  */
 declare module '@endiliey/react-ideal-image' {
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
+
+  export type State = {
+    pickedSrc: {
+      size: number;
+    };
+    loadInfo: 404 | null;
+    loadState: LoadingState;
+  };
 
   export type IconKey =
     | 'load'
@@ -32,12 +43,12 @@ declare module '@endiliey/react-ideal-image' {
     /**
      * This function decides what icon to show based on the current state of the component.
      */
-    getIcon?: (state: LoadingState) => IconKey;
+    getIcon?: (state: State) => IconKey;
     /**
      * This function decides what message to show based on the icon (returned from getIcon prop) and
      * the current state of the component.
      */
-    getMessage?: (icon: IconKey, state: LoadingState) => string;
+    getMessage?: (icon: IconKey, state: State) => string;
     /**
      * This function is called as soon as the component enters the viewport and is used to generate urls
      * based on width and format if props.srcSet doesn't provide src field.

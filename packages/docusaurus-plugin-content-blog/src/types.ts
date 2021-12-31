@@ -11,8 +11,8 @@ import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import {Overwrite} from 'utility-types';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {Overwrite} from 'utility-types';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -160,6 +160,7 @@ export interface MetaData {
   truncated: boolean;
   editUrl?: string;
   authors: Author[];
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 }
 
 export interface Assets {

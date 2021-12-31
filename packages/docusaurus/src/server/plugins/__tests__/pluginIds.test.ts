@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {InitializedPlugin} from '@docusaurus/types';
+import type {InitializedPlugin} from '@docusaurus/types';
 import {ensureUniquePluginInstanceIds} from '../pluginIds';
 
 function createTestPlugin(name: string, id?: string): InitializedPlugin {

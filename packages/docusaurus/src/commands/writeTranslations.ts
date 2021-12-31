@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
+import type {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
 import path from 'path';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
@@ -13,7 +13,7 @@ import initPlugins from '../server/plugins/init';
 import {
   writePluginTranslations,
   writeCodeTranslations,
-  WriteTranslationsOptions,
+  type WriteTranslationsOptions,
   getPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../server/translations/translations';
@@ -78,7 +78,7 @@ export default async function writeTranslations(
     locale: options.locale,
   });
   const pluginConfigs = loadPluginConfigs(context);
-  const plugins = initPlugins({
+  const plugins = await initPlugins({
     pluginConfigs,
     context,
   });

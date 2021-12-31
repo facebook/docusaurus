@@ -4,7 +4,7 @@ title: i18n - Tutorial
 slug: /i18n/tutorial
 ---
 
-This tutorial will walk you through the basis of the **Docusaurus i18n system**.
+This tutorial will walk you through the basics of the **Docusaurus i18n system**.
 
 We will add **French** translations to a **newly initialized English Docusaurus website**.
 
@@ -70,7 +70,7 @@ Please help us complete those **[default translations](https://github.com/facebo
 
 :::caution
 
-Each locale is a **distinct standalone single-page-application**: it is not possible to start the Docusaurus sites in all locales at the same time.
+Each locale is a **distinct standalone single-page application**: it is not possible to start the Docusaurus sites in all locales at the same time.
 
 :::
 
@@ -203,7 +203,7 @@ Translate the `message` attribute in the JSON files of `i18n/fr`, and your site 
 
 ### Translate Markdown files {#translate-markdown-files}
 
-Official Docusaurus content plugins extensively use Markdown/MDX files, and allow you to translate them.
+Official Docusaurus content plugins extensively use Markdown/MDX files and allow you to translate them.
 
 #### Translate the docs {#translate-the-docs}
 
@@ -268,7 +268,7 @@ For localized sites, it is recommended to use **[explicit heading ids](../guides
 
 ## Deploy your site {#deploy-your-site}
 
-You can choose to deploy your site under a **single domain**, or use **multiple (sub)domains**.
+You can choose to deploy your site under a **single domain** or use **multiple (sub)domains**.
 
 ### Single-domain deployment {#single-domain-deployment}
 
@@ -287,7 +287,7 @@ You can now [deploy](../deployment.mdx) the `build` folder to the static hosting
 
 :::note
 
-The Docusaurus v2 website use this strategy:
+The Docusaurus v2 website uses this strategy:
 
 - [https://docusaurus.io](https://docusaurus.io)
 - [https://docusaurus.io/fr](https://docusaurus.io/fr)
@@ -296,7 +296,7 @@ The Docusaurus v2 website use this strategy:
 
 :::tip
 
-Static hosting providers generally redirect `/unknown/urls` to `/404.html` by convention, always showing an **English 404 page**.
+Static hosting providers generally redirect `/unknown/url` to `/404.html` by convention, always showing an **English 404 page**.
 
 **Localize your 404 pages** by configuring your host to redirect `/fr/*` to `/fr/404.html`.
 

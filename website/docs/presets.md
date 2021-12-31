@@ -7,7 +7,7 @@ Presets are collections of plugins and themes.
 
 ## Using presets {#using-presets}
 
-A preset is usually a npm package, so you install them like other npm packages using npm.
+A preset is usually an npm package, so you install them like other npm packages using npm.
 
 ```bash npm2yarn
 npm install --save @docusaurus/preset-classic
@@ -15,20 +15,22 @@ npm install --save @docusaurus/preset-classic
 
 Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 
-```jsx {3} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
+  // highlight-next-line
   presets: ['@docusaurus/preset-classic'],
 };
 ```
 
 To load presets from your local directory, specify how to resolve them:
 
-```jsx {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
   // ...
+  // highlight-next-line
   presets: [path.resolve(__dirname, '/path/to/docusaurus-local-presets')],
 };
 ```
@@ -48,18 +50,22 @@ module.exports = function preset(context, opts = {}) {
 
 then in your Docusaurus config, you may configure the preset instead:
 
-```jsx {3} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
-    '@docusaurus/preset-my-own',
-    {cool: {hello: 'world'}, blog: {path: '/blog'}},
+    // highlight-start
+    [
+      '@docusaurus/preset-my-own',
+      {cool: {hello: 'world'}, blog: {path: '/blog'}},
+    ],
+    // highlight-end
   ],
 };
 ```
 
 This is equivalent of doing:
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themes: ['@docusaurus/themes-cool', {hello: 'world'}],
   plugins: ['@docusaurus/plugin-blog', {path: '/blog'}],

@@ -8,7 +8,7 @@ Static methods are not part of the plugin instance—they are attached to the co
 
 ## `validateOptions({options, validate})` {#validateOptions}
 
-Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during initialization.
+Returns validated and normalized options for the plugin. This method is called before the plugin is initialized. You must return the options since they will be passed to the plugin during initialization.
 
 ### `options` {#options}
 
@@ -16,7 +16,7 @@ Return validated and normalized options for the plugin. This method is called be
 
 ### `validate` {#validate}
 
-`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and options as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
@@ -28,7 +28,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
 
-```js {8-11} title="my-plugin/src/index.js"
+```js title="my-plugin/src/index.js"
 function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -36,17 +36,19 @@ function myPlugin(context, options) {
   };
 }
 
+// highlight-start
 myPlugin.validateOptions = ({options, validate}) => {
   const validatedOptions = validate(myValidationSchema, options);
   return validationOptions;
 };
+// highlight-end
 
 module.exports = myPlugin;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.
 
-```ts {8-11} title="my-plugin/src/index.ts"
+```ts title="my-plugin/src/index.ts"
 export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -54,10 +56,12 @@ export default function (context, options) {
   };
 }
 
+// highlight-start
 export function validateOptions({options, validate}) {
   const validatedOptions = validate(myValidationSchema, options);
   return validationOptions;
 }
+// highlight-end
 ```
 
 ## `validateThemeConfig({themeConfig, validate})` {#validateThemeConfig}
@@ -70,7 +74,7 @@ Return validated and normalized configuration for the theme.
 
 ### `validate` {#validate-1}
 
-`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/joi)** schema and `themeConfig` as the arguments, returns validated and normalized options. `validate` will automatically handle error and validation config.
 
 :::tip
 
@@ -82,7 +86,7 @@ To avoid mixing Joi versions, use `const {Joi} = require("@docusaurus/utils-vali
 
 If you don't use **[Joi](https://www.npmjs.com/package/joi)** for validation you can throw an Error in case of invalid options.
 
-```js {8-11} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 function myPlugin(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -90,17 +94,19 @@ function myPlugin(context, options) {
   };
 }
 
+// highlight-start
 myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 };
+// highlight-end
 
 module.exports = validateThemeConfig;
 ```
 
 In TypeScript, you can also choose to export this as a separate named export.
 
-```ts {8-11} title="my-theme/src/index.ts"
+```ts title="my-theme/src/index.ts"
 export default function (context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -108,8 +114,10 @@ export default function (context, options) {
   };
 }
 
+// highlight-start
 export function validateThemeConfig({themeConfig, validate}) {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 }
+// highlight-end
 ```

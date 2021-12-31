@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {mapValues, difference} from 'lodash';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
@@ -133,7 +133,7 @@ Maybe you should remove them? ${unknownKeys}`;
       filePath,
     )}.`;
     await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
+    await fs.writeFile(filePath, `${JSON.stringify(mergedContent, null, 2)}\n`);
   }
 }
 

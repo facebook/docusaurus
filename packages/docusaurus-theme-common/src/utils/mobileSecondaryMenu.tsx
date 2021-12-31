@@ -7,11 +7,11 @@
 
 import React, {
   useState,
-  ReactNode,
+  type ReactNode,
   useContext,
   createContext,
   useEffect,
-  ComponentType,
+  type ComponentType,
   useMemo,
 } from 'react';
 

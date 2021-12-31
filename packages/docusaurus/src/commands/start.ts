@@ -18,7 +18,7 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import {load} from '../server';
-import {StartCLIOptions} from '@docusaurus/types';
+import type {StartCLIOptions} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import {
   applyConfigureWebpack,
@@ -217,14 +217,15 @@ export default async function start(
     allowedHosts: 'all',
     host,
     port,
-    onBeforeSetupMiddleware: (devServer) => {
+    setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      devServer.app.use(
+      middlewares.unshift(
         evalSourceMapMiddleware(
           // @ts-expect-error: bad types
           devServer,
         ),
       );
+      return middlewares;
     },
   };
 

@@ -7,7 +7,7 @@
 
 import {truncate, linkify} from './blogUtils';
 import {parseQuery} from 'loader-utils';
-import {BlogMarkdownLoaderOptions} from './types';
+import type {BlogMarkdownLoaderOptions} from './types';
 import type {LoaderContext} from 'webpack';
 
 export default function markdownLoader(

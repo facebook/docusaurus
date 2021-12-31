@@ -20,7 +20,7 @@ import type {
   SidebarItemCategoryLinkGeneratedIndex,
 } from './types';
 import {isCategoriesShorthand} from './utils';
-import {CategoryMetadataFile} from './generator';
+import type {CategoryMetadataFile} from './generator';
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),

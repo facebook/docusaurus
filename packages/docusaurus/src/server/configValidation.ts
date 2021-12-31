@@ -6,7 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
-import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
   Joi,

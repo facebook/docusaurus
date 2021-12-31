@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
-import prompts, {Choice} from 'prompts';
+import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import {kebabCase, sortBy} from 'lodash';
@@ -35,7 +35,7 @@ async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
 
-  await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
+  await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
 }
 
 function readTemplates(templatesDir: string) {

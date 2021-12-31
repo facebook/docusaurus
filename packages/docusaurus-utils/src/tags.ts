@@ -6,7 +6,7 @@
  */
 
 import {kebabCase, uniq, uniqBy} from 'lodash';
-import {normalizeUrl} from './normalizeUrl';
+import {normalizeUrl} from './urlUtils';
 
 export type Tag = {
   label: string;

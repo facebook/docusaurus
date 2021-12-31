@@ -132,11 +132,11 @@ It is possible to only render the default tab with `<Tabs lazy />`.
 
 The first tab is displayed by default, and to override this behavior, you can specify a default tab by adding `default` to one of the tab items. You can also set the `defaultValue` prop of the `Tabs` component to the label value of your choice. For example, in the example above, either setting `default` for the `value="apple"` tab or setting `defaultValue="apple"` for the tabs forces the "Apple" tab to be open by default.
 
-Docusaurus will throw an error if a `defaultValue` is provided for the `Tabs` but it refers to an non-existing value. If you want none of the tabs to be shown by default, use `defaultValue={null}`.
+Docusaurus will throw an error if a `defaultValue` is provided for the `Tabs` but it refers to a non-existing value. If you want none of the tabs to be shown by default, use `defaultValue={null}`.
 
 ## Syncing tab choices {#syncing-tab-choices}
 
-You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that `groupID` are globally-namespaced.
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to change all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Note that group IDs are globally namespaced.
 
 ```jsx
 // highlight-next-line
@@ -167,7 +167,7 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 <br/>
 ```
 
-For all tab groups that have the same `groupId`, the possible values do not need to be the same. If one tab group with chooses an value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. You can see that from the following example. Try to select Linux, and the above tab groups doesn't change.
+For all tab groups that have the same `groupId`, the possible values do not need to be the same. If one tab group is chosen a value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. You can see that from the following example. Try to select Linux, and the above tab groups don't change.
 
 ```jsx
 <Tabs groupId="operating-systems">
@@ -195,7 +195,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
 
 ---
 
-Tab choices with different `groupId`s will not interfere with each other:
+Tab choices with different group IDs will not interfere with each other:
 
 ```jsx
 // highlight-next-line
@@ -227,7 +227,7 @@ Tab choices with different `groupId`s will not interfere with each other:
 
 ## Customizing tabs {#customizing-tabs}
 
-You might want to customize the appearance of certain set of tabs. To do that you can pass the string in `className` prop and the specified CSS class will be added to the `Tabs` component:
+You might want to customize the appearance of a certain set of tabs. You can pass the string in `className` prop, and the specified CSS class will be added to the `Tabs` component:
 
 ```jsx
 // highlight-next-line

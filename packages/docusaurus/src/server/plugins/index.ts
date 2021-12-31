@@ -8,7 +8,7 @@
 import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
-import {
+import type {
   LoadContext,
   PluginConfig,
   PluginContentLoadedActions,
@@ -78,7 +78,7 @@ export async function loadPlugins({
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitializedPlugin[] = initPlugins({
+  const plugins: InitializedPlugin[] = await initPlugins({
     pluginConfigs,
     context,
   });

@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
-import {
+import type {
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -29,10 +29,11 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getContentPathList,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
@@ -211,12 +212,13 @@ async function processBlogSourceFile(
       return undefined;
     }
 
+    const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
     const tagsBasePath = normalizeUrl([
       baseUrl,
       routeBasePath,
       tagsRouteBasePath,
     ]);
-    const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
     return {
       id: slug,
@@ -330,9 +332,4 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
-}
-
-// Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

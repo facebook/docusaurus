@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, ComponentType} from 'react';
+import React, {useEffect, useRef, type ComponentType} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import useDocusaurusContext from './useDocusaurusContext';

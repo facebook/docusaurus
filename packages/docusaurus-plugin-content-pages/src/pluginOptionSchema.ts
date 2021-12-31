@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptions} from './types';
+import type {PluginOptions} from './types';
 import {
   Joi,
   RemarkPluginsSchema,

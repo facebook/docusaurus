@@ -7,9 +7,9 @@
 
 import React, {useMemo} from 'react';
 import type {TOCItemsProps} from '@theme/TOCItems';
-import {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '@docusaurus/types';
 import {
-  TOCHighlightConfig,
+  type TOCHighlightConfig,
   useThemeConfig,
   useTOCFilter,
   useTOCHighlight,

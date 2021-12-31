@@ -321,7 +321,9 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
 };
 
 export type PluginModule = {
-  <T, X>(context: LoadContext, options: T): Plugin<X>;
+  <Options, Content>(context: LoadContext, options: Options):
+    | Plugin<Content>
+    | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
   getSwizzleComponentList?: () => string[];
