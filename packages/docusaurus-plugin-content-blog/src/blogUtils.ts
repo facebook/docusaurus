@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
-import {
+import type {
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -31,9 +31,9 @@ import {
   getContentPathList,
   type TagsMap,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import {getTagsMap} from './tags';
 import logger from '@docusaurus/logger';
 

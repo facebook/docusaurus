@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
+import type {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
 import path from 'path';
 import {THEME_PATH} from '@docusaurus/utils';
 import themeAlias, {sortAliases} from './alias';

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
+import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';

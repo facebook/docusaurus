@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk, {Chalk} from 'chalk';
+import chalk, {type Chalk} from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps} from 'react';
+import React, {type ComponentProps} from 'react';
 
 export function ButtonExample(props: ComponentProps<'button'>): JSX.Element {
   return (

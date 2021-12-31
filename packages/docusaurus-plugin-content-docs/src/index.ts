@@ -29,7 +29,7 @@ import {
 } from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
-import {
+import type {
   PluginOptions,
   LoadedContent,
   SourceToPermalink,

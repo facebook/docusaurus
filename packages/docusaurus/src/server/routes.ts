@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/utils';
 import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
-import {
+import type {
   ChunkRegistry,
   Module,
   RouteConfig,

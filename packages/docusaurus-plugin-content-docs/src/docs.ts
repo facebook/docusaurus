@@ -22,7 +22,7 @@ import {
 import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import {
+import type {
   DocFile,
   DocMetadataBase,
   DocMetadata,
@@ -38,11 +38,8 @@ import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import {
-  SidebarsUtils,
-  toDocNavigationLink,
-  toNavigationLink,
-} from './sidebars/utils';
+import type {SidebarsUtils} from './sidebars/utils';
+import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,

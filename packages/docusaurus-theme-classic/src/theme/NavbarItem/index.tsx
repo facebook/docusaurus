@@ -8,7 +8,7 @@
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem, {
-  Props as DropdownNavbarItemProps,
+  type Props as DropdownNavbarItemProps,
 } from '@theme/NavbarItem/DropdownNavbarItem';
 import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';

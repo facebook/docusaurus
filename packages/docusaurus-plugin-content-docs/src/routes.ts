@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import {
+import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
   LoadedVersion,

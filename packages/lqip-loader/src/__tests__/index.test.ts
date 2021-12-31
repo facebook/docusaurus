@@ -7,7 +7,7 @@
 
 import path from 'path';
 import Vibrant from 'node-vibrant';
-import {Palette} from 'node-vibrant/lib/color';
+import type {Palette} from 'node-vibrant/lib/color';
 
 import {toPalette, toBase64} from '../utils';
 import * as lqip from '../lqip';

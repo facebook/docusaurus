@@ -27,7 +27,7 @@ import type {
 } from '../types';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 

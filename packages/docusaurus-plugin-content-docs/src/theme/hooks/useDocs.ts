@@ -11,17 +11,17 @@ import useGlobalData, {
   usePluginData,
 } from '@docusaurus/useGlobalData';
 
-import {GlobalPluginData, GlobalVersion} from '../../types';
+import type {GlobalPluginData, GlobalVersion} from '../../types';
 import {
   getActivePlugin,
   getLatestVersion,
   getActiveVersion,
   getActiveDocContext,
   getDocVersionSuggestions,
-  ActivePlugin,
-  ActiveDocContext,
-  DocVersionSuggestions,
-  GetActivePluginOptions,
+  type ActivePlugin,
+  type ActiveDocContext,
+  type DocVersionSuggestions,
+  type GetActivePluginOptions,
 } from '../../client/docsClientUtils';
 
 // Important to use a constant object to avoid React useEffect executions etc...,

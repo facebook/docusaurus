@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {createContext, ReactNode, useContext} from 'react';
+import React, {createContext, type ReactNode, useContext} from 'react';
 import {useAllDocsData} from '@theme/hooks/useDocs';
-import {
+import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,

@@ -6,7 +6,7 @@
  */
 
 import {validateDocFrontMatter} from '../docFrontMatter';
-import {DocFrontMatter} from '../types';
+import type {DocFrontMatter} from '../types';
 import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {

@@ -107,7 +107,7 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import {ReactElement} from 'react';
+  import type {ReactElement} from 'react';
 
   export interface Props {
     readonly children: string | ReactElement;
@@ -182,7 +182,7 @@ declare module '@theme/EditThisPage' {
 }
 
 declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   const ErrorPageContent: typeof ErrorComponent;
   export default ErrorPageContent;
@@ -220,7 +220,7 @@ declare module '@theme/hooks/useLockBodyScroll' {
 }
 
 declare module '@theme/hooks/usePrismTheme' {
-  import defaultTheme from 'prism-react-renderer/themes/palenight';
+  import type defaultTheme from 'prism-react-renderer/themes/palenight';
 
   const usePrismTheme: () => typeof defaultTheme;
   export default usePrismTheme;
@@ -582,7 +582,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common';
 
   export interface Props extends DetailsProps {}
   export default Details;
