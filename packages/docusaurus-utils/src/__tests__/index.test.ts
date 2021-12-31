@@ -5,16 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {
   fileToPath,
-  genComponentName,
   genChunkName,
-  idx,
-  getSubFolder,
-  posixPath,
-  objectWithKeySorted,
-  aliasedSitePath,
   isValidPathname,
   addTrailingSlash,
   removeTrailingSlash,
@@ -23,47 +16,14 @@ import {
   addLeadingSlash,
   getElementsAround,
   mergeTranslations,
-  mapAsyncSequencial,
+  mapAsyncSequential,
   findAsyncSequential,
-  findFolderContainingFile,
-  getFolderContainingFile,
   updateTranslationFileMessages,
   parseMarkdownHeadingId,
 } from '../index';
 import {sum} from 'lodash';
 
 describe('load utils', () => {
-  test('aliasedSitePath', () => {
-    const asserts: Record<string, string> = {
-      'user/website/docs/asd.md': '@site/docs/asd.md',
-      'user/website/versioned_docs/foo/bar.md':
-        '@site/versioned_docs/foo/bar.md',
-      'user/docs/test.md': '@site/../docs/test.md',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(posixPath(aliasedSitePath(file, 'user/website'))).toBe(
-        asserts[file],
-      );
-    });
-  });
-
-  test('genComponentName', () => {
-    const asserts: Record<string, string> = {
-      '/': 'index',
-      '/foo-bar': 'FooBar096',
-      '/foo/bar': 'FooBar1Df',
-      '/blog/2017/12/14/introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurus8D2',
-      '/blog/2017/12/14-introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurus0Bc',
-      '/blog/201712/14-introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurusA93',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(genComponentName(file)).toBe(asserts[file]);
-    });
-  });
-
   test('fileToPath', () => {
     const asserts: Record<string, string> = {
       'index.md': '/',
@@ -78,41 +38,6 @@ describe('load utils', () => {
     Object.keys(asserts).forEach((file) => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
-  });
-
-  test('objectWithKeySorted', () => {
-    const obj = {
-      '/docs/adding-blog': '4',
-      '/docs/versioning': '5',
-      '/': '1',
-      '/blog/2018': '3',
-      '/youtube': '7',
-      '/users/en/': '6',
-      '/blog': '2',
-    };
-    expect(objectWithKeySorted(obj)).toMatchInlineSnapshot(`
-      Object {
-        "/": "1",
-        "/blog": "2",
-        "/blog/2018": "3",
-        "/docs/adding-blog": "4",
-        "/docs/versioning": "5",
-        "/users/en/": "6",
-        "/youtube": "7",
-      }
-    `);
-    const obj2 = {
-      b: 'foo',
-      c: 'bar',
-      a: 'baz',
-    };
-    expect(objectWithKeySorted(obj2)).toMatchInlineSnapshot(`
-      Object {
-        "a": "baz",
-        "b": "foo",
-        "c": "bar",
-      }
-    `);
   });
 
   test('genChunkName', () => {
@@ -157,64 +82,6 @@ describe('load utils', () => {
       );
     });
     expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
-  });
-
-  test('idx', () => {
-    const a = {};
-    const b = {hello: 'world'};
-    const obj = {
-      translation: {
-        enabled: true,
-        enabledLanguages: [
-          {
-            enabled: true,
-            name: 'English',
-            tag: 'en',
-          },
-          {
-            enabled: true,
-            name: '日本語',
-            tag: 'ja',
-          },
-        ],
-      },
-      versioning: {
-        enabled: false,
-        versions: [],
-      },
-    };
-    const test = {arr: [1, 2, 3]};
-    const variable = 'enabledLanguages';
-    expect(idx(a, ['b', 'c'])).toBeUndefined();
-    expect(idx(b, ['hello'])).toEqual('world');
-    expect(idx(b, 'hello')).toEqual('world');
-    expect(idx(obj, 'typo')).toBeUndefined();
-    expect(idx(obj, 'versioning')).toEqual({
-      enabled: false,
-      versions: [],
-    });
-    expect(idx(obj, ['translation', 'enabled'])).toEqual(true);
-    expect(
-      idx(obj, ['translation', variable]).map(
-        (lang: {tag: string}) => lang.tag,
-      ),
-    ).toEqual(['en', 'ja']);
-    expect(idx(test, ['arr', 0])).toEqual(1);
-    expect(idx(undefined)).toBeUndefined();
-    expect(idx(null)).toBeNull();
-  });
-
-  test('getSubFolder', () => {
-    const testA = path.join('folder', 'en', 'test.md');
-    const testB = path.join('folder', 'ja', 'test.md');
-    const testC = path.join('folder', 'ja', 'en', 'test.md');
-    const testD = path.join('docs', 'ro', 'test.md');
-    const testE = path.join('docs', 'test.md');
-    expect(getSubFolder(testA, 'folder')).toBe('en');
-    expect(getSubFolder(testB, 'folder')).toBe('ja');
-    expect(getSubFolder(testC, 'folder')).toBe('ja');
-    expect(getSubFolder(testD, 'docs')).toBe('ro');
-    expect(getSubFolder(testE, 'docs')).toBeNull();
   });
 
   test('isValidPathname', () => {
@@ -349,7 +216,7 @@ describe('mergeTranslations', () => {
   });
 });
 
-describe('mapAsyncSequencial', () => {
+describe('mapAsyncSequential', () => {
   function sleep(timeout: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
@@ -369,7 +236,7 @@ describe('mapAsyncSequencial', () => {
 
     const timeBefore = Date.now();
     await expect(
-      mapAsyncSequencial(items, async (item) => {
+      mapAsyncSequential(items, async (item) => {
         const itemTimeout = itemToTimeout[item];
         itemMapStartsAt[item] = Date.now();
         await sleep(itemTimeout);
@@ -416,40 +283,6 @@ describe('findAsyncSequencial', () => {
     const timeTotal = timeAfter - timeBefore;
     expect(timeTotal > 100);
     expect(timeTotal < 150);
-  });
-});
-
-describe('findFolderContainingFile', () => {
-  test('find appropriate folder', async () => {
-    await expect(
-      findFolderContainingFile(
-        ['/abcdef', '/gehij', __dirname, '/klmn'],
-        'index.test.ts',
-      ),
-    ).resolves.toEqual(__dirname);
-  });
-
-  test('return undefined if no folder contain such file', async () => {
-    await expect(
-      findFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
-    ).resolves.toBeUndefined();
-  });
-});
-
-describe('getFolderContainingFile', () => {
-  test('get appropriate folder', async () => {
-    await expect(
-      getFolderContainingFile(
-        ['/abcdef', '/gehij', __dirname, '/klmn'],
-        'index.test.ts',
-      ),
-    ).resolves.toEqual(__dirname);
-  });
-
-  test('throw if no folder contain such file', async () => {
-    await expect(
-      getFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
-    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '../normalizeUrl';
+import {normalizeUrl} from '../urlUtils';
 
 describe('normalizeUrl', () => {
   test('should normalize urls correctly', () => {

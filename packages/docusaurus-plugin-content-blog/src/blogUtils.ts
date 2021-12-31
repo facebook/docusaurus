@@ -28,7 +28,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
-  findFolderContainingFile,
+  getContentPathList,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -47,26 +47,6 @@ export function getSourceToPermalink(
     keyBy(blogPosts, (item) => item.metadata.source),
     (v) => v.metadata.permalink,
   );
-}
-
-export async function getDataFilePath({
-  dataFilePath,
-  contentPaths,
-}: {
-  dataFilePath: string;
-  contentPaths: BlogContentPaths;
-}): Promise<string | undefined> {
-  // Useful to load an eventually localize authors map
-  const contentPath = await findFolderContainingFile(
-    getContentPathList(contentPaths),
-    dataFilePath,
-  );
-
-  if (contentPath) {
-    return path.join(contentPath, dataFilePath);
-  }
-
-  return undefined;
 }
 
 export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
@@ -357,9 +337,4 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
-}
-
-// Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

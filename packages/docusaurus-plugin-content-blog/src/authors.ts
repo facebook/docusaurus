@@ -5,17 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import logger from '@docusaurus/logger';
 import {Author, BlogContentPaths} from './types';
+import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import {
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
 } from './blogFrontMatter';
-import {getDataFilePath} from './blogUtils';
-import Yaml from 'js-yaml';
 
 export type AuthorsMap = Record<string, Author>;
 
@@ -32,45 +29,22 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     .required(),
 );
 
-export function validateAuthorsMapFile(content: unknown): AuthorsMap {
+export function validateAuthorsMap(content: unknown): AuthorsMap {
   return Joi.attempt(content, AuthorsMapSchema);
-}
-
-export async function readAuthorsMapFile(
-  filePath: string,
-): Promise<AuthorsMap | undefined> {
-  if (await fs.pathExists(filePath)) {
-    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-    try {
-      const unsafeContent = Yaml.load(contentString);
-      return validateAuthorsMapFile(unsafeContent);
-    } catch (e) {
-      // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      logger.error('The author list file looks invalid!');
-      throw e;
-    }
-  }
-  return undefined;
 }
 
 export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
 }): Promise<AuthorsMap | undefined> {
-  const filePath = await getDataFilePath({
-    dataFilePath: params.authorsMapPath,
-    contentPaths: params.contentPaths,
-  });
-  if (!filePath) {
-    return undefined;
-  }
-  try {
-    return await readAuthorsMapFile(filePath);
-  } catch (e) {
-    // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    logger.error`Couldn't read blog authors map at path=${filePath}`;
-    throw e;
-  }
+  return getDataFileData(
+    {
+      filePath: params.authorsMapPath,
+      contentPaths: params.contentPaths,
+      fileType: 'authors map',
+    },
+    validateAuthorsMap,
+  );
 }
 
 type AuthorsParam = {

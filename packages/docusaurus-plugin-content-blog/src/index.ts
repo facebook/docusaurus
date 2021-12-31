@@ -16,6 +16,8 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getContentPathList,
+  getDataFilePath,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
@@ -45,10 +47,8 @@ import {
 import {Configuration} from 'webpack';
 import {
   generateBlogPosts,
-  getContentPathList,
   getSourceToPermalink,
   getBlogTags,
-  getDataFilePath,
 } from './blogUtils';
 import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
@@ -91,12 +91,12 @@ export default async function pluginContentBlog(
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
   const authorsMapFilePath = await getDataFilePath({
-    dataFilePath: options.authorsMapPath,
+    filePath: options.authorsMapPath,
     contentPaths,
   });
 
   const tagsMapFilePath = await getDataFilePath({
-    dataFilePath: options.authorsMapPath,
+    filePath: options.authorsMapPath,
     contentPaths,
   });
 
