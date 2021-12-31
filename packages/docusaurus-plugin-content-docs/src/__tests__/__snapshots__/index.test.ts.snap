@@ -46,6 +46,7 @@ Object {
   "id": "foo/baz",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/rootAbsoluteSlug",
     "title": "rootAbsoluteSlug",
@@ -94,6 +95,7 @@ Object {
   "id": "hello",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/",
   "previous": Object {
@@ -136,6 +138,7 @@ Object {
   "id": "foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/foo/bar",
   "previous": undefined,
@@ -494,7 +497,6 @@ Object {
   "site-docs-last-modified-md-a21.json": "{
   \\"unversionedId\\": \\"last_modified\\",
   \\"id\\": \\"last_modified\\",
-  \\"isDocsHomePage\\": false,
   \\"title\\": \\"last_modified\\",
   \\"description\\": \\"\\",
   \\"source\\": \\"@site/docs/last_modified.md\\",
@@ -889,6 +891,11 @@ Object {
       \\"title\\": \\"ipsum\\",
       \\"description\\": \\"Lorem ipsum.\\"
     },
+    \\"last_modified\\": {
+      \\"id\\": \\"last_modified\\",
+      \\"title\\": \\"last_modified\\",
+      \\"description\\": \\"\\"
+    },
     \\"lorem\\": {
       \\"id\\": \\"lorem\\",
       \\"title\\": \\"lorem\\",
@@ -1118,6 +1125,7 @@ Array [
       Object {
         "component": "@theme/DocItem",
         "exact": true,
+        "lastmod": undefined,
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
@@ -1514,6 +1522,7 @@ Object {
   "id": "getting-started",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/installation",
     "title": "Installation",
@@ -1541,6 +1550,7 @@ Object {
   "id": "installation",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide1",
     "title": "Guide 1",
@@ -1574,6 +1584,7 @@ Object {
   "id": "Guides/guide1",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide2",
     "title": "Guide 2",
@@ -1606,6 +1617,7 @@ Object {
   "id": "Guides/guide2",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide2.5",
     "title": "Guide 2.5",
@@ -1639,6 +1651,7 @@ Object {
   "id": "Guides/guide2.5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide3",
     "title": "Guide 3",
@@ -1672,6 +1685,7 @@ Object {
   "id": "Guides/guide3",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide4",
     "title": "Guide 4",
@@ -1704,6 +1718,7 @@ Object {
   "id": "Guides/guide4",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/Guides/guide5",
     "title": "Guide 5",
@@ -1736,6 +1751,7 @@ Object {
   "id": "Guides/guide5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
@@ -1766,6 +1782,7 @@ Object {
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Core APIs/Client API",
     "title": "Client API",
@@ -1796,6 +1813,7 @@ Object {
   "id": "API/Core APIs/Client API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Core APIs/Server API",
     "title": "Server API",
@@ -1826,6 +1844,7 @@ Object {
   "id": "API/Core APIs/Server API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
@@ -1856,6 +1875,7 @@ Object {
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Extension APIs/Theme API",
     "title": "Theme API",
@@ -1886,6 +1906,7 @@ Object {
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/api-end",
     "title": "API End",
@@ -1916,6 +1937,7 @@ Object {
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/API/api-end",
   "previous": Object {
@@ -2095,6 +2117,7 @@ Object {
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
@@ -2122,6 +2145,7 @@ Object {
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
@@ -2152,6 +2176,7 @@ Object {
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/API/Extension APIs/Theme API",
     "title": "Theme API",
@@ -2182,6 +2207,7 @@ Object {
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/API/Extension APIs/Theme API",
   "previous": Object {
@@ -2243,6 +2269,7 @@ Object {
   "id": "team",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/community/next/team",
   "previous": undefined,
@@ -2267,6 +2294,7 @@ Object {
   "id": "version-1.0.0/team",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/community/team",
   "previous": undefined,
@@ -2499,6 +2527,7 @@ Object {
   "id": "foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/next/",
     "title": "hello",
@@ -2539,6 +2568,7 @@ Object {
   "id": "version-1.0.1/foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/",
     "title": "hello",
@@ -2568,6 +2598,7 @@ Object {
   "id": "hello",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/next/",
   "previous": Object {
@@ -2597,6 +2628,7 @@ Object {
   "id": "version-1.0.1/hello",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": undefined,
   "permalink": "/docs/",
   "previous": Object {
@@ -2624,6 +2656,7 @@ Object {
   "id": "version-1.0.0/foo/baz",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
+  "lastmod": undefined,
   "next": Object {
     "permalink": "/docs/1.0.0/",
     "title": "hello",
