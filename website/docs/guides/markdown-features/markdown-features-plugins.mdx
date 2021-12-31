@@ -93,7 +93,7 @@ module.exports = {
 
 Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like this:
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
@@ -150,7 +150,7 @@ module.exports = plugin;
 
 You can now import your plugin in `docusaurus.config.js` and use it just like an installed plugin!
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 // highlight-next-line
 const sectionPrefix = require('./src/remark/section-prefix');
 
@@ -173,7 +173,7 @@ module.exports = {
 
 The default plugins of Docusaurus would operate before the custom remark plugins, and that means the images or links have been converted to JSX with `require()` calls already. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`, because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [

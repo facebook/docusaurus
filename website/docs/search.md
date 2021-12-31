@@ -86,7 +86,7 @@ module.exports = {
 
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -142,7 +142,7 @@ To solve this problem, the contextual search feature understands that you are br
 - browsing `/docs/v1/myDoc`, search results will only include **v1** docs (+ other unversioned pages)
 - browsing `/docs/v2/myDoc`, search results will only include **v2** docs (+ other unversioned pages)
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {

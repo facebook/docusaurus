@@ -29,6 +29,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getContentPathList,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -374,9 +375,4 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
-}
-
-// Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

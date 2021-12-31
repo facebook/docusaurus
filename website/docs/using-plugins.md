@@ -19,20 +19,22 @@ npm install --save docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
-```jsx {3} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
+  // highlight-next-line
   plugins: ['@docusaurus/plugin-content-pages'],
 };
 ```
 
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
-```jsx {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
   // ...
+  // highlight-next-line
   plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
 };
 ```
@@ -43,16 +45,18 @@ For the most basic usage of plugins, you can provide just the plugin name or the
 
 However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
 
-```js {4-9} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
+    // highlight-start
     [
       '@docusaurus/plugin-xxx',
       {
         /* options */
       },
     ],
+    // highlight-end
   ],
 };
 ```
@@ -78,20 +82,15 @@ module.exports = {
 
 ## Multi-instance plugins and plugin ids {#multi-instance-plugins-and-plugin-ids}
 
-All Docusaurus content plugins can support multiple plugin instances.
+All Docusaurus content plugins can support multiple plugin instances. The Docs plugin has [additional multi-instance documentation](./guides/docs/docs-multi-instance.mdx). It is required to assign a unique id to each plugin instance, and by default, the plugin id is `default`.
 
-The Docs plugin has [additional multi-instance documentation](./guides/docs/docs-multi-instance.mdx)
-
-It is required to assign a unique id to each plugin instance.
-
-By default, the plugin id is `default`.
-
-```js {6,13} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-xxx',
       {
+        // highlight-next-line
         id: 'plugin-xxx-1',
         // other options
       },
@@ -99,6 +98,7 @@ module.exports = {
     [
       '@docusaurus/plugin-xxx',
       {
+        // highlight-next-line
         id: 'plugin-xxx-2',
         // other options
       },

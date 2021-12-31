@@ -9,6 +9,24 @@ import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(heading: string): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
+}
+
 // Hacky way of stripping out import statements from the excerpt
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.

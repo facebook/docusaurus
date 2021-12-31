@@ -124,10 +124,12 @@ For the same concern of up-to-datedness, we have stopped accepting PRs adding ne
 
 To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
 
-```js {2-3} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
+  // highlight-start
   url: 'https://docusaurus-2.netlify.app', // Url to your site with no trailing slash
   baseUrl: '/', // Base directory of your site relative to your repo
+  // highlight-end
   // ...
 };
 ```
@@ -228,14 +230,16 @@ GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommen
 
 Example:
 
-```jsx {3-6} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   url: 'https://endiliey.github.io', // Your website URL
   baseUrl: '/',
+  // highlight-start
   projectName: 'endiliey.github.io',
   organizationName: 'endiliey',
   trailingSlash: false,
+  // highlight-end
   // ...
 };
 ```
