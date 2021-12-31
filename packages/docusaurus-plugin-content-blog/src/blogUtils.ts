@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
-import {flatMap, keyBy, mapValues} from 'lodash';
+import {keyBy, mapValues} from 'lodash';
 import {
   PluginOptions,
   BlogPost,
@@ -74,7 +74,7 @@ export function getBlogTagsPostPaginated(
     (blogPost) => blogPost.metadata.tags,
   );
 
-  return flatMap(groups, (group) => {
+  return Object.values(groups).flatMap((group) => {
     const totalCount = group.items.length;
     const postsPerPage =
       postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
