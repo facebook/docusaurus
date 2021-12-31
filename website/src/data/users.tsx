@@ -593,15 +593,6 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
-    title: 'GraphQL Code Generator',
-    description:
-      'Generate code from your GraphQL schema and operations with a simple CLI',
-    preview: require('./showcase/graphql-codegen.png'),
-    website: 'https://graphql-code-generator.com/',
-    source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['favorite', 'opensource', 'design'],
-  },
-  {
     title: 'GraphQL Inspector',
     description: 'An open-source tool to help you work with GraphQL',
     preview: require('./showcase/graphql-inspector.png'),
