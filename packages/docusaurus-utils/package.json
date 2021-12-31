@@ -27,6 +27,7 @@
     "github-slugger": "^1.4.0",
     "globby": "^11.0.4",
     "gray-matter": "^4.0.3",
+    "js-yaml": "^4.0.0",
     "lodash": "^4.17.20",
     "micromatch": "^4.0.4",
     "remark-mdx-remove-exports": "^1.6.22",
