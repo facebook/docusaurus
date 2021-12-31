@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {TranslationFile, TranslationFileContent} from '@docusaurus/types';
-import {
+import type {TranslationFile, TranslationFileContent} from '@docusaurus/types';
+import type {
   ThemeConfig,
   Navbar,
   NavbarItem,

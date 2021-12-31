@@ -7,7 +7,7 @@
 
 import importFresh from 'import-fresh';
 import {createConfigFile} from '../index';
-import {VersionOneConfig} from '../types';
+import type {VersionOneConfig} from '../types';
 
 describe('create config', () => {
   test('simple test', () => {

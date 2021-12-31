@@ -13,7 +13,7 @@ import initPlugins from '../server/plugins/init';
 import {
   parseMarkdownHeadingId,
   createSlugger,
-  Slugger,
+  type Slugger,
 } from '@docusaurus/utils';
 import {safeGlobby} from '../server/utils';
 

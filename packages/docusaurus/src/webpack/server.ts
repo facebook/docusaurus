@@ -6,10 +6,10 @@
  */
 
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
-import {Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';

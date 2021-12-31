@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {mapValues, difference} from 'lodash';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,

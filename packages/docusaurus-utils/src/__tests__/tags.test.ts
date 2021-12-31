@@ -9,7 +9,7 @@ import {
   normalizeFrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
-  Tag,
+  type Tag,
 } from '../tags';
 
 describe('normalizeFrontMatterTag', () => {

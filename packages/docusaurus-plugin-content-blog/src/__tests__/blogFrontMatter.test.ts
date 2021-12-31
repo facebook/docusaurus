@@ -6,7 +6,7 @@
  */
 
 import {
-  BlogPostFrontMatter,
+  type BlogPostFrontMatter,
   validateBlogPostFrontMatter,
 } from '../blogFrontMatter';
 import escapeStringRegexp from 'escape-string-regexp';

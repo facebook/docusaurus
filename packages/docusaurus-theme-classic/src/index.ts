@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin, PostCssOptions} from '@docusaurus/types';
+import type {
+  DocusaurusContext,
+  Plugin,
+  PostCssOptions,
+} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';

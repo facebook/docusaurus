@@ -12,12 +12,12 @@ import {
   collectSidebarLinks,
   transformSidebarItems,
   collectSidebarsDocIds,
-  SidebarNavigation,
+  type SidebarNavigation,
   toDocNavigationLink,
   toNavigationLink,
 } from '../utils';
 import type {Sidebar, Sidebars} from '../types';
-import {DocMetadataBase, DocNavLink} from '../../types';
+import type {DocMetadataBase, DocNavLink} from '../../types';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [

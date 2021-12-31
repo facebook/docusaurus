@@ -13,7 +13,7 @@ import {
 } from '../translationsExtractor';
 import {getBabelOptions} from '../../../webpack/utils';
 import path from 'path';
-import {InitializedPlugin} from '@docusaurus/types';
+import type {InitializedPlugin} from '@docusaurus/types';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
 
 const TestBabelOptions = getBabelOptions({

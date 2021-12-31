@@ -6,8 +6,9 @@
  */
 
 import React from 'react';
-import {Route, withRouter, RouteComponentProps} from 'react-router-dom';
-import {RouteConfig} from 'react-router-config';
+import type {RouteComponentProps} from 'react-router-dom';
+import {Route, withRouter} from 'react-router-dom';
+import type {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
