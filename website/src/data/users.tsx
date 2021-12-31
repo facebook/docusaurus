@@ -180,6 +180,7 @@ const Users: User[] = [
     source: 'https://github.com/algolia/docsearch-website',
     tags: ['favorite', 'opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Amphora Data',
     description: 'Connecting the world’s real-time information',
@@ -232,6 +233,7 @@ const Users: User[] = [
     source: 'https://gitlab.com/aweframework/awe',
     tags: ['opensource', 'i18n', 'versioning'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
@@ -951,6 +953,7 @@ const Users: User[] = [
     source: 'https://github.com/orbitjs/orbit/tree/main/website',
     tags: ['opensource', 'versioning'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
@@ -1567,6 +1570,7 @@ const Users: User[] = [
     source: 'https://github.com/webiny/docs.webiny.com',
     tags: ['opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
