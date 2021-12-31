@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-import type {RouteComponentProps} from 'react-router-dom';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, type RouteComponentProps} from 'react-router-dom';
 import type {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
