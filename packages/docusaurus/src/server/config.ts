@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
 
 export default async function loadConfig(

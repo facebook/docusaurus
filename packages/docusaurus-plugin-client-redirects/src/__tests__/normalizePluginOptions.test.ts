@@ -8,7 +8,7 @@
 import normalizePluginOptions, {
   DefaultPluginOptions,
 } from '../normalizePluginOptions';
-import {CreateRedirectsFnOption} from '../types';
+import type {CreateRedirectsFnOption} from '../types';
 
 describe('normalizePluginOptions', () => {
   test('should return default options for undefined user options', () => {

@@ -10,13 +10,13 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, Props} from '@docusaurus/types';
+import type {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {

@@ -11,7 +11,7 @@ import {
   useThemeConfig,
   useAnnouncementBar,
   MobileSecondaryMenuFiller,
-  MobileSecondaryMenuComponent,
+  type MobileSecondaryMenuComponent,
   ThemeClassNames,
   useScrollPosition,
 } from '@docusaurus/theme-common';

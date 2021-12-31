@@ -7,7 +7,7 @@
 
 import {createRequire} from 'module';
 import importFresh from 'import-fresh';
-import {
+import type {
   DocusaurusPluginVersionInformation,
   ImportedPluginModule,
   LoadContext,

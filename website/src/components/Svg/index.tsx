@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, ComponentProps} from 'react';
+import React, {type ReactNode, type ComponentProps} from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 

@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {memoize} from 'lodash';
 
-import {PluginContext, RedirectMetadata} from './types';
+import type {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
 import {normalizeUrl} from '@docusaurus/utils';
 

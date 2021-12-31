@@ -11,7 +11,7 @@ import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
 import type {NormalizeSidebarsParams, PluginOptions} from '../types';
 import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
-import {processSidebars, SidebarProcessorParams} from './processor';
+import {processSidebars, type SidebarProcessorParams} from './processor';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
 

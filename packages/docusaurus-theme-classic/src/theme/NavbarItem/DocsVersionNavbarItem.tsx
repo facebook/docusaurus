@@ -10,7 +10,7 @@ import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {
   useActiveVersion,
   useLatestVersion,
-  GlobalVersion,
+  type GlobalVersion,
 } from '@theme/hooks/useDocs';
 import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
