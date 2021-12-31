@@ -181,14 +181,6 @@ const Users: User[] = [
     tags: ['favorite', 'opensource', 'product'],
   },
   {
-    title: 'Amphora Data',
-    description: 'Connecting the world’s real-time information',
-    preview: require('./showcase/amphora.png'),
-    website: 'https://www.amphoradata.com/',
-    source: 'https://github.com/amphoradata/amphoradata.github.io',
-    tags: ['opensource', 'product'],
-  },
-  {
     title: 'Apache APISIX',
     description:
       'A Dynamic, Real-Time, High-Performance Cloud-Native API Gateway',
@@ -231,14 +223,6 @@ const Users: User[] = [
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe',
     tags: ['opensource', 'i18n', 'versioning'],
-  },
-  {
-    title: 'Axioms',
-    description: 'Axioms Developer Hub and Documentation Portal',
-    preview: require('./showcase/axioms.png'),
-    website: 'https://developer.axioms.io/',
-    source: 'https://github.com/axioms-io/developer',
-    tags: ['opensource', 'product'],
   },
   {
     title: 'Benthos',
@@ -961,14 +945,6 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
-    title: 'Oxidizer',
-    description: 'A Rust ORM based on tokio-postgres and refinery',
-    preview: require('./showcase/oxidizer.png'),
-    website: 'https://oxidizer.rs',
-    source: 'https://github.com/oxidizer-rs/website',
-    tags: ['opensource'],
-  },
-  {
     title: 'Paubox',
     description: 'Paubox API Documentation',
     preview: require('./showcase/paubox.png'),
@@ -1575,14 +1551,6 @@ const Users: User[] = [
     website: 'https://www.webiny.com/docs/',
     source: 'https://github.com/webiny/docs.webiny.com',
     tags: ['opensource', 'product'],
-  },
-  {
-    title: 'Wisdom',
-    description: 'Session replay web analytics with open data SQL/S3 access.',
-    preview: require('./showcase/wisdom.png'),
-    website: 'https://developers.getwisdom.io/',
-    source: 'https://github.com/Wisdom/dev-docs',
-    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'Whirl',
