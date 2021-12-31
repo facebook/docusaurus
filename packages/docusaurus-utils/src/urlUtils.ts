@@ -78,3 +78,13 @@ export function normalizeUrl(rawUrls: string[]): string {
 
   return str;
 }
+
+export function getEditUrl(
+  fileRelativePath: string,
+  editUrl?: string,
+): string | undefined {
+  return editUrl
+    ? // Don't use posixPath for this: we need to force a forward slash path
+      normalizeUrl([editUrl, fileRelativePath.replace(/\\/g, '/')])
+    : undefined;
+}

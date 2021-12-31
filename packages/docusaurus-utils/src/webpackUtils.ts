@@ -7,7 +7,7 @@
 
 import type {RuleSetRule} from 'webpack';
 import path from 'path';
-import {escapePath} from './escapePath';
+import {escapePath} from './pathUtils';
 import {
   WEBPACK_URL_LOADER_LIMIT,
   OUTPUT_STATIC_ASSETS_DIR_NAME,

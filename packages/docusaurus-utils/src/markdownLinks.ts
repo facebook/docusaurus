@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {aliasedSitePath} from './index';
+import {aliasedSitePath} from './pathUtils';
 
 export type ContentPaths = {
   contentPath: string;
