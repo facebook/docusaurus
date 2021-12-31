@@ -5,13 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {
   fileToPath,
-  genComponentName,
   genChunkName,
-  getSubFolder,
-  objectWithKeySorted,
   isValidPathname,
   addTrailingSlash,
   removeTrailingSlash,
@@ -28,23 +24,6 @@ import {
 import {sum} from 'lodash';
 
 describe('load utils', () => {
-  test('genComponentName', () => {
-    const asserts: Record<string, string> = {
-      '/': 'index',
-      '/foo-bar': 'FooBar096',
-      '/foo/bar': 'FooBar1Df',
-      '/blog/2017/12/14/introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurus8D2',
-      '/blog/2017/12/14-introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurus0Bc',
-      '/blog/201712/14-introducing-docusaurus':
-        'Blog20171214IntroducingDocusaurusA93',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(genComponentName(file)).toBe(asserts[file]);
-    });
-  });
-
   test('fileToPath', () => {
     const asserts: Record<string, string> = {
       'index.md': '/',
@@ -59,41 +38,6 @@ describe('load utils', () => {
     Object.keys(asserts).forEach((file) => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
-  });
-
-  test('objectWithKeySorted', () => {
-    const obj = {
-      '/docs/adding-blog': '4',
-      '/docs/versioning': '5',
-      '/': '1',
-      '/blog/2018': '3',
-      '/youtube': '7',
-      '/users/en/': '6',
-      '/blog': '2',
-    };
-    expect(objectWithKeySorted(obj)).toMatchInlineSnapshot(`
-      Object {
-        "/": "1",
-        "/blog": "2",
-        "/blog/2018": "3",
-        "/docs/adding-blog": "4",
-        "/docs/versioning": "5",
-        "/users/en/": "6",
-        "/youtube": "7",
-      }
-    `);
-    const obj2 = {
-      b: 'foo',
-      c: 'bar',
-      a: 'baz',
-    };
-    expect(objectWithKeySorted(obj2)).toMatchInlineSnapshot(`
-      Object {
-        "a": "baz",
-        "b": "foo",
-        "c": "bar",
-      }
-    `);
   });
 
   test('genChunkName', () => {
@@ -138,19 +82,6 @@ describe('load utils', () => {
       );
     });
     expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
-  });
-
-  test('getSubFolder', () => {
-    const testA = path.join('folder', 'en', 'test.md');
-    const testB = path.join('folder', 'ja', 'test.md');
-    const testC = path.join('folder', 'ja', 'en', 'test.md');
-    const testD = path.join('docs', 'ro', 'test.md');
-    const testE = path.join('docs', 'test.md');
-    expect(getSubFolder(testA, 'folder')).toBe('en');
-    expect(getSubFolder(testB, 'folder')).toBe('ja');
-    expect(getSubFolder(testC, 'folder')).toBe('ja');
-    expect(getSubFolder(testD, 'docs')).toBe('ro');
-    expect(getSubFolder(testE, 'docs')).toBeNull();
   });
 
   test('isValidPathname', () => {

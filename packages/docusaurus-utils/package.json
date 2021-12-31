@@ -21,7 +21,6 @@
     "@docusaurus/logger": "2.0.0-beta.14",
     "@mdx-js/runtime": "^1.6.22",
     "@svgr/webpack": "^6.0.0",
-    "escape-string-regexp": "^4.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
     "github-slugger": "^1.4.0",

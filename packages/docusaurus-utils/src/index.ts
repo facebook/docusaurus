@@ -8,8 +8,7 @@
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, mapValues} from 'lodash';
-import escapeStringRegexp from 'escape-string-regexp';
+import {mapValues} from 'lodash';
 import fs from 'fs-extra';
 import {URL} from 'url';
 import {
@@ -71,18 +70,6 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted<T>(
-  obj: Record<string, T>,
-): Record<string, T> {
-  // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
-  return Object.keys(obj)
-    .sort()
-    .reduce((acc: Record<string, T>, key: string) => {
-      acc[key] = obj[key];
-      return acc;
-    }, {});
-}
-
 const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
 const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
 
@@ -102,26 +89,6 @@ export function encodePath(userpath: string): string {
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
-}
-
-/**
- * Convert first string character to the upper case.
- * E.g: docusaurus -> Docusaurus
- */
-export function upperFirst(str: string): string {
-  return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-}
-
-/**
- * Generate unique React Component Name.
- * E.g: /foo-bar -> FooBar096
- */
-export function genComponentName(pagePath: string): string {
-  if (pagePath === '/') {
-    return 'index';
-  }
-  const pageHash = docuHash(pagePath);
-  return upperFirst(camelCase(pageHash));
 }
 
 const chunkNameCache = new Map();
@@ -150,19 +117,6 @@ export function genChunkName(
     chunkNameCache.set(modulePath, chunkName);
   }
   return chunkName;
-}
-
-/**
- * Given a filepath and dirpath, get the first directory.
- */
-export function getSubFolder(file: string, refDir: string): string | null {
-  const separator = escapeStringRegexp(path.sep);
-  const baseDir = escapeStringRegexp(path.basename(refDir));
-  const regexSubFolder = new RegExp(
-    `${baseDir}${separator}(.*?)${separator}.*`,
-  );
-  const match = regexSubFolder.exec(file);
-  return match && match[1];
 }
 
 export function isValidPathname(str: string): boolean {
@@ -337,22 +291,4 @@ export function updateTranslationFileMessages(
       message: updateMessage(translation.message),
     })),
   };
-}
-
-// Input: ## Some heading {#some-heading}
-// Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(heading: string): {
-  text: string;
-  id?: string;
-} {
-  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
-  const matches = customHeadingIdRegex.exec(heading);
-  if (matches) {
-    return {
-      text: matches[1],
-      id: matches[2],
-    };
-  } else {
-    return {text: heading, id: undefined};
-  }
 }
