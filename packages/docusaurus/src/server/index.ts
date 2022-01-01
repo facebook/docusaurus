@@ -14,7 +14,7 @@ import {
 } from '@docusaurus/utils';
 import path from 'path';
 import logger from '@docusaurus/logger';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
+import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
