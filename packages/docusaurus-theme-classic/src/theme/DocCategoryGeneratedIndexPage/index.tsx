@@ -29,7 +29,6 @@ export default function DocCategoryGeneratedIndexPage({
         description={categoryGeneratedIndex.description}
         keywords={categoryGeneratedIndex.keywords}
         // TODO `require` this?
-        // eslint-disable-next-line global-require, import/no-dynamic-require
         image={useBaseUrl(categoryGeneratedIndex.image)}
       />
       <div className={styles.generatedIndexPage}>
