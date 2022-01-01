@@ -208,8 +208,6 @@ export default async function pluginContentBlog(
           blogTitle,
         );
 
-      console.log(blogTagsPostListPaginated);
-
       const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
       const blogTagsListPath =
@@ -360,32 +358,40 @@ export default async function pluginContentBlog(
       }
 
       const tagsModule: TagsModule = {};
-
       await Promise.all(
         Object.keys(blogTags).map(async (tag) => {
           const {name, items, permalink} = blogTags[tag];
 
           // Refactor all this, see docs implementation
-          tagsModule[tag] = {
+          tagsModule[name] = {
             allTagsPath: blogTagsListPath,
             slug: tag,
             name,
             count: items.length,
             permalink,
           };
+        }),
+      );
 
+      await Promise.all(
+        blogTagsPostListPaginated.map(async (listPage) => {
           const tagsMetadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(tagsModule[tag], null, 2),
+            `${docuHash(listPage.metadata.permalink)}.json`,
+            JSON.stringify(tagsModule[listPage.tag], null, 2),
+          );
+
+          const listMetadataPath = await createData(
+            `${docuHash(listPage.metadata.permalink)}-list.json`,
+            JSON.stringify(listPage.metadata, null, 2),
           );
 
           addRoute({
-            path: permalink,
+            path: listPage.metadata.permalink,
             component: blogTagsPostsComponent,
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
+              items: listPage.items.map((postID) => {
                 const metadata = blogItemsToMetadata[postID];
                 return {
                   content: {
@@ -398,6 +404,7 @@ export default async function pluginContentBlog(
                 };
               }),
               metadata: aliasedSource(tagsMetadataPath),
+              listMetadata: aliasedSource(listMetadataPath),
             },
           });
         }),
