@@ -64,8 +64,6 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
 export function getBlogTagsPostPaginated(
   blogPosts: BlogPost[],
   postsPerPageOption: number | 'ALL',
-  baseUrl: string,
-  routeBasePath: string,
   blogDescription: string,
   blogTitle: string,
 ): BlogTagPostPaginated[] {
@@ -79,17 +77,13 @@ export function getBlogTagsPostPaginated(
     const postsPerPage =
       postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
     const numberOfPages = Math.ceil(totalCount / postsPerPage);
-    const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
 
     const blogTagsPostListPaginated: BlogTagPostPaginated[] = [];
 
     function blogPaginationPermalink(page: number) {
       return page > 0
-        ? normalizeUrl([
-            baseBlogUrl,
-            `tags/${group.tag.label}/page/${page + 1}`,
-          ])
-        : `${baseBlogUrl}/tags/${group.tag.label}`;
+        ? `${group.tag.permalink}/page/${page + 1}`
+        : group.tag.permalink;
     }
 
     for (let page = 0; page < numberOfPages; page += 1) {

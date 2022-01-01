@@ -202,8 +202,6 @@ export default async function pluginContentBlog(
         getBlogTagsPostPaginated(
           blogPosts,
           postsPerPageOption,
-          baseUrl,
-          routeBasePath,
           blogDescription,
           blogTitle,
         );
@@ -244,7 +242,6 @@ export default async function pluginContentBlog(
         blogListPaginated,
         blogTags,
         blogTagsListPath,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         blogTagsPostListPaginated,
       } = blogContents;
 

@@ -460,13 +460,13 @@ describe('loadBlog', () => {
     expect(blogTagPostPaginated[0]).toEqual({
       tag: 'tag1',
       metadata: {
-        permalink: '/blog/tags/tag1',
+        permalink: '/blog/tags/tag-1',
         page: 1,
         postsPerPage: 1,
         totalPages: 2,
         totalCount: 2,
         previousPage: null,
-        nextPage: '/blog/tags/tag1/page/2',
+        nextPage: '/blog/tags/tag-1/page/2',
         blogDescription: 'Blog',
         blogTitle: 'Blog',
       },
