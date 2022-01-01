@@ -52,6 +52,8 @@ export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   slug?: string;
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
 };
 export type SidebarItemCategoryLinkGeneratedIndex = {
   type: 'generated-index';
@@ -59,6 +61,8 @@ export type SidebarItemCategoryLinkGeneratedIndex = {
   permalink: string;
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
 };
 
 export type SidebarItemCategoryLinkConfig =

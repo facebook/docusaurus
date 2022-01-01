@@ -70,6 +70,13 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
           // permalink: Joi.string().optional(), // No, this one is not in the user config, only in the normalized version
           title: Joi.string().optional(),
           description: Joi.string().optional(),
+          image: Joi.string()
+            .pattern(/^\//)
+            .message(
+              'The category index page image must be an absolute path resolved from the static directory',
+            )
+            .optional(),
+          keywords: [Joi.string(), Joi.array().items(Joi.string())],
         }),
       },
       {

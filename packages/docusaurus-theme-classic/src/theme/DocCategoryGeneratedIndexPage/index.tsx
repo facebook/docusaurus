@@ -14,6 +14,7 @@ import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
 import {MainHeading} from '@theme/Heading';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -26,6 +27,10 @@ export default function DocCategoryGeneratedIndexPage({
       <Seo
         title={categoryGeneratedIndex.title}
         description={categoryGeneratedIndex.description}
+        keywords={categoryGeneratedIndex.keywords}
+        // TODO `require` this?
+        // eslint-disable-next-line global-require, import/no-dynamic-require
+        image={useBaseUrl(categoryGeneratedIndex.image)}
       />
       <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
