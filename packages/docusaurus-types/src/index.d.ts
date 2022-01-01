@@ -208,7 +208,7 @@ export interface LoadContext {
   outDir: string;
   baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
-  ssrTemplate?: string;
+  ssrTemplate: string;
   codeTranslations: Record<string, string>;
 }
 

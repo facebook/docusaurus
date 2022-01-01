@@ -8,5 +8,5 @@
     "outDir": "lib/client",
     "jsx": "react"
   },
-  "include": ["src/client"]
+  "include": ["src/client", "src/deps.d.ts"]
 }

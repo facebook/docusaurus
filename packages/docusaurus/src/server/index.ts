@@ -124,7 +124,7 @@ export async function loadContext(
     outDir,
     baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
     i18n,
-    ssrTemplate,
+    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
     codeTranslations,
   };
 }
@@ -428,7 +428,7 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
+    ssrTemplate,
     codeTranslations,
   };
 
