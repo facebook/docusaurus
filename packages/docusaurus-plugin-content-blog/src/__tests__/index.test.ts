@@ -20,6 +20,7 @@ function findByTitle(
 ): BlogPost | undefined {
   return blogPosts.find((v) => v.metadata.title === title);
 }
+
 function getByTitle(blogPosts: BlogPost[], title: string): BlogPost {
   const post = findByTitle(blogPosts, title);
   if (!post) {
@@ -93,6 +94,17 @@ describe('loadBlog', () => {
     const plugin = await getPlugin(siteDir, pluginOptions, i18n);
     const {blogPosts} = (await plugin.loadContent!())!;
     return blogPosts;
+  };
+
+  const getBlogTagsPostPaginated = async (
+    siteDir: string,
+    pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
+  ) => {
+    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+    const {blogTagsPostListPaginated} = (await plugin.loadContent!())!;
+    console.log(blogTagsPostListPaginated);
+    return blogTagsPostListPaginated;
   };
 
   test('getPathsToWatch', async () => {
@@ -433,5 +445,32 @@ describe('loadBlog', () => {
     expect(normalOrder.reverse().map((x) => x.metadata.date)).toEqual(
       reversedOrder.map((x) => x.metadata.date),
     );
+  });
+
+  test('test blog tags post pagination', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const blogTagPostPaginated = await getBlogTagsPostPaginated(siteDir, {
+      postsPerPage: 1,
+    });
+
+    expect(blogTagPostPaginated[0]).toEqual({
+      tag: 'tag1',
+      metadata: {
+        permalink: '/blog/tags/tag1',
+        page: 1,
+        postsPerPage: 1,
+        totalPages: 2,
+        totalCount: 2,
+        previousPage: null,
+        nextPage: '/blog/tags/tag1/page/2',
+        blogDescription: 'Blog',
+        blogTitle: 'Blog',
+      },
+      items: ['/simple/slug/another'],
+    });
   });
 });
