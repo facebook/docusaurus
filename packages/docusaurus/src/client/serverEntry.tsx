@@ -17,7 +17,6 @@ import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
-import packageJson from '../../package.json';
 import preload from './preload';
 import App from './App';
 import {
@@ -28,6 +27,9 @@ import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
 import {memoize} from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const packageJson = require('../../package.json');
 
 const getCompiledSSRTemplate = memoize((template: string) =>
   eta.compile(template.trim(), {
