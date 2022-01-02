@@ -42,6 +42,15 @@ Accepted fields:
 
 </APITable>
 
+:::info
+
+This plugin also respects some site config:
+
+- [`noIndex`](../docusaurus.config.js.md#noindex): results in no sitemap generated
+- [`trailingSlash`](../docusaurus.config.js.md#trailing-slash): determines if the URLs in the sitemap have trailing slashes
+
+:::
+
 ### Example configuration {#ex-config}
 
 You can configure this plugin through preset options or plugin options.
