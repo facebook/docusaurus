@@ -29,9 +29,9 @@ export function toGlobalSidebars(
   sidebars: Sidebars,
   version: LoadedVersion,
 ): Record<string, GlobalSidebar> {
-  const {findFirstLink} = createSidebarsUtils(sidebars);
+  const {getFirstLink} = createSidebarsUtils(sidebars);
   return mapValues(sidebars, (sidebar, sidebarId) => {
-    const firstDoc = findFirstLink(sidebarId);
+    const firstDoc = getFirstLink(sidebarId);
     if (!firstDoc) {
       return {};
     }

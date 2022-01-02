@@ -325,7 +325,10 @@ Object {
           "path": "/docs",
           "sidebars": Object {
             "docs": Object {
-              "link": "/docs/foo/bar",
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
             },
           },
         },
@@ -1014,7 +1017,10 @@ Object {
           "path": "/docs",
           "sidebars": Object {
             "docs": Object {
-              "link": "/docs/foo/bar",
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
             },
           },
         },
@@ -2371,7 +2377,10 @@ Object {
           "path": "/community/next",
           "sidebars": Object {
             "community": Object {
-              "link": "/community/next/team",
+              "link": Object {
+                "label": "team",
+                "path": "/community/next/team",
+              },
             },
           },
         },
@@ -2390,7 +2399,10 @@ Object {
           "path": "/community",
           "sidebars": Object {
             "version-1.0.0/community": Object {
-              "link": "/community/team",
+              "link": Object {
+                "label": "version-1.0.0/team",
+                "path": "/community/team",
+              },
             },
           },
         },
@@ -3429,7 +3441,10 @@ Object {
           "path": "/docs/next",
           "sidebars": Object {
             "docs": Object {
-              "link": "/docs/next/foo/barSlug",
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/next/foo/barSlug",
+              },
             },
           },
         },
@@ -3453,7 +3468,10 @@ Object {
           "path": "/docs",
           "sidebars": Object {
             "VersionedSideBarNameDoesNotMatter/docs": Object {
-              "link": "/docs/foo/bar",
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
             },
           },
         },
@@ -3482,7 +3500,10 @@ Object {
           "path": "/docs/1.0.0",
           "sidebars": Object {
             "version-1.0.0/docs": Object {
-              "link": "/docs/1.0.0/foo/barSlug",
+              "link": Object {
+                "label": "version-1.0.0/foo/bar",
+                "path": "/docs/1.0.0/foo/barSlug",
+              },
             },
           },
         },
@@ -3536,7 +3557,10 @@ Object {
           "path": "/docs/withSlugs",
           "sidebars": Object {
             "version-1.0.1/docs": Object {
-              "link": "/docs/withSlugs/rootAbsoluteSlug",
+              "link": Object {
+                "label": "version-withSlugs/rootAbsoluteSlug",
+                "path": "/docs/withSlugs/rootAbsoluteSlug",
+              },
             },
           },
         },
