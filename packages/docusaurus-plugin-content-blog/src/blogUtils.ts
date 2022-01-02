@@ -160,7 +160,12 @@ async function processBlogSourceFile(
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
-      return new Date(frontMatter.date);
+      if (typeof frontMatter.date === 'string') {
+        // Always treat dates as UTC by adding the `Z`
+        return new Date(`${frontMatter.date}Z`);
+      }
+      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
+      return frontMatter.date;
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
