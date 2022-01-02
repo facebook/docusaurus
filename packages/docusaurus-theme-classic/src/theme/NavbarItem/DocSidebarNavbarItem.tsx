@@ -12,8 +12,10 @@ import clsx from 'clsx';
 import {getInfimaActiveClassName} from './index';
 import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
-import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
-import {GlobalSidebar} from '@docusaurus/plugin-content-docs/src/types';
+import type {
+  GlobalDataVersion,
+  GlobalDataSidebar,
+} from '@docusaurus/plugin-content-docs';
 
 function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
   const allSidebars = versions
@@ -24,7 +26,8 @@ function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
       return undefined;
     })
     .filter(
-      (sidebarItem): sidebarItem is [string, GlobalSidebar] => !!sidebarItem,
+      (sidebarItem): sidebarItem is [string, GlobalDataSidebar] =>
+        !!sidebarItem,
     );
   const sidebarEntry = allSidebars.find((sidebar) => sidebar[0] === sidebarId);
   if (!sidebarEntry) {
