@@ -45,13 +45,18 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   collapsible: boolean;
 };
 
-export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
+export type SidebarItemCategoryLinkDoc = {
+  type: 'doc';
+  id: string;
+  className?: string;
+};
 
 export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   type: 'generated-index';
   slug?: string;
   title?: string;
   description?: string;
+  className?: string;
 };
 export type SidebarItemCategoryLinkGeneratedIndex = {
   type: 'generated-index';
@@ -59,6 +64,7 @@ export type SidebarItemCategoryLinkGeneratedIndex = {
   permalink: string;
   title?: string;
   description?: string;
+  className?: string;
 };
 
 export type SidebarItemCategoryLinkConfig =
@@ -146,6 +152,7 @@ export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
     href?: string;
+    linkClassName?: string;
   }
 >;
 

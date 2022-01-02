@@ -73,7 +73,12 @@ Available document ids are:
   function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
-    return {...rest, items: item.items.map(normalizeItem), ...(href && {href})};
+    return {
+      ...rest,
+      items: item.items.map(normalizeItem),
+      ...(href && {href}),
+      ...(link?.className && {linkClassName: link?.className}),
+    };
   }
 
   function normalizeItem(item: SidebarItem): PropSidebarItem {

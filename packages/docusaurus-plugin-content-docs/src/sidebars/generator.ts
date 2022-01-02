@@ -236,8 +236,10 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         ? {
             type: 'doc',
             id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
+            className:
+              docsById[categoryLinkedDocId].frontMatter.sidebar_class_name,
           }
-        : // TODO typing issue
+        : // TODO typing issue: the generator doesn't necessarily output normalized items
           (categoryMetadata?.link as SidebarItemCategoryLink | undefined);
 
       // If a doc is linked, remove it from the category subItems

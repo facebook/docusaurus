@@ -110,7 +110,7 @@ function DocSidebarItemCategory({
   level,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
-  const {items, label, collapsible, className, href} = item;
+  const {items, label, collapsible, className, href, linkClassName} = item;
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
@@ -139,7 +139,7 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <div className="menu__list-item-collapsible">
+      <div className={clsx('menu__list-item-collapsible', linkClassName)}>
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
