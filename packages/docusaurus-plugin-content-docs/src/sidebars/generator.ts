@@ -237,6 +237,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
             type: 'doc',
             id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
             className:
+              categoryMetadata?.link?.className ??
               docsById[categoryLinkedDocId].frontMatter.sidebar_class_name,
           }
         : // TODO typing issue: the generator doesn't necessarily output normalized items

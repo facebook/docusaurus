@@ -45,13 +45,16 @@ Available document ids are:
     const {
       title,
       permalink,
-      frontMatter: {sidebar_label: sidebarLabel},
+      frontMatter: {
+        sidebar_label: sidebarLabel,
+        sidebar_class_name: sidebarClassName,
+      },
     } = docMetadata;
     return {
       type: 'link',
-      label: sidebarLabel || item.label || title,
+      label: sidebarLabel ?? item.label ?? title,
       href: permalink,
-      className: item.className,
+      className: sidebarClassName ?? item.className,
       customProps: item.customProps,
       docId: docMetadata.unversionedId,
     };

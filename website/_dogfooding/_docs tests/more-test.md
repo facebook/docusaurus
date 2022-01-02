@@ -1,5 +1,6 @@
 ---
 tags: [a, e, some-tag, some_tag]
+sidebar_class_name: red
 ---
 
 # Another test page

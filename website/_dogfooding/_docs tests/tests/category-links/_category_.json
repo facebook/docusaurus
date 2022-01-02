@@ -1,7 +1,9 @@
 {
   "label": "Category Links",
+  "className": "red",
   "link": {
     "type": "generated-index",
-    "slug": "/category-links-generated-index-slug"
+    "slug": "/category-links-generated-index-slug",
+    "className": "red"
   }
 }

@@ -60,6 +60,7 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
         then: Joi.object<SidebarItemCategoryLinkDoc>({
           type: 'doc',
           id: Joi.string().required(),
+          className: Joi.string().optional(),
         }),
       },
       {
@@ -70,6 +71,7 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
           // permalink: Joi.string().optional(), // No, this one is not in the user config, only in the normalized version
           title: Joi.string().optional(),
           description: Joi.string().optional(),
+          className: Joi.string().optional(),
         }),
       },
       {
