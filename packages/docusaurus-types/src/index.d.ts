@@ -322,7 +322,7 @@ export type PluginModule = {
     | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
-  getSwizzleComponentList?: () => string[];
+  getSwizzleComponentList?: () => string[] | undefined;
 };
 
 export type ImportedPluginModule = PluginModule & {
