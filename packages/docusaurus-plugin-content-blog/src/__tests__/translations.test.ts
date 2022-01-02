@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {BlogPost, BlogContent, PluginOptions} from '../types';
+import type {BlogPost, BlogContent, PluginOptions} from '../types';
 import {getTranslationFiles, translateContent} from '../translations';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {updateTranslationFileMessages} from '@docusaurus/utils';

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ReactNode} from 'react';
-import {interpolate, InterpolateValues} from '@docusaurus/Interpolate';
+import type {ReactNode} from 'react';
+import {interpolate, type InterpolateValues} from '@docusaurus/Interpolate';
 import type {TranslateParam, TranslateProps} from '@docusaurus/Translate';
 
 // Can't read it from context, due to exposing imperative API

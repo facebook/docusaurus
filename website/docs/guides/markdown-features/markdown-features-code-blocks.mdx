@@ -5,6 +5,9 @@ description: Handling code blocks in Docusaurus Markdown
 slug: /markdown-features/code-blocks
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import CodeBlock from '@theme/CodeBlock';
+
 Code blocks within documentation are super-powered 💪.
 
 ## Code title {#code-title}
@@ -17,17 +20,21 @@ You can add a title to the code block by adding a `title` key after the language
     }
     ```
 
+<BrowserWindow>
+
 ```jsx title="/src/components/HelloCodeTitle.js"
 function HelloCodeTitle(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 ```
 
+</BrowserWindow>
+
 ## Syntax highlighting {#syntax-highlighting}
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
 
-    ```jsx
+    ```js
     console.log('Every repo must come with a mascot.');
     ```
 
@@ -35,9 +42,13 @@ Code blocks are text blocks wrapped around by strings of 3 backticks. You may ch
 
 Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer).
 
-```jsx
+<BrowserWindow>
+
+```js
 console.log('Every repo must come with a mascot.');
 ```
+
+</BrowserWindow>
 
 ### Theming {#theming}
 
@@ -45,10 +56,11 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js {4} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
+      // highlight-next-line
       theme: require('prism-react-renderer/themes/dracula'),
     },
   },
@@ -69,11 +81,12 @@ To add syntax highlighting for any of the other [Prism-supported languages](http
 
 For example, if you want to add highlighting for the PowerShell language:
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     prism: {
+      // highlight-next-line
       additionalLanguages: ['powershell'],
     },
     // ...
@@ -91,14 +104,15 @@ npm run swizzle @docusaurus/theme-classic prism-include-languages
 
 It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:
 
-```js {8} title="src/theme/prism-include-languages.js"
+```js title="src/theme/prism-include-languages.js"
 const prismIncludeLanguages = (Prism) => {
   // ...
 
   additionalLanguages.forEach((lang) => {
-    require(`prismjs/components/prism-${lang}`); // eslint-disable-line
+    require(`prismjs/components/prism-${lang}`);
   });
 
+  // highlight-next-line
   require('/path/to/your/prism-language-definition');
 
   // ...
@@ -113,7 +127,7 @@ You can refer to [Prism's official language definitions](https://github.com/Pris
 
 You can use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
-    ```jsx
+    ```js
     function HighlightSomeText(highlight) {
       if (highlight) {
         // highlight-next-line
@@ -134,7 +148,10 @@ You can use comments with `highlight-next-line`, `highlight-start`, and `highlig
     }
     ```
 
-```jsx
+````mdx-code-block
+<BrowserWindow>
+
+```js
 function HighlightSomeText(highlight) {
   if (highlight) {
     // highlight-next-line
@@ -154,6 +171,9 @@ function HighlightMoreText(highlight) {
   return 'Nothing highlighted';
 }
 ```
+
+</BrowserWindow>
+````
 
 Supported commenting syntax:
 
@@ -201,6 +221,8 @@ You can also specify highlighted line ranges within the language meta string (le
     export default MyComponent;
     ```
 
+<BrowserWindow>
+
 ```jsx {1,4-6,11}
 import React from 'react';
 
@@ -214,6 +236,8 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+</BrowserWindow>
 
 :::tip prefer comments
 
@@ -286,6 +310,8 @@ To use the plugin, create a code block with `live` attached to the language meta
 
 The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
 
+<BrowserWindow>
+
 ```jsx live
 function Clock(props) {
   const [date, setDate] = useState(new Date());
@@ -309,6 +335,8 @@ function Clock(props) {
 }
 ```
 
+</BrowserWindow>
+
 ### Imports {#imports}
 
 :::caution react-live and imports
@@ -323,9 +351,10 @@ By default, all React imports are available. If you need more imports available,
 npm run swizzle @docusaurus/theme-live-codeblock ReactLiveScope
 ```
 
-```jsx {3-15,21} title="src/theme/ReactLiveScope/index.js"
+```jsx title="src/theme/ReactLiveScope/index.js"
 import React from 'react';
 
+// highlight-start
 const ButtonExample = (props) => (
   <button
     {...props}
@@ -340,11 +369,13 @@ const ButtonExample = (props) => (
     }}
   />
 );
+// highlight-end
 
 // Add react-live imports you need here
 const ReactLiveScope = {
   React,
   ...React,
+  // highlight-next-line
   ButtonExample,
 };
 
@@ -352,6 +383,8 @@ export default ReactLiveScope;
 ```
 
 The `ButtonExample` component is now available to use:
+
+<BrowserWindow>
 
 ```jsx live
 function MyPlayground(props) {
@@ -363,15 +396,16 @@ function MyPlayground(props) {
 }
 ```
 
-## Using JSX markup in code blocks
+</BrowserWindow>
+
+## Using JSX markup in code blocks {#using-jsx-markup}
 
 Code block in Markdown always preserves its content as plain text, meaning you can't do something like:
 
 ```ts
 type EditUrlFunction = (params: {
-  version: string;
   // This doesn't turn into a link (for good reason!)
-  // See <a href="/docs/versioning">doc versioning</a>
+  version: <a href="/docs/versioning">Version</a>;
   versionDocsDirPath: string;
   docPath: string;
   permalink: string;
@@ -388,10 +422,12 @@ If you want to embed HTML markup such as anchor links or bold type, you can use 
 </pre>
 ```
 
-<pre>
-  <b>Input: </b>1 2 3 4{'\n'}
-  <b>Output: </b>"366300745"{'\n'}
-</pre>
+<BrowserWindow>
+  <pre>
+    <b>Input: </b>1 2 3 4{'\n'}
+    <b>Output: </b>"366300745"{'\n'}
+  </pre>
+</BrowserWindow>
 
 :::caution MDX is whitespace insensitive
 
@@ -452,6 +488,7 @@ class HelloWorld {
 And you will get the following:
 
 ````mdx-code-block
+<BrowserWindow>
 <Tabs>
 <TabItem value="js" label="JavaScript">
 
@@ -482,6 +519,7 @@ class HelloWorld {
 
 </TabItem>
 </Tabs>
+</BrowserWindow>
 ````
 
 If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](markdown-features-tabs.mdx#syncing-tab-choices).
@@ -532,3 +570,39 @@ npm install @docusaurus/remark-plugin-npm2yarn
 ````
 
 Using the `{sync: true}` option would make all tab choices synced. Because the choice is stored under the same namespace `npm2yarn`, different `npm2yarn` plugin instances would also sync their choices.
+
+## Usage in JSX {#usage-in-jsx}
+
+Outside of Markdown, you can use the `@theme/CodeBlock` component to get the same output.
+
+```jsx
+import CodeBlock from '@theme/CodeBlock';
+
+export default function MyReactPage() {
+  return (
+    <div>
+      {/* highlight-start */}
+      <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+        {`function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}`}
+      </CodeBlock>
+      {/* highlight-end */}
+    </div>
+  );
+}
+```
+
+<BrowserWindow>
+  <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+    {`function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}`}
+  </CodeBlock>
+</BrowserWindow>
+
+The props accepted are `language` and `title`, in the same way as you write Markdown code blocks.
+
+Although discouraged, you can also pass in a `metastring` prop like `metastring='{1-2} title="/src/components/HelloCodeTitle.js"'`, which is how Markdown code blocks are handled under the hood. However, we recommend you [use comments for highlighting lines](#highlighting-with-comments).
+
+As [previously stated](#using-jsx-markup), syntax highlighting is only applied when the children is a simple string.

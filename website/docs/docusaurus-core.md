@@ -63,33 +63,40 @@ This reusable React component will manage all of your changes to the document he
 
 Usage Example:
 
-```jsx {2,5,10}
+```jsx
 import React from 'react';
+// highlight-next-line
 import Head from '@docusaurus/Head';
 
 const MySEO = () => (
+  // highlight-start
   <Head>
     <meta property="og:description" content="My custom description" />
     <meta charSet="utf-8" />
     <title>My Title</title>
     <link rel="canonical" href="http://mysite.com/example" />
   </Head>
+  // highlight-end
 );
 ```
 
 Nested or latter components will override duplicate usages:
 
-```jsx {2,5,8,11}
+```jsx
 <Parent>
+  {/* highlight-start */}
   <Head>
     <title>My Title</title>
     <meta name="description" content="Helmet application" />
   </Head>
+  {/* highlight-end */}
   <Child>
+    {/* highlight-start */}
     <Head>
       <title>Nested Title</title>
       <meta name="description" content="Nested component" />
     </Head>
+    {/* highlight-end */}
   </Child>
 </Parent>
 ```
@@ -111,16 +118,19 @@ The component is a wrapper around react-router’s `<Link>` component that adds 
 
 External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
 
-```jsx {2,7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import Link from '@docusaurus/Link';
 
 const Page = () => (
   <div>
     <p>
+      {/* highlight-next-line */}
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
+      {/* highlight-next-line */}
       Follow me on <Link to="https://twitter.com/docusaurus">Twitter</Link>!
     </p>
   </div>
@@ -147,11 +157,13 @@ Rendering a `<Redirect>` will navigate to a new location. The new location will 
 
 Example usage:
 
-```jsx {2,5}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {Redirect} from '@docusaurus/router';
 
 const Home = () => {
+  // highlight-next-line
   return <Redirect to="/docs/test" />;
 };
 ```
@@ -358,17 +370,20 @@ interface DocusaurusContext {
 
 Usage example:
 
-```jsx {5,8-10}
+```jsx
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const MyComponent = () => {
+  // highlight-next-line
   const {siteConfig, siteMetadata} = useDocusaurusContext();
   return (
     <div>
+      {/* highlight-start */}
       <h1>{siteConfig.title}</h1>
       <div>{siteMetadata.siteVersion}</div>
       <div>{siteMetadata.docusaurusVersion}</div>
+      {/* highlight-end */}
     </div>
   );
 };
@@ -500,14 +515,17 @@ type GlobalData = Record<
 
 Usage example:
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import useGlobalData from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const globalData = useGlobalData();
   const myPluginData = globalData['my-plugin']['default'];
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
@@ -531,13 +549,16 @@ function usePluginData(pluginName: string, pluginId?: string);
 
 Usage example:
 
-```jsx {2,5-6}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {usePluginData} from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const myPluginData = usePluginData('my-plugin');
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
@@ -551,14 +572,17 @@ useAllPluginInstancesData(pluginName: string)
 
 Usage example:
 
-```jsx {2,5-7}
+```jsx
 import React from 'react';
+// highlight-next-line
 import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
 
 const MyComponent = () => {
+  // highlight-start
   const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
   const myPluginData = allPluginInstancesData['default'];
   return <div>{myPluginData.someAttribute}</div>;
+  // highlight-end
 };
 ```
 
@@ -583,10 +607,9 @@ function interpolate(
 
 #### Example {#example-1}
 
-```jsx
-// highlight-start
+```js
+// highlight-next-line
 import {interpolate} from '@docusaurus/Interpolate';
-// highlight-end
 
 const message = interpolate('Welcome {firstName}', {firstName: 'Sébastien'});
 ```
@@ -620,17 +643,14 @@ function translate(
 import React from 'react';
 import Layout from '@theme/Layout';
 
-// highlight-start
+// highlight-next-line
 import {translate} from '@docusaurus/Translate';
-// highlight-end
 
 export default function Home() {
   return (
     <Layout
-      // highlight-start
-      title={translate({message: 'My page meta title'})}
-      // highlight-end
-    >
+      // highlight-next-line
+      title={translate({message: 'My page meta title'})}>
       <img
         src={'https://docusaurus.io/logo.png'}
         aria-label={
@@ -666,7 +686,7 @@ For React rendering logic, use [`useIsBrowser()`](#useIsBrowser) or [`<BrowserOn
 
 Example:
 
-```jsx
+```js
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 if (ExecutionEnvironment.canUseDOM) {
@@ -685,7 +705,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 A module exposing useful constants to client-side theme code.
 
-```jsx
+```js
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 ```
 

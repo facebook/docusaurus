@@ -7,7 +7,7 @@
 
 import {SitemapStream, streamToPromise} from 'sitemap';
 import type {Options} from '@docusaurus/plugin-sitemap';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {addTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 

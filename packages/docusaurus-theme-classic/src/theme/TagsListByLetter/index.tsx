@@ -8,7 +8,7 @@
 import React from 'react';
 import Tag from '@theme/Tag';
 import type {Props} from '@theme/TagsListByLetter';
-import {listTagsByLetters, TagLetterEntry} from '@docusaurus/theme-common';
+import {listTagsByLetters, type TagLetterEntry} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 

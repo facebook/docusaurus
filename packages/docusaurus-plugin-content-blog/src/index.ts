@@ -16,11 +16,13 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getContentPathList,
+  getDataFilePath,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import {
+import type {
   PluginOptions,
   BlogTags,
   BlogContent,
@@ -33,7 +35,7 @@ import {
   Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
+import type {
   LoadContext,
   ConfigureWebpackUtils,
   Props,
@@ -42,16 +44,14 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
-  getContentPathList,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
-import {getAuthorsMapFilePath} from './authors';
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -90,8 +90,8 @@ export default async function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
-  const authorsMapFilePath = await getAuthorsMapFilePath({
-    authorsMapPath: options.authorsMapPath,
+  const authorsMapFilePath = await getDataFilePath({
+    filePath: options.authorsMapPath,
     contentPaths,
   });
 

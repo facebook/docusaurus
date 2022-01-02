@@ -5,6 +5,8 @@ description: Handling assets in Docusaurus Markdown
 slug: /markdown-features/assets
 ---
 
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
 Sometimes you want to link to assets (e.g. docx files, images...) directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
 
 Let's imagine the following file structure:
@@ -24,13 +26,13 @@ You can display images in three different ways: Markdown syntax, CJS require, or
 
 Display images using simple Markdown syntax:
 
-```mdx
+```md
 ![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
 
 Display images using inline CommonJS `require` in JSX image tag:
 
-```mdx
+```jsx
 <img
   src={require('./assets/docusaurus-asset-example-banner.png').default}
   alt="Example banner"
@@ -39,15 +41,19 @@ Display images using inline CommonJS `require` in JSX image tag:
 
 Display images using ES `import` syntax and JSX image tag:
 
-```mdx
+```jsx
 import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
-<img src={myImageUrl} alt="Example banner" />
+<img src={myImageUrl} alt="Example banner" />;
 ```
 
 This results in displaying the image:
 
+<BrowserWindow>
+
 ![My image alternative text](../../assets/docusaurus-asset-example-banner.png)
+
+</BrowserWindow>
 
 :::note
 
@@ -59,19 +65,17 @@ If you are using [@docusaurus/plugin-ideal-image](../../api/plugins/plugin-ideal
 
 In the same way, you can link to existing assets by requiring them and using the returned url in videos, links, etc.
 
-```mdx
+```md
 # My Markdown page
 
-<a
-  target="_blank"
-  href={require('./assets/docusaurus-asset-example.docx').default}>
-  Download this docx
-</a>
+<a target="\_blank" href={require('./assets/docusaurus-asset-example.docx').default}> Download this docx </a>
 
 or
 
 [Download this docx using Markdown](./assets/docusaurus-asset-example.docx)
 ```
+
+<BrowserWindow>
 
 <a
   target="_blank"
@@ -80,6 +84,8 @@ or
 </a>
 
 [Download this docx using Markdown](../../assets/docusaurus-asset-example.docx)
+
+</BrowserWindow>
 
 ## Inline SVGs {#inline-svgs}
 
@@ -91,9 +97,13 @@ import DocusaurusSvg from './docusaurus.svg';
 <DocusaurusSvg />;
 ```
 
+<BrowserWindow>
+
 import DocusaurusSvg from '@site/static/img/docusaurus.svg';
 
 <DocusaurusSvg />
+
+</BrowserWindow>
 
 This can be useful if you want to alter the part of the SVG image via CSS. For example, you can change one of the SVG colors based on the current theme.
 
@@ -113,21 +123,25 @@ html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
 }
 ```
 
-<DocusaurusSvg className="themedDocusaurus" />
+<BrowserWindow>
+  <DocusaurusSvg className="themedDocusaurus" />
+</BrowserWindow>
 
 ## Themed Images {#themed-images}
 
 Docusaurus supports themed images: the `ThemedImage` component (included in the themes) allows you to switch the image source based on the current theme.
 
-```jsx {5-8}
+```jsx
 import ThemedImage from '@theme/ThemedImage';
 
 <ThemedImage
   alt="Docusaurus themed image"
+  // highlight-start
   sources={{
     light: useBaseUrl('/img/docusaurus_light.svg'),
     dark: useBaseUrl('/img/docusaurus_dark.svg'),
   }}
+  // highlight-end
 />;
 ```
 
@@ -135,6 +149,7 @@ import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import ThemedImage from '@theme/ThemedImage';
 
+<BrowserWindow>
 <ThemedImage
   alt="Docusaurus themed image"
   sources={{
@@ -142,6 +157,7 @@ import ThemedImage from '@theme/ThemedImage';
     dark: useBaseUrl('/img/docusaurus_speed.svg'),
   }}
 />
+</BrowserWindow>
 ```
 
 ## Static assets {#static-assets}

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {processSidebars, SidebarProcessorParams} from '../processor';
+import {processSidebars, type SidebarProcessorParams} from '../processor';
 import type {
   SidebarItem,
   SidebarItemsGenerator,
@@ -14,7 +14,7 @@ import type {
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import {createSlugger} from '@docusaurus/utils';
-import {VersionMetadata} from '../../types';
+import type {VersionMetadata} from '../../types';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 
 describe('processSidebars', () => {

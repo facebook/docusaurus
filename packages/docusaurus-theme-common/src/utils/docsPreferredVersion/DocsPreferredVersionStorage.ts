@@ -6,7 +6,7 @@
  */
 
 import {createStorageSlot} from '../storageUtils';
-import {DocsVersionPersistence} from '../useThemeConfig';
+import type {DocsVersionPersistence} from '../useThemeConfig';
 
 const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
 

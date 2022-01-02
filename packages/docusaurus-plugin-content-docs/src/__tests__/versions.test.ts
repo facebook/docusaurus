@@ -14,7 +14,7 @@ import {
 } from '../versions';
 import {DEFAULT_OPTIONS} from '../options';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {PluginOptions, VersionMetadata} from '../types';
+import type {PluginOptions, VersionMetadata} from '../types';
 import type {I18n} from '@docusaurus/types';
 
 const DefaultI18N: I18n = {

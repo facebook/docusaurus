@@ -120,7 +120,7 @@ declare module '@docusaurus/constants' {
 
 declare module '@docusaurus/ErrorBoundary' {
   import type {ReactNode} from 'react';
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   export interface Props {
     readonly fallback?: typeof ErrorComponent;

@@ -20,7 +20,7 @@ import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import loadPresets from './presets';
 import loadRoutes from './routes';
-import {
+import type {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
   HtmlTagObject,
@@ -38,7 +38,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {mapValues} from 'lodash';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
 import {resolveModuleName} from './moduleShorthand';

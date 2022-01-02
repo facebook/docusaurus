@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {TagList, User, sortedUsers} from '../users';
+import {TagList, sortedUsers, type User} from '../users';
 import {difference} from '@site/src/utils/jsUtils';
 
 import fs from 'fs-extra';

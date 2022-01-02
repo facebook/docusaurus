@@ -438,7 +438,7 @@ const Users: User[] = [
   },
   {
     title: 'Digital Support Services Notes',
-    description: 'All notes needed for Digital Support Services T Level',
+    description: 'Open source documented notes for Digital Support Services.',
     preview: require('./showcase/digitalsupportservices.png'),
     website: 'https://notes.nayanpatel.net',
     source: 'https://github.com/PatelN123/Digital-Support-Notes',
@@ -964,7 +964,7 @@ const Users: User[] = [
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
-    website: 'https://oxidizer.rs',
+    website: 'https://oxidizer-rs.github.io',
     source: 'https://github.com/oxidizer-rs/website',
     tags: ['opensource'],
   },
@@ -1431,6 +1431,14 @@ const Users: User[] = [
     website: 'https://t-regx.com/',
     source: 'https://github.com/T-Regx/T-Regx',
     tags: ['opensource'],
+  },
+  {
+    title: 'TalentBrick',
+    description: 'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
+    preview: require('./showcase/talentbrick.png'),
+    website: 'https://www.talentbrick.com/',
+    source: 'https://gitlab.com/talentbrick/talentbrick',
+    tags: ['opensource', 'design']
   },
   {
     title: 'Taro',

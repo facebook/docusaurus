@@ -116,17 +116,11 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 <br />
 ```
 
-You can also pass `title` prop to `CodeBlock` component in order for it to appear as header above your code block:
-
-```jsx
-<CodeBlock className="language-jsx" title="/src/myComponent">
-  {MyComponentSource}
-</CodeBlock>
-```
+See [using code blocks in JSX](./markdown-features-code-blocks.mdx#usage-in-jsx) for more details of the `<CodeBlock>` component.
 
 :::note
 
-You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want JSX to insert the imported text here.
+You have to use `<CodeBlock>` rather than the Markdown triple-backtick ` ``` `, because the latter will ship out any of its content as-is, but you want to interpolate the imported text here.
 
 :::
 

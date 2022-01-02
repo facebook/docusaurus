@@ -8,8 +8,8 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration} from 'webpack';
-import {Props} from '@docusaurus/types';
+import type {Configuration} from 'webpack';
+import type {Props} from '@docusaurus/types';
 import {
   getCustomizableJSLoader,
   getStyleLoaders,

@@ -15,6 +15,9 @@ import type {
   SidebarItemType,
   SidebarCategoriesShorthand,
   SidebarItemConfig,
+  SidebarItemCategoryWithGeneratedIndex,
+  SidebarItemCategoryWithLink,
+  SidebarNavigationItem,
 } from './types';
 
 import {mapValues, difference, uniq} from 'lodash';
@@ -23,12 +26,7 @@ import {
   normalizeUrl,
   toMessageRelativeFilePath,
 } from '@docusaurus/utils';
-import {DocMetadataBase, DocNavLink, LoadedVersion} from '../types';
-import {
-  SidebarItemCategoryWithGeneratedIndex,
-  SidebarItemCategoryWithLink,
-  SidebarNavigationItem,
-} from './types';
+import type {DocMetadataBase, DocNavLink, LoadedVersion} from '../types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,

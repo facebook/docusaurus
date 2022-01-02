@@ -10,7 +10,7 @@ import React, {
   cloneElement,
   Children,
   isValidElement,
-  ReactElement,
+  type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';

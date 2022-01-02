@@ -7,10 +7,14 @@
 
 import path from 'path';
 
-import {loadContext, LoadContextOptions, loadPluginConfigs} from '../../index';
+import {
+  loadContext,
+  loadPluginConfigs,
+  type LoadContextOptions,
+} from '../../index';
 import initPlugins from '../init';
 import {sortConfig} from '../index';
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('initPlugins', () => {
   async function loadSite(options: LoadContextOptions = {}) {

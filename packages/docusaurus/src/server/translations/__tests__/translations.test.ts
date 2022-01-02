@@ -10,14 +10,14 @@ import {
   writeTranslationFileContent,
   writePluginTranslations,
   readTranslationFileContent,
-  WriteTranslationsOptions,
+  type WriteTranslationsOptions,
   localizePluginTranslationFile,
   getPluginsDefaultCodeTranslationMessages,
   applyDefaultCodeTranslations,
 } from '../translations';
 import fs from 'fs-extra';
 import tmp from 'tmp-promise';
-import {
+import type {
   InitializedPlugin,
   TranslationFile,
   TranslationFileContent,

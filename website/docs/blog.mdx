@@ -475,7 +475,7 @@ type BlogOptions = {
 
 Example usage:
 
-```js {8-11} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -483,10 +483,12 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         blog: {
+          // highlight-start
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
+          // highlight-end
         },
       },
     ],

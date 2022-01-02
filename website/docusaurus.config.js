@@ -15,10 +15,8 @@ const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 const configTabs = require('./src/remark/configTabs');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const lightTheme = require('prism-react-renderer/themes/github');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const darkTheme = require('prism-react-renderer/themes/dracula');
+const lightTheme = require('./src/utils/prismLight');
+const darkTheme = require('./src/utils/prismDark');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -120,7 +118,6 @@ const config = {
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
   ],
-  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
   themes: ['live-codeblock'],
   plugins: [
     FeatureRequestsPlugin,
@@ -179,7 +176,7 @@ const config = {
         max: 1030, // max resized image's size.
         min: 640, // min resized image's size. if original is lower, use that size.
         steps: 2, // the max number of images generated between min and max (inclusive)
-        disableInDev: false,
+        // disableInDev: false,
       },
     ],
     [

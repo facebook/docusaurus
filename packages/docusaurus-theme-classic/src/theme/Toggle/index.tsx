@@ -7,7 +7,7 @@
 
 import React, {useState, useRef, memo} from 'react';
 import type {Props} from '@theme/Toggle';
-import {useThemeConfig, ColorModeConfig} from '@docusaurus/theme-common';
+import {useThemeConfig, type ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 
 import clsx from 'clsx';

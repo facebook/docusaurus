@@ -6,12 +6,10 @@
  */
 
 import {
-  AuthorsMap,
-  getAuthorsMapFilePath,
-  validateAuthorsMapFile,
-  readAuthorsMapFile,
+  type AuthorsMap,
   getAuthorsMap,
   getBlogPostAuthors,
+  validateAuthorsMap,
 } from '../authors';
 import path from 'path';
 
@@ -282,80 +280,6 @@ describe('getBlogPostAuthors', () => {
   });
 });
 
-describe('readAuthorsMapFile', () => {
-  const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
-
-  test('read valid yml author file', async () => {
-    const filePath = path.join(fixturesDir, 'authors.yml');
-    expect(await readAuthorsMapFile(filePath)).toBeDefined();
-  });
-
-  test('read valid json author file', async () => {
-    const filePath = path.join(fixturesDir, 'authors.json');
-    expect(await readAuthorsMapFile(filePath)).toBeDefined();
-  });
-
-  test('read yml and json should lead to the same result', async () => {
-    const content1 = await readAuthorsMapFile(
-      path.join(fixturesDir, 'authors.yml'),
-    );
-    const content2 = await readAuthorsMapFile(
-      path.join(fixturesDir, 'authors.json'),
-    );
-    expect(content1).toEqual(content2);
-  });
-
-  test('fail to read invalid yml 1', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad1.yml');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber.name\\" is required"`,
-    );
-  });
-  test('fail to read invalid json 1', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad1.json');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber.name\\" is required"`,
-    );
-  });
-
-  test('fail to read invalid yml 2', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad2.yml');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"name\\" must be of type object"`,
-    );
-  });
-  test('fail to read invalid json 2', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad2.json');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"name\\" must be of type object"`,
-    );
-  });
-
-  test('fail to read invalid yml 3', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad3.yml');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"value\\" must be of type object"`,
-    );
-  });
-  test('fail to read invalid json 3', async () => {
-    const filePath = path.join(fixturesDir, 'authorsBad3.json');
-    await expect(
-      readAuthorsMapFile(filePath),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"\\"value\\" must be of type object"`,
-    );
-  });
-});
 describe('getAuthorsMap', () => {
   const fixturesDir = path.join(__dirname, '__fixtures__/authorsMapFiles');
   const contentPaths = {
@@ -391,7 +315,7 @@ describe('getAuthorsMap', () => {
   });
 });
 
-describe('validateAuthorsMapFile', () => {
+describe('validateAuthorsMap', () => {
   test('accept valid authors map', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
@@ -411,7 +335,7 @@ describe('validateAuthorsMapFile', () => {
         hello: new Date(),
       },
     };
-    expect(validateAuthorsMapFile(authorsMap)).toEqual(authorsMap);
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 
   test('rename snake case image_url to camelCase imageURL', () => {
@@ -421,7 +345,7 @@ describe('validateAuthorsMapFile', () => {
         image_url: 'https://github.com/slorber.png',
       },
     };
-    expect(validateAuthorsMapFile(authorsMap)).toEqual({
+    expect(validateAuthorsMap(authorsMap)).toEqual({
       slorber: {
         name: 'Sébastien Lorber',
         imageURL: 'https://github.com/slorber.png',
@@ -436,13 +360,13 @@ describe('validateAuthorsMapFile', () => {
       },
     };
     expect(() =>
-      validateAuthorsMapFile(authorsMap),
+      validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
   });
 
   test('reject undefined author', () => {
     expect(() =>
-      validateAuthorsMapFile({
+      validateAuthorsMap({
         slorber: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber\\" is required"`);
@@ -450,7 +374,7 @@ describe('validateAuthorsMapFile', () => {
 
   test('reject null author', () => {
     expect(() =>
-      validateAuthorsMapFile({
+      validateAuthorsMap({
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -460,14 +384,14 @@ describe('validateAuthorsMapFile', () => {
 
   test('reject array author', () => {
     expect(() =>
-      validateAuthorsMapFile({slorber: []}),
+      validateAuthorsMap({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
       `"\\"slorber\\" must be of type object"`,
     );
   });
 
   test('reject array content', () => {
-    expect(() => validateAuthorsMapFile([])).toThrowErrorMatchingInlineSnapshot(
+    expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
       // TODO improve this error message
       `"\\"value\\" must be of type object"`,
     );
@@ -475,7 +399,7 @@ describe('validateAuthorsMapFile', () => {
 
   test('reject flat author', () => {
     expect(() =>
-      validateAuthorsMapFile({name: 'Sébastien'}),
+      validateAuthorsMap({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
       // TODO improve this error message
       `"\\"name\\" must be of type object"`,
@@ -488,121 +412,9 @@ describe('validateAuthorsMapFile', () => {
       slorber: [],
     };
     expect(() =>
-      validateAuthorsMapFile(authorsMap),
+      validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
       `"\\"slorber\\" must be of type object"`,
     );
-  });
-});
-
-describe('getAuthorsMapFilePath', () => {
-  const fixturesDir = path.join(
-    __dirname,
-    '__fixtures__/getAuthorsMapFilePath',
-  );
-  const contentPathYml1 = path.join(fixturesDir, 'contentPathYml1');
-  const contentPathYml2 = path.join(fixturesDir, 'contentPathYml2');
-  const contentPathJson1 = path.join(fixturesDir, 'contentPathJson1');
-  const contentPathJson2 = path.join(fixturesDir, 'contentPathJson2');
-  const contentPathEmpty = path.join(fixturesDir, 'contentPathEmpty');
-  const contentPathNestedYml = path.join(fixturesDir, 'contentPathNestedYml');
-
-  test('getAuthorsMapFilePath returns localized Yml path in priority', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.yml',
-        contentPaths: {
-          contentPathLocalized: contentPathYml1,
-          contentPath: contentPathYml2,
-        },
-      }),
-    ).toEqual(path.join(contentPathYml1, 'authors.yml'));
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.yml',
-        contentPaths: {
-          contentPathLocalized: contentPathYml2,
-          contentPath: contentPathYml1,
-        },
-      }),
-    ).toEqual(path.join(contentPathYml2, 'authors.yml'));
-  });
-
-  test('getAuthorsMapFilePath returns localized Json path in priority', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.json',
-        contentPaths: {
-          contentPathLocalized: contentPathJson1,
-          contentPath: contentPathJson2,
-        },
-      }),
-    ).toEqual(path.join(contentPathJson1, 'authors.json'));
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.json',
-        contentPaths: {
-          contentPathLocalized: contentPathJson2,
-          contentPath: contentPathJson1,
-        },
-      }),
-    ).toEqual(path.join(contentPathJson2, 'authors.json'));
-  });
-
-  test('getAuthorsMapFilePath returns unlocalized Yml path as fallback', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.yml',
-        contentPaths: {
-          contentPathLocalized: contentPathEmpty,
-          contentPath: contentPathYml2,
-        },
-      }),
-    ).toEqual(path.join(contentPathYml2, 'authors.yml'));
-  });
-
-  test('getAuthorsMapFilePath returns unlocalized Json path as fallback', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.json',
-        contentPaths: {
-          contentPathLocalized: contentPathEmpty,
-          contentPath: contentPathJson1,
-        },
-      }),
-    ).toEqual(path.join(contentPathJson1, 'authors.json'));
-  });
-
-  test('getAuthorsMapFilePath can return undefined (file not found)', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.json',
-        contentPaths: {
-          contentPathLocalized: contentPathEmpty,
-          contentPath: contentPathYml1,
-        },
-      }),
-    ).toBeUndefined();
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'authors.yml',
-        contentPaths: {
-          contentPathLocalized: contentPathEmpty,
-          contentPath: contentPathJson1,
-        },
-      }),
-    ).toBeUndefined();
-  });
-
-  test('getAuthorsMapFilePath can return nested path', async () => {
-    expect(
-      await getAuthorsMapFilePath({
-        authorsMapPath: 'sub/folder/authors.yml',
-        contentPaths: {
-          contentPathLocalized: contentPathEmpty,
-          contentPath: contentPathNestedYml,
-        },
-      }),
-    ).toEqual(path.join(contentPathNestedYml, 'sub/folder/authors.yml'));
   });
 });

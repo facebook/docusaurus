@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {ConfigAPI, TransformOptions} from '@babel/core';
+import type {ConfigAPI, TransformOptions} from '@babel/core';
 
 function getTransformOptions(isServer: boolean): TransformOptions {
   const absoluteRuntimePath = path.dirname(
