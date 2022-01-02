@@ -339,12 +339,25 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
-  className?: string;
+  className?: string; // Class name of the entire category dropdown.
 
   // Category options:
   collapsible: boolean; // Set the category to be collapsible
   collapsed: boolean; // Set the category to be initially collapsed or open by default
   link: SidebarItemCategoryLinkDoc | SidebarItemCategoryLinkGeneratedIndex;
+};
+
+type SidebarItemCategoryLinkGeneratedIndex = {
+  type: 'generated-index';
+  title?: string;
+  description?: string;
+  slug?: string;
+  className?: string; // Class name of the link item.
+};
+type SidebarItemCategoryLinkDoc = {
+  type: 'doc';
+  id: string;
+  className?: string;
 };
 ```
 
@@ -768,7 +781,8 @@ This is the easy tutorial!
   "className": "red",
   "link": {
     "type": "generated-index",
-    "title": "Tutorial overview"
+    "title": "Tutorial overview",
+    "className": "red"
   }
 }
 ```
@@ -785,6 +799,7 @@ className: red
 link:
   type: generated-index
   title: Tutorial overview
+  className: red
 ```
 
 </TabItem>
