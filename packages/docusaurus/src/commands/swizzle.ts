@@ -82,7 +82,7 @@ export default async function swizzle(
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = await initPlugins({pluginConfigs, context});
   const themeNames = uniq(
-    // TODO the fact that getThemePath is attached to the plugin instance makes
+    // The fact that getThemePath is attached to the plugin instance makes
     // this code impossible to optimize. If this is a static method, we don't
     // need to initialize all plugins just to filter which are themes
     // Benchmark: loadContext-58ms; initPlugins-323ms
@@ -96,8 +96,8 @@ export default async function swizzle(
     logger.info`Themes available for swizzle: name=${themeNames}`;
     return;
   }
-  // themeNames are all the valid themes: importing them would always succeed since we already
-  // tried importing them when loading plugin configs.
+  // themeNames are all the valid themes: importing them would always succeed
+  // since we already tried importing them when loading plugin configs.
   if (!themeNames.includes(themeName)) {
     let suggestion: string | undefined;
     themeNames.forEach((name) => {
@@ -114,9 +114,9 @@ export default async function swizzle(
     return;
   }
 
-  // TODO attaching getThemePath to the plugin instance means it is possible
-  // for a plugin to return different paths given different options. Maybe we
-  // need to pass in a plugin ID to decide which plugin to load?
+  // Attaching getThemePath to the plugin instance means it is possible for a
+  // plugin to return different paths given different options. Maybe we need to
+  // pass in a plugin ID to decide which plugin to load?
   const pluginInstance = plugins.find(
     (plugin) =>
       plugin.version.type === 'package' && plugin.version.name === themeName,
@@ -195,6 +195,8 @@ export default async function swizzle(
       [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
     } else if (fs.existsSync(`${fromPath}.js`)) {
       [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
+    } else if (fs.existsSync(`${fromPath}.jsx`)) {
+      [fromPath, toPath] = [`${fromPath}.jsx`, `${toPath}.jsx`];
     } else {
       const suggestion = safeComponents.find(
         (name) => leven(name, componentCandidate!) < 3,

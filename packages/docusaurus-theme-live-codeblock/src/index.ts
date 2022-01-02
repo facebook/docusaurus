@@ -18,7 +18,10 @@ export default function theme(context: DocusaurusContext): Plugin {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
+    },
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '../src/theme');
     },
 
     getDefaultCodeTranslationMessages() {

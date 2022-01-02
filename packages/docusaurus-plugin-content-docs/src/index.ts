@@ -80,11 +80,11 @@ export default async function pluginContentDocs(
     name: 'docusaurus-plugin-content-docs',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return path.resolve(__dirname, '../src/theme');
     },
 
     extendCli(cli) {

@@ -52,11 +52,10 @@ export default function theme(
     },
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
     },
-
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return path.resolve(__dirname, '../src/theme');
     },
 
     getDefaultCodeTranslationMessages() {
