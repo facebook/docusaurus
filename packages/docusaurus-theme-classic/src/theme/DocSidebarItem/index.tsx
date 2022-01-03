@@ -139,7 +139,13 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <div className={clsx('menu__list-item-collapsible', linkClassName)}>
+      <div
+        className={clsx(
+          ThemeClassNames.docs.docSidebarItemCategoryLink,
+          ThemeClassNames.docs.docSidebarItemCategoryLinkLevel(level),
+          'menu__list-item-collapsible',
+          linkClassName,
+        )}>
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
