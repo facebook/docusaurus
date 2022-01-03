@@ -15,6 +15,7 @@ import {partition, uniq} from 'lodash';
 import {THEME_PATH} from '@docusaurus/utils';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
+import prompts from 'prompts';
 
 const formatComponentName = (componentName: string): string =>
   componentName
@@ -28,7 +29,7 @@ function readComponentNames(themePath: string) {
       const stat = fs.statSync(fullPath);
       if (stat && stat.isDirectory()) {
         return walk(fullPath);
-      } else if (/\.[jt]sx?$/.test(fullPath)) {
+      } else if (/(?<!\.d)\.[jt]sx?$/.test(fullPath)) {
         return [fullPath];
       } else {
         return [];
@@ -70,12 +71,17 @@ ${componentList.join('\n')}
 `;
 }
 
+type Options = {
+  typescript?: boolean;
+  danger?: boolean;
+  list?: boolean;
+};
+
 export default async function swizzle(
   siteDir: string,
-  themeName?: string,
-  componentName?: string,
-  typescript?: boolean,
-  danger?: boolean,
+  themeName: string | undefined,
+  componentName: string | undefined,
+  {typescript, danger, list}: Options,
 ): Promise<void> {
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
@@ -92,13 +98,28 @@ export default async function swizzle(
       .map((plugin) => (plugin.version as {name: string}).name),
   );
   if (!themeName) {
-    logger.info`Themes available for swizzle: name=${themeNames}`;
-    return;
+    if (list) {
+      logger.info`Themes available for swizzle: name=${themeNames}`;
+      return;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      ({themeName} = await prompts({
+        type: 'select',
+        name: 'themeName',
+        message: 'Select a theme to swizzle:',
+        choices: themeNames
+          .map((theme) => ({title: theme, value: theme}))
+          .concat({title: '[Exit]', value: '[Exit]'}),
+      }));
+      if (!themeName || themeName === '[Exit]') {
+        return;
+      }
+    }
   }
   // themeNames are all the valid themes: importing them would always succeed
   // since we already tried importing them when loading plugin configs.
   if (!themeNames.includes(themeName)) {
-    const suggestion = themeNames.find((name) => leven(name, themeName) < 4);
+    const suggestion = themeNames.find((name) => leven(name, themeName!) < 4);
     logger.error`Theme name=${themeName} not found. ${
       suggestion
         ? logger.interpolate`Did you mean name=${suggestion}?`
@@ -139,16 +160,43 @@ export default async function swizzle(
   const safeComponents = getSwizzleComponentList
     ? getSwizzleComponentList() ?? allComponents
     : [];
-  if (!componentName) {
-    logger.info(listComponentNames(safeComponents, allComponents));
+  if (safeComponents.length === 0 && !danger) {
+    logger.warn`name=${themeName} doesn't declare any component as safe for swizzle. Make sure you are using the code=${'--danger'} flag.`;
     return;
+  }
+  if (!componentName) {
+    if (list) {
+      logger.info(listComponentNames(safeComponents, allComponents));
+      return;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      ({componentName} = await prompts({
+        type: 'autocomplete',
+        name: 'componentName',
+        message: 'Select or type the component to swizzle:',
+        choices: allComponents
+          .map((comp) => ({
+            title: comp,
+            value: comp,
+          }))
+          .concat({title: '[Exit]', value: '[Exit]'}),
+        async suggest(input, choices) {
+          return choices.filter((choice) =>
+            choice.title.toLowerCase().includes(input.toLowerCase()),
+          );
+        },
+      }));
+      if (!componentName || componentName === '[Exit]') {
+        return;
+      }
+    }
   }
 
   let componentCandidate = allComponents.find((comp) => comp === componentName);
   if (!componentCandidate) {
     // We look for potential matches that only differ in casing.
     const match = allComponents.find(
-      (comp) => comp.toLowerCase() === componentName.toLowerCase(),
+      (comp) => comp.toLowerCase() === componentName!.toLowerCase(),
     );
     if (match) {
       componentCandidate = match;
@@ -157,7 +205,7 @@ export default async function swizzle(
     } else {
       // We didn't find any component that only differ in casing.
       const suggestion = allComponents.find(
-        (comp) => leven(comp, componentName) < 3,
+        (comp) => leven(comp, componentName!) < 3,
       );
       logger.error`Component name=${componentName} not found.`;
       if (suggestion) {
