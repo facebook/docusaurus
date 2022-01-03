@@ -23,18 +23,17 @@ const formatComponentName = (componentName: string): string =>
 
 function readComponentNames(themePath: string) {
   function walk(dir: string): string[] {
-    const results: string[] = [];
-    const list = fs.readdirSync(dir);
-    list.forEach((file: string) => {
+    return fs.readdirSync(dir).flatMap((file) => {
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
       if (stat && stat.isDirectory()) {
-        results.push(...walk(fullPath));
-      } else if (!/\.css|\.d\.ts|\.d\.map/.test(fullPath)) {
-        results.push(fullPath);
+        return walk(fullPath);
+      } else if (/\.[jt]sx?$/.test(fullPath)) {
+        return [fullPath];
+      } else {
+        return [];
       }
     });
-    return results;
   }
 
   return walk(themePath).map((filePath) =>
@@ -99,12 +98,7 @@ export default async function swizzle(
   // themeNames are all the valid themes: importing them would always succeed
   // since we already tried importing them when loading plugin configs.
   if (!themeNames.includes(themeName)) {
-    let suggestion: string | undefined;
-    themeNames.forEach((name) => {
-      if (leven(name, themeName) < 4) {
-        suggestion = name;
-      }
-    });
+    const suggestion = themeNames.find((name) => leven(name, themeName) < 4);
     logger.error`Theme name=${themeName} not found. ${
       suggestion
         ? logger.interpolate`Did you mean name=${suggestion}?`
@@ -128,7 +122,10 @@ export default async function swizzle(
     logger.warn(
       typescript
         ? logger.interpolate`name=${themeName} does not provide TypeScript theme code via ${'getTypeScriptThemePath()'}.`
-        : logger.interpolate`name=${themeName} does not provide any theme code.`,
+        : // This is... technically possible to happen, e.g. returning undefined
+          // from getThemePath. Plugins may intentionally or unintentionally
+          // disguise as themes?
+          logger.interpolate`name=${themeName} does not provide any theme code.`,
     );
     process.exitCode = 1;
     return;
@@ -147,30 +144,33 @@ export default async function swizzle(
     return;
   }
 
-  let componentCandidate = allComponents.find(
-    (component) => component === componentName,
-  );
+  let componentCandidate = allComponents.find((comp) => comp === componentName);
   if (!componentCandidate) {
     // We look for potential matches that only differ in casing.
-    let mostSuitableMatch = componentName;
-    let score = componentName.length;
-    allComponents.forEach((component) => {
-      if (component.toLowerCase() === componentName.toLowerCase()) {
-        const currentScore = leven(componentName, component);
-        if (currentScore < score) {
-          score = currentScore;
-          mostSuitableMatch = component;
-        }
-      }
-    });
-    if (mostSuitableMatch !== componentName) {
-      componentCandidate = mostSuitableMatch;
+    const match = allComponents.find(
+      (comp) => comp.toLowerCase() === componentName.toLowerCase(),
+    );
+    if (match) {
+      componentCandidate = match;
       logger.warn`Component name=${componentName} doesn't exist.`;
       logger.info`name=${componentCandidate} is swizzled instead of name=${componentName}.`;
     } else {
       // We didn't find any component that only differ in casing.
-      // This would surely fail later on; let it fail.
-      componentCandidate = componentName;
+      const suggestion = allComponents.find(
+        (comp) => leven(comp, componentName) < 3,
+      );
+      logger.error`Component name=${componentName} not found.`;
+      if (suggestion) {
+        logger.info`Did you mean name=${suggestion}? ${
+          safeComponents.includes(suggestion)
+            ? `Note: this component is an internal component and can only be swizzled with code=${'--danger'}.`
+            : ''
+        }`;
+      } else {
+        logger.info(listComponentNames(safeComponents, allComponents));
+      }
+      process.exitCode = 1;
+      return;
     }
   }
 
@@ -197,17 +197,6 @@ export default async function swizzle(
       [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
     } else if (fs.existsSync(`${fromPath}.jsx`)) {
       [fromPath, toPath] = [`${fromPath}.jsx`, `${toPath}.jsx`];
-    } else {
-      const suggestion = safeComponents.find(
-        (name) => leven(name, componentCandidate!) < 3,
-      );
-      logger.error`Component name=${componentCandidate} not found. ${
-        suggestion
-          ? logger.interpolate`Did you mean name=${suggestion} ?`
-          : listComponentNames(safeComponents, allComponents)
-      }`;
-      process.exitCode = 1;
-      return;
     }
   }
 
