@@ -26,7 +26,7 @@ The sidebar class name is a seemingly simple yet very ad-hoc feature, so it's ne
 
 ### Category class names
 
-You can't actually see these because of how the `red` CSS selector is defined (I don't want to make another dogfooding class name just for this purporse). Open dev tools to see them.
+You can't actually see these because of how the `red` CSS selector is defined (I don't want to make another dogfooding class name just for this purpose). Open dev tools to check them.
 
 - Through `sidebars.js` hardcoded `category` item: "Huge sidebar category"
 - Through `_category_.json` category `className` config: "Tests > Category Links"
