@@ -8,6 +8,18 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
+import remark from 'remark';
+import mdx from 'remark-mdx';
+import visit from 'unist-util-visit';
+import type {Node, Parent} from 'unist';
+import type {Heading, Text, Image, Paragraph} from 'mdast';
+import type {Plugin} from 'unified';
+
+const isImage = (node: Node): node is Image => node.type === 'image';
+const isHeading = (node: Node): node is Heading => node.type === 'heading';
+const isParagraph = (node: Node): node is Paragraph =>
+  node.type === 'paragraph';
+const isText = (node: Node): node is Text => node.type === 'text';
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
@@ -27,71 +39,60 @@ export function parseMarkdownHeadingId(heading: string): {
   }
 }
 
-// Hacky way of stripping out import statements from the excerpt
-// TODO: Find a better way to do so, possibly by compiling the Markdown content,
-// stripping out HTML tags and obtaining the first line.
-export function createExcerpt(fileString: string): string | undefined {
-  const fileLines = fileString
-    .trimLeft()
-    // Remove Markdown alternate title
-    .replace(/^[^\n]*\n[=]+/g, '')
-    .split('\n');
-  let inCode = false;
-
-  /* eslint-disable no-continue */
-  // eslint-disable-next-line no-restricted-syntax
-  for (const fileLine of fileLines) {
-    // Skip empty line.
-    if (!fileLine.trim()) {
-      continue;
+function toText(node: Node): string {
+  let excerpt = '';
+  visit(node, ['text', 'inlineCode'], (child, index, parent) => {
+    if (parent?.type !== 'linkReference') {
+      excerpt += (child as Text).value;
     }
+  });
+  return excerpt;
+}
 
-    // Skip import/export declaration.
-    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
-      continue;
-    }
+type MarkdownParserOptions = {
+  remarkPlugins?: Plugin[];
+  removeContentTitle?: boolean;
+};
 
-    // Skip code block line.
-    if (fileLine.trim().startsWith('```')) {
-      inCode = !inCode;
-      continue;
-    } else if (inCode) {
-      continue;
-    }
+export function createExcerpt(
+  fileString: string,
+  options: MarkdownParserOptions = {remarkPlugins: []},
+): string | undefined {
+  const {remarkPlugins = []} = options;
+  const mdast = remark().use(mdx).use(remarkPlugins).parse(fileString);
+  let excerpt = '';
+  visit(
+    mdast,
+    ['paragraph', 'heading', 'image'],
+    (node: Paragraph | Heading | Image) => {
+      const isAdmonitionFence =
+        isParagraph(node) &&
+        isText(node.children[0]) &&
+        node.children[0].value.startsWith(':::');
+      const isMainHeading = isHeading(node) && node.depth === 1;
+      if (isAdmonitionFence || isMainHeading) {
+        return true;
+      }
+      if (isImage(node)) {
+        if (node.alt) {
+          excerpt = node.alt;
+          // Already obtained the excerpt; stop traversal
+          return false;
+        }
+      } else if (!isHeading(node) || node.depth > 1) {
+        excerpt = toText(node);
+        if (isHeading(node)) {
+          excerpt = parseMarkdownHeadingId(excerpt).text;
+        }
+        if (excerpt) {
+          return false;
+        }
+      }
+      return true;
+    },
+  );
 
-    const cleanedLine = fileLine
-      // Remove HTML tags.
-      .replace(/<[^>]*>/g, '')
-      // Remove Title headers
-      .replace(/^#\s*([^#]*)\s*#?/gm, '')
-      // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
-      // Remove emphasis and strikethroughs.
-      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
-      // Remove images.
-      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](: .*?$)?/g, '')
-      // Remove inline links.
-      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
-      // Remove inline code.
-      .replace(/`(.+?)`/g, '$1')
-      // Remove blockquotes.
-      .replace(/^\s{0,3}>\s?/g, '')
-      // Remove admonition definition.
-      .replace(/(:{3}.*)/, '')
-      // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?(:(::|[^:\n])+:)/g, '')
-      // Remove custom Markdown heading id.
-      .replace(/{#*[\w-]+}/, '')
-      .trim();
-
-    if (cleanedLine) {
-      return cleanedLine;
-    }
-  }
-
-  return undefined;
+  return excerpt || undefined;
 }
 
 export function parseFrontMatter(markdownFileContent: string): {
@@ -105,54 +106,43 @@ export function parseFrontMatter(markdownFileContent: string): {
   };
 }
 
-// Try to convert markdown heading as text
-// Does not need to be perfect, it is only used as a fallback when frontMatter.title is not provided
-// For now, we just unwrap possible inline code blocks (# `config.js`)
-function toTextContentTitle(contentTitle: string): string {
-  if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
-    return contentTitle.substring(1, contentTitle.length - 1);
-  }
-  return contentTitle;
-}
-
 export function parseMarkdownContentTitle(
   contentUntrimmed: string,
-  options?: {removeContentTitle?: boolean},
+  options: MarkdownParserOptions = {
+    removeContentTitle: false,
+    remarkPlugins: [],
+  },
 ): {content: string; contentTitle: string | undefined} {
-  const removeContentTitleOption = options?.removeContentTitle ?? false;
+  const {removeContentTitle = false} = options;
+  let content = contentUntrimmed.trim();
 
-  const content = contentUntrimmed.trim();
+  const mdast = remark()
+    .use(mdx)
+    // .use(remarkPlugins) // We don't pass plugins here. Let's see if there's any use-case where this is useful
+    .parse(content);
 
-  const IMPORT_STATEMENT =
-    /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/.source;
-  const REGULAR_TITLE =
-    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
-      .source;
-  const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
-
-  const regularTitleMatch = new RegExp(
-    `^(?:${IMPORT_STATEMENT})*?${REGULAR_TITLE}`,
-    'g',
-  ).exec(content);
-  const alternateTitleMatch = new RegExp(
-    `^(?:${IMPORT_STATEMENT})*?${ALTERNATE_TITLE}`,
-    'g',
-  ).exec(content);
-
-  const titleMatch = regularTitleMatch ?? alternateTitleMatch;
-  const {pattern, title} = titleMatch?.groups ?? {};
-
-  if (!pattern || !title) {
-    return {content, contentTitle: undefined};
-  } else {
-    const newContent = removeContentTitleOption
-      ? content.replace(pattern, '')
-      : content;
-    return {
-      content: newContent.trim(),
-      contentTitle: toTextContentTitle(title.trim()).trim(),
-    };
+  let contentTitle: string | undefined;
+  // console.log(JSON.stringify(mdast, null, 2));
+  const firstConcreteNode = (mdast as Parent)?.children.find(
+    (child) => child.type !== 'import' && child.type !== 'export',
+  );
+  if (
+    firstConcreteNode &&
+    isHeading(firstConcreteNode) &&
+    firstConcreteNode.depth === 1
+  ) {
+    contentTitle = parseMarkdownHeadingId(toText(firstConcreteNode)).text;
+    if (removeContentTitle) {
+      const {
+        start: {line: startLine},
+        end: {line: endLine},
+      } = firstConcreteNode.position!;
+      const lines = content.split('\n');
+      lines.splice(startLine - 1, endLine - startLine + 1);
+      content = lines.join('\n');
+    }
   }
+  return {content: content.trim(), contentTitle};
 }
 
 type ParsedMarkdown = {
@@ -164,7 +154,7 @@ type ParsedMarkdown = {
 
 export function parseMarkdownString(
   markdownFileContent: string,
-  options?: {removeContentTitle?: boolean},
+  options?: MarkdownParserOptions,
 ): ParsedMarkdown {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} =
@@ -175,7 +165,7 @@ export function parseMarkdownString(
       options,
     );
 
-    const excerpt = createExcerpt(content);
+    const excerpt = createExcerpt(content, options);
 
     return {
       frontMatter,
@@ -192,7 +182,7 @@ This can happen if you use special characters in frontmatter values (try using d
 
 export async function parseMarkdownFile(
   source: string,
-  options?: {removeContentTitle?: boolean},
+  options?: MarkdownParserOptions,
 ): Promise<ParsedMarkdown> {
   const markdownString = await fs.readFile(source, 'utf-8');
   try {

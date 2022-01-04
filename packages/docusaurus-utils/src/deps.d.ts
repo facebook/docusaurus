@@ -10,5 +10,7 @@ declare module 'resolve-pathname' {
 }
 
 declare module '@mdx-js/runtime';
+declare module 'mdast-util-mdx';
+declare module 'remark-mdx';
 declare module 'remark-mdx-remove-imports';
 declare module 'remark-mdx-remove-exports';
