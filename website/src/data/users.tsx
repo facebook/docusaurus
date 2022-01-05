@@ -496,6 +496,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Eric Jiuran',
+    description:
+      'A front-end developer's blog',
+    preview: require('./showcase/eric.png'),
+    website: 'https://www.siyuanwa.cn/',
+    source: 'https://github.com/1084350607/blog',
+    tags: ['opensource'],
+  },
+  {
     title: 'Eta',
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
