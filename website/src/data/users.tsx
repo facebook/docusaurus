@@ -510,7 +510,7 @@ const Users: User[] = [
     website: 'https://www.siyuanwa.cn/',
     source: 'https://github.com/1084350607/blog',
     tags: ['opensource', 'personal'],
-  }
+  },
   {
     title: "Evan Tay's Personal Website",
     description:
