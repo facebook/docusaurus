@@ -31,7 +31,7 @@ export function toGlobalSidebars(
 ): Record<string, GlobalSidebar> {
   const {getFirstLink} = createSidebarsUtils(sidebars);
   return mapValues(sidebars, (sidebar, sidebarId) => {
-    const firstDoc = getFirstLink(sidebarId);
+    const firstLink = getFirstLink(sidebarId);
     if (!firstDoc) {
       return {};
     }
