@@ -509,7 +509,7 @@ const Users: User[] = [
     preview: require('./showcase/eric.png'),
     website: 'https://www.siyuanwa.cn/',
     source: 'https://github.com/1084350607/blog',
-    tags: ['opensource', 'personal'],
+    tags: ['opensource', 'personal', 'i18n'],
   },
   {
     title: "Evan Tay's Personal Website",
