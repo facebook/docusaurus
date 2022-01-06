@@ -382,18 +382,9 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
-  import type {ReactNode} from 'react';
-  import type {LinkProps} from '@docusaurus/Link';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
-  export type NavLinkProps = LinkProps & {
-    readonly activeBasePath?: string;
-    readonly activeBaseRegex?: string;
-    readonly exact?: boolean;
-    readonly label?: ReactNode;
-    readonly prependBaseUrlToHref?: string;
-  };
-
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
@@ -403,17 +394,30 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly mobile?: boolean;
   }
 
-  export const NavLink: (props: NavLinkProps) => JSX.Element;
+  export default function DefaultNavbarItem(props: Props): JSX.Element;
+}
 
-  const DefaultNavbarItem: (props: Props) => JSX.Element;
-  export default DefaultNavbarItem;
+declare module '@theme/NavbarItem/NavbarNavLink' {
+  import type {ReactNode} from 'react';
+  import type {LinkProps} from '@docusaurus/Link';
+
+  export type Props = LinkProps & {
+    readonly activeBasePath?: string;
+    readonly activeBaseRegex?: string;
+    readonly exact?: boolean;
+    readonly label?: ReactNode;
+    readonly prependBaseUrlToHref?: string;
+  };
+
+  export default function NavbarNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
-  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
+
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly position?: 'left' | 'right';
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
