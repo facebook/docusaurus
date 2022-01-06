@@ -30,7 +30,7 @@ import {DefaultSidebarItemsGenerator} from './generator';
 import {mapValues, memoize, pick} from 'lodash';
 import combinePromises from 'combine-promises';
 import {normalizeItem} from './normalization';
-import {Slugger} from '@docusaurus/utils';
+import type {Slugger} from '@docusaurus/utils';
 
 export type SidebarProcessorParams = {
   sidebarItemsGenerator: SidebarItemsGeneratorOption;

@@ -13,10 +13,11 @@ import {
   getDocusaurusAliases,
   createBaseConfig,
 } from '../base';
-import * as utils from '../utils';
-import {mapValues} from 'lodash';
+// TODO seems to be a bug with how TS does star exports
+import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
-import {Props, ThemeAliases} from '@docusaurus/types';
+import {mapValues} from 'lodash';
+import type {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {

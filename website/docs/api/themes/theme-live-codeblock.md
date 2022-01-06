@@ -13,7 +13,7 @@ npm install --save @docusaurus/theme-live-codeblock
 
 ### Configuration {#configuration}
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/theme-live-codeblock'],
   themeConfig: {

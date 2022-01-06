@@ -47,7 +47,9 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: Record<string, Record<string, string>>;
+  import type {RouteChunksTree} from '@docusaurus/types';
+
+  const routesChunkNames: Record<string, RouteChunksTree>;
   export = routesChunkNames;
 }
 
@@ -118,7 +120,7 @@ declare module '@docusaurus/constants' {
 
 declare module '@docusaurus/ErrorBoundary' {
   import type {ReactNode} from 'react';
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   export interface Props {
     readonly fallback?: typeof ErrorComponent;

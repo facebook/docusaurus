@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin, PostCssOptions} from '@docusaurus/types';
+import type {
+  DocusaurusContext,
+  Plugin,
+  PostCssOptions,
+} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
@@ -13,6 +17,7 @@ import {createRequire} from 'module';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {Options} from '@docusaurus/theme-classic';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
@@ -89,13 +94,9 @@ function getInfimaCSSFile(direction: string) {
   }.css`;
 }
 
-export type PluginOptions = {
-  customCss?: string | string[];
-};
-
 export default function docusaurusThemeClassic(
   context: DocusaurusContext, // TODO: LoadContext is missing some of properties
-  options: PluginOptions,
+  options: Options,
 ): Plugin<void> {
   const {
     siteConfig: {themeConfig: roughlyTypedThemeConfig},

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginContext, UserPluginOptions} from '../types';
+import type {PluginContext, UserPluginOptions} from '../types';
 import collectRedirects from '../collectRedirects';
 import normalizePluginOptions from '../normalizePluginOptions';
 import {removeTrailingSlash} from '@docusaurus/utils';

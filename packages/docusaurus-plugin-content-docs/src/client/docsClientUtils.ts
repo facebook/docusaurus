@@ -7,7 +7,7 @@
 
 import {matchPath} from '@docusaurus/router';
 
-import {GlobalPluginData, GlobalVersion, GlobalDoc} from '../types';
+import type {GlobalPluginData, GlobalVersion, GlobalDoc} from '../types';
 
 // This code is not part of the api surface, not in ./theme on purpose
 

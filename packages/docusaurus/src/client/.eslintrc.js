@@ -21,7 +21,6 @@ module.exports = {
           '**/../server/**',
           '**/../commands/**',
           '**/../webpack/**',
-          '**/../constants',
         ],
       },
     ],

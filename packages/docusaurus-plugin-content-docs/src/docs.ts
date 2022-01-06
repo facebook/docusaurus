@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {keyBy, last} from 'lodash';
 import {
   aliasedSitePath,
@@ -22,7 +22,7 @@ import {
 import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import {
+import type {
   DocFile,
   DocMetadataBase,
   DocMetadata,
@@ -38,11 +38,8 @@ import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import {
-  SidebarsUtils,
-  toDocNavigationLink,
-  toNavigationLink,
-} from './sidebars/utils';
+import type {SidebarsUtils} from './sidebars/utils';
+import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -126,7 +123,6 @@ function doProcessDocMetadata({
   options: MetadataOptions;
 }): DocMetadataBase {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
-  const {homePageId} = options;
   const {siteDir, i18n} = context;
 
   const {
@@ -196,24 +192,14 @@ function doProcessDocMetadata({
   // legacy versioned id, requires a breaking change to modify this
   const id = [versionIdPrefix, unversionedId].filter(Boolean).join('/');
 
-  // TODO remove soon, deprecated homePageId
-  const isDocsHomePage = unversionedId === (homePageId ?? '_index');
-  if (frontMatter.slug && isDocsHomePage) {
-    throw new Error(
-      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to choose either homePageId or slug, not both`,
-    );
-  }
-
-  const docSlug = isDocsHomePage
-    ? '/'
-    : getSlug({
-        baseID,
-        source,
-        sourceDirName,
-        frontmatterSlug: frontMatter.slug,
-        stripDirNumberPrefixes: parseNumberPrefixes,
-        numberPrefixParser: options.numberPrefixParser,
-      });
+  const docSlug = getSlug({
+    baseID,
+    source,
+    sourceDirName,
+    frontmatterSlug: frontMatter.slug,
+    stripDirNumberPrefixes: parseNumberPrefixes,
+    numberPrefixParser: options.numberPrefixParser,
+  });
 
   // Note: the title is used by default for page title, sidebar label, pagination buttons...
   // frontMatter.title should be used in priority over contentTitle (because it can contain markdown/JSX syntax)
@@ -255,7 +241,6 @@ function doProcessDocMetadata({
   return {
     unversionedId,
     id,
-    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),
@@ -286,11 +271,7 @@ export function processDocMetadata(args: {
   try {
     return doProcessDocMetadata(args);
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
-      ),
-    );
+    logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
     throw e;
   }
 }
@@ -331,12 +312,14 @@ export function addDocNavigation(
       return toDocNavigationLink(navDoc);
     };
 
-    const previous: DocNavLink | undefined = doc.frontMatter.pagination_prev
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
-      : toNavigationLink(navigation.previous, docsById);
-    const next: DocNavLink | undefined = doc.frontMatter.pagination_next
-      ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
-      : toNavigationLink(navigation.next, docsById);
+    const previous =
+      doc.frontMatter.pagination_prev !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_prev, 'prev')
+        : toNavigationLink(navigation.previous, docsById);
+    const next =
+      doc.frontMatter.pagination_next !== undefined
+        ? toNavigationLinkByDocId(doc.frontMatter.pagination_next, 'next')
+        : toNavigationLink(navigation.next, docsById);
 
     return {...doc, sidebar: navigation.sidebarName, previous, next};
   }
@@ -368,7 +351,11 @@ export function getMainDocId({
     if (versionHomeDoc) {
       return versionHomeDoc;
     } else if (firstDocIdOfFirstSidebar) {
-      return docs.find((doc) => doc.id === firstDocIdOfFirstSidebar)!;
+      return docs.find(
+        (doc) =>
+          doc.id === firstDocIdOfFirstSidebar ||
+          doc.unversionedId === firstDocIdOfFirstSidebar,
+      )!;
     } else {
       return docs[0];
     }

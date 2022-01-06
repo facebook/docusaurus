@@ -13,7 +13,7 @@ import {
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import {PluginOptions} from '../types';
+import type {PluginOptions} from '../types';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
@@ -41,7 +41,6 @@ describe('normalizeDocsPluginOptions', () => {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
       tagsBasePath: 'tags', // URL Tags Route.
-      homePageId: 'home', // Document id for docs home page.
       include: ['**/*.{md,mdx}'], // Extensions to include.
       exclude: GlobExcludeDefault,
       sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.

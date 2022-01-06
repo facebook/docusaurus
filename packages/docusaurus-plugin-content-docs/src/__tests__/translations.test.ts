@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadedContent, DocMetadata, LoadedVersion} from '../types';
+import type {LoadedContent, DocMetadata, LoadedVersion} from '../types';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {
   getLoadedContentTranslationFiles,
@@ -16,7 +16,6 @@ import {updateTranslationFileMessages} from '@docusaurus/utils';
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
   return {
     editUrl: 'any',
-    isDocsHomePage: false,
     lastUpdatedAt: 0,
     lastUpdatedBy: 'any',
     next: undefined,

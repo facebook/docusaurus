@@ -5,21 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
-import path, {join} from 'path';
-import chalk from 'chalk';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
 import {
+  generate,
+  escapePath,
   DEFAULT_BUILD_DIR_NAME,
   DEFAULT_CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
-} from '../constants';
+} from '@docusaurus/utils';
+import path from 'path';
+import logger from '@docusaurus/logger';
+import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import loadPresets from './presets';
 import loadRoutes from './routes';
-import {
+import type {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
   HtmlTagObject,
@@ -37,7 +38,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {mapValues} from 'lodash';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
 import {resolveModuleName} from './moduleShorthand';
@@ -123,7 +124,7 @@ export async function loadContext(
     outDir,
     baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
     i18n,
-    ssrTemplate,
+    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
     codeTranslations,
   };
 }
@@ -323,8 +324,7 @@ export async function load(
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map((module) => `  require(${JSON.stringify(module)}),`)
+      .map((module) => `  require('${escapePath(module)}'),`)
       .join('\n')}\n];\n`,
   );
 
@@ -343,10 +343,9 @@ ${Object.keys(registry)
   .sort()
   .map(
     (key) =>
-      // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
+      `  '${key}': [${registry[key].loader}, '${escapePath(
         registry[key].modulePath,
-      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
+      )}', require.resolveWeak('${escapePath(registry[key].modulePath)}')],`,
   )
   .join('\n')}};\n`,
   );
@@ -385,9 +384,9 @@ ${Object.keys(registry)
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
-      join(__dirname, '../../package.json'),
+      path.join(__dirname, '../../package.json'),
     )!,
-    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
     pluginVersions: {},
   };
   plugins
@@ -429,7 +428,7 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
+    ssrTemplate,
     codeTranslations,
   };
 
@@ -446,15 +445,14 @@ function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
       if (
         versionInfo.type === 'package' &&
         versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
         versionInfo.version !== docusaurusVersion
       ) {
         // should we throw instead?
         // It still could work with different versions
-        console.warn(
-          chalk.red(
-            `Invalid ${plugin} version ${versionInfo.version}.\nAll official @docusaurus/* packages should have the exact same version as @docusaurus/core (${docusaurusVersion}).\nMaybe you want to check, or regenerate your yarn.lock or package-lock.json file?`,
-          ),
-        );
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
       }
     },
   );

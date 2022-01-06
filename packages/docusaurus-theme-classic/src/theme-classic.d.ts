@@ -6,7 +6,21 @@
  */
 
 declare module '@docusaurus/theme-classic' {
-  export type Options = Partial<import('./index').PluginOptions>;
+  export type Options = {
+    customCss?: string | string[];
+  };
+}
+
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default function Admonition(props: Props): JSX.Element;
 }
 
 declare module '@theme/AnnouncementBar' {
@@ -93,13 +107,14 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import {ReactElement} from 'react';
+  import type {ReactElement} from 'react';
 
   export interface Props {
     readonly children: string | ReactElement;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
+    readonly language?: string;
   }
 
   const CodeBlock: (props: Props) => JSX.Element;
@@ -109,13 +124,10 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
-  type PageInfo = {readonly permalink: string; readonly title: string};
-
   // May be simpler to provide a {navigation: PropNavigation} prop?
   export interface Props extends PropNavigation {}
 
-  const DocPaginator: (props: Props) => JSX.Element;
-  export default DocPaginator;
+  export default function DocPaginator(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar' {
@@ -170,7 +182,7 @@ declare module '@theme/EditThisPage' {
 }
 
 declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   const ErrorPageContent: typeof ErrorComponent;
   export default ErrorPageContent;
@@ -202,25 +214,13 @@ declare module '@theme/hooks/useHideableNavbar' {
   export default useHideableNavbar;
 }
 
-declare module '@theme/hooks/useLocationHash' {
-  import type {Dispatch, SetStateAction} from 'react';
-
-  export type useLocationHashReturns = readonly [
-    string,
-    Dispatch<SetStateAction<string>>,
-  ];
-
-  const useLocationHash: (initialHash: string) => useLocationHashReturns;
-  export default useLocationHash;
-}
-
 declare module '@theme/hooks/useLockBodyScroll' {
   const useLockBodyScroll: (lock?: boolean) => void;
   export default useLockBodyScroll;
 }
 
 declare module '@theme/hooks/usePrismTheme' {
-  import defaultTheme from 'prism-react-renderer/themes/palenight';
+  import type defaultTheme from 'prism-react-renderer/themes/palenight';
 
   const usePrismTheme: () => typeof defaultTheme;
   export default usePrismTheme;
@@ -512,6 +512,18 @@ declare module '@theme/NavbarItem' {
   export default NavbarItem;
 }
 
+declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
+  }
+
+  export default function PaginatorNavLink(props: Props): JSX.Element;
+}
+
 declare module '@theme/SearchBar' {
   export default function SearchBar(): JSX.Element;
 }
@@ -526,6 +538,7 @@ declare module '@theme/TabItem' {
     readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
+    readonly attributes?: Record<string, unknown>;
   }
 
   const TabItem: (props: Props) => JSX.Element;
@@ -541,7 +554,11 @@ declare module '@theme/Tabs' {
     readonly block?: boolean;
     readonly children: readonly ReactElement<TabItemProps>[];
     readonly defaultValue?: string | null;
-    readonly values?: readonly {value: string; label?: string}[];
+    readonly values?: readonly {
+      value: string;
+      label?: string;
+      attributes?: Record<string, unknown>;
+    }[];
     readonly groupId?: string;
     readonly className?: string;
   }
@@ -565,7 +582,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common';
 
   export interface Props extends DetailsProps {}
   export default Details;

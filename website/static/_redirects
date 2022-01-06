@@ -2,8 +2,10 @@
 
 
 # Renamed doc routes
-/docs/docusaurus.config.js                             /docs/api/docusaurus-config
-/docs/next/docusaurus.config.js                        /docs/next/api/docusaurus-config
+/docs/docusaurus.config.js                       /docs/api/docusaurus-config
+/docs/next/docusaurus.config.js                  /docs/next/api/docusaurus-config
+/docs/lifecycle-apis                             /docs/api/plugin-methods/
+/docs/next/lifecycle-apis                        /docs/next/api/plugin-methods/
 
 
 # v2.docusaurus.io domain redirect after we put v2 on docusaurus.io

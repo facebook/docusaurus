@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ReactElement, useRef, useState} from 'react';
+import React, {
+  type ComponentProps,
+  type ReactElement,
+  useRef,
+  useState,
+} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
 import {useCollapsible, Collapsible} from '../Collapsible';

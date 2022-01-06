@@ -6,11 +6,11 @@
  */
 
 import jscodeshift, {
-  ArrowFunctionExpression,
+  type ArrowFunctionExpression,
   AssignmentExpression,
-  ASTPath,
-  Collection,
-  TemplateElement,
+  type ASTPath,
+  type Collection,
+  type TemplateElement,
   VariableDeclarator,
 } from 'jscodeshift';
 

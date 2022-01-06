@@ -9,14 +9,13 @@ const {extractThemeCodeMessages} = require('./update');
 const path = require('path');
 const fs = require('fs-extra');
 const {mapValues, pickBy} = require('lodash');
-const pkg = require('./package.json');
 
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);
 
 describe('theme-translations package', () => {
   test(`to have base messages files contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-translations update" to keep base messages files up-to-date.`, async () => {
-    const baseMessagesDirPath = path.join(__dirname, pkg.files[0], 'base');
+    const baseMessagesDirPath = path.join(__dirname, 'locales/base');
     const baseMessages = pickBy(
       await fs
         .readdirSync(baseMessagesDirPath)

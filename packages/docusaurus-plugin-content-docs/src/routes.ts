@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import {
+import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
   LoadedVersion,
 } from './types';
 import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 import {toVersionMetadataProp} from './props';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export async function createCategoryGeneratedIndexRoutes({
   version,
@@ -163,11 +163,7 @@ export async function createVersionRoutes({
   try {
     return await doCreateVersionRoutes(loadedVersion);
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Can't create version routes for version "${loadedVersion.versionName}"`,
-      ),
-    );
+    logger.error`Can't create version routes for version name=${loadedVersion.versionName}`;
     throw e;
   }
 }

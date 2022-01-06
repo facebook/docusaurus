@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {CategoryGeneratedIndexMetadata, DocMetadataBase} from './types';
-import {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
-import {SidebarsUtils, toNavigationLink} from './sidebars/utils';
+import type {CategoryGeneratedIndexMetadata, DocMetadataBase} from './types';
+import type {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
+import {type SidebarsUtils, toNavigationLink} from './sidebars/utils';
 import {createDocsByIdIndex} from './docs';
 
 function getCategoryGeneratedIndexMetadata({

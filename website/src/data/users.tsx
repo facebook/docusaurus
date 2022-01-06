@@ -27,7 +27,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
  * If you edit this file through the Github interface, you can:
- * - Submit first your users.js edit PR
+ * - Submit first your users.tsx edit PR
  * - This will create a branch on your Docusaurus fork (usually "patch-1")
  * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
  * - Drag-and-drop an image here to add it to your existing PR
@@ -69,7 +69,8 @@ export type User = {
 
 // LIST OF AVAILABLE TAGS
 // Available tags to assign to your site
-// Please choose widely, we'll remove unappropriate tags
+// Please choose all tags that you think might apply.
+// We'll remove inappropriate tags, but it's less likely that we add tags.
 export const Tags: Record<TagType, Tag> = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
@@ -117,7 +118,7 @@ export const Tags: Record<TagType, Tag> = {
   large: {
     label: 'Large',
     description:
-      'Very large Docusaurus sites, including much more pages than the average!',
+      'Very large Docusaurus sites, including many more pages than the average!',
     color: '#8c2f00',
   },
 
@@ -205,6 +206,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Astronomer',
+    description:
+      'Enterprise-grade framework for Apache Airflow. Production-ready Airflow environments with just a few clicks',
+    preview: require('./showcase/astronomer.png'),
+    website: 'https://docs.astronomer.io',
+    source: 'https://github.com/astronomer/docs',
+    tags: ['product', 'versioning', 'opensource'],
+  },
+  {
     title: 'AttoBot',
     description:
       'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
@@ -277,6 +287,14 @@ const Users: User[] = [
     preview: require('./showcase/boxyhq.png'),
     website: 'https://boxyhq.com/',
     source: 'https://github.com/boxyhq/website',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
     tags: ['opensource'],
   },
   {
@@ -419,6 +437,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Digital Support Services Notes',
+    description: 'Open source documented notes for Digital Support Services.',
+    preview: require('./showcase/digitalsupportservices.png'),
+    website: 'https://notes.nayanpatel.net',
+    source: 'https://github.com/PatelN123/Digital-Support-Notes',
+    tags: ['opensource', 'design', 'personal'],
+  },
+  {
     title: 'Djamaile Rahamat',
     description: 'Djamaile Rahamat Blog on making cool stuff',
     preview: require('./showcase/djamaile.png'),
@@ -452,6 +478,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design'],
   },
   {
+    title: 'Enarx',
+    description:
+      'Open source framework for running applications in TEEs (Trusted Execution Environments) based on WebAssembly, allowing developers to deploy architecture-independent applications',
+    preview: require('./showcase/enarx.png'),
+    website: 'https://enarx.dev/',
+    source: 'https://github.com/enarx/enarx.github.io',
+    tags: ['opensource']
+  },
+  {
     title: 'Erxes',
     description:
       'Combine all your business tools into one streamlined and integrated open-source framework',
@@ -467,6 +502,14 @@ const Users: User[] = [
     website: 'https://eta.js.org/',
     source: 'https://github.com/eta-dev/eta',
     tags: ['opensource'],
+  },
+  {
+    title: 'Eric JiuRan',
+    description: 'Front-end developer blog',
+    preview: require('./showcase/eric.png'),
+    website: 'https://www.siyuanwa.cn/',
+    source: 'https://github.com/1084350607/blog',
+    tags: ['opensource', 'personal', 'i18n'],
   },
   {
     title: "Evan Tay's Personal Website",
@@ -599,6 +642,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'GTFS-to-HTML',
+    description: 'Generate human-readable HTML timetables from GTFS',
+    preview: require('./showcase/gtfs-to-html.png'),
+    website: 'https://gtfstohtml.com',
+    source: 'https://github.com/BlinkTagInc/gtfs-to-html',
+    tags: ['opensource'],
+  },
+  {
     title: 'Gulp',
     description: 'A toolkit to automate & enhance your workflow',
     preview: require('./showcase/gulp.png'),
@@ -707,6 +758,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'LabVIEW 编程经验',
+    description: 'A book for LabVIEW Programming',
+    preview: require('./showcase/labviewbook.png'),
+    website: 'https://lv.qizhen.xyz',
+    source: 'https://github.com/ruanqizhen/labview_book',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Lux Algo',
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
@@ -791,6 +850,15 @@ const Users: User[] = [
     tags: ['design'],
   },
   {
+    title: 'Molecule',
+    description:
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
+    preview: require('./showcase/molecule-home.png'),
+    website: 'https://dtstack.github.io/molecule/en',
+    source: 'https://github.com/DTStack/molecule',
+    tags: ['opensource', 'i18n'],
+  },
+  {
     title: 'Motion Layout',
     description:
       'Create beautiful immersive React.js animations using shared components',
@@ -798,6 +866,14 @@ const Users: User[] = [
     website: 'https://motion-layout.azurewebsites.net',
     source: 'https://github.com/jeffersonlicet/react-motion-layout',
     tags: ['opensource'],
+  },
+  {
+    title: 'moja global',
+    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
+    preview: require('./showcase/mojaglobal.png'),
+    website: 'https://community.moja.global/',
+    source: 'https://github.com/moja-global/community-website',
+    tags: ['opensource', 'large', 'i18n', 'design'],
   },
   {
     title: 'nanos world documentation',
@@ -896,7 +972,7 @@ const Users: User[] = [
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
-    website: 'https://oxidizer.rs',
+    website: 'https://oxidizer-rs.github.io',
     source: 'https://github.com/oxidizer-rs/website',
     tags: ['opensource'],
   },
@@ -1251,6 +1327,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'versioning'],
   },
   {
+    title: 'Sapphire',
+    description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
+    preview: require('./showcase/sapphire.png'),
+    website: 'https://www.sapphirejs.dev',
+    source: 'https://github.com/sapphiredev/website',
+    tags: ['opensource', 'large'],
+  },
+  {
     title: 'SCI WP Framework',
     description: 'A PHP framework to create MVC plugins for WordPress',
     preview: require('./showcase/sciwp.png'),
@@ -1265,6 +1349,14 @@ const Users: User[] = [
     website: 'https://single-spa.js.org/',
     source: 'https://github.com/single-spa/single-spa',
     tags: ['opensource', 'large', 'versioning', 'i18n'],
+  },
+  {
+    title: 'Smart Docs',
+    description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
+    preview: require('./showcase/smart-docs.png'),
+    website: 'https://smart-docs.vercel.app/',
+    source: 'https://github.com/wowtvds/smart-docs',
+    tags: ['opensource', 'product', 'design'],
   },
   {
     title: 'smash.gg',
@@ -1349,6 +1441,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'TalentBrick',
+    description: 'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
+    preview: require('./showcase/talentbrick.png'),
+    website: 'https://www.talentbrick.com/',
+    source: 'https://gitlab.com/talentbrick/talentbrick',
+    tags: ['opensource', 'design']
+  },
+  {
     title: 'Taro',
     description: 'An open cross-end and cross-frame solution',
     preview: require('./showcase/docs-taro-zone.png'),
@@ -1390,6 +1490,14 @@ const Users: User[] = [
     website: 'https://tinaeldevresse.eu/',
     source: 'https://github.com/hunteroi/tinaeldevresse.eu',
     tags: ['personal', 'opensource', 'i18n'],
+  },
+  {
+    title: 'ToolJet',
+    description: 'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
+    preview: require('./showcase/tooljet.png'),
+    website: 'https://docs.tooljet.com/docs/intro/',
+    source: 'https://github.com/tooljet/tooljet',
+    tags: ['opensource', 'design', 'large', 'product'],
   },
   {
     title: 'Tremor',
@@ -1491,6 +1599,14 @@ const Users: User[] = [
     website: 'https://whirl.codes',
     source: 'https://github.com/whirl21/website',
     tags: ['opensource', 'personal'],
+  },
+  {
+    title: 'WoodpeckerCI',
+    description: "Woodpecker is a simple CI engine with great extensibility.",
+    preview: require('./showcase/woodpecker.png'),
+    website: 'https://woodpecker-ci.org/',
+    source: 'https://github.com/woodpecker-ci/woodpecker',
+    tags: ['opensource'],
   },
   {
     title: 'KubeVela',

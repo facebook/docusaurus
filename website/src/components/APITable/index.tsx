@@ -7,9 +7,9 @@
 
 import React, {
   Children,
-  ComponentProps,
-  ReactElement,
-  ReactNode,
+  type ComponentProps,
+  type ReactElement,
+  type ReactNode,
   isValidElement,
   useRef,
   useEffect,

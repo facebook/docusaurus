@@ -6,7 +6,7 @@
  */
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
-import {PluginOptions} from '../types';
+import type {PluginOptions} from '../types';
 
 export default function normalizePluginOptions(
   options: Partial<PluginOptions>,

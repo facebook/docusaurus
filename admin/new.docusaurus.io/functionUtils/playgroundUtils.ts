@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {HandlerEvent, HandlerResponse} from '@netlify/functions';
+import type {HandlerEvent, HandlerResponse} from '@netlify/functions';
 
 const CookieName = 'DocusaurusPlaygroundName';
 

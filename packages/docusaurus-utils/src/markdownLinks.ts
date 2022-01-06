@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {aliasedSitePath} from './index';
+import {aliasedSitePath} from './pathUtils';
 
 export type ContentPaths = {
   contentPath: string;
@@ -45,9 +45,16 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;
+  let lastCodeFence = '';
   const lines = fileString.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
+      if (!fencedBlock) {
+        fencedBlock = true;
+        [lastCodeFence] = line.trim().match(/^`+/)!;
+        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+      } else if (line.trim().match(/^`+/)![0].length >= lastCodeFence.length) {
+        fencedBlock = false;
+      }
     }
     if (fencedBlock) {
       return line;

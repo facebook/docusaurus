@@ -7,13 +7,63 @@
 
 declare module 'remark-admonitions';
 
-declare module 'react-loadable-ssr-addon-v5-slorber';
+declare module 'react-loadable-ssr-addon-v5-slorber' {
+  type Asset = {
+    file: string;
+    hash: string;
+    publicPath: string;
+    integrity: string;
+  };
+
+  export type Manifest = {
+    entrypoints: string[];
+    origins: Record<string, number[]>;
+    assets: Array<Record<string, Asset[]>>;
+  };
+
+  export function getBundles(
+    manifest: Manifest,
+    modulesToBeLoaded: string[],
+  ): {js: Asset[]; css: Asset[]};
+
+  interface ReactLoadableSSRAddon {
+    new (props: {filename: string});
+  }
+
+  declare const plugin: ReactLoadableSSRAddon;
+  export default plugin;
+}
 
 declare module 'resolve-pathname' {
   export default function resolvePathname(to: string, from?: string): string;
 }
 
-declare module '@slorber/static-site-generator-webpack-plugin';
+declare module '@slorber/static-site-generator-webpack-plugin' {
+  export type Locals = {
+    routesLocation: Record<string, string>;
+    generatedFilesDir: string;
+    headTags: string;
+    preBodyTags: string;
+    postBodyTags: string;
+    onLinksCollected: (staticPagePath: string, links: string[]) => void;
+    baseUrl: string;
+    ssrTemplate: string;
+    noIndex: boolean;
+  };
+
+  interface StaticSiteGeneratorPlugin {
+    new (props: {
+      entry: string;
+      locals: Locals;
+      paths: string[];
+      preferFoldersOutput?: boolean;
+      globals: Record<string, unknown>;
+    });
+  }
+
+  declare const plugin: StaticSiteGeneratorPlugin;
+  export default plugin;
+}
 
 declare module 'webpack/lib/HotModuleReplacementPlugin' {
   import {HotModuleReplacementPlugin} from 'webpack';
