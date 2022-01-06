@@ -10,15 +10,15 @@ import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
 import {
-  FooterLinkItem,
+  type FooterLinkItem,
   useThemeConfig,
-  MultiColumnFooter,
-  SimpleFooter,
+  type MultiColumnFooter,
+  type SimpleFooter,
 } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
-import ThemedImage, {Props as ThemedImageProps} from '@theme/ThemedImage';
+import ThemedImage, {type Props as ThemedImageProps} from '@theme/ThemedImage';
 import IconExternalLink from '@theme/IconExternalLink';
 
 function FooterLink({

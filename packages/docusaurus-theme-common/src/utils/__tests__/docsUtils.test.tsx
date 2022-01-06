@@ -17,7 +17,7 @@ import {
   DocsSidebarProvider,
   findSidebarCategory,
 } from '../docsUtils';
-import {
+import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,

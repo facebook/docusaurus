@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
+import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
-import {
+import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
   LoadedVersion,
@@ -30,8 +30,17 @@ export async function createCategoryGeneratedIndexRoutes({
   async function createCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {sidebar, title, description, slug, permalink, previous, next} =
-      categoryGeneratedIndex;
+    const {
+      sidebar,
+      title,
+      description,
+      slug,
+      permalink,
+      previous,
+      next,
+      image,
+      keywords,
+    } = categoryGeneratedIndex;
 
     const propFileName = slugs.slug(
       `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
@@ -42,6 +51,8 @@ export async function createCategoryGeneratedIndexRoutes({
       description,
       slug,
       permalink,
+      image,
+      keywords,
       navigation: {
         previous,
         next,

@@ -7,7 +7,11 @@
 
 import {useCallback} from 'react';
 import {useDocsPreferredVersionContext} from './DocsPreferredVersionProvider';
-import {useAllDocsData, useDocsData, GlobalVersion} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  useDocsData,
+  type GlobalVersion,
+} from '@theme/hooks/useDocs';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 

@@ -114,8 +114,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: docs
-// plugin name: @docusaurus/plugin-content-docs
+// Preset Options: docs
+// Plugin Options: @docusaurus/plugin-content-docs
 
 const config = {
   path: 'docs',

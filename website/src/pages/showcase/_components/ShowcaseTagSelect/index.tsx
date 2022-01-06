@@ -6,9 +6,9 @@
  */
 
 import React, {
-  ComponentProps,
-  ReactNode,
-  ReactElement,
+  type ComponentProps,
+  type ReactNode,
+  type ReactElement,
   useCallback,
   useState,
   useEffect,

@@ -6,7 +6,7 @@
  */
 
 import loadRoutes from '../routes';
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('loadRoutes', () => {
   test('nested route config', async () => {

@@ -10,7 +10,7 @@ import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import {loadContext} from '../server';
 import build from './build';
-import {BuildCLIOptions} from '@docusaurus/types';
+import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
 

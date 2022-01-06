@@ -92,6 +92,10 @@ module.exports = {
     ],
     'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
+    '@typescript-eslint/consistent-type-imports': [
+      WARNING,
+      {disallowTypeAnnotations: false},
+    ],
     'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,

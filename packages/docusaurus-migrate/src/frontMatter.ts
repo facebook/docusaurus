@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {RawData, Data} from './types';
+import type {RawData, Data} from './types';
 
 function splitHeader(content: string): RawData {
   // New line characters need to handle all operating systems.

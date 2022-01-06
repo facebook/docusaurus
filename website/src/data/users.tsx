@@ -504,6 +504,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Eric JiuRan',
+    description: 'Front-end developer blog',
+    preview: require('./showcase/eric.png'),
+    website: 'https://www.siyuanwa.cn/',
+    source: 'https://github.com/1084350607/blog',
+    tags: ['opensource', 'personal', 'i18n'],
+  },
+  {
     title: "Evan Tay's Personal Website",
     description:
       "A Software Engineer's blog, documentation and project portfolio.",
@@ -543,6 +551,14 @@ const Users: User[] = [
     website: 'https://docs.flagsmith.com',
     source: 'https://github.com/Flagsmith/flagsmith-docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'FlatifyCSS',
+    description: 'Modern flat design framework for the web — inspired by Duolingo design system.',
+    preview: require('./showcase/flatifycss.png'),
+    website: 'https://flatifycss.com',
+    source: 'https://github.com/amir2mi/flatifycss/',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Flipper',
@@ -715,6 +731,15 @@ const Users: User[] = [
     website: 'https://docs.infraql.io/',
     source: null,
     tags: ['product'],
+  },
+  {
+    title: 'Ionic',
+    description:
+      'Ionic is an open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
+    preview: require('./showcase/ionic.png'),
+    website: 'https://ionicframework.com/docs',
+    source: 'https://github.com/ionic-team/ionic-docs',
+    tags: ['favorite', 'opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
   },
   {
     title: 'IOTA-Wiki',
@@ -964,7 +989,7 @@ const Users: User[] = [
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
-    website: 'https://oxidizer.rs',
+    website: 'https://oxidizer-rs.github.io',
     source: 'https://github.com/oxidizer-rs/website',
     tags: ['opensource'],
   },

@@ -11,7 +11,7 @@ import {createHash} from 'crypto';
 import {mapValues} from 'lodash';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {
+import type {
   ReportingSeverity,
   TranslationFileContent,
   TranslationFile,

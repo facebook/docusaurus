@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate, Configuration, RuleSetRule} from 'webpack';
+import {validate, type Configuration, type RuleSetRule} from 'webpack';
 import path from 'path';
 
 import {
@@ -13,7 +13,7 @@ import {
   applyConfigureWebpack,
   applyConfigurePostCss,
 } from '../utils';
-import {
+import type {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
 } from '@docusaurus/types';

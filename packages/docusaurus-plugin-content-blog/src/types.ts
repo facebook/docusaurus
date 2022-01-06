@@ -11,8 +11,8 @@ import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import {Overwrite} from 'utility-types';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {Overwrite} from 'utility-types';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 
 export type BlogContentPaths = ContentPaths;
 

@@ -11,9 +11,10 @@ declare module '@docusaurus/plugin-content-docs' {
   export type VersionBanner = import('./types').VersionBanner;
   type GlobalDataVersion = import('./types').GlobalVersion;
   type GlobalDataDoc = import('./types').GlobalDoc;
+  type GlobalDataSidebar = import('./types').GlobalSidebar;
   type VersionTag = import('./types').VersionTag;
 
-  export type {GlobalDataVersion, GlobalDataDoc};
+  export type {GlobalDataVersion, GlobalDataDoc, GlobalDataSidebar};
 
   export type PropNavigationLink = {
     readonly title: string;
@@ -42,6 +43,8 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropCategoryGeneratedIndex = {
     title: string;
     description?: string;
+    image?: string;
+    keywords?: string | readonly string[];
     slug: string;
     permalink: string;
     navigation: PropNavigation;

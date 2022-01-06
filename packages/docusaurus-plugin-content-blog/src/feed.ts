@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Feed, Author as FeedAuthor, Item as FeedItem} from 'feed';
-import {PluginOptions, Author, BlogPost, FeedType} from './types';
+import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
+import type {PluginOptions, Author, BlogPost, FeedType} from './types';
 import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
 

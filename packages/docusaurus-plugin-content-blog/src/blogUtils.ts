@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
-import {
+import type {
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -31,9 +31,9 @@ import {
   groupTaggedItems,
   getContentPathList,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
@@ -211,7 +211,12 @@ async function processBlogSourceFile(
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
-      return new Date(frontMatter.date);
+      if (typeof frontMatter.date === 'string') {
+        // Always treat dates as UTC by adding the `Z`
+        return new Date(`${frontMatter.date}Z`);
+      }
+      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
+      return frontMatter.date;
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }

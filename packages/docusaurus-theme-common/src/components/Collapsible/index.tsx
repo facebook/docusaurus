@@ -11,10 +11,10 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  RefObject,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
+  type RefObject,
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
   useLayoutEffect,
 } from 'react';
 
