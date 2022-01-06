@@ -292,7 +292,7 @@ const config = {
             }
             return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
-          postsPerPage: 5,
+          postsPerPage: 1,
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
