@@ -33,6 +33,8 @@ const sidebars = {
         title: 'Docusaurus Guides',
         description:
           "Let's learn about the most important Docusaurus concepts!",
+        keywords: ['guides'],
+        image: '/img/docusaurus.png',
       },
       items: [
         'guides/creating-pages',

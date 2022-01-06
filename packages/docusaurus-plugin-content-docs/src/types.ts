@@ -174,6 +174,8 @@ export type CategoryGeneratedIndexMetadata = {
   sidebar: string;
   previous?: DocNavLink;
   next?: DocNavLink;
+  image?: string;
+  keywords?: string | readonly string[];
 };
 
 export type SourceToPermalink = {

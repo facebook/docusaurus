@@ -30,8 +30,17 @@ export async function createCategoryGeneratedIndexRoutes({
   async function createCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {sidebar, title, description, slug, permalink, previous, next} =
-      categoryGeneratedIndex;
+    const {
+      sidebar,
+      title,
+      description,
+      slug,
+      permalink,
+      previous,
+      next,
+      image,
+      keywords,
+    } = categoryGeneratedIndex;
 
     const propFileName = slugs.slug(
       `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
@@ -42,6 +51,8 @@ export async function createCategoryGeneratedIndexRoutes({
       description,
       slug,
       permalink,
+      image,
+      keywords,
       navigation: {
         previous,
         next,

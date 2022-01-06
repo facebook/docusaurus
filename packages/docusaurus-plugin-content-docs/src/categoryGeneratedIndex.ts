@@ -28,6 +28,8 @@ function getCategoryGeneratedIndexMetadata({
   return {
     title: category.link.title ?? category.label,
     description: category.link.description,
+    image: category.link.image,
+    keywords: category.link.keywords,
     slug: category.link.slug,
     permalink: category.link.permalink,
     sidebar: sidebarName,
