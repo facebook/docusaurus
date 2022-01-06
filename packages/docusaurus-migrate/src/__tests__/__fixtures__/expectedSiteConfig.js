@@ -43,6 +43,7 @@ module.exports = {
         },
         blog: {},
         theme: {},
+        googleAnalytics: {trackingID: 'UA-44373548-31'},
       },
     ],
   ],
@@ -78,6 +79,5 @@ module.exports = {
       indexName: 'docusaurus',
       algoliaOptions: {facetFilters: ['language:LANGUAGE', 'version:VERSION']},
     },
-    gtag: {trackingID: 'UA-44373548-31'},
   },
 };

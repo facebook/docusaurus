@@ -363,15 +363,22 @@ module.exports = {
 
 #### `gaTrackingId` {#gatrackingid}
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
-  themeConfig: {
-    googleAnalytics: {
-      trackingID: 'UA-141789564-1',
-    },
-    // ...
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        googleAnalytics: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
 };
 ```
 
@@ -380,12 +387,19 @@ module.exports = {
 ```js {5} title="docusaurus.config.js"
 module.exports = {
   // ...
-  themeConfig: {
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
-    // ...
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        gtag: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
 };
 ```
 
