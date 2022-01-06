@@ -31,11 +31,11 @@ expect.extend({
         message: () =>
           `The preview image's width is ${width} and height is ${height}. To make sure it takes uup the entire container in our showcase card, it needs to have a minimum aspect ratio of 2:1. Please make your image taller.`,
       };
-    } else if (width !== 640) {
+    } else if (width < 640) {
       return {
         pass: false,
         message: () =>
-          `The preview image's width is ${width}, but we require 640. You can either resize it locally, or you can wait for the maintainer to resize it for you.`,
+          `The preview image's width is ${width}, but we require a minimum 640. You can either resize it locally, or you can wait for the maintainer to resize it for you.`,
       };
     }
     return {
