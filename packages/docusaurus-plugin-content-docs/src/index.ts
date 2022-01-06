@@ -64,7 +64,7 @@ export default async function pluginContentDocs(
 ): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
-  const versionsMetadata = readVersionsMetadata({context, options});
+  const versionsMetadata = await readVersionsMetadata({context, options});
 
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 

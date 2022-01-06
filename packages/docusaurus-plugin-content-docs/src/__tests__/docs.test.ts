@@ -166,7 +166,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -523,7 +523,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
