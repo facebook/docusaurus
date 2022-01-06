@@ -553,6 +553,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'FlatifyCSS',
+    description: 'Modern flat design framework for the web — inspired by Duolingo design system.',
+    preview: require('./showcase/flatifycss.png'),
+    website: 'https://flatifycss.com',
+    source: 'https://github.com/amir2mi/flatifycss/',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'Flipper',
     description: 'Extensible mobile app debugger',
     preview: require('./showcase/flipper.png'),
