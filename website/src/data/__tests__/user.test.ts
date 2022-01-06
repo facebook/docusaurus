@@ -13,6 +13,38 @@ import fs from 'fs-extra';
 import path from 'path';
 import imageSize from 'image-size';
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R> {
+      toHaveGoodDimensions: () => R;
+    }
+  }
+}
+
+expect.extend({
+  toHaveGoodDimensions({width, height}: {width: number; height: number}) {
+    // Put this one first because aspect ratio is harder to fix than resizing (need to take another screenshot)
+    if (width / height < 0.5) {
+      return {
+        pass: false,
+        message: () =>
+          `The preview image's width is ${width} and height is ${height}. To make sure it takes uup the entire container in our showcase card, it needs to have a minimum aspect ratio of 2:1. Please make your image taller.`,
+      };
+    } else if (width !== 640) {
+      return {
+        pass: false,
+        message: () =>
+          `The preview image's width is ${width}, but we require 640. You can either resize it locally, or you can wait for the maintainer to resize it for you.`,
+      };
+    }
+    return {
+      pass: true,
+      message: () => "The preview image's dimensions are good",
+    };
+  },
+});
+
 describe('users', () => {
   sortedUsers.forEach((user) => {
     test(user.title, () => {
@@ -26,13 +58,10 @@ describe('users', () => {
             .message('')
             .required(),
           // The preview should be jest/emptyModule
-          preview: Joi.object({})
-            .unknown(false)
-            .required()
-            .messages({
-              'object.base':
-                'The image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs. It must be imported with require().',
-            }),
+          preview: Joi.object({}).unknown(false).required().messages({
+            'object.base':
+              'The image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs. It must be imported with require().',
+          }),
           tags: Joi.array()
             .items(...TagList)
             .required(),
@@ -54,16 +83,14 @@ describe('users', () => {
     });
   });
 
-  test('have valid images', async () => {
-    const imageDir = path.join(__dirname, '../showcase');
-    const files = await fs.readdir(imageDir);
+  const imageDir = path.join(__dirname, '../showcase');
+  const files = fs.readdirSync(imageDir);
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const file of files) {
-      const {width, height} = imageSize(path.join(imageDir, file));
+  files.forEach((file) => {
+    test(file, () => {
+      const size = imageSize(path.join(imageDir, file));
 
-      expect(width!).toEqual(640);
-      expect(width! / height!).toBeGreaterThanOrEqual(0.5);
-    }
+      expect(size).toHaveGoodDimensions();
+    });
   });
 });

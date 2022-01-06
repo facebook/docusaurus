@@ -23,13 +23,5 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Resize Images
-        run: |
-          node admin/scripts/image-resize.mjs
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m 'Resize image'
-          git push
       - name: Test
         run: yarn test website/src/data/__tests__/user.test.ts

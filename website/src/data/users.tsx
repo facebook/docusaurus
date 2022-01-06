@@ -22,6 +22,8 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - Use relevant tags to qualify your site (read the tag descriptions below)
  * - The image MUST be added to the GitHub repository, and use `require("image")`
+ * - The image has to have width 640 and a height of minimum 320. Don't worry if
+ *   it isn't though: the maintainer can help you get it right.
  * - Open a PR and check for reported CI errors
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
