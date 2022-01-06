@@ -769,7 +769,7 @@ const Users: User[] = [
   {
     title: 'kwatch',
     description: 'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
-    preview: require('./showcase/kwatch.jpg'),
+    preview: require('./showcase/kwatch.png'),
     website: 'https://kwatch.dev',
     source: 'https://github.com/abahmed/kwatch.dev',
     tags: ['opensource', 'product'],
