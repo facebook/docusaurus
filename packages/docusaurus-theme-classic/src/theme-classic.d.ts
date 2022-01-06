@@ -149,23 +149,33 @@ declare module '@theme/DocSidebar' {
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  type DocSidebarPropsBase = {
+  export type DocSidebarPropsBase = {
     readonly activePath: string;
     readonly onItemClick?: (item: PropSidebarItem) => void;
     readonly level: number;
     readonly tabIndex?: number;
   };
 
-  export interface Props extends DocSidebarPropsBase {
+  export interface Props {
+    readonly activePath: string;
+    readonly onItemClick?: (item: PropSidebarItem) => void;
+    readonly level: number;
+    readonly tabIndex?: number;
     readonly item: PropSidebarItem;
   }
-  const DocSidebarItem: (props: Props) => JSX.Element;
-  export default DocSidebarItem;
 
-  export type DocSidebarItemsProps = DocSidebarPropsBase & {
+  export default function DocSidebarItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItems' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export type Props = Omit<DocSidebarItemProps, 'item'> & {
     readonly items: readonly PropSidebarItem[];
   };
-  export const DocSidebarItems: (props: DocSidebarItemsProps) => JSX.Element;
+
+  export default function DocSidebarItems(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionSuggestions' {
