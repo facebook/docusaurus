@@ -29,7 +29,7 @@ expect.extend({
       return {
         pass: false,
         message: () =>
-          `The preview image's width is ${width} and height is ${height}. To make sure it takes uup the entire container in our showcase card, it needs to have a minimum aspect ratio of 2:1. Please make your image taller.`,
+          `The preview image's width is ${width} and height is ${height}. To make sure it takes up the entire container in our showcase card, it needs to have a minimum aspect ratio of 2:1. Please make your image taller.`,
       };
     } else if (width < 640) {
       return {
