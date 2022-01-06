@@ -9,9 +9,10 @@ import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
 import clsx from 'clsx';
-import {getInfimaActiveClassName} from './index';
-import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
+
+import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
 import type {
   GlobalDataVersion,
   GlobalDataSidebar,

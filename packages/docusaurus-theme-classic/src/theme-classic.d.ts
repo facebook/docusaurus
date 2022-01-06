@@ -540,6 +540,10 @@ declare module '@theme/NavbarItem' {
   export default NavbarItem;
 }
 
+declare module '@theme/NavbarItem/utils' {
+  export function getInfimaActiveClassName(mobile?: boolean): string;
+}
+
 declare module '@theme/PaginatorNavLink' {
   import type {ReactNode} from 'react';
   import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';

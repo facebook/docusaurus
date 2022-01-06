@@ -15,7 +15,7 @@ import type {
   Props,
 } from '@theme/NavbarItem/DefaultNavbarItem';
 
-import {getInfimaActiveClassName} from './index';
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 
 function DefaultNavbarItemDesktop({
   className,
