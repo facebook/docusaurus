@@ -30,12 +30,22 @@ const plugin = () => {
           groups: {presetOptionName, presetOptionText},
         } = presetMeta.match(
           /(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
-        );
+        ) ?? {
+          groups: {
+            presetOptionName: '[translation failure]',
+            presetOptionText: 'Preset Options',
+          },
+        };
         const {
           groups: {pluginName, pluginText},
         } = pluginMeta.match(
           /(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
-        );
+        ) ?? {
+          groups: {
+            pluginName: '[translation failure]',
+            pluginText: 'Plugin Options',
+          },
+        };
         // Replace leading "const config = " and trailing semi
         const config = value
           .replace(presetMeta, '')
