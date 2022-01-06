@@ -384,7 +384,7 @@ module.exports = {
 
 #### `gaGtag` {#gagtag}
 
-```js {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
