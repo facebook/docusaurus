@@ -216,6 +216,17 @@ export type GlobalVersion = {
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
   docs: GlobalDoc[];
+  sidebars?: Record<string, GlobalSidebar>;
+};
+
+export type GlobalSidebarLink = {
+  label: string;
+  path: string;
+};
+
+export type GlobalSidebar = {
+  link?: GlobalSidebarLink;
+  // ... we may add other things here later
 };
 
 export type GlobalPluginData = {

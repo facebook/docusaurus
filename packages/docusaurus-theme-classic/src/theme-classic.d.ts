@@ -477,10 +477,23 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
   export default DocsSidebarNavbarItem;
 }
 
+declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly sidebarId: string;
+    readonly docsPluginId?: string;
+  }
+
+  const DocSidebarNavbarItem: (props: Props) => JSX.Element;
+  export default DocSidebarNavbarItem;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
+  import type {Props as DocSidebarNavbarItemProps} from '@theme/NavbarItem/DocSidebarNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
@@ -490,7 +503,8 @@ declare module '@theme/NavbarItem' {
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
