@@ -206,12 +206,13 @@ declare module '@theme/Footer' {
 declare module '@theme/Heading' {
   import type {ComponentProps} from 'react';
 
-  export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  export interface Props extends ComponentProps<HeadingType> {}
+  type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-  const Heading: (Tag: HeadingType) => (props: Props) => JSX.Element;
-  export default Heading;
-  export const MainHeading: (props: Props) => JSX.Element;
+  export interface Props extends ComponentProps<HeadingType> {
+    as: HeadingType;
+  }
+
+  export default function Heading(props: Props): JSX.Element;
 }
 
 declare module '@theme/hooks/useHideableNavbar' {
