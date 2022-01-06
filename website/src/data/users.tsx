@@ -466,7 +466,7 @@ const Users: User[] = [
     preview: require('./showcase/dyte.png'),
     source: null,
     website: 'https://docs.dyte.io',
-    tags: ['product', 'design', 'versioning', 'large']
+    tags: ['favorite', 'product', 'design', 'versioning', 'large']
   },
   {
     title: 'Easyjwt',
