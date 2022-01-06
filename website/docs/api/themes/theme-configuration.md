@@ -415,7 +415,7 @@ module.exports = {
 
 #### Navbar linked to a sidebar {#navbar-doc-sidebar}
 
-You can link a navbar item to the first document of a given sidebar, without having to hardcode a doc ID.
+You can link a navbar item to the first document link (which can be a doc link or a generated category index) of a given sidebar without having to hardcode a doc ID.
 
 Accepted fields:
 
@@ -425,7 +425,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `type` | `'docSidebar'` | **Required** | Sets the type of this navbar item to a sidebar's first document. |
 | `sidebarId` | `string` | **Required** | The ID of the sidebar that this item is linked to. |
-| `label` | `string` | `sidebarId` | The name to be shown for this item. |
+| `label` | `string` | First document link's sidebar label | The name to be shown for this item. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the sidebar belongs to. |
 
