@@ -54,8 +54,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: pages
-// plugin name: @docusaurus/plugin-content-pages
+// Preset Options: pages
+// Plugin Options: @docusaurus/plugin-content-pages
 
 const config = {
   path: 'src/pages',

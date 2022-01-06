@@ -27,13 +27,15 @@ const plugin = () => {
         const {value} = node;
         const [presetMeta, pluginMeta] = value.split('\n');
         const {
-          groups: {presetOptionName},
+          groups: {presetOptionName, presetOptionText},
         } = presetMeta.match(
-          /preset option name: (?<presetOptionName>[A-Za-z]+)/i,
+          /(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
         );
         const {
-          groups: {pluginName},
-        } = pluginMeta.match(/plugin name: (?<pluginName>[A-Za-z@/-]+)/i);
+          groups: {pluginName, pluginText},
+        } = pluginMeta.match(
+          /(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
+        );
         // Replace leading "const config = " and trailing semi
         const config = value
           .replace(presetMeta, '')
@@ -46,7 +48,7 @@ const plugin = () => {
         const newNodes = [
           {
             type: 'jsx',
-            value: `<Tabs>\n<TabItem value="Preset Options">`,
+            value: `<Tabs>\n<TabItem value="${presetOptionText}">`,
           },
           {
             type: 'paragraph',
@@ -97,7 +99,7 @@ const plugin = () => {
           },
           {
             type: 'jsx',
-            value: '</TabItem>\n<TabItem value="Plugin Options">',
+            value: `</TabItem>\n<TabItem value="${pluginText}">`,
           },
           {
             type: 'paragraph',
