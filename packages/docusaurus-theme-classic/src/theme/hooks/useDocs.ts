@@ -8,4 +8,5 @@
 // Re-expose useDocs
 // Ensure it's always statically available even if user is not using the docs plugin
 // Problem reported for the blog-only mode: https://github.com/facebook/docusaurus/issues/3360
+// eslint-disable-next-line import/no-named-export
 export * from '@docusaurus/plugin-content-docs/lib/theme/hooks/useDocs';
