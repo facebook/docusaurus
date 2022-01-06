@@ -731,7 +731,7 @@ const Users: User[] = [
     preview: require('./showcase/ionic.png'),
     website: 'https://ionicframework.com/docs',
     source: 'https://github.com/ionic-team/ionic-docs',
-    tags: ['opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
+    tags: ['favorite', 'opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
   },
   {
     title: 'IOTA-Wiki',
