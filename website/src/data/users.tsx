@@ -725,6 +725,15 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'Ionic',
+    description:
+      'Ionic is an open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
+    preview: require('./showcase/ionic.png'),
+    website: 'https://ionicframework.com/docs',
+    source: 'https://github.com/ionic-team/ionic-docs',
+    tags: ['favorite', 'opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
+  },
+  {
     title: 'IOTA-Wiki',
     description: 'Documantation and wiki for the IOTA project',
     preview: require('./showcase/iota-wiki.png'),
