@@ -310,9 +310,9 @@ Available document ids are:
             label: item.label,
           };
         } else {
-          const doc = getFirstLink(item.items);
-          if (doc) {
-            return doc;
+          const firstSubItem = getFirstLink(item.items);
+          if (firstSubItem) {
+            return firstSubItem;
           }
         }
       }
