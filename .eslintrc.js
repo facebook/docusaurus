@@ -175,6 +175,16 @@ module.exports = {
   overrides: [
     {
       files: [
+        'packages/docusaurus-theme-*/src/theme/**/*.js',
+        'packages/docusaurus-theme-*/src/theme/**/*.ts',
+        'packages/docusaurus-theme-*/src/theme/**/*.tsx',
+      ],
+      rules: {
+        'import/no-named-export': ERROR,
+      },
+    },
+    {
+      files: [
         'packages/create-docusaurus/templates/**/*.js',
         'packages/create-docusaurus/templates/**/*.ts',
         'packages/create-docusaurus/templates/**/*.tsx',
