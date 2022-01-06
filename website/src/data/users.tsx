@@ -558,7 +558,7 @@ const Users: User[] = [
     preview: require('./showcase/flatifycss.png'),
     website: 'https://flatifycss.com',
     source: 'https://github.com/amir2mi/flatifycss/',
-    tags: ['opensource'],
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Flipper',
