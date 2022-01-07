@@ -198,7 +198,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

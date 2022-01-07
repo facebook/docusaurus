@@ -7,8 +7,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.js",
-    "watch": "node copyUntypedFiles.js && tsc --watch"
+    "build": "tsc && node copyUntypedFiles.mjs",
+    "watch": "node copyUntypedFiles.mjs && tsc --watch"
   },
   "repository": {
     "type": "git",
