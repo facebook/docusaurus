@@ -6,7 +6,7 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import darkTheme from 'prism-react-renderer/themes/vsDark';
+import darkTheme from 'prism-react-renderer/themes/vsDark/index.js';
 
 export default {
   plain: {
