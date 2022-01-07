@@ -44,5 +44,9 @@ module.exports = {
     // TODO maybe use "projects" + multiple configs if we plan to add tests to another theme?
     '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
     '@site/(.*)': 'website/$1',
+
+    // TODO why Jest can't figure node package entry points?
+    '@docusaurus/plugin-content-docs/client':
+      '@docusaurus/plugin-content-docs/lib/client/index.js',
   },
 };
