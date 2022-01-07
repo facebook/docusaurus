@@ -166,7 +166,7 @@ The "current" version is the version name for the `./docs` folder. There are dif
 
 Docusaurus defaults work great for the first use case. We will label the current version as "next" and you can even choose not to publish it.
 
-**For the 2nd use case**: if you release v1 and don't plan to work on v2 anytime soon, instead of versioning v1 and having to maintain the docs in 2 folders (`./docs` + `./versioned_docs/version-1.0.0`), you may consider using the following configuration instead:
+**For the 2nd use case**: if you release v1 and don't plan to work on v2 anytime soon, instead of versioning v1 and having to maintain the docs in 2 folders (`./docs` + `./versioned_docs/version-1.0.0`), you may consider "pretending" that the current version is a cut version by giving it a path and a label:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -192,7 +192,6 @@ The docs in `./docs` will be served at `/docs/1.0.0` instead of `/docs/next`, an
 We offer these plugin options to customize versioning behavior:
 
 - `disableVersioning`: Explicitly disable versioning even with versions. This will make the site only include the current version.
-  - **Tip**: turn this on in local development if you don't need to preview versioned docs to speed up your dev server's start time.
 - `includeCurrentVersion`: Include the current version (the `./docs` folder) of your docs.
   - **Tip**: turn it off if the current version is a work-in-progress, not ready to be published.
 - `lastVersion`: Sets which version "latest version" (the `/docs` route) refers to.
@@ -206,7 +205,22 @@ We offer these plugin options to customize versioning behavior:
   - `badge`: show a badge with the version name at the top of a doc of that version.
   - `className`: add a custom `className` to the `<html>` element of doc pages of that version.
 
-See [docs plugin configuration](../../api/plugins/plugin-content-docs.md) for more details.
+See [docs plugin configuration](../../api/plugins/plugin-content-docs.md#configuration) for more details.
+
+## Navbar items
+
+We offer several navbar items to help you quickly set up navigation without worrying about versioned routes.
+
+- [`doc`](../../api/themes/theme-configuration.md#navbar-doc-link): a link to a doc.
+- [`docSidebar`](../../api/themes/theme-configuration.md#navbar-doc-sidebar): a link to the first item in a sidebar.
+- [`docsVersion`](../../api/themes/theme-configuration.md#navbar-docs-version): a link to the main doc of the currently viewed version.
+- [`docsVersionDropdown`](../../api/themes/theme-configuration.md#navbar-docs-version-dropdown): a dropdown containing all the versions available.
+
+These links would all look for an appropriate version to link to, in the following order:
+
+1. **Active version**: the version that the user is currently browsing, if she is on a page provided by this doc plugin. If she's not on a doc page, fall back to...
+2. **Preferred version**: the version that the user last viewed. If there's no history, fall back to...
+3. **Latest version**: the default version that we navigate to, configured by the `lastVersion` option.
 
 ## Recommended practices {#recommended-practices}
 
