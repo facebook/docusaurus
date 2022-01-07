@@ -215,86 +215,6 @@ declare module '@theme/Heading' {
   export default function Heading(props: Props): JSX.Element;
 }
 
-declare module '@theme/hooks/useHideableNavbar' {
-  export type useHideableNavbarReturns = {
-    readonly navbarRef: (node: HTMLElement | null) => void;
-    readonly isNavbarVisible: boolean;
-  };
-
-  const useHideableNavbar: (hideOnScroll: boolean) => useHideableNavbarReturns;
-  export default useHideableNavbar;
-}
-
-declare module '@theme/hooks/useLockBodyScroll' {
-  const useLockBodyScroll: (lock?: boolean) => void;
-  export default useLockBodyScroll;
-}
-
-declare module '@theme/hooks/usePrismTheme' {
-  import type defaultTheme from 'prism-react-renderer/themes/palenight';
-
-  const usePrismTheme: () => typeof defaultTheme;
-  export default usePrismTheme;
-}
-
-declare module '@theme/hooks/useTabGroupChoice' {
-  export type useTabGroupChoiceReturns = {
-    readonly tabGroupChoices: {readonly [groupId: string]: string};
-    readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
-  };
-
-  const useTabGroupChoice: () => useTabGroupChoiceReturns;
-  export default useTabGroupChoice;
-}
-
-declare module '@theme/hooks/useTheme' {
-  export type useThemeReturns = {
-    readonly isDarkTheme: boolean;
-    readonly setLightTheme: () => void;
-    readonly setDarkTheme: () => void;
-  };
-
-  const useTheme: () => useThemeReturns;
-  export default useTheme;
-}
-
-declare module '@theme/hooks/useThemeContext' {
-  export type ThemeContextProps = {
-    isDarkTheme: boolean;
-    setLightTheme: () => void;
-    setDarkTheme: () => void;
-  };
-
-  export default function useThemeContext(): ThemeContextProps;
-}
-
-declare module '@theme/hooks/useUserPreferencesContext' {
-  export type UserPreferencesContextProps = {
-    tabGroupChoices: {readonly [groupId: string]: string};
-    setTabGroupChoices: (groupId: string, newChoice: string) => void;
-  };
-
-  export default function useUserPreferencesContext(): UserPreferencesContextProps;
-}
-
-declare module '@theme/hooks/useWindowSize' {
-  export const windowSizes: {
-    desktop: 'desktop';
-    mobile: 'mobile';
-    ssr: 'ssr';
-  };
-
-  export type WindowSize = keyof typeof windowSizes;
-
-  export default function useWindowSize(): WindowSize;
-}
-
-declare module '@theme/hooks/useKeyboardNavigation' {
-  const useKeyboardNavigation: () => void;
-
-  export default useKeyboardNavigation;
-}
-
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
@@ -314,8 +234,7 @@ declare module '@theme/Layout' {
     };
   }
 
-  const Layout: (props: Props) => JSX.Element;
-  export default Layout;
+  export default function Layout(props: Props): JSX.Element;
 }
 
 declare module '@theme/LayoutHead' {
@@ -323,8 +242,17 @@ declare module '@theme/LayoutHead' {
 
   export interface Props extends Omit<LayoutProps, 'children'> {}
 
-  const LayoutHead: (props: Props) => JSX.Element;
-  export default LayoutHead;
+  export default function LayoutHead(props: Props): JSX.Element;
+}
+
+declare module '@theme/LayoutProviders' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function LayoutProviders(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchMetadata' {
@@ -621,17 +549,6 @@ declare module '@theme/Details' {
   export default Details;
 }
 
-declare module '@theme/ThemeProvider' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const ThemeProvider: (props: Props) => JSX.Element;
-  export default ThemeProvider;
-}
-
 declare module '@theme/TOCItems' {
   import type {TOCItem} from '@docusaurus/types';
 
@@ -710,46 +627,6 @@ declare module '@theme/Toggle' {
 
   const Toggle: (props: Props) => JSX.Element;
   export default Toggle;
-}
-
-declare module '@theme/UserPreferencesProvider' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const UserPreferencesProvider: (props: Props) => JSX.Element;
-  export default UserPreferencesProvider;
-}
-
-declare module '@theme/LayoutProviders' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const LayoutProviders: (props: Props) => JSX.Element;
-  export default LayoutProviders;
-}
-
-declare module '@theme/ThemeContext' {
-  import type {Context} from 'react';
-  import type {ThemeContextProps} from '@theme/hooks/useThemeContext';
-
-  const ThemeContext: Context<ThemeContextProps | undefined>;
-  export default ThemeContext;
-}
-
-declare module '@theme/UserPreferencesContext' {
-  import type {Context} from 'react';
-  import type {UserPreferencesContextProps} from '@theme/hooks/useUserPreferencesContext';
-
-  const UserPreferencesContext: Context<
-    UserPreferencesContextProps | undefined
-  >;
-  export default UserPreferencesContext;
 }
 
 declare module '@theme/Logo' {

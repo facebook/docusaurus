@@ -114,3 +114,15 @@ export {
 } from './utils/reactUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
+
+export {useColorMode, ColorModeProvider} from './utils/colorModeUtils';
+export {
+  useTabGroupChoice,
+  TabGroupChoiceProvider,
+} from './utils/tabGroupChoiceUtils';
+
+export {default as useHideableNavbar} from './hooks/useHideableNavbar';
+export {default as useKeyboardNavigation} from './hooks/useKeyboardNavigation';
+export {default as usePrismTheme} from './hooks/usePrismTheme';
+export {default as useLockBodyScroll} from './hooks/useLockBodyScroll';
+export {default as useWindowSize} from './hooks/useWindowSize';

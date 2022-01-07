@@ -16,8 +16,8 @@ import {
   parseLanguage,
   parseLines,
   ThemeClassNames,
+  usePrismTheme,
 } from '@docusaurus/theme-common';
-import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
