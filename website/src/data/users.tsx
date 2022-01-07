@@ -181,6 +181,7 @@ const Users: User[] = [
     source: 'https://github.com/algolia/docsearch-website',
     tags: ['favorite', 'opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Amphora Data',
     description: 'Connecting the world’s real-time information',
@@ -233,6 +234,7 @@ const Users: User[] = [
     source: 'https://gitlab.com/aweframework/awe',
     tags: ['opensource', 'i18n', 'versioning'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
@@ -632,15 +634,6 @@ const Users: User[] = [
     website: 'https://gotenberg.dev/',
     source: 'https://github.com/gotenberg/gotenberg.dev',
     tags: ['opensource', 'versioning'],
-  },
-  {
-    title: 'GraphQL Code Generator',
-    description:
-      'Generate code from your GraphQL schema and operations with a simple CLI',
-    preview: require('./showcase/graphql-codegen.png'),
-    website: 'https://graphql-code-generator.com/',
-    source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['favorite', 'opensource', 'design'],
   },
   {
     title: 'GraphQL Inspector',
@@ -1470,7 +1463,7 @@ const Users: User[] = [
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
-    website: 'https://www.supabase.io/',
+    website: 'https://www.supabase.io/docs',
     source: 'https://github.com/supabase/monorepo',
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
@@ -1626,6 +1619,7 @@ const Users: User[] = [
     source: 'https://github.com/webiny/docs.webiny.com',
     tags: ['opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',
