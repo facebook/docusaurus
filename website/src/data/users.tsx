@@ -462,6 +462,14 @@ const Users: User[] = [
     tags: ['opensource', 'meta'],
   },
   {
+    title: 'Dyte',
+    description: 'The most developer friendly live video SDK',
+    preview: require('./showcase/dyte.png'),
+    source: null,
+    website: 'https://docs.dyte.io',
+    tags: ['favorite', 'product', 'design', 'versioning', 'large']
+  },
+  {
     title: 'Easyjwt',
     description: 'JWT creation and validation library',
     preview: require('./showcase/easyjwt.png'),
@@ -552,6 +560,14 @@ const Users: User[] = [
     website: 'https://docs.flagsmith.com',
     source: 'https://github.com/Flagsmith/flagsmith-docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'FlatifyCSS',
+    description: 'Modern flat design framework for the web — inspired by Duolingo design system.',
+    preview: require('./showcase/flatifycss.png'),
+    website: 'https://flatifycss.com',
+    source: 'https://github.com/amir2mi/flatifycss/',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Flipper',
@@ -750,6 +766,14 @@ const Users: User[] = [
     website: 'https://jestjs.io/',
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
+  },
+  {
+    title: 'Khyron Realm',
+    description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
+    preview: require('./showcase/khyron_realm.png'),
+    website: 'https://khyron-realm.com',
+    source: 'https://github.com/khyron-realm/khyron-realm-website',
+    tags: ['opensource'],
   },
   {
     title: 'Kosko',

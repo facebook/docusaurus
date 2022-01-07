@@ -136,6 +136,18 @@ export type SidebarsUtils = {
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
   ) => SidebarNavigation;
+  getFirstLink: (sidebarId: string) =>
+    | {
+        type: 'doc';
+        id: string;
+        label: string;
+      }
+    | {
+        type: 'generated-index';
+        slug: string;
+        label: string;
+      }
+    | undefined;
 
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 };
@@ -264,6 +276,50 @@ Available document ids are:
     }
   }
 
+  function getFirstLink(sidebar: Sidebar):
+    | {
+        type: 'doc';
+        id: string;
+        label: string;
+      }
+    | {
+        type: 'generated-index';
+        slug: string;
+        label: string;
+      }
+    | undefined {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of sidebar) {
+      if (item.type === 'doc') {
+        return {
+          type: 'doc',
+          id: item.id,
+          label: item.label ?? item.id,
+        };
+      } else if (item.type === 'category') {
+        if (item.link?.type === 'doc') {
+          return {
+            type: 'doc',
+            id: item.link.id,
+            label: item.label,
+          };
+        } else if (item.link?.type === 'generated-index') {
+          return {
+            type: 'generated-index',
+            slug: item.link.slug,
+            label: item.label,
+          };
+        } else {
+          const firstSubItem = getFirstLink(item.items);
+          if (firstSubItem) {
+            return firstSubItem;
+          }
+        }
+      }
+    }
+    return undefined;
+  }
+
   return {
     sidebars,
     getFirstDocIdOfFirstSidebar,
@@ -272,6 +328,7 @@ Available document ids are:
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
+    getFirstLink: (id) => getFirstLink(sidebars[id]),
   };
 }
 
