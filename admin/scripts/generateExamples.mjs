@@ -153,9 +153,7 @@ if (branch === 'main') {
     "Please don't generate Docusaurus examples from the main branch!\nWe are going to commit during this process!",
   );
 }
-try {
-  shell.exec('git diff --exit-code');
-} catch (e) {
+if (shell.exec('git diff --exit-code').code !== 0) {
   throw new Error(
     'Please run the generate examples command with a clean Git state and no uncommitted local changes. git diff should display nothing!',
   );

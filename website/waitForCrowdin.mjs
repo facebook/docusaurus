@@ -53,7 +53,7 @@ while (true) {
     console.log('[Crowdin] A build is still in progress => waiting...');
     await delay(pollInterval);
   } else {
-    console.warn('[Crowdin] No build in progress => lets continue');
+    console.warn("[Crowdin] No build in progress => let's continue");
     break;
   }
 }

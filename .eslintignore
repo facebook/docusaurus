@@ -12,9 +12,7 @@ packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
-packages/docusaurus-plugin-pwa/copyUntypedFiles.mjs
-packages/docusaurus-plugin-ideal-image/copyUntypedFiles.mjs
-packages/docusaurus-theme-search-algolia/copyUntypedFiles.mjs
+copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook/.eslintrc.js
