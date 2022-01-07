@@ -29,7 +29,7 @@ const plugin = () => {
         const {
           groups: {presetOptionName, presetOptionText},
         } = presetMeta.match(
-          /(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
+          /\/\/(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
         ) ?? {
           groups: {
             presetOptionName: '[translation failure]',
@@ -39,7 +39,7 @@ const plugin = () => {
         const {
           groups: {pluginName, pluginText},
         } = pluginMeta.match(
-          /(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
+          /\/\/(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
         ) ?? {
           groups: {
             pluginName: '[translation failure]',
@@ -58,7 +58,7 @@ const plugin = () => {
         const newNodes = [
           {
             type: 'jsx',
-            value: `<Tabs>\n<TabItem value="${presetOptionText}">`,
+            value: `<Tabs>\n<TabItem value="${presetOptionText.trim()}">`,
           },
           {
             type: 'paragraph',
@@ -95,7 +95,7 @@ const plugin = () => {
       '@docusaurus/preset-classic',
       {
         // highlight-start
-        ${presetOptionName}: ${config
+        ${presetOptionName.trim()}: ${config
               .split('\n')
               .map((line) => `        ${line}`)
               .join('\n')
@@ -109,7 +109,7 @@ const plugin = () => {
           },
           {
             type: 'jsx',
-            value: `</TabItem>\n<TabItem value="${pluginText}">`,
+            value: `</TabItem>\n<TabItem value="${pluginText.trim()}">`,
           },
           {
             type: 'paragraph',
@@ -127,7 +127,7 @@ const plugin = () => {
 {\`module.exports = {
   plugins: [
     [
-      '${pluginName}',
+      '${pluginName.trim()}',
       // highlight-start
       ${config
         .split('\n')
