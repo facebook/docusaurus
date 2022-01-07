@@ -6,12 +6,13 @@
  */
 
 import fs from 'fs-extra';
+import {fileURLToPath} from 'url';
 
 /**
  * Copy all untyped and static assets files to lib.
  */
-const srcDir = new URL('src', import.meta.url).pathname;
-const libDir = new URL('lib', import.meta.url).pathname;
+const srcDir = fileURLToPath(new URL('src', import.meta.url));
+const libDir = fileURLToPath(new URL('lib', import.meta.url));
 await fs.copy(srcDir, libDir, {
   filter(filepath) {
     return !/__tests__/.test(filepath) && !/\.tsx?$/.test(filepath);

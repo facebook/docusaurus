@@ -12,9 +12,7 @@ const math = require('remark-math');
 const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
-const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
-const configTabs = require('./src/remark/configTabs');
 const lightTheme = require('./src/utils/prismLight');
 const darkTheme = require('./src/utils/prismDark');
 
@@ -120,7 +118,6 @@ const config = {
   ],
   themes: ['live-codeblock'],
   plugins: [
-    FeatureRequestsPlugin,
     [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -265,7 +262,7 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [math, [npm2yarn, {sync: true}], configTabs],
+          remarkPlugins: [math, [npm2yarn, {sync: true}]],
           rehypePlugins: [katex],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
@@ -519,11 +516,11 @@ const config = {
     }),
 };
 
-// TODO temporary dogfood async config, remove soon
 async function createConfig() {
-  await new Promise((resolve) => {
-    setTimeout(resolve, 0);
-  });
+  const FeatureRequestsPlugin = (await import('./src/featureRequests/FeatureRequestsPlugin.mjs')).default;
+  const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  config.plugins?.push(FeatureRequestsPlugin);
+  config.presets[0][1].docs.remarkPlugins.push(configTabs);
   return config;
 }
 

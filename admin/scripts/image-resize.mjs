@@ -11,6 +11,7 @@ import sharp from 'sharp';
 import fs from 'fs-extra';
 import path from 'path';
 import imageSize from 'image-size';
+import {fileURLToPath} from 'url';
 
 const allImages = (
   await fs.readdir(new URL('../../website/src/data/showcase', import.meta.url))
@@ -21,10 +22,10 @@ const images = selectedImages.length > 0 ? selectedImages : allImages;
 
 await Promise.all(
   images.map(async (img) => {
-    const imgPath = new URL(
+    const imgPath = fileURLToPath(new URL(
       `../../website/src/data/showcase/${img}`,
       import.meta.url,
-    ).pathname;
+    ));
     const {width, height} = imageSize(imgPath);
     if (width === 640 && height === 320) {
       // Do not emit if no resized. Important because we
