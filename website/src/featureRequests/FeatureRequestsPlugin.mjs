@@ -15,7 +15,10 @@ export default function FeatureRequestsPlugin(context) {
   return {
     name: 'feature-requests-plugin',
     async contentLoaded({actions}) {
-      const basePath = utils.normalizeUrl([context.baseUrl, '/feature-requests']);
+      const basePath = utils.normalizeUrl([
+        context.baseUrl,
+        '/feature-requests',
+      ]);
       await actions.createData('paths.json', JSON.stringify(basePath));
       actions.addRoute({
         path: basePath,

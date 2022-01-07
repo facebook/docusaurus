@@ -165,4 +165,4 @@ export default function plugin() {
     }
   };
   return transformer;
-};
+}

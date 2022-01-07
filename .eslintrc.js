@@ -39,6 +39,7 @@ module.exports = {
       },
     },
   },
+  reportUnusedDisableDirectives: true,
   plugins: ['react-hooks', 'header'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,

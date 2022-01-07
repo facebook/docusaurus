@@ -55,7 +55,9 @@ const EXPECTED_CSS_MARKERS = [
 
 const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));
 
-const cssFileNames = (await fs.readdir(cssDirName)).filter((file) => file.endsWith('.css'));
+const cssFileNames = (await fs.readdir(cssDirName)).filter((file) =>
+  file.endsWith('.css'),
+);
 
 if (cssFileNames.length !== 1) {
   throw new Error('unexpected: more than 1 css file');
