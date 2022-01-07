@@ -24,7 +24,7 @@ import {
   useDynamicCallback,
 } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useAllDocsData} from '@theme/hooks/useDocs';
+import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';

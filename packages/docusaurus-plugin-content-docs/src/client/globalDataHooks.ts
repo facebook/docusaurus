@@ -11,7 +11,7 @@ import useGlobalData, {
   usePluginData,
 } from '@docusaurus/useGlobalData';
 
-import type {GlobalPluginData, GlobalVersion} from '../../types';
+import type {GlobalPluginData, GlobalVersion} from '../types';
 import {
   getActivePlugin,
   getLatestVersion,
@@ -22,7 +22,7 @@ import {
   type ActiveDocContext,
   type DocVersionSuggestions,
   type GetActivePluginOptions,
-} from '../../client/docsClientUtils';
+} from './docsClientUtils';
 
 // Important to use a constant object to avoid React useEffect executions etc...,
 // see https://github.com/facebook/docusaurus/issues/5089
@@ -37,6 +37,7 @@ export const useAllDocsData = (): Record<string, GlobalPluginData> =>
 export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>
   usePluginData('docusaurus-plugin-content-docs', pluginId) as GlobalPluginData;
 
+// TODO this feature should be provided by docusaurus core
 export const useActivePlugin = (
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined => {

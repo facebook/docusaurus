@@ -20,7 +20,7 @@ import {
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize from '@theme/hooks/useWindowSize';
-import {useActivePlugin} from '@theme/hooks/useDocs';
+import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
 import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
