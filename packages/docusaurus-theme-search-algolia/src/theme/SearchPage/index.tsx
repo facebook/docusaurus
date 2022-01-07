@@ -22,10 +22,10 @@ import {
   usePluralForm,
   isRegexpStringMatch,
   useDynamicCallback,
+  useSearchPage,
 } from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
-import useSearchQuery from '@theme/hooks/useSearchQuery';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
@@ -162,7 +162,7 @@ function SearchPage(): JSX.Element {
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
-  const {searchQuery, setSearchQuery} = useSearchQuery();
+  const {searchQuery, setSearchQuery} = useSearchPage();
   const initialSearchResultState: ResultDispatcherState = {
     items: [],
     query: null,

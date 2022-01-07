@@ -126,3 +126,4 @@ export {default as useKeyboardNavigation} from './hooks/useKeyboardNavigation';
 export {default as usePrismTheme} from './hooks/usePrismTheme';
 export {default as useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {default as useWindowSize} from './hooks/useWindowSize';
+export {default as useSearchPage} from './hooks/useSearchPage';

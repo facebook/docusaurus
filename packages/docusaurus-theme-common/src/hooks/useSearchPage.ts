@@ -8,11 +8,16 @@
 import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useCallback, useEffect, useState} from 'react';
-import type {SearchQuery} from '@theme/hooks/useSearchQuery';
 
 const SEARCH_PARAM_QUERY = 'q';
 
-function useSearchQuery(): SearchQuery {
+interface UseSearchPageReturn {
+  searchQuery: string;
+  setSearchQuery: (newSearchQuery: string) => void;
+  generateSearchPageLink: (targetSearchQuery: string) => string;
+}
+
+export default function useSearchPage(): UseSearchPageReturn {
   const history = useHistory();
   const {
     siteConfig: {baseUrl},
@@ -59,5 +64,3 @@ function useSearchQuery(): SearchQuery {
     generateSearchPageLink,
   };
 }
-
-export default useSearchQuery;

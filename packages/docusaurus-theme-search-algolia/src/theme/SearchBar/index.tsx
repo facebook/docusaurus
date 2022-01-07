@@ -13,8 +13,7 @@ import {useHistory} from '@docusaurus/router';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import useSearchQuery from '@theme/hooks/useSearchQuery';
-import {isRegexpStringMatch} from '@docusaurus/theme-common';
+import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
 import {translate} from '@docusaurus/Translate';
@@ -56,7 +55,7 @@ type ResultsFooterProps = {
 };
 
 function ResultsFooter({state, onClose}: ResultsFooterProps) {
-  const {generateSearchPageLink} = useSearchQuery();
+  const {generateSearchPageLink} = useSearchPage();
 
   return (
     <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
