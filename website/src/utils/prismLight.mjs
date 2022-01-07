@@ -6,7 +6,7 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import lightTheme from 'prism-react-renderer/themes/github/index.js';
+import lightTheme from 'prism-react-renderer/themes/github/index.cjs.js';
 
 export default {
   ...lightTheme,
