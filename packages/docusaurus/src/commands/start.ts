@@ -219,12 +219,7 @@ export default async function start(
     port,
     setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      middlewares.unshift(
-        evalSourceMapMiddleware(
-          // @ts-expect-error: bad types
-          devServer,
-        ),
-      );
+      middlewares.unshift(evalSourceMapMiddleware(devServer));
       return middlewares;
     },
   };

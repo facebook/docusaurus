@@ -247,6 +247,7 @@ export function createConfigFile({
       'enableUpdateBy',
       'docsSideNavCollapsible',
       'gaTrackingId',
+      'gaGtag',
     ];
     const value = siteConfig[key as keyof typeof siteConfig];
     if (value !== undefined && !knownFields.includes(key)) {
@@ -293,6 +294,15 @@ export function createConfigFile({
           },
           blog: {},
           theme: {},
+          ...(() => {
+            if (siteConfig.gaTrackingId) {
+              if (siteConfig.gaGtag) {
+                return {gtag: {trackingID: siteConfig.gaTrackingId}};
+              }
+              return {googleAnalytics: {trackingID: siteConfig.gaTrackingId}};
+            }
+            return undefined;
+          })(),
         },
       ],
     ],
@@ -351,11 +361,6 @@ export function createConfigFile({
         },
       },
       algolia: siteConfig.algolia ? siteConfig.algolia : undefined,
-      gtag: siteConfig.gaTrackingId
-        ? {
-            trackingID: siteConfig.gaTrackingId,
-          }
-        : undefined,
     },
   };
 }

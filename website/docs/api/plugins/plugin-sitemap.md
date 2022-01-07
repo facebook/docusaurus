@@ -62,8 +62,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: sitemap
-// plugin name: @docusaurus/plugin-sitemap
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
 
 const config = {
   changefreq: 'weekly',

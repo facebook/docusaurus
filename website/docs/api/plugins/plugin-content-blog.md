@@ -111,8 +111,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: blog
-// plugin name: @docusaurus/plugin-content-blog
+// Preset Options: blog
+// Plugin Options: @docusaurus/plugin-content-blog
 
 const config = {
   path: 'blog',

@@ -59,8 +59,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: gtag
-// plugin name: @docusaurus/plugin-google-gtag
+// Preset Options: gtag
+// Plugin Options: @docusaurus/plugin-google-gtag
 
 const config = {
   trackingID: '141789564',
