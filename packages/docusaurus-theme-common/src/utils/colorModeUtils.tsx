@@ -128,7 +128,7 @@ export function useColorMode(): ColorModeContextValue {
   );
   if (context == null) {
     throw new Error(
-      '"colorMode" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#usethemecontext.',
+      '"useColorMode()" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
     );
   }
   return context;

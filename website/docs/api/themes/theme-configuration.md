@@ -905,20 +905,20 @@ module.exports = {
 
 ## Hooks {#hooks}
 
-### `useThemeContext` {#usethemecontext}
+### `useColorMode` {#use-color-mode}
 
-React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
+A React hook to access the color context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
 
 Usage example:
 
 ```jsx
 import React from 'react';
 // highlight-next-line
-import useThemeContext from '@theme/hooks/useThemeContext';
+import {useColorMode} from '@docusaurus/theme-common';
 
 const Example = () => {
   // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
 
   return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
 };
@@ -926,7 +926,7 @@ const Example = () => {
 
 :::note
 
-The component calling `useThemeContext` must be a child of the `Layout` component.
+The component calling `useColorMode` must be a child of the `Layout` component.
 
 ```jsx
 function ExamplePage() {
