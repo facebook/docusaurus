@@ -11,7 +11,7 @@ import {
   useAllDocsData,
   useDocsData,
   type GlobalVersion,
-} from '@theme/hooks/useDocs';
+} from '@docusaurus/plugin-content-docs/client';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 

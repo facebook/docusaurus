@@ -6,7 +6,7 @@
  */
 
 import React, {createContext, type ReactNode, useContext} from 'react';
-import {useAllDocsData} from '@theme/hooks/useDocs';
+import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,

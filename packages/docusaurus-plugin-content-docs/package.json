@@ -3,6 +3,10 @@
   "version": "2.0.0-beta.14",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
+  "exports": {
+    "./client": "./lib/client/index.js",
+    ".": "./lib/index.js"
+  },
   "types": "src/plugin-content-docs.d.ts",
   "scripts": {
     "build": "tsc",

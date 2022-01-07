@@ -16,7 +16,10 @@ import React, {
 import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
-import {useAllDocsData, type GlobalPluginData} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  type GlobalPluginData,
+} from '@docusaurus/plugin-content-docs/client';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 

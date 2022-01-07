@@ -79,14 +79,6 @@ export default async function pluginContentDocs(
   return {
     name: 'docusaurus-plugin-content-docs',
 
-    getThemePath() {
-      return path.resolve(__dirname, './theme');
-    },
-
-    getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
-    },
-
     extendCli(cli) {
       const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;
 
