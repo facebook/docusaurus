@@ -84,7 +84,9 @@ describe('users', () => {
   });
 
   const imageDir = path.join(__dirname, '../showcase');
-  const files = fs.readdirSync(imageDir);
+  const files = fs
+    .readdirSync(imageDir)
+    .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));
 
   files.forEach((file) => {
     test(file, () => {
