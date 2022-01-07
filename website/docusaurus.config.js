@@ -348,6 +348,7 @@ const config = {
         indexName: 'docusaurus-2',
         contextualSearch: true,
       },
+      googleAnalytics: {trackingID: 'hey'},
       navbar: {
         hideOnScroll: true,
         title: 'Docusaurus',
