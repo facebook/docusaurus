@@ -149,23 +149,33 @@ declare module '@theme/DocSidebar' {
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  type DocSidebarPropsBase = {
+  export type DocSidebarPropsBase = {
     readonly activePath: string;
     readonly onItemClick?: (item: PropSidebarItem) => void;
     readonly level: number;
     readonly tabIndex?: number;
   };
 
-  export interface Props extends DocSidebarPropsBase {
+  export interface Props {
+    readonly activePath: string;
+    readonly onItemClick?: (item: PropSidebarItem) => void;
+    readonly level: number;
+    readonly tabIndex?: number;
     readonly item: PropSidebarItem;
   }
-  const DocSidebarItem: (props: Props) => JSX.Element;
-  export default DocSidebarItem;
 
-  export type DocSidebarItemsProps = DocSidebarPropsBase & {
+  export default function DocSidebarItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItems' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export type Props = Omit<DocSidebarItemProps, 'item'> & {
     readonly items: readonly PropSidebarItem[];
   };
-  export const DocSidebarItems: (props: DocSidebarItemsProps) => JSX.Element;
+
+  export default function DocSidebarItems(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionSuggestions' {
@@ -196,12 +206,13 @@ declare module '@theme/Footer' {
 declare module '@theme/Heading' {
   import type {ComponentProps} from 'react';
 
-  export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  export interface Props extends ComponentProps<HeadingType> {}
+  type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-  const Heading: (Tag: HeadingType) => (props: Props) => JSX.Element;
-  export default Heading;
-  export const MainHeading: (props: Props) => JSX.Element;
+  export interface Props extends ComponentProps<HeadingType> {
+    as: HeadingType;
+  }
+
+  export default function Heading(props: Props): JSX.Element;
 }
 
 declare module '@theme/hooks/useHideableNavbar' {
@@ -372,18 +383,9 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
-  import type {ReactNode} from 'react';
-  import type {LinkProps} from '@docusaurus/Link';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
-  export type NavLinkProps = LinkProps & {
-    readonly activeBasePath?: string;
-    readonly activeBaseRegex?: string;
-    readonly exact?: boolean;
-    readonly label?: ReactNode;
-    readonly prependBaseUrlToHref?: string;
-  };
-
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
@@ -393,17 +395,30 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly mobile?: boolean;
   }
 
-  export const NavLink: (props: NavLinkProps) => JSX.Element;
+  export default function DefaultNavbarItem(props: Props): JSX.Element;
+}
 
-  const DefaultNavbarItem: (props: Props) => JSX.Element;
-  export default DefaultNavbarItem;
+declare module '@theme/NavbarItem/NavbarNavLink' {
+  import type {ReactNode} from 'react';
+  import type {LinkProps} from '@docusaurus/Link';
+
+  export type Props = LinkProps & {
+    readonly activeBasePath?: string;
+    readonly activeBaseRegex?: string;
+    readonly exact?: boolean;
+    readonly label?: ReactNode;
+    readonly prependBaseUrlToHref?: string;
+  };
+
+  export default function NavbarNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
-  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
+
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly position?: 'left' | 'right';
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
@@ -524,6 +539,10 @@ declare module '@theme/NavbarItem' {
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/NavbarItem/utils' {
+  export function getInfimaActiveClassName(mobile?: boolean): string;
 }
 
 declare module '@theme/PaginatorNavLink' {
