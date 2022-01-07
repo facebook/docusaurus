@@ -13,8 +13,6 @@ const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
-const lightTheme = require('./src/utils/prismLight');
-const darkTheme = require('./src/utils/prismDark');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -329,8 +327,6 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
       },
       prism: {
-        theme: lightTheme,
-        darkTheme,
         // We need to load markdown again so that YAML is loaded before MD
         // and the YAML front matter is highlighted correctly.
         // TODO after we have forked prism-react-renderer, we should tweak the
@@ -519,8 +515,15 @@ const config = {
 async function createConfig() {
   const FeatureRequestsPlugin = (await import('./src/featureRequests/FeatureRequestsPlugin.mjs')).default;
   const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
+  const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
   config.plugins?.push(FeatureRequestsPlugin);
+  // @ts-expect-error: we know it exists, right
   config.presets[0][1].docs.remarkPlugins.push(configTabs);
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.theme = lightTheme;
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.darkTheme = darkTheme;
   return config;
 }
 
