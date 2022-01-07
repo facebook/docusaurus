@@ -55,11 +55,11 @@ Accepted fields:
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the doc. |
 | `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the doc was updated. |
-| `disableVersioning` | `boolean` | `false` | Explicitly disable the versioning feature even with versions. This will only include the "current" version (the `/docs` directory). |
-| `includeCurrentVersion` | `boolean` | `true` | Include the "current" version of your docs (the `/docs` directory). <br /> Tip: turn it off if the current version is a work-in-progress, not ready to be published. |
-| `lastVersion` | `string` | `current` (alias for the first version to appear in `versions.json` and at the "root" (docs have `path=/docs/myDoc`)) | Set the version navigated to in priority on versioned sites and the one displayed by default in docs navbar items. <br /> Note: the path and label of the last version are configurable. <br /> Tip: `lastVersion: 'current'` makes sense in many cases. |
+| `disableVersioning` | `boolean` | `false` | Explicitly disable versioning even with versions. This will make the site only include the current version. |
+| `includeCurrentVersion` | `boolean` | `true` | Include the current version of your docs. |
+| `lastVersion` | `string` | First version in `versions.json` | Set the version navigated to in priority and displayed by default for docs navbar items. |
+| `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. |
 | `versions` | `Versions` | `{}` | Independent customization of each version's properties. |
-| `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. <br /> Tip: limit to 2 or 3 versions to improve startup and build time in dev and deploy previews. |
 
 </APITable>
 

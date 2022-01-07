@@ -73,7 +73,6 @@
     "@types/jest": "^26.0.20",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.0.0",
-    "image-size": "^1.0.0",
     "raw-loader": "^4.0.2"
   }
 }

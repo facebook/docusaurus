@@ -11,6 +11,7 @@ import {Joi} from '@docusaurus/utils-validation';
 
 import fs from 'fs-extra';
 import path from 'path';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import imageSize from 'image-size';
 
 declare global {
