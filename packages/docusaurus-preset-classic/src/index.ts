@@ -48,6 +48,16 @@ export default function preset(
   if (algolia) {
     themes.push(require.resolve('@docusaurus/theme-search-algolia'));
   }
+  if ('gtag' in themeConfig) {
+    throw new Error(
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+  if ('googleAnalytics' in themeConfig) {
+    throw new Error(
+      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. For preset-classic, simply move themeConfig.googleAnalytics to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
 
   const plugins: PluginConfig[] = [];
   if (docs !== false) {
@@ -59,7 +69,7 @@ export default function preset(
   if (pages !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
   }
-  if (isProd && googleAnalytics) {
+  if (googleAnalytics) {
     plugins.push(
       makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics),
     );
@@ -67,7 +77,7 @@ export default function preset(
   if (debug || (debug === undefined && !isProd)) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
-  if (isProd && gtag) {
+  if (gtag) {
     plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
   }
   if (isProd && sitemap !== false) {
