@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import {fileURLToPath} from 'url';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import fs from 'fs-extra';
 
@@ -52,7 +53,7 @@ const EXPECTED_CSS_MARKERS = [
   '.DocSearch-Modal',
 ];
 
-const cssDirName = path.join(__dirname, 'build', 'assets', 'css');
+const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));
 
 const cssFileNames = (await fs.readdir(cssDirName)).filter((file) => file.endsWith('.css'));
 
