@@ -6,7 +6,7 @@
  */
 
 import {getTranslationFiles, translateThemeConfig} from '../translations';
-import {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 const ThemeConfigSample: ThemeConfig = {

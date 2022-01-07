@@ -6,9 +6,9 @@
  */
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {PrismTheme} from 'prism-react-renderer';
-import {CSSProperties} from 'react';
-import {DeepPartial} from 'utility-types';
+import type {PrismTheme} from 'prism-react-renderer';
+import type {CSSProperties} from 'react';
+import type {DeepPartial} from 'utility-types';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 

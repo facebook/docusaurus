@@ -20,18 +20,18 @@ import {
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {
+import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 
-import {
+import type {
   PluginOptions,
   LoadedContent,
   Metadata,

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {EnumChangefreq} from 'sitemap';
+import type {EnumChangefreq} from 'sitemap';
 
 export type Options = {
   changefreq?: EnumChangefreq;
   priority?: number;
-  trailingSlash?: boolean;
 };

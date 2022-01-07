@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Plugin} from '@docusaurus/types';
+import type {Plugin} from '@docusaurus/types';
 
 export default function loadClientModules(
   plugins: Plugin<unknown>[],

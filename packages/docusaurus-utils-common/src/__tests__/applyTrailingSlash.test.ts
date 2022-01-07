@@ -6,7 +6,7 @@
  */
 
 import applyTrailingSlash, {
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '../applyTrailingSlash';
 
 function params(

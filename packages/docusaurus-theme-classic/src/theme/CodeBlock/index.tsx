@@ -7,7 +7,7 @@
 
 import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
-import Highlight, {defaultProps, Language} from 'prism-react-renderer';
+import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import Translate, {translate} from '@docusaurus/Translate';
 import {

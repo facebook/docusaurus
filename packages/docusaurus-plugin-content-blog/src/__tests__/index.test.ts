@@ -8,10 +8,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
+import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
-import {Joi} from '@docusaurus/utils-validation';
+import type {PluginOptions, EditUrlFunction, BlogPost} from '../types';
+import type {Joi} from '@docusaurus/utils-validation';
 import {posixPath} from '@docusaurus/utils';
 
 function findByTitle(

@@ -6,11 +6,16 @@
  */
 
 import fs from 'fs-extra';
-import traverse, {Node} from '@babel/traverse';
+import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
 import logger from '@docusaurus/logger';
-import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
 import {
+  parse,
+  type types as t,
+  type NodePath,
+  type TransformOptions,
+} from '@babel/core';
+import type {
   InitializedPlugin,
   TranslationFileContent,
   TranslationMessage,

@@ -22,7 +22,7 @@ import {
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import {
+import type {
   PluginOptions,
   BlogTags,
   BlogContent,
@@ -35,7 +35,7 @@ import {
   Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
+import type {
   LoadContext,
   ConfigureWebpackUtils,
   Props,
@@ -44,13 +44,13 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
 
 export default async function pluginContentBlog(

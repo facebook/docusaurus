@@ -107,7 +107,7 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import {ReactElement} from 'react';
+  import type {ReactElement} from 'react';
 
   export interface Props {
     readonly children: string | ReactElement;
@@ -182,7 +182,7 @@ declare module '@theme/EditThisPage' {
 }
 
 declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   const ErrorPageContent: typeof ErrorComponent;
   export default ErrorPageContent;
@@ -220,7 +220,7 @@ declare module '@theme/hooks/useLockBodyScroll' {
 }
 
 declare module '@theme/hooks/usePrismTheme' {
-  import defaultTheme from 'prism-react-renderer/themes/palenight';
+  import type defaultTheme from 'prism-react-renderer/themes/palenight';
 
   const usePrismTheme: () => typeof defaultTheme;
   export default usePrismTheme;
@@ -477,10 +477,23 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
   export default DocsSidebarNavbarItem;
 }
 
+declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly sidebarId: string;
+    readonly docsPluginId?: string;
+  }
+
+  const DocSidebarNavbarItem: (props: Props) => JSX.Element;
+  export default DocSidebarNavbarItem;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
+  import type {Props as DocSidebarNavbarItemProps} from '@theme/NavbarItem/DocSidebarNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
@@ -490,7 +503,8 @@ declare module '@theme/NavbarItem' {
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
@@ -582,7 +596,7 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common';
 
   export interface Props extends DetailsProps {}
   export default Details;

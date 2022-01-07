@@ -366,9 +366,9 @@ const config = {
             label: 'Docs',
           },
           {
-            type: 'doc',
+            type: 'docSidebar',
             position: 'left',
-            docId: 'cli',
+            sidebarId: 'api',
             label: 'API',
           },
           {to: 'blog', label: 'Blog', position: 'left'},

@@ -323,6 +323,14 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
       ],
     },
@@ -1007,6 +1015,14 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
       ],
     },
@@ -2359,6 +2375,14 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
+          "sidebars": Object {
+            "community": Object {
+              "link": Object {
+                "label": "team",
+                "path": "/community/next/team",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -2373,6 +2397,14 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
+          "sidebars": Object {
+            "version-1.0.0/community": Object {
+              "link": Object {
+                "label": "version-1.0.0/team",
+                "path": "/community/team",
+              },
+            },
+          },
         },
       ],
     },
@@ -3407,6 +3439,14 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/next/foo/barSlug",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3426,6 +3466,14 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
+          "sidebars": Object {
+            "VersionedSideBarNameDoesNotMatter/docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3450,6 +3498,14 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
+          "sidebars": Object {
+            "version-1.0.0/docs": Object {
+              "link": Object {
+                "label": "version-1.0.0/foo/bar",
+                "path": "/docs/1.0.0/foo/barSlug",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3499,6 +3555,14 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
+          "sidebars": Object {
+            "version-1.0.1/docs": Object {
+              "link": Object {
+                "label": "version-withSlugs/rootAbsoluteSlug",
+                "path": "/docs/withSlugs/rootAbsoluteSlug",
+              },
+            },
+          },
         },
       ],
     },

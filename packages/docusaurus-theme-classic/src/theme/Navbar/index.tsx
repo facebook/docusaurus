@@ -21,7 +21,7 @@ import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useWindowSize from '@theme/hooks/useWindowSize';
 import {useActivePlugin} from '@theme/hooks/useDocs';
-import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
+import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 import IconClose from '@theme/IconClose';

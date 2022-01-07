@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import {PathOptions, SidebarOptions} from '../types';
+import type {PathOptions, SidebarOptions} from '../types';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
