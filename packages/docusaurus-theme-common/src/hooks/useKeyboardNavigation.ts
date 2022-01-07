@@ -11,7 +11,7 @@ import './styles.css';
 
 // This hook detect keyboard focus indicator to not show outline for mouse users
 // Inspired by https://hackernoon.com/removing-that-ugly-focus-ring-and-keeping-it-too-6c8727fefcd2
-function useKeyboardNavigation(): void {
+export default function useKeyboardNavigation(): void {
   useEffect(() => {
     const keyboardFocusedClassName = 'navigation-with-keyboard';
 
@@ -35,5 +35,3 @@ function useKeyboardNavigation(): void {
     };
   }, []);
 }
-
-export default useKeyboardNavigation;

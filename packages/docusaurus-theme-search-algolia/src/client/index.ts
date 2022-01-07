@@ -5,8 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createContext} from 'react';
-
-const UserPreferencesContext = createContext(undefined);
-
-export default UserPreferencesContext;
+export {useAlgoliaContextualFacetFilters} from './useAlgoliaContextualFacetFilters';

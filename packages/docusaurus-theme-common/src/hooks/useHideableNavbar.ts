@@ -6,10 +6,17 @@
  */
 
 import {useState, useCallback, useRef} from 'react';
-import {useLocationChange, useScrollPosition} from '@docusaurus/theme-common';
-import type {useHideableNavbarReturns} from '@theme/hooks/useHideableNavbar';
+import {useLocationChange} from '../utils/useLocationChange';
+import {useScrollPosition} from '../utils/scrollUtils';
 
-const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
+type UseHideableNavbarReturns = {
+  readonly navbarRef: (node: HTMLElement | null) => void;
+  readonly isNavbarVisible: boolean;
+};
+
+export default function useHideableNavbar(
+  hideOnScroll: boolean,
+): UseHideableNavbarReturns {
   const [isNavbarVisible, setIsNavbarVisible] = useState(hideOnScroll);
   const isFocusedAnchor = useRef(false);
   const navbarHeight = useRef(0);
@@ -67,6 +74,4 @@ const useHideableNavbar = (hideOnScroll: boolean): useHideableNavbarReturns => {
     navbarRef,
     isNavbarVisible,
   };
-};
-
-export default useHideableNavbar;
+}

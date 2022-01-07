@@ -5,11 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
+import type {ReactNode} from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useContext,
+  useMemo,
+} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {useThemeReturns} from '@theme/hooks/useTheme';
-import {useThemeConfig, createStorageSlot} from '@docusaurus/theme-common';
+import {createStorageSlot} from './storageUtils';
+import {useThemeConfig} from './useThemeConfig';
+
+type ColorModeContextValue = {
+  readonly isDarkTheme: boolean;
+  readonly setLightTheme: () => void;
+  readonly setDarkTheme: () => void;
+};
 
 const ThemeStorage = createStorageSlot('theme');
 
@@ -35,7 +48,7 @@ const storeTheme = (newTheme: Themes) => {
   createStorageSlot('theme').set(coerceToTheme(newTheme));
 };
 
-const useTheme = (): useThemeReturns => {
+function useColorModeContextValue(): ColorModeContextValue {
   const {
     colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
@@ -86,6 +99,37 @@ const useTheme = (): useThemeReturns => {
     setLightTheme,
     setDarkTheme,
   };
-};
+}
 
-export default useTheme;
+const ColorModeContext = React.createContext<ColorModeContextValue | undefined>(
+  undefined,
+);
+
+export function ColorModeProvider({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorModeContextValue();
+  const contextValue = useMemo(
+    () => ({isDarkTheme, setLightTheme, setDarkTheme}),
+    [isDarkTheme, setLightTheme, setDarkTheme],
+  );
+  return (
+    <ColorModeContext.Provider value={contextValue}>
+      {children}
+    </ColorModeContext.Provider>
+  );
+}
+
+export function useColorMode(): ColorModeContextValue {
+  const context = useContext<ColorModeContextValue | undefined>(
+    ColorModeContext,
+  );
+  if (context == null) {
+    throw new Error(
+      '"useColorMode()" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
+    );
+  }
+  return context;
+}

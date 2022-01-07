@@ -8,7 +8,6 @@
 import {useEffect, useState} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import type {WindowSize} from '@theme/hooks/useWindowSize';
 
 const windowSizes = {
   desktop: 'desktop',
@@ -20,6 +19,8 @@ const windowSizes = {
   // We don't return "undefined" on purpose, to make it more explicit
   ssr: 'ssr',
 } as const;
+
+type WindowSize = keyof typeof windowSizes;
 
 const DesktopThresholdWidth = 996;
 
@@ -38,7 +39,7 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
 // This hook returns an enum value on purpose!
 // We don't want it to return the actual width value, for resize perf reasons
 // We only want to re-render once a breakpoint is crossed
-function useWindowSize(): WindowSize {
+export default function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';
@@ -65,5 +66,3 @@ function useWindowSize(): WindowSize {
 
   return windowSize;
 }
-
-export default useWindowSize;

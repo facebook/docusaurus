@@ -15,8 +15,7 @@ import Footer from '@theme/Footer';
 import LayoutProviders from '@theme/LayoutProviders';
 import LayoutHead from '@theme/LayoutHead';
 import type {Props} from '@theme/Layout';
-import useKeyboardNavigation from '@theme/hooks/useKeyboardNavigation';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useKeyboardNavigation} from '@docusaurus/theme-common';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 
