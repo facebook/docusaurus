@@ -13,7 +13,7 @@ import {
   useActivePlugin,
   useDocVersionSuggestions,
   type GlobalVersion,
-} from '@theme/hooks/useDocs';
+} from '@docusaurus/plugin-content-docs/client';
 import {
   ThemeClassNames,
   useDocsPreferredVersion,

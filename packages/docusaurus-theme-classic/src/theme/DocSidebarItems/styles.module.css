@@ -5,8 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createContext} from 'react';
+@media (min-width: 997px) {
+  .menuLinkText {
+    cursor: initial;
+  }
+  .menuLinkText:hover {
+    background: none;
+  }
 
-const UserPreferencesContext = createContext(undefined);
-
-export default UserPreferencesContext;
+  .menuLinkText.hasHref {
+    cursor: pointer;
+  }
+}

@@ -58,9 +58,6 @@ function getComponentType(
   return type as NavbarItemComponentType;
 }
 
-export const getInfimaActiveClassName = (mobile?: boolean): string =>
-  mobile ? 'menu__link--active' : 'navbar__link--active';
-
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const componentType = getComponentType(
     type,

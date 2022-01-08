@@ -7,9 +7,12 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
+import {
+  useLatestVersion,
+  useActiveDocContext,
+} from '@docusaurus/plugin-content-docs/client';
 import clsx from 'clsx';
-import {getInfimaActiveClassName} from './index';
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';

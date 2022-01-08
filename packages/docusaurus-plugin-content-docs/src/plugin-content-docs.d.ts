@@ -241,7 +241,8 @@ declare module '@theme/Seo' {
   export default Seo;
 }
 
-declare module '@theme/hooks/useDocs' {
+// TODO can't we infer types directly from code?
+declare module '@docusaurus/plugin-content-docs/client' {
   type GlobalPluginData = import('./types').GlobalPluginData;
   type GlobalVersion = import('./types').GlobalVersion;
   type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;

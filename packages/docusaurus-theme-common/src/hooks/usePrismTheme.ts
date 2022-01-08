@@ -6,17 +6,15 @@
  */
 
 import defaultTheme from 'prism-react-renderer/themes/palenight';
-import useThemeContext from '@theme/hooks/useThemeContext';
-import {useThemeConfig} from '@docusaurus/theme-common';
+import {useColorMode} from '../utils/colorModeUtils';
+import {useThemeConfig} from '../utils/useThemeConfig';
 
-const usePrismTheme = (): typeof defaultTheme => {
+export default function usePrismTheme(): typeof defaultTheme {
   const {prism} = useThemeConfig();
-  const {isDarkTheme} = useThemeContext();
+  const {isDarkTheme} = useColorMode();
   const lightModeTheme = prism.theme || defaultTheme;
   const darkModeTheme = prism.darkTheme || lightModeTheme;
   const prismTheme = isDarkTheme ? darkModeTheme : lightModeTheme;
 
   return prismTheme;
-};
-
-export default usePrismTheme;
+}

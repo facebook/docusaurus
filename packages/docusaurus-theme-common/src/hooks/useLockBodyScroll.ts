@@ -7,7 +7,7 @@
 
 import {useEffect} from 'react';
 
-function useLockBodyScroll(lock: boolean = true): void {
+export default function useLockBodyScroll(lock: boolean = true): void {
   useEffect(() => {
     document.body.style.overflow = lock ? 'hidden' : 'visible';
 
@@ -16,5 +16,3 @@ function useLockBodyScroll(lock: boolean = true): void {
     };
   }, [lock]);
 }
-
-export default useLockBodyScroll;
