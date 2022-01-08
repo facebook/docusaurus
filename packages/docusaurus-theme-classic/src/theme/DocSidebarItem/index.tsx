@@ -122,13 +122,20 @@ function DocSidebarItemCategory({
   const {autoCollapseSidebarCategories} = useThemeConfig();
   useEffect(() => {
     if (
+      collapsible &&
       expandedItem &&
       expandedItem !== index &&
       autoCollapseSidebarCategories
     ) {
       setCollapsed(true);
     }
-  }, [expandedItem, index, setCollapsed, autoCollapseSidebarCategories]);
+  }, [
+    collapsible,
+    expandedItem,
+    index,
+    setCollapsed,
+    autoCollapseSidebarCategories,
+  ]);
 
   return (
     <li
