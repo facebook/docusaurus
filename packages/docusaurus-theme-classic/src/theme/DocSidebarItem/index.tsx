@@ -115,13 +115,9 @@ function DocSidebarItemCategory({
 
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
-  function updateCollapsed(newState: boolean = !collapsed) {
-    if (!newState) {
-      setExpandedItem(index);
-    } else {
-      setExpandedItem(null);
-    }
-    setCollapsed(newState);
+  function updateCollapsed(toCollapsed: boolean = !collapsed) {
+    setExpandedItem(toCollapsed ? null : index);
+    setCollapsed(toCollapsed);
   }
   const {autoCollapseSidebarCategories} = useThemeConfig();
   useEffect(() => {
