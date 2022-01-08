@@ -913,7 +913,9 @@ module.exports = {
 
 :::
 
-## Hideable sidebar {#hideable-sidebar}
+## Theme configuration
+
+### Hideable sidebar {#hideable-sidebar}
 
 By enabling the `themeConfig.hideableSidebar` option, you can make the entire sidebar hideable, allowing users to better focus on the content. This is especially useful when content is consumed on medium-sized screens (e.g. tablets).
 
@@ -923,6 +925,19 @@ module.exports = {
     // highlight-start
     hideableSidebar: true,
     // highlight-end
+  },
+};
+```
+
+### Auto-collapse sidebar categories
+
+The `themeConfig.autoCollapseSidebarCategories` option would collapse all sibling categories when expanding one category. This saves the user from having too many categories open and helps them focus on the selected section.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-next-line
+    autoCollapseSidebarCategories: true,
   },
 };
 ```
