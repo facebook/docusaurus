@@ -6,21 +6,20 @@
  */
 
 import {merge} from 'lodash';
+import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
-const {ThemeConfigSchema, DEFAULT_CONFIG} = require('../validateThemeConfig');
+import {normalizeThemeConfig} from '@docusaurus/utils-validation';
+import theme from 'prism-react-renderer/themes/github';
+import darkTheme from 'prism-react-renderer/themes/dracula';
 
-const {normalizeThemeConfig} = require('@docusaurus/utils-validation');
-const theme = require('prism-react-renderer/themes/github');
-const darkTheme = require('prism-react-renderer/themes/dracula');
-
-function testValidateThemeConfig(partialThemeConfig) {
+function testValidateThemeConfig(partialThemeConfig: Record<string, unknown>) {
   return normalizeThemeConfig(ThemeConfigSchema, {
     ...DEFAULT_CONFIG,
     ...partialThemeConfig,
   });
 }
 
-function testOk(partialThemeConfig) {
+function testOk(partialThemeConfig: Record<string, unknown>) {
   expect(
     testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
   ).toEqual({

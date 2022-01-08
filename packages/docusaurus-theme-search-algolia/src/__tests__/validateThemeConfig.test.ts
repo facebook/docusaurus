@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {validateThemeConfig, DEFAULT_CONFIG} = require('../validateThemeConfig');
+import type {Joi} from '@docusaurus/utils-validation';
+import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 
-function testValidateThemeConfig(themeConfig) {
-  function validate(schema, cfg) {
+function testValidateThemeConfig(themeConfig: Record<string, unknown>) {
+  function validate(schema: Joi.Schema, cfg: Record<string, unknown>) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });
