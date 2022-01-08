@@ -19,25 +19,12 @@ async function delay(ms) {
   });
 }
 
-async function run() {
-  if (
-    process.env.NETLIFY === 'true' &&
-    process.env.SITE_NAME === 'docusaurus-i18n-staging'
-  ) {
-    console.log(
-      '[Crowdin] Delaying the docusaurus-i18n-staging deployment to avoid 409 errors',
-    );
-    await delay(30000);
-  }
+if (
+  process.env.NETLIFY === 'true' &&
+  process.env.SITE_NAME === 'docusaurus-i18n-staging'
+) {
+  console.log(
+    '[Crowdin] Delaying the docusaurus-i18n-staging deployment to avoid 409 errors',
+  );
+  await delay(30000);
 }
-
-run().then(
-  () => {
-    process.exit(0);
-  },
-  (e) => {
-    console.error(e.message);
-    console.error(e.stack);
-    process.exit(1);
-  },
-);

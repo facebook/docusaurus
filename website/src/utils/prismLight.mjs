@@ -6,9 +6,9 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-const lightTheme = require('prism-react-renderer/themes/github');
+import lightTheme from 'prism-react-renderer/themes/github/index.cjs.js';
 
-module.exports = {
+export default {
   ...lightTheme,
   styles: [
     ...lightTheme.styles,

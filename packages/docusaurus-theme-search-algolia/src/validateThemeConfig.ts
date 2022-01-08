@@ -8,7 +8,7 @@
 import {Joi} from '@docusaurus/utils-validation';
 import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
-const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG = {
   contextualSearch: false, // future: maybe we want to enable this by default
 
   // By default, all Docusaurus sites are using the same AppId
@@ -17,7 +17,6 @@ const DEFAULT_CONFIG = {
 
   searchParameters: {},
 };
-exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 export const Schema = Joi.object({
   algolia: Joi.object({

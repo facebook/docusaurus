@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const rimraf = require('rimraf');
-const {readFileSync, writeFileSync, readdirSync} = require('fs');
-const {execSync} = require('child_process');
+/* eslint-disable import/no-extraneous-dependencies */
+
+import fs from 'fs-extra';
+import shell from 'shelljs';
 
 const NODE_MAJOR_VERSION = parseInt(process.versions.node.split('.')[0], 10);
 if (NODE_MAJOR_VERSION < 16) {
@@ -20,7 +20,7 @@ if (NODE_MAJOR_VERSION < 16) {
 // Generate one example per init template
 // We use those generated examples as CodeSandbox projects
 // See https://github.com/facebook/docusaurus/issues/1699
-function generateTemplateExample(template) {
+async function generateTemplateExample(template) {
   try {
     console.log(
       `generating ${template} template for codesandbox in the examples folder...`,
@@ -30,20 +30,17 @@ function generateTemplateExample(template) {
     const command = template.endsWith('-typescript')
       ? template.replace('-typescript', ' -- --typescript')
       : template;
-    execSync(
+    shell.exec(
       // /!\ we use the published init script on purpose,
       // because using the local init script is too early and could generate upcoming/unavailable config options
       // remember CodeSandbox templates will use the published version, not the repo version
       `npm init docusaurus@latest examples/${template} ${command}`,
       // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
-      {
-        stdio: 'inherit',
-      },
     );
 
     // read the content of the package.json
     const templatePackageJson = JSON.parse(
-      readFileSync(`examples/${template}/package.json`, 'utf8'),
+      await fs.readFile(`examples/${template}/package.json`, 'utf8'),
     );
 
     // attach the dev script which would be used in code sandbox by default
@@ -64,7 +61,7 @@ function generateTemplateExample(template) {
         : `Docusaurus example project (${template} template)`;
 
     // rewrite the package.json file with the new edit
-    writeFileSync(
+    await fs.writeFile(
       `./examples/${template}/package.json`,
       `${JSON.stringify(templatePackageJson, null, 2)}\n`,
     );
@@ -80,7 +77,7 @@ function generateTemplateExample(template) {
         node: '14',
       },
     };
-    writeFileSync(
+    await fs.writeFile(
       `./examples/${template}/sandbox.config.json`,
       `${JSON.stringify(codeSanboxConfig, null, 2)}\n`,
     );
@@ -89,7 +86,7 @@ function generateTemplateExample(template) {
       installDependencies: true,
       startCommand: 'npm start',
     };
-    writeFileSync(
+    await fs.writeFile(
       `./examples/${template}/.stackblitzrc`,
       `${JSON.stringify(stackBlitzConfig, null, 2)}\n`,
     );
@@ -115,7 +112,7 @@ function updateStarters() {
     const command = `git push ${remote} \`git subtree split --prefix ${subfolder}\`:${remoteBranch} --force`;
     try {
       console.log(`forcePushGitSubtree command: ${command}`);
-      execSync(command);
+      shell.exec(command);
       console.log('forcePushGitSubtree success!');
     } catch (e) {
       console.error(
@@ -150,60 +147,58 @@ function updateStarters() {
   console.log('');
 }
 
-function run() {
-  const branch = execSync('git rev-parse --abbrev-ref HEAD').toString();
-  if (branch === 'main') {
-    throw new Error(
-      "Please don't generate Docusaurus examples from the main branch!\nWe are going to commit during this process!",
-    );
-  }
-  try {
-    execSync('git diff --exit-code');
-  } catch (e) {
-    throw new Error(
-      'Please run the generate examples command with a clean Git state and no uncommited local changes. git diff should display nothing!',
-    );
-  }
-
-  console.log('');
-  console.log('# Generate examples start!');
-  console.log('');
-
-  // delete the examples directories if they exists
-  console.log('-------');
-  console.log('## Removing example folders...');
-  rimraf.sync('./examples/classic');
-  rimraf.sync('./examples/classic-typescript');
-  rimraf.sync('./examples/facebook');
-  console.log('');
-
-  // get the list of all available templates
-  console.log('-------');
-  console.log('## Generate example folders...');
-  console.log('');
-  const excludes = ['README.md', 'shared'];
-  const templates = readdirSync(
-    './packages/create-docusaurus/templates',
-  ).filter((name) => !excludes.includes(name));
-  console.log(`Will generate examples for templates: ${templates}`);
-  templates.forEach(generateTemplateExample);
-  console.log('Commiting changes');
-  execSync('git add examples');
-  execSync("git commit -am 'update examples' --allow-empty");
-  console.log('');
-
-  // update starters
-  console.log('-------');
-  console.log('# Updating starter repos and branches ...');
-  console.log('It can take some time... please wait until done...');
-  updateStarters();
-
-  console.log('');
-  console.log('-------');
-  console.log('');
-  console.log('Generate examples end!');
-  console.log("Don't forget to push and merge your pull-request!");
-  console.log('');
+const branch = shell.exec('git rev-parse --abbrev-ref HEAD').stdout;
+if (branch === 'main') {
+  throw new Error(
+    "Please don't generate Docusaurus examples from the main branch!\nWe are going to commit during this process!",
+  );
+}
+if (shell.exec('git diff --exit-code').code !== 0) {
+  throw new Error(
+    'Please run the generate examples command with a clean Git state and no uncommitted local changes. git diff should display nothing!',
+  );
 }
 
-run();
+console.log(`
+# Generate examples start!
+`);
+
+// delete the examples directories if they exists
+console.log(`-------
+## Removing example folders...
+`);
+await fs.rm('./examples/classic', {recursive: true, force: true});
+await fs.rm('./examples/classic-typescript', {recursive: true, force: true});
+await fs.rm('./examples/facebook', {recursive: true, force: true});
+
+// get the list of all available templates
+console.log(`
+-------
+## Generate example folders...
+`);
+const excludes = ['README.md', 'shared'];
+const templates = (
+  await fs.readdir('./packages/create-docusaurus/templates')
+).filter((name) => !excludes.includes(name));
+console.log(`Will generate examples for templates: ${templates.join(',')}`);
+// eslint-disable-next-line no-restricted-syntax
+for (const template of templates) {
+  await generateTemplateExample(template);
+}
+console.log('Commiting changes');
+shell.exec('git add examples');
+shell.exec("git commit -am 'update examples' --allow-empty");
+
+// update starters
+console.log(`
+-------
+# Updating starter repos and branches ...
+It can take some time... please wait until done...
+`);
+updateStarters();
+
+console.log(`
+-------
+Generate examples end!
+Don't forget to push and merge your pull request!
+`);

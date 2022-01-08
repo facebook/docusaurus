@@ -5,17 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {normalizeUrl} = require('@docusaurus/utils');
+import utils from '@docusaurus/utils';
 
 /**
  * @param {import('@docusaurus/types').LoadContext} context
  * @returns {import('@docusaurus/types').Plugin}
  */
-function FeatureRequestsPlugin(context) {
+export default function FeatureRequestsPlugin(context) {
   return {
     name: 'feature-requests-plugin',
     async contentLoaded({actions}) {
-      const basePath = normalizeUrl([context.baseUrl, '/feature-requests']);
+      const basePath = utils.normalizeUrl([
+        context.baseUrl,
+        '/feature-requests',
+      ]);
       await actions.createData('paths.json', JSON.stringify(basePath));
       actions.addRoute({
         path: basePath,
@@ -28,5 +31,3 @@ function FeatureRequestsPlugin(context) {
     },
   };
 }
-
-module.exports = FeatureRequestsPlugin;

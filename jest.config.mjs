@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import {fileURLToPath} from 'url';
 
 const ignorePatterns = [
   '/node_modules/',
@@ -21,8 +21,8 @@ const ignorePatterns = [
   '/packages/docusaurus-migrate/lib',
 ];
 
-module.exports = {
-  rootDir: path.resolve(__dirname),
+export default {
+  rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',

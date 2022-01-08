@@ -39,6 +39,7 @@ module.exports = {
       },
     },
   },
+  reportUnusedDisableDirectives: true,
   plugins: ['react-hooks', 'header'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
@@ -208,7 +209,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

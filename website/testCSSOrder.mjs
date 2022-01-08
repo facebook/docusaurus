@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import {fileURLToPath} from 'url';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import fs from 'fs-extra';
 
 /*
 This verifies CSS ordering on the Docusaurus site itself,
@@ -51,11 +53,11 @@ const EXPECTED_CSS_MARKERS = [
   '.DocSearch-Modal',
 ];
 
-const cssDirName = path.join(__dirname, 'build', 'assets', 'css');
+const cssDirName = fileURLToPath(new URL('build/assets/css', import.meta.url));
 
-const cssFileNames = fs
-  .readdirSync(cssDirName)
-  .filter((file) => file.endsWith('.css'));
+const cssFileNames = (await fs.readdir(cssDirName)).filter((file) =>
+  file.endsWith('.css'),
+);
 
 if (cssFileNames.length !== 1) {
   throw new Error('unexpected: more than 1 css file');
@@ -64,7 +66,7 @@ const cssFile = path.join(cssDirName, cssFileNames[0]);
 
 console.log('Inspecting CSS file for test CSS markers', cssFile);
 
-const cssFileContent = fs.readFileSync(cssFile, 'utf8');
+const cssFileContent = await fs.readFile(cssFile, 'utf8');
 
 const cssMarkersWithPositions = EXPECTED_CSS_MARKERS.map((marker) => {
   const position = cssFileContent.indexOf(marker);
@@ -88,8 +90,7 @@ const sortBy = (key) => (a, b) =>
   // eslint-disable-next-line no-nested-ternary
   a[key] > b[key] ? 1 : b[key] > a[key] ? -1 : 0;
 
-const sortedCSSMarkers = cssMarkersWithPositions
-  .concat()
+const sortedCSSMarkers = [...cssMarkersWithPositions]
   .sort(sortBy('position'))
   .map(({marker}) => marker);
 
