@@ -100,6 +100,20 @@ my-website
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them
 - `/sidebar.js` - Used by the documentation to specify the order of documents in the sidebar
 
+### Monorepos
+
+If you have multiple sites within the same repository, a monorepo may be the solution for you. An example monorepo folder structure is below:
+
+```bash
+my-monorepo
+├── website # Docusaurus root
+│   ├── Docs
+│   └── package.json # Docusaurus'
+├── package.json # Project's
+```
+
+If you're using a hosting provider such as Netlify or Vercel, you will need to change the `Base directory` of the site to where your Docusaurus root is. In this case, that would be `\website`.
+
 ## Running the development server {#running-the-development-server}
 
 To preview your changes as you edit the files, you can run a local development server that will serve your website and reflect the latest changes.
