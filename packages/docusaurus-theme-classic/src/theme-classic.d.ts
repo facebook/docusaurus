@@ -149,19 +149,13 @@ declare module '@theme/DocSidebar' {
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  export type DocSidebarPropsBase = {
-    readonly activePath: string;
-    readonly onItemClick?: (item: PropSidebarItem) => void;
-    readonly level: number;
-    readonly tabIndex?: number;
-  };
-
   export interface Props {
     readonly activePath: string;
     readonly onItemClick?: (item: PropSidebarItem) => void;
     readonly level: number;
     readonly tabIndex?: number;
     readonly item: PropSidebarItem;
+    readonly index: number;
   }
 
   export default function DocSidebarItem(props: Props): JSX.Element;
@@ -171,7 +165,7 @@ declare module '@theme/DocSidebarItems' {
   import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  export type Props = Omit<DocSidebarItemProps, 'item'> & {
+  export type Props = Omit<DocSidebarItemProps, 'item' | 'index'> & {
     readonly items: readonly PropSidebarItem[];
   };
 

@@ -14,6 +14,7 @@ import {
   useCollapsible,
   findFirstCategoryLink,
   ThemeClassNames,
+  useDocSidebarItemsExpandedState,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -92,6 +93,7 @@ function DocSidebarItemCategory({
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible, className, href} = item;
@@ -99,7 +101,7 @@ function DocSidebarItemCategory({
 
   const isActive = isActiveSidebarItem(item, activePath);
 
-  const {collapsed, setCollapsed, toggleCollapsed} = useCollapsible({
+  const {collapsed, setCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
     // the default (item.collapsed) is only used for non-active categories
     initialState: () => {
@@ -111,6 +113,20 @@ function DocSidebarItemCategory({
   });
 
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
+  const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
+  function updateCollapsed(newState: boolean = !collapsed) {
+    if (!newState) {
+      setExpandedItem(index);
+    } else {
+      setExpandedItem(null);
+    }
+    setCollapsed(newState);
+  }
+  useEffect(() => {
+    if (expandedItem && expandedItem !== index) {
+      setCollapsed(true);
+    }
+  }, [expandedItem, index, setCollapsed]);
 
   return (
     <li
@@ -136,10 +152,10 @@ function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    setCollapsed(false);
+                    updateCollapsed(false);
                   } else {
                     e.preventDefault();
-                    toggleCollapsed();
+                    updateCollapsed();
                   }
                 }
               : () => {
@@ -165,7 +181,7 @@ function DocSidebarItemCategory({
             className="clean-btn menu__caret"
             onClick={(e) => {
               e.preventDefault();
-              toggleCollapsed();
+              updateCollapsed();
             }}
           />
         )}
@@ -189,6 +205,7 @@ function DocSidebarItemLink({
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label, className} = item;
