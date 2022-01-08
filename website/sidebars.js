@@ -102,12 +102,20 @@ const sidebars = {
             },
           ],
         },
+        'guides/whats-next',
       ],
     },
     {
       type: 'category',
       label: 'Advanced Guides',
-      items: ['using-plugins', 'using-themes', 'presets'],
+      link: {type: 'doc', id: 'advanced/index'},
+      items: [
+        'advanced/architecture',
+        'advanced/customize-appearance',
+        'advanced/routing',
+        'advanced/using-plugins',
+        'advanced/presets',
+      ],
     },
     {
       type: 'category',

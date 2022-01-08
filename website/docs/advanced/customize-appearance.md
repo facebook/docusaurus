@@ -1,92 +1,24 @@
 ---
-id: using-themes
-title: Themes
+description: Customize your site's appearance through creating your own theme components
 ---
 
-Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on the client-side, whereas plugins are more focused on server-side functionalities. Themes are also designed to be replaceable with other themes.
+# Customizing Appearance
 
-**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
+> Déja vu...?
 
-For example, a Docusaurus blog consists of a blog plugin and a blog theme.
+This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write more code and go deeper into the internals.
 
-:::note
+We know you are busy, so we will start with the "how" before going into the "why".
 
-This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
-
-:::
-
-```js title="docusaurus.config.js"
-module.exports = {
-  themes: ['theme-blog'],
-  plugins: ['plugin-content-blog'],
-};
-```
-
-And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  themes: ['theme-blog-bootstrap'],
-  plugins: ['plugin-content-blog'],
-};
-```
-
-## Available themes {#available-themes}
-
-We maintain a [list of official themes](./api/themes/overview.md).
-
-## Using themes {#using-themes}
-
-To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // ...
-  // highlight-next-line
-  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
-};
-```
-
-## Theme components {#theme-components}
-
-Most of the time, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
-
-Users can use these components in their code by importing them using the `@theme` webpack alias:
-
-```js
-import Navbar from '@theme/Navbar';
-```
-
-The alias `@theme` can refer to a few directories, in the following priority:
-
-1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
-2. A Docusaurus theme package's `theme` directory.
-3. Fallback components provided by Docusaurus core (usually not needed).
-
-## Swizzling theme components {#swizzling-theme-components}
+## Swizzling
 
 ```mdx-code-block
-import SwizzleWarning from "./_partials/swizzleWarning.mdx"
+import SwizzleWarning from "../_partials/swizzleWarning.mdx"
 
 <SwizzleWarning/>
 ```
 
-Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`. Given the following structure:
-
-```
-website
-├── node_modules
-│   └── docusaurus-theme
-│       └── theme
-│           └── Navbar.js
-└── src
-    └── theme
-        └── Navbar.js
-```
-
-`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
-
-To swizzle a component for a theme, run the following command in your doc site:
+Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle` (for why it's called that, see [below](#theme-aliases)). To swizzle a component for a theme, run the following command in your doc site:
 
 ```bash npm2yarn
 npm run swizzle <theme name> [component name]
@@ -112,11 +44,7 @@ npm run swizzle @docusaurus/theme-classic
 
 Sometimes, you just want to wrap an existing theme component with additional logic, and it can be a pain to have to maintain an almost duplicate copy of the original theme component.
 
-In this case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it.
-
-### For site owners {#for-site-owners}
-
-The `@theme-original` alias allows you to import the original theme component.
+In this case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it. The `@theme-original` alias allows you to import the original theme component.
 
 Here is an example to display some text just above the footer, with minimal code duplication.
 
@@ -162,9 +90,91 @@ Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme
 
 :::
 
-<details>
+## Theme design
 
-<summary>How are theme aliases resolved?</summary>
+When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest is familiar to any React developer: splitting into components, bundling with Webpack, calling `ReactDOM.renderToDOM`...
+
+**Themes provide the set of UI components to render the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
+
+For example, a Docusaurus blog may consist of a blog plugin and a blog theme.
+
+:::note
+
+This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themes: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+};
+```
+
+## Theme aliases
+
+As aforementioned, a theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`. Users can use these components in their code by importing them using the `@theme` webpack alias:
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+The alias `@theme` can refer to a few directories, in the following priority:
+
+1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
+2. A Docusaurus theme package's `theme` directory.
+3. Fallback components provided by Docusaurus core (usually not needed).
+
+Given the following structure:
+
+```
+website
+├── node_modules
+│   └── docusaurus-theme
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
+
+### For plugin authors {#for-plugin-authors}
+
+One theme can wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
+
+Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
+
+```js
+import InitialCodeBlock from '@theme-init/CodeBlock';
+import React from 'react';
+
+export default function CodeBlock(props) {
+  return props.live ? (
+    <ReactLivePlayground {...props} />
+  ) : (
+    <InitialCodeBlock {...props} />
+  );
+}
+```
+
+Check the code of `@docusaurus/theme-live-codeblock` for details.
+
+:::caution
+
+Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme-live-codeblock`), you likely don't need `@theme-init`.
+
+:::
 
 It can be quite hard to wrap your mind around these aliases. Let's imagine the following case with a super convoluted setup with three themes/plugins and the site itself all trying to define the same component. Internally, Docusaurus loads these themes as a "stack".
 
@@ -188,7 +198,7 @@ The components in this "stack" are pushed in the order of `preset plugins > pres
 
 `@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
 
-</details>
+<!-- TODO integrate the content below  -->
 
 ## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 

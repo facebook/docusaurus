@@ -1,6 +1,7 @@
 ---
 id: presets
 title: Presets
+slug: /presets
 ---
 
 Presets are collections of plugins and themes.

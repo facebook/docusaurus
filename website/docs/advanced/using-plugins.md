@@ -1,6 +1,7 @@
 ---
 id: using-plugins
 title: Plugins
+slug: /using-plugins
 ---
 
 Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of a bundle via [presets](presets.md).

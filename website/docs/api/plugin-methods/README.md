@@ -35,7 +35,7 @@ interface LoadContext {
 
 ### `options` {#options}
 
-`options` are the [second optional parameter when the plugins are used](../../using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. If there's a [`validateOptions`](./static-methods.md#validateOptions) function exported, the `options` will be validated and normalized beforehand.
+`options` are the [second optional parameter when the plugins are used](../../advanced/using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. If there's a [`validateOptions`](./static-methods.md#validateOptions) function exported, the `options` will be validated and normalized beforehand.
 
 Alternatively, if a preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to the individual plugin to define what options it takes.
 
