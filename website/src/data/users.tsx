@@ -644,14 +644,6 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
-    title: 'GraphQL Mesh',
-    description: 'Query anything, run everywhere',
-    preview: require('./showcase/graphql-mesh.png'),
-    website: 'https://graphql-mesh.com',
-    source: 'https://github.com/urigo/graphql-mesh',
-    tags: ['opensource'],
-  },
-  {
     title: 'GTFS-to-HTML',
     description: 'Generate human-readable HTML timetables from GTFS',
     preview: require('./showcase/gtfs-to-html.png'),
@@ -969,6 +961,7 @@ const Users: User[] = [
     source: 'https://github.com/miroiu/nodify',
     tags: ['opensource', 'design'],
   },
+  // TODO site unavailable on 01/08/2022
   {
     title: 'OCPeasy',
     description:
@@ -1024,7 +1017,7 @@ const Users: User[] = [
     description:
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
     preview: require('./showcase/pearl-ui.png'),
-    website: 'https://www.pearl-ui.dev/',
+    website: 'https://docs.pearl-ui.dev/',
     source: 'https://github.com/agrawal-rohit/pearl-ui',
     tags: ['opensource', 'design', 'product'],
   },
