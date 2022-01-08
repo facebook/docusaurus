@@ -11,7 +11,7 @@ import BrowserOnly from '../BrowserOnly';
 
 jest.mock('@docusaurus/useIsBrowser', () => () => true);
 
-describe('Tabs', () => {
+describe('BrowserOnly', () => {
   test('Should reject react element children', () => {
     process.env.NODE_ENV = 'development';
     expect(() => {
