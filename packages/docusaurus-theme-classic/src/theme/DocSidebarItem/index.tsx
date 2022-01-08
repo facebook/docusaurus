@@ -14,6 +14,7 @@ import {
   useCollapsible,
   findFirstCategoryLink,
   ThemeClassNames,
+  useThemeConfig,
   useDocSidebarItemsExpandedState,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
@@ -122,11 +123,16 @@ function DocSidebarItemCategory({
     }
     setCollapsed(newState);
   }
+  const {autoCollapseSidebarCategories} = useThemeConfig();
   useEffect(() => {
-    if (expandedItem && expandedItem !== index) {
+    if (
+      expandedItem &&
+      expandedItem !== index &&
+      autoCollapseSidebarCategories
+    ) {
       setCollapsed(true);
     }
-  }, [expandedItem, index, setCollapsed]);
+  }, [expandedItem, index, setCollapsed, autoCollapseSidebarCategories]);
 
   return (
     <li
