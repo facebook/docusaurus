@@ -12,11 +12,11 @@ import {
   useVersions,
   useLatestVersion,
   useActiveDocContext,
-} from '@theme/hooks/useDocs';
+} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
-import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs-types';
+import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
 
 const getVersionMainDoc = (version: GlobalDataVersion) =>
   version.docs.find((doc) => doc.id === version.mainDocId)!;

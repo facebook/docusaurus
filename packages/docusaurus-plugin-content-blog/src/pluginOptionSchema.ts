@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import {PluginOptions} from './types';
+import type {PluginOptions} from './types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},
@@ -42,6 +42,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   editLocalizedFiles: false,
   authorsMapPath: 'authors.yml',
   readingTime: ({content, defaultReadingTime}) => defaultReadingTime({content}),
+  sortPosts: 'descending',
 };
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
@@ -89,12 +90,12 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   feedOptions: Joi.object({
     type: Joi.alternatives()
       .try(
-        Joi.array().items(Joi.string()),
+        Joi.array().items(Joi.string().equal('rss', 'atom', 'json')),
         Joi.alternatives().conditional(
-          Joi.string().equal('all', 'rss', 'atom'),
+          Joi.string().equal('all', 'rss', 'atom', 'json'),
           {
             then: Joi.custom((val) =>
-              val === 'all' ? ['rss', 'atom'] : [val],
+              val === 'all' ? ['rss', 'atom', 'json'] : [val],
             ),
           },
         ),
@@ -115,4 +116,7 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   }).default(DEFAULT_OPTIONS.feedOptions),
   authorsMapPath: Joi.string().default(DEFAULT_OPTIONS.authorsMapPath),
   readingTime: Joi.function().default(() => DEFAULT_OPTIONS.readingTime),
+  sortPosts: Joi.string()
+    .valid('descending', 'ascending')
+    .default(DEFAULT_OPTIONS.sortPosts),
 });

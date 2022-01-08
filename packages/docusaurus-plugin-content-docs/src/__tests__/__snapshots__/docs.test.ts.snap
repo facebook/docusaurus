@@ -3,14 +3,15 @@
 exports[`simple site custom pagination 1`] = `
 Array [
   Array [
+    undefined,
     Object {
-      "permalink": "/docs/rootTryToEscapeSlug",
-      "title": "rootTryToEscapeSlug",
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
     },
-    Object {
-      "permalink": "/docs/foo/bazSlug.html",
-      "title": "baz pagination_label",
-    },
+  ],
+  Array [
+    undefined,
+    undefined,
   ],
   Array [
     Object {
@@ -23,9 +24,12 @@ Array [
     },
   ],
   Array [
-    undefined,
     Object {
-      "permalink": "/docs/hello",
+      "permalink": "/docs/doc with space",
+      "title": "Hoo hoo, if this path tricks you...",
+    },
+    Object {
+      "permalink": "/docs/",
       "title": "Hello sidebar_label",
     },
   ],
@@ -41,7 +45,7 @@ Array [
   ],
   Array [
     Object {
-      "permalink": "/docs/hello",
+      "permalink": "/docs/",
       "title": "Hello sidebar_label",
     },
     Object {

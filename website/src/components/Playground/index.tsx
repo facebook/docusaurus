@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable global-require */
+
 import React from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
@@ -32,7 +34,7 @@ const Playgrounds = [
         id="playground.stackblitz.description"
         values={{
           webContainersLink: (
-            <Link target="https://blog.stackblitz.com/posts/introducing-webcontainers/">
+            <Link href="https://blog.stackblitz.com/posts/introducing-webcontainers/">
               WebContainers
             </Link>
           ),
@@ -77,7 +79,7 @@ function PlaygroundCard({name, image, url, description}: Props) {
   );
 }
 
-export function PlaygroundCardsRow() {
+export function PlaygroundCardsRow(): JSX.Element {
   return (
     <div className="row">
       {Playgrounds.map((playground) => (

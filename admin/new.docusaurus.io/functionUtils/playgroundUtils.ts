@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {HandlerEvent, HandlerResponse} from '@netlify/functions';
+import type {HandlerEvent, HandlerResponse} from '@netlify/functions';
 
 const CookieName = 'DocusaurusPlaygroundName';
 
@@ -52,7 +52,7 @@ export function createPlaygroundResponse(
 // Inspired by https://stackoverflow.com/a/3409200/82609
 function parseCookieString(cookieString: string): Record<string, string> {
   const result: Record<string, string> = {};
-  cookieString.split(';').forEach(function (cookie) {
+  cookieString.split(';').forEach((cookie) => {
     const [name, value] = cookie.split('=');
     result[name.trim()] = decodeURI(value);
   });

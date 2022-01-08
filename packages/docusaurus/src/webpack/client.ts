@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
-import {Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
@@ -19,21 +19,12 @@ export default function createClientConfig(
   props: Props,
   minify: boolean = true,
 ): Configuration {
-  const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
     // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
-    entry: [
-      // Instead of the default WebpackDevServer client, we use a custom one
-      // like CRA to bring better experience.
-      // note: the one in ./dev is modified to work with Docusaurus
-      // !isProd && require.resolve('react-dev-utils/hotDevServer.js'),
-      !isProd &&
-        require.resolve('./react-dev-utils-webpack5/webpackHotDevClient.js'),
-      path.resolve(__dirname, '../client/clientEntry.js'),
-    ].filter(Boolean) as string[],
+    entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -54,12 +45,9 @@ export default function createClientConfig(
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {
-            console.log(
-              chalk.red(
-                'Client bundle compiled with errors therefore further build is impossible.',
-              ),
+            logger.error(
+              'Client bundle compiled with errors therefore further build is impossible.',
             );
-
             process.exit(1);
           }
         });

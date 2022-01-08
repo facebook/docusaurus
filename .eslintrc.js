@@ -31,7 +31,6 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'airbnb',
     'prettier',
-    'prettier/react',
   ],
   settings: {
     'import/resolver': {
@@ -40,6 +39,7 @@ module.exports = {
       },
     },
   },
+  reportUnusedDisableDirectives: true,
   plugins: ['react-hooks', 'header'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
@@ -49,9 +49,12 @@ module.exports = {
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
+      {
+        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
+      },
     ],
     'import/extensions': OFF,
+    'no-restricted-exports': OFF,
     'header/header': [
       ERROR,
       'block',
@@ -81,7 +84,19 @@ module.exports = {
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
+    'react/function-component-definition': [
+      WARNING,
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
+    '@typescript-eslint/consistent-type-imports': [
+      WARNING,
+      {disallowTypeAnnotations: false},
+    ],
     'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,
@@ -95,19 +110,16 @@ module.exports = {
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
-    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
+    '@typescript-eslint/no-non-null-assertion': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
       {argsIgnorePattern: '^_', ignoreRestSiblings: true},
     ],
+    '@typescript-eslint/explicit-module-boundary-types': WARNING,
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
-
-    // TODO re-enable some these as errors
-    // context: https://github.com/facebook/docusaurus/pull/2949
-    '@typescript-eslint/ban-types': WARNING,
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
@@ -115,10 +127,11 @@ module.exports = {
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
-    'no-unused-expressions': WARNING,
+    'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
@@ -134,6 +147,7 @@ module.exports = {
         allowSingleExtends: true,
       },
     ],
+    '@typescript-eslint/method-signature-style': ERROR,
     'no-restricted-imports': [
       ERROR,
       {
@@ -152,7 +166,6 @@ module.exports = {
               'head',
               'tail',
               'initial',
-              'last',
             ],
             message: 'These APIs have their ES counterparts.',
           },
@@ -161,6 +174,16 @@ module.exports = {
     ],
   },
   overrides: [
+    {
+      files: [
+        'packages/docusaurus-theme-*/src/theme/**/*.js',
+        'packages/docusaurus-theme-*/src/theme/**/*.ts',
+        'packages/docusaurus-theme-*/src/theme/**/*.tsx',
+      ],
+      rules: {
+        'import/no-named-export': ERROR,
+      },
+    },
     {
       files: [
         'packages/create-docusaurus/templates/**/*.js',
@@ -180,7 +203,13 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'import/no-import-module-exports': OFF,
+      },
+    },
+    {
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

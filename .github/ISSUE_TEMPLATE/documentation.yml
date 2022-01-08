@@ -1,0 +1,47 @@
+name: 📚 Documentation
+description: Report an issue related to documentation
+labels: [documentation, 'status: needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is strictly used for documentation requests, including:
+
+        - Documenting undocumented APIs;
+        - Elaborating on a particular topic;
+        - Updating external links;
+        - anything else that doesn't require touching the codebase itself.
+
+        If you followed the documentation but things don't work, take some time to consider if it's the documentation or the code that's wrong. In the latter, prefer using the "bug" template.
+
+        We seldom close documentation pull requests unmerged. If your documentation request is:
+
+        - Relevant to a significant proportion of Docusaurus users;
+        - Not about external tooling (e.g. deployment workflow. We have a "deployment" section but we have decided to keep it mostly as-is);
+        - Not documented elsewhere (or, if it is documented, the mention is in very undiscoverable places).
+
+        You may proceed directly to sending a pull request without filing this issue, and we can improve on your work.
+        If you think some of the requirements above are not met, or if you are not able to contribute yourself, the issue is still welcomed.
+
+  - type: checkboxes
+    attributes:
+      label: Have you read the Contributing Guidelines on issues?
+      options:
+        - label: I have read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/main/CONTRIBUTING.md#reporting-new-issues).
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the issue is.
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Self-service
+      description: |
+        If you feel like you could contribute to this issue, please check the box below. This would tell us and other people looking for contributions that someone's working on it.
+        If you do check this box, please send a pull request within 7 days so we can still delegate this to someone else.
+      options:
+        - label: I'd be willing to address this documentation request myself.

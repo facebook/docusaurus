@@ -6,15 +6,13 @@ build
 coverage
 jest.config.js
 jest.transform.js
-website/
-scripts
 examples/
 
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
-packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
+copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook/.eslintrc.js

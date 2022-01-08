@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {parse, ParserOptions} from '@babel/parser';
+import {parse, type ParserOptions} from '@babel/parser';
 import type {Identifier} from '@babel/types';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';

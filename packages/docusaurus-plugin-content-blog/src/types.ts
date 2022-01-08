@@ -11,8 +11,8 @@ import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import {Overwrite} from 'utility-types';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {Overwrite} from 'utility-types';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -24,7 +24,7 @@ export interface BlogContent {
   blogTagsListPath: string | null;
 }
 
-export type FeedType = 'rss' | 'atom';
+export type FeedType = 'rss' | 'atom' | 'json';
 
 export type FeedOptions = {
   type?: FeedType[] | null;
@@ -96,6 +96,7 @@ export type PluginOptions = RemarkAndRehypePluginOptions & {
   admonitions: Record<string, unknown>;
   authorsMapPath: string;
   readingTime: ReadingTimeFunctionOption;
+  sortPosts: 'ascending' | 'descending';
 };
 
 // Options, as provided in the user config (before normalization)
@@ -159,6 +160,7 @@ export interface MetaData {
   truncated: boolean;
   editUrl?: string;
   authors: Author[];
+  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
 }
 
 export interface Assets {

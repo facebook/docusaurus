@@ -2,6 +2,8 @@
 id: bar
 title: Bar
 description: This is custom description
+pagination_next: null
+pagination_prev: null
 ---
 
 # Remarkable

@@ -10,7 +10,7 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-  ReactNode,
+  type ReactNode,
   useContext,
   createContext,
 } from 'react';
@@ -41,13 +41,13 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
   const {announcementBar} = useThemeConfig();
   const isBrowser = useIsBrowser();
 
-  const [isClosed, setClosed] = useState(() => {
-    return isBrowser
+  const [isClosed, setClosed] = useState(() =>
+    isBrowser
       ? // On client navigation: init with localstorage value
         isDismissedInStorage()
       : // On server/hydration: always visible to prevent layout shifts (will be hidden with css if needed)
-        false;
-  });
+        false,
+  );
   // Update state after hydration
   useEffect(() => {
     setClosed(isDismissedInStorage());
@@ -85,28 +85,29 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
     }
   }, [announcementBar]);
 
-  return useMemo(() => {
-    return {
+  return useMemo(
+    () => ({
       isActive: !!announcementBar && !isClosed,
       close: handleClose,
-    };
-  }, [announcementBar, isClosed, handleClose]);
+    }),
+    [announcementBar, isClosed, handleClose],
+  );
 };
 
 const AnnouncementBarContext = createContext<AnnouncementBarAPI | null>(null);
 
-export const AnnouncementBarProvider = ({
+export function AnnouncementBarProvider({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element => {
+}): JSX.Element {
   const value = useAnnouncementBarContextValue();
   return (
     <AnnouncementBarContext.Provider value={value}>
       {children}
     </AnnouncementBarContext.Provider>
   );
-};
+}
 
 export const useAnnouncementBar = (): AnnouncementBarAPI => {
   const api = useContext(AnnouncementBarContext);

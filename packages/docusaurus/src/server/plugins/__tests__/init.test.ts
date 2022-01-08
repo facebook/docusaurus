@@ -7,17 +7,21 @@
 
 import path from 'path';
 
-import {loadContext, LoadContextOptions, loadPluginConfigs} from '../../index';
+import {
+  loadContext,
+  loadPluginConfigs,
+  type LoadContextOptions,
+} from '../../index';
 import initPlugins from '../init';
 import {sortConfig} from '../index';
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 
 describe('initPlugins', () => {
   async function loadSite(options: LoadContextOptions = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
     const context = await loadContext(siteDir, options);
     const pluginConfigs = loadPluginConfigs(context);
-    const plugins = initPlugins({
+    const plugins = await initPlugins({
       pluginConfigs,
       context,
     });
@@ -84,6 +88,44 @@ describe('sortConfig', () => {
     ];
 
     sortConfig(routes);
+
+    expect(routes).toMatchSnapshot();
+  });
+
+  test('should sort route config given a baseURL', () => {
+    const baseURL = '/latest';
+    const routes: RouteConfig[] = [
+      {
+        path: baseURL,
+        component: '',
+        routes: [
+          {path: `${baseURL}/someDoc`, component: ''},
+          {path: `${baseURL}/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/example`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/docs`,
+        component: '',
+        routes: [
+          {path: `${baseURL}/docs/someDoc`, component: ''},
+          {path: `${baseURL}/docs/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}/community`,
+        component: '',
+      },
+      {
+        path: `${baseURL}/some-page`,
+        component: '',
+      },
+    ];
+
+    sortConfig(routes, baseURL);
 
     expect(routes).toMatchSnapshot();
   });

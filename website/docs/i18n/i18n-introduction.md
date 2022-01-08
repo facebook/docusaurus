@@ -27,7 +27,7 @@ The goals of the Docusaurus i18n system are:
 - **Easy to use with [Crowdin](https://crowdin.com/)**: multiple Docusaurus v1 sites use Crowdin, and should be able to migrate to v2
 - **Good SEO defaults**: we set useful SEO headers like [`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions) for you
 - **RTL support**: locales reading right-to-left (Arabic, Hebrew, etc.) are supported and easy to implement
-- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/codeTranslations)
+- **Default translations**: classic theme labels are translated for you in [many languages](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
 
 ### i18n non-goals {#i18n-non-goals}
 
@@ -44,12 +44,12 @@ We don't provide support for:
 Overview of the workflow to create a translated Docusaurus website:
 
 1. **Configure**: declare the default locale and alternative locales in `docusaurus.config.js`
-1. **Translate**: put the translation files at the correct filesystem location
-1. **Deploy**: build and deploy your site using a single or multi-domain strategy
+2. **Translate**: put the translation files at the correct filesystem location
+3. **Deploy**: build and deploy your site using a single or multi-domain strategy
 
 ### Translation files {#translation-files}
 
-You will have to work with 2 kind of translation files.
+You will work with 2 kinds of translation files.
 
 #### Markdown files {#markdown-files}
 
@@ -83,7 +83,7 @@ The JSON format used is called **Chrome i18n**:
 The choice was made for 2 reasons:
 
 - **Description attribute**: to help translators with additional context
-- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json)
+- **Widely supported**: [Chrome extensions](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json), etc.
 
 ### Translation files location {#translation-files-location}
 
@@ -92,12 +92,12 @@ The translation files should be created at the correct filesystem location.
 Each locale and plugin has its own `i18n` subfolder:
 
 ```
-website/i18n/<locale>/<pluginName>/...
+website/i18n/[locale]/[pluginName]/...
 ```
 
 :::note
 
-For multi-instance plugins, the path is `website/i18n/<locale>/<pluginName>-<pluginId>/...`.
+For multi-instance plugins, the path is `website/i18n/[locale]/[pluginName]-[pluginId]/...`.
 
 :::
 

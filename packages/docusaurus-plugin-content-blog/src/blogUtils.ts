@@ -6,11 +6,10 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
-import {
+import type {
   PluginOptions,
   BlogPost,
   BlogContentPaths,
@@ -29,10 +28,12 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getContentPathList,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import logger from '@docusaurus/logger';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -52,13 +53,11 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-  return mapValues(groups, (group) => {
-    return {
-      name: group.tag.label,
-      items: group.items.map((item) => item.id),
-      permalink: group.tag.permalink,
-    };
-  });
+  return mapValues(groups, (group) => ({
+    name: group.tag.label,
+    items: group.items.map((item) => item.id),
+    permalink: group.tag.permalink,
+  }));
 }
 
 const DATE_FILENAME_REGEX =
@@ -112,9 +111,8 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
   };
 }
 
-const defaultReadingTime: ReadingTimeFunction = ({content, options}) => {
-  return readingTime(content, options).minutes;
-};
+const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
+  readingTime(content, options).minutes;
 
 async function processBlogSourceFile(
   blogSourceRelative: string,
@@ -154,11 +152,7 @@ async function processBlogSourceFile(
   }
 
   if (frontMatter.id) {
-    console.warn(
-      chalk.yellow(
-        `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-      ),
-    );
+    logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
   }
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
@@ -166,7 +160,12 @@ async function processBlogSourceFile(
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
-      return new Date(frontMatter.date);
+      if (typeof frontMatter.date === 'string') {
+        // Always treat dates as UTC by adding the `Z`
+        return new Date(`${frontMatter.date}Z`);
+      }
+      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
+      return frontMatter.date;
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
@@ -222,7 +221,7 @@ async function processBlogSourceFile(
   const authors = getBlogPostAuthors({authorsMap, frontMatter});
 
   return {
-    id: frontMatter.slug ?? title,
+    id: slug,
     metadata: {
       permalink,
       editUrl: getBlogEditUrl(),
@@ -241,6 +240,7 @@ async function processBlogSourceFile(
         : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
+      frontMatter,
     },
     content,
   };
@@ -279,11 +279,7 @@ export async function generateBlogPosts(
             authorsMap,
           );
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Processing of blog source file failed for path "${blogSourceFile}"`,
-            ),
-          );
+          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
           throw e;
         }
       }),
@@ -294,6 +290,9 @@ export async function generateBlogPosts(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );
 
+  if (options.sortPosts === 'ascending') {
+    return blogPosts.reverse();
+  }
   return blogPosts;
 }
 
@@ -324,9 +323,4 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
-}
-
-// Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

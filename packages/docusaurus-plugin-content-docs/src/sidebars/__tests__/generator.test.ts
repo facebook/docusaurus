@@ -6,10 +6,10 @@
  */
 
 import {
-  CategoryMetadatasFile,
   DefaultSidebarItemsGenerator,
+  type CategoryMetadataFile,
 } from '../generator';
-import {Sidebar, SidebarItemsGenerator} from '../types';
+import type {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 
@@ -37,16 +37,18 @@ describe('DefaultSidebarItemsGenerator', () => {
   }
 
   function mockCategoryMetadataFiles(
-    categoryMetadataFiles: Record<string, Partial<CategoryMetadatasFile>>,
+    categoryMetadataFiles: Record<string, Partial<CategoryMetadataFile>>,
   ) {
-    jest.spyOn(fs, 'pathExists').mockImplementation((metadataFilePath) => {
-      return typeof categoryMetadataFiles[metadataFilePath] !== 'undefined';
-    });
+    jest
+      .spyOn(fs, 'pathExists')
+      .mockImplementation(
+        (metadataFilePath) =>
+          typeof categoryMetadataFiles[metadataFilePath] !== 'undefined',
+      );
     jest.spyOn(fs, 'readFile').mockImplementation(
       // @ts-expect-error: annoying TS error due to overrides
-      async (metadataFilePath: string) => {
-        return JSON.stringify(categoryMetadataFiles[metadataFilePath]);
-      },
+      async (metadataFilePath: string) =>
+        JSON.stringify(categoryMetadataFiles[metadataFilePath]),
     );
   }
 
@@ -58,7 +60,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toEqual([]);
     expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringMatching(
-        /No docs found in dir .: can't auto-generate a sidebar/,
+        /.*\[WARNING\].* No docs found in .*\..*: can't auto-generate a sidebar\..*/,
       ),
     );
   });
@@ -130,9 +132,15 @@ describe('DefaultSidebarItemsGenerator', () => {
 
   test('generates complex nested sidebar', async () => {
     mockCategoryMetadataFiles({
-      '02-Guides/_category_.json': {collapsed: false},
+      '02-Guides/_category_.json': {collapsed: false} as CategoryMetadataFile,
       '02-Guides/01-SubGuides/_category_.yml': {
         label: 'SubGuides (metadata file label)',
+        link: {
+          type: 'generated-index',
+          slug: 'subguides-generated-index-slug',
+          title: 'subguides-title',
+          description: 'subguides-description',
+        },
       },
     });
 
@@ -155,6 +163,13 @@ describe('DefaultSidebarItemsGenerator', () => {
           frontMatter: {},
         },
         {
+          id: 'tutorials-index',
+          source: 'index.md',
+          sourceDirName: '01-Tutorials',
+          sidebarPosition: 2,
+          frontMatter: {},
+        },
+        {
           id: 'tutorial2',
           source: 'tutorial2.md',
           sourceDirName: '01-Tutorials',
@@ -166,6 +181,12 @@ describe('DefaultSidebarItemsGenerator', () => {
           source: 'tutorial1.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 1,
+          frontMatter: {},
+        },
+        {
+          id: 'guides-index',
+          source: '02-Guides.md', // TODO should we allow to just use "Guides.md" to have an index?
+          sourceDirName: '02-Guides',
           frontMatter: {},
         },
         {
@@ -210,6 +231,10 @@ describe('DefaultSidebarItemsGenerator', () => {
         label: 'Tutorials',
         collapsed: true,
         collapsible: true,
+        link: {
+          type: 'doc',
+          id: 'tutorials-index',
+        },
         items: [
           {type: 'doc', id: 'tutorial1'},
           {type: 'doc', id: 'tutorial2'},
@@ -220,6 +245,10 @@ describe('DefaultSidebarItemsGenerator', () => {
         label: 'Guides',
         collapsed: false,
         collapsible: true,
+        link: {
+          type: 'doc',
+          id: 'guides-index',
+        },
         items: [
           {type: 'doc', id: 'guide1'},
           {
@@ -228,6 +257,12 @@ describe('DefaultSidebarItemsGenerator', () => {
             collapsed: true,
             collapsible: true,
             items: [{type: 'doc', id: 'nested-guide'}],
+            link: {
+              type: 'generated-index',
+              slug: 'subguides-generated-index-slug',
+              title: 'subguides-title',
+              description: 'subguides-description',
+            },
           },
           {type: 'doc', id: 'guide2'},
         ],
@@ -352,6 +387,77 @@ describe('DefaultSidebarItemsGenerator', () => {
         collapsed: true,
         collapsible: true,
         items: [{type: 'doc', id: 'doc5'}],
+      },
+    ] as Sidebar);
+  });
+
+  test('uses explicit link over the index/readme.{md,mdx} naming convention', async () => {
+    mockCategoryMetadataFiles({
+      'Category/_category_.yml': {
+        label: 'Category label',
+        link: {
+          type: 'doc',
+          id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
+        },
+      },
+    });
+
+    const sidebarSlice = await DefaultSidebarItemsGenerator({
+      numberPrefixParser: DefaultNumberPrefixParser,
+      item: {
+        type: 'autogenerated',
+        dirName: '.',
+      },
+      version: {
+        versionName: 'current',
+        contentPath: '',
+      },
+      docs: [
+        {
+          id: 'parent/doc1',
+          source: 'index.md',
+          sourceDirName: 'Category',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc2',
+          source: 'index.md',
+          sourceDirName: 'Category',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc3',
+          source: 'doc3.md',
+          sourceDirName: 'Category',
+          frontMatter: {},
+        },
+      ],
+      options: {
+        sidebarCollapsed: true,
+        sidebarCollapsible: true,
+      },
+    });
+
+    expect(sidebarSlice).toEqual([
+      {
+        type: 'category',
+        label: 'Category label',
+        collapsed: true,
+        collapsible: true,
+        link: {
+          id: 'parent/doc3',
+          type: 'doc',
+        },
+        items: [
+          {
+            id: 'parent/doc1',
+            type: 'doc',
+          },
+          {
+            id: 'parent/doc2',
+            type: 'doc',
+          },
+        ],
       },
     ] as Sidebar);
   });

@@ -6,7 +6,7 @@
  */
 
 import createSitemap from '../createSitemap';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {EnumChangefreq} from 'sitemap';
 
 describe('createSitemap', () => {
@@ -19,7 +19,6 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        trailingSlash: false,
       },
     );
     expect(sitemap).toContain(
@@ -27,13 +26,12 @@ describe('createSitemap', () => {
     );
   });
 
-  test('empty site', () => {
-    return expect(async () => {
+  test('empty site', () =>
+    expect(async () => {
       await createSitemap({} as DocusaurusConfig, [], {});
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
-    );
-  });
+    ));
 
   test('exclusion of 404 page', async () => {
     const sitemap = await createSitemap(
@@ -44,7 +42,6 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        trailingSlash: false,
       },
     );
     expect(sitemap).not.toContain('404');
@@ -105,24 +102,5 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test2</loc>');
-  });
-
-  test('add trailing slash (deprecated plugin option)', async () => {
-    const sitemap = await createSitemap(
-      {
-        url: 'https://example.com',
-      } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
-      {
-        changefreq: EnumChangefreq.DAILY,
-        priority: 0.7,
-        trailingSlash: true,
-      },
-    );
-
-    expect(sitemap).toContain('<loc>https://example.com/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 });

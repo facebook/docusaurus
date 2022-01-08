@@ -7,7 +7,7 @@
 
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -83,14 +83,13 @@ export function useScrollController(): ScrollController {
   return context;
 }
 
-const getScrollPosition = (): ScrollPosition | null => {
-  return ExecutionEnvironment.canUseDOM
+const getScrollPosition = (): ScrollPosition | null =>
+  ExecutionEnvironment.canUseDOM
     ? {
         scrollX: window.pageXOffset,
         scrollY: window.pageYOffset,
       }
     : null;
-};
 
 type ScrollPosition = {scrollX: number; scrollY: number};
 

@@ -28,13 +28,13 @@ describe('parseCodeBlockTitle', () => {
     expect(parseCodeBlockTitle(`{1,2-3}`)).toEqual(``);
   });
 
-  test('should parse with multiple metadatas title first', () => {
+  test('should parse with multiple metadata title first', () => {
     expect(parseCodeBlockTitle(`title="index.js" label="JavaScript"`)).toEqual(
       `index.js`,
     );
   });
 
-  test('should parse with multiple metadatas title last', () => {
+  test('should parse with multiple metadata title last', () => {
     expect(parseCodeBlockTitle(`label="JavaScript" title="index.js"`)).toEqual(
       `index.js`,
     );

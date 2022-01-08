@@ -4,8 +4,9 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import path from 'path';
-import {ConfigAPI, TransformOptions} from '@babel/core';
+import type {ConfigAPI, TransformOptions} from '@babel/core';
 
 function getTransformOptions(isServer: boolean): TransformOptions {
   const absoluteRuntimePath = path.dirname(

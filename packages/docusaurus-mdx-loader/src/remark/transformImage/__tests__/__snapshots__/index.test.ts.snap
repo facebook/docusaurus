@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/fail.md not found."`;
+exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img/doesNotExist.png or packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/fail.md not found."`;
 
-exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image URL is mandatory in \\"packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md\\" file"`;
+exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image URL is mandatory in \\"packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md\\" file"`;
 
 exports[`transformImage plugin pathname protocol 1`] = `
 "![img](/img/unchecked.png)
@@ -12,20 +12,22 @@ exports[`transformImage plugin pathname protocol 1`] = `
 exports[`transformImage plugin transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
-<img src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
+<img src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
 
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
+<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
 
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img.png\\").default} />
+<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img2.png\\").default} />
 
-<img alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} title=\\"&#39;Quoted&#39; title\\" />
+<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} />
+
+<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img.png\\").default} />
+
+<img alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"&#39;Quoted&#39; title\\" />
 
 ## Heading
 
 \`\`\`md
-![img](./img.png)
+![img](./static/img.png)
 \`\`\`
-
-<img alt={\\"img\\"} src={require(\\"!url-loader?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=file-loader!./img.png\\").default} />
 "
 `;

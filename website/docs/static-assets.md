@@ -3,7 +3,7 @@ id: static-assets
 title: Static Assets
 ---
 
-Every website needs assets: images, stylesheets, favicons etc. In such cases, you can create a directory named `static` at the root of your project.
+Every website needs assets: images, stylesheets, favicons, etc. By default, you are suggested to put these assets in the `static` folder.
 
 Every file you put into **that directory will be copied** into the root of the generated `build` folder with the directory hierarchy preserved. E.g. if you add a file named `sun.jpg` to the static folder, it will be copied to `build/sun.jpg`.
 
@@ -12,13 +12,27 @@ This means that:
 - for site `baseUrl: '/'`, the image `/static/img/docusaurus.png` will be served at `/img/docusaurus.png`.
 - for site `baseUrl: '/subpath/'`, the image `/static/img/docusaurus.png` will be served at `/subpath/img/docusaurus.png`.
 
-## Referencing your static asset {#referencing-your-static-asset}
+You can customize the static directory sources in `docusaurus.config.js`. For example, we can add `public` as another possible path:
 
-You can reference assets from the `static` folder in your code using absolute paths, but this is not ideal because changing the site `baseUrl` will **break those link**s.
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'My site',
+  staticDirectories: ['public', 'static'],
+  // ...
+};
+```
 
-You can `import` / `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
+Now, all files in `public` as well as `static` will be copied to the build output.
 
-### JSX example {#jsx-example}
+## Referencing your static asset
+
+### In JSX
+
+In JSX, you can reference assets from the `static` folder in your code using absolute URLs, but this is not ideal because changing the site `baseUrl` will **break those links**. For the image `<img src="/img/docusaurus.png" />` served at `https://example.com/test`, the browser will try to resolve it from the URL root, i.e. as `https://example.com/img/docusaurus.png`, which will fail because it's actually served at `https://example.com/test/img/docusaurus.png`.
+
+You can `import()` or `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
+
+Examples:
 
 ```jsx title="MyComponent.js"
 import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
@@ -44,34 +58,51 @@ import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
 <DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
 ```
 
-### Markdown example {#markdown-example}
+### In Markdown
 
-Markdown links and images referencing assets of the static folder will be converted to `require("@site/static/assetName.png")"`, and **the site baseUrl will be automatically prepended** for you.
+In Markdown, you can stick to using absolute paths when writing links or images **in Markdown syntax** because Docusaurus handles them as `require` calls instead of URLs when parsing the Markdown. See [Markdown static assets](./guides/markdown-features/markdown-features-assets.mdx).
 
-```md title="my-doc.md"
-![Docusaurus](/img/docusaurus.png)
+```md
+You write a link like this: [Download this document](/files/note.docx)
+
+Docusaurus changes that to: <a href={require('static/files/note.docx')}>Download this document</a>
 ```
 
-Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use html tags like `<img>` instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
+:::caution use markdown syntax
 
-```jsx title="my-doc.mdx"
----
-id: my-doc
-title: My Doc
----
+Docusaurus will only parse links that are in Markdown syntax. If your asset references are using the JSX tag `<a>` / `<img>`, nothing will be done.
 
-// Add to the top of the file below the front matter.
-import useBaseUrl from '@docusaurus/useBaseUrl';
+:::
 
-...
+### In CSS
 
-<img alt="Docusaurus with Keytar" src={useBaseUrl('/img/docusaurus_keytar.svg')} />
+In CSS, the `url()` function is commonly used to reference assets like fonts and images. To reference a static asset, use absolute paths:
+
+```css
+@font-face {
+  font-family: 'Caroline';
+  src: url('/font/Caroline.otf');
+}
 ```
 
-### Caveats {#caveats}
+The `static/font/Caroline.otf` asset will be loaded by the bundler.
+
+:::warning important takeaway
+
+One important takeaway: **never hardcode your base URL!** The base URL is considered an implementation detail and should be easily changeable. All paths, even when they look like URL slugs, are actually file paths.
+
+If you find the URL slug mental model more understandable, here's a rule of thumb:
+
+- Pretend you have a base URL like `/test/` when writing JSX so you don't use an absolute URL path like `src="/img/thumbnail.png"` but instead `require` the asset.
+- Pretend it's `/` when writing Markdown or CSS so you always use absolute paths without the base URL.
+
+:::
+
+## Caveats {#caveats}
 
 Keep in mind that:
 
-- By default, none of the files in `static` folder will be post-processed, hashed or minified.
-- Missing files referenced via hardcoded absolute paths will not be detected at compilation time, and will result in a 404 error.
+- By default, none of the files in the `static` folder will be post-processed, hashed, or minified.
+  - However, as we've demonstrated above, we are usually able to convert them to `require` calls for you so they do get processed. This is good for aggressive caching and better user experience.
+- Missing files referenced via hard-coded absolute paths will not be detected at compilation time and will result in a 404 error.
 - By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory if you are using GitHub pages for hosting.

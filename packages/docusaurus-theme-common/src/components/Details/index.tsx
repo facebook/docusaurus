@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, ReactElement, useRef, useState} from 'react';
+import React, {
+  type ComponentProps,
+  type ReactElement,
+  useRef,
+  useState,
+} from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
 import {useCollapsible, Collapsible} from '../Collapsible';
@@ -29,7 +34,7 @@ export type DetailsProps = {
   summary?: ReactElement;
 } & ComponentProps<'details'>;
 
-const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
+function Details({summary, children, ...props}: DetailsProps): JSX.Element {
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -89,6 +94,6 @@ const Details = ({summary, children, ...props}: DetailsProps): JSX.Element => {
       </Collapsible>
     </details>
   );
-};
+}
 
 export default Details;

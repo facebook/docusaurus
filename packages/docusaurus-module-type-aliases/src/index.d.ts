@@ -22,7 +22,7 @@ declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
   const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+  export = siteMetadata;
 }
 
 declare module '@generated/registry' {
@@ -47,14 +47,16 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: Record<string, Record<string, string>>;
-  export default routesChunkNames;
+  import type {RouteChunksTree} from '@docusaurus/types';
+
+  const routesChunkNames: Record<string, RouteChunksTree>;
+  export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const globalData: Record<string, any>;
-  export default globalData;
+  export = globalData;
 }
 
 declare module '@generated/i18n' {
@@ -64,15 +66,23 @@ declare module '@generated/i18n' {
     currentLocale: string;
     localeConfigs: Record<string, {label: string; direction: string}>;
   };
-  export default i18n;
+  export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
   const codeTranslations: Record<string, string>;
-  export default codeTranslations;
+  export = codeTranslations;
 }
 
 declare module '@theme-original/*';
+
+declare module '@theme/Error' {
+  export interface Props {
+    readonly error: Error;
+    readonly tryAgain: () => void;
+  }
+  export default function Error(props: Props): JSX.Element;
+}
 
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
@@ -106,6 +116,17 @@ declare module '@theme/Root' {
 
 declare module '@docusaurus/constants' {
   export const DEFAULT_PLUGIN_ID: 'default';
+}
+
+declare module '@docusaurus/ErrorBoundary' {
+  import type {ReactNode} from 'react';
+  import type ErrorComponent from '@theme/Error';
+
+  export interface Props {
+    readonly fallback?: typeof ErrorComponent;
+    readonly children: ReactNode;
+  }
+  export default function ErrorBoundary(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Head' {
@@ -298,6 +319,14 @@ declare module '@docusaurus/useGlobalData' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
+}
+
+declare module '*.svg' {
+  import type {ComponentType, SVGProps} from 'react';
+
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+
+  export default ReactComponent;
 }
 
 declare module '*.module.css' {

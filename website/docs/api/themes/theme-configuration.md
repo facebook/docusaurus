@@ -1,9 +1,13 @@
 ---
+sidebar_position: 1
 id: theme-configuration
 title: 'Theme configuration'
+sidebar_label: 'Configuration'
 slug: '/api/themes/configuration'
 toc_max_heading_level: 4
 ---
+
+import APITable from '@site/src/components/APITable';
 
 This configuration applies to all [main themes](./overview.md).
 
@@ -17,7 +21,7 @@ It is possible to customize the color mode support within the `colorMode` object
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -30,7 +34,7 @@ Accepted fields:
 | `switchConfig.lightIcon` | `string` | `'🌞'` | Icon for the switch while in light mode. |
 | `switchConfig.lightIconStyle` | JSX style object | `{}` | CSS to apply to light icon. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -74,13 +78,13 @@ You can configure a default image that will be used for your meta tag, in partic
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `image` | `string` | `undefined` | The meta image URL for the site. Relative to your site's "static" directory. Cannot be SVGs. Can be external URLs too. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -93,19 +97,19 @@ module.exports = {
 };
 ```
 
-### Metadatas {#metadatas}
+### Metadata {#metadata}
 
-You can configure additional html metadatas (and override existing ones).
+You can configure additional html metadata (and override existing ones).
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `metadatas` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
+| `metadata` | `Metadata[]` | `[]` | Any field will be directly passed to the `<meta />` tag. Possible fields include `id`, `name`, `property`, `content`, `itemprop`, etc. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -113,7 +117,7 @@ Example configuration:
 module.exports = {
   themeConfig: {
     // highlight-next-line
-    metadatas: [{name: 'twitter:card', content: 'summary'}],
+    metadata: [{name: 'twitter:card', content: 'summary'}],
   },
 };
 ```
@@ -124,7 +128,7 @@ Sometimes you want to announce something in your website. Just for such a case, 
 
 Accepted fields:
 
-<small>
+<APITable name="announcement-bar">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -134,7 +138,7 @@ Accepted fields:
 | `textColor` | `string` | `'#000'` | Announcement text color. |
 | `isCloseable` | `boolean` | `true` | Whether this announcement can be dismissed with a '×' button. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -159,7 +163,7 @@ module.exports = {
 
 Accepted fields:
 
-<small>
+<APITable name="navbar">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -169,7 +173,7 @@ Accepted fields:
 | `hideOnScroll` | `boolean` | `false` | Whether the navbar is hidden when the user scrolls down. |
 | `style` | <code>'primary' \| 'dark'</code> | Same as theme | Sets the navbar style, ignoring the dark/light theme. |
 
-</small>
+</APITable>
 
 ### Navbar logo {#navbar-logo}
 
@@ -179,7 +183,7 @@ To improve dark mode support, you can also set a different logo for this mode.
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-logo">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -187,9 +191,11 @@ Accepted fields:
 | `src` | `string` | **Required** | URL to the logo image. Base URL is appended by default. |
 | `srcDark` | `string` | `logo.src` | An alternative image URL to use in dark mode. |
 | `href` | `string` | `siteConfig.baseUrl` | Link to navigate to when the logo is clicked. |
+| `width` | <code>string \| number</code> | `undefined` | Specifies the `width` attribute. |
+| `height` | <code>string \| number</code> | `undefined` | Specifies the `height` attribute. |
 | `target` | `string` | Calculated based on `href` (external links will open in a new tab, all others in the current one). | The `target` attribute of the link; controls whether the link is opened in a new tab, the current one, or otherwise. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -205,6 +211,8 @@ module.exports = {
         srcDark: 'img/logo_dark.svg',
         href: 'https://docusaurus.io/',
         target: '_self',
+        width: 32,
+        height: 32,
       },
       // highlight-end
     },
@@ -262,10 +270,11 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-link">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'default'` | Optional | Sets the type of this item to a link. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
@@ -275,7 +284,7 @@ Accepted fields:
 | `activeBaseRegex` | `string` | `undefined` | Alternative to `activeBasePath` if required. |
 | `className` | `string` | `''` | Custom CSS class (for styling any item). |
 
-</small>
+</APITable>
 
 :::note
 
@@ -316,20 +325,22 @@ Navbar dropdown items only accept the following **"link-like" item types**:
 - [Navbar link](#navbar-link)
 - [Navbar doc link](#navbar-doc-link)
 - [Navbar docs version](#navbar-docs-version)
+- [Navbar doc sidebar](#navbar-doc-sidebar)
 
 Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'dropdown'` | Optional | Sets the type of this item to a dropdown. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
 | `items` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | **Required** | The items to be contained in the dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -369,16 +380,17 @@ If you want to link to a specific doc, this special navbar item type will render
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-doc-link">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'doc'` | **Required** | Sets the type of this item to a doc link. |
 | `docId` | `string` | **Required** | The ID of the doc that this item links to. |
 | `label` | `string` | `docId` | The name to be shown for this item. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc belongs to. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -401,6 +413,71 @@ module.exports = {
 };
 ```
 
+#### Navbar linked to a sidebar {#navbar-doc-sidebar}
+
+You can link a navbar item to the first document link (which can be a doc link or a generated category index) of a given sidebar without having to hardcode a doc ID.
+
+Accepted fields:
+
+<APITable name="navbar-doc-sidebar">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'docSidebar'` | **Required** | Sets the type of this navbar item to a sidebar's first document. |
+| `sidebarId` | `string` | **Required** | The ID of the sidebar that this item is linked to. |
+| `label` | `string` | First document link's sidebar label | The name to be shown for this item. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the sidebar belongs to. |
+
+</APITable>
+
+:::tip
+
+Use this navbar item type if your sidebar is updated often and the order is not stable.
+
+:::
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docSidebar',
+          position: 'left',
+          sidebarId: 'api',
+          label: 'API',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+```js title="sidebars.js"
+module.exports = {
+  tutorial: [
+    {
+      type: 'autogenerated',
+      dirName: 'guides',
+    },
+  ],
+  api: [
+    // highlight-next-line
+    'cli', // The navbar item will be linking to this doc
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
+};
+```
+
 #### Navbar docs version dropdown {#navbar-docs-version-dropdown}
 
 If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions.
@@ -409,17 +486,18 @@ The user will be able to switch from one version to another, while staying on th
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-docs-version-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersionDropdown'` | **Required** | Sets the type of this item to a docs version dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 | `dropdownActiveClassDisabled` | `boolean` | `false` | Do not add the link active class when browsing docs. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -448,16 +526,17 @@ If you use docs with versioning, this special navbar item type will link to the 
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-docs-version">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'docsVersion'` | **Required** | Sets the type of this item to a doc version link. |
 | `label` | `string` | The active/latest version label. | The name to be shown for this item. |
 | `to` | `string` | The active/latest version. | The internal link that this item points to. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the doc versioning belongs to. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -488,15 +567,16 @@ The user will be able to switch from one locale to another, while staying on the
 
 Accepted fields:
 
-<small>
+<APITable name="navbar-locale-dropdown">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'localeDropdown'` | **Required** | Sets the type of this item to a locale dropdown. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 | `dropdownItemsBefore` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the beginning of the dropdown. |
 | `dropdownItemsAfter` | <code>[LinkLikeItem](#navbar-dropdown)[]</code> | `[]` | Add additional dropdown items at the end of the dropdown. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -529,13 +609,14 @@ If you use the [search](../../search.md), the search bar will be the rightmost e
 
 However, with this special navbar item type, you can change the default location.
 
-<small>
+<APITable name="navbar-search">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `type` | `'search'` | **Required** | Sets the type of this item to a search bar. |
 | `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
 
-</small>
+</APITable>
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -592,7 +673,7 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 Accepted fields:
 
-<small>
+<APITable name="codeblock">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -600,7 +681,7 @@ Accepted fields:
 | `darkTheme` | `PrismTheme` | `palenight` | The Prism theme to use for dark-theme code blocks. |
 | `defaultLanguage` | `string` | `undefined` | The side of the navbar this item should appear on. |
 
-</small>
+</APITable>
 
 ### Theme {#theme}
 
@@ -650,16 +731,16 @@ You can add logo and a copyright to the footer via `themeConfig.footer`. Logo ca
 
 Accepted fields:
 
-<small>
+<APITable name="footer">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `logo` | `Logo` | `undefined` | Customization of the logo object. See [Navbar logo](#navbar-logo) for details. |
 | `copyright` | `string` | `undefined` | The copyright message to be displayed at the bottom. |
 | `style` | <code>'dark' \| 'light'</code> | `'light'` | The color theme of the footer component. |
-| `items` | `FooterItem[]` | `[]` | The link groups to be present. |
+| `links` | <code>(Column \| FooterLink)[]</code> | `[]` | The link groups to be present. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -672,6 +753,8 @@ module.exports = {
         alt: 'Facebook Open Source Logo',
         src: 'img/oss_logo.png',
         href: 'https://opensource.facebook.com',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
@@ -682,22 +765,22 @@ module.exports = {
 
 ### Footer Links {#footer-links}
 
-You can add links to the footer via `themeConfig.footer.links`.
+You can add links to the footer via `themeConfig.footer.links`. There are two types of footer configurations: **multi-column footers** and **simple footers**.
 
-Accepted fields of each link section:
+Multi-column footer links have a `title` and a list of `FooterItem`s for each column.
 
-<small>
+<APITable name="footer-links">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `title` | `string` | `undefined` | Label of the section of these links. |
-| `items` | `FooterLink[]` | `[]` | Links in this section. |
+| `items` | `FooterItem[]` | `[]` | Links in this section. |
 
-</small>
+</APITable>
 
-Accepted fields of each item in `items`:
+Accepted fields of each `FooterItem`:
 
-<small>
+<APITable name="footer-items">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -706,9 +789,9 @@ Accepted fields of each item in `items`:
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `html` | `string` | `undefined` | Renders the html pass-through instead of a simple link. In case `html` is used, no other options should be provided. |
 
-</small>
+</APITable>
 
-Example configuration:
+Example multi-column configuration:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -758,18 +841,52 @@ module.exports = {
 };
 ```
 
+A simple footer just has a list of `FooterItem`s displayed in a row.
+
+Example simple configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  footer: {
+    // highlight-start
+    links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'Twitter',
+        href: 'https://twitter.com/docusaurus',
+      },
+      {
+        html: `
+            <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+            </a>
+          `,
+      },
+    ],
+    // highlight-end
+  },
+};
+```
+
 ## Table of Contents {#table-of-contents}
 
 You can adjust the default table of contents via `themeConfig.tableOfContents`.
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `minHeadingLevel` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `maxHeadingLevel` | `number` | `3` | Max heading level displayed in the TOC. Should be an integer between 2 and 6. |
 
-</small>
+</APITable>
 
 Example configuration:
 
@@ -788,20 +905,20 @@ module.exports = {
 
 ## Hooks {#hooks}
 
-### `useThemeContext` {#usethemecontext}
+### `useColorMode` {#use-color-mode}
 
-React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
+A React hook to access the color context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
 
 Usage example:
 
 ```jsx
 import React from 'react';
 // highlight-next-line
-import useThemeContext from '@theme/hooks/useThemeContext';
+import {useColorMode} from '@docusaurus/theme-common';
 
 const Example = () => {
   // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
 
   return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
 };
@@ -809,7 +926,7 @@ const Example = () => {
 
 :::note
 
-The component calling `useThemeContext` must be a child of the `Layout` component.
+The component calling `useColorMode` must be a child of the `Layout` component.
 
 ```jsx
 function ExamplePage() {
@@ -829,7 +946,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-theme-<themeName>`
+- **Base path**: `website/i18n/[locale]/docusaurus-theme-[themeName]`
 - **Multi-instance path**: N/A
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
 - **Markdown files**: N/A
@@ -837,7 +954,7 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-theme-classic
+website/i18n/[locale]/docusaurus-theme-classic
 │
 │ # translations for the theme
 ├── navbar.json

@@ -1,14 +1,23 @@
 ---
+sidebar_position: 7
 id: plugin-google-gtag
 title: '📦 plugin-google-gtag'
 slug: '/api/plugins/@docusaurus/plugin-google-gtag'
 ---
 
-The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin. It is a JavaScript tagging framework and API that allows you to send event data to Google Analytics, Google Ads, and Google Marketing Platform, **in the production build**. This section describes how to configure a Docusaurus site to enable global site tag for Google Analytics.
+import APITable from '@site/src/components/APITable';
+
+The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin. It is a JavaScript tagging framework and API that allows you to send event data to Google Analytics, Google Ads, and Google Marketing Platform. This section describes how to configure a Docusaurus site to enable global site tag for Google Analytics.
 
 :::tip
 
 You can use [Google's Tag Assistant](https://tagassistant.google.com/) tool to check if your gtag is set up correctly!
+
+:::
+
+:::caution production only
+
+This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
 
 :::
 
@@ -20,22 +29,41 @@ npm install --save @docusaurus/plugin-google-gtag
 
 :::tip
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the preset options.
 
 :::
 
 ## Configuration {#configuration}
 
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
-  themeConfig: {
-    gtag: {
-      // You can also use your "G-" Measurement ID here.
-      trackingID: 'UA-141789564-1',
-      // Optional fields.
-      anonymizeIP: true, // Should IPs be anonymized?
-    },
-  },
+Accepted fields:
+
+<APITable>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `trackingID` | `string` | **Required** | The tracking ID of your gtag service. |
+| `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
+
+</APITable>
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through preset options or plugin options.
+
+:::tip
+
+Most Docusaurus users configure this plugin through the preset options.
+
+:::
+
+```js config-tabs
+// Preset Options: gtag
+// Plugin Options: @docusaurus/plugin-google-gtag
+
+const config = {
+  trackingID: '141789564',
+  anonymizeIP: true,
 };
 ```

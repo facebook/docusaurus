@@ -1,4 +1,5 @@
 ---
+sidebar_position: 0
 id: docusaurus.config.js
 description: API reference for Docusaurus configuration file.
 slug: /api/docusaurus-config
@@ -9,6 +10,41 @@ slug: /api/docusaurus-config
 ## Overview {#overview}
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
+
+It usually exports a site configuration object:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // site config...
+};
+```
+
+<details>
+<summary>Config files also support config creator functions and async code.</summary>
+
+```js title="docusaurus.config.js"
+module.exports = function configCreator() {
+  return {
+    // site config...
+  };
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = async function configCreatorAsync() {
+  return {
+    // site config...
+  };
+};
+```
+
+```js title="docusaurus.config.js"
+module.exports = Promise.resolve({
+  // site config...
+});
+```
+
+</details>
 
 ## Required fields {#required-fields}
 
@@ -40,7 +76,7 @@ module.exports = {
 
 - Type: `string`
 
-Base URL for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field.
+Base URL for your site. This can also be considered the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -54,9 +90,7 @@ module.exports = {
 
 - Type: `string | undefined`
 
-Path to your site favicon
-
-Example, if your favicon is in `static/img/favicon.ico`:
+Path to your site favicon. For example, if your favicon is in `static/img/favicon.ico`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -76,7 +110,7 @@ Allow to customize the presence/absence of a trailing slash at the end of URLs/l
 
 :::tip
 
-Each static hosting provider serve static files differently (this behavior may even change over time).
+Each static hosting provider serves static files differently (this behavior may even change over time).
 
 Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
 
@@ -110,7 +144,7 @@ module.exports = {
 ```
 
 - `label`: the label to use for this locale
-- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew, etc.)
+- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.)
 
 ### `noIndex` {#noindex}
 
@@ -194,6 +228,18 @@ module.exports = {
 };
 ```
 
+### `deploymentBranch` {#deploymentbranch}
+
+- Type: `string`
+
+The name of the branch to deploy the static files to. Used by the deployment command.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  deploymentBranch: 'gh-pages',
+};
+```
+
 ### `githubHost` {#githubhost}
 
 - Type: `string`
@@ -252,6 +298,8 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        width: 32,
+        height: 32,
       },
       items: [
         {
@@ -280,6 +328,8 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        width: 160,
+        height: 51,
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
@@ -289,33 +339,45 @@ module.exports = {
 
 ### `plugins` {#plugins}
 
-<!-- TODO: configuration for plugins -->
+- Type: `PluginConfig[]`
 
-- Type: `any[]`
+```ts
+type PluginConfig = string | [string, any] | PluginModule | [PluginModule, any];
+```
+
+See [plugin method references](./plugin-methods/README.md) for the shape of a `PluginModule`.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: [],
+  plugins: [
+    'docusaurus-plugin-awesome',
+    ['docusuarus-plugin-confetti', {fancy: false}],
+    () => ({
+      postBuild() {
+        console.log('Build finished');
+      },
+    }),
+  ],
 };
 ```
 
 ### `themes` {#themes}
 
-<!-- TODO: configuration for plugins -->
-
-- Type: `any[]`
+- Type: `PluginConfig[]`
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  themes: [],
+  themes: ['@docusaurus/theme-classic'],
 };
 ```
 
 ### `presets` {#presets}
 
-<!-- TODO: configuration for presets -->
+- Type: `PresetConfig[]`
 
-- Type: `any[]`
+```ts
+type PresetConfig = string | [string, any];
+```
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -338,10 +400,24 @@ module.exports = {
 };
 ```
 
-Attempting to add unknown field in the config will lead to error in build time:
+Attempting to add unknown fields in the config will lead to errors during build time:
 
 ```bash
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
+```
+
+### `staticDirectories` {#staticdirectories}
+
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
+
+- Type: `string[]`
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  staticDirectories: ['static'],
+};
 ```
 
 ### `scripts` {#scripts}
@@ -383,7 +459,7 @@ module.exports = {
 };
 ```
 
-See also: [`getClientModules()`](lifecycle-apis.md#getclientmodules).
+See also: [`getClientModules()`](./plugin-methods/lifecycle-apis.md#getClientModules).
 
 ### `ssrTemplate` {#ssrtemplate}
 
@@ -482,7 +558,7 @@ module.exports = {
 
 :::caution
 
-This banner need to inline CSS / JS.
+This banner needs to inline CSS / JS in case all asset loading fails due to wrong base URL.
 
 If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
 

@@ -6,11 +6,11 @@
  */
 
 import jscodeshift, {
-  ArrowFunctionExpression,
+  type ArrowFunctionExpression,
   AssignmentExpression,
-  ASTPath,
-  Collection,
-  TemplateElement,
+  type ASTPath,
+  type Collection,
+  type TemplateElement,
   VariableDeclarator,
 } from 'jscodeshift';
 
@@ -131,10 +131,8 @@ export default function transformer(file: string): string {
         type: 'Identifier',
       },
     })
-    .filter(function (p) {
-      return p.parentPath.parentPath.name === 'body';
-    })
-    .forEach(function (p) {
+    .filter((p) => p.parentPath.parentPath.name === 'body')
+    .forEach((p) => {
       const exportDecl = jscodeshift.exportDeclaration(
         true,
         jscodeshift.arrowFunctionExpression(
@@ -177,9 +175,7 @@ function getDefaultImportDeclarators(rootAst: Collection) {
         },
       },
     })
-    .filter((variableDeclarator) => {
-      return !!variableDeclarator.value;
-    });
+    .filter((variableDeclarator) => !!variableDeclarator.value);
 }
 
 function getNamedImportDeclarators(rootAst: Collection) {

@@ -4,18 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
-import traverse, {Node} from '@babel/traverse';
+import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
-import chalk from 'chalk';
-import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
+import logger from '@docusaurus/logger';
 import {
+  parse,
+  type types as t,
+  type NodePath,
+  type TransformOptions,
+} from '@babel/core';
+import type {
   InitializedPlugin,
   TranslationFileContent,
   TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
-import {SRC_DIR_NAME} from '../../constants';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
@@ -85,9 +91,10 @@ export async function extractSiteSourceCodeTranslations(
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
-    return sourceCodeFileTranslations.reduce((acc, item) => {
-      return {...acc, ...item.translations};
-    }, {});
+    return sourceCodeFileTranslations.reduce(
+      (acc, item) => ({...acc, ...item.translations}),
+      {},
+    );
   }
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);
@@ -113,11 +120,7 @@ function logSourceCodeFileTranslationsWarnings(
 ) {
   sourceCodeFilesTranslations.forEach(({sourceCodeFilePath, warnings}) => {
     if (warnings.length > 0) {
-      console.warn(
-        `Translation extraction warnings for file path=${sourceCodeFilePath}:\n- ${chalk.yellow(
-          warnings.join('\n\n- '),
-        )}`,
-      );
+      logger.warn`Translation extraction warnings for file path=${sourceCodeFilePath}: ${warnings}`;
     }
   });
 }
@@ -300,15 +303,12 @@ function extractSourceCodeAstTranslations(
         return;
       }
 
-      // console.log('CallExpression', path.node);
       const args = path.get('arguments');
       if (args.length === 1 || args.length === 2) {
         const firstArgPath = args[0];
 
         // evaluation allows translate("x" + "y"); to be considered as translate("xy");
         const firstArgEvaluated = firstArgPath.evaluate();
-
-        // console.log('firstArgEvaluated', firstArgEvaluated);
 
         if (
           firstArgEvaluated.confident &&

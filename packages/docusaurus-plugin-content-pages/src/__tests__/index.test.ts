@@ -16,15 +16,15 @@ describe('docusaurus-plugin-content-pages', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext(siteDir);
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(
+    const plugin = await pluginContentPages(
       context,
       normalizePluginOptions({
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = await plugin.loadContent?.();
+    const pagesMetadata = await plugin.loadContent?.();
 
-    expect(pagesMetadatas).toEqual([
+    expect(pagesMetadata).toEqual([
       {
         type: 'jsx',
         permalink: '/',
@@ -77,7 +77,7 @@ describe('docusaurus-plugin-content-pages', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const context = await loadContext(siteDir);
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(
+    const plugin = await pluginContentPages(
       {
         ...context,
         i18n: {
@@ -89,7 +89,7 @@ describe('docusaurus-plugin-content-pages', () => {
         path: pluginPath,
       }),
     );
-    const pagesMetadatas = await plugin.loadContent?.();
+    const pagesMetadata = await plugin.loadContent?.();
 
     const frTranslationsPath = path.posix.join(
       '@site',
@@ -98,7 +98,7 @@ describe('docusaurus-plugin-content-pages', () => {
       'docusaurus-plugin-content-pages',
     );
 
-    expect(pagesMetadatas).toEqual([
+    expect(pagesMetadata).toEqual([
       {
         type: 'jsx',
         permalink: '/',

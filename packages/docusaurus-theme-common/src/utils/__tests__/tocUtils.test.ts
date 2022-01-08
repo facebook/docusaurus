@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '@docusaurus/types';
 import {filterTOC} from '../tocUtils';
 
 describe('filterTOC', () => {

@@ -16,14 +16,13 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-} from '@docusaurus/utils';
-import {
-  STATIC_DIR_NAME,
+  getContentPathList,
+  getDataFilePath,
   DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+} from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import {
+import type {
   PluginOptions,
   BlogTags,
   BlogContent,
@@ -36,7 +35,7 @@ import {
   Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
+import type {
   LoadContext,
   ConfigureWebpackUtils,
   Props,
@@ -45,20 +44,19 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
-  getContentPathList,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
+import type {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
 
-export default function pluginContentBlog(
+export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent> {
+): Promise<Plugin<BlogContent>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -92,24 +90,23 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  const authorsMapFilePath = await getDataFilePath({
+    filePath: options.authorsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath} = options;
+      const {include} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
-      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
-      // simplified impl, better than nothing for now:
-      const authorsMapFilePath = path.join(
-        contentPaths.contentPath,
-        authorsMapPath,
-      );
-
-      return [authorsMapFilePath, ...contentMarkdownGlobs];
+      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
+        Boolean,
+      ) as string[];
     },
 
     async getTranslationFiles() {
@@ -322,9 +319,9 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
+              items: items.map((postID) =>
                 // To tell routes.js this is an import and not a nested object to recurse.
-                return {
+                ({
                   content: {
                     __import: true,
                     path: blogItemsToMetadata[postID].source,
@@ -332,8 +329,8 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                };
-              }),
+                }),
+              ),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -465,7 +462,10 @@ export default function pluginContentBlog(
                     rehypePlugins,
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,
@@ -490,14 +490,12 @@ export default function pluginContentBlog(
                     }: {
                       frontMatter: BlogPostFrontMatter;
                       metadata: MetaData;
-                    }): Assets => {
-                      return {
-                        image: frontMatter.image,
-                        authorsImageUrls: metadata.authors.map(
-                          (author) => author.imageURL,
-                        ),
-                      };
-                    },
+                    }): Assets => ({
+                      image: frontMatter.image,
+                      authorsImageUrls: metadata.authors.map(
+                        (author) => author.imageURL,
+                      ),
+                    }),
                   },
                 },
                 {
@@ -519,7 +517,7 @@ export default function pluginContentBlog(
       // TODO: we shouldn't need to re-read the posts here!
       // postBuild should receive loadedContent
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
-      if (blogPosts.length) {
+      if (!blogPosts.length) {
         return;
       }
       await createBlogFeedFiles({
@@ -551,6 +549,11 @@ export default function pluginContentBlog(
           type: 'application/atom+xml',
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
+        },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
         },
       };
       const headTags: HtmlTags = [];

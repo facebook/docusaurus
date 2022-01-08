@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable global-require */
+
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
@@ -78,15 +80,13 @@ const QUOTES = [
   },
 ];
 
-function Home() {
+function Home(): JSX.Element {
   const {
-    siteConfig: {
-      customFields: {description},
-      tagline,
-    },
+    siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
+  const {description} = customFields as {description: string};
   return (
-    <Layout title={tagline} description={description as string}>
+    <Layout title={tagline} description={description}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
@@ -98,6 +98,7 @@ function Home() {
               />
               <span
                 className={styles.heroTitleTextHtml}
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                   __html: translate({
                     id: 'homepage.hero.title',
@@ -162,11 +163,11 @@ function Home() {
                 </h2>
                 <p className="padding-horiz--md">
                   <Translate>
-                    Save time and focus on your project's documentation. Simply
-                    write docs and blog posts with Markdown/MDX and Docusaurus
-                    will publish a set of static HTML files ready to serve. You
-                    can even embed JSX components into your Markdown thanks to
-                    MDX.
+                    Save time and focus on your project&apos;s documentation.
+                    Simply write docs and blog posts with Markdown/MDX and
+                    Docusaurus will publish a set of static HTML files ready to
+                    serve. You can even embed JSX components into your Markdown
+                    thanks to MDX.
                   </Translate>
                 </p>
               </div>
@@ -181,9 +182,9 @@ function Home() {
                 </h2>
                 <p className="padding-horiz--md">
                   <Translate>
-                    Extend or customize your project's layout by reusing React.
-                    Docusaurus can be extended while reusing the same header and
-                    footer.
+                    Extend or customize your project&apos;s layout by reusing
+                    React. Docusaurus can be extended while reusing the same
+                    header and footer.
                   </Translate>
                 </p>
               </div>

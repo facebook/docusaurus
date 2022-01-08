@@ -14,7 +14,7 @@ import {
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
-import {I18nConfig} from '@docusaurus/types';
+import type {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return chain(locales)
@@ -34,16 +34,15 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 }
 
 describe('defaultLocaleConfig', () => {
-  // @ts-expect-error: wait for TS support of ES2021 feature
   const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
 
   test('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
-      label: canComputeLabel ? 'français' : 'fr',
+      label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
-      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      label: canComputeLabel ? 'Français (France)' : 'fr-FR',
       direction: 'ltr',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
@@ -174,7 +173,7 @@ describe('loadI18n', () => {
       'it',
     );
     expect(consoleSpy.mock.calls[0][0]).toMatch(
-      /The locale "it" was not found in your site configuration/,
+      /The locale .*it.* was not found in your site configuration/,
     );
   });
 });
