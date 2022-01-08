@@ -52,6 +52,6 @@ export default {
   globals: {
     window: {
       location: {href: 'https://docusaurus.io'},
-    }
-  }
+    },
+  },
 };
