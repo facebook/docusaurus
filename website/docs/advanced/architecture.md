@@ -1,3 +1,3 @@
 # Architecture
 
-![Architecture overview](/img/architecture.svg)
+![Architecture overview](/img/architecture.png)
