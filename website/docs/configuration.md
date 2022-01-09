@@ -35,7 +35,7 @@ It is recommended to check the [deployment docs](deployment.mdx) for more inform
 
 ### Theme, plugin, and preset configurations {#theme-plugin-and-preset-configurations}
 
-List the [theme](./advanced/customize-appearance.md), [plugins](./advanced/using-plugins.md), and [presets](./advanced/presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
+List the [theme](./advanced/swizzling.md), [plugins](./advanced/using-plugins.md), and [presets](./advanced/presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -165,7 +165,7 @@ The `presets: [['classic', {...}]]` shorthand works as well.
 
 :::
 
-For further help configuring themes, plugins, and presets, see [Using Themes](./advanced/customize-appearance.md), [Using Plugins](./advanced/using-plugins.md), and [Using Presets](./advanced/presets.md).
+For further help configuring themes, plugins, and presets, see [Using Themes](./advanced/swizzling.md), [Using Plugins](./advanced/using-plugins.md), and [Using Presets](./advanced/presets.md).
 
 ### Custom configurations {#custom-configurations}
 

@@ -8,7 +8,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::tip
 
-This section is focused on styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./advanced/customize-appearance.md#swizzling).
+This section is focused on styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./advanced/swizzling.md#swizzling).
 
 :::
 
