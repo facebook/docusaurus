@@ -5,6 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+declare module '@docusaurus/theme-search-algolia' {
+  import type {DeepPartial} from 'utility-types';
+
+  export type ThemeConfig = {
+    algolia: {
+      contextualSearch: boolean;
+      externalUrlRegex?: string;
+      appId: string;
+      apiKey: string;
+      indexName: string;
+      searchParameters: Record<string, unknown>;
+    };
+  };
+  export type UserThemeConfig = DeepPartial<ThemeConfig>;
+}
+
 declare module '@docusaurus/theme-search-algolia/client' {
   export function useAlgoliaContextualFacetFilters(): [string, string[]];
 }
@@ -12,17 +28,6 @@ declare module '@docusaurus/theme-search-algolia/client' {
 declare module '@theme/SearchPage' {
   const SearchPage: () => JSX.Element;
   export default SearchPage;
-}
-
-declare module '@theme/SearchMetadata' {
-  export type SearchMetadataProps = {
-    readonly locale?: string;
-    readonly version?: string;
-    readonly tag?: string;
-  };
-
-  const SearchMetadata: (props: SearchMetadataProps) => JSX.Element;
-  export default SearchMetadata;
 }
 
 declare module '@theme/SearchBar' {

@@ -9,13 +9,12 @@ import {mapValues} from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
+import type {DocMetadata, LoadedVersion} from './types';
 import type {
-  DocMetadata,
-  GlobalDoc,
-  LoadedVersion,
   GlobalVersion,
   GlobalSidebar,
-} from './types';
+  GlobalDoc,
+} from '@docusaurus/plugin-content-docs/client';
 
 export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {

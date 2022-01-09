@@ -10,12 +10,10 @@ import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
 import type {
-  PluginOptions,
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  ReadingTimeFunction,
 } from './types';
 import {
   parseMarkdownFile,
@@ -34,6 +32,10 @@ import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
+import type {
+  PluginOptions,
+  ReadingTimeFunction,
+} from '@docusaurus/plugin-content-blog';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;

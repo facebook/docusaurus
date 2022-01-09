@@ -17,11 +17,11 @@ import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
 import type {
-  GlobalDataVersion,
-  GlobalDataSidebar,
-} from '@docusaurus/plugin-content-docs';
+  GlobalVersion,
+  GlobalSidebar,
+} from '@docusaurus/plugin-content-docs/client';
 
-function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
+function getSidebarLink(versions: GlobalVersion[], sidebarId: string) {
   const allSidebars = versions
     .flatMap((version) => {
       if (version.sidebars) {
@@ -30,8 +30,7 @@ function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
       return undefined;
     })
     .filter(
-      (sidebarItem): sidebarItem is [string, GlobalDataSidebar] =>
-        !!sidebarItem,
+      (sidebarItem): sidebarItem is [string, GlobalSidebar] => !!sidebarItem,
     );
   const sidebarEntry = allSidebars.find((sidebar) => sidebar[0] === sidebarId);
   if (!sidebarEntry) {
@@ -65,7 +64,7 @@ export default function DocSidebarNavbarItem({
   const versions = uniq(
     [activeVersion, preferredVersion, latestVersion].filter(
       Boolean,
-    ) as GlobalDataVersion[],
+    ) as GlobalVersion[],
   );
   const sidebarLink = getSidebarLink(versions, sidebarId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);

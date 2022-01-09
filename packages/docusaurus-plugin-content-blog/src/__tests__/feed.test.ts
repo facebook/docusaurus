@@ -8,10 +8,11 @@
 import path from 'path';
 import {generateBlogFeed} from '../feed';
 import type {LoadContext, I18n} from '@docusaurus/types';
-import type {PluginOptions, BlogContentPaths} from '../types';
+import type {BlogContentPaths} from '../types';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {generateBlogPosts} from '../blogUtils';
 import type {Feed} from 'feed';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',

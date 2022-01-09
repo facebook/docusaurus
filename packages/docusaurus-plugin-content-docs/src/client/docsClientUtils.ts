@@ -7,20 +7,17 @@
 
 import {matchPath} from '@docusaurus/router';
 
-import type {GlobalPluginData, GlobalVersion, GlobalDoc} from '../types';
+import type {
+  GlobalPluginData,
+  GlobalVersion,
+  GlobalDoc,
+  GetActivePluginOptions,
+  ActivePlugin,
+  ActiveDocContext,
+  DocVersionSuggestions,
+} from '@docusaurus/plugin-content-docs/client';
 
 // This code is not part of the api surface, not in ./theme on purpose
-
-// Short/convenient type aliases
-type Version = GlobalVersion;
-type Doc = GlobalDoc;
-
-export type ActivePlugin = {
-  pluginId: string;
-  pluginData: GlobalPluginData;
-};
-
-export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
 
 // get the data of the plugin that is currently "active"
 // ie the docs of that plugin are currently browsed
@@ -56,13 +53,7 @@ export function getActivePlugin(
   return activePlugin;
 }
 
-export type ActiveDocContext = {
-  activeVersion?: Version;
-  activeDoc?: Doc;
-  alternateDocVersions: Record<string, Doc>;
-};
-
-export const getLatestVersion = (data: GlobalPluginData): Version =>
+export const getLatestVersion = (data: GlobalPluginData): GlobalVersion =>
   data.versions.find((version) => version.isLast)!;
 
 // Note: return undefined on doc-unrelated pages,
@@ -70,7 +61,7 @@ export const getLatestVersion = (data: GlobalPluginData): Version =>
 export const getActiveVersion = (
   data: GlobalPluginData,
   pathname: string,
-): Version | undefined => {
+): GlobalVersion | undefined => {
   const lastVersion = getLatestVersion(data);
   // Last version is a route like /docs/*,
   // we need to try to match it last or it would match /docs/version-1.0/* as well
@@ -125,13 +116,6 @@ export const getActiveDocContext = (
     activeDoc,
     alternateDocVersions: alternateVersionDocs,
   };
-};
-
-export type DocVersionSuggestions = {
-  // suggest the latest version
-  latestVersionSuggestion: GlobalVersion;
-  // suggest the same doc, in latest version (if exist)
-  latestDocSuggestion?: GlobalDoc;
 };
 
 export const getDocVersionSuggestions = (

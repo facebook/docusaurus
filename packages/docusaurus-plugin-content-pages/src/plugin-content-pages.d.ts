@@ -6,7 +6,19 @@
  */
 
 declare module '@docusaurus/plugin-content-pages' {
-  export type Options = Partial<import('./types').PluginOptions>;
+  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+
+  export type PluginOptions = RemarkAndRehypePluginOptions & {
+    id?: string;
+    path: string;
+    routeBasePath: string;
+    include: string[];
+    exclude: string[];
+    mdxPageComponent: string;
+    admonitions: Record<string, unknown>;
+  };
+
+  export type Options = Partial<PluginOptions>;
 }
 
 declare module '@theme/MDXPage' {

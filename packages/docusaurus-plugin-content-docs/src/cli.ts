@@ -12,7 +12,10 @@ import {
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import type {PathOptions, SidebarOptions} from './types';
+import type {
+  PathOptions,
+  SidebarOptions,
+} from '@docusaurus/plugin-content-docs';
 import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
