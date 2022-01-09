@@ -8,8 +8,8 @@
 import type {
   PluginOptions,
   Options as UserPluginOptions,
+  RedirectOption,
 } from '@docusaurus/plugin-client-redirects';
-import type {RedirectOption} from './types';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 
