@@ -31,12 +31,8 @@ import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 
-import type {
-  PluginOptions,
-  LoadedContent,
-  Metadata,
-  PagesContentPaths,
-} from './types';
+import type {LoadedContent, Metadata, PagesContentPaths} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];

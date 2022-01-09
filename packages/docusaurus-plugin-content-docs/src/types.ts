@@ -7,13 +7,16 @@
 
 /// <reference types="@docusaurus/module-type-aliases" />
 
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {Sidebars} from './sidebars/types';
 import type {Tag, FrontMatterTag, Slugger} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import type {SidebarItemsGeneratorOption, Sidebars} from './sidebars/types';
+import type {
+  VersionBanner,
+  SidebarOptions,
+} from '@docusaurus/plugin-content-docs';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -23,10 +26,8 @@ export type DocFile = {
   lastUpdate: LastUpdateData;
 };
 
-export type VersionName = string;
-
 export type VersionMetadata = ContentPaths & {
-  versionName: VersionName; // 1.0.0
+  versionName: string; // 1.0.0
   versionLabel: string; // Version 1.0.0
   versionPath: string; // /baseUrl/docs/1.0.0
   tagsPath: string;
@@ -40,75 +41,10 @@ export type VersionMetadata = ContentPaths & {
   routePriority: number | undefined; // -1 for the latest docs
 };
 
-export type EditUrlFunction = (editUrlParams: {
-  version: string;
-  versionDocsDirPath: string;
-  docPath: string;
-  permalink: string;
-  locale: string;
-}) => string | undefined;
-
-export type MetadataOptions = {
-  routeBasePath: string;
-  editUrl?: string | EditUrlFunction;
-  editCurrentVersion: boolean;
-  editLocalizedFiles: boolean;
-  showLastUpdateTime?: boolean;
-  showLastUpdateAuthor?: boolean;
-  numberPrefixParser: NumberPrefixParser;
-};
-
-export type PathOptions = {
-  path: string;
-  sidebarPath?: string | false | undefined;
-};
-
-// TODO support custom version banner? {type: "error", content: "html content"}
-export type VersionBanner = 'unreleased' | 'unmaintained';
-
-export type VersionOptions = {
-  path?: string;
-  label?: string;
-  banner?: 'none' | VersionBanner;
-  badge?: boolean;
-  className?: string;
-};
-
-export type VersionsOptions = {
-  lastVersion?: string;
-  versions: Record<string, VersionOptions>;
-  onlyIncludeVersions?: string[];
-};
-
-export type SidebarOptions = {
-  sidebarCollapsible: boolean;
-  sidebarCollapsed: boolean;
-};
-
 export type NormalizeSidebarsParams = SidebarOptions & {
   version: VersionMetadata;
   categoryLabelSlugger: Slugger;
 };
-
-export type PluginOptions = MetadataOptions &
-  PathOptions &
-  VersionsOptions &
-  RemarkAndRehypePluginOptions &
-  SidebarOptions & {
-    id: string;
-    include: string[];
-    exclude: string[];
-    docLayoutComponent: string;
-    docItemComponent: string;
-    docTagDocListComponent: string;
-    docTagsListComponent: string;
-    docCategoryGeneratedIndexComponent: string;
-    admonitions: Record<string, unknown>;
-    disableVersioning: boolean;
-    includeCurrentVersion: boolean;
-    sidebarItemsGenerator: SidebarItemsGeneratorOption;
-    tagsBasePath: string;
-  };
 
 export type LastUpdateData = {
   lastUpdatedAt?: number;
@@ -142,7 +78,7 @@ export type DocFrontMatter = {
 export type DocMetadataBase = LastUpdateData & {
   id: string; // TODO legacy versioned id => try to remove
   unversionedId: string; // TODO new unversioned id => try to rename to "id"
-  version: VersionName;
+  version: string;
   title: string;
   description: string;
   source: string; // @site aliased source => "@site/docs/folder/subFolder/subSubFolder/myDoc.md"
@@ -203,37 +139,6 @@ export type LoadedContent = {
   loadedVersions: LoadedVersion[];
 };
 
-export type GlobalDoc = {
-  id: string;
-  path: string;
-  sidebar: string | undefined;
-};
-
-export type GlobalVersion = {
-  name: VersionName;
-  label: string;
-  isLast: boolean;
-  path: string;
-  mainDocId: string; // home doc (if docs homepage configured), or first doc
-  docs: GlobalDoc[];
-  sidebars?: Record<string, GlobalSidebar>;
-};
-
-export type GlobalSidebarLink = {
-  label: string;
-  path: string;
-};
-
-export type GlobalSidebar = {
-  link?: GlobalSidebarLink;
-  // ... we may add other things here later
-};
-
-export type GlobalPluginData = {
-  path: string;
-  versions: GlobalVersion[];
-};
-
 export type BrokenMarkdownLink = IBrokenMarkdownLink<VersionMetadata>;
 
 export type DocsMarkdownOption = {
@@ -241,9 +146,4 @@ export type DocsMarkdownOption = {
   siteDir: string;
   sourceToPermalink: SourceToPermalink;
   onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
-};
-
-export type NumberPrefixParser = (filename: string) => {
-  filename: string;
-  numberPrefix?: number;
 };

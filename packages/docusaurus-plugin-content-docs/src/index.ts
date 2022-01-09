@@ -30,11 +30,9 @@ import {
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
 import type {
-  PluginOptions,
   LoadedContent,
   SourceToPermalink,
   DocMetadataBase,
-  GlobalPluginData,
   VersionMetadata,
   LoadedVersion,
   DocFile,
@@ -54,7 +52,11 @@ import {
 import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
-import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
+import type {
+  PropTagsListPage,
+  PluginOptions,
+} from '@docusaurus/plugin-content-docs';
+import type {GlobalPluginData} from '@docusaurus/plugin-content-docs/client';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 

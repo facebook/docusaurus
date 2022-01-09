@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-content-pages';
 import {
   Joi,
   RemarkPluginsSchema,

@@ -44,7 +44,8 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Assets, Metadata} from '@theme/BlogPostPage';
+  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+  import type {Assets} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly frontMatter: FrontMatter;
@@ -70,7 +71,8 @@ declare module '@theme/BlogPostAuthor' {
 }
 
 declare module '@theme/BlogPostAuthors' {
-  import type {Metadata, Assets} from '@theme/BlogPostPage';
+  import type {Metadata} from '@theme/BlogPostPage';
+  import type {Assets} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly authors: Metadata['authors'];

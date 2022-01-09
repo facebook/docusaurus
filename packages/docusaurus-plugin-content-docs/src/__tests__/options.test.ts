@@ -13,7 +13,7 @@ import {
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions} from '../types';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};

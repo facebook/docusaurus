@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Author, BlogContentPaths} from './types';
+import type {BlogContentPaths} from './types';
 import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
 import type {
+  Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
-} from './blogFrontMatter';
+} from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = Record<string, Author>;
 
