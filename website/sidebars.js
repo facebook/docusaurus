@@ -111,7 +111,7 @@ const sidebars = {
       link: {type: 'doc', id: 'advanced/index'},
       items: [
         'advanced/architecture',
-        'advanced/customize-appearance',
+        'advanced/swizzling',
         'advanced/routing',
         'advanced/using-plugins',
         'advanced/presets',

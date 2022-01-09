@@ -1,12 +1,15 @@
 ---
 description: Customize your site's appearance through creating your own theme components
+slug: /using-themes
 ---
 
-# Customizing Appearance
+# Swizzling
+
+In this section, we will introduce how customization of layout is done in Docusaurus.
 
 > Déja vu...?
 
-This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write more code and go deeper into the internals.
+This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write more code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, from how to swizzle, to how it works under the hood.
 
 We know you are busy, so we will start with the "how" before going into the "why".
 
@@ -18,10 +21,14 @@ import SwizzleWarning from "../_partials/swizzleWarning.mdx"
 <SwizzleWarning/>
 ```
 
-Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle` (for why it's called that, see [below](#theme-aliases)). To swizzle a component for a theme, run the following command in your doc site:
+Docusaurus Themes' components are designed to be replaceable. The replacing is called "swizzle" (for why it's called that, you have to understand [how theme components are resolved](#theme-aliases)). To help you get started, we created a command called `docusaurus swizzle`.
+
+### Ejecting theme components
+
+To eject a component provided by the theme, run the following command in your doc site:
 
 ```bash npm2yarn
-npm run swizzle <theme name> [component name]
+npm run swizzle [theme name] [component name]
 ```
 
 As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
@@ -30,26 +37,31 @@ As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-class
 npm run swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to an `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use the swizzled component in place of the original one from the theme.
+This will copy the current `<Footer />` component used by Docusaurus to an `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use the swizzled component in place of the original one from the theme.
 
-Although we highly discourage swizzling of all components, if you wish to do that, run:
+:::note
+
+You need to restart your webpack dev server in order for Docusaurus to know about the new component.
+
+:::
+
+If you run `swizzle` without `component name` or `theme name`, the command will give you a list to choose from. To only list available components, run with the `--list` option:
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic
+npm run swizzle @docusaurus/theme-classic --list
 ```
 
-**Note**: You need to restart your webpack dev server in order for Docusaurus to know about the new component.
+"Swizzle" is a central concept in Docusaurus, and is a natural product of our [layered theme architecture](#theme-aliases). Note that the command `docusaurus swizzle` is only an automated way to help you swizzle the component: you can still do it manually by creating the `src/theme/Footer.js` file, and Docusaurus will pick that one up when resolving theme components. There's no internal magic behind this command!
 
-## Wrapping theme components {#wrapping-theme-components}
+### Wrapping theme components {#wrapping-theme-components}
 
-Sometimes, you just want to wrap an existing theme component with additional logic, and it can be a pain to have to maintain an almost duplicate copy of the original theme component.
+Ejecting a component is risky. It means you have to maintain an almost duplicate copy of the original theme component. Also, it's likely that we will change internal implementations in future versions and break your component, even if you never touched that part of the code.
 
-In this case, you should swizzle the component you want to wrap, but import the original theme component in your customized version to wrap it. The `@theme-original` alias allows you to import the original theme component.
+In this case, you are still going to swizzle the component—but not from scratch and re-implementing a self-sustained component. Instead, you can delegate most of the logic and layout to the original theme component, only wrapping it with additional logic. The `@theme-original` alias allows you to import the original theme component.
 
 Here is an example to display some text just above the footer, with minimal code duplication.
 
 ```js title="src/theme/Footer.js"
-// Note: importing from "@theme/Footer" would fail due to the file importing itself
 import OriginalFooter from '@theme-original/Footer';
 import React from 'react';
 
@@ -63,36 +75,11 @@ export default function Footer(props) {
 }
 ```
 
-### For plugin authors {#for-plugin-authors}
-
-One theme can wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
-
-Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
-
-```js
-import InitialCodeBlock from '@theme-init/CodeBlock';
-import React from 'react';
-
-export default function CodeBlock(props) {
-  return props.live ? (
-    <ReactLivePlayground {...props} />
-  ) : (
-    <InitialCodeBlock {...props} />
-  );
-}
-```
-
-Check the code of `@docusaurus/theme-live-codeblock` for details.
-
-:::caution
-
-Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme-live-codeblock`), you likely don't need `@theme-init`.
-
-:::
+Should you be wondering why we have to use `'@theme-original/Footer'` instead of `'@theme/Footer'`, a short explanation is that once you have the swizzled component, the `'@theme/Footer'` alias will now point to your swizzled component, and thus cause a self-import. For a more in-depth explanation, see [theme aliases](#theme-aliases).
 
 ## Theme design
 
-When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest is familiar to any React developer: splitting into components, bundling with Webpack, calling `ReactDOM.renderToDOM`...
+When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
 
 **Themes provide the set of UI components to render the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
 
@@ -106,6 +93,7 @@ This is a contrived example: in practice, `@docusaurus/theme-classic` provides t
 
 ```js title="docusaurus.config.js"
 module.exports = {
+  // highlight-next-line
   themes: ['theme-blog'],
   plugins: ['plugin-content-blog'],
 };
@@ -115,14 +103,27 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 
 ```js title="docusaurus.config.js"
 module.exports = {
+  // highlight-next-line
   themes: ['theme-blog-bootstrap'],
   plugins: ['plugin-content-blog'],
 };
 ```
 
+Now, although the theme receives the same data from the plugin, how the theme chooses to _render_ the data as UI can be drastically different.
+
+While themes share the exact same lifecycle methods with plugins, themes' implementations can look very different from those of plugins based on themes' designed objectives.
+
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.md#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure#getThemePath) lifecycle.
+
+To summarize:
+
+- Themes share the same lifecycle methods with Plugins
+- Themes are run after all existing Plugins
+- Themes add component aliases by providing `getThemePath`. We will talk about theme aliases right next.
+
 ## Theme aliases
 
-As aforementioned, a theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`. Users can use these components in their code by importing them using the `@theme` webpack alias:
+As aforementioned, a theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
 
 ```js
 import Navbar from '@theme/Navbar';
@@ -134,12 +135,12 @@ The alias `@theme` can refer to a few directories, in the following priority:
 2. A Docusaurus theme package's `theme` directory.
 3. Fallback components provided by Docusaurus core (usually not needed).
 
-Given the following structure:
+This is called a _layered architecture_: a higher-priority layer providing the component would shadow a lower-priority layer, making swizzling possible. Given the following structure:
 
 ```
 website
 ├── node_modules
-│   └── docusaurus-theme
+│   └── @docusaurus/theme-classic
 │       └── theme
 │           └── Navbar.js
 └── src
@@ -147,11 +148,9 @@ website
         └── Navbar.js
 ```
 
-`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). **In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.**
 
-### For plugin authors {#for-plugin-authors}
-
-One theme can wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
+We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](#wrapping-theme-components) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
 
 Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
 
@@ -222,41 +221,3 @@ This component is applied above the router and the theme `<Layout>`, and will **
 Use this component to render React Context providers and global stateful logic.
 
 :::
-
-## Themes design {#themes-design}
-
-While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
-
-Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. So a typical theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which plugins would use. And it is typically accompanied by an `src/theme` directory full of components.
-
-To summarize:
-
-- Themes share the same lifecycle methods with Plugins
-- Themes are run after all existing Plugins
-- Themes exist to add component aliases by extending the webpack config
-
-## Writing customized Docusaurus themes {#writing-customized-docusaurus-themes}
-
-A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
-
-```bash
-website
-├── package.json
-└── src
-    ├── index.js
-    # highlight-start
-    └── theme
-        ├── MyThemeComponent
-        └── AnotherThemeComponent.js
-    # highlight-end
-```
-
-There are two lifecycle methods that are essential to theme implementation:
-
-- [`getThemePath()`](./api/plugin-methods/extend-infrastructure.md#getThemePath)
-- [`getClientModules()`](./api/plugin-methods/lifecycle-apis.md#getClientModules)
-
-These lifecycle methods are not essential but recommended:
-
-- [`validateThemeConfig({themeConfig, validate})`](./api/plugin-methods/static-methods.md#validateThemeConfig)
-- [`validateOptions({options, validate})`](./api/plugin-methods/static-methods.md#validateOptions)
