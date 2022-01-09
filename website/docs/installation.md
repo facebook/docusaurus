@@ -106,13 +106,19 @@ If you have multiple sites within the same repository, a monorepo may be the sol
 
 ```bash
 my-monorepo
+├── package-a # Another package, your actual project
+│   ├── src
+│   └── package.json # Package A's dependencies
 ├── website # Docusaurus root
-│   ├── Docs
+│   ├── docs
+│   ├── src
 │   └── package.json # Docusaurus'
-├── package.json # Project's
+├── package.json # Monorepo's shared dependencies
 ```
 
-If you're using a hosting provider such as Netlify or Vercel, you will need to change the `Base directory` of the site to where your Docusaurus root is. In this case, that would be `\website`.
+If you're using a hosting provider such as Netlify or Vercel, you will need to change the `Base directory` of the site to where your Docusaurus root is. In this case, that would be `./website`. Read more about configuring ignore commands in the [deployment docs](./deployment.mdx#deploying-to-netlify).
+
+Monorepos allow you to share dependencies between similar projects. For example, your website may use your local packages to showcase the latest features, instead of depending on a released version. Read more about monorepos in the [Yarn documentation](https://yarnpkg.com/features/workspaces) (Yarn is not the only way to set up a monorepo, but it's a common solution), or checkout [Docusaurus](https://github.com/facebook/docusaurus) and [Jest](https://github.com/facebook/jest) for reference.
 
 ## Running the development server {#running-the-development-server}
 
