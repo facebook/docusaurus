@@ -9,7 +9,7 @@ import * as eta from 'eta';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
-import {HelmetProvider} from 'react-helmet-async';
+import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 
@@ -99,9 +99,7 @@ async function doRender(locals: Locals & {path: string}) {
   );
   onLinksCollected(location, linksCollector.getCollectedLinks());
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const {helmet} = helmetContext;
+  const {helmet} = helmetContext as FilledContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
   const bodyAttributes = helmet.bodyAttributes.toString();
   const metaStrings = [
