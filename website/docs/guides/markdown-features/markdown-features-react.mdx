@@ -107,13 +107,13 @@ Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore,
 
 Docusaurus v2 is using MDX v1, which has a lot of known cases where the content fails to be correctly parsed as Markdown. Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
+````mdx-code-block
 <details>
 
 <summary>Samples of parsing failures</summary>
 
 **A paragraph starting with a JSX tag will be seen entirely as a JSX string:**
 
-````mdx-code-block
 <Tabs groupId="jsx-and-md">
 <TabItem value="Problem">
 <div className={styles.wrappingBlock}>
@@ -304,9 +304,8 @@ Now I'm actually just text
 </div>
 </TabItem>
 </Tabs>
-````
-
 </details>
+````
 
 ## Importing code snippets {#importing-code-snippets}
 
