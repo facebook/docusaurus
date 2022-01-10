@@ -88,7 +88,7 @@ export const getActiveDocContext = (
     (doc) =>
       !!matchPath(pathname, {
         path: doc.path,
-        exact: true,
+        exact: false,
         strict: false,
       }),
   );
