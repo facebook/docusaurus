@@ -141,7 +141,10 @@ export function addLeadingSlash(str: string): string {
 }
 
 export function addTrailingPathSeparator(str: string): string {
-  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }
 
 // TODO deduplicate: also present in @docusaurus/utils-common
