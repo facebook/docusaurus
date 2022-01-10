@@ -1,4 +1,13 @@
+---
+description: How Docusaurus works to build your app
+---
+
 # Architecture
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
 
 ![Architecture overview](/img/architecture.png)
 
@@ -19,3 +28,58 @@ Beware: the theme being run in Webpack doesn't mean it always has access to brow
 - During **client-side rendering**, the theme is compiled with standard React DOM, and has access to browser variables.
 
 Therefore, while you probably know not to access Node globals like `process` or the `'fs'` module, you can't freely access browser globals either. If you need to, you need to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
+
+:::note what about process.env.NODE_ENV?
+
+One exception to the "no Node globals" rule is `process.env.NODE_ENV`. In fact, you can use it in React, because Webpack injects this variable as a global:
+
+```jsx
+import React from 'react';
+
+export default function expensiveComp() {
+  if (process.env.NODE_ENV === 'development') {
+    return <>This component is not shown in development</>;
+  }
+  const res = someExpensiveOperationThatLastsALongTime();
+  return <>{res}</>;
+}
+```
+
+During Webpack build, the `process.env.NODE_ENV` will be replaced with the value, either `'development'` or `'production'`. You will then get different build results after treeshaking:
+
+<Tabs>
+<TabItem value="Development">
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+  if ('development' === 'development') {
++   return <>This component is not shown in development</>;
+  }
+- const res = someExpensiveOperationThatLastsALongTime();
+- return <>{res}</>;
+}
+```
+
+</TabItem>
+<TabItem value="Production">
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+  if ('production' === 'development') {
+-   return <>This component is not shown in development</>;
+  }
++ const res = someExpensiveOperationThatLastsALongTime();
++ return <>{res}</>;
+}
+```
+
+</TabItem>
+</Tabs>
+
+:::
