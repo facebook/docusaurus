@@ -89,11 +89,11 @@ async function doRender(locals: Locals & {path: string}) {
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
-      <StaticRouter location={location} context={context}>
-        <ProvideLinksCollector linksCollector={linksCollector}>
-          <App />
-        </ProvideLinksCollector>
-      </StaticRouter>
+        <StaticRouter location={location} context={context}>
+          <ProvideLinksCollector linksCollector={linksCollector}>
+            <App />
+          </ProvideLinksCollector>
+        </StaticRouter>
       </HelmetProvider>
     </Loadable.Capture>,
   );
@@ -101,7 +101,7 @@ async function doRender(locals: Locals & {path: string}) {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { helmet } = helmetContext;
+  const {helmet} = helmetContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
   const bodyAttributes = helmet.bodyAttributes.toString();
   const metaStrings = [
