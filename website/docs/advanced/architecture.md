@@ -7,9 +7,15 @@ description: How Docusaurus works to build your app
 ```mdx-code-block
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 ```
 
+<Zoom>
+
 ![Architecture overview](/img/architecture.png)
+
+</Zoom>
 
 This image shows how Docusaurus works to build your app. Plugins each collect their content and emit JSON data; themes provide layout components which receive the JSON data as route modules. The bundler bundles all the components and emits a server bundle and a client bundle.
 
