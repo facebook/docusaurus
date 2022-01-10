@@ -45,6 +45,11 @@ describe('transformImage plugin', () => {
       processFixture('fail', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
+  test('fail if image relative path does not exist', async () => {
+    await expect(
+      processFixture('fail2', {staticDirs}),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
   test('fail if image url is absent', async () => {
     await expect(
       processFixture('noUrl', {staticDirs}),

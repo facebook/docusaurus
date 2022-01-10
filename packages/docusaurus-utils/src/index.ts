@@ -35,7 +35,7 @@ export * from './globUtils';
 export * from './webpackUtils';
 export * from './dataFileUtils';
 
-const fileHash = new Map();
+const fileHash = new Map<string, string>();
 export async function generate(
   generatedFilesDir: string,
   file: string,
@@ -262,20 +262,6 @@ export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
   return contents.reduce((acc, content) => ({...acc, ...content}), {});
-}
-
-export function getSwizzledComponent(
-  componentPath: string,
-): string | undefined {
-  const swizzledComponentPath = path.resolve(
-    process.cwd(),
-    'src',
-    componentPath,
-  );
-
-  return fs.existsSync(swizzledComponentPath)
-    ? swizzledComponentPath
-    : undefined;
 }
 
 // Useful to update all the messages of a translation file

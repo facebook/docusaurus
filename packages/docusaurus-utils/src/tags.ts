@@ -47,10 +47,11 @@ export function normalizeFrontMatterTag(
 
 export function normalizeFrontMatterTags(
   tagsPath: string,
-  frontMatterTags: FrontMatterTag[] | undefined,
+  frontMatterTags: FrontMatterTag[] | undefined = [],
 ): Tag[] {
-  const tags =
-    frontMatterTags?.map((tag) => normalizeFrontMatterTag(tagsPath, tag)) ?? [];
+  const tags = frontMatterTags.map((tag) =>
+    normalizeFrontMatterTag(tagsPath, tag),
+  );
 
   return uniqBy(tags, (tag) => tag.permalink);
 }

@@ -33,13 +33,9 @@ const createJSX = (node: Image, pathUrl: string) => {
   (jsxNode as unknown as Literal).type = 'jsx';
   (jsxNode as unknown as Literal).value = `<img ${
     node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''
-  }${
-    node.url
-      ? `src={require("${inlineMarkdownImageFileLoader}${escapePath(
-          pathUrl,
-        )}").default}`
-      : ''
-  }${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
+  }${`src={require("${inlineMarkdownImageFileLoader}${escapePath(
+    pathUrl,
+  )}").default}`}${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
 
   if (jsxNode.url) {
     delete (jsxNode as Partial<Image>).url;

@@ -2,7 +2,7 @@
 
 ![](./static/img.png)
 
-![img](./static/img.png)
+![img](static/img.png)
 
 ![img from second static folder](/img2.png)
 
