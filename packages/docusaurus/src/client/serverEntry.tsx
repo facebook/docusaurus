@@ -9,7 +9,7 @@ import * as eta from 'eta';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
-import {Helmet} from 'react-helmet';
+import {HelmetProvider} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
 import Loadable from 'react-loadable';
 
@@ -83,19 +83,25 @@ async function doRender(locals: Locals & {path: string}) {
   const modules = new Set<string>();
   const context = {};
 
+  const helmetContext = {};
+
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+      <HelmetProvider context={helmetContext}>
       <StaticRouter location={location} context={context}>
         <ProvideLinksCollector linksCollector={linksCollector}>
           <App />
         </ProvideLinksCollector>
       </StaticRouter>
+      </HelmetProvider>
     </Loadable.Capture>,
   );
   onLinksCollected(location, linksCollector.getCollectedLinks());
 
-  const helmet = Helmet.renderStatic();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { helmet } = helmetContext;
   const htmlAttributes = helmet.htmlAttributes.toString();
   const bodyAttributes = helmet.bodyAttributes.toString();
   const metaStrings = [
