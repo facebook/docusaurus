@@ -15,6 +15,8 @@ import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
 
+import {HelmetProvider} from 'react-helmet-async';
+
 declare global {
   interface NodeModule {
     hot?: {accept: () => void};
@@ -30,9 +32,13 @@ if (ExecutionEnvironment.canUseDOM) {
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
+      <React.StrictMode>
       <BrowserRouter>
+      <HelmetProvider>
         <App />
-      </BrowserRouter>,
+      </HelmetProvider>
+      </BrowserRouter>
+      </React.StrictMode>,
       document.getElementById('__docusaurus'),
     );
   });
