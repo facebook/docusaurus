@@ -23,6 +23,7 @@ describe('brokenLinks', () => {
       '/otherSourcePage': [{link: '/badLink', resolvedLink: '/badLink'}],
     });
     expect(message).toMatchSnapshot();
+    expect(getBrokenLinksErrorMessage({})).toBeUndefined();
   });
 
   test('getBrokenLinksErrorMessage with potential layout broken links', async () => {
@@ -205,54 +206,54 @@ describe('brokenLinks', () => {
     });
     expect(result).toEqual(allCollectedLinksFiltered);
   });
+});
 
-  describe('Encoded link', () => {
-    test('getAllBrokenLinks', async () => {
-      const routes: RouteConfig[] = [
+describe('Encoded link', () => {
+  test('getAllBrokenLinks', async () => {
+    const routes: RouteConfig[] = [
+      {
+        path: '/docs',
+        component: '',
+        routes: [
+          {path: '/docs/some doc', component: ''},
+          {path: '/docs/some other doc', component: ''},
+          {path: '/docs/weird%20file%20name', component: ''},
+        ],
+      },
+      {
+        path: '*',
+        component: '',
+      },
+    ];
+
+    const allCollectedLinks = {
+      '/docs/some doc': [
+        // good - valid file with spaces in name
+        './some%20other%20doc',
+        // good - valid file with percent-20 in its name
+        './weird%20file%20name',
+        // bad - non-existant file with spaces in name
+        './some%20other%20non-existant%20doc',
+        // evil - trying to use ../../ but '/' won't get decoded
+        './break%2F..%2F..%2Fout',
+      ],
+    };
+
+    const expectedBrokenLinks = {
+      '/docs/some doc': [
         {
-          path: '/docs',
-          component: '',
-          routes: [
-            {path: '/docs/some doc', component: ''},
-            {path: '/docs/some other doc', component: ''},
-            {path: '/docs/weird%20file%20name', component: ''},
-          ],
+          link: './some%20other%20non-existant%20doc',
+          resolvedLink: '/docs/some%20other%20non-existant%20doc',
         },
         {
-          path: '*',
-          component: '',
+          link: './break%2F..%2F..%2Fout',
+          resolvedLink: '/docs/break%2F..%2F..%2Fout',
         },
-      ];
+      ],
+    };
 
-      const allCollectedLinks = {
-        '/docs/some doc': [
-          // good - valid file with spaces in name
-          './some%20other%20doc',
-          // good - valid file with percent-20 in its name
-          './weird%20file%20name',
-          // bad - non-existant file with spaces in name
-          './some%20other%20non-existant%20doc',
-          // evil - trying to use ../../ but '/' won't get decoded
-          './break%2F..%2F..%2Fout',
-        ],
-      };
-
-      const expectedBrokenLinks = {
-        '/docs/some doc': [
-          {
-            link: './some%20other%20non-existant%20doc',
-            resolvedLink: '/docs/some%20other%20non-existant%20doc',
-          },
-          {
-            link: './break%2F..%2F..%2Fout',
-            resolvedLink: '/docs/break%2F..%2F..%2Fout',
-          },
-        ],
-      };
-
-      expect(getAllBrokenLinks({allCollectedLinks, routes})).toEqual(
-        expectedBrokenLinks,
-      );
-    });
+    expect(getAllBrokenLinks({allCollectedLinks, routes})).toEqual(
+      expectedBrokenLinks,
+    );
   });
 });

@@ -44,18 +44,15 @@ export async function getDataFileData<T>(
   if (!filePath) {
     return undefined;
   }
-  if (await fs.pathExists(filePath)) {
-    try {
-      const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-      const unsafeContent = Yaml.load(contentString);
-      return validate(unsafeContent);
-    } catch (e) {
-      // TODO replace later by error cause, see https://v8.dev/features/error-cause
-      logger.error`The ${params.fileType} file at path=${filePath} looks invalid.`;
-      throw e;
-    }
+  try {
+    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
+    const unsafeContent = Yaml.load(contentString);
+    return validate(unsafeContent);
+  } catch (e) {
+    // TODO replace later by error cause, see https://v8.dev/features/error-cause
+    logger.error`The ${params.fileType} file at path=${filePath} looks invalid.`;
+    throw e;
   }
-  return undefined;
 }
 
 // Order matters: we look in priority in localized folder

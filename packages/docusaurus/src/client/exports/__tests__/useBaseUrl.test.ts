@@ -51,6 +51,7 @@ describe('useBaseUrl', () => {
       },
     }));
 
+    expect(useBaseUrl('')).toEqual('');
     expect(useBaseUrl('hello')).toEqual('/docusaurus/hello');
     expect(useBaseUrl('/hello')).toEqual('/docusaurus/hello');
     expect(useBaseUrl('hello/')).toEqual('/docusaurus/hello/');
@@ -62,6 +63,7 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('https://github.com')).toEqual('https://github.com');
     expect(useBaseUrl('//reactjs.org')).toEqual('//reactjs.org');
     expect(useBaseUrl('//reactjs.org', forcePrepend)).toEqual('//reactjs.org');
+    expect(useBaseUrl('/hello', forcePrepend)).toEqual('/docusaurus/hello');
     expect(useBaseUrl('https://site.com', forcePrepend)).toEqual(
       'https://site.com',
     );

@@ -8,6 +8,8 @@
 
 [asset](asset.pdf 'Title')
 
+[page](noUrl.md)
+
 ## Heading
 
 ```md
