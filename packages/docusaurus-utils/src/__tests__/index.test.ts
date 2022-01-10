@@ -25,6 +25,7 @@ import {
   getPluginI18nPath,
   generate,
   reportMessage,
+  posixPath,
 } from '../index';
 import {sum} from 'lodash';
 import fs from 'fs-extra';
@@ -98,8 +99,12 @@ describe('load utils', () => {
   });
 
   test('addTrailingPathSeparator', () => {
-    expect(addTrailingPathSeparator('foo')).toEqual('foo/');
-    expect(addTrailingPathSeparator('foo/')).toEqual('foo/');
+    expect(addTrailingPathSeparator('foo')).toEqual(
+      process.platform === 'win32' ? 'foo\\' : 'foo/',
+    );
+    expect(addTrailingPathSeparator('foo/')).toEqual(
+      process.platform === 'win32' ? 'foo\\' : 'foo/',
+    );
   });
 
   test('resolvePathname', () => {
@@ -381,32 +386,38 @@ describe('updateTranslationFileMessages', () => {
 describe('getPluginI18nPath', () => {
   test('gets correct path', () => {
     expect(
-      getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
-        pluginName: 'plugin-content-docs',
-        pluginId: 'community',
-        subPaths: ['foo'],
-      }).replace(__dirname, ''),
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+          pluginId: 'community',
+          subPaths: ['foo'],
+        }).replace(__dirname, ''),
+      ),
     ).toEqual('/i18n/zh-Hans/plugin-content-docs-community/foo');
   });
   test('gets correct path for default plugin', () => {
     expect(
-      getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
-        pluginName: 'plugin-content-docs',
-        subPaths: ['foo'],
-      }).replace(__dirname, ''),
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+          subPaths: ['foo'],
+        }).replace(__dirname, ''),
+      ),
     ).toEqual('/i18n/zh-Hans/plugin-content-docs/foo');
   });
   test('gets correct path when no subpaths', () => {
     expect(
-      getPluginI18nPath({
-        siteDir: __dirname,
-        locale: 'zh-Hans',
-        pluginName: 'plugin-content-docs',
-      }).replace(__dirname, ''),
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+        }).replace(__dirname, ''),
+      ),
     ).toEqual('/i18n/zh-Hans/plugin-content-docs');
   });
 });
