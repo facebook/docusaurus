@@ -19,12 +19,14 @@ import {readVersionsMetadata} from '../versions';
 import type {
   DocFile,
   DocMetadataBase,
-  MetadataOptions,
   VersionMetadata,
-  PluginOptions,
-  EditUrlFunction,
   DocNavLink,
 } from '../types';
+import type {
+  MetadataOptions,
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
 import type {Optional} from 'utility-types';
@@ -166,7 +168,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -523,7 +525,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });

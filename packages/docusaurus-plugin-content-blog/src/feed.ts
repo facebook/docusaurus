@@ -6,11 +6,16 @@
  */
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
-import type {PluginOptions, Author, BlogPost, FeedType} from './types';
+import type {BlogPost} from './types';
 import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
+import type {
+  FeedType,
+  PluginOptions,
+  Author,
+} from '@docusaurus/plugin-content-blog';
 
 // TODO this is temporary until we handle mdxToHtml better
 // It's hard to convert reliably JSX/require calls  to an html feed content

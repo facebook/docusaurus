@@ -53,8 +53,8 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: googleAnalytics
-// plugin name: @docusaurus/plugin-google-analytics
+// Preset Options: googleAnalytics
+// Plugin Options: @docusaurus/plugin-google-analytics
 
 const config = {
   trackingID: 'UA-141789564-1',

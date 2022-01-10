@@ -6,7 +6,7 @@
  */
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
-import type {PluginOptions} from '../types';
+import type {PluginOptions} from '@docusaurus/plugin-content-pages';
 
 export default function normalizePluginOptions(
   options: Partial<PluginOptions>,

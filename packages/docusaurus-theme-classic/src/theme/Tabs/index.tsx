@@ -13,8 +13,11 @@ import React, {
   type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
+import {
+  useScrollPositionBlocker,
+  duplicates,
+  useTabGroupChoice,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -83,7 +86,7 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =

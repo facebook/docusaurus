@@ -28,8 +28,6 @@ import type {
   DocMetadata,
   DocNavLink,
   LastUpdateData,
-  MetadataOptions,
-  PluginOptions,
   VersionMetadata,
   LoadedVersion,
 } from './types';
@@ -40,6 +38,10 @@ import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
 import type {SidebarsUtils} from './sidebars/utils';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
+import type {
+  MetadataOptions,
+  PluginOptions,
+} from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<
   PluginOptions,

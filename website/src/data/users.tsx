@@ -22,6 +22,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - Use relevant tags to qualify your site (read the tag descriptions below)
  * - The image MUST be added to the GitHub repository, and use `require("image")`
+ * - The image has to have minimum width 640 and an aspect of no wider than 2:1
  * - Open a PR and check for reported CI errors
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
@@ -180,6 +181,7 @@ const Users: User[] = [
     source: 'https://github.com/algolia/docsearch-website',
     tags: ['favorite', 'opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Amphora Data',
     description: 'Connecting the world’s real-time information',
@@ -232,6 +234,7 @@ const Users: User[] = [
     source: 'https://gitlab.com/aweframework/awe',
     tags: ['opensource', 'i18n', 'versioning'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
@@ -461,6 +464,14 @@ const Users: User[] = [
     tags: ['opensource', 'meta'],
   },
   {
+    title: 'Dyte',
+    description: 'The most developer friendly live video SDK',
+    preview: require('./showcase/dyte.png'),
+    source: null,
+    website: 'https://docs.dyte.io',
+    tags: ['favorite', 'product', 'design', 'versioning', 'large']
+  },
+  {
     title: 'Easyjwt',
     description: 'JWT creation and validation library',
     preview: require('./showcase/easyjwt.png'),
@@ -504,6 +515,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Eric JiuRan',
+    description: 'Front-end developer blog',
+    preview: require('./showcase/eric.png'),
+    website: 'https://www.siyuanwa.cn/',
+    source: 'https://github.com/1084350607/blog',
+    tags: ['opensource', 'personal', 'i18n'],
+  },
+  {
     title: "Evan Tay's Personal Website",
     description:
       "A Software Engineer's blog, documentation and project portfolio.",
@@ -543,6 +562,14 @@ const Users: User[] = [
     website: 'https://docs.flagsmith.com',
     source: 'https://github.com/Flagsmith/flagsmith-docs',
     tags: ['opensource'],
+  },
+  {
+    title: 'FlatifyCSS',
+    description: 'Modern flat design framework for the web — inspired by Duolingo design system.',
+    preview: require('./showcase/flatifycss.png'),
+    website: 'https://flatifycss.com',
+    source: 'https://github.com/amir2mi/flatifycss/',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Flipper',
@@ -609,29 +636,12 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
-    title: 'GraphQL Code Generator',
-    description:
-      'Generate code from your GraphQL schema and operations with a simple CLI',
-    preview: require('./showcase/graphql-codegen.png'),
-    website: 'https://graphql-code-generator.com/',
-    source: 'https://github.com/dotansimha/graphql-code-generator',
-    tags: ['favorite', 'opensource', 'design'],
-  },
-  {
     title: 'GraphQL Inspector',
     description: 'An open-source tool to help you work with GraphQL',
     preview: require('./showcase/graphql-inspector.png'),
     website: 'https://graphql-inspector.com',
     source: 'https://github.com/kamilkisiela/graphql-inspector',
     tags: ['opensource', 'design', 'product'],
-  },
-  {
-    title: 'GraphQL Mesh',
-    description: 'Query anything, run everywhere',
-    preview: require('./showcase/graphql-mesh.png'),
-    website: 'https://graphql-mesh.com',
-    source: 'https://github.com/urigo/graphql-mesh',
-    tags: ['opensource'],
   },
   {
     title: 'GTFS-to-HTML',
@@ -683,6 +693,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'icodex',
+    description: 'Front end engineer personal website',
+    preview: require('./showcase/icodex.png'),
+    website: 'https://icodex.me/',
+    source: 'https://github.com/wood3n/icodex-next',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'Idb',
     description: 'iOS Development Bridge',
     preview: require('./showcase/idb.png'),
@@ -717,6 +735,15 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'Ionic',
+    description:
+      'Ionic is an open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
+    preview: require('./showcase/ionic.png'),
+    website: 'https://ionicframework.com/docs',
+    source: 'https://github.com/ionic-team/ionic-docs',
+    tags: ['favorite', 'opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
+  },
+  {
     title: 'IOTA-Wiki',
     description: 'Documantation and wiki for the IOTA project',
     preview: require('./showcase/iota-wiki.png'),
@@ -734,6 +761,14 @@ const Users: User[] = [
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
   {
+    title: 'Khyron Realm',
+    description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
+    preview: require('./showcase/khyron_realm.png'),
+    website: 'https://khyron-realm.com',
+    source: 'https://github.com/khyron-realm/khyron-realm-website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Kosko',
     description: 'Organize Kubernetes manifests in JavaScript',
     preview: require('./showcase/kosko.png'),
@@ -744,10 +779,18 @@ const Users: User[] = [
   {
     title: 'Kotest',
     description: 'Kotlin test framework',
-    preview: require('./showcase/kotest.jpg'),
+    preview: require('./showcase/kotest.png'),
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
     tags: ['opensource'],
+  },
+  {
+    title: 'kwatch',
+    description: 'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
+    preview: require('./showcase/kwatch.png'),
+    website: 'https://kwatch.dev',
+    source: 'https://github.com/abahmed/kwatch.dev',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'LabVIEW 编程经验',
@@ -926,6 +969,7 @@ const Users: User[] = [
     source: 'https://github.com/miroiu/nodify',
     tags: ['opensource', 'design'],
   },
+  // TODO site unavailable on 01/08/2022
   {
     title: 'OCPeasy',
     description:
@@ -964,7 +1008,7 @@ const Users: User[] = [
     title: 'Oxidizer',
     description: 'A Rust ORM based on tokio-postgres and refinery',
     preview: require('./showcase/oxidizer.png'),
-    website: 'https://oxidizer.rs',
+    website: 'https://oxidizer-rs.github.io',
     source: 'https://github.com/oxidizer-rs/website',
     tags: ['opensource'],
   },
@@ -981,7 +1025,7 @@ const Users: User[] = [
     description:
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
     preview: require('./showcase/pearl-ui.png'),
-    website: 'https://www.pearl-ui.dev/',
+    website: 'https://docs.pearl-ui.dev/',
     source: 'https://github.com/agrawal-rohit/pearl-ui',
     tags: ['opensource', 'design', 'product'],
   },
@@ -1420,7 +1464,7 @@ const Users: User[] = [
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
-    website: 'https://www.supabase.io/',
+    website: 'https://www.supabase.io/docs',
     source: 'https://github.com/supabase/monorepo',
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
@@ -1576,6 +1620,7 @@ const Users: User[] = [
     source: 'https://github.com/webiny/docs.webiny.com',
     tags: ['opensource', 'product'],
   },
+  // TODO site unavailable on 12/31/2021
   {
     title: 'Wisdom',
     description: 'Session replay web analytics with open data SQL/S3 access.',

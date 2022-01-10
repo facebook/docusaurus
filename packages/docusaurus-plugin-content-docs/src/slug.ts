@@ -15,8 +15,9 @@ import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,
 } from './numberPrefix';
-import type {DocMetadataBase, NumberPrefixParser} from './types';
+import type {DocMetadataBase} from './types';
 import {isConventionalDocIndex} from './docs';
+import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 export default function getSlug({
   baseID,

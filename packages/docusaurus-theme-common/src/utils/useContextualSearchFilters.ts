@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  useActivePluginAndVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import {useDocsPreferredVersionByPluginId} from './docsPreferredVersion/useDocsPreferredVersion';
 import {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './searchUtils';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';

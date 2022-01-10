@@ -46,7 +46,7 @@ describe('createSidebarsUtils', () => {
       collapsible: true,
       label: 'S2 Category',
       items: [
-        {type: 'doc', id: 'doc3'},
+        {type: 'doc', id: 'doc3', label: 'Doc 3'},
         {type: 'doc', id: 'doc4'},
       ],
     },
@@ -95,7 +95,25 @@ describe('createSidebarsUtils', () => {
     },
   ];
 
-  const sidebars: Sidebars = {sidebar1, sidebar2, sidebar3};
+  const sidebar4: Sidebar = [
+    {
+      type: 'category',
+      collapsed: false,
+      collapsible: true,
+      label: 'S4 Category',
+      link: {
+        type: 'generated-index',
+        slug: '/s4-category-slug',
+        permalink: '/s4-category-permalink',
+      },
+      items: [
+        {type: 'doc', id: 'doc8'},
+        {type: 'doc', id: 'doc9'},
+      ],
+    },
+  ];
+
+  const sidebars: Sidebars = {sidebar1, sidebar2, sidebar3, sidebar4};
 
   const {
     getFirstDocIdOfFirstSidebar,
@@ -103,6 +121,7 @@ describe('createSidebarsUtils', () => {
     getDocNavigation,
     getCategoryGeneratedIndexNavigation,
     getCategoryGeneratedIndexList,
+    getFirstLink,
   } = createSidebarsUtils(sidebars);
 
   test('getSidebarNameByDocId', async () => {
@@ -121,7 +140,7 @@ describe('createSidebarsUtils', () => {
   });
 
   test('getDocNavigation', async () => {
-    expect(getDocNavigation('doc1')).toEqual({
+    expect(getDocNavigation('doc1', 'doc1')).toEqual({
       sidebarName: 'sidebar1',
       previous: undefined,
       next: {
@@ -129,7 +148,7 @@ describe('createSidebarsUtils', () => {
         id: 'doc2',
       },
     } as SidebarNavigation);
-    expect(getDocNavigation('doc2')).toEqual({
+    expect(getDocNavigation('doc2', 'doc2')).toEqual({
       sidebarName: 'sidebar1',
       previous: {
         type: 'doc',
@@ -138,7 +157,7 @@ describe('createSidebarsUtils', () => {
       next: undefined,
     } as SidebarNavigation);
 
-    expect(getDocNavigation('doc3')).toEqual({
+    expect(getDocNavigation('doc3', 'doc3')).toEqual({
       sidebarName: 'sidebar2',
       previous: undefined,
       next: {
@@ -146,16 +165,17 @@ describe('createSidebarsUtils', () => {
         id: 'doc4',
       },
     } as SidebarNavigation);
-    expect(getDocNavigation('doc4')).toEqual({
+    expect(getDocNavigation('doc4', 'doc4')).toEqual({
       sidebarName: 'sidebar2',
       previous: {
         type: 'doc',
         id: 'doc3',
+        label: 'Doc 3',
       },
       next: undefined,
     } as SidebarNavigation);
 
-    expect(getDocNavigation('doc5')).toMatchObject({
+    expect(getDocNavigation('doc5', 'doc5')).toMatchObject({
       sidebarName: 'sidebar3',
       previous: undefined,
       next: {
@@ -163,7 +183,7 @@ describe('createSidebarsUtils', () => {
         label: 'S3 SubCategory',
       },
     } as SidebarNavigation);
-    expect(getDocNavigation('doc6')).toMatchObject({
+    expect(getDocNavigation('doc6', 'doc6')).toMatchObject({
       sidebarName: 'sidebar3',
       previous: {
         type: 'category',
@@ -174,7 +194,7 @@ describe('createSidebarsUtils', () => {
         id: 'doc7',
       },
     } as SidebarNavigation);
-    expect(getDocNavigation('doc7')).toMatchObject({
+    expect(getDocNavigation('doc7', 'doc7')).toMatchObject({
       sidebarName: 'sidebar3',
       previous: {
         type: 'doc',
@@ -224,7 +244,34 @@ describe('createSidebarsUtils', () => {
         type: 'category',
         label: 'S3 SubSubCategory',
       },
+      {
+        type: 'category',
+        label: 'S4 Category',
+      },
     ]);
+  });
+
+  test('getFirstLink', () => {
+    expect(getFirstLink('sidebar1')).toEqual({
+      id: 'doc1',
+      type: 'doc',
+      label: 'doc1',
+    });
+    expect(getFirstLink('sidebar2')).toEqual({
+      id: 'doc3',
+      type: 'doc',
+      label: 'Doc 3',
+    });
+    expect(getFirstLink('sidebar3')).toEqual({
+      id: 'doc5',
+      type: 'doc',
+      label: 'S3 Category',
+    });
+    expect(getFirstLink('sidebar4')).toEqual({
+      type: 'generated-index',
+      slug: '/s4-category-slug',
+      label: 'S4 Category',
+    });
   });
 });
 

@@ -171,10 +171,6 @@ export default function docusaurusThemeClassic(
         .join('|');
 
       return {
-        ignoreWarnings: [
-          // See https://github.com/facebook/docusaurus/pull/3382
-          (e) => e.message.includes("Can't resolve '@theme-init/hooks/useDocs"),
-        ],
         plugins: [
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,

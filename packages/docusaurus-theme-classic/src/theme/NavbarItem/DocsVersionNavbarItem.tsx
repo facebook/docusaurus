@@ -11,7 +11,7 @@ import {
   useActiveVersion,
   useLatestVersion,
   type GlobalVersion,
-} from '@theme/hooks/useDocs';
+} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/NavbarItem/DocsVersionNavbarItem';
 import {useDocsPreferredVersion} from '@docusaurus/theme-common';
 
