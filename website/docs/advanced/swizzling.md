@@ -77,6 +77,50 @@ export default function Footer(props) {
 
 Should you be wondering why we have to use `'@theme-original/Footer'` instead of `'@theme/Footer'`, a short explanation is that once you have the swizzled component, the `'@theme/Footer'` alias will now point to your swizzled component, and thus cause a self-import. For a more in-depth explanation, see [theme aliases](#theme-aliases).
 
+## Which component should I swizzle?
+
+Currently, `theme-classic` has about 100 components[^source]! If you want to customize a part of your site's layout, which component should you choose?
+
+[^source]: https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme
+
+You can follow the following steps to locate the component to swizzle:
+
+1. **Search.** Our components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
+2. **Start with a higher-level component.** Components from a tree, with some components importing others. Every route will be associated with one top-level component that the route will render. For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest after you've found it, so you don't maintain too many components.
+3. **Read the source code and use search wisely.** Topmost components are registered by the plugin with `addRoute`, so you can search for `addRoute` and see which component it refers to. Afterwards, read the code of all components that this component references.
+4. **Ask.** If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
+
+### Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
+
+The `<Root>` component is one that you probably won't spot. Every component provided by `theme-classic` is ultimately only rendered on certain routes, and will be unmounted during route transition; however, the `<Root>` theme component is rendered at the very top of the Docusaurus SPA, above the rendered routes. It allows you to wrap your site with additional logic. You can swizzle it by creating a file at `src/theme/Root.js`:
+
+```js title="website/src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+function Root({children}) {
+  return <>{children}</>;
+}
+
+export default Root;
+```
+
+This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
+
+:::tip
+
+Use this component to render React Context providers and global stateful logic.
+
+:::
+
+## Do I need to swizzle?
+
+Swizzling ultimately means you have to maintain part of the code directly used to build your site, and you have to interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
+
+1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](../styling-layout.md) for more details.
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
+3. **The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part. Swizzling a small component often means less risk of breaking and less code to maintain. [Wrapping](#wrapping-theme-components) is also a far safer alternative to [ejecting](#ejecting-theme-components).
+
 ## Theme design
 
 When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
@@ -198,26 +242,3 @@ The components in this "stack" are pushed in the order of `preset plugins > pres
 `@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
 
 <!-- TODO integrate the content below  -->
-
-## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
-
-A `<Root>` theme component is rendered at the very top of your Docusaurus site. It allows you to wrap your site with additional logic, by creating a file at `src/theme/Root.js`:
-
-```js title="website/src/theme/Root.js"
-import React from 'react';
-
-// Default implementation, that you can customize
-function Root({children}) {
-  return <>{children}</>;
-}
-
-export default Root;
-```
-
-This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
-
-:::tip
-
-Use this component to render React Context providers and global stateful logic.
-
-:::
