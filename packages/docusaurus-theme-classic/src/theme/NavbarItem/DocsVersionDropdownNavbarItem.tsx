@@ -83,7 +83,7 @@ export default function DocsVersionDropdownNavbarItem({
       <DefaultNavbarItem
         {...props}
         mobile={mobile}
-        label={dropdownLabel}
+        label={dropdownVersion.label} // Don't use the "Versions" label, even for mobile!
         to={dropdownTo}
         isActive={dropdownActiveClassDisabled ? () => false : undefined}
       />
