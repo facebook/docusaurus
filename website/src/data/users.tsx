@@ -244,6 +244,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Bandwidth',
+    description: '',
+    preview: require('./showcase/bandwidth.png'),
+    website: 'https://dev.bandwidth.com/',
+    source: 'https://github.com/Bandwidth/api-docs',
+    tags: ['opensource', 'large', 'product'],
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
