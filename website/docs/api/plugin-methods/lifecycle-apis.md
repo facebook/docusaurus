@@ -28,7 +28,7 @@ module.exports = function (context, options) {
 
 The data that was loaded in `loadContent` will be consumed in `contentLoaded`. It can be rendered to routes, registered as global data, etc.
 
-### `content` {#content}
+### `content` {#content-configure-webpack}
 
 `contentLoaded` will be called _after_ `loadContent` is done. The return value of `loadContent()` will be passed to `contentLoaded` as `content`.
 
