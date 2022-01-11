@@ -53,9 +53,7 @@ export default function DocNavbarItem({
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   const location = useLocation();
-  console.log('Active=>', activeDoc);
-  console.log('doc =>', doc);
-  console.log('activeVersion', activeVersion);
+
   return (
     <DefaultNavbarItem
       exact
