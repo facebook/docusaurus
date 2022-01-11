@@ -21,7 +21,7 @@ import SwizzleWarning from "../_partials/swizzleWarning.mdx"
 <SwizzleWarning/>
 ```
 
-Docusaurus Themes' components are designed to be replaceable. The replacing is called "swizzle" (for why it's called that, you have to understand [how theme components are resolved](#theme-aliases)). To help you get started, we created a command called `docusaurus swizzle`.
+Docusaurus Themes' components are designed to be replaceable. The replacing is called "swizzle". In Objective C, method swizzling is the process of changing the implementation of an existing selector (method). **In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.** (To gain a deeper understanding of this, you have to understand [how theme components are resolved](#theme-aliases)). To help you get started, we created a command called `docusaurus swizzle`.
 
 ### Ejecting theme components
 
@@ -192,7 +192,7 @@ website
         └── Navbar.js
 ```
 
-`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In Objective C, method swizzling is the process of changing the implementation of an existing selector (method). **In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.**
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. If you are familiar with Objective C where a function's implementation can be swapped during runtime, it's the exact same concept here with changing the target `@theme/Navbar` is pointing to!
 
 We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](#wrapping-theme-components) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
 
