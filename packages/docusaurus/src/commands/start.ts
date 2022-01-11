@@ -128,7 +128,7 @@ export default async function start(
       new HtmlWebpackPlugin({
         template: path.resolve(
           __dirname,
-          '../client/templates/index.html.template.ejs',
+          '../webpack/templates/index.html.template.ejs',
         ),
         // So we can define the position where the scripts are injected.
         inject: false,
@@ -219,12 +219,7 @@ export default async function start(
     port,
     setupMiddlewares: (middlewares, devServer) => {
       // This lets us fetch source contents from webpack for the error overlay.
-      middlewares.unshift(
-        evalSourceMapMiddleware(
-          // @ts-expect-error: bad types
-          devServer,
-        ),
-      );
+      middlewares.unshift(evalSourceMapMiddleware(devServer));
       return middlewares;
     },
   };

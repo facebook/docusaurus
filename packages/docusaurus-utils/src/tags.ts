@@ -70,10 +70,9 @@ export function normalizeFrontMatterTags(
   frontMatterTags: FrontMatterTag[] | undefined,
   tagsMap?: TagsMap | undefined,
 ): Tag[] {
-  const tags =
-    frontMatterTags?.map((tag) =>
-      normalizeFrontMatterTag(tagsPath, tag, tagsMap),
-    ) ?? [];
+  const tags = (frontMatterTags ?? []).map((tag) =>
+    normalizeFrontMatterTag(tagsPath, tag, tagsMap),
+  );
 
   return uniqBy(tags, (tag) => tag.permalink);
 }

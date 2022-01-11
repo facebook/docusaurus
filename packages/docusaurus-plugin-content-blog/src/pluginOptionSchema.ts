@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},

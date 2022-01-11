@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {NumberPrefixParser} from './types';
+import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 // Best-effort to avoid parsing some patterns as number prefix
 const IgnoredPrefixPatterns = (function () {

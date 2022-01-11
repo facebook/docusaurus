@@ -34,12 +34,9 @@ export const URISchema = Joi.alternatives(
   // This custom validation logic is required notably because Joi does not accept paths like /a/b/c ...
   Joi.custom((val, helpers) => {
     try {
-      const url = new URL(val);
-      if (url) {
-        return val;
-      } else {
-        return helpers.error('any.invalid');
-      }
+      // eslint-disable-next-line no-new
+      new URL(val);
+      return val;
     } catch {
       return helpers.error('any.invalid');
     }
@@ -53,9 +50,8 @@ export const PathnameSchema = Joi.string()
   .custom((val) => {
     if (!isValidPathname(val)) {
       throw new Error();
-    } else {
-      return val;
     }
+    return val;
   })
   .message(
     '{{#label}} is not a valid pathname. Pathname should start with slash and not contain any domain or query string.',

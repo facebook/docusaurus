@@ -15,7 +15,12 @@ export function normalizeUrl(rawUrls: string[]): string {
   // If the first part is a plain protocol, we combine it with the next part.
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
     const first = urls.shift();
-    urls[0] = first + urls[0];
+    if (first!.startsWith('file:') && urls[0].startsWith('/')) {
+      // Force a double slash here, else we lose the information that the next segment is an absolute path
+      urls[0] = `${first}//${urls[0]}`;
+    } else {
+      urls[0] = first + urls[0];
+    }
   }
 
   // There must be two or three slashes in the file protocol,
@@ -71,7 +76,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
   // Dedupe forward slashes in the entire path, avoiding protocol slashes.
-  str = str.replace(/([^:]\/)\/+/g, '$1');
+  str = str.replace(/([^:/]\/)\/+/g, '$1');
 
   // Dedupe forward slashes at the beginning of the path.
   str = str.replace(/^\/+/g, '/');

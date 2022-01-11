@@ -39,6 +39,7 @@ module.exports = {
       },
     },
   },
+  reportUnusedDisableDirectives: true,
   plugins: ['react-hooks', 'header'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
@@ -175,6 +176,16 @@ module.exports = {
   overrides: [
     {
       files: [
+        'packages/docusaurus-theme-*/src/theme/**/*.js',
+        'packages/docusaurus-theme-*/src/theme/**/*.ts',
+        'packages/docusaurus-theme-*/src/theme/**/*.tsx',
+      ],
+      rules: {
+        'import/no-named-export': ERROR,
+      },
+    },
+    {
+      files: [
         'packages/create-docusaurus/templates/**/*.js',
         'packages/create-docusaurus/templates/**/*.ts',
         'packages/create-docusaurus/templates/**/*.tsx',
@@ -198,7 +209,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

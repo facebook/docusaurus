@@ -8,7 +8,6 @@
 import {SitemapStream, streamToPromise} from 'sitemap';
 import type {Options} from '@docusaurus/plugin-sitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
-import {addTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 
 export default async function createSitemap(
@@ -22,28 +21,16 @@ export default async function createSitemap(
   }
   const {changefreq, priority} = options;
 
-  const sitemapStream = new SitemapStream({
-    hostname,
-  });
-
-  function applySitemapTrailingSlash(routePath: string): string {
-    // kept for retrocompatibility
-    // TODO remove deprecated trailingSlash option before 2022
-    if (options.trailingSlash) {
-      return addTrailingSlash(routePath);
-    } else {
-      return applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      });
-    }
-  }
+  const sitemapStream = new SitemapStream({hostname});
 
   routesPaths
     .filter((route) => !route.endsWith('404.html'))
-    .map((routePath) =>
+    .forEach((routePath) =>
       sitemapStream.write({
-        url: applySitemapTrailingSlash(routePath),
+        url: applyTrailingSlash(routePath, {
+          trailingSlash: siteConfig.trailingSlash,
+          baseUrl: siteConfig.baseUrl,
+        }),
         changefreq,
         priority,
       }),
@@ -51,9 +38,7 @@ export default async function createSitemap(
 
   sitemapStream.end();
 
-  const generatedSitemap = await streamToPromise(sitemapStream).then((sm) =>
-    sm.toString(),
-  );
+  const generatedSitemap = (await streamToPromise(sitemapStream)).toString();
 
   return generatedSitemap;
 }
