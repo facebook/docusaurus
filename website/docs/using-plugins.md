@@ -156,17 +156,23 @@ const path = require('path');
 module.exports = {
   // ...
   // highlight-next-line
-  presets: [path.resolve(__dirname, '/path/to/docusaurus-local-presets')],
+  presets: [path.resolve(__dirname, '/path/to/docusaurus-local-preset')],
 };
 ```
 
-Presets are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
+Presets are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins:
 
-```js
+```js title="/path/to/docusaurus-local-preset"
 module.exports = function preset(context, opts = {}) {
   return {
-    themes: ['@docusaurus/theme-cool', opts.cool],
-    plugins: ['@docusaurus/plugin-blog', opts.blog],
+    themes: [['docusaurus-theme-awesome', opts.theme]],
+    plugins: [
+      // Using three docs plugins at the same time!
+      // Assigning a unique ID for each without asking the user to do it
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+    ],
   };
 };
 ```
@@ -178,8 +184,13 @@ module.exports = {
   presets: [
     // highlight-start
     [
-      '@docusaurus/preset-my-own',
-      {cool: {hello: 'world'}, blog: {path: '/blog'}},
+      path.resolve(__dirname, '/path/to/docusaurus-local-preset'),
+      {
+        theme: {hello: 'world'},
+        docs1: {path: '/docs'},
+        docs2: {path: '/community'},
+        docs3: {path: '/api'},
+      },
     ],
     // highlight-end
   ],
@@ -190,16 +201,20 @@ This is equivalent of doing:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  themes: ['@docusaurus/themes-cool', {hello: 'world'}],
-  plugins: ['@docusaurus/plugin-blog', {path: '/blog'}],
+  themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
+  plugins: [
+    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+  ],
 };
 ```
 
-This is especially useful when some plugins and themes are intended to be used together.
+This is especially useful when some plugins and themes are intended to be used together. You can even link their options together, e.g. pass one option to multiple plugins.
 
 ### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
-The classic preset that is usually shipped by default to new Docusaurus website. It is a set of plugins and themes.
+The classic preset is shipped by default to new Docusaurus website created with [`create-docusaurus`](./installation.md#scaffold-project-website). It is a set of plugins and themes.
 
 | Themes | Plugins |
 | --- | --- |
