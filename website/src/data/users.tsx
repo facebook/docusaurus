@@ -1286,7 +1286,7 @@ const Users: User[] = [
     preview: require('./showcase/refine.png'),
     website: 'https://refine.dev',
     source: 'https://github.com/pankod/refine',
-    tags: ['opensource', 'product', 'design', 'versioning', 'large'],
+    tags: ['favorite', 'opensource', 'product', 'design', 'versioning', 'large'],
   },
   {
     title: 'Rematch',
