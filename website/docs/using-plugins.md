@@ -4,7 +4,7 @@
 
 You may not need to install common plugins one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). For most users, plugins are configured through the preset configuration.
 
-We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to checkout the list: someone may have implemented it for you!
+We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to check out the list: someone may have implemented it for you!
 
 If you are feeling energetic, you can also read [the plugin guide](./advanced/plugins.md) or [plugin method references](./api/plugin-methods/README.md) for how to make a plugin yourself.
 
@@ -26,7 +26,7 @@ module.exports = {
 };
 ```
 
-Docusaurus can also load plugins from your local directory, you can do something like the following:
+Docusaurus can also load plugins from your local directory, with something like the following:
 
 ```js title="docusaurus.config.js"
 const path = require('path');
@@ -42,7 +42,7 @@ module.exports = {
 
 For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin.
 
-However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
+However, plugins can have options specified by wrapping the name and an options object in a two-member tuple inside your config. This style is usually called "Babel Style".
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -66,7 +66,7 @@ Example:
 module.exports = {
   plugins: [
     // Basic usage.
-    '@docusaurus/plugin-google-analytics',
+    '@docusaurus/plugin-debug',
 
     // With options object (babel style)
     [
@@ -87,18 +87,18 @@ All Docusaurus content plugins can support multiple plugin instances. For exampl
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-xxx',
+      '@docusaurus/plugin-content-docs',
       {
         // highlight-next-line
-        id: 'plugin-xxx-1',
+        id: 'docs-1',
         // other options
       },
     ],
     [
-      '@docusaurus/plugin-xxx',
+      '@docusaurus/plugin-content-docs',
       {
         // highlight-next-line
-        id: 'plugin-xxx-2',
+        id: 'docs-2',
         // other options
       },
     ],
@@ -111,6 +111,24 @@ module.exports = {
 At most one plugin instance can be the "default plugin instance", by omitting the `id` attribute, or using `id: 'default'`.
 
 :::
+
+## Using themes
+
+Themes are loaded in the exact same way as plugins—the line between them is blurry. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./advanced/swizzling.md#theme-aliases).
+
+:::tip
+
+The `themes` and `plugins` options lead to different [shorthand resolutions](#module-shorthands), so if you want to take advantage of shorthands, be sure to use the right entry!
+
+:::
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
+};
+```
 
 ## Using presets {#using-presets}
 
@@ -179,8 +197,6 @@ module.exports = {
 
 This is especially useful when some plugins and themes are intended to be used together.
 
-## Official presets {#official-presets}
-
 ### `@docusaurus/preset-classic` {#docusauruspreset-classic}
 
 The classic preset that is usually shipped by default to new Docusaurus website. It is a set of plugins and themes.
@@ -246,3 +262,44 @@ module.exports = {
   ],
 };
 ```
+
+## Module shorthands
+
+Docusaurus supports shorthands for plugins, themes, and presets. When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
+
+- `[name]`
+- `@docusaurus/[moduleType]-[name]`
+- `docusaurus-[moduleType]-[name]`,
+
+where `moduleType` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
+
+If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
+
+```
+@scope
+^----^
+ scope  (no name!)
+
+@scope/awesome
+^----^ ^-----^
+ scope   name
+
+@scope/awesome/main
+^----^ ^----------^
+ scope     name
+```
+
+If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
+
+- `{scope}/{name}`
+- `{scope}/docusaurus-{type}-{name}`
+
+Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
+
+| Declaration | May be resolved as |
+| --- | --- |
+| `awesome` | `docusaurus-plugin-awesome` |
+| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
+| `@mycompany` | `@mycompany/docusaurus-plugin` (the only possible resolution!) |
+| `@mycompany/awesome` | `@mycompany/docusaurus-plugin-awesome` |
+| `@mycompany/awesome/web` | `@mycompany/docusaurus-plugin-awesome/web` |
