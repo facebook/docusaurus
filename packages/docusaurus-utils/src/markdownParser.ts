@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import fs from 'fs-extra';
 import matter from 'gray-matter';
 
 // Input: ## Some heading {#some-heading}
@@ -37,6 +36,7 @@ export function createExcerpt(fileString: string): string | undefined {
     .replace(/^[^\n]*\n[=]+/g, '')
     .split('\n');
   let inCode = false;
+  let lastCodeFence = '';
 
   /* eslint-disable no-continue */
   // eslint-disable-next-line no-restricted-syntax
@@ -53,7 +53,15 @@ export function createExcerpt(fileString: string): string | undefined {
 
     // Skip code block line.
     if (fileLine.trim().startsWith('```')) {
-      inCode = !inCode;
+      if (!inCode) {
+        inCode = true;
+        [lastCodeFence] = fileLine.trim().match(/^`+/)!;
+        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+      } else if (
+        fileLine.trim().match(/^`+/)![0].length >= lastCodeFence.length
+      ) {
+        inCode = false;
+      }
       continue;
     } else if (inCode) {
       continue;
@@ -100,8 +108,8 @@ export function parseFrontMatter(markdownFileContent: string): {
 } {
   const {data, content} = matter(markdownFileContent);
   return {
-    frontMatter: data ?? {},
-    content: content?.trim() ?? '',
+    frontMatter: data,
+    content: content.trim(),
   };
 }
 
@@ -187,19 +195,5 @@ export function parseMarkdownString(
     logger.error(`Error while parsing Markdown frontmatter.
 This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
     throw e;
-  }
-}
-
-export async function parseMarkdownFile(
-  source: string,
-  options?: {removeContentTitle?: boolean},
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString, options);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
-    );
   }
 }

@@ -34,10 +34,6 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
   export default plugin;
 }
 
-declare module 'resolve-pathname' {
-  export default function resolvePathname(to: string, from?: string): string;
-}
-
 declare module '@slorber/static-site-generator-webpack-plugin' {
   export type Locals = {
     routesLocation: Record<string, string>;

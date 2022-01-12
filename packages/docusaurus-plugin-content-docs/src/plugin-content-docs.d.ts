@@ -6,15 +6,76 @@
  */
 
 declare module '@docusaurus/plugin-content-docs' {
-  export type Options = Partial<import('./types').PluginOptions>;
-  export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
-  export type VersionBanner = import('./types').VersionBanner;
-  type GlobalDataVersion = import('./types').GlobalVersion;
-  type GlobalDataDoc = import('./types').GlobalDoc;
-  type GlobalDataSidebar = import('./types').GlobalSidebar;
-  type VersionTag = import('./types').VersionTag;
+  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
-  export type {GlobalDataVersion, GlobalDataDoc, GlobalDataSidebar};
+  export type NumberPrefixParser = (filename: string) => {
+    filename: string;
+    numberPrefix?: number;
+  };
+
+  export type EditUrlFunction = (editUrlParams: {
+    version: string;
+    versionDocsDirPath: string;
+    docPath: string;
+    permalink: string;
+    locale: string;
+  }) => string | undefined;
+
+  export type MetadataOptions = {
+    routeBasePath: string;
+    editUrl?: string | EditUrlFunction;
+    editCurrentVersion: boolean;
+    editLocalizedFiles: boolean;
+    showLastUpdateTime?: boolean;
+    showLastUpdateAuthor?: boolean;
+    numberPrefixParser: NumberPrefixParser;
+  };
+
+  export type PathOptions = {
+    path: string;
+    sidebarPath?: string | false | undefined;
+  };
+
+  // TODO support custom version banner? {type: "error", content: "html content"}
+  export type VersionBanner = 'unreleased' | 'unmaintained';
+  export type VersionOptions = {
+    path?: string;
+    label?: string;
+    banner?: 'none' | VersionBanner;
+    badge?: boolean;
+    className?: string;
+  };
+  export type VersionsOptions = {
+    lastVersion?: string;
+    versions: Record<string, VersionOptions>;
+    onlyIncludeVersions?: string[];
+  };
+  export type SidebarOptions = {
+    sidebarCollapsible: boolean;
+    sidebarCollapsed: boolean;
+  };
+
+  export type PluginOptions = MetadataOptions &
+    PathOptions &
+    VersionsOptions &
+    RemarkAndRehypePluginOptions &
+    SidebarOptions & {
+      id: string;
+      include: string[];
+      exclude: string[];
+      docLayoutComponent: string;
+      docItemComponent: string;
+      docTagDocListComponent: string;
+      docTagsListComponent: string;
+      docCategoryGeneratedIndexComponent: string;
+      admonitions: Record<string, unknown>;
+      disableVersioning: boolean;
+      includeCurrentVersion: boolean;
+      sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
+      tagsBasePath: string;
+    };
+  export type Options = Partial<PluginOptions>;
+  export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
 
   export type PropNavigationLink = {
     readonly title: string;
@@ -241,18 +302,54 @@ declare module '@theme/Seo' {
   export default Seo;
 }
 
-// TODO can't we infer types directly from code?
+// TODO until TS supports exports field... hope it's in 4.6
 declare module '@docusaurus/plugin-content-docs/client' {
-  type GlobalPluginData = import('./types').GlobalPluginData;
-  type GlobalVersion = import('./types').GlobalVersion;
-  type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
-  type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
-  type DocVersionSuggestions =
-    import('./client/docsClientUtils').DocVersionSuggestions;
-  type GetActivePluginOptions =
-    import('./client/docsClientUtils').GetActivePluginOptions;
+  export type ActivePlugin = {
+    pluginId: string;
+    pluginData: GlobalPluginData;
+  };
+  export type ActiveDocContext = {
+    activeVersion?: GlobalVersion;
+    activeDoc?: GlobalDoc;
+    alternateDocVersions: Record<string, GlobalDoc>;
+  };
+  export type GlobalDoc = {
+    id: string;
+    path: string;
+    sidebar: string | undefined;
+  };
 
-  export type {GlobalPluginData, GlobalVersion};
+  export type GlobalVersion = {
+    name: string;
+    label: string;
+    isLast: boolean;
+    path: string;
+    mainDocId: string; // home doc (if docs homepage configured), or first doc
+    docs: GlobalDoc[];
+    sidebars?: Record<string, GlobalSidebar>;
+  };
+
+  export type GlobalSidebarLink = {
+    label: string;
+    path: string;
+  };
+
+  export type GlobalSidebar = {
+    link?: GlobalSidebarLink;
+    // ... we may add other things here later
+  };
+  export type GlobalPluginData = {
+    path: string;
+    versions: GlobalVersion[];
+  };
+  export type DocVersionSuggestions = {
+    // suggest the latest version
+    latestVersionSuggestion: GlobalVersion;
+    // suggest the same doc, in latest version (if exist)
+    latestDocSuggestion?: GlobalDoc;
+  };
+  export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
+
   export const useAllDocsData: () => Record<string, GlobalPluginData>;
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (

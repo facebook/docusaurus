@@ -85,6 +85,10 @@ describe('normalizeFrontMatterTags', () => {
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
   });
 
+  test('succeeds for empty list', () => {
+    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
+  });
+
   test('should normalize complex mixed list', () => {
     const tagsPath = '/all/tags';
     const input: Input = [

@@ -7,11 +7,10 @@
 
 import {uniqBy, difference, groupBy} from 'lodash';
 import type {
-  PluginContext,
-  RedirectMetadata,
   PluginOptions,
   RedirectOption,
-} from './types';
+} from '@docusaurus/plugin-client-redirects';
+import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,

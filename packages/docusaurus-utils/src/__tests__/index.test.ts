@@ -19,9 +19,17 @@ import {
   mapAsyncSequential,
   findAsyncSequential,
   updateTranslationFileMessages,
-  parseMarkdownHeadingId,
+  encodePath,
+  addTrailingPathSeparator,
+  resolvePathname,
+  getPluginI18nPath,
+  generate,
+  reportMessage,
+  posixPath,
 } from '../index';
 import {sum} from 'lodash';
+import fs from 'fs-extra';
+import path from 'path';
 
 describe('load utils', () => {
   test('fileToPath', () => {
@@ -38,6 +46,12 @@ describe('load utils', () => {
     Object.keys(asserts).forEach((file) => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
+  });
+
+  test('encodePath', () => {
+    expect(encodePath('a/foo/')).toEqual('a/foo/');
+    expect(encodePath('a/<foo>/')).toEqual('a/%3Cfoo%3E/');
+    expect(encodePath('a/你好/')).toEqual('a/%E4%BD%A0%E5%A5%BD/');
   });
 
   test('genChunkName', () => {
@@ -84,6 +98,28 @@ describe('load utils', () => {
     expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
   });
 
+  test('addTrailingPathSeparator', () => {
+    expect(addTrailingPathSeparator('foo')).toEqual(
+      process.platform === 'win32' ? 'foo\\' : 'foo/',
+    );
+    expect(addTrailingPathSeparator('foo/')).toEqual(
+      process.platform === 'win32' ? 'foo\\' : 'foo/',
+    );
+  });
+
+  test('resolvePathname', () => {
+    // These tests are directly copied from https://github.com/mjackson/resolve-pathname/blob/master/modules/__tests__/resolvePathname-test.js
+    // Maybe we want to wrap that logic in the future?
+    expect(resolvePathname('c')).toEqual('c');
+    expect(resolvePathname('c', 'a/b')).toEqual('a/c');
+    expect(resolvePathname('/c', '/a/b')).toEqual('/c');
+    expect(resolvePathname('', '/a/b')).toEqual('/a/b');
+    expect(resolvePathname('../c', '/a/b')).toEqual('/c');
+    expect(resolvePathname('c', '/a/b')).toEqual('/a/c');
+    expect(resolvePathname('c', '/a/')).toEqual('/a/c');
+    expect(resolvePathname('..', '/a/b')).toEqual('/');
+  });
+
   test('isValidPathname', () => {
     expect(isValidPathname('/')).toBe(true);
     expect(isValidPathname('/hey')).toBe(true);
@@ -93,12 +129,48 @@ describe('load utils', () => {
     expect(isValidPathname('/hey///ho///')).toBe(true); // Unexpected but valid
     expect(isValidPathname('/hey/héllô you')).toBe(true);
 
-    //
     expect(isValidPathname('')).toBe(false);
     expect(isValidPathname('hey')).toBe(false);
     expect(isValidPathname('/hey?qs=ho')).toBe(false);
     expect(isValidPathname('https://fb.com/hey')).toBe(false);
     expect(isValidPathname('//hey')).toBe(false);
+    expect(isValidPathname('////')).toBe(false);
+  });
+});
+
+describe('generate', () => {
+  test('behaves correctly', async () => {
+    const writeMock = jest.spyOn(fs, 'writeFile').mockImplementation(() => {});
+    const existsMock = jest.spyOn(fs, 'existsSync');
+    const readMock = jest.spyOn(fs, 'readFile');
+
+    // First call: no file, no cache
+    existsMock.mockImplementationOnce(() => false);
+    await generate(__dirname, 'foo', 'bar');
+    expect(writeMock).toHaveBeenNthCalledWith(
+      1,
+      path.join(__dirname, 'foo'),
+      'bar',
+    );
+
+    // Second call: cache exists
+    await generate(__dirname, 'foo', 'bar');
+    expect(writeMock).toBeCalledTimes(1);
+
+    // Generate another: file exists, cache doesn't
+    existsMock.mockImplementationOnce(() => true);
+    // @ts-expect-error: seems the typedef doesn't understand overload
+    readMock.mockImplementationOnce(() => Promise.resolve('bar'));
+    await generate(__dirname, 'baz', 'bar');
+    expect(writeMock).toBeCalledTimes(1);
+
+    // Generate again: force skip cache
+    await generate(__dirname, 'foo', 'bar', true);
+    expect(writeMock).toHaveBeenNthCalledWith(
+      2,
+      path.join(__dirname, 'foo'),
+      'bar',
+    );
   });
 });
 
@@ -257,7 +329,7 @@ describe('mapAsyncSequential', () => {
   });
 });
 
-describe('findAsyncSequencial', () => {
+describe('findAsyncSequential', () => {
   function sleep(timeout: number): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
@@ -311,50 +383,76 @@ describe('updateTranslationFileMessages', () => {
   });
 });
 
-describe('parseMarkdownHeadingId', () => {
-  test('can parse simple heading without id', () => {
-    expect(parseMarkdownHeadingId('## Some heading')).toEqual({
-      text: '## Some heading',
-      id: undefined,
-    });
-  });
-
-  test('can parse simple heading with id', () => {
-    expect(parseMarkdownHeadingId('## Some heading {#custom-_id}')).toEqual({
-      text: '## Some heading',
-      id: 'custom-_id',
-    });
-  });
-
-  test('can parse heading not ending with the id', () => {
-    expect(parseMarkdownHeadingId('## {#custom-_id} Some heading')).toEqual({
-      text: '## {#custom-_id} Some heading',
-      id: undefined,
-    });
-  });
-
-  test('can parse heading with multiple id', () => {
-    expect(parseMarkdownHeadingId('## Some heading {#id1} {#id2}')).toEqual({
-      text: '## Some heading {#id1}',
-      id: 'id2',
-    });
-  });
-
-  test('can parse heading with link and id', () => {
+describe('getPluginI18nPath', () => {
+  test('gets correct path', () => {
     expect(
-      parseMarkdownHeadingId(
-        '## Some heading [facebook](https://facebook.com) {#id}',
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+          pluginId: 'community',
+          subPaths: ['foo'],
+        }).replace(__dirname, ''),
       ),
-    ).toEqual({
-      text: '## Some heading [facebook](https://facebook.com)',
-      id: 'id',
-    });
+    ).toEqual('/i18n/zh-Hans/plugin-content-docs-community/foo');
   });
+  test('gets correct path for default plugin', () => {
+    expect(
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+          subPaths: ['foo'],
+        }).replace(__dirname, ''),
+      ),
+    ).toEqual('/i18n/zh-Hans/plugin-content-docs/foo');
+  });
+  test('gets correct path when no subpaths', () => {
+    expect(
+      posixPath(
+        getPluginI18nPath({
+          siteDir: __dirname,
+          locale: 'zh-Hans',
+          pluginName: 'plugin-content-docs',
+        }).replace(__dirname, ''),
+      ),
+    ).toEqual('/i18n/zh-Hans/plugin-content-docs');
+  });
+});
 
-  test('can parse heading with only id', () => {
-    expect(parseMarkdownHeadingId('## {#id}')).toEqual({
-      text: '##',
-      id: 'id',
-    });
+describe('reportMessage', () => {
+  test('all severities', () => {
+    const consoleLog = jest.spyOn(console, 'info').mockImplementation(() => {});
+    const consoleWarn = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    reportMessage('hey', 'ignore');
+    reportMessage('hey', 'log');
+    reportMessage('hey', 'warn');
+    reportMessage('hey', 'error');
+    expect(() =>
+      reportMessage('hey', 'throw'),
+    ).toThrowErrorMatchingInlineSnapshot(`"hey"`);
+    expect(() =>
+      // @ts-expect-error: for test
+      reportMessage('hey', 'foo'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected \\"reportingSeverity\\" value: foo."`,
+    );
+    expect(consoleLog).toBeCalledTimes(1);
+    expect(consoleLog).toBeCalledWith(expect.stringMatching(/.*\[INFO].* hey/));
+    expect(consoleWarn).toBeCalledTimes(1);
+    expect(consoleWarn).toBeCalledWith(
+      expect.stringMatching(/.*\[WARNING].* hey/),
+    );
+    expect(consoleError).toBeCalledTimes(1);
+    expect(consoleError).toBeCalledWith(
+      expect.stringMatching(/.*\[ERROR].* hey/),
+    );
   });
 });

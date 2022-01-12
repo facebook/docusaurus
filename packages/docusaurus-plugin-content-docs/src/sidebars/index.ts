@@ -8,12 +8,13 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
-import type {NormalizeSidebarsParams, PluginOptions} from '../types';
+import type {NormalizeSidebarsParams} from '../types';
 import {validateSidebars} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars, type SidebarProcessorParams} from './processor';
 import path from 'path';
 import {createSlugger} from '@docusaurus/utils';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [

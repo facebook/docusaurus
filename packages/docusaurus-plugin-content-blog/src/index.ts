@@ -23,7 +23,6 @@ import {
 import {translateContent, getTranslationFiles} from './translations';
 
 import type {
-  PluginOptions,
   BlogTags,
   BlogContent,
   BlogItemsToMetadata,
@@ -32,7 +31,6 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
-  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
@@ -50,8 +48,12 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import type {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
+import type {
+  PluginOptions,
+  BlogPostFrontMatter,
+  Assets,
+} from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
   context: LoadContext,

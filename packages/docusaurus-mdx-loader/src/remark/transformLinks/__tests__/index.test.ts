@@ -43,6 +43,12 @@ describe('transformAsset plugin', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
+  test('fail if asset with site alias does not exist', async () => {
+    await expect(
+      processFixture('nonexistentSiteAlias'),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
   test('transform md links to <a />', async () => {
     const result = await processFixture('asset');
     expect(result).toMatchSnapshot();
