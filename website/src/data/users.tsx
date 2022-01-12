@@ -246,7 +246,7 @@ const Users: User[] = [
   {
     title: 'Bandwidth',
     description:
-        'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
+      'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
     preview: require('./showcase/bandwidth.png'),
     website: 'https://dev.bandwidth.com/',
     source: 'https://github.com/Bandwidth/api-docs',
