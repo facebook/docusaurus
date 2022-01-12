@@ -10,13 +10,13 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, Props} from '@docusaurus/types';
+import type {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -26,7 +26,7 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {mapAsyncSequencial} from '@docusaurus/utils';
+import {mapAsyncSequential} from '@docusaurus/utils';
 
 export default async function build(
   siteDir: string,
@@ -82,7 +82,7 @@ export default async function build(
       ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
     ];
 
-    const results = await mapAsyncSequencial(orderedLocales, (locale) => {
+    const results = await mapAsyncSequential(orderedLocales, (locale) => {
       const isLastLocale =
         orderedLocales.indexOf(locale) === orderedLocales.length - 1;
       return tryToBuildLocale({locale, isLastLocale});

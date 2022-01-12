@@ -16,14 +16,17 @@ import TOC from '@theme/TOC';
 
 function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
+  const {assets, metadata} = BlogPostContents;
   const {
-    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
+    title,
+    description,
+    nextItem,
+    prevItem,
+    date,
+    tags,
+    authors,
     frontMatter,
-    assets,
-    metadata,
-  } = BlogPostContents;
-  const {title, description, nextItem, prevItem, date, tags, authors} =
-    metadata;
+  } = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
     keywords,

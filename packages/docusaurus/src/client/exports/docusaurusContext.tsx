@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
-import {DocusaurusContext} from '@docusaurus/types';
+import React, {type ReactNode} from 'react';
+import type {DocusaurusContext} from '@docusaurus/types';
 
 import siteConfig from '@generated/docusaurus.config';
 import globalData from '@generated/globalData';

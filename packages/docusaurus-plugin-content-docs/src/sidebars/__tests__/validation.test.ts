@@ -6,8 +6,8 @@
  */
 
 import {validateSidebars, validateCategoryMetadataFile} from '../validation';
-import {CategoryMetadataFile} from '../generator';
-import {SidebarsConfig} from '../types';
+import type {CategoryMetadataFile} from '../generator';
+import type {SidebarsConfig} from '../types';
 
 describe('validateSidebars', () => {
   // TODO add more tests

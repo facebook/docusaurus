@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import ThemeProvider from '@theme/ThemeProvider';
-import UserPreferencesProvider from '@theme/UserPreferencesProvider';
 import {
+  ColorModeProvider,
+  TabGroupChoiceProvider,
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
   MobileSecondaryMenuProvider,
@@ -18,9 +18,9 @@ import type {Props} from '@theme/LayoutProviders';
 
 export default function LayoutProviders({children}: Props): JSX.Element {
   return (
-    <ThemeProvider>
+    <ColorModeProvider>
       <AnnouncementBarProvider>
-        <UserPreferencesProvider>
+        <TabGroupChoiceProvider>
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
               <MobileSecondaryMenuProvider>
@@ -28,8 +28,8 @@ export default function LayoutProviders({children}: Props): JSX.Element {
               </MobileSecondaryMenuProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>
-        </UserPreferencesProvider>
+        </TabGroupChoiceProvider>
       </AnnouncementBarProvider>
-    </ThemeProvider>
+    </ColorModeProvider>
   );
 }

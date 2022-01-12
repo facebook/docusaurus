@@ -59,11 +59,11 @@ function toAssetRequireNode({
     path.relative(path.dirname(filePath), requireAssetPath),
   );
   const hash = hashRegex.test(node.url)
-    ? node.url.substr(node.url.indexOf('#'))
+    ? node.url.substring(node.url.indexOf('#'))
     : '';
 
-  // nodejs does not like require("assets/file.pdf")
-  relativeRequireAssetPath = relativeRequireAssetPath.startsWith('.')
+  // require("assets/file.pdf") means requiring from a package called assets
+  relativeRequireAssetPath = relativeRequireAssetPath.startsWith('./')
     ? relativeRequireAssetPath
     : `./${relativeRequireAssetPath}`;
 
@@ -90,7 +90,7 @@ async function convertToAssetLinkIfNeeded(
 
   const hasSiteAlias = assetPath.startsWith('@site/');
   const hasAssetLikeExtension =
-    path.extname(assetPath) && !assetPath.match(/#|.md|.mdx|.html/);
+    path.extname(assetPath) && !assetPath.match(/#|\.md$|\.mdx$|\.html$/);
 
   const looksLikeAssetLink = hasSiteAlias || hasAssetLikeExtension;
 

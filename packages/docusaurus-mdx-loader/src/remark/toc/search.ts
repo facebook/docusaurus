@@ -6,7 +6,7 @@
  */
 
 import toString from 'mdast-util-to-string';
-import visit, {Visitor} from 'unist-util-visit';
+import visit from 'unist-util-visit';
 import {toValue} from '../utils';
 import type {TOCItem} from '@docusaurus/types';
 import type {Node} from 'unist';
@@ -26,7 +26,7 @@ interface SearchItem {
 export default function search(node: Node): TOCItem[] {
   const headings: SearchItem[] = [];
 
-  const visitor: Visitor<Heading> = (child, _index, parent) => {
+  visit(node, 'heading', (child: Heading, _index, parent) => {
     const value = toString(child);
 
     // depth:1 headings are titles and not included in the TOC
@@ -44,9 +44,7 @@ export default function search(node: Node): TOCItem[] {
       level: child.depth,
       parentIndex: -1,
     });
-  };
-
-  visit(node, 'heading', visitor);
+  });
 
   // Keep track of which previous index would be the current heading's direcy parent.
   // Each entry <i> is the last index of the `headings` array at heading level <i>.

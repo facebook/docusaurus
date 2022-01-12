@@ -19,15 +19,17 @@ import {readVersionsMetadata} from '../versions';
 import type {
   DocFile,
   DocMetadataBase,
-  MetadataOptions,
   VersionMetadata,
-  PluginOptions,
-  EditUrlFunction,
   DocNavLink,
 } from '../types';
+import type {
+  MetadataOptions,
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 
@@ -166,7 +168,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -202,6 +204,7 @@ describe('simple site', () => {
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
+        'doc with space.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -522,7 +525,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });

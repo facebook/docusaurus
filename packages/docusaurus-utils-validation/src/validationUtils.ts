@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Joi from './Joi';
+import type Joi from './Joi';
 import logger from '@docusaurus/logger';
 import {PluginIdSchema} from './validationSchemas';
 

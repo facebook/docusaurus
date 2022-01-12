@@ -9,7 +9,7 @@ import {
   normalizeFrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
-  Tag,
+  type Tag,
 } from '../tags';
 
 describe('normalizeFrontMatterTag', () => {
@@ -83,6 +83,10 @@ describe('normalizeFrontMatterTags', () => {
       },
     ];
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
+  });
+
+  test('succeeds for empty list', () => {
+    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
   });
 
   test('should normalize complex mixed list', () => {

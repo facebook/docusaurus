@@ -9,7 +9,7 @@ import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
+import type {ImportedPluginModule, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 import {partition} from 'lodash';
 import {THEME_PATH} from '@docusaurus/utils';

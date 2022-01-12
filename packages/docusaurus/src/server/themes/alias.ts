@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
-import {ThemeAliases} from '@docusaurus/types';
+import type {ThemeAliases} from '@docusaurus/types';
 import {sortBy} from 'lodash';
 
 // Order of Webpack aliases is important because one alias can shadow another

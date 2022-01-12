@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useState, useCallback} from 'react';
+import React, {type ReactNode, useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';

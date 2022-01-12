@@ -6,7 +6,7 @@
  */
 
 import choosePort from '../choosePort';
-import {HostPortCLIOptions} from '@docusaurus/types';
+import type {HostPortCLIOptions} from '@docusaurus/types';
 import {DEFAULT_PORT} from '@docusaurus/utils';
 
 export function getCLIOptionHost(
