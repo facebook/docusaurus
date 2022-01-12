@@ -52,7 +52,7 @@ $$
 To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
 ```bash npm2yarn
-npm install --save remark-math@3 rehype-katex@6 hast-util-is-element@1.1.0
+npm install --save remark-math@3 rehype-katex@5 hast-util-is-element@1.1.0
 ```
 
 :::caution
@@ -65,8 +65,74 @@ Import the plugins in `docusaurus.config.js`:
 
 ```js
 const math = require('remark-math');
+const katex = require('rehype-katex');
+```
 
-// import ESM modules dynamically
+Add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
+
+```js
+remarkPlugins: [math],
+rehypePlugins: [katex],
+```
+
+Include the KaTeX CSS in your config under `stylesheets`:
+
+```js
+stylesheets: [
+  {
+    href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+    type: 'text/css',
+    integrity:
+      'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+    crossorigin: 'anonymous',
+  },
+],
+```
+
+Overall the changes look like:
+
+```js title="docusaurus.config.js"
+// highlight-start
+const math = require('remark-math');
+const katex = require('rehype-katex');
+// highlight-end
+
+module.exports = {
+  title: 'Docusaurus',
+  tagline: 'Build optimized websites quickly, focus on your content',
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          // highlight-start
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+          // highlight-end
+        },
+      },
+    ],
+  ],
+  // highlight-start
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+  // highlight-end
+};
+```
+
+## Upgrading rehype plugins in future
+
+The latest version of `rehype-katex` (starting from `v6.0.0`) has moved to ESM. Although ESM support in Docusaurus is currently bit patchy, it is possible to upgrade `rehype-katex` to the latest version as Docusaurus now supports importing ESM modules dynamically.
+
+```js
 async function createConfig() {
   const katex = (await import('rehype-katex')).default;
   config.presets[0][1].docs.rehypePlugins.push(katex);
@@ -74,28 +140,13 @@ async function createConfig() {
 }
 ```
 
-Add them to your content plugin or preset options (usually `@docusaurus/preset-classic` docs options):
+Remove `katex` from content plugin or preset options (usually `@docusaurus/preset-classic` docs options) if you had it there previously:
 
 ```js
-remarkPlugins: [math],
 rehypePlugins: [],
 ```
 
-Include the KaTeX CSS in your config under `stylesheets`:
-
-```js
-stylesheets: [
-    {
-      href: "https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css",
-      type: "text/css",
-      integrity:
-        "sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs",
-      crossorigin: "anonymous",
-    },
-],
-```
-
-Overall the changes look like:
+So the overall configuration changes will look like:
 
 ```js title="docusaurus.config.js"
 // highlight-start
@@ -122,10 +173,10 @@ const config = {
   // highlight-start
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
       type: 'text/css',
       integrity:
-        'sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs',
+        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
       crossorigin: 'anonymous',
     },
   ],
@@ -145,3 +196,5 @@ async function createConfig() {
 
 module.exports = createConfig;
 ```
+
+For more details, please refer to the [configuration](https://github.com/facebook/docusaurus/blob/main/website/docusaurus.config.js) of this site itself.

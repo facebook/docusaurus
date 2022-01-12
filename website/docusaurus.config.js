@@ -73,10 +73,10 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
       type: 'text/css',
       integrity:
-        'sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs',
+        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
       crossorigin: 'anonymous',
     },
   ],
