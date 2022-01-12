@@ -50,7 +50,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-popper": "^2.2.5",
-    "rehype-katex": "^5.0.0",
+    "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
     "workbox-routing": "^5.0.0",
