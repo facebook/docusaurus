@@ -72,7 +72,7 @@ export default function plugin() {
                 type: 'link',
                 title: null,
                 // TODO make this version-aware; maybe we need a useVersionedLink() hook
-                url: '/docs/presets#docusauruspreset-classic',
+                url: '/docs/using-plugins#docusauruspreset-classic',
                 children: [
                   {
                     type: 'text',

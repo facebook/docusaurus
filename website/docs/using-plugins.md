@@ -1,6 +1,8 @@
 # Using Plugins
 
-**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.md) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.md); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.md); or individual [pages](./guides/creating-pages.md) provided by the [pages plugin](./api/plugins/plugin-content-pages.md). You may not need to install them one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). For most users, plugins are configured through the preset configuration.
+**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.md) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.md); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.md); or individual [pages](./guides/creating-pages.md) provided by the [pages plugin](./api/plugins/plugin-content-pages.md). If there are no plugins installed, the site won't contain any routes.
+
+You may not need to install common plugins one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). For most users, plugins are configured through the preset configuration.
 
 We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to checkout the list: someone may have implemented it for you!
 
