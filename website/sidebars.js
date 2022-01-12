@@ -79,6 +79,7 @@ const sidebars = {
         'search',
         'browser-support',
         'seo',
+        'using-plugins',
         'deployment',
         {
           type: 'category',
@@ -113,8 +114,7 @@ const sidebars = {
         'advanced/architecture',
         'advanced/swizzling',
         'advanced/routing',
-        'advanced/using-plugins',
-        'advanced/presets',
+        'advanced/plugins',
       ],
     },
     {

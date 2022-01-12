@@ -33,7 +33,7 @@ Beware: the theme being run in Webpack doesn't mean it always has access to brow
 - During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
 - During **client-side rendering**, the theme is compiled with standard React DOM, and has access to browser variables.
 
-Therefore, while you probably know not to access Node globals like `process` or the `'fs'` module, you can't freely access browser globals either. If you need to, you need to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
+Therefore, while you probably know not to access Node globals like `process` or the `'fs'` module, you can't freely access browser globals either. If you need to, you need to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR, or put your logic in `useEffect()` to delay its execution until after first CSR.
 
 :::note what about process.env.NODE_ENV?
 
@@ -77,9 +77,9 @@ import React from 'react';
 
 export default function expensiveComp() {
   // highlight-next-line
-  if ('production' === 'development') {
+- if ('production' === 'development') {
 -   return <>This component is not shown in development</>;
-  }
+- }
 + const res = someExpensiveOperationThatLastsALongTime();
 + return <>{res}</>;
 }

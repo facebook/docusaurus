@@ -455,7 +455,7 @@ If you had `cleanUrl: false` in v1, it's possible that people published links to
 
 For SEO reasons, and avoiding breaking links, you should configure server-side redirect rules on your hosting provider.
 
-As an escape hatch, you could use [@docusaurus/plugin-client-redirects](../advanced/using-plugins.md#docusaurusplugin-client-redirects) to create client-side redirects from `/installation.html` to `/installation`.
+As an escape hatch, you could use [@docusaurus/plugin-client-redirects](../api/plugins/plugin-client-redirects.md) to create client-side redirects from `/installation.html` to `/installation`.
 
 ```js
 module.exports = {

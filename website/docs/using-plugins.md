@@ -1,10 +1,114 @@
----
-id: presets
-title: Presets
-slug: /presets
----
+# Using Plugins
 
-Presets are collections of plugins and themes.
+**The Docusaurus core doesn't provide any feature of its own.** All features are delegated to individual plugins: the [docs](./guides/docs/docs-introduction.md) feature provided by the [docs plugin](./api/plugins/plugin-content-docs.md); the [blog](./blog.mdx) feature provided by the [blog plugin](./api/plugins/plugin-content-blog.md); or individual [pages](./guides/creating-pages.md) provided by the [pages plugin](./api/plugins/plugin-content-pages.md). You may not need to install them one-by-one though: they can be distributed as a bundle in a [preset](#using-presets). For most users, plugins are configured through the preset configuration.
+
+We maintain a [list of official plugins](./api/plugins/overview.md), but the community has also created some [unofficial plugins](/community/resources#community-plugins). If you want to add any feature: autogenerating doc pages, executing custom scripts, integrating other services... be sure to checkout the list: someone may have implemented it for you!
+
+If you are feeling energetic, you can also read [the plugin guide](./advanced/plugins.md) or [plugin method references](./api/plugin-methods/README.md) for how to make a plugin yourself.
+
+## Installing a plugin {#installing-a-plugin}
+
+A plugin is usually an npm package, so you install them like other npm packages using npm.
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-name
+```
+
+Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-content-pages'],
+};
+```
+
+Docusaurus can also load plugins from your local directory, you can do something like the following:
+
+```js title="docusaurus.config.js"
+const path = require('path');
+
+module.exports = {
+  // ...
+  // highlight-next-line
+  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
+};
+```
+
+## Configuring plugins {#configuring-plugins}
+
+For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin.
+
+However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [
+    // highlight-start
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        /* options */
+      },
+    ],
+    // highlight-end
+  ],
+};
+```
+
+Example:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    // Basic usage.
+    '@docusaurus/plugin-google-analytics',
+
+    // With options object (babel style)
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        changefreq: 'weekly',
+      },
+    ],
+  ],
+};
+```
+
+## Multi-instance plugins and plugin ids {#multi-instance-plugins-and-plugin-ids}
+
+All Docusaurus content plugins can support multiple plugin instances. For example, it may be useful to have [multiple docs plugin instances](./guides/docs/docs-multi-instance.mdx) or [multiple blogs](./blog.mdx#multiple-blogs). It is required to assign a unique id to each plugin instance, and by default, the plugin id is `default`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        // highlight-next-line
+        id: 'plugin-xxx-1',
+        // other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        // highlight-next-line
+        id: 'plugin-xxx-2',
+        // other options
+      },
+    ],
+  ],
+};
+```
+
+:::note
+
+At most one plugin instance can be the "default plugin instance", by omitting the `id` attribute, or using `id: 'default'`.
+
+:::
 
 ## Using presets {#using-presets}
 
@@ -35,8 +139,6 @@ module.exports = {
   presets: [path.resolve(__dirname, '/path/to/docusaurus-local-presets')],
 };
 ```
-
-## Presets -> themes and plugins {#presets---themes-and-plugins}
 
 Presets are a shorthand function to add plugins and themes to your Docusaurus config. For example, you can specify a preset that includes the following themes and plugins,
 

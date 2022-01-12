@@ -57,7 +57,7 @@ npm run swizzle @docusaurus/theme-classic --list
 
 Ejecting a component is risky. It means you have to maintain an almost duplicate copy of the original theme component. Also, it's likely that we will change internal implementations in future versions and break your component, even if you never touched that part of the code.
 
-In this case, you are still going to swizzle the component—but not from scratch and re-implementing a self-sustained component. Instead, you can delegate most of the logic and layout to the original theme component, only wrapping it with additional logic. The `@theme-original` alias allows you to import the original theme component.
+Very often, you don't need to re-implement a component from scratch, but only to render additional items before or after it, or conditionally call some other logic. In this case, you are still going to swizzle the component—but not making a self-sustained one. Instead, you can delegate most of the logic and layout to the original theme component. The `@theme-original` alias allows you to import the original theme component and wrap it as a higher-order component.
 
 Here is an example to display some text just above the footer, with minimal code duplication.
 
@@ -92,7 +92,7 @@ You can follow the following steps to locate the component to swizzle:
 
 ### Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
-The `<Root>` component is one that you probably won't spot. Every component provided by `theme-classic` is ultimately only rendered on certain routes, and will be unmounted during route transition; however, the `<Root>` theme component is rendered at the very top of the Docusaurus SPA, above the rendered routes. It allows you to wrap your site with additional logic. You can swizzle it by creating a file at `src/theme/Root.js`:
+The `<Root>` component is one that you probably won't spot. Every component provided by `theme-classic` is ultimately only rendered on certain routes, and will be unmounted during route transition; however, the `<Root>` theme component is rendered at the very top of the Docusaurus SPA, above the router and the theme `<Layout>`, and will **never unmount**, allowing you to wrap your site with additional logic like global state. You can swizzle it by creating a file at `src/theme/Root.js`:
 
 ```js title="website/src/theme/Root.js"
 import React from 'react';
@@ -104,8 +104,6 @@ function Root({children}) {
 
 export default Root;
 ```
-
-This component is applied above the router and the theme `<Layout>`, and will **never unmount**.
 
 :::tip
 
@@ -119,55 +117,11 @@ Swizzling ultimately means you have to maintain part of the code directly used t
 
 1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](../styling-layout.md) for more details.
 2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
-3. **The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part. Swizzling a small component often means less risk of breaking and less code to maintain. [Wrapping](#wrapping-theme-components) is also a far safer alternative to [ejecting](#ejecting-theme-components).
-
-## Theme design
-
-When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
-
-**Themes provide the set of UI components to render the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
-
-For example, a Docusaurus blog may consist of a blog plugin and a blog theme.
-
-:::note
-
-This is a contrived example: in practice, `@docusaurus/theme-classic` provides the theme for docs, blog, and layouts.
-
-:::
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // highlight-next-line
-  themes: ['theme-blog'],
-  plugins: ['plugin-content-blog'],
-};
-```
-
-And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (another fictitious non-existing theme):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // highlight-next-line
-  themes: ['theme-blog-bootstrap'],
-  plugins: ['plugin-content-blog'],
-};
-```
-
-Now, although the theme receives the same data from the plugin, how the theme chooses to _render_ the data as UI can be drastically different.
-
-While themes share the exact same lifecycle methods with plugins, themes' implementations can look very different from those of plugins based on themes' designed objectives.
-
-Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.md#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure#getThemePath) lifecycle.
-
-To summarize:
-
-- Themes share the same lifecycle methods with Plugins
-- Themes are run after all existing Plugins
-- Themes add component aliases by providing `getThemePath`. We will talk about theme aliases right next.
+3. **The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of breaking during upgrade. [Wrapping](#wrapping-theme-components) is also a far safer alternative to [ejecting](#ejecting-theme-components).
 
 ## Theme aliases
 
-As aforementioned, a theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
+A theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`, to render the data passed down from plugins. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
 
 ```js
 import Navbar from '@theme/Navbar';
