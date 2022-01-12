@@ -163,7 +163,7 @@ module.exports = {
 
 Accepted fields:
 
-<APITable name="navbar">
+<APITable name="navbar-overview">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
