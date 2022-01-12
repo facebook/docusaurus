@@ -73,7 +73,7 @@ module.exports = async function myPlugin(context, options) {
 
 ## Theme design
 
-When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setglobaldatadata-any-void). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
+When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setGlobalData). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
 
 **Themes provide the set of UI components to render the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, which makes swapping designs easy.
 
@@ -107,10 +107,10 @@ Now, although the theme receives the same data from the plugin, how the theme ch
 
 While themes share the exact same lifecycle methods with plugins, themes' implementations can look very different from those of plugins based on themes' designed objectives.
 
-Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.md#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure#getThemePath) lifecycle.
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. A theme still acts like a plugin and exposes some lifecycle methods, but most likely they would not use [`loadContent`](../api/plugin-methods/lifecycle-apis.md#loadContent), since they only receive data from plugins, but don't generate data themselves; themes are typically also accompanied by an `src/theme` directory full of components, which are made known to the core through the [`getThemePath`](../api/plugin-methods/extend-infrastructure.md#getThemePath) lifecycle.
 
 To summarize:
 
 - Themes share the same lifecycle methods with Plugins
 - Themes are run after all existing Plugins
-- Themes add component aliases by providing `getThemePath`. We will talk about theme aliases right next.
+- Themes add component aliases by providing `getThemePath`.
