@@ -306,8 +306,8 @@ If the name is scoped (beginning with `@`), the name is first split into scope a
 
 If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
 
-- `{scope}/{name}`
-- `{scope}/docusaurus-{type}-{name}`
+- `[scope]/[name]`
+- `[scope]/docusaurus-[moduleType]-[name]`
 
 Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
 
