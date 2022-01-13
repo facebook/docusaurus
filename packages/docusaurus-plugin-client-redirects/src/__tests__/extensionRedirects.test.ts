@@ -13,9 +13,9 @@ import {
 describe('createToExtensionsRedirects', () => {
   test('should reject empty extensions', () => {
     expect(() => {
-      createToExtensionsRedirects(['/'], ['.html']);
+      createToExtensionsRedirects(['/'], ['']);
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
+      "Extension \\"\\" is not allowed.
       If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });

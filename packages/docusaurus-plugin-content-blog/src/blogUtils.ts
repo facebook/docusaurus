@@ -16,7 +16,7 @@ import type {
   BlogTags,
 } from './types';
 import {
-  parseMarkdownFile,
+  parseMarkdownString,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -104,13 +104,22 @@ function formatBlogPostDate(locale: string, date: Date): string {
 }
 
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const result = await parseMarkdownFile(blogSourceAbsolute, {
-    removeContentTitle: true,
-  });
-  return {
-    ...result,
-    frontMatter: validateBlogPostFrontMatter(result.frontMatter),
-  };
+  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+  try {
+    const result = parseMarkdownString(markdownString, {
+      removeContentTitle: true,
+    });
+    return {
+      ...result,
+      frontMatter: validateBlogPostFrontMatter(result.frontMatter),
+    };
+  } catch (e) {
+    throw new Error(
+      `Error while parsing blog post file ${blogSourceAbsolute}: "${
+        (e as Error).message
+      }".`,
+    );
+  }
 }
 
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>

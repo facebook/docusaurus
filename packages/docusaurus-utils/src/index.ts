@@ -35,7 +35,7 @@ export * from './globUtils';
 export * from './webpackUtils';
 export * from './dataFileUtils';
 
-const fileHash = new Map();
+const fileHash = new Map<string, string>();
 export async function generate(
   generatedFilesDir: string,
   file: string,
@@ -141,7 +141,10 @@ export function addLeadingSlash(str: string): string {
 }
 
 export function addTrailingPathSeparator(str: string): string {
-  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }
 
 // TODO deduplicate: also present in @docusaurus/utils-common
@@ -262,20 +265,6 @@ export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
   return contents.reduce((acc, content) => ({...acc, ...content}), {});
-}
-
-export function getSwizzledComponent(
-  componentPath: string,
-): string | undefined {
-  const swizzledComponentPath = path.resolve(
-    process.cwd(),
-    'src',
-    componentPath,
-  );
-
-  return fs.existsSync(swizzledComponentPath)
-    ? swizzledComponentPath
-    : undefined;
 }
 
 // Useful to update all the messages of a translation file
