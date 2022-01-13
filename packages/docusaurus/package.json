@@ -119,6 +119,7 @@
     "@types/rtl-detect": "^1.0.0",
     "@types/serve-handler": "^6.1.1",
     "@types/webpack-bundle-analyzer": "^4.4.1",
+    "react-test-renderer": "^17.0.2",
     "tmp-promise": "^3.0.2"
   },
   "peerDependencies": {

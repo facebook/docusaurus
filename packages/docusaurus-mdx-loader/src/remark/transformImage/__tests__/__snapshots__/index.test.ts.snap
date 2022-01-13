@@ -18,13 +18,23 @@ exports[`transformImage plugin transform md images to <img /> 1`] = `
 
 <img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
 
-<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static2/img2.png\\").default} />
+<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} />
 
 <img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} />
 
-<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/static/img.png\\").default} />
+<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
 
 <img alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"&#39;Quoted&#39; title\\" />
+
+<img alt={\\"site alias\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
+
+<img alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#light'} />
+<img alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#dark'} />
+
+<img alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10\\").default} />
+<img alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default} />
+
+<img alt={\\"img with both\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default + '#light'} />
 
 ## Heading
 
