@@ -52,6 +52,17 @@
   margin-right: 0;
 }
 
+.searchContainer {
+  margin-left: auto;
+}
+
+.searchContainer input {
+  height: 30px;
+  border-radius: 15px;
+  padding: 10px;
+  border: 1px solid gray;
+}
+
 .showcaseList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
