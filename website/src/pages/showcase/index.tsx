@@ -196,14 +196,18 @@ const otherUsers = sortedUsers.filter(
 function SearchBar() {
   const history = useHistory();
   const location = useLocation();
-
+  const [value, setValue] = useState<string | null>(null);
+  useEffect(() => {
+    setValue(readSearchName(location.search));
+  }, [location]);
   return (
     <div className={styles.searchContainer}>
       <input
         id="searchbar"
         placeholder="Search for site name..."
-        defaultValue={readSearchName(location.search) ?? undefined}
+        value={value ?? undefined}
         onInput={(e) => {
+          setValue(e.currentTarget.value);
           const newSearch = new URLSearchParams(location.search);
           newSearch.delete(SearchNameQueryKey);
           if (e.currentTarget.value) {
