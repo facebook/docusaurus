@@ -33,11 +33,11 @@ if (ExecutionEnvironment.canUseDOM) {
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
       <React.StrictMode>
-        <BrowserRouter>
-          <HelmetProvider>
+        <HelmetProvider>
+          <BrowserRouter>
             <App />
-          </HelmetProvider>
-        </BrowserRouter>
+          </BrowserRouter>
+        </HelmetProvider>
       </React.StrictMode>,
       document.getElementById('__docusaurus'),
     );
