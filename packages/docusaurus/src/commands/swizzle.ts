@@ -9,9 +9,9 @@ import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import type {ImportedPluginModule} from '@docusaurus/types';
+import type {ImportedPluginModule, InitializedPlugin} from '@docusaurus/types';
 import leven from 'leven';
-import {partition, uniq} from 'lodash';
+import {orderBy, partition, uniq} from 'lodash';
 import {THEME_PATH} from '@docusaurus/utils';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
@@ -77,15 +77,7 @@ type Options = {
   list?: boolean;
 };
 
-export default async function swizzle(
-  siteDir: string,
-  themeName: string | undefined,
-  componentName: string | undefined,
-  {typescript, danger, list}: Options,
-): Promise<void> {
-  const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
-  const plugins = await initPlugins({pluginConfigs, context});
+function getThemeNames(plugins: InitializedPlugin[]): string[] {
   const themeNames = uniq(
     // The fact that getThemePath is attached to the plugin instance makes
     // this code impossible to optimize. If this is a static method, we don't
@@ -97,6 +89,32 @@ export default async function swizzle(
       )
       .map((plugin) => (plugin.version as {name: string}).name),
   );
+
+  // Opinionated ordering: user is most likely to swizzle:
+  // - the classic theme
+  // - official themes
+  // - official plugins
+  return orderBy(
+    themeNames,
+    [
+      (t) => t === '@docusaurus/theme-classic',
+      (t) => t.includes('@docusaurus/theme'),
+      (t) => t.includes('@docusaurus'),
+    ],
+    ['desc', 'desc', 'desc'],
+  );
+}
+
+export default async function swizzle(
+  siteDir: string,
+  themeName: string | undefined,
+  componentName: string | undefined,
+  {typescript, danger, list}: Options,
+): Promise<void> {
+  const context = await loadContext(siteDir);
+  const pluginConfigs = loadPluginConfigs(context);
+  const plugins = await initPlugins({pluginConfigs, context});
+  const themeNames = getThemeNames(plugins);
   if (!themeName) {
     if (list) {
       logger.info`Themes available for swizzle: name=${themeNames}`;
