@@ -26,27 +26,33 @@ const {
 interface PluginOptions {
   filePath: string;
   staticDirs: string[];
+  siteDir: string;
 }
 
-const createJSX = (node: Image, pathUrl: string) => {
-  const jsxNode = node;
-  (jsxNode as unknown as Literal).type = 'jsx';
-  (jsxNode as unknown as Literal).value = `<img ${
-    node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : ''
-  }${`src={require("${inlineMarkdownImageFileLoader}${escapePath(
-    pathUrl,
-  )}").default}`}${node.title ? ` title="${escapeHtml(node.title)}"` : ''} />`;
+function toImageRequireNode(node: Image, imagePath: string, filePath: string) {
+  const jsxNode = node as Literal & Partial<Image>;
+  let relativeImagePath = posixPath(
+    path.relative(path.dirname(filePath), imagePath),
+  );
+  relativeImagePath = `./${relativeImagePath}`;
 
-  if (jsxNode.url) {
-    delete (jsxNode as Partial<Image>).url;
-  }
-  if (jsxNode.alt) {
-    delete jsxNode.alt;
-  }
-  if (jsxNode.title) {
-    delete jsxNode.title;
-  }
-};
+  const parsedUrl = url.parse(node.url);
+  const hash = parsedUrl.hash ?? '';
+  const search = parsedUrl.search ?? '';
+
+  const alt = node.alt ? `alt={"${escapeHtml(node.alt)}"} ` : '';
+  const src = `require("${inlineMarkdownImageFileLoader}${
+    escapePath(relativeImagePath) + search
+  }").default${hash ? ` + '${hash}'` : ''}`;
+  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
+
+  (jsxNode as Literal).type = 'jsx';
+  jsxNode.value = `<img ${alt}src={${src}}${title} />`;
+}
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
   const imageExists = await fs.pathExists(imagePath);
@@ -75,20 +81,43 @@ async function findImage(possiblePaths: string[], sourceFilePath: string) {
   );
 }
 
-async function processImageNode(
-  node: Image,
-  {filePath, staticDirs}: PluginOptions,
+async function getImageAbsolutePath(
+  imagePath: string,
+  {siteDir, filePath, staticDirs}: PluginOptions,
 ) {
+  if (imagePath.startsWith('@site/')) {
+    const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
+    await ensureImageFileExist(imageFilePath, filePath);
+    return imageFilePath;
+  } else if (path.isAbsolute(imagePath)) {
+    // absolute paths are expected to exist in the static folder
+    const possibleImagePaths = staticDirs.map((dir) =>
+      path.join(dir, imagePath),
+    );
+    const imageFilePath = await findImage(possibleImagePaths, filePath);
+    return imageFilePath;
+  }
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
+  else {
+    // relative paths are resolved against the source file's folder
+    const imageFilePath = path.join(path.dirname(filePath), imagePath);
+    await ensureImageFileExist(imageFilePath, filePath);
+    return imageFilePath;
+  }
+}
+
+async function processImageNode(node: Image, options: PluginOptions) {
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
-        filePath,
+        options.filePath,
       )}" file`,
     );
   }
 
   const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol) {
+  if (parsedUrl.protocol || !parsedUrl.pathname) {
     // pathname:// is an escape hatch,
     // in case user does not want his images to be converted to require calls going through webpack loader
     // we don't have to document this for now,
@@ -96,24 +125,11 @@ async function processImageNode(
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
+    return;
   }
-  // images without protocol
-  else if (path.isAbsolute(node.url)) {
-    // absolute paths are expected to exist in the static folder
-    const possibleImagePaths = staticDirs.map((dir) =>
-      path.join(dir, node.url),
-    );
-    const imagePath = await findImage(possibleImagePaths, filePath);
-    createJSX(node, posixPath(imagePath));
-  }
-  // We try to convert image urls without protocol to images with require calls
-  // going through webpack ensures that image assets exist at build time
-  else {
-    // relative paths are resolved against the source file's folder
-    const expectedImagePath = path.join(path.dirname(filePath), node.url);
-    await ensureImageFileExist(expectedImagePath, filePath);
-    createJSX(node, node.url.startsWith('./') ? node.url : `./${node.url}`);
-  }
+
+  const imagePath = await getImageAbsolutePath(parsedUrl.pathname!, options);
+  toImageRequireNode(node, imagePath, options.filePath);
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
