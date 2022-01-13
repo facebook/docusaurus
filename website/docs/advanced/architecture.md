@@ -7,8 +7,7 @@ description: How Docusaurus works to build your app
 ```mdx-code-block
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import Zoom from '@site/src/components/Zoom';
 ```
 
 <Zoom>

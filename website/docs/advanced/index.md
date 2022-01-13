@@ -9,4 +9,4 @@ import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
 <DocCardList items={useCurrentSidebarCategory().items}/>
 ```
 
-These sections will have plugin authors and code contributors in mind, so we may occasionally refer to [plugin APIs](../api/plugin-methods/README.md) or other architecture details. Don't panic if you don't understand everything😉
+We will assume that you have finished the guides, and know the basics like how to configure plugins, how to write React components, etc. These sections will have plugin authors and code contributors in mind, so we may occasionally refer to [plugin APIs](../api/plugin-methods/README.md) or other architecture details. Don't panic if you don't understand everything😉

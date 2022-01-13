@@ -38,6 +38,7 @@
     "@docusaurus/plugin-pwa": "2.0.0-beta.14",
     "@docusaurus/preset-classic": "2.0.0-beta.14",
     "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.14",
+    "@docusaurus/theme-common": "2.0.0-beta.14",
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.14",
     "@docusaurus/utils": "2.0.0-beta.14",
     "@popperjs/core": "^2.10.2",
