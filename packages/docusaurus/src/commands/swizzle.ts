@@ -192,6 +192,8 @@ export default async function swizzle(
         type: 'autocomplete',
         name: 'componentName',
         message: 'Select or type the component to swizzle:',
+        limit: 30, // TODO this is not a great DX for component name discoverability
+        // limit: Number.POSITIVE_INFINITY, // This does not work well and mess-up with terminal scroll position
         choices: allComponents
           .map((comp) => ({
             title: comp,
