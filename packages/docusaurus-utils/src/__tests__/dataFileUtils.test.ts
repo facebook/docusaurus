@@ -141,6 +141,10 @@ describe('getDataFileData', () => {
     );
   }
 
+  test('returns undefined for nonexistent file', async () => {
+    await expect(readDataFile('nonexistent.yml')).resolves.toBeUndefined();
+  });
+
   test('read valid yml author file', async () => {
     await expect(readDataFile('valid.yml')).resolves.toEqual({a: 1});
   });

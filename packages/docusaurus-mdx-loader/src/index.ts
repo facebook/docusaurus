@@ -124,7 +124,14 @@ export default async function mdxLoader(
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDirs: reqOptions.staticDirs, filePath}],
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          filePath,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
       [
         transformLinks,
         {

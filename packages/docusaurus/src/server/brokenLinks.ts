@@ -9,11 +9,15 @@ import {
   matchRoutes,
   type RouteConfig as RRRouteConfig,
 } from 'react-router-config';
-import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
 import {mapValues, pickBy, countBy} from 'lodash';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import {
+  removePrefix,
+  removeSuffix,
+  reportMessage,
+  resolvePathname,
+} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
 

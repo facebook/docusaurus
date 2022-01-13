@@ -8,7 +8,7 @@
 module.exports = {
   env: {
     // USED FOR NODE/RUNTIME
-    // maybe we should differenciate both cases because
+    // maybe we should differentiate both cases because
     // we mostly need to transpile some features so that node does not crash...
     lib: {
       presets: [

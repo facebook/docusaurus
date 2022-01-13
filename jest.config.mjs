@@ -49,4 +49,9 @@ export default {
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/lib/client/index.js',
   },
+  globals: {
+    window: {
+      location: {href: 'https://docusaurus.io'},
+    },
+  },
 };

@@ -2,6 +2,8 @@
 
 exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link URL is mandatory in \\"packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/noUrl.md\\" file (title: asset, line: 1)."`;
 
+exports[`transformAsset plugin fail if asset with site alias does not exist 1`] = `"Asset packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/foo.pdf used in packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/nonexistentSiteAlias.md not found."`;
+
 exports[`transformAsset plugin pathname protocol 1`] = `
 "[asset](pathname:///asset/unchecked.pdf)
 "
@@ -17,6 +19,8 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 <a target=\\"_blank\\" href={require('![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default + '#page=2'}>asset with hash</a>
 
 <a target=\\"_blank\\" href={require('![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default} title=\\"Title\\">asset</a>
+
+[page](noUrl.md)
 
 ## Heading
 

@@ -172,6 +172,11 @@ div[class^='announcementBar_'] {
   white-space: nowrap;
 }
 
+html[data-theme='light'] img[src$='#gh-dark-mode-only'],
+html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
+  display: none;
+}
+
 /* Used to test CSS insertion order */
 .test-marker-site-custom-css-unique-rule {
   content: "site-custom-css-unique-rule";

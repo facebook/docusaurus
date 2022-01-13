@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '../urlUtils';
+import {normalizeUrl, getEditUrl} from '../urlUtils';
 
 describe('normalizeUrl', () => {
   test('should normalize urls correctly', () => {
@@ -102,6 +102,22 @@ describe('normalizeUrl', () => {
         input: ['/', '/hello/world/', '///'],
         output: '/hello/world/',
       },
+      {
+        input: ['file://', '//hello/world/'],
+        output: 'file:///hello/world/',
+      },
+      {
+        input: ['file:', '/hello/world/'],
+        output: 'file:///hello/world/',
+      },
+      {
+        input: ['file://', '/hello/world/'],
+        output: 'file:///hello/world/',
+      },
+      {
+        input: ['file:', 'hello/world/'],
+        output: 'file://hello/world/',
+      },
     ];
     asserts.forEach((testCase) => {
       expect(normalizeUrl(testCase.input)).toBe(testCase.output);
@@ -113,5 +129,24 @@ describe('normalizeUrl', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Url must be a string. Received undefined"`,
     );
+  });
+});
+
+describe('getEditUrl', () => {
+  test('returns right path', () => {
+    expect(
+      getEditUrl('foo/bar.md', 'https://github.com/facebook/docusaurus'),
+    ).toEqual('https://github.com/facebook/docusaurus/foo/bar.md');
+    expect(
+      getEditUrl('foo/你好.md', 'https://github.com/facebook/docusaurus'),
+    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+  });
+  test('always returns valid URL', () => {
+    expect(
+      getEditUrl('foo\\你好.md', 'https://github.com/facebook/docusaurus'),
+    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+  });
+  test('returns undefined for undefined', () => {
+    expect(getEditUrl('foo/bar.md')).toBeUndefined();
   });
 });

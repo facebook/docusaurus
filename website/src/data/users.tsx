@@ -244,6 +244,15 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Bandwidth',
+    description:
+      'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
+    preview: require('./showcase/bandwidth.png'),
+    website: 'https://dev.bandwidth.com/',
+    source: 'https://github.com/Bandwidth/api-docs',
+    tags: ['opensource', 'large', 'product'],
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
@@ -1281,6 +1290,14 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'design', 'favorite'],
   },
   {
+    title: 'Refine',
+    description: 'A React-based framework for building data-intensive applications in no time!',
+    preview: require('./showcase/refine.png'),
+    website: 'https://refine.dev',
+    source: 'https://github.com/pankod/refine',
+    tags: ['favorite', 'opensource', 'product', 'design', 'versioning', 'large'],
+  },
+  {
     title: 'Rematch',
     description:
       'Redux best practices without the boilerplate in less than 2kb',
@@ -1570,7 +1587,7 @@ const Users: User[] = [
   },
   {
     title: 'Unleash',
-    description: 'A feature managment solution.',
+    description: 'A feature management solution.',
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',
