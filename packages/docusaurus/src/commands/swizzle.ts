@@ -105,48 +105,87 @@ function getThemeNames(plugins: InitializedPlugin[]): string[] {
   );
 }
 
-export default async function swizzle(
-  siteDir: string,
-  themeName: string | undefined,
-  componentName: string | undefined,
-  {typescript, danger, list}: Options,
-): Promise<void> {
-  const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
-  const plugins = await initPlugins({pluginConfigs, context});
-  const themeNames = getThemeNames(plugins);
-  if (!themeName) {
-    if (list) {
-      logger.info`Themes available for swizzle: name=${themeNames}`;
-      return;
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      ({themeName} = await prompts({
-        type: 'select',
-        name: 'themeName',
-        message: 'Select a theme to swizzle:',
-        choices: themeNames
-          .map((theme) => ({title: theme, value: theme}))
-          .concat({title: '[Exit]', value: '[Exit]'}),
-      }));
-      if (!themeName || themeName === '[Exit]') {
-        return;
-      }
-    }
+async function askThemeName(themeNames: string[]): Promise<string> {
+  const {themeName} = (
+    await prompts({
+      type: 'select',
+      name: 'themeName',
+      message: 'Select a theme to swizzle:',
+      choices: themeNames
+        .map((theme) => ({title: theme, value: theme}))
+        .concat({title: '[Exit]', value: '[Exit]'}),
+    })
+  ).themeName;
+  if (!themeName || themeName === '[Exit]') {
+    process.exit(0);
   }
-  // themeNames are all the valid themes: importing them would always succeed
-  // since we already tried importing them when loading plugin configs.
-  if (!themeNames.includes(themeName)) {
-    const suggestion = themeNames.find((name) => leven(name, themeName!) < 4);
-    logger.error`Theme name=${themeName} not found. ${
+  return themeName;
+}
+
+async function askComponentName(componentNames: string[]): Promise<string> {
+  const {componentName} = await prompts({
+    type: 'autocomplete',
+    name: 'componentName',
+    message: 'Select or type the component to swizzle:',
+    limit: 30, // TODO this is not a great DX for component name discoverability
+    // limit: Number.POSITIVE_INFINITY, // This does not work well and mess-up with terminal scroll position
+    choices: componentNames
+      .map((comp) => ({
+        title: comp,
+        value: comp,
+      }))
+      .concat({title: '[Exit]', value: '[Exit]'}),
+    async suggest(input, choices) {
+      return choices.filter((choice) =>
+        choice.title.toLowerCase().includes(input.toLowerCase()),
+      );
+    },
+  });
+  if (!componentName || componentName === '[Exit]') {
+    return process.exit(0);
+  }
+  return componentName;
+}
+
+async function getThemeName({
+  themeNameParam,
+  themeNames,
+  list,
+}: {
+  themeNameParam: string | undefined;
+  themeNames: string[];
+  list: boolean | undefined;
+}): Promise<string> {
+  if (list) {
+    logger.info`Themes available for swizzle: name=${themeNames}`;
+    return process.exit(0);
+  }
+
+  // themeName can be invalid when provided as a CLI arg
+  if (themeNameParam && !themeNames.includes(themeNameParam)) {
+    const suggestion = themeNames.find(
+      (name) => leven(name, themeNameParam!) < 4,
+    );
+    logger.error`Theme name=${themeNameParam} not found. ${
       suggestion
         ? logger.interpolate`Did you mean name=${suggestion}?`
         : logger.interpolate`Themes available for swizzle: ${themeNames}`
     }`;
-    process.exitCode = 1;
-    return;
+    process.exit(1);
   }
 
+  return themeNameParam ?? askThemeName(themeNames);
+}
+
+function getThemePath({
+  plugins,
+  themeName,
+  typescript,
+}: {
+  plugins: InitializedPlugin[];
+  themeName: string;
+  typescript: boolean | undefined;
+}): string {
   // Attaching getThemePath to the plugin instance means it is possible for a
   // plugin to return different paths given different options. Maybe we need to
   // pass in a plugin ID to decide which plugin to load?
@@ -166,10 +205,20 @@ export default async function swizzle(
           // disguise as themes?
           logger.interpolate`name=${themeName} does not provide any theme code.`,
     );
-    process.exitCode = 1;
-    return;
+    return process.exit(1);
   }
+  return themePath;
+}
 
+type ThemeComponents = {allComponents: string[]; safeComponents: string[]};
+
+function getThemeComponents({
+  themeName,
+  themePath,
+}: {
+  themeName: string;
+  themePath: string;
+}): ThemeComponents {
   const pluginModule = importFresh<ImportedPluginModule>(themeName);
   const getSwizzleComponentList =
     pluginModule.default?.getSwizzleComponentList ??
@@ -178,39 +227,61 @@ export default async function swizzle(
   const safeComponents = getSwizzleComponentList
     ? getSwizzleComponentList() ?? allComponents
     : [];
+
+  return {allComponents, safeComponents};
+}
+
+async function getComponentName({
+  componentNameParam,
+  list,
+  allComponents,
+  safeComponents,
+}: {
+  componentNameParam: string | undefined;
+  list: boolean | undefined;
+} & ThemeComponents): Promise<string> {
+  if (list) {
+    logger.info(listComponentNames(safeComponents, allComponents));
+    return process.exit(0);
+  }
+
+  if (componentNameParam && !allComponents.includes(componentNameParam)) {
+    // TODO print error
+    process.exit(1);
+  }
+
+  return componentNameParam ?? askComponentName(allComponents);
+}
+
+export default async function swizzle(
+  siteDir: string,
+  themeNameParam: string | undefined,
+  componentNameParam: string | undefined,
+  {typescript, danger, list}: Options,
+): Promise<void> {
+  const context = await loadContext(siteDir);
+  const pluginConfigs = loadPluginConfigs(context);
+  const plugins = await initPlugins({pluginConfigs, context});
+  const themeNames = getThemeNames(plugins);
+  const themeName = await getThemeName({themeNameParam, themeNames, list});
+  const themePath = getThemePath({themeName, plugins, typescript});
+  const themeComponents = getThemeComponents({
+    themeName,
+    themePath,
+  });
+
+  const {allComponents, safeComponents} = themeComponents;
+
   if (safeComponents.length === 0 && !danger) {
     logger.warn`name=${themeName} doesn't declare any component as safe for swizzle. Make sure you are using the code=${'--danger'} flag.`;
-    return;
+    return process.exit(0);
   }
-  if (!componentName) {
-    if (list) {
-      logger.info(listComponentNames(safeComponents, allComponents));
-      return;
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      ({componentName} = await prompts({
-        type: 'autocomplete',
-        name: 'componentName',
-        message: 'Select or type the component to swizzle:',
-        limit: 30, // TODO this is not a great DX for component name discoverability
-        // limit: Number.POSITIVE_INFINITY, // This does not work well and mess-up with terminal scroll position
-        choices: allComponents
-          .map((comp) => ({
-            title: comp,
-            value: comp,
-          }))
-          .concat({title: '[Exit]', value: '[Exit]'}),
-        async suggest(input, choices) {
-          return choices.filter((choice) =>
-            choice.title.toLowerCase().includes(input.toLowerCase()),
-          );
-        },
-      }));
-      if (!componentName || componentName === '[Exit]') {
-        return;
-      }
-    }
-  }
+
+  const componentName = await getComponentName({
+    componentNameParam,
+    list,
+    ...themeComponents,
+  });
 
   let componentCandidate = allComponents.find((comp) => comp === componentName);
   if (!componentCandidate) {
@@ -237,8 +308,7 @@ export default async function swizzle(
       } else {
         logger.info(listComponentNames(safeComponents, allComponents));
       }
-      process.exitCode = 1;
-      return;
+      return process.exit(1);
     }
   }
 
@@ -248,8 +318,7 @@ export default async function swizzle(
     !danger
   ) {
     logger.error`name=${componentCandidate} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag.`;
-    process.exitCode = 1;
-    return;
+    return process.exit(1);
   }
 
   let fromPath = path.join(themePath, componentCandidate);
@@ -274,4 +343,6 @@ export default async function swizzle(
     process.cwd(),
     toPath,
   )}.`;
+
+  return process.exit(0);
 }
