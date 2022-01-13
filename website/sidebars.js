@@ -112,9 +112,10 @@ const sidebars = {
       link: {type: 'doc', id: 'advanced/index'},
       items: [
         'advanced/architecture',
-        'advanced/swizzling',
-        'advanced/routing',
         'advanced/plugins',
+        'advanced/routing',
+        'advanced/swizzling',
+        'advanced/ssr',
       ],
     },
     {
