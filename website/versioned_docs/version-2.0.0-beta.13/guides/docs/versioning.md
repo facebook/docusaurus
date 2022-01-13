@@ -195,7 +195,7 @@ Don't use relative paths import within the docs. Because when we cut a version t
 + import Foo from '@site/src/components/Foo';
 ```
 
-### Global or versioned colocated assets {#global-or-versioned-colocated-assets}
+### Global or versioned collocated assets {#global-or-versioned-collocated-assets}
 
 You should decide if assets like images and files are per version or shared between versions
 
