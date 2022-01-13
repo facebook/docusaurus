@@ -128,73 +128,80 @@ module.exports = {
 };
 ```
 
-## Upgrading rehype plugins in future
+## Upgrading rehype-katex to ESM
 
-The latest version of `rehype-katex` (starting from `v6.0.0`) has moved to ESM. Although ESM support in Docusaurus is currently bit patchy, it is possible to upgrade `rehype-katex` to the latest version as Docusaurus now supports importing ESM modules dynamically.
+:::tip
 
-```js
+Only use the latest version if you actually need the bleeding-edge features of $\KaTeX$. Most users should find the older versions work just as well.
+
+:::
+
+The latest version of `rehype-katex` (starting from `v6.0.0`) has moved to ES Modules, which Docusaurus doesn't officially support yet. However, it is possible to import `rehype-katex` dynamically, using an async config creator.
+
+```js title="docusaurus.config.js"
 async function createConfig() {
+  // ES Modules are imported with `import()` instead of `require()`, and is imported asynchronously
+  // highlight-next-line
   const katex = (await import('rehype-katex')).default;
-  config.presets[0][1].docs.rehypePlugins.push(katex);
-  return config;
+  return {
+    // ...
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            // highlight-start
+            remarkPlugins: [math],
+            rehypePlugins: [katex],
+            // highlight-end
+          },
+        },
+      ],
+    ],
+  };
 }
-```
-
-Remove `katex` from content plugin or preset options (usually `@docusaurus/preset-classic` docs options) if you had it there previously:
-
-```js
-rehypePlugins: [],
 ```
 
 So the overall configuration changes will look like:
 
 ```js title="docusaurus.config.js"
-// highlight-start
+// highlight-next-line
 const math = require('remark-math');
-// highlight-end
-
-const config = {
-  title: 'Docusaurus',
-  tagline: 'Build optimized websites quickly, focus on your content',
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          path: 'docs',
-          // highlight-start
-          remarkPlugins: [math],
-          rehypePlugins: [],
-          // highlight-end
-        },
-      },
-    ],
-  ],
-  // highlight-start
-  stylesheets: [
-    {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
-      type: 'text/css',
-      integrity:
-        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
-      crossorigin: 'anonymous',
-    },
-  ],
-  // highlight-end
-};
 
 async function createConfig() {
-  // highlight-start
+  // highlight-next-line
   const katex = (await import('rehype-katex')).default;
-  // highlight-end
-  // highlight-start
-  // @ts-expect-error: we know it exists, right
-  config.presets[0][1].docs.rehypePlugins.push(katex);
-  // highlight-end
+  return {
+    title: 'Docusaurus',
+    tagline: 'Build optimized websites quickly, focus on your content',
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [math],
+            rehypePlugins: [katex],
+            // highlight-end
+          },
+        },
+      ],
+    ],
+    // highlight-start
+    stylesheets: [
+      {
+        href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
+        type: 'text/css',
+        integrity:
+          'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
+        crossorigin: 'anonymous',
+      },
+    ],
+    // highlight-end
+  };
   return config;
 }
 
 module.exports = createConfig;
 ```
-
-For more details, please refer to the [configuration](https://github.com/facebook/docusaurus/blob/main/website/docusaurus.config.js) of this site itself.
