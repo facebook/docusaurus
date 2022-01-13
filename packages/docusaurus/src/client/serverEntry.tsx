@@ -86,15 +86,17 @@ async function doRender(locals: Locals & {path: string}) {
 
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
-    <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
-      <HelmetProvider context={helmetContext}>
-        <StaticRouter location={location} context={context}>
-          <ProvideLinksCollector linksCollector={linksCollector}>
-            <App />
-          </ProvideLinksCollector>
-        </StaticRouter>
-      </HelmetProvider>
-    </Loadable.Capture>,
+    <React.StrictMode>
+      <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+        <HelmetProvider context={helmetContext}>
+          <StaticRouter location={location} context={context}>
+            <ProvideLinksCollector linksCollector={linksCollector}>
+              <App />
+            </ProvideLinksCollector>
+          </StaticRouter>
+        </HelmetProvider>
+      </Loadable.Capture>
+    </React.StrictMode>,
   );
   onLinksCollected(location, linksCollector.getCollectedLinks());
 
