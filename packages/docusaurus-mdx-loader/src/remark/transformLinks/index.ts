@@ -57,15 +57,12 @@ function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
   jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
-async function ensureAssetFileExist(
-  fileSystemAssetPath: string,
-  sourceFilePath: string,
-) {
-  const assetExists = await fs.pathExists(fileSystemAssetPath);
+async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
+  const assetExists = await fs.pathExists(assetPath);
   if (!assetExists) {
     throw new Error(
       `Asset ${toMessageRelativeFilePath(
-        fileSystemAssetPath,
+        assetPath,
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
     );
   }
@@ -124,7 +121,7 @@ async function processLinkNode(node: Link, options: PluginOptions) {
     return;
   }
 
-  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname!, options);
+  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, options);
   if (assetPath) {
     toAssetRequireNode(node, assetPath, options.filePath);
   }

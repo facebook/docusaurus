@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {
+  toMessageRelativeFilePath,
+  posixPath,
+  escapePath,
+  getFileLoaderUtils,
+} from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
-import {
-  posixPath,
-  escapePath,
-  toMessageRelativeFilePath,
-  getFileLoaderUtils,
-} from '@docusaurus/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
 
@@ -65,22 +65,6 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
   }
 }
 
-async function findImage(possiblePaths: string[], sourceFilePath: string) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const possiblePath of possiblePaths) {
-    if (await fs.pathExists(possiblePath)) {
-      return possiblePath;
-    }
-  }
-  throw new Error(
-    `Image ${possiblePaths
-      .map((p) => toMessageRelativeFilePath(p))
-      .join(' or ')} used in ${toMessageRelativeFilePath(
-      sourceFilePath,
-    )} not found.`,
-  );
-}
-
 async function getImageAbsolutePath(
   imagePath: string,
   {siteDir, filePath, staticDirs}: PluginOptions,
@@ -91,11 +75,21 @@ async function getImageAbsolutePath(
     return imageFilePath;
   } else if (path.isAbsolute(imagePath)) {
     // absolute paths are expected to exist in the static folder
-    const possibleImagePaths = staticDirs.map((dir) =>
-      path.join(dir, imagePath),
+    const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
+    // eslint-disable-next-line no-restricted-syntax
+    for (const possiblePath of possiblePaths) {
+      const imageFilePath = possiblePath;
+      if (await fs.pathExists(imageFilePath)) {
+        return imageFilePath;
+      }
+    }
+    throw new Error(
+      `Image ${possiblePaths
+        .map((p) => toMessageRelativeFilePath(p))
+        .join(' or ')} used in ${toMessageRelativeFilePath(
+        filePath,
+      )} not found.`,
     );
-    const imageFilePath = await findImage(possibleImagePaths, filePath);
-    return imageFilePath;
   }
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
@@ -128,7 +122,7 @@ async function processImageNode(node: Image, options: PluginOptions) {
     return;
   }
 
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname!, options);
+  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, options);
   toImageRequireNode(node, imagePath, options.filePath);
 }
 
