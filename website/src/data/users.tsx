@@ -1587,7 +1587,7 @@ const Users: User[] = [
   },
   {
     title: 'Unleash',
-    description: 'A feature managment solution.',
+    description: 'A feature management solution.',
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',

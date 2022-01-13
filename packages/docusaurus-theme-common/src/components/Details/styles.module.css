@@ -6,7 +6,7 @@
  */
 
 /*
-CSS variables, meant to be overriden by final theme
+CSS variables, meant to be overridden by final theme
  */
 .details {
   --docusaurus-details-summary-arrow-size: 0.38rem;

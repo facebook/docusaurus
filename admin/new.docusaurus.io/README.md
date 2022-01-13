@@ -2,7 +2,7 @@
 
 This is a Netlify deployment to handle the Docusaurus playgrounds shortcuts:
 
-- [docusaurus.new](https://docusaurus.new) (main one, as of today domain is owned by StackBlitz but may be transfered to FB)
+- [docusaurus.new](https://docusaurus.new) (main one, as of today domain is owned by StackBlitz but may be transferred to FB)
 - [new.docusaurus.io](https://new.docusaurus.io) (legacy one)
 
 See also the [Playground doc page](https://docusaurus.io/docs/playground)
