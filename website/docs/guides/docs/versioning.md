@@ -259,7 +259,7 @@ The [@hello](hello.md#paginate) document is great!
 See the [Tutorial](../getting-started/tutorial.md) for more info.
 ```
 
-### Global or versioned colocated assets {#global-or-versioned-colocated-assets}
+### Global or versioned collocated assets {#global-or-versioned-collocated-assets}
 
 You should decide if assets like images and files are per-version or shared between versions.
 

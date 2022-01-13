@@ -107,7 +107,7 @@ export default function friendsPlugin(context, options) {
 }
 ```
 
-#### `setGlobalData(data: any): void`
+#### `setGlobalData(data: any): void` {#setGlobalData}
 
 This function permits one to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
 
@@ -205,7 +205,7 @@ module.exports = function (context, options) {
 };
 ```
 
-### `content` {#content}
+### `content` {#content-1}
 
 `configureWebpack` will be called both with the content loaded by the plugin.
 

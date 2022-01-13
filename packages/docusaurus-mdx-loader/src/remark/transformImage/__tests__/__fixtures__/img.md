@@ -12,6 +12,16 @@
 
 ![img with "quotes"](./static/img.png ''Quoted' title')
 
+![site alias](@site/static/img.png)
+
+![img with hash](/img.png#light)
+![img with hash](/img.png#dark)
+
+![img with query](/img.png?w=10)
+![img with query](/img.png?w=10&h=10)
+
+![img with both](/img.png?w=10&h=10#light)
+
 ## Heading
 
 ```md

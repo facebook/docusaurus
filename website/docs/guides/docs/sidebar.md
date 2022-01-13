@@ -861,7 +861,7 @@ module.exports = {
           // Example: return an hardcoded list of static sidebar items
           return [
             {type: 'doc', id: 'doc1'},
-            {type: 'doc', id: 'doc2'}},
+            {type: 'doc', id: 'doc2'},
           ];
         },
         // highlight-end
