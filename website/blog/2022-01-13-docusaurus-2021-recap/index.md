@@ -72,22 +72,22 @@ The creativity of Docusaurus users is beyond our imagination🤩 We look forward
 
 ## Community
 
-As the major helper on [Discord](https://discord.gg/docusaurus), I can clearly see the community thriving. Many frequently asked questions are now integrated into our documentation, and some feature requests have been implemented as well. The project and the community reciprocally benefit each other—for one thing, I was formerly a community contributor who turned into a maintainer after making considerable contributions.
+As the major helper on [Discord](https://discord.gg/docusaurus), I can clearly see the community thriving. Many frequently asked questions are now integrated into our documentation, and some feature requests have been implemented as well. The project and the community reciprocally benefit each other—for one thing, I was formerly a community contributor before becoming a maintainer.
 
 As we approach the official release, we are interested in knowing more about what people are doing out there: [plugin authors](https://github.com/facebook/docusaurus/discussions/4025), [creators of customized sites](https://github.com/facebook/docusaurus/discussions/5468), and [all new users](https://github.com/facebook/docusaurus/discussions/4610)—please keep us posted about your achievements so we can steer our development to better serve your needs.
 
 ## Going forward
 
-In the past few months, we have constantly spoken about the release-candidate phase of Docusaurus, and yes, it's almost there. We have created a dedicated [milestone](https://github.com/facebook/docusaurus/milestone/15) to keep track of all issues to solve before we can confidently progress to the next stage. In short, we want to build a **more robust theming workflow**, empowering creative site creators to customize our default theme without fearing breaking changes as they upgrade. This will include:
+In the past few months, we have been constantly speaking about the release-candidate phase of Docusaurus, and yes, it's almost there. We have created a dedicated [milestone](https://github.com/facebook/docusaurus/milestone/15) to keep track of all issues to solve before we can confidently progress to the next stage. In short, we want to build a **more robust theming workflow**, empowering creative site creators to customize our default theme without fearing breaking changes as they upgrade. This will include:
 
-- Guidelines on **component organization**. We want the theme components to have the right granularity so when you need to customize a part of your site, there's always a component that does just what you need.
+- Guidelines on **component organization**. We want the theme components to have the right granularity so when you want to customize a part of your site, there's always a component doing just what you need.
 - Improvements to the **swizzle CLI**. We want users to use it with delight and let it aid you through all possible swizzling scenarios.
 - Refactoring our **theme APIs**. We want all swizzlable components to be actually appropriate for swizzling, so non-UI components will be re-located.
 - **Docs**. We want our docs to be maximally accessible to everyone—from first-time coders to experienced web developers. We will organize it as a more progressive tutorial that can be helpful for every skill level.
 
 Read more about plans for 2.0 in this [roadmap issue](https://github.com/facebook/docusaurus/issues/6113). 2.0 will be a greater release with the help from the community, so please share your opinions and suggestions under any of the milestone issues!
 
-As the core team is working hard to ship the release, we will postpone other useful features till after the general availability release, as minor versions. We have even made further plans for [architectural changes in 3.0](https://github.com/facebook/docusaurus/milestone/16)!
+As the core team is working hard to ship the general availability release, we plan to release other useful features as minor versions after 2.0. We have even made further plans for [architectural changes in 3.0](https://github.com/facebook/docusaurus/milestone/16)!
 
 With the official release of Docusaurus 2.0, we are confident to see much more new adoptions and migrations from v1.
 
@@ -98,4 +98,4 @@ We'd like to express our gratitude to [all the contributors in 2021](https://git
 - The Algolia team for helping Docusaurus users [migrate to the new DocSearch](../2021-11-21-algolia-docsearch-migration/index.md) and answering search-related questions
 - All the active community members for making valuable code contributions, improving our documentation, and answering questions on Discord
 
-So long, 2021, and let's say hello to a great 2022!
+So long, 2021, and let's greet a great 2022!
