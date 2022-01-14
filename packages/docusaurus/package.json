@@ -88,7 +88,7 @@
     "react-loadable-ssr-addon-v5-slorber": "^1.0.1",
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.2.1",
     "remark-admonitions": "^1.2.1",
     "resolve-pathname": "^3.0.0",
     "rtl-detect": "^1.0.4",
