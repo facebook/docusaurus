@@ -2,12 +2,18 @@
 sidebar_label: Server-side rendering
 ---
 
-# Server-side rendering (SSR)
+# Server-side generation (SSG)
 
 In [architecture](architecture.md), we mentioned that the theme is run in Webpack. But beware: that doesn't mean it always has access to browser globals! The theme is built twice:
 
 - During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
 - During **client-side rendering**, the theme is compiled with standard React DOM, and has access to browser variables. CSR produces dynamic JavaScript.
+
+:::info
+
+Server-side rendering and server-side generation can be different concepts, but we use them interchangeably.
+
+:::
 
 Therefore, while you probably know not to access Node globals like `process` ([or can we?](#node-env)) or the `'fs'` module, you can't freely access browser globals either.
 
@@ -87,11 +93,24 @@ export default function expensiveComp() {
 
 ## Understanding SSR
 
+React is not just a dynamic UI runtime—it's also a templating engine. Because Docusaurus sites are mostly static contents, it should be able to work without any JavaScript (which React runs in), but only plain HTML/CSS. And that's what server-side rendering offers: statically rendering your React code into HTML, without any dynamic content. An HTML file has no concept of client state (it's purely markup), hence it shouldn't rely on browser APIs.
+
+These HTML files are the first to arrive at the user's browser screen when a URL is visited (see [routing](routing.md)). Afterwards, the browser fetches and runs other JS code to provide the "dynamic" parts of your site—anything implemented with JavaScript. Thanks to SSR, Docusaurus sites are usable without any JavaScript.
+
+In CSR-only apps, all DOM elements are generated on client side with React, and the HTML file only ever contains one root element for React to mount DOM to; in SSR, React is already facing a fully built HTML page, and it only needs to correlate the DOM elements with the virtual DOM in its model. This step is called "hydration". After React has hydrated the static markup, the app starts to work as any normal React app.
+
 ## Escape hatches
+
+If you want to render any dynamic content on your screen that relies on the browser API to be functional at all, for example:
+
+- Our [live codeblock](../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor), which runs in the browser's JS runtime
+- Our [themed image](../guides/markdown-features/markdown-features-assets.mdx#themed-images) that detects the user's color scheme to display different images
+
+You may need to escape from SSR since static HTML can't display anything useful without knowing the client state. It is important for the first client-side render to produce the exact same DOM structure as server-side rendering, otherwise, React will correlate virtual DOM with the wrong DOM elements. You can read more about this pitfall in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/). Therefore, the naïve attempt of `typeof window !== 'undefined` won't work appropriately as a browser vs. server detection, because the first client render would instantly render different markup from the server-generated one. We provide several more reliable ways to escape SSR.
 
 ### `<BrowserOnly>`
 
-If you need to render something in browser only, one common approach is to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
+If you need to render some component in browser only (for example, because the component relies on browser specifics to be functional at all), one common approach is to wrap your component with [`<BrowserOnly>`](../docusaurus-core.md#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
 
 ```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
@@ -132,7 +151,7 @@ While you may expect that `BrowserOnly` hides away the children during server-si
 
 ### `useIsBrowser`
 
-You can also use the `useIsBrowser()` hook to test if the component is currently in a browser environment. It returns `false` in SSR and `true` is CSR. Use this hook if you only need to perform certain operations on client-side, but not render an entirely different UI.
+You can also use the `useIsBrowser()` hook to test if the component is currently in a browser environment. It returns `false` in SSR and `true` is CSR, after first client render. Use this hook if you only need to perform certain operations conditionally on client-side, but not render an entirely different UI.
 
 ```jsx
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -146,11 +165,12 @@ function MyComponent() {
 
 ### `useEffect`
 
-Lastly, you can put your logic in `useEffect()` to delay its execution until after first CSR. Use this if you are only performing render side-effects but don't depend the environment to _get_ data.
+Lastly, you can put your logic in `useEffect()` to delay its execution until after first CSR. This is most appropriate if you are only performing side-effects but don't _get_ data from the client state.
 
 ```jsx
 function MyComponent() {
   useEffect(() => {
+    // Only logged in the browser console; nothing is logged during server-side rendering
     console.log("I'm now in the browser");
   }, []);
   return <span>Some content...</span>;
