@@ -59,7 +59,7 @@
     "commander": "^5.1.0",
     "copy-webpack-plugin": "^9.0.1",
     "core-js": "^3.18.0",
-    "css-loader": "^5.1.1",
+    "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.3.1",
     "cssnano": "^5.0.8",
     "del": "^6.0.0",
