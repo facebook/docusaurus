@@ -63,7 +63,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
     }
   }
 
-  return value;
+  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
 }
 
 export function normalizeThemeConfig<T>(
@@ -90,7 +90,7 @@ export function normalizeThemeConfig<T>(
       throw error;
     }
   }
-  return value;
+  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
 }
 
 export function validateFrontMatter<T>(
@@ -120,5 +120,5 @@ ${errorDetails.map(({message}) => message)}
     throw error;
   }
 
-  return value;
+  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
 }
