@@ -149,19 +149,9 @@ and contents will be generated within the `/build` directory, which can be copie
 
 There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
 
-:::important
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
 
-Please update to the latest Docusaurus 2 version shown at the top of the page, not what is shown below.
-
-:::
-
-```json title="package.json"
-"dependencies": {
-  "@docusaurus/core": "^2.0.0-beta.0",
-  "@docusaurus/preset-classic": "^2.0.0-beta.0",
-  // ...
-}
-```
+<UpgradeGuide />
 
 Then, in the directory containing `package.json`, run your package manager's install command:
 
