@@ -65,7 +65,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@crowdin/cli": "^3.7.1",
-    "@formatjs/intl-datetimeformat": "^3.2.12",
+    "@formatjs/intl-datetimeformat": "^4.5.0",
     "@formatjs/intl-numberformat": "^6.2.2",
     "@formatjs/intl-pluralrules": "^4.0.11",
     "@types/cssnano": "^4.0.0",
