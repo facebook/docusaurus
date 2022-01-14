@@ -10,12 +10,14 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import type {ImportedPluginModule} from '@docusaurus/types';
-import {orderBy, partition} from 'lodash';
+import {orderBy} from 'lodash';
 import {askComponentName, askSwizzleDangerousComponent} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './utils';
 import {THEME_PATH} from '@docusaurus/utils';
+import {actionsTable, statusTable, themeComponentsTable} from './tables';
 
 export type ThemeComponents = {
+  themeName: string;
   all: string[];
   isSafe: (component: string) => boolean;
 };
@@ -49,26 +51,14 @@ export function listComponentNames(themeComponents: ThemeComponents): string {
   if (themeComponents.all.length === 0) {
     return 'No component to swizzle.';
   }
-  const [greenComponents, redComponents] = partition(
-    themeComponents.all,
-    themeComponents.isSafe,
-  );
+  return `
 
-  const componentList = [
-    ...greenComponents.map(
-      (component) => `${logger.green(logger.bold('safe:'))}   ${component}`,
-    ),
-    ...redComponents.map(
-      (component) => `${logger.red(logger.bold('unsafe:'))} ${component}`,
-    ),
-  ];
+Components available for swizzle in ${logger.name(themeComponents.themeName)}:
 
-  return `Theme components available for swizzle.
+${themeComponentsTable(themeComponents)}
 
-${logger.green(logger.bold('green  =>'))} safe: lower breaking change risk
-${logger.red(logger.bold('red    =>'))} unsafe: higher breaking change risk
-
-${componentList.join('\n')}
+${actionsTable()}
+${statusTable()}
 `;
 }
 
@@ -93,8 +83,9 @@ export function getThemeComponents({
   }
 
   return {
-    isSafe,
+    themeName,
     all: orderBy(allComponents, [isSafe], ['desc']),
+    isSafe,
   };
 }
 
