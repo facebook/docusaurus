@@ -3605,13 +3605,6 @@
     tapable "^2.0.0"
     webpack "^5.1.0"
 
-"@types/css-minimizer-webpack-plugin@^3.0.2":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@types/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-3.2.1.tgz#bacbef5d8217074b599bd8a0771ec60ebd46dd16"
-  integrity sha512-MIlnEVQDTX0Y1/ZBY0RyD+F6+ZHlG42qCeSoCVhxI5N1atm+RnmDLQWUCWrdNqebFozUTRLDZJ04v5aYzGG5CA==
-  dependencies:
-    css-minimizer-webpack-plugin "*"
-
 "@types/cssnano@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/cssnano/-/cssnano-4.0.1.tgz#67fa912753d80973a016e7684a47fedf338aacff"
@@ -7016,7 +7009,7 @@ css-loader@^5.1.1:
     schema-utils "^3.0.0"
     semver "^7.3.5"
 
-css-minimizer-webpack-plugin@*, css-minimizer-webpack-plugin@^3.0.2:
+css-minimizer-webpack-plugin@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-3.3.1.tgz#5afc4507a4ec13dd223f043cda8953ee0bf6ecfa"
   integrity sha512-SHA7Hu/EiF0dOwdmV2+agvqYpG+ljlUa7Dvn1AVOmSH3N8KOERoaM9lGpstz9nGsoTjANGyUXdrxl/EwdMScRg==
