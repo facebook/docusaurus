@@ -390,7 +390,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -413,6 +412,7 @@ export function getMinimizer(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
       new CssMinimizerPlugin({
+        // @ts-expect-error: looks like bad typedefs
         minimizerOptions: [
           // CssNano options
           {
@@ -420,7 +420,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {
@@ -435,6 +434,7 @@ export function getMinimizer(
             },
           },
         ],
+        // @ts-expect-error: looks like bad typedefs
         minify: [
           CssMinimizerPlugin.cssnanoMinify,
           CssMinimizerPlugin.cleanCssMinify,

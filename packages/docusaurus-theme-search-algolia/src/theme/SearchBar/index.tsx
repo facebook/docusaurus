@@ -77,7 +77,10 @@ function DocSearch({
 
   const facetFilters = contextualSearch
     ? // Merge contextual search filters with config filters
-      [...contextualSearchFacetFilters, ...configFacetFilters]
+      ([
+        ...contextualSearchFacetFilters,
+        ...configFacetFilters,
+      ] as ReadonlyArray<readonly string[]>)
     : // ... or use config facetFilters
       configFacetFilters;
 
@@ -169,7 +172,7 @@ function DocSearch({
 
   const resultsFooterComponent = useMemo(
     // eslint-disable-next-line react/no-unstable-nested-components
-    () => (footerProps: ResultsFooterProps) =>
+    () => (footerProps: Omit<ResultsFooterProps, 'onClose'>) =>
       <ResultsFooter {...footerProps} onClose={onClose} />,
     [onClose],
   );
