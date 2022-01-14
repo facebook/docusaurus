@@ -29,19 +29,33 @@ export async function askThemeName(themeNames: string[]): Promise<string> {
 export async function askComponentName(
   themeComponents: ThemeComponents,
 ): Promise<string> {
-  const componentNames = themeComponents.allComponents;
+  function compareComponent(a: string, b: string) {
+    if (
+      themeComponents.safeComponents.includes(a) !==
+      themeComponents.safeComponents.includes(b)
+    ) {
+      return themeComponents.safeComponents.includes(a) ? -1 : 1;
+    }
+    return a < b ? -1 : 1;
+  }
+
+  const componentNames = [...themeComponents.allComponents].sort(
+    compareComponent,
+  );
 
   function formatComponentName(componentName: string): string {
     const isDangerous = !themeComponents.safeComponents.includes(componentName);
-    return `${componentName}${isDangerous ? ` ${logger.red('*')}` : ''}`;
+    return `${componentName}${
+      isDangerous ? ` ${logger.red('(internal)')}` : ''
+    }`;
   }
 
   const {componentName} = await prompts({
     type: 'autocomplete',
     name: 'componentName',
     message: 'Select or type the component to swizzle:',
-    limit: 30, // TODO this is not a great DX for component name discoverability
-    // limit: Number.POSITIVE_INFINITY, // This does not work well and mess-up with terminal scroll position
+    // limit: 30, // This doesn't work in my terminal
+    // limit: Number.POSITIVE_INFINITY, // This does not work well and messes up with terminal scroll position
     choices: componentNames
       .map((compName) => ({
         title: formatComponentName(compName),
