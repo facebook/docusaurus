@@ -27,7 +27,7 @@
     "@docusaurus/logger": "2.0.0-beta.14",
     "@mapbox/hast-util-to-jsx": "^1.0.0",
     "color": "^4.0.1",
-    "commander": "^5.1.0",
+    "commander": "^8.3.0",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "hast-util-to-string": "^1.0.4",

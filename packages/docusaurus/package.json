@@ -56,7 +56,7 @@
     "boxen": "^5.0.1",
     "chokidar": "^3.5.2",
     "clean-css": "^5.1.5",
-    "commander": "^5.1.0",
+    "commander": "^8.3.0",
     "copy-webpack-plugin": "^9.0.1",
     "core-js": "^3.18.0",
     "css-loader": "^5.1.1",

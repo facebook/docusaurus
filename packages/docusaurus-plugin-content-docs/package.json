@@ -46,7 +46,7 @@
     "@docusaurus/types": "2.0.0-beta.14",
     "@types/js-yaml": "^4.0.0",
     "@types/picomatch": "^2.2.1",
-    "commander": "^5.1.0",
+    "commander": "^8.3.0",
     "picomatch": "^2.1.1",
     "utility-types": "^3.10.0"
   },
