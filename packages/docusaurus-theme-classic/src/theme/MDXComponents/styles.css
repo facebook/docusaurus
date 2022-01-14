@@ -9,3 +9,8 @@ ul.contains-task-list {
   padding-left: 0;
   list-style: none;
 }
+
+img {
+  width: 100%;
+  height: auto;
+}
