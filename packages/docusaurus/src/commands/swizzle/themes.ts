@@ -41,7 +41,7 @@ export function getThemeNames(plugins: InitializedPlugin[]): string[] {
 }
 
 // Returns a valid value if recovering is possible
-function handleInvalidThemeNameParam({
+function handleInvalidThemeName({
   themeNameParam,
   themeNames,
 }: {
@@ -71,7 +71,7 @@ function handleInvalidThemeNameParam({
   return process.exit(1);
 }
 
-async function handleThemeNameParam({
+async function validateThemeName({
   themeNameParam,
   themeNames,
 }: {
@@ -80,7 +80,7 @@ async function handleThemeNameParam({
 }): Promise<string> {
   const isValidName = themeNames.includes(themeNameParam);
   if (!isValidName) {
-    return handleInvalidThemeNameParam({
+    return handleInvalidThemeName({
       themeNameParam,
       themeNames,
     });
@@ -102,7 +102,7 @@ export async function getThemeName({
     return process.exit(0);
   }
   return themeNameParam
-    ? handleThemeNameParam({themeNameParam, themeNames})
+    ? validateThemeName({themeNameParam, themeNames})
     : askThemeName(themeNames);
 }
 
