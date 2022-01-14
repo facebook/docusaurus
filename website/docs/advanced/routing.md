@@ -108,7 +108,7 @@ The following directory structure may help you visualize this file -> URL mappin
 
 </details>
 
-So much about content plugins.
+So much about content plugins. Let's take one step back and talk about how routing works in a Docusaurus app in general.
 
 ## Routes become HTML files
 
@@ -178,9 +178,9 @@ build
 
 If `trailingSlash` is set to `false`, the build would emit `intro.html` instead of `intro/index.html`.
 
-All HTML files will reference its JS assets using absolute URLs, so in order for the correct assets to be located, you have to configure the `baseUrl` field. Note that `baseUrl` doesn't affect how the files are emitted at all: the base URL is one level above the Docusaurus routing system. You can see the aggregate of `url` and `baseUrl` as the actual location of your Docusaurus site.
+All HTML files will reference its JS assets using absolute URLs, so in order for the correct assets to be located, you have to configure the `baseUrl` field. Note that `baseUrl` doesn't affect the emitted bundle's file structure: the base URL is one level above the Docusaurus routing system. You can see the aggregate of `url` and `baseUrl` as the actual location of your Docusaurus site.
 
-For example, the emitted HTML would contain links like `<link rel="preload" href="/assets/js/runtime~main.7ed5108a.js" as="script">`. Because absolute URLs are resolved from the host, if the bundle placed under the path `https://example.com/base/`, the link will point to `https://example.com/assets/js/runtime~main.7ed5108a.js`, which is, well, non-existent. By specifying `/base/` as base URL, the link will now point to `/base/assets/js/runtime~main.7ed5108a.js`.
+For example, the emitted HTML would contain links like `<link rel="preload" href="/assets/js/runtime~main.7ed5108a.js" as="script">`. Because absolute URLs are resolved from the host, if the bundle placed under the path `https://example.com/base/`, the link will point to `https://example.com/assets/js/runtime~main.7ed5108a.js`, which is, well, non-existent. By specifying `/base/` as base URL, the link will correctly point to `/base/assets/js/runtime~main.7ed5108a.js`.
 
 Localized sites have the locale as part of the base URL as well. For example, `https://docusaurus.io/zh-CN/docs/advanced/routing/` has base URL `/zh-CN/`.
 
@@ -190,13 +190,27 @@ The `addRoute` lifecycle action is used to generate routes. It registers a piece
 
 All routes are aggregated in `.docusaurus/routes.js`, which you can view with the debug plugin's [routes panel](/__docusaurus/debug/routes).
 
-On the client side, we offer `@docusaurus/router` to access the page's route. `@docusaurus/router` is a re-export of the [`react-router-dom`](https://www.npmjs.com/package/react-router-dom/v/5.3.0) package. For example, you can use `useLocation` to get the current page's [location](https://developer.mozilla.org/en-US/docs/Web/API/Location), and `useHistory` to access the [history object](https://developer.mozilla.org/en-US/docs/Web/API/History).
+On the client side, we offer `@docusaurus/router` to access the page's route. `@docusaurus/router` is a re-export of the [`react-router-dom`](https://www.npmjs.com/package/react-router-dom/v/5.3.0) package. For example, you can use `useLocation` to get the current page's [location](https://developer.mozilla.org/en-US/docs/Web/API/Location), and `useHistory` to access the [history object](https://developer.mozilla.org/en-US/docs/Web/API/History). (They are not the same as the browser API, although similar in functionality. Refer to the React Router documentation for specific APIs.)
 
 This API is **SSR safe**, as opposed to the browser-only `window.location`.
 
 ```jsx title="myComponent.js"
 import React from 'react';
 import {useLocation} from '@docusaurus/router';
+
+export function PageRoute() {
+  // React router provides the current component's route, even in SSR
+  const location = useLocation();
+  return (
+    <span>
+      We are currently on <code>{location.pathname}</code>
+    </span>
+  );
+}
+```
+
+```mdx-code-block
+import BrowserWindow from '@site/src/components/BrowserWindow';
 
 export function PageRoute() {
   const location = useLocation();
@@ -206,4 +220,10 @@ export function PageRoute() {
     </span>
   );
 }
+
+<BrowserWindow>
+
+<PageRoute />
+
+</BrowserWindow>
 ```

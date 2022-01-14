@@ -2,15 +2,11 @@
 
 Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of a bundle via presets.
 
-## Plugins design {#plugins-design}
-
-Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but is not limited to) extending the webpack config, modifying the data loaded, and creating new components to be used in a page.
-
 ## Creating plugins {#creating-plugins}
 
 A plugin is a function that takes two parameters: `context` and `options`. It returns a plugin instance object (or a promise). You can create plugins as functions or modules. For more information, refer to the [plugin method references section](./api/plugin-methods/README.md).
 
-### Functional definition {#functional-definition}
+### Function definition {#function-definition}
 
 You can use a plugin as a function directly included in the Docusaurus config file:
 
@@ -71,7 +67,24 @@ module.exports = async function myPlugin(context, options) {
 };
 ```
 
-## Theme design
+---
+
+You can view all plugins installed in your site using the [debug plugin's metadata panel](/__docusaurus/debug/metadata).
+
+Plugins come as several types:
+
+- `package`: an external package you installed
+- `project`: a plugin you created in your project, given to Docusaurus as a local file path
+- `local`: a plugin created using the function definition
+- `synthetic`: a "fake plugin" Docusaurus created internally, so we take advantage of our modular architecture and don't let the core do much special work. You won't see this in the metadata because it's an implementation detail.
+
+You can access them on the client side with `useDocusaurusContext().siteMetadata.pluginVersions`.
+
+## Plugin design
+
+Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but is not limited to) extending the webpack config, modifying the data loaded, and creating new components to be used in a page.
+
+### Theme design
 
 When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setGlobalData). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
 
