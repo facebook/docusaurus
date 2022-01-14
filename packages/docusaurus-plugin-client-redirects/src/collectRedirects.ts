@@ -143,7 +143,7 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
-  // For conveniency, user can use a string or a string[]
+  // For convenience, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];

@@ -127,3 +127,68 @@ module.exports = {
   // highlight-end
 };
 ```
+
+## Upgrading rehype-katex beyond recommended version
+
+:::tip
+
+Only use the latest version if you actually need the bleeding-edge features of $\KaTeX$. Most users should find the older versions work just as well.
+
+:::
+
+The latest versions of `rehype-katex` (starting from `v6.0.0`) has moved to ES Modules, a new module system of JavaScript, which Docusaurus doesn't officially support yet. However, it is possible to import `rehype-katex` dynamically, using an async config creator. Docusaurus will call this creator function and wait for it to return the config object.
+
+```js title="docusaurus.config.js"
+async function createConfig() {
+  // ES Modules are imported with `import()` instead of `require()`, and are imported asynchronously
+  // highlight-next-line
+  const katex = (await import('rehype-katex')).default;
+  return {
+    // ...
+  };
+}
+```
+
+In this case, the overall configuration changes will look like:
+
+```js title="docusaurus.config.js"
+// highlight-next-line
+const math = require('remark-math');
+
+async function createConfig() {
+  // highlight-next-line
+  const katex = (await import('rehype-katex')).default;
+  return {
+    title: 'Docusaurus',
+    tagline: 'Build optimized websites quickly, focus on your content',
+    presets: [
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            path: 'docs',
+            // highlight-start
+            remarkPlugins: [math],
+            rehypePlugins: [katex],
+            // highlight-end
+          },
+        },
+      ],
+    ],
+    // highlight-start
+    stylesheets: [
+      {
+        href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
+        type: 'text/css',
+        integrity:
+          'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
+        crossorigin: 'anonymous',
+      },
+    ],
+    // highlight-end
+  };
+  return config;
+}
+
+module.exports = createConfig;
+```

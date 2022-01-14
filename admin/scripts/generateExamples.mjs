@@ -67,7 +67,7 @@ async function generateTemplateExample(template) {
     );
 
     // create sandbox.config.json file at the root of template
-    const codeSanboxConfig = {
+    const codeSandboxConfig = {
       infiniteLoopProtection: true,
       hardReloadOnChange: true,
       view: 'browser',
@@ -79,7 +79,7 @@ async function generateTemplateExample(template) {
     };
     await fs.writeFile(
       `./examples/${template}/sandbox.config.json`,
-      `${JSON.stringify(codeSanboxConfig, null, 2)}\n`,
+      `${JSON.stringify(codeSandboxConfig, null, 2)}\n`,
     );
 
     const stackBlitzConfig = {
@@ -185,7 +185,7 @@ console.log(`Will generate examples for templates: ${templates.join(',')}`);
 for (const template of templates) {
   await generateTemplateExample(template);
 }
-console.log('Commiting changes');
+console.log('Committing changes');
 shell.exec('git add examples');
 shell.exec("git commit -am 'update examples' --allow-empty");
 

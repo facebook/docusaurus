@@ -37,7 +37,7 @@ describe('npm2yarn plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('test: language was not setted', async () => {
+  test('test: language was not set', async () => {
     const result = await processFixture('syntax-not-properly-set');
 
     expect(result).toMatchSnapshot();
