@@ -6,6 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
+import {orderBy} from 'lodash';
 import prompts from 'prompts';
 import type {ThemeComponents} from './components';
 
@@ -29,22 +30,18 @@ export async function askThemeName(themeNames: string[]): Promise<string> {
 export async function askComponentName(
   themeComponents: ThemeComponents,
 ): Promise<string> {
-  function compareComponent(a: string, b: string) {
-    if (
-      themeComponents.safeComponents.includes(a) !==
-      themeComponents.safeComponents.includes(b)
-    ) {
-      return themeComponents.safeComponents.includes(a) ? -1 : 1;
-    }
-    return a < b ? -1 : 1;
+  function isSafe(componentName: string): boolean {
+    return themeComponents.safeComponents.includes(componentName);
   }
 
-  const componentNames = [...themeComponents.allComponents].sort(
-    compareComponent,
+  const componentNames = orderBy(
+    themeComponents.allComponents,
+    [isSafe],
+    ['desc'],
   );
 
   function formatComponentName(componentName: string): string {
-    const isDangerous = !themeComponents.safeComponents.includes(componentName);
+    const isDangerous = !isSafe(componentName);
     return `${componentName}${
       isDangerous ? ` ${logger.red('(internal)')}` : ''
     }`;
