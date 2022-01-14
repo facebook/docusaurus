@@ -4161,10 +4161,10 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
-"@types/stringify-object@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@types/stringify-object/-/stringify-object-3.3.1.tgz#9ee394931e63468de0412a8e19c9f021a7d1d24d"
-  integrity sha512-bpCBW0O+QrMLNFBY/+rkZtGzcYRmc2aTD8qYHOMNUmednqETfEZtFcGEA11l9xqbIeiT1PgXG0eq3zqayVzZSQ==
+"@types/stringify-object@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/stringify-object/-/stringify-object-4.0.1.tgz#d4068910d8f8d2f4bf51f47ac8a157dcdc076972"
+  integrity sha512-IBlbUGpI7FoWWr1FHQDntMkA7nCEI7Hox/hmwgWgRqohV7SRRkbWB86PayOX++NwtJTapQ8wIs7XtEp4fXonwA==
 
 "@types/supports-color@^8.1.1":
   version "8.1.1"
