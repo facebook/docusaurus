@@ -97,7 +97,7 @@ export async function getThemeName({
   themeNames: string[];
   list: boolean | undefined;
 }): Promise<string> {
-  if (list) {
+  if (list && !themeNameParam) {
     logger.info`Themes available for swizzle: name=${themeNames}`;
     return process.exit(0);
   }
