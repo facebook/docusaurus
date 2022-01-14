@@ -29,7 +29,7 @@
     "fs-extra": "^10.0.0",
     "gray-matter": "^4.0.3",
     "mdast-util-to-string": "^2.0.0",
-    "remark-emoji": "^2.1.0",
+    "remark-emoji": "^3.0.2",
     "stringify-object": "^3.3.0",
     "tslib": "^2.3.1",
     "unist-util-visit": "^2.0.2",
