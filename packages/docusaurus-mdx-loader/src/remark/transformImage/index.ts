@@ -16,8 +16,11 @@ import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
+import sizeOf from 'image-size';
+import {promisify} from 'util';
 import type {Plugin, Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
+import logger from '@docusaurus/logger';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -29,7 +32,11 @@ interface PluginOptions {
   siteDir: string;
 }
 
-function toImageRequireNode(node: Image, imagePath: string, filePath: string) {
+async function toImageRequireNode(
+  node: Image,
+  imagePath: string,
+  filePath: string,
+) {
   const jsxNode = node as Literal & Partial<Image>;
   let relativeImagePath = posixPath(
     path.relative(path.dirname(filePath), imagePath),
@@ -45,13 +52,26 @@ function toImageRequireNode(node: Image, imagePath: string, filePath: string) {
     escapePath(relativeImagePath) + search
   }").default${hash ? ` + '${hash}'` : ''}`;
   const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+  let width = '';
+  let height = '';
+  try {
+    const size = (await promisify(sizeOf)(imagePath))!;
+    if (size.width) {
+      width = ` width="${size.width}"`;
+    }
+    if (size.height) {
+      height = ` height="${size.height}"`;
+    }
+  } catch (e) {
+    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.`;
+  }
 
   Object.keys(jsxNode).forEach(
     (key) => delete jsxNode[key as keyof typeof jsxNode],
   );
 
   (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<img ${alt}src={${src}}${title} />`;
+  jsxNode.value = `<img ${alt}src={${src}}${title}${width}${height} />`;
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -123,7 +143,7 @@ async function processImageNode(node: Image, options: PluginOptions) {
   }
 
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, options);
-  toImageRequireNode(node, imagePath, options.filePath);
+  await toImageRequireNode(node, imagePath, options.filePath);
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
