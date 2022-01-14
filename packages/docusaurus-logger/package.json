@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "tslib": "^2.3.1"
   },
   "engines": {
