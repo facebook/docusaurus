@@ -27,7 +27,7 @@ export async function askThemeName(themeNames: string[]): Promise<string> {
 }
 
 function dangerSuffix(isDangerous: boolean): string {
-  return isDangerous ? ` ${logger.red('(internal)')}` : '';
+  return isDangerous ? ` (${logger.red('unsafe')})` : '';
 }
 
 export async function askComponentName(

@@ -35,9 +35,8 @@ This component is unsafe to swizzle, but you can still do it!
 Be aware that we might have to perform breaking changes on Docusaurus minor version upgrades
 You will have to upgrade your component manually and maintain it over time.
 
-${logger.green(
-  'Tip',
-)}: your customization can't be done in a ${safeLabel} way? Report it here: https://github.com/facebook/docusaurus/discussions/5468
+${logger.green('Tip')}: your customization can't be done in a ${safeLabel} way?
+Report it here: https://github.com/facebook/docusaurus/discussions/5468
 `,
     ],
   });
@@ -96,5 +95,8 @@ export function themeComponentsTable(themeComponents: ThemeComponents): string {
     });
   });
 
-  return table.toString();
+  return `Components available for swizzle in ${logger.name(
+    themeComponents.themeName,
+  )}:
+${table.toString()}`;
 }

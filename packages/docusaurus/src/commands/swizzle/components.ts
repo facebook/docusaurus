@@ -115,7 +115,7 @@ function handleInvalidComponentNameParam({
   if (suggestion) {
     logger.info`Did you mean name=${suggestion}? ${
       themeComponents.isSafe(suggestion)
-        ? `Note: this component is an internal component and can only be swizzled with code=${'--danger'}.`
+        ? `Note: this component is an unsafe internal component and can only be swizzled with code=${'--danger'}.`
         : ''
     }`;
   } else {
