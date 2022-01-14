@@ -10,14 +10,14 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import type {ImportedPluginModule} from '@docusaurus/types';
-import {partition} from 'lodash';
+import {orderBy, partition} from 'lodash';
 import {askComponentName, askSwizzleDangerousComponent} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './utils';
 import {THEME_PATH} from '@docusaurus/utils';
 
 export type ThemeComponents = {
-  allComponents: string[];
-  safeComponents: string[];
+  all: string[];
+  isSafe: (component: string) => boolean;
 };
 
 const formatComponentName = (componentName: string): string =>
@@ -46,12 +46,12 @@ function readComponentNames(themePath: string) {
 }
 
 export function listComponentNames(themeComponents: ThemeComponents): string {
-  const {safeComponents, allComponents} = themeComponents;
-  if (allComponents.length === 0) {
+  if (themeComponents.all.length === 0) {
     return 'No component to swizzle.';
   }
-  const [greenComponents, redComponents] = partition(allComponents, (comp) =>
-    safeComponents.includes(comp),
+  const [greenComponents, redComponents] = partition(
+    themeComponents.all,
+    themeComponents.isSafe,
   );
 
   const componentList = [
@@ -88,7 +88,14 @@ export function getThemeComponents({
     ? getSwizzleComponentList() ?? allComponents
     : [];
 
-  return {allComponents, safeComponents};
+  function isSafe(component: string): boolean {
+    return safeComponents.includes(component);
+  }
+
+  return {
+    isSafe,
+    all: orderBy(allComponents, [isSafe], ['desc']),
+  };
 }
 
 // Returns a valid value if recovering is possible
@@ -99,13 +106,11 @@ function handleInvalidComponentNameParam({
   componentNameParam: string;
   themeComponents: ThemeComponents;
 }): string {
-  const {allComponents, safeComponents} = themeComponents;
-
   // Trying to recover invalid value
   // We look for potential matches that only differ in casing.
   const differentCaseMatch = findStringIgnoringCase(
     componentNameParam,
-    allComponents,
+    themeComponents.all,
   );
   if (differentCaseMatch) {
     logger.warn`Component name=${componentNameParam} doesn't exist.`;
@@ -115,10 +120,10 @@ function handleInvalidComponentNameParam({
 
   // No recovery value is possible: print error
   logger.error`Component name=${componentNameParam} not found.`;
-  const suggestion = findClosestValue(componentNameParam, allComponents);
+  const suggestion = findClosestValue(componentNameParam, themeComponents.all);
   if (suggestion) {
     logger.info`Did you mean name=${suggestion}? ${
-      safeComponents.includes(suggestion)
+      themeComponents.isSafe(suggestion)
         ? `Note: this component is an internal component and can only be swizzled with code=${'--danger'}.`
         : ''
     }`;
@@ -135,8 +140,7 @@ async function handleComponentNameParam({
   componentNameParam: string;
   themeComponents: ThemeComponents;
 }): Promise<string> {
-  const isValidName =
-    themeComponents.allComponents.includes(componentNameParam);
+  const isValidName = themeComponents.all.includes(componentNameParam);
   if (!isValidName) {
     return handleInvalidComponentNameParam({
       componentNameParam,
@@ -168,7 +172,7 @@ export async function getComponentName({
       })
     : await askComponentName(themeComponents);
 
-  const isSafe = themeComponents.safeComponents.includes(componentName);
+  const isSafe = themeComponents.isSafe(componentName);
 
   if (!isSafe && !danger) {
     logger.warn`name=${componentName} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag.`;

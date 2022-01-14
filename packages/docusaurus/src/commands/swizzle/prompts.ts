@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import {orderBy} from 'lodash';
 import prompts from 'prompts';
 import type {ThemeComponents} from './components';
 
@@ -27,24 +26,16 @@ export async function askThemeName(themeNames: string[]): Promise<string> {
   return themeName;
 }
 
+function dangerSuffix(isDangerous: boolean): string {
+  return isDangerous ? ` ${logger.red('(internal)')}` : '';
+}
+
 export async function askComponentName(
   themeComponents: ThemeComponents,
 ): Promise<string> {
-  function isSafe(componentName: string): boolean {
-    return themeComponents.safeComponents.includes(componentName);
-  }
-
-  const componentNames = orderBy(
-    themeComponents.allComponents,
-    [isSafe],
-    ['desc'],
-  );
-
   function formatComponentName(componentName: string): string {
-    const isDangerous = !isSafe(componentName);
-    return `${componentName}${
-      isDangerous ? ` ${logger.red('(internal)')}` : ''
-    }`;
+    const isDangerous = !themeComponents.isSafe(componentName);
+    return `${componentName}${dangerSuffix(isDangerous)}`;
   }
 
   const {componentName} = await prompts({
@@ -53,7 +44,7 @@ export async function askComponentName(
     message: 'Select or type the component to swizzle:',
     // limit: 30, // This doesn't work in my terminal
     // limit: Number.POSITIVE_INFINITY, // This does not work well and messes up with terminal scroll position
-    choices: componentNames
+    choices: themeComponents.all
       .map((compName) => ({
         title: formatComponentName(compName),
         value: compName,
