@@ -9,16 +9,24 @@ import {mapValues} from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
-import type {DocMetadata, LoadedVersion} from './types';
+import type {
+  CategoryGeneratedIndexMetadata,
+  DocMetadata,
+  LoadedVersion,
+} from './types';
 import type {
   GlobalVersion,
   GlobalSidebar,
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 
-export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
+export function toGlobalDataDoc(
+  doc: DocMetadata | CategoryGeneratedIndexMetadata,
+): GlobalDoc {
   return {
-    id: doc.unversionedId,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    id: doc.unversionedId ? doc.unversionedId : doc.slug,
     path: doc.permalink,
     sidebar: doc.sidebar,
   };
@@ -50,13 +58,15 @@ export function toGlobalSidebars(
 }
 
 export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
+  const allDocs = [...version.docs, ...version.categoryGeneratedIndices];
+
   return {
     name: version.versionName,
     label: version.versionLabel,
     isLast: version.isLast,
     path: version.versionPath,
     mainDocId: version.mainDocId,
-    docs: version.docs.map(toGlobalDataDoc),
+    docs: allDocs.map(toGlobalDataDoc),
     sidebars: toGlobalSidebars(version.sidebars, version),
   };
 }

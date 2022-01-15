@@ -16,7 +16,6 @@ import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
 import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
-import {useLocation} from '@docusaurus/router';
 
 function getDocInVersions(versions: GlobalVersion[], docId: string) {
   const allDocs = versions.flatMap((version) => version.docs);
@@ -52,16 +51,13 @@ export default function DocNavbarItem({
   const doc = getDocInVersions(versions, docId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
-  const location = useLocation();
-
   return (
     <DefaultNavbarItem
       exact
       {...props}
       className={clsx(props.className, {
-        [activeDocInfimaClassName]: activeDoc?.sidebar
-          ? activeDoc.sidebar === doc.sidebar
-          : location.pathname.indexOf(doc.path) > -1,
+        [activeDocInfimaClassName]:
+          activeDoc?.sidebar && activeDoc.sidebar === doc.sidebar,
       })}
       activeClassName={activeDocInfimaClassName}
       label={staticLabel ?? doc.id}
