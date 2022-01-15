@@ -70,6 +70,9 @@ jobs:
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           yarn set version berry
+          # https://github.com/facebook/docusaurus/pull/6350#issuecomment-1013214763
+          # Remove this after Yarn 3.2
+          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set npmRegistryServer http://localhost:4873
