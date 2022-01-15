@@ -1,3 +1,7 @@
+---
+description: "Docusaurus' routing system follows single-page application conventions: one route, one component."
+---
+
 # Routing
 
 ```mdx-code-block
@@ -257,7 +261,9 @@ The first link will trigger a "broken links detected" check during the productio
 The `pathname://` protocol is useful for referencing any content in the static folder. For example, Docusaurus would convert [all Markdown static assets to require() calls](../guides/markdown-features/markdown-features-assets.mdx#static-assets). You can use `pathname://` to keep it a regular link instead of being hashed by Webpack.
 
 ```md title="my-doc.md"
-![An image from the static](pathname:///img/docusaurus.png) [An asset from the static](pathname:///files/asset.pdf)
+![An image from the static](pathname:///img/docusaurus.png)
+
+[An asset from the static](pathname:///files/asset.pdf)
 ```
 
 Docusaurus will only strip the `pathname://` prefix without processing the content.

@@ -1,5 +1,6 @@
 ---
 sidebar_label: Server-side rendering
+description: Docusaurus statically renders your React code into HTML, allowing faster load speed and better SEO.
 ---
 
 # Server-side generation (SSG)
