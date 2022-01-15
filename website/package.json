@@ -54,7 +54,7 @@
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
     "workbox-routing": "^5.0.0",
-    "workbox-strategies": "^5.0.0"
+    "workbox-strategies": "^6.4.2"
   },
   "browserslist": {
     "production": [
