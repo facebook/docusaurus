@@ -72,7 +72,7 @@ jobs:
           yarn set version berry
           # https://github.com/facebook/docusaurus/pull/6350#issuecomment-1013214763
           # Remove this after Yarn 3.2
-          yarn set verison canary
+          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set npmRegistryServer http://localhost:4873
