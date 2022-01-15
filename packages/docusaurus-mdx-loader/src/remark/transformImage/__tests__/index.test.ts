@@ -28,16 +28,11 @@ const processFixture = async (name, options) => {
 };
 
 const staticDirs = [
-  // avoid hardcoding absolute in the snapshot
-  `./${path.relative(
-    process.cwd(),
-    path.join(__dirname, '__fixtures__/static'),
-  )}`,
-  `./${path.relative(
-    process.cwd(),
-    path.join(__dirname, '__fixtures__/static2'),
-  )}`,
+  path.join(__dirname, '__fixtures__/static'),
+  path.join(__dirname, '__fixtures__/static2'),
 ];
+
+const siteDir = path.join(__dirname, '__fixtures__');
 
 describe('transformImage plugin', () => {
   test('fail if image does not exist', async () => {
@@ -57,7 +52,7 @@ describe('transformImage plugin', () => {
   });
 
   test('transform md images to <img />', async () => {
-    const result = await processFixture('img', {staticDirs});
+    const result = await processFixture('img', {staticDirs, siteDir});
     expect(result).toMatchSnapshot();
   });
 

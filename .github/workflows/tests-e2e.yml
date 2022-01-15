@@ -46,8 +46,6 @@ jobs:
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
-        env:
-          CI: true
 
   yarn-berry:
     name: E2E — Yarn Berry
@@ -98,8 +96,6 @@ jobs:
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
-        env:
-          CI: true
 
   npm:
     name: E2E — NPM
@@ -131,8 +127,6 @@ jobs:
       - name: Build test-website project
         run: npm run build
         working-directory: ../test-website
-        env:
-          CI: true
 
   pnpm:
     name: E2E — PNPM
@@ -166,5 +160,3 @@ jobs:
       - name: Build test-website project
         run: pnpm run build
         working-directory: ../test-website
-        env:
-          CI: true

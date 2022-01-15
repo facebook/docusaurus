@@ -23,7 +23,6 @@ import type {Link, Literal} from 'mdast';
 const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
-const hashRegex = /#.*$/;
 
 interface PluginOptions {
   filePath: string;
@@ -31,103 +30,69 @@ interface PluginOptions {
   siteDir: string;
 }
 
-async function ensureAssetFileExist(
-  fileSystemAssetPath: string,
-  sourceFilePath: string,
-) {
-  const assetExists = await fs.pathExists(fileSystemAssetPath);
+// transform the link node to a jsx link with a require() call
+function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
+  const jsxNode = node as Literal & Partial<Link>;
+  let relativeAssetPath = posixPath(
+    path.relative(path.dirname(filePath), assetPath),
+  );
+  // require("assets/file.pdf") means requiring from a package called assets
+  relativeAssetPath = `./${relativeAssetPath}`;
+
+  const parsedUrl = url.parse(node.url);
+  const hash = parsedUrl.hash ?? '';
+  const search = parsedUrl.search ?? '';
+
+  const href = `require('${inlineMarkdownLinkFileLoader}${
+    escapePath(relativeAssetPath) + search
+  }').default${hash ? ` + '${hash}'` : ''}`;
+  const children = stringifyContent(node);
+  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
+
+  (jsxNode as Literal).type = 'jsx';
+  jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
+}
+
+async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
+  const assetExists = await fs.pathExists(assetPath);
   if (!assetExists) {
     throw new Error(
       `Asset ${toMessageRelativeFilePath(
-        fileSystemAssetPath,
+        assetPath,
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
     );
   }
 }
 
-// transform the link node to a jsx link with a require() call
-function toAssetRequireNode({
-  node,
-  filePath,
-  requireAssetPath,
-}: {
-  node: Link;
-  filePath: string;
-  requireAssetPath: string;
-}) {
-  let relativeRequireAssetPath = posixPath(
-    path.relative(path.dirname(filePath), requireAssetPath),
-  );
-  const hash = hashRegex.test(node.url)
-    ? node.url.substring(node.url.indexOf('#'))
-    : '';
-
-  // require("assets/file.pdf") means requiring from a package called assets
-  relativeRequireAssetPath = relativeRequireAssetPath.startsWith('./')
-    ? relativeRequireAssetPath
-    : `./${relativeRequireAssetPath}`;
-
-  const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
-    relativeRequireAssetPath,
-  )}').default${hash ? ` + '${hash}'` : ''}`;
-  const children = stringifyContent(node);
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
-
-  (node as unknown as Literal).type = 'jsx';
-  (
-    node as unknown as Literal
-  ).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
-}
-
-// If the link looks like an asset link, we'll link to the asset,
-// and use a require("assetUrl") (using webpack url-loader/file-loader)
-// instead of navigating to such link
-async function convertToAssetLinkIfNeeded(
-  node: Link,
-  {filePath, siteDir, staticDirs}: PluginOptions,
+async function getAssetAbsolutePath(
+  assetPath: string,
+  {siteDir, filePath, staticDirs}: PluginOptions,
 ) {
-  const assetPath = node.url.replace(hashRegex, '');
-
-  const hasSiteAlias = assetPath.startsWith('@site/');
-  const hasAssetLikeExtension =
-    path.extname(assetPath) && !assetPath.match(/#|\.md$|\.mdx$|\.html$/);
-
-  const looksLikeAssetLink = hasSiteAlias || hasAssetLikeExtension;
-
-  if (!looksLikeAssetLink) {
-    return;
-  }
-
-  function toAssetLinkNode(requireAssetPath: string) {
-    toAssetRequireNode({
-      node,
-      filePath,
-      requireAssetPath,
-    });
-  }
-
   if (assetPath.startsWith('@site/')) {
-    const fileSystemAssetPath = path.join(
-      siteDir,
-      assetPath.replace('@site/', ''),
-    );
-    await ensureAssetFileExist(fileSystemAssetPath, filePath);
-    toAssetLinkNode(fileSystemAssetPath);
+    const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
+    // The @site alias is the only way to believe that the user wants an asset.
+    // Everything else can just be a link URL
+    await ensureAssetFileExist(assetFilePath, filePath);
+    return assetFilePath;
   } else if (path.isAbsolute(assetPath)) {
     // eslint-disable-next-line no-restricted-syntax
     for (const staticDir of staticDirs) {
-      const fileSystemAssetPath = path.join(staticDir, assetPath);
-      if (await fs.pathExists(fileSystemAssetPath)) {
-        toAssetLinkNode(fileSystemAssetPath);
-        return;
+      const assetFilePath = path.join(staticDir, assetPath);
+      if (await fs.pathExists(assetFilePath)) {
+        return assetFilePath;
       }
     }
   } else {
-    const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.pathExists(fileSystemAssetPath)) {
-      toAssetLinkNode(fileSystemAssetPath);
+    const assetFilePath = path.join(path.dirname(filePath), assetPath);
+    if (await fs.pathExists(assetFilePath)) {
+      return assetFilePath;
     }
   }
+  return null;
 }
 
 async function processLinkNode(node: Link, options: PluginOptions) {
@@ -144,11 +109,22 @@ async function processLinkNode(node: Link, options: PluginOptions) {
   }
 
   const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol) {
+  if (parsedUrl.protocol || !parsedUrl.pathname) {
+    // Don't process pathname:// here, it's used by the <Link> component
+    return;
+  }
+  const hasSiteAlias = parsedUrl.pathname.startsWith('@site/');
+  const hasAssetLikeExtension =
+    path.extname(parsedUrl.pathname) &&
+    !parsedUrl.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
+  if (!hasSiteAlias && !hasAssetLikeExtension) {
     return;
   }
 
-  await convertToAssetLinkIfNeeded(node, options);
+  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, options);
+  if (assetPath) {
+    toAssetRequireNode(node, assetPath, options.filePath);
+  }
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {

@@ -31,7 +31,7 @@ export default {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-  setupFiles: ['./jest/stylelint-rule-test.js', './jest/polyfills.js'],
+  setupFiles: ['./jest/stylelint-rule-test.js'],
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpg|jpeg|png|svg)$': '<rootDir>/jest/emptyModule.js',
@@ -48,5 +48,10 @@ export default {
     // TODO why Jest can't figure node package entry points?
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/lib/client/index.js',
+  },
+  globals: {
+    window: {
+      location: {href: 'https://docusaurus.io'},
+    },
   },
 };
