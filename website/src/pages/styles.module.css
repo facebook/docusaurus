@@ -156,5 +156,5 @@
 
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
-  content: "site-index-page";
+  content: 'site-index-page';
 }

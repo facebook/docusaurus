@@ -8,20 +8,20 @@
 .red {
   color: red;
 }
-.red[aria-selected="true"] {
+.red[aria-selected='true'] {
   border-bottom-color: red;
 }
 
 .orange {
   color: orange;
 }
-.orange[aria-selected="true"] {
+.orange[aria-selected='true'] {
   border-bottom-color: orange;
 }
 
 .yellow {
   color: yellow;
 }
-.yellow[aria-selected="true"] {
+.yellow[aria-selected='true'] {
   border-bottom-color: yellow;
 }

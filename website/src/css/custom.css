@@ -179,7 +179,7 @@ html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
 
 /* Used to test CSS insertion order */
 .test-marker-site-custom-css-unique-rule {
-  content: "site-custom-css-unique-rule";
+  content: 'site-custom-css-unique-rule';
 }
 .test-marker-site-custom-css-shared-rule {
   max-width: 100%;
