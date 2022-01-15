@@ -63,7 +63,8 @@ async function toImageRequireNode(
       height = ` height="${size.height}"`;
     }
   } catch (e) {
-    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.`;
+    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
+${(e as Error).message}`;
   }
 
   Object.keys(jsxNode).forEach(
