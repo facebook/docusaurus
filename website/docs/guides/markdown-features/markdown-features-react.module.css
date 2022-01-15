@@ -12,6 +12,6 @@
   vertical-align: top;
 }
 
-.wrappingBlock code[class^=codeBlockLines] {
+.wrappingBlock code[class^='codeBlockLines'] {
   white-space: pre-wrap;
 }
