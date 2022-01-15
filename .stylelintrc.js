@@ -6,8 +6,17 @@
  */
 
 module.exports = {
+  extends: ['stylelint-config-recommended', 'stylelint-config-prettier'],
   plugins: ['stylelint-copyright'],
   rules: {
     'docusaurus/copyright-header': true,
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: ['global'],
+      },
+    ],
+    'no-descending-specificity': null,
+    'declaration-block-no-duplicate-custom-properties': null,
   },
 };

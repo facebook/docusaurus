@@ -46,7 +46,7 @@ html[data-theme='light'] {
   background-color: var(--ifm-background-color);
   color: var(--ifm-color-gray-800);
   padding: 5px 15px;
-  font: 400 13px Arial;
+  font: 400 13px Arial, sans-serif;
   user-select: none;
 }
 
