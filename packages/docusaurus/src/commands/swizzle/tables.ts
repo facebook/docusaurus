@@ -21,8 +21,8 @@ export function statusTable(): string {
     [safeLabel]: [
       '',
       `
-This component is safe to swizzle and was particularly designed for this purpose.
-The swizzled component should be retro-compatible on Docusaurus minor version upgrades.
+This component is safe to swizzle and was designed for this purpose.
+The swizzled component is retro-compatible with minor version upgrades.
 `,
     ],
   });
@@ -32,7 +32,7 @@ The swizzled component should be retro-compatible on Docusaurus minor version up
       logger.code('--danger'),
       `
 This component is unsafe to swizzle, but you can still do it!
-Be aware that we might have to perform breaking changes on Docusaurus minor version upgrades
+Warning: we may release breaking changes within minor version upgrades.
 You will have to upgrade your component manually and maintain it over time.
 
 ${logger.green('Tip')}: your customization can't be done in a ${safeLabel} way?
@@ -54,25 +54,25 @@ export function actionsTable(): string {
       logger.code('--wrap'),
       `
 Creates a wrapper around the original theme component.
-Enables you to easily render other components before/after (or under/below) the original theme component.
+Allows rendering other components before/after the original theme component.
 
 ${logger.green('Tip')}: prefer ${logger.code(
         '--wrap',
-      )} whenever possible: it reduces the amount of code you have to maintain.
+      )} whenever possible to reduces the amount of code to maintain.
       `,
     ],
   });
 
   table.push({
-    [logger.bold('Copy')]: [
-      logger.code('--copy'),
+    [logger.bold('Eject')]: [
+      logger.code('--eject'),
       `
-Creates a copy of the original theme component.
-Enables you to override the original component entirely with your own UI and logic.
+Ejects the full source code of the original theme component.
+Allows overriding the original component entirely with your own UI and logic.
 
 ${logger.green('Tip')}: ${logger.code(
-        '--copy',
-      )} can be useful to entirely change the design of a component.
+        '--eject',
+      )} can be useful to completely redesign a component.
 `,
     ],
   });
@@ -82,7 +82,7 @@ ${logger.green('Tip')}: ${logger.code(
 
 export function themeComponentsTable(themeComponents: ThemeComponents): string {
   const table = new Table({
-    head: ['Component name', 'Copy', 'Wrap', 'Description'],
+    head: ['Component name', 'Eject', 'Wrap', 'Description'],
   });
 
   themeComponents.all.forEach((component) => {
