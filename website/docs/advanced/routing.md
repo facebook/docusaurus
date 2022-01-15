@@ -1,5 +1,12 @@
 # Routing
 
+```mdx-code-block
+import Link from '@docusaurus/Link';
+import {useLatestVersion, useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
+import {useLocation} from '@docusaurus/router';
+import BrowserWindow from '@site/src/components/BrowserWindow';
+```
+
 Docusaurus' routing system follows single-page application conventions: one route, one component. In this section, we will begin by talking about routing within the three content plugins (docs, blog, and pages), and then go beyond to talk about the underlying routing system.
 
 ## Routing in content plugins
@@ -46,9 +53,6 @@ The blog creates the following routes:
 The docs is the only plugin that creates **nested routes**. At the top, it registers [**version paths**](../guides/docs/versioning.md): `/`, `/next`, `/2.0.0-beta.13`... which provide the version context, including the layout and sidebar. This ensures that when switching between individual docs, the sidebar's state is preserved, and that you can switch between versions through the navbar dropdown while staying on the same doc. The component used is `@theme/DocPage`.
 
 ```mdx-code-block
-import {useLatestVersion, useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
-import {useLocation} from '@docusaurus/router';
-
 export const URLPath = () => <code>{useLocation().pathname}</code>;
 
 export const FilePath = () => {
@@ -210,8 +214,6 @@ export function PageRoute() {
 ```
 
 ```mdx-code-block
-import BrowserWindow from '@site/src/components/BrowserWindow';
-
 export function PageRoute() {
   const location = useLocation();
   return (
@@ -227,3 +229,35 @@ export function PageRoute() {
 
 </BrowserWindow>
 ```
+
+## Escaping from SPA redirects
+
+Docusaurus builds a [single-page application](https://developer.mozilla.org/en-US/docs/Glossary/SPA), where route transitions are done through the `history.push()` method of React router. This operation is done on the client side. However, the prerequisite for a route transition to happen this way is that the target URL is known to our router. Otherwise, the router catches this path and displays a 404 page instead.
+
+If you put some HTML pages under the `static` folder, they will be copied to the build output and therefore become accessible as part of your website, yet it's not part of the Docusaurus route system. We provide a `pathname://` protocol that allows you to redirect to another part of your domain in a non-SPA fashion, as if this route is an external link. Try the following two links:
+
+```md
+- [/pure-html](/pure-html)
+- [pathname:///pure-html](pathname:///pure-html)
+```
+
+<BrowserWindow>
+
+- <Link data-noBrokenLinkCheck="true" to="/pure-html">/pure-html</Link>
+- [pathname:///pure-html](pathname:///pure-html)
+
+</BrowserWindow>
+
+:::tip
+
+The first link will trigger a "broken links detected" check during the production build.
+
+:::
+
+The `pathname://` protocol is useful for referencing any content in the static folder. For example, Docusaurus would convert [all Markdown static assets to require() calls](../guides/markdown-features/markdown-features-assets.mdx#static-assets). You can use `pathname://` to keep it a regular link instead of being hashed by Webpack.
+
+```md title="my-doc.md"
+![An image from the static](pathname:///img/docusaurus.png) [An asset from the static](pathname:///files/asset.pdf)
+```
+
+Docusaurus will only strip the `pathname://` prefix without processing the content.
