@@ -771,8 +771,7 @@ const Users: User[] = [
   },
    {
     title: 'KaustubhK24',
-    description:
-      'KaustubhK24 blog + Portfolio website',
+    description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
     website: 'https://www.kaustubhk24.com',
     source: null,
