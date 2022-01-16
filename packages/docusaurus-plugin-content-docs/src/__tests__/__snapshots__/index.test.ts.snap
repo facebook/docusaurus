@@ -1124,7 +1124,7 @@ Array [
         "component": "@theme/DocCategoryGeneratedIndexPage",
         "exact": true,
         "modules": Object {
-          "categoryGeneratedIndex": "/Users/joshcena/Desktop/work/Tech/Projects/docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/.docusaurus/docusaurus-plugin-content-docs/category-docs-docs-category-slugs-0fe.json",
+          "categoryGeneratedIndex": "~docs/category-docs-docs-category-slugs-0fe.json",
         },
         "path": "/docs/category/slugs",
         "sidebar": "docs",
