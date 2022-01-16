@@ -232,8 +232,8 @@ describe('Encoded link', () => {
         './some%20other%20doc',
         // good - valid file with percent-20 in its name
         './weird%20file%20name',
-        // bad - non-existant file with spaces in name
-        './some%20other%20non-existant%20doc',
+        // bad - non-existent file with spaces in name
+        './some%20other%20non-existent%20doc',
         // evil - trying to use ../../ but '/' won't get decoded
         './break%2F..%2F..%2Fout',
       ],
@@ -242,8 +242,8 @@ describe('Encoded link', () => {
     const expectedBrokenLinks = {
       '/docs/some doc': [
         {
-          link: './some%20other%20non-existant%20doc',
-          resolvedLink: '/docs/some%20other%20non-existant%20doc',
+          link: './some%20other%20non-existent%20doc',
+          resolvedLink: '/docs/some%20other%20non-existent%20doc',
         },
         {
           link: './break%2F..%2F..%2Fout',

@@ -9,7 +9,6 @@
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
-const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
@@ -74,10 +73,10 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
       type: 'text/css',
       integrity:
-        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
       crossorigin: 'anonymous',
     },
   ],
@@ -261,7 +260,7 @@ const config = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [math, [npm2yarn, {sync: true}]],
-          rehypePlugins: [katex],
+          rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
           onlyIncludeVersions: (() => {
@@ -517,6 +516,7 @@ async function createConfig() {
   const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
+  const katex = (await import('rehype-katex')).default;
   config.plugins?.push(FeatureRequestsPlugin);
   // @ts-expect-error: we know it exists, right
   config.presets[0][1].docs.remarkPlugins.push(configTabs);
@@ -524,6 +524,8 @@ async function createConfig() {
   config.themeConfig.prism.theme = lightTheme;
   // @ts-expect-error: we know it exists, right
   config.themeConfig.prism.darkTheme = darkTheme;
+  // @ts-expect-error: we know it exists, right
+  config.presets[0][1].docs.rehypePlugins.push(katex);
   return config;
 }
 

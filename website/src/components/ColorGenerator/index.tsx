@@ -97,7 +97,7 @@ function ColorGenerator(): JSX.Element {
             const colorValue = event.target.value.replace(/^#+/, '');
 
             try {
-              Color(`#${baseColor}`);
+              Color(`#${colorValue}`);
               setBaseColor(colorValue);
             } catch {
               // Don't update for invalid colors.

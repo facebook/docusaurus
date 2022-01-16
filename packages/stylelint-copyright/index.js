@@ -12,45 +12,50 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: 'Missing copyright in the header comment',
 });
 
-module.exports = stylelint.createPlugin(
+const plugin = stylelint.createPlugin(
   ruleName,
-  (actual) => (root, result) => {
-    const validOptions = stylelint.utils.validateOptions(result, ruleName, {
-      actual,
-    });
+  (primaryOption, secondaryOption, context) => (root, result) => {
+    const validOptions = stylelint.utils.validateOptions(
+      result,
+      ruleName,
+      {
+        actual: primaryOption,
+        possible: [true, false],
+      },
+      {
+        actual: secondaryOption,
+        possible: (v) => typeof v.header === 'string',
+      },
+    );
 
     if (!validOptions) {
       return;
     }
 
-    root.walkComments((comment) => {
-      // Ignore root comments with copyright text.
-      if (
-        comment === comment.parent.first &&
-        /[Cc]opyright/.test(comment.text)
-      ) {
+    if (
+      root.first &&
+      root.first.type === 'comment' &&
+      root.first.source.start.column === 1
+    ) {
+      const {text} = root.first;
+      if (text === secondaryOption.header) {
         return;
       }
+    }
+    if (context.fix) {
+      root.first?.before(`/*${secondaryOption.header}\n */`);
+      return;
+    }
 
-      // Ignore non-root comments.
-      if (comment.type !== 'root' && comment !== comment.parent.first) {
-        return;
-      }
-
-      // Ignore indented comments.
-      if (comment.source.start.column > 1) {
-        return;
-      }
-
-      stylelint.utils.report({
-        message: messages.rejected,
-        node: comment,
-        result,
-        ruleName,
-      });
+    stylelint.utils.report({
+      message: messages.rejected,
+      node: root,
+      result,
+      ruleName,
     });
   },
 );
 
+module.exports = plugin;
 module.exports.ruleName = ruleName;
 module.exports.messages = messages;

@@ -244,6 +244,15 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Bandwidth',
+    description:
+      'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
+    preview: require('./showcase/bandwidth.png'),
+    website: 'https://dev.bandwidth.com/',
+    source: 'https://github.com/Bandwidth/api-docs',
+    tags: ['opensource', 'large', 'product'],
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
@@ -760,6 +769,14 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
+   {
+    title: 'KaustubhK24',
+    description: 'KaustubhK24 blog + Portfolio website',
+    preview: require('./showcase/kaustubhk24.png'),
+    website: 'https://www.kaustubhk24.com',
+    source: null,
+    tags: ['personal'],
+  },
   {
     title: 'Khyron Realm',
     description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
@@ -1030,6 +1047,15 @@ const Users: User[] = [
     tags: ['opensource', 'design', 'product'],
   },
   {
+    title: 'Pglet',
+    description:
+      'Build internal web apps quickly in the language you already know',
+    preview: require('./showcase/pglet.png'),
+    website: 'https://pglet.io',
+    source: 'https://github.com/pglet/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Pipeline UI',
     description: 'Pipeline UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
@@ -1279,6 +1305,14 @@ const Users: User[] = [
     website: 'https://developer.redislabs.com',
     source: 'https://github.com/redis-developer/redis-developer.github.io',
     tags: ['opensource', 'product', 'design', 'favorite'],
+  },
+  {
+    title: 'Refine',
+    description: 'A React-based framework for building data-intensive applications in no time!',
+    preview: require('./showcase/refine.png'),
+    website: 'https://refine.dev',
+    source: 'https://github.com/pankod/refine',
+    tags: ['favorite', 'opensource', 'product', 'design', 'versioning', 'large'],
   },
   {
     title: 'Rematch',
@@ -1570,7 +1604,7 @@ const Users: User[] = [
   },
   {
     title: 'Unleash',
-    description: 'A feature managment solution.',
+    description: 'A feature management solution.',
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',
