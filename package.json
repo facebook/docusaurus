@@ -45,7 +45,7 @@
     "lint": "yarn lint:js && yarn lint:style",
     "lint:ci": "yarn lint:js --quiet && yarn lint:style",
     "lint:js": "eslint --cache  --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
-    "lint:style": "stylelint --fix \"**/*.css\"",
+    "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
@@ -116,10 +116,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs}": [
-      "eslint --fix"
+      "lint:js --fix"
     ],
     "*.css": [
-      "stylelint --fix"
+      "lint:style --fix"
     ],
     "*": [
       "prettier --ignore-unknown --write"
