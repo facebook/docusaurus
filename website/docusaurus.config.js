@@ -300,11 +300,9 @@ const config = {
         theme: {
           customCss: [require.resolve('./src/css/custom.css')],
         },
-        gtag: !isDeployPreview
-          ? {
-              trackingID: 'UA-141789564-1',
-            }
-          : undefined,
+        gtag: {
+          trackingID: 'UA-141789564-1',
+        },
       }),
     ],
   ],
