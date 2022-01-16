@@ -80,9 +80,8 @@ async function getAssetAbsolutePath(
     await ensureAssetFileExist(assetFilePath, filePath);
     return assetFilePath;
   } else if (path.isAbsolute(assetPath)) {
-    const possiblePaths = staticDirs.map((dir) => path.join(dir, assetPath));
     const assetFilePath = await findAsyncSequential(
-      possiblePaths,
+      staticDirs.map((dir) => path.join(dir, assetPath)),
       fs.pathExists,
     );
     if (assetFilePath) {

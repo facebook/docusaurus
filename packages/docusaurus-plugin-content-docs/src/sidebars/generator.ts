@@ -81,18 +81,14 @@ async function readCategoryMetadataFile(
     }
   }
   const filePath = await findAsyncSequential(
-    ['.json', '.yml', '.yaml'],
-    (ext) =>
-      fs.pathExists(
-        posixPath(
-          path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
-        ),
+    ['.json', '.yml', '.yaml'].map((ext) =>
+      posixPath(
+        path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
       ),
+    ),
+    fs.pathExists,
   );
-  if (filePath) {
-    return tryReadFile(filePath);
-  }
-  return null;
+  return filePath ? tryReadFile(filePath) : null;
 }
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
