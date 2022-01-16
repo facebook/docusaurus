@@ -76,7 +76,6 @@ module.exports = {
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
     'react/jsx-filename-extension': OFF,
-    'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
