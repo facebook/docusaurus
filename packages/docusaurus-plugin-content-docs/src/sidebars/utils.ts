@@ -212,6 +212,9 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         }
         return false;
       });
+      if (currentItemIndex === -1) {
+        return emptySidebarNavigation();
+      }
 
       const {previous, next} = getElementsAround(
         navigationItems,
