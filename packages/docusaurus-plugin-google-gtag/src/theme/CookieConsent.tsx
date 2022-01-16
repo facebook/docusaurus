@@ -20,7 +20,8 @@ export default function CookieConsent(): JSX.Element | null {
   return (
     <div className={styles.banner}>
       <p className={styles.text}>
-        This website uses Cookies to help the developers improve.
+        This website uses cookies to help us improve. Click &quot;accept&quot;
+        to allow us to continue using cookies.
       </p>
       <div className={styles.buttons}>
         <button
