@@ -127,7 +127,7 @@ export type SidebarNavigation = {
 export type SidebarsUtils = {
   sidebars: Sidebars;
   getFirstDocIdOfFirstSidebar: () => string | undefined;
-  getSidebarNameByDocId: (docId: string) => string | null | undefined;
+  getSidebarNameByDocId: (docId: string) => string | undefined;
   getDocNavigation: (
     unversionedId: string,
     versionedId: string,
