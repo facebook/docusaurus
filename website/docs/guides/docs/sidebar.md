@@ -986,7 +986,7 @@ module.exports = {
 
 And then add a front matter:
 
-```yaml title="commonDoc.md"
+```md title="commonDoc.md"
 ---
 displayed_sidebar: apiSidebar
 ---
@@ -994,7 +994,7 @@ displayed_sidebar: apiSidebar
 
 Which explicitly tells Docusaurus to display `apiSidebar` when browsing `commonDoc`. Using the same method, you can make sidebar X which doesn't contain doc Y appear on doc Y:
 
-```yaml title="home.md"
+```md title="home.md"
 ---
 displayed_sidebar: tutorialSidebar
 ---

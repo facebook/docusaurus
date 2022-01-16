@@ -213,7 +213,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         return false;
       });
       if (currentItemIndex === -1) {
-        return emptySidebarNavigation();
+        return {sidebarName, next: undefined, previous: undefined};
       }
 
       const {previous, next} = getElementsAround(
