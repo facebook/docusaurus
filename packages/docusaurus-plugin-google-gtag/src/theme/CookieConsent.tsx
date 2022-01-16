@@ -36,7 +36,7 @@ export default function CookieConsent(): JSX.Element | null {
           type="button"
           className={clsx('clean-btn', styles.button)}
           onClick={() => {
-            storage.set('true');
+            storage.set('false');
             setDismissed(true);
           }}>
           Deny
