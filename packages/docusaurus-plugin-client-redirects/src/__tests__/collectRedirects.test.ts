@@ -39,7 +39,7 @@ describe('collectRedirects', () => {
     );
   });
 
-  test('should collect redirects to html/exe extension', () => {
+  test('should collect redirects from html/exe extension', () => {
     expect(
       collectRedirects(
         createTestPluginContext(

@@ -41,6 +41,7 @@ function testField(params: {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
         validateDocFrontMatter(frontMatter);
+        // eslint-disable-next-line jest/no-jasmine-globals
         fail(
           new Error(
             `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
@@ -51,6 +52,7 @@ function testField(params: {
           ),
         );
       } catch (e) {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
       }
     });

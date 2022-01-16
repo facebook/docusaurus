@@ -112,7 +112,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
@@ -134,7 +134,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'PREFIX key1 message'},
       key2: {message: 'PREFIX key2 message'},
       key3: {message: 'PREFIX key3 message'},
@@ -158,7 +158,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
@@ -182,7 +182,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'key1 message'},
       key2: {message: 'PREFIX key2 message new'},
     });
@@ -204,7 +204,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'key1 message new'},
       key2: {message: 'key2 message new'},
     });
@@ -227,7 +227,7 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'PREFIX key1 message new'},
       key2: {message: 'PREFIX key2 message new'},
     });
@@ -249,14 +249,14 @@ describe('writeTranslationFileContent', () => {
       },
     });
 
-    expect(await readFile()).toEqual({
+    await expect(readFile()).resolves.toEqual({
       key1: {message: 'key1 message', description: undefined},
       key2: {message: 'key2 message', description: 'key2 desc new'},
       key3: {message: 'key3 message', description: 'key3 desc new'},
     });
   });
 
-  test('should always override message description', async () => {
+  test('should throw for invalid content', async () => {
     const {filePath} = await createTmpTranslationFile(
       // @ts-expect-error: bad content on purpose
       {bad: 'content'},
@@ -305,7 +305,7 @@ describe('writePluginTranslations', () => {
       },
     });
 
-    expect(await readTranslationFileContent(filePath)).toEqual({
+    await expect(readTranslationFileContent(filePath)).resolves.toEqual({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
       key3: {message: 'key3 message'},
@@ -345,14 +345,16 @@ describe('writePluginTranslations', () => {
       });
     }
 
-    expect(await readTranslationFileContent(filePath)).toEqual(undefined);
+    await expect(readTranslationFileContent(filePath)).resolves.toEqual(
+      undefined,
+    );
 
     await doWritePluginTranslations({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: 'key3 desc'},
     });
-    expect(await readTranslationFileContent(filePath)).toEqual({
+    await expect(readTranslationFileContent(filePath)).resolves.toEqual({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: 'key3 desc'},
@@ -365,7 +367,7 @@ describe('writePluginTranslations', () => {
       },
       {messagePrefix: 'PREFIX '},
     );
-    expect(await readTranslationFileContent(filePath)).toEqual({
+    await expect(readTranslationFileContent(filePath)).resolves.toEqual({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
       key3: {message: 'key3 message', description: undefined},
@@ -381,7 +383,7 @@ describe('writePluginTranslations', () => {
       },
       {messagePrefix: 'PREFIX ', override: true},
     );
-    expect(await readTranslationFileContent(filePath)).toEqual({
+    await expect(readTranslationFileContent(filePath)).resolves.toEqual({
       key1: {message: 'PREFIX key1 message 3', description: 'key1 desc'},
       key2: {message: 'PREFIX key2 message 3', description: 'key2 desc'},
       key3: {message: 'PREFIX key3 message 3', description: 'key3 desc'},
@@ -417,7 +419,7 @@ describe('localizePluginTranslationFile', () => {
     expect(localizedTranslationFile).toEqual(translationFile);
   });
 
-  test('not localize if localized file does not exist', async () => {
+  test('not localize if localized file does not exist 2', async () => {
     const siteDir = await createTmpSiteDir();
 
     await writeTranslationFileContent({

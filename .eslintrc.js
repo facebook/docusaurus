@@ -29,6 +29,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
     'airbnb',
     'prettier',
   ],
@@ -40,7 +41,7 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header'],
+  plugins: ['react-hooks', 'header', 'jest'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
     'react-hooks/exhaustive-deps': ERROR,
@@ -171,6 +172,9 @@ module.exports = {
         ],
       },
     ],
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/expect-expect': OFF,
+    'jest/valid-title': OFF,
   },
   overrides: [
     {

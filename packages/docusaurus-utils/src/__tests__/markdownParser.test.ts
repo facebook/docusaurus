@@ -802,7 +802,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should delete only first heading', () => {
+  test('should delete only first heading 2', () => {
     expect(
       parseMarkdownString(dedent`
         # test
