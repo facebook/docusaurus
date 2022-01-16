@@ -10,10 +10,11 @@ import {
   normalizeUrl,
   removeSuffix,
   simpleHash,
+  escapePath,
 } from '@docusaurus/utils';
 import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
-import {
+import type {
   ChunkRegistry,
   Module,
   RouteConfig,
@@ -232,10 +233,9 @@ function genRouteChunkNames(
   if (isModule(value)) {
     const modulePath = getModulePath(value);
     const chunkName = genChunkName(modulePath, prefix, name);
-    // We need to JSON.stringify so that if its on windows, backslashes are escaped.
-    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
       modulePath,
-    )})`;
+    )}')`;
 
     registry[chunkName] = {
       loader,

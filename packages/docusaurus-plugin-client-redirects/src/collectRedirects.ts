@@ -6,12 +6,11 @@
  */
 
 import {uniqBy, difference, groupBy} from 'lodash';
-import {
-  PluginContext,
-  RedirectMetadata,
+import type {
   PluginOptions,
   RedirectOption,
-} from './types';
+} from '@docusaurus/plugin-client-redirects';
+import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
@@ -19,10 +18,10 @@ import {
 import {validateRedirect} from './redirectValidation';
 import {
   applyTrailingSlash,
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
@@ -99,14 +98,10 @@ function filterUnwantedRedirects(
   Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
-        console.error(
-          chalk.red(
-            `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
-It is not possible to redirect the same pathname to multiple destinations:
-- ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-          ),
-        );
+        logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
+It is not possible to redirect the same pathname to multiple destinations: ${groupedFromRedirects.map(
+          (r) => JSON.stringify(r),
+        )}`;
       }
     },
   );
@@ -117,13 +112,9 @@ It is not possible to redirect the same pathname to multiple destinations:
     (redirect) => pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
-    console.error(
-      chalk.red(
-        `@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
-- ${redirectsOverridingExistingPath.map((r) => JSON.stringify(r)).join('\n- ')}
-`,
-      ),
-    );
+    logger.error`name=${'@docusaurus/plugin-client-redirects'}: some redirects would override existing paths, and will be ignored: ${redirectsOverridingExistingPath.map(
+      (r) => JSON.stringify(r),
+    )}`;
   }
   return collectedRedirects.filter(
     (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
@@ -152,7 +143,7 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
-  // For conveniency, user can use a string or a string[]
+  // For convenience, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];

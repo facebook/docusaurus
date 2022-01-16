@@ -5,12 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
-import resolvePathname from 'resolve-pathname';
+import {
+  matchRoutes,
+  type RouteConfig as RRRouteConfig,
+} from 'react-router-config';
 import fs from 'fs-extra';
 import {mapValues, pickBy, countBy} from 'lodash';
-import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import {
+  removePrefix,
+  removeSuffix,
+  reportMessage,
+  resolvePathname,
+} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
 

@@ -1,13 +1,9 @@
 {
   "name": "@docusaurus/theme-translations",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "description": "Docusaurus theme translations.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "locales",
-    "lib"
-  ],
   "publishConfig": {
     "access": "public"
   },
@@ -20,14 +16,15 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "update": "node -e 'require(\"./update.js\").run()'"
+    "update": "node ./update.js"
   },
   "dependencies": {
     "fs-extra": "^10.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "chalk": "^4.1.2",
+    "@docusaurus/core": "2.0.0-beta.14",
+    "@docusaurus/logger": "2.0.0-beta.14",
     "lodash": "^4.17.20"
   },
   "engines": {

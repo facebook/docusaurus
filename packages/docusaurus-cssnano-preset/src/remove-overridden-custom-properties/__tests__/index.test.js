@@ -12,7 +12,7 @@ const postCssRemoveOverriddenCustomProperties = require('../index');
 
 const processFixture = (name) => {
   const input = vfile.readSync(
-    path.join(__dirname, 'fixtures', `${name}.css`),
+    path.join(__dirname, '__fixtures__', `${name}.css`),
     'utf8',
   );
   const output = postcss([postCssRemoveOverriddenCustomProperties]).process(

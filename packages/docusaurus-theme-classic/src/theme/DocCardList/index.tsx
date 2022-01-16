@@ -8,7 +8,7 @@
 import React from 'react';
 
 import DocCard from '@theme/DocCard';
-import {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
 export default function DocCardList({
   items,

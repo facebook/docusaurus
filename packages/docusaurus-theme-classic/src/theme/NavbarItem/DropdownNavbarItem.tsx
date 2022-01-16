@@ -20,7 +20,7 @@ import type {
 } from '@theme/NavbarItem/DropdownNavbarItem';
 import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-import {NavLink} from '@theme/NavbarItem/DefaultNavbarItem';
+import NavbarNavLink from '@theme/NavbarItem/NavbarNavLink';
 import NavbarItem from '@theme/NavbarItem';
 
 const dropdownLinkActiveClass = 'dropdown__link--active';
@@ -55,7 +55,6 @@ function DropdownNavbarItemDesktop({
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownMenuRef = useRef<HTMLUListElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -85,7 +84,7 @@ function DropdownNavbarItemDesktop({
         'dropdown--right': position === 'right',
         'dropdown--show': showDropdown,
       })}>
-      <NavLink
+      <NavbarNavLink
         href={props.to ? undefined : '#'}
         className={clsx('navbar__link', className)}
         {...props}
@@ -97,8 +96,8 @@ function DropdownNavbarItemDesktop({
           }
         }}>
         {props.children ?? props.label}
-      </NavLink>
-      <ul ref={dropdownMenuRef} className="dropdown__menu">
+      </NavbarNavLink>
+      <ul className="dropdown__menu">
         {items.map((childItemProps, i) => (
           <NavbarItem
             isDropdownItem
@@ -147,7 +146,7 @@ function DropdownNavbarItemMobile({
       className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}>
-      <NavLink
+      <NavbarNavLink
         role="button"
         className={clsx('menu__link menu__link--sublist', className)}
         {...props}
@@ -156,7 +155,7 @@ function DropdownNavbarItemMobile({
           toggleCollapsed();
         }}>
         {props.children ?? props.label}
-      </NavLink>
+      </NavbarNavLink>
       <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
         {items.map((childItemProps, i) => (
           <NavbarItem

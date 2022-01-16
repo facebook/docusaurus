@@ -1,0 +1,7 @@
+copyUntypedFiles.mjs
+.tsbuildinfo
+__tests__
+
+# Files in the templates need to stay
+/tsconfig*
+/src

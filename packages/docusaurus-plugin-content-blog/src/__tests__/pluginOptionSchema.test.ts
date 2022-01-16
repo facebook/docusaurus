@@ -78,7 +78,7 @@ test('should convert all feed type to array with other feed type', () => {
   });
   expect(value).toEqual({
     ...DEFAULT_OPTIONS,
-    feedOptions: {type: ['rss', 'atom'], copyright: ''},
+    feedOptions: {type: ['rss', 'atom', 'json'], copyright: ''},
   });
 });
 

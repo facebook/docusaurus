@@ -6,7 +6,7 @@
  */
 
 import {linkify} from './linkify';
-import {DocsMarkdownOption} from '../types';
+import type {DocsMarkdownOption} from '../types';
 import type {LoaderContext} from 'webpack';
 
 export default function markdownLoader(

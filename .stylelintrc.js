@@ -6,8 +6,16 @@
  */
 
 module.exports = {
+  extends: ['stylelint-config-recommended', 'stylelint-config-prettier'],
   plugins: ['stylelint-copyright'],
   rules: {
     'docusaurus/copyright-header': true,
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        // :global is a CSS modules feature to escape from class name hashing
+        ignorePseudoClasses: ['global'],
+      },
+    ],
   },
 };

@@ -7,14 +7,17 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
+import {
+  useLatestVersion,
+  useActiveDocContext,
+} from '@docusaurus/plugin-content-docs/client';
 import clsx from 'clsx';
-import {getInfimaActiveClassName} from './index';
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
-import type {GlobalDataVersion} from '@docusaurus/plugin-content-docs';
+import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
 
-function getDocInVersions(versions: GlobalDataVersion[], docId: string) {
+function getDocInVersions(versions: GlobalVersion[], docId: string) {
   const allDocs = versions.flatMap((version) => version.docs);
   const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
   if (!doc) {
@@ -43,7 +46,7 @@ export default function DocNavbarItem({
   const versions = uniq(
     [activeVersion, preferredVersion, latestVersion].filter(
       Boolean,
-    ) as GlobalDataVersion[],
+    ) as GlobalVersion[],
   );
   const doc = getDocInVersions(versions, docId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);

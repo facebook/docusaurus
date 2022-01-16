@@ -14,7 +14,7 @@ It is not tightly coupled to Crowdin, and you can use Git or another SaaS instea
 
 ### Different filesystem paths {#different-filesystem-paths}
 
-On Docusaurus v2, localized content is generally found at `website/i18n/<locale>`.
+On Docusaurus v2, localized content is generally found at `website/i18n/[locale]`.
 
 Docusaurus v2 is modular based on a plugin system, and each plugin is responsible to manage its own translations.
 
@@ -50,7 +50,7 @@ import Translate from '@docusaurus/Translate';
 
 The `write-translations` CLI still works to extract translations from your code.
 
-The code translations are now added to `i18n/<lang>/code.json` using Chrome i18n JSON format.
+The code translations are now added to `i18n/[locale]/code.json` using Chrome i18n JSON format.
 
 :::
 
@@ -110,7 +110,7 @@ Unfortunately, Crowdin does not have any "Duplicate/clone Project" feature, whic
 - Download the Crowdin translations locally
 - Try to run/build your site and see if there are any errors
 
-You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (frontmatter, admonition, code blocks...), and the translated md files might be invalid for the MDX parser.
+You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (front matter, admonition, code blocks...), and the translated md files might be invalid for the MDX parser.
 
 You will have to fix all the errors until your site builds. You can do that by modifying the translated md files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
 
