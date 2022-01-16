@@ -10,9 +10,13 @@ import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import type {PluginOptions, EditUrlFunction, BlogPost} from '../types';
+import type {BlogPost} from '../types';
 import type {Joi} from '@docusaurus/utils-validation';
 import {posixPath} from '@docusaurus/utils';
+import type {
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-blog';
 
 function findByTitle(
   blogPosts: BlogPost[],

@@ -40,7 +40,11 @@ class ErrorBoundary extends React.Component<Props, State> {
       });
     }
 
-    return children;
+    return (
+      children ??
+      // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
+      null
+    );
   }
 }
 

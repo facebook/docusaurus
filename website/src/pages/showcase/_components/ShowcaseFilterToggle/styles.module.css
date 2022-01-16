@@ -29,16 +29,6 @@
     0px 0px 2px 1px var(--ifm-color-primary-dark);
 }
 
-input:focus-visible ~ .checkboxLabel::after {
-  outline: 2px solid currentColor;
-}
-
-.checkboxLabel > * {
-  font-size: 0.8rem;
-  color: inherit;
-  transition: opacity 150ms ease-in 50ms;
-}
-
 .checkboxLabel::after {
   position: absolute;
   content: '';
@@ -50,6 +40,16 @@ input:focus-visible ~ .checkboxLabel::after {
   transition: transform var(--ifm-transition-fast)
     var(--ifm-transition-timing-default);
   transform: translateX(calc(var(--width) / 2 - var(--border)));
+}
+
+input:focus-visible ~ .checkboxLabel::after {
+  outline: 2px solid currentColor;
+}
+
+.checkboxLabel > * {
+  font-size: 0.8rem;
+  color: inherit;
+  transition: opacity 150ms ease-in 50ms;
 }
 
 input:checked ~ .checkboxLabel::after {

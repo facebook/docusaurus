@@ -75,7 +75,7 @@ describe('loadRoutes', () => {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
+    await expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
       .toMatchInlineSnapshot(`
       [Error: Invalid route config: path must be a string and component is required.
       {"component":"hello/world.js"}]
@@ -85,7 +85,7 @@ describe('loadRoutes', () => {
       path: '/hello/world',
     } as RouteConfig;
 
-    expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
+    await expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
       .toMatchInlineSnapshot(`
       [Error: Invalid route config: path must be a string and component is required.
       {"path":"/hello/world"}]

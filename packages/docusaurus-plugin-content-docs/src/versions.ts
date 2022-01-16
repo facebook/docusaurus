@@ -7,19 +7,19 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import type {
-  PluginOptions,
-  VersionBanner,
-  VersionMetadata,
-  VersionOptions,
-  VersionsOptions,
-} from './types';
+import type {VersionMetadata} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
   VERSIONED_SIDEBARS_DIR,
   CURRENT_VERSION_NAME,
 } from './constants';
+import type {
+  PluginOptions,
+  VersionBanner,
+  VersionOptions,
+  VersionsOptions,
+} from '@docusaurus/plugin-content-docs';
 
 import type {LoadContext} from '@docusaurus/types';
 import {

@@ -10,16 +10,14 @@ import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
 import type {
-  PluginOptions,
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  ReadingTimeFunction,
   BlogTagPostPaginated,
 } from './types';
 import {
-  parseMarkdownFile,
+  parseMarkdownString,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -35,6 +33,10 @@ import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
+import type {
+  PluginOptions,
+  ReadingTimeFunction,
+} from '@docusaurus/plugin-content-blog';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -153,13 +155,22 @@ function formatBlogPostDate(locale: string, date: Date): string {
 }
 
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const result = await parseMarkdownFile(blogSourceAbsolute, {
-    removeContentTitle: true,
-  });
-  return {
-    ...result,
-    frontMatter: validateBlogPostFrontMatter(result.frontMatter),
-  };
+  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+  try {
+    const result = parseMarkdownString(markdownString, {
+      removeContentTitle: true,
+    });
+    return {
+      ...result,
+      frontMatter: validateBlogPostFrontMatter(result.frontMatter),
+    };
+  } catch (e) {
+    throw new Error(
+      `Error while parsing blog post file ${blogSourceAbsolute}: "${
+        (e as Error).message
+      }".`,
+    );
+  }
 }
 
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>

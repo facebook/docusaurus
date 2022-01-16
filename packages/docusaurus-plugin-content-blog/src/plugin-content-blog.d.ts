@@ -6,7 +6,145 @@
  */
 
 declare module '@docusaurus/plugin-content-blog' {
-  export type Options = Partial<import('./types').UserPluginOptions>;
+  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+  import type {FrontMatterTag} from '@docusaurus/utils';
+  import type {Overwrite} from 'utility-types';
+
+  export interface Assets {
+    image?: string;
+    authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
+  }
+
+  // We allow passing custom fields to authors, e.g., twitter
+  export interface Author extends Record<string, unknown> {
+    name?: string;
+    imageURL?: string;
+    url?: string;
+    title?: string;
+  }
+
+  export type BlogPostFrontMatter = {
+    id?: string;
+    title?: string;
+    description?: string;
+    tags?: FrontMatterTag[];
+    slug?: string;
+    draft?: boolean;
+    date?: Date | string; // Yaml automagically convert some string patterns as Date, but not all
+
+    authors?: BlogPostFrontMatterAuthors;
+
+    // We may want to deprecate those older author frontmatter fields later:
+    author?: string;
+    author_title?: string;
+    author_url?: string;
+    author_image_url?: string;
+
+    /** @deprecated */
+    authorTitle?: string;
+    /** @deprecated */
+    authorURL?: string;
+    /** @deprecated */
+    authorImageURL?: string;
+
+    image?: string;
+    keywords?: string[];
+    hide_table_of_contents?: boolean;
+    toc_min_heading_level?: number;
+    toc_max_heading_level?: number;
+  };
+
+  export type BlogPostFrontMatterAuthor = Record<string, unknown> & {
+    key?: string;
+    name?: string;
+    imageURL?: string;
+    url?: string;
+    title?: string;
+  };
+
+  // All the possible variants that the user can use for convenience
+  export type BlogPostFrontMatterAuthors =
+    | string
+    | BlogPostFrontMatterAuthor
+    | (string | BlogPostFrontMatterAuthor)[];
+
+  export type EditUrlFunction = (editUrlParams: {
+    blogDirPath: string;
+    blogPath: string;
+    permalink: string;
+    locale: string;
+  }) => string | undefined;
+
+  export type FeedType = 'rss' | 'atom' | 'json';
+  export type FeedOptions = {
+    type?: FeedType[] | null;
+    title?: string;
+    description?: string;
+    copyright: string;
+    language?: string;
+  };
+  // Feed options, as provided by user config
+  export type UserFeedOptions = Overwrite<
+    Partial<FeedOptions>,
+    {type?: FeedOptions['type'] | 'all'} // Handle the type: "all" shortcut
+  >;
+
+  // Duplicate from ngryman/reading-time to keep stability of API
+  type ReadingTimeOptions = {
+    wordsPerMinute?: number;
+    wordBound?: (char: string) => boolean;
+  };
+
+  export type ReadingTimeFunction = (params: {
+    content: string;
+    frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+    options?: ReadingTimeOptions;
+  }) => number;
+
+  export type ReadingTimeFunctionOption = (
+    params: Required<Omit<Parameters<ReadingTimeFunction>[0], 'options'>> & {
+      defaultReadingTime: ReadingTimeFunction;
+    },
+  ) => number | undefined;
+
+  export type PluginOptions = RemarkAndRehypePluginOptions & {
+    id?: string;
+    path: string;
+    routeBasePath: string;
+    tagsBasePath: string;
+    archiveBasePath: string;
+    include: string[];
+    exclude: string[];
+    postsPerPage: number | 'ALL';
+    blogListComponent: string;
+    blogPostComponent: string;
+    blogTagsListComponent: string;
+    blogTagsPostsComponent: string;
+    blogTitle: string;
+    blogDescription: string;
+    blogSidebarCount: number | 'ALL';
+    blogSidebarTitle: string;
+    truncateMarker: RegExp;
+    showReadingTime: boolean;
+    feedOptions: {
+      type?: FeedType[] | null;
+      title?: string;
+      description?: string;
+      copyright: string;
+      language?: string;
+    };
+    editUrl?: string | EditUrlFunction;
+    editLocalizedFiles?: boolean;
+    admonitions: Record<string, unknown>;
+    authorsMapPath: string;
+    readingTime: ReadingTimeFunctionOption;
+    sortPosts: 'ascending' | 'descending';
+  };
+  // Options, as provided in the user config (before normalization)
+  export type Options = Overwrite<
+    Partial<PluginOptions>,
+    {feedOptions?: UserFeedOptions}
+  >;
 }
 
 declare module '@theme/BlogSidebar' {
@@ -27,9 +165,13 @@ declare module '@theme/BlogSidebar' {
 declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {TOCItem} from '@docusaurus/types';
+  import type {
+    BlogPostFrontMatter,
+    Author,
+    Assets,
+  } from '@docusaurus/plugin-content-blog';
 
-  export type FrontMatter = import('./blogFrontMatter').BlogPostFrontMatter;
-  export type Assets = import('./types').Assets;
+  export type FrontMatter = BlogPostFrontMatter;
 
   export type Metadata = {
     readonly title: string;
@@ -42,7 +184,7 @@ declare module '@theme/BlogPostPage' {
     readonly truncated?: string;
     readonly nextItem?: {readonly title: string; readonly permalink: string};
     readonly prevItem?: {readonly title: string; readonly permalink: string};
-    readonly authors: import('./types').Author[];
+    readonly authors: Author[];
     readonly frontMatter: FrontMatter & Record<string, unknown>;
     readonly tags: readonly {
       readonly label: string;

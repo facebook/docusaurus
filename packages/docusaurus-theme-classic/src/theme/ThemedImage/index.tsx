@@ -9,14 +9,14 @@ import React from 'react';
 import clsx from 'clsx';
 
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useThemeContext from '@theme/hooks/useThemeContext';
+import {useColorMode} from '@docusaurus/theme-common';
 import type {Props} from '@theme/ThemedImage';
 
 import styles from './styles.module.css';
 
 function ThemedImage(props: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const {isDarkTheme} = useThemeContext();
+  const {isDarkTheme} = useColorMode();
   const {sources, className, alt = '', ...propsRest} = props;
 
   type SourceName = keyof Props['sources'];

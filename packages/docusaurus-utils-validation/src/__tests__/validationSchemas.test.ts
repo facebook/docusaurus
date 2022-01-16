@@ -13,6 +13,7 @@ import {
   RemarkPluginsSchema,
   PluginIdSchema,
   URISchema,
+  PathnameSchema,
 } from '../validationSchemas';
 
 function createTestHelpers({
@@ -127,5 +128,13 @@ describe('validation schemas', () => {
     const protocolRelativeUrl2 = '//docusaurus.io/docs/doc1#hash';
     testOK(protocolRelativeUrl1);
     testOK(protocolRelativeUrl2);
+  });
+
+  test('PathnameSchema', () => {
+    const {testFail, testOK} = createTestHelpers({schema: PathnameSchema});
+
+    testOK('/foo');
+    testFail('foo');
+    testFail('https://github.com/foo');
   });
 });

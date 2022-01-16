@@ -36,6 +36,17 @@ describe('validateFrontMatter', () => {
     );
   });
 
+  test('should not convert simple values', () => {
+    const schema = Joi.object({
+      test: JoiFrontMatter.string(),
+    });
+    const frontMatter = {
+      test: 'foo',
+      tags: ['foo', 'bar'],
+    };
+    expect(validateFrontMatter(frontMatter, schema)).toEqual(frontMatter);
+  });
+
   // Fix Yaml trying to convert strings to numbers automatically
   // We only want to deal with a single type in the final frontmatter (not string | number)
   test('should convert number values to string when string schema', () => {

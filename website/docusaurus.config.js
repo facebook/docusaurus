@@ -9,14 +9,9 @@
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
-const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
 const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
-const FeatureRequestsPlugin = require('./src/featureRequests/FeatureRequestsPlugin');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
-const configTabs = require('./src/remark/configTabs');
-const lightTheme = require('./src/utils/prismLight');
-const darkTheme = require('./src/utils/prismDark');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -78,10 +73,10 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
       type: 'text/css',
       integrity:
-        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
       crossorigin: 'anonymous',
     },
   ],
@@ -120,7 +115,6 @@ const config = {
   ],
   themes: ['live-codeblock'],
   plugins: [
-    FeatureRequestsPlugin,
     [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -265,8 +259,8 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [math, [npm2yarn, {sync: true}], configTabs],
-          rehypePlugins: [katex],
+          remarkPlugins: [math, [npm2yarn, {sync: true}]],
+          rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
           lastVersion: isDev || isDeployPreview ? 'current' : undefined,
           onlyIncludeVersions: (() => {
@@ -332,8 +326,6 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
       },
       prism: {
-        theme: lightTheme,
-        darkTheme,
         // We need to load markdown again so that YAML is loaded before MD
         // and the YAML front matter is highlighted correctly.
         // TODO after we have forked prism-react-renderer, we should tweak the
@@ -519,11 +511,21 @@ const config = {
     }),
 };
 
-// TODO temporary dogfood async config, remove soon
 async function createConfig() {
-  await new Promise((resolve) => {
-    setTimeout(resolve, 0);
-  });
+  const FeatureRequestsPlugin = (await import('./src/featureRequests/FeatureRequestsPlugin.mjs')).default;
+  const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
+  const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
+  const katex = (await import('rehype-katex')).default;
+  config.plugins?.push(FeatureRequestsPlugin);
+  // @ts-expect-error: we know it exists, right
+  config.presets[0][1].docs.remarkPlugins.push(configTabs);
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.theme = lightTheme;
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.darkTheme = darkTheme;
+  // @ts-expect-error: we know it exists, right
+  config.presets[0][1].docs.rehypePlugins.push(katex);
   return config;
 }
 

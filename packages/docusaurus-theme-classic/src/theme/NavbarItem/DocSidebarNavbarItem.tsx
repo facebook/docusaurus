@@ -7,17 +7,21 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {useLatestVersion, useActiveDocContext} from '@theme/hooks/useDocs';
+import {
+  useLatestVersion,
+  useActiveDocContext,
+} from '@docusaurus/plugin-content-docs/client';
 import clsx from 'clsx';
-import {getInfimaActiveClassName} from './index';
-import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
+import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
-import type {
-  GlobalDataVersion,
-  GlobalDataSidebar,
-} from '@docusaurus/plugin-content-docs';
 
-function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
+import type {Props} from '@theme/NavbarItem/DocSidebarNavbarItem';
+import type {
+  GlobalVersion,
+  GlobalSidebar,
+} from '@docusaurus/plugin-content-docs/client';
+
+function getSidebarLink(versions: GlobalVersion[], sidebarId: string) {
   const allSidebars = versions
     .flatMap((version) => {
       if (version.sidebars) {
@@ -26,8 +30,7 @@ function getSidebarLink(versions: GlobalDataVersion[], sidebarId: string) {
       return undefined;
     })
     .filter(
-      (sidebarItem): sidebarItem is [string, GlobalDataSidebar] =>
-        !!sidebarItem,
+      (sidebarItem): sidebarItem is [string, GlobalSidebar] => !!sidebarItem,
     );
   const sidebarEntry = allSidebars.find((sidebar) => sidebar[0] === sidebarId);
   if (!sidebarEntry) {
@@ -61,7 +64,7 @@ export default function DocSidebarNavbarItem({
   const versions = uniq(
     [activeVersion, preferredVersion, latestVersion].filter(
       Boolean,
-    ) as GlobalDataVersion[],
+    ) as GlobalVersion[],
   );
   const sidebarLink = getSidebarLink(versions, sidebarId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);

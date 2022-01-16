@@ -11,11 +11,13 @@ import {
   escapePath,
   posixPath,
   aliasedSitePath,
+  toMessageRelativeFilePath,
 } from '../pathUtils';
+import path from 'path';
 
 describe('isNameTooLong', () => {
   test('behaves correctly', () => {
-    const asserts: Record<string, boolean> = {
+    const asserts = {
       '': false,
       'foo-bar-096': false,
       'foo-bar-1df': false,
@@ -27,16 +29,36 @@ describe('isNameTooLong', () => {
         true,
       'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test-2-787':
         true,
+      // Every Hanzi is three bytes
+      字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字:
+        {apfs: false, xfs: true},
     };
-    Object.keys(asserts).forEach((path) => {
-      expect(isNameTooLong(path)).toBe(asserts[path]);
+    const oldProcessPlatform = process.platform;
+    Object.defineProperty(process, 'platform', {value: 'darwin'});
+    Object.keys(asserts).forEach((file) => {
+      expect(isNameTooLong(file)).toBe(
+        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+      );
     });
+    Object.defineProperty(process, 'platform', {value: 'win32'});
+    Object.keys(asserts).forEach((file) => {
+      expect(isNameTooLong(file)).toBe(
+        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].apfs,
+      );
+    });
+    Object.defineProperty(process, 'platform', {value: 'android'});
+    Object.keys(asserts).forEach((file) => {
+      expect(isNameTooLong(file)).toBe(
+        typeof asserts[file] === 'boolean' ? asserts[file] : asserts[file].xfs,
+      );
+    });
+    Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
   });
 });
 
 describe('shortName', () => {
   test('works', () => {
-    const asserts: Record<string, string> = {
+    const asserts = {
       '': '',
       'foo-bar': 'foo-bar',
       'endi-lie': 'endi-lie',
@@ -45,10 +67,33 @@ describe('shortName', () => {
         'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-',
       'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test-2':
         'foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-foo-bar-test-1-test-',
+      字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字:
+        {
+          apfs: '字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字',
+          // This is pretty bad (a character clipped in half), but I doubt if it ever happens
+          xfs: '字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字�',
+        },
     };
+    const oldProcessPlatform = process.platform;
+    Object.defineProperty(process, 'platform', {value: 'darwin'});
     Object.keys(asserts).forEach((file) => {
-      expect(shortName(file)).toBe(asserts[file]);
+      expect(shortName(file)).toBe(
+        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+      );
     });
+    Object.defineProperty(process, 'platform', {value: 'win32'});
+    Object.keys(asserts).forEach((file) => {
+      expect(shortName(file)).toBe(
+        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].apfs,
+      );
+    });
+    Object.defineProperty(process, 'platform', {value: 'android'});
+    Object.keys(asserts).forEach((file) => {
+      expect(shortName(file)).toBe(
+        typeof asserts[file] === 'string' ? asserts[file] : asserts[file].xfs,
+      );
+    });
+    Object.defineProperty(process, 'platform', {value: oldProcessPlatform});
   });
 
   // Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
@@ -67,6 +112,17 @@ describe('shortName', () => {
   test('Does not truncate short paths', () => {
     const truncatedPath = shortName(SHORT_PATH);
     expect(truncatedPath).toEqual(SHORT_PATH);
+  });
+});
+
+describe('toMessageRelativeFilePath', () => {
+  test('behaves correctly', () => {
+    jest
+      .spyOn(process, 'cwd')
+      .mockImplementationOnce(() => path.join(__dirname, '..'));
+    expect(
+      toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js')),
+    ).toEqual('__tests__/foo/bar.js');
   });
 });
 

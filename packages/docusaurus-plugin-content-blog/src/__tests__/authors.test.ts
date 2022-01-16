@@ -288,30 +288,30 @@ describe('getAuthorsMap', () => {
   };
 
   test('getAuthorsMap can read yml file', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.yml',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
   test('getAuthorsMap can read json file', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.json',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
   test('getAuthorsMap can return undefined if yaml file not found', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
       }),
-    ).toBeUndefined();
+    ).resolves.toBeUndefined();
   });
 });
 
