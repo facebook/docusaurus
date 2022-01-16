@@ -35,6 +35,13 @@ export default function pluginGoogleGtag(
       return isProd ? [path.resolve(__dirname, './gtag')] : [];
     },
 
+    getThemePath() {
+      return path.resolve(__dirname, '../lib/theme');
+    },
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '../src/theme');
+    },
+
     injectHtmlTags() {
       if (!isProd) {
         return {};

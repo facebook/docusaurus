@@ -1,0 +1,31 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.banner {
+  background-color: var(--ifm-color-primary);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 200px;
+}
+
+.text {
+  padding: 20px;
+}
+
+.buttons {
+  position: absolute;
+  bottom: 30px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.button {
+  flex-grow: 1;
+}

@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import CookieConsent from '@theme/CookieConsent';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import globalData from '@generated/globalData';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
@@ -14,8 +17,25 @@ export default (function () {
     return null;
   }
 
+  const cookieConsentResponse = JSON.parse(
+    localStorage.getItem('docusaurus.cookieConsent') ?? 'null',
+  ) as boolean | null;
+  window.onload = () => {
+    if (cookieConsentResponse === null) {
+      const consentBannerContainer = document.createElement('div');
+      document
+        .getElementById('__docusaurus')!
+        .appendChild(consentBannerContainer);
+      ReactDOM.render(<CookieConsent />, consentBannerContainer);
+    }
+  };
+
   const {trackingID} = globalData['docusaurus-plugin-google-gtag']
     .default as PluginOptions;
+
+  if (!cookieConsentResponse) {
+    return {};
+  }
 
   return {
     onRouteUpdate({location}: {location: Location}) {
