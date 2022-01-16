@@ -12,6 +12,12 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import globalData from '@generated/globalData';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
+declare global {
+  interface Window {
+    'ga-disable-MEASUREMENT_ID': boolean;
+  }
+}
+
 export default (function () {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
@@ -40,6 +46,7 @@ export default (function () {
         localStorage.getItem('docusaurus.cookieConsent') ?? 'null',
       ) as boolean | null;
       if (!cookieConsentResponse) {
+        window['ga-disable-MEASUREMENT_ID'] = true;
         return;
       }
       // Always refer to the variable on window in-case it gets overridden elsewhere.
