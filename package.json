@@ -79,6 +79,7 @@
     "@types/react-test-renderer": "^17.0.1",
     "@types/semver": "^7.1.0",
     "@types/shelljs": "^0.8.6",
+    "@types/stylelint": "^13.13.3",
     "@types/wait-on": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",

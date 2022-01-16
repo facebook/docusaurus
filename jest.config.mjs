@@ -31,7 +31,6 @@ export default {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-  setupFiles: ['./jest/stylelint-rule-test.js'],
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpg|jpeg|png|svg)$': '<rootDir>/jest/emptyModule.js',

@@ -5,15 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const stylelint = require('stylelint');
+const path = require('path');
+const rule = require('..');
+
+const {ruleName, messages} = rule;
 
 function getOutputCss(output) {
   const result = output.results[0]._postcssResult;
   return result.root.toString(result.opts.syntax);
 }
 
-global.testStylelintRule = (config, tests) => {
+function testStylelintRule(config, tests) {
   describe(tests.ruleName, () => {
     const checkTestCaseContent = (testCase) =>
       testCase.description || testCase.code || 'no description';
@@ -117,4 +120,65 @@ global.testStylelintRule = (config, tests) => {
       },
     });
   });
-};
+}
+
+testStylelintRule(
+  {
+    plugins: [path.join(__dirname, '../..')],
+    rules: {
+      [ruleName]: [true, {header: '*\n * Copyright'}],
+    },
+  },
+  {
+    ruleName,
+    fix: false,
+    accept: [
+      {
+        code: `
+/**
+ * Copyright
+ */
+
+ .foo {}`,
+      },
+    ],
+    reject: [
+      {
+        code: `
+    /**
+* copyright
+*/
+
+.foo {}`,
+        message: messages.rejected,
+        line: 1,
+        column: 1,
+      },
+      {
+        code: `
+/**
+ * Copyleft
+ */
+
+ .foo {}`,
+        message: messages.rejected,
+        line: 1,
+        column: 1,
+      },
+      {
+        code: `
+/**
+ * Copyleft
+ */
+
+/**
+ * Copyright
+ */
+ .foo {}`,
+        message: messages.rejected,
+        line: 1,
+        column: 1,
+      },
+    ],
+  },
+);
