@@ -116,10 +116,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs}": [
-      "lint:js --fix"
+      "eslint --fix"
     ],
     "*.css": [
-      "lint:style --fix"
+      "stylelint --fix"
     ],
     "*": [
       "prettier --ignore-unknown --write"
