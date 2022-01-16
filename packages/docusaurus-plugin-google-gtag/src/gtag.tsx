@@ -17,10 +17,10 @@ export default (function () {
     return null;
   }
 
-  const cookieConsentResponse = JSON.parse(
-    localStorage.getItem('docusaurus.cookieConsent') ?? 'null',
-  ) as boolean | null;
   window.onload = () => {
+    const cookieConsentResponse = JSON.parse(
+      localStorage.getItem('docusaurus.cookieConsent') ?? 'null',
+    ) as boolean | null;
     if (cookieConsentResponse === null) {
       const consentBannerContainer = document.createElement('div');
       document
@@ -33,12 +33,15 @@ export default (function () {
   const {trackingID} = globalData['docusaurus-plugin-google-gtag']
     .default as PluginOptions;
 
-  if (!cookieConsentResponse) {
-    return {};
-  }
-
   return {
     onRouteUpdate({location}: {location: Location}) {
+      // Always get the latest value on every route transition
+      const cookieConsentResponse = JSON.parse(
+        localStorage.getItem('docusaurus.cookieConsent') ?? 'null',
+      ) as boolean | null;
+      if (!cookieConsentResponse) {
+        return;
+      }
       // Always refer to the variable on window in-case it gets overridden elsewhere.
       window.gtag('config', trackingID, {
         page_path: location.pathname,
