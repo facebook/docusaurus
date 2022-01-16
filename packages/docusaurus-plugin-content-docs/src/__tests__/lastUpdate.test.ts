@@ -52,20 +52,20 @@ describe('lastUpdate', () => {
       '__fixtures__',
       nonExistingFileName,
     );
-    expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
+    await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
       expect.stringMatching(/with exit code 128/),
     );
-    expect(await getFileLastUpdate(null)).toBeNull();
-    expect(await getFileLastUpdate(undefined)).toBeNull();
+    await expect(getFileLastUpdate(null)).resolves.toBeNull();
+    await expect(getFileLastUpdate(undefined)).resolves.toBeNull();
     consoleMock.mockRestore();
   });
 
   test('temporary created file that has no git timestamp', async () => {
     const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
     fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
-    expect(await getFileLastUpdate(tempFilePath)).toBeNull();
+    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
     fs.unlinkSync(tempFilePath);
   });
 
