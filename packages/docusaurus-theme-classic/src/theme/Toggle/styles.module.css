@@ -47,8 +47,8 @@
   transition: opacity 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackCheck,
-.toggleChecked .toggleTrackCheck {
+.toggleChecked .toggleTrackCheck,
+[data-theme='dark'] .toggle .toggleTrackCheck {
   opacity: 1;
   transition: opacity 0.25s ease;
 }
@@ -65,8 +65,8 @@
   transition: opacity 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackX,
-.toggleChecked .toggleTrackX {
+.toggleChecked .toggleTrackX,
+[data-theme='dark'] .toggle .toggleTrackX {
   opacity: 0;
 }
 
@@ -82,11 +82,6 @@
   transition: all 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackThumb,
-.toggleChecked .toggleTrackThumb {
-  left: 27px;
-}
-
 .toggleFocused .toggleTrackThumb,
 .toggle:hover .toggleTrackThumb {
   box-shadow: 0px 0px 2px 3px var(--ifm-color-primary);
@@ -94,6 +89,10 @@
 
 .toggle:active:not(.toggleDisabled) .toggleTrackThumb {
   box-shadow: 0px 0px 5px 5px var(--ifm-color-primary);
+}
+
+.toggleChecked .toggleTrackThumb [data-theme='dark'] .toggle .toggleTrackThumb {
+  left: 27px;
 }
 
 .toggleIcon {

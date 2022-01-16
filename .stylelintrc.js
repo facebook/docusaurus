@@ -13,10 +13,9 @@ module.exports = {
     'selector-pseudo-class-no-unknown': [
       true,
       {
+        // :global is a CSS modules feature to escape from class name hashing
         ignorePseudoClasses: ['global'],
       },
     ],
-    'no-descending-specificity': null,
-    'declaration-block-no-duplicate-custom-properties': null,
   },
 };
