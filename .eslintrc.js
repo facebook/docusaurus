@@ -95,7 +95,6 @@ module.exports = {
       WARNING,
       {disallowTypeAnnotations: false},
     ],
-    'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,

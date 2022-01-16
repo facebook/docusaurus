@@ -7,9 +7,10 @@
 
 // Globby/Micromatch are the 2 libs we use in Docusaurus consistently
 
-export {default as Globby} from 'globby';
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import path from 'path';
+
+export {default as Globby} from 'globby';
 
 // The default patterns we ignore when globbing
 // using _ prefix for exclusion by convention
