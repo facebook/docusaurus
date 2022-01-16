@@ -5,9 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type PluginOptions = {
-  trackingID: string;
-  anonymizeIP: boolean;
-};
+declare module '@docusaurus/plugin-google-gtag' {
+  export type PluginOptions = {
+    trackingID: string;
+    anonymizeIP: boolean;
+  };
 
-export type Options = Partial<PluginOptions>;
+  export type Options = Partial<PluginOptions>;
+}
+
+declare module '@theme/CookieConsent' {
+  export default function CookieConsent(): JSX.Element;
+}
