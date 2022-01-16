@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import stylelint from 'stylelint';
+const stylelint = require('stylelint');
 
 const ruleName = 'docusaurus/copyright-header';
 const messages = stylelint.utils.ruleMessages(ruleName, {
@@ -24,8 +24,7 @@ const plugin = stylelint.createPlugin(
       },
       {
         actual: secondaryOption,
-        possible: (v) =>
-          typeof (v as Record<string, unknown>).header === 'string',
+        possible: (v) => typeof v.header === 'string',
       },
     );
 
@@ -36,7 +35,7 @@ const plugin = stylelint.createPlugin(
     if (
       root.first &&
       root.first.type === 'comment' &&
-      root.first.source!.start!.column === 1
+      root.first.source.start.column === 1
     ) {
       const {text} = root.first;
       if (text === secondaryOption.header) {
@@ -57,5 +56,6 @@ const plugin = stylelint.createPlugin(
   },
 );
 
-export default plugin;
-export {ruleName, messages};
+module.exports = plugin;
+module.exports.ruleName = ruleName;
+module.exports.messages = messages;
