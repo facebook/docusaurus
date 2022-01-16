@@ -87,12 +87,14 @@
   box-shadow: 0px 0px 2px 3px var(--ifm-color-primary);
 }
 
-.toggle:active:not(.toggleDisabled) .toggleTrackThumb {
-  box-shadow: 0px 0px 5px 5px var(--ifm-color-primary);
+/* stylelint-disable-next-line no-descending-specificity */
+.toggleChecked .toggleTrackThumb,
+[data-theme='dark'] .toggle .toggleTrackThumb {
+  left: 27px;
 }
 
-.toggleChecked .toggleTrackThumb [data-theme='dark'] .toggle .toggleTrackThumb {
-  left: 27px;
+.toggle:active:not(.toggleDisabled) .toggleTrackThumb {
+  box-shadow: 0px 0px 5px 5px var(--ifm-color-primary);
 }
 
 .toggleIcon {
