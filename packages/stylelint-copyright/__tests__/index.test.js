@@ -124,7 +124,7 @@ function testStylelintRule(config, tests) {
 
 testStylelintRule(
   {
-    plugins: [path.join(__dirname, '../..')],
+    plugins: [path.join(__dirname, '..')],
     rules: {
       [ruleName]: [true, {header: '*\n * Copyright'}],
     },
