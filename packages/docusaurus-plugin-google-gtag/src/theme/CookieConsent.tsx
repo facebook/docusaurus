@@ -5,14 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import {createStorageSlot} from '@docusaurus/theme-common';
 
 const storage = createStorageSlot('docusaurus.cookieConsent');
 
-export default function CookieConsent(): JSX.Element {
+export default function CookieConsent(): JSX.Element | null {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) {
+    return null;
+  }
   return (
     <div className={styles.banner}>
       <p className={styles.text}>
@@ -24,6 +28,7 @@ export default function CookieConsent(): JSX.Element {
           className={clsx('clean-btn', styles.button)}
           onClick={() => {
             storage.set('true');
+            setDismissed(true);
           }}>
           Accept
         </button>
@@ -32,6 +37,7 @@ export default function CookieConsent(): JSX.Element {
           className={clsx('clean-btn', styles.button)}
           onClick={() => {
             storage.set('true');
+            setDismissed(true);
           }}>
           Deny
         </button>

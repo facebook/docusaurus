@@ -15,5 +15,5 @@ declare module '@docusaurus/plugin-google-gtag' {
 }
 
 declare module '@theme/CookieConsent' {
-  export default function CookieConsent(): JSX.Element;
+  export default function CookieConsent(): JSX.Element | null;
 }
