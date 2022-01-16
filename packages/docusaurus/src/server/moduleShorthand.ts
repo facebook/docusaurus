@@ -43,7 +43,7 @@ export function resolveModuleName(
   });
   if (!module) {
     throw new Error(`Docusaurus was unable to resolve the "${moduleName}" ${moduleType}. Make sure one of the following packages are installed:
-  ${modulePatterns.map((m) => `- ${m}`).join('\n')}`);
+${modulePatterns.map((m) => `- ${m}`).join('\n')}`);
   }
   return module;
 }
