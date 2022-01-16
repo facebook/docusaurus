@@ -158,20 +158,20 @@ describe('sidebar', () => {
 
     expect(result.loadedVersions).toHaveLength(1);
     expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
-      Object {
-        "defaultSidebar": Array [
           Object {
-            "id": "hello-1",
-            "type": "doc",
-          },
-          Object {
-            "id": "hello-2",
-            "label": "Hello 2 From Doc",
-            "type": "doc",
-          },
-        ],
-      }
-    `);
+            "defaultSidebar": Array [
+              Object {
+                "id": "hello-1",
+                "type": "doc",
+              },
+              Object {
+                "id": "hello-2",
+                "label": "Hello 2 From Doc",
+                "type": "doc",
+              },
+            ],
+          }
+      `);
   });
 
   test('site with disabled sidebar', async () => {
