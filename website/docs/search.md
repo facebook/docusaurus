@@ -52,7 +52,7 @@ This configuration file can be updated by:
 
 :::caution
 
-It is highly recommended using a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
 
 :::
 
@@ -86,7 +86,7 @@ module.exports = {
 
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -142,7 +142,7 @@ To solve this problem, the contextual search feature understands that you are br
 - browsing `/docs/v1/myDoc`, search results will only include **v1** docs (+ other unversioned pages)
 - browsing `/docs/v2/myDoc`, search results will only include **v2** docs (+ other unversioned pages)
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -275,6 +275,6 @@ To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-
 npm run swizzle @docusaurus/theme-classic SearchBar
 ```
 
-This will create a `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
+This will create an `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
 
 **Notes**: You can alternatively [swizzle from Algolia SearchBar](#editing-the-algolia-search-component) and create your own search component from there.

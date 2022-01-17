@@ -6,15 +6,15 @@
  */
 
 import {getPluginVersion} from '..';
-import {join} from 'path';
+import path from 'path';
 
 describe('getPluginVersion', () => {
   it('Can detect external packages plugins versions of correctly.', () => {
     expect(
       getPluginVersion(
-        join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
+        path.join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
         // Make the plugin appear external.
-        join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
+        path.join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
       ),
     ).toEqual({type: 'package', version: 'random-version'});
   });
@@ -22,9 +22,9 @@ describe('getPluginVersion', () => {
   it('Can detect project plugins versions correctly.', () => {
     expect(
       getPluginVersion(
-        join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
+        path.join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
         // Make the plugin appear project local.
-        join(__dirname, '..', '__fixtures__'),
+        path.join(__dirname, '..', '__fixtures__'),
       ),
     ).toEqual({type: 'project'});
   });

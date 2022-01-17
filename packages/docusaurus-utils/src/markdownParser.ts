@@ -5,9 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
-import fs from 'fs-extra';
+import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
+
+// Input: ## Some heading {#some-heading}
+// Output: {text: "## Some heading", id: "some-heading"}
+export function parseMarkdownHeadingId(heading: string): {
+  text: string;
+  id?: string;
+} {
+  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const matches = customHeadingIdRegex.exec(heading);
+  if (matches) {
+    return {
+      text: matches[1],
+      id: matches[2],
+    };
+  } else {
+    return {text: heading, id: undefined};
+  }
+}
 
 // Hacky way of stripping out import statements from the excerpt
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
@@ -19,6 +36,7 @@ export function createExcerpt(fileString: string): string | undefined {
     .replace(/^[^\n]*\n[=]+/g, '')
     .split('\n');
   let inCode = false;
+  let lastCodeFence = '';
 
   /* eslint-disable no-continue */
   // eslint-disable-next-line no-restricted-syntax
@@ -35,7 +53,15 @@ export function createExcerpt(fileString: string): string | undefined {
 
     // Skip code block line.
     if (fileLine.trim().startsWith('```')) {
-      inCode = !inCode;
+      if (!inCode) {
+        inCode = true;
+        [lastCodeFence] = fileLine.trim().match(/^`+/)!;
+        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+      } else if (
+        fileLine.trim().match(/^`+/)![0].length >= lastCodeFence.length
+      ) {
+        inCode = false;
+      }
       continue;
     } else if (inCode) {
       continue;
@@ -82,8 +108,8 @@ export function parseFrontMatter(markdownFileContent: string): {
 } {
   const {data, content} = matter(markdownFileContent);
   return {
-    frontMatter: data ?? {},
-    content: content?.trim() ?? '',
+    frontMatter: data,
+    content: content.trim(),
   };
 }
 
@@ -166,24 +192,8 @@ export function parseMarkdownString(
       excerpt,
     };
   } catch (e) {
-    console.error(
-      chalk.red(`Error while parsing Markdown frontmatter.
-This can happen if you use special characters in frontmatter values (try using double quotes around that value).`),
-    );
+    logger.error(`Error while parsing Markdown frontmatter.
+This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
     throw e;
-  }
-}
-
-export async function parseMarkdownFile(
-  source: string,
-  options?: {removeContentTitle?: boolean},
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString, options);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
-    );
   }
 }

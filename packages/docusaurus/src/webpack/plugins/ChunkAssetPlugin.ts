@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Template, Compiler} from 'webpack';
+import {Template, type Compiler} from 'webpack';
 
 const pluginName = 'chunk-asset-plugin';
 

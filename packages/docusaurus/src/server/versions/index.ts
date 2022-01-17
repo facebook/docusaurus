@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusPluginVersionInformation} from '@docusaurus/types';
+import type {DocusaurusPluginVersionInformation} from '@docusaurus/types';
 import {existsSync, lstatSync} from 'fs-extra';
 import {dirname, join} from 'path';
 

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentType} from 'react';
+import React, {type ComponentType} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
 import Translate from '@docusaurus/Translate';
 import {
   useActivePlugin,
   useDocVersionSuggestions,
-  GlobalVersion,
-} from '@theme/hooks/useDocs';
+  type GlobalVersion,
+} from '@docusaurus/plugin-content-docs/client';
 import {
   ThemeClassNames,
   useDocsPreferredVersion,

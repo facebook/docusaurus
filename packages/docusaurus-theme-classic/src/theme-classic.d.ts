@@ -11,6 +11,18 @@ declare module '@docusaurus/theme-classic' {
   };
 }
 
+declare module '@theme/Admonition' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+    readonly type: 'note' | 'tip' | 'danger' | 'info' | 'caution';
+    readonly icon?: ReactNode;
+    readonly title?: string;
+  }
+  export default function Admonition(props: Props): JSX.Element;
+}
+
 declare module '@theme/AnnouncementBar' {
   const AnnouncementBar: () => JSX.Element | null;
   export default AnnouncementBar;
@@ -32,7 +44,8 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogPostItem' {
-  import type {FrontMatter, Assets, Metadata} from '@theme/BlogPostPage';
+  import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
+  import type {Assets} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly frontMatter: FrontMatter;
@@ -58,7 +71,8 @@ declare module '@theme/BlogPostAuthor' {
 }
 
 declare module '@theme/BlogPostAuthors' {
-  import type {Metadata, Assets} from '@theme/BlogPostPage';
+  import type {Metadata} from '@theme/BlogPostPage';
+  import type {Assets} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly authors: Metadata['authors'];
@@ -95,13 +109,14 @@ declare module '@theme/BlogLayout' {
 }
 
 declare module '@theme/CodeBlock' {
-  import {ReactElement} from 'react';
+  import type {ReactElement} from 'react';
 
   export interface Props {
     readonly children: string | ReactElement;
     readonly className?: string;
     readonly metastring?: string;
     readonly title?: string;
+    readonly language?: string;
   }
 
   const CodeBlock: (props: Props) => JSX.Element;
@@ -111,13 +126,10 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
-  type PageInfo = {readonly permalink: string; readonly title: string};
-
   // May be simpler to provide a {navigation: PropNavigation} prop?
   export interface Props extends PropNavigation {}
 
-  const DocPaginator: (props: Props) => JSX.Element;
-  export default DocPaginator;
+  export default function DocPaginator(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar' {
@@ -139,23 +151,33 @@ declare module '@theme/DocSidebar' {
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  type DocSidebarPropsBase = {
+  export type DocSidebarPropsBase = {
     readonly activePath: string;
     readonly onItemClick?: (item: PropSidebarItem) => void;
     readonly level: number;
     readonly tabIndex?: number;
   };
 
-  export interface Props extends DocSidebarPropsBase {
+  export interface Props {
+    readonly activePath: string;
+    readonly onItemClick?: (item: PropSidebarItem) => void;
+    readonly level: number;
+    readonly tabIndex?: number;
     readonly item: PropSidebarItem;
   }
-  const DocSidebarItem: (props: Props) => JSX.Element;
-  export default DocSidebarItem;
 
-  export type DocSidebarItemsProps = DocSidebarPropsBase & {
+  export default function DocSidebarItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItems' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export type Props = Omit<DocSidebarItemProps, 'item'> & {
     readonly items: readonly PropSidebarItem[];
   };
-  export const DocSidebarItems: (props: DocSidebarItemsProps) => JSX.Element;
+
+  export default function DocSidebarItems(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionSuggestions' {
@@ -172,7 +194,7 @@ declare module '@theme/EditThisPage' {
 }
 
 declare module '@theme/ErrorPageContent' {
-  import ErrorComponent from '@theme/Error';
+  import type ErrorComponent from '@theme/Error';
 
   const ErrorPageContent: typeof ErrorComponent;
   export default ErrorPageContent;
@@ -186,99 +208,20 @@ declare module '@theme/Footer' {
 declare module '@theme/Heading' {
   import type {ComponentProps} from 'react';
 
-  export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  export interface Props extends ComponentProps<HeadingType> {}
+  type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-  const Heading: (Tag: HeadingType) => (props: Props) => JSX.Element;
-  export default Heading;
-  export const MainHeading: (props: Props) => JSX.Element;
-}
+  export interface Props extends ComponentProps<HeadingType> {
+    as: HeadingType;
+  }
 
-declare module '@theme/hooks/useHideableNavbar' {
-  export type useHideableNavbarReturns = {
-    readonly navbarRef: (node: HTMLElement | null) => void;
-    readonly isNavbarVisible: boolean;
-  };
-
-  const useHideableNavbar: (hideOnScroll: boolean) => useHideableNavbarReturns;
-  export default useHideableNavbar;
-}
-
-declare module '@theme/hooks/useLockBodyScroll' {
-  const useLockBodyScroll: (lock?: boolean) => void;
-  export default useLockBodyScroll;
-}
-
-declare module '@theme/hooks/usePrismTheme' {
-  import defaultTheme from 'prism-react-renderer/themes/palenight';
-
-  const usePrismTheme: () => typeof defaultTheme;
-  export default usePrismTheme;
-}
-
-declare module '@theme/hooks/useTabGroupChoice' {
-  export type useTabGroupChoiceReturns = {
-    readonly tabGroupChoices: {readonly [groupId: string]: string};
-    readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
-  };
-
-  const useTabGroupChoice: () => useTabGroupChoiceReturns;
-  export default useTabGroupChoice;
-}
-
-declare module '@theme/hooks/useTheme' {
-  export type useThemeReturns = {
-    readonly isDarkTheme: boolean;
-    readonly setLightTheme: () => void;
-    readonly setDarkTheme: () => void;
-  };
-
-  const useTheme: () => useThemeReturns;
-  export default useTheme;
-}
-
-declare module '@theme/hooks/useThemeContext' {
-  export type ThemeContextProps = {
-    isDarkTheme: boolean;
-    setLightTheme: () => void;
-    setDarkTheme: () => void;
-  };
-
-  export default function useThemeContext(): ThemeContextProps;
-}
-
-declare module '@theme/hooks/useUserPreferencesContext' {
-  export type UserPreferencesContextProps = {
-    tabGroupChoices: {readonly [groupId: string]: string};
-    setTabGroupChoices: (groupId: string, newChoice: string) => void;
-  };
-
-  export default function useUserPreferencesContext(): UserPreferencesContextProps;
-}
-
-declare module '@theme/hooks/useWindowSize' {
-  export const windowSizes: {
-    desktop: 'desktop';
-    mobile: 'mobile';
-    ssr: 'ssr';
-  };
-
-  export type WindowSize = keyof typeof windowSizes;
-
-  export default function useWindowSize(): WindowSize;
-}
-
-declare module '@theme/hooks/useKeyboardNavigation' {
-  const useKeyboardNavigation: () => void;
-
-  export default useKeyboardNavigation;
+  export default function Heading(props: Props): JSX.Element;
 }
 
 declare module '@theme/Layout' {
   import type {ReactNode} from 'react';
 
   export interface Props {
-    readonly children: ReactNode;
+    readonly children?: ReactNode;
     readonly title?: string;
     readonly noFooter?: boolean;
     readonly description?: string;
@@ -293,8 +236,7 @@ declare module '@theme/Layout' {
     };
   }
 
-  const Layout: (props: Props) => JSX.Element;
-  export default Layout;
+  export default function Layout(props: Props): JSX.Element;
 }
 
 declare module '@theme/LayoutHead' {
@@ -302,8 +244,17 @@ declare module '@theme/LayoutHead' {
 
   export interface Props extends Omit<LayoutProps, 'children'> {}
 
-  const LayoutHead: (props: Props) => JSX.Element;
-  export default LayoutHead;
+  export default function LayoutHead(props: Props): JSX.Element;
+}
+
+declare module '@theme/LayoutProviders' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function LayoutProviders(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchMetadata' {
@@ -362,18 +313,9 @@ declare module '@theme/Navbar' {
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
-  import type {ReactNode} from 'react';
-  import type {LinkProps} from '@docusaurus/Link';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
-  export type NavLinkProps = LinkProps & {
-    readonly activeBasePath?: string;
-    readonly activeBaseRegex?: string;
-    readonly exact?: boolean;
-    readonly label?: ReactNode;
-    readonly prependBaseUrlToHref?: string;
-  };
-
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
@@ -383,17 +325,30 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly mobile?: boolean;
   }
 
-  export const NavLink: (props: NavLinkProps) => JSX.Element;
+  export default function DefaultNavbarItem(props: Props): JSX.Element;
+}
 
-  const DefaultNavbarItem: (props: Props) => JSX.Element;
-  export default DefaultNavbarItem;
+declare module '@theme/NavbarItem/NavbarNavLink' {
+  import type {ReactNode} from 'react';
+  import type {LinkProps} from '@docusaurus/Link';
+
+  export type Props = LinkProps & {
+    readonly activeBasePath?: string;
+    readonly activeBaseRegex?: string;
+    readonly exact?: boolean;
+    readonly label?: ReactNode;
+    readonly prependBaseUrlToHref?: string;
+  };
+
+  export default function NavbarNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DropdownNavbarItem' {
-  import type {NavLinkProps} from '@theme/NavbarItem/DefaultNavbarItem';
+  import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
+
   import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
 
-  export type DesktopOrMobileNavBarItemProps = NavLinkProps & {
+  export type DesktopOrMobileNavBarItemProps = NavbarNavLinkProps & {
     readonly position?: 'left' | 'right';
     readonly items: readonly LinkLikeNavbarItemProps[];
     readonly className?: string;
@@ -467,10 +422,23 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
   export default DocsSidebarNavbarItem;
 }
 
+declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
+  import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
+
+  export interface Props extends DefaultNavbarItemProps {
+    readonly sidebarId: string;
+    readonly docsPluginId?: string;
+  }
+
+  const DocSidebarNavbarItem: (props: Props) => JSX.Element;
+  export default DocSidebarNavbarItem;
+}
+
 declare module '@theme/NavbarItem' {
   import type {ComponentProps} from 'react';
   import type {Props as DefaultNavbarItemProps} from '@theme/NavbarItem/DefaultNavbarItem';
   import type {Props as DocNavbarItemProps} from '@theme/NavbarItem/DocNavbarItem';
+  import type {Props as DocSidebarNavbarItemProps} from '@theme/NavbarItem/DocSidebarNavbarItem';
   import type {Props as DocsVersionNavbarItemProps} from '@theme/NavbarItem/DocsVersionNavbarItem';
   import type {Props as DropdownNavbarItemProps} from '@theme/NavbarItem/DropdownNavbarItem';
   import type {Props as DocsVersionDropdownNavbarItemProps} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
@@ -480,7 +448,8 @@ declare module '@theme/NavbarItem' {
   export type LinkLikeNavbarItemProps =
     | ({readonly type?: 'default'} & DefaultNavbarItemProps)
     | ({readonly type: 'doc'} & DocNavbarItemProps)
-    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps);
+    | ({readonly type: 'docsVersion'} & DocsVersionNavbarItemProps)
+    | ({readonly type: 'docSidebar'} & DocSidebarNavbarItemProps);
 
   export type Props = ComponentProps<'a'> & {
     readonly position?: 'left' | 'right';
@@ -500,6 +469,22 @@ declare module '@theme/NavbarItem' {
 
   const NavbarItem: (props: Props) => JSX.Element;
   export default NavbarItem;
+}
+
+declare module '@theme/NavbarItem/utils' {
+  export function getInfimaActiveClassName(mobile?: boolean): string;
+}
+
+declare module '@theme/PaginatorNavLink' {
+  import type {ReactNode} from 'react';
+  import type {PropNavigationLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends Omit<PropNavigationLink, 'title'> {
+    readonly title: ReactNode;
+    readonly subLabel?: JSX.Element;
+  }
+
+  export default function PaginatorNavLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/SearchBar' {
@@ -560,21 +545,10 @@ declare module '@theme/ThemedImage' {
 }
 
 declare module '@theme/Details' {
-  import {Details, DetailsProps} from '@docusaurus/theme-common';
+  import {Details, type DetailsProps} from '@docusaurus/theme-common';
 
   export interface Props extends DetailsProps {}
   export default Details;
-}
-
-declare module '@theme/ThemeProvider' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const ThemeProvider: (props: Props) => JSX.Element;
-  export default ThemeProvider;
 }
 
 declare module '@theme/TOCItems' {
@@ -655,46 +629,6 @@ declare module '@theme/Toggle' {
 
   const Toggle: (props: Props) => JSX.Element;
   export default Toggle;
-}
-
-declare module '@theme/UserPreferencesProvider' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const UserPreferencesProvider: (props: Props) => JSX.Element;
-  export default UserPreferencesProvider;
-}
-
-declare module '@theme/LayoutProviders' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly children: ReactNode;
-  }
-
-  const LayoutProviders: (props: Props) => JSX.Element;
-  export default LayoutProviders;
-}
-
-declare module '@theme/ThemeContext' {
-  import type {Context} from 'react';
-  import type {ThemeContextProps} from '@theme/hooks/useThemeContext';
-
-  const ThemeContext: Context<ThemeContextProps | undefined>;
-  export default ThemeContext;
-}
-
-declare module '@theme/UserPreferencesContext' {
-  import type {Context} from 'react';
-  import type {UserPreferencesContextProps} from '@theme/hooks/useUserPreferencesContext';
-
-  const UserPreferencesContext: Context<
-    UserPreferencesContextProps | undefined
-  >;
-  export default UserPreferencesContext;
 }
 
 declare module '@theme/Logo' {

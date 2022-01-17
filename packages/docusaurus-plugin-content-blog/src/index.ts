@@ -16,12 +16,13 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
+  getContentPathList,
+  getDataFilePath,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import {
-  PluginOptions,
+import type {
   BlogTags,
   BlogContent,
   BlogItemsToMetadata,
@@ -30,10 +31,9 @@ import {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
-  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
+import type {
   LoadContext,
   ConfigureWebpackUtils,
   Props,
@@ -42,20 +42,23 @@ import {
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
-  getContentPathList,
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
+import type {
+  PluginOptions,
+  BlogPostFrontMatter,
+  Assets,
+} from '@docusaurus/plugin-content-blog';
 
-export default function pluginContentBlog(
+export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent> {
+): Promise<Plugin<BlogContent>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -89,24 +92,23 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  const authorsMapFilePath = await getDataFilePath({
+    filePath: options.authorsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath} = options;
+      const {include} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
-      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
-      // simplified impl, better than nothing for now:
-      const authorsMapFilePath = path.join(
-        contentPaths.contentPath,
-        authorsMapPath,
-      );
-
-      return [authorsMapFilePath, ...contentMarkdownGlobs];
+      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
+        Boolean,
+      ) as string[];
     },
 
     async getTranslationFiles() {

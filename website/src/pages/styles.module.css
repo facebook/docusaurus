@@ -107,7 +107,8 @@
   margin-top: 24px;
 }
 
-.indexCtas a, .indexCtas a:hover {
+.indexCtas a,
+.indexCtas a:hover {
   color: black;
 }
 
@@ -159,4 +160,9 @@
   .indexCtasGitHubButton {
     display: none;
   }
+}
+
+/* Used to test CSS insertion order */
+.test-marker-site-index-page {
+  content: 'site-index-page';
 }

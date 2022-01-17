@@ -29,6 +29,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
     'airbnb',
     'prettier',
   ],
@@ -39,7 +40,8 @@ module.exports = {
       },
     },
   },
-  plugins: ['react-hooks', 'header'],
+  reportUnusedDisableDirectives: true,
+  plugins: ['react-hooks', 'header', 'jest'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
     'react-hooks/exhaustive-deps': ERROR,
@@ -74,7 +76,6 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
-    'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
@@ -92,6 +93,10 @@ module.exports = {
     ],
     'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
+    '@typescript-eslint/consistent-type-imports': [
+      WARNING,
+      {disallowTypeAnnotations: false},
+    ],
     'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,
@@ -122,7 +127,7 @@ module.exports = {
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
-    'no-unused-expressions': WARNING,
+    'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
@@ -167,8 +172,21 @@ module.exports = {
         ],
       },
     ],
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/expect-expect': OFF,
+    'jest/valid-title': OFF,
   },
   overrides: [
+    {
+      files: [
+        'packages/docusaurus-theme-*/src/theme/**/*.js',
+        'packages/docusaurus-theme-*/src/theme/**/*.ts',
+        'packages/docusaurus-theme-*/src/theme/**/*.tsx',
+      ],
+      rules: {
+        'import/no-named-export': ERROR,
+      },
+    },
     {
       files: [
         'packages/create-docusaurus/templates/**/*.js',
@@ -194,7 +212,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

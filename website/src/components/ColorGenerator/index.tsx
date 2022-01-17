@@ -9,10 +9,11 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
-import useThemeContext from '@theme/hooks/useThemeContext';
-import {createStorageSlot} from '@docusaurus/theme-common';
+import {createStorageSlot, useColorMode} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
+import Admonition from '@theme/Admonition';
+import Link from '@docusaurus/Link';
 
 type Shades = Record<
   string,
@@ -101,7 +102,7 @@ function getAdjustedColors(shades: Shades, baseColor: string) {
 }
 
 function ColorGenerator(): JSX.Element {
-  const {isDarkTheme, setDarkTheme, setLightTheme} = useThemeContext();
+  const {isDarkTheme, setDarkTheme, setLightTheme} = useColorMode();
   const DEFAULT_PRIMARY_COLOR = isDarkTheme
     ? DARK_PRIMARY_COLOR
     : LIGHT_PRIMARY_COLOR;
@@ -174,6 +175,18 @@ function ColorGenerator(): JSX.Element {
 
   return (
     <div>
+      <Admonition type="tip">
+        <p>
+          Aim for at least{' '}
+          <Link href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
+            WCAG-AA contrast ratio
+          </Link>{' '}
+          for the primary color to ensure readability. Use the Docusaurus
+          website itself to preview how your color palette would look like. You
+          can use alternative palettes in dark mode because one color
+          doesn&apos;t usually work in both light and dark mode.
+        </p>
+      </Admonition>
       <p>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="primary_color">

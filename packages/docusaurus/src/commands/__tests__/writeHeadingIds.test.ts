@@ -38,12 +38,6 @@ describe('transformMarkdownHeadingLine', () => {
     );
   });
 
-  test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', createSlugger())).toEqual(
-      '## ABC {#abc}',
-    );
-  });
-
   test('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
     expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(

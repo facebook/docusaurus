@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocsMarkdownOption} from '../types';
+import type {DocsMarkdownOption} from '../types';
 import {getDocsDirPaths} from '../versions';
 import {replaceMarkdownLinks} from '@docusaurus/utils';
 

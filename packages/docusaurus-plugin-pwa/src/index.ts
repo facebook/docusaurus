@@ -13,7 +13,7 @@ import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 import path from 'path';
-import webpack, {Configuration} from 'webpack';
+import webpack, {type Configuration} from 'webpack';
 import Terser from 'terser-webpack-plugin';
 
 import {injectManifest} from 'workbox-build';

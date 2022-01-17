@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {CategoryMetadataFile, DefaultSidebarItemsGenerator} from '../generator';
-import {Sidebar, SidebarItemsGenerator} from '../types';
+import {
+  DefaultSidebarItemsGenerator,
+  type CategoryMetadataFile,
+} from '../generator';
+import type {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 
@@ -57,7 +60,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toEqual([]);
     expect(consoleWarn).toHaveBeenCalledWith(
       expect.stringMatching(
-        /No docs found in dir .: can't auto-generate a sidebar/,
+        /.*\[WARNING\].* No docs found in .*\..*: can't auto-generate a sidebar\..*/,
       ),
     );
   });

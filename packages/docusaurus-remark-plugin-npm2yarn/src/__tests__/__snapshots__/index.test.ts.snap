@@ -71,7 +71,7 @@ import TabItem from '@theme/TabItem';
 "
 `;
 
-exports[`npm2yarn plugin test: language was not setted 1`] = `
+exports[`npm2yarn plugin test: language was not set 1`] = `
 "\`\`\`npm2yarn
 npm install --save docusaurus-plugin-name
 \`\`\`

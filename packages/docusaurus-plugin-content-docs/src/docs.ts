@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {keyBy, last} from 'lodash';
 import {
   aliasedSitePath,
@@ -22,14 +22,12 @@ import {
 import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import {
+import type {
   DocFile,
   DocMetadataBase,
   DocMetadata,
   DocNavLink,
   LastUpdateData,
-  MetadataOptions,
-  PluginOptions,
   VersionMetadata,
   LoadedVersion,
 } from './types';
@@ -38,11 +36,12 @@ import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './docFrontMatter';
-import {
-  SidebarsUtils,
-  toDocNavigationLink,
-  toNavigationLink,
-} from './sidebars/utils';
+import type {SidebarsUtils} from './sidebars/utils';
+import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
+import type {
+  MetadataOptions,
+  PluginOptions,
+} from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<
   PluginOptions,
@@ -274,11 +273,7 @@ export function processDocMetadata(args: {
   try {
     return doProcessDocMetadata(args);
   } catch (e) {
-    console.error(
-      chalk.red(
-        `Can't process doc metadata for doc at path "${args.docFile.filePath}" in version "${args.versionMetadata.versionName}"`,
-      ),
-    );
+    logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
     throw e;
   }
 }

@@ -28,29 +28,44 @@ describe('lastUpdate', () => {
     expect(typeof timestamp).toBe('number');
   });
 
+  test('existing test file with spaces in path', async () => {
+    const filePathWithSpace = path.join(
+      __dirname,
+      '__fixtures__/simple-site/docs/doc with space.md',
+    );
+    const lastUpdateData = await getFileLastUpdate(filePathWithSpace);
+    expect(lastUpdateData).not.toBeNull();
+
+    const {author, timestamp} = lastUpdateData;
+    expect(author).not.toBeNull();
+    expect(typeof author).toBe('string');
+
+    expect(timestamp).not.toBeNull();
+    expect(typeof timestamp).toBe('number');
+  });
+
   test('non-existing file', async () => {
-    const consoleMock = jest.spyOn(console, 'error');
-    consoleMock.mockImplementation();
+    const consoleMock = jest.spyOn(console, 'error').mockImplementation();
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
       __dirname,
       '__fixtures__',
       nonExistingFileName,
     );
-    expect(await getFileLastUpdate(nonExistingFilePath)).toBeNull();
+    await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
-    expect(consoleMock.mock.calls[0][0].message).toContain(
-      ' with exit code 128',
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/with exit code 128/),
     );
-    expect(await getFileLastUpdate(null)).toBeNull();
-    expect(await getFileLastUpdate(undefined)).toBeNull();
+    await expect(getFileLastUpdate(null)).resolves.toBeNull();
+    await expect(getFileLastUpdate(undefined)).resolves.toBeNull();
     consoleMock.mockRestore();
   });
 
   test('temporary created file that has no git timestamp', async () => {
     const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
     fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
-    expect(await getFileLastUpdate(tempFilePath)).toBeNull();
+    await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
     fs.unlinkSync(tempFilePath);
   });
 
@@ -60,7 +75,9 @@ describe('lastUpdate', () => {
     const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(
-      'Sorry, the docs plugin last update options require Git.',
+      expect.stringMatching(
+        /.*\[WARNING\].* Sorry, the docs plugin last update options require Git\..*/,
+      ),
     );
 
     consoleMock.mockRestore();

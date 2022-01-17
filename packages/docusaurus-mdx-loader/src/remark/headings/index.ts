@@ -8,7 +8,7 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
-import visit, {Visitor} from 'unist-util-visit';
+import visit, {type Visitor} from 'unist-util-visit';
 import toString from 'mdast-util-to-string';
 import type {Transformer} from 'unified';
 import type {Parent} from 'unist';

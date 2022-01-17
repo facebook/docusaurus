@@ -46,15 +46,9 @@ html[data-theme='dark'] {
     var(--site-primary-hue-saturation-light),
     73%
   );
-  --site-color-feedback-background: #fff;
-  --site-color-favorite-background: #f6fdfd;
   --site-color-tooltip: #fff;
   --site-color-tooltip-background: #353738;
   --site-color-svgIcon-favorite: #e9669e;
-  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
-}
-
-html[data-theme='dark'] {
   --site-color-feedback-background: #f0f8ff;
   --site-color-favorite-background: #1d1e1e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
@@ -68,7 +62,7 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(66, 66, 66, 0.3);
 }
 
 .header-github-link:hover {
@@ -188,4 +182,17 @@ div[class^='announcementBar_'] {
   position: absolute;
   width: 1px;
   white-space: nowrap;
+}
+
+html[data-theme='light'] img[src$='#gh-dark-mode-only'],
+html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
+  display: none;
+}
+
+/* Used to test CSS insertion order */
+.test-marker-site-custom-css-unique-rule {
+  content: 'site-custom-css-unique-rule';
+}
+.test-marker-site-custom-css-shared-rule {
+  max-width: 100%;
 }

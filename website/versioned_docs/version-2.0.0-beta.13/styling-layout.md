@@ -57,14 +57,6 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
 
 Alternatively, use the following tool to generate the different shades for your website and copy the variables into `/src/css/custom.css`.
 
-<!-- TODO move to ColorGenerator & replace with standalone admonition -->
-
-:::tip
-
-Aim for at least [WCAG-AA contrast ratio](https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast) for the primary color to ensure readability. Use the Docusaurus website itself to preview how your color palette would look like. You can use [alternative palettes in dark mode](#dark-mode) because one color doesn't usually work in both light and dark mode.
-
-:::
-
 <ColorGenerator/>
 
 ### Dark Mode {#dark-mode}
