@@ -321,11 +321,15 @@ describe('mapAsyncSequential', () => {
     const timeTotal = timeAfter - timeBefore;
 
     const totalTimeouts = sum(Object.values(itemToTimeout));
-    expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 5);
+    expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 20);
 
     expect(itemMapStartsAt['1']).toBeGreaterThanOrEqual(0);
-    expect(itemMapStartsAt['2']).toBeGreaterThanOrEqual(itemMapEndsAt['1'] - 5);
-    expect(itemMapStartsAt['3']).toBeGreaterThanOrEqual(itemMapEndsAt['2'] - 5);
+    expect(itemMapStartsAt['2']).toBeGreaterThanOrEqual(
+      itemMapEndsAt['1'] - 20,
+    );
+    expect(itemMapStartsAt['3']).toBeGreaterThanOrEqual(
+      itemMapEndsAt['2'] - 20,
+    );
   });
 });
 
@@ -353,8 +357,8 @@ describe('findAsyncSequential', () => {
     expect(findFn).toHaveBeenNthCalledWith(2, '2');
 
     const timeTotal = timeAfter - timeBefore;
-    expect(timeTotal).toBeGreaterThanOrEqual(95);
-    expect(timeTotal).toBeLessThan(105);
+    expect(timeTotal).toBeGreaterThanOrEqual(80);
+    expect(timeTotal).toBeLessThan(120);
   });
 });
 
