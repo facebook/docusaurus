@@ -69,17 +69,11 @@ export interface Options {
 
 class CleanWebpackPlugin {
   private readonly verbose: boolean;
-
   private readonly cleanStaleWebpackAssets: boolean;
-
   private readonly protectWebpackAssets: boolean;
-
   private readonly cleanOnceBeforeBuildPatterns: string[];
-
   private currentAssets: string[];
-
   private initialClean: boolean;
-
   private outputPath: string;
 
   constructor(options: Options = {}) {

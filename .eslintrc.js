@@ -98,6 +98,7 @@ module.exports = {
     ],
     'import/order': OFF,
     'import/prefer-default-export': OFF,
+    'lines-between-class-members': OFF,
     'no-lonely-if': WARNING,
     'no-use-before-define': OFF,
     '@typescript-eslint/no-use-before-define': [
