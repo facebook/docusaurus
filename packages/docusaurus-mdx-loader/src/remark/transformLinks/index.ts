@@ -10,6 +10,7 @@ import {
   posixPath,
   escapePath,
   getFileLoaderUtils,
+  findAsyncSequential,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
@@ -79,12 +80,12 @@ async function getAssetAbsolutePath(
     await ensureAssetFileExist(assetFilePath, filePath);
     return assetFilePath;
   } else if (path.isAbsolute(assetPath)) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const staticDir of staticDirs) {
-      const assetFilePath = path.join(staticDir, assetPath);
-      if (await fs.pathExists(assetFilePath)) {
-        return assetFilePath;
-      }
+    const assetFilePath = await findAsyncSequential(
+      staticDirs.map((dir) => path.join(dir, assetPath)),
+      fs.pathExists,
+    );
+    if (assetFilePath) {
+      return assetFilePath;
     }
   } else {
     const assetFilePath = path.join(path.dirname(filePath), assetPath);
