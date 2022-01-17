@@ -190,3 +190,17 @@ function MyComponent() {
   return <span>Some content...</span>;
 }
 ```
+
+### `ExecutionEnvironment`
+
+The [`ExecutionEnvironment`](../docusaurus-core.md#executionenvironment) namespace contains several values, and `canUseDOM` is an effective way to detect browser environment.
+
+Beware that it essentially checked `typeof window !== 'undefined'` under the hood, so you should not use it for rendering-related logic, but only imperative code, like reacting to user input by sending web requests, or dynamically importing libraries, where DOM isn't updated at all.
+
+```js title="a-client-module.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  document.title = "I'm loaded!";
+}
+```
