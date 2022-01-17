@@ -58,13 +58,22 @@ function MyComponent() {
 }
 ```
 
+If you want to add CSS to any element, you can open the DevTools in your browser to inspect its class names. Class names come in several kinds:
+
+- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). They don't have any default properties. You should always prioritize targeting stable class names in your custom CSS.
+- **Infima class names**. These class names usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
+- **CSS module class names**. These class names have a hash in production (`codeBlockContainer_RIuc`) and are appended with a long file path in development. They are considered implementation details and you should almost always avoid targeting them in your custom CSS. If you must, you can use an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) that ignores the hash.
+
 ### Theme Class Names
 
 We provide some predefined CSS class names for global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
 
+<details>
+
+<summary>Exhaustive list of stable class names</summary>
+
 ```mdx-code-block
 import ThemeClassNamesCode from '!!raw-loader!@site/../packages/docusaurus-theme-common/src/utils/ThemeClassNames.ts';
-
 import CodeBlock from '@theme/CodeBlock';
 
 <CodeBlock className="language-ts">
@@ -76,15 +85,18 @@ import CodeBlock from '@theme/CodeBlock';
 </CodeBlock>
 ```
 
+</details>
+
 ### Styling your site with Infima {#styling-your-site-with-infima}
 
 `@docusaurus/preset-classic` uses [Infima](https://infima.dev/) as the underlying styling framework. Infima provides a flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima.dev/).
 
-When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
+When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You can override Infima CSS variables globally.
 
 ```css title="/src/css/custom.css"
 :root {
   --ifm-color-primary: #25c2a0;
+  --ifm-code-font-size: 95%;
 }
 ```
 
@@ -92,7 +104,38 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
 
 Alternatively, use the following tool to generate the different shades for your website and copy the variables into `/src/css/custom.css`.
 
-<ColorGenerator />
+<ColorGenerator/>
+
+### Dark Mode {#dark-mode}
+
+In light mode, the `<html>` element has a `data-theme="light"` attribute; and in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
+
+```css
+/* Overriding root Infima variables */
+html[data-theme='dark'] {
+  --ifm-color-primary: #4e89e8;
+}
+/* Styling one class specially in dark mode */
+html[data-theme='dark'] .purple-text {
+  color: plum;
+}
+```
+
+### Mobile View {#mobile-view}
+
+Docusaurus uses `966px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
+
+```css
+.banner {
+  padding: 4rem;
+}
+/** In mobile view, reduce the padding */
+@media screen and (max-width: 966px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+```
 
 ## CSS modules {#css-modules}
 

@@ -15,7 +15,11 @@ import type {
   SidebarItemCategoryLinkConfig,
 } from './types';
 import {sortBy, last} from 'lodash';
-import {addTrailingSlash, posixPath} from '@docusaurus/utils';
+import {
+  addTrailingSlash,
+  posixPath,
+  findAsyncSequential,
+} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
 import fs from 'fs-extra';
@@ -76,17 +80,15 @@ async function readCategoryMetadataFile(
       throw e;
     }
   }
-  // eslint-disable-next-line no-restricted-syntax
-  for (const ext of ['.json', '.yml', '.yaml']) {
-    // Simpler to use only posix paths for mocking file metadata in tests
-    const filePath = posixPath(
-      path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
-    );
-    if (await fs.pathExists(filePath)) {
-      return tryReadFile(filePath);
-    }
-  }
-  return null;
+  const filePath = await findAsyncSequential(
+    ['.json', '.yml', '.yaml'].map((ext) =>
+      posixPath(
+        path.join(categoryDirPath, `${CategoryMetadataFilenameBase}${ext}`),
+      ),
+    ),
+    fs.pathExists,
+  );
+  return filePath ? tryReadFile(filePath) : null;
 }
 
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
@@ -154,13 +156,12 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     docs.forEach((doc) => {
       const breadcrumb = getRelativeBreadcrumb(doc);
       let currentDir = treeRoot; // We walk down the file's path to generate the fs structure
-      // eslint-disable-next-line no-restricted-syntax
-      for (const dir of breadcrumb) {
+      breadcrumb.forEach((dir) => {
         if (typeof currentDir[dir] === 'undefined') {
           currentDir[dir] = {}; // Create new folder.
         }
         currentDir = currentDir[dir]!; // Go into the subdirectory.
-      }
+      });
       currentDir[`${docIdPrefix}${doc.id}`] = null; // We've walked through the file path. Register the file in this directory.
     });
     return treeRoot;

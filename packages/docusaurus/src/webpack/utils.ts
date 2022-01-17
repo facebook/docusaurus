@@ -277,7 +277,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          logger.warn(`${warning}`);
+          logger.warn(warning);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
