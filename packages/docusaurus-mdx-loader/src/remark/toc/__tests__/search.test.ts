@@ -32,7 +32,7 @@ test('should process all heading levels', async () => {
 
   `;
 
-  expect(await getHeadings(md)).toEqual([
+  await expect(getHeadings(md)).resolves.toEqual([
     {
       children: [
         {
@@ -126,7 +126,7 @@ some text
 
   `;
 
-  expect(await getHeadings(md)).toEqual([
+  await expect(getHeadings(md)).resolves.toEqual([
     {
       children: [
         {

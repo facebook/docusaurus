@@ -124,7 +124,7 @@ describe('createSidebarsUtils', () => {
     getFirstLink,
   } = createSidebarsUtils(sidebars);
 
-  test('getSidebarNameByDocId', async () => {
+  test('getFirstDocIdOfFirstSidebar', async () => {
     expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
   });
 

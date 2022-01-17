@@ -23,6 +23,9 @@ Object {
           "rootTryToEscapeSlug",
         ],
         "label": "Slugs",
+        "link": Object {
+          "type": "generated-index",
+        },
         "type": "category",
       },
       Object {

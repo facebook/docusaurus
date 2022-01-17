@@ -25,7 +25,7 @@ describe('remoteBranchUrl', () => {
     );
     expect(url).toEqual('https://user:pass@github.com/facebook/docusaurus.git');
   });
-  test('should build a normal http url', () => {
+  test('should build a normal http url with port', () => {
     const url = buildHttpsUrl(
       'user:pass',
       'github.com',

@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable jest/no-conditional-expect */
 
 const stylelint = require('stylelint');
 const path = require('path');
@@ -24,28 +25,21 @@ function testStylelintRule(config, tests) {
     if (tests.accept && tests.accept.length) {
       describe('accept cases', () => {
         tests.accept.forEach((testCase) => {
-          const spec = testCase.only ? it.only : it;
-
-          spec(checkTestCaseContent(testCase), () => {
+          test(checkTestCaseContent(testCase), async () => {
             const options = {
               code: testCase.code,
               config,
               syntax: tests.syntax,
             };
 
-            return stylelint.lint(options).then((output) => {
-              expect(output.results[0].warnings).toEqual([]);
-
-              if (!tests.fix) {
-                return null;
-              }
-
-              // Check the fix.
-              return stylelint
-                .lint({...options, fix: true})
-                .then((fixedOutput) => getOutputCss(fixedOutput))
-                .then((fixedCode) => expect(fixedCode).toBe(testCase.fixed));
-            });
+            const output = await stylelint.lint(options);
+            expect(output.results[0].warnings).toEqual([]);
+            if (!tests.fix) {
+              return;
+            }
+            const fixedOutput = await stylelint.lint({...options, fix: true});
+            const fixedCode = getOutputCss(fixedOutput);
+            expect(fixedCode).toBe(testCase.fixed);
           });
         });
       });
@@ -54,51 +48,38 @@ function testStylelintRule(config, tests) {
     if (tests.reject && tests.reject.length) {
       describe('reject cases', () => {
         tests.reject.forEach((testCase) => {
-          const skip = testCase.skip ? it.skip : it;
-          const spec = testCase.only ? it.only : skip;
-
-          spec(checkTestCaseContent(testCase), () => {
+          test(checkTestCaseContent(testCase), async () => {
             const options = {
               code: testCase.code,
               config,
               syntax: tests.syntax,
             };
 
-            return stylelint.lint(options).then((output) => {
-              const {warnings} = output.results[0];
-              const warning = warnings[0];
-
-              expect(warnings.length).toBeGreaterThanOrEqual(1);
-              expect(testCase).toHaveMessage();
-
-              if (testCase.message != null) {
-                expect(warning.text).toBe(testCase.message);
-              }
-
-              if (testCase.line != null) {
-                expect(warning.line).toBe(testCase.line);
-              }
-
-              if (testCase.column != null) {
-                expect(warning.column).toBe(testCase.column);
-              }
-
-              if (!tests.fix) {
-                return null;
-              }
-
-              if (!testCase.fixed) {
-                throw new Error(
-                  'If using { fix: true } in test tests, all reject cases must have { fixed: .. }',
-                );
-              }
-
-              // Check the fix.
-              return stylelint
-                .lint({...options, fix: true})
-                .then((fixedOutput) => getOutputCss(fixedOutput))
-                .then((fixedCode) => expect(fixedCode).toBe(testCase.fixed));
-            });
+            const output = await stylelint.lint(options);
+            const {warnings} = output.results[0];
+            const warning = warnings[0];
+            expect(warnings.length).toBeGreaterThanOrEqual(1);
+            expect(testCase).toHaveMessage();
+            if (testCase.message != null) {
+              expect(warning.text).toBe(testCase.message);
+            }
+            if (testCase.line != null) {
+              expect(warning.line).toBe(testCase.line);
+            }
+            if (testCase.column != null) {
+              expect(warning.column).toBe(testCase.column);
+            }
+            if (!tests.fix) {
+              return;
+            }
+            if (!testCase.fixed) {
+              throw new Error(
+                'If using { fix: true } in test tests, all reject cases must have { fixed: .. }',
+              );
+            }
+            const fixedOutput = await stylelint.lint({...options, fix: true});
+            const fixedCode = getOutputCss(fixedOutput);
+            expect(fixedCode).toBe(testCase.fixed);
           });
         });
       });
