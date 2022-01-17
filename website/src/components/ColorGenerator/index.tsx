@@ -9,96 +9,27 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
-import {createStorageSlot, useColorMode} from '@docusaurus/theme-common';
-
-import styles from './styles.module.css';
 import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
+import {useColorMode} from '@docusaurus/theme-common';
 
-type Shades = Record<
-  string,
-  {
-    adjustment: number;
-    adjustmentInput: string;
-    displayOrder: number;
-    codeOrder: number;
-  }
->;
-const COLOR_SHADES: Shades = {
-  '--ifm-color-primary': {
-    adjustment: 0,
-    adjustmentInput: '0',
-    displayOrder: 3,
-    codeOrder: 0,
-  },
-  '--ifm-color-primary-dark': {
-    adjustment: 0.1,
-    adjustmentInput: '10',
-    displayOrder: 4,
-    codeOrder: 1,
-  },
-  '--ifm-color-primary-darker': {
-    adjustment: 0.15,
-    adjustmentInput: '15',
-    displayOrder: 5,
-    codeOrder: 2,
-  },
-  '--ifm-color-primary-darkest': {
-    adjustment: 0.3,
-    adjustmentInput: '30',
-    displayOrder: 6,
-    codeOrder: 3,
-  },
-  '--ifm-color-primary-light': {
-    adjustment: -0.1,
-    adjustmentInput: '-10',
-    displayOrder: 2,
-    codeOrder: 4,
-  },
-  '--ifm-color-primary-lighter': {
-    adjustment: -0.15,
-    adjustmentInput: '-15',
-    displayOrder: 1,
-    codeOrder: 5,
-  },
-  '--ifm-color-primary-lightest': {
-    adjustment: -0.3,
-    adjustmentInput: '-30',
-    displayOrder: 0,
-    codeOrder: 6,
-  },
-};
-
-const LIGHT_PRIMARY_COLOR = '#18816a';
-const DARK_PRIMARY_COLOR = '#25c2a0';
-const LIGHT_BACKGROUND_COLOR = '#ffffff';
-const DARK_BACKGROUND_COLOR = '#181920';
+import {
+  type ColorState,
+  COLOR_SHADES,
+  LIGHT_PRIMARY_COLOR,
+  DARK_PRIMARY_COLOR,
+  LIGHT_BACKGROUND_COLOR,
+  DARK_BACKGROUND_COLOR,
+  getAdjustedColors,
+  lightStorage,
+  darkStorage,
+} from '@site/src/utils/colorUtils';
+import styles from './styles.module.css';
 
 function wcagContrast(foreground: string, background: string) {
   const contrast = Color(foreground).contrast(Color(background));
   // eslint-disable-next-line no-nested-ternary
   return contrast > 7 ? 'AAA 🏅' : contrast > 4.5 ? 'AA 👍' : 'Fail 🔴';
-}
-
-type ColorState = {
-  baseColor: string;
-  background: string;
-  shades: Shades;
-};
-
-const lightStorage = createStorageSlot('ifm-theme-colors-light');
-const darkStorage = createStorageSlot('ifm-theme-colors-dark');
-
-function getAdjustedColors(shades: Shades, baseColor: string) {
-  return Object.keys(shades)
-    .map((shade) => ({
-      ...shades[shade],
-      variableName: shade,
-    }))
-    .map((value) => ({
-      ...value,
-      hex: Color(baseColor).darken(value.adjustment).hex(),
-    }));
 }
 
 function ColorGenerator(): JSX.Element {
@@ -118,6 +49,7 @@ function ColorGenerator(): JSX.Element {
     isDarkTheme ? darkStorage : lightStorage,
   );
 
+  // init -> create default storage values
   useEffect(() => {
     if (darkStorage.get() === null) {
       darkStorage.set(
@@ -143,6 +75,7 @@ function ColorGenerator(): JSX.Element {
     setStorage(isDarkTheme ? darkStorage : lightStorage);
   }, [isDarkTheme]);
 
+  // Switch modes -> update state by stored values
   useEffect(() => {
     const storedValues: ColorState = JSON.parse(storage.get() ?? '{}');
     setInputColor(storedValues.baseColor ?? DEFAULT_PRIMARY_COLOR);
@@ -151,6 +84,7 @@ function ColorGenerator(): JSX.Element {
     setShades(storedValues.shades ?? COLOR_SHADES);
   }, [storage, DEFAULT_BACKGROUND_COLOR, DEFAULT_PRIMARY_COLOR]);
 
+  // State changes -> update DOM styles
   useEffect(() => {
     const root = document.documentElement;
     getAdjustedColors(shades, baseColor).forEach((value) => {
