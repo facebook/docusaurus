@@ -2,8 +2,7 @@
 title: Docusaurus 2021 Recap
 authors: [Josh-Cena]
 tags: [recap]
-# TODO
-image: /img/docusaurus-2020-recap.png
+image: ./img/thumbnail.png
 ---
 
 Docusaurus has made great progress in 2021! We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year.
