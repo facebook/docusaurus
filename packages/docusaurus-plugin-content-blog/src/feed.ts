@@ -85,7 +85,8 @@ async function generateBlogFeed({
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
-      category: tags.map((tag) => ({name: tag.label})),
+      // Atom feed demands the "term", while other feeds use "name"
+      category: tags.map((tag) => ({name: tag.label, term: tag.label})),
       content: mdxToFeedContent(post.content),
     };
 

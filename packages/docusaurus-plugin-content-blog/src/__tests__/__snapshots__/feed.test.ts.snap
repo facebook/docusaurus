@@ -37,8 +37,8 @@ Array [
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[complex url slug]]></summary>
         <content type=\\"html\\"><![CDATA[<p>complex url slug</p>]]></content>
-        <category label=\\"date\\"/>
-        <category label=\\"complex\\"/>
+        <category label=\\"date\\" term=\\"date\\"/>
+        <category label=\\"complex\\" term=\\"complex\\"/>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[Simple Slug]]></title>
@@ -73,7 +73,7 @@ Array [
         <updated>2019-01-01T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[date inside front matter]]></summary>
         <content type=\\"html\\"><![CDATA[<p>date inside front matter</p>]]></content>
-        <category label=\\"date\\"/>
+        <category label=\\"date\\" term=\\"date\\"/>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
