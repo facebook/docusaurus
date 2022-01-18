@@ -69,7 +69,14 @@ async function generateBlogFeed({
   blogPosts.forEach((post) => {
     const {
       id,
-      metadata: {title: metadataTitle, permalink, date, description, authors},
+      metadata: {
+        title: metadataTitle,
+        permalink,
+        date,
+        description,
+        authors,
+        tags,
+      },
     } = post;
 
     const feedItem: FeedItem = {
@@ -78,6 +85,7 @@ async function generateBlogFeed({
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
+      category: tags.map((tag) => ({name: tag.label})),
       content: mdxToFeedContent(post.content),
     };
 
