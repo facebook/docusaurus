@@ -18,13 +18,13 @@ import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {Options} from '@docusaurus/theme-classic';
+import type webpack from 'webpack';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin = requireFromDocusaurusCore(
-  'webpack/lib/ContextReplacementPlugin',
-);
+const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
+  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
@@ -172,6 +172,9 @@ export default function docusaurusThemeClassic(
 
       return {
         plugins: [
+          // This allows better optimization by only bundling those components
+          // that the user actually needs, because the modules are dynamically
+          // required and can't be known during compile time.
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
             new RegExp(`^./(${prismLanguages})$`),
