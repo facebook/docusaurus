@@ -20,7 +20,7 @@ Let's begin by going over a few highlights this year. Remember the [todo-list](.
 - **Redesigned mobile navigation**: mobile users now enjoy all navigation features as on desktop
 - **UI improvements**: more accessible quotes, better admonitions, back-to-top button...
 - **Blog multi-authors**: credit all the amazing contributors that collaborated on one blog post!
-- **More blog features**: archive page, structured data for SEO, full post content in feeds—empowering you to ship a fully-featured blog in no time
+- **More blog features**: archive page, structured data for SEO, full post content in feeds – empowering you to ship a fully-featured blog in no time
 - **Asset colocation**: no need for a bloated static folder anymore: colocate your images with Markdown files
 - **Sidebar category index pages**: category labels can now be associated with pages, enabling better doc organization
 
@@ -71,9 +71,9 @@ The creativity of Docusaurus users is beyond our imagination🤩 We look forward
 
 ## Community
 
-As an active moderator on [Discord](https://discord.gg/docusaurus), I can clearly see the community thriving. Many frequently asked questions are now integrated into our documentation, and some feature requests have been implemented as well. The project and the community reciprocally benefit each other — case in point, I was formerly a community contributor before becoming a maintainer.
+As an active moderator on [Discord](https://discord.gg/docusaurus), I can clearly see the community thriving. Many frequently asked questions are now integrated into our documentation, and some feature requests have been implemented as well. The project and the community reciprocally benefit each other – case in point, I was formerly a community contributor before becoming a maintainer.
 
-As we approach the official release, we are interested in knowing more about what people are doing out there: [plugin authors](https://github.com/facebook/docusaurus/discussions/4025), [creators of customized sites](https://github.com/facebook/docusaurus/discussions/5468), and [all new users](https://github.com/facebook/docusaurus/discussions/4610) — please keep us posted about your achievements so we can steer our development to better serve your needs.
+As we approach the official release, we are interested in knowing more about what people are doing out there: [plugin authors](https://github.com/facebook/docusaurus/discussions/4025), [creators of customized sites](https://github.com/facebook/docusaurus/discussions/5468), and [all new users](https://github.com/facebook/docusaurus/discussions/4610) – please keep us posted about your achievements so we can steer our development to better serve your needs.
 
 ## Going forward
 
@@ -82,7 +82,7 @@ In the past few months, we have been constantly speaking about the release-candi
 - Guidelines on **component organization**. We want the theme components to have the right granularity so when you want to customize a part of your site, there's always a component doing just what you need.
 - Improvements to the **swizzle CLI**. We want users to use it with delight and let it aid you through all possible swizzling scenarios.
 - Refactoring our **theme APIs**. We want all swizzlable components to be actually appropriate for swizzling, so non-UI components will be re-located.
-- **Docs**. We want our docs to be maximally accessible to everyone — from first-time coders to experienced web developers. We will organize it as a more progressive tutorial that can be beneficial for every skill level.
+- **Docs**. We want our docs to be maximally accessible to everyone – from first-time coders to experienced web developers. We will organize it as a more progressive tutorial that can be beneficial for every skill level.
 
 Read more about plans for Docusaurus 2.0 in this [roadmap issue](https://github.com/facebook/docusaurus/issues/6113). 2.0 will be a greater release with the help from the community, so please share your opinions and suggestions under any of the milestone issues!
 
