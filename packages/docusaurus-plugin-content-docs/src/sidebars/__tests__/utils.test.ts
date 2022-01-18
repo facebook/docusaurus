@@ -98,6 +98,14 @@ describe('createSidebarsUtils', () => {
   const sidebar4: Sidebar = [
     {
       type: 'category',
+      items: [
+        {type: 'link', href: 'https://facebook.com'},
+        {type: 'link', href: 'https://reactjs.org'},
+        {type: 'link', href: 'https://docusaurus.io'},
+      ],
+    },
+    {
+      type: 'category',
       collapsed: false,
       collapsible: true,
       label: 'S4 Category',

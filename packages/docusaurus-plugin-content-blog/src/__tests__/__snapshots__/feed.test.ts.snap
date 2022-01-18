@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`blogFeed atom shows feed item for each post 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+Array [
+  Array [
+    "build/blog/atom.xml",
+    "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <feed xmlns=\\"http://www.w3.org/2005/Atom\\">
     <id>https://docusaurus.io/myBaseUrl/blog</id>
     <title>Hello Blog</title>
@@ -83,11 +86,16 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
             <name>Sébastien Lorber (translated)</name>
         </author>
     </entry>
-</feed>"
+</feed>",
+  ],
+]
 `;
 
 exports[`blogFeed json shows feed item for each post 1`] = `
-"{
+Array [
+  Array [
+    "build/blog/feed.json",
+    "{
     \\"version\\": \\"https://jsonfeed.org/version/1\\",
     \\"title\\": \\"Hello Blog\\",
     \\"home_page_url\\": \\"https://docusaurus.io/myBaseUrl/blog\\",
@@ -163,11 +171,16 @@ exports[`blogFeed json shows feed item for each post 1`] = `
             }
         }
     ]
-}"
+}",
+  ],
+]
 `;
 
 exports[`blogFeed rss shows feed item for each post 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+Array [
+  Array [
+    "build/blog/rss.xml",
+    "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <rss version=\\"2.0\\" xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\" xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\">
     <channel>
         <title>Hello Blog</title>
@@ -240,5 +253,7 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
             <content:encoded><![CDATA[<p>Happy birthday! (translated)</p>]]></content:encoded>
         </item>
     </channel>
-</rss>"
+</rss>",
+  ],
+]
 `;
