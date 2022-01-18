@@ -5,8 +5,8 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "node copyUntypedFiles.js && tsc",
-    "watch": "node copyUntypedFiles.js && tsc --watch"
+    "build": "node copyUntypedFiles.mjs && tsc",
+    "watch": "node copyUntypedFiles.mjs && tsc --watch"
   },
   "publishConfig": {
     "access": "public"

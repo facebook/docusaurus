@@ -14,15 +14,17 @@ Use this for files that are consumed server-side, because theme files are automa
 
 Example:
 
-```js {5-7} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 const path = require('path');
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     getPathsToWatch() {
       const contentPath = path.resolve(context.siteDir, options.path);
       return [`${contentPath}/**/*.{ts,tsx}`];
     },
+    // highlight-end
   };
 };
 ```
@@ -39,10 +41,11 @@ The commander version matters! We use commander v5, and make sure you are referr
 
 Example:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     extendCli(cli) {
       cli
         .command('roll')
@@ -51,6 +54,7 @@ module.exports = function (context, options) {
           console.log(Math.floor(Math.random() * 1000 + 1));
         });
     },
+    // highlight-end
   };
 };
 ```
@@ -61,15 +65,17 @@ Returns the path to the directory where the theme components can be found. When 
 
 For example, your `getThemePath` can be:
 
-```js {6-8} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   return {
     name: 'my-theme',
+    // highlight-start
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
+    // highlight-end
   };
 };
 ```
@@ -88,12 +94,13 @@ You should also format these files with Prettier. Remember—JS files can and wi
 
 Example:
 
-```js {6-13} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   return {
     name: 'my-theme',
+    // highlight-start
     getThemePath() {
       // Where compiled JavaScript output lives
       return path.join(__dirname, '../lib/theme');
@@ -102,6 +109,7 @@ module.exports = function (context, options) {
       // Where TypeScript source code lives
       return path.resolve(__dirname, '../src/theme');
     },
+    // highlight-end
   };
 };
 ```
@@ -112,7 +120,7 @@ module.exports = function (context, options) {
 
 Returns a list of stable components that are considered safe for swizzling. These components will be swizzlable without `--danger`. All components are considered unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all components are considered stable.
 
-```js {0-12} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const swizzleAllowedComponents = [
   'CodeBlock',
   'DocSidebar',

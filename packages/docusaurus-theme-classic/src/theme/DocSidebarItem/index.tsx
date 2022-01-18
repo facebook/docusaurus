@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, memo, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import clsx from 'clsx';
 import {
   isActiveSidebarItem,
@@ -20,7 +20,8 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import IconExternalLink from '@theme/IconExternalLink';
 
-import type {Props, DocSidebarItemsProps} from '@theme/DocSidebarItem';
+import DocSidebarItems from '@theme/DocSidebarItems';
+import type {Props} from '@theme/DocSidebarItem';
 import type {
   PropSidebarItemCategory,
   PropSidebarItemLink,
@@ -28,23 +29,6 @@ import type {
 
 import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-
-// Optimize sidebar at each "level"
-// TODO this item should probably not receive the "activePath" props
-// TODO this triggers whole sidebar re-renders on navigation
-export const DocSidebarItems = memo(
-  ({items, ...props}: DocSidebarItemsProps): JSX.Element => (
-    <>
-      {items.map((item, index) => (
-        <DocSidebarItem
-          key={index} // sidebar is static, the index does not change
-          item={item}
-          {...props}
-        />
-      ))}
-    </>
-  ),
-);
 
 export default function DocSidebarItem({
   item,

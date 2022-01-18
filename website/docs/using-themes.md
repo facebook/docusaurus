@@ -39,9 +39,10 @@ We maintain a [list of official themes](./api/themes/overview.md).
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
 
-```js {3} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
+  // highlight-next-line
   themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
 };
 ```
@@ -228,14 +229,16 @@ To summarize:
 
 A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
 
-```bash {5-7}
+```bash
 website
 ├── package.json
 └── src
     ├── index.js
+    # highlight-start
     └── theme
         ├── MyThemeComponent
         └── AnotherThemeComponent.js
+    # highlight-end
 ```
 
 There are two lifecycle methods that are essential to theme implementation:

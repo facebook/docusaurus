@@ -14,13 +14,18 @@ import type {
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import type {Configuration} from 'webpack';
 import {Joi} from '@docusaurus/utils-validation';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 import path from 'path';
 
 export default function pluginIdealImage(
-  _context: LoadContext,
+  context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-plugin-ideal-image',
 
@@ -30,6 +35,13 @@ export default function pluginIdealImage(
 
     getTypeScriptThemePath() {
       return path.resolve(__dirname, '../src/theme');
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'plugin-ideal-image',
+      });
     },
 
     configureWebpack(_config: Configuration, isServer: boolean) {

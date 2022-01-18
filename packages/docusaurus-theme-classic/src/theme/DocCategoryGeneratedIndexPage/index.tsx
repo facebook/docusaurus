@@ -13,7 +13,8 @@ import DocPaginator from '@theme/DocPaginator';
 import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
-import {MainHeading} from '@theme/Heading';
+import Heading from '@theme/Heading';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -26,14 +27,17 @@ export default function DocCategoryGeneratedIndexPage({
       <Seo
         title={categoryGeneratedIndex.title}
         description={categoryGeneratedIndex.description}
+        keywords={categoryGeneratedIndex.keywords}
+        // TODO `require` this?
+        image={useBaseUrl(categoryGeneratedIndex.image)}
       />
       <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
         <DocVersionBadge />
         <header>
-          <MainHeading className={styles.title}>
+          <Heading as="h1" className={styles.title}>
             {categoryGeneratedIndex.title}
-          </MainHeading>
+          </Heading>
           {categoryGeneratedIndex.description && (
             <p>{categoryGeneratedIndex.description}</p>
           )}

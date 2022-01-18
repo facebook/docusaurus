@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Svg, {SvgIconProps} from '@site/src/components/Svg';
+import Svg, {type SvgIconProps} from '@site/src/components/Svg';
 
 export default function FavoriteIcon(
   props: Omit<SvgIconProps, 'children'>,

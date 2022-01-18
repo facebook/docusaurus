@@ -24,19 +24,15 @@ module.exports = {
 
 Now, all files in `public` as well as `static` will be copied to the build output.
 
-## Referencing your static asset {#referencing-your-static-asset}
+## Referencing your static asset
 
-In JSX, you can reference assets from the `static` folder in your code using absolute paths, but this is not ideal because changing the site `baseUrl` will **break those links**. For the image `<img src="/img/docusaurus.png" />` served at `https://example.com/test`, the browser will try to resolve it from the URL root, i.e. as `https://example.com/img/docusaurus.png`, which will fail because it's actually served at `https://example.com/test/img/docusaurus.png`.
+### In JSX
 
-You can `import` or `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
+In JSX, you can reference assets from the `static` folder in your code using absolute URLs, but this is not ideal because changing the site `baseUrl` will **break those links**. For the image `<img src="/img/docusaurus.png" />` served at `https://example.com/test`, the browser will try to resolve it from the URL root, i.e. as `https://example.com/img/docusaurus.png`, which will fail because it's actually served at `https://example.com/test/img/docusaurus.png`.
 
-:::info
+You can `import()` or `require()` the static asset (recommended), or use the `useBaseUrl` utility function: both prepend the `baseUrl` to paths for you.
 
-In Markdown, things are different: you can stick to using absolute paths because Docusaurus actually handles them as `require` calls instead of URLs when parsing the Markdown. See [Markdown static assets](./guides/markdown-features/markdown-features-assets.mdx).
-
-:::
-
-### Examples {#examples}
+Examples:
 
 ```jsx title="MyComponent.js"
 import DocusaurusImageUrl from '@site/static/img/docusaurus.png';
@@ -62,10 +58,51 @@ import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
 <DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
 ```
 
-### Caveats {#caveats}
+### In Markdown
+
+In Markdown, you can stick to using absolute paths when writing links or images **in Markdown syntax** because Docusaurus handles them as `require` calls instead of URLs when parsing the Markdown. See [Markdown static assets](./guides/markdown-features/markdown-features-assets.mdx).
+
+```md
+You write a link like this: [Download this document](/files/note.docx)
+
+Docusaurus changes that to: <a href={require('static/files/note.docx')}>Download this document</a>
+```
+
+:::caution use markdown syntax
+
+Docusaurus will only parse links that are in Markdown syntax. If your asset references are using the JSX tag `<a>` / `<img>`, nothing will be done.
+
+:::
+
+### In CSS
+
+In CSS, the `url()` function is commonly used to reference assets like fonts and images. To reference a static asset, use absolute paths:
+
+```css
+@font-face {
+  font-family: 'Caroline';
+  src: url('/font/Caroline.otf');
+}
+```
+
+The `static/font/Caroline.otf` asset will be loaded by the bundler.
+
+:::warning important takeaway
+
+One important takeaway: **never hardcode your base URL!** The base URL is considered an implementation detail and should be easily changeable. All paths, even when they look like URL slugs, are actually file paths.
+
+If you find the URL slug mental model more understandable, here's a rule of thumb:
+
+- Pretend you have a base URL like `/test/` when writing JSX so you don't use an absolute URL path like `src="/img/thumbnail.png"` but instead `require` the asset.
+- Pretend it's `/` when writing Markdown or CSS so you always use absolute paths without the base URL.
+
+:::
+
+## Caveats {#caveats}
 
 Keep in mind that:
 
 - By default, none of the files in the `static` folder will be post-processed, hashed, or minified.
+  - However, as we've demonstrated above, we are usually able to convert them to `require` calls for you so they do get processed. This is good for aggressive caching and better user experience.
 - Missing files referenced via hard-coded absolute paths will not be detected at compilation time and will result in a 404 error.
 - By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory if you are using GitHub pages for hosting.

@@ -6,14 +6,14 @@
  */
 
 import {
-  ActivePlugin,
+  type ActivePlugin,
   getActivePlugin,
   getLatestVersion,
   getActiveDocContext,
   getActiveVersion,
   getDocVersionSuggestions,
 } from '../docsClientUtils';
-import {GlobalPluginData, GlobalVersion} from '../../types';
+import type {GlobalPluginData, GlobalVersion} from '../../types';
 import {shuffle} from 'lodash';
 
 describe('docsClientUtils', () => {

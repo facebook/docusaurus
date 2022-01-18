@@ -6,7 +6,7 @@
  */
 
 import {isPlainObject} from 'lodash';
-import {HtmlTagObject} from '@docusaurus/types';
+import type {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 import escapeHTML from 'escape-html';

@@ -49,7 +49,7 @@ npm install --save remark-math@3 rehype-katex@4
 
 :::note
 
-There's recently a trend in the Remark/Rehype ecosystem to migrate to ES Modules, which Docusaurus doesn't support yet. Please make sure your installed plugin version is CommonJS-compatible before we officially support ESM.
+There's recently a trend in the Remark/Rehype ecosystem to migrate to ES Modules, a new JavaScript module system, which Docusaurus doesn't support yet. Please make sure your installed plugin version is CommonJS-compatible before we officially support ESM. Alternatively, you can read about using dynamic `import()` as a workaround in the tutorial of installing [`rehype-katex`](./markdown-features-math-equations.mdx#upgrading-rehype-katex-beyond-recommended-version).
 
 :::
 
@@ -93,7 +93,7 @@ module.exports = {
 
 Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like this:
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
@@ -134,14 +134,10 @@ const plugin = (options) => {
     let number = 1;
     visit(ast, 'heading', (node) => {
       if (node.depth === 2 && node.children.length > 0) {
-        if (node.children[0].type === 'text') {
-          node.children[0].value = `Section ${number}. ${node.children[0].value}`;
-        } else {
-          node.children.unshift({
-            type: 'text',
-            value: `Section ${number}. `,
-          });
-        }
+        node.children.unshift({
+          type: 'text',
+          value: `Section ${number}. `,
+        });
         number++;
       }
     });
@@ -154,7 +150,7 @@ module.exports = plugin;
 
 You can now import your plugin in `docusaurus.config.js` and use it just like an installed plugin!
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 // highlight-next-line
 const sectionPrefix = require('./src/remark/section-prefix');
 
@@ -177,7 +173,7 @@ module.exports = {
 
 The default plugins of Docusaurus would operate before the custom remark plugins, and that means the images or links have been converted to JSX with `require()` calls already. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`, because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [

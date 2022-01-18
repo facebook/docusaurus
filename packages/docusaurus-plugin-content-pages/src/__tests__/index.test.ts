@@ -9,7 +9,7 @@ import path from 'path';
 import {loadContext} from '@docusaurus/core/lib/server';
 
 import pluginContentPages from '../index';
-import normalizePluginOptions from './pluginOptionSchema.test';
+import {PluginOptionSchema} from '../pluginOptionSchema';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
@@ -18,9 +18,9 @@ describe('docusaurus-plugin-content-pages', () => {
     const pluginPath = 'src/pages';
     const plugin = await pluginContentPages(
       context,
-      normalizePluginOptions({
+      PluginOptionSchema.validate({
         path: pluginPath,
-      }),
+      }).value,
     );
     const pagesMetadata = await plugin.loadContent?.();
 
@@ -85,9 +85,9 @@ describe('docusaurus-plugin-content-pages', () => {
           currentLocale: 'fr',
         },
       },
-      normalizePluginOptions({
+      PluginOptionSchema.validate({
         path: pluginPath,
-      }),
+      }).value,
     );
     const pagesMetadata = await plugin.loadContent?.();
 

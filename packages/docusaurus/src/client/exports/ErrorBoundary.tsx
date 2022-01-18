@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {Props} from '@docusaurus/ErrorBoundary';
@@ -40,7 +40,11 @@ class ErrorBoundary extends React.Component<Props, State> {
       });
     }
 
-    return children;
+    return (
+      children ??
+      // See https://github.com/facebook/docusaurus/issues/6337#issuecomment-1012913647
+      null
+    );
   }
 }
 

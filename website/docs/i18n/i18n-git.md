@@ -109,7 +109,7 @@ Use the `--messagePrefix '(fr) '` option to make the untranslated strings stand 
 
 Copy your untranslated Markdown files to the French folder:
 
-```
+```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
 cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
 

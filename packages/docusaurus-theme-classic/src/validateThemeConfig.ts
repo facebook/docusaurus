@@ -96,6 +96,12 @@ const DocItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
+const DocSidebarItemSchema = NavbarItemBaseSchema.append({
+  type: Joi.string().equal('docSidebar').required(),
+  sidebarId: Joi.string().required(),
+  docsPluginId: Joi.string(),
+});
+
 const itemWithType = (type: string | undefined) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
@@ -182,6 +188,10 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType('doc'),
       then: DocItemSchema,
+    },
+    {
+      is: itemWithType('docSidebar'),
+      then: DocSidebarItemSchema,
     },
     {
       is: itemWithType('localeDropdown'),

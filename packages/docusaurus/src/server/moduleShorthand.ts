@@ -33,13 +33,17 @@ export function resolveModuleName(
   moduleType: 'preset' | 'theme' | 'plugin',
 ): string {
   const modulePatterns = getNamePatterns(moduleName, moduleType);
-  // eslint-disable-next-line no-restricted-syntax
-  for (const module of modulePatterns) {
+  const module = modulePatterns.find((m) => {
     try {
-      moduleRequire.resolve(module);
-      return module;
-    } catch (e) {}
+      moduleRequire.resolve(m);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  if (!module) {
+    throw new Error(`Docusaurus was unable to resolve the "${moduleName}" ${moduleType}. Make sure one of the following packages are installed:
+${modulePatterns.map((m) => `- ${m}`).join('\n')}`);
   }
-  throw new Error(`Docusaurus was unable to resolve the "${moduleName}" ${moduleType}. Make sure one of the following packages are installed:
-${modulePatterns.map((module) => `- ${module}`).join('\n')}`);
+  return module;
 }

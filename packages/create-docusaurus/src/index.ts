@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
-import prompts, {Choice} from 'prompts';
+import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import {kebabCase, sortBy} from 'lodash';

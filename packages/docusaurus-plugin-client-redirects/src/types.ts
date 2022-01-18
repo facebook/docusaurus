@@ -5,28 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Props} from '@docusaurus/types';
-
-export type PluginOptions = {
-  id: string;
-  fromExtensions: string[];
-  toExtensions: string[];
-  redirects: RedirectOption[];
-  createRedirects?: CreateRedirectsFnOption;
-};
-
-// For a given existing route path,
-// return all the paths from which we should redirect from
-export type CreateRedirectsFnOption = (
-  path: string,
-) => string[] | string | null | undefined;
-
-export type RedirectOption = {
-  to: string;
-  from: string | string[];
-};
-
-export type UserPluginOptions = Partial<PluginOptions>;
+import type {Props} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-client-redirects';
 
 // The minimal infos the plugin needs to work
 export type PluginContext = Pick<Props, 'outDir' | 'baseUrl'> & {

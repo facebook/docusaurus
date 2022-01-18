@@ -7,7 +7,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import {Props} from '@theme/Admonition';
+import type {Props} from '@theme/Admonition';
 
 const icons = {
   note: (

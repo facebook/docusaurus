@@ -6,7 +6,6 @@
  */
 
 import rangeParser from 'parse-numeric-range';
-import type {Language} from 'prism-react-renderer';
 
 const codeBlockTitleRegex = /title=(["'])(.*?)\1/;
 const metastringLinesRangeRegex = /{([\d,-]+)}/;
@@ -113,18 +112,18 @@ export function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.[2] ?? '';
 }
 
-export function parseLanguage(className?: string): Language | undefined {
+export function parseLanguage(className: string): string | undefined {
   const languageClassName = className
-    ?.split(' ')
+    .split(' ')
     .find((str) => str.startsWith('language-'));
-  return languageClassName?.replace(/language-/, '') as Language | undefined;
+  return languageClassName?.replace(/language-/, '');
 }
 
 export function parseLines(
   content: string,
   metastring: string | undefined,
   options: {
-    language: Language | undefined;
+    language: string | undefined;
     magicComments: MagicCommentConfig[];
   },
 ): {

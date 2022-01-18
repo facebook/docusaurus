@@ -29,12 +29,10 @@ import {
 } from './docs';
 import {getDocsDirPaths, readVersionsMetadata} from './versions';
 
-import {
-  PluginOptions,
+import type {
   LoadedContent,
   SourceToPermalink,
   DocMetadataBase,
-  GlobalPluginData,
   VersionMetadata,
   LoadedVersion,
   DocFile,
@@ -54,7 +52,11 @@ import {
 import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
-import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
+import type {
+  PropTagsListPage,
+  PluginOptions,
+} from '@docusaurus/plugin-content-docs';
+import type {GlobalPluginData} from '@docusaurus/plugin-content-docs/client';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
@@ -64,7 +66,7 @@ export default async function pluginContentDocs(
 ): Promise<Plugin<LoadedContent>> {
   const {siteDir, generatedFilesDir, baseUrl, siteConfig} = context;
 
-  const versionsMetadata = readVersionsMetadata({context, options});
+  const versionsMetadata = await readVersionsMetadata({context, options});
 
   const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
 
@@ -78,14 +80,6 @@ export default async function pluginContentDocs(
 
   return {
     name: 'docusaurus-plugin-content-docs',
-
-    getThemePath() {
-      return path.resolve(__dirname, './theme');
-    },
-
-    getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
-    },
 
     extendCli(cli) {
       const isDefaultPluginId = pluginId === DEFAULT_PLUGIN_ID;

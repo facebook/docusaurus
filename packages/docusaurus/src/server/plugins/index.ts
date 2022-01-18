@@ -8,7 +8,7 @@
 import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
-import {
+import type {
   LoadContext,
   PluginConfig,
   PluginContentLoadedActions,

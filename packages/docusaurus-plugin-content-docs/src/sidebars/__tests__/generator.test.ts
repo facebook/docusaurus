@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {CategoryMetadataFile, DefaultSidebarItemsGenerator} from '../generator';
-import {Sidebar, SidebarItemsGenerator} from '../types';
+import {
+  DefaultSidebarItemsGenerator,
+  type CategoryMetadataFile,
+} from '../generator';
+import type {Sidebar, SidebarItemsGenerator} from '../types';
 import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 
@@ -198,7 +201,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           source: 'guide1.md',
           sourceDirName: '02-Guides',
           sidebarPosition: 1,
-          frontMatter: {},
+          frontMatter: {
+            sidebar_class_name: 'foo',
+          },
         },
         {
           id: 'nested-guide',
@@ -247,7 +252,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           id: 'guides-index',
         },
         items: [
-          {type: 'doc', id: 'guide1'},
+          {type: 'doc', id: 'guide1', className: 'foo'},
           {
             type: 'category',
             label: 'SubGuides (metadata file label)',
@@ -275,12 +280,17 @@ describe('DefaultSidebarItemsGenerator', () => {
       'subfolder/subsubfolder/subsubsubfolder2/_category_.yml': {
         position: 2,
         label: 'subsubsubfolder2 (_category_.yml label)',
+        className: 'bar',
       },
       'subfolder/subsubfolder/subsubsubfolder3/_category_.json': {
         position: 1,
         label: 'subsubsubfolder3 (_category_.json label)',
         collapsible: false,
         collapsed: false,
+        link: {
+          type: 'doc',
+          id: 'doc1', // This is a "fully-qualified" ID that can't be found locally
+        },
       },
     });
 
@@ -364,6 +374,10 @@ describe('DefaultSidebarItemsGenerator', () => {
         label: 'subsubsubfolder3 (_category_.json label)',
         collapsed: false,
         collapsible: false,
+        link: {
+          id: 'doc1',
+          type: 'doc',
+        },
         items: [
           {type: 'doc', id: 'doc8'},
           {type: 'doc', id: 'doc7'},
@@ -374,6 +388,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         label: 'subsubsubfolder2 (_category_.yml label)',
         collapsed: true,
         collapsible: true,
+        className: 'bar',
         items: [{type: 'doc', id: 'doc6'}],
       },
       {type: 'doc', id: 'doc1'},
