@@ -25,9 +25,9 @@ There are a few options you can use to add search to your website:
 
 Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
 
-The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/apply).
+The service is **free** for any open-source project: just make sure to read the [checklist](https://docsearch.algolia.com/docs/who-can-apply/) and [apply to the DocSearch program](https://docsearch.algolia.com/apply).
 
-It works by regularly crawling the content of your website (the schedule is configurable from the web interface) and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
+DocSearch crawls your website once a week (the schedule is configurable from the web interface) and aggregates all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
 If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
 
@@ -37,15 +37,15 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::
 
-:::info From an old docsearch version?
+:::info From the old docsearch?
 
-You can read more about migration from DocSearch v2 and configurating v3 in [our blog post](/blog/2021/11/21/algolia-docsearch-migration).
+You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration).
 
 :::
 
 ### Index Configuration {#algolia-index-configuration}
 
-After your application has been approved, you can view and update your search configuration through the web interface.
+After your application has been approved and deployed, you will receive an email with all the details for you to add DocSearch to your project. Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). Indices are readily available after deployment, so manual configuration usually isn't necessary.
 
 :::tip
 
