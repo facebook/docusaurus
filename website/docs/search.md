@@ -39,7 +39,7 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::info From the old docsearch?
 
-You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration).
+You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration) or [the DocSearch migration docs](https://docsearch.algolia.com/docs/migrating-from-legacy).
 
 :::
 
