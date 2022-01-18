@@ -27,7 +27,7 @@ Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.al
 
 The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/apply).
 
-It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
+It works by regularly crawling the content of your website (the schedule is configurable from the web interface) and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
 If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
 
@@ -37,22 +37,19 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::
 
+:::info From an old docsearch version?
+
+You can read more about migration from DocSearch v2 and configurating v3 in [our blog post](/blog/2021/11/21/algolia-docsearch-migration).
+
+:::
+
 ### Index Configuration {#algolia-index-configuration}
 
-After applying, your site's DocSearch config should be created at:
+After your application has been approved, you can view and update your search configuration through the web interface.
 
-```
-https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json
-```
+:::tip
 
-This configuration file can be updated by:
-
-- [**asking for help**](#algolia-support): the DocSearch team can help you maintain it
-- opening a pull-requests in [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs)
-
-:::caution
-
-It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://docsearch.algolia.com/docs/templates/#docusaurus-v2-template).
 
 :::
 
@@ -93,7 +90,7 @@ module.exports = {
     // ...
     // highlight-start
     algolia: {
-      // If Algolia did not provide you any appId, use 'BH4D9OD16A'
+      // The application ID provided by Algolia
       appId: 'YOUR_APP_ID',
 
       // Public API key: it is safe to commit it
