@@ -8,7 +8,7 @@
 import {useContextualSearchFilters} from '@docusaurus/theme-common';
 
 // Translate search-engine agnostic search filters to Algolia search filters
-export function useAlgoliaContextualFacetFilters() {
+export function useAlgoliaContextualFacetFilters(): [string, string[]] {
   const {locale, tags} = useContextualSearchFilters();
 
   // seems safe to convert locale->language, see AlgoliaSearchMetadata comment

@@ -29,7 +29,7 @@ import {
 import ShowcaseTooltip from './_components/ShowcaseTooltip';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {useLocation} from '@docusaurus/router';
+import {useHistory, useLocation} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
@@ -64,11 +64,24 @@ export function prepareUserState(): UserState | undefined {
   return undefined;
 }
 
+const SearchNameQueryKey = 'name';
+
+function readSearchName(search: string) {
+  return new URLSearchParams(search).get(SearchNameQueryKey);
+}
+
 function filterUsers(
   users: User[],
   selectedTags: TagType[],
   operator: Operator,
+  searchName: string | null,
 ) {
+  if (searchName) {
+    // eslint-disable-next-line no-param-reassign
+    users = users.filter((user) =>
+      user.title.toLowerCase().includes(searchName.toLowerCase()),
+    );
+  }
   if (selectedTags.length === 0) {
     return users;
   }
@@ -85,33 +98,23 @@ function filterUsers(
 }
 
 function useFilteredUsers() {
-  const selectedTags = useSelectedTags();
   const location = useLocation<UserState>();
   const [operator, setOperator] = useState<Operator>('OR');
-  useEffect(() => {
-    setOperator(readOperator(location.search));
-    restoreUserState(location.state);
-  }, [location]);
-  return useMemo(
-    () => filterUsers(sortedUsers, selectedTags, operator),
-    [selectedTags, operator],
-  );
-}
-
-function useSelectedTags() {
-  // The search query-string is the source of truth!
-  const location = useLocation<UserState>();
-
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-
+  const [searchName, setSearchName] = useState<string | null>(null);
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
     setSelectedTags(readSearchTags(location.search));
+    setOperator(readOperator(location.search));
+    setSearchName(readSearchName(location.search));
     restoreUserState(location.state);
   }, [location]);
 
-  return selectedTags;
+  return useMemo(
+    () => filterUsers(sortedUsers, selectedTags, operator, searchName),
+    [selectedTags, operator, searchName],
+  );
 }
 
 function ShowcaseHeader() {
@@ -190,8 +193,41 @@ const otherUsers = sortedUsers.filter(
   (user) => !user.tags.includes('favorite'),
 );
 
+function SearchBar() {
+  const history = useHistory();
+  const location = useLocation();
+  const [value, setValue] = useState<string | null>(null);
+  useEffect(() => {
+    setValue(readSearchName(location.search));
+  }, [location]);
+  return (
+    <div className={styles.searchContainer}>
+      <input
+        id="searchbar"
+        placeholder="Search for site name..."
+        value={value ?? undefined}
+        onInput={(e) => {
+          setValue(e.currentTarget.value);
+          const newSearch = new URLSearchParams(location.search);
+          newSearch.delete(SearchNameQueryKey);
+          if (e.currentTarget.value) {
+            newSearch.set(SearchNameQueryKey, e.currentTarget.value);
+          }
+          history.push({
+            ...location,
+            search: newSearch.toString(),
+            state: prepareUserState(),
+          });
+          setTimeout(() => {
+            document.getElementById('searchbar')?.focus();
+          }, 0);
+        }}
+      />
+    </div>
+  );
+}
+
 function ShowcaseCards() {
-  const selectedTags = useSelectedTags();
   const filteredUsers = useFilteredUsers();
 
   if (filteredUsers.length === 0) {
@@ -199,6 +235,7 @@ function ShowcaseCards() {
       <section className="margin-top--lg margin-bottom--xl">
         <div className="container padding-vert--md text--center">
           <h2>No result</h2>
+          <SearchBar />
         </div>
       </section>
     );
@@ -206,7 +243,7 @@ function ShowcaseCards() {
 
   return (
     <section className="margin-top--lg margin-bottom--xl">
-      {selectedTags.length === 0 ? (
+      {filteredUsers.length === sortedUsers.length ? (
         <>
           <div className={styles.showcaseFavorite}>
             <div className="container">
@@ -217,6 +254,7 @@ function ShowcaseCards() {
                 )}>
                 <h2>Our favorites</h2>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
+                <SearchBar />
               </div>
               <ul className={clsx('container', styles.showcaseList)}>
                 {favoriteUsers.map((user) => (
@@ -236,6 +274,13 @@ function ShowcaseCards() {
         </>
       ) : (
         <div className="container">
+          <div
+            className={clsx(
+              'margin-bottom--md',
+              styles.showcaseFavoriteHeader,
+            )}>
+            <SearchBar />
+          </div>
           <ul className={styles.showcaseList}>
             {filteredUsers.map((user) => (
               <ShowcaseCard key={user.title} user={user} />

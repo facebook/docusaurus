@@ -9,6 +9,9 @@
       {
         "type": "category",
         "label": "Slugs",
+        "link": {
+          "type": "generated-index"
+        },
         "items": [
           "rootAbsoluteSlug",
           "rootRelativeSlug",

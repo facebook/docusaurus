@@ -7,6 +7,5 @@
 
 /* Used to test CSS insertion order */
 .test-marker-theme-layout {
-  content: "theme-layout";
+  content: 'theme-layout';
 }
-

@@ -7,5 +7,5 @@
 
 /* Used to test CSS insertion order */
 .test-marker-site-client-module {
-  content: "site-client-module";
+  content: 'site-client-module';
 }

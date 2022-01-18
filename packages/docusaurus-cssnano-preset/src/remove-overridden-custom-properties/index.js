@@ -22,8 +22,9 @@ module.exports = function creator() {
         return;
       }
 
-      const sameProperties =
-        decl.parent.nodes.filter((n) => n.prop === decl.prop) || [];
+      const sameProperties = decl.parent.nodes.filter(
+        (n) => n.prop === decl.prop,
+      );
       const hasImportantProperties = sameProperties.some((p) =>
         Object.prototype.hasOwnProperty.call(p, 'important'),
       );

@@ -6,12 +6,12 @@
  */
 
 import path from 'path';
-import {generateBlogFeed} from '../feed';
+import fs from 'fs-extra';
+import {createBlogFeedFiles} from '../feed';
 import type {LoadContext, I18n} from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {generateBlogPosts} from '../blogUtils';
-import type {Feed} from 'feed';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const DefaultI18N: I18n = {
@@ -36,23 +36,26 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 async function testGenerateFeeds(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Feed | null> {
+): Promise<void> {
   const blogPosts = await generateBlogPosts(
     getBlogContentPaths(context.siteDir),
     context,
     options,
   );
 
-  return generateBlogFeed({
+  await createBlogFeedFiles({
     blogPosts,
     options,
     siteConfig: context.siteConfig,
+    outDir: 'build',
   });
 }
 
 describe('blogFeed', () => {
   (['atom', 'rss', 'json'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
+      const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+
       test('should not show feed without posts', async () => {
         const siteDir = __dirname;
         const siteConfig = {
@@ -62,7 +65,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const feed = await testGenerateFeeds(
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
@@ -83,7 +86,8 @@ describe('blogFeed', () => {
           } as PluginOptions,
         );
 
-        expect(feed).toEqual(null);
+        expect(fsMock).toBeCalledTimes(0);
+        fsMock.mockClear();
       });
 
       test('shows feed item for each post', async () => {
@@ -96,7 +100,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const feed = await testGenerateFeeds(
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
@@ -119,22 +123,8 @@ describe('blogFeed', () => {
           } as PluginOptions,
         );
 
-        let feedContent = '';
-        switch (feedType) {
-          case 'rss':
-            feedContent = feed.rss2();
-            break;
-          case 'json':
-            feedContent = feed.json1();
-            break;
-          case 'atom':
-            feedContent = feed.atom1();
-            break;
-          default:
-            break;
-        }
-
-        expect(feedContent).toMatchSnapshot();
+        expect(fsMock.mock.calls).toMatchSnapshot();
+        fsMock.mockClear();
       });
     });
   });
