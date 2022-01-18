@@ -7,7 +7,7 @@
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
 import type {BlogPost} from './types';
-import {normalizeUrl, mdxToHtml} from '@docusaurus/utils';
+import {normalizeUrl, mdxToHtml, posixPath} from '@docusaurus/utils';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
@@ -116,7 +116,10 @@ async function createBlogFeedFile({
     }
   })();
   try {
-    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
+    await fs.outputFile(
+      posixPath(path.join(generatePath, feedPath)),
+      feedContent,
+    );
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed: ${err}.`);
   }
