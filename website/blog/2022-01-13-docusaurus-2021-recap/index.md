@@ -49,7 +49,7 @@ With an 8.4k increase in stars, we are ranked number 3 in this year's [JavaScrip
 
 ## Featured adoptions
 
-Our showcase has welcomed a few new ["favorite" sites](/showcase?tags=favorite) that showcases the true potential of Docusaurus 2's pluggable architecture.
+Our showcase has welcomed a few new ["favorite" sites](/showcase?tags=favorite) that showcase the true potential of Docusaurus 2's pluggable architecture.
 
 - [**IOTA-wiki**](https://wiki.iota.org/)
 
