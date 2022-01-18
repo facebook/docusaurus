@@ -260,6 +260,25 @@ describe('collectRedirects', () => {
     ]);
   });
 
+  test('should allow returning string / undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects: (routePath) => {
+              if (routePath === '/') {
+                return `${routePath}foo`;
+              }
+              return undefined;
+            },
+          },
+          ['/', '/testpath', '/otherPath.html'],
+        ),
+        undefined,
+      ),
+    ).toEqual([{from: '/foo', to: '/'}]);
+  });
+
   test('should throw if redirect creator creates invalid redirects', () => {
     expect(() =>
       collectRedirects(

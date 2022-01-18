@@ -204,7 +204,7 @@ describe('loadBlog', () => {
       date: new Date('2020-08-16'),
       formattedDate: 'August 16, 2020',
       frontMatter: {
-        date: new Date('2020-08-16'),
+        date: '2020/08/16',
         slug: '/hey/my super path/héllô',
         title: 'Complex Slug',
       },

@@ -30,7 +30,7 @@ function mdxToFeedContent(mdxContent: string): string | undefined {
   }
 }
 
-export async function generateBlogFeed({
+async function generateBlogFeed({
   blogPosts,
   options,
   siteConfig,
@@ -47,9 +47,7 @@ export async function generateBlogFeed({
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
-  const updated =
-    (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00'); // weird legacy magic date
+  const updated = blogPosts[0] && blogPosts[0].metadata.date;
 
   const feed = new Feed({
     id: blogBaseUrl,

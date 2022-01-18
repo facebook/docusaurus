@@ -6,6 +6,11 @@ exports[`remove-overridden-custom-properties overridden custom properties should
   --color-primary: blue;
   --color-header: gray;
 }
+
+.non-root {
+  --color-primary: red;
+  --color-primary: red;
+}
 "
 `;
 
