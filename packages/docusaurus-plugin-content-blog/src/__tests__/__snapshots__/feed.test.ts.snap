@@ -37,6 +37,8 @@ Array [
         <updated>2020-08-16T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[complex url slug]]></summary>
         <content type=\\"html\\"><![CDATA[<p>complex url slug</p>]]></content>
+        <category label=\\"date\\" term=\\"date\\"/>
+        <category label=\\"complex\\" term=\\"complex\\"/>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[Simple Slug]]></title>
@@ -71,6 +73,7 @@ Array [
         <updated>2019-01-01T00:00:00.000Z</updated>
         <summary type=\\"html\\"><![CDATA[date inside front matter]]></summary>
         <content type=\\"html\\"><![CDATA[<p>date inside front matter</p>]]></content>
+        <category label=\\"date\\" term=\\"date\\"/>
     </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
@@ -106,7 +109,8 @@ Array [
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/mdx-require-blog-post\\",
             \\"title\\": \\"MDX Blog Sample with require calls\\",
             \\"summary\\": \\"Test MDX with require calls\\",
-            \\"date_modified\\": \\"2021-03-06T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2021-03-06T00:00:00.000Z\\",
+            \\"tags\\": []
         },
         {
             \\"id\\": \\"/mdx-blog-post\\",
@@ -114,7 +118,8 @@ Array [
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/mdx-blog-post\\",
             \\"title\\": \\"Full Blog Sample\\",
             \\"summary\\": \\"HTML Heading 1\\",
-            \\"date_modified\\": \\"2021-03-05T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2021-03-05T00:00:00.000Z\\",
+            \\"tags\\": []
         },
         {
             \\"id\\": \\"/hey/my super path/héllô\\",
@@ -122,7 +127,11 @@ Array [
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/hey/my super path/héllô\\",
             \\"title\\": \\"Complex Slug\\",
             \\"summary\\": \\"complex url slug\\",
-            \\"date_modified\\": \\"2020-08-16T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2020-08-16T00:00:00.000Z\\",
+            \\"tags\\": [
+                \\"date\\",
+                \\"complex\\"
+            ]
         },
         {
             \\"id\\": \\"/simple/slug\\",
@@ -134,7 +143,8 @@ Array [
             \\"author\\": {
                 \\"name\\": \\"Sébastien Lorber\\",
                 \\"url\\": \\"https://sebastienlorber.com\\"
-            }
+            },
+            \\"tags\\": []
         },
         {
             \\"id\\": \\"/draft\\",
@@ -142,14 +152,16 @@ Array [
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/draft\\",
             \\"title\\": \\"draft\\",
             \\"summary\\": \\"this post should not be published yet\\",
-            \\"date_modified\\": \\"2020-02-27T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2020-02-27T00:00:00.000Z\\",
+            \\"tags\\": []
         },
         {
             \\"id\\": \\"/heading-as-title\\",
             \\"content_html\\": \\"\\",
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/heading-as-title\\",
             \\"title\\": \\"some heading\\",
-            \\"date_modified\\": \\"2019-01-02T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2019-01-02T00:00:00.000Z\\",
+            \\"tags\\": []
         },
         {
             \\"id\\": \\"/date-matter\\",
@@ -157,7 +169,10 @@ Array [
             \\"url\\": \\"https://docusaurus.io/myBaseUrl/blog/date-matter\\",
             \\"title\\": \\"date-matter\\",
             \\"summary\\": \\"date inside front matter\\",
-            \\"date_modified\\": \\"2019-01-01T00:00:00.000Z\\"
+            \\"date_modified\\": \\"2019-01-01T00:00:00.000Z\\",
+            \\"tags\\": [
+                \\"date\\"
+            ]
         },
         {
             \\"id\\": \\"/2018/12/14/Happy-First-Birthday-Slash\\",
@@ -168,7 +183,8 @@ Array [
             \\"date_modified\\": \\"2018-12-14T00:00:00.000Z\\",
             \\"author\\": {
                 \\"name\\": \\"Yangshun Tay (translated)\\"
-            }
+            },
+            \\"tags\\": []
         }
     ]
 }",
@@ -213,6 +229,8 @@ Array [
             <pubDate>Sun, 16 Aug 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[complex url slug]]></description>
             <content:encoded><![CDATA[<p>complex url slug</p>]]></content:encoded>
+            <category>date</category>
+            <category>complex</category>
         </item>
         <item>
             <title><![CDATA[Simple Slug]]></title>
@@ -243,6 +261,7 @@ Array [
             <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[date inside front matter]]></description>
             <content:encoded><![CDATA[<p>date inside front matter</p>]]></content:encoded>
+            <category>date</category>
         </item>
         <item>
             <title><![CDATA[Happy 1st Birthday Slash! (translated)]]></title>
