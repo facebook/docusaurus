@@ -36,13 +36,12 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 async function testGenerateFeeds(
   context: LoadContext,
   options: PluginOptions,
-): Promise<jest.SpyInstance> {
+): Promise<void> {
   const blogPosts = await generateBlogPosts(
     getBlogContentPaths(context.siteDir),
     context,
     options,
   );
-  const fsMock = jest.spyOn(fs, 'outputFile').mockImplementationOnce(() => {});
 
   await createBlogFeedFiles({
     blogPosts,
@@ -50,13 +49,13 @@ async function testGenerateFeeds(
     siteConfig: context.siteConfig,
     outDir: 'build',
   });
-
-  return fsMock;
 }
 
 describe('blogFeed', () => {
   (['atom', 'rss', 'json'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
+      const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+
       test('should not show feed without posts', async () => {
         const siteDir = __dirname;
         const siteConfig = {
@@ -66,7 +65,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const fsMock = await testGenerateFeeds(
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
@@ -101,7 +100,7 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const fsMock = await testGenerateFeeds(
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
