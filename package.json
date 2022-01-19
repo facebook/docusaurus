@@ -96,7 +96,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "glob": "^7.1.6",
     "husky": "^7.0.4",
-    "image-size": "^1.0.0",
+    "image-size": "^1.0.1",
     "jest": "^26.6.3",
     "lerna": "^4.0.0",
     "lerna-changelog": "^1.0.1",
