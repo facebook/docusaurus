@@ -64,7 +64,14 @@ declare module '@generated/i18n' {
     defaultLocale: string;
     locales: [string, ...string[]];
     currentLocale: string;
-    localeConfigs: Record<string, {label: string; direction: string}>;
+    localeConfigs: Record<
+      string,
+      {
+        label: string;
+        direction: string;
+        htmlLang: string;
+      }
+    >;
   };
   export = i18n;
 }

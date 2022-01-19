@@ -96,6 +96,7 @@ const PresetSchema = Joi.alternatives().try(
 
 const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
+  htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
 });
 
