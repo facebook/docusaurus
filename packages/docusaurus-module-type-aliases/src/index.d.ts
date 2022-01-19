@@ -162,10 +162,10 @@ declare module '@docusaurus/Link' {
 declare module '@docusaurus/Interpolate' {
   import type {ReactNode} from 'react';
 
-  // TODO use TS template literal feature to make values typesafe!
-  // (requires upgrading TS first)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export type ExtractInterpolatePlaceholders<Str extends string> = string;
+  export type ExtractInterpolatePlaceholders<Str extends string> =
+    Str extends `${string}{${infer Key}}${infer Rest}`
+      ? Key | ExtractInterpolatePlaceholders<Rest>
+      : never;
 
   export type InterpolateValues<
     Str extends string,

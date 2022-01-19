@@ -230,7 +230,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }

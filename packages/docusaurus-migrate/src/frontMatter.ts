@@ -62,9 +62,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
   if (String(value).match(/^("|').+("|')$/)) {
     return false;
   }
-  // TODO weird graymatter case
-  // title: !something need quotes
-  // but not title: something!
+  // title: !something needs quotes because otherwise it's a YAML tag.
   if (!String(value).trim().match(/^\w.*/)) {
     return true;
   }
