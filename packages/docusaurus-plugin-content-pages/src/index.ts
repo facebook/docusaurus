@@ -125,7 +125,7 @@ export default async function pluginContentPages(
             permalink,
             source: aliasedSourcePath,
             title: frontMatter.title ?? contentTitle,
-            description: excerpt,
+            description: frontMatter.description ?? excerpt,
             frontMatter,
           };
         } else {
