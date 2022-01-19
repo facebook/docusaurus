@@ -87,6 +87,12 @@ or
 
 </BrowserWindow>
 
+:::info markdown links are always file paths
+
+If you use the Markdown image or link syntax, all asset paths will be resolved as file paths by Docusaurus and automatically converted to `require()` calls. You don't need to use `require()` in Markdown unless you use the JSX syntax.
+
+:::
+
 ## Inline SVGs {#inline-svgs}
 
 Docusaurus supports inlining SVGs out of the box.
@@ -191,7 +197,15 @@ If a Markdown link or image has an absolute path, the path will be seen as a fil
 ![An image from the static](/img/docusaurus.png)
 ```
 
-Docusaurus will try to look for it in both `static/img/docusaurus.png` and `public/img/docusaurus.png`. The link will then be converted to a `require` call instead of staying as a URL. This is desirable in two regards:
+Docusaurus will try to look for it in both `static/img/docusaurus.png` and `public/img/docusaurus.png`. The link will then be converted to a `require()` call instead of staying as a URL. This is desirable in two regards:
 
 1. You don't have to worry about the base URL, which Docusaurus will take care of when serving the asset;
 2. The image enters Webpack's build pipeline and its name will be appended by a hash, which enables browsers to aggressively cache the image and improves your site's performance.
+
+If you intend to write URLs, you can use the `pathname://` protocol to disable automatic asset linking.
+
+```md
+![banner](pathname:///img/docusaurus-asset-example-banner.png)
+```
+
+This link will be generated as `<img src="/img/docusaurus-asset-example-banner.png" alt="banner" />`, without any processing or file existence checking.
