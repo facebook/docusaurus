@@ -1466,7 +1466,7 @@ const Users: User[] = [
     title: 'SODA for SPARC',
     description:
       'Simplifying data curation for researchers funded by the NIH SPARC initiative',
-    preview: require('./showcase/sodforsparc.png'),
+    preview: require('./showcase/sodaforsparc.png'),
     website: 'https://docs.sodaforsparc.io/',
     source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
     tags: ['opensource', 'versioning'],
