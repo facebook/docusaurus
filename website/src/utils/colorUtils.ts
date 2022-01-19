@@ -78,8 +78,12 @@ export const DARK_PRIMARY_COLOR = '#25c2a0';
 export const LIGHT_BACKGROUND_COLOR = '#ffffff';
 export const DARK_BACKGROUND_COLOR = '#181920';
 
-export const lightStorage = createStorageSlot('ifm-theme-colors-light');
-export const darkStorage = createStorageSlot('ifm-theme-colors-dark');
+export const lightStorage = createStorageSlot('ifm-theme-colors-light', {
+  persistence: 'sessionStorage',
+});
+export const darkStorage = createStorageSlot('ifm-theme-colors-dark', {
+  persistence: 'sessionStorage',
+});
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getAdjustedColors(shades: Shades, baseColor: string) {
