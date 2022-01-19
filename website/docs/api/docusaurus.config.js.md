@@ -133,10 +133,12 @@ module.exports = {
       en: {
         label: 'English',
         direction: 'ltr',
+        htmlLang: 'en-US',
       },
       fr: {
         label: 'Français',
         direction: 'ltr',
+        htmlLang: 'fr-FR',
       },
     },
   },
@@ -145,6 +147,7 @@ module.exports = {
 
 - `label`: the label to use for this locale
 - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.)
+- `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
 
 ### `noIndex` {#noindex}
 
