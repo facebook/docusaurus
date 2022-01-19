@@ -10,7 +10,7 @@ import {
   DEFAULT_CONFIG,
   validateConfig,
 } from '../configValidation';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 
 const baseConfig: DocusaurusConfig = {
   baseUrl: '/',
@@ -147,7 +147,7 @@ describe('normalizeConfig', () => {
       'should accept [function, object] for plugin',
       [[function (_context, _options) {}, {it: 'should work'}]],
     ],
-  ])(`subdue= for the input of: path=`, (_message, plugins) => {
+  ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
         plugins,

@@ -141,7 +141,7 @@ describe('sidebar', () => {
             Please set the docs \\"sidebarPath\\" field in your config file to:
             - a sidebars path that exists
             - false: to disable the sidebar
-            - undefined: for Docusaurus generates it automatically"
+            - undefined: for Docusaurus to generate it automatically"
           `);
   });
 

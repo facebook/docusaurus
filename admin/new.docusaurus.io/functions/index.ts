@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Handler} from '@netlify/functions';
+import type {Handler} from '@netlify/functions';
 
 import {
   readPlaygroundName,

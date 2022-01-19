@@ -20,23 +20,19 @@ import {
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {
+import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
   ValidationResult,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 
-import {
-  PluginOptions,
-  LoadedContent,
-  Metadata,
-  PagesContentPaths,
-} from './types';
+import type {LoadedContent, Metadata, PagesContentPaths} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];

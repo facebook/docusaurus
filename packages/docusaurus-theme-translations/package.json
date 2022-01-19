@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "update": "node -e 'require(\"./update.js\").run()'"
+    "update": "node ./update.js"
   },
   "dependencies": {
     "fs-extra": "^10.0.0",

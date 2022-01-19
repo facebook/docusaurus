@@ -7,16 +7,19 @@
 
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
+import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
-import {useAllDocsData, GlobalPluginData} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  type GlobalPluginData,
+} from '@docusaurus/plugin-content-docs/client';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 

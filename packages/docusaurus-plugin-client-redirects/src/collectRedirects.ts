@@ -6,12 +6,11 @@
  */
 
 import {uniqBy, difference, groupBy} from 'lodash';
-import {
-  PluginContext,
-  RedirectMetadata,
+import type {
   PluginOptions,
   RedirectOption,
-} from './types';
+} from '@docusaurus/plugin-client-redirects';
+import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
@@ -19,7 +18,7 @@ import {
 import {validateRedirect} from './redirectValidation';
 import {
   applyTrailingSlash,
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
 import logger from '@docusaurus/logger';
@@ -144,7 +143,7 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
-  // For conveniency, user can use a string or a string[]
+  // For convenience, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];

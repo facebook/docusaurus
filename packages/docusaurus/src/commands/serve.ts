@@ -12,7 +12,7 @@ import path from 'path';
 import {loadSiteConfig} from '../server';
 import build from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
-import {ServeCLIOptions} from '@docusaurus/types';
+import type {ServeCLIOptions} from '@docusaurus/types';
 
 export default async function serve(
   siteDir: string,

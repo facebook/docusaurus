@@ -2,15 +2,15 @@
 
 Docusaurus has a canary releases system.
 
-It permits you to **test new unreleased features** as soon as the pull-requests are merged.
+It permits you to **test new unreleased features** as soon as the pull requests are merged.
 
 It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
 
 :::note
 
-Using a canary release in production might seem risky, but in practice it's not.
+Using a canary release in production might seem risky, but in practice, it's not.
 
-A canary release passes all automated tests, and is used in production by the Docusaurus site itself.
+A canary release passes all automated tests and is used in production by the Docusaurus site itself.
 
 :::
 

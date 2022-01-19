@@ -6,6 +6,7 @@ These sidebar document ids do not exist:
 - goku
 
 Available document ids are:
+- doc with space
 - foo/bar
 - foo/baz
 - headingAsTitle
@@ -45,8 +46,8 @@ Object {
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": Object {
-    "permalink": "/docs/rootAbsoluteSlug",
-    "title": "rootAbsoluteSlug",
+    "permalink": "/docs/category/slugs",
+    "title": "Slugs",
   },
   "permalink": "/docs/foo/bazSlug.html",
   "previous": Object {
@@ -195,7 +196,11 @@ Object {
             },
           ],
           "label": "Slugs",
-          "link": undefined,
+          "link": Object {
+            "permalink": "/docs/category/slugs",
+            "slug": "/category/slugs",
+            "type": "generated-index",
+          },
           "type": "category",
         },
         Object {
@@ -241,6 +246,11 @@ Object {
       "versions": Array [
         Object {
           "docs": Array [
+            Object {
+              "id": "doc with space",
+              "path": "/docs/doc with space",
+              "sidebar": undefined,
+            },
             Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
@@ -311,12 +321,25 @@ Object {
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
+            Object {
+              "id": "/category/slugs",
+              "path": "/docs/category/slugs",
+              "sidebar": "docs",
+            },
           ],
           "isLast": true,
           "label": "Next",
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
       ],
     },
@@ -326,6 +349,34 @@ Object {
 
 exports[`simple website content: data 1`] = `
 Object {
+  "category-docs-docs-category-slugs-0fe.json": "{
+  \\"title\\": \\"Slugs\\",
+  \\"slug\\": \\"/category/slugs\\",
+  \\"permalink\\": \\"/docs/category/slugs\\",
+  \\"navigation\\": {
+    \\"previous\\": {
+      \\"title\\": \\"baz pagination_label\\",
+      \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+    },
+    \\"next\\": {
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
+    }
+  }
+}",
+  "site-docs-doc-with-space-md-e90.json": "{
+  \\"unversionedId\\": \\"doc with space\\",
+  \\"id\\": \\"doc with space\\",
+  \\"title\\": \\"Hoo hoo, if this path tricks you...\\",
+  \\"description\\": \\"\\",
+  \\"source\\": \\"@site/docs/doc with space.md\\",
+  \\"sourceDirName\\": \\".\\",
+  \\"slug\\": \\"/doc with space\\",
+  \\"permalink\\": \\"/docs/doc with space\\",
+  \\"tags\\": [],
+  \\"version\\": \\"current\\",
+  \\"frontMatter\\": {}
+}",
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
@@ -386,8 +437,8 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"rootAbsoluteSlug\\",
-    \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
+    \\"title\\": \\"Slugs\\",
+    \\"permalink\\": \\"/docs/category/slugs\\"
   }
 }",
   "site-docs-heading-as-title-md-c6d.json": "{
@@ -773,7 +824,8 @@ Object {
               }
             ],
             \\"collapsible\\": true,
-            \\"collapsed\\": true
+            \\"collapsed\\": true,
+            \\"href\\": \\"/docs/category/slugs\\"
           },
           {
             \\"type\\": \\"link\\",
@@ -811,6 +863,11 @@ Object {
     ]
   },
   \\"docs\\": {
+    \\"doc with space\\": {
+      \\"id\\": \\"doc with space\\",
+      \\"title\\": \\"Hoo hoo, if this path tricks you...\\",
+      \\"description\\": \\"\\"
+    },
     \\"foo/bar\\": {
       \\"id\\": \\"foo/bar\\",
       \\"title\\": \\"Bar\\",
@@ -903,6 +960,11 @@ Object {
         Object {
           "docs": Array [
             Object {
+              "id": "doc with space",
+              "path": "/docs/doc with space",
+              "sidebar": undefined,
+            },
+            Object {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "docs",
@@ -972,12 +1034,25 @@ Object {
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
+            Object {
+              "id": "/category/slugs",
+              "path": "/docs/category/slugs",
+              "sidebar": "docs",
+            },
           ],
           "isLast": true,
           "label": "Next",
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
       ],
     },
@@ -1044,6 +1119,23 @@ Array [
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
         "path": "/docs/absoluteSlug",
+      },
+      Object {
+        "component": "@theme/DocCategoryGeneratedIndexPage",
+        "exact": true,
+        "modules": Object {
+          "categoryGeneratedIndex": "~docs/category-docs-docs-category-slugs-0fe.json",
+        },
+        "path": "/docs/category/slugs",
+        "sidebar": "docs",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/doc with space.md",
+        },
+        "path": "/docs/doc with space",
       },
       Object {
         "component": "@theme/DocItem",
@@ -2322,6 +2414,14 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
+          "sidebars": Object {
+            "community": Object {
+              "link": Object {
+                "label": "team",
+                "path": "/community/next/team",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -2336,6 +2436,14 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
+          "sidebars": Object {
+            "version-1.0.0/community": Object {
+              "link": Object {
+                "label": "version-1.0.0/team",
+                "path": "/community/team",
+              },
+            },
+          },
         },
       ],
     },
@@ -3370,6 +3478,14 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
+          "sidebars": Object {
+            "docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/next/foo/barSlug",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3389,6 +3505,14 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
+          "sidebars": Object {
+            "VersionedSideBarNameDoesNotMatter/docs": Object {
+              "link": Object {
+                "label": "foo/bar",
+                "path": "/docs/foo/bar",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3413,6 +3537,14 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
+          "sidebars": Object {
+            "version-1.0.0/docs": Object {
+              "link": Object {
+                "label": "version-1.0.0/foo/bar",
+                "path": "/docs/1.0.0/foo/barSlug",
+              },
+            },
+          },
         },
         Object {
           "docs": Array [
@@ -3462,6 +3594,14 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
+          "sidebars": Object {
+            "version-1.0.1/docs": Object {
+              "link": Object {
+                "label": "version-withSlugs/rootAbsoluteSlug",
+                "path": "/docs/withSlugs/rootAbsoluteSlug",
+              },
+            },
+          },
         },
       ],
     },

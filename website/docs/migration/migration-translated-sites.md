@@ -110,7 +110,7 @@ Unfortunately, Crowdin does not have any "Duplicate/clone Project" feature, whic
 - Download the Crowdin translations locally
 - Try to run/build your site and see if there are any errors
 
-You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (frontmatter, admonition, code blocks...), and the translated md files might be invalid for the MDX parser.
+You will likely have errors on your first-try: the pre-translation might try to translate things that it should not be translated (front matter, admonition, code blocks...), and the translated md files might be invalid for the MDX parser.
 
 You will have to fix all the errors until your site builds. You can do that by modifying the translated md files locally, and fix your site for one locale at a time using `docusaurus build --locale fr`.
 

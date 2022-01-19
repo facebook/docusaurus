@@ -5,7 +5,15 @@ title: '📦 plugin-sitemap'
 slug: '/api/plugins/@docusaurus/plugin-sitemap'
 ---
 
-This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
+import APITable from '@site/src/components/APITable';
+
+This plugin creates sitemaps for your site so that search engine crawlers can crawl your site more accurately.
+
+:::caution production only
+
+This plugin is always inactive in development and **only active in production** because it works on the build output.
+
+:::
 
 ## Installation {#installation}
 
@@ -15,23 +23,50 @@ npm install --save @docusaurus/plugin-sitemap
 
 :::tip
 
-If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+
+You can configure this plugin through the [preset options](#ex-config-preset).
 
 :::
 
 ## Configuration {#configuration}
 
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-sitemap',
-      {
-        changefreq: 'weekly',
-        priority: 0.5,
-        trailingSlash: false,
-      },
-    ],
-  ],
+Accepted fields:
+
+<APITable>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+
+</APITable>
+
+:::info
+
+This plugin also respects some site config:
+
+- [`noIndex`](../docusaurus.config.js.md#noindex): results in no sitemap generated
+- [`trailingSlash`](../docusaurus.config.js.md#trailing-slash): determines if the URLs in the sitemap have trailing slashes
+
+:::
+
+### Example configuration {#ex-config}
+
+You can configure this plugin through preset options or plugin options.
+
+:::tip
+
+Most Docusaurus users configure this plugin through the preset options.
+
+:::
+
+```js config-tabs
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
+
+const config = {
+  changefreq: 'weekly',
+  priority: 0.5,
 };
 ```

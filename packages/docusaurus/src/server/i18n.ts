@@ -5,25 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
+import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 import path from 'path';
 import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
 import logger from '@docusaurus/logger';
 
 function getDefaultLocaleLabel(locale: string) {
-  // Intl.DisplayNames is ES2021 - Node14+
-  // https://v8.dev/features/intl-displaynames
-  if (typeof Intl.DisplayNames !== 'undefined') {
-    const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
-      locale,
-    );
-    return (
-      languageName.charAt(0).toLocaleUpperCase(locale) +
-      languageName.substring(1)
-    );
-  }
-  return locale;
+  const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
+    locale,
+  );
+  return (
+    languageName.charAt(0).toLocaleUpperCase(locale) + languageName.substring(1)
+  );
 }
 
 export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {

@@ -7,7 +7,7 @@
 
 import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
-import Highlight, {defaultProps, Language} from 'prism-react-renderer';
+import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
 import Translate, {translate} from '@docusaurus/Translate';
 import {
@@ -16,17 +16,18 @@ import {
   parseLanguage,
   parseLines,
   ThemeClassNames,
+  usePrismTheme,
 } from '@docusaurus/theme-common';
-import usePrismTheme from '@theme/hooks/usePrismTheme';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
 
 export default function CodeBlock({
   children,
-  className: blockClassName,
+  className: blockClassName = '',
   metastring,
   title,
+  language: languageProp,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
@@ -43,9 +44,9 @@ export default function CodeBlock({
     setMounted(true);
   }, []);
 
-  // TODO: the title is provided by MDX as props automatically
-  // so we probably don't need to parse the metastring
-  // (note: title="xyz" => title prop still has the quotes)
+  // We still parse the metastring in case we want to support more syntax in the
+  // future. Note that MDX doesn't strip quotes when parsing metastring:
+  // "title=\"xyz\"" => title: "\"xyz\""
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
@@ -85,8 +86,7 @@ export default function CodeBlock({
     : (children as string);
 
   const language =
-    parseLanguage(blockClassName) ??
-    (prism.defaultLanguage as Language | undefined);
+    languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
 
   const handleCopyCode = () => {
@@ -102,12 +102,16 @@ export default function CodeBlock({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
-      language={language ?? ('text' as Language)}>
+      language={(language ?? 'text') as Language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <div
           className={clsx(
             styles.codeBlockContainer,
             blockClassName,
+            {
+              [`language-${language}`]:
+                language && !blockClassName.includes(`language-${language}`),
+            },
             ThemeClassNames.common.codeBlock,
           )}>
           {codeBlockTitle && (

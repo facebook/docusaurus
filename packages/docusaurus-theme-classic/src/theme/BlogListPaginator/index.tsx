@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
+import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/BlogListPaginator';
 
 function BlogListPaginator(props: Props): JSX.Element {
@@ -24,30 +24,30 @@ function BlogListPaginator(props: Props): JSX.Element {
       })}>
       <div className="pagination-nav__item">
         {previousPage && (
-          <Link className="pagination-nav__link" to={previousPage}>
-            <div className="pagination-nav__label">
-              &laquo;{' '}
+          <PaginatorNavLink
+            permalink={previousPage}
+            title={
               <Translate
                 id="theme.blog.paginator.newerEntries"
                 description="The label used to navigate to the newer blog posts page (previous page)">
                 Newer Entries
               </Translate>
-            </div>
-          </Link>
+            }
+          />
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
-          <Link className="pagination-nav__link" to={nextPage}>
-            <div className="pagination-nav__label">
+          <PaginatorNavLink
+            permalink={nextPage}
+            title={
               <Translate
                 id="theme.blog.paginator.olderEntries"
                 description="The label used to navigate to the older blog posts page (next page)">
                 Older Entries
-              </Translate>{' '}
-              &raquo;
-            </div>
-          </Link>
+              </Translate>
+            }
+          />
         )}
       </div>
     </nav>

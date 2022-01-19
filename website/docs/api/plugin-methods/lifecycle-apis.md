@@ -5,7 +5,7 @@ toc_max_heading_level: 4
 
 # Lifecycle APIs
 
-During build, plugins are loaded in parallel to fetch their own contents and render them to routes. Plugins may also configure webpack or post-process the generated files.
+During the build, plugins are loaded in parallel to fetch their own contents and render them to routes. Plugins may also configure webpack or post-process the generated files.
 
 ## `async loadContent()` {#loadContent}
 
@@ -13,13 +13,15 @@ Plugins should use this lifecycle to fetch from data sources (filesystem, remote
 
 For example, this plugin below return a random integer between 1 to 10 as content.
 
-```js {5-6} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     async loadContent() {
       return 1 + Math.floor(Math.random() * 10);
     },
+    // highlight-end
   };
 };
 ```
@@ -63,9 +65,9 @@ type Module =
 
 #### `createData(name: string, data: any): Promise<string>` {#createData}
 
-A declarative callback to create static data (generally json or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
+A declarative callback to create static data (generally JSON or string) which can later be provided to your routes as props. Takes the file name and data to be stored, and returns the actual data file's path.
 
-For example, this plugin below create a `/friends` page which display `Your friends are: Yangshun, Sebastien`:
+For example, this plugin below creates a `/friends` page which displays `Your friends are: Yangshun, Sebastien`:
 
 ```jsx title="website/src/components/Friends.js"
 import React from 'react';
@@ -75,10 +77,11 @@ export default function FriendsComponent({friends}) {
 }
 ```
 
-```js {4-23} title="docusaurus-friends-plugin/src/index.js"
+```js title="docusaurus-friends-plugin/src/index.js"
 export default function friendsPlugin(context, options) {
   return {
     name: 'docusaurus-friends-plugin',
+    // highlight-start
     async contentLoaded({content, actions}) {
       const {createData, addRoute} = actions;
       // Create friends.json
@@ -99,13 +102,14 @@ export default function friendsPlugin(context, options) {
         exact: true,
       });
     },
+    // highlight-end
   };
 }
 ```
 
-#### `setGlobalData(data: any): void`
+#### `setGlobalData(data: any): void` {#setGlobalData}
 
-This function permits to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
+This function permits one to create some global plugin data that can be read from any page, including the pages created by other plugins, and your theme layout.
 
 This data becomes accessible to your client-side/theme code through the [`useGlobalData`](../../docusaurus-core.md#useGlobalData) and [`usePluginData`](../../docusaurus-core.md#usePluginData) hooks.
 
@@ -115,7 +119,7 @@ Global data is... global: its size affects the loading time of all pages of your
 
 :::
 
-For example, this plugin below create a `/friends` page which display `Your friends are: Yangshun, Sebastien`:
+For example, this plugin below creates a `/friends` page which displays `Your friends are: Yangshun, Sebastien`:
 
 ```jsx title="website/src/components/Friends.js"
 import React from 'react';
@@ -127,10 +131,11 @@ export default function FriendsComponent() {
 }
 ```
 
-```js {4-14} title="docusaurus-friends-plugin/src/index.js"
+```js title="docusaurus-friends-plugin/src/index.js"
 export default function friendsPlugin(context, options) {
   return {
     name: 'docusaurus-friends-plugin',
+    // highlight-start
     async contentLoaded({content, actions}) {
       const {setGlobalData, addRoute} = actions;
       // Create friends global data
@@ -143,6 +148,7 @@ export default function friendsPlugin(context, options) {
         exact: true,
       });
     },
+    // highlight-end
   };
 }
 ```
@@ -174,7 +180,7 @@ The API of `configureWebpack` will be modified in the future to accept an object
 
 You may use them to return your webpack configures conditionally.
 
-For example, this plugin below modify the webpack config to transpile `.foo` file.
+For example, this plugin below modify the webpack config to transpile `.foo` files.
 
 ```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
@@ -199,7 +205,7 @@ module.exports = function (context, options) {
 };
 ```
 
-### `content` {#content}
+### `content` {#content-1}
 
 `configureWebpack` will be called both with the content loaded by the plugin.
 
@@ -280,16 +286,18 @@ interface Props {
 
 Example:
 
-```js {4-11} title="docusaurus-plugin/src/index.js"
+```js title="docusaurus-plugin/src/index.js"
 module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
+    // highlight-start
     async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
       // Print out to console all the rendered routes.
       routesPaths.map((route) => {
         console.log(route);
       });
     },
+    // highlight-end
   };
 };
 ```
@@ -300,7 +308,7 @@ Inject head and/or body HTML tags to Docusaurus generated HTML.
 
 `injectHtmlTags` will be called both with the content loaded by the plugin.
 
-```typescript
+```ts
 function injectHtmlTags(): {
   headTags?: HtmlTags;
   preBodyTags?: HtmlTags;
@@ -369,20 +377,22 @@ module.exports = function (context, options) {
 
 ## `getClientModules()` {#getClientModules}
 
-Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
+Returns an array of paths to the modules that are to be imported into the client bundle. These modules are imported globally before React even renders the initial UI.
 
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 
-```js {7-9} title="my-theme/src/index.js"
+```js title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function (context, options) {
   const {customCss, customJs} = options || {};
   return {
     name: 'name-of-my-theme',
+    // highlight-start
     getClientModules() {
       return [customCss, customJs];
     },
+    // highlight-end
   };
 };
 ```

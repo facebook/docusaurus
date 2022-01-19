@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  NumberPrefixParser,
-  DocMetadataBase,
-  VersionMetadata,
-  SidebarOptions,
-} from '../types';
+import type {DocMetadataBase, VersionMetadata} from '../types';
 import type {
   Sidebars,
   Sidebar,
@@ -30,7 +25,11 @@ import {DefaultSidebarItemsGenerator} from './generator';
 import {mapValues, memoize, pick} from 'lodash';
 import combinePromises from 'combine-promises';
 import {normalizeItem} from './normalization';
-import {Slugger} from '@docusaurus/utils';
+import type {Slugger} from '@docusaurus/utils';
+import type {
+  NumberPrefixParser,
+  SidebarOptions,
+} from '@docusaurus/plugin-content-docs';
 
 export type SidebarProcessorParams = {
   sidebarItemsGenerator: SidebarItemsGeneratorOption;

@@ -111,7 +111,7 @@ module.exports = {
 ```
 
 - `label`: the label to use for this locale
-- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Araric, Hebrew, etc.)
+- `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.)
 
 ### `noIndex` {#noindex}
 

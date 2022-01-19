@@ -15,7 +15,7 @@ export default function markdownLoader(
 
   // const options = this.getOptions();
 
-  // TODO provide additinal md processing here? like interlinking pages?
+  // TODO provide additional md processing here? like interlinking pages?
   // fileString = linkify(fileString)
 
   return callback && callback(null, fileString);

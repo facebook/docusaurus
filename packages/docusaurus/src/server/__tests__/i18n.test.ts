@@ -14,7 +14,7 @@ import {
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
-import {I18nConfig} from '@docusaurus/types';
+import type {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return chain(locales)

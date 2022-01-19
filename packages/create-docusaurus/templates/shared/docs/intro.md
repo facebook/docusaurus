@@ -23,7 +23,7 @@ Generate a new Docusaurus site using the **classic template**.
 
 The classic template will automatically be added to your project after you run the command:
 
-```shell
+```bash
 npm init docusaurus@latest my-website classic
 ```
 
@@ -35,7 +35,7 @@ The command also installs all necessary dependencies you need to run Docusaurus.
 
 Run the development server:
 
-```shell
+```bash
 cd my-website
 npm run start
 ```

@@ -14,13 +14,13 @@ import {
 } from '@docusaurus/utils';
 import path from 'path';
 import logger from '@docusaurus/logger';
-import ssrDefaultTemplate from '../client/templates/ssr.html.template';
+import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import loadPresets from './presets';
 import loadRoutes from './routes';
-import {
+import type {
   DocusaurusConfig,
   DocusaurusSiteMetadata,
   HtmlTagObject,
@@ -38,7 +38,7 @@ import {
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
 import {mapValues} from 'lodash';
-import {RuleSetRule} from 'webpack';
+import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
 import {resolveModuleName} from './moduleShorthand';
@@ -124,7 +124,7 @@ export async function loadContext(
     outDir,
     baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
     i18n,
-    ssrTemplate,
+    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
     codeTranslations,
   };
 }
@@ -428,7 +428,7 @@ ${Object.keys(registry)
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate: ssrTemplate || ssrDefaultTemplate,
+    ssrTemplate,
     codeTranslations,
   };
 
