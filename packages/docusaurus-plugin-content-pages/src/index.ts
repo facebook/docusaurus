@@ -19,6 +19,7 @@ import {
   createAbsoluteFilePathMatcher,
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
+  parseMarkdownString,
 } from '@docusaurus/utils';
 import type {
   LoadContext,
@@ -30,9 +31,10 @@ import type {
 import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
+import {validatePageFrontMatter} from './pageFrontMatter';
 
-import type {LoadedContent, Metadata, PagesContentPaths} from './types';
-import type {PluginOptions} from '@docusaurus/plugin-content-pages';
+import type {LoadedContent, PagesContentPaths} from './types';
+import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -111,11 +113,20 @@ export default async function pluginContentPages(
           encodePath(fileToPath(relativeSource)),
         ]);
         if (isMarkdownSource(relativeSource)) {
-          // TODO: missing frontmatter validation/normalization here
+          const content = await fs.readFile(source, 'utf-8');
+          const {
+            frontMatter: unsafeFrontMatter,
+            contentTitle,
+            excerpt,
+          } = parseMarkdownString(content);
+          const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
           return {
             type: 'mdx',
             permalink,
             source: aliasedSourcePath,
+            title: frontMatter.title ?? contentTitle,
+            description: frontMatter.description ?? excerpt,
+            frontMatter,
           };
         } else {
           return {
