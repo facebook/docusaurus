@@ -88,6 +88,8 @@ const unrelated =  42;
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
+import {translate} from '@docusaurus/Translate';
+
 export default function MyComponent() {
   return (
     <div>
@@ -119,6 +121,8 @@ export default function MyComponent() {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
+import Translate from '@docusaurus/Translate';
+
 export default function MyComponent() {
   return (
     <div>
@@ -126,7 +130,7 @@ export default function MyComponent() {
         code message
       </Translate>
 
-      <Translate id="codeId1" />
+      <Translate id="codeId1" description="description 2" />
     </div>
   );
 }
@@ -142,7 +146,7 @@ export default function MyComponent() {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
-        codeId1: {message: 'codeId1'},
+        codeId1: {message: 'codeId1', description: 'description 2'},
       },
       warnings: [],
     });
@@ -152,6 +156,8 @@ export default function MyComponent() {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
+import Translate, {translate} from '@docusaurus/Translate';
+
 const prefix = "prefix ";
 
 export default function MyComponent() {
@@ -211,6 +217,8 @@ export default function MyComponent() {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'tsx',
       content: `
+import {translate} from '@docusaurus/Translate';
+
 type ComponentProps<T> = {toto: string}
 
 export default function MyComponent<T>(props: ComponentProps<T>) {
@@ -236,6 +244,297 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
       warnings: [],
     });
   });
+
+  test('do not extract from functions that is not docusaurus provided', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import translate from 'a-lib';
+
+export default function somethingElse() {
+  const a = translate('foo');
+  return <Translate>bar</Translate>
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [],
+    });
+  });
+
+  test('do not extract from functions that is internal', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+function translate() {
+  return 'foo'
+}
+
+export default function somethingElse() {
+  const a = translate('foo');
+  return a;
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [],
+    });
+  });
+
+  test('recognize aliased imports', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import Foo, {translate as bar} from '@docusaurus/Translate';
+
+export function MyComponent() {
+  return (
+    <div>
+      <Foo id="codeId" description={"code description"}>
+        code message
+      </Foo>
+
+      <Translate id="codeId1" />
+    </div>
+  );
+}
+
+export default function () {
+  return (
+    <div>
+      <input text={translate({id: 'codeId',message: 'code message',description: 'code description'})}/>
+
+      <input text={bar({id: 'codeId1'})}/>
+    </div>
+  );
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {
+        codeId: {
+          description: 'code description',
+          message: 'code message',
+        },
+        codeId1: {
+          message: 'codeId1',
+        },
+      },
+      warnings: [],
+    });
+  });
+
+  test('recognize aliased imports as string literal', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import {'translate' as bar} from '@docusaurus/Translate';
+
+export default function () {
+  return (
+    <div>
+      <input text={translate({id: 'codeId',message: 'code message',description: 'code description'})}/>
+
+      <input text={bar({id: 'codeId1'})}/>
+    </div>
+  );
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {
+        codeId1: {
+          message: 'codeId1',
+        },
+      },
+      warnings: [],
+    });
+  });
+
+  test('warn about id if no children', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import Translate from '@docusaurus/Translate';
+
+export default function () {
+  return (
+    <Translate description="foo" />
+  );
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [
+        `<Translate> without children must have id prop.
+Example: <Translate id="my-id" />
+File: ${sourceCodeFilePath} at line 6
+Full code: <Translate description="foo" />`,
+      ],
+    });
+  });
+
+  test('warn about dynamic id', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import Translate from '@docusaurus/Translate';
+
+export default function () {
+  return (
+    <Translate id={index}>foo</Translate>
+  );
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {
+        foo: {
+          message: 'foo',
+        },
+      },
+      warnings: [
+        `<Translate> prop=id should be a statically evaluable object.
+Example: <Translate id="optional id" description="optional description">Message</Translate>
+Dynamically constructed values are not allowed, because they prevent translations to be extracted.
+File: ${sourceCodeFilePath} at line 6
+Full code: <Translate id={index}>foo</Translate>`,
+      ],
+    });
+  });
+
+  test('warn about dynamic children', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import Translate from '@docusaurus/Translate';
+
+export default function () {
+  return (
+    <Translate id='foo'><a>hhh</a></Translate>
+  );
+}
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [
+        `Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.
+File: ${sourceCodeFilePath} at line 6
+Full code: <Translate id='foo'><a>hhh</a></Translate>`,
+      ],
+    });
+  });
+
+  test('warn about dynamic translate argument', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import {translate} from '@docusaurus/Translate';
+
+translate(foo);
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [
+        `translate() first arg should be a statically evaluable object.
+Example: translate({message: "text",id: "optional.id",description: "optional description"}
+Dynamically constructed values are not allowed, because they prevent translations to be extracted.
+File: ${sourceCodeFilePath} at line 4
+Full code: translate(foo)`,
+      ],
+    });
+  });
+
+  test('warn about too many arguments', async () => {
+    const {sourceCodeFilePath} = await createTmpSourceCodeFile({
+      extension: 'js',
+      content: `
+import {translate} from '@docusaurus/Translate';
+
+translate({message: 'a'}, {a: 1}, 2);
+`,
+    });
+
+    const sourceCodeFileTranslations = await extractSourceCodeFileTranslations(
+      sourceCodeFilePath,
+      TestBabelOptions,
+    );
+
+    expect(sourceCodeFileTranslations).toEqual({
+      sourceCodeFilePath,
+      translations: {},
+      warnings: [
+        `translate() function only takes 1 or 2 args
+File: ${sourceCodeFilePath} at line 4
+Full code: translate({
+  message: 'a'
+}, {
+  a: 1
+}, 2)`,
+      ],
+    });
+  });
 });
 
 describe('extractSiteSourceCodeTranslations', () => {
@@ -251,6 +550,8 @@ describe('extractSiteSourceCodeTranslations', () => {
     await fs.writeFile(
       siteComponentFile1,
       `
+import Translate from '@docusaurus/Translate';
+
 export default function MySiteComponent1() {
   return (
       <Translate
@@ -283,6 +584,8 @@ export default function MySiteComponent1() {
     await fs.writeFile(
       plugin1File1,
       `
+import {translate} from '@docusaurus/Translate';
+
 export default function MyComponent() {
   return (
     <div>
@@ -301,6 +604,8 @@ export default function MyComponent() {
     await fs.writeFile(
       plugin1File2,
       `
+import {translate} from '@docusaurus/Translate';
+
 export default function MyComponent() {
   return (
     <div>
@@ -317,6 +622,8 @@ export default function MyComponent() {
     await fs.writeFile(
       plugin1File3,
       `
+import {translate} from '@docusaurus/Translate';
+
 export default function MyComponent() {
   return (
     <div>
@@ -334,6 +641,8 @@ export default function MyComponent() {
     await fs.writeFile(
       plugin2File,
       `
+import Translate, {translate} from '@docusaurus/Translate';
+
 type Props = {hey: string};
 
 export default function MyComponent(props: Props) {
