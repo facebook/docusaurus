@@ -16,7 +16,7 @@ const PageFrontMatterSchema = Joi.object<FrontMatter>({
   title: Joi.string(),
   description: Joi.string(),
   wrapperClassName: Joi.string(),
-  hide_table_of_contents: Joi.string(),
+  hide_table_of_contents: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
 });
 
