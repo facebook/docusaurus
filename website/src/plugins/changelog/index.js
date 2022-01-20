@@ -32,6 +32,14 @@ function processSection(section) {
     .replace(/\n## .*/, '')
     .trim()
     .replace('running_woman', 'running');
+
+  let authors = content.match(/## Committers: \d+.*/ms);
+  if (authors) {
+    authors = authors[0]
+      .match(/- .*/g)
+      .map((line) => line.match(/\[.*\]\((.*?)\)/)[1])
+      .sort();
+  }
   let hour = 20;
   const date = title.match(/ \((.*)\)/)[1];
   while (publishTimes.has(`${date}T${hour}:00`)) {
@@ -44,7 +52,15 @@ function processSection(section) {
     content: `---
 date: ${`${date}T${hour}:00`}
 toc_min_heading_level: 3
-toc_max_heading_level: 5
+toc_max_heading_level: 5${
+      authors
+        ? `
+authors:
+${authors
+  .map((url) => `  - image_url: ${url}.png\n    url: ${url}`)
+  .join('\n')}`
+        : ''
+    }
 ---
 
 # ${title.replace(/ \(.*\)/, '')}

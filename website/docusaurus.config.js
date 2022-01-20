@@ -119,11 +119,13 @@ const config = {
       require.resolve('./src/plugins/changelog/index.js'),
       {
         blogTitle: 'Docusaurus changelog',
+        blogDescription: 'Docusaurus changelog',
         blogSidebarCount: 'ALL',
         blogSidebarTitle: 'Changelog',
         routeBasePath: '/changelog',
         showReadingTime: false,
         postsPerPage: 20,
+        archiveBasePath: null,
       },
     ],
     [
