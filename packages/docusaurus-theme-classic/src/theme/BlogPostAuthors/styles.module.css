@@ -9,3 +9,14 @@
   max-width: inherit !important;
   flex-grow: 1 !important;
 }
+
+.imageOnlyAuthorRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.imageOnlyAuthorCol {
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
