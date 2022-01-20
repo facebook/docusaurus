@@ -24,7 +24,10 @@ export default function BlogPostAuthors({
   const imageOnly = authors.every(({name, title}) => !name && !title);
   return (
     <div
-      className={clsx('margin-top--md margin-bottom--sm', !imageOnly && 'row')}>
+      className={clsx(
+        'margin-top--md margin-bottom--sm',
+        imageOnly ? styles.imageOnlyAuthorRow : 'row',
+      )}>
       {authors.map((author, idx) => (
         <div
           className={clsx(
