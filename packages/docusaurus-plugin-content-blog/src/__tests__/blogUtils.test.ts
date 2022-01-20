@@ -108,4 +108,26 @@ describe('parseBlogFileName', () => {
       slug: '/2021/05/12/announcing-docusaurus-two-beta/subfolder/subfile',
     });
   });
+
+  test('parse date in the middle of path', () => {
+    expect(
+      parseBlogFileName('team-a/2021/05/12/announcing-docusaurus-two-beta.md'),
+    ).toEqual({
+      date: new Date('2021-05-12Z'),
+      text: 'announcing-docusaurus-two-beta',
+      slug: '/2021/05/12/team-a/announcing-docusaurus-two-beta',
+    });
+  });
+
+  test('parse date in the middle of a folder name', () => {
+    expect(
+      parseBlogFileName(
+        'team-a-2021-05-12-hey/announcing-docusaurus-two-beta.md',
+      ),
+    ).toEqual({
+      date: new Date('2021-05-12Z'),
+      text: 'hey/announcing-docusaurus-two-beta',
+      slug: '/2021/05/12/team-a-hey/announcing-docusaurus-two-beta',
+    });
+  });
 });
