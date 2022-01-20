@@ -22,12 +22,17 @@ function processSection(section) {
   if (!title) {
     return null;
   }
-  const content = section.replace(/\n## .*/, '').trim();
+  const content = section
+    .replace(/\n## .*/, '')
+    .trim()
+    .replace('running_woman', 'running');
   const date = title.match(/ \((.*)\)/)[1];
   return {
     title: title.replace(/ \(.*\)/, ''),
     content: `---
 date: ${date}
+toc_min_heading_level: 3
+toc_max_heading_level: 5
 ---
 
 # ${title.replace(/ \(.*\)/, '')}

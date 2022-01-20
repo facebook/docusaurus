@@ -123,6 +123,7 @@ const config = {
         blogSidebarTitle: 'Changelog',
         routeBasePath: '/changelog',
         showReadingTime: false,
+        postsPerPage: 20,
       },
     ],
     [

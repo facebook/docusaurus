@@ -6,7 +6,7 @@
  */
 
 .blogPostTitle {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .blogPostData {
@@ -15,4 +15,14 @@
 
 .blogPostDetailsFull {
   flex-direction: column;
+}
+
+.rss,
+.rss:hover {
+  color: #f26522;
+}
+
+.twitter,
+.twitter:hover {
+  color: #1da1f2;
 }
