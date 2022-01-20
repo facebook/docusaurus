@@ -23,6 +23,7 @@ import {
   getAdjustedColors,
   lightStorage,
   darkStorage,
+  updateDOMColors,
 } from '@site/src/utils/colorUtils';
 import styles from './styles.module.css';
 
@@ -49,28 +50,6 @@ function ColorGenerator(): JSX.Element {
     isDarkTheme ? darkStorage : lightStorage,
   );
 
-  // init -> create default storage values
-  useEffect(() => {
-    if (darkStorage.get() === null) {
-      darkStorage.set(
-        JSON.stringify({
-          baseColor: DARK_PRIMARY_COLOR,
-          background: DARK_BACKGROUND_COLOR,
-          shades: COLOR_SHADES,
-        }),
-      );
-    }
-    if (lightStorage.get() === null) {
-      lightStorage.set(
-        JSON.stringify({
-          baseColor: LIGHT_PRIMARY_COLOR,
-          background: LIGHT_BACKGROUND_COLOR,
-          shades: COLOR_SHADES,
-        }),
-      );
-    }
-  }, []);
-
   useEffect(() => {
     setStorage(isDarkTheme ? darkStorage : lightStorage);
   }, [isDarkTheme]);
@@ -86,11 +65,7 @@ function ColorGenerator(): JSX.Element {
 
   // State changes -> update DOM styles
   useEffect(() => {
-    const root = document.documentElement;
-    getAdjustedColors(shades, baseColor).forEach((value) => {
-      root.style.setProperty(value.variableName, value.hex);
-    });
-    root.style.setProperty('--ifm-background-color', background);
+    updateDOMColors({baseColor, background, shades});
     storage.set(JSON.stringify({baseColor, background, shades}));
   }, [baseColor, background, shades, storage]);
 

@@ -9,10 +9,10 @@ import React from 'react';
 import OriginalToggle from '@theme-original/Toggle';
 import type {Props} from '@theme/Toggle';
 import {
-  getAdjustedColors,
   lightStorage,
   darkStorage,
   type ColorState,
+  updateDOMColors,
 } from '@site/src/utils/colorUtils';
 
 // The ColorGenerator modifies the DOM styles. The styles are persisted in local
@@ -31,12 +31,7 @@ export default function Toggle(props: Props): JSX.Element {
           storage.get() ?? 'null',
         ) as ColorState | null;
         if (colorState) {
-          const {shades, baseColor, background} = colorState;
-          const root = document.documentElement;
-          getAdjustedColors(shades, baseColor).forEach((value) => {
-            root.style.setProperty(value.variableName, value.hex);
-          });
-          root.style.setProperty('--ifm-background-color', background);
+          updateDOMColors(colorState);
         }
       }}
     />

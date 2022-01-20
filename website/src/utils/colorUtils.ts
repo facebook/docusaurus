@@ -93,3 +93,15 @@ export function getAdjustedColors(shades: Shades, baseColor: string) {
     hex: Color(baseColor).darken(shades[shade].adjustment).hex(),
   }));
 }
+
+export function updateDOMColors({
+  shades,
+  baseColor,
+  background,
+}: ColorState): void {
+  const root = document.documentElement;
+  getAdjustedColors(shades, baseColor).forEach((value) => {
+    root.style.setProperty(value.variableName, value.hex);
+  });
+  root.style.setProperty('--ifm-background-color', background);
+}
