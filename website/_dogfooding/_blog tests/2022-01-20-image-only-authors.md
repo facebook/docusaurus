@@ -28,6 +28,18 @@ authors:
     url: https://github.com/rickyvetter
   - image_url: https://github.com/fanny.png
     url: https://github.com/fanny
+  - image_url: https://github.com/armano2.png
+    url: https://github.com/armano2
+  - image_url: https://github.com/RDIL.png
+    url: https://github.com/RDIL
+  - image_url: https://github.com/teikjun.png
+    url: https://github.com/teikjun
+  - image_url: https://github.com/hong4rc.png
+    url: https://github.com/hong4rc
+  - image_url: https://github.com/anshulrgoyal.png
+    url: https://github.com/anshulrgoyal
+  - image_url: https://github.com/italicize.png
+    url: https://github.com/italicize
 ---
 
 # Image only authors
