@@ -7,6 +7,8 @@ image: ./img/thumbnail.png
 
 Docusaurus has made great progress in 2021! We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year.
 
+The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for latest news.
+
 <!--truncate-->
 
 ## Highlights
@@ -47,6 +49,8 @@ We released 18 versions, going from `2.0.0-alpha.71` to `2.0.0-beta.14`. That's 
 
 With an 8.4k increase in stars, we are ranked number 3 in this year's [JavaScript rising stars of static site generators](https://risingstars.js.org/2021/en#section-ssg), preceded only by Next.js and Astro.
 
+![rising stars ranking](./img/rising-stars.png)
+
 ## Featured adoptions
 
 Our showcase has welcomed a few new ["favorite" sites](/showcase?tags=favorite) that showcase the true potential of Docusaurus 2's pluggable architecture.
@@ -67,7 +71,7 @@ Our showcase has welcomed a few new ["favorite" sites](/showcase?tags=favorite) 
 
 ![Courier](./img/courier.png)
 
-The creativity of Docusaurus users is beyond our imagination🤩 We look forward to more and more adopters leveraging the content features of Docusaurus while exploring original theme designs! If your site uses Docusaurus, we would love to [have it in our showcase](https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx).
+The creativity of Docusaurus users is beyond our imagination 🤩 We look forward to more and more adopters leveraging the content features of Docusaurus while exploring original theme designs! If your site uses Docusaurus, we would love to [have it in our showcase](https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx).
 
 ## Community
 
