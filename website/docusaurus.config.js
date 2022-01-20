@@ -460,15 +460,15 @@ const config = {
                 label: 'Help',
                 to: '/community/support',
               },
-              {
-                label: 'Blog',
-                to: 'blog',
-              },
             ],
           },
           {
             title: 'More',
             items: [
+              {
+                label: 'Blog',
+                to: 'blog',
+              },
               {
                 label: 'Changelog',
                 to: '/changelog',
