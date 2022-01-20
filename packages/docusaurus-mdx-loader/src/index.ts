@@ -138,7 +138,6 @@ export default async function mdxLoader(
           transformImage,
           {
             staticDirs: reqOptions.staticDirs,
-            filePath,
             siteDir: reqOptions.siteDir,
           },
         ],
@@ -146,7 +145,6 @@ export default async function mdxLoader(
           transformLinks,
           {
             staticDirs: reqOptions.staticDirs,
-            filePath,
             siteDir: reqOptions.siteDir,
           },
         ],
@@ -157,7 +155,6 @@ export default async function mdxLoader(
         ...DEFAULT_OPTIONS.rehypePlugins,
         ...(reqOptions.rehypePlugins || []),
       ],
-      filepath: filePath,
     };
     compilerCache.set(this.query, [
       createCompiler(options as MDXOptions),
