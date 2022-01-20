@@ -12,6 +12,12 @@ const pluginContentBlog = require('@docusaurus/plugin-content-blog');
 const {aliasedSitePath, docuHash} = require('@docusaurus/utils');
 
 /**
+ * Multiple versions may be published on the same day, causing the order to be
+ * the reverse. Therefore, our publish time has a "fake hour" to order them.
+ */
+const publishTimes = new Set();
+
+/**
  * @param {string} section
  */
 function processSection(section) {
@@ -26,11 +32,17 @@ function processSection(section) {
     .replace(/\n## .*/, '')
     .trim()
     .replace('running_woman', 'running');
+  let hour = 20;
   const date = title.match(/ \((.*)\)/)[1];
+  while (publishTimes.has(`${date}T${hour}:00`)) {
+    hour -= 1;
+  }
+  publishTimes.add(`${date}T${hour}:00`);
+
   return {
     title: title.replace(/ \(.*\)/, ''),
     content: `---
-date: ${date}
+date: ${`${date}T${hour}:00`}
 toc_min_heading_level: 3
 toc_max_heading_level: 5
 ---
