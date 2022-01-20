@@ -306,7 +306,7 @@ export async function load(
   handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
   const genWarning = generate(
     generatedFilesDir,
-    'DONT-EDIT',
+    'DONT-EDIT-THIS-FOLDER',
     `This folder stores temp files that Docusaurus' client bundler accesses.
 DO NOT hand-modify files in this folder because they will be overwritten in the
 next build. You can clear all build artifacts (including this folder) with the
