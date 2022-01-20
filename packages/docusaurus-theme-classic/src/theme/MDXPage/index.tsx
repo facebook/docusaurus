@@ -19,18 +19,10 @@ import styles from './styles.module.css';
 function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
-    // TODO this frontmatter is not validated/normalized, it's the raw user-provided one. We should expose normalized one too!
-    frontMatter,
-    metadata,
+    metadata: {title, description, permalink, frontMatter},
   } = MDXPageContent;
-
-  const {
-    title,
-    description,
-    wrapperClassName,
-    hide_table_of_contents: hideTableOfContents,
-  } = frontMatter;
-  const {permalink} = metadata;
+  const {wrapperClassName, hide_table_of_contents: hideTableOfContents} =
+    frontMatter;
 
   return (
     <Layout

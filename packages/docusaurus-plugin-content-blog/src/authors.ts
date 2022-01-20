@@ -5,19 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import chalk from 'chalk';
-import path from 'path';
-import {Author, BlogContentPaths} from './types';
-import {findFolderContainingFile} from '@docusaurus/utils';
+import type {BlogContentPaths} from './types';
+import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {
+import type {
+  Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
-} from './blogFrontMatter';
-import {getContentPathList} from './blogUtils';
-import Yaml from 'js-yaml';
+} from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = Record<string, Author>;
 
@@ -34,65 +30,22 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     .required(),
 );
 
-export function validateAuthorsMapFile(content: unknown): AuthorsMap {
+export function validateAuthorsMap(content: unknown): AuthorsMap {
   return Joi.attempt(content, AuthorsMapSchema);
 }
 
-export async function readAuthorsMapFile(
-  filePath: string,
-): Promise<AuthorsMap | undefined> {
-  if (await fs.pathExists(filePath)) {
-    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-    try {
-      const unsafeContent = Yaml.load(contentString);
-      return validateAuthorsMapFile(unsafeContent);
-    } catch (e) {
-      // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      console.error(chalk.red('The author list file looks invalid!'));
-      throw e;
-    }
-  }
-  return undefined;
-}
-
-type AuthorsMapParams = {
+export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
-};
-
-export async function getAuthorsMapFilePath({
-  authorsMapPath,
-  contentPaths,
-}: AuthorsMapParams): Promise<string | undefined> {
-  // Useful to load an eventually localize authors map
-  const contentPath = await findFolderContainingFile(
-    getContentPathList(contentPaths),
-    authorsMapPath,
+}): Promise<AuthorsMap | undefined> {
+  return getDataFileData(
+    {
+      filePath: params.authorsMapPath,
+      contentPaths: params.contentPaths,
+      fileType: 'authors map',
+    },
+    validateAuthorsMap,
   );
-
-  if (contentPath) {
-    return path.join(contentPath, authorsMapPath);
-  }
-
-  return undefined;
-}
-
-export async function getAuthorsMap(
-  params: AuthorsMapParams,
-): Promise<AuthorsMap | undefined> {
-  const filePath = await getAuthorsMapFilePath(params);
-  if (!filePath) {
-    return undefined;
-  }
-  try {
-    return await readAuthorsMapFile(filePath);
-  } catch (e) {
-    // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.error(
-      chalk.red(`Couldn't read blog authors map at path ${filePath}`),
-    );
-    throw e;
-  }
 }
 
 type AuthorsParam = {

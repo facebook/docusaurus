@@ -123,7 +123,7 @@ yarn-error.log*
 
 ### `README` {#readme}
 
-The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/main/packages/create-docusaurus/templates/classic/README.md).
+The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/main/packages/create-docusaurus/templates/shared/README.md).
 
 ## Site configurations {#site-configurations}
 
@@ -135,7 +135,7 @@ In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins fo
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -217,7 +217,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -251,7 +251,7 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx {6-19} title="docusaurus.config.js"
+```js {6-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -279,7 +279,7 @@ module.exports = {
 
 #### `algolia` {#algolia}
 
-```jsx {4-8} title="docusaurus.config.js"
+```js {4-8} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -305,7 +305,7 @@ You can contact the DocSearch team (@shortcuts, @s-pace) for support. They can u
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx {8} title="docusaurus.config.js"
+```js {8} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -332,7 +332,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {8-20} title="docusaurus.config.js"
+```js {8-20} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -363,29 +363,43 @@ module.exports = {
 
 #### `gaTrackingId` {#gatrackingid}
 
-```jsx {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
-  themeConfig: {
-    googleAnalytics: {
-      trackingID: 'UA-141789564-1',
-    },
-    // ...
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        googleAnalytics: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
 };
 ```
 
 #### `gaGtag` {#gagtag}
 
-```jsx {5} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
-  themeConfig: {
-    gtag: {
-      trackingID: 'UA-141789564-1',
-    },
-    // ...
-  },
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        // ...
+        // highlight-start
+        gtag: {
+          trackingID: 'UA-141789564-1',
+        },
+        // highlight-end
+      },
+    ],
+  ],
 };
 ```
 
@@ -456,7 +470,7 @@ module.exports = {
 };
 ```
 
-If you want to keep the `.html` extension as the canonical url of a page, docs can declare a `slug: installation.html` frontmatter.
+If you want to keep the `.html` extension as the canonical url of a page, docs can declare a `slug: installation.html` front matter.
 
 ## Components {#components}
 
@@ -565,7 +579,7 @@ This feature is replaced by [inline table of content](../guides/markdown-feature
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
-Frontmatter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your frontmatter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
+Frontmatter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 
@@ -589,7 +603,7 @@ The blog RSS feed is now hosted at `/blog/rss.xml` instead of `/blog/feed.xml`. 
 
 After migration, your folder structure should look like this:
 
-```sh
+```bash
 my-project
 ├── docs
 └── website

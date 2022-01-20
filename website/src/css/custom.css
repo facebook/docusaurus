@@ -50,7 +50,7 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(66, 66, 66, 0.3);
 }
 
 .header-github-link:hover {
@@ -170,4 +170,14 @@ div[class^='announcementBar_'] {
   position: absolute;
   width: 1px;
   white-space: nowrap;
+}
+
+html[data-theme='light'] img[src$='#gh-dark-mode-only'],
+html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
+  display: none;
+}
+
+/* Used to test CSS insertion order */
+.test-marker-site-custom-css-unique-rule {
+  content: 'site-custom-css-unique-rule';
 }

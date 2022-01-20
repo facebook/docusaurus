@@ -35,6 +35,10 @@ declare module '@docusaurus/plugin-ideal-image' {
      * JPEG compression quality
      */
     quality?: number;
+    /**
+     * Just use regular images in dev mode
+     */
+    disableInDev?: boolean;
   };
 }
 

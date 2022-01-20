@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BlogContent, PluginOptions, BlogPaginated} from './types';
+import type {BlogContent, BlogPaginated} from './types';
 import type {TranslationFileContent, TranslationFiles} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 function translateListPage(
   blogListPaginated: BlogPaginated[],
@@ -51,13 +52,13 @@ export function translateContent(
   content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
-  const [{content: optonsTranslations}] = translationFiles;
+  const [{content: optionsTranslations}] = translationFiles;
   return {
     ...content,
-    blogSidebarTitle: optonsTranslations['sidebar.title'].message,
+    blogSidebarTitle: optionsTranslations['sidebar.title'].message,
     blogListPaginated: translateListPage(
       content.blogListPaginated,
-      optonsTranslations,
+      optionsTranslations,
     ),
   };
 }

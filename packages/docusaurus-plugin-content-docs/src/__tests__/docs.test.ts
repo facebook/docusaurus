@@ -19,15 +19,17 @@ import {readVersionsMetadata} from '../versions';
 import type {
   DocFile,
   DocMetadataBase,
-  MetadataOptions,
   VersionMetadata,
-  PluginOptions,
-  EditUrlFunction,
   DocNavLink,
 } from '../types';
+import type {
+  MetadataOptions,
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 
@@ -166,7 +168,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -202,6 +204,7 @@ describe('simple site', () => {
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
+        'doc with space.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -468,7 +471,7 @@ describe('simple site', () => {
 
   test('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
-    expect(() => {
+    await expect(async () =>
       defaultTestUtils.processDocFile(
         createFakeDocFile({
           source: 'some/fake/path',
@@ -476,8 +479,8 @@ describe('simple site', () => {
             id: 'Hello/world',
           },
         }),
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
+      ),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
@@ -485,7 +488,9 @@ describe('simple site', () => {
   test('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
-    expect(await defaultTestUtils.generateNavigation(docs)).toMatchSnapshot();
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).resolves.toMatchSnapshot();
   });
 
   test('bad pagination', async () => {
@@ -497,9 +502,9 @@ describe('simple site', () => {
         frontmatter: {pagination_prev: 'nonexistent'},
       }),
     );
-    await expect(async () => {
-      await defaultTestUtils.generateNavigation(docs);
-    }).rejects.toThrowErrorMatchingInlineSnapshot(
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
@@ -520,7 +525,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });

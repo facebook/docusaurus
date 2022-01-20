@@ -9,8 +9,10 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
-import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import {ScrollControllerProvider} from '@docusaurus/theme-common';
+import {
+  TabGroupChoiceProvider,
+  ScrollControllerProvider,
+} from '@docusaurus/theme-common';
 
 describe('Tabs', () => {
   test('Should reject bad Tabs child', () => {
@@ -57,7 +59,7 @@ describe('Tabs', () => {
     expect(() => {
       renderer.create(
         <ScrollControllerProvider>
-          <UserPreferencesProvider>
+          <TabGroupChoiceProvider>
             <Tabs>
               <TabItem value="v1">Tab 1</TabItem>
               <TabItem value="v2">Tab 2</TabItem>
@@ -102,7 +104,7 @@ describe('Tabs', () => {
                 Tab 2
               </TabItem>
             </Tabs>
-          </UserPreferencesProvider>
+          </TabGroupChoiceProvider>
         </ScrollControllerProvider>,
       );
     }).not.toThrow(); // TODO Better Jest infrastructure to mock the Layout
@@ -113,7 +115,7 @@ describe('Tabs', () => {
       const tabs = ['Apple', 'Banana', 'Carrot'];
       renderer.create(
         <ScrollControllerProvider>
-          <UserPreferencesProvider>
+          <TabGroupChoiceProvider>
             <Tabs
               values={tabs.map((t, idx) => ({label: t, value: idx}))}
               defaultValue={0}>
@@ -121,7 +123,7 @@ describe('Tabs', () => {
                 <TabItem value={idx}>{t}</TabItem>
               ))}
             </Tabs>
-          </UserPreferencesProvider>
+          </TabGroupChoiceProvider>
         </ScrollControllerProvider>,
       );
     }).not.toThrow();

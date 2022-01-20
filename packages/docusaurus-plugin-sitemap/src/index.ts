@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {Options} from '@docusaurus/plugin-sitemap';
 import createSitemap from './createSitemap';
-import {
+import type {
   LoadContext,
   Props,
   OptionValidationContext,
@@ -26,6 +26,9 @@ export default function pluginSitemap(
     name: 'docusaurus-plugin-sitemap',
 
     async postBuild({siteConfig, routesPaths, outDir}: Props) {
+      if (siteConfig.noIndex) {
+        return;
+      }
       // Generate sitemap.
       const generatedSitemap = await createSitemap(
         siteConfig,

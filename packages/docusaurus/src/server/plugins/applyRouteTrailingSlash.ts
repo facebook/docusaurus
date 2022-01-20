@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 import {
   applyTrailingSlash,
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '@docusaurus/utils-common';
 
 export default function applyRouteTrailingSlash(

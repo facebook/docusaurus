@@ -11,6 +11,102 @@ If you still want these fields to be in your configuration, put them in the \\"c
 See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
 `;
 
+exports[`loadConfig website with valid async config 1`] = `
+Object {
+  "baseUrl": "/",
+  "baseUrlIssueBanner": true,
+  "customFields": Object {},
+  "i18n": Object {
+    "defaultLocale": "en",
+    "localeConfigs": Object {},
+    "locales": Array [
+      "en",
+    ],
+  },
+  "noIndex": false,
+  "onBrokenLinks": "throw",
+  "onBrokenMarkdownLinks": "warn",
+  "onDuplicateRoutes": "warn",
+  "organizationName": "endiliey",
+  "plugins": Array [],
+  "presets": Array [],
+  "projectName": "hello",
+  "staticDirectories": Array [
+    "static",
+  ],
+  "tagline": "Hello World",
+  "themeConfig": Object {},
+  "themes": Array [],
+  "title": "Hello",
+  "titleDelimiter": "|",
+  "url": "https://docusaurus.io",
+}
+`;
+
+exports[`loadConfig website with valid async config creator function 1`] = `
+Object {
+  "baseUrl": "/",
+  "baseUrlIssueBanner": true,
+  "customFields": Object {},
+  "i18n": Object {
+    "defaultLocale": "en",
+    "localeConfigs": Object {},
+    "locales": Array [
+      "en",
+    ],
+  },
+  "noIndex": false,
+  "onBrokenLinks": "throw",
+  "onBrokenMarkdownLinks": "warn",
+  "onDuplicateRoutes": "warn",
+  "organizationName": "endiliey",
+  "plugins": Array [],
+  "presets": Array [],
+  "projectName": "hello",
+  "staticDirectories": Array [
+    "static",
+  ],
+  "tagline": "Hello World",
+  "themeConfig": Object {},
+  "themes": Array [],
+  "title": "Hello",
+  "titleDelimiter": "|",
+  "url": "https://docusaurus.io",
+}
+`;
+
+exports[`loadConfig website with valid config creator function 1`] = `
+Object {
+  "baseUrl": "/",
+  "baseUrlIssueBanner": true,
+  "customFields": Object {},
+  "i18n": Object {
+    "defaultLocale": "en",
+    "localeConfigs": Object {},
+    "locales": Array [
+      "en",
+    ],
+  },
+  "noIndex": false,
+  "onBrokenLinks": "throw",
+  "onBrokenMarkdownLinks": "warn",
+  "onDuplicateRoutes": "warn",
+  "organizationName": "endiliey",
+  "plugins": Array [],
+  "presets": Array [],
+  "projectName": "hello",
+  "staticDirectories": Array [
+    "static",
+  ],
+  "tagline": "Hello World",
+  "themeConfig": Object {},
+  "themes": Array [],
+  "title": "Hello",
+  "titleDelimiter": "|",
+  "url": "https://docusaurus.io",
+}
+`;
+
 exports[`loadConfig website with valid siteConfig 1`] = `
 Object {
   "baseUrl": "/",

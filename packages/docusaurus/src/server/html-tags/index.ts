@@ -6,7 +6,7 @@
  */
 
 import htmlTagObjectToString from './htmlTags';
-import {
+import type {
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,

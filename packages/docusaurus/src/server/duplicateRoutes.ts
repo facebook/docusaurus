@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ReportingSeverity, RouteConfig} from '@docusaurus/types';
+import type {ReportingSeverity, RouteConfig} from '@docusaurus/types';
 import {reportMessage} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 

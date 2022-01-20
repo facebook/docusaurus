@@ -6,7 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const chalk = require('chalk');
+// @ts-check
+
+const logger = require('@docusaurus/logger').default;
 const fs = require('fs');
 const cli = require('commander');
 const {
@@ -219,8 +221,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}.`);
-  console.log();
+  logger.error`    Unknown command name=${cmd}.`;
 });
 
 function isInternalCommand(command) {
@@ -238,6 +239,7 @@ function isInternalCommand(command) {
 
 async function run() {
   if (!isInternalCommand(process.argv.slice(2)[0])) {
+    // @ts-expect-error: Hmmm
     await externalCommand(cli, resolveDir('.'));
   }
 
@@ -251,6 +253,6 @@ async function run() {
 run();
 
 process.on('unhandledRejection', (err) => {
-  console.error(chalk.red(err.stack));
+  logger.error(err.stack);
   process.exit(1);
 });

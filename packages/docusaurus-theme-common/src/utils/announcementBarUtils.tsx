@@ -10,7 +10,7 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-  ReactNode,
+  type ReactNode,
   useContext,
   createContext,
 } from 'react';

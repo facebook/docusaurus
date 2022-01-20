@@ -7,7 +7,7 @@
 
 import {createRequire} from 'module';
 import importFresh from 'import-fresh';
-import {
+import type {
   LoadContext,
   PluginConfig,
   PresetConfig,
@@ -23,7 +23,7 @@ export default function loadPresets(context: LoadContext): {
   // declares the dependency on these presets.
   const presetRequire = createRequire(context.siteConfigPath);
 
-  const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
+  const presets: PresetConfig[] = context.siteConfig.presets || [];
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
 
