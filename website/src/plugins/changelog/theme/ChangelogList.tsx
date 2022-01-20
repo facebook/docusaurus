@@ -6,8 +6,6 @@
  */
 
 import React from 'react';
-
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
@@ -61,16 +59,11 @@ function BlogPostItem(props: PostProps): JSX.Element {
 
 function BlogListPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
-  const {
-    siteConfig: {title: siteTitle},
-  } = useDocusaurusContext();
-  const {blogDescription, blogTitle, permalink} = metadata;
-  const isBlogOnlyMode = permalink === '/';
-  const title = isBlogOnlyMode ? siteTitle : blogTitle;
+  const {blogDescription, blogTitle} = metadata;
 
   return (
     <BlogLayout
-      title={title}
+      title={blogTitle}
       description={blogDescription}
       wrapperClassName={ThemeClassNames.wrapper.blogPages}
       pageClassName={ThemeClassNames.page.blogListPage}
@@ -80,7 +73,7 @@ function BlogListPage(props: Props): JSX.Element {
       }}
       sidebar={sidebar}>
       <header className="margin-bottom--lg">
-        <h1 style={{fontSize: '3rem'}}>{title}</h1>
+        <h1 style={{fontSize: '3rem'}}>{blogTitle}</h1>
         <p>
           Subscribe through{' '}
           <a href="/changelog/rss.xml" className={styles.rss}>

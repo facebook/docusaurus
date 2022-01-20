@@ -64,7 +64,7 @@ async function ChangelogPlugin(context, options) {
   await Promise.all(
     sections.map((section) =>
       fs.outputFile(
-        path.join(generateDir, `${encodeURI(section.title)}.md`),
+        path.join(generateDir, `${section.title}.md`),
         section.content,
       ),
     ),
