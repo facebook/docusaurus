@@ -78,14 +78,18 @@ This naming convention is optional, and you can provide the date as front matter
 <details>
 <summary>Example supported patterns</summary>
 
-- `2021-05-28-my-blog-post-title.md`
-- `2021-05-28-my-blog-post-title.mdx`
-- `2021-05-28-my-blog-post-title/index.md`
-- `2021-05-28/my-blog-post-title.md`
-- `2021/05/28/my-blog-post-title.md`
-- `2021/05-28-my-blog-post-title.md`
-- `2021/05/28/my-blog-post-title/index.md`
-- ...
+| Pattern | Example |
+| --- | --- |
+| Single file | `2021-05-28-my-blog-post-title.md` |
+| MDX file | `2021-05-28-my-blog-post-title.mdx` |
+| Single folder + `index.md` | `2021-05-28-my-blog-post-title/index.md` |
+| Folder named by date | `2021-05-28/my-blog-post-title.md` |
+| Nested folders by date | `2021/05/28/my-blog-post-title.md` |
+| Partially nested folders by date | `2021/05-28-my-blog-post-title.md` |
+| Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
+| Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
+
+The date will be excised from the path and appended to the beginning of the URL slug.
 
 </details>
 
