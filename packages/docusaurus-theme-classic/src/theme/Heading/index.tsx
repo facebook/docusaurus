@@ -46,7 +46,7 @@ function AnchorHeading({as: As, id, ...props}: Props) {
   );
 }
 
-export default function Heading({as, ...props}: Props) {
+export default function Heading({as, ...props}: Props): JSX.Element {
   if (as === 'h1') {
     return (
       <h1

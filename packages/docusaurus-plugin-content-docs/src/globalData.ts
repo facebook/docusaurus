@@ -9,7 +9,11 @@ import {mapValues} from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
-import type {DocMetadata, LoadedVersion} from './types';
+import type {
+  CategoryGeneratedIndexMetadata,
+  DocMetadata,
+  LoadedVersion,
+} from './types';
 import type {
   GlobalVersion,
   GlobalSidebar,
@@ -19,6 +23,16 @@ import type {
 export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
     id: doc.unversionedId,
+    path: doc.permalink,
+    sidebar: doc.sidebar,
+  };
+}
+
+export function toGlobalDataGeneratedIndex(
+  doc: CategoryGeneratedIndexMetadata,
+): GlobalDoc {
+  return {
+    id: doc.slug,
     path: doc.permalink,
     sidebar: doc.sidebar,
   };
@@ -56,7 +70,9 @@ export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
     isLast: version.isLast,
     path: version.versionPath,
     mainDocId: version.mainDocId,
-    docs: version.docs.map(toGlobalDataDoc),
+    docs: version.docs
+      .map(toGlobalDataDoc)
+      .concat(version.categoryGeneratedIndices.map(toGlobalDataGeneratedIndex)),
     sidebars: toGlobalSidebars(version.sidebars, version),
   };
 }

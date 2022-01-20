@@ -5,7 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {parseBlogFileName} from '../blogUtils';
+import {truncate, parseBlogFileName} from '../blogUtils';
+
+describe('truncate', () => {
+  test('truncates texts', () => {
+    expect(
+      truncate('aaa\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
+    ).toEqual('aaa\n');
+    expect(
+      truncate('\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
+    ).toEqual('\n');
+  });
+  test('leaves texts without markers', () => {
+    expect(truncate('aaa\nbbb\nccc', /<!-- truncate -->/)).toEqual(
+      'aaa\nbbb\nccc',
+    );
+    expect(truncate('', /<!-- truncate -->/)).toEqual('');
+  });
+});
 
 describe('parseBlogFileName', () => {
   test('parse file', () => {

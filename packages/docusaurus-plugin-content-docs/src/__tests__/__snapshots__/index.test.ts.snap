@@ -46,8 +46,8 @@ Object {
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": Object {
-    "permalink": "/docs/rootAbsoluteSlug",
-    "title": "rootAbsoluteSlug",
+    "permalink": "/docs/category/slugs",
+    "title": "Slugs",
   },
   "permalink": "/docs/foo/bazSlug.html",
   "previous": Object {
@@ -196,7 +196,11 @@ Object {
             },
           ],
           "label": "Slugs",
-          "link": undefined,
+          "link": Object {
+            "permalink": "/docs/category/slugs",
+            "slug": "/category/slugs",
+            "type": "generated-index",
+          },
           "type": "category",
         },
         Object {
@@ -317,6 +321,11 @@ Object {
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
+            Object {
+              "id": "/category/slugs",
+              "path": "/docs/category/slugs",
+              "sidebar": "docs",
+            },
           ],
           "isLast": true,
           "label": "Next",
@@ -340,6 +349,21 @@ Object {
 
 exports[`simple website content: data 1`] = `
 Object {
+  "category-docs-docs-category-slugs-0fe.json": "{
+  \\"title\\": \\"Slugs\\",
+  \\"slug\\": \\"/category/slugs\\",
+  \\"permalink\\": \\"/docs/category/slugs\\",
+  \\"navigation\\": {
+    \\"previous\\": {
+      \\"title\\": \\"baz pagination_label\\",
+      \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
+    },
+    \\"next\\": {
+      \\"title\\": \\"rootAbsoluteSlug\\",
+      \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
+    }
+  }
+}",
   "site-docs-doc-with-space-md-e90.json": "{
   \\"unversionedId\\": \\"doc with space\\",
   \\"id\\": \\"doc with space\\",
@@ -413,8 +437,8 @@ Object {
     \\"permalink\\": \\"/docs/foo/bar\\"
   },
   \\"next\\": {
-    \\"title\\": \\"rootAbsoluteSlug\\",
-    \\"permalink\\": \\"/docs/rootAbsoluteSlug\\"
+    \\"title\\": \\"Slugs\\",
+    \\"permalink\\": \\"/docs/category/slugs\\"
   }
 }",
   "site-docs-heading-as-title-md-c6d.json": "{
@@ -800,7 +824,8 @@ Object {
               }
             ],
             \\"collapsible\\": true,
-            \\"collapsed\\": true
+            \\"collapsed\\": true,
+            \\"href\\": \\"/docs/category/slugs\\"
           },
           {
             \\"type\\": \\"link\\",
@@ -1009,6 +1034,11 @@ Object {
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
+            Object {
+              "id": "/category/slugs",
+              "path": "/docs/category/slugs",
+              "sidebar": "docs",
+            },
           ],
           "isLast": true,
           "label": "Next",
@@ -1089,6 +1119,15 @@ Array [
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
         "path": "/docs/absoluteSlug",
+      },
+      Object {
+        "component": "@theme/DocCategoryGeneratedIndexPage",
+        "exact": true,
+        "modules": Object {
+          "categoryGeneratedIndex": "~docs/category-docs-docs-category-slugs-0fe.json",
+        },
+        "path": "/docs/category/slugs",
+        "sidebar": "docs",
       },
       Object {
         "component": "@theme/DocItem",

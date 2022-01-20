@@ -22,6 +22,9 @@ import type {
 import {isCategoriesShorthand} from './utils';
 import type {CategoryMetadataFile} from './generator';
 
+// NOTE: we don't add any default values during validation on purpose!
+// Config types are exposed to users for typechecking and we use the same type in normalization
+
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
   customProps: Joi.object().unknown(),

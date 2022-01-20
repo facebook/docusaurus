@@ -18,6 +18,7 @@ import webpack, {
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
+import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
@@ -229,7 +230,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -276,7 +277,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          logger.warn(`${warning}`);
+          logger.warn(warning);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
@@ -390,7 +391,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -412,7 +412,7 @@ export function getMinimizer(
     minimizer.push(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin({
+      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
         minimizerOptions: [
           // CssNano options
           {
@@ -420,7 +420,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {

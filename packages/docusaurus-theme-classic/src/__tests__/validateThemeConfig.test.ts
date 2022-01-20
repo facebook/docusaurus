@@ -243,7 +243,7 @@ describe('themeConfig', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
   });
 
-  test('should reject nested dropdowns', () => {
+  test('should reject nested dropdowns 2', () => {
     const config = {
       navbar: {
         items: [
@@ -442,7 +442,7 @@ describe('themeConfig', () => {
     );
   });
 
-  test('should allow width and height specification for logo ', () => {
+  test('should allow width and height specification for logo', () => {
     const altTagConfig = {
       navbar: {
         logo: {

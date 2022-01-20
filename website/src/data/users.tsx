@@ -769,6 +769,14 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
+   {
+    title: 'KaustubhK24',
+    description: 'KaustubhK24 blog + Portfolio website',
+    preview: require('./showcase/kaustubhk24.png'),
+    website: 'https://www.kaustubhk24.com',
+    source: null,
+    tags: ['personal'],
+  },
   {
     title: 'Khyron Realm',
     description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
@@ -1037,6 +1045,15 @@ const Users: User[] = [
     website: 'https://docs.pearl-ui.dev/',
     source: 'https://github.com/agrawal-rohit/pearl-ui',
     tags: ['opensource', 'design', 'product'],
+  },
+  {
+    title: 'Pglet',
+    description:
+      'Build internal web apps quickly in the language you already know',
+    preview: require('./showcase/pglet.png'),
+    website: 'https://pglet.io',
+    source: 'https://github.com/pglet/website',
+    tags: ['opensource'],
   },
   {
     title: 'Pipeline UI',

@@ -26,15 +26,15 @@
   border-top-right-radius: var(--ifm-global-radius);
 }
 
-.codeBlockTitle + .codeBlockContent .codeBlock {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .codeBlock {
   margin: 0;
   padding: 0;
   border-radius: var(--ifm-global-radius);
+}
+
+.codeBlockTitle + .codeBlockContent .codeBlock {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .codeBlockStandalone {
@@ -55,9 +55,9 @@
   transition: opacity 200ms ease-in-out;
 }
 
-.codeBlockTitle:hover + .codeBlockContent .copyButton,
+.copyButton:focus,
 .codeBlockContent:hover > .copyButton,
-.copyButton:focus {
+.codeBlockTitle:hover + .codeBlockContent .copyButton {
   opacity: 1;
 }
 

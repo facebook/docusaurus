@@ -5,7 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {uniq} from '../jsUtils';
+import {uniq, duplicates} from '../jsUtils';
+
+describe('duplicates', () => {
+  test('gets duplicate values', () => {
+    expect(duplicates(['a', 'b', 'c', 'd'])).toEqual([]);
+    expect(duplicates(['a', 'b', 'b', 'b'])).toEqual(['b', 'b']);
+    expect(duplicates(['c', 'b', 'b', 'c'])).toEqual(['b', 'c']);
+    expect(duplicates([{a: 1}, {a: 1}, {a: 1}])).toEqual([]);
+  });
+  test('accepts custom comparator', () => {
+    expect(duplicates([{a: 1}, {a: 1}, {a: 1}], (a, b) => a.a === b.a)).toEqual(
+      [{a: 1}, {a: 1}],
+    );
+    expect(duplicates(['a', 'b', 'c', 'd'], (a, b) => a !== b)).toEqual([
+      'a',
+      'b',
+      'c',
+      'd',
+    ]);
+  });
+});
 
 describe('uniq', () => {
   test('remove duplicate primitives', () => {

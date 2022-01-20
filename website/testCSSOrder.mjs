@@ -35,7 +35,6 @@ const EXPECTED_CSS_MARKERS = [
   '.DocSearch-Hit-content-wrapper',
   '.navbar__title',
   '--ifm-color-scheme:light',
-  '.test-marker-site-custom-css-shared-rule',
   '.col[class*=col--]',
   '.padding-vert--xl',
   '.footer__link-item',
