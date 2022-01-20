@@ -16,6 +16,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
+import Tweet from '@site/src/components/Tweet';
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
@@ -258,6 +259,156 @@ function Home(): JSX.Element {
           </div>
         </div>
         <div className={clsx(styles.section, styles.sectionAlt)}>
+          <div className="container">
+            <h2
+              className={clsx(
+                'margin-bottom--xl',
+                'text--center',
+              )}>
+              Loved by many engineers
+            </h2>
+            <div className={clsx('row', styles.tweetsSection)}>
+              <div className="col col--4">
+                <Tweet
+                  url="https://twitter.com/rwenderlich/status/1166336060533727232"
+                  handle="css"
+                  name="CSS-Tricks"
+                  date="Feb 14, 2018"
+                  avatar="https://pbs.twimg.com/profile_images/1080202898372362240/akqRGyta_400x400.jpg"
+                  content={
+                    <>
+                      Front End Interview [Question] Handbook
+                      <br />
+                      <br />A good amount of HTML, CSS, and JavaScript questions
+                      (and answers).
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/Insharamin/status/1479459483592110085"
+                  handle="Insharamin"
+                  name="Insha"
+                  date="Jan 7, 2022"
+                  avatar="https://pbs.twimg.com/profile_images/1468474545891774464/jENKPsRG_400x400.jpg"
+                  content={
+                    <>
+                      📌 front-end-interview-handbook
+                      <br />
+                      <br />
+                      Almost complete answers to "Front-end Job Interview
+                      Questions" which you can use to interview potential
+                      candidates, test yourself. Go from zero to front end
+                      interview hero with this handbook.
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/umaar/status/963161780787798016"
+                  handle="umaar"
+                  name="Umar Hansa"
+                  date="Feb 13, 2018"
+                  avatar="https://pbs.twimg.com/profile_images/1305935669705965568/vS_bpIuu_400x400.jpg"
+                  content={
+                    <>
+                      Front End Interview Handbook (Answers) 👀 - Useful for
+                      testing yourself and learning more about quirks, best
+                      practices and standards on the web ✅
+                    </>
+                  }
+                />
+              </div>
+              <div className="col col--4">
+                <Tweet
+                  url="https://twitter.com/silvenon/status/1284988755942748161"
+                  handle="silvenon"
+                  name="Matija Marohnić"
+                  date="Jul 20, 2020"
+                  avatar="https://pbs.twimg.com/profile_images/1337063712470036480/QvLY_uQZ_400x400.jpg"
+                  content={
+                    <>
+                      Front End Interview Handbook is AMAZING, huge props to
+                      @yangshunz and all the contributors. ⭐️
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/nimz_co/status/1052966426645016588"
+                  handle="nimz_co"
+                  name="Nima Izadi"
+                  date="Ocy 19, 2018"
+                  avatar="https://pbs.twimg.com/profile_images/1439945799086051331/Gx6kzS-F_400x400.jpg"
+                  content={
+                    <>
+                      Awesome guide for beginners to front-end development
+                      #JavaScript #CSS #HTML
+                      <br />
+                      <br />I guess, big shout out to @yangshunz and all the
+                      contributors of the repo! 💪
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/realJacobJed/status/969604583273172992"
+                  handle="realJacobJed"
+                  name="Jacob Jed"
+                  date="Mar 3, 2018"
+                  avatar="https://pbs.twimg.com/profile_images/632336891543597056/IJrRDr0e_400x400.jpg"
+                  content={
+                    <>
+                      Awesome Front End Interview Handbook. I learned a lot from
+                      this. Test yourself! I wouldn't pass this interview before
+                      reading the answers for the first time. Would you?
+                    </>
+                  }
+                />
+              </div>
+              <div className="col col--4">
+                <Tweet
+                  url="https://twitter.com/CodeWithKenny/status/1326505319137161218"
+                  handle="CodeWithKenny"
+                  name="Code with Kenny"
+                  date="Nov 11, 2020"
+                  avatar="https://pbs.twimg.com/profile_images/1369449318684430349/FiAUX1SB_400x400.jpg"
+                  content={
+                    <>
+                      This has been a great refresher resource and in an easy to
+                      read format. Enjoy!
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/ddskier/status/1287085703172677632"
+                  handle="ddskier"
+                  name="DeeDee Walsh"
+                  date="Jul 26, 2020"
+                  avatar="https://pbs.twimg.com/profile_images/1445527010269302786/vpK5S5RI_400x400.jpg"
+                  content={
+                    <>
+                      This is useful! Front End Interview Handbook by @yangshunz
+                      #interviews #interviewing #career
+                    </>
+                  }
+                />
+                <Tweet
+                  url="https://twitter.com/nd_loves/status/964146313016283136"
+                  handle="nd_loves"
+                  name="Andi"
+                  date="Feb 15, 2018"
+                  avatar="https://pbs.twimg.com/profile_images/1413231434442084355/FvJeZqau_400x400.jpg"
+                  content={
+                    <>
+                      Are you hiring new frontend developers or are you applying
+                      to a frontend dev position? yangshun's
+                      front-end-interview-handbook also gives you the
+                      opportunity to challenge yourself from time to time.
+                    </>
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={clsx(styles.section)}>
           <div className="container">
             <div className="row">
               {QUOTES.map((quote) => (
