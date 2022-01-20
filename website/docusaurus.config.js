@@ -116,6 +116,16 @@ const config = {
   themes: ['live-codeblock'],
   plugins: [
     [
+      require.resolve('./src/plugins/changelog/index.js'),
+      {
+        blogTitle: 'Docusaurus changelog',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'Changelog',
+        routeBasePath: '/changelog',
+        showReadingTime: false,
+      },
+    ],
+    [
       'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
@@ -517,22 +527,11 @@ const config = {
 
 async function createConfig() {
   const FeatureRequestsPlugin = (await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')).default;
-  const ChangelogPlugin = (await import('./src/plugins/changelog/index.mjs')).default;
   const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
   const katex = (await import('rehype-katex')).default;
   config.plugins?.push(FeatureRequestsPlugin);
-  config.plugins?.push([
-    ChangelogPlugin,
-    {
-      blogTitle: 'Docusaurus changelog',
-      blogSidebarCount: 'ALL',
-      blogSidebarTitle: 'Changelog',
-      routeBasePath: '/changelog',
-      showReadingTime: false,
-    }
-  ]);
   // @ts-expect-error: we know it exists, right
   config.presets[0][1].docs.remarkPlugins.push(configTabs);
   // @ts-expect-error: we know it exists, right

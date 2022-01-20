@@ -6,11 +6,10 @@
  */
 /* eslint-disable import/no-extraneous-dependencies */
 
-import path from 'path';
-import fs from 'fs-extra';
-import {fileURLToPath} from 'url';
-import pluginContentBlog from '@docusaurus/plugin-content-blog';
-import utils from '@docusaurus/utils';
+const path = require('path');
+const fs = require('fs-extra');
+const pluginContentBlog = require('@docusaurus/plugin-content-blog');
+const {aliasedSitePath, docuHash} = require('@docusaurus/utils');
 
 /**
  * @param {string} section
@@ -43,14 +42,14 @@ ${content}`,
  * @param {import('@docusaurus/types').LoadContext} context
  * @returns {import('@docusaurus/types').Plugin}
  */
-export default async function ChangelogPlugin(context, options) {
+async function ChangelogPlugin(context, options) {
   const generateDir = path.join(
     context.generatedFilesDir,
     'changelog-plugin/source',
   );
   // These files are only written once in the lifecycle to avoid infinite refreshing
   const fileContent = await fs.readFile(
-    fileURLToPath(new URL('../../../../CHANGELOG.md', import.meta.url)),
+    path.join(__dirname, '../../../../CHANGELOG.md'),
     'utf-8',
   );
   const sections = fileContent
@@ -89,19 +88,18 @@ export default async function ChangelogPlugin(context, options) {
       config.module.rules[0].use[1].options.metadataPath = (mdxPath) => {
         // Note that metadataPath must be the same/in-sync as
         // the path from createData for each MDX.
-        const aliasedPath = utils.aliasedSitePath(mdxPath, context.siteDir);
-        return path.join(
-          pluginDataDirRoot,
-          `${utils.docuHash(aliasedPath)}.json`,
-        );
+        const aliasedPath = aliasedSitePath(mdxPath, context.siteDir);
+        return path.join(pluginDataDirRoot, `${docuHash(aliasedPath)}.json`);
       };
       return config;
     },
     getThemePath() {
-      return fileURLToPath(new URL('./theme', import.meta.url));
+      return path.join(__dirname, './theme');
     },
   };
 }
 
 ChangelogPlugin.validateOptions = (args) =>
   pluginContentBlog.validateOptions(args);
+
+module.exports = ChangelogPlugin;
