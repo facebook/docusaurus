@@ -42,6 +42,6 @@ authors:
     url: https://github.com/italicize
 ---
 
-# Image only authors
+# Image-only authors
 
-You can now make a compact authors list without author names!
+You can make a compact authors list without author names!

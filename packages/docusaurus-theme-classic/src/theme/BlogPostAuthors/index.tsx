@@ -21,7 +21,7 @@ export default function BlogPostAuthors({
   if (authorsCount === 0) {
     return null;
   }
-  const imageOnly = authors.every(({name, title}) => !name && !title);
+  const imageOnly = authors.every(({name}) => !name);
   return (
     <div
       className={clsx(
