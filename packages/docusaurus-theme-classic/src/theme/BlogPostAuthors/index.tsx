@@ -21,10 +21,16 @@ export default function BlogPostAuthors({
   if (authorsCount === 0) {
     return null;
   }
+  const imageOnly = authors.every(({name, title}) => !name && !title);
   return (
     <div className="row margin-top--md margin-bottom--sm">
       {authors.map((author, idx) => (
-        <div className={clsx('col col--6', styles.authorCol)} key={idx}>
+        <div
+          className={clsx(
+            imageOnly ? 'col col--1' : 'col col--6',
+            styles.authorCol,
+          )}
+          key={idx}>
           <BlogPostAuthor
             author={{
               ...author,

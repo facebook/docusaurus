@@ -353,15 +353,27 @@ describe('validateAuthorsMap', () => {
     });
   });
 
-  test('reject author without name', () => {
+  test('accept author with only image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
-        image_url: 'https://github.com/slorber.png',
+        imageURL: 'https://github.com/slorber.png',
+        url: 'https://github.com/slorber',
+      },
+    };
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  test('reject author without name or image', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        title: 'foo',
       },
     };
     expect(() =>
       validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must contain at least one of [name, imageURL]"`,
+    );
   });
 
   test('reject undefined author', () => {
