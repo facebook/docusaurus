@@ -6,6 +6,10 @@
  */
 
 export {useThemeConfig} from './utils/useThemeConfig';
+export {
+  DocSidebarItemsExpandedStateProvider,
+  useDocSidebarItemsExpandedState,
+} from './utils/docSidebarItemsExpandedState';
 
 export type {
   ThemeConfig,
