@@ -6,8 +6,8 @@
  */
 
 import React, {memo} from 'react';
-
 import DocSidebarItem from '@theme/DocSidebarItem';
+import {DocSidebarItemsExpandedStateProvider} from '@docusaurus/theme-common';
 
 import type {Props} from '@theme/DocSidebarItems';
 
@@ -15,15 +15,16 @@ import type {Props} from '@theme/DocSidebarItems';
 // TODO this triggers whole sidebar re-renders on navigation
 function DocSidebarItems({items, ...props}: Props): JSX.Element {
   return (
-    <>
+    <DocSidebarItemsExpandedStateProvider>
       {items.map((item, index) => (
         <DocSidebarItem
           key={index} // sidebar is static, the index does not change
           item={item}
+          index={index}
           {...props}
         />
       ))}
-    </>
+    </DocSidebarItemsExpandedStateProvider>
   );
 }
 

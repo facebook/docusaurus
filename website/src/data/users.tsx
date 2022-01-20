@@ -769,6 +769,14 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
+   {
+    title: 'KaustubhK24',
+    description: 'KaustubhK24 blog + Portfolio website',
+    preview: require('./showcase/kaustubhk24.png'),
+    website: 'https://www.kaustubhk24.com',
+    source: null,
+    tags: ['personal'],
+  },
   {
     title: 'Khyron Realm',
     description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
@@ -1455,6 +1463,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'SODA for SPARC',
+    description:
+      'Simplifying data curation for researchers funded by the NIH SPARC initiative',
+    preview: require('./showcase/sodaforsparc.png'),
+    website: 'https://docs.sodaforsparc.io/',
+    source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
@@ -1798,6 +1815,14 @@ const Users: User[] = [
     website: 'https://sdk.dimescheduler.com',
     source: 'https://github.com/dime-scheduler/sdk-dotnet',
     tags: ['product', 'opensource'],
+  },
+  {
+    title: "404Lab.Wiki",
+    description: 'Docs and blogs about development and study',
+    preview: require('./showcase/404lab-wiki.png'),
+    website: 'https://wiki.404lab.top',
+    source: 'https://github.com/HiChen404/MyWikiSite',
+    tags: ['opensource', 'personal'],
   },
   /*
   Pro Tip: add your site in alphabetical order.

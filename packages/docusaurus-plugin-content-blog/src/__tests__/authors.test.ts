@@ -288,30 +288,30 @@ describe('getAuthorsMap', () => {
   };
 
   test('getAuthorsMap can read yml file', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.yml',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
   test('getAuthorsMap can read json file', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.json',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
   test('getAuthorsMap can return undefined if yaml file not found', async () => {
-    expect(
-      await getAuthorsMap({
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
       }),
-    ).toBeUndefined();
+    ).resolves.toBeUndefined();
   });
 });
 
@@ -353,15 +353,27 @@ describe('validateAuthorsMap', () => {
     });
   });
 
-  test('reject author without name', () => {
+  test('accept author with only image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
-        image_url: 'https://github.com/slorber.png',
+        imageURL: 'https://github.com/slorber.png',
+        url: 'https://github.com/slorber',
+      },
+    };
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  test('reject author without name or image', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        title: 'foo',
       },
     };
     expect(() =>
       validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must contain at least one of [name, imageURL]"`,
+    );
   });
 
   test('reject undefined author', () => {

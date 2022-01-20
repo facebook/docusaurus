@@ -316,6 +316,7 @@ const config = {
         playgroundPosition: 'bottom',
       },
       hideableSidebar: true,
+      autoCollapseSidebarCategories: true,
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,

@@ -39,7 +39,7 @@ describe('collectRedirects', () => {
     );
   });
 
-  test('should collect redirects to html/exe extension', () => {
+  test('should collect redirects from html/exe extension', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -258,6 +258,25 @@ describe('collectRedirects', () => {
         to: '/otherPath.html',
       },
     ]);
+  });
+
+  test('should allow returning string / undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects: (routePath) => {
+              if (routePath === '/') {
+                return `${routePath}foo`;
+              }
+              return undefined;
+            },
+          },
+          ['/', '/testpath', '/otherPath.html'],
+        ),
+        undefined,
+      ),
+    ).toEqual([{from: '/foo', to: '/'}]);
   });
 
   test('should throw if redirect creator creates invalid redirects', () => {

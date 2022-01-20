@@ -40,38 +40,47 @@ describe('defaultLocaleConfig', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
       label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
+      htmlLang: 'fr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
       label: canComputeLabel ? 'Français (France)' : 'fr-FR',
       direction: 'ltr',
+      htmlLang: 'fr-FR',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
       label: canComputeLabel ? 'English' : 'en',
       direction: 'ltr',
+      htmlLang: 'en',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
+      htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
       label: canComputeLabel ? '中文' : 'zh',
       direction: 'ltr',
+      htmlLang: 'zh',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
       label: canComputeLabel ? '中文（中国）' : 'zh-CN',
       direction: 'ltr',
+      htmlLang: 'zh-CN',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
+      htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
       label: canComputeLabel ? 'فارسی' : 'fa',
       direction: 'rtl',
+      htmlLang: 'fa',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
       label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
       direction: 'rtl',
+      htmlLang: 'fa-IR',
     });
   });
 });
@@ -156,7 +165,7 @@ describe('loadI18n', () => {
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français', direction: 'ltr'},
+        fr: {label: 'Français', direction: 'ltr', htmlLang: 'fr'},
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),
       },

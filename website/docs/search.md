@@ -25,9 +25,9 @@ There are a few options you can use to add search to your website:
 
 Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
 
-The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/apply).
+The service is **free** for any open-source project: just make sure to read the [checklist](https://docsearch.algolia.com/docs/who-can-apply/) and [apply to the DocSearch program](https://docsearch.algolia.com/apply).
 
-It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
+DocSearch crawls your website once a week (the schedule is configurable from the web interface) and aggregates all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
 If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
 
@@ -37,22 +37,19 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::
 
+:::info From the old docsearch?
+
+You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration) or [the DocSearch migration docs](https://docsearch.algolia.com/docs/migrating-from-legacy).
+
+:::
+
 ### Index Configuration {#algolia-index-configuration}
 
-After applying, your site's DocSearch config should be created at:
+After your application has been approved and deployed, you will receive an email with all the details for you to add DocSearch to your project. Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). Indices are readily available after deployment, so manual configuration usually isn't necessary.
 
-```
-https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json
-```
+:::tip
 
-This configuration file can be updated by:
-
-- [**asking for help**](#algolia-support): the DocSearch team can help you maintain it
-- opening a pull-requests in [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs)
-
-:::caution
-
-It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://docsearch.algolia.com/docs/templates/#docusaurus-v2-template).
 
 :::
 
@@ -93,7 +90,7 @@ module.exports = {
     // ...
     // highlight-start
     algolia: {
-      // If Algolia did not provide you any appId, use 'BH4D9OD16A'
+      // The application ID provided by Algolia
       appId: 'YOUR_APP_ID',
 
       // Public API key: it is safe to commit it

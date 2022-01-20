@@ -59,7 +59,7 @@ describe('ensureUniquePluginInstanceIds', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
-  test('reject multi instance plugins without id', async () => {
+  test('reject multi instance plugins with some without id', async () => {
     expect(() =>
       ensureUniquePluginInstanceIds([
         createTestPlugin('plugin-docs'),

@@ -9,7 +9,7 @@ import path from 'path';
 import {loadContext} from '@docusaurus/core/lib/server';
 
 import pluginContentPages from '../index';
-import normalizePluginOptions from './pluginOptionSchema.test';
+import {PluginOptionSchema} from '../pluginOptionSchema';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
@@ -18,9 +18,9 @@ describe('docusaurus-plugin-content-pages', () => {
     const pluginPath = 'src/pages';
     const plugin = await pluginContentPages(
       context,
-      normalizePluginOptions({
+      PluginOptionSchema.validate({
         path: pluginPath,
-      }),
+      }).value,
     );
     const pagesMetadata = await plugin.loadContent?.();
 
@@ -39,11 +39,20 @@ describe('docusaurus-plugin-content-pages', () => {
         type: 'mdx',
         permalink: '/hello/',
         source: path.posix.join('@site', pluginPath, 'hello', 'index.md'),
+        description: 'Markdown index page',
+        frontMatter: {},
+        title: 'Index',
       },
       {
         type: 'mdx',
         permalink: '/hello/mdxPage',
         source: path.posix.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        description: 'my mdx page',
+        title: 'mdx page',
+        frontMatter: {
+          description: 'my mdx page',
+          title: 'mdx page',
+        },
       },
       {
         type: 'jsx',
@@ -64,6 +73,9 @@ describe('docusaurus-plugin-content-pages', () => {
           'hello',
           'translatedMd.md',
         ),
+        description: 'translated markdown page',
+        frontMatter: {},
+        title: undefined,
       },
       {
         type: 'jsx',
@@ -85,9 +97,9 @@ describe('docusaurus-plugin-content-pages', () => {
           currentLocale: 'fr',
         },
       },
-      normalizePluginOptions({
+      PluginOptionSchema.validate({
         path: pluginPath,
-      }),
+      }).value,
     );
     const pagesMetadata = await plugin.loadContent?.();
 
@@ -113,11 +125,20 @@ describe('docusaurus-plugin-content-pages', () => {
         type: 'mdx',
         permalink: '/hello/',
         source: path.posix.join('@site', pluginPath, 'hello', 'index.md'),
+        description: 'Markdown index page',
+        frontMatter: {},
+        title: 'Index',
       },
       {
         type: 'mdx',
         permalink: '/hello/mdxPage',
         source: path.posix.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+        description: 'my mdx page',
+        title: 'mdx page',
+        frontMatter: {
+          description: 'my mdx page',
+          title: 'mdx page',
+        },
       },
       {
         type: 'jsx',
@@ -128,6 +149,9 @@ describe('docusaurus-plugin-content-pages', () => {
         type: 'mdx',
         permalink: '/hello/translatedMd',
         source: path.posix.join(frTranslationsPath, 'hello', 'translatedMd.md'),
+        description: 'translated markdown page (fr)',
+        frontMatter: {},
+        title: undefined,
       },
       {
         type: 'jsx',

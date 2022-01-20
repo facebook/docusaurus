@@ -29,6 +29,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
     'airbnb',
     'prettier',
   ],
@@ -40,7 +41,7 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header'],
+  plugins: ['react-hooks', 'header', 'jest'],
   rules: {
     'react-hooks/rules-of-hooks': ERROR,
     'react-hooks/exhaustive-deps': ERROR,
@@ -75,9 +76,7 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
-    'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
-    'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
@@ -97,7 +96,6 @@ module.exports = {
       WARNING,
       {disallowTypeAnnotations: false},
     ],
-    'import/first': OFF,
     'import/order': OFF,
     'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
@@ -172,6 +170,9 @@ module.exports = {
         ],
       },
     ],
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/expect-expect': OFF,
+    'jest/valid-title': OFF,
   },
   overrides: [
     {

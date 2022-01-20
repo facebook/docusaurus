@@ -120,6 +120,7 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
+  htmlLang: string;
   direction: string;
 };
 
