@@ -1818,11 +1818,11 @@ const Users: User[] = [
   },
   {
     title: "404Lab.Wiki",
-    description: 'Docs and blogs about development and study ',
+    description: 'Docs and blogs about development and study',
     preview: require('./showcase/404lab-wiki.png'),
     website: 'https://wiki.404lab.top',
     source: 'https://github.com/HiChen404/MyWikiSite',
-    tags: ['personal', 'opensource', 'large'],
+    tags: ['opensource', 'personal'],
   },
   /*
   Pro Tip: add your site in alphabetical order.
