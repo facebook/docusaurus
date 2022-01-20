@@ -11,7 +11,7 @@ import {createStorageSlot} from '@docusaurus/theme-common';
 // These values are shared between the Toggle component and the ColorGenerator
 
 /**
- * Stored in localStorage
+ * Stored in session storage
  */
 export type ColorState = {
   baseColor: string;
@@ -78,6 +78,7 @@ export const DARK_PRIMARY_COLOR = '#25c2a0';
 export const LIGHT_BACKGROUND_COLOR = '#ffffff';
 export const DARK_BACKGROUND_COLOR = '#181920';
 
+// sessionStorage allows resetting everything next time users visit the site
 export const lightStorage = createStorageSlot('ifm-theme-colors-light', {
   persistence: 'sessionStorage',
 });

@@ -15,10 +15,10 @@ import {
   updateDOMColors,
 } from '@site/src/utils/colorUtils';
 
-// The ColorGenerator modifies the DOM styles. The styles are persisted in local
-// storage, and we need to apply the same style when toggling modes even when we
-// are not on the styling-layout page. The only way to do this so far is by
-// hooking into the Toggle component.
+// The ColorGenerator modifies the DOM styles. The styles are persisted in
+// session storage, and we need to apply the same style when toggling modes even
+// when we are not on the styling-layout page. The only way to do this so far is
+// by hooking into the Toggle component.
 export default function Toggle(props: Props): JSX.Element {
   return (
     <OriginalToggle
