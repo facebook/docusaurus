@@ -6,7 +6,7 @@
  */
 
 import {readFile} from 'fs-extra';
-import {createCompiler, type Options as MDXOptions} from '@mdx-js/mdx';
+import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
@@ -156,10 +156,7 @@ export default async function mdxLoader(
         ...(reqOptions.rehypePlugins || []),
       ],
     };
-    compilerCache.set(this.query, [
-      createCompiler(options as MDXOptions),
-      options,
-    ]);
+    compilerCache.set(this.query, [createCompiler(options), options]);
   }
 
   const [compiler, options] = compilerCache.get(this.query)!;
