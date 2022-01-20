@@ -13,6 +13,25 @@
   --site-primary-hue-saturation: 167, 68%;
   --site-primary-hue-saturation-light: 167, 56%; /* do we really need this extra one? */
 
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 30%);
+  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation), 26%);
+  --ifm-color-primary-darker: hsl(var(--site-primary-hue-saturation), 23%);
+  --ifm-color-primary-darkest: hsl(var(--site-primary-hue-saturation), 17%);
+
+  --ifm-color-primary-light: hsl(var(--site-primary-hue-saturation-light), 39%);
+  --ifm-color-primary-lighter: hsl(
+    var(--site-primary-hue-saturation-light),
+    47%
+  );
+  --ifm-color-primary-lightest: hsl(
+    var(--site-primary-hue-saturation-light),
+    58%
+  );
+
+  --ifm-color-feedback-background: #fff;
+}
+
+html[data-theme='dark'] {
   --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
   --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation), 41%);
   --ifm-color-primary-darker: hsl(var(--site-primary-hue-saturation), 38%);
@@ -27,16 +46,9 @@
     var(--site-primary-hue-saturation-light),
     73%
   );
-
-  --site-color-feedback-background: #fff;
-  --site-color-favorite-background: #f6fdfd;
   --site-color-tooltip: #fff;
   --site-color-tooltip-background: #353738;
   --site-color-svgIcon-favorite: #e9669e;
-  --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 25%);
-}
-
-html[data-theme='dark'] {
   --site-color-feedback-background: #f0f8ff;
   --site-color-favorite-background: #1d1e1e;
   --site-color-checkbox-checked-bg: hsl(167deg 56% 73% / 10%);
