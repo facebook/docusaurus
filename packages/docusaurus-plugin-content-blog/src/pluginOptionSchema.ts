@@ -47,7 +47,9 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
+  archiveBasePath: Joi.string()
+    .default(DEFAULT_OPTIONS.archiveBasePath)
+    .allow(null),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')

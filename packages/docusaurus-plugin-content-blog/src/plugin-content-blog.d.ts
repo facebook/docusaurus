@@ -112,7 +112,7 @@ declare module '@docusaurus/plugin-content-blog' {
     path: string;
     routeBasePath: string;
     tagsBasePath: string;
-    archiveBasePath: string;
+    archiveBasePath: string | null;
     include: string[];
     exclude: string[];
     postsPerPage: number | 'ALL';
