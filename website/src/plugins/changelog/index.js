@@ -16,6 +16,12 @@ const {aliasedSitePath, docuHash} = require('@docusaurus/utils');
  * the reverse. Therefore, our publish time has a "fake hour" to order them.
  */
 const publishTimes = new Set();
+/**
+ * We need to keep track of all committers that are in the changelog, and fetch
+ * their avatars beforehand. This prevents sending too many requests to GitHub
+ * every time one visits a page. This check is done in batches across each build.
+ */
+const allAuthors = new Set();
 
 /**
  * @param {string} section
@@ -37,8 +43,12 @@ function processSection(section) {
   if (authors) {
     authors = authors[0]
       .match(/- .*/g)
-      .map((line) => line.match(/\[.*\]\((.*?)\)/)[1])
+      .map((line) =>
+        line.match(/\[.*\]\((.*?)\)/)[1].replace('https//github.com/', ''),
+      )
       .sort();
+
+    authors.forEach((author) => allAuthors.add(author));
   }
   let hour = 20;
   const date = title.match(/ \((.*)\)/)[1];
@@ -57,7 +67,10 @@ toc_max_heading_level: 5${
         ? `
 authors:
 ${authors
-  .map((url) => `  - image_url: ${url}.png\n    url: ${url}`)
+  .map(
+    (name) =>
+      `  - image_url: ./img/${name}.png\n    url: https://github.com/${name}`,
+  )
   .join('\n')}`
         : ''
     }
@@ -97,6 +110,7 @@ async function ChangelogPlugin(context, options) {
       ),
     ),
   );
+  console.log(allAuthors);
   const blogPlugin = await pluginContentBlog.default(context, {
     ...options,
     path: generateDir,

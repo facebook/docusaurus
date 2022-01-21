@@ -42,6 +42,7 @@
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.14",
     "@docusaurus/utils": "2.0.0-beta.14",
     "@popperjs/core": "^2.10.2",
+    "axios": "^0.25.0",
     "clsx": "^1.1.1",
     "color": "^4.0.1",
     "esbuild-loader": "2.16.0",
