@@ -81,6 +81,248 @@ const QUOTES = [
   },
 ];
 
+function TweetsSection() {
+  return (
+    <div className={clsx(styles.section, styles.sectionAlt)}>
+      <div className="container">
+        <h2 className={clsx('margin-bottom--lg', 'text--center')}>
+          Loved by many engineers
+        </h2>
+        <div className={clsx('row', styles.tweetsSection)}>
+          <div className="col col--4">
+            <Tweet
+              url="https://twitter.com/kentcdodds/status/1323806816019468288"
+              handle="kentcdodds"
+              name="Kent C. Dodds"
+              date="Nov 4, 2020"
+              avatar="https://pbs.twimg.com/profile_images/1444988463216922631/IDffhy4i_400x400.jpg"
+              content={
+                <>
+                  http://testing-library.com just got a nice update! We&apos;re
+                  now on the latest version of @docusaurus thanks to @matanbobi,
+                  @TensorNo, and @nickemccurdy 💙
+                  <br />
+                  <br />
+                  My favorite new feature: dark mode!! 🌑/☀️
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/swyx/status/1454261201207054339"
+              handle="swyx"
+              name="swyx"
+              date="Oct 30, 2021"
+              avatar="https://pbs.twimg.com/profile_images/1456506127961640962/iM2Hf8du_400x400.jpg"
+              content={
+                <>
+                  Soft shipped the new https://docs.temporal.io
+                  <br />
+                  <br />
+                  Many thanks to @thisismahmoud_, @flossypurse, @taillogs and
+                  others, and built with @docusaurus and now @tailwindcss
+                  <br />
+                  <br />
+                  Shipped fearlessly on Friday afternoon thanks to @Netlify
+                  immutable deploys Flexed biceps
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/paularmstrong/status/1387059593373700100"
+              handle="paularmstrong"
+              name="Paul Armstrong"
+              date="Apr 27, 2021"
+              avatar="https://pbs.twimg.com/profile_images/823614982394769408/C4KgET17_400x400.jpg"
+              content={
+                <>
+                  Continue to be impressed and excited about Docusaurus v2 alpha
+                  releases. Already using the sidebar items generator to help
+                  monorepo workspace devs create their own doc pages without any
+                  configuration needed.
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/iansu/status/1184149586048245760"
+              handle="iansu"
+              name="Ian Sutherland"
+              date="Oct 16, 2019"
+              avatar="https://pbs.twimg.com/profile_images/916780671552516096/yzDVUVKY_400x400.jpg"
+              content={
+                <>
+                  We just updated the Create React App docs to Docusaurus v2.
+                  Now with dark mode! 😎
+                  <br />
+                  <br />
+                  Thanks to the @docusaurus team for their help! ❤️
+                  <br />
+                  <br />
+                  https://create-react-app.dev
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/biantris_/status/1480259279487741953"
+              handle="biantris_"
+              name="biazita"
+              date="Jan 10, 2022"
+              avatar="https://pbs.twimg.com/profile_images/1371525161829208064/UCzm0Zye_400x400.jpg"
+              content={
+                <>
+                  Today I tried @docusaurus in a project, I really like the ease
+                  and speed of developing with it \o/
+                </>
+              }
+            />
+          </div>
+          <div className="col col--4">
+            <Tweet
+              url="https://twitter.com/sebastienlorber/status/1321784071815680000"
+              handle="sebastienlorber"
+              name="Sebastien Lorber"
+              date="Oct 29, 2020"
+              avatar="https://pbs.twimg.com/profile_images/573206276819140608/gKAusMeX_400x400.jpeg"
+              content={
+                <>
+                  🥳🎊🥳🎊🥳🎊🥳🎊 The @reactnative website just migrated to
+                  @docusaurus v2
+                  <br />
+                  Some obvious changes: <br />
+                  🌔 Dark mode <br />
+                  ⚡️ SPA navigation / prefetching <br />
+                  🧐 @algolia DocSearch v3 <br />
+                  💥 @mdx_js enable many new possibilities <br />
+                  <br />
+                  Check it out: http://reactnative.dev
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/rachelnabors/status/1321787416089366529"
+              handle="rachelnabors"
+              name="R 'Nearest' Nabors 💙"
+              date="Oct 29, 2020"
+              avatar="https://pbs.twimg.com/profile_images/1316805792893489152/7soY-vhs_400x400.jpg"
+              content={
+                <>
+                  Many thanks to @sebastienlorber and @simek for their tireless
+                  effort to migrate @reactnative &apos;s documentation to
+                  @docusaurus v2! The new site is better than ever! Thank you to
+                  everyone who makes these docs shine &lt;3
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/mweststrate/status/1181276252293853186"
+              handle="mweststrate"
+              name="Michel Weststrate"
+              date="Oct 8, 2019"
+              avatar="https://pbs.twimg.com/profile_images/1192174732189339649/NYGFeR-K_400x400.jpg"
+              content={
+                <>
+                  New #mobx docs are online! More modern, fixing many UI issues.
+                  <br />
+                  <br />
+                  👏 @cloverich did the awesome job of migrating from ancient
+                  gitbook -&gt; @docusaurus! 👏 <br />
+                  <br />
+                  No real content updates yet, but contributing and publishing
+                  has become way easier
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/verdaccio_npm/status/1420187249145118722"
+              handle="verdaccio_npm"
+              name="verdaccio"
+              date="Jul 28, 2021"
+              avatar="https://pbs.twimg.com/profile_images/1423143362232823809/4khdTyVZ_400x400.png"
+              content={
+                <>
+                  The new website has landed 🚀 powered by @docusaurus v2 and
+                  made by @_semoal kudos to him 👏 #verdaccio #nodejs awesome
+                  contribution ❤️‍🔥 (video made with react remotion @JNYBGR )
+                  all Open Source and hosted on @Netlify https://verdaccio.org
+                </>
+              }
+            />
+          </div>
+          <div className="col col--4">
+            <Tweet
+              url="https://twitter.com/acemarke/status/1452725153998245891"
+              handle="acemarke"
+              name="Mark Erikson"
+              date="Oct 26, 2021"
+              avatar="https://pbs.twimg.com/profile_images/842582724737163264/tFKLiJI5_400x400.jpg"
+              content={
+                <>
+                  We&apos;ve been using Docusaurus for all the Redux org docs
+                  sites for the last couple years, and it&apos;s great!
+                  We&apos;ve been able to focus on content, customize some
+                  presentation and features, and It Just Works.
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/yangshunz/status/1284536949718478848"
+              handle="yangshunz"
+              name="Yangshun Tay"
+              date="Jul 19, 2020"
+              avatar="https://pbs.twimg.com/profile_images/1247950572096868352/3kuZJz5j_400x400.jpg"
+              content={
+                <>
+                  I made a @docusaurus website for answers to the H5BP Front End
+                  Interview Questions! Hopefully it makes the browsing
+                  experience easier - https://frontendinterviewhandbook.com
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/johnny_reilly/status/1469238609266028545"
+              handle="johnny_reilly"
+              name="John Reilly"
+              date="Dec 10, 2021"
+              avatar="https://pbs.twimg.com/profile_images/552803871567790081/rPdTN64o_400x400.jpeg"
+              content={
+                <>
+                  I ❤️ @docusaurus - it makes it so easy to spin up docs, blogs
+                  and simple websites. I&apos;ve used it to:
+                  <br />
+                  <br /> ✅ Replatform my blog with GitHub pages <br />
+                  ✅ Build a website for a local business <br />✅ Build
+                  internal facing blog/docs sites with @AzureStaticApps
+                </>
+              }
+            />
+            <Tweet
+              url="https://twitter.com/pierregillesl/status/1372839188698001408"
+              handle="pierregillesl"
+              name="
+        Pierre-Gilles Leymarie"
+              date="Mar 19, 2021"
+              avatar="https://pbs.twimg.com/profile_images/1302550637197000705/pg5XF8rA_400x400.jpg"
+              content={
+                <>
+                  Just upgraded our website to @docusaurus latest with
+                  internationalization support 🥳
+                  <br />
+                  <br />
+                  Before that, we had to build 2 separate versions of the
+                  website to get it in English + French.
+                  <br />
+                  <br />
+                  Now, it&apos;s working out of the box, with proper meta tags
+                  for SEO 👌
+                </>
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
@@ -258,156 +500,7 @@ function Home(): JSX.Element {
             </div>
           </div>
         </div>
-        <div className={clsx(styles.section, styles.sectionAlt)}>
-          <div className="container">
-            <h2
-              className={clsx(
-                'margin-bottom--xl',
-                'text--center',
-              )}>
-              Loved by many engineers
-            </h2>
-            <div className={clsx('row', styles.tweetsSection)}>
-              <div className="col col--4">
-                <Tweet
-                  url="https://twitter.com/rwenderlich/status/1166336060533727232"
-                  handle="css"
-                  name="CSS-Tricks"
-                  date="Feb 14, 2018"
-                  avatar="https://pbs.twimg.com/profile_images/1080202898372362240/akqRGyta_400x400.jpg"
-                  content={
-                    <>
-                      Front End Interview [Question] Handbook
-                      <br />
-                      <br />A good amount of HTML, CSS, and JavaScript questions
-                      (and answers).
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/Insharamin/status/1479459483592110085"
-                  handle="Insharamin"
-                  name="Insha"
-                  date="Jan 7, 2022"
-                  avatar="https://pbs.twimg.com/profile_images/1468474545891774464/jENKPsRG_400x400.jpg"
-                  content={
-                    <>
-                      📌 front-end-interview-handbook
-                      <br />
-                      <br />
-                      Almost complete answers to "Front-end Job Interview
-                      Questions" which you can use to interview potential
-                      candidates, test yourself. Go from zero to front end
-                      interview hero with this handbook.
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/umaar/status/963161780787798016"
-                  handle="umaar"
-                  name="Umar Hansa"
-                  date="Feb 13, 2018"
-                  avatar="https://pbs.twimg.com/profile_images/1305935669705965568/vS_bpIuu_400x400.jpg"
-                  content={
-                    <>
-                      Front End Interview Handbook (Answers) 👀 - Useful for
-                      testing yourself and learning more about quirks, best
-                      practices and standards on the web ✅
-                    </>
-                  }
-                />
-              </div>
-              <div className="col col--4">
-                <Tweet
-                  url="https://twitter.com/silvenon/status/1284988755942748161"
-                  handle="silvenon"
-                  name="Matija Marohnić"
-                  date="Jul 20, 2020"
-                  avatar="https://pbs.twimg.com/profile_images/1337063712470036480/QvLY_uQZ_400x400.jpg"
-                  content={
-                    <>
-                      Front End Interview Handbook is AMAZING, huge props to
-                      @yangshunz and all the contributors. ⭐️
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/nimz_co/status/1052966426645016588"
-                  handle="nimz_co"
-                  name="Nima Izadi"
-                  date="Ocy 19, 2018"
-                  avatar="https://pbs.twimg.com/profile_images/1439945799086051331/Gx6kzS-F_400x400.jpg"
-                  content={
-                    <>
-                      Awesome guide for beginners to front-end development
-                      #JavaScript #CSS #HTML
-                      <br />
-                      <br />I guess, big shout out to @yangshunz and all the
-                      contributors of the repo! 💪
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/realJacobJed/status/969604583273172992"
-                  handle="realJacobJed"
-                  name="Jacob Jed"
-                  date="Mar 3, 2018"
-                  avatar="https://pbs.twimg.com/profile_images/632336891543597056/IJrRDr0e_400x400.jpg"
-                  content={
-                    <>
-                      Awesome Front End Interview Handbook. I learned a lot from
-                      this. Test yourself! I wouldn't pass this interview before
-                      reading the answers for the first time. Would you?
-                    </>
-                  }
-                />
-              </div>
-              <div className="col col--4">
-                <Tweet
-                  url="https://twitter.com/CodeWithKenny/status/1326505319137161218"
-                  handle="CodeWithKenny"
-                  name="Code with Kenny"
-                  date="Nov 11, 2020"
-                  avatar="https://pbs.twimg.com/profile_images/1369449318684430349/FiAUX1SB_400x400.jpg"
-                  content={
-                    <>
-                      This has been a great refresher resource and in an easy to
-                      read format. Enjoy!
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/ddskier/status/1287085703172677632"
-                  handle="ddskier"
-                  name="DeeDee Walsh"
-                  date="Jul 26, 2020"
-                  avatar="https://pbs.twimg.com/profile_images/1445527010269302786/vpK5S5RI_400x400.jpg"
-                  content={
-                    <>
-                      This is useful! Front End Interview Handbook by @yangshunz
-                      #interviews #interviewing #career
-                    </>
-                  }
-                />
-                <Tweet
-                  url="https://twitter.com/nd_loves/status/964146313016283136"
-                  handle="nd_loves"
-                  name="Andi"
-                  date="Feb 15, 2018"
-                  avatar="https://pbs.twimg.com/profile_images/1413231434442084355/FvJeZqau_400x400.jpg"
-                  content={
-                    <>
-                      Are you hiring new frontend developers or are you applying
-                      to a frontend dev position? yangshun's
-                      front-end-interview-handbook also gives you the
-                      opportunity to challenge yourself from time to time.
-                    </>
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <TweetsSection />
         <div className={clsx(styles.section)}>
           <div className="container">
             <div className="row">

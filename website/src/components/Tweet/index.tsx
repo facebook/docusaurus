@@ -14,29 +14,36 @@ import styles from './styles.module.css';
 interface Props {
   url: string;
   handle: string;
-  name: ReactNode;
-  content: string;
+  name: string;
+  content: ReactNode;
   avatar: string;
   date: string;
 }
 
-export default function Tweet({ url, handle, name, content, avatar, date }: Props) {
+export default function Tweet({
+  url,
+  handle,
+  name,
+  content,
+  avatar,
+  date,
+}: Props): JSX.Element {
   return (
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">
         <div className="avatar">
-          <img className="avatar__photo" src={avatar} />
+          <img alt={name} className="avatar__photo" src={avatar} />
           <div className="avatar__intro">
             <div className={styles.tweet}>
-              <strong>{name}</strong>{' '}
-              <span className={styles.tweetMeta}>
-                @{handle} &middot;{' '}
-                <a className={styles.tweetMeta} href={url}>
-                  {date}
-                </a>
-              </span>
+              <div>
+                <strong>{name}</strong>{' '}
+                <span className={styles.tweetMeta}>@{handle}</span>
+              </div>
             </div>
-            <div>{content}</div>
+            <div className="margin-bottom--sm">{content}</div>
+            <a className={clsx(styles.tweetMeta, styles.tweetDate)} href={url}>
+              {date}
+            </a>
           </div>
         </div>
       </div>
