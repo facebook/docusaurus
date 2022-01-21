@@ -73,8 +73,7 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      // style lint fails for katex.min.css
-      href: '/katex/katex.css',
+      href: '/katex/katex.min.css',
       type: 'text/css',
     },
   ],

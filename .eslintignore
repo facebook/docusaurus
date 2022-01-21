@@ -17,3 +17,4 @@ copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/facebook/.eslintrc.js
+website/static/katex/katex.min.css
