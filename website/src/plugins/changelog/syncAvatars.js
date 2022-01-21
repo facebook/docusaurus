@@ -12,9 +12,6 @@ const path = require('path');
 const fs = require('fs-extra');
 // const axios = require('axios').default;
 
-const isDeployPreview =
-  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
-
 // TODO not sure how the syncing should be done at all... for now it pretends the limit is reached
 /**
  * @param {string} username
@@ -65,9 +62,6 @@ async function fetchImage(username, lastUpdateCache, authorsMap) {
  * @param {string} generateDir
  */
 async function syncAvatars(authorsMap, generateDir) {
-  if (isDeployPreview) {
-    return;
-  }
   const imagePath = path.join(generateDir, 'img');
   const lastUpdateCachePath = path.join(imagePath, 'lastUpdate.json');
   const authorsPath = path.join(generateDir, 'authors.json');
