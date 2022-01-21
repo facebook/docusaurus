@@ -10,18 +10,15 @@ const path = require('path');
 const fs = require('fs-extra');
 const pluginContentBlog = require('@docusaurus/plugin-content-blog');
 const {aliasedSitePath, docuHash} = require('@docusaurus/utils');
+const syncAvatars = require('./syncAvatars');
 
 /**
  * Multiple versions may be published on the same day, causing the order to be
  * the reverse. Therefore, our publish time has a "fake hour" to order them.
  */
 const publishTimes = new Set();
-/**
- * We need to keep track of all committers that are in the changelog, and fetch
- * their avatars beforehand. This prevents sending too many requests to GitHub
- * every time one visits a page. This check is done in batches across each build.
- */
-const allAuthors = new Set();
+/** @type {Record<string, {name: string, url: string, alias: string, imageURL: string}>} */
+const authorsMap = {};
 
 /**
  * @param {string} section
@@ -43,12 +40,22 @@ function processSection(section) {
   if (authors) {
     authors = authors[0]
       .match(/- .*/g)
-      .map((line) =>
-        line.match(/\[.*\]\((.*?)\)/)[1].replace('https//github.com/', ''),
+      .map(
+        (line) =>
+          line.match(
+            /- (?:(?<name>.*?) \()?\[@(?<alias>.*)\]\((?<url>.*?)\)\)?/,
+          ).groups,
       )
-      .sort();
+      .map((author) => ({
+        ...author,
+        name: author.name ?? author.alias,
+        imageURL: `./img/${author.alias}.png`,
+      }))
+      .sort((a, b) => a.url.localeCompare(b.url));
 
-    authors.forEach((author) => allAuthors.add(author));
+    authors.forEach((author) => {
+      authorsMap[author.alias] = author;
+    });
   }
   let hour = 20;
   const date = title.match(/ \((.*)\)/)[1];
@@ -60,18 +67,11 @@ function processSection(section) {
   return {
     title: title.replace(/ \(.*\)/, ''),
     content: `---
-date: ${`${date}T${hour}:00`}
-toc_min_heading_level: 3
-toc_max_heading_level: 5${
+date: ${`${date}T${hour}:00`}${
       authors
         ? `
 authors:
-${authors
-  .map(
-    (name) =>
-      `  - image_url: ./img/${name}.png\n    url: https://github.com/${name}`,
-  )
-  .join('\n')}`
+${authors.map((author) => `  - '${author.alias}'`).join('\n')}`
         : ''
     }
 ---
@@ -80,7 +80,7 @@ ${authors
 
 <!-- truncate -->
 
-${content}`,
+${content.replace(/####/g, '##')}`,
   };
 }
 
@@ -89,40 +89,34 @@ ${content}`,
  * @returns {import('@docusaurus/types').Plugin}
  */
 async function ChangelogPlugin(context, options) {
-  const generateDir = path.join(
-    context.generatedFilesDir,
-    'changelog-plugin/source',
-  );
-  // These files are only written once in the lifecycle to avoid infinite refreshing
-  const fileContent = await fs.readFile(
-    path.join(__dirname, '../../../../CHANGELOG.md'),
-    'utf-8',
-  );
-  const sections = fileContent
-    .split(/(?=\n## )/ms)
-    .map(processSection)
-    .filter(Boolean);
-  await Promise.all(
-    sections.map((section) =>
-      fs.outputFile(
-        path.join(generateDir, `${section.title}.md`),
-        section.content,
-      ),
-    ),
-  );
-  console.log(allAuthors);
+  const generateDir = path.join(context.siteDir, 'changelog/source');
   const blogPlugin = await pluginContentBlog.default(context, {
     ...options,
     path: generateDir,
     id: 'changelog',
     blogListComponent: '@theme/ChangelogList',
+    blogPostComponent: '@theme/ChangelogPage',
   });
+  const changelogPath = path.join(__dirname, '../../../../CHANGELOG.md');
   return {
     ...blogPlugin,
     name: 'changelog-plugin',
-    // Avoid infinite refreshing, because we are writing to the temp folder
-    getPathsToWatch() {
-      return [];
+    async loadContent() {
+      const fileContent = await fs.readFile(changelogPath, 'utf-8');
+      const sections = fileContent
+        .split(/(?=\n## )/ms)
+        .map(processSection)
+        .filter(Boolean);
+      await Promise.all(
+        sections.map((section) =>
+          fs.outputFile(
+            path.join(generateDir, `${section.title}.md`),
+            section.content,
+          ),
+        ),
+      );
+      await syncAvatars(authorsMap, generateDir);
+      return blogPlugin.loadContent();
     },
     configureWebpack(...args) {
       const config = blogPlugin.configureWebpack(...args);
@@ -143,10 +137,13 @@ async function ChangelogPlugin(context, options) {
     getThemePath() {
       return path.join(__dirname, './theme');
     },
+    getPathsToWatch() {
+      // Don't watch the generated dir
+      return changelogPath;
+    },
   };
 }
 
-ChangelogPlugin.validateOptions = (args) =>
-  pluginContentBlog.validateOptions(args);
+ChangelogPlugin.validateOptions = pluginContentBlog.validateOptions;
 
 module.exports = ChangelogPlugin;

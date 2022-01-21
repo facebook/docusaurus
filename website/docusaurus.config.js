@@ -126,6 +126,7 @@ const config = {
         showReadingTime: false,
         postsPerPage: 20,
         archiveBasePath: null,
+        authorsMapPath: 'authors.json',
       },
     ],
     [

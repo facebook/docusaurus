@@ -10,54 +10,12 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
-import type {Props as PostProps} from '@theme/BlogPostItem';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {MDXProvider} from '@mdx-js/react';
-import MDXComponents from '@theme/MDXComponents';
+import ChangelogItem from '@theme/ChangelogItem';
 
 import styles from './styles.module.css';
-import BlogPostAuthors from '@theme/BlogPostAuthors';
 
-function BlogPostItem(props: PostProps): JSX.Element {
-  const {withBaseUrl} = useBaseUrlUtils();
-  const {frontMatter, assets, metadata, children} = props;
-  const {date, formattedDate, permalink, title, authors} = metadata;
-
-  const image = assets.image ?? frontMatter.image;
-
-  return (
-    <article
-      className="margin-bottom--md"
-      itemProp="blogPost"
-      itemScope
-      itemType="http://schema.org/BlogPosting">
-      <header>
-        <h2 className={styles.blogPostTitle} itemProp="headline">
-          <Link itemProp="url" to={permalink}>
-            {title}
-          </Link>
-        </h2>
-        <div className={clsx(styles.blogPostData, 'margin-vert--md')}>
-          <time dateTime={date} itemProp="datePublished">
-            {formattedDate}
-          </time>
-        </div>
-        <BlogPostAuthors authors={authors} assets={assets} />
-      </header>
-      {image && (
-        <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
-      )}
-      <div className="markdown" itemProp="articleBody">
-        <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-      </div>
-    </article>
-  );
-}
-
-function BlogListPage(props: Props): JSX.Element {
+function ChangelogList(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {blogDescription, blogTitle} = metadata;
 
@@ -117,18 +75,18 @@ function BlogListPage(props: Props): JSX.Element {
         </p>
       </header>
       {items.map(({content: BlogPostContent}) => (
-        <BlogPostItem
+        <ChangelogItem
           key={BlogPostContent.metadata.permalink}
           frontMatter={BlogPostContent.frontMatter}
           assets={BlogPostContent.assets}
           metadata={BlogPostContent.metadata}
           truncated={BlogPostContent.metadata.truncated}>
           <BlogPostContent />
-        </BlogPostItem>
+        </ChangelogItem>
       ))}
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>
   );
 }
 
-export default BlogListPage;
+export default ChangelogList;
