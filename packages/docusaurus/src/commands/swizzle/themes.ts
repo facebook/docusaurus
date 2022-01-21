@@ -10,7 +10,7 @@ import type {InitializedPlugin} from '@docusaurus/types';
 import leven from 'leven';
 import {orderBy, uniq} from 'lodash';
 import {askThemeName} from './prompts';
-import {findStringIgnoringCase} from './utils';
+import {findStringIgnoringCase} from './common';
 
 export function getThemeNames(plugins: InitializedPlugin[]): string[] {
   const themeNames = uniq(

@@ -64,7 +64,17 @@ cli
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
-  .description('Copy the theme files into website folder for customization.')
+  .description(
+    'Wraps or ejects the original theme files into website folder for customization.',
+  )
+  .option(
+    '--wrap',
+    'Creates a wrapper around the original theme component.\nAllows rendering other components before/after the original theme component.',
+  )
+  .option(
+    '--eject',
+    'Ejects the full source code of the original theme component.\nAllows overriding the original component entirely with your own UI and logic.',
+  )
   .option(
     '-l, --list',
     'only list the available themes/components without further prompting (default: false)',
@@ -73,7 +83,7 @@ cli
     '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
-  .option('--danger', 'enable swizzle for internal component of themes')
+  .option('--danger', 'enable swizzle for unsafe component of themes')
   .action((themeName, componentName, siteDir, options) => {
     swizzle(resolveDir(siteDir), themeName, componentName, options);
   });

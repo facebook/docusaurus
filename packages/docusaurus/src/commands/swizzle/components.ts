@@ -7,19 +7,31 @@
 
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import importFresh from 'import-fresh';
 import path from 'path';
-import type {ImportedPluginModule} from '@docusaurus/types';
+import type {
+  SwizzleAction,
+  SwizzleActionStatus,
+  SwizzleComponentConfig,
+  SwizzleConfig,
+} from '@docusaurus/types';
 import {orderBy} from 'lodash';
 import {askComponentName, askSwizzleDangerousComponent} from './prompts';
-import {findClosestValue, findStringIgnoringCase} from './utils';
-import {THEME_PATH} from '@docusaurus/utils';
+import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
+import {SwizzleActions} from './actions';
+import {getThemeSwizzleConfig} from './config';
 
 export type ThemeComponents = {
   themeName: string;
   all: string[];
-  isSafe: (component: string) => boolean;
+  getConfig: (component: string) => SwizzleComponentConfig;
+  getDescription: (component: string) => string;
+  getActionStatus: (
+    component: string,
+    action: SwizzleAction,
+  ) => SwizzleActionStatus;
+  isSafeAction: (component: string, action: SwizzleAction) => boolean;
+  hasAnySafeAction: (component: string) => boolean;
 };
 
 const formatComponentName = (componentName: string): string =>
@@ -69,23 +81,77 @@ export function getThemeComponents({
   themeName: string;
   themePath: string;
 }): ThemeComponents {
-  const pluginModule = importFresh<ImportedPluginModule>(themeName);
-  const getSwizzleComponentList =
-    pluginModule.default?.getSwizzleComponentList ??
-    pluginModule.getSwizzleComponentList;
-  const allComponents = readComponentNames(themePath);
-  const safeComponents = getSwizzleComponentList
-    ? getSwizzleComponentList() ?? allComponents
-    : [];
+  const FallbackSwizzleConfig: SwizzleConfig = {
+    components: {},
+  };
 
-  function isSafe(component: string): boolean {
-    return safeComponents.includes(component);
+  const FallbackSwizzleActionStatus: SwizzleActionStatus = 'unsafe';
+
+  const FallbackSwizzleComponentDescription = 'N/A';
+
+  const FallbackSwizzleComponentConfig: SwizzleComponentConfig = {
+    actions: {
+      wrap: FallbackSwizzleActionStatus,
+      eject: FallbackSwizzleActionStatus,
+    },
+    description: FallbackSwizzleComponentDescription,
+  };
+
+  const allComponents = readComponentNames(themePath);
+  const swizzleConfig =
+    getThemeSwizzleConfig(themeName) ?? FallbackSwizzleConfig;
+
+  function getConfig(component: string): SwizzleComponentConfig {
+    return (
+      swizzleConfig.components[component] ?? FallbackSwizzleComponentConfig
+    );
   }
+
+  function getDescription(component: string): string {
+    return (
+      getConfig(component).description ?? FallbackSwizzleComponentDescription
+    );
+  }
+
+  function getActionStatus(
+    component: string,
+    action: SwizzleAction,
+  ): SwizzleActionStatus {
+    return getConfig(component).actions[action] ?? FallbackSwizzleActionStatus;
+  }
+
+  function isSafeAction(component: string, action: SwizzleAction): boolean {
+    return getActionStatus(component, action) === 'safe';
+  }
+
+  function hasAllSafeAction(component: string): boolean {
+    return SwizzleActions.every((action) => isSafeAction(component, action));
+  }
+
+  function hasAnySafeAction(component: string): boolean {
+    return SwizzleActions.some((action) => isSafeAction(component, action));
+  }
+
+  // Present the safest components first
+  const orderedComponents = orderBy(
+    allComponents,
+    [
+      hasAllSafeAction,
+      (component) => isSafeAction(component, 'wrap'),
+      (component) => isSafeAction(component, 'eject'),
+      (component) => component,
+    ],
+    ['desc', 'desc', 'desc', 'asc'],
+  );
 
   return {
     themeName,
-    all: orderBy(allComponents, [isSafe], ['desc']),
-    isSafe,
+    all: orderedComponents,
+    getConfig,
+    getDescription,
+    getActionStatus,
+    isSafeAction,
+    hasAnySafeAction,
   };
 }
 
@@ -114,8 +180,8 @@ function handleInvalidComponentNameParam({
   const suggestion = findClosestValue(componentNameParam, themeComponents.all);
   if (suggestion) {
     logger.info`Did you mean name=${suggestion}? ${
-      themeComponents.isSafe(suggestion)
-        ? `Note: this component is an unsafe internal component and can only be swizzled with code=${'--danger'}.`
+      themeComponents.hasAnySafeAction(suggestion)
+        ? `Note: this component is an unsafe internal component and can only be swizzled with code=${'--danger'} or explicit confirmation.`
         : ''
     }`;
   } else {
@@ -163,10 +229,8 @@ export async function getComponentName({
       })
     : await askComponentName(themeComponents);
 
-  const isSafe = themeComponents.isSafe(componentName);
-
-  if (!isSafe && !danger) {
-    logger.warn`name=${componentName} is an internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag.`;
+  if (!themeComponents.hasAnySafeAction(componentName) && !danger) {
+    logger.warn`name=${componentName} is an unsafe internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you know what you are doing.`;
     const swizzleDangerousComponent = await askSwizzleDangerousComponent();
     if (!swizzleDangerousComponent) {
       return process.exit(1);
@@ -174,39 +238,4 @@ export async function getComponentName({
   }
 
   return componentName;
-}
-
-export async function copyThemeComponent({
-  siteDir,
-  themePath,
-  componentName,
-}: {
-  siteDir: string;
-  themePath: string;
-  componentName: string;
-}): Promise<{from: string; to: string}> {
-  let fromPath = path.join(themePath, componentName);
-  let toPath = path.resolve(siteDir, THEME_PATH, componentName);
-  // Handle single TypeScript/JavaScript file only.
-  // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
-  if (!fs.existsSync(fromPath)) {
-    if (fs.existsSync(`${fromPath}.ts`)) {
-      [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];
-    } else if (fs.existsSync(`${fromPath}.tsx`)) {
-      [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
-    } else if (fs.existsSync(`${fromPath}.js`)) {
-      [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
-    } else if (fs.existsSync(`${fromPath}.jsx`)) {
-      [fromPath, toPath] = [`${fromPath}.jsx`, `${toPath}.jsx`];
-    } else {
-      throw new Error(
-        logger.interpolate`Unexpected, can't copy theme component from path=${fromPath}`,
-      );
-    }
-  }
-
-  // TODO do not copy subfolders?
-  await fs.copy(fromPath, toPath);
-
-  return {from: fromPath, to: toPath};
 }

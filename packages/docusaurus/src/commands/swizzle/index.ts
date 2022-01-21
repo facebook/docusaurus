@@ -10,19 +10,12 @@ import path from 'path';
 import {loadContext, loadPluginConfigs} from '../../server';
 import initPlugins from '../../server/plugins/init';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
-import {
-  getThemeComponents,
-  getComponentName,
-  copyThemeComponent,
-} from './components';
+import {getThemeComponents, getComponentName} from './components';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import type {InitializedPlugin} from '@docusaurus/types';
-
-type Options = {
-  typescript?: boolean;
-  danger?: boolean;
-  list?: boolean;
-};
+import type {SwizzleOptions} from './common';
+import {normalizeOptions} from './common';
+import {executeAction, getAction} from './actions';
 
 async function listAllThemeComponents({
   themeNames,
@@ -31,7 +24,7 @@ async function listAllThemeComponents({
 }: {
   themeNames: string[];
   plugins: InitializedPlugin[];
-  typescript: Options['typescript'];
+  typescript: SwizzleOptions['typescript'];
 }) {
   const themeComponentsTables = (
     await Promise.all(
@@ -60,8 +53,11 @@ export default async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
   componentNameParam: string | undefined,
-  {typescript, danger, list}: Options,
+  optionsParam: Partial<SwizzleOptions>,
 ): Promise<void> {
+  const options = normalizeOptions(optionsParam);
+  const {list, danger, typescript} = options;
+
   const context = await loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = await initPlugins({pluginConfigs, context});
@@ -77,20 +73,33 @@ export default async function swizzle(
     themeName,
     themePath,
   });
+
   const componentName = await getComponentName({
     componentNameParam,
     themeComponents,
     list,
     danger,
   });
-  const {to} = await copyThemeComponent({
+  const componentConfig = themeComponents.getConfig(componentName);
+
+  const action = await getAction(componentConfig, options);
+  const {to: absoluteTo} = await executeAction({
+    action,
     siteDir,
     themePath,
     componentName,
   });
-  logger.success`Copied code=${`${themeName} ${componentName}`} to path=${path.relative(
-    process.cwd(),
-    to,
-  )}.`;
+  const to = path.relative(process.cwd(), absoluteTo);
+  switch (action) {
+    case 'wrap':
+      logger.success`Created a wrapper for code=${`${themeName} ${componentName}`} in path=${to}.`;
+      break;
+    case 'eject':
+      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${to}.`;
+      break;
+    default:
+      throw new Error(`Unexpected action ${action}`);
+  }
+
   return process.exit(0);
 }

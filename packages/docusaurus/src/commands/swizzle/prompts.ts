@@ -8,6 +8,8 @@
 import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 import type {ThemeComponents} from './components';
+import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
+import {actionStatusSuffix} from './common';
 
 const ExitTitle = logger.yellow('[Exit]');
 
@@ -26,16 +28,13 @@ export async function askThemeName(themeNames: string[]): Promise<string> {
   return themeName;
 }
 
-function dangerSuffix(isDangerous: boolean): string {
-  return isDangerous ? ` (${logger.red('unsafe')})` : '';
-}
-
 export async function askComponentName(
   themeComponents: ThemeComponents,
 ): Promise<string> {
   function formatComponentName(componentName: string): string {
-    const isDangerous = !themeComponents.isSafe(componentName);
-    return `${componentName}${dangerSuffix(isDangerous)}`;
+    return `${componentName}${actionStatusSuffix(
+      themeComponents.hasAnySafeAction(componentName) ? 'safe' : 'unsafe',
+    )}`;
   }
 
   const {componentName} = await prompts({
@@ -68,7 +67,7 @@ export async function askSwizzleDangerousComponent(): Promise<boolean> {
   const {switchToDanger} = await prompts({
     type: 'select',
     name: 'switchToDanger',
-    message: `Do you really want to swizzle this internal component?`,
+    message: `Do you really want to swizzle this unsafe internal component?`,
     choices: [
       {title: logger.green('NO: cancel and stay safe'), value: false},
       {
@@ -84,4 +83,35 @@ export async function askSwizzleDangerousComponent(): Promise<boolean> {
   }
 
   return !!switchToDanger;
+}
+
+export async function askSwizzleAction(
+  componentConfig: SwizzleComponentConfig,
+): Promise<SwizzleAction> {
+  const {action} = await prompts({
+    type: 'select',
+    name: 'action',
+    message: `Which swizzle action do you want to do?`,
+    choices: [
+      {
+        title: `${logger.bold('Wrap')}${actionStatusSuffix(
+          componentConfig.actions.wrap,
+        )}`,
+        value: 'wrap',
+      },
+      {
+        title: `${logger.bold('Eject')}${actionStatusSuffix(
+          componentConfig.actions.eject,
+        )}`,
+        value: 'eject',
+      },
+      {title: ExitTitle, value: '[Exit]'},
+    ],
+  });
+
+  if (typeof action === 'undefined' || action === '[Exit]') {
+    return process.exit(0);
+  }
+
+  return action;
 }

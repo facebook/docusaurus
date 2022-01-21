@@ -8,9 +8,16 @@
 import logger from '@docusaurus/logger';
 import Table from 'cli-table3';
 import type {ThemeComponents} from './components';
+import {SwizzleActions} from './actions';
+import {capitalize} from 'lodash';
+import type {SwizzleActionStatus} from '@docusaurus/types';
 
 const safeLabel = logger.green('safe');
 const unsafeLabel = logger.red('unsafe');
+
+function getStatusLabel(status: SwizzleActionStatus): string {
+  return status === 'safe' ? safeLabel : unsafeLabel;
+}
 
 export function statusTable(): string {
   const table = new Table({
@@ -82,15 +89,20 @@ ${logger.green('Tip')}: ${logger.code(
 
 export function themeComponentsTable(themeComponents: ThemeComponents): string {
   const table = new Table({
-    head: ['Component name', 'Eject', 'Wrap', 'Description'],
+    head: [
+      'Component name',
+      ...SwizzleActions.map((action) => capitalize(action)),
+      'Description',
+    ],
   });
 
   themeComponents.all.forEach((component) => {
     table.push({
       [component]: [
-        themeComponents.isSafe(component) ? safeLabel : unsafeLabel,
-        themeComponents.isSafe(component) ? safeLabel : unsafeLabel, // TODO
-        'Lorem Ipsum', // TODO
+        ...SwizzleActions.map((action) =>
+          getStatusLabel(themeComponents.getActionStatus(component, action)),
+        ),
+        themeComponents.getDescription(component),
       ],
     });
   });
