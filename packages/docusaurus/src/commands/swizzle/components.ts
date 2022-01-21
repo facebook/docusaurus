@@ -39,14 +39,23 @@ const formatComponentName = (componentName: string): string =>
     .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
     .replace(/\.(js|tsx|ts|jsx)/, '');
 
-function readComponentNames(themePath: string) {
+const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
+
+export function readComponentNames(themePath: string) {
   function walk(dir: string): string[] {
     return fs.readdirSync(dir).flatMap((file) => {
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
       if (stat && stat.isDirectory()) {
+        if (skipReadDirNames.includes(file)) {
+          return [];
+        }
         return walk(fullPath);
-      } else if (/(?<!\.d)\.[jt]sx?$/.test(fullPath)) {
+      } else if (
+        // TODO can probably be refactored
+        /(?<!\.d)\.[jt]sx?$/.test(fullPath) &&
+        !/(?<!\.d)\.(test|stories)\.[jt]sx?$/.test(fullPath)
+      ) {
         return [fullPath];
       } else {
         return [];
