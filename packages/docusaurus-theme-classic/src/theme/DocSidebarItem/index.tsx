@@ -171,6 +171,7 @@ function DocSidebarItemCategory({
                   onItemClick?.(item);
                 }
           }
+          aria-current={isActive ? 'page' : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
