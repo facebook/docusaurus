@@ -41,46 +41,55 @@ describe('defaultLocaleConfig', () => {
       label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
       htmlLang: 'fr',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
       label: canComputeLabel ? 'Français (France)' : 'fr-FR',
       direction: 'ltr',
       htmlLang: 'fr-FR',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
       label: canComputeLabel ? 'English' : 'en',
       direction: 'ltr',
       htmlLang: 'en',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
       htmlLang: 'en-US',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
       label: canComputeLabel ? '中文' : 'zh',
       direction: 'ltr',
       htmlLang: 'zh',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
       label: canComputeLabel ? '中文（中国）' : 'zh-CN',
       direction: 'ltr',
       htmlLang: 'zh-CN',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
       htmlLang: 'en-US',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
       label: canComputeLabel ? 'فارسی' : 'fa',
       direction: 'rtl',
       htmlLang: 'fa',
+      calendar: 'gregory',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
       label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
       direction: 'rtl',
       htmlLang: 'fa-IR',
+      calendar: 'gregory',
     });
   });
 });
@@ -165,7 +174,12 @@ describe('loadI18n', () => {
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français', direction: 'ltr', htmlLang: 'fr'},
+        fr: {
+          label: 'Français',
+          direction: 'ltr',
+          htmlLang: 'fr',
+          calendar: 'gregory',
+        },
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),
       },

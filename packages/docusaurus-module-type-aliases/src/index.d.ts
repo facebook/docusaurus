@@ -70,6 +70,7 @@ declare module '@generated/i18n' {
         label: string;
         direction: string;
         htmlLang: string;
+        calendar: string;
       }
     >;
   };

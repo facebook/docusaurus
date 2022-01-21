@@ -89,13 +89,18 @@ export function parseBlogFileName(
   }
 }
 
-function formatBlogPostDate(locale: string, date: Date): string {
+function formatBlogPostDate(
+  locale: string,
+  date: Date,
+  calendar: string,
+): string {
   try {
     return new Intl.DateTimeFormat(locale, {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
       timeZone: 'UTC',
+      calendar,
     }).format(date);
   } catch (e) {
     throw new Error(`Can't format blog post date "${date}"`);
@@ -184,7 +189,11 @@ async function processBlogSourceFile(
   }
 
   const date = await getDate();
-  const formattedDate = formatBlogPostDate(i18n.currentLocale, date);
+  const formattedDate = formatBlogPostDate(
+    i18n.currentLocale,
+    date,
+    i18n.localeConfigs[i18n.currentLocale].calendar,
+  );
 
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';

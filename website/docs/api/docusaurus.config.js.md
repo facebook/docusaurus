@@ -134,11 +134,13 @@ module.exports = {
         label: 'English',
         direction: 'ltr',
         htmlLang: 'en-US',
+        calendar: 'gregory',
       },
-      fr: {
-        label: 'Français',
-        direction: 'ltr',
-        htmlLang: 'fr-FR',
+      fa: {
+        label: 'فارسی',
+        direction: 'rtl',
+        htmlLang: 'fa-IR',
+        calendar: 'persian',
       },
     },
   },
@@ -148,6 +150,7 @@ module.exports = {
 - `label`: the label to use for this locale
 - `direction`: `ltr` (default) or `rtl` (for [right-to-left languages](https://developer.mozilla.org/en-US/docs/Glossary/rtl) like Arabic, Hebrew, etc.)
 - `htmlLang`: BCP 47 language tag to use in `<html lang="...">` and in `<link ... hreflang="...">`
+- `calendar`: the [calendar](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/calendar) used to calculate the date era. Note that it doesn't control the actual string displayed: `YYYY/MM/DD` and `DD/MM/YYYY` are both `gregory`.
 
 ### `noIndex` {#noindex}
 
