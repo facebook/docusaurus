@@ -41,8 +41,7 @@ function ChangelogItem(props: Props): JSX.Element {
       <header>
         <TitleHeading
           className={clsx(
-            styles.blogPostTitle,
-            isBlogPostPage && styles.blogPostPageTitle,
+            isBlogPostPage ? styles.blogPostPageTitle : styles.blogPostTitle,
           )}
           itemProp="headline">
           {isBlogPostPage ? (
