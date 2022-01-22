@@ -44,9 +44,9 @@ export default function CodeBlock({
     setMounted(true);
   }, []);
 
-  // TODO: the title is provided by MDX as props automatically
-  // so we probably don't need to parse the metastring
-  // (note: title="xyz" => title prop still has the quotes)
+  // We still parse the metastring in case we want to support more syntax in the
+  // future. Note that MDX doesn't strip quotes when parsing metastring:
+  // "title=\"xyz\"" => title: "\"xyz\""
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 

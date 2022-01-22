@@ -66,6 +66,7 @@ export type DocFrontMatter = {
   sidebar_label?: string;
   sidebar_position?: number;
   sidebar_class_name?: string;
+  displayed_sidebar?: string | null;
   pagination_label?: string;
   custom_edit_url?: string | null;
   parse_number_prefixes?: boolean;

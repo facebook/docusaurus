@@ -4,13 +4,13 @@ title: i18n - Using git
 slug: /i18n/git
 ---
 
-A **possible translation strategy** is to **version control the translation files** to Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
+A **possible translation strategy** is to **version control the translation files** with Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
 
 ## Tradeoffs {#tradeoffs}
 
 This strategy has advantages:
 
-- **Easy to get started**: just add the `i18n` folder to Git
+- **Easy to get started**: just commit the `i18n` folder to Git
 - **Easy for developers**: Git, GitHub and pull requests are mainstream developer tools
 - **Free** (or without any additional cost, assuming you already use Git)
 - **Low friction**: does not require signing up to an external tool
@@ -19,7 +19,7 @@ This strategy has advantages:
 Using Git also present some shortcomings:
 
 - **Hard for non-developers**: they do not master Git and pull-requests
-- **Hard for professional translations**: they are used to SaaS translation softwares and advanced features
+- **Hard for professional translators**: they are used to SaaS translation softwares and advanced features
 - **Hard to maintain**: you have to keep the translated files **in sync** with the untranslated files
 
 :::note
@@ -30,7 +30,7 @@ Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues
 
 :::
 
-## Git tutorial {#git-tutorial}
+## Initialization
 
 This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
 
@@ -145,7 +145,7 @@ npm run build -- --locale fr
 
 Follow the same process for each locale you need to support.
 
-## Maintain the translations {#maintain-the-translations}
+## Maintenance
 
 Keeping translated files **consistent** with the originals **can be challenging**, in particular for Markdown documents.
 

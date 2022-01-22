@@ -131,6 +131,7 @@ export type SidebarsUtils = {
   getDocNavigation: (
     unversionedId: string,
     versionedId: string,
+    displayedSidebar: string | null | undefined,
   ) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
@@ -182,16 +183,25 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
   function getDocNavigation(
     unversionedId: string,
     versionedId: string,
+    displayedSidebar: string | null | undefined,
   ): SidebarNavigation {
     // TODO legacy id retro-compatibility!
     let docId = unversionedId;
-    let sidebarName = getSidebarNameByDocId(docId);
-    if (!sidebarName) {
+    let sidebarName =
+      displayedSidebar === undefined
+        ? getSidebarNameByDocId(docId)
+        : displayedSidebar;
+    if (sidebarName === undefined) {
       docId = versionedId;
       sidebarName = getSidebarNameByDocId(docId);
     }
 
     if (sidebarName) {
+      if (!sidebarNameToNavigationItems[sidebarName]) {
+        throw new Error(
+          `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
+        );
+      }
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
       const currentItemIndex = navigationItems.findIndex((item) => {
         if (item.type === 'doc') {
@@ -202,6 +212,9 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         }
         return false;
       });
+      if (currentItemIndex === -1) {
+        return {sidebarName, next: undefined, previous: undefined};
+      }
 
       const {previous, next} = getElementsAround(
         navigationItems,

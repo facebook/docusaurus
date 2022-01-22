@@ -24,6 +24,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   return {
     label: getDefaultLocaleLabel(locale),
     direction: getLangDir(locale),
+    htmlLang: locale,
   };
 }
 

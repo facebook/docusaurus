@@ -16,7 +16,7 @@ Stylelint plugin to check CSS files for a copyright header.
 {
   "plugins": ["stylelint-copyright"],
   "rules": {
-    "docusaurus/copyright-header": true
+    "docusaurus/copyright-header": [true, {"header": "\n * Copyright"}]
   }
 }
 ```

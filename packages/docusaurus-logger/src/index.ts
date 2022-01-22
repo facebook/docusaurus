@@ -52,6 +52,13 @@ function interpolate(
   return res;
 }
 
+function stringify(msg: unknown): string {
+  if (String(msg) === '[object Object]') {
+    return JSON.stringify(msg);
+  }
+  return String(msg);
+}
+
 function info(msg: unknown): void;
 function info(
   msg: TemplateStringsArray,
@@ -61,7 +68,7 @@ function info(msg: unknown, ...values: InterpolatableValue[]): void {
   console.info(
     `${chalk.cyan(chalk.bold('[INFO]'))} ${
       values.length === 0
-        ? msg
+        ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
     }`,
   );
@@ -76,7 +83,7 @@ function warn(msg: unknown, ...values: InterpolatableValue[]): void {
     chalk.yellow(
       `${chalk.bold('[WARNING]')} ${
         values.length === 0
-          ? msg
+          ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
       }`,
     ),
@@ -92,7 +99,7 @@ function error(msg: unknown, ...values: InterpolatableValue[]): void {
     chalk.red(
       `${chalk.bold('[ERROR]')} ${
         values.length === 0
-          ? msg
+          ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
       }`,
     ),
@@ -107,7 +114,7 @@ function success(msg: unknown, ...values: InterpolatableValue[]): void {
   console.log(
     `${chalk.green(chalk.bold('[SUCCESS]'))} ${
       values.length === 0
-        ? msg
+        ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
     }`,
   );

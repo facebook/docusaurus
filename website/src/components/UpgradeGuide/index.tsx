@@ -21,7 +21,9 @@ function PackageJson() {
   const allVersions = useVersions();
   // Only happens in deploy preview / local dev, but still nice
   const versionName =
-    latestVersion.name === 'current' ? allVersions[1].name : latestVersion.name;
+    latestVersion.name === 'current' && allVersions.length > 1
+      ? allVersions[1].name
+      : latestVersion.name;
   return (
     <CodeBlock language="json" title="package.json">{`{
   "dependencies": {

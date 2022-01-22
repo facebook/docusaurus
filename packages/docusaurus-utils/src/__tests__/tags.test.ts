@@ -46,7 +46,7 @@ describe('normalizeFrontMatterTag', () => {
     expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize complex string tag', () => {
+  test('should normalize complex string tag with object tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = {
       label: 'tag complex Label',

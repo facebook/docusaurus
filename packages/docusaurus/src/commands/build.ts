@@ -31,8 +31,10 @@ import {mapAsyncSequential} from '@docusaurus/utils';
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-
-  // TODO what's the purpose of this arg ?
+  // When running build, we force terminate the process to prevent async
+  // operations from never returning. However, if run as part of docusaurus
+  // deploy, we have to let deploy finish.
+  // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
