@@ -120,7 +120,7 @@
       "eslint --fix"
     ],
     "*.css": [
-      "stylelint --fix"
+      "stylelint --allow-empty-input --fix"
     ],
     "*": [
       "prettier --ignore-unknown --write"
