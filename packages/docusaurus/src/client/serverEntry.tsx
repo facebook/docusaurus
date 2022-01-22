@@ -11,7 +11,7 @@ import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import Loadable from 'react-loadable';
+import {Capture} from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
 import path from 'path';
@@ -88,7 +88,7 @@ async function doRender(locals: Locals & {path: string}) {
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
     <React.StrictMode>
-      <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+      <Capture report={(moduleName) => modules.add(moduleName)}>
         <HelmetProvider context={helmetContext}>
           <StaticRouter location={location} context={context}>
             <ProvideLinksCollector linksCollector={linksCollector}>
@@ -96,7 +96,7 @@ async function doRender(locals: Locals & {path: string}) {
             </ProvideLinksCollector>
           </StaticRouter>
         </HelmetProvider>
-      </Loadable.Capture>
+      </Capture>
     </React.StrictMode>,
   );
   onLinksCollected(location, linksCollector.getCollectedLinks());
