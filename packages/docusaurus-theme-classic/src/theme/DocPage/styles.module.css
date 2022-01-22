@@ -68,6 +68,7 @@
   .expandSidebarButtonIcon {
     transform: rotate(0);
   }
+
   html[dir='rtl'] .expandSidebarButtonIcon {
     transform: rotate(180deg);
   }
