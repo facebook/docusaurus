@@ -31,7 +31,7 @@ export function getActivePlugin(
     // A quick route sorting: '/android/foo' should match '/android' instead of '/'
     .sort((a, b) => b[1].path.localeCompare(a[1].path))
     .find(
-      ([_id, pluginData]) =>
+      ([, pluginData]) =>
         !!matchPath(pathname, {
           path: pluginData.path,
           exact: false,
