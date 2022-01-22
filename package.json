@@ -67,7 +67,6 @@
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.20",
-    "@types/loader-utils": "^2.0.3",
     "@types/lodash": "^4.14.168",
     "@types/node": "^17.0.8",
     "@types/prismjs": "^1.16.2",
