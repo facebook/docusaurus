@@ -139,7 +139,7 @@ async function ChangelogPlugin(context, options) {
     },
     getPathsToWatch() {
       // Don't watch the generated dir
-      return changelogPath;
+      return [changelogPath];
     },
   };
 }
