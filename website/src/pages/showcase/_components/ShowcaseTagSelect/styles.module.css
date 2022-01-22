@@ -7,7 +7,7 @@
 
 .checkboxLabel:hover {
   opacity: 1;
-  box-shadow: 0px 0px 2px 1px var(--ifm-color-secondary-darkest);
+  box-shadow: 0 0 2px 1px var(--ifm-color-secondary-darkest);
 }
 
 input[type='checkbox'] + .checkboxLabel {
@@ -34,5 +34,5 @@ input:checked + .checkboxLabel {
 
 input:checked + .checkboxLabel:hover {
   opacity: 0.75;
-  box-shadow: 0px 0px 2px 1px var(--ifm-color-primary-dark);
+  box-shadow: 0 0 2px 1px var(--ifm-color-primary-dark);
 }

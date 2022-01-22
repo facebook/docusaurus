@@ -21,7 +21,7 @@
   transform: scale(0);
 }
 
-.backToTopButton:after {
+.backToTopButton::after {
   content: ' ';
   display: inline-block;
   mask: var(--ifm-menu-link-sublist-icon) 50% / 2rem 2rem no-repeat;

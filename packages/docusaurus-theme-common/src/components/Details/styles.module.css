@@ -26,7 +26,7 @@ CSS variables, meant to be overridden by final theme
   display: none;
 }
 
-.details > summary:before {
+.details > summary::before {
   position: absolute;
   top: 0.45rem;
   left: 0;
@@ -45,9 +45,9 @@ CSS variables, meant to be overridden by final theme
 }
 
 /* When JS disabled/failed to load: we use the open property for arrow animation: */
-.details[open]:not(.isBrowser) > summary:before,
+.details[open]:not(.isBrowser) > summary::before,
 /* When JS works: we use the data-attribute for arrow animation */
-.details[data-collapsed='false'].isBrowser > summary:before {
+.details[data-collapsed='false'].isBrowser > summary::before {
   transform: rotate(90deg);
 }
 
