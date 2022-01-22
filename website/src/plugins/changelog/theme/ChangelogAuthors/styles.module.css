@@ -21,13 +21,17 @@
   margin-right: 0.3rem;
 }
 
+.imageOnlyAuthorCol [class^='image'] {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
 .toggleButton {
   margin-left: 0.3rem;
   margin-right: 0.3rem;
   border-radius: 50%;
   width: var(--ifm-avatar-photo-size-md);
   height: var(--ifm-avatar-photo-size-md);
-  background-color: var(--ifm-color-emphasis-200);
+  background-color: var(--ifm-color-emphasis-100);
 }
 
 .toggleButtonIconExpanded {

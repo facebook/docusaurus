@@ -29,6 +29,8 @@ function BlogPostPage(props: Props): JSX.Element {
     tags,
     authors,
     frontMatter,
+    // @ts-expect-error: we injected this
+    listPageLink,
   } = metadata;
   const {
     hide_table_of_contents: hideTableOfContents,
@@ -83,7 +85,7 @@ function BlogPostPage(props: Props): JSX.Element {
         )}
       </Seo>
 
-      <Link to="/changelog">← Back to index page</Link>
+      <Link to={listPageLink}>← Back to index page</Link>
 
       <ChangelogItem
         frontMatter={frontMatter}

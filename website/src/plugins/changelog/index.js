@@ -9,7 +9,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const pluginContentBlog = require('@docusaurus/plugin-content-blog');
-const {aliasedSitePath, docuHash} = require('@docusaurus/utils');
+const {aliasedSitePath, docuHash, normalizeUrl} = require('@docusaurus/utils');
 const syncAvatars = require('./syncAvatars');
 
 /**
@@ -116,7 +116,16 @@ async function ChangelogPlugin(context, options) {
         ),
       );
       await syncAvatars(authorsMap, generateDir);
-      return blogPlugin.loadContent();
+      const content = await blogPlugin.loadContent();
+      content.blogPosts.forEach((post, index) => {
+        const pageIndex = Math.floor(index / options.postsPerPage);
+        post.metadata.listPageLink = normalizeUrl([
+          context.baseUrl,
+          options.routeBasePath,
+          pageIndex === 0 ? '/' : `/page/${pageIndex + 1}`,
+        ]);
+      });
+      return content;
     },
     configureWebpack(...args) {
       const config = blogPlugin.configureWebpack(...args);
