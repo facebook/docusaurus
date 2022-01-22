@@ -12,7 +12,9 @@ const path = require('path');
 const fs = require('fs-extra');
 // const axios = require('axios').default;
 
-// TODO not sure how the syncing should be done at all... for now it pretends the limit is reached
+// TODO not sure how the syncing should be done at all... for now it always
+// pretends the limit is reached. We should only fetch a portion of the avatars
+// at a time. But seems avatars.githubusercontent.com API doesn't like HTTP requests?
 /**
  * @param {string} username
  * @param {Record<string, number>} lastUpdateCache
@@ -22,30 +24,6 @@ const fs = require('fs-extra');
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function fetchImage(username, lastUpdateCache, authorsMap) {
   return false;
-  // const res = await axios.get(
-  //   `https://github.com/${username}.png`,
-  //   {
-  //     headers: {
-  //       accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
-  //     }
-  //   }
-  // ).catch((e) => e);
-  // console.log(res);
-  // switch (res.response.status) {
-  //   case 200: {
-  //     lastUpdateCache[username] = Date.now();
-  //     return true;
-  //   }
-  //   case 404: {
-  //     // Give it a large number so we never revisit this URL in the future
-  //     lastUpdateCache[username] = Number.MAX_SAFE_INTEGER;
-  //     authorsMap[username].imageURL = './img/unknown.png';
-  //     return true;
-  //   }
-  //   default: {
-  //     return false;
-  //   }
-  // }
 }
 
 /**

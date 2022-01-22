@@ -15,7 +15,7 @@ import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/BlogPostItem';
 
 import styles from './styles.module.css';
-import BlogPostAuthors from '@theme/BlogPostAuthors';
+import ChangelogAuthors from '@theme/ChangelogAuthors';
 
 function ChangelogItem(props: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
@@ -30,10 +30,14 @@ function ChangelogItem(props: Props): JSX.Element {
 
   const image = assets.image ?? frontMatter.image;
 
-  const renderPostHeader = () => {
-    const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
+  const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
 
-    return (
+  return (
+    <article
+      className={!isBlogPostPage ? 'margin-bottom--md' : undefined}
+      itemProp="blogPost"
+      itemScope
+      itemType="http://schema.org/BlogPosting">
       <header>
         <TitleHeading
           className={clsx(
@@ -54,22 +58,8 @@ function ChangelogItem(props: Props): JSX.Element {
             {formattedDate}
           </time>
         </div>
-        {/* We only pass down the image. The name only appears in the feed */}
-        <BlogPostAuthors
-          authors={authors.map(({imageURL, url}) => ({imageURL, url}))}
-          assets={assets}
-        />
+        <ChangelogAuthors authors={authors} assets={assets} />
       </header>
-    );
-  };
-
-  return (
-    <article
-      className={!isBlogPostPage ? 'margin-bottom--md' : undefined}
-      itemProp="blogPost"
-      itemScope
-      itemType="http://schema.org/BlogPosting">
-      {renderPostHeader()}
 
       {image && (
         <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
