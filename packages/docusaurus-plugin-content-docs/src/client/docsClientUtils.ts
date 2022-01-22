@@ -27,14 +27,17 @@ export function getActivePlugin(
   pathname: string,
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined {
-  const activeEntry = Object.entries(allPluginDatas).find(
-    ([_id, pluginData]) =>
-      !!matchPath(pathname, {
-        path: pluginData.path,
-        exact: false,
-        strict: false,
-      }),
-  );
+  const activeEntry = Object.entries(allPluginDatas)
+    // A quick route sorting: '/android/foo' should match '/android' instead of '/'
+    .sort((a, b) => b[1].path.localeCompare(a[1].path))
+    .find(
+      ([, pluginData]) =>
+        !!matchPath(pathname, {
+          path: pluginData.path,
+          exact: false,
+          strict: false,
+        }),
+    );
 
   const activePlugin: ActivePlugin | undefined = activeEntry
     ? {pluginId: activeEntry[0], pluginData: activeEntry[1]}

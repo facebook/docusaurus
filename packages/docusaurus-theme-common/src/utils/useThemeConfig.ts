@@ -122,6 +122,7 @@ export type ThemeConfig = {
   prism: PrismConfig;
   footer?: Footer;
   hideableSidebar: boolean;
+  autoCollapseSidebarCategories: boolean;
   image?: string;
   metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;

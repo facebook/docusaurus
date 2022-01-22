@@ -99,7 +99,7 @@ async function getAssetAbsolutePath(
   return null;
 }
 
-async function processLinkNode(node: Link, options: Context) {
+async function processLinkNode(node: Link, context: Context) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -107,7 +107,7 @@ async function processLinkNode(node: Link, options: Context) {
     const line = node?.position?.start?.line || '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
-        options.filePath,
+        context.filePath,
       )}" file (title: ${title}, line: ${line}).`,
     );
   }
@@ -125,17 +125,17 @@ async function processLinkNode(node: Link, options: Context) {
     return;
   }
 
-  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, options);
+  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, context);
   if (assetPath) {
-    toAssetRequireNode(node, assetPath, options.filePath);
+    toAssetRequireNode(node, assetPath, context.filePath);
   }
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root, file) => {
+  const transformer: Transformer = async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode(node, {...options, filePath: file.path!}));
+      promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
     });
     await Promise.all(promises);
   };

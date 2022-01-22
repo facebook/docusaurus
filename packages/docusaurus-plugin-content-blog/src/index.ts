@@ -242,25 +242,26 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      const archiveUrl = normalizeUrl([
-        baseUrl,
-        routeBasePath,
-        archiveBasePath,
-      ]);
-
-      // creates a blog archive route
-      const archiveProp = await createData(
-        `${docuHash(archiveUrl)}.json`,
-        JSON.stringify({blogPosts}, null, 2),
-      );
-      addRoute({
-        path: archiveUrl,
-        component: '@theme/BlogArchivePage',
-        exact: true,
-        modules: {
-          archive: aliasedSource(archiveProp),
-        },
-      });
+      if (archiveBasePath) {
+        const archiveUrl = normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          archiveBasePath,
+        ]);
+        // creates a blog archive route
+        const archiveProp = await createData(
+          `${docuHash(archiveUrl)}.json`,
+          JSON.stringify({blogPosts}, null, 2),
+        );
+        addRoute({
+          path: archiveUrl,
+          component: '@theme/BlogArchivePage',
+          exact: true,
+          modules: {
+            archive: aliasedSource(archiveProp),
+          },
+        });
+      }
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(

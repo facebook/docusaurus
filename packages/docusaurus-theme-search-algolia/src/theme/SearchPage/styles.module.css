@@ -58,7 +58,7 @@
 }
 
 .searchResultItemSummary {
-  margin: 0.5rem 0 0 0;
+  margin: 0.5rem 0 0;
   font-style: italic;
 }
 
@@ -114,6 +114,6 @@
 
 :global(.search-result-match) {
   color: var(--docsearch-hit-color);
-  background: rgba(255, 215, 142, 0.25);
+  background: rgb(255 215 142 / 25%);
   padding: 0.09em 0;
 }

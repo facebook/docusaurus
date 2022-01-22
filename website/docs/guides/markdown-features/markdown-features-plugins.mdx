@@ -169,6 +169,26 @@ module.exports = {
 };
 ```
 
+:::tip
+
+The `transformer` has a second parameter [`vfile`](https://github.com/vfile/vfile) which is useful if you need to access the current Markdown file's path.
+
+```js
+const plugin = (options) => {
+  const transformer = async (ast, vfile) => {
+    ast.children.unshift({
+      type: 'text',
+      value: `The current file path is ${vfile.path}`,
+    });
+  };
+  return transformer;
+};
+```
+
+Our `transformImage` plugin uses this parameter, for example, to transform relative image references to `require()` calls.
+
+:::
+
 :::note
 
 The default plugins of Docusaurus would operate before the custom remark plugins, and that means the images or links have been converted to JSX with `require()` calls already. For example, in the example above, the table of contents generated is still the same even when all `h2` headings are now prefixed by `Section X.`, because the TOC-generating plugin is called before our custom plugin. If you need to process the MDAST before the default plugins do, use the `beforeDefaultRemarkPlugins` and `beforeDefaultRehypePlugins`.
