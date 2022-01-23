@@ -738,7 +738,7 @@ const Users: User[] = [
     title: 'StackQL',
     description:
       'StackQL is a data centric approach to provisioning, querying, and managing cloud infrastructure and SaaS resources across multiple clouds.',
-    preview: require('./showcase/stackql-homepage.png'),
+    preview: require('./showcase/stackql.png'),
     website: 'https://stackql.io/',
     source: null,
     tags: ['product'],
