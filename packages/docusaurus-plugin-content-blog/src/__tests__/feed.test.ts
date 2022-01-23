@@ -64,7 +64,7 @@ describe('blogFeed', () => {
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };
-        const outDir = path.join(siteDir, 'build');
+        const outDir = path.join(siteDir, 'build-snap');
 
         await testGenerateFeeds(
           {
@@ -94,7 +94,7 @@ describe('blogFeed', () => {
 
       test('shows feed item for each post', async () => {
         const siteDir = path.join(__dirname, '__fixtures__', 'website');
-        const outDir = path.join(siteDir, 'build');
+        const outDir = path.join(siteDir, 'build-snap');
         const siteConfig = {
           title: 'Hello',
           baseUrl: '/myBaseUrl/',
