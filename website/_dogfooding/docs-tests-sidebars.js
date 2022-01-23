@@ -109,6 +109,7 @@ const sidebars = {
         },
       ],
     },
+    'draft',
   ],
   anotherSidebar: ['dummy'],
 };

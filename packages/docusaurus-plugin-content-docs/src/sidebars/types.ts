@@ -227,6 +227,7 @@ export type SidebarItemsGeneratorDoc = Pick<
   | 'source'
   | 'sourceDirName'
   | 'sidebarPosition'
+  | 'isDraft'
 >;
 export type SidebarItemsGeneratorVersion = Pick<
   VersionMetadata,

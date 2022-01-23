@@ -247,4 +247,33 @@ describe('processSidebars', () => {
       ],
     } as ProcessedSidebars);
   });
+
+  it('excludes items for draft docs', async () => {
+    const unprocessedSidebars: NormalizedSidebars = {
+      someSidebar: [
+        {type: 'doc', id: 'doc1'},
+        {type: 'doc', id: 'doc2'},
+      ],
+    };
+
+    const processedSidebar = await testProcessSidebars(
+      unprocessedSidebars,
+      {},
+      {
+        docs: [
+          {
+            id: 'doc1',
+            isDraft: true,
+          },
+          {
+            id: 'doc2',
+            isDraft: false,
+          },
+        ],
+      },
+    );
+    expect(processedSidebar).toEqual({
+      someSidebar: [{type: 'doc', id: 'doc2'}],
+    });
+  });
 });

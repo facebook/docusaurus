@@ -131,6 +131,9 @@ function doProcessDocMetadata({
   } = parseMarkdownString(content);
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
+  const isDraft =
+    (frontMatter.draft && process.env.NODE_ENV === 'production') || false;
+
   const {
     custom_edit_url: customEditURL,
 
@@ -260,6 +263,7 @@ function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
+    isDraft,
   };
 }
 

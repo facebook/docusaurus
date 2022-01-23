@@ -12,6 +12,11 @@ exports[`simple site custom pagination 1`] = `
       "prev": undefined,
     },
     {
+      "id": "draft",
+      "next": undefined,
+      "prev": undefined,
+    },
+    {
       "id": "foo/bar",
       "next": undefined,
       "prev": undefined,

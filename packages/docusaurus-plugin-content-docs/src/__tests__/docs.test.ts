@@ -211,6 +211,7 @@ describe('simple site', () => {
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
         'doc with space.md',
+        'draft.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -240,6 +241,7 @@ describe('simple site', () => {
         pagination_prev: null,
       },
       tags: [],
+      isDraft: false,
     });
     await defaultTestUtils.testMeta(path.join('hello.md'), {
       version: 'current',
@@ -267,6 +269,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag-3',
         },
       ],
+      isDraft: false,
     });
   });
 
@@ -316,6 +319,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      isDraft: false,
     });
   });
 
@@ -337,6 +341,7 @@ describe('simple site', () => {
         unrelated_front_matter: "won't be part of metadata",
       },
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -389,6 +394,7 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag2-custom-permalink',
         },
       ],
+      isDraft: false,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -434,6 +440,32 @@ describe('simple site', () => {
       formattedLastUpdatedAt: '10/14/2018',
       lastUpdatedBy: 'Author',
       tags: [],
+      isDraft: false,
+    });
+  });
+
+  it('docs with draft frontmatter', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const {defaultTestUtils} = await loadSite();
+
+    await defaultTestUtils.testMeta('draft.md', {
+      version: 'current',
+      id: 'draft',
+      unversionedId: 'draft',
+      sourceDirName: '.',
+      permalink: '/docs/draft',
+      sidebarPosition: undefined,
+      slug: '/draft',
+      title: 'draft',
+      editUrl: undefined,
+      formattedLastUpdatedAt: undefined,
+      description: 'This is a draft document',
+      frontMatter: {
+        draft: true,
+      },
+      tags: [],
+      isDraft: true,
     });
   });
 
@@ -617,6 +649,7 @@ describe('versioned site', () => {
           permalink: '/docs/next/tags/barTag-3-permalink',
         },
       ],
+      isDraft: false,
     });
     await currentVersionTestUtils.testMeta(path.join('hello.md'), {
       id: 'hello',
@@ -631,6 +664,7 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -648,6 +682,7 @@ describe('versioned site', () => {
       frontMatter: {slug: 'barSlug'},
       version: '1.0.0',
       tags: [],
+      isDraft: false,
     });
     await version100TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.0/hello',
@@ -664,6 +699,7 @@ describe('versioned site', () => {
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      isDraft: false,
     });
     await version101TestUtils.testMeta(path.join('foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
@@ -676,6 +712,7 @@ describe('versioned site', () => {
       version: '1.0.1',
       frontMatter: {},
       tags: [],
+      isDraft: false,
     });
     await version101TestUtils.testMeta(path.join('hello.md'), {
       id: 'version-1.0.1/hello',
@@ -690,6 +727,7 @@ describe('versioned site', () => {
         slug: '/',
       },
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -786,6 +824,7 @@ describe('versioned site', () => {
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       editUrl: hardcodedEditUrl,
       tags: [],
+      isDraft: false,
     });
 
     expect(editUrlFunction).toHaveBeenCalledTimes(1);
@@ -830,6 +869,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0/hello.md',
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -865,6 +905,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/docs/hello.md',
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -901,6 +942,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
       tags: [],
+      isDraft: false,
     });
   });
 
@@ -938,6 +980,7 @@ describe('versioned site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
+      isDraft: false,
     });
   });
 });
