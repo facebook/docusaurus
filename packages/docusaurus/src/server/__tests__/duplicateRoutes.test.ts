@@ -10,7 +10,7 @@ import {
   getDuplicateRoutesMessage,
   handleDuplicateRoutes,
 } from '../duplicateRoutes';
-import {RouteConfig} from '@docusaurus/types';
+import type {RouteConfig} from '@docusaurus/types';
 
 const routes: RouteConfig[] = [
   {

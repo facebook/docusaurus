@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @ts-check
 /* eslint-disable import/no-extraneous-dependencies */
 
-const chalk = require('chalk');
+const logger = require('@docusaurus/logger').default;
 const path = require('path');
 const fs = require('fs-extra');
 const {mapValues, pickBy, difference, orderBy} = require('lodash');
@@ -33,11 +34,18 @@ const Themes = [
     name: 'plugin-pwa',
     src: [getPackageCodePath('docusaurus-plugin-pwa')],
   },
+  {
+    name: 'plugin-ideal-image',
+    src: [getPackageCodePath('docusaurus-plugin-ideal-image')],
+  },
 ];
 const AllThemesSrcDirs = Themes.flatMap((theme) => theme.src);
 
-console.log('Will scan folders for code translations:', AllThemesSrcDirs);
+logger.info`Will scan folders for code translations:path=${AllThemesSrcDirs}`;
 
+/**
+ * @param {string} packageName
+ */
 function getPackageCodePath(packageName) {
   const packagePath = path.join(__dirname, '..', packageName);
   const packageJsonPath = path.join(packagePath, 'package.json');
@@ -49,17 +57,27 @@ function getPackageCodePath(packageName) {
     : packageSrcPath;
 }
 
+/**
+ * @param {string} locale
+ * @param {string} themeName
+ */
 function getThemeLocalePath(locale, themeName) {
   return path.join(LocalesDirPath, locale, `${themeName}.json`);
 }
 
+/**
+ * @param {string} key
+ */
 function removeDescriptionSuffix(key) {
-  if (key.replace('___DESCRIPTION')) {
+  if (key.replace('___DESCRIPTION', '')) {
     return key.replace('___DESCRIPTION', '');
   }
   return key;
 }
 
+/**
+ * @param {Record<string, string>} obj
+ */
 function sortObjectKeys(obj) {
   let keys = Object.keys(obj);
   keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
@@ -69,17 +87,10 @@ function sortObjectKeys(obj) {
   }, {});
 }
 
-function logSection(title) {
-  console.log(``);
-  console.log(``);
-  console.log(`##############################`);
-  console.log(`## ${chalk.blue(title)}`);
-}
-
-function logKeys(keys) {
-  return `Keys:\n- ${keys.join('\n- ')}`;
-}
-
+/**
+ * @param {string[]} targetDirs
+ * @returns {Promise<import('@docusaurus/types').TranslationFileContent>}
+ */
 async function extractThemeCodeMessages(targetDirs = AllThemesSrcDirs) {
   // Unsafe import, should we create a package for the translationsExtractor ?
   const {
@@ -121,22 +132,37 @@ ${warning}
   return translations;
 }
 
+/**
+ * @param {string} filePath
+ * @returns {Promise<Record<string, string>>}
+ */
 async function readMessagesFile(filePath) {
-  return JSON.parse(await fs.readFile(filePath));
+  if (!(await fs.pathExists(filePath))) {
+    logger.info`File path=${filePath} not found. Creating new translation base file.`;
+    await fs.writeFile(filePath, '{}\n');
+  }
+  return JSON.parse((await fs.readFile(filePath)).toString());
 }
 
+/**
+ * @param {string} filePath
+ * @param {Record<string, string>} messages
+ */
 async function writeMessagesFile(filePath, messages) {
   const sortedMessages = sortObjectKeys(messages);
 
   const content = `${JSON.stringify(sortedMessages, null, 2)}\n`; // \n makes prettier happy
   await fs.outputFile(filePath, content);
-  console.log(
-    `${path.basename(filePath)} updated (${
-      Object.keys(sortedMessages).length
-    } messages)`,
-  );
+  logger.info`path=${path.basename(
+    filePath,
+  )} updated subdue=${logger.interpolate`(number=${
+    Object.keys(sortedMessages).length
+  } messages)`}\n`;
 }
 
+/**
+ * @param {string} themeName
+ */
 async function getCodeTranslationFiles(themeName) {
   const baseFile = getThemeLocalePath('base', themeName);
   const localesFiles = (await fs.readdir(LocalesDirPath))
@@ -147,6 +173,10 @@ async function getCodeTranslationFiles(themeName) {
 
 const DescriptionSuffix = '___DESCRIPTION';
 
+/**
+ * @param {string} baseFile
+ * @param {string[]} targetDirs
+ */
 async function updateBaseFile(baseFile, targetDirs) {
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
   const baseMessages = pickBy(
@@ -166,11 +196,8 @@ async function updateBaseFile(baseFile, targetDirs) {
   );
 
   if (unknownMessages.length) {
-    console.log(
-      chalk.red(`Some messages exist in base locale but were not found by the code extractor!
-They won't be removed automatically, so do the cleanup manually if necessary!
-${logKeys(unknownMessages)}`),
-    );
+    logger.error`Some messages exist in base locale but were not found by the code extractor!
+They won't be removed automatically, so do the cleanup manually if necessary! code=${unknownMessages}`;
   }
 
   const newBaseMessages = {
@@ -178,6 +205,7 @@ ${logKeys(unknownMessages)}`),
     ...codeMessages,
   };
 
+  /** @type {Record<string, string>} */
   const newBaseMessagesDescriptions = Object.entries(newBaseMessages).reduce(
     (acc, [key]) => {
       const codeTranslation = codeExtractedTranslations[key];
@@ -201,6 +229,10 @@ ${logKeys(unknownMessages)}`),
   return newBaseMessages;
 }
 
+/**
+ * @param {string} localeFile
+ * @param {Record<string, string>} baseFileMessages
+ */
 async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   const localeFileMessages = await readMessagesFile(localeFile);
 
@@ -210,11 +242,8 @@ async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   );
 
   if (unknownMessages.length) {
-    console.log(
-      chalk.red(`Some localized messages do not exist in base.json!
-You may want to delete these!
-${logKeys(unknownMessages)}`),
-    );
+    logger.error`Some localized messages do not exist in base.json!
+You may want to delete these! code=${unknownMessages}`;
   }
 
   const newLocaleFileMessages = {
@@ -227,73 +256,100 @@ ${logKeys(unknownMessages)}`),
     .map(([key]) => key);
 
   if (untranslatedKeys.length) {
-    console.warn(
-      chalk.yellow(`Some messages do not seem to be translated!
-${logKeys(untranslatedKeys)}`),
-    );
+    logger.warn`Some messages do not seem to be translated! code=${untranslatedKeys}`;
   }
 
   await writeMessagesFile(localeFile, newLocaleFileMessages);
+  return {untranslated: untranslatedKeys.length};
 }
 
 async function updateCodeTranslations() {
+  /** @type {Record<string, {untranslated: number}>} */
+  const stats = {};
+  let messageCount = 0;
+  const {2: newLocale} = process.argv;
   // Order is important. The log messages must be in the same order as execution
   // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
-    logSection(`Will update base file for ${theme.name}`);
+    logger.info`Will update base file for name=${theme.name}\n`;
     const baseFileMessages = await updateBaseFile(baseFile, theme.src);
-    const [, newLocale] = process.argv;
 
     if (newLocale) {
       const newLocalePath = getThemeLocalePath(newLocale, theme.name);
 
       if (!fs.existsSync(newLocalePath)) {
         await writeMessagesFile(newLocalePath, baseFileMessages);
-        console.error(
-          chalk.green(
-            `Locale file ${path.basename(newLocalePath)} have been created.`,
-          ),
-        );
+        logger.success`Locale file path=${path.basename(
+          newLocalePath,
+        )} have been created.`;
       } else {
-        console.error(
-          chalk.red(
-            `Locale file ${path.basename(newLocalePath)} was already created!`,
-          ),
-        );
+        logger.warn`Locale file path=${path.basename(
+          newLocalePath,
+        )} was already created!`;
       }
     } else {
       // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
-        logSection(
-          `Will update ${path.basename(
-            path.dirname(localeFile),
-          )} locale in ${path.basename(localeFile, path.extname(localeFile))}`,
+        const localeName = path.basename(path.dirname(localeFile));
+        const pluginName = path.basename(localeFile, path.extname(localeFile));
+        logger.info`Will update name=${localeName} locale in name=${pluginName}`;
+        const stat = await updateLocaleCodeTranslations(
+          localeFile,
+          baseFileMessages,
         );
 
-        await updateLocaleCodeTranslations(localeFile, baseFileMessages);
+        stats[localeName] ??= {untranslated: 0};
+        stats[localeName].untranslated += stat.untranslated;
       }
+      messageCount += Object.keys(baseFileMessages).length;
     }
   }
+  if (newLocale) {
+    return null;
+  }
+  return {stats, messageCount};
 }
 
-function run() {
+if (require.main === module) {
   updateCodeTranslations().then(
-    () => {
-      console.log('');
-      console.log(chalk.green('updateCodeTranslations end'));
-      console.log('');
+    (result) => {
+      logger.success('updateCodeTranslations end\n');
+      if (result) {
+        const {stats, messageCount} = result;
+        const locales = Object.entries(stats).sort(
+          (a, b) => a[1].untranslated - b[1].untranslated,
+        );
+        const messages = locales.map(([name, stat]) => {
+          const percentage = (messageCount - stat.untranslated) / messageCount;
+          const filled = Math.floor(percentage * 30);
+          const color =
+            // eslint-disable-next-line no-nested-ternary
+            percentage > 0.99
+              ? logger.green
+              : percentage > 0.7
+              ? logger.yellow
+              : logger.red;
+          const progress = color(
+            `[${''.padStart(filled, '=')}${''.padStart(30 - filled, ' ')}]`,
+          );
+          return logger.interpolate`name=${name.padStart(8)} ${progress} ${(
+            percentage * 100
+          ).toFixed(1)} subdue=${`(${
+            messageCount - stat.untranslated
+          }/${messageCount})`}`;
+        });
+        logger.info`Translation coverage:
+${messages.join('\n')}`;
+      }
     },
     (e) => {
-      console.log('');
-      console.error(chalk.red(`updateCodeTranslations failure: ${e.message}`));
-      console.log('');
-      console.error(e.stack);
-      console.log('');
+      logger.error(
+        `\nupdateCodeTranslations failure: ${e.message}\n${e.stack}\n`,
+      );
       process.exit(1);
     },
   );
 }
 
-exports.run = run;
 exports.extractThemeCodeMessages = extractThemeCodeMessages;

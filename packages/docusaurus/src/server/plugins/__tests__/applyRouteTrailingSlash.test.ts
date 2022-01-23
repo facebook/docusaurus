@@ -6,8 +6,8 @@
  */
 
 import applyRouteTrailingSlash from '../applyRouteTrailingSlash';
-import {RouteConfig} from '@docusaurus/types';
-import {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
+import type {RouteConfig} from '@docusaurus/types';
+import type {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
 
 function route(path: string, subRoutes?: string[]): RouteConfig {
   const result: RouteConfig = {path, component: 'any'};

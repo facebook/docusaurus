@@ -17,7 +17,7 @@ import {
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import {mapValues} from 'lodash';
-import {Props, ThemeAliases} from '@docusaurus/types';
+import type {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
   test('always transpile client dir files', () => {

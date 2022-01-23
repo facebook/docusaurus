@@ -12,18 +12,19 @@ import {
   customizeObject,
 } from 'webpack-merge';
 import webpack, {
-  Configuration,
-  RuleSetRule,
-  WebpackPluginInstance,
+  type Configuration,
+  type RuleSetRule,
+  type WebpackPluginInstance,
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
+import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'chalk';
-import {TransformOptions} from '@babel/core';
-import {
+import logger from '@docusaurus/logger';
+import type {TransformOptions} from '@babel/core';
+import type {
   ConfigureWebpackFn,
   ConfigurePostCssFn,
   PostCssOptions,
@@ -35,10 +36,16 @@ import {memoize} from 'lodash';
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
-  cssOptions: {
+  cssOptionsArg: {
     [key: string]: unknown;
   } = {},
 ): RuleSetRule[] {
+  const cssOptions: {[key: string]: unknown} = {
+    // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+    esModule: false,
+    ...cssOptionsArg,
+  };
+
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -161,11 +168,7 @@ export const getCustomizableJSLoader =
 
 // TODO remove this before end of 2021?
 const warnBabelLoaderOnce = memoize(() => {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): "getBabelLoader(isServer)" is now deprecated in favor of "getJSLoader({isServer})".',
-    ),
-  );
+  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
   isServer: boolean,
@@ -177,11 +180,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 
 // TODO remove this before end of 2021 ?
 const warnCacheLoaderOnce = memoize(() => {
-  console.warn(
-    chalk.yellow(
-      'Docusaurus uses Webpack 5 and getCacheLoader() usage is now deprecated.',
-    ),
-  );
+  logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
 });
 function getCacheLoaderDeprecated() {
   warnCacheLoaderOnce();
@@ -237,7 +236,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our usecase?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -269,11 +268,11 @@ export function compile(config: Configuration[]): Promise<void> {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
-        console.error(err.stack || err);
+        logger.error(err.stack || err);
         // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
           // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
-          console.error(err.details);
+          logger.error(err.details);
         }
         reject(err);
       }
@@ -284,16 +283,14 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          console.warn(warning);
+          logger.warn(warning);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
       // See https://github.com/webpack/webpack.js.org/pull/4775
       compiler.close((errClose) => {
         if (errClose) {
-          console.error(
-            chalk.red('Error while closing Webpack compiler:', errClose),
-          );
+          logger.error(`Error while closing Webpack compiler: ${errClose}`);
           reject(errClose);
         } else {
           resolve();
@@ -322,9 +319,8 @@ function validateKeyAndCerts({
     encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
   } catch (err) {
     throw new Error(
-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate ${crtFile} is invalid.
+${err}`,
     );
   }
 
@@ -333,9 +329,8 @@ function validateKeyAndCerts({
     crypto.privateDecrypt(key, encrypted);
   } catch (err) {
     throw new Error(
-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
-        (err as Error).message
-      }`,
+      `The certificate key ${keyFile} is invalid.
+${err}`,
     );
   }
 }
@@ -344,9 +339,7 @@ function validateKeyAndCerts({
 function readEnvFile(file: string, type: string) {
   if (!fs.existsSync(file)) {
     throw new Error(
-      `You specified ${chalk.cyan(
-        type,
-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`,
+      `You specified ${type} in your env, but the file "${file}" can't be found.`,
     );
   }
   return fs.readFileSync(file);
@@ -404,7 +397,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -426,7 +418,7 @@ export function getMinimizer(
     minimizer.push(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin({
+      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
         minimizerOptions: [
           // CssNano options
           {
@@ -434,7 +426,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {

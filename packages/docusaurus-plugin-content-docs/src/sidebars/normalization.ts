@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {NormalizeSidebarsParams, SidebarOptions} from '../types';
+import type {NormalizeSidebarsParams} from '../types';
 import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
@@ -21,6 +21,7 @@ import type {
 import {isCategoriesShorthand} from './utils';
 import {mapValues} from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
+import type {SidebarOptions} from '@docusaurus/plugin-content-docs';
 
 function normalizeCategoryLink(
   category: SidebarItemCategoryConfig,

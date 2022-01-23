@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
 export default function theme(context: DocusaurusContext): Plugin {
   const {

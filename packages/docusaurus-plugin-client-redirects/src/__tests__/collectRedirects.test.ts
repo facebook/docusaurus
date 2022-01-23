@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginContext, UserPluginOptions} from '../types';
+import type {PluginContext} from '../types';
 import collectRedirects from '../collectRedirects';
 import normalizePluginOptions from '../normalizePluginOptions';
 import {removeTrailingSlash} from '@docusaurus/utils';
+import type {Options} from '@docusaurus/plugin-client-redirects';
 
 function createTestPluginContext(
-  options?: UserPluginOptions,
+  options?: Options,
   relativeRoutesPaths: string[] = [],
 ): PluginContext {
   return {
@@ -38,7 +39,7 @@ describe('collectRedirects', () => {
     );
   });
 
-  test('should collect redirects to html/exe extension', () => {
+  test('should collect redirects from html/exe extension', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -257,6 +258,25 @@ describe('collectRedirects', () => {
         to: '/otherPath.html',
       },
     ]);
+  });
+
+  test('should allow returning string / undefined', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects: (routePath) => {
+              if (routePath === '/') {
+                return `${routePath}foo`;
+              }
+              return undefined;
+            },
+          },
+          ['/', '/testpath', '/otherPath.html'],
+        ),
+        undefined,
+      ),
+    ).toEqual([{from: '/foo', to: '/'}]);
   });
 
   test('should throw if redirect creator creates invalid redirects', () => {

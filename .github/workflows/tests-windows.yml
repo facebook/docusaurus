@@ -36,5 +36,3 @@ jobs:
           echo "# hello" > test-file.md
       - name: Docusaurus Build
         run: yarn build:website --locale en
-        env:
-          CI: true

@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon-v5-slorber';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {load, loadContext} from '../server';
 import {handleBrokenLinks} from '../server/brokenLinks';
 
-import {BuildCLIOptions, Props} from '@docusaurus/types';
+import type {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {
@@ -26,13 +26,15 @@ import {
 } from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
-import {mapAsyncSequencial} from '@docusaurus/utils';
+import {mapAsyncSequential} from '@docusaurus/utils';
 
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-
-  // TODO what's the purpose of this arg ?
+  // When running build, we force terminate the process to prevent async
+  // operations from never returning. However, if run as part of docusaurus
+  // deploy, we have to let deploy finish.
+  // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -47,7 +49,6 @@ export default async function build(
     isLastLocale: boolean;
   }) {
     try {
-      // console.log(chalk.green(`Site successfully built in locale=${locale}`));
       return await buildLocale({
         siteDir,
         locale,
@@ -56,7 +57,7 @@ export default async function build(
         isLastLocale,
       });
     } catch (e) {
-      console.error(`Unable to build website for locale "${locale}".`);
+      logger.error`Unable to build website for locale name=${locale}.`;
       throw e;
     }
   }
@@ -73,12 +74,7 @@ export default async function build(
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
   } else {
     if (i18n.locales.length > 1) {
-      console.log(
-        chalk.yellow(
-          `\nWebsite will be built for all these locales:
-- ${i18n.locales.join('\n- ')}`,
-        ),
-      );
+      logger.info`Website will be built for all these locales: ${i18n.locales}`;
     }
 
     // We need the default locale to always be the 1st in the list
@@ -88,7 +84,7 @@ export default async function build(
       ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
     ];
 
-    const results = await mapAsyncSequencial(orderedLocales, (locale) => {
+    const results = await mapAsyncSequential(orderedLocales, (locale) => {
       const isLastLocale =
         orderedLocales.indexOf(locale) === orderedLocales.length - 1;
       return tryToBuildLocale({locale, isLastLocale});
@@ -112,9 +108,7 @@ async function buildLocale({
 }): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
-  console.log(
-    chalk.blue(`\n[${locale}] Creating an optimized production build...`),
-  );
+  logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
   const props: Props = await load(siteDir, {
     customOutDir: cliOptions.outDir,
@@ -238,18 +232,13 @@ async function buildLocale({
     baseUrl,
   });
 
-  console.log(
-    `${chalk.green(`Success!`)} Generated static files in "${chalk.cyan(
-      path.relative(process.cwd(), outDir),
-    )}".`,
-  );
+  logger.success`Generated static files in path=${path.relative(
+    process.cwd(),
+    outDir,
+  )}.`;
 
   if (isLastLocale) {
-    console.log(
-      `\nUse ${chalk.greenBright(
-        '`npm run serve`',
-      )} command to test your build locally.\n`,
-    );
+    logger.info`Use code=${'npm run serve'} command to test your build locally.`;
   }
 
   if (forceTerminate && isLastLocale && !cliOptions.bundleAnalyzer) {

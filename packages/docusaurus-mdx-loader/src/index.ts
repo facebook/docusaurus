@@ -7,7 +7,7 @@
 
 import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
@@ -124,12 +124,17 @@ export default async function mdxLoader(
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDirs: reqOptions.staticDirs, filePath}],
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
       [
         transformLinks,
         {
           staticDirs: reqOptions.staticDirs,
-          filePath,
           siteDir: reqOptions.siteDir,
         },
       ],
@@ -164,7 +169,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       if (shouldError) {
         return callback(new Error(errorMessage));
       } else {
-        console.warn(chalk.yellow(errorMessage));
+        logger.warn(errorMessage);
       }
     }
   }

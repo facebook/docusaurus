@@ -4,6 +4,13 @@ exports[`simple site custom pagination 1`] = `
 Array [
   Array [
     undefined,
+    Object {
+      "permalink": "/docs/headingAsTitle",
+      "title": "My heading as title",
+    },
+  ],
+  Array [
+    undefined,
     undefined,
   ],
   Array [
@@ -17,7 +24,10 @@ Array [
     },
   ],
   Array [
-    undefined,
+    Object {
+      "permalink": "/docs/doc with space",
+      "title": "Hoo hoo, if this path tricks you...",
+    },
     Object {
       "permalink": "/docs/",
       "title": "Hello sidebar_label",

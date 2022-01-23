@@ -30,9 +30,11 @@
 .sidebarItemLink {
   color: var(--ifm-font-color-base);
 }
+
 .sidebarItemLink:hover {
   text-decoration: none;
 }
+
 .sidebarItemLinkActive {
   color: var(--ifm-color-primary) !important;
 }

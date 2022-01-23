@@ -8,6 +8,10 @@ exports[`validation schemas AdmonitionsSchema: for value=null 1`] = `"\\"value\\
 
 exports[`validation schemas AdmonitionsSchema: for value=true 1`] = `"\\"value\\" must be of type object"`;
 
+exports[`validation schemas PathnameSchema: for value="foo" 1`] = `"\\"value\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+
+exports[`validation schemas PathnameSchema: for value="https://github.com/foo" 1`] = `"\\"value\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
+
 exports[`validation schemas PluginIdSchema: for value="/docs" 1`] = `"\\"value\\" with value \\"/docs\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;
 
 exports[`validation schemas PluginIdSchema: for value="do cs" 1`] = `"\\"value\\" with value \\"do cs\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;

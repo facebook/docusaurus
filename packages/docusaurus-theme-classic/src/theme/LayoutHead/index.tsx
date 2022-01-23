@@ -25,7 +25,7 @@ import {useLocation} from '@docusaurus/router';
 // See https://github.com/facebook/docusaurus/issues/3317
 function AlternateLangHeaders(): JSX.Element {
   const {
-    i18n: {defaultLocale, locales},
+    i18n: {defaultLocale, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
@@ -33,7 +33,7 @@ function AlternateLangHeaders(): JSX.Element {
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
   return (
     <Head>
-      {locales.map((locale) => (
+      {Object.entries(localeConfigs).map(([locale, {htmlLang}]) => (
         <link
           key={locale}
           rel="alternate"
@@ -41,7 +41,7 @@ function AlternateLangHeaders(): JSX.Element {
             locale,
             fullyQualified: true,
           })}
-          hrefLang={locale}
+          hrefLang={htmlLang}
         />
       ))}
       <link
@@ -91,11 +91,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   const {title, description, image, keywords, searchMetadata} = props;
   const faviconUrl = useBaseUrl(favicon);
   const pageTitle = useTitleFormatter(title);
-
-  // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
-  // const htmlLang = currentLocale.split('-')[0];
-  const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
-  const htmlDir = localeConfigs[currentLocale].direction;
+  const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale];
 
   return (
     <>

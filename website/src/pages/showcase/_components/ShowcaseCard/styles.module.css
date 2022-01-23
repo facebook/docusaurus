@@ -52,6 +52,10 @@
   border: none;
 }
 
+.showcaseCardSrcBtn:focus-visible {
+  background-color: var(--ifm-color-secondary-dark);
+}
+
 html[data-theme='dark'] .showcaseCardSrcBtn {
   background-color: var(--ifm-color-emphasis-200) !important;
   color: inherit;
@@ -59,10 +63,6 @@ html[data-theme='dark'] .showcaseCardSrcBtn {
 
 html[data-theme='dark'] .showcaseCardSrcBtn:hover {
   background-color: var(--ifm-color-emphasis-300) !important;
-}
-
-.showcaseCardSrcBtn:focus-visible {
-  background-color: var(--ifm-color-secondary-dark);
 }
 
 .showcaseCardBody {

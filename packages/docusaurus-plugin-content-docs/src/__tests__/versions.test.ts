@@ -14,8 +14,9 @@ import {
 } from '../versions';
 import {DEFAULT_OPTIONS} from '../options';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {PluginOptions, VersionMetadata} from '../types';
+import type {VersionMetadata} from '../types';
 import type {I18n} from '@docusaurus/types';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -91,7 +92,7 @@ describe('simple site', () => {
   test('readVersionsMetadata simple site', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
     });
@@ -102,7 +103,7 @@ describe('simple site', () => {
   test('readVersionsMetadata simple site with base url', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: defaultOptions,
       context: {
         ...defaultContext,
@@ -122,7 +123,7 @@ describe('simple site', () => {
   test('readVersionsMetadata simple site with current version config', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         versions: {
@@ -155,20 +156,20 @@ describe('simple site', () => {
   test('readVersionsMetadata simple site with unknown lastVersion should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {...defaultOptions, lastVersion: 'unknownVersionName'},
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs option lastVersion=unknownVersionName is invalid. Available version names are: current"`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Docs option lastVersion: unknownVersionName is invalid. Available version names are: current"`,
     );
   });
 
   test('readVersionsMetadata simple site with unknown version configurations should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -180,7 +181,7 @@ describe('simple site', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid docs option \\"versions\\": unknown versions (unknownVersionName1,unknownVersionName2) found. Available version names are: current"`,
     );
   });
@@ -188,26 +189,26 @@ describe('simple site', () => {
   test('readVersionsMetadata simple site with disableVersioning while single version should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {...defaultOptions, disableVersioning: true},
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Docs: using \\"disableVersioning=true\\" option on a non-versioned site does not make sense."`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Docs: using \\"disableVersioning: true\\" option on a non-versioned site does not make sense."`,
     );
   });
 
   test('readVersionsMetadata simple site without including current version should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {...defaultOptions, includeCurrentVersion: false},
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=false\\"."`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: false\\"."`,
     );
   });
 });
@@ -327,7 +328,7 @@ describe('versioned site, pluginId=default', () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
     });
@@ -339,7 +340,7 @@ describe('versioned site, pluginId=default', () => {
     const {defaultOptions, defaultContext, v101, v100, vwithSlugs} =
       await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
       context: defaultContext,
     });
@@ -356,7 +357,7 @@ describe('versioned site, pluginId=default', () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         lastVersion: '1.0.0',
@@ -410,7 +411,7 @@ describe('versioned site, pluginId=default', () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
@@ -454,7 +455,7 @@ describe('versioned site, pluginId=default', () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
@@ -498,7 +499,7 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with onlyIncludeVersions option', async () => {
     const {defaultOptions, defaultContext, v101, vwithSlugs} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         // Order reversed on purpose: should not have any impact
@@ -513,7 +514,7 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with disableVersioning', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {...defaultOptions, disableVersioning: true},
       context: defaultContext,
     });
@@ -534,7 +535,7 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with all versions disabled', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -543,15 +544,15 @@ describe('versioned site, pluginId=default', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: true\\"."`,
     );
   });
 
   test('readVersionsMetadata versioned site with empty onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -559,7 +560,7 @@ describe('versioned site, pluginId=default', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid docs option \\"onlyIncludeVersions\\": an empty array is not allowed, at least one version is needed."`,
     );
   });
@@ -567,7 +568,7 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -575,7 +576,7 @@ describe('versioned site, pluginId=default', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid docs option \\"onlyIncludeVersions\\": unknown versions (unknownVersion1,unknownVersion2) found. Available version names are: current, 1.0.1, 1.0.0, withSlugs"`,
     );
   });
@@ -583,7 +584,7 @@ describe('versioned site, pluginId=default', () => {
   test('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -592,7 +593,7 @@ describe('versioned site, pluginId=default', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid docs option \\"lastVersion\\": if you use both the \\"onlyIncludeVersions\\" and \\"lastVersion\\" options, then \\"lastVersion\\" must be present in the provided \\"onlyIncludeVersions\\" array."`,
     );
   });
@@ -604,12 +605,12 @@ describe('versioned site, pluginId=default', () => {
       invalid: 'json',
     }));
 
-    expect(() => {
+    await expect(
       readVersionsMetadata({
         options: defaultOptions,
         context: defaultContext,
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"The versions file should contain an array of versions! Found content: {\\"invalid\\":\\"json\\"}"`,
     );
     mock.mockRestore();
@@ -682,7 +683,7 @@ describe('versioned site, pluginId=community', () => {
   test('readVersionsMetadata versioned site (community)', async () => {
     const {defaultOptions, defaultContext, vCurrent, v100} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: defaultOptions,
       context: defaultContext,
     });
@@ -693,7 +694,7 @@ describe('versioned site, pluginId=community', () => {
   test('readVersionsMetadata versioned site (community) with includeCurrentVersion=false', async () => {
     const {defaultOptions, defaultContext, v100} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {...defaultOptions, includeCurrentVersion: false},
       context: defaultContext,
     });
@@ -707,7 +708,7 @@ describe('versioned site, pluginId=community', () => {
   test('readVersionsMetadata versioned site (community) with disableVersioning', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       options: {...defaultOptions, disableVersioning: true},
       context: defaultContext,
     });
@@ -728,7 +729,7 @@ describe('versioned site, pluginId=community', () => {
   test('readVersionsMetadata versioned site (community) with all versions disabled', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
-    expect(() =>
+    await expect(
       readVersionsMetadata({
         options: {
           ...defaultOptions,
@@ -737,8 +738,8 @@ describe('versioned site, pluginId=community', () => {
         },
         context: defaultContext,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion=false\\", \\"disableVersioning=true\\"."`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"It is not possible to use docs without any version. Please check the configuration of these options: \\"includeCurrentVersion: false\\", \\"disableVersioning: true\\"."`,
     );
   });
 });
