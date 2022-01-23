@@ -39,7 +39,7 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
-  --ifm-link-color: hsl(var(--site-primary-hue-saturation), 45%);
+  --ifm-link-color: hsl(var(--site-primary-hue-saturation) 45%);
 }
 
 .announcementInner {
@@ -50,8 +50,8 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
-  --ifm-color-primary: hsl(var(--site-primary-hue-saturation), 45%);
-  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation), 41%);
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
+  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
 }
 
 .heroInner {
@@ -70,7 +70,7 @@
   color: var(--ifm-color-primary);
 }
 
-@keyframes jackInTheBox {
+@keyframes jack-in-the-box {
   from {
     opacity: 0;
     transform: scale(0.1) rotate(30deg);
@@ -93,7 +93,7 @@
 
 .heroLogo {
   animation-duration: 2s;
-  animation-name: jackInTheBox;
+  animation-name: jack-in-the-box;
   float: right;
   margin-top: 20px;
   padding: 0 20px 20px;

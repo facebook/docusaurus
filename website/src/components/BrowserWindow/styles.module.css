@@ -20,7 +20,7 @@
   padding: 0.5rem 1rem;
 }
 
-.row:after {
+.row::after {
   content: '';
   display: table;
   clear: both;

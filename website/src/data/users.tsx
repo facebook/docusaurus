@@ -802,6 +802,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'kube-green',
+    description: 'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
+    preview: require('./showcase/kube-green.png'),
+    website: 'https://kube-green.dev',
+    source: 'https://github.com/kube-green/kube-green.github.io',
+    tags: ['opensource', 'product']
+  },
+  {
     title: 'kwatch',
     description: 'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
     preview: require('./showcase/kwatch.png'),
