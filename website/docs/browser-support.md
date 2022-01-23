@@ -7,7 +7,28 @@ Docusaurus allows sites to define the list of supported browsers through a [brow
 
 ## Purpose {#purpose}
 
-Websites need to balance between backward compatibility and bundle size. As old browsers do not support modern APIs or syntax, more code is needed to implement the same functionality, penalizing all other users with increased site load time. As a tradeoff, the Docusaurus bundler only supports browser versions defined in the browser list.
+Websites need to balance between backward compatibility and bundle size. As old browsers do not support modern APIs or syntax, more code is needed to implement the same functionality.
+
+For example, you may use the [optional chaining syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining):
+
+```js
+const value = obj?.prop?.val;
+```
+
+...which unfortunately is only recognized by browser versions released after 2020. To be compatible with earlier browser versions, when building your site for production, our JS loader will transpile your code to a more verbose syntax:
+
+```js
+var _obj, _obj$prop;
+
+const value =
+  (_obj = obj) === null || _obj === void 0
+    ? void 0
+    : (_obj$prop = _obj.prop) === null || _obj$prop === void 0
+    ? void 0
+    : _obj$prop.val;
+```
+
+However, this penalizes all other users with increased site load time because the 29-character line now becomes 168 characters—a 6-fold increase! (In practice, it will be better because the names used will be shorter.) As a tradeoff, the JS loader only transpiles the syntax to the degree that's supported by all browser versions defined in the browser list.
 
 The browser list by default is provided through the `package.json` file as a root `browserslist` field.
 
@@ -55,29 +76,28 @@ You can "evaluate" any config with the `browserlist` cli to obtain the actual li
 npx browserslist --env="production"
 ```
 
-The output is all browsers supported in production. Below is the output in December 2021:
+The output is all browsers supported in production. Below is the output in January 2022:
 
 ```text
-and_chr 95
+and_chr 96
 and_uc 12.12
+chrome 96
 chrome 95
 chrome 94
-chrome 93
-chrome 92
-edge 95
-edge 94
-firefox 93
-firefox 92
+edge 96
+firefox 95
+firefox 94
 ie 11
-ios_saf 15
+ios_saf 15.2
+ios_saf 15.0-15.1
 ios_saf 14.5-14.8
 ios_saf 14.0-14.4
 ios_saf 12.2-12.5
-opera 79
-safari 15
+opera 82
+opera 81
+safari 15.1
 safari 14.1
 safari 13.1
-samsung 15.0
 ```
 
 ## Read more {#read-more}
