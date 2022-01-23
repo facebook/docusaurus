@@ -12,6 +12,11 @@ declare module '@docusaurus/plugin-content-docs' {
     filename: string;
     numberPrefix?: number;
   };
+  export type CategoryIndexMatcher = (filePath: {
+    fileName: string;
+    directories: string[];
+    extension: string;
+  }) => boolean;
 
   export type EditUrlFunction = (editUrlParams: {
     version: string;

@@ -939,26 +939,30 @@ describe('isConventionalDocIndex', () => {
   test('supports readme', () => {
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'readme.md',
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'readme.mdx',
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'README.md',
+        fileName: 'README',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'parent/ReAdMe',
+        fileName: 'ReAdMe',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
   });
@@ -966,26 +970,30 @@ describe('isConventionalDocIndex', () => {
   test('supports index', () => {
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'index.md',
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'index.mdx',
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'INDEX.md',
+        fileName: 'INDEX',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'parent/InDeX',
+        fileName: 'InDeX',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
   });
@@ -993,32 +1001,37 @@ describe('isConventionalDocIndex', () => {
   test('supports <categoryName>/<categoryName>.md', () => {
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory',
+        fileName: 'someCategory',
+        directories: ['someCategory', 'doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory.md',
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory.mdx',
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'some_category',
-        source: 'SOME_CATEGORY.md',
+        fileName: 'SOME_CATEGORY',
+        directories: ['some_category'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'some_category',
-        source: 'parent/some_category',
+        fileName: 'some_category',
+        directories: ['some_category'],
+        extension: '',
       }),
     ).toEqual(true);
   });
@@ -1026,20 +1039,23 @@ describe('isConventionalDocIndex', () => {
   test('reject other cases', () => {
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'some_Category',
+        fileName: 'some_Category',
+        directories: ['someCategory'],
+        extension: '',
       }),
     ).toEqual(false);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'read_me',
+        fileName: 'read_me',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(false);
     expect(
       isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'the index',
+        fileName: 'the index',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(false);
   });

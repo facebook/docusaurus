@@ -18,6 +18,7 @@ import {
 import type {DocMetadataBase} from './types';
 import {isConventionalDocIndex} from './docs';
 import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
+import path from 'path';
 
 export default function getSlug({
   baseID,
@@ -50,7 +51,14 @@ export default function getSlug({
       return frontmatterSlug;
     } else {
       const dirNameSlug = getDirNameSlug();
-      if (!frontmatterSlug && isConventionalDocIndex({source, sourceDirName})) {
+      if (
+        !frontmatterSlug &&
+        isConventionalDocIndex({
+          fileName: path.parse(source).name,
+          extension: path.parse(source).ext,
+          directories: sourceDirName.split('/').reverse(),
+        })
+      ) {
         return dirNameSlug;
       }
       const baseSlug = frontmatterSlug || baseID;

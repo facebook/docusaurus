@@ -21,6 +21,20 @@ const dogfoodingPluginInstances = [
       // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
       path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
       showLastUpdateTime: true,
+      sidebarItemsGenerator(args) {
+        return args.defaultSidebarItemsGenerator({
+          ...args,
+          isCategoryIndex({fileName, directories}) {
+            const eligibleDocIndexNames = [
+              'index',
+              'readme',
+              directories[0].toLowerCase(),
+              'intro',
+            ];
+            return eligibleDocIndexNames.includes(fileName.toLowerCase());
+          },
+        });
+      },
     }),
   ],
 
