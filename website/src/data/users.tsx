@@ -802,6 +802,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'kube-green',
+    description: 'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
+    preview: require('./showcase/kube-green.png'),
+    website: 'https://kube-green.dev',
+    source: 'https://github.com/kube-green/kube-green.github.io',
+    tags: ['opensource', 'product']
+  },
+  {
     title: 'kwatch',
     description: 'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
     preview: require('./showcase/kwatch.png'),
@@ -1463,6 +1471,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'SODA for SPARC',
+    description:
+      'Simplifying data curation for researchers funded by the NIH SPARC initiative',
+    preview: require('./showcase/sodaforsparc.png'),
+    website: 'https://docs.sodaforsparc.io/',
+    source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
@@ -1806,6 +1823,14 @@ const Users: User[] = [
     website: 'https://sdk.dimescheduler.com',
     source: 'https://github.com/dime-scheduler/sdk-dotnet',
     tags: ['product', 'opensource'],
+  },
+  {
+    title: "404Lab.Wiki",
+    description: 'Docs and blogs about development and study',
+    preview: require('./showcase/404lab-wiki.png'),
+    website: 'https://wiki.404lab.top',
+    source: 'https://github.com/HiChen404/MyWikiSite',
+    tags: ['opensource', 'personal'],
   },
   /*
   Pro Tip: add your site in alphabetical order.

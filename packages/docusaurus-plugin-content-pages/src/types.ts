@@ -5,19 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type JSXPageMetadata = {
-  type: 'jsx';
-  permalink: string;
-  source: string;
-};
-
-export type MDXPageMetadata = {
-  type: 'mdx';
-  permalink: string;
-  source: string;
-};
-
-export type Metadata = JSXPageMetadata | MDXPageMetadata;
+import type {Metadata} from '@docusaurus/plugin-content-pages';
 
 export type LoadedContent = Metadata[];
 

@@ -20,12 +20,13 @@ export type AuthorsMap = Record<string, Author>;
 const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
   Joi.string(),
   Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string(),
     url: URISchema,
     imageURL: URISchema,
     title: Joi.string(),
   })
     .rename('image_url', 'imageURL')
+    .or('name', 'imageURL')
     .unknown()
     .required(),
 );
@@ -63,7 +64,6 @@ function getFrontMatterAuthorLegacy(
   const url = frontMatter.author_url ?? frontMatter.authorURL;
   const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
 
-  // Shouldn't we require at least an author name?
   if (name || title || url || imageURL) {
     return {
       name,

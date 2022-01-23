@@ -25,11 +25,14 @@ const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
 
-interface PluginOptions {
-  filePath: string;
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
-}
+};
+
+type Context = PluginOptions & {
+  filePath: string;
+};
 
 // transform the link node to a jsx link with a require() call
 function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
@@ -71,7 +74,7 @@ async function ensureAssetFileExist(assetPath: string, sourceFilePath: string) {
 
 async function getAssetAbsolutePath(
   assetPath: string,
-  {siteDir, filePath, staticDirs}: PluginOptions,
+  {siteDir, filePath, staticDirs}: Context,
 ) {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
@@ -96,7 +99,7 @@ async function getAssetAbsolutePath(
   return null;
 }
 
-async function processLinkNode(node: Link, options: PluginOptions) {
+async function processLinkNode(node: Link, context: Context) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -104,7 +107,7 @@ async function processLinkNode(node: Link, options: PluginOptions) {
     const line = node?.position?.start?.line || '?';
     throw new Error(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
-        options.filePath,
+        context.filePath,
       )}" file (title: ${title}, line: ${line}).`,
     );
   }
@@ -122,17 +125,17 @@ async function processLinkNode(node: Link, options: PluginOptions) {
     return;
   }
 
-  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, options);
+  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, context);
   if (assetPath) {
-    toAssetRequireNode(node, assetPath, options.filePath);
+    toAssetRequireNode(node, assetPath, context.filePath);
   }
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root) => {
+  const transformer: Transformer = async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode(node, options));
+      promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
     });
     await Promise.all(promises);
   };

@@ -16,7 +16,7 @@ import type {Types, Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents: Record<
   Exclude<Types, undefined>,
-  // TODO: properly type this
+  // Not really worth typing, as we pass all props down immediately
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   () => (props: any) => JSX.Element
 > = {

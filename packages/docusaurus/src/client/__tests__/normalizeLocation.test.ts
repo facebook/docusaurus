@@ -35,6 +35,8 @@ describe('normalizeLocation', () => {
   });
 
   test('untouched pathnames', () => {
+    const replaceMock = jest.spyOn(String.prototype, 'replace');
+
     expect(
       normalizeLocation({
         pathname: '/docs/introduction',
@@ -46,6 +48,20 @@ describe('normalizeLocation', () => {
       search: '',
       hash: '#features',
     });
+
+    // For the sake of testing memoization
+    expect(
+      normalizeLocation({
+        pathname: '/docs/introduction',
+        search: '',
+        hash: '#features',
+      }),
+    ).toEqual({
+      pathname: '/docs/introduction',
+      search: '',
+      hash: '#features',
+    });
+    expect(replaceMock).toBeCalledTimes(1);
 
     expect(
       normalizeLocation({

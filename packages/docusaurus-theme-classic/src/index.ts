@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  DocusaurusContext,
-  Plugin,
-  PostCssOptions,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
@@ -18,13 +14,13 @@ import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {Options} from '@docusaurus/theme-classic';
+import type webpack from 'webpack';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin = requireFromDocusaurusCore(
-  'webpack/lib/ContextReplacementPlugin',
-);
+const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
+  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
@@ -95,7 +91,7 @@ function getInfimaCSSFile(direction: string) {
 }
 
 export default function docusaurusThemeClassic(
-  context: DocusaurusContext, // TODO: LoadContext is missing some of properties
+  context: LoadContext,
   options: Options,
 ): Plugin<void> {
   const {
@@ -172,6 +168,9 @@ export default function docusaurusThemeClassic(
 
       return {
         plugins: [
+          // This allows better optimization by only bundling those components
+          // that the user actually needs, because the modules are dynamically
+          // required and can't be known during compile time.
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
             new RegExp(`^./(${prismLanguages})$`),

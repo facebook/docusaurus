@@ -21,7 +21,7 @@ const BlogPostFrontMatterAuthorSchema = Joi.object({
   url: URISchema,
   imageURL: Joi.string(),
 })
-  .or('key', 'name')
+  .or('key', 'name', 'imageURL')
   .rename('image_url', 'imageURL', {alias: true});
 
 const FrontMatterAuthorErrorMessage =

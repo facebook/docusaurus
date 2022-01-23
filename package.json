@@ -67,7 +67,6 @@
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.20",
-    "@types/loader-utils": "^2.0.3",
     "@types/lodash": "^4.14.168",
     "@types/node": "^17.0.8",
     "@types/prismjs": "^1.16.2",
@@ -96,7 +95,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "glob": "^7.1.6",
     "husky": "^7.0.4",
-    "image-size": "^1.0.0",
+    "image-size": "^1.0.1",
     "jest": "^26.6.3",
     "lerna": "^4.0.0",
     "lerna-changelog": "^1.0.1",
@@ -112,7 +111,7 @@
     "sharp": "^0.29.1",
     "stylelint": "^14.2.0",
     "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended": "^6.0.0",
+    "stylelint-config-standard": "^24.0.0",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   },
@@ -121,7 +120,7 @@
       "eslint --fix"
     ],
     "*.css": [
-      "stylelint --fix"
+      "stylelint --allow-empty-input --fix"
     ],
     "*": [
       "prettier --ignore-unknown --write"

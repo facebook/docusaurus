@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  extends: ['stylelint-config-recommended', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   plugins: ['stylelint-copyright'],
   rules: {
     'docusaurus/copyright-header': [
@@ -26,5 +26,10 @@ module.exports = {
         ignorePseudoClasses: ['global'],
       },
     ],
+    'selector-class-pattern': null,
+    'custom-property-empty-line-before': null,
+    'selector-id-pattern': null,
+    'declaration-empty-line-before': null,
+    'comment-empty-line-before': null,
   },
 };

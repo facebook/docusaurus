@@ -5,7 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {parseBlogFileName} from '../blogUtils';
+import {truncate, parseBlogFileName} from '../blogUtils';
+
+describe('truncate', () => {
+  test('truncates texts', () => {
+    expect(
+      truncate('aaa\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
+    ).toEqual('aaa\n');
+    expect(
+      truncate('\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
+    ).toEqual('\n');
+  });
+  test('leaves texts without markers', () => {
+    expect(truncate('aaa\nbbb\nccc', /<!-- truncate -->/)).toEqual(
+      'aaa\nbbb\nccc',
+    );
+    expect(truncate('', /<!-- truncate -->/)).toEqual('');
+  });
+});
 
 describe('parseBlogFileName', () => {
   test('parse file', () => {
@@ -89,6 +106,28 @@ describe('parseBlogFileName', () => {
       date: new Date('2021-05-12Z'),
       text: 'announcing-docusaurus-two-beta/subfolder/subfile',
       slug: '/2021/05/12/announcing-docusaurus-two-beta/subfolder/subfile',
+    });
+  });
+
+  test('parse date in the middle of path', () => {
+    expect(
+      parseBlogFileName('team-a/2021/05/12/announcing-docusaurus-two-beta.md'),
+    ).toEqual({
+      date: new Date('2021-05-12Z'),
+      text: 'announcing-docusaurus-two-beta',
+      slug: '/2021/05/12/team-a/announcing-docusaurus-two-beta',
+    });
+  });
+
+  test('parse date in the middle of a folder name', () => {
+    expect(
+      parseBlogFileName(
+        'team-a-2021-05-12-hey/announcing-docusaurus-two-beta.md',
+      ),
+    ).toEqual({
+      date: new Date('2021-05-12Z'),
+      text: 'hey/announcing-docusaurus-two-beta',
+      slug: '/2021/05/12/team-a-hey/announcing-docusaurus-two-beta',
     });
   });
 });

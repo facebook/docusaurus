@@ -295,6 +295,7 @@ export function addDocNavigation(
     const navigation = sidebarsUtils.getDocNavigation(
       doc.unversionedId,
       doc.id,
+      doc.frontMatter.displayed_sidebar,
     );
 
     const toNavigationLinkByDocId = (
