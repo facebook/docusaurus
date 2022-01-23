@@ -1,3 +1,7 @@
+---
+slug: /sidebar/multiple-sidebars
+---
+
 # Using multiple sidebars
 
 You can create a sidebar for each **set of Markdown files** that you want to **group together**.

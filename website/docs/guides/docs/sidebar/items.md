@@ -1,5 +1,6 @@
 ---
 toc_max_heading_level: 4
+slug: /sidebar/items
 ---
 
 # Sidebar items

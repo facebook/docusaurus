@@ -1,3 +1,7 @@
+---
+slug: /sidebar
+---
+
 # Sidebar
 
 Creating a sidebar is useful to:
