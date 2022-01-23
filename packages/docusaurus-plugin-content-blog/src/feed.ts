@@ -7,7 +7,8 @@
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
 import type {BlogPost} from './types';
-import {normalizeUrl, mdxToHtml, posixPath} from '@docusaurus/utils';
+import {normalizeUrl, posixPath, mapAsyncSequential} from '@docusaurus/utils';
+import cheerio from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
@@ -17,27 +18,16 @@ import type {
   Author,
 } from '@docusaurus/plugin-content-blog';
 
-// TODO this is temporary until we handle mdxToHtml better
-// It's hard to convert reliably JSX/require calls  to an html feed content
-// See https://github.com/facebook/docusaurus/issues/5664
-function mdxToFeedContent(mdxContent: string): string | undefined {
-  try {
-    return mdxToHtml(mdxContent);
-  } catch (e) {
-    // TODO will we need a plugin option to configure how to handle such an error
-    // Swallow the error on purpose for now, until we understand better the problem space
-    return undefined;
-  }
-}
-
 async function generateBlogFeed({
   blogPosts,
   options,
   siteConfig,
+  outDir,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
+  outDir: string;
 }): Promise<Feed | null> {
   if (!blogPosts.length) {
     return null;
@@ -66,7 +56,7 @@ async function generateBlogFeed({
     return {name: author.name, link: author.url};
   }
 
-  blogPosts.forEach((post) => {
+  await mapAsyncSequential(blogPosts, async (post) => {
     const {
       id,
       metadata: {
@@ -79,6 +69,26 @@ async function generateBlogFeed({
       },
     } = post;
 
+    const potentialPaths = [
+      path.join(
+        outDir,
+        permalink.replace(siteConfig.baseUrl, ''),
+        'index.html',
+      ),
+      path.join(outDir, `${permalink.replace(siteConfig.baseUrl, '')}.html`),
+    ];
+
+    const HTMLPath = potentialPaths.find(fs.pathExistsSync);
+    if (!HTMLPath) {
+      throw new Error(
+        `Blog post build output cannot be found at ${potentialPaths.join(
+          ' or ',
+        )}`,
+      );
+    }
+    const content = await fs.readFile(HTMLPath);
+    const $ = cheerio.load(content);
+
     const feedItem: FeedItem = {
       title: metadataTitle,
       id,
@@ -87,7 +97,7 @@ async function generateBlogFeed({
       description,
       // Atom feed demands the "term", while other feeds use "name"
       category: tags.map((tag) => ({name: tag.label, term: tag.label})),
-      content: mdxToFeedContent(post.content),
+      content: $('.markdown').html()!,
     };
 
     // json1() method takes the first item of authors array
@@ -145,7 +155,12 @@ export async function createBlogFeedFiles({
   siteConfig: DocusaurusConfig;
   outDir: string;
 }): Promise<void> {
-  const feed = await generateBlogFeed({blogPosts, options, siteConfig});
+  const feed = await generateBlogFeed({
+    blogPosts,
+    options,
+    siteConfig,
+    outDir,
+  });
 
   const feedTypes = options.feedOptions.type;
   if (!feed || !feedTypes) {

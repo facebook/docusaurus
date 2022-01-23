@@ -23,7 +23,6 @@ import {simpleHash, docuHash} from './hashUtils';
 import {DEFAULT_PLUGIN_ID} from './constants';
 
 export * from './constants';
-export * from './mdxUtils';
 export * from './urlUtils';
 export * from './tags';
 export * from './markdownParser';

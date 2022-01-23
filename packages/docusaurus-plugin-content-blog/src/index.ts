@@ -41,6 +41,7 @@ import type {
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
+  LoadedPlugin,
 } from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 import {
@@ -512,14 +513,11 @@ export default async function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild(this: LoadedPlugin<BlogContent>, {outDir}: Props) {
       if (!options.feedOptions.type) {
         return;
       }
-
-      // TODO: we shouldn't need to re-read the posts here!
-      // postBuild should receive loadedContent
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const {blogPosts} = this.content;
       if (!blogPosts.length) {
         return;
       }
