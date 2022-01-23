@@ -47,5 +47,9 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 <a target=\\"_blank\\" href={require('![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./static/staticAssetImage.png').default}><img alt={\\"Clickable Docusaurus logo\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/staticAssetImage.png\\").default} width=\\"200\\" height=\\"200\\" /></a>
 
 <a target=\\"_blank\\" href={require('![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./asset.pdf').default}><span style={{color: \\"red\\"}}>Stylized link to asset file</span></a>
+
+<a target=\\"_blank\\" href={require('./data.raw!=![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./data.json').default}>json</a>
+
+<a target=\\"_blank\\" href={require('./static/staticjson.raw!=![CWD]/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[hash].[ext]!./static/staticjson.json').default}>static json</a>
 "
 `;

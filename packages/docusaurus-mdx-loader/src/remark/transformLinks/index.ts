@@ -47,7 +47,12 @@ function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
   const hash = parsedUrl.hash ?? '';
   const search = parsedUrl.search ?? '';
 
-  const href = `require('${inlineMarkdownLinkFileLoader}${
+  const href = `require('${
+    // A hack to stop Webpack from using its built-in loader to parse JSON
+    path.extname(relativeAssetPath) === '.json'
+      ? `${relativeAssetPath.replace('.json', '.raw')}!=`
+      : ''
+  }${inlineMarkdownLinkFileLoader}${
     escapePath(relativeAssetPath) + search
   }').default${hash ? ` + '${hash}'` : ''}`;
   const children = stringifyContent(node);
