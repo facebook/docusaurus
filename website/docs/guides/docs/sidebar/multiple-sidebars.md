@@ -10,8 +10,8 @@ You can create a sidebar for each **set of Markdown files** that you want to **g
 
 The Docusaurus site is a good example of using multiple sidebars:
 
-- [Docs](../../introduction.md)
-- [API](../../cli.md)
+- [Docs](../../../introduction.md)
+- [API](../../../cli.md)
 
 :::
 
