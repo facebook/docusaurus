@@ -476,7 +476,7 @@ If you want to keep the `.html` extension as the canonical url of a page, docs c
 
 ### Sidebar {#sidebar}
 
-In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](../guides/docs/sidebar.md#understanding-sidebar-items) other than document.
+In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](../guides/docs/sidebar/items.md) other than document.
 
 You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
 
