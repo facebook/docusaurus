@@ -5,7 +5,7 @@ tags: [recap]
 image: ./img/thumbnail.png
 ---
 
-Docusaurus has made great progress in 2021! We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year.
+Docusaurus has made great progress in 2021! We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year. We also reached our **30k-star milestone** at the start of 2022!
 
 The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for latest news.
 
@@ -36,16 +36,22 @@ Docusaurus v2 continues to grow steadily. V2 installation is now 8 times more th
 
 [![NPM download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
+(Ah, the classic Christmas dip...)
+
 We released 18 versions, going from `2.0.0-alpha.71` to `2.0.0-beta.14`. That's one release every 20 days!
 
 ### GitHub
 
-- **Stars**: 20,460 → 29,679 (+45.1% y/y). We are on our way to 30k stars!
+- **Stars**: 20,460 → 29,679 (+45.1% y/y). And, just before this blog post was finally posted
 - **Total contributors**: 512 → 773 (+51.0% y/y)
 - **Dependents**: 5,039 → 14,579 (+189.3% y/y) for v2, and 6,311 → 7,581 (+20.1% y/y) for v1
 - **Commits**: 1,187 commits in the past year, averaging 23 commits every week
 - **Issues**: 619 issues opened, 505 of them eventually resolved
 - A [**new core team member**](https://github.com/Josh-Cena) (yep, that's me 😝)
+
+Our star trend is also very positive. Compared to similar projects, we are **growing at a faster rate**:
+
+![stars trend by year](./img/star-history.png)
 
 With an 8.4k increase in stars, we are ranked number 3 in this year's [JavaScript rising stars of static site generators](https://risingstars.js.org/2021/en#section-ssg), preceded only by Next.js and Astro.
 
@@ -76,6 +82,16 @@ The creativity of Docusaurus users is beyond our imagination 🤩 We look forwar
 ## Community
 
 As an active moderator on [Discord](https://discord.gg/docusaurus), I can clearly see the community thriving. Many frequently asked questions are now integrated into our documentation, and some feature requests have been implemented as well. The project and the community reciprocally benefit each other – case in point, I was formerly a community contributor before becoming a maintainer.
+
+We are constantly mentioned on Twitter with inspirational feedback:
+
+> **@docusaurus** is amazing! cant believe it's THAT simple to use.
+
+> No extra plugins, tooling or compilation steps. It just works out of the box.
+
+> I love **@docusaurus**. I couldn't have built the APIs, tutorials, and blogs contained in my site efficiently and beautifully in my workflow without Docusaurus.
+
+And we keep every of them in [our little box](https://twitter.com/sebastienlorber/timelines/1392048416872706049) 😄 If you enjoy Docusaurus yourself, keep tagging us with your comments!
 
 As we approach the official release, we are interested in knowing more about what people are doing out there: [plugin authors](https://github.com/facebook/docusaurus/discussions/4025), [creators of customized sites](https://github.com/facebook/docusaurus/discussions/5468), and [all new users](https://github.com/facebook/docusaurus/discussions/4610) – please keep us posted about your achievements so we can steer our development to better serve your needs.
 
