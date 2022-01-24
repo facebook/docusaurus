@@ -5,7 +5,9 @@ tags: [recap]
 image: ./img/thumbnail.png
 ---
 
-Docusaurus has made great progress in 2021! We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year. We also reached our **30k-star milestone** at the start of 2022!
+Docusaurus has made great progress in 2021! We've seen a lot of traction and just crossed **30k stars on GitHub**!
+
+We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year.
 
 The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for latest news.
 
