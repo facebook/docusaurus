@@ -13,7 +13,7 @@
 
 .codeBlockContent {
   position: relative;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .copyButton {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgb(0 0 0 / 30%);
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-color-white);
   opacity: 0;
@@ -63,7 +63,7 @@
 
 .codeBlockLines {
   font: inherit;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);

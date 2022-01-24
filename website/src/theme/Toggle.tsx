@@ -13,6 +13,11 @@ import {
   darkStorage,
   type ColorState,
   updateDOMColors,
+  LIGHT_PRIMARY_COLOR,
+  DARK_PRIMARY_COLOR,
+  LIGHT_BACKGROUND_COLOR,
+  DARK_BACKGROUND_COLOR,
+  COLOR_SHADES,
 } from '@site/src/utils/colorUtils';
 
 // The ColorGenerator modifies the DOM styles. The styles are persisted in
@@ -27,12 +32,14 @@ export default function Toggle(props: Props): JSX.Element {
         props.onChange(e);
         const isDarkMode = e.target.checked;
         const storage = isDarkMode ? darkStorage : lightStorage;
-        const colorState = JSON.parse(
-          storage.get() ?? 'null',
-        ) as ColorState | null;
-        if (colorState) {
-          updateDOMColors(colorState);
-        }
+        const colorState: ColorState = JSON.parse(storage.get() ?? 'null') ?? {
+          baseColor: isDarkMode ? DARK_PRIMARY_COLOR : LIGHT_PRIMARY_COLOR,
+          background: isDarkMode
+            ? DARK_BACKGROUND_COLOR
+            : LIGHT_BACKGROUND_COLOR,
+          shades: COLOR_SHADES,
+        };
+        updateDOMColors(colorState);
       }}
     />
   );

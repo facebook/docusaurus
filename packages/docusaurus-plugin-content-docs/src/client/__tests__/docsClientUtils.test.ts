@@ -6,14 +6,17 @@
  */
 
 import {
-  type ActivePlugin,
   getActivePlugin,
   getLatestVersion,
   getActiveDocContext,
   getActiveVersion,
   getDocVersionSuggestions,
 } from '../docsClientUtils';
-import type {GlobalPluginData, GlobalVersion} from '../../types';
+import type {
+  GlobalPluginData,
+  GlobalVersion,
+  ActivePlugin,
+} from '@docusaurus/plugin-content-docs/client';
 import {shuffle} from 'lodash';
 
 describe('docsClientUtils', () => {
@@ -58,6 +61,34 @@ describe('docsClientUtils', () => {
     expect(getActivePlugin(data, '/android')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/')).toEqual(activePluginAndroid);
     expect(getActivePlugin(data, '/android/ijk')).toEqual(activePluginAndroid);
+
+    // https://github.com/facebook/docusaurus/issues/6434
+    const onePluginAtRoot = {
+      pluginIosId: {
+        path: '/',
+        versions: [],
+      },
+      pluginAndroidId: {
+        path: '/android',
+        versions: [],
+      },
+    };
+    expect(getActivePlugin(onePluginAtRoot, '/android/foo').pluginId).toEqual(
+      'pluginAndroidId',
+    );
+    const onePluginAtRootReversed = {
+      pluginAndroidId: {
+        path: '/android',
+        versions: [],
+      },
+      pluginIosId: {
+        path: '/',
+        versions: [],
+      },
+    };
+    expect(
+      getActivePlugin(onePluginAtRootReversed, '/android/foo').pluginId,
+    ).toEqual('pluginAndroidId');
   });
 
   test('getLatestVersion', () => {

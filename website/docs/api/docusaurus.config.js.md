@@ -279,6 +279,7 @@ Example:
 module.exports = {
   themeConfig: {
     hideableSidebar: false,
+    autoCollapseSidebarCategories: false,
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
