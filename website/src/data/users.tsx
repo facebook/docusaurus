@@ -1418,7 +1418,7 @@ const Users: User[] = [
       'Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.',
     preview: require('./showcase/sass-fairy.png'),
     website: 'https://sass-fairy.com/',
-    source: 'https://github.com/roydukkey/sass-fairy/tree/master/website',
+    source: 'https://github.com/roydukkey/sass-fairy',
     tags: ['opensource'],
   },
   {
