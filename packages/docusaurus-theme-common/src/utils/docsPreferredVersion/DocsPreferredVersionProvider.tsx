@@ -38,7 +38,7 @@ type DocsPreferredVersionState = Record<
   DocsPreferredVersionPluginState
 >;
 
-// Initial state is always null as we can't read localstorage from node SSR
+// Initial state is always null as we can't read local storage from node SSR
 function getInitialState(pluginIds: string[]): DocsPreferredVersionState {
   const initialState: DocsPreferredVersionState = {};
   pluginIds.forEach((pluginId) => {

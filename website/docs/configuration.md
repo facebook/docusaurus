@@ -99,9 +99,9 @@ Below are some examples, for a plugin registered in the `plugins` field. Note th
 | --- | --- |
 | `awesome` | `docusaurus-plugin-awesome` |
 | `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
-| `@mycompany` | `@mycompany/docusaurus-plugin` (the only possible resolution!) |
-| `@mycompany/awesome` | `@mycompany/docusaurus-plugin-awesome` |
-| `@mycompany/awesome/web` | `@mycompany/docusaurus-plugin-awesome/web` |
+| `@my-company` | `@my-company/docusaurus-plugin` (the only possible resolution!) |
+| `@my-company/awesome` | `@my-company/docusaurus-plugin-awesome` |
+| `@my-company/awesome/web` | `@my-company/docusaurus-plugin-awesome/web` |
 
 </details>
 

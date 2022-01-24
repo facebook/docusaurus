@@ -47,7 +47,7 @@ function testField(params: {
           // eslint-disable-next-line jest/no-jasmine-globals
           fail(
             new Error(
-              `Blog frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+              `Blog front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
                 frontMatter,
                 null,
                 2,
@@ -105,8 +105,8 @@ describe('validateBlogPostFrontMatter id', () => {
   });
 });
 
-describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', () => {
-  test('allow legacy author frontmatter', () => {
+describe('validateBlogPostFrontMatter handles legacy/new author front matter', () => {
+  test('allow legacy author front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       author: 'Sebastien',
       author_url: 'https://sebastienlorber.com',
@@ -116,7 +116,7 @@ describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', ()
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('allow new authors frontmatter', () => {
+  test('allow new authors front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       authors: [
         'slorber',

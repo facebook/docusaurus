@@ -51,7 +51,7 @@ export default function extractMetadata(content: string): Data {
   return {metadata, rawContent: both.content};
 }
 
-// The new frontmatter parser need some special chars to
+// The new front matter parser need some special chars to
 export function shouldQuotifyFrontMatter([key, value]: [
   string,
   string,

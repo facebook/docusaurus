@@ -43,7 +43,7 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
   const [isClosed, setClosed] = useState(() =>
     isBrowser
-      ? // On client navigation: init with localstorage value
+      ? // On client navigation: init with local storage value
         isDismissedInStorage()
       : // On server/hydration: always visible to prevent layout shifts (will be hidden with css if needed)
         false,

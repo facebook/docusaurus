@@ -1,6 +1,7 @@
 {
   "version": "0.2",
   "gitignoreRoot": ".",
+  "useGitignore": true,
   "dictionaries": [
     "css",
     "html",
@@ -19,7 +20,6 @@
     }
   ],
   "ignorePaths": [
-    "**/node_modules/**",
     "CHANGELOG.md",
     "examples/**",
     "packages/docusaurus-theme-translations/locales/**",
@@ -30,10 +30,9 @@
     "yarn.lock",
     "project-words.txt",
     "website/src/data/users.tsx",
-    "**/*.map",
-    "**/*.xyz",
-    "**/*.docx"
+    "*.xyz",
+    "*.docx",
+    "versioned_docs"
   ],
-  "ignoreRegExpList": ["Email", "Urls", "{#[\\w-]*}"],
-  "words": ["automagically", "Cheng", "slorber"]
+  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }

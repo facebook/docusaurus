@@ -192,8 +192,8 @@ export function parseMarkdownString(
       excerpt,
     };
   } catch (e) {
-    logger.error(`Error while parsing Markdown frontmatter.
-This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
+    logger.error(`Error while parsing Markdown front matter.
+This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw e;
   }
 }
