@@ -68,6 +68,7 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
 
     // retrocompatibility due to spelling mistake of default id
     // see https://github.com/facebook/docusaurus/issues/3338
+    // cSpell:ignore annoucement
     if (viewedId === 'annoucement-bar') {
       viewedId = 'announcement-bar';
     }
