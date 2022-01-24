@@ -9,6 +9,8 @@ Docusaurus has made great progress in 2021! We've **reached full feature parity*
 
 The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for latest news.
 
+![thumbnail image](./img/thumbnail.png)
+
 <!--truncate-->
 
 ## Highlights
