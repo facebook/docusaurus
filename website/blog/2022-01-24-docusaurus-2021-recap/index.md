@@ -9,7 +9,7 @@ Docusaurus has made great progress in 2021! We've seen a lot of traction and jus
 
 We've **reached full feature parity** with v1 after [the release of internationalization](../2021-03-09-releasing-docusaurus-i18n.md), [announced our **first beta**](../2021-05-12-announcing-docusaurus-two-beta/index.md), and welcomed **significantly more users** this year.
 
-The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for latest news.
+The **official v2 release** is just around the corner! Follow the [roadmap issue](https://github.com/facebook/docusaurus/issues/6113) for any latest news.
 
 ![thumbnail image](./img/thumbnail.png)
 
@@ -95,7 +95,7 @@ We are constantly mentioned on Twitter with inspirational feedback:
 
 > I love **@docusaurus**. I couldn't have built the APIs, tutorials, and blogs contained in my site efficiently and beautifully in my workflow without Docusaurus.
 
-And we keep every of them in [our little box](https://twitter.com/sebastienlorber/timelines/1392048416872706049) 😄 If you enjoy Docusaurus yourself, keep tagging us with your comments!
+And we keep every one of them in [our little box](https://twitter.com/sebastienlorber/timelines/1392048416872706049) 😄 If you enjoy Docusaurus yourself, keep tagging us with your comments!
 
 As we approach the official release, we are interested in knowing more about what people are doing out there: [plugin authors](https://github.com/facebook/docusaurus/discussions/4025), [creators of customized sites](https://github.com/facebook/docusaurus/discussions/5468), and [all new users](https://github.com/facebook/docusaurus/discussions/4610) – please keep us posted about your achievements so we can steer our development to better serve your needs.
 
