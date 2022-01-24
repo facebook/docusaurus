@@ -46,7 +46,7 @@ We released 18 versions, going from `2.0.0-alpha.71` to `2.0.0-beta.14`. That's 
 
 ### GitHub
 
-- **Stars**: 20,460 → 29,679 (+45.1% y/y). And, just before this blog post was finally posted
+- **Stars**: 20,460 → 29,679 (+45.1% y/y). And, just before this blog post is published, we have reached 30k stars!
 - **Total contributors**: 512 → 773 (+51.0% y/y)
 - **Dependents**: 5,039 → 14,579 (+189.3% y/y) for v2, and 6,311 → 7,581 (+20.1% y/y) for v1
 - **Commits**: 1,187 commits in the past year, averaging 23 commits every week
