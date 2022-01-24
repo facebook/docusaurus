@@ -34,6 +34,6 @@
     "**/*.xyz",
     "**/*.docx"
   ],
-  "ignoreRegExpList": ["Email", "Urls", "{#\\w*}"],
+  "ignoreRegExpList": ["Email", "Urls", "{#[\\w-]*}"],
   "words": ["automagically", "Cheng", "slorber"]
 }
