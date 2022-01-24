@@ -29,7 +29,8 @@
     "**/yarn.lock",
     "yarn.lock",
     "project-words.txt",
-    "website/src/data/users.tsx"
+    "website/src/data/users.tsx",
+    "**/*.map"
   ],
   "ignoreRegExpList": ["Email", "Urls"],
   "words": ["automagically", "Cheng", "slorber"]
