@@ -735,11 +735,11 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
-    title: 'InfraQL Technologies',
+    title: 'StackQL',
     description:
-      'InfraQL is a SQL based approach to cloud infrastructure coding, API querying and automation.',
-    preview: require('./showcase/infraql-docs.png'),
-    website: 'https://docs.infraql.io/',
+      'StackQL is a data centric approach to provisioning, querying, and managing cloud infrastructure and SaaS resources across multiple clouds.',
+    preview: require('./showcase/stackql.png'),
+    website: 'https://stackql.io/',
     source: null,
     tags: ['product'],
   },
@@ -800,6 +800,14 @@ const Users: User[] = [
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
     tags: ['opensource'],
+  },
+  {
+    title: 'kube-green',
+    description: 'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
+    preview: require('./showcase/kube-green.png'),
+    website: 'https://kube-green.dev',
+    source: 'https://github.com/kube-green/kube-green.github.io',
+    tags: ['opensource', 'product']
   },
   {
     title: 'kwatch',
@@ -1405,6 +1413,15 @@ const Users: User[] = [
     tags: ['opensource', 'large'],
   },
   {
+    title: 'Sass Fairy',
+    description:
+      'Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.',
+    preview: require('./showcase/sass-fairy.png'),
+    website: 'https://sass-fairy.com/',
+    source: 'https://github.com/roydukkey/sass-fairy',
+    tags: ['opensource'],
+  },
+  {
     title: 'SCI WP Framework',
     description: 'A PHP framework to create MVC plugins for WordPress',
     preview: require('./showcase/sciwp.png'),
@@ -1461,6 +1478,15 @@ const Users: User[] = [
     website: 'https://social-embed.git-pull.com/',
     source: 'https://github.com/social-embed/social-embed',
     tags: ['opensource'],
+  },
+  {
+    title: 'SODA for SPARC',
+    description:
+      'Simplifying data curation for researchers funded by the NIH SPARC initiative',
+    preview: require('./showcase/sodaforsparc.png'),
+    website: 'https://docs.sodaforsparc.io/',
+    source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -1806,6 +1832,14 @@ const Users: User[] = [
     website: 'https://sdk.dimescheduler.com',
     source: 'https://github.com/dime-scheduler/sdk-dotnet',
     tags: ['product', 'opensource'],
+  },
+  {
+    title: "404Lab.Wiki",
+    description: 'Docs and blogs about development and study',
+    preview: require('./showcase/404lab-wiki.png'),
+    website: 'https://wiki.404lab.top',
+    source: 'https://github.com/HiChen404/MyWikiSite',
+    tags: ['opensource', 'personal'],
   },
   /*
   Pro Tip: add your site in alphabetical order.

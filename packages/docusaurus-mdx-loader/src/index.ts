@@ -128,7 +128,6 @@ export default async function mdxLoader(
         transformImage,
         {
           staticDirs: reqOptions.staticDirs,
-          filePath,
           siteDir: reqOptions.siteDir,
         },
       ],
@@ -136,7 +135,6 @@ export default async function mdxLoader(
         transformLinks,
         {
           staticDirs: reqOptions.staticDirs,
-          filePath,
           siteDir: reqOptions.siteDir,
         },
       ],

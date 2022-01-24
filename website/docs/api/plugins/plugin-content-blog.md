@@ -46,7 +46,7 @@ Accepted fields:
 | `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
 | `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
 | `tagsBasePath` | `string` | `'tags'` | URL route for the tags list page of your site. It is prepended to the `routeBasePath`. |
-| `archiveBasePath` | `string` | `'/archive'` | URL route for the archive blog section of your site. It is prepended to the `routeBasePath`. **DO NOT** include a trailing slash. |
+| `archiveBasePath` | <code>string \| null</code> | `'/archive'` | URL route for the archive blog section of your site. It is prepended to the `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to disable generation of archive. |
 | `include` | `string[]` | `['**/*.{md,mdx}']` | Matching files will be included and processed. |
 | `exclude` | `string[]` | _See example configuration_ | No route will be created for matching files. |
 | `postsPerPage` | <code>number \| 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |

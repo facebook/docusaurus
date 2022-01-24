@@ -6,7 +6,6 @@
  */
 
 import {truncate, linkify} from './blogUtils';
-import {parseQuery} from 'loader-utils';
 import type {BlogMarkdownLoaderOptions} from './types';
 import type {LoaderContext} from 'webpack';
 
@@ -28,7 +27,7 @@ export default function markdownLoader(
 
   // Truncate content if requested (e.g: file.md?truncated=true).
   const truncated: boolean | undefined = this.resourceQuery
-    ? !!parseQuery(this.resourceQuery).truncated
+    ? !!new URLSearchParams(this.resourceQuery.slice(1)).get('truncated')
     : undefined;
 
   if (truncated) {
