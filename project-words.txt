@@ -12,7 +12,6 @@ applanga
 architecting
 astro
 atrule
-autoformat
 autogen
 backport
 backticks
@@ -23,7 +22,6 @@ blockquotes
 browserslist
 browserstack
 buble
-buble's
 caabernathy
 cacheable
 callouts
@@ -64,7 +62,6 @@ dogfooding
 dyte
 easyops
 endi
-endi's
 endilie
 endiliey
 entrypoints
@@ -72,7 +69,6 @@ errnametoolong
 esbuild
 eslintcache
 evaluable
-exampledoc
 externalwaiting
 failfast
 fbid
@@ -100,7 +96,6 @@ ianad
 idempotency
 immer
 infima
-infima's
 inlines
 intelli
 interpolatable
@@ -116,20 +111,17 @@ keyscan
 keytar
 knapen
 koyeb
-koyeb's
 kubernetes
 lamana
 lifecycles
 linkify
 localizable
 lorber
-lorber's
 lowercased
 lqip
 lunrjs
 mapbox
 marcey
-marcey's
 massoud
 mathjax
 mdast
@@ -240,7 +232,6 @@ stackblitzrc
 strikethroughs
 stylelint
 stylelintrc
-subfolders
 sublabel
 sublicensable
 sublist
@@ -252,7 +243,6 @@ sucipto
 supabase
 svgr
 swizzlable
-swizzleable
 teik
 templating
 toolset
@@ -260,7 +250,6 @@ toplevel
 transifex
 transpiles
 treeify
-treemap
 triaging
 typesense
 unflat

@@ -51,8 +51,8 @@ root-of-repo
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
-│   ├── exampledoc4.md
-│   └── exampledoc5.md
+│   ├── example-doc4.md
+│   └── example-doc5.md
 ├── website
 │   ├── blog-examples-from-docusaurus
 │   │   ├── 2016-03-11-blog-post.md
