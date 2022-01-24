@@ -102,7 +102,11 @@ function BlogPostItem(props: Props): JSX.Element {
         <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
       )}
 
-      <div className="markdown" itemProp="articleBody">
+      <div
+        // This ID is used for the feed generation to locate the main content
+        id={isBlogPostPage ? 'post-content' : undefined}
+        className="markdown"
+        itemProp="articleBody">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
       </div>
 

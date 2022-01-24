@@ -97,7 +97,7 @@ async function generateBlogFeed({
       description,
       // Atom feed demands the "term", while other feeds use "name"
       category: tags.map((tag) => ({name: tag.label, term: tag.label})),
-      content: $('.markdown').html()!,
+      content: $('#post-content').html()!,
     };
 
     // json1() method takes the first item of authors array
