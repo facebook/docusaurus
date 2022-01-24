@@ -7,7 +7,7 @@
 
 /* eslint-disable global-require */
 
-import { sortBy } from '@site/src/utils/jsUtils';
+import {sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
