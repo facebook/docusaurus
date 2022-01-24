@@ -557,6 +557,14 @@ const Users: User[] = [
     tags: ['personal', 'design'],
   },
   {
+    title: "Kuizuo's Personal Website",
+    description: "A Software Enthusiast's blog, Sharing and Learning",
+    preview: require('./showcase/kuizuo.png'),
+    website: 'https://kuizuo.cn',
+    source: 'https://github.com/kuizuo/blog',
+    tags: ['personal', 'opensource', 'design'],
+  },
+  {
     title: 'FireCMS',
     description: 'Firebase/Firestore based headless CMS',
     preview: require('./showcase/firecms.png'),
@@ -769,7 +777,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
-   {
+  {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
