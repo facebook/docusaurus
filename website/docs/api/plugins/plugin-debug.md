@@ -70,7 +70,7 @@ Most Docusaurus users configure this plugin through the preset options.
 <Tabs>
 <TabItem value="Preset Options">
 
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
+If you use a preset, configure this plugin through the [preset options](../../using-plugins.md#docusauruspreset-classic):
 
 ```js title="docusaurus.config.js"
 module.exports = {

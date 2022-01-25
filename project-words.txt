@@ -13,6 +13,7 @@ architecting
 astro
 atrule
 autogen
+autogenerating
 backport
 backticks
 bartosz
@@ -39,6 +40,7 @@ clsx
 codesandbox
 contravariance
 corejs
+crawlable
 creativecommons
 csvg
 customizability
@@ -47,6 +49,7 @@ datagit
 datas
 dedup
 deduplicated
+déja
 devto
 dmitry
 docgen
@@ -259,6 +262,7 @@ unprefixed
 unswizzle
 unversioned
 upvotes
+userland
 vannicatte
 vercel
 vetter
