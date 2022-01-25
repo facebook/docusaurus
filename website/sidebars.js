@@ -127,7 +127,7 @@ const sidebars = {
         'advanced/plugins',
         'advanced/routing',
         'advanced/swizzling',
-        'advanced/ssr',
+        'advanced/ssg',
       ],
     },
     {
