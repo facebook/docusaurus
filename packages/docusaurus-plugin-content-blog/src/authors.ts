@@ -54,7 +54,7 @@ type AuthorsParam = {
   authorsMap: AuthorsMap | undefined;
 };
 
-// Legacy v1/early-v2 frontmatter fields
+// Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
 function getFrontMatterAuthorLegacy(
   frontMatter: BlogPostFrontMatter,
@@ -123,7 +123,7 @@ ${Object.keys(authorsMap)
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
     return {
-      // Author def from authorsMap can be locally overridden by frontmatter
+      // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
@@ -137,11 +137,11 @@ export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authors = getFrontMatterAuthors(params);
 
   if (authorLegacy) {
-    // Technically, we could allow mixing legacy/authors frontmatter, but do we really want to?
+    // Technically, we could allow mixing legacy/authors front matter, but do we really want to?
     if (authors.length > 0) {
       throw new Error(
-        `To declare blog post authors, use the 'authors' FrontMatter in priority.
-Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time.`,
+        `To declare blog post authors, use the 'authors' front matter in priority.
+Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
       );
     }
     return [authorLegacy];

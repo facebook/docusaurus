@@ -236,7 +236,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }

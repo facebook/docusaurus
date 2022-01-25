@@ -221,7 +221,7 @@ function createBootstrapPlugin({
   };
 }
 
-// Configurer Webpack fallback mdx loader for md/mdx files out of content-plugin folders
+// Configure Webpack fallback mdx loader for md/mdx files out of content-plugin folders
 // Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
 // This allows to do things such as importing repo/README.md as a partial from another doc
 // Not ideal solution though, but good enough for now
@@ -266,7 +266,7 @@ function createMDXFallbackPlugin({
                     ),
                     siteDir,
                     isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
-                    isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have frontmatter, let's just disable the warning
+                    isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have front matter, let's just disable the warning
                     remarkPlugins: [admonitions],
                   },
                 },

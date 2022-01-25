@@ -579,7 +579,7 @@ This feature is replaced by [inline table of content](../guides/markdown-feature
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
-Frontmatter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
+Front matter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your front matter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 
