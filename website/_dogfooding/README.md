@@ -1,5 +1,5 @@
 ---
-test: 'some test frontmatter'
+test: 'some test front matter'
 ---
 
 # Docusaurus website dogfooding

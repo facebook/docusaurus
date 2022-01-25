@@ -78,14 +78,18 @@ This naming convention is optional, and you can provide the date as front matter
 <details>
 <summary>Example supported patterns</summary>
 
-- `2021-05-28-my-blog-post-title.md`
-- `2021-05-28-my-blog-post-title.mdx`
-- `2021-05-28-my-blog-post-title/index.md`
-- `2021-05-28/my-blog-post-title.md`
-- `2021/05/28/my-blog-post-title.md`
-- `2021/05-28-my-blog-post-title.md`
-- `2021/05/28/my-blog-post-title/index.md`
-- ...
+| Pattern | Example |
+| --- | --- |
+| Single file | `2021-05-28-my-blog-post-title.md` |
+| MDX file | `2021-05-28-my-blog-post-title.mdx` |
+| Single folder + `index.md` | `2021-05-28-my-blog-post-title/index.md` |
+| Folder named by date | `2021-05-28/my-blog-post-title.md` |
+| Nested folders by date | `2021/05/28/my-blog-post-title.md` |
+| Partially nested folders by date | `2021/05-28-my-blog-post-title.md` |
+| Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
+| Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
+
+The date will be excised from the path and appended to the beginning of the URL slug.
 
 </details>
 
@@ -97,7 +101,7 @@ Using a folder can be convenient to co-locate blog post images alongside the Mar
 
 :::
 
-The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-frontmatter).
+The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
 
 ## Blog list {#blog-list}
 
@@ -178,7 +182,7 @@ Use the `authors` front matter field to declare blog post authors.
 Blog post authors can be declared directly inside the front matter:
 
 ````mdx-code-block
-<Tabs groupId="author-frontmatter">
+<Tabs groupId="author-front-matter">
   <TabItem value="single" label="Single author">
 
 ```md title="my-blog-post.md"
@@ -262,7 +266,7 @@ Use the `authorsMapPath` plugin option to configure the path. JSON is also suppo
 In blog posts front matter, you can reference the authors declared in the global configuration file:
 
 ````mdx-code-block
-<Tabs groupId="author-frontmatter">
+<Tabs groupId="author-front-matter">
   <TabItem value="single" label="Single author">
 
 ```md title="my-blog-post.md"
@@ -336,6 +340,8 @@ website/i18n/[locale]/docusaurus-plugin-content-blog/authors.yml
 </details>
 
 :::
+
+An author, either declared through front matter or through the authors map, needs to have a name or an avatar, or both. If all authors of a post don't have names, Docusaurus will display their avatars compactly. See [this test post](/tests/blog/2022/01/20/image-only-authors) for the effect.
 
 ## Reading time {#reading-time}
 

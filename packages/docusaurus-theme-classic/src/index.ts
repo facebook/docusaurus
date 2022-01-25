@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  DocusaurusContext,
-  Plugin,
-  PostCssOptions,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
@@ -95,7 +91,7 @@ function getInfimaCSSFile(direction: string) {
 }
 
 export default function docusaurusThemeClassic(
-  context: DocusaurusContext, // TODO: LoadContext is missing some of properties
+  context: LoadContext,
   options: Options,
 ): Plugin<void> {
   const {

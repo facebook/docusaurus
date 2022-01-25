@@ -14,6 +14,8 @@ const sidebars = {
       className: 'red',
       label: 'Index',
     },
+    'doc-without-sidebar',
+    'doc-with-another-sidebar',
     {
       type: 'category',
       label: 'Tests',
@@ -70,6 +72,7 @@ const sidebars = {
       ],
     },
   ],
+  anotherSidebar: ['dummy'],
 };
 module.exports = sidebars;
 

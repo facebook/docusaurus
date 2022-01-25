@@ -94,10 +94,6 @@ import CodeBlock from '@theme/CodeBlock';
 When you scaffold your Docusaurus project with `create-docusaurus`, the website will be generated with basic Infima stylesheets and default styling. You can override Infima CSS variables globally.
 
 ```css title="/src/css/custom.css"
-/**
- * You can override the default Infima variables here.
- * Note: this is not a complete list of --ifm- variables.
- */
 :root {
   --ifm-color-primary: #25c2a0;
   --ifm-code-font-size: 95%;

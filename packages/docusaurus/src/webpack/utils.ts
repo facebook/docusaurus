@@ -36,10 +36,16 @@ import {memoize} from 'lodash';
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
-  cssOptions: {
+  cssOptionsArg: {
     [key: string]: unknown;
   } = {},
 ): RuleSetRule[] {
+  const cssOptions: {[key: string]: unknown} = {
+    // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+    esModule: false,
+    ...cssOptionsArg,
+  };
+
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -230,7 +236,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }

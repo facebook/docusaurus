@@ -62,7 +62,7 @@ function BlogPostPage(props: Props): JSX.Element {
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={date} />
 
-        {/* TODO double check those article metas array syntaxes, see https://ogp.me/#array */}
+        {/* TODO double check those article meta array syntaxes, see https://ogp.me/#array */}
         {authors.some((author) => author.url) && (
           <meta
             property="article:author"

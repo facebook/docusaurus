@@ -31,8 +31,10 @@ import {mapAsyncSequential} from '@docusaurus/utils';
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-
-  // TODO what's the purpose of this arg ?
+  // When running build, we force terminate the process to prevent async
+  // operations from never returning. However, if run as part of docusaurus
+  // deploy, we have to let deploy finish.
+  // See https://github.com/facebook/docusaurus/pull/2496
   forceTerminate: boolean = true,
 ): Promise<string> {
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
@@ -76,7 +78,7 @@ export default async function build(
     }
 
     // We need the default locale to always be the 1st in the list
-    // If we build it last, it would "erase" the localized sites built in subfolders
+    // If we build it last, it would "erase" the localized sites built in sub-folders
     const orderedLocales: string[] = [
       i18n.defaultLocale,
       ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
@@ -134,7 +136,7 @@ async function buildLocale({
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable treemap.
+        // Visualize size of webpack output files with an interactive zoomable tree map.
         cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
         // Generate client manifests file that will be used for server bundle.
         new ReactLoadableSSRAddon({
