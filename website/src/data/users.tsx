@@ -1376,7 +1376,7 @@ const Users: User[] = [
     description: 'The library to build browser based 3D models with code.',
     preview: require('./showcase/replicad.png'),
     website: 'https://replicad.xyz/',
-    source: 'https://github.com/sgenoud/replicad/tree/main/packages/replicad-docs',
+    source: 'https://github.com/sgenoud/replicad',
     tags: ['opensource'],
   },
   {
