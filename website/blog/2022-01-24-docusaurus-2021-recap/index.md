@@ -27,7 +27,7 @@ Let's begin by going over a few highlights this year. Remember the [todo-list](.
 - **UI improvements**: more accessible quotes, better admonitions, back-to-top button...
 - **Blog multi-authors**: credit all the amazing contributors that collaborated on one blog post!
 - **More blog features**: archive page, structured data for SEO, full post content in feeds – empowering you to ship a fully-featured blog in no time
-- **Asset colocation**: no need for a bloated static folder anymore: colocate your images with Markdown files
+- **Asset collocation**: no need for a bloated static folder anymore: colocate your images with Markdown files
 - **Sidebar category index pages**: category labels can now be associated with pages, enabling better doc organization
 
 Our codebase has been polished over time as well. We have improved test coverage, migrated all packages to TypeScript, and reduced our published bundle size by a maximum of 60%!
