@@ -1,6 +1,5 @@
 ---
 description: Customize your site's appearance through creating your own theme components
-slug: /using-themes
 ---
 
 # Swizzling
