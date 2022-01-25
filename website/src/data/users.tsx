@@ -1372,6 +1372,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'replicad',
+    description: 'The library to build browser based 3D models with code.',
+    preview: require('./showcase/replicad.png'),
+    website: 'https://replicad.xyz/',
+    source: 'https://github.com/sgenoud/replicad',
+    tags: ['opensource'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
