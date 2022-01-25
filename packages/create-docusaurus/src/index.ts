@@ -278,7 +278,7 @@ export default async function init(
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
+        `cd "${cdpath}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
         {
           env: {
             ...process.env,
