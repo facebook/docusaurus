@@ -1,18 +1,18 @@
 ---
-sidebar_label: Server-side rendering
+sidebar_label: Static site generation
 description: Docusaurus statically renders your React code into HTML, allowing faster load speed and better SEO.
 ---
 
-# Server-side generation (SSG)
+# Static site generation (SSG)
 
 In [architecture](architecture.md), we mentioned that the theme is run in Webpack. But beware: that doesn't mean it always has access to browser globals! The theme is built twice:
 
 - During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
 - During **client-side rendering**, the theme is compiled with standard React DOM, and has access to browser variables. CSR produces dynamic JavaScript.
 
-:::info
+:::info SSR or SSG?
 
-_Server-side rendering_ and _server-side generation_ can be different concepts, but we use them interchangeably.
+_Server-side rendering_ and _static site generation_ can be different concepts, but we use them interchangeably.
 
 :::
 
@@ -114,7 +114,7 @@ You may need to escape from SSR since static HTML can't display anything useful 
 
 It is important for the first client-side render to produce the exact same DOM structure as server-side rendering, otherwise, React will correlate virtual DOM with the wrong DOM elements.
 
-Therefore, the naïve attempt of `typeof window !== 'undefined` won't work appropriately as a browser vs. server detection, because the first client render would instantly render different markup from the server-generated one.
+Therefore, the naïve attempt of `if (typeof window !== 'undefined) {/* render something */}` won't work appropriately as a browser vs. server detection, because the first client render would instantly render different markup from the server-generated one.
 
 You can read more about this pitfall in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
 

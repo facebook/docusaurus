@@ -3,7 +3,7 @@
 Congratulations! You have understood most core features of Docusaurus now. You have:
 
 - [Used the pages plugin](./creating-pages.md) to create a standalone React / Markdown page
-- [Used the docs plugin](./docs/docs-introduction.md) to create documentation pages. This includes [configuring the sidebar](./docs/sidebar.md), and even [versioning](./docs/versioning.md)
+- [Used the docs plugin](./docs/docs-introduction.md) to create documentation pages. This includes [configuring the sidebar](./docs/sidebar/index.md), and even [versioning](./docs/versioning.md)
 - [Used the blog plugin](../blog.mdx) to create a fully featured blog
 - Tried your hands on [a range of Markdown features](./markdown-features/markdown-features-intro.mdx), which are useful for all content plugins
 - [Used stylesheets](../styling-layout.md) to customize your site's appearance
