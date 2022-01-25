@@ -130,14 +130,9 @@ If you are installing the Algolia plugin for the first time and want to ensure t
 
 ### Contextual search {#contextual-search}
 
-Contextual search is mostly useful for versioned Docusaurus sites.
+Contextual search is **enabled by default**.
 
-Let's consider you have 2 docs versions, v1 and v2. When you are browsing v2 docs, it would be odd to return search results for the v1 documentation. Sometimes v1 and v2 docs are quite similar, and you would end up with duplicate search results for the same query (one result per version).
-
-To solve this problem, the contextual search feature understands that you are browsing a specific docs version, and will create the search query filters dynamically.
-
-- browsing `/docs/v1/myDoc`, search results will only include **v1** docs (+ other unversioned pages)
-- browsing `/docs/v2/myDoc`, search results will only include **v2** docs (+ other unversioned pages)
+It ensures that search results are **relevant to the current language and version**.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -153,9 +148,39 @@ module.exports = {
 };
 ```
 
-:::caution
+Let's consider you have 2 docs versions (**v1** and **v2**) and 2 languages (`en` and `fr`).
 
-When using `contextualSearch: true`, the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters`.
+When browsing v2 docs, it would be odd to return search results for the v1 documentation. Sometimes v1 and v2 docs are quite similar, and you would end up with duplicate search results for the same query (one result per version).
+
+Similarly, when browsing the French site, it would be odd to return search results for the English docs.
+
+To solve this problem, the contextual search feature understands that you are browsing a specific docs version and language, and will create the search query filters dynamically.
+
+- on `/en/docs/v1/myDoc`, search results will only include **English** results for the **v1** docs (+ other unversioned pages)
+- on `/fr/docs/v2/myDoc`, search results will only include **French** results for the **v2** docs (+ other unversioned pages)
+
+:::info
+
+When using `contextualSearch: true` (default), the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters` .
+
+For specific needs, you can disable `contextualSearch` and define your own `facetFilters`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: false,
+      facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+    },
+    // highlight-end
+  },
+};
+```
+
+Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
 
 :::
 
