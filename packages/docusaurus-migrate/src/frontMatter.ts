@@ -67,7 +67,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
     return true;
   }
   // TODO this is not ideal to have to maintain such a list of allowed chars
-  // maybe we should quotify if graymatter throws instead?
+  // maybe we should quotify if gray-matter throws instead?
   return !String(value).match(
     /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
   );

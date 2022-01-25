@@ -84,7 +84,6 @@ globbing
 globby
 goss
 goyal
-graymatter
 gtag
 héctor
 hideable
@@ -260,10 +259,7 @@ unoptimized
 unprefixed
 unswizzle
 unversioned
-upandrunning
 upvotes
-usecase
-userpath
 vannicatte
 vercel
 vetter
