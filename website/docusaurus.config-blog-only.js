@@ -23,6 +23,7 @@ module.exports = {
       'classic',
       {
         docs: false,
+        pages: false,
         blog: {
           routeBasePath: '/',
           path: 'blog',
