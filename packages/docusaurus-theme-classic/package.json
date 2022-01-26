@@ -18,9 +18,7 @@
     "watch": "concurrently --names \"lib,lib-next,tsc\" --kill-others \"yarn babel:lib --watch\" \"yarn babel:lib-next --watch\" \"yarn tsc --watch\"",
     "babel:lib": "cross-env BABEL_ENV=lib babel src -d lib --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
     "babel:lib-next": "cross-env BABEL_ENV=lib-next babel src -d lib-next --extensions \".tsx,.ts\" --ignore \"**/*.d.ts\" --copy-files",
-    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"**/*.{js,ts,jsx,tsc}\"",
-    "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\"",
-    "update-code-translations": "node -e 'require(\"./update-code-translations.js\").run()'"
+    "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.14",
@@ -47,6 +45,7 @@
     "@docusaurus/types": "2.0.0-beta.14",
     "@types/mdx-js__react": "^1.5.4",
     "@types/parse-numeric-range": "^0.0.1",
+    "@types/prismjs": "^1.16.2",
     "@types/rtlcss": "^3.1.1",
     "fs-extra": "^10.0.0",
     "react-test-renderer": "^17.0.2",

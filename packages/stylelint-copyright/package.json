@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "stylelint": "^13.2.1"
+  },
+  "devDependencies": {
+    "@types/stylelint": "^13.13.3"
   }
 }

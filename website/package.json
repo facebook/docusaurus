@@ -45,9 +45,8 @@
     "clsx": "^1.1.1",
     "color": "^4.0.1",
     "esbuild-loader": "2.16.0",
-    "hast-util-is-element": "1.1.0",
     "netlify-plugin-cache": "^1.0.3",
-    "npm-to-yarn": "^1.0.0-2",
+    "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-medium-image-zoom": "^4.3.5",
@@ -74,7 +73,6 @@
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/jest": "^26.0.20",
     "cross-env": "^7.0.3",
-    "fs-extra": "^10.0.0",
-    "raw-loader": "^4.0.2"
+    "fs-extra": "^10.0.0"
   }
 }
