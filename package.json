@@ -17,7 +17,7 @@
     "start:website:baseUrl": "yarn workspace website start:baseUrl",
     "start:website:blogOnly": "yarn workspace website start:blogOnly",
     "start:website:deployPreview": "cross-env NETLIFY=true CONTEXT='deploy-preview' yarn workspace website start",
-    "examples:generate": "node generateExamples",
+    "examples:generate": "node admin/scripts/generateExamples.mjs",
     "build": "yarn build:packages && yarn build:website",
     "build:packages": "yarn workspaces foreach -t --no-private run build",
     "build:website": "yarn workspace website build",
@@ -53,8 +53,7 @@
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn workspaces foreach --parallel run watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn workspaces foreach run yarn rimraf lib lib-next",
-    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl",
-    "monodeploy": "monodeploy"
+    "test:baseUrl": "yarn build:website:baseUrl && yarn serve:website:baseUrl"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -119,7 +118,7 @@
     ],
     "*": [
       "prettier --ignore-unknown --write",
-      "cspell --no-progress"
+      "cspell --no-must-find-files --no-progress"
     ]
   },
   "engines": {
