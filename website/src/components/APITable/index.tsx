@@ -7,9 +7,9 @@
 
 import React, {
   Children,
-  ComponentProps,
-  ReactElement,
-  ReactNode,
+  type ComponentProps,
+  type ReactElement,
+  type ReactNode,
   isValidElement,
   useRef,
   useEffect,
@@ -38,7 +38,7 @@ const APITableRow = forwardRef(
       name,
       children,
     }: {name: string | undefined; children: ReactElement<ComponentProps<'tr'>>},
-    ref: React.RefObject<HTMLTableRowElement>,
+    ref: React.ForwardedRef<HTMLTableRowElement>,
   ) => {
     const entryName = getText(children);
     const id = name ? `${name}-${entryName}` : entryName;

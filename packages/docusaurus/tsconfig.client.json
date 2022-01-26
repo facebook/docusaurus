@@ -5,8 +5,9 @@
     "lib": ["DOM", "ES2019"],
     "module": "esnext",
     "tsBuildInfoFile": "./lib/client/.tsbuildinfo",
+    "rootDir": "src/client",
     "outDir": "lib/client",
     "jsx": "react"
   },
-  "include": ["src/client"]
+  "include": ["src/client", "src/deps.d.ts"]
 }

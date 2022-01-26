@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadUnprocessedSidebars sidebars link 1`] = `
+exports[`loadNormalizedSidebars sidebars link 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -14,13 +14,14 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
   ],
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with category.collapsed property 1`] = `
+exports[`loadNormalizedSidebars sidebars with category.collapsed property 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -37,10 +38,12 @@ Object {
             },
           ],
           "label": "Introduction",
+          "link": undefined,
           "type": "category",
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -57,17 +60,19 @@ Object {
             },
           ],
           "label": "Powering MDX",
+          "link": undefined,
           "type": "category",
         },
       ],
       "label": "Reference",
+      "link": undefined,
       "type": "category",
     },
   ],
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with category.collapsed property at first level 1`] = `
+exports[`loadNormalizedSidebars sidebars with category.collapsed property at first level 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -80,6 +85,7 @@ Object {
         },
       ],
       "label": "Introduction",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -92,13 +98,14 @@ Object {
         },
       ],
       "label": "Powering MDX",
+      "link": undefined,
       "type": "category",
     },
   ],
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with deep level of category 1`] = `
+exports[`loadNormalizedSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -139,14 +146,17 @@ Object {
                         },
                       ],
                       "label": "deeper more more",
+                      "link": undefined,
                       "type": "category",
                     },
                   ],
                   "label": "level 4",
+                  "link": undefined,
                   "type": "category",
                 },
               ],
               "label": "level 3",
+              "link": undefined,
               "type": "category",
             },
             Object {
@@ -155,17 +165,19 @@ Object {
             },
           ],
           "label": "level 2",
+          "link": undefined,
           "type": "category",
         },
       ],
       "label": "level 1",
+      "link": undefined,
       "type": "category",
     },
   ],
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with first level not a category 1`] = `
+exports[`loadNormalizedSidebars sidebars with first level not a category 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -178,6 +190,7 @@ Object {
         },
       ],
       "label": "Getting Started",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -188,7 +201,7 @@ Object {
 }
 `;
 
-exports[`loadUnprocessedSidebars sidebars with known sidebar item type 1`] = `
+exports[`loadNormalizedSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -214,6 +227,7 @@ Object {
         },
       ],
       "label": "Test",
+      "link": undefined,
       "type": "category",
     },
     Object {
@@ -226,6 +240,7 @@ Object {
         },
       ],
       "label": "Guides",
+      "link": undefined,
       "type": "category",
     },
   ],

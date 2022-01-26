@@ -5,9 +5,9 @@ title: Configuration
 
 import TOCInline from '@theme/TOCInline';
 
-Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We guard the fields of this file, and facilitate making this data object accessible across your site.
+Docusaurus has a unique take on configurations. We encourage you to congregate information about your site into one place. We guard the fields of this file and facilitate making this data object accessible across your site.
 
-Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize the site.
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors to be able to focus on documentation while still being able to customize the site.
 
 ## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
 
@@ -23,9 +23,9 @@ For exact reference to each of the configurable fields, you may refer to [**`doc
 
 ### Site metadata {#site-metadata}
 
-Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl` and `favicon`.
+Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl`, and `favicon`.
 
-They are used in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
 
 ### Deployment configurations {#deployment-configurations}
 
@@ -35,7 +35,7 @@ It is recommended to check the [deployment docs](deployment.mdx) for more inform
 
 ### Theme, plugin, and preset configurations {#theme-plugin-and-preset-configurations}
 
-List the [theme](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
+List the [themes](./using-plugins.md#using-themes), [plugins](./using-plugins.md), and [presets](./using-plugins.md#using-presets) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -47,6 +47,20 @@ module.exports = {
   themes: ['@docusaurus/theme-classic'],
 };
 ```
+
+:::tip
+
+Docusaurus supports [**module shorthands**](./using-plugins.md#module-shorthands), allowing you to simplify the above configuration as:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: ['content-blog', 'content-pages'],
+  themes: ['classic'],
+};
+```
+
+:::
 
 They can also be loaded from local directories:
 
@@ -66,7 +80,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      'content-blog',
       {
         path: 'blog',
         routeBasePath: 'blog',
@@ -74,7 +88,7 @@ module.exports = {
         // ...
       },
     ],
-    '@docusaurus/plugin-content-pages',
+    'content-pages',
   ],
 };
 ```
@@ -100,7 +114,13 @@ module.exports = {
 };
 ```
 
-For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
+:::tip
+
+The `presets: [['classic', {...}]]` shorthand works as well.
+
+:::
+
+For further help configuring themes, plugins, and presets, see [Using Plugins](./using-plugins.md).
 
 ### Custom configurations {#custom-configurations}
 
@@ -150,7 +170,7 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Customizing Babel Configuration {#customizing-babel-configuration}
 
-For new Docusaurus projects, we automatically generated a `babel.config.js` in project root.
+For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
 
 ```js title="babel.config.js"
 module.exports = {
@@ -158,4 +178,4 @@ module.exports = {
 };
 ```
 
-Most of the times, this configuration will work just fine. If you want to customize it, you can directly edit this file to customize babel configuration. For your changes to take effect, you need to restart Docusaurus devserver.
+Most of the time, this configuration will work just fine. If you want to customize your babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.

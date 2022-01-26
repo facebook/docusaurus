@@ -12,14 +12,15 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
   url: 'https://docusaurus.io',
-  onBrokenLinks: 'throw',
+  // We can only warn now, since we have blog pages linking to non-blog pages...
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['live-codeblock'],
   plugins: [],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      'classic',
       {
         docs: false,
         pages: false,

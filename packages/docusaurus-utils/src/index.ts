@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
-import {camelCase, mapValues} from 'lodash';
-import escapeStringRegexp from 'escape-string-regexp';
+import {mapValues} from 'lodash';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {
+import type {
   ReportingSeverity,
   TranslationFileContent,
   TranslationFile,
@@ -20,29 +19,23 @@ import {
 
 import resolvePathnameUnsafe from 'resolve-pathname';
 
-import {posixPath as posixPathImport} from './posixPath';
 import {simpleHash, docuHash} from './hashUtils';
-import {normalizeUrl} from './normalizeUrl';
+import {DEFAULT_PLUGIN_ID} from './constants';
 
+export * from './constants';
 export * from './mdxUtils';
-export * from './normalizeUrl';
+export * from './urlUtils';
 export * from './tags';
-
-export const posixPath = posixPathImport;
-
-export * from './codeTranslationsUtils';
 export * from './markdownParser';
 export * from './markdownLinks';
-export * from './escapePath';
-export {md5Hash, simpleHash, docuHash} from './hashUtils';
-export {
-  Globby,
-  GlobExcludeDefault,
-  createMatcher,
-  createAbsoluteFilePathMatcher,
-} from './globUtils';
+export * from './slugger';
+export * from './pathUtils';
+export * from './hashUtils';
+export * from './globUtils';
+export * from './webpackUtils';
+export * from './dataFileUtils';
 
-const fileHash = new Map();
+const fileHash = new Map<string, string>();
 export async function generate(
   generatedFilesDir: string,
   file: string,
@@ -77,18 +70,6 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted<T>(
-  obj: Record<string, T>,
-): Record<string, T> {
-  // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
-  return Object.keys(obj)
-    .sort()
-    .reduce((acc: Record<string, T>, key: string) => {
-      acc[key] = obj[key];
-      return acc;
-    }, {});
-}
-
 const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
 const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
 
@@ -103,42 +84,11 @@ export function fileToPath(file: string): string {
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
-export function encodePath(userpath: string): string {
-  return userpath
+export function encodePath(userPath: string): string {
+  return userPath
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
-}
-
-/**
- * Convert first string character to the upper case.
- * E.g: docusaurus -> Docusaurus
- */
-export function upperFirst(str: string): string {
-  return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-}
-
-/**
- * Generate unique React Component Name.
- * E.g: /foo-bar -> FooBar096
- */
-export function genComponentName(pagePath: string): string {
-  if (pagePath === '/') {
-    return 'index';
-  }
-  const pageHash = docuHash(pagePath);
-  return upperFirst(camelCase(pageHash));
-}
-
-// When you want to display a path in a message/warning/error,
-// it's more convenient to:
-// - make it relative to cwd()
-// - convert to posix (ie not using windows \ path separator)
-// This way, Jest tests can run more reliably on any computer/CI
-// on both Unix/Windows
-// For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
-export function toMessageRelativeFilePath(filePath: string): string {
-  return posixPath(path.relative(process.cwd(), filePath));
 }
 
 const chunkNameCache = new Map();
@@ -169,52 +119,6 @@ export function genChunkName(
   return chunkName;
 }
 
-// Too dynamic
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-export function idx(target: any, keyPaths?: string | (string | number)[]): any {
-  return (
-    target &&
-    keyPaths &&
-    (Array.isArray(keyPaths)
-      ? keyPaths.reduce((obj, key) => obj && obj[key], target)
-      : target[keyPaths])
-  );
-}
-
-/**
- * Given a filepath and dirpath, get the first directory.
- */
-export function getSubFolder(file: string, refDir: string): string | null {
-  const separator = escapeStringRegexp(path.sep);
-  const baseDir = escapeStringRegexp(path.basename(refDir));
-  const regexSubFolder = new RegExp(
-    `${baseDir}${separator}(.*?)${separator}.*`,
-  );
-  const match = regexSubFolder.exec(file);
-  return match && match[1];
-}
-
-/**
- * Alias filepath relative to site directory, very useful so that we
- * don't expose user's site structure.
- * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
- */
-export function aliasedSitePath(filePath: string, siteDir: string): string {
-  const relativePath = posixPath(path.relative(siteDir, filePath));
-  // Cannot use path.join() as it resolves '../' and removes
-  // the '@site'. Let webpack loader resolve it.
-  return `@site/${relativePath}`;
-}
-
-export function getEditUrl(
-  fileRelativePath: string,
-  editUrl?: string,
-): string | undefined {
-  return editUrl
-    ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
-    : undefined;
-}
-
 export function isValidPathname(str: string): boolean {
   if (!str.startsWith('/')) {
     return false;
@@ -237,7 +141,10 @@ export function addLeadingSlash(str: string): string {
 }
 
 export function addTrailingPathSeparator(str: string): string {
-  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }
 
 // TODO deduplicate: also present in @docusaurus/utils-common
@@ -282,7 +189,7 @@ export function getPluginI18nPath({
   siteDir,
   locale,
   pluginName,
-  pluginId = 'default', // TODO duplicated constant
+  pluginId = DEFAULT_PLUGIN_ID,
   subPaths = [],
 }: {
   siteDir: string;
@@ -298,15 +205,12 @@ export function getPluginI18nPath({
     locale,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
-    `${pluginName}${
-      // TODO duplicate constant :(
-      pluginId === 'default' ? '' : `-${pluginId}`
-    }`,
+    `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
     ...subPaths,
   );
 }
 
-export async function mapAsyncSequencial<T, R>(
+export async function mapAsyncSequential<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
@@ -332,35 +236,6 @@ export async function findAsyncSequential<T>(
   return undefined;
 }
 
-// return the  first folder path in which the file exists in
-export async function findFolderContainingFile(
-  folderPaths: string[],
-  relativeFilePath: string,
-): Promise<string | undefined> {
-  return findAsyncSequential(folderPaths, (folderPath) =>
-    fs.pathExists(path.join(folderPath, relativeFilePath)),
-  );
-}
-
-export async function getFolderContainingFile(
-  folderPaths: string[],
-  relativeFilePath: string,
-): Promise<string> {
-  const maybeFolderPath = await findFolderContainingFile(
-    folderPaths,
-    relativeFilePath,
-  );
-  // should never happen, as the source was read from the FS anyway...
-  if (!maybeFolderPath) {
-    throw new Error(
-      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
-        '\n- ',
-      )}]`,
-    );
-  }
-  return maybeFolderPath;
-}
-
 export function reportMessage(
   message: string,
   reportingSeverity: ReportingSeverity,
@@ -369,13 +244,13 @@ export function reportMessage(
     case 'ignore':
       break;
     case 'log':
-      console.log(chalk.bold.blue('info ') + chalk.blue(message));
+      logger.info(message);
       break;
     case 'warn':
-      console.warn(chalk.bold.yellow('warn ') + chalk.yellow(message));
+      logger.warn(message);
       break;
     case 'error':
-      console.error(chalk.bold.red('error ') + chalk.red(message));
+      logger.error(message);
       break;
     case 'throw':
       throw new Error(message);
@@ -392,20 +267,6 @@ export function mergeTranslations(
   return contents.reduce((acc, content) => ({...acc, ...content}), {});
 }
 
-export function getSwizzledComponent(
-  componentPath: string,
-): string | undefined {
-  const swizzledComponentPath = path.resolve(
-    process.cwd(),
-    'src',
-    componentPath,
-  );
-
-  return fs.existsSync(swizzledComponentPath)
-    ? swizzledComponentPath
-    : undefined;
-}
-
 // Useful to update all the messages of a translation file
 // Used in tests to simulate translations
 export function updateTranslationFileMessages(
@@ -419,22 +280,4 @@ export function updateTranslationFileMessages(
       message: updateMessage(translation.message),
     })),
   };
-}
-
-// Input: ## Some heading {#some-heading}
-// Output: {text: "## Some heading", id: "some-heading"}
-export function parseMarkdownHeadingId(heading: string): {
-  text: string;
-  id?: string;
-} {
-  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
-  const matches = customHeadingIdRegex.exec(heading);
-  if (matches) {
-    return {
-      text: matches[1],
-      id: matches[2],
-    };
-  } else {
-    return {text: heading, id: undefined};
-  }
 }

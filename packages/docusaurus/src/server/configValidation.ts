@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import logger from '@docusaurus/logger';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
   Joi,
   logValidationBugReportHint,
@@ -64,9 +65,7 @@ const PluginSchema = Joi.alternatives()
       .length(2),
     Joi.bool().equal(false), // In case of conditional adding of plugins.
   )
-  // TODO isn't there a simpler way to customize the default Joi error message???
-  // Not sure why Joi makes it complicated to add a custom error message...
-  // See https://stackoverflow.com/a/54657686/82609
+  // @ts-expect-error: bad lib def, doesn't recognize an array of reports
   .error((errors) => {
     errors.forEach((error) => {
       error.message = ` => Bad Docusaurus plugin value as path [${error.path}].
@@ -82,7 +81,7 @@ Example valid plugin config:
 };
 `;
     });
-    return errors as any;
+    return errors;
   });
 
 const ThemeSchema = Joi.alternatives().try(
@@ -97,6 +96,7 @@ const PresetSchema = Joi.alternatives().try(
 
 const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
+  htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
 });
 
@@ -200,7 +200,7 @@ export function validateConfig(
   if (error) {
     logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
-      console.error(error);
+      logger.error(error.message);
       return config as DocusaurusConfig;
     }
 

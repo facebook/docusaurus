@@ -4,9 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {useCallback} from 'react';
 import {useDocsPreferredVersionContext} from './DocsPreferredVersionProvider';
-import {useAllDocsData, useDocsData, GlobalVersion} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  useDocsData,
+  type GlobalVersion,
+} from '@docusaurus/plugin-content-docs/client';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 

@@ -4,18 +4,22 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
+import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
-import {useAllDocsData, GlobalPluginData} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  type GlobalPluginData,
+} from '@docusaurus/plugin-content-docs/client';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 
@@ -34,7 +38,7 @@ type DocsPreferredVersionState = Record<
   DocsPreferredVersionPluginState
 >;
 
-// Initial state is always null as we can't read localstorage from node SSR
+// Initial state is always null as we can't read local storage from node SSR
 function getInitialState(pluginIds: string[]): DocsPreferredVersionState {
   const initialState: DocsPreferredVersionState = {};
   pluginIds.forEach((pluginId) => {

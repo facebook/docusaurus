@@ -1,0 +1,11 @@
+{
+  "theme.SearchBar.label": "সার্চ",
+  "theme.SearchPage.algoliaLabel": "আলগোলিয়া দ্বারা অনুসন্ধান করুন",
+  "theme.SearchPage.documentsFound.plurals": "একটি ডকুমেন্ট পাওয়া গেছে|{count} ডকুমেন্টস পাওয়া গেছে",
+  "theme.SearchPage.emptyResultsTitle": "ডকুমেন্টেশন অনুসন্ধান করুন",
+  "theme.SearchPage.existingResultsTitle": "\"{query}\" এর জন্য অনুসন্ধান ফলাফল",
+  "theme.SearchPage.fetchingNewResults": "নতুন ফলাফল আনা হচ্ছে...",
+  "theme.SearchPage.inputLabel": "সার্চ",
+  "theme.SearchPage.inputPlaceholder": "আপনার অনুসন্ধান এখানে টাইপ করুন",
+  "theme.SearchPage.noResultsText": "কোন ফলাফল পাওয়া যায়নি"
+}

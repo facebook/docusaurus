@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 
 describe('migration test', () => {
-  test('simple website', () => {
+  test('simple website', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -18,10 +18,12 @@ describe('migration test', () => {
       'website',
     );
     const newDir = path.join(__dirname, '__fixtures__', 'migrated_simple_site');
-    migrateDocusaurusProject(siteDir, newDir);
+    await expect(
+      migrateDocusaurusProject(siteDir, newDir),
+    ).resolves.toBeUndefined();
     fs.removeSync(newDir);
   });
-  test('complex website', () => {
+  test('complex website', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -33,11 +35,13 @@ describe('migration test', () => {
       '__fixtures__',
       'migrated_complex_site',
     );
-    migrateDocusaurusProject(siteDir, newDir);
+    await expect(
+      migrateDocusaurusProject(siteDir, newDir),
+    ).resolves.toBeUndefined();
     fs.removeSync(newDir);
   });
 
-  test('missing versions', () => {
+  test('missing versions', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -49,7 +53,9 @@ describe('migration test', () => {
       '__fixtures__',
       'migrated_missing_version_site',
     );
-    migrateDocusaurusProject(siteDir, newDir);
+    await expect(
+      migrateDocusaurusProject(siteDir, newDir),
+    ).resolves.toBeUndefined();
     fs.removeSync(newDir);
   });
 });

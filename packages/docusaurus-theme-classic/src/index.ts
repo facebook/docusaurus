@@ -5,21 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
 import {createRequire} from 'module';
-import type {AcceptedPlugin, Plugin as PostCssPlugin} from 'postcss';
+import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
-import {readDefaultCodeTranslationMessages} from '@docusaurus/utils';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {Options} from '@docusaurus/theme-classic';
+import type webpack from 'webpack';
 
 const requireFromDocusaurusCore = createRequire(
   require.resolve('@docusaurus/core/package.json'),
 );
-const ContextReplacementPlugin = requireFromDocusaurusCore(
-  'webpack/lib/ContextReplacementPlugin',
-);
+const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
+  requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
@@ -89,13 +90,9 @@ function getInfimaCSSFile(direction: string) {
   }.css`;
 }
 
-export type PluginOptions = {
-  customCss?: string | string[];
-};
-
 export default function docusaurusThemeClassic(
-  context: DocusaurusContext, // TODO: LoadContext is missing some of properties
-  options: PluginOptions,
+  context: LoadContext,
+  options: Options,
 ): Plugin<void> {
   const {
     siteConfig: {themeConfig: roughlyTypedThemeConfig},
@@ -113,32 +110,28 @@ export default function docusaurusThemeClassic(
   return {
     name: 'docusaurus-theme-classic',
 
-    /*
-    Does not seem needed: webpack can already hot reload theme files
-    getPathsToWatch() {
-      return [
-        path.join(__dirname, '..', 'lib'),
-        path.join(__dirname, '..', 'lib-next'),
-      ];
-    },
-     */
-
     getThemePath() {
-      return path.join(__dirname, '..', 'lib-next', 'theme');
+      return path.join(__dirname, '../lib-next/theme');
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return path.resolve(__dirname, '../src/theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
-    translateThemeConfig,
 
-    getDefaultCodeTranslationMessages: () =>
-      readDefaultCodeTranslationMessages({
-        dirPath: path.resolve(__dirname, '..', 'codeTranslations'),
-        locale: currentLocale,
+    translateThemeConfig: (params) =>
+      translateThemeConfig({
+        themeConfig: params.themeConfig as ThemeConfig,
+        translationFiles: params.translationFiles,
       }),
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'theme-common',
+      });
+    },
 
     getClientModules() {
       const modules = [
@@ -164,11 +157,10 @@ export default function docusaurusThemeClassic(
         .join('|');
 
       return {
-        ignoreWarnings: [
-          // See https://github.com/facebook/docusaurus/pull/3382
-          (e) => e.message.includes("Can't resolve '@theme-init/hooks/useDocs"),
-        ],
         plugins: [
+          // This allows better optimization by only bundling those components
+          // that the user actually needs, because the modules are dynamically
+          // required and can't be known during compile time.
           new ContextReplacementPlugin(
             /prismjs[\\/]components$/,
             new RegExp(`^./(${prismLanguages})$`),
@@ -177,7 +169,7 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions: {plugins: AcceptedPlugin[]}) {
+    configurePostCss(postCssOptions: PostCssOptions) {
       if (direction === 'rtl') {
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {

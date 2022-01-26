@@ -8,17 +8,16 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import {Configuration} from 'webpack';
-import {Props} from '@docusaurus/types';
+import type {Configuration} from 'webpack';
+import type {Props} from '@docusaurus/types';
 import {
   getCustomizableJSLoader,
   getStyleLoaders,
-  getFileLoaderUtils,
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
 import {loadPluginsThemeAliases} from '../server/themes';
-import {md5Hash} from '@docusaurus/utils';
+import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;

@@ -12,7 +12,7 @@ Stack Overflow is a popular forum to ask code-level questions or if you're stuck
 
 ## Discussion forums {#discussion-forums}
 
-There are many online forums which are a great place for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
+There are many online forums for discussion about best practices and application architecture as well as the future of Docusaurus. If you have an answerable code-level question, Stack Overflow is usually a better fit.
 
 - [Docusaurus online chat](https://discord.gg/docusaurus)
   - [#help-and-questions](https://discord.gg/fwbcrQ3dHR) for user help
@@ -21,7 +21,7 @@ There are many online forums which are a great place for discussion about best p
 
 ## Feature requests {#feature-requests}
 
-For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for roadmapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+For new feature requests, you can create a post on our [feature requests board (Canny)](/feature-requests), which is a handy tool for road-mapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
 
 ## News {#news}
 

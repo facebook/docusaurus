@@ -43,8 +43,4 @@ describe('isInternalUrl', () => {
   test('should be false for undefined links', () => {
     expect(isInternalUrl(undefined)).toBeFalsy();
   });
-
-  test('should be true for root relative links', () => {
-    expect(isInternalUrl('//reactjs.org')).toBeFalsy();
-  });
 });

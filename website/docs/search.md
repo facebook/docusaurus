@@ -25,9 +25,9 @@ There are a few options you can use to add search to your website:
 
 Docusaurus has **official support** for [Algolia DocSearch](https://docsearch.algolia.com).
 
-The service is **free** in most cases: just [apply to the DocSearch program](https://docsearch.algolia.com/apply).
+The service is **free** for any open-source project: just make sure to read the [checklist](https://docsearch.algolia.com/docs/who-can-apply/) and [apply to the DocSearch program](https://docsearch.algolia.com/apply).
 
-It works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
+DocSearch crawls your website once a week (the schedule is configurable from the web interface) and aggregates all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API.
 
 If your website is [not eligible](https://docsearch.algolia.com/docs/who-can-apply) for the free, hosted version of DocSearch, or if your website sits behind a firewall and is not public, then you can [run your own](https://docsearch.algolia.com/docs/run-your-own/) DocSearch crawler.
 
@@ -37,45 +37,60 @@ By default, the Docusaurus preset generates a [sitemap.xml](https://docusaurus.i
 
 :::
 
+:::info From the old docsearch?
+
+You can read more about migration from the legacy DocSearch infra in [our blog post](/blog/2021/11/21/algolia-docsearch-migration) or [the DocSearch migration docs](https://docsearch.algolia.com/docs/migrating-from-legacy).
+
+:::
+
 ### Index Configuration {#algolia-index-configuration}
 
-After applying, your site's DocSearch config should be created at:
+After your application has been approved and deployed, you will receive an email with all the details for you to add DocSearch to your project. Editing and managing your crawls can be done via [the web interface](https://crawler.algolia.com/). Indices are readily available after deployment, so manual configuration usually isn't necessary.
 
-```
-https://github.com/algolia/docsearch-configs/blob/master/configs/<indexName>.json
-```
+:::tip
 
-This configuration file can be updated by:
-
-- [**asking for help**](#algolia-support): the DocSearch team can help you maintain it
-- opening a pull-requests in [algolia/docsearch-configs](https://github.com/algolia/docsearch-configs)
-
-:::caution
-
-It is highly recommended using a config similar to the [**Docusaurus 2 website config**](https://github.com/algolia/docsearch-configs/blob/master/configs/docusaurus-2.json).
+It is highly recommended to use a config similar to the [**Docusaurus 2 website config**](https://docsearch.algolia.com/docs/templates/#docusaurus-v2-template).
 
 :::
 
 ### Connecting Algolia {#connecting-algolia}
 
-Docusaurus' own `@docusaurus/preset-classic` supports an Algolia DocSearch integration.
+Docusaurus' own `@docusaurus/preset-classic` supports Algolia DocSearch integration. If you use the classic preset, no additional installation is needed.
 
-To connect your docs with Algolia, first add the package to your website:
+<details>
+<summary>Installation steps when not using <code>@docusaurus/preset-classic</code></summary>
+
+1. Install the package:
 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-search-algolia
 ```
 
+2. Register the theme in `docusaurus.config.js`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  title: 'My site',
+  // ...
+  themes: ['@docusaurus/theme-search-algolia'],
+  themeConfig: {
+    // ...
+  },
+};
+```
+
+</details>
+
 Then, add an `algolia` field in your `themeConfig`. **[Apply for DocSearch](https://docsearch.algolia.com/apply/)** to get your Algolia index and API key.
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     // ...
     // highlight-start
     algolia: {
-      // If Algolia did not provide you any appId, use 'BH4D9OD16A'
+      // The application ID provided by Algolia
       appId: 'YOUR_APP_ID',
 
       // Public API key: it is safe to commit it
@@ -115,16 +130,11 @@ If you are installing the Algolia plugin for the first time and want to ensure t
 
 ### Contextual search {#contextual-search}
 
-Contextual search is mostly useful for versioned Docusaurus sites.
+Contextual search is **enabled by default**.
 
-Let's consider you have 2 docs versions, v1 and v2. When you are browsing v2 docs, it would be odd to return search results for the v1 documentation. Sometimes v1 and v2 docs are quite similar, and you would end up with duplicate search results for the same query (one result per version).
+It ensures that search results are **relevant to the current language and version**.
 
-To solve this problem, the contextual search feature understands that you are browsing a specific docs version, and will create the search query filters dynamically.
-
-- browsing `/docs/v1/myDoc`, search results will only include **v1** docs (+ other unversioned pages)
-- browsing `/docs/v2/myDoc`, search results will only include **v2** docs (+ other unversioned pages)
-
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -138,9 +148,39 @@ module.exports = {
 };
 ```
 
-:::caution
+Let's consider you have 2 docs versions (**v1** and **v2**) and 2 languages (`en` and `fr`).
 
-When using `contextualSearch: true`, the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters`.
+When browsing v2 docs, it would be odd to return search results for the v1 documentation. Sometimes v1 and v2 docs are quite similar, and you would end up with duplicate search results for the same query (one result per version).
+
+Similarly, when browsing the French site, it would be odd to return search results for the English docs.
+
+To solve this problem, the contextual search feature understands that you are browsing a specific docs version and language, and will create the search query filters dynamically.
+
+- on `/en/docs/v1/myDoc`, search results will only include **English** results for the **v1** docs (+ other unversioned pages)
+- on `/fr/docs/v2/myDoc`, search results will only include **French** results for the **v2** docs (+ other unversioned pages)
+
+:::info
+
+When using `contextualSearch: true` (default), the contextual facet filters will be merged with the ones provided with `algolia.searchParameters.facetFilters` .
+
+For specific needs, you can disable `contextualSearch` and define your own `facetFilters`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // ...
+    // highlight-start
+    algolia: {
+      contextualSearch: false,
+      facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+    },
+    // highlight-end
+  },
+};
+```
+
+Refer to the relevant [Algolia faceting documentation](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
 
 :::
 
@@ -257,6 +297,6 @@ To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-
 npm run swizzle @docusaurus/theme-classic SearchBar
 ```
 
-This will create a `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
+This will create an `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
 
 **Notes**: You can alternatively [swizzle from Algolia SearchBar](#editing-the-algolia-search-component) and create your own search component from there.

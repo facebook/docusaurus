@@ -10,7 +10,7 @@ import {
   DEFAULT_CONFIG,
   validateConfig,
 } from '../configValidation';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 
 const baseConfig: DocusaurusConfig = {
   baseUrl: '/',

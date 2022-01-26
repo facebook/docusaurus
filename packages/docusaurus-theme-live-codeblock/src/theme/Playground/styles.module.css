@@ -30,7 +30,7 @@
 .playgroundEditor {
   font: var(--ifm-code-font-size) / var(--ifm-pre-line-height)
     var(--ifm-font-family-monospace) !important;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
 }
 

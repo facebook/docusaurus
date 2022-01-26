@@ -6,14 +6,26 @@
  */
 
 import path from 'path';
-import {Plugin} from '@docusaurus/types';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
+import type {DocusaurusContext, Plugin} from '@docusaurus/types';
 
-export default function theme(): Plugin {
+export default function theme(context: DocusaurusContext): Plugin {
+  const {
+    i18n: {currentLocale},
+  } = context;
+
   return {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
       return path.resolve(__dirname, './theme');
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'theme-live-codeblock',
+      });
     },
 
     configureWebpack() {

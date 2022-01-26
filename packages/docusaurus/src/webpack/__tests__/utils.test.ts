@@ -5,16 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate, Configuration, RuleSetRule} from 'webpack';
+import {validate, type Configuration, type RuleSetRule} from 'webpack';
 import path from 'path';
 
 import {
   getCustomizableJSLoader,
   applyConfigureWebpack,
   applyConfigurePostCss,
-  getFileLoaderUtils,
 } from '../utils';
-import {
+import type {
   ConfigureWebpackFn,
   ConfigureWebpackFnMergeStrategy,
 } from '@docusaurus/types';
@@ -175,22 +174,6 @@ describe('extending generated webpack config', () => {
         rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
       },
     });
-  });
-});
-
-describe('getFileLoaderUtils()', () => {
-  test('plugin svgo/removeViewBox should be disabled', () => {
-    const {oneOf} = getFileLoaderUtils().rules.svg();
-    expect(oneOf[0].use).toContainEqual(
-      expect.objectContaining({
-        loader: '@svgr/webpack',
-        options: expect.objectContaining({
-          svgoConfig: {
-            plugins: [{removeViewBox: false}],
-          },
-        }),
-      }),
-    );
   });
 });
 

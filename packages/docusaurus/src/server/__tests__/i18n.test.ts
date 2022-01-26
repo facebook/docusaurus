@@ -14,7 +14,7 @@ import {
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import {chain, identity} from 'lodash';
-import {I18nConfig} from '@docusaurus/types';
+import type {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
   return chain(locales)
@@ -34,45 +34,53 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 }
 
 describe('defaultLocaleConfig', () => {
-  // @ts-expect-error: wait for TS support of ES2021 feature
   const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
 
   test('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
-      label: canComputeLabel ? 'français' : 'fr',
+      label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
+      htmlLang: 'fr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
-      label: canComputeLabel ? 'français (France)' : 'fr-FR',
+      label: canComputeLabel ? 'Français (France)' : 'fr-FR',
       direction: 'ltr',
+      htmlLang: 'fr-FR',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
       label: canComputeLabel ? 'English' : 'en',
       direction: 'ltr',
+      htmlLang: 'en',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
+      htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
       label: canComputeLabel ? '中文' : 'zh',
       direction: 'ltr',
+      htmlLang: 'zh',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
       label: canComputeLabel ? '中文（中国）' : 'zh-CN',
       direction: 'ltr',
+      htmlLang: 'zh-CN',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
       label: canComputeLabel ? 'American English' : 'en-US',
       direction: 'ltr',
+      htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
       label: canComputeLabel ? 'فارسی' : 'fa',
       direction: 'rtl',
+      htmlLang: 'fa',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
       label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
       direction: 'rtl',
+      htmlLang: 'fa-IR',
     });
   });
 });
@@ -157,7 +165,7 @@ describe('loadI18n', () => {
       locales: ['en', 'fr', 'de'],
       currentLocale: 'de',
       localeConfigs: {
-        fr: {label: 'Français', direction: 'ltr'},
+        fr: {label: 'Français', direction: 'ltr', htmlLang: 'fr'},
         en: getDefaultLocaleConfig('en'),
         de: getDefaultLocaleConfig('de'),
       },
@@ -174,7 +182,7 @@ describe('loadI18n', () => {
       'it',
     );
     expect(consoleSpy.mock.calls[0][0]).toMatch(
-      /The locale "it" was not found in your site configuration/,
+      /The locale .*it.* was not found in your site configuration/,
     );
   });
 });

@@ -52,7 +52,6 @@ module.exports = {
         ' ',
       ],
     ],
-    'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react-hooks/rules-of-hooks': ERROR,
     'react/prop-types': OFF, // PropTypes aren't used much these days.

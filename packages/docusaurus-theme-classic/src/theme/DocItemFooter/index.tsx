@@ -12,7 +12,7 @@ import LastUpdated from '@theme/LastUpdated';
 import type {Props} from '@theme/DocItem';
 import EditThisPage from '@theme/EditThisPage';
 import TagsListInline, {
-  Props as TagsListInlineProps,
+  type Props as TagsListInlineProps,
 } from '@theme/TagsListInline';
 
 import styles from './styles.module.css';

@@ -11,15 +11,15 @@ import {
   useThemeConfig,
   useAnnouncementBar,
   MobileSecondaryMenuFiller,
-  MobileSecondaryMenuComponent,
+  type MobileSecondaryMenuComponent,
   ThemeClassNames,
   useScrollPosition,
+  useWindowSize,
 } from '@docusaurus/theme-common';
-import useWindowSize from '@theme/hooks/useWindowSize';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import {translate} from '@docusaurus/Translate';
-import {DocSidebarItems} from '@theme/DocSidebarItem';
+import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebar';
 
 import styles from './styles.module.css';
@@ -100,7 +100,15 @@ const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
     <DocSidebarItems
       items={sidebar}
       activePath={path}
-      onItemClick={() => toggleSidebar()}
+      onItemClick={(item) => {
+        // Mobile sidebar should only be closed if the category has a link
+        if (item.type === 'category' && item.href) {
+          toggleSidebar();
+        }
+        if (item.type === 'link') {
+          toggleSidebar();
+        }
+      }}
       level={1}
     />
   </ul>

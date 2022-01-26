@@ -3,16 +3,26 @@
 # They are safe for immutable caching, as filename change when content change
 
 /assets/*
-  cache-control: immutable
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
 
 /fr/assets/*
-  cache-control: immutable
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
 
 /pt-BR/assets/*
-  cache-control: immutable
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
 
 /ko/assets/*
-  cache-control: immutable
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable
 
 /zh-CN/assets/*
-  cache-control: immutable
+  Cache-Control: public
+  Cache-Control: max-age=365000000
+  Cache-Control: immutable

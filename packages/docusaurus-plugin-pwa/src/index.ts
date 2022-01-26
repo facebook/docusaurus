@@ -10,9 +10,10 @@ import type {PluginOptions} from '@docusaurus/plugin-pwa';
 import {normalizeUrl} from '@docusaurus/utils';
 import {compile} from '@docusaurus/core/lib/webpack/utils';
 import LogPlugin from '@docusaurus/core/lib/webpack/plugins/LogPlugin';
+import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
 import path from 'path';
-import webpack, {Configuration} from 'webpack';
+import webpack, {type Configuration} from 'webpack';
 import Terser from 'terser-webpack-plugin';
 
 import {injectManifest} from 'workbox-build';
@@ -49,7 +50,11 @@ export default function (
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
-  const {outDir, baseUrl} = context;
+  const {
+    outDir,
+    baseUrl,
+    i18n: {currentLocale},
+  } = context;
   const {
     debug,
     offlineModeActivationStrategies,
@@ -69,6 +74,13 @@ export default function (
 
     getClientModules() {
       return isProd ? [swRegister] : [];
+    },
+
+    getDefaultCodeTranslationMessages() {
+      return readDefaultCodeTranslationMessages({
+        locale: currentLocale,
+        name: 'plugin-pwa',
+      });
     },
 
     configureWebpack(config) {

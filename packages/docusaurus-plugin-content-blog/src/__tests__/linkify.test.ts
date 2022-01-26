@@ -7,8 +7,12 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {linkify, LinkifyParams, getSourceToPermalink} from '../blogUtils';
-import {BlogBrokenMarkdownLink, BlogContentPaths, BlogPost} from '../types';
+import {linkify, type LinkifyParams, getSourceToPermalink} from '../blogUtils';
+import type {
+  BlogBrokenMarkdownLink,
+  BlogContentPaths,
+  BlogPost,
+} from '../types';
 
 const siteDir = path.join(__dirname, '__fixtures__', 'website');
 const contentPaths: BlogContentPaths = {

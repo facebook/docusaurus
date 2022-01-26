@@ -6,6 +6,7 @@
  */
 
 import shell from 'shelljs';
+import logger from '@docusaurus/logger';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -36,23 +37,23 @@ export async function getFileLastUpdate(
     if (!shell.which('git')) {
       if (!showedGitRequirementError) {
         showedGitRequirementError = true;
-        console.warn('Sorry, the docs plugin last update options require Git.');
+        logger.warn('Sorry, the docs plugin last update options require Git.');
       }
 
       return null;
     }
 
-    const result = shell.exec(`git log -1 --format=%ct,%an ${filePath}`, {
+    const result = shell.exec(`git log -1 --format=%ct,%an "${filePath}"`, {
       silent: true,
     });
     if (result.code !== 0) {
       throw new Error(
-        `Retrieval of git history failed at ${filePath} with exit code ${result.code}: ${result.stderr}`,
+        `Retrieval of git history failed at "${filePath}" with exit code ${result.code}: ${result.stderr}`,
       );
     }
     return getTimestampAndAuthor(result.stdout.trim());
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    logger.error(e);
   }
 
   return null;

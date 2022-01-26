@@ -4,22 +4,22 @@ title: i18n - Using git
 slug: /i18n/git
 ---
 
-A **possible translation strategy** is to **version control the translation files** to Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
+A **possible translation strategy** is to **version control the translation files** with Git (or any other [VCS](https://en.wikipedia.org/wiki/Version_control)).
 
 ## Tradeoffs {#tradeoffs}
 
 This strategy has advantages:
 
-- **Easy to get started**: just add the `i18n` folder to Git
+- **Easy to get started**: just commit the `i18n` folder to Git
 - **Easy for developers**: Git, GitHub and pull requests are mainstream developer tools
 - **Free** (or without any additional cost, assuming you already use Git)
-- **Low friction**: does not require signing-up to an external tool
+- **Low friction**: does not require signing up to an external tool
 - **Rewarding**: contributors are happy to have a nice contribution history
 
 Using Git also present some shortcomings:
 
 - **Hard for non-developers**: they do not master Git and pull-requests
-- **Hard for professional translations**: they are used to SaaS translation softwares and advanced features
+- **Hard for professional translators**: they are used to SaaS translation softwares and advanced features
 - **Hard to maintain**: you have to keep the translated files **in sync** with the untranslated files
 
 :::note
@@ -30,7 +30,7 @@ Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues
 
 :::
 
-## Git tutorial {#git-tutorial}
+## Initialization
 
 This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
 
@@ -109,7 +109,7 @@ Use the `--messagePrefix '(fr) '` option to make the untranslated strings stand 
 
 Copy your untranslated Markdown files to the French folder:
 
-```
+```bash
 mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
 cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
 
@@ -145,7 +145,7 @@ npm run build -- --locale fr
 
 Follow the same process for each locale you need to support.
 
-## Maintain the translations {#maintain-the-translations}
+## Maintenance
 
 Keeping translated files **consistent** with the originals **can be challenging**, in particular for Markdown documents.
 
@@ -163,7 +163,7 @@ To help you maintain the JSON translation files, it is possible to run again the
 npm run write-translations -- --locale fr
 ```
 
-New translation will be appended, and existing ones will not be overridden.
+New translations will be appended, and existing ones will not be overridden.
 
 :::tip
 
@@ -171,7 +171,7 @@ Reset your translations with the `--override` option.
 
 :::
 
-### Localize edit urls {#localize-edit-urls}
+### Localize edit URLs {#localize-edit-urls}
 
 When the user is browsing a page at `/fr/doc1`, the edit button will link by default to the unlocalized doc at `website/docs/doc1.md`.
 

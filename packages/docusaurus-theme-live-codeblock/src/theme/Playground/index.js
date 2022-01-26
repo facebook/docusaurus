@@ -11,9 +11,9 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import usePrismTheme from '@theme/hooks/usePrismTheme';
+import {usePrismTheme} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
-import useIsBrowser from '@docusaurus/core/lib/client/exports/useIsBrowser';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 function Header({children}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
