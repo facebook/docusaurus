@@ -118,7 +118,7 @@ koyeb
 kubernetes
 lamana
 lifecycles
-lighthousesrc
+lighthouserc
 linkify
 localizable
 longpaths
@@ -263,6 +263,7 @@ transpiles
 treeify
 treosh
 triaging
+typecheck
 typesense
 unflat
 unist
