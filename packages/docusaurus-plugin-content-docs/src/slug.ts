@@ -21,14 +21,14 @@ import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 export default function getSlug({
   baseID,
-  frontmatterSlug,
+  frontMatterSlug,
   source,
   sourceDirName,
   stripDirNumberPrefixes = true,
   numberPrefixParser = DefaultNumberPrefixParser,
 }: {
   baseID: string;
-  frontmatterSlug?: string;
+  frontMatterSlug?: string;
   source: DocMetadataBase['slug'];
   sourceDirName: DocMetadataBase['sourceDirName'];
   stripDirNumberPrefixes?: boolean;
@@ -46,14 +46,14 @@ export default function getSlug({
   }
 
   function computeSlug(): string {
-    if (frontmatterSlug?.startsWith('/')) {
-      return frontmatterSlug;
+    if (frontMatterSlug?.startsWith('/')) {
+      return frontMatterSlug;
     } else {
       const dirNameSlug = getDirNameSlug();
-      if (!frontmatterSlug && isConventionalDocIndex({source, sourceDirName})) {
+      if (!frontMatterSlug && isConventionalDocIndex({source, sourceDirName})) {
         return dirNameSlug;
       }
-      const baseSlug = frontmatterSlug || baseID;
+      const baseSlug = frontMatterSlug || baseID;
       return resolvePathname(baseSlug, getDirNameSlug());
     }
   }
@@ -63,8 +63,8 @@ export default function getSlug({
       throw new Error(
         `We couldn't compute a valid slug for document with id "${baseID}" in "${sourceDirName}" directory.
 The slug we computed looks invalid: ${slug}.
-Maybe your slug frontmatter is incorrect or you use weird chars in the file path?
-By using the slug frontmatter, you should be able to fix this error, by using the slug of your choice:
+Maybe your slug front matter is incorrect or you use weird chars in the file path?
+By using the slug front matter, you should be able to fix this error, by using the slug of your choice:
 
 Example =>
 ---

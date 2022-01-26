@@ -606,7 +606,7 @@ describe('toDocNavigationLink', () => {
     return data as DocMetadataBase;
   }
 
-  test('with no frontmatter', () => {
+  test('with no front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -621,7 +621,7 @@ describe('toDocNavigationLink', () => {
     } as DocNavLink);
   });
 
-  test('with pagination_label frontmatter', () => {
+  test('with pagination_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -638,7 +638,7 @@ describe('toDocNavigationLink', () => {
     } as DocNavLink);
   });
 
-  test('with sidebar_label frontmatter', () => {
+  test('with sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -655,7 +655,7 @@ describe('toDocNavigationLink', () => {
     } as DocNavLink);
   });
 
-  test('with pagination_label + sidebar_label frontmatter', () => {
+  test('with pagination_label + sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({

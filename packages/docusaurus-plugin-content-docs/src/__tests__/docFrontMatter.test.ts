@@ -44,7 +44,7 @@ function testField(params: {
         // eslint-disable-next-line jest/no-jasmine-globals
         fail(
           new Error(
-            `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+            `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
               frontMatter,
               null,
               2,

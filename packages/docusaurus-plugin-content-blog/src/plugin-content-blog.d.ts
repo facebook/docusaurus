@@ -30,11 +30,11 @@ declare module '@docusaurus/plugin-content-blog' {
     tags?: FrontMatterTag[];
     slug?: string;
     draft?: boolean;
-    date?: Date | string; // Yaml automagically convert some string patterns as Date, but not all
+    date?: Date | string; // Yaml automatically convert some string patterns as Date, but not all
 
     authors?: BlogPostFrontMatterAuthors;
 
-    // We may want to deprecate those older author frontmatter fields later:
+    // We may want to deprecate those older author front matter fields later:
     author?: string;
     author_title?: string;
     author_url?: string;

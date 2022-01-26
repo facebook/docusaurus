@@ -60,6 +60,7 @@ const dogfoodingPluginInstances = [
   /** @type {import('@docusaurus/types').Plugin} */
   function clientModuleTestPlugin() {
     return {
+      name: 'client-module-test-plugin',
       getClientModules() {
         return [
           require.resolve('./clientModuleExample.ts'),

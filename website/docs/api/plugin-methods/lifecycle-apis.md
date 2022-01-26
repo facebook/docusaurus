@@ -281,6 +281,7 @@ interface Props {
   postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
+  content: Content;
 }
 ```
 

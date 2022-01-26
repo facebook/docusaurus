@@ -110,7 +110,7 @@ module.exports = config;
 
 Type annotations are very useful and help your IDE understand the type of config objects!
 
-The best IDEs (VSCode, WebStorm, Intellij...) will provide a nice auto-completion experience.
+The best IDEs (VSCode, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
 
 :::
 

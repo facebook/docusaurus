@@ -9,7 +9,9 @@ import {Joi} from '@docusaurus/utils-validation';
 import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
 export const DEFAULT_CONFIG = {
-  contextualSearch: false, // future: maybe we want to enable this by default
+  // enabled by default, as it makes sense in most cases
+  // see also https://github.com/facebook/docusaurus/issues/5880
+  contextualSearch: true,
 
   // By default, all Docusaurus sites are using the same AppId
   // This has been designed on purpose with Algolia.

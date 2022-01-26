@@ -6,7 +6,7 @@
  */
 
 import {
-  JoiFrontMatter as Joi, // Custom instance for frontmatter
+  JoiFrontMatter as Joi, // Custom instance for front matter
   URISchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,

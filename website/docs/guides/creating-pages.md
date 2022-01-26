@@ -125,7 +125,10 @@ my-website
 │   └── pages
 │       ├── styles.module.css
 │       ├── index.js
-│       ├──_ignored.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
 │       └── support
 │           ├── index.js
 │           └── styles.module.css

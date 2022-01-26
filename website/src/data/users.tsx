@@ -557,6 +557,14 @@ const Users: User[] = [
     tags: ['personal', 'design'],
   },
   {
+    title: "Kuizuo's Personal Website",
+    description: "A Software Enthusiast's blog, Sharing and Learning",
+    preview: require('./showcase/kuizuo.png'),
+    website: 'https://kuizuo.cn',
+    source: 'https://github.com/kuizuo/blog',
+    tags: ['personal', 'opensource', 'design'],
+  },
+  {
     title: 'FireCMS',
     description: 'Firebase/Firestore based headless CMS',
     preview: require('./showcase/firecms.png'),
@@ -735,11 +743,11 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
-    title: 'InfraQL Technologies',
+    title: 'StackQL',
     description:
-      'InfraQL is a SQL based approach to cloud infrastructure coding, API querying and automation.',
-    preview: require('./showcase/infraql-docs.png'),
-    website: 'https://docs.infraql.io/',
+      'StackQL is a data centric approach to provisioning, querying, and managing cloud infrastructure and SaaS resources across multiple clouds.',
+    preview: require('./showcase/stackql.png'),
+    website: 'https://stackql.io/',
     source: null,
     tags: ['product'],
   },
@@ -754,7 +762,7 @@ const Users: User[] = [
   },
   {
     title: 'IOTA-Wiki',
-    description: 'Documantation and wiki for the IOTA project',
+    description: 'Documentation and wiki for the IOTA project',
     preview: require('./showcase/iota-wiki.png'),
     website: 'https://wiki.iota.org',
     source: 'https://github.com/iota-community/iota-wiki',
@@ -769,7 +777,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
-   {
+  {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
@@ -1364,6 +1372,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'replicad',
+    description: 'The library to build browser based 3D models with code.',
+    preview: require('./showcase/replicad.png'),
+    website: 'https://replicad.xyz/',
+    source: 'https://github.com/sgenoud/replicad',
+    tags: ['opensource'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
@@ -1411,6 +1427,15 @@ const Users: User[] = [
     website: 'https://www.sapphirejs.dev',
     source: 'https://github.com/sapphiredev/website',
     tags: ['opensource', 'large'],
+  },
+  {
+    title: 'Sass Fairy',
+    description:
+      'Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.',
+    preview: require('./showcase/sass-fairy.png'),
+    website: 'https://sass-fairy.com/',
+    source: 'https://github.com/roydukkey/sass-fairy',
+    tags: ['opensource'],
   },
   {
     title: 'SCI WP Framework',
