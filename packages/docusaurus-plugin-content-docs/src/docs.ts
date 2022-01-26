@@ -386,7 +386,7 @@ export function isConventionalDocIndex({
   const eligibleDocIndexNames = [
     'index',
     'readme',
-    directories[0].toLowerCase(),
+    directories[0]?.toLowerCase(),
   ];
   return eligibleDocIndexNames.includes(fileName.toLowerCase());
 }

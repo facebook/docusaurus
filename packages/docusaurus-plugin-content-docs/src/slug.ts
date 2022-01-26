@@ -10,6 +10,7 @@ import {
   addTrailingSlash,
   isValidPathname,
   resolvePathname,
+  splitPath,
 } from '@docusaurus/utils';
 import {
   DefaultNumberPrefixParser,
@@ -18,7 +19,6 @@ import {
 import type {DocMetadataBase} from './types';
 import {isConventionalDocIndex} from './docs';
 import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
-import path from 'path';
 
 export default function getSlug({
   baseID,
@@ -53,11 +53,7 @@ export default function getSlug({
       const dirNameSlug = getDirNameSlug();
       if (
         !frontMatterSlug &&
-        isConventionalDocIndex({
-          fileName: path.parse(source).name,
-          extension: path.parse(source).ext,
-          directories: sourceDirName.split('/').reverse(),
-        })
+        isConventionalDocIndex(splitPath(source.replace('@site/', '')))
       ) {
         return dirNameSlug;
       }

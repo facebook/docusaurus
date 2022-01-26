@@ -19,6 +19,7 @@ import {
   addTrailingSlash,
   posixPath,
   findAsyncSequential,
+  splitPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
@@ -216,11 +217,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
             return false;
           }
           const doc = getDoc(item.id);
-          return isCategoryIndex({
-            fileName: path.parse(doc.source).name,
-            extension: path.parse(doc.source).ext,
-            directories: doc.sourceDirName.split('/').reverse(),
-          });
+          return isCategoryIndex(splitPath(doc.source.replace('@site/', '')));
         }) as SidebarItemDoc | undefined;
       }
 

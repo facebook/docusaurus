@@ -160,48 +160,48 @@ describe('DefaultSidebarItemsGenerator', () => {
       docs: [
         {
           id: 'intro',
-          source: 'intro.md',
+          source: '@site/docs/intro.md',
           sourceDirName: '.',
           sidebarPosition: 1,
           frontMatter: {},
         },
         {
           id: 'tutorials-index',
-          source: 'index.md',
+          source: '@site/docs/01-Tutorials/index.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'tutorial2',
-          source: 'tutorial2.md',
+          source: '@site/docs/01-Tutorials/tutorial2.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'tutorial1',
-          source: 'tutorial1.md',
+          source: '@site/docs/01-Tutorials/tutorial1.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 1,
           frontMatter: {},
         },
         {
           id: 'guides-index',
-          source: '02-Guides.md', // TODO should we allow to just use "Guides.md" to have an index?
+          source: '@site/docs/02-Guides/02-Guides.md', // TODO should we allow to just use "Guides.md" to have an index?
           sourceDirName: '02-Guides',
           frontMatter: {},
         },
         {
           id: 'guide2',
-          source: 'guide2.md',
+          source: '@site/docs/02-Guides/guide2.md',
           sourceDirName: '02-Guides',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'guide1',
-          source: 'guide1.md',
+          source: '@site/docs/02-Guides/guide1.md',
           sourceDirName: '02-Guides',
           sidebarPosition: 1,
           frontMatter: {
@@ -210,14 +210,14 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         {
           id: 'nested-guide',
-          source: 'nested-guide.md',
+          source: '@site/docs/02-Guides/01-SubGuides/nested-guide.md',
           sourceDirName: '02-Guides/01-SubGuides',
           sidebarPosition: undefined,
           frontMatter: {},
         },
         {
           id: 'end',
-          source: 'end.md',
+          source: '@site/docs/end.md',
           sourceDirName: '.',
           sidebarPosition: 3,
           frontMatter: {},
@@ -431,19 +431,19 @@ describe('DefaultSidebarItemsGenerator', () => {
       docs: [
         {
           id: 'parent/doc1',
-          source: 'index.md',
+          source: '@site/docs/Category/index.md',
           sourceDirName: 'Category',
           frontMatter: {},
         },
         {
           id: 'parent/doc2',
-          source: 'index.md',
+          source: '@site/docs/Category/index.md',
           sourceDirName: 'Category',
           frontMatter: {},
         },
         {
           id: 'parent/doc3',
-          source: 'doc3.md',
+          source: '@site/docs/Category/doc3.md',
           sourceDirName: 'Category',
           frontMatter: {},
         },
@@ -502,48 +502,48 @@ describe('DefaultSidebarItemsGenerator', () => {
       docs: [
         {
           id: 'intro',
-          source: 'intro.md',
+          source: '@site/docs/intro.md',
           sourceDirName: '.',
           sidebarPosition: 1,
           frontMatter: {},
         },
         {
           id: 'tutorials-index',
-          source: 'tutorials-index.md',
+          source: '@site/docs/01-Tutorials/tutorials-index.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'tutorial2',
-          source: 'tutorial2.md',
+          source: '@site/docs/01-Tutorials/tutorial2.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'tutorial1',
-          source: 'tutorial1.md',
+          source: '@site/docs/01-Tutorials/tutorial1.md',
           sourceDirName: '01-Tutorials',
           sidebarPosition: 1,
           frontMatter: {},
         },
         {
           id: 'not-guides-index',
-          source: 'README.md',
+          source: '@site/docs/02-Guides/README.md',
           sourceDirName: '02-Guides',
           frontMatter: {},
         },
         {
           id: 'guide2',
-          source: 'guide2.md',
+          source: '@site/docs/02-Guides/guide2.md',
           sourceDirName: '02-Guides',
           sidebarPosition: 2,
           frontMatter: {},
         },
         {
           id: 'guide1',
-          source: 'guide1.md',
+          source: '@site/docs/02-Guides/guide1.md',
           sourceDirName: '02-Guides',
           sidebarPosition: 1,
           frontMatter: {
