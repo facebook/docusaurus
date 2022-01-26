@@ -23,7 +23,7 @@ input[type='checkbox'] + .checkboxLabel {
 }
 
 input:focus-visible + .checkboxLabel {
-  outline: 2px solid currentColor;
+  outline: 2px solid currentcolor;
 }
 
 input:checked + .checkboxLabel {
