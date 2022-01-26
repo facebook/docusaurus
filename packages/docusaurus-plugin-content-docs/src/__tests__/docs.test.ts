@@ -19,15 +19,17 @@ import {readVersionsMetadata} from '../versions';
 import type {
   DocFile,
   DocMetadataBase,
-  MetadataOptions,
   VersionMetadata,
-  PluginOptions,
-  EditUrlFunction,
   DocNavLink,
 } from '../types';
+import type {
+  MetadataOptions,
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
-import {Optional} from 'utility-types';
+import type {Optional} from 'utility-types';
 import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {createSidebarsUtils} from '../sidebars/utils';
 
@@ -35,15 +37,15 @@ const fixtureDir = path.join(__dirname, '__fixtures__');
 
 const createFakeDocFile = ({
   source,
-  frontmatter = {},
+  frontMatter = {},
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontmatter?: Record<string, string>;
+  frontMatter?: Record<string, string>;
   markdown?: string;
 }): DocFile => {
   const content = `---
-${Object.entries(frontmatter)
+${Object.entries(frontMatter)
   .map(([key, value]) => `${key}: ${value}`)
   .join('\n')}
 ---
@@ -166,7 +168,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -202,6 +204,7 @@ describe('simple site', () => {
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
+        'doc with space.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -227,6 +230,8 @@ describe('simple site', () => {
         description: 'This is custom description',
         id: 'bar',
         title: 'Bar',
+        pagination_next: null,
+        pagination_prev: null,
       },
       tags: [],
     });
@@ -308,7 +313,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with custom editUrl & unrelated frontmatter', async () => {
+  test('docs with custom editUrl & unrelated frontMatter', async () => {
     const {defaultTestUtils} = await loadSite();
 
     await defaultTestUtils.testMeta('lorem.md', {
@@ -323,7 +328,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       tags: [],
     });
@@ -417,7 +422,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
@@ -466,16 +471,16 @@ describe('simple site', () => {
 
   test('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
-    expect(() => {
+    await expect(async () =>
       defaultTestUtils.processDocFile(
         createFakeDocFile({
           source: 'some/fake/path',
-          frontmatter: {
+          frontMatter: {
             id: 'Hello/world',
           },
         }),
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
+      ),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Document id \\"Hello/world\\" cannot include slash."`,
     );
   });
@@ -483,7 +488,9 @@ describe('simple site', () => {
   test('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
-    expect(await defaultTestUtils.generateNavigation(docs)).toMatchSnapshot();
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).resolves.toMatchSnapshot();
   });
 
   test('bad pagination', async () => {
@@ -492,12 +499,12 @@ describe('simple site', () => {
     docs.push(
       createFakeDocFile({
         source: 'hehe',
-        frontmatter: {pagination_prev: 'nonexistent'},
+        frontMatter: {pagination_prev: 'nonexistent'},
       }),
     );
-    await expect(async () => {
-      await defaultTestUtils.generateNavigation(docs);
-    }).rejects.toThrowErrorMatchingInlineSnapshot(
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
@@ -518,7 +525,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });

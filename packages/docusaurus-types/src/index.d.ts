@@ -120,6 +120,7 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
+  htmlLang: string;
   direction: string;
 };
 
@@ -208,7 +209,7 @@ export interface LoadContext {
   outDir: string;
   baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
-  ssrTemplate?: string;
+  ssrTemplate: string;
   codeTranslations: Record<string, string>;
 }
 
@@ -317,7 +318,9 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
 };
 
 export type PluginModule = {
-  <T, X>(context: LoadContext, options: T): Plugin<X>;
+  <Options, Content>(context: LoadContext, options: Options):
+    | Plugin<Content>
+    | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
   getSwizzleComponentList?: () => string[];

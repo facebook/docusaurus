@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useContext, createContext} from 'react';
+import React, {type ReactNode, useContext, createContext} from 'react';
 
 type LinksCollector = {
   collectLink: (link: string) => void;

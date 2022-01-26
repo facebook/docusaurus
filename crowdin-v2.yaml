@@ -2,9 +2,9 @@
 # Your Crowdin credentials
 #
 project_id: '428890'
-api_token_env: 'CROWDIN_PERSONAL_TOKEN'
+api_token_env: CROWDIN_PERSONAL_TOKEN
 # base_path: '.'
-# base_url: 'https://api.crowdin.com'
+# base_url: https://api.crowdin.com
 
 #
 # Choose file structure in Crowdin
@@ -18,45 +18,31 @@ preserve_hierarchy: true
 # Note: &/* is Yaml anchor syntax: https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
 languages_mapping: &languages_mapping
   two_letters_code:
-    'pt-BR': 'pt-BR'
+    pt-BR: pt-BR
 
 #
 # Files configuration
 #
 files:
-  [
-    {
-      source: '/website/i18n/en/**/*',
-      translation: '/website/i18n/%two_letters_code%/**/%original_file_name%',
-      languages_mapping: *languages_mapping,
-    },
-    {
-      source: '/website/docs/**/*',
-      translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%',
-      languages_mapping: *languages_mapping,
-    },
-    {
-      source: '/website/community/**/*',
-      translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs-community/current/**/%original_file_name%',
-      languages_mapping: *languages_mapping,
-    },
-    {
-      source: '/website/versioned_docs/**/*',
-      translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%',
-      languages_mapping: *languages_mapping,
-    },
-    {
-      source: '/website/blog/**/*',
-      translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%',
-      languages_mapping: *languages_mapping,
-    },
-    {
-      source: '/website/src/pages/**/*',
-      translation: '/website/i18n/%two_letters_code%/docusaurus-plugin-content-pages/**/%original_file_name%',
-      ignore: ['/**/*.js', '/**/*.jsx', '/**/*.ts', '/**/*.tsx', '/**/*.css'],
-      languages_mapping: *languages_mapping,
-    },
-  ]
+  - source: /website/i18n/en/**/*
+    translation: /website/i18n/%two_letters_code%/**/%original_file_name%
+    languages_mapping: *languages_mapping
+  - source: /website/docs/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+  - source: /website/community/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs-community/current/**/%original_file_name%
+    languages_mapping: *languages_mapping
+  - source: /website/versioned_docs/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-docs/**/%original_file_name%
+    languages_mapping: *languages_mapping
+  - source: /website/blog/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
+    languages_mapping: *languages_mapping
+  - source: /website/src/pages/**/*
+    translation: /website/i18n/%two_letters_code%/docusaurus-plugin-content-pages/**/%original_file_name%
+    ignore: [/**/*.js, /**/*.jsx, /**/*.ts, /**/*.tsx, /**/*.css]
+    languages_mapping: *languages_mapping
 #
 # Source files filter
 # e.g. "/resources/en/*.json"

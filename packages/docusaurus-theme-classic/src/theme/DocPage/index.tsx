@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useState, useCallback} from 'react';
+import React, {type ReactNode, useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
@@ -70,9 +70,13 @@ function DocPageContent({
 
         {sidebar && (
           <aside
-            className={clsx(styles.docSidebarContainer, {
-              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-            })}
+            className={clsx(
+              ThemeClassNames.docs.docSidebarContainer,
+              styles.docSidebarContainer,
+              {
+                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+              },
+            )}
             onTransitionEnd={(e) => {
               if (
                 !e.currentTarget.classList.contains(styles.docSidebarContainer)

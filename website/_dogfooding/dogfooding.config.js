@@ -20,6 +20,7 @@ const dogfoodingPluginInstances = [
       // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
       // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
       path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
+      showLastUpdateTime: true,
     }),
   ],
 
@@ -42,6 +43,7 @@ const dogfoodingPluginInstances = [
         frontMatter.hide_reading_time
           ? undefined
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
+      sortPosts: 'ascending',
     }),
   ],
 
@@ -54,6 +56,19 @@ const dogfoodingPluginInstances = [
       routeBasePath: '/tests/pages',
     }),
   ],
+
+  /** @type {import('@docusaurus/types').Plugin} */
+  function clientModuleTestPlugin() {
+    return {
+      name: 'client-module-test-plugin',
+      getClientModules() {
+        return [
+          require.resolve('./clientModuleExample.ts'),
+          require.resolve('./clientModuleCSS.css'),
+        ];
+      },
+    };
+  },
 ];
 
 exports.dogfoodingPluginInstances = dogfoodingPluginInstances;

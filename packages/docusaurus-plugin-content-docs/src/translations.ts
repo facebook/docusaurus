@@ -23,10 +23,10 @@ import type {
   TranslationFileContent,
   TranslationFile,
   TranslationFiles,
+  TranslationMessage,
 } from '@docusaurus/types';
 import {mergeTranslations} from '@docusaurus/utils';
 import {CURRENT_VERSION_NAME} from './constants';
-import {TranslationMessage} from '@docusaurus/types';
 
 function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {
@@ -57,7 +57,7 @@ function getNormalizedSidebarName({
 
 /*
 // Do we need to translate doc metadata?
-// It seems translating frontmatter labels is good enough
+// It seems translating front matter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {

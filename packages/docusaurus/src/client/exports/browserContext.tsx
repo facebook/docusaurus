@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {type ReactNode, useEffect, useState} from 'react';
 
 // Encapsulate the logic to avoid React hydration problems
 // See https://www.joshwcomeau.com/react/the-perils-of-rehydration/

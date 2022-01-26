@@ -6,20 +6,17 @@
  */
 
 import fs from 'fs-extra';
-import chalk from 'chalk';
 import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
-import {
-  PluginOptions,
+import type {
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  ReadingTimeFunction,
 } from './types';
 import {
-  parseMarkdownFile,
+  parseMarkdownString,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -29,10 +26,16 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getContentPathList,
 } from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
-import {AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import logger from '@docusaurus/logger';
+import type {
+  PluginOptions,
+  ReadingTimeFunction,
+} from '@docusaurus/plugin-content-blog';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -60,7 +63,7 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
 }
 
 const DATE_FILENAME_REGEX =
-  /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -73,12 +76,11 @@ export function parseBlogFileName(
 ): ParsedBlogFileName {
   const dateFilenameMatch = blogSourceRelative.match(DATE_FILENAME_REGEX);
   if (dateFilenameMatch) {
-    const dateString = dateFilenameMatch.groups!.date!;
-    const text = dateFilenameMatch.groups!.text!;
+    const {folder, text, date: dateString} = dateFilenameMatch.groups!;
     // Always treat dates as UTC by adding the `Z`
     const date = new Date(`${dateString}Z`);
     const slugDate = dateString.replace(/-/g, '/');
-    const slug = `/${slugDate}/${text}`;
+    const slug = `/${slugDate}/${folder}${text}`;
     return {date, text, slug};
   } else {
     const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
@@ -101,13 +103,22 @@ function formatBlogPostDate(locale: string, date: Date): string {
 }
 
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const result = await parseMarkdownFile(blogSourceAbsolute, {
-    removeContentTitle: true,
-  });
-  return {
-    ...result,
-    frontMatter: validateBlogPostFrontMatter(result.frontMatter),
-  };
+  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+  try {
+    const result = parseMarkdownString(markdownString, {
+      removeContentTitle: true,
+    });
+    return {
+      ...result,
+      frontMatter: validateBlogPostFrontMatter(result.frontMatter),
+    };
+  } catch (e) {
+    throw new Error(
+      `Error while parsing blog post file ${blogSourceAbsolute}: "${
+        (e as Error).message
+      }".`,
+    );
+  }
 }
 
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
@@ -151,11 +162,7 @@ async function processBlogSourceFile(
   }
 
   if (frontMatter.id) {
-    console.warn(
-      chalk.yellow(
-        `"id" header option is deprecated in ${blogSourceRelative} file. Please use "slug" option instead.`,
-      ),
-    );
+    logger.warn`name=${'id'} header option is deprecated in path=${blogSourceRelative} file. Please use name=${'slug'} option instead.`;
   }
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
@@ -163,7 +170,12 @@ async function processBlogSourceFile(
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
-      return new Date(frontMatter.date);
+      if (typeof frontMatter.date === 'string') {
+        // Always treat dates as UTC by adding the `Z`
+        return new Date(`${frontMatter.date}Z`);
+      }
+      // YAML only converts YYYY-MM-DD to dates and leaves others as strings.
+      return frontMatter.date;
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
@@ -238,6 +250,7 @@ async function processBlogSourceFile(
         : undefined,
       truncated: truncateMarker?.test(content) || false,
       authors,
+      frontMatter,
     },
     content,
   };
@@ -276,11 +289,7 @@ export async function generateBlogPosts(
             authorsMap,
           );
         } catch (e) {
-          console.error(
-            chalk.red(
-              `Processing of blog source file failed for path "${blogSourceFile}"`,
-            ),
-          );
+          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
           throw e;
         }
       }),
@@ -324,9 +333,4 @@ export function linkify({
   brokenMarkdownLinks.forEach((l) => onBrokenMarkdownLink(l));
 
   return newContent;
-}
-
-// Order matters: we look in priority in localized folder
-export function getContentPathList(contentPaths: BlogContentPaths): string[] {
-  return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }

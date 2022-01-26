@@ -7,22 +7,25 @@
 
 // Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
 
+import path from 'path';
+
 // MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars, Others = 255 bytes
 const MAX_PATH_SEGMENT_CHARS = 255;
 const MAX_PATH_SEGMENT_BYTES = 255;
 // Space for appending things to the string like file extensions and so on
 const SPACE_FOR_APPENDING = 10;
 
-const isMacOs = process.platform === `darwin`;
-const isWindows = process.platform === `win32`;
+const isMacOs = () => process.platform === 'darwin';
+const isWindows = () => process.platform === 'win32';
 
 export const isNameTooLong = (str: string): boolean =>
-  isMacOs || isWindows
+  // This is actually not entirely correct: we can't assume FS from OS. But good enough?
+  isMacOs() || isWindows()
     ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
     : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
 
 export const shortName = (str: string): string => {
-  if (isMacOs || isWindows) {
+  if (isMacOs() || isWindows()) {
     const overflowingChars = str.length - MAX_PATH_SEGMENT_CHARS;
     return str.slice(
       0,
@@ -39,3 +42,66 @@ export const shortName = (str: string): string => {
     )
     .toString();
 };
+
+/**
+ * Convert Windows backslash paths to posix style paths.
+ * E.g: endi\lie -> endi/lie
+ *
+ * Returns original path if the posix counterpart is not valid Windows path.
+ * This makes the legacy code that uses posixPath safe; but also makes it less
+ * useful when you actually want a path with forward slashes (e.g. for URL)
+ *
+ * Adopted from https://github.com/sindresorhus/slash/blob/main/index.js
+ */
+export function posixPath(str: string): string {
+  const isExtendedLengthPath = /^\\\\\?\\/.test(str);
+
+  // Forward slashes are only valid Windows paths when they don't contain non-ascii characters.
+  // eslint-disable-next-line no-control-regex
+  const hasNonAscii = /[^\u0000-\u0080]+/.test(str);
+
+  if (isExtendedLengthPath || hasNonAscii) {
+    return str;
+  }
+  return str.replace(/\\/g, '/');
+}
+
+// When you want to display a path in a message/warning/error,
+// it's more convenient to:
+// - make it relative to cwd()
+// - convert to posix (ie not using windows \ path separator)
+// This way, Jest tests can run more reliably on any computer/CI
+// on both Unix/Windows
+// For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
+export function toMessageRelativeFilePath(filePath: string): string {
+  return posixPath(path.relative(process.cwd(), filePath));
+}
+
+/**
+ * Alias filepath relative to site directory, very useful so that we
+ * don't expose user's site structure.
+ * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
+ */
+export function aliasedSitePath(filePath: string, siteDir: string): string {
+  const relativePath = posixPath(path.relative(siteDir, filePath));
+  // Cannot use path.join() as it resolves '../' and removes
+  // the '@site'. Let webpack loader resolve it.
+  return `@site/${relativePath}`;
+}
+
+/**
+ * When you have a path like C:\X\Y
+ * It is not safe to use directly when generating code
+ * For example, this would fail due to unescaped \: `<img src={require('${filePath}')} />`
+ * But this would work: `<img src={require('${escapePath(filePath)}')} />`
+ *
+ * posixPath can't be used in all cases, because forward slashes are only valid
+ * Windows paths when they don't contain non-ascii characters, and posixPath
+ * doesn't escape those that fail to be converted.
+ */
+export function escapePath(str: string): string {
+  const escaped = JSON.stringify(str);
+
+  // Remove the " around the json string;
+  return escaped.substring(1, escaped.length - 1);
+}

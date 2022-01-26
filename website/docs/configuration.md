@@ -5,9 +5,9 @@ title: Configuration
 
 import TOCInline from '@theme/TOCInline';
 
-Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We guard the fields of this file, and facilitate making this data object accessible across your site.
+Docusaurus has a unique take on configurations. We encourage you to congregate information about your site into one place. We guard the fields of this file and facilitate making this data object accessible across your site.
 
-Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize the site.
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors to be able to focus on documentation while still being able to customize the site.
 
 ## What goes into a `docusaurus.config.js`? {#what-goes-into-a-docusaurusconfigjs}
 
@@ -23,9 +23,9 @@ For exact reference to each of the configurable fields, you may refer to [**`doc
 
 ### Site metadata {#site-metadata}
 
-Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl` and `favicon`.
+Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl`, and `favicon`.
 
-They are used in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
+They are used in several places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
 
 ### Deployment configurations {#deployment-configurations}
 
@@ -35,7 +35,7 @@ It is recommended to check the [deployment docs](deployment.mdx) for more inform
 
 ### Theme, plugin, and preset configurations {#theme-plugin-and-preset-configurations}
 
-List the [theme](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
+List the [themes](./using-plugins.md#using-themes), [plugins](./using-plugins.md), and [presets](./using-plugins.md#using-presets) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -50,7 +50,7 @@ module.exports = {
 
 :::tip
 
-Docusaurus supports **module shorthands**, allowing you to simplify the above configuration as:
+Docusaurus supports [**module shorthands**](./using-plugins.md#module-shorthands), allowing you to simplify the above configuration as:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -59,51 +59,6 @@ module.exports = {
   themes: ['classic'],
 };
 ```
-
-<details>
-
-<summary>How are shorthands resolved?</summary>
-
-When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
-
-- `{name}`
-- `@docusaurus/{type}-{name}`
-- `docusaurus-{type}-{name}`,
-
-where `type` is one of `'preset'`, `'theme'`, `'plugin'`, depending on which field the module name is declared in. The first module name that's successfully found is loaded.
-
-If the name is scoped (beginning with `@`), the name is first split into scope and package name by the first slash:
-
-```
-@scope
-^----^
- scope  (no name!)
-
-@scope/awesome
-^----^ ^-----^
- scope   name
-
-@scope/awesome/main
-^----^ ^----------^
- scope     name
-```
-
-If the name is not specified, `{scope}/docusaurus-{type}` is loaded. Otherwise, the following are attempted:
-
-- `{scope}/{name}`
-- `{scope}/docusaurus-{type}-{name}`
-
-Below are some examples, for a plugin registered in the `plugins` field. Note that unlike [ESLint](https://eslint.org/docs/user-guide/configuring/plugins#configuring-plugins) or [Babel](https://babeljs.io/docs/en/options#name-normalization) where a consistent naming convention for plugins is mandated, Docusaurus permits greater naming freedom, so the resolutions are not certain, but follows the priority defined above.
-
-| Declaration | May be resolved as |
-| --- | --- |
-| `awesome` | `docusaurus-plugin-awesome` |
-| `sitemap` | [`@docusaurus/plugin-sitemap`](./api/plugins/plugin-sitemap.md) |
-| `@mycompany` | `@mycompany/docusaurus-plugin` (the only possible resolution!) |
-| `@mycompany/awesome` | `@mycompany/docusaurus-plugin-awesome` |
-| `@mycompany/awesome/web` | `@mycompany/docusaurus-plugin-awesome/web` |
-
-</details>
 
 :::
 
@@ -165,7 +120,7 @@ The `presets: [['classic', {...}]]` shorthand works as well.
 
 :::
 
-For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
+For further help configuring themes, plugins, and presets, see [Using Plugins](./using-plugins.md).
 
 ### Custom configurations {#custom-configurations}
 
@@ -215,7 +170,7 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Customizing Babel Configuration {#customizing-babel-configuration}
 
-For new Docusaurus projects, we automatically generated a `babel.config.js` in project root.
+For new Docusaurus projects, we automatically generated a `babel.config.js` in the project root.
 
 ```js title="babel.config.js"
 module.exports = {
@@ -223,4 +178,4 @@ module.exports = {
 };
 ```
 
-Most of the times, this configuration will work just fine. If you want to customize it, you can directly edit this file to customize babel configuration. For your changes to take effect, you need to restart Docusaurus devserver.
+Most of the time, this configuration will work just fine. If you want to customize your babel configuration (e.g. to add support for Flow), you can directly edit this file. For your changes to take effect, you need to restart the Docusaurus dev server.

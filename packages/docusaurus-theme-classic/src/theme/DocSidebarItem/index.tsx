@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, memo, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import clsx from 'clsx';
 import {
   isActiveSidebarItem,
@@ -14,13 +14,16 @@ import {
   useCollapsible,
   findFirstCategoryLink,
   ThemeClassNames,
+  useThemeConfig,
+  useDocSidebarItemsExpandedState,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import IconExternalLink from '@theme/IconExternalLink';
 
-import type {Props, DocSidebarItemsProps} from '@theme/DocSidebarItem';
+import DocSidebarItems from '@theme/DocSidebarItems';
+import type {Props} from '@theme/DocSidebarItem';
 import type {
   PropSidebarItemCategory,
   PropSidebarItemLink,
@@ -28,23 +31,6 @@ import type {
 
 import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-
-// Optimize sidebar at each "level"
-// TODO this item should probably not receive the "activePath" props
-// TODO this triggers whole sidebar re-renders on navigation
-export const DocSidebarItems = memo(
-  ({items, ...props}: DocSidebarItemsProps): JSX.Element => (
-    <>
-      {items.map((item, index) => (
-        <DocSidebarItem
-          key={index} // sidebar is static, the index does not change
-          item={item}
-          {...props}
-        />
-      ))}
-    </>
-  ),
-);
 
 export default function DocSidebarItem({
   item,
@@ -108,6 +94,7 @@ function DocSidebarItemCategory({
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible, className, href} = item;
@@ -115,7 +102,7 @@ function DocSidebarItemCategory({
 
   const isActive = isActiveSidebarItem(item, activePath);
 
-  const {collapsed, setCollapsed, toggleCollapsed} = useCollapsible({
+  const {collapsed, setCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
     // the default (item.collapsed) is only used for non-active categories
     initialState: () => {
@@ -127,6 +114,28 @@ function DocSidebarItemCategory({
   });
 
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
+  const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
+  function updateCollapsed(toCollapsed: boolean = !collapsed) {
+    setExpandedItem(toCollapsed ? null : index);
+    setCollapsed(toCollapsed);
+  }
+  const {autoCollapseSidebarCategories} = useThemeConfig();
+  useEffect(() => {
+    if (
+      collapsible &&
+      expandedItem &&
+      expandedItem !== index &&
+      autoCollapseSidebarCategories
+    ) {
+      setCollapsed(true);
+    }
+  }, [
+    collapsible,
+    expandedItem,
+    index,
+    setCollapsed,
+    autoCollapseSidebarCategories,
+  ]);
 
   return (
     <li
@@ -152,16 +161,17 @@ function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    setCollapsed(false);
+                    updateCollapsed(false);
                   } else {
                     e.preventDefault();
-                    toggleCollapsed();
+                    updateCollapsed();
                   }
                 }
               : () => {
                   onItemClick?.(item);
                 }
           }
+          aria-current={isActive ? 'page' : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
@@ -181,7 +191,7 @@ function DocSidebarItemCategory({
             className="clean-btn menu__caret"
             onClick={(e) => {
               e.preventDefault();
-              toggleCollapsed();
+              updateCollapsed();
             }}
           />
         )}
@@ -205,6 +215,7 @@ function DocSidebarItemLink({
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label, className} = item;

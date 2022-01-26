@@ -33,8 +33,8 @@
   border-left: 0;
 }
 
-.tagWithCount:before,
-.tagWithCount:after {
+.tagWithCount::before,
+.tagWithCount::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -42,7 +42,7 @@
   transition: inherit;
 }
 
-.tagWithCount:before {
+.tagWithCount::before {
   right: 100%;
   transform: translate(50%, -50%) rotate(-45deg);
   width: 1.18rem;
@@ -51,7 +51,7 @@
   border-bottom: 0;
 }
 
-.tagWithCount:after {
+.tagWithCount::after {
   left: 0;
   transform: translateY(-50%);
   width: 0.5rem;
