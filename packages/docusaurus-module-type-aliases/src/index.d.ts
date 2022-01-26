@@ -207,13 +207,18 @@ declare module '@docusaurus/Translate' {
 
   // TS type to ensure that at least one of id or message is always provided
   // (Generic permits to handled message provided as React children)
-  type IdOrMessage<MessageKey extends 'children' | 'message'> =
-    | ({[key in MessageKey]: string} & {id?: string})
-    | ({[key in MessageKey]?: string} & {id: string});
+  type IdOrMessage<
+    MessageKey extends 'children' | 'message',
+    Str extends string,
+  > =
+    | ({[key in MessageKey]: Str} & {id?: string})
+    | ({[key in MessageKey]?: Str} & {id: string});
 
-  export type TranslateParam<Str extends string> = IdOrMessage<'message'> & {
+  export type TranslateParam<Str extends string> = IdOrMessage<
+    'message',
+    Str
+  > & {
     description?: string;
-    values?: InterpolateValues<Str, string | number>;
   };
 
   export function translate<Str extends string>(
@@ -221,7 +226,10 @@ declare module '@docusaurus/Translate' {
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  export type TranslateProps<Str extends string> = IdOrMessage<'children'> & {
+  export type TranslateProps<Str extends string> = IdOrMessage<
+    'children',
+    Str
+  > & {
     description?: string;
     values?: InterpolateValues<Str, ReactNode>;
   };

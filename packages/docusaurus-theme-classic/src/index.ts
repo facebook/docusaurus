@@ -111,11 +111,11 @@ export default function docusaurusThemeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, 'theme');
+      return path.join(__dirname, '../lib/theme');
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '..', 'src', 'theme');
+      return path.resolve(__dirname, '../src/theme');
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
