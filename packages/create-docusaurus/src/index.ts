@@ -270,10 +270,7 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   // Display the most elegant way to cd.
-  const cdpath =
-    path.join(process.cwd(), name) === dest
-      ? name
-      : path.relative(process.cwd(), name);
+  const cdpath = path.relative('.', dest);
   if (!cliOptions.skipInstall) {
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
