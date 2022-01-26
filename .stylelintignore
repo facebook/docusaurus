@@ -1,3 +1,8 @@
+*.*
+!*.css
+!*.md
+!*.mdx
+!*.html
 build
 coverage
 examples/
@@ -8,3 +13,9 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/
+_headers
+_redirects
+docs-tests-symlink
+__fixtures__
+LICENSE
+LICENSE-docs

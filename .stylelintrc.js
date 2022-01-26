@@ -7,18 +7,7 @@
 
 module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
-  plugins: ['stylelint-copyright'],
   rules: {
-    'docusaurus/copyright-header': [
-      true,
-      {
-        header: `*
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.`,
-      },
-    ],
     'selector-pseudo-class-no-unknown': [
       true,
       {
@@ -33,4 +22,31 @@ module.exports = {
     'comment-empty-line-before': null,
     'value-keyword-case': ['lower', {camelCaseSvgKeywords: true}],
   },
+  overrides: [
+    {
+      files: ['**/*.css'],
+      plugins: ['stylelint-copyright'],
+
+      rules: {
+        'docusaurus/copyright-header': [
+          true,
+          {
+            header: `*
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.`,
+          },
+        ],
+      },
+    },
+    {
+      files: ['**/*.md', '**/*.mdx'],
+      customSyntax: 'postcss-markdown',
+    },
+    {
+      files: ['**/*.html'],
+      customSyntax: 'postcss-html',
+    },
+  ],
 };

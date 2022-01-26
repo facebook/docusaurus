@@ -195,7 +195,7 @@ html[data-theme='light'] .DocSearch {
   /* --docsearch-primary-color: var(--ifm-color-primary); */
   /* --docsearch-text-color: var(--ifm-font-color-base); */
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
-  --docsearch-container-background: rgba(94, 100, 112, 0.7);
+  --docsearch-container-background: rgb(94 100 112 / 70%);
   /* Modal */
   --docsearch-modal-background: var(--ifm-color-secondary-lighter);
   /* Search box */
@@ -212,7 +212,7 @@ html[data-theme='light'] .DocSearch {
 html[data-theme='dark'] .DocSearch {
   --docsearch-text-color: var(--ifm-font-color-base);
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
-  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  --docsearch-container-background: rgb(47 55 69 / 70%);
   /* Modal */
   --docsearch-modal-background: var(--ifm-background-color);
   /* Search box */
