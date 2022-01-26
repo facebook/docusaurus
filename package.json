@@ -105,7 +105,7 @@
     "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "sharp": "^0.29.1",
-    "stylelint": "^14.2.0",
+    "stylelint": "^14.3.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^24.0.0",
     "tslib": "^2.3.1",
