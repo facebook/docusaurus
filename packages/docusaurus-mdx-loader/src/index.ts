@@ -7,12 +7,13 @@
 
 import {readFile} from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import headings from './remark/headings';
@@ -20,14 +21,8 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): Promise<string | Buffer | void | undefined>;
-}
+import type {LoaderContext} from 'webpack';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
@@ -38,6 +33,20 @@ const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
+};
+
+type Options = RemarkAndRehypePluginOptions & {
+  staticDirs: string[];
+  siteDir: string;
+  isMDXPartial?: (filePath: string) => boolean;
+  isMDXPartialFrontMatterWarningDisabled?: boolean;
+  removeContentTitle?: boolean;
+  metadataPath?: string | ((filePath: string) => string);
+  createAssets?: (metadata: {
+    frontMatter: Record<string, unknown>;
+    metadata: Record<string, unknown>;
+  }) => Record<string, unknown>;
+  filepath: string;
 };
 
 // When this throws, it generally means that there's no metadata file associated with this MDX document
@@ -94,7 +103,10 @@ function createAssetsExportCode(assets: Record<string, unknown>) {
   return `{\n${codeLines.join('\n')}\n}`;
 }
 
-const docusaurusMdxLoader: Loader = async function (fileString) {
+export default async function mdxLoader(
+  this: LoaderContext<Options>,
+  fileString: string,
+): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
   const reqOptions = this.getOptions() || {};
@@ -107,19 +119,30 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const options = {
+  const options: Options = {
     ...reqOptions,
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDir: reqOptions.staticDir, filePath}],
-      [transformLinks, {staticDir: reqOptions.staticDir, filePath}],
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
+      [
+        transformLinks,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [
       ...(reqOptions.beforeDefaultRehypePlugins || []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-
       ...(reqOptions.rehypePlugins || []),
     ],
     filepath: filePath,
@@ -129,11 +152,11 @@ const docusaurusMdxLoader: Loader = async function (fileString) {
   try {
     result = await mdx(content, options);
   } catch (err) {
-    return callback(err);
+    return callback(err as Error);
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or frontmatter
+  // Partial are not expected to have an associated metadata file or front matter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
@@ -146,7 +169,7 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       if (shouldError) {
         return callback(new Error(errorMessage));
       } else {
-        console.warn(chalk.yellow(errorMessage));
+        logger.warn(errorMessage);
       }
     }
   }
@@ -195,6 +218,4 @@ ${result}
 `;
 
   return callback(null, code);
-};
-
-export default docusaurusMdxLoader;
+}

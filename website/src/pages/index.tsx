@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable global-require */
+
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
@@ -78,15 +80,13 @@ const QUOTES = [
   },
 ];
 
-function Home() {
+function Home(): JSX.Element {
   const {
-    siteConfig: {
-      customFields: {description},
-      tagline,
-    },
+    siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
+  const {description} = customFields as {description: string};
   return (
-    <Layout title={tagline} description={description as string}>
+    <Layout title={tagline} description={description}>
       <main>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
@@ -95,9 +95,12 @@ function Home() {
                 alt={translate({message: 'Docusaurus with Keytar'})}
                 className={styles.heroLogo}
                 src={useBaseUrl('/img/docusaurus_keytar.svg')}
+                width="200"
+                height="200"
               />
               <span
                 className={styles.heroTitleTextHtml}
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
                   __html: translate({
                     id: 'homepage.hero.title',
@@ -156,17 +159,19 @@ function Home() {
                   className={styles.featureImage}
                   alt="Powered by MDX"
                   src={useBaseUrl('/img/undraw_typewriter.svg')}
+                  width="1009.54"
+                  height="717.96"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Powered by Markdown</Translate>
                 </h2>
                 <p className="padding-horiz--md">
                   <Translate>
-                    Save time and focus on your project's documentation. Simply
-                    write docs and blog posts with Markdown/MDX and Docusaurus
-                    will publish a set of static HTML files ready to serve. You
-                    can even embed JSX components into your Markdown thanks to
-                    MDX.
+                    Save time and focus on your project&apos;s documentation.
+                    Simply write docs and blog posts with Markdown/MDX and
+                    Docusaurus will publish a set of static HTML files ready to
+                    serve. You can even embed JSX components into your Markdown
+                    thanks to MDX.
                   </Translate>
                 </p>
               </div>
@@ -175,15 +180,17 @@ function Home() {
                   alt="Built Using React"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_react.svg')}
+                  width="1108"
+                  height="731.18"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Built Using React</Translate>
                 </h2>
                 <p className="padding-horiz--md">
                   <Translate>
-                    Extend or customize your project's layout by reusing React.
-                    Docusaurus can be extended while reusing the same header and
-                    footer.
+                    Extend or customize your project&apos;s layout by reusing
+                    React. Docusaurus can be extended while reusing the same
+                    header and footer.
                   </Translate>
                 </p>
               </div>
@@ -192,6 +199,8 @@ function Home() {
                   alt="Ready for Translations"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_around_the_world.svg')}
+                  width="1137"
+                  height="776.59"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Ready for Translations</Translate>
@@ -212,6 +221,8 @@ function Home() {
                   alt="Document Versioning"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_version_control.svg')}
+                  width="1038.23"
+                  height="693.31"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Document Versioning</Translate>
@@ -229,6 +240,8 @@ function Home() {
                   alt="Document Search"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_algolia.svg')}
+                  width="1137.97"
+                  height="736.21"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Content Search</Translate>

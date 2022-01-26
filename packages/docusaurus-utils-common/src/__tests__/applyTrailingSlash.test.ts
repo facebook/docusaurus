@@ -6,7 +6,7 @@
  */
 
 import applyTrailingSlash, {
-  ApplyTrailingSlashParams,
+  type ApplyTrailingSlashParams,
 } from '../applyTrailingSlash';
 
 function params(
@@ -62,7 +62,7 @@ describe('applyTrailingSlash', () => {
     ).toEqual('/baseUrl/?query#anchor');
   });
 
-  test('should not apply to #anchor links ', () => {
+  test('should not apply to #anchor links', () => {
     expect(applyTrailingSlash('#', params(true))).toEqual('#');
     expect(applyTrailingSlash('#', params(false))).toEqual('#');
     expect(applyTrailingSlash('#', params(undefined))).toEqual('#');

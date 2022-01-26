@@ -1,9 +1,4 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import React from 'react';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css';
@@ -51,7 +46,11 @@ function Feature({title, image, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <img className={styles.featureSvg} alt={title} src={image} />
+        <img
+          className={styles.featureSvg}
+          alt={title}
+          src={useBaseUrl(image)}
+        />
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>

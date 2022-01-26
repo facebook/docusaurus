@@ -10,8 +10,7 @@ export const isSamePath = (
   path1: string | undefined,
   path2: string | undefined,
 ): boolean => {
-  const normalize = (pathname: string | undefined) => {
-    return !pathname || pathname?.endsWith('/') ? pathname : `${pathname}/`;
-  };
+  const normalize = (pathname: string | undefined) =>
+    !pathname || pathname?.endsWith('/') ? pathname : `${pathname}/`;
   return normalize(path1) === normalize(path2);
 };

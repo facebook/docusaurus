@@ -9,6 +9,7 @@ import {
   createExcerpt,
   parseMarkdownContentTitle,
   parseMarkdownString,
+  parseMarkdownHeadingId,
 } from '../markdownParser';
 import dedent from 'dedent';
 
@@ -36,7 +37,7 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadatas title === description
+      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -53,7 +54,7 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadatas title === description
+      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -551,7 +552,7 @@ Lorem Ipsum
 });
 
 describe('parseMarkdownString', () => {
-  test('parse markdown with frontmatter', () => {
+  test('parse markdown with front matter', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -591,7 +592,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown)', () => {
+  test('should warn about duplicate titles (front matter + markdown)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -616,7 +617,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown alternate)', () => {
+  test('should warn about duplicate titles (front matter + markdown alternate)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -801,7 +802,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should delete only first heading', () => {
+  test('should delete only first heading 2', () => {
     expect(
       parseMarkdownString(dedent`
         # test
@@ -826,5 +827,142 @@ describe('parseMarkdownString', () => {
         "frontMatter": Object {},
       }
     `);
+  });
+
+  test('should handle code blocks', () => {
+    expect(
+      parseMarkdownString(dedent`
+        \`\`\`js
+        code
+        \`\`\`
+
+        Content
+      `),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "content": "\`\`\`js
+      code
+      \`\`\`
+
+      Content",
+        "contentTitle": undefined,
+        "excerpt": "Content",
+        "frontMatter": Object {},
+      }
+    `);
+    expect(
+      parseMarkdownString(dedent`
+        \`\`\`\`js
+        Foo
+        \`\`\`diff
+        code
+        \`\`\`
+        Bar
+        \`\`\`\`
+
+        Content
+      `),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "content": "\`\`\`\`js
+      Foo
+      \`\`\`diff
+      code
+      \`\`\`
+      Bar
+      \`\`\`\`
+
+      Content",
+        "contentTitle": undefined,
+        "excerpt": "Content",
+        "frontMatter": Object {},
+      }
+    `);
+    expect(
+      parseMarkdownString(dedent`
+        \`\`\`\`js
+        Foo
+        \`\`\`diff
+        code
+        \`\`\`\`
+
+        Content
+      `),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "content": "\`\`\`\`js
+      Foo
+      \`\`\`diff
+      code
+      \`\`\`\`
+
+      Content",
+        "contentTitle": undefined,
+        "excerpt": "Content",
+        "frontMatter": Object {},
+      }
+    `);
+  });
+
+  test('throws for invalid front matter', () => {
+    expect(() =>
+      parseMarkdownString(dedent`
+      ---
+      foo: f: a
+      ---
+      `),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 7:
+          foo: f: a
+                ^"
+    `);
+  });
+});
+
+describe('parseMarkdownHeadingId', () => {
+  test('can parse simple heading without id', () => {
+    expect(parseMarkdownHeadingId('## Some heading')).toEqual({
+      text: '## Some heading',
+      id: undefined,
+    });
+  });
+
+  test('can parse simple heading with id', () => {
+    expect(parseMarkdownHeadingId('## Some heading {#custom-_id}')).toEqual({
+      text: '## Some heading',
+      id: 'custom-_id',
+    });
+  });
+
+  test('can parse heading not ending with the id', () => {
+    expect(parseMarkdownHeadingId('## {#custom-_id} Some heading')).toEqual({
+      text: '## {#custom-_id} Some heading',
+      id: undefined,
+    });
+  });
+
+  test('can parse heading with multiple id', () => {
+    expect(parseMarkdownHeadingId('## Some heading {#id1} {#id2}')).toEqual({
+      text: '## Some heading {#id1}',
+      id: 'id2',
+    });
+  });
+
+  test('can parse heading with link and id', () => {
+    expect(
+      parseMarkdownHeadingId(
+        '## Some heading [facebook](https://facebook.com) {#id}',
+      ),
+    ).toEqual({
+      text: '## Some heading [facebook](https://facebook.com)',
+      id: 'id',
+    });
+  });
+
+  test('can parse heading with only id', () => {
+    expect(parseMarkdownHeadingId('## {#id}')).toEqual({
+      text: '##',
+      id: 'id',
+    });
   });
 });

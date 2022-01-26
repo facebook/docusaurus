@@ -7,14 +7,17 @@
 
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import {PathOptions, SidebarOptions} from '../types';
+import type {
+  PathOptions,
+  SidebarOptions,
+} from '@docusaurus/plugin-content-docs';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
   getVersionsFilePath,
   getVersionedSidebarsDirPath,
 } from '../versions';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
@@ -221,7 +224,11 @@ describe('docsVersion', () => {
       getVersionsFilePath(simpleSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['1.0.0']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 1.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /.*\[SUCCESS\].* .*\[docs\].*: version .*1\.0\.0.* created!.*/,
+      ),
+    );
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -274,7 +281,11 @@ describe('docsVersion', () => {
       getVersionsFilePath(versionedSiteDir, DEFAULT_PLUGIN_ID),
     );
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
-    expect(consoleMock).toHaveBeenCalledWith('[docs]: version 2.0.0 created!');
+    expect(consoleMock).toHaveBeenCalledWith(
+      expect.stringMatching(
+        /.*\[SUCCESS\].* .*\[docs\].*: version .*2\.0\.0.* created!.*/,
+      ),
+    );
 
     copyMock.mockRestore();
     writeMock.mockRestore();
@@ -326,7 +337,9 @@ describe('docsVersion', () => {
     );
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
-      '[community]: version 2.0.0 created!',
+      expect.stringMatching(
+        /.*\[SUCCESS\].* .*\[community\].*: version .*2.0.0.* created!.*/,
+      ),
     );
 
     copyMock.mockRestore();

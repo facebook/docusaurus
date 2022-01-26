@@ -1,8 +1,11 @@
 ---
+sidebar_position: 1
 id: plugin-content-docs
 title: '📦 plugin-content-docs'
 slug: '/api/plugins/@docusaurus/plugin-content-docs'
 ---
+
+import APITable from '@site/src/components/APITable';
 
 Provides the [Docs](../../guides/docs/docs-introduction.md) functionality and is the default docs plugin for Docusaurus.
 
@@ -16,7 +19,7 @@ npm install --save @docusaurus/plugin-content-docs
 
 If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+You can configure this plugin through the preset options.
 
 :::
 
@@ -24,7 +27,7 @@ You can configure this plugin through the [preset options](#ex-config-preset).
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -45,21 +48,22 @@ Accepted fields:
 | `docItemComponent` | `string` | `'@theme/DocItem'` | Main doc container, with TOC, pagination, etc. |
 | `docTagsListComponent` | `string` | `'@theme/DocTagsListPage'` | Root component of the tags list page |
 | `docTagDocListComponent` | `string` | `'@theme/DocTagDocListPage'` | Root component of the "docs containing tag" page. |
+| `docCategoryGeneratedIndexComponent` | `string` | `'@theme/DocCategoryGeneratedIndexPage'` | Root component of the generated category index page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
 | `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
 | `showLastUpdateAuthor` | `boolean` | `false` | Whether to display the author who last updated the doc. |
 | `showLastUpdateTime` | `boolean` | `false` | Whether to display the last date the doc was updated. |
-| `disableVersioning` | `boolean` | `false` | Explicitly disable the versioning feature even with versions. This will only include the "current" version (the `/docs` directory). |
-| `includeCurrentVersion` | `boolean` | `true` | Include the "current" version of your docs (the `/docs` directory). <br /> Tip: turn it off if the current version is a work-in-progress, not ready to be published. |
-| `lastVersion` | `string` | `current` (alias for the first version to appear in `versions.json` and at the "root" (docs have `path=/docs/myDoc`)) | Set the version navigated to in priority on versioned sites and the one displayed by default in docs navbar items. <br /> Note: the path and label of the last version are configurable. <br /> Tip: `lastVersion: 'current'` makes sense in many cases. |
+| `disableVersioning` | `boolean` | `false` | Explicitly disable versioning even with versions. This will make the site only include the current version. |
+| `includeCurrentVersion` | `boolean` | `true` | Include the current version of your docs. |
+| `lastVersion` | `string` | First version in `versions.json` | Set the version navigated to in priority and displayed by default for docs navbar items. |
+| `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. |
 | `versions` | `Versions` | `{}` | Independent customization of each version's properties. |
-| `onlyIncludeVersions` | `string[]` | All versions available | Only include a subset of all available versions. <br /> Tip: limit to 2 or 3 versions to improve startup and build time in dev and deploy previews. |
 
-</small>
+</APITable>
 
-```typescript
+```ts
 type EditUrlFunction = (params: {
   version: string;
   versionDocsDirPath: string;
@@ -99,19 +103,20 @@ type Versions = Record<
 >;
 ```
 
-## Example configuration {#ex-config}
+### Example configuration {#ex-config}
 
-Here's an example configuration object.
-
-You can provide it as [preset options](#ex-config-preset) or [plugin options](#ex-config-plugin).
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-Most Docusaurus users configure this plugin through the [preset options](#ex-config-preset).
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
-```js
+```js config-tabs
+// Preset Options: docs
+// Plugin Options: @docusaurus/plugin-content-docs
+
 const config = {
   path: 'docs',
   // Simple use-case: string editUrl
@@ -130,7 +135,7 @@ const config = {
     '**/__tests__/**',
   ],
   sidebarPath: 'sidebars.js',
-  sidebarItemsGenerator: async function ({
+  async sidebarItemsGenerator({
     defaultSidebarItemsGenerator,
     numberPrefixParser,
     item,
@@ -150,7 +155,7 @@ const config = {
       },
     ];
   },
-  numberPrefixParser: function (filename) {
+  numberPrefixParser(filename) {
     // Implement your own logic to extract a potential number prefix
     const numberPrefix = findNumberPrefix(filename);
     // Prefix found: return it with the cleaned filename
@@ -190,55 +195,13 @@ const config = {
 };
 ```
 
-### Preset options {#ex-config-preset}
+## Markdown front matter {#markdown-front-matter}
 
-If you use a preset, configure this plugin through the [preset options](presets.md#docusauruspreset-classic):
-
-```js title="docusaurus.config.js"
-module.exports = {
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        // highlight-start
-        docs: {
-          path: 'docs',
-          // ... configuration object here
-        },
-        // highlight-end
-      },
-    ],
-  ],
-};
-```
-
-### Plugin options {#ex-config-plugin}
-
-If you are using a standalone plugin, provide options directly to the plugin:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      // highlight-start
-      {
-        path: 'docs',
-        // ... configuration object here
-      },
-      // highlight-end
-    ],
-  ],
-};
-```
-
-## Markdown Frontmatter {#markdown-frontmatter}
-
-Markdown documents can use the following Markdown FrontMatter metadata fields, enclosed by a line `---` on either side.
+Markdown documents can use the following Markdown front matter metadata fields, enclosed by a line `---` on either side.
 
 Accepted fields:
 
-<small>
+<APITable>
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -246,12 +209,14 @@ Accepted fields:
 | `title` | `string` | Markdown title or `id` | The text title of your document. Used for the page metadata and as a fallback value in multiple places (sidebar, next/previous buttons...). Automatically added at the top of your doc if it does not contain any Markdown title. |
 | `pagination_label` | `string` | `sidebar_label` or `title` | The text used in the document next/previous buttons for this document. |
 | `sidebar_label` | `string` | `title` | The text shown in the document sidebar for this document. |
-| `sidebar_position` | `number` | Default ordering | Controls the position of a doc inside the generated sidebar slice when using `autogenerated` sidebar items. See also [Autogenerated sidebar metadatas](/docs/sidebar#autogenerated-sidebar-metadatas). |
+| `sidebar_position` | `number` | Default ordering | Controls the position of a doc inside the generated sidebar slice when using `autogenerated` sidebar items. See also [Autogenerated sidebar metadata](/docs/sidebar#autogenerated-sidebar-metadata). |
 | `sidebar_class_name` | `string` | `undefined` | Gives the corresponding sidebar label a special class name when using autogenerated sidebars. |
-| `hide_title` | `boolean` | `false` | Whether to hide the title at the top of the doc. It only hides a title declared through the frontmatter, and have no effect on a Markdown title at the top of your document. |
+| `hide_title` | `boolean` | `false` | Whether to hide the title at the top of the doc. It only hides a title declared through the front matter, and have no effect on a Markdown title at the top of your document. |
 | `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
 | `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
 | `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |
+| `pagination_next` | <code>string \| null</code> | Next doc in the sidebar | The ID of the documentation you want the "Next" pagination to link to. Use `null` to disable showing "Next" for this page. |
+| `pagination_prev` | <code>string \| null</code> | Previous doc in the sidebar | The ID of the documentation you want the "Previous" pagination to link to. Use `null` to disable showing "Previous" for this page. |
 | `parse_number_prefixes` | `boolean` | `numberPrefixParser` plugin option | Whether number prefix parsing is disabled on this doc. See also [Using number prefixes](/docs/sidebar#using-number-prefixes). |
 | `custom_edit_url` | `string` | Computed using the `editUrl` plugin option | The URL for editing this document. |
 | `keywords` | `string[]` | `undefined` | Keywords meta tag for the document page, for search engines. |
@@ -260,15 +225,15 @@ Accepted fields:
 | `slug` | `string` | File path | Allows to customize the document url (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-doc`, `slug: /my/path/myDoc`, `slug: /`. |
 | `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your docs. |
 
-</small>
+</APITable>
 
-```typescript
+```ts
 type Tag = string | {label: string; permalink: string};
 ```
 
 Example:
 
-```yml
+```md
 ---
 id: doc-markdown
 title: Docs Markdown Features
@@ -285,6 +250,7 @@ keywords:
 image: https://i.imgur.com/mErPwqL.png
 slug: /myDoc
 ---
+
 # Markdown Features
 
 My Document Markdown content
@@ -296,15 +262,15 @@ Read the [i18n introduction](../../i18n/i18n-introduction.md) first.
 
 ### Translation files location {#translation-files-location}
 
-- **Base path**: `website/i18n/<locale>/docusaurus-plugin-content-docs`
-- **Multi-instance path**: `website/i18n/<locale>/docusaurus-plugin-content-docs-<pluginId>`
+- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.md#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/<locale>/docusaurus-plugin-content-docs/<version>`
+- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
 
 ### Example file-system structure {#example-file-system-structure}
 
 ```bash
-website/i18n/<locale>/docusaurus-plugin-content-docs
+website/i18n/[locale]/docusaurus-plugin-content-docs
 │
 │ # translations for website/docs
 ├── current

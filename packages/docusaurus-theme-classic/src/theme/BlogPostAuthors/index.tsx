@@ -13,15 +13,28 @@ import BlogPostAuthor from '@theme/BlogPostAuthor';
 import styles from './styles.module.css';
 
 // Component responsible for the authors layout
-export default function BlogPostAuthors({authors, assets}: Props): JSX.Element {
+export default function BlogPostAuthors({
+  authors,
+  assets,
+}: Props): JSX.Element | null {
   const authorsCount = authors.length;
   if (authorsCount === 0) {
-    return <></>;
+    return null;
   }
+  const imageOnly = authors.every(({name}) => !name);
   return (
-    <div className="row margin-top--md margin-bottom--sm">
+    <div
+      className={clsx(
+        'margin-top--md margin-bottom--sm',
+        imageOnly ? styles.imageOnlyAuthorRow : 'row',
+      )}>
       {authors.map((author, idx) => (
-        <div className={clsx('col col--6', styles.authorCol)} key={idx}>
+        <div
+          className={clsx(
+            !imageOnly && 'col col--6',
+            imageOnly ? styles.imageOnlyAuthorCol : styles.authorCol,
+          )}
+          key={idx}>
           <BlogPostAuthor
             author={{
               ...author,

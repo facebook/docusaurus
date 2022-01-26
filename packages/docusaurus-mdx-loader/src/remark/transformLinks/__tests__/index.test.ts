@@ -5,30 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
 import plugin from '..';
 import transformImage from '../../transformImage';
 
-const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
-  const staticDir = join(__dirname, 'fixtures', 'static');
-  const file = await vfile.read(path);
+const processFixture = async (name: string, options?) => {
+  const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
+  const staticDirs = [
+    path.join(__dirname, '__fixtures__/static'),
+    path.join(__dirname, '__fixtures__/static2'),
+  ];
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(mdx)
-    .use(transformImage, {...options, filePath: path, staticDir})
-    .use(plugin, {...options, filePath: path, staticDir})
+    .use(transformImage, {...options, filePath, staticDirs})
+    .use(plugin, {
+      ...options,
+      filePath,
+      staticDirs,
+      siteDir: path.join(__dirname, '__fixtures__'),
+    })
     .process(file);
 
-  return result.toString();
+  return result
+    .toString()
+    .replace(/\\\\/g, '/')
+    .replace(new RegExp(process.cwd().replace(/\\/g, '/'), 'g'), '[CWD]');
 };
 
 describe('transformAsset plugin', () => {
   test('fail if asset url is absent', async () => {
     await expect(
       processFixture('noUrl'),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test('fail if asset with site alias does not exist', async () => {
+    await expect(
+      processFixture('nonexistentSiteAlias'),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 

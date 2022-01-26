@@ -6,6 +6,7 @@
  */
 
 declare module '@generated/client-modules' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const clientModules: readonly any[];
   export default clientModules;
 }
@@ -21,11 +22,12 @@ declare module '@generated/site-metadata' {
   import type {DocusaurusSiteMetadata} from '@docusaurus/types';
 
   const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+  export = siteMetadata;
 }
 
 declare module '@generated/registry' {
   const registry: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readonly [key: string]: [() => Promise<any>, string, string];
   };
   export default registry;
@@ -45,13 +47,16 @@ declare module '@generated/routes' {
 }
 
 declare module '@generated/routesChunkNames' {
-  const routesChunkNames: Record<string, Record<string, string>>;
-  export default routesChunkNames;
+  import type {RouteChunksTree} from '@docusaurus/types';
+
+  const routesChunkNames: Record<string, RouteChunksTree>;
+  export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
-  const globalData: Record<string, unknown>;
-  export default globalData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalData: Record<string, any>;
+  export = globalData;
 }
 
 declare module '@generated/i18n' {
@@ -59,21 +64,77 @@ declare module '@generated/i18n' {
     defaultLocale: string;
     locales: [string, ...string[]];
     currentLocale: string;
-    localeConfigs: Record<string, {label: string; direction: string}>;
+    localeConfigs: Record<
+      string,
+      {
+        label: string;
+        direction: string;
+        htmlLang: string;
+      }
+    >;
   };
-  export default i18n;
+  export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
   const codeTranslations: Record<string, string>;
-  export default codeTranslations;
+  export = codeTranslations;
 }
-
-declare module '@theme/*';
 
 declare module '@theme-original/*';
 
-declare module '@docusaurus/*';
+declare module '@theme/Error' {
+  export interface Props {
+    readonly error: Error;
+    readonly tryAgain: () => void;
+  }
+  export default function Error(props: Props): JSX.Element;
+}
+
+declare module '@theme/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children?: ReactNode;
+    readonly title?: string;
+    readonly description?: string;
+  }
+  export default function Layout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Loading' {
+  import type {LoadingComponentProps} from 'react-loadable';
+
+  export default function Loading(props: LoadingComponentProps): JSX.Element;
+}
+
+declare module '@theme/NotFound' {
+  export default function NotFound(): JSX.Element;
+}
+
+declare module '@theme/Root' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+  export default function Root({children}: Props): JSX.Element;
+}
+
+declare module '@docusaurus/constants' {
+  export const DEFAULT_PLUGIN_ID: 'default';
+}
+
+declare module '@docusaurus/ErrorBoundary' {
+  import type {ReactNode} from 'react';
+  import type ErrorComponent from '@theme/Error';
+
+  export interface Props {
+    readonly fallback?: typeof ErrorComponent;
+    readonly children: ReactNode;
+  }
+  export default function ErrorBoundary(props: Props): JSX.Element;
+}
 
 declare module '@docusaurus/Head' {
   import type {HelmetProps} from 'react-helmet';
@@ -108,10 +169,10 @@ declare module '@docusaurus/Link' {
 declare module '@docusaurus/Interpolate' {
   import type {ReactNode} from 'react';
 
-  // TODO use TS template literal feature to make values typesafe!
-  // (requires upgrading TS first)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export type ExtractInterpolatePlaceholders<Str extends string> = string;
+  export type ExtractInterpolatePlaceholders<Str extends string> =
+    Str extends `${string}{${infer Key}}${infer Rest}`
+      ? Key | ExtractInterpolatePlaceholders<Rest>
+      : never;
 
   export type InterpolateValues<
     Str extends string,
@@ -262,8 +323,17 @@ declare module '@docusaurus/useGlobalData' {
     pluginId?: string,
   ): T;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function useGlobalData(): Record<string, any>;
   export default useGlobalData;
+}
+
+declare module '*.svg' {
+  import type {ComponentType, SVGProps} from 'react';
+
+  const ReactComponent: ComponentType<SVGProps<SVGSVGElement>>;
+
+  export default ReactComponent;
 }
 
 declare module '*.module.css' {

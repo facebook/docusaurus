@@ -4,7 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {PluginOptions} from './types';
+
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -14,8 +15,11 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-import {OptionValidationContext, ValidationResult} from '@docusaurus/types';
-import chalk from 'chalk';
+import type {
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
+import logger from '@docusaurus/logger';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
 import {
@@ -27,7 +31,6 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   tagsBasePath: 'tags', // URL Tags Route.
-  homePageId: undefined, // TODO remove soon, deprecated
   include: ['**/*.{md,mdx}'], // Extensions to include.
   exclude: GlobExcludeDefault,
   sidebarItemsGenerator: DefaultSidebarItemsGenerator,
@@ -36,6 +39,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   docItemComponent: '@theme/DocItem',
   docTagDocListComponent: '@theme/DocTagDocListPage',
   docTagsListComponent: '@theme/DocTagsListPage',
+  docCategoryGeneratedIndexComponent: '@theme/DocCategoryGeneratedIndexPage',
   remarkPlugins: [],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -75,7 +79,11 @@ export const OptionsSchema = Joi.object({
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
-  homePageId: Joi.string().optional(),
+  homePageId: Joi.any().forbidden().messages({
+    'any.unknown':
+      'The docs plugin option homePageId is not supported anymore. To make a doc the "home", please add "slug: /" in its front matter. See: https://docusaurus.io/docs/next/docs-introduction#home-page-docs',
+  }),
+
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   exclude: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.exclude),
   sidebarPath: Joi.alternatives().try(
@@ -105,6 +113,9 @@ export const OptionsSchema = Joi.object({
   ),
   docTagDocListComponent: Joi.string().default(
     DEFAULT_OPTIONS.docTagDocListComponent,
+  ),
+  docCategoryGeneratedIndexComponent: Joi.string().default(
+    DEFAULT_OPTIONS.docCategoryGeneratedIndexComponent,
   ),
   remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
@@ -146,26 +157,12 @@ export function validateOptions({
       };
     }
     if (options.sidebarCollapsed) {
-      console.warn(
-        chalk.yellow(
-          'The docs plugin config is inconsistent. It does not make sense to use sidebarCollapsible=false and sidebarCollapsed=true at the same time. sidebarCollapsed=false will be ignored.',
-        ),
-      );
+      logger.warn`The docs plugin config is inconsistent. It does not make sense to use code=${'sidebarCollapsible: false'} and code=${'sidebarCollapsed: true'} at the same time. code=${'sidebarCollapsed: true'} will be ignored.`;
       options = {
         ...options,
         sidebarCollapsed: false,
       };
     }
-  }
-
-  // TODO remove homePageId before end of 2020
-  // "slug: /" is better because the home doc can be different across versions
-  if (options.homePageId) {
-    console.log(
-      chalk.red(
-        `The docs plugin option homePageId=${options.homePageId} is deprecated. To make a doc the "home", prefer frontmatter: "slug: /"`,
-      ),
-    );
   }
 
   const normalizedOptions = validate(OptionsSchema, options);

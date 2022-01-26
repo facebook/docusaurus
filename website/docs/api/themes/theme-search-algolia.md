@@ -1,4 +1,5 @@
 ---
+sidebar_position: 4
 id: theme-search-algolia
 title: '📦 theme-search-algolia'
 slug: '/api/themes/@docusaurus/theme-search-algolia'
@@ -10,7 +11,7 @@ This theme provides a `@theme/SearchBar` component that integrates with Algolia 
 npm install --save @docusaurus/theme-search-algolia
 ```
 
-This theme also adds search page available at `/search` (as swizzleable `SearchPage` component) path with OpenSearch support.
+This theme also adds search page available at `/search` (as swizzlable `SearchPage` component) path with OpenSearch support.
 
 :::tip
 

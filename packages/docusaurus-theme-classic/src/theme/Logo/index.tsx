@@ -14,7 +14,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
-const Logo = (props: Props): JSX.Element => {
+function Logo(props: Props): JSX.Element {
   const {
     siteConfig: {title},
   } = useDocusaurusContext();
@@ -29,7 +29,12 @@ const Logo = (props: Props): JSX.Element => {
     dark: useBaseUrl(logo.srcDark || logo.src),
   };
   const themedImage = (
-    <ThemedImage sources={sources} alt={logo.alt || navbarTitle || title} />
+    <ThemedImage
+      sources={sources}
+      height={logo.height}
+      width={logo.width}
+      alt={logo.alt || navbarTitle || title}
+    />
   );
 
   return (
@@ -41,11 +46,11 @@ const Logo = (props: Props): JSX.Element => {
         (imageClassName ? (
           <div className={imageClassName}>{themedImage}</div>
         ) : (
-          <>{themedImage}</>
+          themedImage
         ))}
       {navbarTitle != null && <b className={titleClassName}>{navbarTitle}</b>}
     </Link>
   );
-};
+}
 
 export default Logo;

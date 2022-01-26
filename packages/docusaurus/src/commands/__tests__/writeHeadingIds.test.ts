@@ -9,62 +9,83 @@ import {
   transformMarkdownHeadingLine,
   transformMarkdownContent,
 } from '../writeHeadingIds';
-import GithubSlugger from 'github-slugger';
+import {createSlugger} from '@docusaurus/utils';
 
 describe('transformMarkdownHeadingLine', () => {
   test('throws when not a heading', () => {
     expect(() =>
-      transformMarkdownHeadingLine('ABC', new GithubSlugger()),
+      transformMarkdownHeadingLine('ABC', createSlugger()),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Line is not a Markdown heading: ABC."`,
     );
   });
 
   test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
-      '## ABC {#-abc}',
+    expect(transformMarkdownHeadingLine('## ABC', createSlugger())).toEqual(
+      '## ABC {#abc}',
     );
   });
 
   test('works for simple level-3 heading', () => {
-    expect(
-      transformMarkdownHeadingLine('### ABC', new GithubSlugger()),
-    ).toEqual('### ABC {#-abc}');
+    expect(transformMarkdownHeadingLine('### ABC', createSlugger())).toEqual(
+      '### ABC {#abc}',
+    );
   });
 
   test('works for simple level-4 heading', () => {
-    expect(
-      transformMarkdownHeadingLine('#### ABC', new GithubSlugger()),
-    ).toEqual('#### ABC {#-abc}');
-  });
-
-  test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', new GithubSlugger())).toEqual(
-      '## ABC {#-abc}',
+    expect(transformMarkdownHeadingLine('#### ABC', createSlugger())).toEqual(
+      '#### ABC {#abc}',
     );
   });
 
   test('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
-    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
-      `${input} {#-hello-facebook-crowdin}`,
+    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
+      `${input} {#hello-facebook-crowdin}`,
     );
   });
 
   test('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
-    expect(transformMarkdownHeadingLine(input, new GithubSlugger())).toEqual(
-      `${input} {#-abc-hello-how-are-you-sébastien_-_---56756}`,
+    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
+      `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
 
   test('does not duplicate duplicate id', () => {
     expect(
       transformMarkdownHeadingLine(
-        '# hello world {#hello-world}',
-        new GithubSlugger(),
+        '## hello world {#hello-world}',
+        createSlugger(),
       ),
-    ).toEqual('# hello world {#hello-world}');
+    ).toEqual('## hello world {#hello-world}');
+  });
+
+  test('respects existing heading', () => {
+    expect(
+      transformMarkdownHeadingLine(
+        '## New heading {#old-heading}',
+        createSlugger(),
+      ),
+    ).toEqual('## New heading {#old-heading}');
+  });
+
+  test('overwrites heading ID when asked to', () => {
+    expect(
+      transformMarkdownHeadingLine(
+        '## New heading {#old-heading}',
+        createSlugger(),
+        {overwrite: true},
+      ),
+    ).toEqual('## New heading {#new-heading}');
+  });
+
+  test('maintains casing when asked to', () => {
+    expect(
+      transformMarkdownHeadingLine('## getDataFromAPI()', createSlugger(), {
+        maintainCase: true,
+      }),
+    ).toEqual('## getDataFromAPI() {#getDataFromAPI}');
   });
 });
 
@@ -72,7 +93,7 @@ describe('transformMarkdownContent', () => {
   test('transform the headings', () => {
     const input = `
 
-# Ignorerd title
+# Ignored title
 
 ## abc
 
@@ -97,17 +118,17 @@ describe('transformMarkdownContent', () => {
     // not sure how to implement that atm
     const expected = `
 
-# Ignorerd title
+# Ignored title
 
-## abc {#-abc}
+## abc {#abc}
 
-### Hello world {#-hello-world}
+### Hello world {#hello-world}
 
 \`\`\`
 # Heading in code block
 \`\`\`
 
-## Hello world {#-hello-world-1}
+## Hello world {#hello-world-1}
 
     \`\`\`
     # Heading in escaped code block

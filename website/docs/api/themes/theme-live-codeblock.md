@@ -1,4 +1,5 @@
 ---
+sidebar_position: 3
 id: theme-live-codeblock
 title: '📦 theme-live-codeblock'
 slug: '/api/themes/@docusaurus/theme-live-codeblock'
@@ -12,7 +13,7 @@ npm install --save @docusaurus/theme-live-codeblock
 
 ### Configuration {#configuration}
 
-```jsx title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/theme-live-codeblock'],
   themeConfig: {

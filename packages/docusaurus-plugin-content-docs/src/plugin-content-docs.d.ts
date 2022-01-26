@@ -6,18 +6,88 @@
  */
 
 declare module '@docusaurus/plugin-content-docs' {
-  export type Options = Partial<import('./types').PluginOptions>;
+  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+
+  export type NumberPrefixParser = (filename: string) => {
+    filename: string;
+    numberPrefix?: number;
+  };
+
+  export type EditUrlFunction = (editUrlParams: {
+    version: string;
+    versionDocsDirPath: string;
+    docPath: string;
+    permalink: string;
+    locale: string;
+  }) => string | undefined;
+
+  export type MetadataOptions = {
+    routeBasePath: string;
+    editUrl?: string | EditUrlFunction;
+    editCurrentVersion: boolean;
+    editLocalizedFiles: boolean;
+    showLastUpdateTime?: boolean;
+    showLastUpdateAuthor?: boolean;
+    numberPrefixParser: NumberPrefixParser;
+  };
+
+  export type PathOptions = {
+    path: string;
+    sidebarPath?: string | false | undefined;
+  };
+
+  // TODO support custom version banner? {type: "error", content: "html content"}
+  export type VersionBanner = 'unreleased' | 'unmaintained';
+  export type VersionOptions = {
+    path?: string;
+    label?: string;
+    banner?: 'none' | VersionBanner;
+    badge?: boolean;
+    className?: string;
+  };
+  export type VersionsOptions = {
+    lastVersion?: string;
+    versions: Record<string, VersionOptions>;
+    onlyIncludeVersions?: string[];
+  };
+  export type SidebarOptions = {
+    sidebarCollapsible: boolean;
+    sidebarCollapsed: boolean;
+  };
+
+  export type PluginOptions = MetadataOptions &
+    PathOptions &
+    VersionsOptions &
+    RemarkAndRehypePluginOptions &
+    SidebarOptions & {
+      id: string;
+      include: string[];
+      exclude: string[];
+      docLayoutComponent: string;
+      docItemComponent: string;
+      docTagDocListComponent: string;
+      docTagsListComponent: string;
+      docCategoryGeneratedIndexComponent: string;
+      admonitions: Record<string, unknown>;
+      disableVersioning: boolean;
+      includeCurrentVersion: boolean;
+      sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
+      tagsBasePath: string;
+    };
+  export type Options = Partial<PluginOptions>;
   export type SidebarsConfig = import('./sidebars/types').SidebarsConfig;
-}
 
-// TODO public api surface types should rather be exposed as "@docusaurus/plugin-content-docs"
-declare module '@docusaurus/plugin-content-docs-types' {
-  export type VersionBanner = import('./types').VersionBanner;
-  type GlobalDataVersion = import('./types').GlobalVersion;
-  type GlobalDataDoc = import('./types').GlobalDoc;
-  type VersionTag = import('./types').VersionTag;
+  export type PropNavigationLink = {
+    readonly title: string;
+    readonly permalink: string;
+  };
+  export type PropNavigation = {
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
+  };
 
-  export type {GlobalDataVersion, GlobalDataDoc};
+  export type PropVersionDoc = import('./sidebars/types').PropVersionDoc;
+  export type PropVersionDocs = import('./sidebars/types').PropVersionDocs;
 
   export type PropVersionMetadata = {
     pluginId: string;
@@ -28,12 +98,25 @@ declare module '@docusaurus/plugin-content-docs-types' {
     className: string;
     isLast: boolean;
     docsSidebars: PropSidebars;
+    docs: PropVersionDocs;
   };
 
-  export type PropSidebarItemLink = import('./sidebars/types').SidebarItemLink;
+  export type PropCategoryGeneratedIndex = {
+    title: string;
+    description?: string;
+    image?: string;
+    keywords?: string | readonly string[];
+    slug: string;
+    permalink: string;
+    navigation: PropNavigation;
+  };
+
+  export type PropSidebarItemLink =
+    import('./sidebars/types').PropSidebarItemLink;
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
   export type PropTagDocListDoc = {
@@ -60,7 +143,10 @@ declare module '@docusaurus/plugin-content-docs-types' {
 
 declare module '@theme/DocItem' {
   import type {TOCItem} from '@docusaurus/types';
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {
+    PropNavigationLink,
+    PropVersionMetadata,
+  } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
     readonly component: () => JSX.Element;
@@ -74,12 +160,10 @@ declare module '@theme/DocItem' {
     readonly title: string;
     readonly image?: string;
     readonly keywords?: readonly string[];
-    /* eslint-disable camelcase */
     readonly hide_title?: boolean;
     readonly hide_table_of_contents?: boolean;
     readonly toc_min_heading_level?: number;
     readonly toc_max_heading_level?: number;
-    /* eslint-enable camelcase */
   };
 
   export type Metadata = {
@@ -91,8 +175,8 @@ declare module '@theme/DocItem' {
     readonly formattedLastUpdatedAt?: string;
     readonly lastUpdatedBy?: string;
     readonly version?: string;
-    readonly previous?: {readonly permalink: string; readonly title: string};
-    readonly next?: {readonly permalink: string; readonly title: string};
+    readonly previous?: PropNavigationLink;
+    readonly next?: PropNavigationLink;
     readonly tags: readonly {
       readonly label: string;
       readonly permalink: string;
@@ -115,6 +199,38 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
+declare module '@theme/DocCard' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+  }
+
+  export default function DocCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCardList' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly items: PropSidebarItem[];
+  }
+
+  export default function DocCardList(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCategoryGeneratedIndexPage' {
+  import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly categoryGeneratedIndex: PropCategoryGeneratedIndex;
+  }
+
+  export default function DocCategoryGeneratedIndexPage(
+    props: Props,
+  ): JSX.Element;
+}
+
 declare module '@theme/DocItemFooter' {
   import type {Props} from '@theme/DocItem';
 
@@ -122,14 +238,14 @@ declare module '@theme/DocItemFooter' {
 }
 
 declare module '@theme/DocTagsListPage' {
-  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagsListPage} from '@docusaurus/plugin-content-docs';
 
   export interface Props extends PropTagsListPage {}
   export default function DocTagsListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocTagDocListPage' {
-  import type {PropTagDocList} from '@docusaurus/plugin-content-docs-types';
+  import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
   export interface Props {
     readonly tag: PropTagDocList;
@@ -138,18 +254,23 @@ declare module '@theme/DocTagDocListPage' {
 }
 
 declare module '@theme/DocVersionBanner' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
-
   export interface Props {
-    readonly versionMetadata: PropVersionMetadata;
+    readonly className?: string;
   }
 
-  const DocVersionBanner: (props: Props) => JSX.Element;
-  export default DocVersionBanner;
+  export default function DocVersionBanner(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBadge' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function DocVersionBadge(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocPage' {
-  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs-types';
+  import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
 
   export interface Props {
@@ -181,17 +302,54 @@ declare module '@theme/Seo' {
   export default Seo;
 }
 
-declare module '@theme/hooks/useDocs' {
-  type GlobalPluginData = import('./types').GlobalPluginData;
-  type GlobalVersion = import('./types').GlobalVersion;
-  type ActivePlugin = import('./client/docsClientUtils').ActivePlugin;
-  type ActiveDocContext = import('./client/docsClientUtils').ActiveDocContext;
-  type DocVersionSuggestions =
-    import('./client/docsClientUtils').DocVersionSuggestions;
-  type GetActivePluginOptions =
-    import('./client/docsClientUtils').GetActivePluginOptions;
+// TODO until TS supports exports field... hope it's in 4.6
+declare module '@docusaurus/plugin-content-docs/client' {
+  export type ActivePlugin = {
+    pluginId: string;
+    pluginData: GlobalPluginData;
+  };
+  export type ActiveDocContext = {
+    activeVersion?: GlobalVersion;
+    activeDoc?: GlobalDoc;
+    alternateDocVersions: Record<string, GlobalDoc>;
+  };
+  export type GlobalDoc = {
+    id: string;
+    path: string;
+    sidebar: string | undefined;
+  };
 
-  export type {GlobalPluginData, GlobalVersion};
+  export type GlobalVersion = {
+    name: string;
+    label: string;
+    isLast: boolean;
+    path: string;
+    mainDocId: string; // home doc (if docs homepage configured), or first doc
+    docs: GlobalDoc[];
+    sidebars?: Record<string, GlobalSidebar>;
+  };
+
+  export type GlobalSidebarLink = {
+    label: string;
+    path: string;
+  };
+
+  export type GlobalSidebar = {
+    link?: GlobalSidebarLink;
+    // ... we may add other things here later
+  };
+  export type GlobalPluginData = {
+    path: string;
+    versions: GlobalVersion[];
+  };
+  export type DocVersionSuggestions = {
+    // suggest the latest version
+    latestVersionSuggestion: GlobalVersion;
+    // suggest the same doc, in latest version (if exist)
+    latestDocSuggestion?: GlobalDoc;
+  };
+  export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
+
   export const useAllDocsData: () => Record<string, GlobalPluginData>;
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (

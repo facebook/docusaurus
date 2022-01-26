@@ -7,11 +7,11 @@
 
 import React, {
   useState,
-  ReactNode,
+  type ReactNode,
   useContext,
   createContext,
   useEffect,
-  ComponentType,
+  type ComponentType,
   useMemo,
 } from 'react';
 
@@ -29,7 +29,7 @@ type ExtraProps = {
   toggleSidebar: () => void;
 };
 
-export type MobileSecondaryMenuComponent<Props extends unknown> = ComponentType<
+export type MobileSecondaryMenuComponent<Props> = ComponentType<
   Props & ExtraProps
 >;
 
@@ -83,6 +83,7 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
   return useMemo(
     () => obj,
     // Is this safe?
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [...Object.keys(obj), ...Object.values(obj)],
   );
 }
@@ -103,13 +104,11 @@ export function MobileSecondaryMenuFiller<
   const memoizedProps = useShallowMemoizedObject(props);
 
   useEffect(() => {
-    // @ts-expect-error: context is not 100% typesafe but it's ok
+    // @ts-expect-error: context is not 100% type-safe but it's ok
     setState({component, props: memoizedProps});
   }, [setState, component, memoizedProps]);
 
-  useEffect(() => {
-    return () => setState(null);
-  }, [setState]);
+  useEffect(() => () => setState(null), [setState]);
 
   return null;
 }

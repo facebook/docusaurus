@@ -4,10 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import path from 'path';
 import fs from 'fs-extra';
 import {mapValues, difference} from 'lodash';
-import {
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
@@ -15,7 +16,7 @@ import {
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -55,9 +56,10 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      throw new Error(`Invalid translation file at ${filePath}.\n${e.message}`);
+    } catch (e) {
+      throw new Error(
+        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
+      );
     }
   }
   return undefined;
@@ -113,11 +115,8 @@ export async function writeTranslationFileContent({
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    console.warn(
-      chalk.yellow(`Some translation keys looks unknown to us in file ${filePath}
-Maybe you should remove them?
-- ${unknownKeys.join('\n- ')}`),
-    );
+    logger.warn`Some translation keys looks unknown to us in file path=${filePath}.
+Maybe you should remove them? ${unknownKeys}`;
   }
 
   const mergedContent = mergeTranslationFileContent({
@@ -128,18 +127,13 @@ Maybe you should remove them?
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    console.log(
-      `${Object.keys(mergedContent)
-        .length.toString()
-        .padStart(
-          3,
-          ' ',
-        )} translations will be written at "${toMessageRelativeFilePath(
-        filePath,
-      )}".`,
-    );
+    logger.info`number=${
+      Object.keys(mergedContent).length
+    } translations will be written at path=${toMessageRelativeFilePath(
+      filePath,
+    )}.`;
     await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
+    await fs.writeFile(filePath, `${JSON.stringify(mergedContent, null, 2)}\n`);
   }
 }
 
@@ -270,9 +264,10 @@ export async function getPluginsDefaultCodeTranslationMessages(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
 
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
+  return pluginsMessages.reduce(
+    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
+    {},
+  );
 }
 
 export function applyDefaultCodeTranslations({
@@ -287,21 +282,15 @@ export function applyDefaultCodeTranslations({
     Object.keys(extractedCodeTranslations),
   );
   if (unusedDefaultCodeMessages.length > 0) {
-    console.warn(
-      chalk.yellow(`Unused default message codes found.
-Please report this Docusaurus issue.
-- ${unusedDefaultCodeMessages.join('\n- ')}
-`),
-    );
+    logger.warn`Unused default message codes found.
+Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
   return mapValues(
     extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
+    (messageTranslation, messageId) => ({
+      ...messageTranslation,
+      message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+    }),
   );
 }

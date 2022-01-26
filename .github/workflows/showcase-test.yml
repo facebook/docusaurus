@@ -1,0 +1,25 @@
+name: Showcase Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - website/src/data/**
+
+jobs:
+  validate-config:
+    name: Validate Showcase Config
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Test
+        run: yarn test website/src/data/__tests__/user.test.ts

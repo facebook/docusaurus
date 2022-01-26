@@ -8,11 +8,15 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
+import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions, EditUrlFunction, BlogPost} from '../types';
-import {Joi} from '@docusaurus/utils-validation';
+import type {BlogPost} from '../types';
+import type {Joi} from '@docusaurus/utils-validation';
 import {posixPath} from '@docusaurus/utils';
+import type {
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-blog';
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -103,7 +107,7 @@ describe('loadBlog', () => {
       posixPath(path.relative(siteDir, p)),
     );
     expect(relativePathsToWatch).toEqual([
-      'blog/authors.yml',
+      'i18n/en/docusaurus-plugin-content-blog/authors.yml',
       'i18n/en/docusaurus-plugin-content-blog/**/*.{md,mdx}',
       'blog/**/*.{md,mdx}',
     ]);
@@ -126,8 +130,17 @@ describe('loadBlog', () => {
       authors: [],
       date: new Date('2019-01-01'),
       formattedDate: 'January 1, 2019',
+      frontMatter: {
+        date: new Date('2019-01-01'),
+        tags: ['date'],
+      },
       prevItem: undefined,
-      tags: [],
+      tags: [
+        {
+          label: 'date',
+          permalink: '/blog/tags/date',
+        },
+      ],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
@@ -161,6 +174,15 @@ describe('loadBlog', () => {
       ],
       date: new Date('2018-12-14'),
       formattedDate: 'December 14, 2018',
+      frontMatter: {
+        authors: [
+          {
+            name: 'Yangshun Tay (translated)',
+          },
+          'slorber',
+        ],
+        title: 'Happy 1st Birthday Slash! (translated)',
+      },
       tags: [],
       prevItem: {
         permalink: '/blog/date-matter',
@@ -187,7 +209,22 @@ describe('loadBlog', () => {
       },
       date: new Date('2020-08-16'),
       formattedDate: 'August 16, 2020',
-      tags: [],
+      frontMatter: {
+        date: '2020/08/16',
+        slug: '/hey/my super path/héllô',
+        title: 'Complex Slug',
+        tags: ['date', 'complex'],
+      },
+      tags: [
+        {
+          label: 'date',
+          permalink: '/blog/tags/date',
+        },
+        {
+          label: 'complex',
+          permalink: '/blog/tags/complex',
+        },
+      ],
       truncated: false,
     });
 
@@ -216,6 +253,14 @@ describe('loadBlog', () => {
       },
       date: new Date('2020-08-15'),
       formattedDate: 'August 15, 2020',
+      frontMatter: {
+        author: 'Sébastien Lorber',
+        author_title: 'Docusaurus maintainer',
+        author_url: 'https://sebastienlorber.com',
+        date: new Date('2020-08-15'),
+        slug: '/simple/slug',
+        title: 'Simple Slug',
+      },
       tags: [],
       truncated: false,
     });
@@ -233,6 +278,9 @@ describe('loadBlog', () => {
       authors: [],
       date: new Date('2019-01-02'),
       formattedDate: 'January 2, 2019',
+      frontMatter: {
+        date: new Date('2019-01-02'),
+      },
       prevItem: undefined,
       tags: [],
       nextItem: {
@@ -246,26 +294,29 @@ describe('loadBlog', () => {
   test('simple website blog dates localized', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
-    expect(blogPostsFrench).toHaveLength(7);
+    expect(blogPostsFrench).toHaveLength(8);
     expect(blogPostsFrench[0].metadata.formattedDate).toMatchInlineSnapshot(
-      `"5 mars 2021"`,
+      `"6 mars 2021"`,
     );
     expect(blogPostsFrench[1].metadata.formattedDate).toMatchInlineSnapshot(
-      `"16 août 2020"`,
+      `"5 mars 2021"`,
     );
     expect(blogPostsFrench[2].metadata.formattedDate).toMatchInlineSnapshot(
-      `"15 août 2020"`,
+      `"16 août 2020"`,
     );
     expect(blogPostsFrench[3].metadata.formattedDate).toMatchInlineSnapshot(
-      `"27 février 2020"`,
+      `"15 août 2020"`,
     );
     expect(blogPostsFrench[4].metadata.formattedDate).toMatchInlineSnapshot(
-      `"2 janvier 2019"`,
+      `"27 février 2020"`,
     );
     expect(blogPostsFrench[5].metadata.formattedDate).toMatchInlineSnapshot(
-      `"1 janvier 2019"`,
+      `"2 janvier 2019"`,
     );
     expect(blogPostsFrench[6].metadata.formattedDate).toMatchInlineSnapshot(
+      `"1 janvier 2019"`,
+    );
+    expect(blogPostsFrench[7].metadata.formattedDate).toMatchInlineSnapshot(
       `"14 décembre 2018"`,
     );
   });
@@ -295,7 +346,8 @@ describe('loadBlog', () => {
       expect(blogPost.metadata.editUrl).toEqual(hardcodedEditUrl);
     });
 
-    expect(editUrlFunction).toHaveBeenCalledTimes(7);
+    expect(editUrlFunction).toHaveBeenCalledTimes(8);
+
     expect(editUrlFunction).toHaveBeenCalledWith({
       blogDirPath: 'blog',
       blogPath: 'date-matter.md',
@@ -312,6 +364,12 @@ describe('loadBlog', () => {
       blogDirPath: 'blog',
       blogPath: 'mdx-blog-post.mdx',
       permalink: '/blog/mdx-blog-post',
+      locale: 'en',
+    });
+    expect(editUrlFunction).toHaveBeenCalledWith({
+      blogDirPath: 'blog',
+      blogPath: 'mdx-require-blog-post.mdx',
+      permalink: '/blog/mdx-require-blog-post',
       locale: 'en',
     });
     expect(editUrlFunction).toHaveBeenCalledWith({
@@ -378,10 +436,22 @@ describe('loadBlog', () => {
       authors: [],
       date: noDateSourceBirthTime,
       formattedDate,
+      frontMatter: {},
       tags: [],
       prevItem: undefined,
       nextItem: undefined,
       truncated: false,
     });
+  });
+
+  test('test ascending sort direction of blog post', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const normalOrder = await getBlogPosts(siteDir);
+    const reversedOrder = await getBlogPosts(siteDir, {
+      sortPosts: 'ascending',
+    });
+    expect(normalOrder.reverse().map((x) => x.metadata.date)).toEqual(
+      reversedOrder.map((x) => x.metadata.date),
+    );
   });
 });

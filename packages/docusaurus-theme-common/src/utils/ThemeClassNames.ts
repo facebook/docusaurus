@@ -34,6 +34,7 @@ export const ThemeClassNames = {
     editThisPage: 'theme-edit-this-page',
     lastUpdated: 'theme-last-updated',
     backToTopButton: 'theme-back-to-top-button',
+    codeBlock: 'theme-code-block',
   },
   layout: {
     // TODO add other stable classNames here
@@ -47,6 +48,7 @@ export const ThemeClassNames = {
     docFooter: 'theme-doc-footer',
     docFooterTagsRow: 'theme-doc-footer-tags-row',
     docFooterEditMetaRow: 'theme-doc-footer-edit-meta-row',
+    docSidebarContainer: 'theme-doc-sidebar-container',
     docSidebarMenu: 'theme-doc-sidebar-menu',
     docSidebarItemCategory: 'theme-doc-sidebar-item-category',
     docSidebarItemLink: 'theme-doc-sidebar-item-link',

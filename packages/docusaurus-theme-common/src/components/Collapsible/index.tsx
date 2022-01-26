@@ -11,10 +11,10 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  RefObject,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
+  type RefObject,
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
   useLayoutEffect,
 } from 'react';
 
@@ -151,7 +151,7 @@ type CollapsibleElementType = React.ElementType<
   Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd' | 'style'>
 >;
 
-// Prevent hydration layout shift before anims are handled imperatively with JS
+// Prevent hydration layout shift before animations are handled imperatively with JS
 function getSSRStyle(collapsed: boolean) {
   if (ExecutionEnvironment.canUseDOM) {
     return undefined;
@@ -189,7 +189,7 @@ function CollapsibleBase({
 
   return (
     <As
-      // @ts-expect-error: see https://twitter.com/sebastienlorber/status/1412784677795110914
+      // @ts-expect-error: the "too complicated type" is produced from "CollapsibleElementType" being a huge union
       ref={collapsibleRef}
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {

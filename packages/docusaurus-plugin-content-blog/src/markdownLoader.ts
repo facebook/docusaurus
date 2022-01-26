@@ -6,20 +6,17 @@
  */
 
 import {truncate, linkify} from './blogUtils';
-import {parseQuery} from 'loader-utils';
-import {BlogMarkdownLoaderOptions} from './types';
+import type {BlogMarkdownLoaderOptions} from './types';
+import type {LoaderContext} from 'webpack';
 
-// TODO temporary until Webpack5 export this type
-// see https://github.com/webpack/webpack/issues/11630
-interface Loader extends Function {
-  (this: any, source: string): string | Buffer | void | undefined;
-}
-
-const markdownLoader: Loader = function (source) {
+export default function markdownLoader(
+  this: LoaderContext<BlogMarkdownLoaderOptions>,
+  source: string,
+): void {
   const filePath = this.resourcePath;
-  const fileString = source as string;
+  const fileString = source;
   const callback = this.async();
-  const markdownLoaderOptions = this.getOptions() as BlogMarkdownLoaderOptions;
+  const markdownLoaderOptions = this.getOptions();
 
   // Linkify blog posts
   let finalContent = linkify({
@@ -30,7 +27,7 @@ const markdownLoader: Loader = function (source) {
 
   // Truncate content if requested (e.g: file.md?truncated=true).
   const truncated: boolean | undefined = this.resourceQuery
-    ? !!parseQuery(this.resourceQuery).truncated
+    ? !!new URLSearchParams(this.resourceQuery.slice(1)).get('truncated')
     : undefined;
 
   if (truncated) {
@@ -38,6 +35,4 @@ const markdownLoader: Loader = function (source) {
   }
 
   return callback && callback(null, finalContent);
-};
-
-export default markdownLoader;
+}

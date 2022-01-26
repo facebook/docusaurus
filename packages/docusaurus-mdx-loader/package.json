@@ -1,9 +1,9 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-beta.7",
+  "version": "2.0.0-beta.14",
   "description": "Docusaurus Loader for MDX",
   "main": "lib/index.js",
-  "types": "src/types.d.ts",
+  "types": "src/mdx-loader.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -18,27 +18,25 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.12.16",
-    "@babel/traverse": "^7.12.13",
-    "@docusaurus/core": "2.0.0-beta.7",
-    "@docusaurus/utils": "2.0.0-beta.7",
+    "@babel/parser": "^7.16.4",
+    "@babel/traverse": "^7.16.3",
+    "@docusaurus/logger": "2.0.0-beta.14",
+    "@docusaurus/utils": "2.0.0-beta.14",
     "@mdx-js/mdx": "^1.6.21",
-    "@mdx-js/react": "^1.6.21",
-    "chalk": "^4.1.2",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
-    "github-slugger": "^1.4.0",
-    "gray-matter": "^4.0.3",
+    "image-size": "^1.0.1",
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
+    "tslib": "^2.3.1",
     "unist-util-visit": "^2.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.40.0"
+    "webpack": "^5.61.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.7",
+    "@docusaurus/types": "2.0.0-beta.14",
     "@types/escape-html": "^1.0.1",
     "@types/mdast": "^3.0.7",
     "@types/stringify-object": "^3.3.1",
@@ -54,6 +52,6 @@
     "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   }
 }

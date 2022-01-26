@@ -10,18 +10,18 @@ import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
-import useThemeContext from '@theme/hooks/useThemeContext';
 import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
   usePrevious,
   useHistoryPopHandler,
+  useHideableNavbar,
+  useLockBodyScroll,
+  useWindowSize,
+  useColorMode,
 } from '@docusaurus/theme-common';
-import useHideableNavbar from '@theme/hooks/useHideableNavbar';
-import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import useWindowSize from '@theme/hooks/useWindowSize';
-import {useActivePlugin} from '@theme/hooks/useDocs';
-import NavbarItem, {Props as NavbarItemConfig} from '@theme/NavbarItem';
+import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
+import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 import IconClose from '@theme/IconClose';
@@ -88,7 +88,7 @@ function useColorModeToggle() {
   const {
     colorMode: {disableSwitch},
   } = useThemeConfig();
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
   const toggle = useCallback(
     (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
@@ -105,12 +105,13 @@ function useSecondaryMenu({
   });
   const previousContent = usePrevious(content);
 
-  const [shown, setShown] = useState<boolean>(() => {
-    // /!\ content is set with useEffect,
-    // so it's not available on mount anyway
-    // "return !!content" => always returns false
-    return false;
-  });
+  const [shown, setShown] = useState<boolean>(
+    () =>
+      // /!\ content is set with useEffect,
+      // so it's not available on mount anyway
+      // "return !!content" => always returns false
+      false,
+  );
 
   // When content is become available for the first time (set in useEffect)
   // we set this content to be shown!

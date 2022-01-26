@@ -6,7 +6,7 @@
  */
 
 import {useMemo} from 'react';
-import {TOCItem} from '@docusaurus/types';
+import type {TOCItem} from '@docusaurus/types';
 
 type FilterTOCParam = {
   toc: readonly TOCItem[];
@@ -48,7 +48,8 @@ export function useTOCFilter({
   minHeadingLevel,
   maxHeadingLevel,
 }: FilterTOCParam): readonly TOCItem[] {
-  return useMemo(() => {
-    return filterTOC({toc, minHeadingLevel, maxHeadingLevel});
-  }, [toc, minHeadingLevel, maxHeadingLevel]);
+  return useMemo(
+    () => filterTOC({toc, minHeadingLevel, maxHeadingLevel}),
+    [toc, minHeadingLevel, maxHeadingLevel],
+  );
 }

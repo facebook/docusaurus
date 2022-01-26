@@ -29,7 +29,7 @@
 // Modified to optimize performance for Docusaurus specific use case
 // More context: https://github.com/facebook/docusaurus/pull/1839
 
-import {Compiler, Stats} from 'webpack';
+import type {Compiler, Stats} from 'webpack';
 import path from 'path';
 import {sync as delSync} from 'del';
 
@@ -176,18 +176,16 @@ class CleanWebpackPlugin {
         all: false,
         assets: true,
       }).assets || [];
-    const assets = statsAssets.map((asset: {name: string}) => {
-      return asset.name;
-    });
+    const assets = statsAssets.map((asset: {name: string}) => asset.name);
 
     /**
      * Get all files that were in the previous build but not the current
      *
      * (relies on del's cwd: outputPath option)
      */
-    const staleFiles = this.currentAssets.filter((previousAsset) => {
-      return assets.includes(previousAsset) === false;
-    });
+    const staleFiles = this.currentAssets.filter(
+      (previousAsset) => assets.includes(previousAsset) === false,
+    );
 
     /**
      * Save assets for next compilation
@@ -234,11 +232,10 @@ class CleanWebpackPlugin {
           console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error) {
       const needsForce =
         /Cannot delete files\/folders outside the current working directory\./.test(
-          error.message,
+          (error as Error).message,
         );
 
       if (needsForce) {

@@ -5,98 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
-import chalk from 'chalk';
-import path from 'path';
-import {Author, BlogContentPaths} from './types';
-import {findFolderContainingFile} from '@docusaurus/utils';
+import type {BlogContentPaths} from './types';
+import {getDataFileData} from '@docusaurus/utils';
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import {
+import type {
+  Author,
   BlogPostFrontMatter,
   BlogPostFrontMatterAuthor,
   BlogPostFrontMatterAuthors,
-} from './blogFrontMatter';
-import {getContentPathList} from './blogUtils';
-import Yaml from 'js-yaml';
+} from '@docusaurus/plugin-content-blog';
 
 export type AuthorsMap = Record<string, Author>;
 
 const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
   Joi.string(),
   Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string(),
     url: URISchema,
     imageURL: URISchema,
     title: Joi.string(),
   })
     .rename('image_url', 'imageURL')
+    .or('name', 'imageURL')
     .unknown()
     .required(),
 );
 
-export function validateAuthorsMapFile(content: unknown): AuthorsMap {
+export function validateAuthorsMap(content: unknown): AuthorsMap {
   return Joi.attempt(content, AuthorsMapSchema);
 }
 
-export async function readAuthorsMapFile(
-  filePath: string,
-): Promise<AuthorsMap | undefined> {
-  if (await fs.pathExists(filePath)) {
-    const contentString = await fs.readFile(filePath, {encoding: 'utf8'});
-    const parse =
-      filePath.endsWith('.yml') || filePath.endsWith('.yaml')
-        ? Yaml.load
-        : JSON.parse;
-    try {
-      const unsafeContent = parse(contentString);
-      return validateAuthorsMapFile(unsafeContent);
-    } catch (e) {
-      // TODO replace later by error cause: see https://v8.dev/features/error-cause
-      console.error(chalk.red('The author list file looks invalid!'));
-      throw e;
-    }
-  }
-  return undefined;
-}
-
-type AuthorsMapParams = {
+export async function getAuthorsMap(params: {
   authorsMapPath: string;
   contentPaths: BlogContentPaths;
-};
-
-export async function getAuthorsMapFilePath({
-  authorsMapPath,
-  contentPaths,
-}: AuthorsMapParams): Promise<string | undefined> {
-  // Useful to load an eventually localize authors map
-  const contentPath = await findFolderContainingFile(
-    getContentPathList(contentPaths),
-    authorsMapPath,
+}): Promise<AuthorsMap | undefined> {
+  return getDataFileData(
+    {
+      filePath: params.authorsMapPath,
+      contentPaths: params.contentPaths,
+      fileType: 'authors map',
+    },
+    validateAuthorsMap,
   );
-
-  if (contentPath) {
-    return path.join(contentPath, authorsMapPath);
-  }
-
-  return undefined;
-}
-
-export async function getAuthorsMap(
-  params: AuthorsMapParams,
-): Promise<AuthorsMap | undefined> {
-  const filePath = await getAuthorsMapFilePath(params);
-  if (!filePath) {
-    return undefined;
-  }
-  try {
-    return await readAuthorsMapFile(filePath);
-  } catch (e) {
-    // TODO replace later by error cause, see https://v8.dev/features/error-cause
-    console.error(
-      chalk.red(`Couldn't read blog authors map at path ${filePath}`),
-    );
-    throw e;
-  }
 }
 
 type AuthorsParam = {
@@ -104,7 +54,7 @@ type AuthorsParam = {
   authorsMap: AuthorsMap | undefined;
 };
 
-// Legacy v1/early-v2 frontmatter fields
+// Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
 function getFrontMatterAuthorLegacy(
   frontMatter: BlogPostFrontMatter,
@@ -114,7 +64,6 @@ function getFrontMatterAuthorLegacy(
   const url = frontMatter.author_url ?? frontMatter.authorURL;
   const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
 
-  // Shouldn't we require at least an author name?
   if (name || title || url || imageURL) {
     return {
       name,
@@ -174,7 +123,7 @@ ${Object.keys(authorsMap)
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
     return {
-      // Author def from authorsMap can be locally overridden by frontmatter
+      // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
@@ -188,11 +137,11 @@ export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authors = getFrontMatterAuthors(params);
 
   if (authorLegacy) {
-    // Technically, we could allow mixing legacy/authors frontmatter, but do we really want to?
+    // Technically, we could allow mixing legacy/authors front matter, but do we really want to?
     if (authors.length > 0) {
       throw new Error(
-        `To declare blog post authors, use the 'authors' FrontMatter in priority.
-Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time.`,
+        `To declare blog post authors, use the 'authors' front matter in priority.
+Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
       );
     }
     return [authorLegacy];

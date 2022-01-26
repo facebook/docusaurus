@@ -22,12 +22,10 @@ async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
   const files = await glob('packages/*/package.json');
 
   return Promise.all(
-    files.map(async (file) => {
-      return {
-        file,
-        content: JSON.parse(await readFile(file, 'utf8')),
-      };
-    }),
+    files.map(async (file) => ({
+      file,
+      content: JSON.parse(await readFile(file, 'utf8')),
+    })),
   );
 }
 
@@ -40,15 +38,15 @@ describe('packages', () => {
   test('should contain repository and directory for every package', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
-    packageJsonFiles.forEach((packageJsonFile) => {
-      if (packageJsonFile.content.private !== true) {
+    packageJsonFiles
+      .filter((packageJsonFile) => !packageJsonFile.content.private)
+      .forEach((packageJsonFile) => {
         expect(packageJsonFile.content.repository).toEqual({
           type: 'git',
           url: 'https://github.com/facebook/docusaurus.git',
           directory: packageJsonFile.file.replace(/\/package\.json$/, ''),
         });
-      }
-    });
+      });
   });
 
   /*
@@ -60,17 +58,19 @@ describe('packages', () => {
   test('should have publishConfig.access: "public" when name starts with @', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
-    packageJsonFiles.forEach((packageJsonFile) => {
-      if (packageJsonFile.content.name.startsWith('@')) {
-        // Unfortunately jest custom message do not exist in loops, so using an exception instead to show failing package file
-        // (see https://github.com/facebook/jest/issues/3293)
-        // expect(packageJsonFile.content.publishConfig?.access).toEqual('public');
-        if (packageJsonFile.content.publishConfig?.access !== 'public') {
-          throw new Error(
-            `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,
-          );
+    packageJsonFiles
+      .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
+      .forEach((packageJsonFile) => {
+        if (packageJsonFile) {
+          // Unfortunately jest custom message do not exist in loops, so using an exception instead to show failing package file
+          // (see https://github.com/facebook/jest/issues/3293)
+          // expect(packageJsonFile.content.publishConfig?.access).toEqual('public');
+          if (packageJsonFile.content.publishConfig?.access !== 'public') {
+            throw new Error(
+              `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,
+            );
+          }
         }
-      }
-    });
+      });
   });
 });

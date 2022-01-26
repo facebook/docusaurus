@@ -4,19 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
-import traverse, {Node} from '@babel/traverse';
+import traverse, {type Node} from '@babel/traverse';
 import generate from '@babel/generator';
-import chalk from 'chalk';
-import {parse, types as t, NodePath, TransformOptions} from '@babel/core';
-import {flatten} from 'lodash';
+import logger from '@docusaurus/logger';
 import {
+  parse,
+  type types as t,
+  type NodePath,
+  type TransformOptions,
+} from '@babel/core';
+import type {
   InitializedPlugin,
   TranslationFileContent,
   TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
-import {SRC_DIR_NAME} from '../../constants';
+import {SRC_DIR_NAME} from '@docusaurus/utils';
 import {safeGlobby} from '../utils';
 
 // We only support extracting source code translations from these kind of files
@@ -26,7 +31,7 @@ const TranslatableSourceCodeExtension = new Set([
   '.ts',
   '.tsx',
   // TODO support md/mdx too? (may be overkill)
-  // need to compile the MDX to JSX first and remove frontmatter
+  // need to compile the MDX to JSX first and remove front matter
   // '.md',
   // '.mdx',
 ]);
@@ -69,7 +74,7 @@ async function getSourceCodeFilePaths(
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
   // We can use this method as well to know which folders we should try to extract translations from
   // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
-  const pluginsPaths = flatten(plugins.map(getPluginSourceCodeFilePaths));
+  const pluginsPaths = plugins.flatMap(getPluginSourceCodeFilePaths);
 
   const allPaths = [...sitePaths, ...pluginsPaths];
 
@@ -86,9 +91,10 @@ export async function extractSiteSourceCodeTranslations(
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
-    return sourceCodeFileTranslations.reduce((acc, item) => {
-      return {...acc, ...item.translations};
-    }, {});
+    return sourceCodeFileTranslations.reduce(
+      (acc, item) => ({...acc, ...item.translations}),
+      {},
+    );
   }
 
   const sourceCodeFilePaths = await getSourceCodeFilePaths(siteDir, plugins);
@@ -114,11 +120,7 @@ function logSourceCodeFileTranslationsWarnings(
 ) {
   sourceCodeFilesTranslations.forEach(({sourceCodeFilePath, warnings}) => {
     if (warnings.length > 0) {
-      console.warn(
-        `Translation extraction warnings for file path=${sourceCodeFilePath}:\n- ${chalk.yellow(
-          warnings.join('\n\n- '),
-        )}`,
-      );
+      logger.warn`Translation extraction warnings for file path=${sourceCodeFilePath}: ${warnings}`;
     }
   });
 }
@@ -133,11 +135,9 @@ export async function extractAllSourceCodeFileTranslations(
   sourceCodeFilePaths: string[],
   babelOptions: TransformOptions,
 ): Promise<SourceCodeFileTranslations[]> {
-  return flatten(
-    await Promise.all(
-      sourceCodeFilePaths.map((sourceFilePath) =>
-        extractSourceCodeFileTranslations(sourceFilePath, babelOptions),
-      ),
+  return Promise.all(
+    sourceCodeFilePaths.flatMap((sourceFilePath) =>
+      extractSourceCodeFileTranslations(sourceFilePath, babelOptions),
     ),
   );
 }
@@ -157,10 +157,15 @@ export async function extractSourceCodeFileTranslations(
       filename: sourceCodeFilePath,
     }) as Node;
 
-    return await extractSourceCodeAstTranslations(ast, sourceCodeFilePath);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
+    const translations = await extractSourceCodeAstTranslations(
+      ast,
+      sourceCodeFilePath,
+    );
+    return translations;
+  } catch (e) {
+    if (e instanceof Error) {
+      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
+    }
     throw e;
   }
 }
@@ -178,160 +183,191 @@ function extractSourceCodeAstTranslations(
   sourceCodeFilePath: string,
 ): SourceCodeFileTranslations {
   function sourceWarningPart(node: Node) {
-    return `File: ${sourceCodeFilePath} at ${
-      node.loc?.start.line
-    } line\nFull code: ${generate(node).code}`;
+    return `File: ${sourceCodeFilePath} at line ${node.loc?.start.line}
+Full code: ${generate(node).code}`;
   }
 
   const translations: Record<string, TranslationMessage> = {};
   const warnings: string[] = [];
+  let translateComponentName: string | undefined;
+  let translateFunctionName: string | undefined;
 
-  // TODO we should check the presence of the correct @docusaurus imports here!
-
+  // First pass: find import declarations of Translate / translate.
+  // If not found, don't process the rest to avoid false positives
   traverse(ast, {
-    JSXElement(path) {
+    ImportDeclaration(path) {
       if (
-        !path
-          .get('openingElement')
-          .get('name')
-          .isJSXIdentifier({name: 'Translate'})
+        path.node.importKind === 'type' ||
+        path.get('source').node.value !== '@docusaurus/Translate'
       ) {
         return;
       }
-      function evaluateJSXProp(propName: string): string | undefined {
-        const attributePath = path
-          .get('openingElement.attributes')
-          .find(
-            (attr) =>
-              attr.isJSXAttribute() &&
-              (attr as NodePath<t.JSXAttribute>)
-                .get('name')
-                .isJSXIdentifier({name: propName}),
-          );
+      const importSpecifiers = path.get('specifiers');
+      const defaultImport = importSpecifiers.find(
+        (specifier): specifier is NodePath<t.ImportDefaultSpecifier> =>
+          specifier.node.type === 'ImportDefaultSpecifier',
+      );
+      const callbackImport = importSpecifiers.find(
+        (specifier): specifier is NodePath<t.ImportSpecifier> =>
+          specifier.node.type === 'ImportSpecifier' &&
+          ((
+            (specifier as NodePath<t.ImportSpecifier>).get('imported')
+              .node as t.Identifier
+          ).name === 'translate' ||
+            (
+              (specifier as NodePath<t.ImportSpecifier>).get('imported')
+                .node as t.StringLiteral
+            ).value === 'translate'),
+      );
 
-        if (attributePath) {
-          const attributeValue = attributePath.get('value') as NodePath;
-
-          const attributeValueEvaluated =
-            attributeValue.isJSXExpressionContainer()
-              ? (attributeValue.get('expression') as NodePath).evaluate()
-              : attributeValue.evaluate();
-
-          if (
-            attributeValueEvaluated.confident &&
-            typeof attributeValueEvaluated.value === 'string'
-          ) {
-            return attributeValueEvaluated.value;
-          } else {
-            warnings.push(
-              `<Translate> prop=${propName} should be a statically evaluable object.\nExample: <Translate id="optional.id" description="optional description">Message</Translate>\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceWarningPart(
-                path.node,
-              )}`,
-            );
-          }
-        }
-
-        return undefined;
-      }
-
-      const id = evaluateJSXProp('id');
-      const description = evaluateJSXProp('description');
-      let message;
-      const childrenPath = path.get('children');
-
-      // Handle empty content
-      if (!childrenPath.length) {
-        if (!id) {
-          warnings.push(`
-            <Translate> without children must have id prop.\nExample: <Translate id="my-id" />\n${sourceWarningPart(
-              path.node,
-            )}
-          `);
-        } else {
-          translations[id] = {
-            message: message ?? id,
-            ...(description && {description}),
-          };
-        }
-
-        return;
-      }
-
-      // Handle single non-empty content
-      const singleChildren = childrenPath
-        // Remove empty/useless text nodes that might be around our translation!
-        // Makes the translation system more reliable to JSX formatting issues
-        .filter(
-          (children) =>
-            !(
-              children.isJSXText() &&
-              children.node.value.replace('\n', '').trim() === ''
-            ),
-        )
-        .pop();
-      const isJSXText = singleChildren && singleChildren.isJSXText();
-      const isJSXExpressionContainer =
-        singleChildren &&
-        singleChildren.isJSXExpressionContainer() &&
-        (singleChildren.get('expression') as NodePath).evaluate().confident;
-
-      if (isJSXText || isJSXExpressionContainer) {
-        message = isJSXText
-          ? singleChildren.node.value.trim().replace(/\s+/g, ' ')
-          : (singleChildren.get('expression') as NodePath).evaluate().value;
-
-        translations[id ?? message] = {
-          message,
-          ...(description && {description}),
-        };
-      } else {
-        warnings.push(
-          `Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.\n${sourceWarningPart(
-            path.node,
-          )}`,
-        );
-      }
+      translateComponentName = defaultImport?.get('local').node.name;
+      translateFunctionName = callbackImport?.get('local').node.name;
     },
+  });
 
-    CallExpression(path) {
-      if (!path.get('callee').isIdentifier({name: 'translate'})) {
-        return;
-      }
-
-      // console.log('CallExpression', path.node);
-      const args = path.get('arguments');
-      if (args.length === 1 || args.length === 2) {
-        const firstArgPath = args[0];
-
-        // evaluation allows translate("x" + "y"); to be considered as translate("xy");
-        const firstArgEvaluated = firstArgPath.evaluate();
-
-        // console.log('firstArgEvaluated', firstArgEvaluated);
-
+  traverse(ast, {
+    ...(translateComponentName && {
+      JSXElement(path) {
         if (
-          firstArgEvaluated.confident &&
-          typeof firstArgEvaluated.value === 'object'
+          !path
+            .get('openingElement')
+            .get('name')
+            .isJSXIdentifier({name: translateComponentName})
         ) {
-          const {message, id, description} = firstArgEvaluated.value;
+          return;
+        }
+        function evaluateJSXProp(propName: string): string | undefined {
+          const attributePath = path
+            .get('openingElement.attributes')
+            .find(
+              (attr) =>
+                attr.isJSXAttribute() &&
+                (attr as NodePath<t.JSXAttribute>)
+                  .get('name')
+                  .isJSXIdentifier({name: propName}),
+            );
+
+          if (attributePath) {
+            const attributeValue = attributePath.get('value') as NodePath;
+
+            const attributeValueEvaluated =
+              attributeValue.isJSXExpressionContainer()
+                ? (attributeValue.get('expression') as NodePath).evaluate()
+                : attributeValue.evaluate();
+
+            if (
+              attributeValueEvaluated.confident &&
+              typeof attributeValueEvaluated.value === 'string'
+            ) {
+              return attributeValueEvaluated.value;
+            } else {
+              warnings.push(
+                `<Translate> prop=${propName} should be a statically evaluable object.
+Example: <Translate id="optional id" description="optional description">Message</Translate>
+Dynamically constructed values are not allowed, because they prevent translations to be extracted.
+${sourceWarningPart(path.node)}`,
+              );
+            }
+          }
+
+          return undefined;
+        }
+
+        const id = evaluateJSXProp('id');
+        const description = evaluateJSXProp('description');
+        let message;
+        const childrenPath = path.get('children');
+
+        // Handle empty content
+        if (!childrenPath.length) {
+          if (!id) {
+            warnings.push(`<Translate> without children must have id prop.
+Example: <Translate id="my-id" />
+${sourceWarningPart(path.node)}`);
+          } else {
+            translations[id] = {
+              message: message ?? id,
+              ...(description && {description}),
+            };
+          }
+
+          return;
+        }
+
+        // Handle single non-empty content
+        const singleChildren = childrenPath
+          // Remove empty/useless text nodes that might be around our translation!
+          // Makes the translation system more reliable to JSX formatting issues
+          .filter(
+            (children) =>
+              !(
+                children.isJSXText() &&
+                children.node.value.replace('\n', '').trim() === ''
+              ),
+          )
+          .pop();
+        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXExpressionContainer =
+          singleChildren &&
+          singleChildren.isJSXExpressionContainer() &&
+          (singleChildren.get('expression') as NodePath).evaluate().confident;
+
+        if (isJSXText || isJSXExpressionContainer) {
+          message = isJSXText
+            ? singleChildren.node.value.trim().replace(/\s+/g, ' ')
+            : (singleChildren.get('expression') as NodePath).evaluate().value;
+
           translations[id ?? message] = {
-            message: message ?? id,
+            message,
             ...(description && {description}),
           };
         } else {
           warnings.push(
-            `translate() first arg should be a statically evaluable object.\nExample: translate({message: "text",id: "optional.id",description: "optional description"}\nDynamically constructed values are not allowed, because they prevent translations to be extracted.\n${sourceWarningPart(
-              path.node,
-            )}`,
+            `Translate content could not be extracted. It has to be a static string and use optional but static props, like <Translate id="my-id" description="my-description">text</Translate>.
+${sourceWarningPart(path.node)}`,
           );
         }
-      } else {
-        warnings.push(
-          `translate() function only takes 1 or 2 args\n${sourceWarningPart(
-            path.node,
-          )}`,
-        );
-      }
-    },
+      },
+    }),
+
+    ...(translateFunctionName && {
+      CallExpression(path) {
+        if (!path.get('callee').isIdentifier({name: translateFunctionName})) {
+          return;
+        }
+
+        const args = path.get('arguments');
+        if (args.length === 1 || args.length === 2) {
+          const firstArgPath = args[0];
+
+          // evaluation allows translate("x" + "y"); to be considered as translate("xy");
+          const firstArgEvaluated = firstArgPath.evaluate();
+
+          if (
+            firstArgEvaluated.confident &&
+            typeof firstArgEvaluated.value === 'object'
+          ) {
+            const {message, id, description} = firstArgEvaluated.value;
+            translations[id ?? message] = {
+              message: message ?? id,
+              ...(description && {description}),
+            };
+          } else {
+            warnings.push(
+              `translate() first arg should be a statically evaluable object.
+Example: translate({message: "text",id: "optional.id",description: "optional description"}
+Dynamically constructed values are not allowed, because they prevent translations to be extracted.
+${sourceWarningPart(path.node)}`,
+            );
+          }
+        } else {
+          warnings.push(
+            `translate() function only takes 1 or 2 args
+${sourceWarningPart(path.node)}`,
+          );
+        }
+      },
+    }),
   });
 
   return {sourceCodeFilePath, translations, warnings};

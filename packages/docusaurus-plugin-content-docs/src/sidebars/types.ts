@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Optional} from 'utility-types';
+import type {Optional, Required} from 'utility-types';
+import type {DocMetadataBase, VersionMetadata} from '../types';
 import type {
-  DocMetadataBase,
-  VersionMetadata,
   NumberPrefixParser,
   SidebarOptions,
-} from '../types';
+} from '@docusaurus/plugin-content-docs';
 
 // Makes all properties visible when hovering over the type
 type Expand<T extends Record<string, unknown>> = {[P in keyof T]: T[P]};
@@ -45,22 +44,45 @@ type SidebarItemCategoryBase = SidebarItemBase & {
   collapsible: boolean;
 };
 
+export type SidebarItemCategoryLinkDoc = {type: 'doc'; id: string};
+
+export type SidebarItemCategoryLinkGeneratedIndexConfig = {
+  type: 'generated-index';
+  slug?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
+};
+export type SidebarItemCategoryLinkGeneratedIndex = {
+  type: 'generated-index';
+  slug: string;
+  permalink: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
+};
+
+export type SidebarItemCategoryLinkConfig =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkGeneratedIndexConfig;
+
+export type SidebarItemCategoryLink =
+  | SidebarItemCategoryLinkDoc
+  | SidebarItemCategoryLinkGeneratedIndex;
+
 // The user-given configuration in sidebars.js, before normalization
 export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
     items: SidebarItemConfig[];
+    link?: SidebarItemCategoryLinkConfig;
   }
 >;
 
 export type SidebarCategoriesShorthand = {
   [sidebarCategory: string]: SidebarItemConfig[];
 };
-
-export function isCategoriesShorthand(
-  item: SidebarItemConfig,
-): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
-}
 
 export type SidebarItemConfig =
   | SidebarItemDoc
@@ -79,6 +101,7 @@ export type SidebarsConfig = {
 export type NormalizedSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: NormalizedSidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
 
@@ -96,13 +119,24 @@ export type NormalizedSidebars = {
 export type SidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: SidebarItem[];
+    link?: SidebarItemCategoryLink;
   }
 >;
+
+export type SidebarItemCategoryWithLink = Required<SidebarItemCategory, 'link'>;
+
+export type SidebarItemCategoryWithGeneratedIndex =
+  SidebarItemCategoryWithLink & {link: SidebarItemCategoryLinkGeneratedIndex};
 
 export type SidebarItem =
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategory;
+
+// A sidebar item that is part of the previous/next ordered navigation
+export type SidebarNavigationItem =
+  | SidebarItemDoc
+  | SidebarItemCategoryWithLink;
 
 export type Sidebar = SidebarItem[];
 export type SidebarItemType = SidebarItem['type'];
@@ -114,21 +148,42 @@ export type Sidebars = {
 export type PropSidebarItemCategory = Expand<
   SidebarItemCategoryBase & {
     items: PropSidebarItem[];
+    href?: string;
   }
 >;
 
-export type PropSidebarItem = SidebarItemLink | PropSidebarItemCategory;
+// we may want to use a union type in props instead of this generic link?
+export type PropSidebarItemLink = SidebarItemLink & {
+  docId?: string;
+};
+
+export type PropSidebarItem = PropSidebarItemLink | PropSidebarItemCategory;
 export type PropSidebar = PropSidebarItem[];
 export type PropSidebars = {
   [sidebarId: string]: PropSidebar;
 };
 
+export type PropVersionDoc = {
+  id: string;
+  title: string;
+  description?: string;
+  sidebar?: string;
+};
+export type PropVersionDocs = {
+  [docId: string]: PropVersionDoc;
+};
+
 // Reduce API surface for options.sidebarItemsGenerator
-// The user-provided generator fn should receive only a subset of metadatas
-// A change to any of these metadatas can be considered as a breaking change
+// The user-provided generator fn should receive only a subset of metadata
+// A change to any of these metadata can be considered as a breaking change
 export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
-  'id' | 'frontMatter' | 'source' | 'sourceDirName' | 'sidebarPosition'
+  | 'id'
+  | 'unversionedId'
+  | 'frontMatter'
+  | 'source'
+  | 'sourceDirName'
+  | 'sidebarPosition'
 >;
 export type SidebarItemsGeneratorVersion = Pick<
   VersionMetadata,
@@ -144,7 +199,9 @@ export type SidebarItemsGeneratorArgs = {
 };
 export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,
-) => Promise<SidebarItem[]>;
+) => // TODO TS issue: the generator can generate un-normalized items!
+Promise<SidebarItem[]>;
+// Promise<SidebarItemConfig[]>;
 
 // Also inject the default generator to conveniently wrap/enhance/sort the default sidebar gen logic
 // see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320

@@ -28,9 +28,10 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
     'airbnb',
     'prettier',
-    'prettier/react',
   ],
   settings: {
     'import/resolver': {
@@ -39,16 +40,22 @@ module.exports = {
       },
     },
   },
-  plugins: ['react-hooks', 'header'],
+  reportUnusedDisableDirectives: true,
+  plugins: ['react-hooks', 'header', 'jest'],
   rules: {
+    'react-hooks/rules-of-hooks': ERROR,
+    'react-hooks/exhaustive-deps': ERROR,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     // Ignore certain webpack alias because it can't be resolved
     'import/no-unresolved': [
       ERROR,
-      {ignore: ['^@theme', '^@docusaurus', '^@generated', 'unist', 'mdast']},
+      {
+        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
+      },
     ],
     'import/extensions': OFF,
+    'no-restricted-exports': OFF,
     'header/header': [
       ERROR,
       'block',
@@ -69,18 +76,26 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-underscore-dangle': OFF,
     curly: [WARNING, 'all'],
-    'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
-    'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
-    'react-hooks/rules-of-hooks': ERROR,
     'react/require-default-props': [ERROR, {ignoreFunctionalComponents: true}],
+    'react/function-component-definition': [
+      WARNING,
+      {
+        namedComponents: 'function-declaration',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
     '@typescript-eslint/no-inferrable-types': OFF,
-    'import/first': OFF,
+    '@typescript-eslint/consistent-type-imports': [
+      WARNING,
+      {disallowTypeAnnotations: false},
+    ],
     'import/order': OFF,
     'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
@@ -93,19 +108,16 @@ module.exports = {
     'no-unused-vars': OFF,
     'no-nested-ternary': WARNING,
     '@typescript-eslint/no-empty-function': OFF,
-    '@typescript-eslint/no-non-null-assertion': OFF, // Have to use type assertion anyways
+    '@typescript-eslint/no-non-null-assertion': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
       {argsIgnorePattern: '^_', ignoreRestSiblings: true},
     ],
+    '@typescript-eslint/explicit-module-boundary-types': WARNING,
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
-
-    // TODO re-enable some these as errors
-    // context: https://github.com/facebook/docusaurus/pull/2949
-    '@typescript-eslint/ban-types': WARNING,
     'import/no-extraneous-dependencies': ERROR,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
@@ -113,10 +125,11 @@ module.exports = {
     'array-callback-return': WARNING,
     camelcase: WARNING,
     'no-restricted-syntax': WARNING,
-    'no-unused-expressions': WARNING,
+    'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
+    'no-await-in-loop': OFF,
     'no-control-regex': WARNING,
     'no-empty': [WARNING, {allowEmptyCatch: true}],
     'no-prototype-builtins': WARNING,
@@ -127,13 +140,51 @@ module.exports = {
     'no-redeclare': OFF,
     '@typescript-eslint/no-redeclare': ERROR,
     '@typescript-eslint/no-empty-interface': [
-      'error',
+      ERROR,
       {
         allowSingleExtends: true,
       },
     ],
+    '@typescript-eslint/method-signature-style': ERROR,
+    'no-restricted-imports': [
+      ERROR,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: [
+              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              'filter',
+              'flatten',
+              'flatMap',
+              'map',
+              'reduce',
+              'take',
+              'takeRight',
+              'head',
+              'tail',
+              'initial',
+            ],
+            message: 'These APIs have their ES counterparts.',
+          },
+        ],
+      },
+    ],
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/expect-expect': OFF,
+    'jest/valid-title': OFF,
   },
   overrides: [
+    {
+      files: [
+        'packages/docusaurus-theme-*/src/theme/**/*.js',
+        'packages/docusaurus-theme-*/src/theme/**/*.ts',
+        'packages/docusaurus-theme-*/src/theme/**/*.tsx',
+      ],
+      rules: {
+        'import/no-named-export': ERROR,
+      },
+    },
     {
       files: [
         'packages/create-docusaurus/templates/**/*.js',
@@ -153,7 +204,13 @@ module.exports = {
       },
     },
     {
-      files: ['*.js'],
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'import/no-import-module-exports': OFF,
+      },
+    },
+    {
+      files: ['*.js', '*.mjs', '.cjs'],
       rules: {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,

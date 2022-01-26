@@ -18,6 +18,8 @@ export type Data = {
 export type ClassicPresetEntries = {
   docs: {[key: string]: unknown};
   blog: {[key: string]: unknown};
+  gtag?: {trackingID: string} | undefined;
+  googleAnalytics?: {trackingID: string} | undefined;
   theme: {[key: string]: unknown};
 };
 
@@ -51,9 +53,6 @@ export interface VersionTwoConfig {
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
-    gtag?: {
-      trackingID?: string;
-    };
     navbar: {
       title?: string;
       logo?: {
@@ -120,6 +119,7 @@ export type VersionOneConfig = {
   translationRecruitingLink?: string;
   algolia?: Record<string, unknown>;
   gaTrackingId?: string;
+  gaGtag?: boolean;
   highlight?: Record<string, unknown>;
   markdownPlugins?: Array<() => void>;
   scripts?: Array<{src: string; [key: string]: unknown} | string>;

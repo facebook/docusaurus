@@ -65,11 +65,14 @@ function BlogPostItem(props: Props): JSX.Element {
   const image = assets.image ?? frontMatter.image;
   const truncatedPost = !isBlogPostPage && truncated;
   const tagsExists = tags.length > 0;
+  const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
 
-  const renderPostHeader = () => {
-    const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
-
-    return (
+  return (
+    <article
+      className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}
+      itemProp="blogPost"
+      itemScope
+      itemType="http://schema.org/BlogPosting">
       <header>
         <TitleHeading className={styles.blogPostTitle} itemProp="headline">
           {isBlogPostPage ? (
@@ -94,16 +97,6 @@ function BlogPostItem(props: Props): JSX.Element {
         </div>
         <BlogPostAuthors authors={authors} assets={assets} />
       </header>
-    );
-  };
-
-  return (
-    <article
-      className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}
-      itemProp="blogPost"
-      itemScope
-      itemType="http://schema.org/BlogPosting">
-      {renderPostHeader()}
 
       {image && (
         <meta itemProp="image" content={withBaseUrl(image, {absolute: true})} />
