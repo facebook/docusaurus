@@ -43,7 +43,7 @@
 }
 
 input:focus-visible ~ .checkboxLabel::after {
-  outline: 2px solid currentcolor;
+  outline: 2px solid currentColor;
 }
 
 .checkboxLabel > * {
