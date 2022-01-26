@@ -25,7 +25,7 @@ import {DefaultSidebarItemsGenerator} from './generator';
 import {mapValues, memoize, pick} from 'lodash';
 import combinePromises from 'combine-promises';
 import {normalizeItem} from './normalization';
-import {isConventionalDocIndex} from '../docs';
+import {isCategoryIndex} from '../docs';
 import type {Slugger} from '@docusaurus/utils';
 import type {
   NumberPrefixParser,
@@ -96,7 +96,7 @@ async function processSidebar(
       item,
       numberPrefixParser,
       defaultSidebarItemsGenerator: DefaultSidebarItemsGenerator,
-      isCategoryIndex: isConventionalDocIndex,
+      isCategoryIndex,
       ...getSidebarItemsGeneratorDocsAndVersion(),
       options: sidebarOptions,
     });

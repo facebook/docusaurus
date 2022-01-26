@@ -19,14 +19,13 @@ import {
   addTrailingSlash,
   posixPath,
   findAsyncSequential,
-  splitPath,
 } from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
 import {validateCategoryMetadataFile} from './validation';
-import {createDocsByIdIndex} from '../docs';
+import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 
 const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
@@ -217,7 +216,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
             return false;
           }
           const doc = getDoc(item.id);
-          return isCategoryIndex(splitPath(doc.source.replace('@site/', '')));
+          return isCategoryIndex(toCategoryIndexMatcherParam(doc));
         }) as SidebarItemDoc | undefined;
       }
 
