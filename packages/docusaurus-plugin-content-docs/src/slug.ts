@@ -16,7 +16,7 @@ import {
   stripPathNumberPrefixes,
 } from './numberPrefix';
 import type {DocMetadataBase} from './types';
-import {isConventionalDocIndex} from './docs';
+import {isCategoryIndex, toCategoryIndexMatcherParam} from './docs';
 import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 export default function getSlug({
@@ -29,7 +29,7 @@ export default function getSlug({
 }: {
   baseID: string;
   frontMatterSlug?: string;
-  source: DocMetadataBase['slug'];
+  source: DocMetadataBase['source'];
   sourceDirName: DocMetadataBase['sourceDirName'];
   stripDirNumberPrefixes?: boolean;
   numberPrefixParser?: NumberPrefixParser;
@@ -50,7 +50,10 @@ export default function getSlug({
       return frontMatterSlug;
     } else {
       const dirNameSlug = getDirNameSlug();
-      if (!frontMatterSlug && isConventionalDocIndex({source, sourceDirName})) {
+      if (
+        !frontMatterSlug &&
+        isCategoryIndex(toCategoryIndexMatcherParam({source, sourceDirName}))
+      ) {
         return dirNameSlug;
       }
       const baseSlug = frontMatterSlug || baseID;
