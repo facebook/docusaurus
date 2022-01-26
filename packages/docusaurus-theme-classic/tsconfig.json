@@ -3,9 +3,10 @@
   "compilerOptions": {
     "lib": ["DOM", "ES2019"],
     "module": "esnext",
-    "noEmit": true,
     "jsx": "react",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "lib"
   },
   "include": ["src/"]
 }
