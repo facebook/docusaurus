@@ -23,6 +23,7 @@ blockquotes
 browserslist
 browserstack
 buble
+builtins
 caabernathy
 cacheable
 callouts
@@ -50,6 +51,7 @@ datas
 dedup
 deduplicated
 déja
+deps
 devto
 dmitry
 docgen
@@ -100,6 +102,7 @@ infima
 inlines
 intelli
 interpolatable
+jakepartusch
 jamstack
 javadoc
 jmarcey
@@ -115,14 +118,17 @@ koyeb
 kubernetes
 lamana
 lifecycles
+lighthouserc
 linkify
 localizable
+longpaths
 lorber
 lowercased
 lqip
 lunrjs
 mapbox
 marcey
+marocchino
 massoud
 mathjax
 mdast
@@ -131,6 +137,7 @@ mdxhast
 metadatum
 metastring
 middlewares
+minifier
 mkcert
 mkdir
 mkdirs
@@ -153,6 +160,7 @@ nojekyll
 noninteractive
 noreply
 npmjs
+npmrc
 nprogress
 ntfs
 nuxt
@@ -175,7 +183,9 @@ photoshop
 picocolors
 pluggable
 plushie
+pnpm
 posthog
+preactjs
 precache
 precached
 precaching
@@ -251,7 +261,9 @@ toplevel
 transifex
 transpiles
 treeify
+treosh
 triaging
+typecheck
 typesense
 unflat
 unist
