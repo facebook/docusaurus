@@ -176,7 +176,7 @@ async function buildLocale({
 
     if (configureWebpack) {
       clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         clientConfig,
         false,
         props.siteConfig.webpack?.jsLoader,
@@ -184,7 +184,7 @@ async function buildLocale({
       );
 
       serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         serverConfig,
         true,
         props.siteConfig.webpack?.jsLoader,
@@ -220,7 +220,8 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      // The plugin may reference `this`. We manually bind it again to prevent any bugs.
+      await plugin.postBuild({...props, content: plugin.content});
     }),
   );
 
