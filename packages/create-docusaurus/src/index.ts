@@ -270,23 +270,18 @@ export default async function init(
 
   const pkgManager = useYarn ? 'yarn' : 'npm';
   // Display the most elegant way to cd.
-  const cdpath =
-    path.join(process.cwd(), name) === dest
-      ? name
-      : path.relative(process.cwd(), name);
+  const cdpath = path.relative('.', dest);
   if (!cliOptions.skipInstall) {
+    shell.cd(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
-      shell.exec(
-        `cd "${name}" && ${useYarn ? 'yarn' : 'npm install --color always'}`,
-        {
-          env: {
-            ...process.env,
-            // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
-            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
-          },
+      shell.exec(useYarn ? 'yarn' : 'npm install --color always', {
+        env: {
+          ...process.env,
+          // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+          ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
         },
-      ).code !== 0
+      }).code !== 0
     ) {
       logger.error('Dependency installation failed.');
       logger.info`The site directory has already been created, and you can retry by typing:
