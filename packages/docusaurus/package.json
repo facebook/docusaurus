@@ -102,7 +102,7 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-dev-server": "^4.7.1",
     "webpack-merge": "^5.8.0",
-    "webpackbar": "^5.0.0-3"
+    "webpackbar": "^5.0.2"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.14",
@@ -112,8 +112,11 @@
     "@types/mini-css-extract-plugin": "^1.4.3",
     "@types/nprogress": "^0.2.0",
     "@types/react-dom": "^17.0.9",
+    "@types/react-helmet": "^6.0.0",
+    "@types/react-router-config": "^5.0.1",
     "@types/rtl-detect": "^1.0.0",
     "@types/serve-handler": "^6.1.1",
+    "@types/wait-on": "^5.2.0",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "react-test-renderer": "^17.0.2",
     "tmp-promise": "^3.0.2"
