@@ -36,7 +36,6 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
   ConfigureWebpackUtils,
-  Props,
   Plugin,
   HtmlTags,
   OptionValidationContext,
@@ -512,14 +511,11 @@ export default async function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild({outDir, content}) {
       if (!options.feedOptions.type) {
         return;
       }
-
-      // TODO: we shouldn't need to re-read the posts here!
-      // postBuild should receive loadedContent
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const {blogPosts} = content;
       if (!blogPosts.length) {
         return;
       }
