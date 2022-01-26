@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-beta.15",
+  "version": "2.0.0-beta.14",
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/theme-classic.d.ts",
@@ -21,15 +21,15 @@
     "format:lib-next": "prettier --config ../../.prettierrc --write \"lib-next/**/*.{js,ts,jsx,tsc}\""
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.15",
-    "@docusaurus/plugin-content-blog": "2.0.0-beta.15",
-    "@docusaurus/plugin-content-docs": "2.0.0-beta.15",
-    "@docusaurus/plugin-content-pages": "2.0.0-beta.15",
-    "@docusaurus/theme-common": "2.0.0-beta.15",
-    "@docusaurus/theme-translations": "2.0.0-beta.15",
-    "@docusaurus/utils": "2.0.0-beta.15",
-    "@docusaurus/utils-common": "2.0.0-beta.15",
-    "@docusaurus/utils-validation": "2.0.0-beta.15",
+    "@docusaurus/core": "2.0.0-beta.14",
+    "@docusaurus/plugin-content-blog": "2.0.0-beta.14",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.14",
+    "@docusaurus/plugin-content-pages": "2.0.0-beta.14",
+    "@docusaurus/theme-common": "2.0.0-beta.14",
+    "@docusaurus/theme-translations": "2.0.0-beta.14",
+    "@docusaurus/utils": "2.0.0-beta.14",
+    "@docusaurus/utils-common": "2.0.0-beta.14",
+    "@docusaurus/utils-validation": "2.0.0-beta.14",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^3.0.1",
@@ -42,8 +42,8 @@
     "rtlcss": "^3.3.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.15",
-    "@docusaurus/types": "2.0.0-beta.15",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.14",
+    "@docusaurus/types": "2.0.0-beta.14",
     "@types/mdx-js__react": "^1.5.4",
     "@types/parse-numeric-range": "^0.0.1",
     "@types/prismjs": "^1.16.2",
