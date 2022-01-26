@@ -218,7 +218,7 @@ test('empty headings', async () => {
 
     # Ignore this
 
-    ##
+    ## 
 
     ## ![](an-image.svg)
     "
