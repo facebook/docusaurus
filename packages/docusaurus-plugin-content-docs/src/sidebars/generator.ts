@@ -25,7 +25,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import Yaml from 'js-yaml';
 import {validateCategoryMetadataFile} from './validation';
-import {createDocsByIdIndex, isConventionalDocIndex} from '../docs';
+import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
 
 const BreadcrumbSeparator = '/';
 // To avoid possible name clashes with a folder of the same name as the ID
@@ -94,6 +94,7 @@ async function readCategoryMetadataFile(
 // Comment for this feature: https://github.com/facebook/docusaurus/issues/3464#issuecomment-818670449
 export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
   numberPrefixParser,
+  isCategoryIndex,
   docs: allDocs,
   options,
   item: {dirName: autogenDir},
@@ -210,10 +211,13 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       }
 
       function findConventionalCategoryDocLink(): SidebarItemDoc | undefined {
-        return allItems.find(
-          (item) =>
-            item.type === 'doc' && isConventionalDocIndex(getDoc(item.id)),
-        ) as SidebarItemDoc | undefined;
+        return allItems.find((item) => {
+          if (item.type !== 'doc') {
+            return false;
+          }
+          const doc = getDoc(item.id);
+          return isCategoryIndex(toCategoryIndexMatcherParam(doc));
+        }) as SidebarItemDoc | undefined;
       }
 
       function getCategoryLinkedDocId(): string | undefined {

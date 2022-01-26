@@ -82,8 +82,8 @@ export type DocMetadataBase = LastUpdateData & {
   version: string;
   title: string;
   description: string;
-  source: string; // @site aliased source => "@site/docs/folder/subFolder/subSubFolder/myDoc.md"
-  sourceDirName: string; // relative to the versioned docs folder (can be ".") => "folder/subFolder/subSubFolder"
+  source: string; // @site aliased posix source => "@site/docs/folder/subFolder/subSubFolder/myDoc.md"
+  sourceDirName: string; // posix path relative to the versioned docs folder (can be ".") => "folder/subFolder/subSubFolder"
   slug: string;
   permalink: string;
   sidebarPosition?: number;
