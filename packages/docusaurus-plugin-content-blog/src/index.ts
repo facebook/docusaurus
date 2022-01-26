@@ -36,12 +36,10 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
   ConfigureWebpackUtils,
-  Props,
   Plugin,
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
-  LoadedPlugin,
 } from '@docusaurus/types';
 import type {Configuration} from 'webpack';
 import {
@@ -513,11 +511,11 @@ export default async function pluginContentBlog(
       };
     },
 
-    async postBuild(this: LoadedPlugin<BlogContent>, {outDir}: Props) {
+    async postBuild({outDir, content}) {
       if (!options.feedOptions.type) {
         return;
       }
-      const {blogPosts} = this.content;
+      const {blogPosts} = content;
       if (!blogPosts.length) {
         return;
       }

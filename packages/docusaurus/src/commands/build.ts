@@ -221,7 +221,7 @@ async function buildLocale({
         return;
       }
       // The plugin may reference `this`. We manually bind it again to prevent any bugs.
-      await plugin.postBuild.call(plugin, props);
+      await plugin.postBuild({...props, content: plugin.content});
     }),
   );
 

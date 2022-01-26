@@ -7,7 +7,12 @@
 
 import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
 import type {BlogPost} from './types';
-import {normalizeUrl, posixPath, mapAsyncSequential} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  posixPath,
+  mapAsyncSequential,
+  readOutputHTMLFile,
+} from '@docusaurus/utils';
 import cheerio from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
@@ -17,6 +22,7 @@ import type {
   PluginOptions,
   Author,
 } from '@docusaurus/plugin-content-blog';
+import {blogPostContainerID} from '@docusaurus/utils-common';
 
 async function generateBlogFeed({
   blogPosts,
@@ -69,24 +75,11 @@ async function generateBlogFeed({
       },
     } = post;
 
-    const potentialPaths = [
-      path.join(
-        outDir,
-        permalink.replace(siteConfig.baseUrl, ''),
-        'index.html',
-      ),
-      path.join(outDir, `${permalink.replace(siteConfig.baseUrl, '')}.html`),
-    ];
-
-    const HTMLPath = potentialPaths.find(fs.pathExistsSync);
-    if (!HTMLPath) {
-      throw new Error(
-        `Blog post build output cannot be found at ${potentialPaths.join(
-          ' or ',
-        )}`,
-      );
-    }
-    const content = await fs.readFile(HTMLPath);
+    const content = await readOutputHTMLFile(
+      permalink.replace(siteConfig.baseUrl, ''),
+      outDir,
+      siteConfig.trailingSlash,
+    );
     const $ = cheerio.load(content);
 
     const feedItem: FeedItem = {
@@ -97,7 +90,7 @@ async function generateBlogFeed({
       description,
       // Atom feed demands the "term", while other feeds use "name"
       category: tags.map((tag) => ({name: tag.label, term: tag.label})),
-      content: $('#post-content').html()!,
+      content: $(`#${blogPostContainerID}`).html()!,
     };
 
     // json1() method takes the first item of authors array

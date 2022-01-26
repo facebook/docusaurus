@@ -22,6 +22,7 @@
     "@docusaurus/logger": "2.0.0-beta.14",
     "@docusaurus/mdx-loader": "2.0.0-beta.14",
     "@docusaurus/utils": "2.0.0-beta.14",
+    "@docusaurus/utils-common": "2.0.0-beta.14",
     "@docusaurus/utils-validation": "2.0.0-beta.14",
     "cheerio": "^1.0.0-rc.10",
     "feed": "^4.2.2",
