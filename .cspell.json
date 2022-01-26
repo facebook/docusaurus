@@ -30,7 +30,9 @@
     "website/src/data/users.tsx",
     "*.xyz",
     "*.docx",
-    "versioned_docs"
+    "versioned_docs",
+    ".yarn",
+    ".yarnrc.yml"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }
