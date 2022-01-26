@@ -4,6 +4,7 @@
   "description": "Advanced cssnano preset for maximum optimization.",
   "main": "index.js",
   "license": "MIT",
+  "private": true,
   "publishConfig": {
     "access": "public"
   },
