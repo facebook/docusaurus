@@ -104,7 +104,7 @@ export function MobileSecondaryMenuFiller<
   const memoizedProps = useShallowMemoizedObject(props);
 
   useEffect(() => {
-    // @ts-expect-error: context is not 100% typesafe but it's ok
+    // @ts-expect-error: context is not 100% type-safe but it's ok
     setState({component, props: memoizedProps});
   }, [setState, component, memoizedProps]);
 

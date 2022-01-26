@@ -124,7 +124,7 @@ module.exports = {
 
 ### Announcement bar {#announcement-bar}
 
-Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar. All configuration are in the `announcementBar` object.
+Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissible panel above the navbar. All configuration are in the `announcementBar` object.
 
 Accepted fields:
 

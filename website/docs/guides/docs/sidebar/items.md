@@ -223,6 +223,21 @@ Use `generated-index` links as a quick way to get an introductory document.
 
 :::
 
+#### Embedding generated index in doc page
+
+You can embed the generated cards list in a normal doc page as well, as long as the doc is used as a category index page. To do so, you need to use the `DocCardList` component, paired with the `useCurrentSidebarCategory` hook.
+
+```jsx title="a-category-index-page.md"
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+In this section, we will introduce the following concepts:
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+
+See this in action on the [sidebar guides page](index.md).
+
 ### Collapsible categories {#collapsible-categories}
 
 We support the option to expand/collapse categories. Categories are collapsible by default, but you can disable collapsing with `collapsible: false`.

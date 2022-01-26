@@ -339,7 +339,6 @@ const config = {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
-        contextualSearch: true,
       },
       navbar: {
         hideOnScroll: true,
@@ -513,7 +512,9 @@ const config = {
 };
 
 async function createConfig() {
-  const FeatureRequestsPlugin = (await import('./src/featureRequests/FeatureRequestsPlugin.mjs')).default;
+  const FeatureRequestsPlugin = (
+    await import('./src/featureRequests/FeatureRequestsPlugin.mjs')
+  ).default;
   const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;

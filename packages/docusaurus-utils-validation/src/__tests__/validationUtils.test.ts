@@ -32,7 +32,7 @@ describe('validateFrontMatter', () => {
       validateFrontMatter(frontMatter, schema),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"test\\" must be a string"`);
     expect(consoleError).toHaveBeenCalledWith(
-      expect.stringContaining('The following frontmatter'),
+      expect.stringContaining('The following front matter'),
     );
   });
 
@@ -48,7 +48,7 @@ describe('validateFrontMatter', () => {
   });
 
   // Fix Yaml trying to convert strings to numbers automatically
-  // We only want to deal with a single type in the final frontmatter (not string | number)
+  // We only want to deal with a single type in the final front matter (not string | number)
   test('should convert number values to string when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),
@@ -60,7 +60,7 @@ describe('validateFrontMatter', () => {
   });
 
   // Helps to fix Yaml trying to convert strings to dates automatically
-  // We only want to deal with a single type in the final frontmatter (not string | Date)
+  // We only want to deal with a single type in the final front matter (not string | Date)
   test('should convert date values when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),

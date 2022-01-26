@@ -84,8 +84,8 @@ export function fileToPath(file: string): string {
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
-export function encodePath(userpath: string): string {
-  return userpath
+export function encodePath(userPath: string): string {
+  return userPath
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');

@@ -31,7 +31,7 @@ const TranslatableSourceCodeExtension = new Set([
   '.ts',
   '.tsx',
   // TODO support md/mdx too? (may be overkill)
-  // need to compile the MDX to JSX first and remove frontmatter
+  // need to compile the MDX to JSX first and remove front matter
   // '.md',
   // '.mdx',
 ]);
