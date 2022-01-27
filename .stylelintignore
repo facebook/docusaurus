@@ -1,8 +1,5 @@
-*.*
+*.* # Stylelint runs on everything by default
 !*.css
-!*.md
-!*.mdx
-!*.html
 build
 coverage
 examples/
@@ -19,3 +16,4 @@ docs-tests-symlink
 __fixtures__
 LICENSE
 LICENSE-docs
+website/static/katex/katex.min.css

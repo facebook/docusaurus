@@ -128,6 +128,21 @@ module.exports = {
 };
 ```
 
+## Self-hosting KaTeX assets
+
+Loading stylesheets, fonts, and javascript libraries from CDN sources is a good practice for popular libraries and assets. If the same assets are used across various websites, they will be cached by the browser instead of being downloaded every time we visit a new website, reducing network load. In case you prefer to self-host the `katex.min.css` (along with required KaTeX fonts), you can download the latest version from [KaTeX GitHub releases](https://github.com/KaTeX/KaTeX/releases), extract and copy `katex.min.css` and `fonts` directory (only `.woff2` font types should be enough) to your site's `static` directory, and in `docusaurus.config.js`, replace the stylesheet's `href` from the CDN url to your local path (say, `/katex/katex.min.css`).
+
+```js title="docusaurus.config.js"
+module.exports = {
+  stylesheets: [
+    {
+      href: '/katex/katex.min.css',
+      type: 'text/css',
+    },
+  ],
+};
+```
+
 ## Upgrading rehype-katex beyond recommended version
 
 :::tip

@@ -30,7 +30,8 @@
     "website/src/data/users.tsx",
     "*.xyz",
     "*.docx",
-    "versioned_docs"
+    "versioned_docs",
+    "*.min.css"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }

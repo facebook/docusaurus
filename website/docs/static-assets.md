@@ -80,7 +80,7 @@ In CSS, the `url()` function is commonly used to reference assets like fonts and
 
 ```css
 @font-face {
-  font-family: Caroline;
+  font-family: 'Caroline';
   src: url('/font/Caroline.otf');
 }
 ```

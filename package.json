@@ -48,7 +48,7 @@
     "lint:ci": "yarn lint:js --quiet && yarn lint:style && yarn lint:spelling",
     "lint:js": "eslint --cache  --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx,mjs}\"",
     "lint:spelling": "cspell \"**\" --no-progress",
-    "lint:style": "stylelint .",
+    "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "cross-env TZ=UTC jest",
     "test:build:website": "./admin/scripts/test-release.sh",
@@ -117,8 +117,10 @@
     "*.{js,jsx,ts,tsx,mjs}": [
       "eslint --fix"
     ],
+    "*.css": [
+      "stylelint --allow-empty-input --fix"
+    ],
     "*": [
-      "stylelint --allow-empty-input --fix",
       "prettier --ignore-unknown --write",
       "cspell --no-must-find-files --no-progress"
     ]
