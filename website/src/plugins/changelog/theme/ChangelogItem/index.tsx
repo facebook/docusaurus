@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {blogPostContainerID} from '@docusaurus/utils-common';
 import MDXComponents from '@theme/MDXComponents';
 import type {Props} from '@theme/BlogPostItem';
 
@@ -66,7 +67,7 @@ function ChangelogItem(props: Props): JSX.Element {
 
       <div
         // This ID is used for the feed generation to locate the main content
-        id={isBlogPostPage ? 'post-content' : undefined}
+        id={isBlogPostPage ? blogPostContainerID : undefined}
         className="markdown"
         itemProp="articleBody">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
