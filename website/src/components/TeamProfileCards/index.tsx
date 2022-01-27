@@ -224,7 +224,9 @@ export function StudentFellowsTeamRow(): JSX.Element {
           values={{
             websiteLink: (
               <Link href="https://developersam.com">
-                <Translate id="team.profile.Anshul Goyal.body.websiteLink.label" />
+                <Translate id="team.profile.Anshul Goyal.body.websiteLink.label">
+                  website
+                </Translate>
               </Link>
             ),
             samLangLink: (
