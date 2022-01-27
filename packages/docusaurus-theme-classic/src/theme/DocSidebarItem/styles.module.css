@@ -9,6 +9,7 @@
   .menuLinkText {
     cursor: initial;
   }
+
   .menuLinkText:hover {
     background: none;
   }

@@ -20,7 +20,7 @@
   width: 100%;
 }
 
-.tocCollapsibleButton:after {
+.tocCollapsibleButton::after {
   content: '';
   background: var(--ifm-menu-link-sublist-icon) 50% 50% / 2rem 2rem no-repeat;
   filter: var(--ifm-menu-link-sublist-icon-filter);
@@ -45,6 +45,6 @@
   display: block;
 }
 
-.tocCollapsibleExpanded .tocCollapsibleButton:after {
+.tocCollapsibleExpanded .tocCollapsibleButton::after {
   transform: none;
 }

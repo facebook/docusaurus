@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "সার্চ",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "আলগোলিয়া দ্বারা অনুসন্ধান করুন",
   "theme.SearchPage.documentsFound.plurals": "একটি ডকুমেন্ট পাওয়া গেছে|{count} ডকুমেন্টস পাওয়া গেছে",
   "theme.SearchPage.emptyResultsTitle": "ডকুমেন্টেশন অনুসন্ধান করুন",

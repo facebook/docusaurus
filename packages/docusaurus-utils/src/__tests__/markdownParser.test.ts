@@ -552,7 +552,7 @@ Lorem Ipsum
 });
 
 describe('parseMarkdownString', () => {
-  test('parse markdown with frontmatter', () => {
+  test('parse markdown with front matter', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -592,7 +592,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown)', () => {
+  test('should warn about duplicate titles (front matter + markdown)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -617,7 +617,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown alternate)', () => {
+  test('should warn about duplicate titles (front matter + markdown alternate)', () => {
     expect(
       parseMarkdownString(dedent`
         ---

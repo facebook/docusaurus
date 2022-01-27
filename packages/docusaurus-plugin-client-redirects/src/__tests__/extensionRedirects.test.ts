@@ -16,7 +16,7 @@ describe('createToExtensionsRedirects', () => {
       createToExtensionsRedirects(['/'], ['']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\"\\" is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -25,7 +25,7 @@ describe('createToExtensionsRedirects', () => {
       createToExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -34,7 +34,7 @@ describe('createToExtensionsRedirects', () => {
       createToExtensionsRedirects(['/'], ['ht/ml']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\"ht/ml\\" contains a \\"/\\" (slash) which is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -43,7 +43,7 @@ describe('createToExtensionsRedirects', () => {
       createToExtensionsRedirects(['/'], [',']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\",\\" contains invalid URI characters.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -80,7 +80,7 @@ describe('createFromExtensionsRedirects', () => {
       createFromExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -89,7 +89,7 @@ describe('createFromExtensionsRedirects', () => {
       createFromExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\".html\\" contains a \\".\\" (dot) which is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -98,7 +98,7 @@ describe('createFromExtensionsRedirects', () => {
       createFromExtensionsRedirects(['/'], ['ht/ml']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\"ht/ml\\" contains a \\"/\\" (slash) which is not allowed.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 
@@ -107,7 +107,7 @@ describe('createFromExtensionsRedirects', () => {
       createFromExtensionsRedirects(['/'], [',']);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Extension \\",\\" contains invalid URI characters.
-      If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the \\"createRedirects\\" plugin option."
+      If the redirect extension system is not good enough for your use case, you can create redirects yourself with the \\"createRedirects\\" plugin option."
     `);
   });
 

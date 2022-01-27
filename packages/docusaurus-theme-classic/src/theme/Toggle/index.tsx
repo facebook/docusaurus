@@ -9,6 +9,7 @@ import React, {useState, useRef, memo} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig, type ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -61,7 +62,11 @@ const ToggleComponent = memo(
           checked={checked}
           type="checkbox"
           className={styles.toggleScreenReader}
-          aria-label="Switch between dark and light mode"
+          aria-label={translate({
+            message: 'Switch between dark and light mode',
+            id: 'theme.colorToggle.ariaLabel',
+            description: 'The ARIA label for the navbar color mode toggle',
+          })}
           onChange={onChange}
           onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}

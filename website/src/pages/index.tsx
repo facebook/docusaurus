@@ -95,6 +95,8 @@ function Home(): JSX.Element {
                 alt={translate({message: 'Docusaurus with Keytar'})}
                 className={styles.heroLogo}
                 src={useBaseUrl('/img/docusaurus_keytar.svg')}
+                width="200"
+                height="200"
               />
               <span
                 className={styles.heroTitleTextHtml}
@@ -157,6 +159,8 @@ function Home(): JSX.Element {
                   className={styles.featureImage}
                   alt="Powered by MDX"
                   src={useBaseUrl('/img/undraw_typewriter.svg')}
+                  width="1009.54"
+                  height="717.96"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Powered by Markdown</Translate>
@@ -176,6 +180,8 @@ function Home(): JSX.Element {
                   alt="Built Using React"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_react.svg')}
+                  width="1108"
+                  height="731.18"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Built Using React</Translate>
@@ -193,6 +199,8 @@ function Home(): JSX.Element {
                   alt="Ready for Translations"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_around_the_world.svg')}
+                  width="1137"
+                  height="776.59"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Ready for Translations</Translate>
@@ -213,6 +221,8 @@ function Home(): JSX.Element {
                   alt="Document Versioning"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_version_control.svg')}
+                  width="1038.23"
+                  height="693.31"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Document Versioning</Translate>
@@ -230,6 +240,8 @@ function Home(): JSX.Element {
                   alt="Document Search"
                   className={styles.featureImage}
                   src={useBaseUrl('/img/undraw_algolia.svg')}
+                  width="1137.97"
+                  height="736.21"
                 />
                 <h2 className={clsx(styles.featureHeading)}>
                   <Translate>Content Search</Translate>

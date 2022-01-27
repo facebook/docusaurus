@@ -26,7 +26,7 @@
 .checkboxLabel:hover {
   opacity: 1;
   box-shadow: var(--ifm-global-shadow-md),
-    0px 0px 2px 1px var(--ifm-color-primary-dark);
+    0 0 2px 1px var(--ifm-color-primary-dark);
 }
 
 .checkboxLabel::after {

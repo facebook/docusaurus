@@ -27,11 +27,14 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-interface PluginOptions {
-  filePath: string;
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
-}
+};
+
+type Context = PluginOptions & {
+  filePath: string;
+};
 
 async function toImageRequireNode(
   node: Image,
@@ -89,7 +92,7 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
 
 async function getImageAbsolutePath(
   imagePath: string,
-  {siteDir, filePath, staticDirs}: PluginOptions,
+  {siteDir, filePath, staticDirs}: Context,
 ) {
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
@@ -123,11 +126,11 @@ async function getImageAbsolutePath(
   }
 }
 
-async function processImageNode(node: Image, options: PluginOptions) {
+async function processImageNode(node: Image, context: Context) {
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
-        options.filePath,
+        context.filePath,
       )}" file`,
     );
   }
@@ -144,15 +147,17 @@ async function processImageNode(node: Image, options: PluginOptions) {
     return;
   }
 
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, options);
-  await toImageRequireNode(node, imagePath, options.filePath);
+  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
+  await toImageRequireNode(node, imagePath, context.filePath);
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root) => {
+  const transformer: Transformer = async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image) => {
-      promises.push(processImageNode(node, options));
+      promises.push(
+        processImageNode(node, {...options, filePath: vfile.path!}),
+      );
     });
     await Promise.all(promises);
   };

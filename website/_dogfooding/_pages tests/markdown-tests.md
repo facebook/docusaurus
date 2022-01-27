@@ -25,3 +25,9 @@ See [#3309](https://github.com/facebook/docusaurus/issues/3309)
 - [pathname://../dogfooding/javadoc](pathname://../dogfooding/javadoc)
 
 - [pathname://../dogfooding/javadoc/index.html](pathname://../dogfooding/javadoc/index.html)
+
+## Linking to JSON
+
+- [./script.js](./_script.js)
+
+- [./data.json](./data.json)
