@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "exports": {
     "./client": "./lib/client/index.js",
+    "./versions": "./lib/versions.js",
     ".": "./lib/index.js"
   },
   "types": "src/plugin-content-docs.d.ts",
