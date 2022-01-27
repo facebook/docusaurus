@@ -13,6 +13,7 @@ describe('readComponentNames', () => {
     const themePath = path.join(__dirname, '__fixtures__', 'theme');
     expect(readComponentNames(themePath)).toMatchInlineSnapshot(`
       Array [
+        "ComponentInFolder/ComponentInSubFolder",
         "ComponentInFolder",
         "FirstLevelComponent",
       ]
