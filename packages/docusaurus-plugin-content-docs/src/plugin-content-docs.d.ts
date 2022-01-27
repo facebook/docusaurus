@@ -13,6 +13,15 @@ declare module '@docusaurus/plugin-content-docs' {
     numberPrefix?: number;
   };
 
+  export type CategoryIndexMatcherParam = {
+    fileName: string;
+    directories: string[];
+    extension: string;
+  };
+  export type CategoryIndexMatcher = (
+    param: CategoryIndexMatcherParam,
+  ) => boolean;
+
   export type EditUrlFunction = (editUrlParams: {
     version: string;
     versionDocsDirPath: string;

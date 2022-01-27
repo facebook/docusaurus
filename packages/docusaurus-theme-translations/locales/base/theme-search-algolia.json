@@ -1,6 +1,7 @@
 {
   "theme.SearchBar.label": "Search",
   "theme.SearchBar.label___DESCRIPTION": "The ARIA label and placeholder for search button",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Search by Algolia",
   "theme.SearchPage.algoliaLabel___DESCRIPTION": "The ARIA label for Algolia mention",
   "theme.SearchPage.documentsFound.plurals": "One document found|{count} documents found",

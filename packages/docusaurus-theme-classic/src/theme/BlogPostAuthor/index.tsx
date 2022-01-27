@@ -22,7 +22,7 @@ function BlogPostAuthor({author}: Props): JSX.Element {
       )}
 
       {
-        // Note: only legacy author frontmatter allow empty name (not frontMatter.authors)
+        // Note: only legacy author front matter allow empty name (not frontMatter.authors)
         name && (
           <div
             className="avatar__intro"

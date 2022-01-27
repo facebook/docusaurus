@@ -91,6 +91,7 @@ const sidebars = {
         'search',
         'browser-support',
         'seo',
+        'using-plugins',
         'deployment',
         {
           type: 'category',
@@ -114,12 +115,20 @@ const sidebars = {
             },
           ],
         },
+        'guides/whats-next',
       ],
     },
     {
       type: 'category',
       label: 'Advanced Guides',
-      items: ['using-plugins', 'using-themes', 'presets'],
+      link: {type: 'doc', id: 'advanced/index'},
+      items: [
+        'advanced/architecture',
+        'advanced/plugins',
+        'advanced/routing',
+        'advanced/swizzling',
+        'advanced/ssg',
+      ],
     },
     {
       type: 'category',

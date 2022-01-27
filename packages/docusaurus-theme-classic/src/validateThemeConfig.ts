@@ -277,8 +277,10 @@ const ThemeConfigSchema = Joi.object({
   metadata: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadata),
+  // cSpell:ignore metadatas
   metadatas: Joi.any().forbidden().messages({
     'any.unknown':
+      // cSpell:ignore metadatas
       'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
   }),
   announcementBar: Joi.object({

@@ -98,11 +98,11 @@
   border: 0.4em solid #eee;
   border-top-color: var(--ifm-color-primary);
   border-radius: 50%;
-  animation: loadingspin 1s linear infinite;
+  animation: loading-spin 1s linear infinite;
   margin: 0 auto;
 }
 
-@keyframes loadingspin {
+@keyframes loading-spin {
   100% {
     transform: rotate(360deg);
   }

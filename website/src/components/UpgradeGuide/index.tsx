@@ -15,6 +15,7 @@ import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import Translate from '@docusaurus/Translate';
 
 function PackageJson() {
   const latestVersion = useLatestVersion();
@@ -50,12 +51,21 @@ function VersionNotice() {
       return (
         <Admonition type="caution">
           <p>
-            You are browsing an archived version and the snippet below is
-            outdated. Please go to the{' '}
-            <Link href="https://docusaurus.io/docs/installation">
-              main site
-            </Link>{' '}
-            and follow the instructions there to upgrade to the latest version.
+            <Translate
+              id="upgradeGuide.archivedVersion.notice"
+              values={{
+                mainSiteLink: (
+                  <Link href="https://docusaurus.io/docs/installation">
+                    <Translate id="upgradeGuide.archivedVersion.notice.mainSiteLink.label">
+                      main site
+                    </Translate>
+                  </Link>
+                ),
+              }}>
+              {
+                'You are browsing an archived version and the snippet below is outdated. Please go to the {mainSiteLink} and follow the instructions there to upgrade to the latest version.'
+              }
+            </Translate>
           </p>
         </Admonition>
       );
@@ -65,12 +75,23 @@ function VersionNotice() {
     return (
       <Admonition type="info">
         <p>
-          You are browsing the documentation of an unreleased version. If you
-          want to use any unreleased feature, you can use the{' '}
-          <Link href="/community/canary">
-            <code>@canary</code> release
-          </Link>
-          .
+          <Translate
+            id="upgradeGuide.unreleasedVersion.notice"
+            values={{
+              canaryDocLink: (
+                <Link href="/community/canary">
+                  <Translate
+                    id="upgradeGuide.unreleasedVersion.notice.canaryDocLink.label"
+                    values={{canaryTag: <code>@canary</code>}}>
+                    {'{canaryTag} release'}
+                  </Translate>
+                </Link>
+              ),
+            }}>
+            {
+              'You are browsing the documentation of an unreleased version. If you want to use any unreleased feature, you can use the {canaryDocLink}.'
+            }
+          </Translate>
         </p>
       </Admonition>
     );
@@ -79,8 +100,10 @@ function VersionNotice() {
     return (
       <Admonition type="caution">
         <p>
-          You are browsing the documentation of an outdated version. The snippet
-          below shows how to upgrade to the latest version.
+          <Translate id="upgradeGuide.outdatedVersion.notice">
+            You are browsing the documentation of an outdated version. The
+            snippet below shows how to upgrade to the latest version.
+          </Translate>
         </p>
       </Admonition>
     );

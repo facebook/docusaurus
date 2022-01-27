@@ -27,4 +27,4 @@ jobs:
       - name: Test
         run: yarn test
       - name: TypeCheck website
-        run: yarn workspace website tsc
+        run: yarn workspace website typecheck
