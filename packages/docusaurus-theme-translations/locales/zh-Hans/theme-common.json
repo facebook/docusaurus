@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "展开侧边栏",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} 篇带有标签「{tagName}」",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 篇文档带有标签",
-  "theme.docs.versionBadge.label": "版本：",
+  "theme.docs.versionBadge.label": "版本：{versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "最新版本",
   "theme.docs.versions.latestVersionSuggestionLabel": "最新的文档请参阅 {latestVersionLink} ({versionLabel})。",
   "theme.docs.versions.unmaintainedVersionLabel": "此为 {siteTitle} {versionLabel} 版的文档，现已不再积极维护。",

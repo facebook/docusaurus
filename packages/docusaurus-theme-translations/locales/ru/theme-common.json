@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Развернуть сайдбар",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "последней версии",
   "theme.docs.versions.latestVersionSuggestionLabel": "Актуальная документация находится на странице {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Это документация {siteTitle} для версии {versionLabel}, которая уже не поддерживается.",

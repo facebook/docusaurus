@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Déplier le menu latéral",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} avec \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Un document tagué|{count} documents tagués",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "dernière version",
   "theme.docs.versions.latestVersionSuggestionLabel": "Pour une documentation à jour, consultez la {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ceci est la documentation de {siteTitle} {versionLabel}, qui n'est plus activement maintenue.",

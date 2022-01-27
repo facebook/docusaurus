@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Expandir painel lateral",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} com \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Um documento selecionado|{count} documentos selecionados",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "última versão",
   "theme.docs.versions.latestVersionSuggestionLabel": "Para a documentação atualizada, veja: {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Esta é a documentação para {siteTitle} {versionLabel}, que não é mais mantida ativamente.",

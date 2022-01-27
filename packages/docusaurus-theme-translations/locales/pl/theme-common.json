@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Rozszerz boczny panel",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "bieżącej wersji",
   "theme.docs.versions.latestVersionSuggestionLabel": "Aby zobaczyć bieżącą dokumentację, przejdź do wersji {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ta dokumentacja dotyczy {siteTitle} w wersji {versionLabel} i nie jest już aktywnie aktualizowana.",

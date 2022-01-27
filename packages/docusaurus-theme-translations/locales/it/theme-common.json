@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Espandi la barra laterale",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} con \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Un documento etichettato|{count} documenti etichettati",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "ultima versione",
   "theme.docs.versions.latestVersionSuggestionLabel": "Per la documentazione aggiornata, guarda la {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Questa è la documentazione per {siteTitle} {versionLabel}, che non è più attivamente mantenuta.",

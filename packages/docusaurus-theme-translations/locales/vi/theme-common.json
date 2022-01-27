@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Mở rộng thanh bên",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} với \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Một tài liệu đã gắn thẻ|{count} tài liệu đã gắn thẻ",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "phiên bản mới nhất",
   "theme.docs.versions.latestVersionSuggestionLabel": "Để xem các cập nhật mới nhất, vui lòng xem phiên bản {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Đây là tài liệu của {siteTitle} {versionLabel}, hiện không còn được bảo trì.",

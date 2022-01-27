@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Palakihin ang sidebar",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "pinakahuling bersiyón",
   "theme.docs.versions.latestVersionSuggestionLabel": "Para sa up-to-date na dokumentasyón, tingnan ang {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ito ay dokumentasyón para sa {siteTitle} {versionLabel} na hindi na aktibong mine-maintain.",

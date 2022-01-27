@@ -23,8 +23,11 @@ export default function DocVersionBadge({
           ThemeClassNames.docs.docVersionBadge,
           'badge badge--secondary',
         )}>
-        <Translate id="theme.docs.versionBadge.label">Version: </Translate>
-        {versionMetadata.label}
+        <Translate
+          id="theme.docs.versionBadge.label"
+          values={{versionLabel: versionMetadata.label}}>
+          {'Version: {versionLabel}'}
+        </Translate>
       </span>
     );
   }

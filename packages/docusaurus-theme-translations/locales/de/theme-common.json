@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Seitenleiste ausklappen",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "letzte Version",
   "theme.docs.versions.latestVersionSuggestionLabel": "Für die aktuellste Dokumentation bitte auf {latestVersionLink} ({versionLabel}) gehen.",
   "theme.docs.versions.unmaintainedVersionLabel": "Das ist die Dokumentation für {siteTitle} {versionLabel} und wird nicht weiter gewartet.",

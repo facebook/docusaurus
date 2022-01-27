@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Udvid sidenavigation",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "seneste version",
   "theme.docs.versions.latestVersionSuggestionLabel": "For seneste dokumentation, se {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Dette er dokumentationen for {siteTitle} {versionLabel}, som ikke længere bliver aktivt vedligeholdt.",

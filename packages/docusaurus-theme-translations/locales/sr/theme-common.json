@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Прошири бочну листу",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} означени са \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Један документ означен|{count} означених докумената",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "Најновија верзија",
   "theme.docs.versions.latestVersionSuggestionLabel": "За најновију верзију документације погледајте {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Ово је документација за {siteTitle} {versionLabel}, која се више не одржава",

@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "باز کردن نوار کناری",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} با \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "یک مطلب برچسب شده|{count} مطلب برچسب شده",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "آخرین نسخه",
   "theme.docs.versions.latestVersionSuggestionLabel": "برای دیدن آخرین نسخه این متن، نسخه {latestVersionLink} ({versionLabel}) را ببینید.",
   "theme.docs.versions.unmaintainedVersionLabel": "نسخه {siteTitle} {versionLabel} دیگر به روزرسانی نمی شود.",

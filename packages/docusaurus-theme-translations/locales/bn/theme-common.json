@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "সাইডবারটি প্রসারিত করুন",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "লেটেস্ট ভার্সন",
   "theme.docs.versions.latestVersionSuggestionLabel": "আপ-টু-ডেট ডকুমেন্টেশনের জন্য, {latestVersionLink} ({versionLabel}) দেখুন।",
   "theme.docs.versions.unmaintainedVersionLabel": "এটি {siteTitle} {versionLabel} এর জন্যে ডকুমেন্টেশন, যা আর সক্রিয়ভাবে রক্ষণাবেক্ষণ করা হয় না।",

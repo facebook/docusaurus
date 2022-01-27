@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "साइडबार खोलें",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "सबसे नया वर्जन",
   "theme.docs.versions.latestVersionSuggestionLabel": "अप-टू-डेट डॉक्यूमेंटेशन के लिए {latestVersionLink} ({versionLabel}) देखें।",
   "theme.docs.versions.unmaintainedVersionLabel": "यह {siteTitle} {versionLabel} के लिए डॉक्यूमेंटेशन है, जिसे अब सक्रिय रूप से नहीं बनाए रखा गया है।",

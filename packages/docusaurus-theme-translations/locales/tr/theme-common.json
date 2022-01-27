@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "Kenar çubuğunu genişlet",
   "theme.docs.tagDocListPageTitle": "\"{tagName}\" ile etiketlenmiş {nDocsTagged}",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "Bir doküman etiketlendi|{count} doküman etiketlendi",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "en son sürüm",
   "theme.docs.versions.latestVersionSuggestionLabel": "Güncel belgeler için bkz. {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "Bu, {siteTitle} {versionLabel} dokümantasyonudur ve bakımı sonlanmıştır.",

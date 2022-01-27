@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "展開側邊欄",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} 篇帶有標籤「{tagName}」",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 篇文件帶有標籤",
-  "theme.docs.versionBadge.label": "版本：",
+  "theme.docs.versionBadge.label": "版本：{versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "最新版本",
   "theme.docs.versions.latestVersionSuggestionLabel": "最新的文件請參閱 {latestVersionLink} ({versionLabel})。",
   "theme.docs.versions.unmaintainedVersionLabel": "此為 {siteTitle} {versionLabel} 版的文件，現已不再積極維護。",

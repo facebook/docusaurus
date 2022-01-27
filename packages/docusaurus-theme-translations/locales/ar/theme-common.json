@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "توسيع الشريط الجانبي",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} مستند موسوم بـ \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "مستند موسوم واحد|{count} مستندات موسومة",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "احدث اصدار",
   "theme.docs.versions.latestVersionSuggestionLabel": "للحصول على أحدث الوثائق، راجع {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "هذه هي وثائق {siteTitle} {versionLabel}، التي لم تعد تتم صيانتها بشكل نشط.",

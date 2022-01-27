@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "פתח",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} with \"{tagName}\"",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "One doc tagged|{count} docs tagged",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "גרסא אחרונה",
   "theme.docs.versions.latestVersionSuggestionLabel": "לדוקומנטאציה עדכנית, ראה {latestVersionLink} ({versionLabel}).",
   "theme.docs.versions.unmaintainedVersionLabel": "דוקומנטאציה זו {siteTitle} {versionLabel}, כבר לא נתמכת.",

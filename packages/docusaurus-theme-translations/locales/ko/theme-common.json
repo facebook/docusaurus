@@ -39,7 +39,7 @@
   "theme.docs.sidebar.expandButtonTitle": "사이드바 열기",
   "theme.docs.tagDocListPageTitle": "{nDocsTagged} \"{tagName}\" 태그에 분류되었습니다",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 개 문서가",
-  "theme.docs.versionBadge.label": "Version:",
+  "theme.docs.versionBadge.label": "Version: {versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "최신 버전",
   "theme.docs.versions.latestVersionSuggestionLabel": "최신 문서는 {latestVersionLink} ({versionLabel})을 확인하세요.",
   "theme.docs.versions.unmaintainedVersionLabel": "{siteTitle} {versionLabel} 문서는 더 이상 업데이트되지 않습니다.",
