@@ -352,6 +352,8 @@ If the `link` is explicitly specified, Docusaurus will not apply any [default co
 
 The doc links can be specified relatively, e.g. if the category is generated with the `guides` directory, `"link": {"type": "doc", "id": "intro"}` will be resolved to the ID `guides/intro`, only falling back to `intro` if a doc with the former ID doesn't exist.
 
+You can also use `link: null` to opt out of default conventions and not generate any category index page.
+
 :::
 
 :::info

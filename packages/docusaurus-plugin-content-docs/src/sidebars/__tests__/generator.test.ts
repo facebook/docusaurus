@@ -416,6 +416,10 @@ describe('DefaultSidebarItemsGenerator', () => {
           id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
         },
       },
+      'Category2/_category_.yml': {
+        label: 'Category 2 label',
+        link: null,
+      },
     });
 
     const sidebarSlice = await DefaultSidebarItemsGenerator({
@@ -447,6 +451,24 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {},
         },
+        {
+          id: 'parent/doc4',
+          source: '@site/docs/Category2/doc1.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc5',
+          source: '@site/docs/Category2/index.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc6',
+          source: '@site/docs/Category2/doc3.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
       ],
       options: {
         sidebarCollapsed: true,
@@ -471,6 +493,26 @@ describe('DefaultSidebarItemsGenerator', () => {
           },
           {
             id: 'parent/doc2',
+            type: 'doc',
+          },
+        ],
+      },
+      {
+        type: 'category',
+        label: 'Category 2 label',
+        collapsed: true,
+        collapsible: true,
+        items: [
+          {
+            id: 'parent/doc4',
+            type: 'doc',
+          },
+          {
+            id: 'parent/doc5',
+            type: 'doc',
+          },
+          {
+            id: 'parent/doc6',
             type: 'doc',
           },
         ],
