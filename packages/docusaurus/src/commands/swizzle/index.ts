@@ -16,6 +16,7 @@ import type {InitializedPlugin} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {normalizeOptions} from './common';
 import {executeAction, getAction} from './actions';
+import {getThemeSwizzleConfig} from './config';
 
 async function listAllThemeComponents({
   themeNames,
@@ -30,9 +31,11 @@ async function listAllThemeComponents({
     await Promise.all(
       themeNames.map((themeName) => {
         const themePath = getThemePath({themeName, plugins, typescript});
+        const swizzleConfig = getThemeSwizzleConfig(themeName);
         const themeComponents = getThemeComponents({
           themeName,
           themePath,
+          swizzleConfig,
         });
         return themeComponentsTable(themeComponents);
       }),
@@ -69,9 +72,11 @@ export default async function swizzle(
 
   const themeName = await getThemeName({themeNameParam, themeNames, list});
   const themePath = getThemePath({themeName, plugins, typescript});
+  const swizzleConfig = getThemeSwizzleConfig(themeName);
   const themeComponents = getThemeComponents({
     themeName,
     themePath,
+    swizzleConfig,
   });
 
   const componentName = await getComponentName({

@@ -49,13 +49,17 @@ function validateSwizzleConfig(swizzleConfig: unknown): SwizzleConfig {
   return swizzleConfig as SwizzleConfig;
 }
 
-export function getThemeSwizzleConfig(
-  themeName: string,
-): SwizzleConfig | undefined {
+const FallbackSwizzleConfig: SwizzleConfig = {
+  components: {},
+};
+
+// TODO we shouldn't need to use importFresh here: we already have imported the plugin modules!
+// Current approach does not work with an inline theme plugin (although it's unusual)
+export function getThemeSwizzleConfig(themeName: string): SwizzleConfig {
   const module = importFresh<ImportedPluginModule>(themeName);
   const config = getModuleSwizzleConfig(module);
   if (config) {
     return validateSwizzleConfig(config);
   }
-  return undefined;
+  return FallbackSwizzleConfig;
 }

@@ -318,10 +318,10 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
 };
 
 export type SwizzleAction = 'eject' | 'wrap';
-export type SwizzleActionStatus = 'safe' | 'unsafe'; // we may add other statuses later
+export type SwizzleActionStatus = 'safe' | 'unsafe'; // we may add other statuses later // TODO add "unknown" ?
 
 export type SwizzleComponentConfig = {
-  actions: Record<SwizzleAction, SwizzleActionStatus>;
+  actions: Partial<Record<SwizzleAction, SwizzleActionStatus>>;
   description?: string;
 };
 

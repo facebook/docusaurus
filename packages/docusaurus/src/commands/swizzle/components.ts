@@ -19,7 +19,6 @@ import {askComponentName, askSwizzleDangerousComponent} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import {SwizzleActions} from './actions';
-import {getThemeSwizzleConfig} from './config';
 
 export type ThemeComponents = {
   themeName: string;
@@ -86,14 +85,12 @@ ${statusTable()}
 export function getThemeComponents({
   themeName,
   themePath,
+  swizzleConfig,
 }: {
   themeName: string;
   themePath: string;
+  swizzleConfig: SwizzleConfig;
 }): ThemeComponents {
-  const FallbackSwizzleConfig: SwizzleConfig = {
-    components: {},
-  };
-
   const FallbackSwizzleActionStatus: SwizzleActionStatus = 'unsafe';
 
   const FallbackSwizzleComponentDescription = 'N/A';
@@ -107,10 +104,13 @@ export function getThemeComponents({
   };
 
   const allComponents = readComponentNames(themePath);
-  const swizzleConfig =
-    getThemeSwizzleConfig(themeName) ?? FallbackSwizzleConfig;
 
   function getConfig(component: string): SwizzleComponentConfig {
+    if (!allComponents.includes(component)) {
+      throw new Error(
+        `Can't get component config: component doesn't exist: ${component}`,
+      );
+    }
     return (
       swizzleConfig.components[component] ?? FallbackSwizzleComponentConfig
     );
