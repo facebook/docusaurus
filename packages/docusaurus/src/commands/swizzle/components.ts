@@ -36,12 +36,12 @@ export type ThemeComponents = {
 
 const formatComponentName = (componentName: string): string =>
   componentName
-    .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
+    .replace(/([/\\])index\.(js|tsx|ts|jsx)/, '')
     .replace(/\.(js|tsx|ts|jsx)/, '');
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
 
-export function readComponentNames(themePath: string) {
+export function readComponentNames(themePath: string): string[] {
   function walk(dir: string): string[] {
     return fs.readdirSync(dir).flatMap((file) => {
       const fullPath = path.join(dir, file);
