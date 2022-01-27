@@ -23,9 +23,7 @@ export default function BlogPostAuthors({
   if (authorsCount === 0) {
     return null;
   }
-  const filteredAuthors = authors
-    .map(({imageURL, url}) => ({imageURL, url}))
-    .slice(0, expanded ? authors.length : 10);
+  const filteredAuthors = authors.slice(0, expanded ? authors.length : 10);
   return (
     <div
       className={clsx(
