@@ -34,7 +34,7 @@ cli
   .description('Build website.')
   .option(
     '--bundle-analyzer',
-    'visualize size of webpack output files with an interactive zoomable treemap (default: false)',
+    'visualize size of webpack output files with an interactive zoomable tree map (default: false)',
   )
   .option(
     '--out-dir <dir>',

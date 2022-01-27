@@ -112,7 +112,7 @@ export function validateFrontMatter<T>(
 
     logValidationBugReportHint();
 
-    logger.error`The following frontmatter:
+    logger.error`The following front matter:
 ${logger.yellow(frontMatterString)}
 contains invalid values for field(s): ${logger.yellow(invalidFields)}.
 ${errorDetails.map(({message}) => message)}

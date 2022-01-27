@@ -73,11 +73,8 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css',
+      href: '/katex/katex.min.css',
       type: 'text/css',
-      integrity:
-        'sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ',
-      crossorigin: 'anonymous',
     },
   ],
   i18n: {
@@ -360,7 +357,6 @@ const config = {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
-        contextualSearch: true,
       },
       navbar: {
         hideOnScroll: true,
@@ -538,7 +534,9 @@ const config = {
 };
 
 async function createConfig() {
-  const FeatureRequestsPlugin = (await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')).default;
+  const FeatureRequestsPlugin = (
+    await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')
+  ).default;
   const configTabs = (await import('./src/remark/configTabs.mjs')).default;
   const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
   const darkTheme = (await import('./src/utils/prismDark.mjs')).default;

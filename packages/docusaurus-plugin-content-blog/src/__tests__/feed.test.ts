@@ -44,10 +44,10 @@ async function testGenerateFeeds(
   );
 
   await createBlogFeedFiles({
-    blogPosts,
+    blogPosts: blogPosts.filter((post) => !post.metadata.frontMatter.draft),
     options,
     siteConfig: context.siteConfig,
-    outDir: 'build',
+    outDir: context.outDir,
   });
 }
 
@@ -64,12 +64,14 @@ describe('blogFeed', () => {
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };
+        const outDir = path.join(siteDir, 'build-snap');
 
         await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
             i18n: DefaultI18N,
+            outDir,
           } as LoadContext,
           {
             path: 'invalid-blog-path',
@@ -92,7 +94,7 @@ describe('blogFeed', () => {
 
       test('shows feed item for each post', async () => {
         const siteDir = path.join(__dirname, '__fixtures__', 'website');
-        const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
+        const outDir = path.join(siteDir, 'build-snap');
         const siteConfig = {
           title: 'Hello',
           baseUrl: '/myBaseUrl/',
@@ -100,12 +102,14 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
+        // Build is quite difficult to mock, so we built the blog beforehand and
+        // copied the output to the fixture...
         await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
-            generatedFilesDir,
             i18n: DefaultI18N,
+            outDir,
           } as LoadContext,
           {
             path: 'blog',
@@ -123,7 +127,7 @@ describe('blogFeed', () => {
           } as PluginOptions,
         );
 
-        expect(fsMock.mock.calls).toMatchSnapshot();
+        expect(fsMock.mock.calls.map((call) => call[1])).toMatchSnapshot();
         fsMock.mockClear();
       });
     });

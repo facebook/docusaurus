@@ -31,7 +31,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([]);
   });
 
-  test('can read author from legacy frontmatter', () => {
+  test('can read author from legacy front matter', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -251,7 +251,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when mixing legacy/new authors frontmatter', () => {
+  test('throw when mixing legacy/new authors front matter', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -261,8 +261,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
 
     expect(() =>
@@ -274,8 +274,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: {slorber: {name: 'Sébastien Lorber'}},
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
   });
 });

@@ -12,7 +12,7 @@ import {
   readVersionDocs,
   readDocFile,
   addDocNavigation,
-  isConventionalDocIndex,
+  isCategoryIndex,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
@@ -37,15 +37,15 @@ const fixtureDir = path.join(__dirname, '__fixtures__');
 
 const createFakeDocFile = ({
   source,
-  frontmatter = {},
+  frontMatter = {},
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontmatter?: Record<string, string>;
+  frontMatter?: Record<string, string>;
   markdown?: string;
 }): DocFile => {
   const content = `---
-${Object.entries(frontmatter)
+${Object.entries(frontMatter)
   .map(([key, value]) => `${key}: ${value}`)
   .join('\n')}
 ---
@@ -313,7 +313,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with custom editUrl & unrelated frontmatter', async () => {
+  test('docs with custom editUrl & unrelated frontMatter', async () => {
     const {defaultTestUtils} = await loadSite();
 
     await defaultTestUtils.testMeta('lorem.md', {
@@ -328,7 +328,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       tags: [],
     });
@@ -422,7 +422,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
@@ -475,7 +475,7 @@ describe('simple site', () => {
       defaultTestUtils.processDocFile(
         createFakeDocFile({
           source: 'some/fake/path',
-          frontmatter: {
+          frontMatter: {
             id: 'Hello/world',
           },
         }),
@@ -499,7 +499,7 @@ describe('simple site', () => {
     docs.push(
       createFakeDocFile({
         source: 'hehe',
-        frontmatter: {pagination_prev: 'nonexistent'},
+        frontMatter: {pagination_prev: 'nonexistent'},
       }),
     );
     await expect(
@@ -938,108 +938,124 @@ describe('versioned site', () => {
 describe('isConventionalDocIndex', () => {
   test('supports readme', () => {
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'readme.md',
+      isCategoryIndex({
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'readme.mdx',
+      isCategoryIndex({
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'README.md',
+      isCategoryIndex({
+        fileName: 'README',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'parent/ReAdMe',
+      isCategoryIndex({
+        fileName: 'ReAdMe',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
   });
 
   test('supports index', () => {
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'index.md',
+      isCategoryIndex({
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'index.mdx',
+      isCategoryIndex({
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'INDEX.md',
+      isCategoryIndex({
+        fileName: 'INDEX',
+        directories: ['doesNotMatter'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'parent/InDeX',
+      isCategoryIndex({
+        fileName: 'InDeX',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
   });
 
   test('supports <categoryName>/<categoryName>.md', () => {
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory',
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory', 'doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory.md',
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'someCategory.mdx',
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.mdx',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'some_category',
-        source: 'SOME_CATEGORY.md',
+      isCategoryIndex({
+        fileName: 'SOME_CATEGORY',
+        directories: ['some_category'],
+        extension: '.md',
       }),
     ).toEqual(true);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'some_category',
-        source: 'parent/some_category',
+      isCategoryIndex({
+        fileName: 'some_category',
+        directories: ['some_category'],
+        extension: '',
       }),
     ).toEqual(true);
   });
 
   test('reject other cases', () => {
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'someCategory',
-        source: 'some_Category',
+      isCategoryIndex({
+        fileName: 'some_Category',
+        directories: ['someCategory'],
+        extension: '',
       }),
     ).toEqual(false);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'read_me',
+      isCategoryIndex({
+        fileName: 'read_me',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(false);
     expect(
-      isConventionalDocIndex({
-        sourceDirName: 'doesNotMatter',
-        source: 'the index',
+      isCategoryIndex({
+        fileName: 'the index',
+        directories: ['doesNotMatter'],
+        extension: '',
       }),
     ).toEqual(false);
   });

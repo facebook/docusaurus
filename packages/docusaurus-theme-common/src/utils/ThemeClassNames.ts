@@ -48,6 +48,7 @@ export const ThemeClassNames = {
     docFooter: 'theme-doc-footer',
     docFooterTagsRow: 'theme-doc-footer-tags-row',
     docFooterEditMetaRow: 'theme-doc-footer-edit-meta-row',
+    docSidebarContainer: 'theme-doc-sidebar-container',
     docSidebarMenu: 'theme-doc-sidebar-menu',
     docSidebarItemCategory: 'theme-doc-sidebar-item-category',
     docSidebarItemLink: 'theme-doc-sidebar-item-link',

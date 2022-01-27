@@ -13,7 +13,7 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options?) => {
-  const path = join(__dirname, 'fixtures', `${name}.md`);
+  const path = join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
     .use(headings)

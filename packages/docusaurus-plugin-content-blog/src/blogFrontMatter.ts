@@ -6,7 +6,7 @@
  */
 
 import {
-  JoiFrontMatter as Joi, // Custom instance for frontmatter
+  JoiFrontMatter as Joi, // Custom instance for front matter
   URISchema,
   validateFrontMatter,
   FrontMatterTagsSchema,
@@ -35,7 +35,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
   draft: Joi.boolean(),
   date: Joi.date().raw(),
 
-  // New multi-authors frontmatter:
+  // New multi-authors front matter:
   authors: Joi.alternatives()
     .try(
       Joi.string(),
@@ -50,7 +50,7 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
     .messages({
       'alternatives.match': FrontMatterAuthorErrorMessage,
     }),
-  // Legacy author frontmatter
+  // Legacy author front matter
   author: Joi.string(),
   author_title: Joi.string(),
   author_url: URISchema,
