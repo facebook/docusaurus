@@ -11,6 +11,7 @@ import Color from 'color';
 import CodeBlock from '@theme/CodeBlock';
 import Admonition from '@theme/Admonition';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 import {useColorMode} from '@docusaurus/theme-common';
 
 import {
@@ -86,20 +87,31 @@ function ColorGenerator(): JSX.Element {
     <div>
       <Admonition type="tip">
         <p>
-          Aim for at least{' '}
-          <Link href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
-            WCAG-AA contrast ratio
-          </Link>{' '}
-          for the primary color to ensure readability. Use the Docusaurus
-          website itself to preview how your color palette would look like. You
-          can use alternative palettes in dark mode because one color
-          doesn&apos;t usually work in both light and dark mode.
+          <Translate
+            id="colorGenerator.tip.body"
+            values={{
+              wcagLink: (
+                <Link href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
+                  <Translate id="colorGenerator.tip.body.wcagLink.label">
+                    WCAG-AA contrast ratio
+                  </Translate>
+                </Link>
+              ),
+            }}>
+            {
+              "Aim for at least {wcagLink} for the primary color to ensure readability. Use the Docusaurus website itself to preview how your color palette would look like. You can use alternative palettes in dark mode because one color doesn't usually work in both light and dark mode."
+            }
+          </Translate>
         </p>
       </Admonition>
       <p>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="primary_color">
-          <strong className="margin-right--sm">Primary Color:</strong>
+          <strong className="margin-right--sm">
+            <Translate id="colorGenerator.inputs.primary.label">
+              Primary Color:
+            </Translate>
+          </strong>
         </label>{' '}
         <input
           id="primary_color"
@@ -125,7 +137,21 @@ function ColorGenerator(): JSX.Element {
               setDarkTheme();
             }
           }}>
-          Edit {isDarkTheme ? 'light' : 'dark'} mode
+          <Translate
+            id="colorGenerator.inputs.modeToggle.label"
+            values={{
+              colorMode: isDarkTheme ? (
+                <Translate id="colorGenerator.inputs.modeToggle.label.colorMode.light">
+                  light
+                </Translate>
+              ) : (
+                <Translate id="colorGenerator.inputs.modeToggle.label.colorMode.dark">
+                  dark
+                </Translate>
+              ),
+            }}>
+            {'Edit {colorMode} mode'}
+          </Translate>
         </button>
         <button
           type="button"
@@ -136,13 +162,19 @@ function ColorGenerator(): JSX.Element {
             setBackground(DEFAULT_BACKGROUND_COLOR);
             setShades(COLOR_SHADES);
           }}>
-          Reset
+          <Translate id="colorGenerator.inputs.resetButton.label">
+            Reset
+          </Translate>
         </button>
       </p>
       <p>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="background_color">
-          <strong className="margin-right--sm">Background:</strong>
+          <strong className="margin-right--sm">
+            <Translate id="colorGenerator.inputs.background.label">
+              Background:
+            </Translate>
+          </strong>
         </label>
         <input
           id="background_color"
@@ -158,10 +190,32 @@ function ColorGenerator(): JSX.Element {
         <table className={styles.colorTable}>
           <thead>
             <tr>
-              <th>CSS Variable Name</th>
-              <th>Hex</th>
-              <th>Adjustment</th>
-              <th>Contrast Rating</th>
+              <th>
+                <Translate id="colorGenerator.table.heading1">
+                  CSS Variable Name
+                </Translate>
+              </th>
+              <th>
+                <Translate
+                  id="colorGenerator.table.heading2"
+                  description="This column is the color's representation in hex">
+                  Hex
+                </Translate>
+              </th>
+              <th>
+                <Translate
+                  id="colorGenerator.table.heading3"
+                  description="This column is the adjusted shades' adjustment values relative to the primary color">
+                  Adjustment
+                </Translate>
+              </th>
+              <th>
+                <Translate
+                  id="colorGenerator.table.heading4"
+                  description="This column is WCAG contrast rating: AAA, AA, Fail">
+                  Contrast Rating
+                </Translate>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -225,8 +279,11 @@ function ColorGenerator(): JSX.Element {
         </table>
       </div>
       <p>
-        Replace the variables in <code>src/css/custom.css</code> with these new
-        variables.
+        <Translate
+          id="colorGenerator.text"
+          values={{cssPath: <code>src/css/custom.css</code>}}>
+          {'Replace the variables in {cssPath} with these new variables.'}
+        </Translate>
       </p>
       <CodeBlock className="language-css" title="/src/css/custom.css">
         {`${isDarkTheme ? "html[data-theme='dark']" : ':root'} {

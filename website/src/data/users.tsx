@@ -62,7 +62,7 @@ export type TagType =
 export type User = {
   title: string;
   description: string;
-  preview: any;
+  preview: string;
   website: string;
   source: string | null;
   tags: TagType[];
