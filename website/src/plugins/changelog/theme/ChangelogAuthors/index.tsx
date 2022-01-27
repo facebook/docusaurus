@@ -8,7 +8,7 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import type {Props} from '@theme/BlogPostAuthors';
-import BlogPostAuthor from '@theme/BlogPostAuthor';
+import ChangelogAuthor from '@theme/ChangelogAuthor';
 
 import styles from './styles.module.css';
 import IconExpand from '@theme/IconExpand';
@@ -34,7 +34,7 @@ export default function BlogPostAuthors({
       )}>
       {filteredAuthors.map((author, idx) => (
         <div className={styles.imageOnlyAuthorCol} key={idx}>
-          <BlogPostAuthor
+          <ChangelogAuthor
             author={{
               ...author,
               // Handle author images using relative paths
