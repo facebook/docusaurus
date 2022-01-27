@@ -321,7 +321,7 @@ export type SwizzleAction = 'eject' | 'wrap';
 export type SwizzleActionStatus = 'safe' | 'unsafe'; // we may add other statuses later
 
 export type SwizzleComponentConfig = {
-  actions: Record<SwizzleComponentAction, SwizzleActionStatus>;
+  actions: Record<SwizzleAction, SwizzleActionStatus>;
   description?: string;
 };
 
