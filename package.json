@@ -99,8 +99,6 @@
     "lint-staged": "^12.1.7",
     "netlify-cli": "^8.0.5",
     "nodemon": "^2.0.13",
-    "postcss-html": "^1.3.0",
-    "postcss-markdown": "^1.2.0",
     "prettier": "^2.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
