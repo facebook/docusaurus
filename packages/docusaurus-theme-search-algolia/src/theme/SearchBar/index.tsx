@@ -16,7 +16,7 @@ import Head from '@docusaurus/Head';
 import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
-import {translate} from '@docusaurus/Translate';
+import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 import type {
@@ -59,7 +59,11 @@ function ResultsFooter({state, onClose}: ResultsFooterProps) {
 
   return (
     <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
-      See all {state.context.nbHits} results
+      <Translate
+        id="theme.SearchBar.seeAll"
+        values={{count: state.context.nbHits}}>
+        {'See all {count} results'}
+      </Translate>
     </Link>
   );
 }
