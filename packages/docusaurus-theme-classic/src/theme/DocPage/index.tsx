@@ -70,9 +70,13 @@ function DocPageContent({
 
         {sidebar && (
           <aside
-            className={clsx(styles.docSidebarContainer, {
-              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-            })}
+            className={clsx(
+              ThemeClassNames.docs.docSidebarContainer,
+              styles.docSidebarContainer,
+              {
+                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+              },
+            )}
             onTransitionEnd={(e) => {
               if (
                 !e.currentTarget.classList.contains(styles.docSidebarContainer)

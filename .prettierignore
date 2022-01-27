@@ -19,3 +19,4 @@ website/docusaurus.config.js
 website/versioned_sidebars/*.json
 
 examples/
+website/static/katex/katex.min.css

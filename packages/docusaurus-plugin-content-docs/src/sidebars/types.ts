@@ -10,6 +10,7 @@ import type {DocMetadataBase, VersionMetadata} from '../types';
 import type {
   NumberPrefixParser,
   SidebarOptions,
+  CategoryIndexMatcher,
 } from '@docusaurus/plugin-content-docs';
 
 // Makes all properties visible when hovering over the type
@@ -195,6 +196,7 @@ export type SidebarItemsGeneratorArgs = {
   version: SidebarItemsGeneratorVersion;
   docs: SidebarItemsGeneratorDoc[];
   numberPrefixParser: NumberPrefixParser;
+  isCategoryIndex: CategoryIndexMatcher;
   options: SidebarOptions;
 };
 export type SidebarItemsGenerator = (

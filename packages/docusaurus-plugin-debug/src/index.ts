@@ -27,6 +27,10 @@ export default function pluginDebug({
       return path.resolve(__dirname, '../lib/theme');
     },
 
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '../src/theme');
+    },
+
     async contentLoaded({actions: {createData, addRoute}, allContent}) {
       const allContentPath = await createData(
         // Note that this created data path must be in sync with

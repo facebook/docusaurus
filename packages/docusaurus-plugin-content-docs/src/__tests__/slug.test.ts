@@ -70,13 +70,13 @@ describe('getSlug', () => {
     ).toEqual('/dir/subdir/');
   });
 
-  test('should ignore conventional doc index when explicit slug frontmatter is provided', () => {
+  test('should ignore conventional doc index when explicit slug front matter is provided', () => {
     expect(
       getSlug({
         baseID: 'doc',
         source: '@site/docs/dir/subdir/index.md',
         sourceDirName: '/dir/subdir',
-        frontmatterSlug: '/my/frontMatterSlug',
+        frontMatterSlug: '/my/frontMatterSlug',
       }),
     ).toEqual('/my/frontMatterSlug');
   });
@@ -120,13 +120,13 @@ describe('getSlug', () => {
     ).toEqual('/doc');
   });
 
-  test('should resolve absolute slug frontmatter', () => {
+  test('should resolve absolute slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',
         source: '@site/docs/doc.md',
         sourceDirName: '.',
-        frontmatterSlug: '/abc/def',
+        frontMatterSlug: '/abc/def',
       }),
     ).toEqual('/abc/def');
     expect(
@@ -134,7 +134,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/any/doc.md',
         sourceDirName: './any',
-        frontmatterSlug: '/abc/def',
+        frontMatterSlug: '/abc/def',
       }),
     ).toEqual('/abc/def');
     expect(
@@ -142,18 +142,18 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/any/any/doc.md',
         sourceDirName: './any/any',
-        frontmatterSlug: '/abc/def',
+        frontMatterSlug: '/abc/def',
       }),
     ).toEqual('/abc/def');
   });
 
-  test('should resolve relative slug frontmatter', () => {
+  test('should resolve relative slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',
         source: '@site/docs/doc.md',
         sourceDirName: '.',
-        frontmatterSlug: 'abc/def',
+        frontMatterSlug: 'abc/def',
       }),
     ).toEqual('/abc/def');
     expect(
@@ -161,7 +161,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/doc.md',
         sourceDirName: '/dir',
-        frontmatterSlug: 'abc/def',
+        frontMatterSlug: 'abc/def',
       }),
     ).toEqual('/dir/abc/def');
     expect(
@@ -169,7 +169,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/unslashedDir/doc.md',
         sourceDirName: 'unslashedDir',
-        frontmatterSlug: 'abc/def',
+        frontMatterSlug: 'abc/def',
       }),
     ).toEqual('/unslashedDir/abc/def');
     expect(
@@ -177,7 +177,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/subdir/doc.md',
         sourceDirName: 'dir/subdir',
-        frontmatterSlug: 'abc/def',
+        frontMatterSlug: 'abc/def',
       }),
     ).toEqual('/dir/subdir/abc/def');
     expect(
@@ -185,7 +185,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/doc.md',
         sourceDirName: '/dir',
-        frontmatterSlug: './abc/def',
+        frontMatterSlug: './abc/def',
       }),
     ).toEqual('/dir/abc/def');
     expect(
@@ -193,7 +193,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/doc.md',
         sourceDirName: '/dir',
-        frontmatterSlug: './abc/../def',
+        frontMatterSlug: './abc/../def',
       }),
     ).toEqual('/dir/def');
     expect(
@@ -201,7 +201,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/subdir/doc.md',
         sourceDirName: '/dir/subdir',
-        frontmatterSlug: '../abc/def',
+        frontMatterSlug: '../abc/def',
       }),
     ).toEqual('/dir/abc/def');
     expect(
@@ -209,7 +209,7 @@ describe('getSlug', () => {
         baseID: 'any',
         source: '@site/docs/dir/subdirdoc.md',
         sourceDirName: '/dir/subdir',
-        frontmatterSlug: '../../../../../abc/../def',
+        frontMatterSlug: '../../../../../abc/../def',
       }),
     ).toEqual('/def');
   });

@@ -16,6 +16,7 @@ import {DefaultSidebarItemsGenerator} from '../generator';
 import {createSlugger} from '@docusaurus/utils';
 import type {VersionMetadata} from '../../types';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
+import {isCategoryIndex} from '../../docs';
 
 describe('processSidebars', () => {
   function createStaticSidebarItemGenerator(
@@ -137,6 +138,7 @@ describe('processSidebars', () => {
         versionName: version.versionName,
       },
       numberPrefixParser: DefaultNumberPrefixParser,
+      isCategoryIndex,
       options: params.sidebarOptions,
     });
     expect(StaticSidebarItemsGenerator).toHaveBeenCalledWith({
@@ -147,6 +149,7 @@ describe('processSidebars', () => {
         versionName: version.versionName,
       },
       numberPrefixParser: DefaultNumberPrefixParser,
+      isCategoryIndex,
       options: params.sidebarOptions,
     });
     expect(StaticSidebarItemsGenerator).toHaveBeenCalledWith({
@@ -157,6 +160,7 @@ describe('processSidebars', () => {
         versionName: version.versionName,
       },
       numberPrefixParser: DefaultNumberPrefixParser,
+      isCategoryIndex,
       options: params.sidebarOptions,
     });
 
