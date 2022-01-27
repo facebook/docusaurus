@@ -20,6 +20,20 @@ import VersionsArchived from '@site/versionsArchived.json';
 
 const VersionsArchivedList = Object.entries(VersionsArchived);
 
+function DocumentationLabel() {
+  return (
+    <Translate id="versionsPage.versionEntry.link">Documentation</Translate>
+  );
+}
+
+function ReleaseNotesLabel() {
+  return (
+    <Translate id="versionsPage.versionEntry.releaseNotes">
+      Release Notes
+    </Translate>
+  );
+}
+
 function Version(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
@@ -64,16 +78,12 @@ function Version(): JSX.Element {
                   <th>{latestVersion.label}</th>
                   <td>
                     <Link to={latestVersion.path}>
-                      <Translate id="versionsPage.versionEntry.link">
-                        Documentation
-                      </Translate>
+                      <DocumentationLabel />
                     </Link>
                   </td>
                   <td>
                     <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
-                      <Translate id="versionsPage.versionEntry.releaseNotes">
-                        Release Notes
-                      </Translate>
+                      <ReleaseNotesLabel />
                     </a>
                   </td>
                 </tr>
@@ -101,7 +111,7 @@ function Version(): JSX.Element {
                   <th>{currentVersion.label}</th>
                   <td>
                     <Link to={currentVersion.path}>
-                      <Translate id="versionsPage.versionEntry.link" />
+                      <DocumentationLabel />
                     </Link>
                   </td>
                 </tr>
@@ -130,12 +140,12 @@ function Version(): JSX.Element {
                     <th>{version.label}</th>
                     <td>
                       <Link to={version.path}>
-                        <Translate id="versionsPage.versionEntry.link" />
+                        <DocumentationLabel />
                       </Link>
                     </td>
                     <td>
                       <Link href={`${repoUrl}/releases/tag/v${version.name}`}>
-                        <Translate id="versionsPage.versionEntry.releaseNotes" />
+                        <ReleaseNotesLabel />
                       </Link>
                     </td>
                   </tr>
@@ -145,12 +155,12 @@ function Version(): JSX.Element {
                     <th>{versionName}</th>
                     <td>
                       <Link to={versionUrl}>
-                        <Translate id="versionsPage.versionEntry.link" />
+                        <DocumentationLabel />
                       </Link>
                     </td>
                     <td>
                       <Link href={`${repoUrl}/releases/tag/v${versionName}`}>
-                        <Translate id="versionsPage.versionEntry.releaseNotes" />
+                        <ReleaseNotesLabel />
                       </Link>
                     </td>
                   </tr>
@@ -170,7 +180,7 @@ function Version(): JSX.Element {
                 <th>1.x</th>
                 <td>
                   <Link href="https://v1.docusaurus.io/docs/en/installation">
-                    <Translate id="versionsPage.versionEntry.link" />
+                    <DocumentationLabel />
                   </Link>
                 </td>
               </tr>
