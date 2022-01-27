@@ -19,13 +19,16 @@ export default function FeatureRequestsPlugin(context) {
         context.baseUrl,
         '/feature-requests',
       ]);
-      await actions.createData('paths.json', JSON.stringify(basePath));
+      const paths = await actions.createData(
+        'paths.json',
+        JSON.stringify(basePath),
+      );
       actions.addRoute({
         path: basePath,
         exact: false,
-        component: '@site/src/featureRequests/FeatureRequestsPage',
+        component: '@site/src/plugins/featureRequests/FeatureRequestsPage',
         modules: {
-          basePath: './feature-requests-plugin/default/paths.json',
+          basePath: paths,
         },
       });
     },
