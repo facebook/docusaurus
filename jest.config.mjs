@@ -10,6 +10,7 @@ import {fileURLToPath} from 'url';
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
+  '/testUtils.ts',
   '/packages/docusaurus/lib',
   '/packages/docusaurus-utils/lib',
   '/packages/docusaurus-utils-validation/lib',

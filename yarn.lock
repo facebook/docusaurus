@@ -6500,7 +6500,7 @@ commander@^4.0.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
-commander@^5.1.0:
+commander@^5.0.0, commander@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
   integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
@@ -18414,6 +18414,13 @@ tree-kill@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
+
+tree-node-cli@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.4.0.tgz#8f4028554610d6ee1cdeb98554a60841a3cfa3ac"
+  integrity sha512-hBc/cp7rTSHFSFvaTzmHNYyJv87UJBsxsfCoq2DtDQuMES4vhnLuvXZit/asGtZG8edWTCydWeFWoBz9LYkJdQ==
+  dependencies:
+    commander "^5.0.0"
 
 trim-newlines@^3.0.0:
   version "3.0.1"
