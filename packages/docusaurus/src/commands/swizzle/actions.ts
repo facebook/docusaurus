@@ -113,5 +113,8 @@ export async function executeAction({
   ...actionParams
 }: {action: SwizzleAction} & ActionParams): Promise<ActionResult> {
   const handler = ActionHandlers[action];
+  if (!handler) {
+    throw new Error(logger.interpolate`Action name=${action} is not supported`);
+  }
   return handler(actionParams);
 }

@@ -13,6 +13,9 @@ import {fileURLToPath} from 'url';
 import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
 import {executeAction} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
+const action = process.env.SWIZZLE_ACTION ?? 'eject';
+console.log('action:', action);
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const themePath = path.join(
@@ -28,7 +31,7 @@ const componentNames = await readComponentNames(themePath);
 
 for (const componentName of componentNames) {
   const result = await executeAction({
-    action: 'eject',
+    action,
     siteDir: toPath,
     themePath,
     componentName,
