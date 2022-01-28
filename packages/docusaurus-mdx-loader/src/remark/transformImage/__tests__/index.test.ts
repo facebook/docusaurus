@@ -12,13 +12,26 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 import headings from '../../headings/index';
 
+const staticDirs = [
+  path.join(__dirname, '__fixtures__/static'),
+  path.join(__dirname, '__fixtures__/static2'),
+];
+
+const siteDir = path.join(__dirname, '__fixtures__');
+
 const processFixture = async (name, options) => {
   const filePath = path.join(__dirname, `__fixtures__/${name}.md`);
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
-    .use(plugin, {...options, filePath, onBrokenMarkdownAssets: 'throw'})
+    .use(plugin, {
+      staticDirs,
+      siteDir,
+      filePath,
+      onBrokenMarkdownAssets: 'throw',
+      ...options,
+    })
     .process(file);
 
   return result
@@ -27,37 +40,45 @@ const processFixture = async (name, options) => {
     .replace(new RegExp(process.cwd().replace(/\\/g, '/'), 'g'), '[CWD]');
 };
 
-const staticDirs = [
-  path.join(__dirname, '__fixtures__/static'),
-  path.join(__dirname, '__fixtures__/static2'),
-];
-
-const siteDir = path.join(__dirname, '__fixtures__');
-
 describe('transformImage plugin', () => {
   test('fail if image does not exist', async () => {
     await expect(
-      processFixture('fail', {staticDirs}),
+      processFixture('fail', {}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
   test('fail if image relative path does not exist', async () => {
     await expect(
-      processFixture('fail2', {staticDirs}),
+      processFixture('fail2', {}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
   test('fail if image url is absent', async () => {
     await expect(
-      processFixture('noUrl', {staticDirs}),
+      processFixture('noUrl', {}),
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+  test("succeeds if image is bad but broken assets don't throw", async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    await expect(
+      processFixture('fail', {onBrokenMarkdownAssets: 'warn'}),
+    ).resolves.toMatchSnapshot();
+    await expect(
+      processFixture('fail2', {onBrokenMarkdownAssets: 'warn'}),
+    ).resolves.toMatchSnapshot();
+    await expect(
+      processFixture('noUrl', {onBrokenMarkdownAssets: 'warn'}),
+    ).resolves.toMatchSnapshot();
+    expect(consoleMock).toBeCalledTimes(3);
   });
 
   test('transform md images to <img />', async () => {
-    const result = await processFixture('img', {staticDirs, siteDir});
+    const result = await processFixture('img', {});
     expect(result).toMatchSnapshot();
   });
 
   test('pathname protocol', async () => {
-    const result = await processFixture('pathname', {staticDirs});
+    const result = await processFixture('pathname', {});
     expect(result).toMatchSnapshot();
   });
 });

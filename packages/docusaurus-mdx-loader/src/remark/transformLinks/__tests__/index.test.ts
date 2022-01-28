@@ -23,15 +23,16 @@ const processFixture = async (name: string, options?) => {
     .use(mdx)
     .use(transformImage, {
       ...options,
-      filePath: path,
+      filePath,
       staticDirs,
       onBrokenMarkdownAssets: 'throw',
     })
     .use(plugin, {
-      ...options,
-      filePath: path,
+      filePath,
       staticDirs,
+      siteDir: path.join(__dirname, '__fixtures__'),
       onBrokenMarkdownAssets: 'throw',
+      ...options,
     })
     .process(file);
 
@@ -52,6 +53,16 @@ describe('transformAsset plugin', () => {
     await expect(
       processFixture('nonexistentSiteAlias'),
     ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test("succeeds if asset with site alias does not exist but broken assets don't throw", async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    await expect(
+      processFixture('nonexistentSiteAlias', {onBrokenMarkdownAssets: 'warn'}),
+    ).resolves.toMatchSnapshot();
+    expect(consoleMock).toBeCalledTimes(1);
   });
 
   test('transform md links to <a />', async () => {

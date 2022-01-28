@@ -9,6 +9,11 @@ exports[`transformAsset plugin pathname protocol 1`] = `
 "
 `;
 
+exports[`transformAsset plugin succeeds if asset with site alias does not exist but broken assets don't throw 1`] = `
+"[nonexistent](@site/foo.pdf)
+"
+`;
+
 exports[`transformAsset plugin transform md links to <a /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 

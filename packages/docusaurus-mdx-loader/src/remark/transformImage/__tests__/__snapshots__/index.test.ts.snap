@@ -11,6 +11,21 @@ exports[`transformImage plugin pathname protocol 1`] = `
 "
 `;
 
+exports[`transformImage plugin succeeds if image is bad but broken assets don't throw 1`] = `
+"![img](/img/doesNotExist.png)
+"
+`;
+
+exports[`transformImage plugin succeeds if image is bad but broken assets don't throw 2`] = `
+"![img](./notFound.png)
+"
+`;
+
+exports[`transformImage plugin succeeds if image is bad but broken assets don't throw 3`] = `
+"![img](<>)
+"
+`;
+
 exports[`transformImage plugin transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
