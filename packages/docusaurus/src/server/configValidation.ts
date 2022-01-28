@@ -55,21 +55,33 @@ export const DEFAULT_CONFIG: Pick<
   staticDirectories: [STATIC_DIR_NAME],
 };
 
-const PluginSchema = Joi.alternatives()
-  .try(
-    Joi.function(),
-    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
-    Joi.string(),
-    Joi.array()
-      .ordered(Joi.string().required(), Joi.object().required())
-      .length(2),
-    Joi.bool().equal(false), // In case of conditional adding of plugins.
-  )
-  // @ts-expect-error: bad lib def, doesn't recognize an array of reports
-  .error((errors) => {
-    errors.forEach((error) => {
-      error.message = ` => Bad Docusaurus plugin value as path [${error.path}].
-Example valid plugin config:
+function createPluginSchema(theme: boolean = false) {
+  return (
+    Joi.alternatives()
+      .try(
+        Joi.function(),
+        Joi.array().ordered(Joi.function().required(), Joi.object().required()),
+        Joi.string(),
+        Joi.array()
+          .ordered(Joi.string().required(), Joi.object().required())
+          .length(2),
+        Joi.bool().equal(false), // In case of conditional adding of plugins.
+      )
+      // @ts-expect-error: bad lib def, doesn't recognize an array of reports
+      .error((errors) => {
+        errors.forEach((error) => {
+          const validConfigExample = theme
+            ? `Example valid theme config:
+{
+  themes: [
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};`
+            : `Example valid plugin config:
 {
   plugins: [
     ["@docusaurus/plugin-content-docs",options],
@@ -78,16 +90,22 @@ Example valid plugin config:
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
-};
-`;
-    });
-    return errors;
-  });
+};`;
 
-const ThemeSchema = Joi.alternatives().try(
-  Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
-);
+          error.message = ` => Bad Docusaurus ${
+            theme ? 'theme' : 'plugin'
+          } value as path [${error.path}].
+${validConfigExample}
+`;
+        });
+        return errors;
+      })
+  );
+}
+
+const PluginSchema = createPluginSchema(false);
+
+const ThemeSchema = createPluginSchema(true);
 
 const PresetSchema = Joi.alternatives().try(
   Joi.string(),
