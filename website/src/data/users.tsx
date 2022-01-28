@@ -148,6 +148,14 @@ export const Tags: Record<TagType, Tag> = {
 // prettier-ignore
 const Users: User[] = [
   {
+    title: 'Shake',
+    description: 'Finally, Bug and Crash Reports That Tell You Everything. Without Having To Ask The User.',
+    preview: require('./showcase/shake.png'),
+    website: 'https://shakebugs.com/docs/',
+    source: 'https://github.com/shakebugs/shake-docs',
+    tags: ['opensource', 'product', 'design', 'large'],
+  },
+  {
     title: 'Aide Jeune',
     description:
       'French Discord server that helps young people who have been bullied or feel bad about themselves',
