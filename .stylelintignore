@@ -1,4 +1,5 @@
-*.* # Stylelint runs on everything by default
+# Stylelint runs on everything by default
+*.*
 !*.css
 build
 coverage
