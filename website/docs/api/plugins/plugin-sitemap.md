@@ -71,4 +71,4 @@ const config = {
 };
 ```
 
-You can find your sitemap in `/sitemap.xml`
+You can find your sitemap at `/sitemap.xml`.
