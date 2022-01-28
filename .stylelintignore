@@ -1,5 +1,6 @@
-# Stylelint runs on everything by default
-*.*
+# Stylelint runs on everything by default; we only lint CSS files.
+*
+!*/
 !*.css
 build
 coverage
@@ -11,10 +12,4 @@ packages/docusaurus-*/lib/*
 packages/docusaurus-*/lib-next/
 packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/
-_headers
-_redirects
-docs-tests-symlink
-__fixtures__
-LICENSE
-LICENSE-docs
 website/static/katex/katex.min.css
