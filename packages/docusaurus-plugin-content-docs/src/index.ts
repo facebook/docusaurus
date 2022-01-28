@@ -391,4 +391,3 @@ export default async function pluginContentDocs(
 }
 
 export {validateOptions} from './options';
-export * from './constants';
