@@ -93,6 +93,7 @@ export default async function swizzle(
     siteDir,
     themePath,
     componentName,
+    typescript,
   });
   const createdFiles = result.createdFiles.map((file) =>
     path.relative(process.cwd(), file),

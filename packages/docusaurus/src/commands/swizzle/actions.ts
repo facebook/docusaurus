@@ -32,6 +32,7 @@ type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
+  typescript: boolean;
 };
 
 type ActionResult = {
@@ -40,6 +41,12 @@ type ActionResult = {
 
 type ActionHandler = (params: ActionParams) => Promise<ActionResult>;
 
+async function isDir(dirPath: string): Promise<boolean> {
+  return (
+    (await fs.pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory()
+  );
+}
+
 export const eject: ActionHandler = async ({
   siteDir,
   themePath,
@@ -47,8 +54,7 @@ export const eject: ActionHandler = async ({
 }) => {
   const fromPath = path.join(themePath, componentName);
 
-  const isDirectory =
-    (await fs.pathExists(fromPath)) && (await fs.stat(fromPath)).isDirectory();
+  const isDirectory = await isDir(fromPath);
 
   const globIgnore = ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'];
 
@@ -67,8 +73,8 @@ export const eject: ActionHandler = async ({
   }
 
   const toPath = isDirectory
-    ? path.resolve(siteDir, THEME_PATH, componentName)
-    : path.resolve(siteDir, THEME_PATH);
+    ? path.join(siteDir, THEME_PATH, componentName)
+    : path.join(siteDir, THEME_PATH);
 
   await fs.ensureDir(toPath);
 
@@ -93,14 +99,53 @@ export const eject: ActionHandler = async ({
 export const wrap: ActionHandler = async ({
   siteDir,
   themePath,
-  componentName,
+  componentName: themeComponentName,
+  typescript,
 }) => {
-  const _fromPath = path.join(themePath, componentName);
-  const _toPath = path.resolve(siteDir, THEME_PATH, componentName);
+  const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
-  // TODO handle wrapping here
+  // Parent/ComponentName => ComponentName
+  const componentName = themeComponentName.split('/').at(-1);
+  const wrapperComponentName = `${componentName}Wrapper`;
 
-  return {createdFiles: []};
+  const wrapperFileName = `${themeComponentName}${isDirectory ? '/index' : ''}${
+    typescript ? '.tsx' : '.js'
+  }`;
+
+  await fs.ensureDir(path.resolve(siteDir, THEME_PATH));
+
+  const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
+
+  const content = typescript
+    ? `
+import React, {ComponentProps} from 'react';
+import ${componentName} from '@theme-original/${themeComponentName}';
+
+type Props = ComponentProps<typeof ${componentName}>
+
+export default function ${wrapperComponentName}(props: Props): JSX.Element {
+  return (
+    <>
+      <${wrapperComponentName.split('/').at(-1)} {...props} />
+    </>
+  );
+}`
+    : `
+import React from 'react';
+import ${componentName} from '@theme-original/${themeComponentName}';
+
+export default function ${wrapperComponentName}(props) {
+  return (
+    <>
+      <${componentName} {...props} />
+    </>
+  );
+}`;
+
+  await fs.ensureDir(path.dirname(toPath));
+  await fs.writeFile(toPath, content);
+
+  return {createdFiles: [toPath]};
 };
 
 const ActionHandlers: Record<SwizzleAction, ActionHandler> = {

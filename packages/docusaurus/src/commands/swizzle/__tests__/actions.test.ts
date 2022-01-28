@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import {executeAction} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
@@ -13,7 +14,11 @@ import type {SwizzleAction} from '@docusaurus/types';
 // @ts-expect-error: TODO no typedefs
 import tree from 'tree-node-cli';
 
-async function testExecuteAction(action: SwizzleAction, componentName: string) {
+async function testExecuteAction(
+  action: SwizzleAction,
+  componentName: string,
+  {typescript}: {typescript: boolean} = {typescript: false},
+) {
   const siteDir = await createTempSiteDir();
   const siteThemePath = path.join(siteDir, 'src/theme');
   const result = await executeAction({
@@ -21,6 +26,7 @@ async function testExecuteAction(action: SwizzleAction, componentName: string) {
     siteDir,
     componentName,
     themePath: ThemePath,
+    typescript,
   });
   return {
     siteDir,
@@ -28,6 +34,7 @@ async function testExecuteAction(action: SwizzleAction, componentName: string) {
     createdFiles: result.createdFiles.map((file) =>
       path.relative(siteThemePath, file),
     ),
+    firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
     tree: tree(siteThemePath),
   };
 }
@@ -92,5 +99,171 @@ describe('eject', () => {
           ├── index.css
           └── index.tsx"
     `);
+  });
+});
+
+describe('wrap', () => {
+  describe('JavaScript', () => {
+    async function doWrap(componentName: string) {
+      return testExecuteAction('wrap', componentName, {
+        typescript: false,
+      });
+    }
+
+    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+      const result = await doWrap(Components.FirstLevelComponent);
+      expect(result.createdFiles).toEqual(['FirstLevelComponent.js']);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── FirstLevelComponent.js"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+                          "
+                          import React from 'react';
+                          import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+
+                          export default function FirstLevelComponentWrapper(props) {
+                            return (
+                              <>
+                                <FirstLevelComponent {...props} />
+                              </>
+                            );
+                          }"
+                      `);
+    });
+
+    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+      const result = await doWrap(Components.ComponentInSubFolder);
+      expect(result.createdFiles).toEqual([
+        'ComponentInFolder/ComponentInSubFolder/index.js',
+      ]);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── ComponentInFolder
+                  └── ComponentInSubFolder
+                      └── index.js"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+                          "
+                          import React from 'react';
+                          import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+
+                          export default function ComponentInSubFolderWrapper(props) {
+                            return (
+                              <>
+                                <ComponentInSubFolder {...props} />
+                              </>
+                            );
+                          }"
+                      `);
+    });
+
+    test(`wrap ${Components.ComponentInFolder}`, async () => {
+      const result = await doWrap(Components.ComponentInFolder);
+      expect(result.createdFiles).toEqual(['ComponentInFolder/index.js']);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── ComponentInFolder
+                  └── index.js"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+                          "
+                          import React from 'react';
+                          import ComponentInFolder from '@theme-original/ComponentInFolder';
+
+                          export default function ComponentInFolderWrapper(props) {
+                            return (
+                              <>
+                                <ComponentInFolder {...props} />
+                              </>
+                            );
+                          }"
+                      `);
+    });
+  });
+
+  describe('TypeScript', () => {
+    async function doWrap(componentName: string) {
+      return testExecuteAction('wrap', componentName, {
+        typescript: true,
+      });
+    }
+
+    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+      const result = await doWrap(Components.FirstLevelComponent);
+      expect(result.createdFiles).toEqual(['FirstLevelComponent.tsx']);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── FirstLevelComponent.tsx"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+              "
+              import React, {ComponentProps} from 'react';
+              import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+
+              type Props = ComponentProps<typeof FirstLevelComponent>
+
+              export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
+                return (
+                  <>
+                    <FirstLevelComponentWrapper {...props} />
+                  </>
+                );
+              }"
+            `);
+    });
+
+    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+      const result = await doWrap(Components.ComponentInSubFolder);
+      expect(result.createdFiles).toEqual([
+        'ComponentInFolder/ComponentInSubFolder/index.tsx',
+      ]);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── ComponentInFolder
+                  └── ComponentInSubFolder
+                      └── index.tsx"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+              "
+              import React, {ComponentProps} from 'react';
+              import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+
+              type Props = ComponentProps<typeof ComponentInSubFolder>
+
+              export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
+                return (
+                  <>
+                    <ComponentInSubFolderWrapper {...props} />
+                  </>
+                );
+              }"
+            `);
+    });
+
+    test(`wrap ${Components.ComponentInFolder}`, async () => {
+      const result = await doWrap(Components.ComponentInFolder);
+      expect(result.createdFiles).toEqual(['ComponentInFolder/index.tsx']);
+      expect(result.tree).toMatchInlineSnapshot(`
+              "theme
+              └── ComponentInFolder
+                  └── index.tsx"
+          `);
+      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
+              "
+              import React, {ComponentProps} from 'react';
+              import ComponentInFolder from '@theme-original/ComponentInFolder';
+
+              type Props = ComponentProps<typeof ComponentInFolder>
+
+              export default function ComponentInFolderWrapper(props: Props): JSX.Element {
+                return (
+                  <>
+                    <ComponentInFolderWrapper {...props} />
+                  </>
+                );
+              }"
+            `);
+    });
   });
 });
