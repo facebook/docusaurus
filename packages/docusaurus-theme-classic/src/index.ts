@@ -22,13 +22,15 @@ const requireFromDocusaurusCore = createRequire(
 const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
   requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
+const js = String.raw;
+
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => `(function() {
+}: ThemeConfig['colorMode']) => js`(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
@@ -45,7 +47,11 @@ const noFlashColorMode = ({
   }
 
   var storedTheme = getStoredTheme();
-  if (storedTheme !== null) {
+
+  // print doesn't print background colors by default, so we coerce to light
+  if (window.matchMedia('print').matches) {
+    setDataThemeAttribute('light');
+  } else if (storedTheme !== null) {
     setDataThemeAttribute(storedTheme);
   } else {
     if (
