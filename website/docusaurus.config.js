@@ -10,7 +10,10 @@ const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const VersionsArchived = require('./versionsArchived.json');
-const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
+const {
+  dogfoodingPluginInstances,
+  dogfoodingThemeInstances,
+} = require('./_dogfooding/dogfooding.config');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
@@ -110,13 +113,14 @@ const config = {
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
   ],
-  themes: ['live-codeblock'],
+  themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
     [
       require.resolve('./src/plugins/changelog/index.js'),
       {
         blogTitle: 'Docusaurus changelog',
-        blogDescription: 'Keep yourself up-to-date about new features in every release',
+        blogDescription:
+          'Keep yourself up-to-date about new features in every release',
         blogSidebarCount: 'ALL',
         blogSidebarTitle: 'Changelog',
         routeBasePath: '/changelog',
@@ -127,10 +131,11 @@ const config = {
         feedOptions: {
           type: 'all',
           title: 'Docusaurus changelog',
-          description: 'Keep yourself up-to-date about new features in every release',
+          description:
+            'Keep yourself up-to-date about new features in every release',
           copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           language: 'en',
-        }
+        },
       },
     ],
     [

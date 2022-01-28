@@ -6,6 +6,20 @@
  */
 
 const fs = require('fs');
+const path = require('path');
+
+/** @type {import('@docusaurus/types').PluginConfig[]} */
+const dogfoodingThemeInstances = [
+  /** @type {import('@docusaurus/types').PluginModule} */
+  function swizzleThemeTests() {
+    return {
+      name: 'swizzle-theme-tests',
+      getThemePath: () =>
+        path.join(__dirname, '_swizzle_theme_tests/src/theme'),
+    };
+  },
+];
+exports.dogfoodingThemeInstances = dogfoodingThemeInstances;
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [

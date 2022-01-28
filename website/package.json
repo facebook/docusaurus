@@ -11,6 +11,7 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
+    "test:swizzleThemeClassic": "node _dogfooding/testSwizzleThemeClassic.mjs",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
@@ -47,6 +48,7 @@
     "clsx": "^1.1.1",
     "color": "^4.0.1",
     "esbuild-loader": "2.16.0",
+    "fs-extra": "^10.0.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -74,7 +76,6 @@
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/jest": "^26.0.20",
-    "cross-env": "^7.0.3",
-    "fs-extra": "^10.0.0"
+    "cross-env": "^7.0.3"
   }
 }
