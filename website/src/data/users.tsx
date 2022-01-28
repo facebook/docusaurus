@@ -1653,6 +1653,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Verida',
+    description: 'A web3 data storage and sharing API',
+    preview: require('./showcase/verida-developers.png'),
+    website: 'https://developers.verida.io/',
+    source: 'https://github.com/verida/documentation',
+    tags: ['opensource', 'product'], 
+  },
+  {
     title: 'Vue NodeGui',
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
