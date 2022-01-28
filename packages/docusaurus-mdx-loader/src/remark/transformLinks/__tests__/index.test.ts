@@ -55,12 +55,18 @@ describe('transformAsset plugin', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test("succeeds if asset with site alias does not exist but broken assets don't throw", async () => {
+  test("fail if asset with site alias does not exist even when broken assets don't throw", async () => {
+    await expect(
+      processFixture('nonexistentSiteAlias', {onBrokenMarkdownAssets: 'warn'}),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test("succeeds when link is empty and broken assets don't throw", async () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
     await expect(
-      processFixture('nonexistentSiteAlias', {onBrokenMarkdownAssets: 'warn'}),
+      processFixture('noUrl', {onBrokenMarkdownAssets: 'warn'}),
     ).resolves.toMatchSnapshot();
     expect(consoleMock).toBeCalledTimes(1);
   });

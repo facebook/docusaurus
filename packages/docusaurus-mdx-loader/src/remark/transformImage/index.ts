@@ -115,7 +115,8 @@ async function getImageAbsolutePath(
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
     if (
-      await imageFileExists(imageFilePath, filePath, onBrokenMarkdownAssets)
+      // Always throw in this case because `@site/` doesn't make sense as URL
+      await imageFileExists(imageFilePath, filePath, 'throw')
     ) {
       return imageFilePath;
     }

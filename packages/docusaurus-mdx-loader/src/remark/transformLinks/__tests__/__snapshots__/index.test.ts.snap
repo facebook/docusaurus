@@ -4,13 +4,15 @@ exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link
 
 exports[`transformAsset plugin fail if asset with site alias does not exist 1`] = `"Asset packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/foo.pdf used in packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/nonexistentSiteAlias.md not found."`;
 
+exports[`transformAsset plugin fail if asset with site alias does not exist even when broken assets don't throw 1`] = `"Asset packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/foo.pdf used in packages/docusaurus-mdx-loader/src/remark/transformLinks/__tests__/__fixtures__/nonexistentSiteAlias.md not found."`;
+
 exports[`transformAsset plugin pathname protocol 1`] = `
 "[asset](pathname:///asset/unchecked.pdf)
 "
 `;
 
-exports[`transformAsset plugin succeeds if asset with site alias does not exist but broken assets don't throw 1`] = `
-"[nonexistent](@site/foo.pdf)
+exports[`transformAsset plugin succeeds when link is empty and broken assets don't throw 1`] = `
+"[asset](<>)
 "
 `;
 

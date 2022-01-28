@@ -6,6 +6,8 @@ exports[`transformImage plugin fail if image relative path does not exist 1`] = 
 
 exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image URL is mandatory in \\"packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/noUrl.md\\" file"`;
 
+exports[`transformImage plugin fail if image with site alias does not exist even when broken assets don't throw 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/foo.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/__fixtures__/nonExistentSiteAlias.md not found."`;
+
 exports[`transformImage plugin pathname protocol 1`] = `
 "![img](/img/unchecked.png)
 "

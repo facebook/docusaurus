@@ -56,6 +56,11 @@ describe('transformImage plugin', () => {
       processFixture('noUrl', {}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
+  test("fail if image with site alias does not exist even when broken assets don't throw", async () => {
+    await expect(
+      processFixture('nonExistentSiteAlias', {onBrokenMarkdownAssets: 'warn'}),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
   test("succeeds if image is bad but broken assets don't throw", async () => {
     const consoleMock = jest
       .spyOn(console, 'warn')

@@ -97,14 +97,15 @@ async function assetFileExists(
  */
 async function getAssetAbsolutePath(
   assetPath: string,
-  {siteDir, filePath, staticDirs, onBrokenMarkdownAssets}: Context,
+  {siteDir, filePath, staticDirs}: Context,
 ): Promise<string | null> {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
     // The @site alias is the only way to believe that the user wants an asset.
     // Everything else can just be a link URL
     if (
-      await assetFileExists(assetFilePath, filePath, onBrokenMarkdownAssets)
+      // Always throw in this case because `@site/` doesn't make sense as URL
+      await assetFileExists(assetFilePath, filePath, 'throw')
     ) {
       return assetFilePath;
     }
@@ -137,6 +138,7 @@ async function processLinkNode(node: Link, context: Context) {
       )}" file (title: ${title}, line: ${line}).`,
       context.onBrokenMarkdownAssets,
     );
+    return;
   }
 
   const parsedUrl = url.parse(node.url);
