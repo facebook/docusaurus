@@ -1590,11 +1590,6 @@
     "@docsearch/css" "3.0.0-alpha.42"
     algoliasearch "^4.0.0"
 
-"@docusaurus/react-loadable@npm:@react-loadable/revised@0.0.26", "react-loadable@npm:@react-loadable/revised@0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@react-loadable/revised/-/revised-0.0.26.tgz#3e260c16e4223be0f30910ecd8c513afea8f6819"
-  integrity sha512-p6qoeOJFC6Q21tdRD8zvzjtFfGejFCQRKVzzLB8934DZGubaMElNGsSJtw8Y3w5PzMLH02mXAV5VX9vwbYRmNQ==
-
 "@docusaurus/responsive-loader@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@docusaurus/responsive-loader/-/responsive-loader-1.5.0.tgz#653a62e08e2c4390eee81506897a2fa10dd9d6a7"
@@ -3266,6 +3261,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
+"@react-loadable/revised@0.0.26", "react-loadable@npm:@react-loadable/revised@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-loadable/revised/-/revised-0.0.26.tgz#3e260c16e4223be0f30910ecd8c513afea8f6819"
+  integrity sha512-p6qoeOJFC6Q21tdRD8zvzjtFfGejFCQRKVzzLB8934DZGubaMElNGsSJtw8Y3w5PzMLH02mXAV5VX9vwbYRmNQ==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.0.tgz#9cb1c5146ddd6a4968ad96f209c50c62f92f9879"
@@ -4107,7 +4107,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-helmet@*", "@types/react-helmet@^6.0.0":
+"@types/react-helmet@*":
   version "6.1.5"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.1.5.tgz#35f89a6b1646ee2bc342a33a9a6c8777933f9083"
   integrity sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==
