@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import {THEME_PATH} from '@docusaurus/utils';
+import {Globby, THEME_PATH} from '@docusaurus/utils';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {askSwizzleAction} from './prompts';
@@ -35,8 +35,7 @@ type ActionParams = {
 };
 
 type ActionResult = {
-  from: string;
-  to: string;
+  createdFiles: string[];
 };
 
 type ActionHandler = (params: ActionParams) => Promise<ActionResult>;
@@ -46,30 +45,46 @@ export const eject: ActionHandler = async ({
   themePath,
   componentName,
 }) => {
-  let fromPath = path.join(themePath, componentName);
-  let toPath = path.resolve(siteDir, THEME_PATH, componentName);
-  // Handle single TypeScript/JavaScript file only.
-  // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
-  if (!fs.existsSync(fromPath)) {
-    if (fs.existsSync(`${fromPath}.ts`)) {
-      [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];
-    } else if (fs.existsSync(`${fromPath}.tsx`)) {
-      [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
-    } else if (fs.existsSync(`${fromPath}.js`)) {
-      [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
-    } else if (fs.existsSync(`${fromPath}.jsx`)) {
-      [fromPath, toPath] = [`${fromPath}.jsx`, `${toPath}.jsx`];
-    } else {
-      throw new Error(
-        logger.interpolate`Unexpected, can't copy theme component from path=${fromPath}`,
-      );
-    }
+  const fromPath = path.join(themePath, componentName);
+
+  const isDirectory =
+    (await fs.pathExists(fromPath)) && (await fs.stat(fromPath)).isDirectory();
+
+  const globPattern = isDirectory
+    ? path.join(fromPath, 'index.*')
+    : `${fromPath}.*`;
+
+  const filesToCopy = await Globby(globPattern, {
+    ignore: ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'],
+  });
+
+  if (filesToCopy.length === 0) {
+    // This should never happen
+    throw new Error(logger.interpolate`No files to copy from path=${fromPath}`);
   }
 
-  // TODO do not copy subfolders?
-  await fs.copy(fromPath, toPath);
+  const toPath = isDirectory
+    ? path.resolve(siteDir, THEME_PATH, componentName)
+    : path.resolve(siteDir, THEME_PATH);
 
-  return {from: fromPath, to: toPath};
+  await fs.ensureDir(toPath);
+
+  async function copyFile(sourceFile: string) {
+    const fileName = path.basename(sourceFile);
+    const targetFile = path.join(toPath, fileName);
+    try {
+      await fs.copy(sourceFile, targetFile, {overwrite: true});
+    } catch (err) {
+      throw new Error(
+        logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
+      );
+    }
+    return targetFile;
+  }
+
+  const createdFiles = await Promise.all(filesToCopy.map(copyFile));
+
+  return {createdFiles};
 };
 
 export const wrap: ActionHandler = async ({
@@ -77,12 +92,12 @@ export const wrap: ActionHandler = async ({
   themePath,
   componentName,
 }) => {
-  const fromPath = path.join(themePath, componentName);
-  const toPath = path.resolve(siteDir, THEME_PATH, componentName);
+  const _fromPath = path.join(themePath, componentName);
+  const _toPath = path.resolve(siteDir, THEME_PATH, componentName);
 
   // TODO handle wrapping here
 
-  return {from: fromPath, to: toPath};
+  return {createdFiles: []};
 };
 
 const ActionHandlers: Record<SwizzleAction, ActionHandler> = {

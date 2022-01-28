@@ -53,7 +53,7 @@ export function readComponentNames(themePath: string): string[] {
       } else if (
         // TODO can probably be refactored
         /(?<!\.d)\.[jt]sx?$/.test(fullPath) &&
-        !/(?<!\.d)\.(test|stories)\.[jt]sx?$/.test(fullPath)
+        !/(?<!\.d)\.(test|tests|story|stories)\.[jt]sx?$/.test(fullPath)
       ) {
         return [fullPath];
       } else {
