@@ -75,7 +75,7 @@ const sidebars = {
           },
           items: [
             'guides/markdown-features/react',
-            'guides/markdown-features/tabs/index',
+            'guides/markdown-features/tabs',
             'guides/markdown-features/code-blocks',
             'guides/markdown-features/admonitions',
             'guides/markdown-features/headings',
