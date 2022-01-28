@@ -45,11 +45,7 @@ const noFlashColorMode = ({
   }
 
   var storedTheme = getStoredTheme();
-
-  // print doesn't print background colors by default, so we coerce to light
-  if (window.matchMedia('print').matches) {
-    setDataThemeAttribute('light');
-  } else if (storedTheme !== null) {
+  if (storedTheme !== null) {
     setDataThemeAttribute(storedTheme);
   } else {
     if (
