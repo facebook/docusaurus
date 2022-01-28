@@ -82,11 +82,15 @@ ${(e as Error).message}`;
   jsxNode.value = `<img ${alt}src={${src}}${title}${width}${height} />`;
 }
 
-async function ensureImageFileExist(
+/**
+ * If `onBrokenMarkdownAssets` is set to anything but `throw`, this function
+ * may return `false` if the file doesn't exist
+ */
+async function imageFileExists(
   imagePath: string,
   sourceFilePath: string,
   onBrokenMarkdownAssets: ReportingSeverity,
-) {
+): Promise<boolean> {
   const imageExists = await fs.pathExists(imagePath);
   if (!imageExists) {
     reportMessage(
@@ -95,17 +99,27 @@ async function ensureImageFileExist(
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
       onBrokenMarkdownAssets,
     );
+    return false;
   }
+  return true;
 }
 
+/**
+ * @returns `null` if image not found and `onBrokenMarkdownAssets` is anything
+ * but `throw`
+ */
 async function getImageAbsolutePath(
   imagePath: string,
   {siteDir, filePath, staticDirs, onBrokenMarkdownAssets}: Context,
-) {
+): Promise<string | null> {
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
-    await ensureImageFileExist(imageFilePath, filePath, onBrokenMarkdownAssets);
-    return imageFilePath;
+    if (
+      await imageFileExists(imageFilePath, filePath, onBrokenMarkdownAssets)
+    ) {
+      return imageFilePath;
+    }
+    return null;
   } else if (path.isAbsolute(imagePath)) {
     // absolute paths are expected to exist in the static folder
     const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
@@ -114,13 +128,15 @@ async function getImageAbsolutePath(
       fs.pathExists,
     );
     if (!imageFilePath) {
-      throw new Error(
+      reportMessage(
         `Image ${possiblePaths
           .map((p) => toMessageRelativeFilePath(p))
           .join(' or ')} used in ${toMessageRelativeFilePath(
           filePath,
         )} not found.`,
+        onBrokenMarkdownAssets,
       );
+      return null;
     }
     return imageFilePath;
   }
@@ -129,8 +145,12 @@ async function getImageAbsolutePath(
   else {
     // relative paths are resolved against the source file's folder
     const imageFilePath = path.join(path.dirname(filePath), imagePath);
-    await ensureImageFileExist(imageFilePath, filePath, onBrokenMarkdownAssets);
-    return imageFilePath;
+    if (
+      await imageFileExists(imageFilePath, filePath, onBrokenMarkdownAssets)
+    ) {
+      return imageFilePath;
+    }
+    return null;
   }
 }
 
@@ -142,6 +162,7 @@ async function processImageNode(node: Image, context: Context) {
       )}" file`,
       context.onBrokenMarkdownAssets,
     );
+    return;
   }
 
   const parsedUrl = url.parse(node.url);
@@ -157,7 +178,9 @@ async function processImageNode(node: Image, context: Context) {
   }
 
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
-  await toImageRequireNode(node, imagePath, context.filePath);
+  if (imagePath) {
+    await toImageRequireNode(node, imagePath, context.filePath);
+  }
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {

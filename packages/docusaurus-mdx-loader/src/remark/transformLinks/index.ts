@@ -69,11 +69,15 @@ function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
   jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
-async function ensureAssetFileExist(
+/**
+ * If `onBrokenMarkdownAssets` is set to anything but `throw`, this function
+ * may return `false` if the file doesn't exist
+ */
+async function assetFileExists(
   assetPath: string,
   sourceFilePath: string,
   onBrokenMarkdownAssets: ReportingSeverity,
-) {
+): Promise<boolean> {
   const assetExists = await fs.pathExists(assetPath);
   if (!assetExists) {
     reportMessage(
@@ -82,19 +86,28 @@ async function ensureAssetFileExist(
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
       onBrokenMarkdownAssets,
     );
+    return false;
   }
+  return true;
 }
 
+/**
+ * @returns `null` if image not found and `onBrokenMarkdownAssets` is anything
+ * but `throw`
+ */
 async function getAssetAbsolutePath(
   assetPath: string,
   {siteDir, filePath, staticDirs, onBrokenMarkdownAssets}: Context,
-) {
+): Promise<string | null> {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
     // The @site alias is the only way to believe that the user wants an asset.
     // Everything else can just be a link URL
-    await ensureAssetFileExist(assetFilePath, filePath, onBrokenMarkdownAssets);
-    return assetFilePath;
+    if (
+      await assetFileExists(assetFilePath, filePath, onBrokenMarkdownAssets)
+    ) {
+      return assetFilePath;
+    }
   } else if (path.isAbsolute(assetPath)) {
     const assetFilePath = await findAsyncSequential(
       staticDirs.map((dir) => path.join(dir, assetPath)),
