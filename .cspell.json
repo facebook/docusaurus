@@ -31,6 +31,8 @@
     "*.xyz",
     "*.docx",
     "versioned_docs",
+    ".yarn",
+    ".yarnrc.yml",
     "*.min.*"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
