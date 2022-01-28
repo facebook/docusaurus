@@ -57,13 +57,17 @@ describe('eject', () => {
     expect(result.createdFiles).toEqual([
       'ComponentInFolder/ComponentInSubFolder/index.css',
       'ComponentInFolder/ComponentInSubFolder/index.tsx',
+      'ComponentInFolder/ComponentInSubFolder/styles.css',
+      'ComponentInFolder/ComponentInSubFolder/styles.module.css',
     ]);
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── ComponentInFolder
           └── ComponentInSubFolder
               ├── index.css
-              └── index.tsx"
+              ├── index.tsx
+              ├── styles.css
+              └── styles.module.css"
     `);
   });
 
@@ -73,12 +77,18 @@ describe('eject', () => {
       Components.ComponentInFolder,
     );
     expect(result.createdFiles).toEqual([
+      // TODO do we really want to copy those Sibling components?
+      // It's hard to filter those reliably (index.* is not good, we need to include styles.css too)
+      'ComponentInFolder/Sibling.css',
+      'ComponentInFolder/Sibling.js',
       'ComponentInFolder/index.css',
       'ComponentInFolder/index.tsx',
     ]);
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── ComponentInFolder
+          ├── Sibling.css
+          ├── Sibling.js
           ├── index.css
           └── index.tsx"
     `);

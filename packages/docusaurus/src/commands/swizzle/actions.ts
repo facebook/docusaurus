@@ -50,13 +50,18 @@ export const eject: ActionHandler = async ({
   const isDirectory =
     (await fs.pathExists(fromPath)) && (await fs.stat(fromPath)).isDirectory();
 
+  const globIgnore = ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'];
+
   const globPattern = isDirectory
-    ? path.join(fromPath, 'index.*')
+    ? // do we really want to copy all components?
+      path.join(fromPath, '*')
     : `${fromPath}.*`;
 
   const filesToCopy = await Globby(globPattern, {
-    ignore: ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'],
+    ignore: globIgnore,
   });
+
+  console.log(filesToCopy);
 
   if (filesToCopy.length === 0) {
     // This should never happen
