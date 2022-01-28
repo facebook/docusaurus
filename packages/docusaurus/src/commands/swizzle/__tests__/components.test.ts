@@ -8,20 +8,18 @@
 import path from 'path';
 import {getThemeComponents, readComponentNames} from '../components';
 import type {SwizzleConfig} from '@docusaurus/types';
+import {Components} from './testUtils';
 
 const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 
 describe('readComponentNames', () => {
   test('read theme', () => {
-    const themePath = FixtureThemePath;
-    expect(readComponentNames(themePath)).toMatchInlineSnapshot(`
-      Array [
-        "ComponentInFolder/ComponentInSubFolder",
-        "ComponentInFolder/Sibling",
-        "ComponentInFolder",
-        "FirstLevelComponent",
-      ]
-    `);
+    expect(readComponentNames(FixtureThemePath)).toEqual([
+      Components.ComponentInSubFolder,
+      Components.Sibling,
+      Components.ComponentInFolder,
+      Components.FirstLevelComponent,
+    ]);
   });
 });
 
@@ -31,15 +29,16 @@ describe('getThemeComponents', () => {
 
   const swizzleConfig: SwizzleConfig = {
     components: {
-      'ComponentInFolder/ComponentInSubFolder': {
+      [Components.ComponentInSubFolder]: {
         actions: {
           eject: 'safe',
           wrap: 'unsafe',
         },
       },
-      ComponentInFolder: {
+      [Components.ComponentInFolder]: {
         actions: {
           wrap: 'safe',
+          eject: 'unsafe',
         },
         description: 'ComponentInFolder description',
       },
@@ -57,28 +56,27 @@ describe('getThemeComponents', () => {
   });
 
   test('read all', () => {
-    // Order matters!
-    expect(themeComponents.all).toMatchInlineSnapshot(`
-      Array [
-        "ComponentInFolder",
-        "ComponentInFolder/ComponentInSubFolder",
-        "ComponentInFolder/Sibling",
-        "FirstLevelComponent",
-      ]
-    `);
+    expect(themeComponents.all).toEqual([
+      // Order matters!
+      Components.ComponentInFolder,
+      Components.ComponentInSubFolder,
+      Components.Sibling,
+      Components.FirstLevelComponent,
+    ]);
   });
 
   test('getConfig', () => {
-    expect(themeComponents.getConfig('ComponentInFolder'))
+    expect(themeComponents.getConfig(Components.ComponentInFolder))
       .toMatchInlineSnapshot(`
       Object {
         "actions": Object {
+          "eject": "unsafe",
           "wrap": "safe",
         },
         "description": "ComponentInFolder description",
       }
     `);
-    expect(themeComponents.getConfig('ComponentInFolder/ComponentInSubFolder'))
+    expect(themeComponents.getConfig(Components.ComponentInSubFolder))
       .toMatchInlineSnapshot(`
       Object {
         "actions": Object {
@@ -87,7 +85,7 @@ describe('getThemeComponents', () => {
         },
       }
     `);
-    expect(themeComponents.getConfig('FirstLevelComponent'))
+    expect(themeComponents.getConfig(Components.FirstLevelComponent))
       .toMatchInlineSnapshot(`
       Object {
         "actions": Object {
@@ -106,85 +104,72 @@ describe('getThemeComponents', () => {
   });
 
   test('getDescription', () => {
-    expect(themeComponents.getDescription('ComponentInFolder')).toEqual(
-      'ComponentInFolder description',
-    );
     expect(
-      themeComponents.getDescription('ComponentInFolder/ComponentInSubFolder'),
+      themeComponents.getDescription(Components.ComponentInFolder),
+    ).toEqual('ComponentInFolder description');
+    expect(
+      themeComponents.getDescription(Components.ComponentInSubFolder),
     ).toEqual('N/A');
-    expect(themeComponents.getDescription('FirstLevelComponent')).toEqual(
-      'N/A',
-    );
+    expect(
+      themeComponents.getDescription(Components.FirstLevelComponent),
+    ).toEqual('N/A');
   });
 
   test('getActionStatus', () => {
     expect(
-      themeComponents.getActionStatus('ComponentInFolder', 'wrap'),
+      themeComponents.getActionStatus(Components.ComponentInFolder, 'wrap'),
     ).toEqual('safe');
     expect(
-      themeComponents.getActionStatus('ComponentInFolder', 'eject'),
+      themeComponents.getActionStatus(Components.ComponentInFolder, 'eject'),
     ).toEqual('unsafe');
 
     expect(
-      themeComponents.getActionStatus(
-        'ComponentInFolder/ComponentInSubFolder',
-        'wrap',
-      ),
+      themeComponents.getActionStatus(Components.ComponentInSubFolder, 'wrap'),
     ).toEqual('unsafe');
     expect(
-      themeComponents.getActionStatus(
-        'ComponentInFolder/ComponentInSubFolder',
-        'eject',
-      ),
+      themeComponents.getActionStatus(Components.ComponentInSubFolder, 'eject'),
     ).toEqual('safe');
 
     expect(
-      themeComponents.getActionStatus('FirstLevelComponent', 'wrap'),
+      themeComponents.getActionStatus(Components.FirstLevelComponent, 'wrap'),
     ).toEqual('unsafe');
     expect(
-      themeComponents.getActionStatus('FirstLevelComponent', 'eject'),
+      themeComponents.getActionStatus(Components.FirstLevelComponent, 'eject'),
     ).toEqual('unsafe');
   });
 
   test('isSafeAction', () => {
-    expect(themeComponents.isSafeAction('ComponentInFolder', 'wrap')).toEqual(
-      true,
-    );
-    expect(themeComponents.isSafeAction('ComponentInFolder', 'eject')).toEqual(
-      false,
-    );
+    expect(
+      themeComponents.isSafeAction(Components.ComponentInFolder, 'wrap'),
+    ).toEqual(true);
+    expect(
+      themeComponents.isSafeAction(Components.ComponentInFolder, 'eject'),
+    ).toEqual(false);
 
     expect(
-      themeComponents.isSafeAction(
-        'ComponentInFolder/ComponentInSubFolder',
-        'wrap',
-      ),
+      themeComponents.isSafeAction(Components.ComponentInSubFolder, 'wrap'),
     ).toEqual(false);
     expect(
-      themeComponents.isSafeAction(
-        'ComponentInFolder/ComponentInSubFolder',
-        'eject',
-      ),
+      themeComponents.isSafeAction(Components.ComponentInSubFolder, 'eject'),
     ).toEqual(true);
 
-    expect(themeComponents.isSafeAction('FirstLevelComponent', 'wrap')).toEqual(
-      false,
-    );
     expect(
-      themeComponents.isSafeAction('FirstLevelComponent', 'eject'),
+      themeComponents.isSafeAction(Components.FirstLevelComponent, 'wrap'),
+    ).toEqual(false);
+    expect(
+      themeComponents.isSafeAction(Components.FirstLevelComponent, 'eject'),
     ).toEqual(false);
   });
 
   test('hasAnySafeAction', () => {
-    expect(themeComponents.hasAnySafeAction('ComponentInFolder')).toEqual(true);
     expect(
-      themeComponents.hasAnySafeAction(
-        'ComponentInFolder/ComponentInSubFolder',
-      ),
+      themeComponents.hasAnySafeAction(Components.ComponentInFolder),
     ).toEqual(true);
-
-    expect(themeComponents.hasAnySafeAction('FirstLevelComponent')).toEqual(
-      false,
-    );
+    expect(
+      themeComponents.hasAnySafeAction(Components.ComponentInSubFolder),
+    ).toEqual(true);
+    expect(
+      themeComponents.hasAnySafeAction(Components.FirstLevelComponent),
+    ).toEqual(false);
   });
 });

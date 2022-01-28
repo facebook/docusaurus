@@ -12,6 +12,7 @@ import type {
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
+import {SwizzleActions} from './common';
 
 function getModuleSwizzleConfig(
   pluginModule: ImportedPluginModule,
@@ -46,7 +47,20 @@ function getModuleSwizzleConfig(
 function validateSwizzleConfig(swizzleConfig: unknown): SwizzleConfig {
   // TODO add Joi schema validation
 
-  return swizzleConfig as SwizzleConfig;
+  const normalizedSwizzleConfig = swizzleConfig as SwizzleConfig;
+
+  // Ensure all components always declare all actions
+  Object.values(normalizedSwizzleConfig.components).forEach(
+    (componentConfig) => {
+      SwizzleActions.forEach((action) => {
+        if (!componentConfig.actions[action]) {
+          componentConfig.actions[action] = 'unsafe';
+        }
+      });
+    },
+  );
+
+  return normalizedSwizzleConfig;
 }
 
 const FallbackSwizzleConfig: SwizzleConfig = {

@@ -7,7 +7,9 @@
 
 import leven from 'leven';
 import logger from '@docusaurus/logger';
-import type {SwizzleActionStatus} from '@docusaurus/types';
+import type {SwizzleAction, SwizzleActionStatus} from '@docusaurus/types';
+
+export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
 export function actionStatusSuffix(status: SwizzleActionStatus): string {
   return status === 'safe'
