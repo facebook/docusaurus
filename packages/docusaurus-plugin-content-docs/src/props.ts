@@ -70,9 +70,25 @@ Available document ids are:
     }
   }
 
-  function convertCategory(item: SidebarItemCategory): PropSidebarItemCategory {
+  function convertCategory(
+    item: SidebarItemCategory,
+  ): PropSidebarItemCategory | PropSidebarItemLink {
     const {link, ...rest} = item;
     const href = getCategoryLinkHref(link);
+    // If the current category doesn't have subitems, we render a normal doc link instead.
+    if (item.items.length === 0) {
+      if (!href) {
+        throw new Error(
+          `Sidebar category ${item.label} has neither any subitem nor a link. This makes this item not able to link to anything.`,
+        );
+      }
+      return {
+        type: 'link',
+        href,
+        label: item.label,
+        docId: item.link?.type === 'doc' ? item.link.id : undefined,
+      };
+    }
     return {...rest, items: item.items.map(normalizeItem), ...(href && {href})};
   }
 
