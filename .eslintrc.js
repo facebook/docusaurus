@@ -111,7 +111,11 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
-      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
     ],
     '@typescript-eslint/explicit-module-boundary-types': WARNING,
     '@typescript-eslint/ban-ts-comment': [
