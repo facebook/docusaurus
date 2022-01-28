@@ -30,6 +30,7 @@ describe('replaceMarkdownLinks', () => {
 [http](http://github.com/facebook/docusaurus/README.md)
 [https](https://github.com/facebook/docusaurus/README.md)
 [asset](./foo.js)
+[asset as well](@site/docs/_partial.md)
 [looks like http...](http.foo.md)
 [nonexistent](hmmm.md)
 `,
@@ -53,6 +54,7 @@ describe('replaceMarkdownLinks', () => {
       [http](http://github.com/facebook/docusaurus/README.md)
       [https](https://github.com/facebook/docusaurus/README.md)
       [asset](./foo.js)
+      [asset as well](@site/docs/_partial.md)
       [looks like http...](/doc/http)
       [nonexistent](hmmm.md)
       ",
