@@ -41,8 +41,8 @@ describe('eject', () => {
       Components.FirstLevelComponent,
     );
     // TODO remove the .tsx extension from output + copy also css file
-    expect(result.from).toEqual(`${Components.FirstLevelComponent  }.tsx`);
-    expect(result.to).toEqual(`${Components.FirstLevelComponent  }.tsx`);
+    expect(result.from).toEqual(`${Components.FirstLevelComponent}.tsx`);
+    expect(result.to).toEqual(`${Components.FirstLevelComponent}.tsx`);
     expect(result.tree).toMatchInlineSnapshot(`
       "theme
       └── FirstLevelComponent.tsx"
