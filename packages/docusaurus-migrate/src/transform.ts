@@ -6,11 +6,11 @@
  */
 
 import jscodeshift, {
-  ArrowFunctionExpression,
+  type ArrowFunctionExpression,
   AssignmentExpression,
-  ASTPath,
-  Collection,
-  TemplateElement,
+  type ASTPath,
+  type Collection,
+  type TemplateElement,
   VariableDeclarator,
 } from 'jscodeshift';
 
@@ -131,10 +131,8 @@ export default function transformer(file: string): string {
         type: 'Identifier',
       },
     })
-    .filter(function (p) {
-      return p.parentPath.parentPath.name === 'body';
-    })
-    .forEach(function (p) {
+    .filter((p) => p.parentPath.parentPath.name === 'body')
+    .forEach((p) => {
       const exportDecl = jscodeshift.exportDeclaration(
         true,
         jscodeshift.arrowFunctionExpression(
@@ -167,7 +165,7 @@ export default function transformer(file: string): string {
   return root.toSource();
 }
 
-function getDefaultImportDeclarators(rootAst: Collection) {
+function getDefaultImportDeclarations(rootAst: Collection) {
   // var ... = require('y')
   return rootAst
     .find(VariableDeclarator, {
@@ -177,12 +175,10 @@ function getDefaultImportDeclarators(rootAst: Collection) {
         },
       },
     })
-    .filter((variableDeclarator) => {
-      return !!variableDeclarator.value;
-    });
+    .filter((variableDeclarator) => !!variableDeclarator.value);
 }
 
-function getNamedImportDeclarators(rootAst: Collection) {
+function getNamedImportDeclarations(rootAst: Collection) {
   // var ... = require('y').x
   return rootAst.find(VariableDeclarator, {
     init: {
@@ -196,9 +192,9 @@ function getNamedImportDeclarators(rootAst: Collection) {
 }
 
 function getImportDeclaratorPaths(variableDeclaration: Collection) {
-  const defaultImports = getDefaultImportDeclarators(variableDeclaration);
+  const defaultImports = getDefaultImportDeclarations(variableDeclaration);
 
-  const namedImports = getNamedImportDeclarators(variableDeclaration);
+  const namedImports = getNamedImportDeclarations(variableDeclaration);
 
   return [...defaultImports.paths(), ...namedImports.paths()];
 }

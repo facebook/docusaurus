@@ -9,22 +9,24 @@ import {validateRedirect} from '../redirectValidation';
 
 describe('validateRedirect', () => {
   test('validate good redirects without throwing', () => {
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/from/Some/Path',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/toSomePath',
-    });
-    validateRedirect({
-      from: '/fromSomePath',
-      to: '/to/Some/Path',
-    });
+    expect(() => {
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/from/Some/Path',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/toSomePath',
+      });
+      validateRedirect({
+        from: '/fromSomePath',
+        to: '/to/Some/Path',
+      });
+    }).not.toThrow();
   });
 
   test('throw for bad redirects', () => {

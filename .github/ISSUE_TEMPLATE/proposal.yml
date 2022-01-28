@@ -1,6 +1,6 @@
 name: 💥 Proposal
 description: Propose a non-trivial change to Docusaurus
-labels: [proposal, needs triage]
+labels: [proposal, 'status: needs triage']
 body:
   - type: markdown
     attributes:

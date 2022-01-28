@@ -11,38 +11,41 @@ import {
   processDocMetadata,
   readVersionDocs,
   readDocFile,
-  handleNavigation,
+  addDocNavigation,
+  isCategoryIndex,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import {readVersionsMetadata} from '../versions';
-import {
+import type {
   DocFile,
   DocMetadataBase,
-  MetadataOptions,
   VersionMetadata,
-  PluginOptions,
-  EditUrlFunction,
   DocNavLink,
 } from '../types';
-import {LoadContext} from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import type {
+  MetadataOptions,
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-docs';
+import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
-import {Optional} from 'utility-types';
-import {posixPath} from '@docusaurus/utils';
+import type {Optional} from 'utility-types';
+import {createSlugger, posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {createSidebarsUtils} from '../sidebars/utils';
 
 const fixtureDir = path.join(__dirname, '__fixtures__');
 
 const createFakeDocFile = ({
   source,
-  frontmatter = {},
+  frontMatter = {},
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontmatter?: Record<string, string>;
+  frontMatter?: Record<string, string>;
   markdown?: string;
 }): DocFile => {
   const content = `---
-${Object.entries(frontmatter)
+${Object.entries(frontMatter)
   .map(([key, value]) => `${key}: ${value}`)
   .join('\n')}
 ---
@@ -119,7 +122,7 @@ function createTestUtils({
 
   async function generateNavigation(
     docFiles: DocFile[],
-  ): Promise<[DocNavLink, DocNavLink][]> {
+  ): Promise<[DocNavLink | undefined, DocNavLink | undefined][]> {
     const rawDocs = await Promise.all(
       docFiles.map((docFile) =>
         processDocMetadata({
@@ -136,16 +139,19 @@ function createTestUtils({
       numberPrefixParser: options.numberPrefixParser,
       docs: rawDocs,
       version: versionMetadata,
-      options: {
+      sidebarOptions: {
         sidebarCollapsed: false,
         sidebarCollapsible: true,
       },
+      categoryLabelSlugger: createSlugger(),
     });
-    return handleNavigation(
+    const sidebarsUtils = createSidebarsUtils(sidebars);
+
+    return addDocNavigation(
       rawDocs,
-      sidebars,
+      sidebarsUtils,
       versionMetadata.sidebarFilePath as string,
-    ).docs.map((doc) => [doc.previous, doc.next]);
+    ).map((doc) => [doc.previous, doc.next]);
   }
 
   return {processDocFile, testMeta, testSlug, generateNavigation};
@@ -162,7 +168,7 @@ describe('simple site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -198,6 +204,7 @@ describe('simple site', () => {
         'rootResolvedSlug.md',
         'rootTryToEscapeSlug.md',
         'headingAsTitle.md',
+        'doc with space.md',
         'foo/bar.md',
         'foo/baz.md',
         'slugs/absoluteSlug.md',
@@ -215,7 +222,6 @@ describe('simple site', () => {
       id: 'foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'Bar',
@@ -224,6 +230,8 @@ describe('simple site', () => {
         description: 'This is custom description',
         id: 'bar',
         title: 'Bar',
+        pagination_next: null,
+        pagination_prev: null,
       },
       tags: [],
     });
@@ -232,15 +240,15 @@ describe('simple site', () => {
       id: 'hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/hello',
-      slug: '/hello',
+      permalink: '/docs/',
+      slug: '/',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
       frontMatter: {
         id: 'hello',
         title: 'Hello, World !',
         sidebar_label: 'Hello sidebar_label',
+        slug: '/',
         tags: ['tag-1', 'tag 3'],
       },
       tags: [
@@ -253,78 +261,6 @@ describe('simple site', () => {
           permalink: '/docs/tags/tag-3',
         },
       ],
-    });
-  });
-
-  test('homePageId doc', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {homePageId: 'hello'},
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-
-    await testUtilsLocal.testMeta(path.join('hello.md'), {
-      version: 'current',
-      id: 'hello',
-      unversionedId: 'hello',
-      sourceDirName: '.',
-      isDocsHomePage: true,
-      permalink: '/docs/',
-      slug: '/',
-      title: 'Hello, World !',
-      description: `Hi, Endilie here :)`,
-      frontMatter: {
-        id: 'hello',
-        title: 'Hello, World !',
-        sidebar_label: 'Hello sidebar_label',
-        tags: ['tag-1', 'tag 3'],
-      },
-      tags: [
-        {
-          label: 'tag-1',
-          permalink: '/docs/tags/tag-1',
-        },
-        {
-          label: 'tag 3',
-          permalink: '/docs/tags/tag-3',
-        },
-      ],
-    });
-  });
-
-  test('homePageId doc nested', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {homePageId: 'foo/bar'},
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-
-    await testUtilsLocal.testMeta(path.join('foo', 'bar.md'), {
-      version: 'current',
-      id: 'foo/bar',
-      unversionedId: 'foo/bar',
-      sourceDirName: 'foo',
-      isDocsHomePage: true,
-      permalink: '/docs/',
-      slug: '/',
-      title: 'Bar',
-      description: 'This is custom description',
-      frontMatter: {
-        description: 'This is custom description',
-        id: 'bar',
-        title: 'Bar',
-      },
-      tags: [],
     });
   });
 
@@ -347,7 +283,6 @@ describe('simple site', () => {
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
@@ -378,7 +313,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with custom editUrl & unrelated frontmatter', async () => {
+  test('docs with custom editUrl & unrelated frontMatter', async () => {
     const {defaultTestUtils} = await loadSite();
 
     await defaultTestUtils.testMeta('lorem.md', {
@@ -386,7 +321,6 @@ describe('simple site', () => {
       id: 'lorem',
       unversionedId: 'lorem',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
@@ -394,7 +328,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       tags: [],
     });
@@ -423,7 +357,6 @@ describe('simple site', () => {
       id: 'foo/baz',
       unversionedId: 'foo/baz',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       slug: '/foo/bazSlug.html',
       title: 'baz',
@@ -482,7 +415,6 @@ describe('simple site', () => {
       id: 'lorem',
       unversionedId: 'lorem',
       sourceDirName: '.',
-      isDocsHomePage: false,
       permalink: '/docs/lorem',
       slug: '/lorem',
       title: 'lorem',
@@ -490,7 +422,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       frontMatter: {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
-        unrelated_frontmatter: "won't be part of metadata",
+        unrelated_front_matter: "won't be part of metadata",
       },
       lastUpdatedAt: 1539502055,
       formattedLastUpdatedAt: '10/14/2018',
@@ -539,51 +471,26 @@ describe('simple site', () => {
 
   test('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
-    expect(() => {
+    await expect(async () =>
       defaultTestUtils.processDocFile(
         createFakeDocFile({
           source: 'some/fake/path',
-          frontmatter: {
+          frontMatter: {
             id: 'Hello/world',
           },
         }),
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
+      ),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Document id \\"Hello/world\\" cannot include slash."`,
-    );
-  });
-
-  test('docs with slug on doc home', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        homePageId: 'homePageId',
-      },
-    });
-
-    const testUtilsLocal = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
-    expect(() => {
-      testUtilsLocal.processDocFile(
-        createFakeDocFile({
-          source: 'homePageId',
-          frontmatter: {
-            slug: '/x/y',
-          },
-        }),
-      );
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"The docs homepage (homePageId=homePageId) is not allowed to have a frontmatter slug=/x/y => you have to choose either homePageId or slug, not both"`,
     );
   });
 
   test('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
-    expect(await defaultTestUtils.generateNavigation(docs)).toMatchSnapshot();
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).resolves.toMatchSnapshot();
   });
 
   test('bad pagination', async () => {
@@ -592,12 +499,12 @@ describe('simple site', () => {
     docs.push(
       createFakeDocFile({
         source: 'hehe',
-        frontmatter: {pagination_prev: 'nonexistent'},
+        frontMatter: {pagination_prev: 'nonexistent'},
       }),
     );
-    await expect(async () => {
-      await defaultTestUtils.generateNavigation(docs);
-    }).rejects.toThrowErrorMatchingInlineSnapshot(
+    await expect(
+      defaultTestUtils.generateNavigation(docs),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
@@ -618,7 +525,7 @@ describe('versioned site', () => {
       ...DEFAULT_OPTIONS,
       ...loadSiteOptions.options,
     };
-    const versionsMetadata = readVersionsMetadata({
+    const versionsMetadata = await readVersionsMetadata({
       context,
       options,
     });
@@ -674,7 +581,6 @@ describe('versioned site', () => {
       version: 'current',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
@@ -710,12 +616,13 @@ describe('versioned site', () => {
       version: 'current',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/next/hello',
-      slug: '/hello',
+      permalink: '/docs/next/',
+      slug: '/',
       title: 'hello',
       description: 'Hello next !',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       tags: [],
     });
   });
@@ -727,7 +634,6 @@ describe('versioned site', () => {
       id: 'version-1.0.0/foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       slug: '/foo/barSlug',
       title: 'bar',
@@ -740,12 +646,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -755,7 +662,6 @@ describe('versioned site', () => {
       id: 'version-1.0.1/foo/bar',
       unversionedId: 'foo/bar',
       sourceDirName: 'foo',
-      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       slug: '/foo/bar',
       title: 'bar',
@@ -768,13 +674,14 @@ describe('versioned site', () => {
       id: 'version-1.0.1/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/hello',
-      slug: '/hello',
+      permalink: '/docs/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       tags: [],
     });
   });
@@ -860,12 +767,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -878,7 +786,7 @@ describe('versioned site', () => {
       version: '1.0.0',
       versionDocsDirPath: 'versioned_docs/version-1.0.0',
       docPath: path.join('hello.md'),
-      permalink: '/docs/1.0.0/hello',
+      permalink: '/docs/1.0.0/',
       locale: 'en',
     });
   });
@@ -902,12 +810,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -936,12 +845,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated en)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -971,12 +881,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/fr/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/fr/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -1007,12 +918,13 @@ describe('versioned site', () => {
       id: 'version-1.0.0/hello',
       unversionedId: 'hello',
       sourceDirName: '.',
-      isDocsHomePage: false,
-      permalink: '/fr/docs/1.0.0/hello',
-      slug: '/hello',
+      permalink: '/fr/docs/1.0.0/',
+      slug: '/',
       title: 'hello',
       description: 'Hello 1.0.0 ! (translated fr)',
-      frontMatter: {},
+      frontMatter: {
+        slug: '/',
+      },
       version: '1.0.0',
       source:
         '@site/i18n/fr/docusaurus-plugin-content-docs/version-1.0.0/hello.md',
@@ -1020,5 +932,131 @@ describe('versioned site', () => {
         'https://github.com/facebook/docusaurus/edit/main/website/i18n/fr/docusaurus-plugin-content-docs/current/hello.md',
       tags: [],
     });
+  });
+});
+
+describe('isConventionalDocIndex', () => {
+  test('supports readme', () => {
+    expect(
+      isCategoryIndex({
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'readme',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'README',
+        directories: ['doesNotMatter'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'ReAdMe',
+        directories: ['doesNotMatter'],
+        extension: '',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports index', () => {
+    expect(
+      isCategoryIndex({
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'index',
+        directories: ['doesNotMatter'],
+        extension: '.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'INDEX',
+        directories: ['doesNotMatter'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'InDeX',
+        directories: ['doesNotMatter'],
+        extension: '',
+      }),
+    ).toEqual(true);
+  });
+
+  test('supports <categoryName>/<categoryName>.md', () => {
+    expect(
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory', 'doesNotMatter'],
+        extension: '',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'someCategory',
+        directories: ['someCategory'],
+        extension: '.mdx',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'SOME_CATEGORY',
+        directories: ['some_category'],
+        extension: '.md',
+      }),
+    ).toEqual(true);
+    expect(
+      isCategoryIndex({
+        fileName: 'some_category',
+        directories: ['some_category'],
+        extension: '',
+      }),
+    ).toEqual(true);
+  });
+
+  test('reject other cases', () => {
+    expect(
+      isCategoryIndex({
+        fileName: 'some_Category',
+        directories: ['someCategory'],
+        extension: '',
+      }),
+    ).toEqual(false);
+    expect(
+      isCategoryIndex({
+        fileName: 'read_me',
+        directories: ['doesNotMatter'],
+        extension: '',
+      }),
+    ).toEqual(false);
+    expect(
+      isCategoryIndex({
+        fileName: 'the index',
+        directories: ['doesNotMatter'],
+        extension: '',
+      }),
+    ).toEqual(false);
   });
 });

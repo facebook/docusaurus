@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptions, RedirectOption, UserPluginOptions} from './types';
+import type {
+  PluginOptions,
+  Options as UserPluginOptions,
+  RedirectOption,
+} from '@docusaurus/plugin-client-redirects';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 
 export const DefaultPluginOptions: PluginOptions = {
   id: DEFAULT_PLUGIN_ID, // TODO temporary

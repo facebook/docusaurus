@@ -10,7 +10,7 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
-import SearchMetadatas from '@theme/SearchMetadatas';
+import SearchMetadata from '@theme/SearchMetadata';
 import Seo from '@theme/Seo';
 import {
   DEFAULT_SEARCH_TAG,
@@ -25,7 +25,7 @@ import {useLocation} from '@docusaurus/router';
 // See https://github.com/facebook/docusaurus/issues/3317
 function AlternateLangHeaders(): JSX.Element {
   const {
-    i18n: {defaultLocale, locales},
+    i18n: {defaultLocale, localeConfigs},
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
@@ -33,7 +33,7 @@ function AlternateLangHeaders(): JSX.Element {
   // See https://www.searchviu.com/en/multiple-hreflang-tags-one-url/
   return (
     <Head>
-      {locales.map((locale) => (
+      {Object.entries(localeConfigs).map(([locale, {htmlLang}]) => (
         <link
           key={locale}
           rel="alternate"
@@ -41,7 +41,7 @@ function AlternateLangHeaders(): JSX.Element {
             locale,
             fullyQualified: true,
           })}
-          hrefLang={locale}
+          hrefLang={htmlLang}
         />
       ))}
       <link
@@ -87,21 +87,17 @@ export default function LayoutHead(props: Props): JSX.Element {
     siteConfig: {favicon},
     i18n: {currentLocale, localeConfigs},
   } = useDocusaurusContext();
-  const {metadatas, image: defaultImage} = useThemeConfig();
-  const {title, description, image, keywords, searchMetadatas} = props;
+  const {metadata, image: defaultImage} = useThemeConfig();
+  const {title, description, image, keywords, searchMetadata} = props;
   const faviconUrl = useBaseUrl(favicon);
   const pageTitle = useTitleFormatter(title);
-
-  // See https://github.com/facebook/docusaurus/issues/3317#issuecomment-754661855
-  // const htmlLang = currentLocale.split('-')[0];
-  const htmlLang = currentLocale; // should we allow the user to override htmlLang with localeConfig?
-  const htmlDir = localeConfigs[currentLocale].direction;
+  const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale];
 
   return (
     <>
       <Head>
         <html lang={htmlLang} dir={htmlDir} />
-        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+        {favicon && <link rel="icon" href={faviconUrl} />}
         <title>{pageTitle}</title>
         <meta property="og:title" content={pageTitle} />
         <meta name="twitter:card" content="summary_large_image" />
@@ -117,21 +113,22 @@ export default function LayoutHead(props: Props): JSX.Element {
 
       <AlternateLangHeaders />
 
-      <SearchMetadatas
+      <SearchMetadata
         tag={DEFAULT_SEARCH_TAG}
         locale={currentLocale}
-        {...searchMetadatas}
+        {...searchMetadata}
       />
 
       <Head
       // it's important to have an additional <Head> element here,
       // as it allows react-helmet to override values set in previous <Head>
-      // ie we can override default metadatas such as "twitter:card"
+      // ie we can override default metadata such as "twitter:card"
       // In same Head, the same meta would appear twice instead of overriding
       // See react-helmet doc
       >
-        {metadatas.map((metadata, i) => (
-          <meta key={`metadata_${i}`} {...metadata} />
+        {/* Yes, "metadatum" is the grammatically correct term */}
+        {metadata.map((metadatum, i) => (
+          <meta key={`metadata_${i}`} {...metadatum} />
         ))}
       </Head>
     </>

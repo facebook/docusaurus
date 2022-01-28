@@ -21,3 +21,17 @@
   font-size: var(--ifm-font-size-base);
   padding: 0.5rem;
 }
+
+.colorInput {
+  position: relative;
+  border-color: var(--ifm-color-content-secondary);
+  border-radius: var(--ifm-global-radius);
+  border-style: solid;
+  border-width: var(--ifm-global-border-width);
+  height: 2.25rem;
+  top: 7px;
+}
+
+.colorTable {
+  font-size: small;
+}

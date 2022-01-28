@@ -16,45 +16,75 @@ describe('loadConfig', () => {
       'simple-site',
       'docusaurus.config.js',
     );
-    const config = loadConfig(siteDir);
+    const config = await loadConfig(siteDir);
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
-  test('website with incomplete siteConfig', () => {
+  test('website with valid config creator function', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'configs',
+      'createConfig.config.js',
+    );
+    const config = await loadConfig(siteDir);
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  test('website with valid async config', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'configs',
+      'configAsync.config.js',
+    );
+    const config = await loadConfig(siteDir);
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  test('website with valid async config creator function', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'configs',
+      'createConfigAsync.config.js',
+    );
+    const config = await loadConfig(siteDir);
+    expect(config).toMatchSnapshot();
+    expect(config).not.toEqual({});
+  });
+
+  test('website with incomplete siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
       'bad-site',
       'docusaurus.config.js',
     );
-    expect(() => {
-      loadConfig(siteDir);
-    }).toThrowErrorMatchingSnapshot();
+    await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('website with useless field (wrong field) in siteConfig', () => {
+  test('website with useless field (wrong field) in siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
       'wrong-site',
       'docusaurus.config.js',
     );
-    expect(() => {
-      loadConfig(siteDir);
-    }).toThrowErrorMatchingSnapshot();
+    await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('website with no siteConfig', () => {
+  test('website with no siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
       'nonExisting',
       'docusaurus.config.js',
     );
-    expect(() => {
-      loadConfig(siteDir);
-    }).toThrowError(
+    await expect(loadConfig(siteDir)).rejects.toThrowError(
       /Config file at "(.*?)__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
     );
   });

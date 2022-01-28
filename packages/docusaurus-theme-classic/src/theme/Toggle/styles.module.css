@@ -39,16 +39,16 @@
   position: absolute;
   width: 14px;
   height: 10px;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   margin: auto 0;
   left: 8px;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackCheck,
-.toggleChecked .toggleTrackCheck {
+.toggleChecked .toggleTrackCheck,
+[data-theme='dark'] .toggle .toggleTrackCheck {
   opacity: 1;
   transition: opacity 0.25s ease;
 }
@@ -57,16 +57,16 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   margin: auto 0;
   right: 10px;
   opacity: 1;
   transition: opacity 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackX,
-.toggleChecked .toggleTrackX {
+.toggleChecked .toggleTrackX,
+[data-theme='dark'] .toggle .toggleTrackX {
   opacity: 0;
 }
 
@@ -82,18 +82,19 @@
   transition: all 0.25s ease;
 }
 
-[data-theme='dark'] .toggle .toggleTrackThumb,
-.toggleChecked .toggleTrackThumb {
+.toggleFocused .toggleTrackThumb,
+.toggle:hover .toggleTrackThumb {
+  box-shadow: 0 0 2px 3px var(--ifm-color-primary);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.toggleChecked .toggleTrackThumb,
+[data-theme='dark'] .toggle .toggleTrackThumb {
   left: 27px;
 }
 
-.toggleFocused .toggleTrackThumb,
-.toggle:hover .toggleTrackThumb {
-  box-shadow: 0px 0px 2px 3px var(--ifm-color-primary);
-}
-
 .toggle:active:not(.toggleDisabled) .toggleTrackThumb {
-  box-shadow: 0px 0px 5px 5px var(--ifm-color-primary);
+  box-shadow: 0 0 5px 5px var(--ifm-color-primary);
 }
 
 .toggleIcon {
@@ -102,7 +103,4 @@
   height: 10px;
   justify-content: center;
   width: 10px;
-}
-.toggle::before {
-  position: absolute;
 }

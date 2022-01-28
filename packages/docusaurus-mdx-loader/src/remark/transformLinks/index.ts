@@ -9,6 +9,8 @@ import {
   toMessageRelativeFilePath,
   posixPath,
   escapePath,
+  getFileLoaderUtils,
+  findAsyncSequential,
   reportMessage,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
@@ -17,7 +19,6 @@ import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {Plugin, Transformer} from 'unified';
 import type {Link, Literal} from 'mdast';
 import type {ReportingSeverity} from '@docusaurus/types';
@@ -25,124 +26,93 @@ import type {ReportingSeverity} from '@docusaurus/types';
 const {
   loaders: {inlineMarkdownLinkFileLoader},
 } = getFileLoaderUtils();
-const hashRegex = /#.*$/;
 
-interface PluginOptions {
-  filePath: string;
-  staticDir: string;
+type PluginOptions = {
+  staticDirs: string[];
+  siteDir: string;
   onBrokenMarkdownAssets: ReportingSeverity;
+};
+
+type Context = PluginOptions & {
+  filePath: string;
+};
+
+// transform the link node to a jsx link with a require() call
+function toAssetRequireNode(node: Link, assetPath: string, filePath: string) {
+  const jsxNode = node as Literal & Partial<Link>;
+  let relativeAssetPath = posixPath(
+    path.relative(path.dirname(filePath), assetPath),
+  );
+  // require("assets/file.pdf") means requiring from a package called assets
+  relativeAssetPath = `./${relativeAssetPath}`;
+
+  const parsedUrl = url.parse(node.url);
+  const hash = parsedUrl.hash ?? '';
+  const search = parsedUrl.search ?? '';
+
+  const href = `require('${
+    // A hack to stop Webpack from using its built-in loader to parse JSON
+    path.extname(relativeAssetPath) === '.json'
+      ? `${relativeAssetPath.replace('.json', '.raw')}!=`
+      : ''
+  }${inlineMarkdownLinkFileLoader}${
+    escapePath(relativeAssetPath) + search
+  }').default${hash ? ` + '${hash}'` : ''}`;
+  const children = stringifyContent(node);
+  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+
+  Object.keys(jsxNode).forEach(
+    (key) => delete jsxNode[key as keyof typeof jsxNode],
+  );
+
+  (jsxNode as Literal).type = 'jsx';
+  jsxNode.value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
 }
 
 async function ensureAssetFileExist(
-  fileSystemAssetPath: string,
+  assetPath: string,
   sourceFilePath: string,
   onBrokenMarkdownAssets: ReportingSeverity,
 ) {
-  const assetExists = await fs.pathExists(fileSystemAssetPath);
+  const assetExists = await fs.pathExists(assetPath);
   if (!assetExists) {
     reportMessage(
       `Asset ${toMessageRelativeFilePath(
-        fileSystemAssetPath,
+        assetPath,
       )} used in ${toMessageRelativeFilePath(sourceFilePath)} not found.`,
       onBrokenMarkdownAssets,
     );
   }
 }
 
-// transform the link node to a jsx link with a require() call
-function toAssetRequireNode({
-  node,
-  filePath,
-  requireAssetPath,
-}: {
-  node: Link;
-  filePath: string;
-  requireAssetPath: string;
-}) {
-  let relativeRequireAssetPath = posixPath(
-    path.relative(path.dirname(filePath), requireAssetPath),
-  );
-  const hash = hashRegex.test(node.url)
-    ? node.url.substr(node.url.indexOf('#'))
-    : '';
-
-  // nodejs does not like require("assets/file.pdf")
-  relativeRequireAssetPath = relativeRequireAssetPath.startsWith('.')
-    ? relativeRequireAssetPath
-    : `./${relativeRequireAssetPath}`;
-
-  const href = `require('${inlineMarkdownLinkFileLoader}${escapePath(
-    relativeRequireAssetPath,
-  )}').default${hash ? ` + '${hash}'` : ''}`;
-  const children = stringifyContent(node);
-  const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
-
-  (node as unknown as Literal).type = 'jsx';
-  (
-    node as unknown as Literal
-  ).value = `<a target="_blank" href={${href}}${title}>${children}</a>`;
-}
-
-// If the link looks like an asset link, we'll link to the asset,
-// and use a require("assetUrl") (using webpack url-loader/file-loader)
-// instead of navigating to such link
-async function convertToAssetLinkIfNeeded({
-  node,
-  staticDir,
-  filePath,
-  onBrokenMarkdownAssets,
-}: {node: Link} & PluginOptions) {
-  const assetPath = node.url.replace(hashRegex, '');
-
-  const hasSiteAlias = assetPath.startsWith('@site/');
-  const hasAssetLikeExtension =
-    path.extname(assetPath) && !assetPath.match(/#|.md|.mdx|.html/);
-
-  const looksLikeAssetLink = hasSiteAlias || hasAssetLikeExtension;
-
-  if (!looksLikeAssetLink) {
-    return;
-  }
-
-  function toAssetLinkNode(requireAssetPath: string) {
-    toAssetRequireNode({
-      node,
-      filePath,
-      requireAssetPath,
-    });
-  }
-
+async function getAssetAbsolutePath(
+  assetPath: string,
+  {siteDir, filePath, staticDirs, onBrokenMarkdownAssets}: Context,
+) {
   if (assetPath.startsWith('@site/')) {
-    const siteDir = path.join(staticDir, '..');
-    const fileSystemAssetPath = path.join(
-      siteDir,
-      assetPath.replace('@site/', ''),
-    );
-    await ensureAssetFileExist(
-      fileSystemAssetPath,
-      filePath,
-      onBrokenMarkdownAssets,
-    );
-    toAssetLinkNode(fileSystemAssetPath);
+    const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
+    // The @site alias is the only way to believe that the user wants an asset.
+    // Everything else can just be a link URL
+    await ensureAssetFileExist(assetFilePath, filePath, onBrokenMarkdownAssets);
+    return assetFilePath;
   } else if (path.isAbsolute(assetPath)) {
-    const fileSystemAssetPath = path.join(staticDir, assetPath);
-    if (await fs.pathExists(fileSystemAssetPath)) {
-      toAssetLinkNode(fileSystemAssetPath);
+    const assetFilePath = await findAsyncSequential(
+      staticDirs.map((dir) => path.join(dir, assetPath)),
+      fs.pathExists,
+    );
+    if (assetFilePath) {
+      return assetFilePath;
     }
   } else {
-    const fileSystemAssetPath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.pathExists(fileSystemAssetPath)) {
-      toAssetLinkNode(fileSystemAssetPath);
+    const assetFilePath = path.join(path.dirname(filePath), assetPath);
+    if (await fs.pathExists(assetFilePath)) {
+      return assetFilePath;
     }
   }
+  return null;
 }
 
-async function processLinkNode({
-  node,
-  filePath,
-  staticDir,
-  onBrokenMarkdownAssets,
-}: {node: Link} & PluginOptions) {
+async function processLinkNode(node: Link, context: Context) {
   if (!node.url) {
     // try to improve error feedback
     // see https://github.com/facebook/docusaurus/issues/3309#issuecomment-690371675
@@ -150,30 +120,36 @@ async function processLinkNode({
     const line = node?.position?.start?.line || '?';
     reportMessage(
       `Markdown link URL is mandatory in "${toMessageRelativeFilePath(
-        filePath,
+        context.filePath,
       )}" file (title: ${title}, line: ${line}).`,
-      onBrokenMarkdownAssets,
+      context.onBrokenMarkdownAssets,
     );
   }
 
   const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol) {
+  if (parsedUrl.protocol || !parsedUrl.pathname) {
+    // Don't process pathname:// here, it's used by the <Link> component
+    return;
+  }
+  const hasSiteAlias = parsedUrl.pathname.startsWith('@site/');
+  const hasAssetLikeExtension =
+    path.extname(parsedUrl.pathname) &&
+    !parsedUrl.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
+  if (!hasSiteAlias && !hasAssetLikeExtension) {
     return;
   }
 
-  await convertToAssetLinkIfNeeded({
-    node,
-    staticDir,
-    filePath,
-    onBrokenMarkdownAssets,
-  });
+  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, context);
+  if (assetPath) {
+    toAssetRequireNode(node, assetPath, context.filePath);
+  }
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root) => {
+  const transformer: Transformer = async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link) => {
-      promises.push(processLinkNode({node, ...options}));
+      promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
     });
     await Promise.all(promises);
   };

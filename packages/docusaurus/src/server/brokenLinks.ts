@@ -5,12 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
-import resolvePathname from 'resolve-pathname';
+import {
+  matchRoutes,
+  type RouteConfig as RRRouteConfig,
+} from 'react-router-config';
 import fs from 'fs-extra';
 import {mapValues, pickBy, countBy} from 'lodash';
-import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {removePrefix, removeSuffix, reportMessage} from '@docusaurus/utils';
+import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
+import {
+  removePrefix,
+  removeSuffix,
+  reportMessage,
+  resolvePathname,
+} from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
 
@@ -75,9 +82,9 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) => {
-    return getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes});
-  });
+  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+    getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
+  );
 
   // remove pages without any broken link
   return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
@@ -186,9 +193,9 @@ export async function filterExistingFileLinks({
     return filePathsToTry.some(isExistingFile);
   }
 
-  return mapValues(allCollectedLinks, (links) => {
-    return links.filter((link) => !linkFileExists(link));
-  });
+  return mapValues(allCollectedLinks, (links) =>
+    links.filter((link) => !linkFileExists(link)),
+  );
 }
 
 export async function handleBrokenLinks({

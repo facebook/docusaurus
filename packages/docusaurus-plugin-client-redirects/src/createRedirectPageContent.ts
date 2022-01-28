@@ -13,9 +13,9 @@ type CreateRedirectPageOptions = {
   toUrl: string;
 };
 
-const getCompiledRedirectPageTemplate = memoize(() => {
-  return eta.compile(redirectPageTemplate.trim());
-});
+const getCompiledRedirectPageTemplate = memoize(() =>
+  eta.compile(redirectPageTemplate.trim()),
+);
 
 function renderRedirectPageTemplate(data: Record<string, unknown>) {
   const compiled = getCompiledRedirectPageTemplate();

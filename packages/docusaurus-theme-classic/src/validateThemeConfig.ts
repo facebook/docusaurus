@@ -32,7 +32,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
 const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
-  metadatas: [],
+  metadata: [],
   prism: {
     additionalLanguages: [],
   },
@@ -41,12 +41,12 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
 };
-exports.DEFAULT_CONFIG = DEFAULT_CONFIG;
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
@@ -83,6 +83,12 @@ const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
 const DocItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('doc').required(),
   docId: Joi.string().required(),
+  docsPluginId: Joi.string(),
+});
+
+const DocSidebarItemSchema = NavbarItemBaseSchema.append({
+  type: Joi.string().equal('docSidebar').required(),
+  sidebarId: Joi.string().required(),
   docsPluginId: Joi.string(),
 });
 
@@ -172,6 +178,10 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType('doc'),
       then: DocItemSchema,
+    },
+    {
+      is: itemWithType('docSidebar'),
+      then: DocSidebarItemSchema,
     },
     {
       is: itemWithType('localeDropdown'),
@@ -264,9 +274,15 @@ const ThemeConfigSchema = Joi.object({
   colorMode: ColorModeSchema,
   image: Joi.string(),
   docs: DocsSchema,
-  metadatas: Joi.array()
+  metadata: Joi.array()
     .items(HtmlMetadataSchema)
-    .default(DEFAULT_CONFIG.metadatas),
+    .default(DEFAULT_CONFIG.metadata),
+  // cSpell:ignore metadatas
+  metadatas: Joi.any().forbidden().messages({
+    'any.unknown':
+      // cSpell:ignore metadatas
+      'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
+  }),
   announcementBar: Joi.object({
     id: Joi.string().default('announcement-bar'),
     content: Joi.string().required(),
@@ -308,13 +324,18 @@ const ThemeConfigSchema = Joi.object({
       href: Joi.string(),
     }),
     copyright: Joi.string(),
-    links: Joi.array()
-      .items(
+    links: Joi.alternatives(
+      Joi.array().items(
         Joi.object({
-          title: Joi.string().allow(null),
+          title: Joi.string().allow(null).default(null),
           items: Joi.array().items(FooterLinkItemSchema).default([]),
         }),
-      )
+      ),
+      Joi.array().items(FooterLinkItemSchema),
+    )
+      .messages({
+        'alternatives.match': `The footer must be either simple or multi-column, and not a mix of the two. See: https://docusaurus.io/docs/api/themes/configuration#footer-links`,
+      })
       .default([]),
   }).optional(),
   prism: Joi.object({
@@ -334,6 +355,9 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  autoCollapseSidebarCategories: Joi.bool().default(
+    DEFAULT_CONFIG.autoCollapseSidebarCategories,
+  ),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
@@ -358,7 +382,7 @@ const ThemeConfigSchema = Joi.object({
   }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
-export {ThemeConfigSchema};
+export {DEFAULT_CONFIG, ThemeConfigSchema};
 
 export function validateThemeConfig({
   validate,

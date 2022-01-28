@@ -6,8 +6,8 @@
  */
 
 import {groupBy} from 'lodash';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
-import {InitializedPlugin} from '@docusaurus/types';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import type {InitializedPlugin} from '@docusaurus/types';
 
 // It is forbidden to have 2 plugins of the same name sharing the same id
 // this is required to support multi-instance plugins without conflict
@@ -24,7 +24,13 @@ export function ensureUniquePluginInstanceIds(
       ([pluginId, pluginInstancesWithId]) => {
         if (pluginInstancesWithId.length !== 1) {
           throw new Error(
-            `Plugin "${pluginName}" is used ${pluginInstancesWithId.length} times with id ${pluginId}.\nTo use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance.`,
+            `Plugin "${pluginName}" is used ${
+              pluginInstancesWithId.length
+            } times with ID "${pluginId}".\nTo use the same plugin multiple times on a Docusaurus site, you need to assign a unique ID to each plugin instance.${
+              pluginId === DEFAULT_PLUGIN_ID
+                ? `\n\nThe plugin ID is "${DEFAULT_PLUGIN_ID}" by default. It's possible that the preset you are using already includes a plugin instance, in which case you either want to disable the plugin in the preset (to use a single instance), or assign another ID to your extra plugin instance (to use multiple instances).`
+                : ''
+            }`,
           );
         }
       },

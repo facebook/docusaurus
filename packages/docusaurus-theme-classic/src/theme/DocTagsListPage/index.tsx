@@ -22,7 +22,7 @@ function DocTagsListPage({tags}: Props): JSX.Element {
       title={title}
       wrapperClassName={ThemeClassNames.wrapper.docsPages}
       pageClassName={ThemeClassNames.page.docsTagsListPage}
-      searchMetadatas={{
+      searchMetadata={{
         // assign unique search tag to exclude this page from search results!
         tag: 'doc_tags_list',
       }}>

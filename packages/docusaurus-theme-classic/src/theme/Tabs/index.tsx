@@ -10,11 +10,14 @@ import React, {
   cloneElement,
   Children,
   isValidElement,
-  ReactElement,
+  type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
+import {
+  useScrollPositionBlocker,
+  duplicates,
+  useTabGroupChoice,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -51,7 +54,13 @@ function TabsComponent(props: Props): JSX.Element {
     );
   });
   const values =
-    valuesProp ?? children.map(({props: {value, label}}) => ({value, label}));
+    valuesProp ??
+    // We only pick keys that we recognize. MDX would inject some keys by default
+    children.map(({props: {value, label, attributes}}) => ({
+      value,
+      label,
+      attributes,
+    }));
   const dup = duplicates(values, (a, b) => a.value === b.value);
   if (dup.length > 0) {
     throw new Error(
@@ -77,7 +86,7 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -144,19 +153,25 @@ function TabsComponent(props: Props): JSX.Element {
           },
           className,
         )}>
-        {values.map(({value, label}) => (
+        {values.map(({value, label, attributes}) => (
           <li
             role="tab"
             tabIndex={selectedValue === value ? 0 : -1}
             aria-selected={selectedValue === value}
-            className={clsx('tabs__item', styles.tabItem, {
-              'tabs__item--active': selectedValue === value,
-            })}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
             onKeyDown={handleKeydown}
             onFocus={handleTabChange}
-            onClick={handleTabChange}>
+            onClick={handleTabChange}
+            {...attributes}
+            className={clsx(
+              'tabs__item',
+              styles.tabItem,
+              attributes?.className as string,
+              {
+                'tabs__item--active': selectedValue === value,
+              },
+            )}>
             {label ?? value}
           </li>
         ))}

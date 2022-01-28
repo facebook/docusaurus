@@ -10,10 +10,10 @@ import {
   removeSuffix,
   removeTrailingSlash,
 } from '@docusaurus/utils';
-import {RedirectMetadata} from './types';
+import type {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
-  'If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the "createRedirects" plugin option.';
+  'If the redirect extension system is not good enough for your use case, you can create redirects yourself with the "createRedirects" plugin option.';
 
 const validateExtension = (ext: string) => {
   if (!ext) {

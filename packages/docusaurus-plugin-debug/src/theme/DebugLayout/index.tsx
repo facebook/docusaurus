@@ -5,23 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-const DebugNavLink = ({to, children}: {to: string; children: ReactNode}) => (
-  <Link
-    className={styles.navlink}
-    isNavLink
-    to={to}
-    exact
-    activeStyle={{
-      backgroundColor: '#363739',
-    }}>
-    {children}
-  </Link>
-);
+function DebugNavLink({to, children}: {to: string; children: ReactNode}) {
+  return (
+    <Link
+      className={styles.navlink}
+      isNavLink
+      to={to}
+      exact
+      activeStyle={{
+        backgroundColor: '#363739',
+      }}>
+      {children}
+    </Link>
+  );
+}
 
 function DebugLayout({children}: {children: ReactNode}): JSX.Element {
   return (

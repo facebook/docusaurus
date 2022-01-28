@@ -5,31 +5,85 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useMemo, useCallback, useEffect} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 
 import Layout from '@theme/Layout';
-import ShowcaseCheckbox from '@site/src/components/showcase/ShowcaseCheckbox';
-import ShowcaseSelect from '@site/src/components/showcase/ShowcaseSelect';
-import ShowcaseCard from '@site/src/components/showcase/ShowcaseCard';
 import clsx from 'clsx';
 
+import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
+import ShowcaseTagSelect, {
+  readSearchTags,
+} from './_components/ShowcaseTagSelect';
+import ShowcaseFilterToggle, {
+  type Operator,
+  readOperator,
+} from './_components/ShowcaseFilterToggle';
+import ShowcaseCard from './_components/ShowcaseCard';
+import {
+  sortedUsers,
+  Tags,
+  TagList,
+  type User,
+  type TagType,
+} from '@site/src/data/users';
+import ShowcaseTooltip from './_components/ShowcaseTooltip';
+
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import Translate, {translate} from '@docusaurus/Translate';
 import {useHistory, useLocation} from '@docusaurus/router';
+import {usePluralForm} from '@docusaurus/theme-common';
 
-import {toggleListItem} from '../../utils/jsUtils';
-import {SortedUsers, Tags, TagList, User, TagType} from '../../data/users';
-
-type Operator = 'OR' | 'AND';
+import styles from './styles.module.css';
 
 const TITLE = 'Docusaurus Site Showcase';
 const DESCRIPTION = 'List of websites people are building with Docusaurus';
 const EDIT_URL =
   'https://github.com/facebook/docusaurus/edit/main/website/src/data/users.tsx';
 
+type UserState = {
+  scrollTopPosition: number;
+  focusedElementId: string | undefined;
+};
+
+function restoreUserState(userState: UserState | null) {
+  const {scrollTopPosition, focusedElementId} = userState ?? {
+    scrollTopPosition: 0,
+    focusedElementId: undefined,
+  };
+  // @ts-expect-error: if focusedElementId is undefined it returns null
+  document.getElementById(focusedElementId)?.focus();
+  window.scrollTo({top: scrollTopPosition});
+}
+
+export function prepareUserState(): UserState | undefined {
+  if (ExecutionEnvironment.canUseDOM) {
+    return {
+      scrollTopPosition: window.scrollY,
+      focusedElementId: document.activeElement?.id,
+    };
+  }
+
+  return undefined;
+}
+
+const SearchNameQueryKey = 'name';
+
+function readSearchName(search: string) {
+  return new URLSearchParams(search).get(SearchNameQueryKey);
+}
+
 function filterUsers(
   users: User[],
   selectedTags: TagType[],
   operator: Operator,
+  searchName: string | null,
 ) {
+  if (searchName) {
+    // eslint-disable-next-line no-param-reassign
+    users = users.filter((user) =>
+      user.title.toLowerCase().includes(searchName.toLowerCase()),
+    );
+  }
   if (selectedTags.length === 0) {
     return users;
   }
@@ -45,172 +99,239 @@ function filterUsers(
   });
 }
 
-function useFilteredUsers(
-  users: User[],
-  selectedTags: TagType[],
-  operator: Operator,
-) {
-  return useMemo(
-    () => filterUsers(users, selectedTags, operator),
-    [users, selectedTags, operator],
-  );
-}
-
-const TagQueryStringKey = 'tags';
-
-function readSearchTags(search: string) {
-  return new URLSearchParams(search).getAll(TagQueryStringKey) as TagType[];
-}
-
-function replaceSearchTags(search: string, newTags: TagType[]) {
-  const searchParams = new URLSearchParams(search);
-  searchParams.delete(TagQueryStringKey);
-  newTags.forEach((tag) => searchParams.append(TagQueryStringKey, tag));
-  return searchParams.toString();
-}
-
-function useSelectedTags() {
-  // The search query-string is the source of truth!
-  const location = useLocation();
-  const {push} = useHistory();
-
+function useFilteredUsers() {
+  const location = useLocation<UserState>();
+  const [operator, setOperator] = useState<Operator>('OR');
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-
+  const [searchName, setSearchName] = useState<string | null>(null);
   // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
   useEffect(() => {
-    const tags = readSearchTags(location.search);
-    setSelectedTags(tags);
-  }, [location, setSelectedTags]);
+    setSelectedTags(readSearchTags(location.search));
+    setOperator(readOperator(location.search));
+    setSearchName(readSearchName(location.search));
+    restoreUserState(location.state);
+  }, [location]);
 
-  // Update the QS value
-  const toggleTag = useCallback(
-    (tag: TagType) => {
-      const tags = readSearchTags(location.search);
-      const newTags = toggleListItem(tags, tag);
-      const newSearch = replaceSearchTags(location.search, newTags);
-      push({...location, search: newSearch});
-      // no need to call setSelectedTags, useEffect will do the sync
-    },
-    [location, push],
+  return useMemo(
+    () => filterUsers(sortedUsers, selectedTags, operator, searchName),
+    [selectedTags, operator, searchName],
   );
-
-  return {selectedTags, toggleTag};
 }
 
 function ShowcaseHeader() {
   return (
-    <div className="text--center">
+    <section className="margin-top--lg margin-bottom--lg text--center">
       <h1>{TITLE}</h1>
       <p>{DESCRIPTION}</p>
-      <p>
-        <a
-          className="button button--primary"
-          href={EDIT_URL}
-          target="_blank"
-          rel="noreferrer">
-          🙏 Add your site now!
-        </a>
-      </p>
-    </div>
+      <a
+        className="button button--primary"
+        href={EDIT_URL}
+        target="_blank"
+        rel="noreferrer">
+        <Translate id="showcase.header.button">
+          🙏 Please add your site
+        </Translate>
+      </a>
+    </section>
   );
 }
 
-interface Props {
-  selectedTags: TagType[];
-  toggleTag: (tag: TagType) => void;
-  operator: Operator;
-  setOperator: (op: Operator) => void;
+function useSiteCountPlural() {
+  const {selectMessage} = usePluralForm();
+  return (sitesCount: number) =>
+    selectMessage(
+      sitesCount,
+      translate(
+        {
+          id: 'showcase.filters.resultCount',
+          description:
+            'Pluralized label for the number of sites found on the showcase. Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+          message: '1 site|{sitesCount} sites',
+        },
+        {sitesCount},
+      ),
+    );
 }
 
-function ShowcaseFilters({
-  selectedTags,
-  toggleTag,
-  operator,
-  setOperator,
-}: Props) {
+function ShowcaseFilters() {
+  const filteredUsers = useFilteredUsers();
+  const siteCountPlural = useSiteCountPlural();
   return (
-    <div className="margin-top--l margin-bottom--md container">
-      <div className="row">
-        {TagList.map((tag) => {
-          const {label, description, icon} = Tags[tag];
+    <section className="container margin-top--l margin-bottom--lg">
+      <div className={clsx('margin-bottom--sm', styles.filterCheckbox)}>
+        <div>
+          <h2>
+            <Translate id="showcase.filters.title">Filters</Translate>
+          </h2>
+          <span>{siteCountPlural(filteredUsers.length)}</span>
+        </div>
+        <ShowcaseFilterToggle />
+      </div>
+      <ul className={styles.checkboxList}>
+        {TagList.map((tag, i) => {
+          const {label, description, color} = Tags[tag];
+          const id = `showcase_checkbox_id_${tag}`;
+
           return (
-            <div key={tag} className="col col--2">
-              <ShowcaseCheckbox
-                // TODO add a proper tooltip
-                title={`${label}: ${description}`}
-                name={tag}
-                label={
-                  icon ? (
-                    <>
-                      {icon} {label}
-                    </>
-                  ) : (
-                    label
-                  )
-                }
-                onChange={() => toggleTag(tag)}
-                checked={selectedTags.includes(tag)}
-              />
-            </div>
+            <li key={i} className={styles.checkboxListItem}>
+              <ShowcaseTooltip
+                id={id}
+                text={description}
+                anchorEl="#__docusaurus">
+                <ShowcaseTagSelect
+                  tag={tag}
+                  id={id}
+                  label={label}
+                  icon={
+                    tag === 'favorite' ? (
+                      <FavoriteIcon svgClass={styles.svgIconFavoriteXs} />
+                    ) : (
+                      <span
+                        style={{
+                          backgroundColor: color,
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          marginLeft: 8,
+                        }}
+                      />
+                    )
+                  }
+                />
+              </ShowcaseTooltip>
+            </li>
           );
         })}
-        <div className="col col--2">
-          <ShowcaseSelect
-            name="operator"
-            label="Filter: "
-            value={operator}
-            onChange={(e) => setOperator(e.target.value as Operator)}>
-            <option value="OR">OR</option>
-            <option value="AND">AND</option>
-          </ShowcaseSelect>
-        </div>
-      </div>
+      </ul>
+    </section>
+  );
+}
+
+const favoriteUsers = sortedUsers.filter((user) =>
+  user.tags.includes('favorite'),
+);
+const otherUsers = sortedUsers.filter(
+  (user) => !user.tags.includes('favorite'),
+);
+
+function SearchBar() {
+  const history = useHistory();
+  const location = useLocation();
+  const [value, setValue] = useState<string | null>(null);
+  useEffect(() => {
+    setValue(readSearchName(location.search));
+  }, [location]);
+  return (
+    <div className={styles.searchContainer}>
+      <input
+        id="searchbar"
+        placeholder={translate({
+          message: 'Search for site name...',
+          id: 'showcase.searchBar.placeholder',
+        })}
+        value={value ?? undefined}
+        onInput={(e) => {
+          setValue(e.currentTarget.value);
+          const newSearch = new URLSearchParams(location.search);
+          newSearch.delete(SearchNameQueryKey);
+          if (e.currentTarget.value) {
+            newSearch.set(SearchNameQueryKey, e.currentTarget.value);
+          }
+          history.push({
+            ...location,
+            search: newSearch.toString(),
+            state: prepareUserState(),
+          });
+          setTimeout(() => {
+            document.getElementById('searchbar')?.focus();
+          }, 0);
+        }}
+      />
     </div>
   );
 }
 
-function ShowcaseCards({filteredUsers}: {filteredUsers: User[]}) {
+function ShowcaseCards() {
+  const filteredUsers = useFilteredUsers();
+
+  if (filteredUsers.length === 0) {
+    return (
+      <section className="margin-top--lg margin-bottom--xl">
+        <div className="container padding-vert--md text--center">
+          <h2>
+            <Translate id="showcase.usersList.noResult">No result</Translate>
+          </h2>
+          <SearchBar />
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="container margin-top--lg">
-      <h2>
-        {filteredUsers.length} site{filteredUsers.length > 1 ? 's' : ''}
-      </h2>
-      <div className="margin-top--lg">
-        {filteredUsers.length > 0 ? (
-          <div className="row">
+    <section className="margin-top--lg margin-bottom--xl">
+      {filteredUsers.length === sortedUsers.length ? (
+        <>
+          <div className={styles.showcaseFavorite}>
+            <div className="container">
+              <div
+                className={clsx(
+                  'margin-bottom--md',
+                  styles.showcaseFavoriteHeader,
+                )}>
+                <h2>
+                  <Translate id="showcase.favoritesList.title">
+                    Our favorites
+                  </Translate>
+                </h2>
+                <FavoriteIcon svgClass={styles.svgIconFavorite} />
+                <SearchBar />
+              </div>
+              <ul className={clsx('container', styles.showcaseList)}>
+                {favoriteUsers.map((user) => (
+                  <ShowcaseCard key={user.title} user={user} />
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="container margin-top--lg">
+            <h2 className={styles.showcaseHeader}>
+              <Translate id="showcase.usersList.allUsers">All sites</Translate>
+            </h2>
+            <ul className={styles.showcaseList}>
+              {otherUsers.map((user) => (
+                <ShowcaseCard key={user.title} user={user} />
+              ))}
+            </ul>
+          </div>
+        </>
+      ) : (
+        <div className="container">
+          <div
+            className={clsx(
+              'margin-bottom--md',
+              styles.showcaseFavoriteHeader,
+            )}>
+            <SearchBar />
+          </div>
+          <ul className={styles.showcaseList}>
             {filteredUsers.map((user) => (
-              <ShowcaseCard
-                key={user.title} // Title should be unique
-                user={user}
-              />
+              <ShowcaseCard key={user.title} user={user} />
             ))}
-          </div>
-        ) : (
-          <div className={clsx('padding-vert--md text--center')}>
-            <h3>No result</h3>
-          </div>
-        )}
-      </div>
+          </ul>
+        </div>
+      )}
     </section>
   );
 }
 
 function Showcase(): JSX.Element {
-  const {selectedTags, toggleTag} = useSelectedTags();
-  const [operator, setOperator] = useState<Operator>('OR');
-  const filteredUsers = useFilteredUsers(SortedUsers, selectedTags, operator);
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
-      <main className="container margin-vert--lg">
+      <main className="margin-vert--lg">
         <ShowcaseHeader />
-        <ShowcaseFilters
-          selectedTags={selectedTags}
-          toggleTag={toggleTag}
-          operator={operator}
-          setOperator={setOperator}
-        />
-        <ShowcaseCards filteredUsers={filteredUsers} />
+        <ShowcaseFilters />
+        <ShowcaseCards />
       </main>
     </Layout>
   );

@@ -14,7 +14,7 @@ describe('loadThemeAliases', () => {
     const theme1Path = path.join(fixtures, 'theme-1');
     const theme2Path = path.join(fixtures, 'theme-2');
 
-    const alias = loadThemeAliases([theme1Path, theme2Path]);
+    const alias = loadThemeAliases([theme1Path, theme2Path], []);
 
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(

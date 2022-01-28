@@ -9,7 +9,7 @@ import {
   normalizeFrontMatterTag,
   normalizeFrontMatterTags,
   groupTaggedItems,
-  Tag,
+  type Tag,
 } from '../tags';
 
 describe('normalizeFrontMatterTag', () => {
@@ -46,7 +46,7 @@ describe('normalizeFrontMatterTag', () => {
     expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize complex string tag', () => {
+  test('should normalize complex string tag with object tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = {
       label: 'tag complex Label',
@@ -83,6 +83,10 @@ describe('normalizeFrontMatterTags', () => {
       },
     ];
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
+  });
+
+  test('succeeds for empty list', () => {
+    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
   });
 
   test('should normalize complex mixed list', () => {

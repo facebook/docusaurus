@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {aliasedSitePath} from './index';
+import {aliasedSitePath} from './pathUtils';
 
 export type ContentPaths = {
   contentPath: string;
@@ -45,9 +45,16 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
 
   // Replace internal markdown linking (except in fenced blocks).
   let fencedBlock = false;
+  let lastCodeFence = '';
   const lines = fileString.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
+      if (!fencedBlock) {
+        fencedBlock = true;
+        [lastCodeFence] = line.trim().match(/^`+/)!;
+        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+      } else if (line.trim().match(/^`+/)![0].length >= lastCodeFence.length) {
+        fencedBlock = false;
+      }
     }
     if (fencedBlock) {
       return line;
@@ -57,7 +64,8 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
     // Replace inline-style links or reference-style links e.g:
     // This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
     // [doc1]: doc1.md -> we replace this doc1.md with correct link
-    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
+    const mdRegex =
+      /(?:(?:\]\()|(?:\]:\s?))(?!https?:\/\/|@site\/)([^'")\]\s>]+\.mdx?)/g;
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       // Replace it to correct html link.

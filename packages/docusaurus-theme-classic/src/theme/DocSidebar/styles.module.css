@@ -71,6 +71,7 @@
     transform: rotate(180deg);
     margin-top: 4px;
   }
+
   html[dir='rtl'] .collapseSidebarButtonIcon {
     transform: rotate(0);
   }
