@@ -88,19 +88,21 @@ export default async function swizzle(
   const componentConfig = themeComponents.getConfig(componentName);
 
   const action = await getAction(componentConfig, options);
-  const {to: absoluteTo} = await executeAction({
+  const result = await executeAction({
     action,
     siteDir,
     themePath,
     componentName,
   });
-  const to = path.relative(process.cwd(), absoluteTo);
+  const createdFiles = result.createdFiles.map((file) =>
+    path.relative(process.cwd(), file),
+  );
   switch (action) {
     case 'wrap':
-      logger.success`Created a wrapper for code=${`${themeName} ${componentName}`} in path=${to}.`;
+      logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${createdFiles}.`;
       break;
     case 'eject':
-      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${to}.`;
+      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${createdFiles}.`;
       break;
     default:
       throw new Error(`Unexpected action ${action}`);
