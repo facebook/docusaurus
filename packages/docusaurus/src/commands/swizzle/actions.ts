@@ -32,13 +32,17 @@ type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
+
+  // TODO bad, does not apply to all actions
   typescript: boolean;
+  importType: 'original' | 'init';
 };
 
 type ActionResult = {
   createdFiles: string[];
 };
 
+// TODO remove this abstraction: each handler can have its own params/results
 type ActionHandler = (params: ActionParams) => Promise<ActionResult>;
 
 async function isDir(dirPath: string): Promise<boolean> {
@@ -47,11 +51,11 @@ async function isDir(dirPath: string): Promise<boolean> {
   );
 }
 
-export const eject: ActionHandler = async ({
+export async function eject({
   siteDir,
   themePath,
   componentName,
-}) => {
+}: ActionParams): Promise<ActionResult> {
   const fromPath = path.join(themePath, componentName);
 
   const isDirectory = await isDir(fromPath);
@@ -94,14 +98,15 @@ export const eject: ActionHandler = async ({
   const createdFiles = await Promise.all(filesToCopy.map(copyFile));
 
   return {createdFiles};
-};
+}
 
-export const wrap: ActionHandler = async ({
+export async function wrap({
   siteDir,
   themePath,
   componentName: themeComponentName,
   typescript,
-}) => {
+  importType = 'original',
+}: ActionParams): Promise<ActionResult> {
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
   // Parent/ComponentName => ComponentName
@@ -132,7 +137,7 @@ export default function ${wrapperComponentName}(props: Props): JSX.Element {
 }`
     : `
 import React from 'react';
-import ${componentName} from '@theme-original/${themeComponentName}';
+import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
 export default function ${wrapperComponentName}(props) {
   return (
@@ -146,7 +151,7 @@ export default function ${wrapperComponentName}(props) {
   await fs.writeFile(toPath, content);
 
   return {createdFiles: [toPath]};
-};
+}
 
 const ActionHandlers: Record<SwizzleAction, ActionHandler> = {
   eject,
