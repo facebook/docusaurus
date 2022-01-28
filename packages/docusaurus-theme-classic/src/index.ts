@@ -22,15 +22,13 @@ const requireFromDocusaurusCore = createRequire(
 const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
   requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
-const js = String.raw;
-
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
   respectPrefersColorScheme,
-}: ThemeConfig['colorMode']) => js`(function() {
+}: ThemeConfig['colorMode']) => `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
