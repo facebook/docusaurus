@@ -56,6 +56,7 @@ const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
 });
 
 const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
+  .allow(null)
   .when('.type', {
     switch: [
       {

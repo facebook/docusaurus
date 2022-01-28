@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Maghanap",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Paghahanap hatid ng Algolia",
   "theme.SearchPage.documentsFound.plurals": "Isang dokumento ang nahanap|{count} na mga dokumento ang nahanap",
   "theme.SearchPage.emptyResultsTitle": "Maghanap sa dokumentasyón",
