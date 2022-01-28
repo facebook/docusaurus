@@ -13,6 +13,7 @@ export const ThemePath = path.join(__dirname, '__fixtures__/theme');
 
 export const Components = {
   ComponentInSubFolder: 'ComponentInFolder/ComponentInSubFolder',
+  Sibling: 'ComponentInFolder/Sibling',
   ComponentInFolder: 'ComponentInFolder',
   FirstLevelComponent: 'FirstLevelComponent',
 };

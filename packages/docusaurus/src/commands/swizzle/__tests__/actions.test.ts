@@ -60,6 +60,7 @@ describe('executeAction', () => {
         "theme
         └── ComponentInFolder
             └── ComponentInSubFolder
+                ├── index.css
                 ├── index.stories.tsx
                 ├── index.test.tsx
                 └── index.tsx"

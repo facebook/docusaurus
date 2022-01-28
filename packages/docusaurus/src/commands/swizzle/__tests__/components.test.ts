@@ -17,6 +17,7 @@ describe('readComponentNames', () => {
     expect(readComponentNames(themePath)).toMatchInlineSnapshot(`
       Array [
         "ComponentInFolder/ComponentInSubFolder",
+        "ComponentInFolder/Sibling",
         "ComponentInFolder",
         "FirstLevelComponent",
       ]
@@ -61,6 +62,7 @@ describe('getThemeComponents', () => {
       Array [
         "ComponentInFolder",
         "ComponentInFolder/ComponentInSubFolder",
+        "ComponentInFolder/Sibling",
         "FirstLevelComponent",
       ]
     `);
