@@ -61,8 +61,6 @@ export const eject: ActionHandler = async ({
     ignore: globIgnore,
   });
 
-  console.log(filesToCopy);
-
   if (filesToCopy.length === 0) {
     // This should never happen
     throw new Error(logger.interpolate`No files to copy from path=${fromPath}`);
