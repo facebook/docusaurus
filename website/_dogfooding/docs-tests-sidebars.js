@@ -86,7 +86,7 @@ function generateHugeSidebarItems() {
         {
           type: 'link',
           href: '/',
-          label: `Link ${index} (level ${currentLevel + 1})`,
+          label: `Link (level ${currentLevel + 1})`,
         },
       ];
     }
