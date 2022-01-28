@@ -2,6 +2,7 @@
 *
 !*/
 !*.css
+__tests__/
 build
 coverage
 examples/
