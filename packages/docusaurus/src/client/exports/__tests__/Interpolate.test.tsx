@@ -22,7 +22,7 @@ describe('Interpolate', () => {
     );
   });
 
-  test('placeholders with string values', () => {
+  test('placeholders with string values 2', () => {
     const text = '{number} {string} {object} {array}';
     const values = {
       number: 42,

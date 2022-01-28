@@ -23,7 +23,6 @@ import {
 import {translateContent, getTranslationFiles} from './translations';
 
 import type {
-  PluginOptions,
   BlogTags,
   BlogContent,
   BlogItemsToMetadata,
@@ -32,13 +31,11 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
-  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
   ConfigureWebpackUtils,
-  Props,
   Plugin,
   HtmlTags,
   OptionValidationContext,
@@ -50,8 +47,12 @@ import {
   getSourceToPermalink,
   getBlogTags,
 } from './blogUtils';
-import type {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
+import type {
+  PluginOptions,
+  BlogPostFrontMatter,
+  Assets,
+} from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
   context: LoadContext,
@@ -240,25 +241,26 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      const archiveUrl = normalizeUrl([
-        baseUrl,
-        routeBasePath,
-        archiveBasePath,
-      ]);
-
-      // creates a blog archive route
-      const archiveProp = await createData(
-        `${docuHash(archiveUrl)}.json`,
-        JSON.stringify({blogPosts}, null, 2),
-      );
-      addRoute({
-        path: archiveUrl,
-        component: '@theme/BlogArchivePage',
-        exact: true,
-        modules: {
-          archive: aliasedSource(archiveProp),
-        },
-      });
+      if (archiveBasePath) {
+        const archiveUrl = normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          archiveBasePath,
+        ]);
+        // creates a blog archive route
+        const archiveProp = await createData(
+          `${docuHash(archiveUrl)}.json`,
+          JSON.stringify({blogPosts}, null, 2),
+        );
+        addRoute({
+          path: archiveUrl,
+          component: '@theme/BlogArchivePage',
+          exact: true,
+          modules: {
+            archive: aliasedSource(archiveProp),
+          },
+        });
+      }
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
@@ -509,14 +511,11 @@ export default async function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild({outDir, content}) {
       if (!options.feedOptions.type) {
         return;
       }
-
-      // TODO: we shouldn't need to re-read the posts here!
-      // postBuild should receive loadedContent
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const {blogPosts} = content;
       if (!blogPosts.length) {
         return;
       }

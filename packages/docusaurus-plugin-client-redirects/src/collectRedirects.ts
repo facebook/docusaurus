@@ -7,11 +7,10 @@
 
 import {uniqBy, difference, groupBy} from 'lodash';
 import type {
-  PluginContext,
-  RedirectMetadata,
   PluginOptions,
   RedirectOption,
-} from './types';
+} from '@docusaurus/plugin-client-redirects';
+import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
@@ -144,7 +143,7 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
-  // For conveniency, user can use a string or a string[]
+  // For convenience, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];

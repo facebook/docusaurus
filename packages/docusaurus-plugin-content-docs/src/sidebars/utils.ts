@@ -131,11 +131,24 @@ export type SidebarsUtils = {
   getDocNavigation: (
     unversionedId: string,
     versionedId: string,
+    displayedSidebar: string | null | undefined,
   ) => SidebarNavigation;
   getCategoryGeneratedIndexList: () => SidebarItemCategoryWithGeneratedIndex[];
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
   ) => SidebarNavigation;
+  getFirstLink: (sidebarId: string) =>
+    | {
+        type: 'doc';
+        id: string;
+        label: string;
+      }
+    | {
+        type: 'generated-index';
+        slug: string;
+        label: string;
+      }
+    | undefined;
 
   checkSidebarsDocIds: (validDocIds: string[], sidebarFilePath: string) => void;
 };
@@ -170,16 +183,25 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
   function getDocNavigation(
     unversionedId: string,
     versionedId: string,
+    displayedSidebar: string | null | undefined,
   ): SidebarNavigation {
     // TODO legacy id retro-compatibility!
     let docId = unversionedId;
-    let sidebarName = getSidebarNameByDocId(docId);
-    if (!sidebarName) {
+    let sidebarName =
+      displayedSidebar === undefined
+        ? getSidebarNameByDocId(docId)
+        : displayedSidebar;
+    if (sidebarName === undefined) {
       docId = versionedId;
       sidebarName = getSidebarNameByDocId(docId);
     }
 
     if (sidebarName) {
+      if (!sidebarNameToNavigationItems[sidebarName]) {
+        throw new Error(
+          `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
+        );
+      }
       const navigationItems = sidebarNameToNavigationItems[sidebarName];
       const currentItemIndex = navigationItems.findIndex((item) => {
         if (item.type === 'doc') {
@@ -190,6 +212,9 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         }
         return false;
       });
+      if (currentItemIndex === -1) {
+        return {sidebarName, next: undefined, previous: undefined};
+      }
 
       const {previous, next} = getElementsAround(
         navigationItems,
@@ -264,6 +289,50 @@ Available document ids are:
     }
   }
 
+  function getFirstLink(sidebar: Sidebar):
+    | {
+        type: 'doc';
+        id: string;
+        label: string;
+      }
+    | {
+        type: 'generated-index';
+        slug: string;
+        label: string;
+      }
+    | undefined {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of sidebar) {
+      if (item.type === 'doc') {
+        return {
+          type: 'doc',
+          id: item.id,
+          label: item.label ?? item.id,
+        };
+      } else if (item.type === 'category') {
+        if (item.link?.type === 'doc') {
+          return {
+            type: 'doc',
+            id: item.link.id,
+            label: item.label,
+          };
+        } else if (item.link?.type === 'generated-index') {
+          return {
+            type: 'generated-index',
+            slug: item.link.slug,
+            label: item.label,
+          };
+        } else {
+          const firstSubItem = getFirstLink(item.items);
+          if (firstSubItem) {
+            return firstSubItem;
+          }
+        }
+      }
+    }
+    return undefined;
+  }
+
   return {
     sidebars,
     getFirstDocIdOfFirstSidebar,
@@ -272,6 +341,7 @@ Available document ids are:
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
+    getFirstLink: (id) => getFirstLink(sidebars[id]),
   };
 }
 

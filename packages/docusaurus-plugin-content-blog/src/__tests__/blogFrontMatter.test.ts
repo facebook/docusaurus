@@ -5,11 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  type BlogPostFrontMatter,
-  validateBlogPostFrontMatter,
-} from '../blogFrontMatter';
+import {validateBlogPostFrontMatter} from '../blogFrontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
+import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 // TODO this abstraction reduce verbosity but it makes it harder to debug
 // It would be preferable to just expose helper methods
@@ -46,9 +44,10 @@ function testField(params: {
       params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
         try {
           validateBlogPostFrontMatter(frontMatter);
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail(
             new Error(
-              `Blog frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+              `Blog front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
                 frontMatter,
                 null,
                 2,
@@ -56,6 +55,7 @@ function testField(params: {
             ),
           );
         } catch (e) {
+          // eslint-disable-next-line jest/no-conditional-expect
           expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
         }
       });
@@ -105,8 +105,8 @@ describe('validateBlogPostFrontMatter id', () => {
   });
 });
 
-describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', () => {
-  test('allow legacy author frontmatter', () => {
+describe('validateBlogPostFrontMatter handles legacy/new author front matter', () => {
+  test('allow legacy author front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       author: 'Sebastien',
       author_url: 'https://sebastienlorber.com',
@@ -116,7 +116,7 @@ describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', ()
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('allow new authors frontmatter', () => {
+  test('allow new authors front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       authors: [
         'slorber',

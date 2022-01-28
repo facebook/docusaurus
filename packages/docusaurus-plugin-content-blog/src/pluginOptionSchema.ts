@@ -13,7 +13,7 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions} from './types';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},
@@ -47,7 +47,9 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 
 export const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  archiveBasePath: Joi.string().default(DEFAULT_OPTIONS.archiveBasePath),
+  archiveBasePath: Joi.string()
+    .default(DEFAULT_OPTIONS.archiveBasePath)
+    .allow(null),
   routeBasePath: Joi.string()
     // '' not allowed, see https://github.com/facebook/docusaurus/issues/3374
     // .allow('')

@@ -20,18 +20,29 @@ export async function createCategoryGeneratedIndexRoutes({
   version,
   actions,
   docCategoryGeneratedIndexComponent,
+  aliasedSource,
 }: {
   version: LoadedVersion;
   actions: PluginContentLoadedActions;
   docCategoryGeneratedIndexComponent: string;
+  aliasedSource: (str: string) => string;
 }): Promise<RouteConfig[]> {
   const slugs = createSlugger();
 
   async function createCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {sidebar, title, description, slug, permalink, previous, next} =
-      categoryGeneratedIndex;
+    const {
+      sidebar,
+      title,
+      description,
+      slug,
+      permalink,
+      previous,
+      next,
+      image,
+      keywords,
+    } = categoryGeneratedIndex;
 
     const propFileName = slugs.slug(
       `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
@@ -42,6 +53,8 @@ export async function createCategoryGeneratedIndexRoutes({
       description,
       slug,
       permalink,
+      image,
+      keywords,
       navigation: {
         previous,
         next,
@@ -58,7 +71,7 @@ export async function createCategoryGeneratedIndexRoutes({
       component: docCategoryGeneratedIndexComponent,
       exact: true,
       modules: {
-        categoryGeneratedIndex: propData,
+        categoryGeneratedIndex: aliasedSource(propData),
       },
       // Same as doc, this sidebar route attribute permits to associate this subpage to the given sidebar
       ...(sidebar && {sidebar}),
@@ -138,6 +151,7 @@ export async function createVersionRoutes({
           version,
           actions,
           docCategoryGeneratedIndexComponent,
+          aliasedSource,
         }),
       ]);
 

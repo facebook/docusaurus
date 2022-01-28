@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {BlogPost, BlogContent, PluginOptions} from '../types';
+import type {BlogPost, BlogContent} from '../types';
 import {getTranslationFiles, translateContent} from '../translations';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const sampleBlogOptions: PluginOptions = {
   ...DEFAULT_OPTIONS,

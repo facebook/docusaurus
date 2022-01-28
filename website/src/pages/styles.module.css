@@ -18,7 +18,7 @@
 }
 
 .featureImage {
-  max-width: 60%;
+  width: auto;
   max-height: 128px;
   margin: 0 auto;
 }
@@ -39,6 +39,7 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
+  --ifm-link-color: hsl(var(--site-primary-hue-saturation) 45%);
 }
 
 .announcementInner {
@@ -49,6 +50,8 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
+  --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
+  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
 }
 
 .heroInner {
@@ -67,7 +70,7 @@
   color: var(--ifm-color-primary);
 }
 
-@keyframes jackInTheBox {
+@keyframes jack-in-the-box {
   from {
     opacity: 0;
     transform: scale(0.1) rotate(30deg);
@@ -90,7 +93,7 @@
 
 .heroLogo {
   animation-duration: 2s;
-  animation-name: jackInTheBox;
+  animation-name: jack-in-the-box;
   float: right;
   margin-top: 20px;
   padding: 0 20px 20px;
@@ -102,6 +105,11 @@
   flex-wrap: wrap;
   align-items: center;
   margin-top: 24px;
+}
+
+.indexCtas a,
+.indexCtas a:hover {
+  color: black;
 }
 
 .indexCtas a:last-of-type {
@@ -156,5 +164,5 @@
 
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
-  content: "site-index-page";
+  content: 'site-index-page';
 }

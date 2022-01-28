@@ -22,6 +22,9 @@ import type {
 import {isCategoriesShorthand} from './utils';
 import type {CategoryMetadataFile} from './generator';
 
+// NOTE: we don't add any default values during validation on purpose!
+// Config types are exposed to users for typechecking and we use the same type in normalization
+
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
   customProps: Joi.object().unknown(),
@@ -53,6 +56,7 @@ const sidebarItemLinkSchema = sidebarItemBaseSchema.append<SidebarItemLink>({
 });
 
 const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
+  .allow(null)
   .when('.type', {
     switch: [
       {
@@ -70,6 +74,8 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
           // permalink: Joi.string().optional(), // No, this one is not in the user config, only in the normalized version
           title: Joi.string().optional(),
           description: Joi.string().optional(),
+          image: Joi.string().optional(),
+          keywords: [Joi.string(), Joi.array().items(Joi.string())],
         }),
       },
       {

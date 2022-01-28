@@ -19,7 +19,6 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        trailingSlash: false,
       },
     );
     expect(sitemap).toContain(
@@ -43,7 +42,6 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        trailingSlash: false,
       },
     );
     expect(sitemap).not.toContain('404');
@@ -104,24 +102,5 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test</loc>');
     expect(sitemap).toContain('<loc>https://example.com/nested/test2</loc>');
-  });
-
-  test('add trailing slash (deprecated plugin option)', async () => {
-    const sitemap = await createSitemap(
-      {
-        url: 'https://example.com',
-      } as DocusaurusConfig,
-      ['/', '/test', '/nested/test', '/nested/test2/'],
-      {
-        changefreq: EnumChangefreq.DAILY,
-        priority: 0.7,
-        trailingSlash: true,
-      },
-    );
-
-    expect(sitemap).toContain('<loc>https://example.com/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test/</loc>');
-    expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 });

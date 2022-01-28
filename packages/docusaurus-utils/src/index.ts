@@ -23,7 +23,6 @@ import {simpleHash, docuHash} from './hashUtils';
 import {DEFAULT_PLUGIN_ID} from './constants';
 
 export * from './constants';
-export * from './mdxUtils';
 export * from './urlUtils';
 export * from './tags';
 export * from './markdownParser';
@@ -35,7 +34,7 @@ export * from './globUtils';
 export * from './webpackUtils';
 export * from './dataFileUtils';
 
-const fileHash = new Map();
+const fileHash = new Map<string, string>();
 export async function generate(
   generatedFilesDir: string,
   file: string,
@@ -84,8 +83,8 @@ export function fileToPath(file: string): string {
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
-export function encodePath(userpath: string): string {
-  return userpath
+export function encodePath(userPath: string): string {
+  return userPath
     .split('/')
     .map((item) => encodeURIComponent(item))
     .join('/');
@@ -141,7 +140,10 @@ export function addLeadingSlash(str: string): string {
 }
 
 export function addTrailingPathSeparator(str: string): string {
-  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }
 
 // TODO deduplicate: also present in @docusaurus/utils-common
@@ -207,6 +209,39 @@ export function getPluginI18nPath({
   );
 }
 
+/**
+ * @param permalink The URL that the HTML file corresponds to, without base URL
+ * @param outDir Full path to the output directory
+ * @param trailingSlash The site config option. If provided, only one path will be read.
+ * @returns This returns a buffer, which you have to decode string yourself if
+ * needed. (Not always necessary since the output isn't for human consumption
+ * anyways, and most HTML manipulation libs accept buffers)
+ */
+export async function readOutputHTMLFile(
+  permalink: string,
+  outDir: string,
+  trailingSlash: boolean | undefined,
+): Promise<Buffer> {
+  const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
+  const withoutTrailingSlashPath = path.join(outDir, `${permalink}.html`);
+  if (trailingSlash) {
+    return fs.readFile(withTrailingSlashPath);
+  } else if (trailingSlash === false) {
+    return fs.readFile(withoutTrailingSlashPath);
+  } else {
+    const HTMLPath = await findAsyncSequential(
+      [withTrailingSlashPath, withoutTrailingSlashPath],
+      fs.pathExists,
+    );
+    if (!HTMLPath) {
+      throw new Error(
+        `Expected output HTML file to be found at ${withTrailingSlashPath}`,
+      );
+    }
+    return fs.readFile(HTMLPath);
+  }
+}
+
 export async function mapAsyncSequential<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
@@ -262,20 +297,6 @@ export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
   return contents.reduce((acc, content) => ({...acc, ...content}), {});
-}
-
-export function getSwizzledComponent(
-  componentPath: string,
-): string | undefined {
-  const swizzledComponentPath = path.resolve(
-    process.cwd(),
-    'src',
-    componentPath,
-  );
-
-  return fs.existsSync(swizzledComponentPath)
-    ? swizzledComponentPath
-    : undefined;
 }
 
 // Useful to update all the messages of a translation file

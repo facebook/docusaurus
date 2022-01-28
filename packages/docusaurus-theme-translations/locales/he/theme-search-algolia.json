@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "חיפוש",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "חיפוש by Algolia",
   "theme.SearchPage.documentsFound.plurals": "נמצא מסמך אחד|{count} מסמכים נמצאו|{count} מסמכים נמצאו|{count} מסמכים נמצאו",
   "theme.SearchPage.emptyResultsTitle": "חפש בדוקומנטאציה",

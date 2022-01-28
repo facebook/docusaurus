@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import fs from 'fs-extra';
 import matter from 'gray-matter';
 import remark from 'remark';
 import mdx from 'remark-mdx';
@@ -101,8 +100,8 @@ export function parseFrontMatter(markdownFileContent: string): {
 } {
   const {data, content} = matter(markdownFileContent);
   return {
-    frontMatter: data ?? {},
-    content: content?.trim() ?? '',
+    frontMatter: data,
+    content: content.trim(),
   };
 }
 
@@ -174,22 +173,8 @@ export function parseMarkdownString(
       excerpt,
     };
   } catch (e) {
-    logger.error(`Error while parsing Markdown frontmatter.
-This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
+    logger.error(`Error while parsing Markdown front matter.
+This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw e;
-  }
-}
-
-export async function parseMarkdownFile(
-  source: string,
-  options?: MarkdownParserOptions,
-): Promise<ParsedMarkdown> {
-  const markdownString = await fs.readFile(source, 'utf-8');
-  try {
-    return parseMarkdownString(markdownString, options);
-  } catch (e) {
-    throw new Error(
-      `Error while parsing Markdown file ${source}: "${(e as Error).message}".`,
-    );
   }
 }

@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import type {Tag} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import type {Overwrite} from 'utility-types';
-import type {BlogPostFrontMatter} from './blogFrontMatter';
+import type {
+  BlogPostFrontMatter,
+  Author,
+} from '@docusaurus/plugin-content-blog';
 
 export type BlogContentPaths = ContentPaths;
 
@@ -23,87 +24,6 @@ export interface BlogContent {
   blogTags: BlogTags;
   blogTagsListPath: string | null;
 }
-
-export type FeedType = 'rss' | 'atom' | 'json';
-
-export type FeedOptions = {
-  type?: FeedType[] | null;
-  title?: string;
-  description?: string;
-  copyright: string;
-  language?: string;
-};
-
-// Feed options, as provided by user config
-export type UserFeedOptions = Overwrite<
-  Partial<FeedOptions>,
-  {type?: FeedOptions['type'] | 'all'} // Handle the type: "all" shortcut
->;
-
-export type EditUrlFunction = (editUrlParams: {
-  blogDirPath: string;
-  blogPath: string;
-  permalink: string;
-  locale: string;
-}) => string | undefined;
-
-// Duplicate from ngryman/reading-time to keep stability of API
-type ReadingTimeOptions = {
-  wordsPerMinute?: number;
-  wordBound?: (char: string) => boolean;
-};
-
-export type ReadingTimeFunction = (params: {
-  content: string;
-  frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
-  options?: ReadingTimeOptions;
-}) => number;
-
-export type ReadingTimeFunctionOption = (
-  params: Required<Omit<Parameters<ReadingTimeFunction>[0], 'options'>> & {
-    defaultReadingTime: ReadingTimeFunction;
-  },
-) => number | undefined;
-
-export type PluginOptions = RemarkAndRehypePluginOptions & {
-  id?: string;
-  path: string;
-  routeBasePath: string;
-  tagsBasePath: string;
-  archiveBasePath: string;
-  include: string[];
-  exclude: string[];
-  postsPerPage: number | 'ALL';
-  blogListComponent: string;
-  blogPostComponent: string;
-  blogTagsListComponent: string;
-  blogTagsPostsComponent: string;
-  blogTitle: string;
-  blogDescription: string;
-  blogSidebarCount: number | 'ALL';
-  blogSidebarTitle: string;
-  truncateMarker: RegExp;
-  showReadingTime: boolean;
-  feedOptions: {
-    type?: FeedType[] | null;
-    title?: string;
-    description?: string;
-    copyright: string;
-    language?: string;
-  };
-  editUrl?: string | EditUrlFunction;
-  editLocalizedFiles?: boolean;
-  admonitions: Record<string, unknown>;
-  authorsMapPath: string;
-  readingTime: ReadingTimeFunctionOption;
-  sortPosts: 'ascending' | 'descending';
-};
-
-// Options, as provided in the user config (before normalization)
-export type UserPluginOptions = Overwrite<
-  Partial<PluginOptions>,
-  {feedOptions?: UserFeedOptions}
->;
 
 export interface BlogTags {
   [key: string]: BlogTag;
@@ -138,14 +58,6 @@ export interface BlogPaginated {
   items: string[];
 }
 
-// We allow passing custom fields to authors, e.g., twitter
-export interface Author extends Record<string, unknown> {
-  name?: string;
-  imageURL?: string;
-  url?: string;
-  title?: string;
-}
-
 export interface MetaData {
   permalink: string;
   source: string;
@@ -161,11 +73,6 @@ export interface MetaData {
   editUrl?: string;
   authors: Author[];
   frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-}
-
-export interface Assets {
-  image?: string;
-  authorsImageUrls: (string | undefined)[]; // Array of same size as the original MetaData.authors array
 }
 
 export interface Paginator {

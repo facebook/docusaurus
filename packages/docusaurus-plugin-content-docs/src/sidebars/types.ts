@@ -6,12 +6,12 @@
  */
 
 import type {Optional, Required} from 'utility-types';
+import type {DocMetadataBase, VersionMetadata} from '../types';
 import type {
-  DocMetadataBase,
-  VersionMetadata,
   NumberPrefixParser,
   SidebarOptions,
-} from '../types';
+  CategoryIndexMatcher,
+} from '@docusaurus/plugin-content-docs';
 
 // Makes all properties visible when hovering over the type
 type Expand<T extends Record<string, unknown>> = {[P in keyof T]: T[P]};
@@ -52,6 +52,8 @@ export type SidebarItemCategoryLinkGeneratedIndexConfig = {
   slug?: string;
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
 };
 export type SidebarItemCategoryLinkGeneratedIndex = {
   type: 'generated-index';
@@ -59,6 +61,8 @@ export type SidebarItemCategoryLinkGeneratedIndex = {
   permalink: string;
   title?: string;
   description?: string;
+  image?: string;
+  keywords?: string | readonly string[];
 };
 
 export type SidebarItemCategoryLinkConfig =
@@ -192,6 +196,7 @@ export type SidebarItemsGeneratorArgs = {
   version: SidebarItemsGeneratorVersion;
   docs: SidebarItemsGeneratorDoc[];
   numberPrefixParser: NumberPrefixParser;
+  isCategoryIndex: CategoryIndexMatcher;
   options: SidebarOptions;
 };
 export type SidebarItemsGenerator = (

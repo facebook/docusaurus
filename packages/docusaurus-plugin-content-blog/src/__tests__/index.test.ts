@@ -10,9 +10,13 @@ import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
-import type {PluginOptions, EditUrlFunction, BlogPost} from '../types';
+import type {BlogPost} from '../types';
 import type {Joi} from '@docusaurus/utils-validation';
 import {posixPath} from '@docusaurus/utils';
+import type {
+  PluginOptions,
+  EditUrlFunction,
+} from '@docusaurus/plugin-content-blog';
 
 function findByTitle(
   blogPosts: BlogPost[],
@@ -128,9 +132,15 @@ describe('loadBlog', () => {
       formattedDate: 'January 1, 2019',
       frontMatter: {
         date: new Date('2019-01-01'),
+        tags: ['date'],
       },
       prevItem: undefined,
-      tags: [],
+      tags: [
+        {
+          label: 'date',
+          permalink: '/blog/tags/date',
+        },
+      ],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash! (translated)',
@@ -200,11 +210,21 @@ describe('loadBlog', () => {
       date: new Date('2020-08-16'),
       formattedDate: 'August 16, 2020',
       frontMatter: {
-        date: new Date('2020-08-16'),
+        date: '2020/08/16',
         slug: '/hey/my super path/héllô',
         title: 'Complex Slug',
+        tags: ['date', 'complex'],
       },
-      tags: [],
+      tags: [
+        {
+          label: 'date',
+          permalink: '/blog/tags/date',
+        },
+        {
+          label: 'complex',
+          permalink: '/blog/tags/complex',
+        },
+      ],
       truncated: false,
     });
 

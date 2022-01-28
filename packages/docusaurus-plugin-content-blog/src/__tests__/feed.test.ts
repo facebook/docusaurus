@@ -6,12 +6,13 @@
  */
 
 import path from 'path';
-import {generateBlogFeed} from '../feed';
+import fs from 'fs-extra';
+import {createBlogFeedFiles} from '../feed';
 import type {LoadContext, I18n} from '@docusaurus/types';
-import type {PluginOptions, BlogContentPaths} from '../types';
+import type {BlogContentPaths} from '../types';
 import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
 import {generateBlogPosts} from '../blogUtils';
-import type {Feed} from 'feed';
+import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -35,23 +36,26 @@ function getBlogContentPaths(siteDir: string): BlogContentPaths {
 async function testGenerateFeeds(
   context: LoadContext,
   options: PluginOptions,
-): Promise<Feed | null> {
+): Promise<void> {
   const blogPosts = await generateBlogPosts(
     getBlogContentPaths(context.siteDir),
     context,
     options,
   );
 
-  return generateBlogFeed({
-    blogPosts,
+  await createBlogFeedFiles({
+    blogPosts: blogPosts.filter((post) => !post.metadata.frontMatter.draft),
     options,
     siteConfig: context.siteConfig,
+    outDir: context.outDir,
   });
 }
 
 describe('blogFeed', () => {
   (['atom', 'rss', 'json'] as const).forEach((feedType) => {
     describe(`${feedType}`, () => {
+      const fsMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+
       test('should not show feed without posts', async () => {
         const siteDir = __dirname;
         const siteConfig = {
@@ -60,12 +64,14 @@ describe('blogFeed', () => {
           url: 'https://docusaurus.io',
           favicon: 'image/favicon.ico',
         };
+        const outDir = path.join(siteDir, 'build-snap');
 
-        const feed = await testGenerateFeeds(
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
             i18n: DefaultI18N,
+            outDir,
           } as LoadContext,
           {
             path: 'invalid-blog-path',
@@ -82,12 +88,13 @@ describe('blogFeed', () => {
           } as PluginOptions,
         );
 
-        expect(feed).toEqual(null);
+        expect(fsMock).toBeCalledTimes(0);
+        fsMock.mockClear();
       });
 
       test('shows feed item for each post', async () => {
         const siteDir = path.join(__dirname, '__fixtures__', 'website');
-        const generatedFilesDir = path.resolve(siteDir, '.docusaurus');
+        const outDir = path.join(siteDir, 'build-snap');
         const siteConfig = {
           title: 'Hello',
           baseUrl: '/myBaseUrl/',
@@ -95,12 +102,14 @@ describe('blogFeed', () => {
           favicon: 'image/favicon.ico',
         };
 
-        const feed = await testGenerateFeeds(
+        // Build is quite difficult to mock, so we built the blog beforehand and
+        // copied the output to the fixture...
+        await testGenerateFeeds(
           {
             siteDir,
             siteConfig,
-            generatedFilesDir,
             i18n: DefaultI18N,
+            outDir,
           } as LoadContext,
           {
             path: 'blog',
@@ -118,22 +127,8 @@ describe('blogFeed', () => {
           } as PluginOptions,
         );
 
-        let feedContent = '';
-        switch (feedType) {
-          case 'rss':
-            feedContent = feed.rss2();
-            break;
-          case 'json':
-            feedContent = feed.json1();
-            break;
-          case 'atom':
-            feedContent = feed.atom1();
-            break;
-          default:
-            break;
-        }
-
-        expect(feedContent).toMatchSnapshot();
+        expect(fsMock.mock.calls.map((call) => call[1])).toMatchSnapshot();
+        fsMock.mockClear();
       });
     });
   });

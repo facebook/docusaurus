@@ -10,15 +10,13 @@ import path from 'path';
 import readingTime from 'reading-time';
 import {keyBy, mapValues} from 'lodash';
 import type {
-  PluginOptions,
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
-  ReadingTimeFunction,
 } from './types';
 import {
-  parseMarkdownFile,
+  parseMarkdownString,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -34,6 +32,10 @@ import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
+import type {
+  PluginOptions,
+  ReadingTimeFunction,
+} from '@docusaurus/plugin-content-blog';
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -61,7 +63,7 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
 }
 
 const DATE_FILENAME_REGEX =
-  /^(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -74,12 +76,11 @@ export function parseBlogFileName(
 ): ParsedBlogFileName {
   const dateFilenameMatch = blogSourceRelative.match(DATE_FILENAME_REGEX);
   if (dateFilenameMatch) {
-    const dateString = dateFilenameMatch.groups!.date!;
-    const text = dateFilenameMatch.groups!.text!;
+    const {folder, text, date: dateString} = dateFilenameMatch.groups!;
     // Always treat dates as UTC by adding the `Z`
     const date = new Date(`${dateString}Z`);
     const slugDate = dateString.replace(/-/g, '/');
-    const slug = `/${slugDate}/${text}`;
+    const slug = `/${slugDate}/${folder}${text}`;
     return {date, text, slug};
   } else {
     const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
@@ -102,13 +103,22 @@ function formatBlogPostDate(locale: string, date: Date): string {
 }
 
 async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
-  const result = await parseMarkdownFile(blogSourceAbsolute, {
-    removeContentTitle: true,
-  });
-  return {
-    ...result,
-    frontMatter: validateBlogPostFrontMatter(result.frontMatter),
-  };
+  const markdownString = await fs.readFile(blogSourceAbsolute, 'utf-8');
+  try {
+    const result = parseMarkdownString(markdownString, {
+      removeContentTitle: true,
+    });
+    return {
+      ...result,
+      frontMatter: validateBlogPostFrontMatter(result.frontMatter),
+    };
+  } catch (e) {
+    throw new Error(
+      `Error while parsing blog post file ${blogSourceAbsolute}: "${
+        (e as Error).message
+      }".`,
+    );
+  }
 }
 
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>

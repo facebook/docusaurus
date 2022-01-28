@@ -187,6 +187,8 @@ This command does a few things:
 
 You should receive many emails notifying you that a new version of the packages has been published.
 
+If above command fail (network issue or whatever), you can try to recover with `yarn lerna publish from-package`: it will try to publish the packages that are missing on npm.
+
 Now that the release is done, **merge the pull request**.
 
 ### 7. Create a release on GitHub

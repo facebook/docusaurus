@@ -16,7 +16,10 @@ import React, {
 import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
 
-import {useAllDocsData, type GlobalPluginData} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  type GlobalPluginData,
+} from '@docusaurus/plugin-content-docs/client';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 
@@ -35,7 +38,7 @@ type DocsPreferredVersionState = Record<
   DocsPreferredVersionPluginState
 >;
 
-// Initial state is always null as we can't read localstorage from node SSR
+// Initial state is always null as we can't read local storage from node SSR
 function getInitialState(pluginIds: string[]): DocsPreferredVersionState {
   const initialState: DocsPreferredVersionState = {};
   pluginIds.forEach((pluginId) => {

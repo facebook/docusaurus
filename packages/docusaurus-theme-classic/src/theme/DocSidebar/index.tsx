@@ -14,12 +14,12 @@ import {
   type MobileSecondaryMenuComponent,
   ThemeClassNames,
   useScrollPosition,
+  useWindowSize,
 } from '@docusaurus/theme-common';
-import useWindowSize from '@theme/hooks/useWindowSize';
 import Logo from '@theme/Logo';
 import IconArrow from '@theme/IconArrow';
 import {translate} from '@docusaurus/Translate';
-import {DocSidebarItems} from '@theme/DocSidebarItem';
+import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebar';
 
 import styles from './styles.module.css';

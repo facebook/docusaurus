@@ -1,2 +1,15 @@
+# Stylelint runs on everything by default; we only lint CSS files.
+*
+!*/
+!*.css
+build
+coverage
+examples/
+
+packages/lqip-loader/lib/
+packages/docusaurus/lib/
+packages/docusaurus-*/lib/*
+packages/docusaurus-*/lib-next/
+packages/create-docusaurus/lib/*
 packages/create-docusaurus/templates/
-examples
+website/static/katex/katex.min.css

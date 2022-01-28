@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import useWindowSize from '@theme/hooks/useWindowSize';
 import DocPaginator from '@theme/DocPaginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
@@ -16,9 +15,9 @@ import type {Props} from '@theme/DocItem';
 import DocItemFooter from '@theme/DocItemFooter';
 import TOC from '@theme/TOC';
 import TOCCollapsible from '@theme/TOCCollapsible';
-import {MainHeading} from '@theme/Heading';
+import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
@@ -34,7 +33,7 @@ export default function DocItem(props: Props): JSX.Element {
   const {description, title} = metadata;
 
   // We only add a title if:
-  // - user asks to hide it with frontmatter
+  // - user asks to hide it with front matter
   // - the markdown content does not already contain a top-level h1 heading
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';
@@ -76,11 +75,15 @@ export default function DocItem(props: Props): JSX.Element {
               <div
                 className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
-                Title can be declared inside md content or declared through frontmatter and added manually
+                Title can be declared inside md content or declared through front matter and added manually
                 To make both cases consistent, the added title is added under the same div.markdown block
                 See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
                 */}
-                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+                {shouldAddTitle && (
+                  <header>
+                    <Heading as="h1">{title}</Heading>
+                  </header>
+                )}
 
                 <DocContent />
               </div>

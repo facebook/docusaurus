@@ -124,12 +124,17 @@ export default async function mdxLoader(
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDirs: reqOptions.staticDirs, filePath}],
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
       [
         transformLinks,
         {
           staticDirs: reqOptions.staticDirs,
-          filePath,
           siteDir: reqOptions.siteDir,
         },
       ],
@@ -151,7 +156,7 @@ export default async function mdxLoader(
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or frontmatter
+  // Partial are not expected to have an associated metadata file or front matter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.

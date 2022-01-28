@@ -120,6 +120,7 @@ export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
+  htmlLang: string;
   direction: string;
 };
 
@@ -208,7 +209,7 @@ export interface LoadContext {
   outDir: string;
   baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
-  ssrTemplate?: string;
+  ssrTemplate: string;
   codeTranslations: Record<string, string>;
 }
 
@@ -257,7 +258,7 @@ export interface Plugin<Content = unknown> {
     actions: PluginContentLoadedActions;
   }) => Promise<void>;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?: (props: Props) => void;
+  postBuild?: (props: Props & {content: Content}) => Promise<void>;
   postStart?: (props: Props) => void;
   // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
   configureWebpack?: (

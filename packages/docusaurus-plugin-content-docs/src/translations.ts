@@ -57,7 +57,7 @@ function getNormalizedSidebarName({
 
 /*
 // Do we need to translate doc metadata?
-// It seems translating frontmatter labels is good enough
+// It seems translating front matter labels is good enough
 function getDocTranslations(doc: DocMetadata): TranslationFileContent {
   return {
     [`${doc.unversionedId}.title`]: {

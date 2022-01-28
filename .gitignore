@@ -23,9 +23,11 @@ packages/create-docusaurus/lib/
 packages/lqip-loader/lib/
 packages/docusaurus/lib/
 packages/docusaurus-*/lib/*
+packages/stylelint-copyright/lib/
 packages/docusaurus-*/lib-next/
 
 website/netlifyDeployPreview/*
+website/changelog
 !website/netlifyDeployPreview/index.html
 !website/netlifyDeployPreview/_redirects
 
