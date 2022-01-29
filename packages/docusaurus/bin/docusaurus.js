@@ -208,7 +208,7 @@ cli
   );
 
 cli
-  .command('write-heading-ids [contentDir] [files]')
+  .command('write-heading-ids [siteDir] [files...]')
   .description('Generate heading ids in Markdown content.')
   .option(
     '--maintain-case',

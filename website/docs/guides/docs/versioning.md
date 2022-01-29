@@ -21,7 +21,7 @@ Most of the time, you don't need versioning as it will just increase your build 
 
 To better understand how versioning works and see if it suits your needs, you can read on below.
 
-## Overview
+## Overview {#overview}
 
 A typical versioned doc site looks like below:
 
@@ -67,7 +67,7 @@ By default, the `current` docs version is labeled as `Next` and hosted under `/d
 
 :::
 
-### Terminology
+### Terminology {#terminology}
 
 Note the terminology we use here.
 
@@ -80,7 +80,7 @@ Note the terminology we use here.
 
 Current version is defined by the **file system location**, while latest version is defined by the **the navigation behavior**. They may or may not be the same version! (And the default configuration, as shown in the table above, would treat them as different: current version at `/docs/next` and latest at `/docs`.)
 
-## Tutorials
+## Tutorials {#tutorials}
 
 ### Tagging a new version {#tagging-a-new-version}
 
@@ -157,7 +157,7 @@ Example:
 2. Delete the versioned docs directory. Example: `versioned_docs/version-1.8.0`.
 3. Delete the versioned sidebars file. Example: `versioned_sidebars/version-1.8.0-sidebars.json`.
 
-## Configuring versioning behavior
+## Configuring versioning behavior {#configuring-versioning-behavior}
 
 The "current" version is the version name for the `./docs` folder. There are different ways to manage versioning, but two very common patterns are:
 
@@ -207,7 +207,7 @@ We offer these plugin options to customize versioning behavior:
 
 See [docs plugin configuration](../../api/plugins/plugin-content-docs.md#configuration) for more details.
 
-## Navbar items
+## Navbar items {#navbar-items}
 
 We offer several navbar items to help you quickly set up navigation without worrying about versioned routes.
 
@@ -249,7 +249,7 @@ Don't use relative paths import within the docs. Because when we cut a version t
 + import Foo from '@site/src/components/Foo';
 ```
 
-### Link docs by file paths
+### Link docs by file paths {#link-docs-by-file-paths}
 
 Refer to other docs by relative file paths with the `.md` extension, so that Docusaurus can rewrite them to actual URL paths during building. Files will be linked to the correct corresponding version.
 

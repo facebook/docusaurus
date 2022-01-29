@@ -102,7 +102,7 @@ After copying files around, restart your site with `npm run start -- --locale fr
 
 :::
 
-### Translate your React code
+### Translate your React code {#translate-your-react-code}
 
 For any React code you've written yourself: React pages, React components, etc., you will use the [**translation APIs**](../docusaurus-core.md#translate).
 
@@ -258,7 +258,7 @@ You can see the calls to the translation APIs as purely _markers_ that tell Docu
 
 :::
 
-### Translate plugin data
+### Translate plugin data {#translate-plugin-data}
 
 JSON translation files are used for everything that is interspersed in your code:
 
@@ -450,7 +450,7 @@ It is also possible to deploy each locale as a separate subdomain, assemble the 
 - Deploy your site as `fr.docusaurus.io`
 - Configure a CDN to serve it from `docusaurus.io/fr`
 
-## Managing translations
+## Managing translations {#managing-translations}
 
 Docusaurus doesn't care about how you manage your translations: all it needs is that all translation files (JSON, Markdown, or other data files) are available in the file system during building. However, as site creators, you would need to consider how translations are managed so your translation contributors could collaborate well.
 

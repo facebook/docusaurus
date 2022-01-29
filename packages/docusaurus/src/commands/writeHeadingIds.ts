@@ -133,11 +133,11 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 
 export default async function writeHeadingIds(
   siteDir: string,
-  files?: string,
+  files?: string[],
   options?: Options,
 ): Promise<void> {
   const markdownFiles = await safeGlobby(
-    files ? [files] : await getPathsToWatch(siteDir),
+    files ?? (await getPathsToWatch(siteDir)),
     {
       expandDirectories: ['**/*.{md,mdx}'],
     },
