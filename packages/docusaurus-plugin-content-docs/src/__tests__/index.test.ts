@@ -248,8 +248,10 @@ describe('simple website', () => {
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
-    plugin.extendCli!(commander);
-    commander.parse(['node', 'test', 'docs:version', '1.0.0']);
+    const cli = new commander.Command();
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
+    plugin.extendCli!(cli);
+    cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: 'docs',
@@ -370,8 +372,10 @@ describe('versioned website', () => {
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
-    plugin.extendCli!(commander);
-    commander.parse(['node', 'test', 'docs:version', '2.0.0']);
+    const cli = new commander.Command();
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
+    plugin.extendCli!(cli);
+    cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
       path: routeBasePath,
@@ -517,8 +521,10 @@ describe('versioned website (community)', () => {
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
-    plugin.extendCli!(commander);
-    commander.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
+    const cli = new commander.Command();
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
+    plugin.extendCli!(cli);
+    cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
       path: routeBasePath,
