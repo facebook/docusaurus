@@ -179,7 +179,12 @@ function Footer(): JSX.Element | null {
                     />
                   </Link>
                 ) : (
-                  <FooterLogo alt={logo.alt} sources={sources} />
+                  <FooterLogo
+                    alt={logo.alt}
+                    sources={sources}
+                    width={logo.width}
+                    height={logo.height}
+                  />
                 )}
               </div>
             )}
