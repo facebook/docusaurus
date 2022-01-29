@@ -17,6 +17,8 @@ import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
 import Tweet from '@site/src/components/Tweet';
+import Tweets, {TweetItem} from '@site/src/data/tweets';
+
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
@@ -82,6 +84,11 @@ const QUOTES = [
 ];
 
 function TweetsSection() {
+  const tweetColumns: Array<Array<TweetItem>> = [[], [], []];
+  Tweets.filter((tweet) => tweet.showOnHomepage).forEach((tweet, i) =>
+    tweetColumns[i % 3].push(tweet),
+  );
+
   return (
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
@@ -89,234 +96,13 @@ function TweetsSection() {
           Loved by many engineers
         </h2>
         <div className={clsx('row', styles.tweetsSection)}>
-          <div className="col col--4">
-            <Tweet
-              url="https://twitter.com/kentcdodds/status/1323806816019468288"
-              handle="kentcdodds"
-              name="Kent C. Dodds"
-              date="Nov 4, 2020"
-              avatar="https://pbs.twimg.com/profile_images/1444988463216922631/IDffhy4i_400x400.jpg"
-              content={
-                <>
-                  http://testing-library.com just got a nice update! We&apos;re
-                  now on the latest version of @docusaurus thanks to @matanbobi,
-                  @TensorNo, and @nickemccurdy 💙
-                  <br />
-                  <br />
-                  My favorite new feature: dark mode!! 🌑/☀️
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/swyx/status/1454261201207054339"
-              handle="swyx"
-              name="swyx"
-              date="Oct 30, 2021"
-              avatar="https://pbs.twimg.com/profile_images/1456506127961640962/iM2Hf8du_400x400.jpg"
-              content={
-                <>
-                  Soft shipped the new https://docs.temporal.io
-                  <br />
-                  <br />
-                  Many thanks to @thisismahmoud_, @flossypurse, @taillogs and
-                  others, and built with @docusaurus and now @tailwindcss
-                  <br />
-                  <br />
-                  Shipped fearlessly on Friday afternoon thanks to @Netlify
-                  immutable deploys Flexed biceps
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/paularmstrong/status/1387059593373700100"
-              handle="paularmstrong"
-              name="Paul Armstrong"
-              date="Apr 27, 2021"
-              avatar="https://pbs.twimg.com/profile_images/823614982394769408/C4KgET17_400x400.jpg"
-              content={
-                <>
-                  Continue to be impressed and excited about Docusaurus v2 alpha
-                  releases. Already using the sidebar items generator to help
-                  monorepo workspace devs create their own doc pages without any
-                  configuration needed.
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/iansu/status/1184149586048245760"
-              handle="iansu"
-              name="Ian Sutherland"
-              date="Oct 16, 2019"
-              avatar="https://pbs.twimg.com/profile_images/916780671552516096/yzDVUVKY_400x400.jpg"
-              content={
-                <>
-                  We just updated the Create React App docs to Docusaurus v2.
-                  Now with dark mode! 😎
-                  <br />
-                  <br />
-                  Thanks to the @docusaurus team for their help! ❤️
-                  <br />
-                  <br />
-                  https://create-react-app.dev
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/biantris_/status/1480259279487741953"
-              handle="biantris_"
-              name="biazita"
-              date="Jan 10, 2022"
-              avatar="https://pbs.twimg.com/profile_images/1371525161829208064/UCzm0Zye_400x400.jpg"
-              content={
-                <>
-                  Today I tried @docusaurus in a project, I really like the ease
-                  and speed of developing with it \o/
-                </>
-              }
-            />
-          </div>
-          <div className="col col--4">
-            <Tweet
-              url="https://twitter.com/sebastienlorber/status/1321784071815680000"
-              handle="sebastienlorber"
-              name="Sebastien Lorber"
-              date="Oct 29, 2020"
-              avatar="https://pbs.twimg.com/profile_images/573206276819140608/gKAusMeX_400x400.jpeg"
-              content={
-                <>
-                  🥳🎊🥳🎊🥳🎊🥳🎊 The @reactnative website just migrated to
-                  @docusaurus v2
-                  <br />
-                  Some obvious changes: <br />
-                  🌔 Dark mode <br />
-                  ⚡️ SPA navigation / prefetching <br />
-                  🧐 @algolia DocSearch v3 <br />
-                  💥 @mdx_js enable many new possibilities <br />
-                  <br />
-                  Check it out: http://reactnative.dev
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/rachelnabors/status/1321787416089366529"
-              handle="rachelnabors"
-              name="R 'Nearest' Nabors 💙"
-              date="Oct 29, 2020"
-              avatar="https://pbs.twimg.com/profile_images/1316805792893489152/7soY-vhs_400x400.jpg"
-              content={
-                <>
-                  Many thanks to @sebastienlorber and @simek for their tireless
-                  effort to migrate @reactnative &apos;s documentation to
-                  @docusaurus v2! The new site is better than ever! Thank you to
-                  everyone who makes these docs shine &lt;3
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/mweststrate/status/1181276252293853186"
-              handle="mweststrate"
-              name="Michel Weststrate"
-              date="Oct 8, 2019"
-              avatar="https://pbs.twimg.com/profile_images/1192174732189339649/NYGFeR-K_400x400.jpg"
-              content={
-                <>
-                  New #mobx docs are online! More modern, fixing many UI issues.
-                  <br />
-                  <br />
-                  👏 @cloverich did the awesome job of migrating from ancient
-                  gitbook -&gt; @docusaurus! 👏 <br />
-                  <br />
-                  No real content updates yet, but contributing and publishing
-                  has become way easier
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/verdaccio_npm/status/1420187249145118722"
-              handle="verdaccio_npm"
-              name="verdaccio"
-              date="Jul 28, 2021"
-              avatar="https://pbs.twimg.com/profile_images/1423143362232823809/4khdTyVZ_400x400.png"
-              content={
-                <>
-                  The new website has landed 🚀 powered by @docusaurus v2 and
-                  made by @_semoal kudos to him 👏 #verdaccio #nodejs awesome
-                  contribution ❤️‍🔥 (video made with react remotion @JNYBGR )
-                  all Open Source and hosted on @Netlify https://verdaccio.org
-                </>
-              }
-            />
-          </div>
-          <div className="col col--4">
-            <Tweet
-              url="https://twitter.com/acemarke/status/1452725153998245891"
-              handle="acemarke"
-              name="Mark Erikson"
-              date="Oct 26, 2021"
-              avatar="https://pbs.twimg.com/profile_images/842582724737163264/tFKLiJI5_400x400.jpg"
-              content={
-                <>
-                  We&apos;ve been using Docusaurus for all the Redux org docs
-                  sites for the last couple years, and it&apos;s great!
-                  We&apos;ve been able to focus on content, customize some
-                  presentation and features, and It Just Works.
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/yangshunz/status/1284536949718478848"
-              handle="yangshunz"
-              name="Yangshun Tay"
-              date="Jul 19, 2020"
-              avatar="https://pbs.twimg.com/profile_images/1247950572096868352/3kuZJz5j_400x400.jpg"
-              content={
-                <>
-                  I made a @docusaurus website for answers to the H5BP Front End
-                  Interview Questions! Hopefully it makes the browsing
-                  experience easier - https://frontendinterviewhandbook.com
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/johnny_reilly/status/1469238609266028545"
-              handle="johnny_reilly"
-              name="John Reilly"
-              date="Dec 10, 2021"
-              avatar="https://pbs.twimg.com/profile_images/552803871567790081/rPdTN64o_400x400.jpeg"
-              content={
-                <>
-                  I ❤️ @docusaurus - it makes it so easy to spin up docs, blogs
-                  and simple websites. I&apos;ve used it to:
-                  <br />
-                  <br /> ✅ Replatform my blog with GitHub pages <br />
-                  ✅ Build a website for a local business <br />✅ Build
-                  internal facing blog/docs sites with @AzureStaticApps
-                </>
-              }
-            />
-            <Tweet
-              url="https://twitter.com/pierregillesl/status/1372839188698001408"
-              handle="pierregillesl"
-              name="
-        Pierre-Gilles Leymarie"
-              date="Mar 19, 2021"
-              avatar="https://pbs.twimg.com/profile_images/1302550637197000705/pg5XF8rA_400x400.jpg"
-              content={
-                <>
-                  Just upgraded our website to @docusaurus latest with
-                  internationalization support 🥳
-                  <br />
-                  <br />
-                  Before that, we had to build 2 separate versions of the
-                  website to get it in English + French.
-                  <br />
-                  <br />
-                  Now, it&apos;s working out of the box, with proper meta tags
-                  for SEO 👌
-                </>
-              }
-            />
-          </div>
+          {tweetColumns.map((tweetItems, i) => (
+            <div className="col col--4" key={i}>
+              {tweetItems.map((tweet) => (
+                <Tweet {...tweet} key={tweet.url} />
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

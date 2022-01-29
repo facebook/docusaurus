@@ -11,7 +11,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
   url: string;
   handle: string;
   name: string;
