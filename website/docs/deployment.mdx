@@ -54,6 +54,37 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 :::
 
+## Using environment variables
+
+Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.md)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.md#customfields) to pass environment variables to the client side.
+
+```js title="docusaurus.config.js"
+// If you are using dotenv (https://www.npmjs.com/package/dotenv)
+require('dotenv').config();
+
+module.exports = {
+  title: '...',
+  url: process.env.URL, // You can use environment variables to control site specifics as well
+  // highlight-start
+  customFields: {
+    // Put your custom environment here
+    teamEmail: process.env.EMAIL,
+  },
+  // highlight-end
+};
+```
+
+```jsx title="home.jsx"
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+export default function Home() {
+  const {
+    siteConfig: {customFields},
+  } = useDocusaurusContext();
+  return <div>Contact us through {customFields.teamEmail}!</div>;
+}
+```
+
 ## Choosing a hosting provider
 
 There are a few common hosting options:
