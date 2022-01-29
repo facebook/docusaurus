@@ -307,7 +307,7 @@ export function getVersionBanner({
   });
 }
 
-function getVersionBadge({
+export function getVersionBadge({
   versionName,
   versionNames,
   options,

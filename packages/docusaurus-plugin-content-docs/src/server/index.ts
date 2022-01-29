@@ -7,4 +7,13 @@
 
 // APIs available to Node.js
 export * from '../constants';
-export * from '../versions';
+
+export {
+  filterVersions,
+  getDefaultVersionBanner,
+  getVersionBadge,
+  getVersionBanner,
+  getVersionsFilePath,
+  readVersionsFile,
+  readVersionNames,
+} from '../versions';
