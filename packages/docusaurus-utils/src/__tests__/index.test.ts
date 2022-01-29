@@ -26,6 +26,7 @@ import {
   generate,
   reportMessage,
   posixPath,
+  readOutputHTMLFile,
 } from '../index';
 import {sum} from 'lodash';
 import fs from 'fs-extra';
@@ -359,6 +360,71 @@ describe('findAsyncSequential', () => {
     const timeTotal = timeAfter - timeBefore;
     expect(timeTotal).toBeGreaterThanOrEqual(80);
     expect(timeTotal).toBeLessThan(120);
+  });
+});
+
+describe('readOutputHTMLFile', () => {
+  test('trailing slash undefined', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/file',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toEqual('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toEqual('folder\n');
+    await expect(
+      readOutputHTMLFile(
+        '/file/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toEqual('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toEqual('folder\n');
+  });
+  test('trailing slash true', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/folder',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        true,
+      ).then(String),
+    ).resolves.toEqual('folder\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        true,
+      ).then(String),
+    ).resolves.toEqual('folder\n');
+  });
+  test('trailing slash false', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/file',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toEqual('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/file/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toEqual('file\n');
   });
 });
 
