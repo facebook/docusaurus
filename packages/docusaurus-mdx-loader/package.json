@@ -48,6 +48,7 @@
     "unist-util-remove-position": "^3.0.0"
   },
   "peerDependencies": {
+    "@babel/core": "^7.0.0",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },

@@ -44,8 +44,11 @@
     "fs-extra": "^10.0.0"
   },
   "peerDependencies": {
+    "@babel/core": "^7.0.0",
+    "prism-react-renderer": "^1.2.1",
     "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0"
+    "react-dom": "^16.8.4 || ^17.0.0",
+    "webpack": "^5.0.0"
   },
   "engines": {
     "node": ">=14"
