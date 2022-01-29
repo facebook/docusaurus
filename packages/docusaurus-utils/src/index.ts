@@ -223,7 +223,10 @@ export async function readOutputHTMLFile(
   trailingSlash: boolean | undefined,
 ): Promise<Buffer> {
   const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
-  const withoutTrailingSlashPath = path.join(outDir, `${permalink}.html`);
+  const withoutTrailingSlashPath = path.join(
+    outDir,
+    `${permalink.replace(/\/$/, '')}.html`,
+  );
   if (trailingSlash) {
     return fs.readFile(withTrailingSlashPath);
   } else if (trailingSlash === false) {
