@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
@@ -120,9 +119,7 @@ function DocSearch({
     }
 
     return Promise.all([
-      // @ts-ignore
       import('@docsearch/react/modal'),
-      // @ts-ignore
       import('@docsearch/react/style'),
       import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {
@@ -271,8 +268,7 @@ function DocSearch({
 
 function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  // @ts-ignore
-  return <DocSearch {...siteConfig.themeConfig.algolia} />;
+  return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }
 
 export default SearchBar;

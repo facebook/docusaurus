@@ -6,7 +6,7 @@
  */
 
 import type {RuleSetRule, Configuration} from 'webpack';
-import type {Command} from 'commander';
+import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
@@ -259,7 +259,6 @@ export interface Plugin<Content = unknown> {
   }) => Promise<void>;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
   postBuild?: (props: Props & {content: Content}) => Promise<void>;
-  postStart?: (props: Props) => void;
   // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
   configureWebpack?: (
     config: Configuration,
@@ -272,7 +271,7 @@ export interface Plugin<Content = unknown> {
   getTypeScriptThemePath?: () => string;
   getPathsToWatch?: () => string[];
   getClientModules?: () => string[];
-  extendCli?: (cli: Command) => void;
+  extendCli?: (cli: CommanderStatic) => void;
   injectHtmlTags?: ({content}: {content: Content}) => {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;

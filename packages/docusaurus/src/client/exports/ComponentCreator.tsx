@@ -47,11 +47,10 @@ function ComponentCreator(
   Object.keys(flatChunkNames).forEach((key) => {
     const chunkRegistry = registry[flatChunkNames[key]];
     if (chunkRegistry) {
-      /* eslint-disable prefer-destructuring */
+      // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
       optsModules.push(chunkRegistry[1]);
       optsWebpack.push(chunkRegistry[2]);
-      /* eslint-enable prefer-destructuring */
     }
   });
 
