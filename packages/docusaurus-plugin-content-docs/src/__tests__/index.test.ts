@@ -249,7 +249,7 @@ describe('simple website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
     const cli = new commander.Command();
-    // @ts-expect-error: TODO annoying type incompatibility
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -373,7 +373,7 @@ describe('versioned website', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
     const cli = new commander.Command();
-    // @ts-expect-error: TODO annoying type incompatibility
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
@@ -522,7 +522,7 @@ describe('versioned website (community)', () => {
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation();
     const cli = new commander.Command();
-    // @ts-expect-error: TODO annoying type incompatibility
+    // @ts-expect-error: in actual usage, we pass the static commander instead of the new command
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);

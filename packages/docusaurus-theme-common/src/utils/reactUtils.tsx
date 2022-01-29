@@ -29,6 +29,6 @@ export function useDynamicCallback<T extends (...args: never[]) => unknown>(
     ref.current = callback;
   }, [callback]);
 
-  // @ts-expect-error: TODO, not sure how to fix this TS error
+  // @ts-expect-error: TS is right that this callback may be a supertype of T, but good enough for our use
   return useCallback<T>((...args) => ref.current(...args), []);
 }

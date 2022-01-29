@@ -23,7 +23,9 @@ const {
   writeHeadingIds,
 } = require('../lib');
 
-require('./beforeCli');
+const beforeCli = require('./beforeCli');
+
+beforeCli();
 
 const resolveDir = (dir = '.') => fs.realpathSync(dir);
 
@@ -239,7 +241,6 @@ function isInternalCommand(command) {
 
 async function run() {
   if (!isInternalCommand(process.argv.slice(2)[0])) {
-    // @ts-expect-error: Hmmm
     await externalCommand(cli, resolveDir('.'));
   }
 

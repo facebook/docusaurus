@@ -6,7 +6,6 @@
  */
 
 /* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useEffect, useState, useReducer, useRef} from 'react';
 
@@ -29,6 +28,7 @@ import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
+import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
@@ -151,14 +151,12 @@ type ResultDispatcher =
 
 function SearchPage(): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        // @ts-ignore
-        algolia: {appId, apiKey, indexName, externalUrlRegex},
-      },
-    },
+    siteConfig: {themeConfig},
     i18n: {currentLocale},
   } = useDocusaurusContext();
+  const {
+    algolia: {appId, apiKey, indexName, externalUrlRegex},
+  } = themeConfig as ThemeConfig;
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();

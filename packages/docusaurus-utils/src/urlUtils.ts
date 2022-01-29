@@ -28,8 +28,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   const replacement = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
   urls[0] = urls[0].replace(/^([^/:]+):\/*/, replacement);
 
-  // eslint-disable-next-line
-  for (let i = 0; i < urls.length; i++) {
+  for (let i = 0; i < urls.length; i += 1) {
     let component = urls[i];
 
     if (typeof component !== 'string') {
@@ -40,7 +39,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i === urls.length - 1 && hasEndingSlash) {
         resultArray.push('/');
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-continue
       continue;
     }
 
