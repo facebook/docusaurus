@@ -64,7 +64,7 @@ If you want to add CSS to any element, you can open the DevTools in your browser
 - **Infima class names**. These class names usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
 - **CSS module class names**. These class names have a hash in production (`codeBlockContainer_RIuc`) and are appended with a long file path in development. They are considered implementation details and you should almost always avoid targeting them in your custom CSS. If you must, you can use an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) that ignores the hash.
 
-### Theme Class Names
+### Theme Class Names {#theme-class-names}
 
 We provide some predefined CSS class names for global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
 

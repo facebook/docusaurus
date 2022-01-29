@@ -80,11 +80,11 @@ Plugins come as several types:
 
 You can access them on the client side with `useDocusaurusContext().siteMetadata.pluginVersions`.
 
-## Plugin design
+## Plugin design {#plugin-design}
 
 Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but is not limited to) extending the webpack config, modifying the data loaded, and creating new components to be used in a page.
 
-### Theme design
+### Theme design {#theme-design}
 
 When plugins have loaded their content, the data is made available to the client side through actions like [`createData` + `addRoute`](../api/plugin-methods/lifecycle-apis.md#addRoute) or [`setGlobalData`](../api/plugin-methods/lifecycle-apis.md#setGlobalData). This data has to be _serialized_ to plain strings, because [plugins and themes run in different environments](./architecture.md). Once the data arrives on the client side, the rest becomes familiar to React developers: data is passed along components, components are bundled with Webpack, and rendered to the window through `ReactDOM.render`...
 

@@ -223,7 +223,7 @@ Use `generated-index` links as a quick way to get an introductory document.
 
 :::
 
-#### Embedding generated index in doc page
+#### Embedding generated index in doc page {#embedding-generated-index-in-doc-page}
 
 You can embed the generated cards list in a normal doc page as well, as long as the doc is used as a category index page. To do so, you need to use the `DocCardList` component, paired with the `useCurrentSidebarCategory` hook.
 

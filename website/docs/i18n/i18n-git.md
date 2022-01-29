@@ -30,7 +30,7 @@ Refer to the [Docusaurus i18n RFC](https://github.com/facebook/docusaurus/issues
 
 :::
 
-## Initialization
+## Initialization {#initialization}
 
 This is a walk-through of using Git to translate a newly initialized English Docusaurus website into French, and assume you already followed the [i18n tutorial](./i18n-tutorial.md).
 
@@ -145,7 +145,7 @@ npm run build -- --locale fr
 
 Follow the same process for each locale you need to support.
 
-## Maintenance
+## Maintenance {#maintenance}
 
 Keeping translated files **consistent** with the originals **can be challenging**, in particular for Markdown documents.
 

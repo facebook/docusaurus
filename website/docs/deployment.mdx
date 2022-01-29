@@ -54,7 +54,7 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 :::
 
-## Using environment variables
+## Using environment variables {using-environment-variables}
 
 Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.md)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.md#customfields) to pass environment variables to the client side.
 
@@ -85,7 +85,7 @@ export default function Home() {
 }
 ```
 
-## Choosing a hosting provider
+## Choosing a hosting provider {choosing-a-hosting-provider}
 
 There are a few common hosting options:
 
@@ -764,6 +764,6 @@ You can deploy any other changes in the future with the command `surge`.
 
 See [docs](https://docs.quantcdn.io/docs/cli/continuous-integration) and [blog](https://www.quantcdn.io/blog) for more examples and use cases for deploying to QuantCDN.
 
-## Deploying to Layer0
+## Deploying to Layer0 {#deploying-to-layer0}
 
 [Layer0](https://www.layer0.co) is an all-in-one platform to develop, deploy, preview, experiment on, monitor, and run your headless frontend. It is focused on large, dynamic websites and best-in-class performance through EdgeJS (a JavaScript-based Content Delivery Network), predictive prefetching, and performance monitoring. Layer0 offers a free tier. Get started in just a few minutes by following [Layer0's guide to deploying Docusaurus](https://docs.layer0.co/guides/docusaurus).

@@ -117,7 +117,7 @@ type SidebarsFile = {
 };
 ```
 
-## Theme configuration
+## Theme configuration {#theme-configuration}
 
 ### Hideable sidebar {#hideable-sidebar}
 
@@ -133,7 +133,7 @@ module.exports = {
 };
 ```
 
-### Auto-collapse sidebar categories
+### Auto-collapse sidebar categories {#auto-collapse-sidebar-categories}
 
 The `themeConfig.autoCollapseSidebarCategories` option would collapse all sibling categories when expanding one category. This saves the user from having too many categories open and helps them focus on the selected section.
 
