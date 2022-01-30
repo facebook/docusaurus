@@ -116,14 +116,10 @@ async function getImageAbsolutePath(
     }
     return imageFilePath;
   }
-  // We try to convert image urls without protocol to images with require calls
-  // going through webpack ensures that image assets exist at build time
-  else {
-    // relative paths are resolved against the source file's folder
-    const imageFilePath = path.join(path.dirname(filePath), imagePath);
-    await ensureImageFileExist(imageFilePath, filePath);
-    return imageFilePath;
-  }
+  // relative paths are resolved against the source file's folder
+  const imageFilePath = path.join(path.dirname(filePath), imagePath);
+  await ensureImageFileExist(imageFilePath, filePath);
+  return imageFilePath;
 }
 
 async function processImageNode(node: Image, context: Context) {
@@ -147,6 +143,8 @@ async function processImageNode(node: Image, context: Context) {
     return;
   }
 
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
   await toImageRequireNode(node, imagePath, context.filePath);
 }

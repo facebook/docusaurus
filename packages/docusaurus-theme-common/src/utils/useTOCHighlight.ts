@@ -54,9 +54,10 @@ function getActiveAnchor(
     anchorTopOffset: number;
   },
 ): Element | null {
-  // Naming is hard
-  // The "nextVisibleAnchor" is the first anchor that appear under the viewport top boundary
-  // Note: it does not mean this anchor is visible yet, but if user continues scrolling down, it will be the first to become visible
+  // Naming is hard: The "nextVisibleAnchor" is the first anchor that appear
+  // under the viewport top boundary. It does not mean this anchor is visible
+  // yet, but if user continues scrolling down, it will be the first to become
+  // visible
   const nextVisibleAnchor = anchors.find((anchor) => {
     const boundingRect = getVisibleBoundingClientRect(anchor);
     return boundingRect.top >= anchorTopOffset;
@@ -64,23 +65,22 @@ function getActiveAnchor(
 
   if (nextVisibleAnchor) {
     const boundingRect = getVisibleBoundingClientRect(nextVisibleAnchor);
-    // If anchor is in the top half of the viewport: it is the one we consider "active"
-    // (unless it's too close to the top and and soon to be scrolled outside viewport)
+    // If anchor is in the top half of the viewport: it is the one we consider
+    // "active" (unless it's too close to the top and and soon to be scrolled
+    // outside viewport)
     if (isInViewportTopHalf(boundingRect)) {
       return nextVisibleAnchor;
     }
-    // If anchor is in the bottom half of the viewport, or under the viewport, we consider the active anchor is the previous one
-    // This is because the main text appearing in the user screen mostly belong to the previous anchor
-    else {
-      // Returns null for the first anchor, see https://github.com/facebook/docusaurus/issues/5318
-      return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
-    }
+    // If anchor is in the bottom half of the viewport, or under the viewport,
+    // we consider the active anchor is the previous one. This is because the
+    // main text appearing in the user screen mostly belong to the previous anchor
+    // Returns null for the first anchor, see
+    // https://github.com/facebook/docusaurus/issues/5318
+    return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
   }
   // no anchor under viewport top? (ie we are at the bottom of the page)
   // => highlight the last anchor found
-  else {
-    return anchors[anchors.length - 1];
-  }
+  return anchors[anchors.length - 1];
 }
 
 function getLinkAnchorValue(link: HTMLAnchorElement): string {

@@ -73,9 +73,8 @@ function transformMarkdownLine(
   // Ignore h1 headings on purpose, as we don't create anchor links for those
   if (line.startsWith('##')) {
     return transformMarkdownHeadingLine(line, slugger, options);
-  } else {
-    return line;
   }
+  return line;
 }
 
 function transformMarkdownLines(lines: string[], options?: Options): string[] {
@@ -86,12 +85,11 @@ function transformMarkdownLines(lines: string[], options?: Options): string[] {
     if (line.startsWith('```')) {
       inCode = !inCode;
       return line;
-    } else {
-      if (inCode) {
-        return line;
-      }
-      return transformMarkdownLine(line, slugger, options);
     }
+    if (inCode) {
+      return line;
+    }
+    return transformMarkdownLine(line, slugger, options);
   });
 }
 

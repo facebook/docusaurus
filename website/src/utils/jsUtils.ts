@@ -27,9 +27,8 @@ export function toggleListItem<T>(list: T[], item: T): T[] {
   const itemIndex = list.indexOf(item);
   if (itemIndex === -1) {
     return list.concat(item);
-  } else {
-    const newList = [...list];
-    newList.splice(itemIndex, 1);
-    return newList;
   }
+  const newList = [...list];
+  newList.splice(itemIndex, 1);
+  return newList;
 }

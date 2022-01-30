@@ -21,9 +21,8 @@ export function parseMarkdownHeadingId(heading: string): {
       text: matches[1],
       id: matches[2],
     };
-  } else {
-    return {text: heading, id: undefined};
   }
+  return {text: heading, id: undefined};
 }
 
 // Hacky way of stripping out import statements from the excerpt
@@ -152,15 +151,14 @@ export function parseMarkdownContentTitle(
 
   if (!pattern || !title) {
     return {content, contentTitle: undefined};
-  } else {
-    const newContent = removeContentTitleOption
-      ? content.replace(pattern, '')
-      : content;
-    return {
-      content: newContent.trim(),
-      contentTitle: toTextContentTitle(title.trim()).trim(),
-    };
   }
+  const newContent = removeContentTitleOption
+    ? content.replace(pattern, '')
+    : content;
+  return {
+    content: newContent.trim(),
+    contentTitle: toTextContentTitle(title.trim()).trim(),
+  };
 }
 
 type ParsedMarkdown = {

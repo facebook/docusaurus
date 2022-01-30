@@ -94,17 +94,16 @@ function selectPluralMessage(
 
   if (parts.length === 1) {
     return parts[0];
-  } else {
-    if (parts.length > localePluralForms.pluralForms.length) {
-      console.error(
-        `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
-      );
-    }
-    const pluralForm = localePluralForms.select(count);
-    const pluralFormIndex = localePluralForms.pluralForms.indexOf(pluralForm);
-    // In case of not enough plural form messages, we take the last one (other) instead of returning undefined
-    return parts[Math.min(pluralFormIndex, parts.length - 1)];
   }
+  if (parts.length > localePluralForms.pluralForms.length) {
+    console.error(
+      `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
+    );
+  }
+  const pluralForm = localePluralForms.select(count);
+  const pluralFormIndex = localePluralForms.pluralForms.indexOf(pluralForm);
+  // In case of not enough plural form messages, we take the last one (other) instead of returning undefined
+  return parts[Math.min(pluralFormIndex, parts.length - 1)];
 }
 
 export function usePluralForm(): {

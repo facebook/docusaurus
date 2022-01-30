@@ -27,9 +27,7 @@ export function codeTranslationLocalesToTry(locale: string): string[] {
     ];
   }
   // if locale is like "pt-BR", we want to fallback to "pt"
-  else {
-    return [locale, intlLocale.language!];
-  }
+  return [locale, intlLocale.language!];
 }
 
 // Useful to implement getDefaultCodeTranslationMessages() in themes

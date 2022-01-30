@@ -225,11 +225,9 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         if (link !== undefined) {
           if (link && link.type === 'doc') {
             return findDocByLocalId(link.id)?.id || getDoc(link.id).id;
-          } else {
-            // We don't continue for other link types on purpose!
-            // IE if user decide to use type "generated-index", we should not pick a README.md file as the linked doc
-            return undefined;
           }
+          // As long as a link is explicitly specified, we won't apply conventions
+          return undefined;
         }
         // Apply default convention to pick index.md, README.md or <categoryName>.md as the category doc
         return findConventionalCategoryDocLink()?.id;

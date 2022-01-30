@@ -260,14 +260,13 @@ Full code: ${generate(node).code}`;
               typeof attributeValueEvaluated.value === 'string'
             ) {
               return attributeValueEvaluated.value;
-            } else {
-              warnings.push(
-                `<Translate> prop=${propName} should be a statically evaluable object.
+            }
+            warnings.push(
+              `<Translate> prop=${propName} should be a statically evaluable object.
 Example: <Translate id="optional id" description="optional description">Message</Translate>
 Dynamically constructed values are not allowed, because they prevent translations to be extracted.
 ${sourceWarningPart(path.node)}`,
-              );
-            }
+            );
           }
 
           return undefined;
@@ -275,7 +274,7 @@ ${sourceWarningPart(path.node)}`,
 
         const id = evaluateJSXProp('id');
         const description = evaluateJSXProp('description');
-        let message;
+        let message: string;
         const childrenPath = path.get('children');
 
         // Handle empty content
@@ -286,7 +285,7 @@ Example: <Translate id="my-id" />
 ${sourceWarningPart(path.node)}`);
           } else {
             translations[id] = {
-              message: message ?? id,
+              message: id,
               ...(description && {description}),
             };
           }

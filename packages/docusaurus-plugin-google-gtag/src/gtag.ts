@@ -9,7 +9,7 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import globalData from '@generated/globalData';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
-export default (function () {
+export default (function gtagModule() {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }

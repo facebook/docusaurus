@@ -101,11 +101,10 @@ export function findSidebarCategory(
     if (item.type === 'category') {
       if (predicate(item)) {
         return item;
-      } else {
-        const subItem = findSidebarCategory(item.items, predicate);
-        if (subItem) {
-          return subItem;
-        }
+      }
+      const subItem = findSidebarCategory(item.items, predicate);
+      if (subItem) {
+        return subItem;
       }
     }
   }

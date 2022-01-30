@@ -8,7 +8,7 @@
 import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 // Best-effort to avoid parsing some patterns as number prefix
-const IgnoredPrefixPatterns = (function () {
+const IgnoredPrefixPatterns = (() => {
   // ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
   const DateLikePrefixRegex =
     /^((\d{2}|\d{4})[-_.]\d{2}([-_.](\d{2}|\d{4}))?)(.*)$/;

@@ -28,7 +28,7 @@ export default function loadPresets(context: LoadContext): {
   const unflatThemes: PluginConfig[][] = [];
 
   presets.forEach((presetItem) => {
-    let presetModuleImport;
+    let presetModuleImport: string;
     let presetOptions = {};
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;

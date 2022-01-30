@@ -93,9 +93,8 @@ function filterUsers(
     }
     if (operator === 'AND') {
       return selectedTags.every((tag) => user.tags.includes(tag));
-    } else {
-      return selectedTags.some((tag) => user.tags.includes(tag));
     }
+    return selectedTags.some((tag) => user.tags.includes(tag));
   });
 }
 

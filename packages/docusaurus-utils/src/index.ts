@@ -231,18 +231,17 @@ export async function readOutputHTMLFile(
     return fs.readFile(withTrailingSlashPath);
   } else if (trailingSlash === false) {
     return fs.readFile(withoutTrailingSlashPath);
-  } else {
-    const HTMLPath = await findAsyncSequential(
-      [withTrailingSlashPath, withoutTrailingSlashPath],
-      fs.pathExists,
-    );
-    if (!HTMLPath) {
-      throw new Error(
-        `Expected output HTML file to be found at ${withTrailingSlashPath}`,
-      );
-    }
-    return fs.readFile(HTMLPath);
   }
+  const HTMLPath = await findAsyncSequential(
+    [withTrailingSlashPath, withoutTrailingSlashPath],
+    fs.pathExists,
+  );
+  if (!HTMLPath) {
+    throw new Error(
+      `Expected output HTML file to be found at ${withTrailingSlashPath}`,
+    );
+  }
+  return fs.readFile(HTMLPath);
 }
 
 export async function mapAsyncSequential<T, R>(

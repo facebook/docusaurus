@@ -16,7 +16,7 @@ const fetched: Record<string, boolean> = {};
 const loaded: Record<string, boolean> = {};
 
 declare global {
-  // eslint-disable-next-line camelcase
+  // eslint-disable-next-line camelcase, no-underscore-dangle
   const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
     connection: {effectiveType: string; saveData: boolean};

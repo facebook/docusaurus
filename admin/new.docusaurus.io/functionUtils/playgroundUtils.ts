@@ -69,14 +69,11 @@ export function readPlaygroundName(
     : {};
   const playgroundName: string | undefined = parsedCookie[CookieName];
 
-  if (playgroundName) {
-    if (isValidPlaygroundName(playgroundName)) {
-      return playgroundName;
-    } else {
-      console.error(
-        `playgroundName found in cookie was invalid: ${playgroundName}`,
-      );
-    }
+  if (!isValidPlaygroundName(playgroundName)) {
+    console.error(
+      `playgroundName found in cookie was invalid: ${playgroundName}`,
+    );
+    return undefined;
   }
-  return undefined;
+  return playgroundName;
 }

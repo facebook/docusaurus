@@ -148,7 +148,7 @@ export default async function mdxLoader(
     filepath: filePath,
   };
 
-  let result;
+  let result: string;
   try {
     result = await mdx(content, options);
   } catch (err) {
@@ -168,9 +168,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
-      } else {
-        logger.warn(errorMessage);
       }
+      logger.warn(errorMessage);
     }
   }
 

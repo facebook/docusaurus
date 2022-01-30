@@ -68,13 +68,12 @@ const getMessage = (icon: IconKey, state: State) => {
           message: '404. Image not found',
           description: 'When the image is not found',
         });
-      } else {
-        return translate({
-          id: 'theme.IdealImageMessage.error',
-          message: 'Error. Click to reload',
-          description: 'When the image fails to load for unknown error',
-        });
       }
+      return translate({
+        id: 'theme.IdealImageMessage.error',
+        message: 'Error. Click to reload',
+        description: 'When the image fails to load for unknown error',
+      });
     }
     default:
       throw new Error(`Wrong icon: ${icon}`);

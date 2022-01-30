@@ -252,9 +252,8 @@ export async function localizePluginTranslationFile({
         ...localizedContent,
       },
     };
-  } else {
-    return translationFile;
   }
+  return translationFile;
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(

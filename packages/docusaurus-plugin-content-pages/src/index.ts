@@ -112,29 +112,28 @@ export default async function pluginContentPages(
           options.routeBasePath,
           encodePath(fileToPath(relativeSource)),
         ]);
-        if (isMarkdownSource(relativeSource)) {
-          const content = await fs.readFile(source, 'utf-8');
-          const {
-            frontMatter: unsafeFrontMatter,
-            contentTitle,
-            excerpt,
-          } = parseMarkdownString(content);
-          const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
-          return {
-            type: 'mdx',
-            permalink,
-            source: aliasedSourcePath,
-            title: frontMatter.title ?? contentTitle,
-            description: frontMatter.description ?? excerpt,
-            frontMatter,
-          };
-        } else {
+        if (!isMarkdownSource(relativeSource)) {
           return {
             type: 'jsx',
             permalink,
             source: aliasedSourcePath,
           };
         }
+        const content = await fs.readFile(source, 'utf-8');
+        const {
+          frontMatter: unsafeFrontMatter,
+          contentTitle,
+          excerpt,
+        } = parseMarkdownString(content);
+        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+        return {
+          type: 'mdx',
+          permalink,
+          source: aliasedSourcePath,
+          title: frontMatter.title ?? contentTitle,
+          description: frontMatter.description ?? excerpt,
+          frontMatter,
+        };
       }
 
       return Promise.all(pagesFiles.map(toMetadata));

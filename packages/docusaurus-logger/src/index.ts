@@ -23,7 +23,7 @@ function interpolate(
   values.forEach((value, idx) => {
     const flag = msgs[idx].match(/[a-z]+=$/);
     res += msgs[idx].replace(/[a-z]+=$/, '');
-    const format = (function () {
+    const format = (() => {
       if (!flag) {
         return (a: string | number) => a;
       }

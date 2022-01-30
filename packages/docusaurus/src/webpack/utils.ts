@@ -126,16 +126,13 @@ export function getBabelOptions({
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
-  } else {
-    return Object.assign(
-      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
-      {
-        babelrc: false,
-        configFile: false,
-        caller: {name: isServer ? 'server' : 'client'},
-      },
-    );
   }
+  return {
+    ...(babelOptions ?? {presets: [require.resolve('../babel/preset')]}),
+    babelrc: false,
+    configFile: false,
+    caller: {name: isServer ? 'server' : 'client'},
+  };
 }
 
 // Name is generic on purpose

@@ -23,13 +23,12 @@ function getBrowserStorage(
   }
   if (storageType === 'none') {
     return null;
-  } else {
-    try {
-      return window[storageType];
-    } catch (e) {
-      logOnceBrowserStorageNotAvailableWarning(e as Error);
-      return null;
-    }
+  }
+  try {
+    return window[storageType];
+  } catch (e) {
+    logOnceBrowserStorageNotAvailableWarning(e as Error);
+    return null;
   }
 }
 

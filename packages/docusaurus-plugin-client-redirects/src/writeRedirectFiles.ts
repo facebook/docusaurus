@@ -47,9 +47,7 @@ function getRedirectFilePath(
   // If the target path is /xyz, with file /xyz/index.html, we don't want the redirect file to be /xyz.html
   // otherwise it would be picked in priority and the redirect file would redirect to itself
   // We prefer the redirect file to be /xyz.html/index.html, served with lower priority for most static hosting tools
-  else {
-    return path.join(filePath, `${fileName}/index.html`);
-  }
+  return path.join(filePath, `${fileName}/index.html`);
 }
 
 export function toRedirectFilesMetadata(

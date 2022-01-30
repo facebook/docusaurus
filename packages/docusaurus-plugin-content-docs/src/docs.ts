@@ -233,9 +233,8 @@ function doProcessDocMetadata({
           ? versionMetadata.versionEditUrlLocalized
           : versionMetadata.versionEditUrl;
       return getEditUrl(relativeFilePath, baseVersionEditUrl);
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 
   // Assign all of object properties during instantiation (if possible) for
@@ -361,9 +360,8 @@ export function getMainDocId({
           doc.id === firstDocIdOfFirstSidebar ||
           doc.unversionedId === firstDocIdOfFirstSidebar,
       )!;
-    } else {
-      return docs[0];
     }
+    return docs[0];
   }
 
   return getMainDoc().unversionedId;
