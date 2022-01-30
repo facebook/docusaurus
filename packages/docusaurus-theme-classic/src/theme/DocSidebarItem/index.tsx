@@ -48,7 +48,8 @@ export default function DocSidebarItem({
   }
 }
 
-// If we navigate to a category and it becomes active, it should automatically expand itself
+// If we navigate to a category and it becomes active, it should automatically
+// expand itself
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
@@ -67,11 +68,14 @@ function useAutoExpandActiveCategory({
   }, [isActive, wasActive, collapsed, setCollapsed]);
 }
 
-// When a collapsible category has no link, we still link it to its first child during SSR as a temporary fallback
-// This allows to be able to navigate inside the category even when JS fails to load, is delayed or simply disabled
-// React hydration becomes an optional progressive enhancement
-// see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
-// see https://github.com/facebook/docusaurus/issues/3030
+/**
+ * When a collapsible category has no link, we still link it to its first child
+ * during SSR as a temporary fallback. This allows to be able to navigate inside
+ * the category even when JS fails to load, is delayed or simply disabled
+ * React hydration becomes an optional progressive enhancement
+ * see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
+ * see https://github.com/facebook/docusaurus/issues/3030
+ */
 function useCategoryHrefWithSSRFallback(
   item: PropSidebarItemCategory,
 ): string | undefined {

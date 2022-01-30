@@ -40,7 +40,8 @@ export default function pluginGoogleGtag(
         return {};
       }
       return {
-        // Gtag includes GA by default, so we also preconnect to google-analytics.
+        // Gtag includes GA by default, so we also preconnect to
+        // google-analytics.
         headTags: [
           {
             tagName: 'link',

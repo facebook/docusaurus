@@ -21,8 +21,9 @@ export function loadThemeAliases(
   themePaths.forEach((themePath) => {
     const themeAliases = themeAlias(themePath, true);
     Object.keys(themeAliases).forEach((aliasKey) => {
-      // If this alias shadows a previous one, use @theme-init to preserve the initial one.
-      // @theme-init is only applied once: to the initial theme that provided this component
+      // If this alias shadows a previous one, use @theme-init to preserve the
+      // initial one. @theme-init is only applied once: to the initial theme
+      // that provided this component
       if (aliasKey in aliases) {
         const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
         const initAlias = `@theme-init/${componentName}`;

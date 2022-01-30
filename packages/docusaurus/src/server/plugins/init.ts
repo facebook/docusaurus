@@ -129,8 +129,8 @@ export default async function initPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<InitializedPlugin[]> {
-  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these plugins.
+  // We need to resolve plugins from the perspective of the siteDir, since the
+  // siteDir's package.json declares the dependency on these plugins.
   const pluginRequire = createRequire(context.siteConfigPath);
 
   function doGetPluginVersion(

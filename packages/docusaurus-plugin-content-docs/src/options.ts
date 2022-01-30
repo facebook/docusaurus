@@ -148,8 +148,9 @@ export function validateOptions({
   let options = userOptions;
 
   if (options.sidebarCollapsible === false) {
-    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't want to have the inconsistency warning
-    // We let options.sidebarCollapsible become the default value for options.sidebarCollapsed
+    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't
+    // want to have the inconsistency warning. We let options.sidebarCollapsible
+    // become the default value for options.sidebarCollapsed
     if (typeof options.sidebarCollapsed === 'undefined') {
       options = {
         ...options,

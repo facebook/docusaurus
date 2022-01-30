@@ -45,8 +45,11 @@ export function transformSidebarItems(
   return sidebar.map(transformRecursive);
 }
 
-// Flatten sidebar items into a single flat array (containing categories/docs on the same level)
-// /!\ order matters (useful for next/prev nav), top categories appear before their child elements
+/**
+ * Flatten sidebar items into a single flat array (containing categories/docs on
+ * the same level). Order matters (useful for next/prev nav), top categories
+ * appear before their child elements
+ */
 function flattenSidebarItems(items: SidebarItem[]): SidebarItem[] {
   function flattenRecursive(item: SidebarItem): SidebarItem[] {
     return item.type === 'category'
@@ -235,8 +238,10 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       });
   }
 
-  // We identity the category generated index by its permalink (should be unique)
-  // More reliable than using object identity
+  /**
+   * We identity the category generated index by its permalink (should be
+   * unique). More reliable than using object identity
+   */
   function getCategoryGeneratedIndexNavigation(
     categoryGeneratedIndexPermalink: string,
   ): SidebarNavigation {

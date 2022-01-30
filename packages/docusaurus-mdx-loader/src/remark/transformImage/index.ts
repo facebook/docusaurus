@@ -133,10 +133,8 @@ async function processImageNode(node: Image, context: Context) {
 
   const parsedUrl = url.parse(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
-    // pathname:// is an escape hatch,
-    // in case user does not want his images to be converted to require calls going through webpack loader
-    // we don't have to document this for now,
-    // it's mostly to make next release less risky (2.0.0-alpha.59)
+    // pathname:// is an escape hatch, in case user does not want her images to
+    // be converted to require calls going through webpack loader
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }

@@ -438,8 +438,9 @@ function checkVersionMetadataPaths({
     );
   }
 
-  // If the current version defines a path to a sidebar file  that does not exist, we throw!
-  // Note: for versioned sidebars, the file may not exist (as we prefer to not create it rather than to create an empty file)
+  // If the current version defines a path to a sidebar file that does not
+  // exist, we throw! Note: for versioned sidebars, the file may not exist (as
+  // we prefer to not create it rather than to create an empty file)
   // See https://github.com/facebook/docusaurus/issues/3366
   // See https://github.com/facebook/docusaurus/pull/4775
   if (

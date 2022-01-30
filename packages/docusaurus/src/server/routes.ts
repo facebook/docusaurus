@@ -147,7 +147,8 @@ export default async function loadRoutes(
 
     // Collect all page paths for injecting it later in the plugin lifecycle
     // This is useful for plugins like sitemaps, redirects etc...
-    // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
+    // If a route has subroutes, it is not necessarily a valid page path (more
+    // likely to be a wrapper)
     if (!subroutes) {
       routesPaths.push(routePath);
     }

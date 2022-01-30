@@ -86,7 +86,7 @@ function mergeTranslationFileContent({
   Object.entries(newContentTransformed).forEach(
     ([key, {message, description}]) => {
       result[key] = {
-        // If the messages already exist, we don't override them (unless requested)
+        // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,

@@ -21,7 +21,7 @@ More details here: https://github.com/facebook/docusaurus/pull/4295
 const ValueRegexp = /{\w+}/g;
 const ValueFoundMarker = '{}'; // does not care much
 
-// TS function overload: if all the values are plain strings, then interpolate returns a simple string
+// If all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
   text: Str,
   values?: InterpolateValues<Str, string | number>,

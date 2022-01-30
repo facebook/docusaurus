@@ -49,8 +49,8 @@ class PendingNavigation extends React.Component<Props, State> {
     const routeDidChange = nextProps.location !== this.props.location;
     const {routes, delay} = this.props;
 
-    // If `routeDidChange` is true, means the router is trying to navigate to a new
-    // route. We will preload the new route.
+    // If `routeDidChange` is true, means the router is trying to navigate to a
+    // new route. We will preload the new route.
     if (routeDidChange) {
       const nextLocation = normalizeLocation(nextProps.location);
       this.startProgressBar(delay);

@@ -51,7 +51,8 @@ export default function CodeBlock({
   const prismTheme = usePrismTheme();
 
   // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
-  // When the children is not a simple string, we just return a styled block without actually highlighting.
+  // When the children is not a simple string, we just return a styled block
+  // without actually highlighting.
   if (React.Children.toArray(children).some((el) => isValidElement(el))) {
     return (
       <Highlight

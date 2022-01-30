@@ -66,7 +66,7 @@ It might also require to wrap your client code in code=${'useEffect'} hook and/o
   }
 }
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
+// Renderer for static-site-generator-webpack-plugin (async rendering).
 async function doRender(locals: Locals & {path: string}) {
   const {
     routesLocation,

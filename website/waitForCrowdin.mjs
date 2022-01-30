@@ -8,14 +8,16 @@
 import {Translations} from '@crowdin/crowdin-api-client';
 
 /*
-Crowdin does not support concurrent "project builds" (downloads of translations).
-The Crowdin CLI fails with error 409, and it leads to failures on Netlify.
+Crowdin does not support concurrent "project builds" (downloads of
+translations). The Crowdin CLI fails with error 409, and it leads to failures on
+Netlify.
 
 On Docusaurus, when we commit on main, we have 2 Netlify deployments triggered:
 - prod
 - i18n-staging (work-in-progress locales)
 
-This script helps the 2 deployments to not download translations concurrently from Crowdin.
+This script helps the 2 deployments to not download translations concurrently
+from Crowdin.
  */
 
 const pollInterval = 5000;

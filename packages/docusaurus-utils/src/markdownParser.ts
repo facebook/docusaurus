@@ -55,7 +55,8 @@ export function createExcerpt(fileString: string): string | undefined {
       if (!inCode) {
         inCode = true;
         [lastCodeFence] = fileLine.trim().match(/^`+/)!;
-        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+        // If we are in a ````-fenced block, all ``` would be plain text instead
+        // of fences
       } else if (
         fileLine.trim().match(/^`+/)![0].length >= lastCodeFence.length
       ) {
@@ -112,9 +113,11 @@ export function parseFrontMatter(markdownFileContent: string): {
   };
 }
 
-// Try to convert markdown heading as text
-// Does not need to be perfect, it is only used as a fallback when frontMatter.title is not provided
-// For now, we just unwrap possible inline code blocks (# `config.js`)
+/**
+ * Try to convert markdown heading to text. Does not need to be perfect, it is
+ * only used as a fallback when frontMatter.title is not provided. For now, we
+ * just unwrap possible inline code blocks (# `config.js`)
+ */
 function toTextContentTitle(contentTitle: string): string {
   if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
     return contentTitle.substring(1, contentTitle.length - 1);

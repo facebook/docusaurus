@@ -39,9 +39,12 @@ export default function collectRedirects(
 }
 
 // If users wants to redirect to=/abc and they enable trailingSlash=true then
-// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid path now)
-// => we want to redirect to=/abc/ without the user having to change all its redirect plugin options
-// It should be easy to toggle siteConfig.trailingSlash option without having to change other configs
+// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid
+// path now)
+// => we want to redirect to=/abc/ without the user having to change all its
+// redirect plugin options
+// It should be easy to toggle siteConfig.trailingSlash option without having to
+// change other configs
 function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
   params: ApplyTrailingSlashParams,

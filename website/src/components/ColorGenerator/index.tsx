@@ -123,7 +123,8 @@ function ColorGenerator(): JSX.Element {
         <input
           type="color"
           className={styles.colorInput}
-          // value has to always be a valid color, so baseColor instead of inputColor
+          // value has to always be a valid color, so baseColor instead of
+          // inputColor
           value={baseColor}
           onChange={updateColor}
         />

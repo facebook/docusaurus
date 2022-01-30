@@ -13,7 +13,8 @@ TODO make the hardcoded theme-classic classnames configurable
 (or add them to ThemeClassNames?)
  */
 
-// If the anchor has no height and is just a "marker" in the dom; we'll use the parent (normally the link text) rect boundaries instead
+// If the anchor has no height and is just a "marker" in the dom; we'll use the
+// parent (normally the link text) rect boundaries instead
 function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
   const rect = element.getBoundingClientRect();
   const hasNoHeight = rect.top === rect.bottom;
@@ -23,8 +24,10 @@ function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
   return rect;
 }
 
-// Considering we divide viewport into 2 zones of each 50vh
-// This returns true if an element is in the first zone (ie, appear in viewport, near the top)
+/**
+ * Considering we divide viewport into 2 zones of each 50vh, this returns true
+ * if an element is in the first zone (ie, appear in viewport, near the top)
+ */
 function isInViewportTopHalf(boundingRect: DOMRect) {
   return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
 }
@@ -73,8 +76,8 @@ function getActiveAnchor(
     }
     // If anchor is in the bottom half of the viewport, or under the viewport,
     // we consider the active anchor is the previous one. This is because the
-    // main text appearing in the user screen mostly belong to the previous anchor
-    // Returns null for the first anchor, see
+    // main text appearing in the user screen mostly belong to the previous
+    // anchor. Returns null for the first anchor, see
     // https://github.com/facebook/docusaurus/issues/5318
     return anchors[anchors.indexOf(nextVisibleAnchor) - 1] ?? null;
   }

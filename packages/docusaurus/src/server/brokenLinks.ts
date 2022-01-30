@@ -64,10 +64,12 @@ function getPageBrokenLinks({
   return pageLinks.map(resolveLink).filter((l) => isBrokenLink(l.resolvedLink));
 }
 
-// The route defs can be recursive, and have a parent match-all route
-// We don't want to match broken links like /docs/brokenLink against /docs/*
-// For this reason, we only consider the "final routes", that do not have subroutes
-// We also need to remove the match all 404 route
+/**
+ * The route defs can be recursive, and have a parent match-all route. We don't
+ * want to match broken links like /docs/brokenLink against /docs/*. For this
+ * reason, we only consider the "final routes", that do not have subroutes.
+ * We also need to remove the match all 404 route
+ */
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
   return getAllFinalRoutes(routesWithout404);
@@ -113,9 +115,11 @@ export function getBrokenLinksErrorMessage(
       .join('\n   -> linking to ')}`;
   }
 
-  // If there's a broken link appearing very often, it is probably a broken link on the layout!
-  // Add an additional message in such case to help user figure this out.
-  // see https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
+  /**
+   * If there's a broken link appearing very often, it is probably a broken link
+   * on the layout. Add an additional message in such case to help user figure
+   * this out. See https://github.com/facebook/docusaurus/issues/3567#issuecomment-706973805
+   */
   function getLayoutBrokenLinksHelpMessage() {
     const flatList = Object.entries(allBrokenLinks).flatMap(
       ([pagePage, brokenLinks]) =>
@@ -215,8 +219,9 @@ export async function handleBrokenLinks({
     return;
   }
 
-  // If we link to a file like /myFile.zip, and the file actually exist for the file system
-  // it is not a broken link, it may simply be a link to an existing static file...
+  // If we link to a file like /myFile.zip, and the file actually exist for the
+  // file system. It is not a broken link, it may simply be a link to an
+  // existing static file...
   const allCollectedLinksFiltered = await filterExistingFileLinks({
     allCollectedLinks,
     baseUrl,

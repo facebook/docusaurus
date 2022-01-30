@@ -12,8 +12,8 @@ import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
 
 // Convert webpack-merge webpack-merge enum to union type
-// For type retro-compatible webpack-merge upgrade: we used string literals before)
-// see https://github.com/survivejs/webpack-merge/issues/179
+// For type retro-compatible webpack-merge upgrade: we used string literals
+// before) See https://github.com/survivejs/webpack-merge/issues/179
 type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
@@ -30,7 +30,8 @@ export interface DocusaurusConfig {
   tagline: string;
   title: string;
   url: string;
-  // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html
+  // trailingSlash undefined = legacy retrocompatible behavior
+  // /file => /file/index.html
   trailingSlash: boolean | undefined;
   i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
@@ -73,8 +74,8 @@ export interface DocusaurusConfig {
 }
 
 // Docusaurus config, as provided by the user (partial/unnormalized)
-// This type is used to provide type-safety / IDE auto-complete on the config file
-// See https://docusaurus.io/docs/typescript-support
+// This type is used to provide type-safety / IDE auto-complete on the config
+// file. See https://docusaurus.io/docs/typescript-support
 export type Config = Overwrite<
   Partial<DocusaurusConfig>,
   {
@@ -88,7 +89,8 @@ export type Config = Overwrite<
 /**
  * - `type: 'package'`, plugin is in a different package.
  * - `type: 'project'`, plugin is in the same docusaurus project.
- * - `type: 'local'`, none of plugin's ancestor directory contains any package.json.
+ * - `type: 'local'`, none of the plugin's ancestor directories contains a
+ * package.json.
  * - `type: 'synthetic'`, docusaurus generated internal plugin.
  */
 export type DocusaurusPluginVersionInformation =
@@ -259,7 +261,8 @@ export interface Plugin<Content = unknown> {
   }) => Promise<void>;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
   postBuild?: (props: Props & {content: Content}) => Promise<void>;
-  // TODO refactor the configureWebpack API surface: use an object instead of multiple params (requires breaking change)
+  // TODO refactor the configureWebpack API surface: use an object instead of
+  // multiple params (requires breaking change)
   configureWebpack?: (
     config: Configuration,
     isServer: boolean,

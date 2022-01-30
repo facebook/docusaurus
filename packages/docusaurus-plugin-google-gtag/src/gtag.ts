@@ -19,7 +19,8 @@ export default (function gtagModule() {
 
   return {
     onRouteUpdate({location}: {location: Location}) {
-      // Always refer to the variable on window in-case it gets overridden elsewhere.
+      // Always refer to the variable on window in case it gets overridden
+      // elsewhere.
       window.gtag('config', trackingID, {
         page_path: location.pathname,
         page_title: document.title,

@@ -67,7 +67,8 @@ function getDocTranslations(doc: DocMetadata): TranslationFileContent {
       ? {
           [`${doc.unversionedId}.sidebar_label`]: {
             message: doc.sidebar_label,
-            description: `The sidebar label for doc with id=${doc.unversionedId}`,
+            description:
+              `The sidebar label for doc with id=${doc.unversionedId}`,
           },
         }
       : undefined),
@@ -252,7 +253,8 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   const sidebarsTranslations: TranslationFileContent =
     getSidebarsTranslations(version);
 
-  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
+  // const docsTranslations: TranslationFileContent =
+  //   getDocsTranslations(version);
 
   return [
     {

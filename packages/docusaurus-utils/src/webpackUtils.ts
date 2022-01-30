@@ -33,7 +33,8 @@ type FileLoaderUtils = {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils(): FileLoaderUtils {
-  // files/images < urlLoaderLimit will be inlined as base64 strings directly in the html
+  // files/images < urlLoaderLimit will be inlined as base64 strings directly in
+  // the html
   const urlLoaderLimit = WEBPACK_URL_LOADER_LIMIT;
 
   // defines the path/pattern of the assets handled by webpack
@@ -56,7 +57,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
       },
     }),
 
-    // TODO find a better solution to avoid conflicts with the ideal-image plugin
+    // TODO avoid conflicts with the ideal-image plugin
     // TODO this may require a little breaking change for ideal-image users?
     // Maybe with the ideal image plugin, all md images should be "ideal"?
     // This is used to force url-loader+file-loader on markdown images

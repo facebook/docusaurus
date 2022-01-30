@@ -221,10 +221,12 @@ function createBootstrapPlugin({
   };
 }
 
-// Configure Webpack fallback mdx loader for md/mdx files out of content-plugin folders
-// Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
-// This allows to do things such as importing repo/README.md as a partial from another doc
-// Not ideal solution though, but good enough for now
+/**
+ * Configure Webpack fallback mdx loader for md/mdx files out of content-plugin
+ * folders. Adds a "fallback" mdx loader for mdx files that are not processed by
+ * content plugins. This allows to do things such as importing repo/README.md as
+ * a partial from another doc. Not ideal solution, but good enough for now
+ */
 function createMDXFallbackPlugin({
   siteDir,
   siteConfig,
@@ -238,9 +240,9 @@ function createMDXFallbackPlugin({
     options: {},
     version: {type: 'synthetic'},
     configureWebpack(config, isServer, {getJSLoader}) {
-      // We need the mdx fallback loader to exclude files that were already processed by content plugins mdx loaders
-      // This works, but a bit hacky...
-      // Not sure there's a way to handle that differently in webpack :s
+      // We need the mdx fallback loader to exclude files that were already
+      // processed by content plugins mdx loaders. This works, but a bit
+      // hacky... Not sure there's a way to handle that differently in webpack
       function getMDXFallbackExcludedPaths(): string[] {
         const rules: RuleSetRule[] = config?.module?.rules as RuleSetRule[];
         return rules.flatMap((rule) => {

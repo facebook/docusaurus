@@ -66,12 +66,14 @@ const docusaurus = {
 
     // Prefetch all webpack chunk assets file needed.
     chunkNamesNeeded.forEach((chunkName) => {
-      // "__webpack_require__.gca" is a custom function provided by ChunkAssetPlugin.
-      // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk.
+      // "__webpack_require__.gca" is a custom function provided by
+      // ChunkAssetPlugin. Pass it the chunkName or chunkId you want to load and
+      // it will return the URL for that chunk.
       // eslint-disable-next-line camelcase
       const chunkAsset = __webpack_require__.gca(chunkName);
 
-      // In some cases, webpack might decide to optimize further & hence the chunk assets are merged to another chunk/previous chunk.
+      // In some cases, webpack might decide to optimize further & hence the
+      // chunk assets are merged to another chunk/previous chunk.
       // Hence, we can safely filter it out/don't need to load it.
       if (chunkAsset && !/undefined/.test(chunkAsset)) {
         prefetchHelper(chunkAsset);

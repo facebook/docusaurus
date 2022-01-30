@@ -31,7 +31,8 @@ export const AdmonitionsSchema = Joi.object().default({});
 //  Joi is such a pain, good luck to annoying trying to improve this
 export const URISchema = Joi.alternatives(
   Joi.string().uri({allowRelative: true}),
-  // This custom validation logic is required notably because Joi does not accept paths like /a/b/c ...
+  // This custom validation logic is required notably because Joi does not
+  // accept paths like /a/b/c ...
   Joi.custom((val, helpers) => {
     try {
       // eslint-disable-next-line no-new

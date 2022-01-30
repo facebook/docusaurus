@@ -48,6 +48,16 @@ module.exports = {
     curly: [WARNING, 'all'],
     'global-require': WARNING,
     'lines-between-class-members': OFF,
+    'max-len': [
+      WARNING,
+      {
+        code: Infinity, // Code width is already enforced by Prettier
+        tabWidth: 2,
+        comments: 80,
+        ignoreUrls: true,
+        ignorePattern: '(eslint-disable|@)',
+      },
+    ],
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
@@ -68,7 +78,9 @@ module.exports = {
           {
             name: 'lodash',
             importNames: [
-              // 'compact', // TODO: TS doesn't make Boolean a narrowing function yet, so filter(Boolean) is problematic type-wise
+              // TODO: TS doesn't make Boolean a narrowing function yet,
+              // so filter(Boolean) is problematic type-wise
+              // 'compact',
               'filter',
               'flatten',
               'flatMap',
@@ -126,7 +138,8 @@ module.exports = {
     'react-hooks/rules-of-hooks': ERROR,
     'react-hooks/exhaustive-deps': ERROR,
 
-    'react/destructuring-assignment': OFF, // Sometimes we do need the props as a whole, e.g. when spreading
+    // Sometimes we do need the props as a whole, e.g. when spreading
+    'react/destructuring-assignment': OFF,
     'react/function-component-definition': [
       WARNING,
       {

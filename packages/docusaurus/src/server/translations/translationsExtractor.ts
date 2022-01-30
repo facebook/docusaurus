@@ -45,8 +45,9 @@ function getSiteSourceCodeFilePaths(siteDir: string): string[] {
 
 function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
-  // We can use this method as well to know which folders we should try to extract translations from
-  // Hacky/implicit, but do we want to introduce a new lifecycle method just for that???
+  // We can use this method as well to know which folders we should try to
+  // extract translations from. Hacky/implicit, but do we want to introduce a
+  // new lifecycle method just for that???
   const codePaths: string[] = plugin.getPathsToWatch?.() ?? [];
 
   // We also include theme code
@@ -72,8 +73,9 @@ async function getSourceCodeFilePaths(
   const sitePaths = getSiteSourceCodeFilePaths(siteDir);
 
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
-  // We can use this method as well to know which folders we should try to extract translations from
-  // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
+  // We can use this method as well to know which folders we should try to
+  // extract translations from. Hacky/implicit, but do we want to introduce a
+  // new lifecycle method for that???
   const pluginsPaths = plugins.flatMap(getPluginSourceCodeFilePaths);
 
   const allPaths = [...sitePaths, ...pluginsPaths];
@@ -87,7 +89,8 @@ export async function extractSiteSourceCodeTranslations(
   babelOptions: TransformOptions,
   extraSourceCodeFilePaths: string[] = [],
 ): Promise<TranslationFileContent> {
-  // Should we warn here if the same translation "key" is found in multiple source code files?
+  // Should we warn here if the same translation "key" is found in multiple
+  // source code files?
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
@@ -152,8 +155,9 @@ export async function extractSourceCodeFileTranslations(
     const ast = parse(code, {
       ...babelOptions,
       ast: true,
-      // filename is important, because babel does not process the same files according to their js/ts extensions
-      // see  see https://twitter.com/NicoloRibaudo/status/1321130735605002243
+      // filename is important, because babel does not process the same files
+      // according to their js/ts extensions.
+      // See https://twitter.com/NicoloRibaudo/status/1321130735605002243
       filename: sourceCodeFilePath,
     }) as Node;
 
@@ -295,8 +299,9 @@ ${sourceWarningPart(path.node)}`);
 
         // Handle single non-empty content
         const singleChildren = childrenPath
-          // Remove empty/useless text nodes that might be around our translation!
-          // Makes the translation system more reliable to JSX formatting issues
+          // Remove empty/useless text nodes that might be around our
+          // translation! Makes the translation system more reliable to JSX
+          // formatting issues
           .filter(
             (children) =>
               !(
@@ -339,7 +344,7 @@ ${sourceWarningPart(path.node)}`,
         if (args.length === 1 || args.length === 2) {
           const firstArgPath = args[0];
 
-          // evaluation allows translate("x" + "y"); to be considered as translate("xy");
+          // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();
 
           if (

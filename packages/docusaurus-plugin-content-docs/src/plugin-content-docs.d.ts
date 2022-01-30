@@ -45,7 +45,8 @@ declare module '@docusaurus/plugin-content-docs' {
     sidebarPath?: string | false | undefined;
   };
 
-  // TODO support custom version banner? {type: "error", content: "html content"}
+  // TODO support custom version banner?
+  // {type: "error", content: "html content"}
   export type VersionBanner = 'unreleased' | 'unmaintained';
   export type VersionOptions = {
     path?: string;

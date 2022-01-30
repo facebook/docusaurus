@@ -104,7 +104,8 @@ function useFilteredUsers() {
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
   const [searchName, setSearchName] = useState<string | null>(null);
-  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
+  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client
+  // hydration mismatch)
   useEffect(() => {
     setSelectedTags(readSearchTags(location.search));
     setOperator(readOperator(location.search));

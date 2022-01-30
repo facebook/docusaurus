@@ -43,7 +43,8 @@ export function getPluginVersion(
     );
     if (existsSync(packageJsonPath) && lstatSync(packageJsonPath).isFile()) {
       if (potentialPluginPackageJsonDirectory === siteDir) {
-        // If the plugin belongs to the same docusaurus project, we classify it as local plugin.
+        // If the plugin belongs to the same docusaurus project, we classify it
+        // as local plugin.
         return {type: 'project'};
       }
       return {
@@ -56,6 +57,7 @@ export function getPluginVersion(
       potentialPluginPackageJsonDirectory,
     );
   }
-  // In rare cases where a plugin is a path where no parent directory contains package.json, we can only classify it as local.
+  // In the case where a plugin is a path where no parent directory contains
+  // package.json (e.g. inline plugin), we can only classify it as local.
   return {type: 'local'};
 }

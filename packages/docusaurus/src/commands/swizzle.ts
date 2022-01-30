@@ -240,7 +240,8 @@ export default async function swizzle(
     let score = formattedComponentName.length;
     components.forEach((component) => {
       if (component.toLowerCase() === formattedComponentName.toLowerCase()) {
-        // may be components with same lowercase key, try to match closest component
+        // may be components with same lowercase key, try to match closest
+        // component
         const currentScore = leven(formattedComponentName, component);
         if (currentScore < score) {
           score = currentScore;
@@ -259,7 +260,8 @@ export default async function swizzle(
   let fromPath = path.join(themePath, mostSuitableComponent);
   let toPath = path.resolve(siteDir, THEME_PATH, mostSuitableComponent);
   // Handle single TypeScript/JavaScript file only.
-  // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
+  // E.g: if <fromPath> does not exist, we try to swizzle
+  // <fromPath>.(ts|tsx|js) instead
   if (!fs.existsSync(fromPath)) {
     if (fs.existsSync(`${fromPath}.ts`)) {
       [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];

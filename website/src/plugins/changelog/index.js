@@ -17,7 +17,9 @@ const syncAvatars = require('./syncAvatars');
  * the reverse. Therefore, our publish time has a "fake hour" to order them.
  */
 const publishTimes = new Set();
-/** @type {Record<string, {name: string, url: string, alias: string, imageURL: string}>} */
+/**
+ * @type {Record<string, {name: string, url: string,alias: string, imageURL: string}>}
+ */
 const authorsMap = {};
 
 /**
