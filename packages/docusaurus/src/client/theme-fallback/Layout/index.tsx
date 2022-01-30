@@ -11,7 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import type {Props} from '@theme/Layout';
 
-function Layout({children, title, description}: Props) {
+function Layout({children, title, description}: Props): JSX.Element {
   const context = useDocusaurusContext();
   const {siteConfig} = context;
   const {favicon, tagline, title: defaultTitle} = siteConfig;
