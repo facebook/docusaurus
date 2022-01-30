@@ -1,5 +1,5 @@
 ---
-# Windows doesn't allow filepaths beginning with :
+# Windows doesn't allow filepaths containing :
 slug: :file
 ---
 
