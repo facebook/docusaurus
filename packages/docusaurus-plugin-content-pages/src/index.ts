@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {
+  sanitizeURL,
   encodePath,
   fileToPath,
   aliasedSitePath,
@@ -110,7 +111,7 @@ export default async function pluginContentPages(
         const permalink = normalizeUrl([
           baseUrl,
           options.routeBasePath,
-          encodePath(fileToPath(relativeSource)),
+          encodePath(sanitizeURL(fileToPath(relativeSource))),
         ]);
         if (isMarkdownSource(relativeSource)) {
           const content = await fs.readFile(source, 'utf-8');

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, getEditUrl} from '../urlUtils';
+import {normalizeUrl, getEditUrl, sanitizeURL} from '../urlUtils';
 
 describe('normalizeUrl', () => {
   test('should normalize urls correctly', () => {
@@ -129,6 +129,18 @@ describe('normalizeUrl', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Url must be a string. Received undefined"`,
     );
+  });
+});
+
+describe('sanitizeURL', () => {
+  test('sanitize paths that are RR dynamic routes', () => {
+    expect(sanitizeURL('/:user')).toEqual('/user');
+    expect(sanitizeURL('/f{u}')).toEqual('/fu');
+    expect(sanitizeURL('/a(1)')).toEqual('/a1');
+  });
+  test('do not sanitize paths that can be encoded', () => {
+    expect(sanitizeURL('/a:b')).toEqual('/a:b');
+    expect(sanitizeURL('/你好')).toEqual('/你好');
   });
 });
 

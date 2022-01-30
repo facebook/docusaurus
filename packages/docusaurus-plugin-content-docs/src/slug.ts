@@ -10,6 +10,7 @@ import {
   addTrailingSlash,
   isValidPathname,
   resolvePathname,
+  sanitizeURL,
 } from '@docusaurus/utils';
 import {
   DefaultNumberPrefixParser,
@@ -66,10 +67,10 @@ export default function getSlug({
       throw new Error(
         `We couldn't compute a valid slug for document with id "${baseID}" in "${sourceDirName}" directory.
 The slug we computed looks invalid: ${slug}.
-Maybe your slug front matter is incorrect or you use weird chars in the file path?
-By using the slug front matter, you should be able to fix this error, by using the slug of your choice:
+Maybe your slug front matter is incorrect or you used weird chars in the file path?
+By using the slug front matter, you should be able to fix this error:
 
-Example =>
+Example:
 ---
 slug: /my/customDocPath
 ---
@@ -79,5 +80,5 @@ slug: /my/customDocPath
     return slug;
   }
 
-  return ensureValidSlug(computeSlug());
+  return ensureValidSlug(sanitizeURL(computeSlug()));
 }

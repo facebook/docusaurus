@@ -27,6 +27,7 @@ import {
   normalizeFrontMatterTags,
   groupTaggedItems,
   getContentPathList,
+  sanitizeURL,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
@@ -189,7 +190,7 @@ async function processBlogSourceFile(
   const title = frontMatter.title ?? contentTitle ?? parsedBlogFileName.text;
   const description = frontMatter.description ?? excerpt ?? '';
 
-  const slug = frontMatter.slug || parsedBlogFileName.slug;
+  const slug = sanitizeURL(frontMatter.slug || parsedBlogFileName.slug);
 
   const permalink = normalizeUrl([baseUrl, routeBasePath, slug]);
 
