@@ -106,10 +106,9 @@ function SimpleLinks({links}: {links: SimpleFooter['links']}) {
   return (
     <div className="footer__links">
       {links.map((item, key) => (
-        <>
+        <React.Fragment key={key}>
           {item.html ? (
             <span
-              key={key}
               className="footer__link-item"
               // Developer provided the HTML, so assume it's safe.
               // eslint-disable-next-line react/no-danger
@@ -123,7 +122,7 @@ function SimpleLinks({links}: {links: SimpleFooter['links']}) {
           {links.length !== key + 1 && (
             <span className="footer__link-separator">·</span>
           )}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
