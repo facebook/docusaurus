@@ -8,8 +8,9 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import type {Props} from '@theme/Error';
 
-function ErrorDisplay({error, tryAgain}) {
+function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
   return (
     <div
       style={{
@@ -30,7 +31,7 @@ function ErrorDisplay({error, tryAgain}) {
   );
 }
 
-function Error({error, tryAgain}) {
+function Error({error, tryAgain}: Props): JSX.Element {
   // We wrap the error in its own error boundary because the layout can actually throw too...
   // Only the ErrorDisplay component is simple enough to be considered safe to never throw
   return (

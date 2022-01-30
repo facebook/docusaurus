@@ -27,7 +27,7 @@ export interface DocusaurusConfig {
   baseUrl: string;
   baseUrlIssueBanner: boolean;
   favicon?: string;
-  tagline?: string;
+  tagline: string;
   title: string;
   url: string;
   // trailingSlash undefined = legacy retrocompatible behavior => /file => /file/index.html

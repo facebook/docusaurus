@@ -7,7 +7,7 @@
     "tsBuildInfoFile": "./lib/client/.tsbuildinfo",
     "rootDir": "src/client",
     "outDir": "lib/client",
-    "jsx": "react"
+    "jsx": "react-native"
   },
   "include": ["src/client", "src/deps.d.ts"]
 }
