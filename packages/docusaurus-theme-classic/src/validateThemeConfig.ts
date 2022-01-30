@@ -46,6 +46,7 @@ const DEFAULT_CONFIG = {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
+  breadcrumbs: 'nested',
 };
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
@@ -384,6 +385,10 @@ const ThemeConfigSchema = Joi.object({
       .max(6)
       .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
   }).default(DEFAULT_CONFIG.tableOfContents),
+  breadcrumbs: Joi.alternatives(
+    Joi.bool(),
+    Joi.string().valid('nested'),
+  ).default(DEFAULT_CONFIG.breadcrumbs),
 });
 
 export {DEFAULT_CONFIG, ThemeConfigSchema};

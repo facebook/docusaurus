@@ -237,6 +237,10 @@ declare module '@theme/DocTagDocListPage' {
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocBreadcrumbs' {
+  export default function DocBreadcrumbs(): JSX.Element;
+}
+
 declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';

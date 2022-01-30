@@ -105,6 +105,8 @@ export type TableOfContents = {
   maxHeadingLevel: number;
 };
 
+export type Breadcrumbs = boolean | 'nested';
+
 // Theme config after validation/normalization
 export type ThemeConfig = {
   docs: {
@@ -127,6 +129,7 @@ export type ThemeConfig = {
   metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
+  breadcrumbs: Breadcrumbs;
 };
 
 // User-provided theme config, unnormalized

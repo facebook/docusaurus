@@ -43,6 +43,7 @@ export const ThemeClassNames = {
   docs: {
     docVersionBanner: 'theme-doc-version-banner',
     docVersionBadge: 'theme-doc-version-badge',
+    docBreadcrumbs: 'theme-doc-breadcrumbs',
     docMarkdown: 'theme-doc-markdown',
     docTocMobile: 'theme-doc-toc-mobile',
     docTocDesktop: 'theme-doc-toc-desktop',

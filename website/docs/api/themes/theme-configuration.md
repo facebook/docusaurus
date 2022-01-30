@@ -159,6 +159,31 @@ module.exports = {
 };
 ```
 
+### Breadcrumbs {#breadcrumbs}
+
+Breadcrumbs can be rendered on each document page, based on sidebar items.
+
+Accepted fields:
+
+<APITable>
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `breadcrumbs` | <code>boolean \| 'nested'</code> | `nested` | Use boolean value to strictly enable or disable all breadcrumbs, or use `'nested'` when you only want breadcrumbs visible in nested pages. |
+
+</APITable>
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // highlight-next-line
+    breadcrumbs: 'nested',
+  },
+};
+```
+
 ## Navbar {#navbar}
 
 Accepted fields:

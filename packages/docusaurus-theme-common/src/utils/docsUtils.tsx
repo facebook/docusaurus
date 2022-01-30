@@ -17,6 +17,11 @@ import type {
 import {isSamePath} from './pathUtils';
 import {useLocation} from '@docusaurus/router';
 
+type BreadcrumbItem = {
+  label: string;
+  href?: string;
+};
+
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
@@ -180,4 +185,33 @@ export function isActiveSidebarItem(
   }
 
   return false;
+}
+
+export function useDocsBreadcrumbs(): BreadcrumbItem[] {
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  const breadcrumbs: BreadcrumbItem[] = [];
+
+  function extract(items: PropSidebar) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of items) {
+      if (item.type === 'category' && extract(item.items)) {
+        breadcrumbs.push({label: item.label, href: item.href});
+        return true;
+      } else if (
+        item.href?.replace(/\/$/, '') === pathname.replace(/\/$/, '')
+      ) {
+        breadcrumbs.push({label: item.label, href: item.href});
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  if (sidebar) {
+    extract(sidebar);
+  }
+
+  return breadcrumbs.reverse();
 }
