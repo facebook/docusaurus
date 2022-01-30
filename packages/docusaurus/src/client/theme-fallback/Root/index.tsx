@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type {ReactNode} from 'react';
+
 // Wrapper at the very top of the app, that is applied constantly
 // and does not depend on current route (unlike the layout)
 //
@@ -12,7 +14,7 @@
 // and these providers won't reset state when we navigate
 //
 // See https://github.com/facebook/docusaurus/issues/3919
-function Root({children}) {
+function Root({children}: {children: ReactNode}): ReactNode {
   return children;
 }
 
