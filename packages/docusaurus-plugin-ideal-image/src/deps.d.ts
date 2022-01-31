@@ -13,7 +13,7 @@
  * full state object.
  */
 declare module '@endiliey/react-ideal-image' {
-  import type {ComponentType, CSSProperties, ComponentClass} from 'react';
+  import type {ComponentProps, ComponentType, CSSProperties} from 'react';
 
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
 
@@ -42,7 +42,7 @@ declare module '@endiliey/react-ideal-image' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps {
+  export interface ImageProps extends ComponentProps<'img'> {
     /**
      * This function decides what icon to show based on the current state of the
      * component.
@@ -52,7 +52,7 @@ declare module '@endiliey/react-ideal-image' {
      * This function decides what message to show based on the icon (returned
      * from `getIcon` prop) and the current state of the component.
      */
-    getMessage?: (icon: IconKey, state: State) => string;
+    getMessage?: (icon: IconKey, state: State) => string | null;
     /**
      * This function is called as soon as the component enters the viewport and
      * is used to generate urls based on width and format if `props.srcSet`
@@ -68,7 +68,7 @@ declare module '@endiliey/react-ideal-image' {
      * from material design, Implemented as React components with the SVG
      * element. You can customize icons
      */
-    icons: Partial<Record<IconKey, ComponentType>>;
+    icons?: Partial<Record<IconKey, ComponentType>>;
     /**
      * This prop takes one of the 2 options, xhr and image.
      * Read more about it:
@@ -114,8 +114,6 @@ declare module '@endiliey/react-ideal-image' {
     width: number;
   }
 
-  type IdealImageComponent = ComponentClass<ImageProps>;
-
-  declare const IdealImage: IdealImageComponent;
+  declare const IdealImage: (props: ImageProps) => JSX.Element;
   export default IdealImage;
 }
