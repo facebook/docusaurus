@@ -34,10 +34,10 @@ type NormalizedPluginConfig = {
   };
 };
 
-function normalizePluginConfig(
+async function normalizePluginConfig(
   pluginConfig: PluginConfig,
   pluginRequire: NodeRequire,
-): NormalizedPluginConfig {
+): Promise<NormalizedPluginConfig> {
   // plugins: ['./plugin']
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
@@ -182,7 +182,7 @@ export default async function initPlugins({
   async function initializePlugin(
     pluginConfig: PluginConfig,
   ): Promise<InitializedPlugin> {
-    const normalizedPluginConfig = normalizePluginConfig(
+    const normalizedPluginConfig = await normalizePluginConfig(
       pluginConfig,
       pluginRequire,
     );

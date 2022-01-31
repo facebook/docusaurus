@@ -78,7 +78,7 @@ export async function migrateDocusaurusProject(
   shouldMigrateMdFiles: boolean = false,
   shouldMigratePages: boolean = false,
 ): Promise<void> {
-  function createMigrationContext(): MigrationContext {
+  async function createMigrationContext(): Promise<MigrationContext> {
     const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
     const partialMigrationContext = {
@@ -95,7 +95,7 @@ export async function migrateDocusaurusProject(
     };
   }
 
-  const migrationContext = createMigrationContext();
+  const migrationContext = await createMigrationContext();
 
   // TODO need refactor legacy, we pass migrationContext to all methods
   const siteConfig = migrationContext.v1Config;
@@ -187,7 +187,7 @@ export async function migrateDocusaurusProject(
     errorCount += 1;
   }
   try {
-    migratePackageFile(siteDir, deps, newDir);
+    await migratePackageFile(siteDir, deps, newDir);
   } catch (e) {
     logger.error(
       `Error occurred while creating package.json file for project: ${e}`,
@@ -715,11 +715,11 @@ function migrateLatestDocs(
   }
 }
 
-function migratePackageFile(
+async function migratePackageFile(
   siteDir: string,
   deps: {[key: string]: string},
   newDir: string,
-): void {
+): Promise<void> {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
     scripts?: Record<string, string>;
     dependencies?: Record<string, string>;

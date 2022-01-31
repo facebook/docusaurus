@@ -80,7 +80,7 @@ export default async function writeTranslations(
     customConfigFilePath: options.config,
     locale: options.locale,
   });
-  const pluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs = await loadPluginConfigs(context);
   const plugins = await initPlugins({
     pluginConfigs,
     context,

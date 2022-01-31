@@ -20,7 +20,7 @@ import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 
-function createVersionedSidebarFile({
+async function createVersionedSidebarFile({
   siteDir,
   pluginId,
   sidebarPath,
@@ -34,7 +34,7 @@ function createVersionedSidebarFile({
   // Load current sidebar and create a new versioned sidebars file (if needed).
   // Note: we don't need the sidebars file to be normalized: it's ok to let
   // plugin option changes to impact older, versioned sidebars
-  const sidebars = loadSidebarsFile(sidebarPath);
+  const sidebars = await loadSidebarsFile(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty
   // or sidebars are disabled/false)
@@ -56,12 +56,12 @@ function createVersionedSidebarFile({
 }
 
 // Tests depend on non-default export for mocking.
-export function cliDocsVersionCommand(
+export async function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
   options: PathOptions & SidebarOptions,
-): void {
+): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
   const pluginIdLogPrefix =
@@ -127,7 +127,7 @@ export function cliDocsVersionCommand(
     throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
   }
 
-  createVersionedSidebarFile({
+  await createVersionedSidebarFile({
     siteDir,
     pluginId,
     version,

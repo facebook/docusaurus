@@ -28,8 +28,8 @@
 *.swp binary
 *.webp binary
 
-# Make GitHub not index certain files in the languages overview and minify their diff
+# Make GitHub not index certain files in the languages overview and/or minify their diff
 # See https://github.com/github/linguist/blob/master/docs/overrides.md
-__fixtures__ linguist-generated
-website linguist-documentation
-admin linguist-documentation
+__fixtures__/**  linguist-generated
+website/**       linguist-documentation
+admin/**         linguist-documentation
