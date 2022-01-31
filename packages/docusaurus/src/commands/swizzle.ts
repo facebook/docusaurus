@@ -147,7 +147,7 @@ export default async function swizzle(
   danger?: boolean,
 ): Promise<void> {
   const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs = await loadPluginConfigs(context);
   const pluginNames = getPluginNames(pluginConfigs);
   const plugins = await initPlugins({
     pluginConfigs,

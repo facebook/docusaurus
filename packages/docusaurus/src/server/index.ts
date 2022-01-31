@@ -129,8 +129,12 @@ export async function loadContext(
   };
 }
 
-export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+export async function loadPluginConfigs(
+  context: LoadContext,
+): Promise<PluginConfig[]> {
+  let {plugins: presetPlugins, themes: presetThemes} = await loadPresets(
+    context,
+  );
   const {siteConfig, siteConfigPath} = context;
   const require = createRequire(siteConfigPath);
   function normalizeShorthand(
@@ -298,7 +302,7 @@ export async function load(
     codeTranslations,
   } = context;
   // Plugins.
-  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
+  const pluginConfigs: PluginConfig[] = await loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
     await loadPlugins({pluginConfigs, context});
 
