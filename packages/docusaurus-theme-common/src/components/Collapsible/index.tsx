@@ -67,7 +67,8 @@ function applyCollapsedStyle(el: HTMLElement, collapsed: boolean) {
 }
 
 /*
-Lex111: Dynamic transition duration is used in Material design, this technique is good for a large number of items.
+Lex111: Dynamic transition duration is used in Material design, this technique
+is good for a large number of items.
 https://material.io/archive/guidelines/motion/duration-easing.html#duration-easing-dynamic-durations
 https://github.com/mui-org/material-ui/blob/e724d98eba018e55e1a684236a2037e24bcf050c/packages/material-ui/src/styles/createTransitions.js#L40-L43
  */
@@ -151,7 +152,8 @@ type CollapsibleElementType = React.ElementType<
   Pick<React.HTMLAttributes<unknown>, 'className' | 'onTransitionEnd' | 'style'>
 >;
 
-// Prevent hydration layout shift before animations are handled imperatively with JS
+// Prevent hydration layout shift before animations are handled imperatively
+// with JS
 function getSSRStyle(collapsed: boolean) {
   if (ExecutionEnvironment.canUseDOM) {
     return undefined;
@@ -167,8 +169,9 @@ type CollapsibleBaseProps = {
   onCollapseTransitionEnd?: (collapsed: boolean) => void;
   className?: string;
 
-  // This is mostly useful for details/summary component where ssrStyle is not needed (as details are hidden natively)
-  // and can mess-up with the default native behavior of the browser when JS fails to load or is disabled
+  // This is mostly useful for details/summary component where ssrStyle is not
+  // needed (as details are hidden natively) and can mess up with the default
+  // native behavior of the browser when JS fails to load or is disabled
   disableSSRStyle?: boolean;
 };
 
@@ -189,7 +192,8 @@ function CollapsibleBase({
 
   return (
     <As
-      // @ts-expect-error: the "too complicated type" is produced from "CollapsibleElementType" being a huge union
+      // @ts-expect-error: the "too complicated type" is produced from
+      // "CollapsibleElementType" being a huge union
       ref={collapsibleRef}
       style={disableSSRStyle ? undefined : getSSRStyle(collapsed)}
       onTransitionEnd={(e: React.TransitionEvent) => {
@@ -215,7 +219,7 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
     }
   }, [collapsed]);
 
-  // lazyCollapsed updated in effect so that the first expansion transition can work
+  // lazyCollapsed updated in effect so that first expansion transition can work
   const [lazyCollapsed, setLazyCollapsed] = useState(collapsed);
   useLayoutEffect(() => {
     if (mounted) {
@@ -229,9 +233,10 @@ function CollapsibleLazy({collapsed, ...props}: CollapsibleBaseProps) {
 }
 
 type CollapsibleProps = CollapsibleBaseProps & {
-  // Lazy allows to delay the rendering when collapsed => it will render children only after hydration, on first expansion
-  // Required prop: it forces to think if content should be server-rendered or not!
-  // This has perf impact on the SSR output and html file sizes
+  // Lazy allows to delay the rendering when collapsed => it will render
+  // children only after hydration, on first expansion
+  // Required prop: it forces to think if content should be server-rendered
+  // or not! This has perf impact on the SSR output and html file sizes
   // See https://github.com/facebook/docusaurus/issues/4753
   lazy: boolean;
 };

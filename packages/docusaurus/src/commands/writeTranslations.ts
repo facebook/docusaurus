@@ -23,10 +23,13 @@ import {
 } from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 
-// This is a hack, so that @docusaurus/theme-common translations are extracted!
-// A theme doesn't have a way to express that one of its dependency (like @docusaurus/theme-common) also has translations to extract
-// Instead of introducing a new lifecycle (like plugin.getThemeTranslationPaths() ?)
-// We just make an exception and assume that Docusaurus user is using an official theme
+/**
+ * This is a hack, so that @docusaurus/theme-common translations are extracted!
+ * A theme doesn't have a way to express that one of its dependency (like
+ * @docusaurus/theme-common) also has translations to extract.
+ * Instead of introducing a new lifecycle (like `getThemeTranslationPaths()`?)
+ * We just make an exception and assume that user is using an official theme
+ */
 async function getExtraSourceCodeFilePaths(): Promise<string[]> {
   try {
     const themeCommonSourceDir = path.dirname(

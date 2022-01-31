@@ -46,7 +46,7 @@ function getSWBabelLoader() {
   };
 }
 
-export default function (
+export default function pluginPWA(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {

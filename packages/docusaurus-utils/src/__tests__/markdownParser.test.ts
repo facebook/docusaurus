@@ -37,7 +37,8 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
+      // h1 title is skipped on purpose, because we don't want the page to have
+      // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -54,7 +55,8 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
+      // h1 title is skipped on purpose, because we don't want the page to have
+      // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });

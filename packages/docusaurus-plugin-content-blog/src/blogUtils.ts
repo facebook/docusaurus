@@ -82,11 +82,10 @@ export function parseBlogFileName(
     const slugDate = dateString.replace(/-/g, '/');
     const slug = `/${slugDate}/${folder}${text}`;
     return {date, text, slug};
-  } else {
-    const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
-    const slug = `/${text}`;
-    return {date: undefined, text, slug};
   }
+  const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
+  const slug = `/${text}`;
+  return {date: undefined, text, slug};
 }
 
 function formatBlogPostDate(locale: string, date: Date): string {

@@ -16,7 +16,8 @@ export function normalizeUrl(rawUrls: string[]): string {
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
     const first = urls.shift();
     if (first!.startsWith('file:') && urls[0].startsWith('/')) {
-      // Force a double slash here, else we lose the information that the next segment is an absolute path
+      // Force a double slash here, else we lose the information that the next
+      // segment is an absolute path
       urls[0] = `${first}//${urls[0]}`;
     } else {
       urls[0] = first + urls[0];
@@ -48,14 +49,15 @@ export function normalizeUrl(rawUrls: string[]): string {
         // Removing the starting slashes for each component but the first.
         component = component.replace(
           /^[/]+/,
-          // Special case where the first element of rawUrls is empty ["", "/hello"] => /hello
+          // Special case where the first element of rawUrls is empty
+          // ["", "/hello"] => /hello
           component[0] === '/' && !hasStartingSlash ? '/' : '',
         );
       }
 
       hasEndingSlash = component[component.length - 1] === '/';
-      // Removing the ending slashes for each component but the last.
-      // For the last component we will combine multiple slashes to a single one.
+      // Removing the ending slashes for each component but the last. For the
+      // last component we will combine multiple slashes to a single one.
       component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
     }
 

@@ -41,7 +41,10 @@ function ComponentCreator(
       content.foo: () => import('./doc1.md'),
     }
   - optsModules: ['./Pages.js', './doc1.md']
-  - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
+  - optsWebpack: [
+      require.resolveWeak('./Pages.js'),
+      require.resolveWeak('./doc1.md'),
+    ]
   */
   const flatChunkNames = flat(chunkNames);
   Object.keys(flatChunkNames).forEach((key) => {

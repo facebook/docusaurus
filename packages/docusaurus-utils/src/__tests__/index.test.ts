@@ -75,7 +75,8 @@ describe('load utils', () => {
       genChunkName('path/is/similar', 'newPrefix'),
     );
 
-    // Even with same preferred name, still different chunk name for different path
+    // Even with same preferred name, still different chunk name for
+    // different path
     const secondAssert: Record<string, string> = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',

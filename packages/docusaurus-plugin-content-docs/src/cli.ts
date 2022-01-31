@@ -32,10 +32,12 @@ function createVersionedSidebarFile({
   version: string;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  // Note: we don't need the sidebars file to be normalized: it's ok to let plugin option changes to impact older, versioned sidebars
+  // Note: we don't need the sidebars file to be normalized: it's ok to let
+  // plugin option changes to impact older, versioned sidebars
   const sidebars = loadSidebarsFile(sidebarPath);
 
-  // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
+  // Do not create a useless versioned sidebars file if sidebars file is empty
+  // or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {

@@ -168,10 +168,13 @@ describe('normalizeConfig', () => {
         ['this/should/work', {too: 'yes'}],
       ],
     ],
-    ['should accept function for plugin', [function (_context, _options) {}]],
+    [
+      'should accept function for plugin',
+      [function plugin(_context, _options) {}],
+    ],
     [
       'should accept [function, object] for plugin',
-      [[function (_context, _options) {}, {it: 'should work'}]],
+      [[(_context, _options) => {}, {it: 'should work'}]],
     ],
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
@@ -206,10 +209,13 @@ describe('normalizeConfig', () => {
         ['this/should/work', {too: 'yes'}],
       ],
     ],
-    ['should accept function for theme', [function (_context, _options) {}]],
+    [
+      'should accept function for theme',
+      [function theme(_context, _options) {}],
+    ],
     [
       'should accept [function, object] for theme',
-      [[function (_context, _options) {}, {it: 'should work'}]],
+      [[function theme(_context, _options) {}, {it: 'should work'}]],
     ],
   ])(`%s for the input of: %p`, (_message, themes) => {
     expect(() => {

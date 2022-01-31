@@ -61,7 +61,8 @@ function sanitizedFileContent(
   return sanitizedData;
 }
 
-// TODO refactor this new type should be used everywhere instead  of passing many params to each method
+// TODO refactor this new type should be used everywhere instead of passing many
+// params to each method
 type MigrationContext = {
   siteDir: string;
   newDir: string;

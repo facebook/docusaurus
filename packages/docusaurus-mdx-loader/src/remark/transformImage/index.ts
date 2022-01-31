@@ -116,14 +116,10 @@ async function getImageAbsolutePath(
     }
     return imageFilePath;
   }
-  // We try to convert image urls without protocol to images with require calls
-  // going through webpack ensures that image assets exist at build time
-  else {
-    // relative paths are resolved against the source file's folder
-    const imageFilePath = path.join(path.dirname(filePath), imagePath);
-    await ensureImageFileExist(imageFilePath, filePath);
-    return imageFilePath;
-  }
+  // relative paths are resolved against the source file's folder
+  const imageFilePath = path.join(path.dirname(filePath), imagePath);
+  await ensureImageFileExist(imageFilePath, filePath);
+  return imageFilePath;
 }
 
 async function processImageNode(node: Image, context: Context) {
@@ -137,16 +133,16 @@ async function processImageNode(node: Image, context: Context) {
 
   const parsedUrl = url.parse(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
-    // pathname:// is an escape hatch,
-    // in case user does not want his images to be converted to require calls going through webpack loader
-    // we don't have to document this for now,
-    // it's mostly to make next release less risky (2.0.0-alpha.59)
+    // pathname:// is an escape hatch, in case user does not want her images to
+    // be converted to require calls going through webpack loader
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;
   }
 
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
   const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
   await toImageRequireNode(node, imagePath, context.filePath);
 }

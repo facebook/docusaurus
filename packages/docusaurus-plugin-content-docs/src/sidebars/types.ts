@@ -205,7 +205,8 @@ export type SidebarItemsGenerator = (
 Promise<SidebarItem[]>;
 // Promise<SidebarItemConfig[]>;
 
-// Also inject the default generator to conveniently wrap/enhance/sort the default sidebar gen logic
+// Also inject the default generator to conveniently wrap/enhance/sort the
+// default sidebar gen logic
 // see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320
 export type SidebarItemsGeneratorOptionArgs = {
   defaultSidebarItemsGenerator: SidebarItemsGenerator;

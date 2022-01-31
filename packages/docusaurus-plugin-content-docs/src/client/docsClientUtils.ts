@@ -28,7 +28,7 @@ export function getActivePlugin(
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined {
   const activeEntry = Object.entries(allPluginDatas)
-    // A quick route sorting: '/android/foo' should match '/android' instead of '/'
+    // Route sorting: '/android/foo' should match '/android' instead of '/'
     .sort((a, b) => b[1].path.localeCompare(a[1].path))
     .find(
       ([, pluginData]) =>
@@ -67,7 +67,7 @@ export const getActiveVersion = (
 ): GlobalVersion | undefined => {
   const lastVersion = getLatestVersion(data);
   // Last version is a route like /docs/*,
-  // we need to try to match it last or it would match /docs/version-1.0/* as well
+  // we need to match it last or it would match /docs/version-1.0/* as well
   const orderedVersionsMetadata = [
     ...data.versions.filter((version) => version !== lastVersion),
     lastVersion,

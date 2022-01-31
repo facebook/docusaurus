@@ -19,8 +19,8 @@ export default function loadPresets(context: LoadContext): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  // We need to resolve presets from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these presets.
+  // We need to resolve presets from the perspective of the siteDir, since the
+  // siteDir's package.json declares the dependency on these presets.
   const presetRequire = createRequire(context.siteConfigPath);
 
   const presets: PresetConfig[] = context.siteConfig.presets || [];
@@ -28,7 +28,7 @@ export default function loadPresets(context: LoadContext): {
   const unflatThemes: PluginConfig[][] = [];
 
   presets.forEach((presetItem) => {
-    let presetModuleImport;
+    let presetModuleImport: string;
     let presetOptions = {};
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;

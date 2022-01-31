@@ -20,7 +20,7 @@ import {useLocation} from '@docusaurus/router';
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid context value (a doc can have no sidebar)
+// Using a Symbol because null is a valid context value (a doc with no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
@@ -101,11 +101,10 @@ export function findSidebarCategory(
     if (item.type === 'category') {
       if (predicate(item)) {
         return item;
-      } else {
-        const subItem = findSidebarCategory(item.items, predicate);
-        if (subItem) {
-          return subItem;
-        }
+      }
+      const subItem = findSidebarCategory(item.items, predicate);
+      if (subItem) {
+        return subItem;
       }
     }
   }

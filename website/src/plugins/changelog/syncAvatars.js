@@ -14,12 +14,14 @@ const fs = require('fs-extra');
 
 // TODO not sure how the syncing should be done at all... for now it always
 // pretends the limit is reached. We should only fetch a portion of the avatars
-// at a time. But seems avatars.githubusercontent.com API doesn't like HTTP requests?
+// at a time. But seems avatars.githubusercontent.com API doesn't like HTTP
+// requests?
 /**
  * @param {string} username
  * @param {Record<string, number>} lastUpdateCache
  * @param {Record<string, {imageURL: string; url: string}>} authorsMap
- * @returns true if saved successfully (including not found); false if limited reached
+ * @returns true if saved successfully (including not found); false if limit
+ * reached
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function fetchImage(username, lastUpdateCache, authorsMap) {

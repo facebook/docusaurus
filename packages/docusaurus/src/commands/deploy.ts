@@ -148,8 +148,8 @@ This behavior can have SEO impacts and create relative link issues.
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
-  // Organization deploys looks like:
+  // github.io indicates organization repos that deploy via default branch.
+  // All others use gh-pages. Organization deploys looks like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
   const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
@@ -269,7 +269,7 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   };
 
   if (!cliOptions.skipBuild) {
-    // Build static html files, then push to deploymentBranch branch of specified repo.
+    // Build site, then push to deploymentBranch branch of specified repo.
     try {
       await runDeploy(await build(siteDir, cliOptions, false));
     } catch (buildError) {

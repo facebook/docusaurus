@@ -105,9 +105,8 @@ function getOptionValidationFunction(
       normalizedPluginConfig.pluginModule.module?.default?.validateOptions ??
       normalizedPluginConfig.pluginModule.module?.validateOptions
     );
-  } else {
-    return normalizedPluginConfig.plugin.validateOptions;
   }
+  return normalizedPluginConfig.plugin.validateOptions;
 }
 
 function getThemeValidationFunction(
@@ -119,9 +118,8 @@ function getThemeValidationFunction(
       normalizedPluginConfig.pluginModule.module.default?.validateThemeConfig ??
       normalizedPluginConfig.pluginModule.module.validateThemeConfig
     );
-  } else {
-    return normalizedPluginConfig.plugin.validateThemeConfig;
   }
+  return normalizedPluginConfig.plugin.validateThemeConfig;
 }
 
 export default async function initPlugins({
@@ -131,8 +129,8 @@ export default async function initPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<InitializedPlugin[]> {
-  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these plugins.
+  // We need to resolve plugins from the perspective of the siteDir, since the
+  // siteDir's package.json declares the dependency on these plugins.
   const pluginRequire = createRequire(context.siteConfigPath);
 
   function doGetPluginVersion(
@@ -144,9 +142,8 @@ export default async function initPlugins({
         normalizedPluginConfig.pluginModule?.path,
       );
       return getPluginVersion(pluginPath, context.siteDir);
-    } else {
-      return {type: 'local'};
     }
+    return {type: 'local'};
   }
 
   function doValidateThemeConfig(
@@ -160,9 +157,8 @@ export default async function initPlugins({
         validate: normalizeThemeConfig,
         themeConfig: context.siteConfig.themeConfig,
       });
-    } else {
-      return context.siteConfig.themeConfig;
     }
+    return context.siteConfig.themeConfig;
   }
 
   function doValidatePluginOptions(
@@ -174,14 +170,13 @@ export default async function initPlugins({
         validate: normalizePluginOptions,
         options: normalizedPluginConfig.options,
       });
-    } else {
-      // Important to ensure all plugins have an id
-      // as we don't go through the Joi schema that adds it
-      return {
-        ...normalizedPluginConfig.options,
-        id: normalizedPluginConfig.options.id ?? DEFAULT_PLUGIN_ID,
-      };
     }
+    // Important to ensure all plugins have an id
+    // as we don't go through the Joi schema that adds it
+    return {
+      ...normalizedPluginConfig.options,
+      id: normalizedPluginConfig.options.id ?? DEFAULT_PLUGIN_ID,
+    };
   }
 
   async function initializePlugin(

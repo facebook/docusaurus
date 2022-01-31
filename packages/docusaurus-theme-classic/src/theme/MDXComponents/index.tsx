@@ -19,8 +19,8 @@ import type {MDXComponentsObject} from '@theme/MDXComponents';
 
 import './styles.css';
 
-// MDX elements are wrapped through the MDX pragma
-// In some cases (notably usage with Head/Helmet) we need to unwrap those elements.
+// MDX elements are wrapped through the MDX pragma. In some cases (notably usage
+// with Head/Helmet) we need to unwrap those elements.
 function unwrapMDXElement(element: ReactElement) {
   if (element?.props?.mdxType && element?.props?.originalType) {
     const {mdxType, originalType, ...newProps} = element.props;
@@ -55,7 +55,8 @@ const MDXComponents: MDXComponentsObject = {
   ),
   details: (props): JSX.Element => {
     const items = React.Children.toArray(props.children) as ReactElement[];
-    // Split summary item from the rest to pass it as a separate prop to the Details theme component
+    // Split summary item from the rest to pass it as a separate prop to the
+    // Details theme component
     const summary: ReactElement<ComponentProps<'summary'>> = items.find(
       (item) => item?.props?.mdxType === 'summary',
     )!;

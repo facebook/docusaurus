@@ -23,7 +23,8 @@ import {isCategoriesShorthand} from './utils';
 import type {CategoryMetadataFile} from './generator';
 
 // NOTE: we don't add any default values during validation on purpose!
-// Config types are exposed to users for typechecking and we use the same type in normalization
+// Config types are exposed to users for typechecking and we use the same type
+// in normalization
 
 const sidebarItemBaseSchema = Joi.object<SidebarItemBase>({
   className: Joi.string(),
@@ -71,7 +72,8 @@ const sidebarItemCategoryLinkSchema = Joi.object<SidebarItemCategoryLink>()
         then: Joi.object<SidebarItemCategoryLinkGeneratedIndex>({
           type: 'generated-index',
           slug: Joi.string().optional(),
-          // permalink: Joi.string().optional(), // No, this one is not in the user config, only in the normalized version
+          // This one is not in the user config, only in the normalized version
+          // permalink: Joi.string().optional(),
           title: Joi.string().optional(),
           description: Joi.string().optional(),
           image: Joi.string().optional(),
@@ -132,7 +134,8 @@ function validateSidebarItem(item: unknown): asserts item is SidebarItemConfig {
     return;
   }
   // TODO: remove once with proper Joi support
-  // Because we can't use Joi to validate nested items (see above), we do it manually
+  // Because we can't use Joi to validate nested items (see above), we do it
+  // manually
   if (isCategoriesShorthand(item as SidebarItemConfig)) {
     Object.values(item as SidebarCategoriesShorthand).forEach((category) =>
       category.forEach(validateSidebarItem),

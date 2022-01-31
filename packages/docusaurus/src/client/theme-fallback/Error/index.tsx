@@ -32,11 +32,13 @@ function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
 }
 
 function Error({error, tryAgain}: Props): JSX.Element {
-  // We wrap the error in its own error boundary because the layout can actually throw too...
-  // Only the ErrorDisplay component is simple enough to be considered safe to never throw
+  // We wrap the error in its own error boundary because the layout can actually
+  // throw too... Only the ErrorDisplay component is simple enough to be
+  // considered safe to never throw
   return (
     <ErrorBoundary
-      // Note: we display the original error here, not the error that we captured in this extra error boundary
+      // Note: we display the original error here, not the error that we
+      // captured in this extra error boundary
       fallback={() => <ErrorDisplay error={error} tryAgain={tryAgain} />}>
       <Layout title="Page Error">
         <ErrorDisplay error={error} tryAgain={tryAgain} />
