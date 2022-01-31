@@ -54,7 +54,7 @@ export default async function render(
 ${(e as Error).stack!}`;
 
     const isNotDefinedErrorRegex =
-      /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+      /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test((e as Error).message)) {
       logger.info`It looks like you are using code that should run on the client-side only.

@@ -60,7 +60,7 @@ function processSection(section) {
     });
   }
   let hour = 20;
-  const date = title.match(/ \((.*)\)/)[1];
+  const date = title.match(/ \((?<date>.*)\)/)?.groups.date;
   while (publishTimes.has(`${date}T${hour}:00`)) {
     hour -= 1;
   }

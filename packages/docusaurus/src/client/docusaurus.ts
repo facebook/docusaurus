@@ -37,7 +37,7 @@ const canPreload = (routePath: string) =>
 // Remove the last part containing the route hash
 // input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
 // output: /blog/2018/12/14/Happy-First-Birthday-Slash
-const removeRouteNameHash = (str: string) => str.replace(/(-[^-]+)$/, '');
+const removeRouteNameHash = (str: string) => str.replace(/-[^-]+$/, '');
 
 const getChunkNamesToLoad = (path: string): string[] =>
   Object.entries(routesChunkNames)

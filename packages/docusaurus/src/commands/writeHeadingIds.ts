@@ -23,7 +23,7 @@ type Options = {
 };
 
 function unwrapMarkdownLinks(line: string): string {
-  return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
+  return line.replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
 function addHeadingId(

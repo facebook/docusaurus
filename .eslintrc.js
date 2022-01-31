@@ -100,6 +100,7 @@ module.exports = {
     'no-restricted-syntax': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
     'prefer-destructuring': WARNING,
+    'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,
     yoda: WARNING,
 

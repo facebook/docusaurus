@@ -39,7 +39,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     /node_modules/.test(modulePath) &&
-    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath) &&
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
     !LibrariesToTranspileRegex.test(modulePath)
   );
 }
@@ -220,7 +220,7 @@ export function createBaseConfig(
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
-          test: /\.(j|t)sx?$/,
+          test: /\.[jt]sx?$/,
           exclude: excludeJS,
           use: [
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({

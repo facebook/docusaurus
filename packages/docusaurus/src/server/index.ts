@@ -260,7 +260,7 @@ function createMDXFallbackPlugin({
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/,
               exclude: getMDXFallbackExcludedPaths(),
               use: [
                 getJSLoader({isServer}),

@@ -57,7 +57,7 @@ export default function pluginIdealImage(
         module: {
           rules: [
             {
-              test: /\.(png|jpe?g|gif)$/i,
+              test: /\.(?:png|jpe?g|gif)$/i,
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
