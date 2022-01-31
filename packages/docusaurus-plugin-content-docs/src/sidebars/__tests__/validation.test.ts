@@ -47,6 +47,42 @@ describe('validateSidebars', () => {
   });
 });
 
+describe('html item type', () => {
+  test('requires a value', () => {
+    const sidebars: SidebarsConfig = {
+      sidebar1: [
+        {
+          // @ts-expect-error - test missing value
+          type: 'html',
+        },
+      ],
+    };
+    expect(() => validateSidebars(sidebars))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"html\\",
+        [41m\\"value\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"value\\" is required[0m"
+    `);
+  });
+
+  test('accepts valid values', () => {
+    const sidebars: SidebarsConfig = {
+      sidebar1: [
+        {
+          type: 'html',
+          value: '<p>Hello, World!</p>',
+          defaultStyle: true,
+          className: 'foo',
+        },
+      ],
+    };
+    validateSidebars(sidebars);
+  });
+});
+
 describe('validateCategoryMetadataFile', () => {
   // TODO add more tests
 
