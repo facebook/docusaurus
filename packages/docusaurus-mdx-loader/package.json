@@ -29,7 +29,7 @@
     "image-size": "^1.0.1",
     "mdast-util-to-string": "^2.0.0",
     "remark-emoji": "^2.1.0",
-    "stringify-object": "^3.3.0",
+    "stringify-object": "^4.0.0",
     "tslib": "^2.3.1",
     "unist-util-visit": "^2.0.2",
     "url-loader": "^4.1.1",
