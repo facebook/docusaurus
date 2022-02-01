@@ -16,6 +16,7 @@ import {
   ThemeClassNames,
   useThemeConfig,
   useDocSidebarItemsExpandedState,
+  isSamePath,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -105,6 +106,7 @@ function DocSidebarItemCategory({
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
+  const isCurrentPage = isSamePath(href, activePath);
 
   const {collapsed, setCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
@@ -152,7 +154,10 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <div className="menu__list-item-collapsible">
+      <div
+        className={clsx('menu__list-item-collapsible', {
+          'menu__list-item-collapsible--active': isCurrentPage,
+        })}>
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
@@ -175,7 +180,7 @@ function DocSidebarItemCategory({
                   onItemClick?.(item);
                 }
           }
-          aria-current={isActive ? 'page' : undefined}
+          aria-current={isCurrentPage ? 'page' : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
