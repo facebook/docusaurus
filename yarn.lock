@@ -1315,9 +1315,9 @@
     shelljs "^0.8.4"
 
 "@crowdin/crowdin-api-client@^1.10.6":
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/@crowdin/crowdin-api-client/-/crowdin-api-client-1.12.4.tgz#fab42035b95dcb06ac27b1afb1f25eb5fe8b191b"
-  integrity sha512-h6SuaPd6z72Sx4cr5yeZEXw3wLGnoVN0F5gzwzgdMH373ATr5o/sSvteWLPJPBVaY1O2ebxOvbPgV0+zZEArzg==
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/crowdin-api-client/-/crowdin-api-client-1.13.0.tgz#813d6f75d0fd39b291bb41dbc3e405c2baeb5774"
+  integrity sha512-roNORo2V4r4NAGr/rehJG09+KIeuqbz6G2dlilYohB7s+wxggJFmQsMmeFjq2q5EL8g1EjZPbW3/+l6SOd9fyA==
   dependencies:
     axios "0.21.3"
 
