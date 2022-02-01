@@ -45,7 +45,7 @@
     "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
-    "unist-util-remove-position": "^3.0.0"
+    "unist-util-remove-position": "^4.0.1"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0",
