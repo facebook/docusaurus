@@ -69,8 +69,8 @@ export async function generate(
   }
 }
 
-const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
+const indexRE = /(?<dirname>^|.*\/)index\.(?:mdx?|jsx?|tsx?)$/i;
+const extRE = /\.(?:mdx?|jsx?|tsx?)$/;
 
 /**
  * Convert filepath to url path.

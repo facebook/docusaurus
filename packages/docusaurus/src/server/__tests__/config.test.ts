@@ -85,7 +85,7 @@ describe('loadConfig', () => {
       'docusaurus.config.js',
     );
     await expect(loadConfig(siteDir)).rejects.toThrowError(
-      /Config file at "(.*?)__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
+      /Config file at ".*?__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
     );
   });
 });

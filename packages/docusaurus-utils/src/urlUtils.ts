@@ -27,7 +27,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   // There must be two or three slashes in the file protocol,
   // two slashes in anything else.
   const replacement = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
-  urls[0] = urls[0].replace(/^([^/:]+):\/*/, replacement);
+  urls[0] = urls[0].replace(/^(?<protocol>[^/:]+):\/*/, replacement);
 
   for (let i = 0; i < urls.length; i += 1) {
     let component = urls[i];
@@ -70,14 +70,14 @@ export function normalizeUrl(rawUrls: string[]): string {
   // except the possible first plain protocol part.
 
   // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(\?|&|#[^!])/g, '$1');
+  str = str.replace(/\/(?<search>\?|&|#[^!])/g, '$1');
 
   // Replace ? in parameters with &.
   const parts = str.split('?');
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
   // Dedupe forward slashes in the entire path, avoiding protocol slashes.
-  str = str.replace(/([^:/]\/)\/+/g, '$1');
+  str = str.replace(/(?<textBefore>[^:/]\/)\/+/g, '$1');
 
   // Dedupe forward slashes at the beginning of the path.
   str = str.replace(/^\/+/g, '/');

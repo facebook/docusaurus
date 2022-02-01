@@ -10,7 +10,7 @@ import logger from '@docusaurus/logger';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
+const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(?<timestamp>\d+),(?<author>.+)$/;
 
 let showedGitRequirementError = false;
 
@@ -25,10 +25,10 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX);
-    return !temp || temp.length < 3
-      ? null
-      : {timestamp: +temp[1], author: temp[2]};
+    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX)?.groups;
+    return temp
+      ? {timestamp: Number(temp.timestamp), author: temp.author}
+      : null;
   }
 
   // Wrap in try/catch in case the shell commands fail

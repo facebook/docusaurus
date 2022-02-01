@@ -174,7 +174,7 @@ export default function pluginPWA(
           rules: [
             {
               test: swSourceFileTest,
-              exclude: /(node_modules)/,
+              exclude: /node_modules/,
               use: getSWBabelLoader(),
             },
           ],

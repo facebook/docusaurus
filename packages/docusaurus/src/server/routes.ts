@@ -28,7 +28,7 @@ type RegistryMap = {
 
 function indent(str: string) {
   const spaces = '  ';
-  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
+  return `${spaces}${str.replace(/\n/g, `\n${spaces}`)}`;
 }
 
 const createRouteCodeString = ({

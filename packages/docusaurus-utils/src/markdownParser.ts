@@ -14,12 +14,12 @@ export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {
-  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const customHeadingIdRegex = /^(?<text>.*?)\s*\{#(?<id>[\w-]+)\}$/;
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {
-      text: matches[1],
-      id: matches[2],
+      text: matches.groups!.text,
+      id: matches.groups!.id,
     };
   }
   return {text: heading, id: undefined};
@@ -46,7 +46,7 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     // Skip import/export declaration.
-    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
+    if (/^(?:import|export)\s.*/.test(fileLine)) {
       continue;
     }
 
@@ -71,25 +71,27 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^#\s*([^#]*)\s*#?/gm, '')
+      .replace(/^#\s*[^#]*\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
-      // Remove emphasis and strikethroughs.
-      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*(?:#{1,6})?/gm, '$1')
+      // Remove emphasis.
+      .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
+      // Remove strikethroughs.
+      .replace(/~~(?<text>\S.*\S)~~/g, '$1')
       // Remove images.
-      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
+      .replace(/!\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](: .*?$)?/g, '')
+      .replace(/\[\^.+?\](?:: .*?$)?/g, '')
       // Remove inline links.
-      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
+      .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
-      .replace(/`(.+?)`/g, '$1')
+      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
-      .replace(/(:{3}.*)/, '')
+      .replace(/:::.*/, '')
       // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?(:(::|[^:\n])+:)/g, '')
+      .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
       .replace(/{#*[\w-]+}/, '')
       .trim();
@@ -134,9 +136,9 @@ export function parseMarkdownContentTitle(
   const content = contentUntrimmed.trim();
 
   const IMPORT_STATEMENT =
-    /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/.source;
+    /import\s+(?:[\w*{}\s\n,]+from\s+)?["'\s][@\w/_.-]+["'\s];?|\n/.source;
   const REGULAR_TITLE =
-    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
+    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>(?:{#*[\w-]+})|#)?\n*?)/
       .source;
   const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
 

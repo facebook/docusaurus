@@ -50,8 +50,8 @@ export function getPluginNames(plugins: PluginConfig[]): string[] {
 
 const formatComponentName = (componentName: string): string =>
   componentName
-    .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
-    .replace(/\.(js|tsx|ts|jsx)/, '');
+    .replace(/[\\/]index\.(?:jsx?|tsx?)/, '')
+    .replace(/\.(?:jsx?|tsx?)/, '');
 
 function readComponent(themePath: string) {
   function walk(dir: string): Array<string> {
