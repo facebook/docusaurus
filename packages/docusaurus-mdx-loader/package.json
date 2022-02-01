@@ -44,7 +44,7 @@
     "remark": "^12.0.0",
     "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0",
-    "unist-builder": "^2.0.3",
+    "unist-builder": "^3.0.0",
     "unist-util-remove-position": "^3.0.0"
   },
   "peerDependencies": {
