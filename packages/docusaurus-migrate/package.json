@@ -35,7 +35,7 @@
     "import-fresh": "^3.2.2",
     "jscodeshift": "^0.13.0",
     "rehype-parse": "^7.0.1",
-    "remark-parse": "^8.0.2",
+    "remark-parse": "^10.0.1",
     "remark-stringify": "^8.1.0",
     "semver": "^7.3.4",
     "tslib": "^2.3.1",
