@@ -19,8 +19,8 @@ import {
 import {loadPluginsThemeAliases} from '../server/themes';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
-const CSS_REGEX = /\.css$/;
-const CSS_MODULE_REGEX = /\.module\.css$/;
+const CSS_REGEX = /\.css$/i;
+const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 const LibrariesToTranspile = [
@@ -220,7 +220,7 @@ export function createBaseConfig(
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
-          test: /\.[jt]sx?$/,
+          test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({

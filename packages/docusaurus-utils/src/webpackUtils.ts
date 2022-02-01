@@ -97,7 +97,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
     }),
 
     svg: () => ({
-      test: /\.svg$/,
+      test: /\.svg$/i,
       oneOf: [
         {
           use: [
@@ -126,7 +126,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
           // We don't want to use SVGR loader for non-React source code
           // ie we don't want to use SVGR for CSS files...
           issuer: {
-            and: [/\.(?:tsx?|jsx?|mdx?)$/],
+            and: [/\.(?:tsx?|jsx?|mdx?)$/i],
           },
         },
         {
@@ -137,7 +137,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
     otherAssets: () => ({
       use: [loaders.file({folder: 'files'})],
-      test: /\.(?:pdf|docx?|xlsx?|zip|rar)$/,
+      test: /\.(?:pdf|docx?|xlsx?|zip|rar)$/i,
     }),
   };
 

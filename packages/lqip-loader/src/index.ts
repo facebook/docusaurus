@@ -28,27 +28,25 @@ async function lqipLoader(
   config.palette = 'palette' in config ? config.palette : false;
 
   let content = contentBuffer.toString('utf8');
-  const contentIsUrlExport =
-    /^(?:export default|module.exports =) "data:.*base64,.*/.test(content);
-  const contentIsFileExport = /^(?:export default|module.exports =) .*/.test(
-    content,
-  );
+  const urlExportMatch =
+    /^(?:export default|module.exports =) "data:.*base64,(?<source>.*)/.exec(
+      content,
+    );
+  const fileExportMatch =
+    /^(?:export default|module.exports =) (?<source>.*)/.exec(content);
 
   let source = '';
 
-  if (contentIsUrlExport) {
-    source = content.match(
-      /^(?:export default|module.exports =) (?<source>.*)/,
-    )!.groups!.source;
+  if (urlExportMatch) {
+    source = urlExportMatch.groups!.source;
   } else {
-    if (!contentIsFileExport) {
+    if (!fileExportMatch) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
       const fileLoader = require('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
-    source = content.match(
-      /^(?:export default|module.exports =) (?<source>.*);/,
-    )!.groups!.source;
+    source = /^(?:export default|module.exports =) (?<source>.*)/.exec(content)!
+      .groups!.source;
   }
 
   const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [
