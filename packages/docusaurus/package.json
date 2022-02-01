@@ -75,7 +75,7 @@
     "is-root": "^2.1.0",
     "leven": "^3.1.0",
     "lodash": "^4.17.20",
-    "mini-css-extract-plugin": "^1.6.0",
+    "mini-css-extract-plugin": "^2.5.3",
     "nprogress": "^0.2.0",
     "postcss": "^8.3.7",
     "postcss-loader": "^6.1.1",
