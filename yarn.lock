@@ -3680,9 +3680,9 @@
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
 "@types/color@^3.0.1":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/color/-/color-3.0.2.tgz#3779043e782f562aa9157b5fc6bd07e14fd8e7f3"
-  integrity sha512-INiJl6sfNn8iyC5paxVzqiVUEj2boIlFki02uRTAkKwAj++7aAF+ZfEv/XrIeBa0XI/fTZuDHW8rEEcEVnON+Q==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/color/-/color-3.0.3.tgz#e6d8d72b7aaef4bb9fe80847c26c7c786191016d"
+  integrity sha512-X//qzJ3d3Zj82J9sC/C18ZY5f43utPbAJ6PhYt/M7uG6etcF6MRpKdN880KBy43B0BMzSfeT96MzrsNjFI3GbA==
   dependencies:
     "@types/color-convert" "*"
 
