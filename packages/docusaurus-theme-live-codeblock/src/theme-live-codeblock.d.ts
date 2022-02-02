@@ -30,13 +30,3 @@ declare module '@theme/ReactLiveScope' {
   const ReactLiveScope: Scope;
   export default ReactLiveScope;
 }
-
-declare module '@theme-init/CodeBlock' {
-  import type CodeBlock, {Props as BaseProps} from '@theme/CodeBlock';
-
-  export interface Props extends BaseProps {
-    live?: boolean;
-  }
-  const CodeBlockComp: typeof CodeBlock;
-  export default CodeBlockComp;
-}
