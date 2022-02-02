@@ -28,6 +28,7 @@
     "yarn.lock",
     "project-words.txt",
     "website/src/data/users.tsx",
+    "website/src/data/tweets/index.tsx",
     "*.xyz",
     "*.docx",
     "versioned_docs",

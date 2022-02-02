@@ -16,6 +16,9 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
+import Tweet from '@site/src/components/Tweet';
+import Tweets, {TweetItem} from '@site/src/data/tweets';
+
 import clsx from 'clsx';
 
 import styles from './styles.module.css';
@@ -79,6 +82,32 @@ const QUOTES = [
     ),
   },
 ];
+
+function TweetsSection() {
+  const tweetColumns: Array<Array<TweetItem>> = [[], [], []];
+  Tweets.filter((tweet) => tweet.showOnHomepage).forEach((tweet, i) =>
+    tweetColumns[i % 3].push(tweet),
+  );
+
+  return (
+    <div className={clsx(styles.section, styles.sectionAlt)}>
+      <div className="container">
+        <h2 className={clsx('margin-bottom--lg', 'text--center')}>
+          Loved by many engineers
+        </h2>
+        <div className={clsx('row', styles.tweetsSection)}>
+          {tweetColumns.map((tweetItems, i) => (
+            <div className="col col--4" key={i}>
+              {tweetItems.map((tweet) => (
+                <Tweet {...tweet} key={tweet.url} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Home(): JSX.Element {
   const {
@@ -257,7 +286,8 @@ function Home(): JSX.Element {
             </div>
           </div>
         </div>
-        <div className={clsx(styles.section, styles.sectionAlt)}>
+        <TweetsSection />
+        <div className={clsx(styles.section)}>
           <div className="container">
             <div className="row">
               {QUOTES.map((quote) => (
