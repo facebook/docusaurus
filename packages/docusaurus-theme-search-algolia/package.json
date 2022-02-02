@@ -18,10 +18,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy",
+    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
     "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs"
+    "build:client": "tsc --project tsconfig.client.json",
+    "build:copy": "node copyUntypedFiles.mjs",
+    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "dependencies": {
     "@docsearch/react": "^3.0.0-alpha.39",

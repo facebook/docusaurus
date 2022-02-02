@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as React from 'react';
+import React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
@@ -14,8 +14,10 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import {usePrismTheme} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import type {Props} from '@theme/Playground';
+import type {ThemeConfig} from '@docusaurus/theme-live-codeblock';
 
-function Header({children}) {
+function Header({children}: {children: React.ReactNode}) {
   return <div className={clsx(styles.playgroundHeader)}>{children}</div>;
 }
 
@@ -55,7 +57,7 @@ function ThemedLiveEditor() {
     <LiveEditor
       // We force remount the editor on hydration,
       // otherwise dark prism theme is not applied
-      key={isBrowser}
+      key={String(isBrowser)}
       className={styles.playgroundEditor}
     />
   );
@@ -76,18 +78,22 @@ function EditorWithHeader() {
   );
 }
 
-export default function Playground({children, transformCode, ...props}) {
+export default function Playground({
+  children,
+  transformCode,
+  ...props
+}: Props): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        liveCodeBlock: {playgroundPosition},
-      },
-    },
+    siteConfig: {themeConfig},
   } = useDocusaurusContext();
+  const {
+    liveCodeBlock: {playgroundPosition},
+  } = themeConfig as ThemeConfig;
   const prismTheme = usePrismTheme();
 
   return (
     <div className={styles.playgroundContainer}>
+      {/* @ts-expect-error: type incompatibility with refs */}
       <LiveProvider
         code={children.replace(/\n$/, '')}
         transformCode={transformCode || ((code) => `${code};`)}
