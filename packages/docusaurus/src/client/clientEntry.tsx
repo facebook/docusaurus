@@ -8,6 +8,7 @@
 import React from 'react';
 import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
 
 import routes from '@generated/routes';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
@@ -32,9 +33,11 @@ if (ExecutionEnvironment.canUseDOM) {
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>,
       document.getElementById('__docusaurus'),
     );
   });
