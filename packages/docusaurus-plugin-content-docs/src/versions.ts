@@ -85,7 +85,7 @@ function ensureValidVersionArray(
   versionArray.forEach(ensureValidVersionString);
 }
 
-async function readVersionsFile(
+export async function readVersionsFile(
   siteDir: string,
   pluginId: string,
 ): Promise<string[] | null> {
@@ -98,7 +98,7 @@ async function readVersionsFile(
   return null;
 }
 
-async function readVersionNames(
+export async function readVersionNames(
   siteDir: string,
   options: Pick<
     PluginOptions,
@@ -257,7 +257,7 @@ function getVersionEditUrls({
   };
 }
 
-function getDefaultVersionBanner({
+export function getDefaultVersionBanner({
   versionName,
   versionNames,
   lastVersionName,
@@ -280,7 +280,7 @@ function getDefaultVersionBanner({
   return 'unmaintained';
 }
 
-function getVersionBanner({
+export function getVersionBanner({
   versionName,
   versionNames,
   lastVersionName,
@@ -302,7 +302,7 @@ function getVersionBanner({
   });
 }
 
-function getVersionBadge({
+export function getVersionBadge({
   versionName,
   versionNames,
   options,
@@ -531,10 +531,10 @@ function checkVersionsOptions(
  * Note: we preserve the order in which versions are provided;
  * the order of the onlyIncludeVersions array does not matter
  */
-function filterVersions(
+export function filterVersions(
   versionNamesUnfiltered: string[],
   options: Pick<PluginOptions, 'onlyIncludeVersions'>,
-) {
+): string[] {
   if (options.onlyIncludeVersions) {
     return versionNamesUnfiltered.filter((name) =>
       (options.onlyIncludeVersions || []).includes(name),
