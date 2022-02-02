@@ -7,14 +7,21 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
+import type {
+  SidebarsConfig,
+  Sidebars,
+  NormalizedSidebars,
+  CategoryMetadataFile,
+} from './types';
 import type {NormalizeSidebarsParams} from '../types';
-import {validateSidebars} from './validation';
+import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars, type SidebarProcessorParams} from './processor';
 import path from 'path';
-import {createSlugger} from '@docusaurus/utils';
+import {createSlugger, Globby} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import Yaml from 'js-yaml';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [
@@ -80,7 +87,7 @@ export async function loadNormalizedSidebars(
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
-  options: SidebarProcessorParams,
+  options: Omit<SidebarProcessorParams, 'categoriesMetadata'>,
 ): Promise<Sidebars> {
   const normalizeSidebarsParams: NormalizeSidebarsParams = {
     ...options.sidebarOptions,
@@ -91,5 +98,28 @@ export async function loadSidebars(
     sidebarFilePath,
     normalizeSidebarsParams,
   );
-  return processSidebars(normalizedSidebars, options);
+  const categoriesMetadata = Object.fromEntries(
+    await Promise.all(
+      (
+        await Globby('**/_category_.{json,yml,yaml}', {
+          cwd: options.version.contentPath,
+        })
+      ).map(async (filePath) => {
+        const content = await fs.readFile(
+          path.join(options.version.contentPath, filePath),
+          'utf-8',
+        );
+        try {
+          return [
+            path.dirname(filePath),
+            validateCategoryMetadataFile(Yaml.load(content)),
+          ] as [string, CategoryMetadataFile];
+        } catch (e) {
+          logger.error`The docs sidebar category metadata file path=${filePath} looks invalid!`;
+          throw e;
+        }
+      }),
+    ),
+  );
+  return processSidebars(normalizedSidebars, {...options, categoriesMetadata});
 }

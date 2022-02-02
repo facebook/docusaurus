@@ -415,6 +415,7 @@ module.exports = {
           item,
           version,
           docs,
+          categoriesMetadata,
           isCategoryIndex,
         }) {
           // Example: return an hardcoded list of static sidebar items
