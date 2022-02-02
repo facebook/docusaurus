@@ -52,7 +52,7 @@
     "@svgr/webpack": "^6.0.0",
     "autoprefixer": "^10.3.5",
     "babel-loader": "^8.2.2",
-    "babel-plugin-dynamic-import-node": "2.3.0",
+    "babel-plugin-dynamic-import-node": "2.3.3",
     "boxen": "^5.0.1",
     "chokidar": "^3.5.3",
     "clean-css": "^5.2.4",
