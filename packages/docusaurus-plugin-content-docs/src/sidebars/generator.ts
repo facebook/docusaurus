@@ -14,7 +14,7 @@ import type {
   SidebarItemCategoryLink,
 } from './types';
 import {sortBy, last} from 'lodash';
-import {addTrailingSlash} from '@docusaurus/utils';
+import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
@@ -147,7 +147,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       folderName: string,
     ): Promise<WithPosition<SidebarItemCategory>> {
       const categoryMetadata =
-        categoriesMetadata[path.join(autogenDir, fullPath)];
+        categoriesMetadata[posixPath(path.join(autogenDir, fullPath))];
       const className = categoryMetadata?.className;
       const {filename, numberPrefix} = numberPrefixParser(folderName);
       const allItems = await Promise.all(
