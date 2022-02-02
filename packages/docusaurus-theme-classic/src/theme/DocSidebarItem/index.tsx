@@ -39,9 +39,6 @@ export default function DocSidebarItem({
 }: Props): JSX.Element | null {
   switch (item.type) {
     case 'category':
-      if (item.items.length === 0) {
-        return null;
-      }
       return <DocSidebarItemCategory item={item} {...props} />;
     case 'link':
     default:

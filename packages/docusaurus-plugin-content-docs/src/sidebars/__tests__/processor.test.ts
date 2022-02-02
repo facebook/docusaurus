@@ -209,6 +209,12 @@ describe('processSidebars', () => {
           // typing error needing refactor
           permalink: undefined,
         },
+        items: [
+          {
+            type: 'doc',
+            id: 'foo',
+          },
+        ],
       },
     ];
 
@@ -232,11 +238,73 @@ describe('processSidebars', () => {
             slug: 'generated-cat-index-slug',
             permalink: '/docs/1.0.0/generated-cat-index-slug',
           },
-          items: [],
+          items: [
+            {
+              type: 'doc',
+              id: 'foo',
+            },
+          ],
           collapsible: true,
           collapsed: true,
         },
       ],
     } as Sidebars);
+  });
+
+  test('transforms category without subitems', async () => {
+    const sidebarSlice: SidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Category',
+        link: {
+          type: 'generated-index',
+          permalink: 'generated/permalink',
+        },
+        items: [],
+      },
+      {
+        type: 'category',
+        label: 'Category 2',
+        link: {
+          type: 'doc',
+          id: 'doc ID',
+        },
+        items: [],
+      },
+    ];
+
+    const processedSidebar = await testProcessSidebars(
+      {sidebar: sidebarSlice},
+      {},
+    );
+
+    expect(processedSidebar).toEqual({
+      sidebar: [
+        {
+          type: 'link',
+          label: 'Category',
+          href: 'generated/permalink',
+        },
+        {
+          type: 'doc',
+          label: 'Category 2',
+          id: 'doc ID',
+        },
+      ],
+    } as Sidebars);
+
+    await expect(async () => {
+      await testProcessSidebars({
+        sidebar: [
+          {
+            type: 'category',
+            label: 'Bad category',
+            items: [],
+          },
+        ],
+      });
+    }).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Sidebar category Bad category has neither any subitem nor a link. This makes this item not able to link to anything."`,
+    );
   });
 });

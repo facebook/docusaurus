@@ -194,6 +194,19 @@ Naming your introductory document `README.md` makes it show up when browsing the
 
 :::
 
+:::tip
+
+If a folder only has one index page, it will be turned into a link instead of a category. This is useful for **asset collocation**:
+
+```
+some-doc
+├── index.md
+├── img1.png
+└── img2.png
+```
+
+:::
+
 <details>
 
 <summary>Customizing category index matching</summary>

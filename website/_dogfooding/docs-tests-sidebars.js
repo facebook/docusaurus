@@ -82,7 +82,13 @@ function generateHugeSidebarItems() {
 
   function generateRecursive(maxLevel, currentLevel = 0) {
     if (currentLevel === maxLevel) {
-      return [];
+      return [
+        {
+          type: 'link',
+          href: '/',
+          label: `Link (level ${currentLevel + 1})`,
+        },
+      ];
     }
 
     const linkItems = [...Array(linksCount).keys()].map((index) => ({
