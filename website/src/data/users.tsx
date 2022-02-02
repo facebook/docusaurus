@@ -1423,11 +1423,12 @@ const Users: User[] = [
   },
   {
     title: 'SAP Cloud SDK',
-    description: 'The one-stop shop for developing and extending SAP applications in the cloud.',
+    description:
+      'The one-stop shop for developing and extending SAP applications in the cloud.',
     preview: require('./showcase/sapcloudsdk.png'),
     website: 'https://sap.github.io/cloud-sdk/',
     source: 'https://github.com/SAP/cloud-sdk',
-    tags: ['opensource','product','large'],
+    tags: ['opensource', 'product', 'large'],
   },
   {
     title: 'Sapphire',
