@@ -8,11 +8,12 @@
 import React from 'react';
 import Playground from '@theme/Playground';
 import ReactLiveScope from '@theme/ReactLiveScope';
-import CodeBlock from '@theme-init/CodeBlock';
+import CodeBlock, {type Props} from '@theme-init/CodeBlock';
 
-const withLiveEditor = (Component) => {
-  function WrappedComponent(props) {
+const withLiveEditor = (Component: typeof CodeBlock) => {
+  function WrappedComponent(props: Props) {
     if (props.live) {
+      // @ts-expect-error: we have deliberately widened the type of language prop
       return <Playground scope={ReactLiveScope} {...props} />;
     }
 
