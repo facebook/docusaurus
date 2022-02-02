@@ -74,8 +74,8 @@ type FacetFilters = Required<
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
   const normalize = (
     f: FacetFilters,
-  ): readonly string[] | ReadonlyArray<readonly string[]> =>
-    f instanceof Array ? f : [f];
+  ): readonly string[] | ReadonlyArray<string | readonly string[]> =>
+    typeof f === 'string' ? [f] : f;
   return [...normalize(f1), ...normalize(f2)] as FacetFilters;
 }
 

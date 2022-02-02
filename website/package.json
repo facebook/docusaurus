@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.1",
-    "@crowdin/crowdin-api-client": "^1.10.6",
+    "@crowdin/crowdin-api-client": "^1.13.0",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.15",
     "@docusaurus/plugin-ideal-image": "2.0.0-beta.15",
@@ -56,7 +56,7 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
-    "workbox-routing": "^5.0.0",
+    "workbox-routing": "^6.4.2",
     "workbox-strategies": "^6.4.2"
   },
   "browserslist": {
@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^27.4.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^10.0.0"
   }
