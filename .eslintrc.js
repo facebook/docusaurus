@@ -149,6 +149,7 @@ module.exports = {
       },
     ],
     'react/jsx-filename-extension': OFF,
+    'react/jsx-key': [ERROR, {checkFragmentShorthand: true}],
     'react/jsx-props-no-spreading': OFF,
     'react/no-array-index-key': OFF, // We build a static site, and nearly all components don't change.
     'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
