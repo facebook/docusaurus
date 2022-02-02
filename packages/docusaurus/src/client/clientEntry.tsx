@@ -33,11 +33,13 @@ if (ExecutionEnvironment.canUseDOM) {
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
-      <HelmetProvider>
+      <React.StrictMode>
         <BrowserRouter>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </BrowserRouter>
-      </HelmetProvider>,
+      </React.StrictMode>,
       document.getElementById('__docusaurus'),
     );
   });
