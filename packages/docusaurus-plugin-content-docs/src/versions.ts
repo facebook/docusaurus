@@ -33,11 +33,9 @@ import {resolveSidebarPathOption} from './sidebars';
 
 // retro-compatibility: no prefix for the default plugin id
 function addPluginIdPrefix(fileOrDir: string, pluginId: string): string {
-  if (pluginId === DEFAULT_PLUGIN_ID) {
-    return fileOrDir;
-  } else {
-    return `${pluginId}_${fileOrDir}`;
-  }
+  return pluginId === DEFAULT_PLUGIN_ID
+    ? fileOrDir
+    : `${pluginId}_${fileOrDir}`;
 }
 
 export function getVersionedDocsDirPath(
@@ -96,9 +94,8 @@ async function readVersionsFile(
     const content = JSON.parse(await fs.readFile(versionsFilePath, 'utf8'));
     ensureValidVersionArray(content);
     return content;
-  } else {
-    return null;
   }
+  return null;
 }
 
 async function readVersionNames(
@@ -274,15 +271,13 @@ function getDefaultVersionBanner({
     return null;
   }
   // Upcoming versions: unreleased banner
-  else if (
+  if (
     versionNames.indexOf(versionName) < versionNames.indexOf(lastVersionName)
   ) {
     return 'unreleased';
   }
   // Older versions: display unmaintained banner
-  else {
-    return 'unmaintained';
-  }
+  return 'unmaintained';
 }
 
 function getVersionBanner({
@@ -443,8 +438,9 @@ function checkVersionMetadataPaths({
     );
   }
 
-  // If the current version defines a path to a sidebar file  that does not exist, we throw!
-  // Note: for versioned sidebars, the file may not exist (as we prefer to not create it rather than to create an empty file)
+  // If the current version defines a path to a sidebar file that does not
+  // exist, we throw! Note: for versioned sidebars, the file may not exist (as
+  // we prefer to not create it rather than to create an empty file)
   // See https://github.com/facebook/docusaurus/issues/3366
   // See https://github.com/facebook/docusaurus/pull/4775
   if (
@@ -469,11 +465,10 @@ Please set the docs "sidebarPath" field in your config file to:
 function getDefaultLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
     return versionNames[0];
-  } else {
-    return versionNames.filter(
-      (versionName) => versionName !== CURRENT_VERSION_NAME,
-    )[0];
   }
+  return versionNames.filter(
+    (versionName) => versionName !== CURRENT_VERSION_NAME,
+  )[0];
 }
 
 function checkVersionsOptions(
@@ -544,9 +539,8 @@ function filterVersions(
     return versionNamesUnfiltered.filter((name) =>
       (options.onlyIncludeVersions || []).includes(name),
     );
-  } else {
-    return versionNamesUnfiltered;
   }
+  return versionNamesUnfiltered;
 }
 
 export async function readVersionsMetadata({

@@ -44,7 +44,8 @@ function headings(): Transformer {
 
         if (parsedHeading.id) {
           // When there's an id, it is always in the last child node
-          // Sometimes heading is in multiple "parts" (** syntax creates a child node):
+          // Sometimes heading is in multiple "parts" (** syntax creates a child
+          // node):
           // ## part1 *part2* part3 {#id}
           const lastNode = headingNode.children[
             headingNode.children.length - 1

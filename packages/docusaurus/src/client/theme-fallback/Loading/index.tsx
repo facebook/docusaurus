@@ -6,13 +6,18 @@
  */
 
 import React from 'react';
+import type {LoadingComponentProps} from 'react-loadable';
 
-export default function Loading({error, retry, pastDelay}) {
+export default function Loading({
+  error,
+  retry,
+  pastDelay,
+}: LoadingComponentProps): JSX.Element | null {
   if (error) {
     return (
       <div
         style={{
-          align: 'center',
+          textAlign: 'center',
           color: '#fff',
           backgroundColor: '#fa383e',
           borderColor: '#fa383e',

@@ -23,7 +23,7 @@ type Options = {
 };
 
 function unwrapMarkdownLinks(line: string): string {
-  return line.replace(/\[([^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
+  return line.replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
 }
 
 function addHeadingId(
@@ -73,9 +73,8 @@ function transformMarkdownLine(
   // Ignore h1 headings on purpose, as we don't create anchor links for those
   if (line.startsWith('##')) {
     return transformMarkdownHeadingLine(line, slugger, options);
-  } else {
-    return line;
   }
+  return line;
 }
 
 function transformMarkdownLines(lines: string[], options?: Options): string[] {
@@ -86,12 +85,11 @@ function transformMarkdownLines(lines: string[], options?: Options): string[] {
     if (line.startsWith('```')) {
       inCode = !inCode;
       return line;
-    } else {
-      if (inCode) {
-        return line;
-      }
-      return transformMarkdownLine(line, slugger, options);
     }
+    if (inCode) {
+      return line;
+    }
+    return transformMarkdownLine(line, slugger, options);
   });
 }
 
@@ -118,12 +116,15 @@ async function transformMarkdownFile(
   return undefined;
 }
 
-// We only handle the "paths to watch" because these are the paths where the markdown files are
-// Also we don't want to transform the site md docs that do not belong to a content plugin
-// For example ./README.md should not be transformed
+/**
+ * We only handle the "paths to watch" because these are the paths where the
+ * markdown files are. Also we don't want to transform the site md docs that do
+ * not belong to a content plugin. For example ./README.md should not be
+ * transformed
+ */
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
   const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs = await loadPluginConfigs(context);
   const plugins = await initPlugins({
     pluginConfigs,
     context,
@@ -133,11 +134,11 @@ async function getPathsToWatch(siteDir: string): Promise<string[]> {
 
 export default async function writeHeadingIds(
   siteDir: string,
-  files?: string,
+  files?: string[],
   options?: Options,
 ): Promise<void> {
   const markdownFiles = await safeGlobby(
-    files ? [files] : await getPathsToWatch(siteDir),
+    files ?? (await getPathsToWatch(siteDir)),
     {
       expandDirectories: ['**/*.{md,mdx}'],
     },

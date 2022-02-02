@@ -81,7 +81,8 @@ async function copyTemplate(
 ) {
   await fs.copy(path.resolve(templatesDir, 'shared'), dest);
 
-  // TypeScript variants will copy duplicate resources like CSS & config from base template
+  // TypeScript variants will copy duplicate resources like CSS & config from
+  // base template
   const tsBaseTemplate = getTypeScriptBaseTemplate(template);
   if (tsBaseTemplate) {
     const tsBaseTemplatePath = path.resolve(templatesDir, tsBaseTemplate);
@@ -94,7 +95,8 @@ async function copyTemplate(
   }
 
   await fs.copy(path.resolve(templatesDir, template), dest, {
-    // Symlinks don't exist in published NPM packages anymore, so this is only to prevent errors during local testing
+    // Symlinks don't exist in published NPM packages anymore, so this is only
+    // to prevent errors during local testing
     filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
   });
 }
@@ -278,7 +280,8 @@ export default async function init(
       shell.exec(useYarn ? 'yarn' : 'npm install --color always', {
         env: {
           ...process.env,
-          // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+          // Force coloring the output, since the command is invoked by shelljs,
+          // which is not the interactive shell
           ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
         },
       }).code !== 0

@@ -54,8 +54,8 @@ const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
   className: Joi.string(),
 })
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -251,8 +251,8 @@ const FooterLinkItemSchema = Joi.object({
   .with('to', 'label')
   .with('href', 'label')
   .nand('html', 'label')
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const CustomCssSchema = Joi.alternatives()

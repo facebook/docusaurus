@@ -8,6 +8,7 @@
 import React from 'react';
 import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
 
 import routes from '@generated/routes';
 import ExecutionEnvironment from './exports/ExecutionEnvironment';
@@ -15,30 +16,28 @@ import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
 
-import {HelmetProvider} from 'react-helmet-async';
-
 declare global {
   interface NodeModule {
     hot?: {accept: () => void};
   }
 }
 
-// Client-side render (e.g: running in browser) to become single-page application (SPA).
+// Client-side render (e.g: running in browser) to become single-page
+// application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
   window.docusaurus = docusaurus;
-  // For production, attempt to hydrate existing markup for performant first-load experience.
+  // For production, attempt to hydrate existing markup for performant
+  // first-load experience.
   // For development, there is no existing markup so we had to render it.
-  // Note that we also preload async component to avoid first-load loading screen.
+  // We also preload async component to avoid first-load loading screen.
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
-      <React.StrictMode>
-        <HelmetProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </HelmetProvider>
-      </React.StrictMode>,
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>,
       document.getElementById('__docusaurus'),
     );
   });

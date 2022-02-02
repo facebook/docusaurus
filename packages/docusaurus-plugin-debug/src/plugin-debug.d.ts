@@ -33,6 +33,8 @@ declare module '@theme/DebugJsonView' {
 }
 
 declare module '@theme/DebugLayout' {
+  import type {ReactNode} from 'react';
+
   export default function DebugLayout(props: {
     children: ReactNode;
   }): JSX.Element;

@@ -11,7 +11,7 @@ import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import {HelmetProvider, type FilledContext} from 'react-helmet-async';
 import {getBundles, type Manifest} from 'react-loadable-ssr-addon-v5-slorber';
-import {Capture} from 'react-loadable';
+import Loadable from 'react-loadable';
 
 import {minify} from 'html-minifier-terser';
 import path from 'path';
@@ -54,7 +54,7 @@ export default async function render(
 ${(e as Error).stack!}`;
 
     const isNotDefinedErrorRegex =
-      /(window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
+      /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
     if (isNotDefinedErrorRegex.test((e as Error).message)) {
       logger.info`It looks like you are using code that should run on the client-side only.
@@ -66,7 +66,7 @@ It might also require to wrap your client code in code=${'useEffect'} hook and/o
   }
 }
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
+// Renderer for static-site-generator-webpack-plugin (async rendering).
 async function doRender(locals: Locals & {path: string}) {
   const {
     routesLocation,
@@ -82,22 +82,19 @@ async function doRender(locals: Locals & {path: string}) {
   await preload(routes, location);
   const modules = new Set<string>();
   const context = {};
-
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
-    <React.StrictMode>
-      <Capture report={(moduleName) => modules.add(moduleName)}>
-        <HelmetProvider context={helmetContext}>
-          <StaticRouter location={location} context={context}>
-            <ProvideLinksCollector linksCollector={linksCollector}>
-              <App />
-            </ProvideLinksCollector>
-          </StaticRouter>
-        </HelmetProvider>
-      </Capture>
-    </React.StrictMode>,
+    <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter location={location} context={context}>
+          <ProvideLinksCollector linksCollector={linksCollector}>
+            <App />
+          </ProvideLinksCollector>
+        </StaticRouter>
+      </HelmetProvider>
+    </Loadable.Capture>,
   );
   onLinksCollected(location, linksCollector.getCollectedLinks());
 

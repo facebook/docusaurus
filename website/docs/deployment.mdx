@@ -54,7 +54,38 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 :::
 
-## Choosing a hosting provider
+## Using environment variables {using-environment-variables}
+
+Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.md)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.md#customfields) to pass environment variables to the client side.
+
+```js title="docusaurus.config.js"
+// If you are using dotenv (https://www.npmjs.com/package/dotenv)
+require('dotenv').config();
+
+module.exports = {
+  title: '...',
+  url: process.env.URL, // You can use environment variables to control site specifics as well
+  // highlight-start
+  customFields: {
+    // Put your custom environment here
+    teamEmail: process.env.EMAIL,
+  },
+  // highlight-end
+};
+```
+
+```jsx title="home.jsx"
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+export default function Home() {
+  const {
+    siteConfig: {customFields},
+  } = useDocusaurusContext();
+  return <div>Contact us through {customFields.teamEmail}!</div>;
+}
+```
+
+## Choosing a hosting provider {choosing-a-hosting-provider}
 
 There are a few common hosting options:
 
@@ -733,6 +764,10 @@ You can deploy any other changes in the future with the command `surge`.
 
 See [docs](https://docs.quantcdn.io/docs/cli/continuous-integration) and [blog](https://www.quantcdn.io/blog) for more examples and use cases for deploying to QuantCDN.
 
-## Deploying to Layer0
+## Deploying to Layer0 {#deploying-to-layer0}
 
 [Layer0](https://www.layer0.co) is an all-in-one platform to develop, deploy, preview, experiment on, monitor, and run your headless frontend. It is focused on large, dynamic websites and best-in-class performance through EdgeJS (a JavaScript-based Content Delivery Network), predictive prefetching, and performance monitoring. Layer0 offers a free tier. Get started in just a few minutes by following [Layer0's guide to deploying Docusaurus](https://docs.layer0.co/guides/docusaurus).
+
+## Deploying to Cloudflare Pages {deploying-to-cloudflare-pages}
+
+[Cloudflare Pages](https://pages.cloudflare.com/) is a Jamstack platform for frontend developers to collaborate and deploy websites. Get started within a few minutes by following [this article](https://dev.to/apidev234/deploying-docusaurus-to-cloudflare-pages-565g).

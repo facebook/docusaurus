@@ -72,25 +72,24 @@ export default async function build(
   });
   if (cliOptions.locale) {
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
-  } else {
-    if (i18n.locales.length > 1) {
-      logger.info`Website will be built for all these locales: ${i18n.locales}`;
-    }
-
-    // We need the default locale to always be the 1st in the list
-    // If we build it last, it would "erase" the localized sites built in sub-folders
-    const orderedLocales: string[] = [
-      i18n.defaultLocale,
-      ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
-    ];
-
-    const results = await mapAsyncSequential(orderedLocales, (locale) => {
-      const isLastLocale =
-        orderedLocales.indexOf(locale) === orderedLocales.length - 1;
-      return tryToBuildLocale({locale, isLastLocale});
-    });
-    return results[0];
   }
+  if (i18n.locales.length > 1) {
+    logger.info`Website will be built for all these locales: ${i18n.locales}`;
+  }
+
+  // We need the default locale to always be the 1st in the list. If we build it
+  // last, it would "erase" the localized sites built in sub-folders
+  const orderedLocales: string[] = [
+    i18n.defaultLocale,
+    ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
+  ];
+
+  const results = await mapAsyncSequential(orderedLocales, (locale) => {
+    const isLastLocale =
+      orderedLocales.indexOf(locale) === orderedLocales.length - 1;
+    return tryToBuildLocale({locale, isLastLocale});
+  });
+  return results[0];
 }
 
 async function buildLocale({
@@ -136,7 +135,8 @@ async function buildLocale({
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable tree map.
+        // Visualize size of webpack output files with an interactive zoomable
+        // tree map.
         cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
         // Generate client manifests file that will be used for server bundle.
         new ReactLoadableSSRAddon({
@@ -220,7 +220,6 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      // The plugin may reference `this`. We manually bind it again to prevent any bugs.
       await plugin.postBuild({...props, content: plugin.content});
     }),
   );

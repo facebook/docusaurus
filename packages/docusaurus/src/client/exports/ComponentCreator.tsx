@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Loadable, {LoadableMap} from 'react-loadable';
+import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
@@ -41,24 +41,25 @@ function ComponentCreator(
       content.foo: () => import('./doc1.md'),
     }
   - optsModules: ['./Pages.js', './doc1.md']
-  - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
+  - optsWebpack: [
+      require.resolveWeak('./Pages.js'),
+      require.resolveWeak('./doc1.md'),
+    ]
   */
   const flatChunkNames = flat(chunkNames);
   Object.keys(flatChunkNames).forEach((key) => {
     const chunkRegistry = registry[flatChunkNames[key]];
     if (chunkRegistry) {
-      /* eslint-disable prefer-destructuring */
+      // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
       optsModules.push(chunkRegistry[1]);
       optsWebpack.push(chunkRegistry[2]);
-      /* eslint-enable prefer-destructuring */
     }
   });
 
-  /* eslint-disable @typescript-eslint/ban-ts-comment */
-  return LoadableMap({
+  return Loadable.Map({
     loading: Loading,
-    loader: optsLoader, // @ts-ignore
+    loader: optsLoader,
     modules: optsModules,
     webpack: () => optsWebpack,
     render: (loaded, props) => {
@@ -76,7 +77,7 @@ function ComponentCreator(
         );
         if (nonDefaultKeys && nonDefaultKeys.length) {
           nonDefaultKeys.forEach((nonDefaultKey) => {
-            val[keyPath[keyPath.length - 1]][nonDefaultKey] = // @ts-ignore
+            val[keyPath[keyPath.length - 1]][nonDefaultKey] =
               loaded[key][nonDefaultKey];
           });
         }
@@ -87,7 +88,6 @@ function ComponentCreator(
       return <Component {...loadedModules} {...props} />;
     },
   });
-  /* eslint-enable @typescript-eslint/ban-ts-comment */
 }
 
 export default ComponentCreator;

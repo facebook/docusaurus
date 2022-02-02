@@ -205,7 +205,8 @@ describe('processSidebars', () => {
         link: {
           type: 'generated-index',
           slug: 'generated-cat-index-slug',
-          // @ts-expect-error: TODO undefined should be allowed here, typing error needing refactor
+          // @ts-expect-error: TODO undefined should be allowed here,
+          // typing error needing refactor
           permalink: undefined,
         },
       },

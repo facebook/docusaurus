@@ -9,9 +9,12 @@
 
 /**
  * @see https://github.com/endiliey/react-ideal-image/blob/master/index.d.ts
- * Note: the original type definition is WRONG. getIcon & getMessage receive full state object.
+ * Note: the original type definition is WRONG. getIcon & getMessage receive
+ * full state object.
  */
 declare module '@endiliey/react-ideal-image' {
+  import type {ComponentProps, ComponentType, CSSProperties} from 'react';
+
   export type LoadingState = 'initial' | 'loading' | 'loaded' | 'error';
 
   export type State = {
@@ -39,19 +42,21 @@ declare module '@endiliey/react-ideal-image' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps {
+  export interface ImageProps extends ComponentProps<'img'> {
     /**
-     * This function decides what icon to show based on the current state of the component.
+     * This function decides what icon to show based on the current state of the
+     * component.
      */
     getIcon?: (state: State) => IconKey;
     /**
-     * This function decides what message to show based on the icon (returned from getIcon prop) and
-     * the current state of the component.
+     * This function decides what message to show based on the icon (returned
+     * from `getIcon` prop) and the current state of the component.
      */
-    getMessage?: (icon: IconKey, state: State) => string;
+    getMessage?: (icon: IconKey, state: State) => string | null;
     /**
-     * This function is called as soon as the component enters the viewport and is used to generate urls
-     * based on width and format if props.srcSet doesn't provide src field.
+     * This function is called as soon as the component enters the viewport and
+     * is used to generate urls based on width and format if `props.srcSet`
+     * doesn't provide `src` field.
      */
     getUrl?: (srcType: SrcType) => string;
     /**
@@ -59,10 +64,11 @@ declare module '@endiliey/react-ideal-image' {
      */
     height: number;
     /**
-     * This provides a map of the icons. By default, the component uses icons from material design,
-     * implemented as React components with the SVG element. You can customize icons
+     * This provides a map of the icons. By default, the component uses icons
+     * from material design, Implemented as React components with the SVG
+     * element. You can customize icons
      */
-    icons: Partial<Record<IconKey, ComponentType>>;
+    icons?: Partial<Record<IconKey, ComponentType>>;
     /**
      * This prop takes one of the 2 options, xhr and image.
      * Read more about it:
@@ -74,9 +80,10 @@ declare module '@endiliey/react-ideal-image' {
      */
     placeholder: {color: string} | {lqip: string};
     /**
-     * This function decides if image should be downloaded automatically. The default function
-     * returns false for a 2g network, for a 3g network it decides based on props.threshold
-     * and for a 4g network it returns true by default.
+     * This function decides if image should be downloaded automatically. The
+     * default function returns false for a 2g network, for a 3g network it
+     * decides based on `props.threshold` and for a 4g network it returns true
+     * by default.
      */
     shouldAutoDownload?: (options: {
       connection?: 'slow-2g' | '2g' | '3g' | '4g';
@@ -85,18 +92,20 @@ declare module '@endiliey/react-ideal-image' {
       possiblySlowNetwork?: boolean;
     }) => boolean;
     /**
-     * This provides an array of sources of different format and size of the image.
-     * Read more about it:
+     * This provides an array of sources of different format and size of the
+     * image. Read more about it:
      * https://github.com/stereobooster/react-ideal-image/blob/master/introduction.md#srcset
      */
     srcSet: SrcType[];
     /**
-     * This provides a theme to the component. By default, the component uses inline styles,
-     * but it is also possible to use CSS modules and override all styles.
+     * This provides a theme to the component. By default, the component uses
+     * inline styles, but it is also possible to use CSS modules and override
+     * all styles.
      */
     theme?: Partial<Record<ThemeKey, string | CSSProperties>>;
     /**
-     * Tells how much to wait in milliseconds until consider the download to be slow.
+     * Tells how much to wait in milliseconds until consider the download to be
+     * slow.
      */
     threshold?: number;
     /**
@@ -105,8 +114,6 @@ declare module '@endiliey/react-ideal-image' {
     width: number;
   }
 
-  type IdealImageComponent = ComponentClass<ImageProps>;
-
-  declare const IdealImage: IdealImageComponent;
+  declare const IdealImage: (props: ImageProps) => JSX.Element;
   export default IdealImage;
 }

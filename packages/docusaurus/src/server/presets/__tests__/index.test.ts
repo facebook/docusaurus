@@ -11,12 +11,12 @@ import loadPresets from '../index';
 import type {LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {
-  test('no presets', () => {
+  test('no presets', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {},
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [],
@@ -25,14 +25,14 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('string form', () => {
+  test('string form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [path.join(__dirname, '__fixtures__/preset-bar.js')],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -50,7 +50,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('string form composite', () => {
+  test('string form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -60,7 +60,7 @@ describe('loadPresets', () => {
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -86,14 +86,14 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form', () => {
+  test('array form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -111,7 +111,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form with options', () => {
+  test('array form with options', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -123,7 +123,7 @@ describe('loadPresets', () => {
         ],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -143,7 +143,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form composite', () => {
+  test('array form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -159,7 +159,7 @@ describe('loadPresets', () => {
         ],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -189,7 +189,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('mixed form', () => {
+  test('mixed form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -202,7 +202,7 @@ describe('loadPresets', () => {
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [
@@ -230,7 +230,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('mixed form with themes', () => {
+  test('mixed form with themes', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -244,7 +244,7 @@ describe('loadPresets', () => {
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
         "plugins": Array [

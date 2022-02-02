@@ -29,27 +29,26 @@ async function lqipLoader(
 
   let content = contentBuffer.toString('utf8');
   const contentIsUrlExport =
-    /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(content);
-  const contentIsFileExport = /^(?:export default|module.exports =) (.*)/.test(
+    /^(?:export default|module.exports =) "data:.*base64,.*/.test(content);
+  const contentIsFileExport = /^(?:export default|module.exports =) .*/.test(
     content,
   );
 
   let source = '';
-  const SOURCE_CHUNK = 1;
 
   if (contentIsUrlExport) {
-    source = content.match(/^(?:export default|module.exports =) (.*)/)![
-      SOURCE_CHUNK
-    ];
+    source = content.match(
+      /^(?:export default|module.exports =) (?<source>.*)/,
+    )!.groups!.source;
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
       const fileLoader = require('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
-    source = content.match(/^(?:export default|module.exports =) (.*);/)![
-      SOURCE_CHUNK
-    ];
+    source = content.match(
+      /^(?:export default|module.exports =) (?<source>.*);/,
+    )!.groups!.source;
   }
 
   const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [

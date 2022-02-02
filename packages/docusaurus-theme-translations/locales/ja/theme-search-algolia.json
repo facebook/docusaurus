@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "検索",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Algoliaで検索",
   "theme.SearchPage.documentsFound.plurals": "{count}件のドキュメントが見つかりました",
   "theme.SearchPage.emptyResultsTitle": "ドキュメントを検索",

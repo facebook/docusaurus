@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Hledat",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Vyhledávání od Algolia",
   "theme.SearchPage.documentsFound.plurals": "Jeden dokument nalezen|{count} dokumenty nalezeny||{count} dokumentů nalezeno||{count} dokumentů nalezeno",
   "theme.SearchPage.emptyResultsTitle": "Prohledat dokumentaci",

@@ -63,7 +63,7 @@ export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
 }
 
 const DATE_FILENAME_REGEX =
-  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(?:\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -82,11 +82,10 @@ export function parseBlogFileName(
     const slugDate = dateString.replace(/-/g, '/');
     const slug = `/${slugDate}/${folder}${text}`;
     return {date, text, slug};
-  } else {
-    const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
-    const slug = `/${text}`;
-    return {date: undefined, text, slug};
   }
+  const text = blogSourceRelative.replace(/(?:\/index)?\.mdx?$/, '');
+  const slug = `/${text}`;
+  return {date: undefined, text, slug};
 }
 
 function formatBlogPostDate(locale: string, date: Date): string {

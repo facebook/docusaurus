@@ -7,11 +7,6 @@
 
 import Joi from './Joi';
 
-// Enhance the default Joi.string() type so that it can convert number to strings
-// If user use front matter "tag: 2021", we shouldn't need to ask the user to write "tag: '2021'"
-// Also yaml tries to convert patterns like "2019-01-01" to dates automatically
-// see https://github.com/facebook/docusaurus/issues/4642
-// see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
 const JoiFrontMatterString: Joi.Extension = {
   type: 'string',
   base: Joi.string(),
@@ -23,4 +18,12 @@ const JoiFrontMatterString: Joi.Extension = {
     return {value};
   },
 };
+/**
+ * Enhance the default Joi.string() type so that it can convert number to
+ * strings. If user use front matter "tag: 2021", we shouldn't need to ask her
+ * to write "tag: '2021'". Also yaml tries to convert patterns like "2019-01-01"
+ * to dates automatically.
+ * @see https://github.com/facebook/docusaurus/issues/4642
+ * @see https://github.com/sideway/joi/issues/1442#issuecomment-823997884
+ */
 export const JoiFrontMatter: typeof Joi = Joi.extend(JoiFrontMatterString);

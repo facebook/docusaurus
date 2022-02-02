@@ -51,6 +51,6 @@
     "@babel/core": "^7.0.0",
     "react": "*",
     "react-dom": "*",
-    "webpack": "5.x"
+    "webpack": "^5.0.0"
   }
 }

@@ -322,7 +322,8 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) =>
-                // To tell routes.js this is an import and not a nested object to recurse.
+                // To tell routes.js this is an import and not a nested object
+                // to recurse.
                 ({
                   content: {
                     __import: true,
@@ -451,7 +452,7 @@ export default async function pluginContentBlog(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
@@ -485,7 +486,8 @@ export default async function pluginContentBlog(
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
 
-                    // Assets allow to convert some relative images paths to require() calls
+                    // Assets allow to convert some relative images paths to
+                    // require() calls
                     createAssets: ({
                       frontMatter,
                       metadata,

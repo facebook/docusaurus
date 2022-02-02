@@ -38,9 +38,9 @@ export function resolveSidebarPathOption(
     : sidebarPathOption;
 }
 
-function loadSidebarsFileUnsafe(
+async function loadSidebarsFileUnsafe(
   sidebarFilePath: string | false | undefined,
-): SidebarsConfig {
+): Promise<SidebarsConfig> {
   // false => no sidebars
   if (sidebarFilePath === false) {
     return DisabledSidebars;
@@ -62,19 +62,19 @@ function loadSidebarsFileUnsafe(
   return importFresh(sidebarFilePath);
 }
 
-export function loadSidebarsFile(
+export async function loadSidebarsFile(
   sidebarFilePath: string | false | undefined,
-): SidebarsConfig {
-  const sidebarsConfig = loadSidebarsFileUnsafe(sidebarFilePath);
+): Promise<SidebarsConfig> {
+  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
   validateSidebars(sidebarsConfig);
   return sidebarsConfig;
 }
 
-export function loadNormalizedSidebars(
+export async function loadNormalizedSidebars(
   sidebarFilePath: string | false | undefined,
   params: NormalizeSidebarsParams,
-): NormalizedSidebars {
-  return normalizeSidebars(loadSidebarsFile(sidebarFilePath), params);
+): Promise<NormalizedSidebars> {
+  return normalizeSidebars(await loadSidebarsFile(sidebarFilePath), params);
 }
 
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
@@ -87,7 +87,7 @@ export async function loadSidebars(
     version: options.version,
     categoryLabelSlugger: createSlugger(),
   };
-  const normalizedSidebars = loadNormalizedSidebars(
+  const normalizedSidebars = await loadNormalizedSidebars(
     sidebarFilePath,
     normalizeSidebarsParams,
   );

@@ -12,7 +12,7 @@ import TOCItems from '@theme/TOCItems';
 import styles from './styles.module.css';
 
 // Using a custom className
-// This prevents TOC highlighting to highlight TOCInline/TOCCollapsible by mistake
+// This prevents TOCInline/TOCCollapsible getting highlighted by mistake
 const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
 const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 

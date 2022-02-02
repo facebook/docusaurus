@@ -36,9 +36,8 @@ export function filterTOC({
           children: filteredChildren,
         },
       ];
-    } else {
-      return filteredChildren;
     }
+    return filteredChildren;
   });
 }
 

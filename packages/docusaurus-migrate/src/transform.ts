@@ -12,6 +12,9 @@ import jscodeshift, {
   type Collection,
   type TemplateElement,
   VariableDeclarator,
+  type CallExpression,
+  type MemberExpression,
+  type Identifier,
 } from 'jscodeshift';
 
 const empty = () =>
@@ -29,9 +32,12 @@ const property = (key: string, value: ArrowFunctionExpression) =>
   jscodeshift.objectProperty(jscodeshift.identifier(key), value);
 
 const processCallExpression = (node: ASTPath<VariableDeclarator>) => {
-  const args = (node?.value?.init as any)?.arguments[0];
+  const args = (node?.value?.init as CallExpression)?.arguments[0];
   if (args.type === 'Literal') {
-    if (args.value.includes('../../core/CompLibrary')) {
+    if (
+      typeof args.value === 'string' &&
+      args.value.includes('../../core/CompLibrary')
+    ) {
       const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         jscodeshift.objectExpression([
@@ -60,7 +66,11 @@ const processCallExpression = (node: ASTPath<VariableDeclarator>) => {
 };
 
 const processMemberExpression = (node: ASTPath<VariableDeclarator>) => {
-  const args = (node?.value?.init as any)?.object?.arguments[0];
+  const object = (node?.value?.init as MemberExpression)?.object;
+  if (!(object.type === 'CallExpression')) {
+    return;
+  }
+  const args = object.arguments[0];
   if (args.type === 'Literal') {
     if (args.value === '../../core/CompLibrary.js') {
       const newDeclarator = jscodeshift.variableDeclarator(
@@ -72,7 +82,7 @@ const processMemberExpression = (node: ASTPath<VariableDeclarator>) => {
         ]),
       );
       jscodeshift(node).replaceWith(newDeclarator);
-    } else if (args.value.match(/server/)) {
+    } else if (typeof args.value === 'string' && args.value.match(/server/)) {
       const newDeclarator = jscodeshift.variableDeclarator(
         node.value.id,
         empty(),
@@ -146,7 +156,7 @@ export default function transformer(file: string): string {
             [
               jscodeshift.jsxElement(
                 jscodeshift.jsxOpeningElement(
-                  jscodeshift.jsxIdentifier((p.value.right as any).name),
+                  jscodeshift.jsxIdentifier((p.value.right as Identifier).name),
                   [
                     jscodeshift.jsxSpreadAttribute(
                       jscodeshift.identifier('props'),

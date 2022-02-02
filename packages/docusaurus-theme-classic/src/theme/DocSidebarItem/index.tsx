@@ -16,6 +16,7 @@ import {
   ThemeClassNames,
   useThemeConfig,
   useDocSidebarItemsExpandedState,
+  isSamePath,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -48,7 +49,8 @@ export default function DocSidebarItem({
   }
 }
 
-// If we navigate to a category and it becomes active, it should automatically expand itself
+// If we navigate to a category and it becomes active, it should automatically
+// expand itself
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
@@ -67,11 +69,14 @@ function useAutoExpandActiveCategory({
   }, [isActive, wasActive, collapsed, setCollapsed]);
 }
 
-// When a collapsible category has no link, we still link it to its first child during SSR as a temporary fallback
-// This allows to be able to navigate inside the category even when JS fails to load, is delayed or simply disabled
-// React hydration becomes an optional progressive enhancement
-// see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
-// see https://github.com/facebook/docusaurus/issues/3030
+/**
+ * When a collapsible category has no link, we still link it to its first child
+ * during SSR as a temporary fallback. This allows to be able to navigate inside
+ * the category even when JS fails to load, is delayed or simply disabled
+ * React hydration becomes an optional progressive enhancement
+ * see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
+ * see https://github.com/facebook/docusaurus/issues/3030
+ */
 function useCategoryHrefWithSSRFallback(
   item: PropSidebarItemCategory,
 ): string | undefined {
@@ -101,6 +106,7 @@ function DocSidebarItemCategory({
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
+  const isCurrentPage = isSamePath(href, activePath);
 
   const {collapsed, setCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
@@ -148,7 +154,10 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <div className="menu__list-item-collapsible">
+      <div
+        className={clsx('menu__list-item-collapsible', {
+          'menu__list-item-collapsible--active': isCurrentPage,
+        })}>
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
@@ -171,7 +180,7 @@ function DocSidebarItemCategory({
                   onItemClick?.(item);
                 }
           }
-          aria-current={isActive ? 'page' : undefined}
+          aria-current={isCurrentPage ? 'page' : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
