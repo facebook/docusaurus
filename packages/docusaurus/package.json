@@ -73,7 +73,7 @@
     "html-webpack-plugin": "^5.4.0",
     "import-fresh": "^3.3.0",
     "is-root": "^2.1.0",
-    "leven": "^3.1.0",
+    "leven": "^4.0.0",
     "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^2.5.3",
     "nprogress": "^0.2.0",
