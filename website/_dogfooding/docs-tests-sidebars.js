@@ -71,6 +71,33 @@ const sidebars = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'HTML items tests',
+      items: [
+        //  title
+        {
+          type: 'html',
+          value: 'Some Text',
+          defaultStyle: true,
+        },
+        // Divider
+        {
+          type: 'html',
+          value:
+            '<span style="border-top: 1px solid var(--ifm-color-gray-500); display: block;margin: 0.5rem 0 0.25rem 1rem;" />',
+        },
+        // Image
+        {
+          type: 'html',
+          defaultStyle: true,
+          value: `
+    <span style="font-size: 0.5rem; color: lightgrey;">Powered by</span>
+    <img style="width: 100px; height: 100px; display: block;" src="/img/docusaurus.png" alt="Docusaurus Logo" />
+  `,
+        },
+      ],
+    },
   ],
   anotherSidebar: ['dummy'],
 };
