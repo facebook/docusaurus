@@ -226,9 +226,11 @@ describe('docsUtils', () => {
           testCategory({
             href: undefined,
             items: [
+              {type: 'html', value: '<p>test1</p>'},
               testCategory({
                 href: undefined,
                 items: [
+                  {type: 'html', value: '<p>test2</p>'},
                   testCategory({
                     href: '/itemPath',
                   }),

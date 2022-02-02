@@ -123,12 +123,13 @@ export function findFirstCategoryLink(
   for (const subItem of item.items) {
     if (subItem.type === 'link') {
       return subItem.href;
-    }
-    if (subItem.type === 'category') {
+    } else if (subItem.type === 'category') {
       const categoryLink = findFirstCategoryLink(subItem);
       if (categoryLink) {
         return categoryLink;
       }
+    } else if (subItem.type === 'html') {
+      // skip
     } else {
       throw new Error(
         `Unexpected category item type for ${JSON.stringify(subItem)}`,

@@ -32,6 +32,7 @@ import type {
 
 import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import type {SidebarItemHtml} from '@docusaurus/plugin-content-docs/src/sidebars/types';
 
 export default function DocSidebarItem({
   item,
@@ -40,6 +41,8 @@ export default function DocSidebarItem({
   switch (item.type) {
     case 'category':
       return <DocSidebarItemCategory item={item} {...props} />;
+    case 'html':
+      return <DocSidebarItemHtml item={item} {...props} />;
     case 'link':
     default:
       return <DocSidebarItemLink item={item} {...props} />;
@@ -213,6 +216,29 @@ function DocSidebarItemCategory({
         />
       </Collapsible>
     </li>
+  );
+}
+
+function DocSidebarItemHtml({
+  item,
+  level,
+  index,
+}: Props & {item: SidebarItemHtml}) {
+  const {value, defaultStyle, className} = item;
+  return (
+    <li
+      className={clsx(
+        ThemeClassNames.docs.docSidebarItemLink,
+        ThemeClassNames.docs.docSidebarItemLinkLevel(level),
+        defaultStyle && `${styles.menuHtmlItem} menu__list-item`,
+        className,
+      )}
+      key={index}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{
+        __html: value,
+      }}
+    />
   );
 }
 
