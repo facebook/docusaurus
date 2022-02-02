@@ -1592,13 +1592,10 @@
     "@docsearch/css" "3.0.0-alpha.42"
     algoliasearch "^4.0.0"
 
-"@docusaurus/react-loadable@5.5.2", "react-loadable@npm:@docusaurus/react-loadable@5.5.2":
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/@docusaurus/react-loadable/-/react-loadable-5.5.2.tgz#81aae0db81ecafbdaee3651f12804580868fa6ce"
-  integrity sha512-A3dYjdBGuy0IGT+wyLIGIKLRE+sAk1iNk0f1HjNDysO7u8lhL4N3VEm+FAubmJbAztn94F7MxBTPmnixbiyFdQ==
-  dependencies:
-    "@types/react" "*"
-    prop-types "^15.6.2"
+"@docusaurus/react-loadable@npm:@react-loadable/revised@0.0.26", "react-loadable@npm:@react-loadable/revised@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@react-loadable/revised/-/revised-0.0.26.tgz#3e260c16e4223be0f30910ecd8c513afea8f6819"
+  integrity sha512-p6qoeOJFC6Q21tdRD8zvzjtFfGejFCQRKVzzLB8934DZGubaMElNGsSJtw8Y3w5PzMLH02mXAV5VX9vwbYRmNQ==
 
 "@docusaurus/responsive-loader@1.5.0":
   version "1.5.0"

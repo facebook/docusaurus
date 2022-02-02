@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Loadable from 'react-loadable';
+import Loadable, {LoadableMap} from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
@@ -57,9 +57,10 @@ function ComponentCreator(
     }
   });
 
-  return Loadable.Map({
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
+  return LoadableMap({
     loading: Loading,
-    loader: optsLoader,
+    loader: optsLoader, // @ts-ignore
     modules: optsModules,
     webpack: () => optsWebpack,
     render: (loaded, props) => {
@@ -77,7 +78,7 @@ function ComponentCreator(
         );
         if (nonDefaultKeys && nonDefaultKeys.length) {
           nonDefaultKeys.forEach((nonDefaultKey) => {
-            val[keyPath[keyPath.length - 1]][nonDefaultKey] =
+            val[keyPath[keyPath.length - 1]][nonDefaultKey] = // @ts-ignore
               loaded[key][nonDefaultKey];
           });
         }
@@ -88,6 +89,7 @@ function ComponentCreator(
       return <Component {...loadedModules} {...props} />;
     },
   });
+  /* eslint-enable @typescript-eslint/ban-ts-comment */
 }
 
 export default ComponentCreator;
