@@ -9,9 +9,9 @@ import type {
   SidebarItemDoc,
   SidebarItemsGenerator,
   SidebarItemsGeneratorDoc,
-  SidebarItemCategoryLink,
   NormalizedSidebarItemCategory,
   NormalizedSidebarItem,
+  SidebarItemCategoryLinkConfig,
 } from './types';
 import {sortBy, last} from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
@@ -191,13 +191,13 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
 
       const categoryLinkedDocId = getCategoryLinkedDocId();
 
-      const link: SidebarItemCategoryLink | undefined = categoryLinkedDocId
-        ? {
-            type: 'doc',
-            id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
-          }
-        : // TODO typing issue
-          (categoryMetadata?.link as SidebarItemCategoryLink | undefined);
+      const link: SidebarItemCategoryLinkConfig | null | undefined =
+        categoryLinkedDocId
+          ? {
+              type: 'doc',
+              id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
+            }
+          : categoryMetadata?.link;
 
       // If a doc is linked, remove it from the category subItems
       const items = allItems.filter(
