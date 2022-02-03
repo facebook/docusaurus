@@ -7,12 +7,7 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import type {
-  SidebarsConfig,
-  Sidebars,
-  NormalizedSidebars,
-  CategoryMetadataFile,
-} from './types';
+import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
 import type {NormalizeSidebarsParams} from '../types';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
@@ -22,6 +17,8 @@ import {createSlugger, Globby} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import Yaml from 'js-yaml';
+import {groupBy, mapValues} from 'lodash';
+import combinePromises from 'combine-promises';
 
 export const DefaultSidebars: SidebarsConfig = {
   defaultSidebar: [
@@ -43,6 +40,33 @@ export function resolveSidebarPathOption(
   return sidebarPathOption
     ? path.resolve(siteDir, sidebarPathOption)
     : sidebarPathOption;
+}
+
+async function readCategoriesMetadata(contentPath: string) {
+  const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
+    cwd: contentPath,
+  });
+  const categoryToFile = groupBy(categoryFiles, path.dirname);
+  return combinePromises(
+    mapValues(categoryToFile, async (files, folder) => {
+      const [filePath] = files;
+      if (files.length > 1) {
+        logger.warn`There are more than one category metadata file for folder path=${folder}: ${files.join(
+          ', ',
+        )}. The behavior is undetermined.`;
+      }
+      const content = await fs.readFile(
+        path.join(contentPath, filePath),
+        'utf-8',
+      );
+      try {
+        return validateCategoryMetadataFile(Yaml.load(content));
+      } catch (e) {
+        logger.error`The docs sidebar category metadata file path=${filePath} looks invalid!`;
+        throw e;
+      }
+    }),
+  );
 }
 
 async function loadSidebarsFileUnsafe(
@@ -98,28 +122,8 @@ export async function loadSidebars(
     sidebarFilePath,
     normalizeSidebarsParams,
   );
-  const categoriesMetadata = Object.fromEntries(
-    await Promise.all(
-      (
-        await Globby('**/_category_.{json,yml,yaml}', {
-          cwd: options.version.contentPath,
-        })
-      ).map(async (filePath) => {
-        const content = await fs.readFile(
-          path.join(options.version.contentPath, filePath),
-          'utf-8',
-        );
-        try {
-          return [
-            path.dirname(filePath),
-            validateCategoryMetadataFile(Yaml.load(content)),
-          ] as [string, CategoryMetadataFile];
-        } catch (e) {
-          logger.error`The docs sidebar category metadata file path=${filePath} looks invalid!`;
-          throw e;
-        }
-      }),
-    ),
+  const categoriesMetadata = await readCategoriesMetadata(
+    options.version.contentPathLocalized,
   );
   return processSidebars(normalizedSidebars, {...options, categoriesMetadata});
 }
