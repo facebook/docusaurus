@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import path from 'path';
 import {loadContext, loadPluginConfigs} from '../../server';
 import initPlugins from '../../server/plugins/init';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
@@ -15,7 +14,7 @@ import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import type {InitializedPlugin} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {normalizeOptions} from './common';
-import {executeAction, getAction} from './actions';
+import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 
 async function listAllThemeComponents({
@@ -88,24 +87,31 @@ export default async function swizzle(
   const componentConfig = themeComponents.getConfig(componentName);
 
   const action = await getAction(componentConfig, options);
-  const result = await executeAction({
-    action,
-    siteDir,
-    themePath,
-    componentName,
-    typescript,
-    importType: 'original',
-  });
-  const createdFiles = result.createdFiles.map((file) =>
-    path.relative(process.cwd(), file),
-  );
+
   switch (action) {
-    case 'wrap':
-      logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${createdFiles}.`;
+    case 'wrap': {
+      const result = await wrap({
+        siteDir,
+        themePath,
+        componentName,
+        typescript,
+      });
+      logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${
+        result.createdFiles
+      }.`;
       break;
-    case 'eject':
-      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${createdFiles}.`;
+    }
+    case 'eject': {
+      const result = await eject({
+        siteDir,
+        themePath,
+        componentName,
+      });
+      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${
+        result.createdFiles
+      }.`;
       break;
+    }
     default:
       throw new Error(`Unexpected action ${action}`);
   }

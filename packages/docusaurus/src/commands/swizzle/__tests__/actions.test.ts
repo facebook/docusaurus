@@ -7,44 +7,34 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {executeAction} from '../actions';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
 
 // @ts-expect-error: TODO no typedefs
 import tree from 'tree-node-cli';
-
-async function testExecuteAction(
-  action: SwizzleAction,
-  componentName: string,
-  {typescript}: {typescript: boolean} = {typescript: false},
-) {
-  const siteDir = await createTempSiteDir();
-  const siteThemePath = path.join(siteDir, 'src/theme');
-  const result = await executeAction({
-    action,
-    siteDir,
-    componentName,
-    themePath: ThemePath,
-    typescript,
-  });
-  return {
-    siteDir,
-    siteThemePath,
-    createdFiles: result.createdFiles.map((file) =>
-      path.relative(siteThemePath, file),
-    ),
-    firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
-    tree: tree(siteThemePath),
-  };
-}
+import {eject, wrap} from '../actions';
 
 describe('eject', () => {
+  async function testEject(action: SwizzleAction, componentName: string) {
+    const siteDir = await createTempSiteDir();
+    const siteThemePath = path.join(siteDir, 'src/theme');
+    const result = await eject({
+      siteDir,
+      componentName,
+      themePath: ThemePath,
+    });
+    return {
+      siteDir,
+      siteThemePath,
+      createdFiles: result.createdFiles.map((file) =>
+        path.relative(siteThemePath, file),
+      ),
+      tree: tree(siteThemePath),
+    };
+  }
+
   test(`eject ${Components.FirstLevelComponent}`, async () => {
-    const result = await testExecuteAction(
-      'eject',
-      Components.FirstLevelComponent,
-    );
+    const result = await testEject('eject', Components.FirstLevelComponent);
     expect(result.createdFiles).toEqual([
       'FirstLevelComponent.css',
       'FirstLevelComponent.tsx',
@@ -57,10 +47,7 @@ describe('eject', () => {
   });
 
   test(`eject ${Components.ComponentInSubFolder}`, async () => {
-    const result = await testExecuteAction(
-      'eject',
-      Components.ComponentInSubFolder,
-    );
+    const result = await testEject('eject', Components.ComponentInSubFolder);
     expect(result.createdFiles).toEqual([
       'ComponentInFolder/ComponentInSubFolder/index.css',
       'ComponentInFolder/ComponentInSubFolder/index.tsx',
@@ -79,10 +66,7 @@ describe('eject', () => {
   });
 
   test(`eject ${Components.ComponentInFolder}`, async () => {
-    const result = await testExecuteAction(
-      'eject',
-      Components.ComponentInFolder,
-    );
+    const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
       // TODO do we really want to copy those Sibling components?
       // It's hard to filter those reliably (index.* is not good, we need to include styles.css too)
@@ -103,9 +87,33 @@ describe('eject', () => {
 });
 
 describe('wrap', () => {
+  async function testWrap(
+    action: SwizzleAction,
+    componentName: string,
+    {typescript}: {typescript: boolean} = {typescript: false},
+  ) {
+    const siteDir = await createTempSiteDir();
+    const siteThemePath = path.join(siteDir, 'src/theme');
+    const result = await wrap({
+      siteDir,
+      componentName,
+      themePath: ThemePath,
+      typescript,
+    });
+    return {
+      siteDir,
+      siteThemePath,
+      createdFiles: result.createdFiles.map((file) =>
+        path.relative(siteThemePath, file),
+      ),
+      firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
+      tree: tree(siteThemePath),
+    };
+  }
+
   describe('JavaScript', () => {
     async function doWrap(componentName: string) {
-      return testExecuteAction('wrap', componentName, {
+      return testWrap('wrap', componentName, {
         typescript: false,
       });
     }
@@ -184,7 +192,7 @@ describe('wrap', () => {
 
   describe('TypeScript', () => {
     async function doWrap(componentName: string) {
-      return testExecuteAction('wrap', componentName, {
+      return testWrap('wrap', componentName, {
         typescript: true,
       });
     }

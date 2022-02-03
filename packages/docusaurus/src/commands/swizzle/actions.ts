@@ -32,18 +32,11 @@ type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
-
-  // TODO bad, does not apply to all actions
-  typescript: boolean;
-  importType: 'original' | 'init';
 };
 
 type ActionResult = {
   createdFiles: string[];
 };
-
-// TODO remove this abstraction: each handler can have its own params/results
-type ActionHandler = (params: ActionParams) => Promise<ActionResult>;
 
 async function isDir(dirPath: string): Promise<boolean> {
   return (
@@ -106,7 +99,10 @@ export async function wrap({
   componentName: themeComponentName,
   typescript,
   importType = 'original',
-}: ActionParams): Promise<ActionResult> {
+}: ActionParams & {
+  typescript: boolean;
+  importType?: 'original' | 'init';
+}): Promise<ActionResult> {
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
   // Parent/ComponentName => ComponentName
@@ -151,20 +147,4 @@ export default function ${wrapperComponentName}(props) {
   await fs.writeFile(toPath, content);
 
   return {createdFiles: [toPath]};
-}
-
-const ActionHandlers: Record<SwizzleAction, ActionHandler> = {
-  eject,
-  wrap,
-};
-
-export async function executeAction({
-  action,
-  ...actionParams
-}: {action: SwizzleAction} & ActionParams): Promise<ActionResult> {
-  const handler = ActionHandlers[action];
-  if (!handler) {
-    throw new Error(logger.interpolate`Action name=${action} is not supported`);
-  }
-  return handler(actionParams);
 }
