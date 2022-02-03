@@ -118,6 +118,32 @@ describe('normalizeConfig', () => {
   });
 
   test.each([
+    ['should throw error if themes is not array', {}],
+    [
+      "should throw error if themes is not a string and it's not an array #1",
+      [123],
+    ],
+    [
+      'should throw error if themes is not an array of [string, object][] #1',
+      [['example/path', 'wrong parameter here']],
+    ],
+    [
+      'should throw error if themes is not an array of [string, object][] #2',
+      [[{}, 'example/path']],
+    ],
+    [
+      'should throw error if themes is not an array of [string, object][] #3',
+      [[{}, {}]],
+    ],
+  ])(`%s for the input of: %p`, (_message, themes) => {
+    expect(() => {
+      normalizeConfig({
+        themes,
+      });
+    }).toThrowErrorMatchingSnapshot();
+  });
+
+  test.each([
     ['should accept [string] for plugins', ['plain/string']],
     [
       'should accept string[] for plugins',
@@ -142,15 +168,59 @@ describe('normalizeConfig', () => {
         ['this/should/work', {too: 'yes'}],
       ],
     ],
-    ['should accept function for plugin', [function (_context, _options) {}]],
+    [
+      'should accept function for plugin',
+      [function plugin(_context, _options) {}],
+    ],
     [
       'should accept [function, object] for plugin',
-      [[function (_context, _options) {}, {it: 'should work'}]],
+      [[(_context, _options) => {}, {it: 'should work'}]],
     ],
-  ])(`subdue= for the input of: path=`, (_message, plugins) => {
+  ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
         plugins,
+      });
+    }).not.toThrowError();
+  });
+
+  test.each([
+    ['should accept [string] for themes', ['plain/string']],
+    [
+      'should accept string[] for themes',
+      ['plain/string', 'another/plain/string/path'],
+    ],
+    [
+      'should accept [string, object] for themes',
+      [['plain/string', {it: 'should work'}]],
+    ],
+    [
+      'should accept [string, object][] for themes',
+      [
+        ['plain/string', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ],
+    ],
+    [
+      'should accept ([string, object]|string)[] for themes',
+      [
+        'plain/string',
+        ['plain', {it: 'should work'}],
+        ['this/should/work', {too: 'yes'}],
+      ],
+    ],
+    [
+      'should accept function for theme',
+      [function theme(_context, _options) {}],
+    ],
+    [
+      'should accept [function, object] for theme',
+      [[function theme(_context, _options) {}, {it: 'should work'}]],
+    ],
+  ])(`%s for the input of: %p`, (_message, themes) => {
+    expect(() => {
+      normalizeConfig({
+        themes,
       });
     }).not.toThrowError();
   });

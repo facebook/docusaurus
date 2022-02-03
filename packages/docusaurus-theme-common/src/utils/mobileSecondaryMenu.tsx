@@ -16,12 +16,13 @@ import React, {
 } from 'react';
 
 /*
-The idea behind all this is that a specific component must be able to fill a placeholder in the generic layout
-The doc page should be able to fill the secondary menu of the main mobile navbar.
-This permits to reduce coupling between the main layout and the specific page.
+The idea behind all this is that a specific component must be able to fill a
+placeholder in the generic layout. The doc page should be able to fill the
+secondary menu of the main mobile navbar. This permits to reduce coupling
+between the main layout and the specific page.
 
-This kind of feature is often called portal/teleport/gateway... various unmaintained React libs exist
-Most up-to-date one: https://github.com/gregberge/react-teleporter
+This kind of feature is often called portal/teleport/gateway... various
+unmaintained React libs exist. Most up-to-date one: https://github.com/gregberge/react-teleporter
 Not sure any of those is safe regarding concurrent mode.
  */
 
@@ -104,7 +105,7 @@ export function MobileSecondaryMenuFiller<
   const memoizedProps = useShallowMemoizedObject(props);
 
   useEffect(() => {
-    // @ts-expect-error: context is not 100% typesafe but it's ok
+    // @ts-expect-error: context is not 100% type-safe but it's ok
     setState({component, props: memoizedProps});
   }, [setState, component, memoizedProps]);
 

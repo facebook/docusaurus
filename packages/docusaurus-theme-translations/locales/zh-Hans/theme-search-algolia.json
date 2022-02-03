@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "搜索",
+  "theme.SearchBar.seeAll": "查看全部 {count} 个结果",
   "theme.SearchPage.algoliaLabel": "通过 Algolia 搜索",
   "theme.SearchPage.documentsFound.plurals": "找到 {count} 份文件",
   "theme.SearchPage.emptyResultsTitle": "在文档中搜索",

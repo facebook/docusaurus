@@ -37,7 +37,6 @@ import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
   ConfigureWebpackUtils,
-  Props,
   Plugin,
   HtmlTags,
   OptionValidationContext,
@@ -254,25 +253,26 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      const archiveUrl = normalizeUrl([
-        baseUrl,
-        routeBasePath,
-        archiveBasePath,
-      ]);
-
-      // creates a blog archive route
-      const archiveProp = await createData(
-        `${docuHash(archiveUrl)}.json`,
-        JSON.stringify({blogPosts}, null, 2),
-      );
-      addRoute({
-        path: archiveUrl,
-        component: '@theme/BlogArchivePage',
-        exact: true,
-        modules: {
-          archive: aliasedSource(archiveProp),
-        },
-      });
+      if (archiveBasePath) {
+        const archiveUrl = normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          archiveBasePath,
+        ]);
+        // creates a blog archive route
+        const archiveProp = await createData(
+          `${docuHash(archiveUrl)}.json`,
+          JSON.stringify({blogPosts}, null, 2),
+        );
+        addRoute({
+          path: archiveUrl,
+          component: '@theme/BlogArchivePage',
+          exact: true,
+          modules: {
+            archive: aliasedSource(archiveProp),
+          },
+        });
+      }
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
@@ -334,7 +334,8 @@ export default async function pluginContentBlog(
             modules: {
               sidebar: aliasedSource(sidebarProp),
               items: items.map((postID) =>
-                // To tell routes.js this is an import and not a nested object to recurse.
+                // To tell routes.js this is an import and not a nested object
+                // to recurse.
                 ({
                   content: {
                     __import: true,
@@ -472,7 +473,7 @@ export default async function pluginContentBlog(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
@@ -506,7 +507,8 @@ export default async function pluginContentBlog(
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
 
-                    // Assets allow to convert some relative images paths to require() calls
+                    // Assets allow to convert some relative images paths to
+                    // require() calls
                     createAssets: ({
                       frontMatter,
                       metadata,
@@ -532,14 +534,11 @@ export default async function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild({outDir, content}) {
       if (!options.feedOptions.type) {
         return;
       }
-
-      // TODO: we shouldn't need to re-read the posts here!
-      // postBuild should receive loadedContent
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const {blogPosts} = content;
       if (!blogPosts.length) {
         return;
       }

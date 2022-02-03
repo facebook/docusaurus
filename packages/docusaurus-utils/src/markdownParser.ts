@@ -14,16 +14,15 @@ export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {
-  const customHeadingIdRegex = /^(.*?)\s*\{#([\w-]+)\}$/;
+  const customHeadingIdRegex = /^(?<text>.*?)\s*\{#(?<id>[\w-]+)\}$/;
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {
-      text: matches[1],
-      id: matches[2],
+      text: matches.groups!.text,
+      id: matches.groups!.id,
     };
-  } else {
-    return {text: heading, id: undefined};
   }
+  return {text: heading, id: undefined};
 }
 
 // Hacky way of stripping out import statements from the excerpt
@@ -47,7 +46,7 @@ export function createExcerpt(fileString: string): string | undefined {
     }
 
     // Skip import/export declaration.
-    if (/^\s*?import\s.*(from.*)?;?|export\s.*{.*};?/.test(fileLine)) {
+    if (/^(?:import|export)\s.*/.test(fileLine)) {
       continue;
     }
 
@@ -56,7 +55,8 @@ export function createExcerpt(fileString: string): string | undefined {
       if (!inCode) {
         inCode = true;
         [lastCodeFence] = fileLine.trim().match(/^`+/)!;
-        // If we are in a ````-fenced block, all ``` would be plain text instead of fences
+        // If we are in a ````-fenced block, all ``` would be plain text instead
+        // of fences
       } else if (
         fileLine.trim().match(/^`+/)![0].length >= lastCodeFence.length
       ) {
@@ -71,25 +71,27 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^#\s*([^#]*)\s*#?/gm, '')
+      .replace(/^#\s*[^#]*\s*#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*([^#]*)\s*(#{1,6})?/gm, '$1')
-      // Remove emphasis and strikethroughs.
-      .replace(/([*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*(?:#{1,6})?/gm, '$1')
+      // Remove emphasis.
+      .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
+      // Remove strikethroughs.
+      .replace(/~~(?<text>\S.*\S)~~/g, '$1')
       // Remove images.
-      .replace(/!\[(.*?)\][[(].*?[\])]/g, '$1')
+      .replace(/!\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](: .*?$)?/g, '')
+      .replace(/\[\^.+?\](?:: .*?$)?/g, '')
       // Remove inline links.
-      .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
+      .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
-      .replace(/`(.+?)`/g, '$1')
+      .replace(/`(?<text>.+?)`/g, '$1')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
       // Remove admonition definition.
-      .replace(/(:{3}.*)/, '')
+      .replace(/:::.*/, '')
       // Remove Emoji names within colons include preceding whitespace.
-      .replace(/\s?(:(::|[^:\n])+:)/g, '')
+      .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
       .replace(/{#*[\w-]+}/, '')
       .trim();
@@ -113,9 +115,11 @@ export function parseFrontMatter(markdownFileContent: string): {
   };
 }
 
-// Try to convert markdown heading as text
-// Does not need to be perfect, it is only used as a fallback when frontMatter.title is not provided
-// For now, we just unwrap possible inline code blocks (# `config.js`)
+/**
+ * Try to convert markdown heading to text. Does not need to be perfect, it is
+ * only used as a fallback when frontMatter.title is not provided. For now, we
+ * just unwrap possible inline code blocks (# `config.js`)
+ */
 function toTextContentTitle(contentTitle: string): string {
   if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
     return contentTitle.substring(1, contentTitle.length - 1);
@@ -132,9 +136,9 @@ export function parseMarkdownContentTitle(
   const content = contentUntrimmed.trim();
 
   const IMPORT_STATEMENT =
-    /import\s+(([\w*{}\s\n,]+)from\s+)?["'\s]([@\w/_.-]+)["'\s];?|\n/.source;
+    /import\s+(?:[\w*{}\s\n,]+from\s+)?["'\s][@\w/_.-]+["'\s];?|\n/.source;
   const REGULAR_TITLE =
-    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>({#*[\w-]+})|#)?\n*?)/
+    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>(?:{#*[\w-]+})|#)?\n*?)/
       .source;
   const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
 
@@ -152,15 +156,14 @@ export function parseMarkdownContentTitle(
 
   if (!pattern || !title) {
     return {content, contentTitle: undefined};
-  } else {
-    const newContent = removeContentTitleOption
-      ? content.replace(pattern, '')
-      : content;
-    return {
-      content: newContent.trim(),
-      contentTitle: toTextContentTitle(title.trim()).trim(),
-    };
   }
+  const newContent = removeContentTitleOption
+    ? content.replace(pattern, '')
+    : content;
+  return {
+    content: newContent.trim(),
+    contentTitle: toTextContentTitle(title.trim()).trim(),
+  };
 }
 
 type ParsedMarkdown = {
@@ -192,8 +195,8 @@ export function parseMarkdownString(
       excerpt,
     };
   } catch (e) {
-    logger.error(`Error while parsing Markdown frontmatter.
-This can happen if you use special characters in frontmatter values (try using double quotes around that value).`);
+    logger.error(`Error while parsing Markdown front matter.
+This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw e;
   }
 }

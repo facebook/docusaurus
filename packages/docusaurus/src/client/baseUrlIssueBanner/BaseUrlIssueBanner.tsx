@@ -101,11 +101,14 @@ function BaseUrlIssueBannerEnabled() {
   );
 }
 
-// We want to help the users with a bad baseUrl configuration (very common error)
-// Help message is inlined, and hidden if JS or CSS is able to load
-// Note: it might create false positives (ie network failures): not a big deal
-// Note: we only inline this for the homepage to avoid polluting all the site's pages
-// See https://github.com/facebook/docusaurus/pull/3621
+/**
+ * We want to help the users with a bad baseUrl configuration (very common
+ * error) Help message is inlined, and hidden if JS or CSS is able to load
+ * Note: it might create false positives (ie network failures): not a big deal
+ * Note: we only inline this for the homepage to avoid polluting all the site's
+ * pages
+ * @see https://github.com/facebook/docusaurus/pull/3621
+ */
 export default function BaseUrlIssueBanner(): JSX.Element | null {
   const {
     siteConfig: {baseUrl, baseUrlIssueBanner},

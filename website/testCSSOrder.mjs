@@ -20,8 +20,8 @@ See also
 - https://github.com/facebook/docusaurus/issues/3678
 - https://github.com/facebook/docusaurus/pull/5987
 
-TODO we should probably add a real e2e test in core instead of using our own website?
-Current solution looks good-enough for now
+TODO we should probably add a real e2e test in core instead of using our own
+website? Current solution looks good-enough for now
 
  */
 
@@ -35,7 +35,6 @@ const EXPECTED_CSS_MARKERS = [
   '.DocSearch-Hit-content-wrapper',
   '.navbar__title',
   '--ifm-color-scheme:light',
-  '.test-marker-site-custom-css-shared-rule',
   '.col[class*=col--]',
   '.padding-vert--xl',
   '.footer__link-item',

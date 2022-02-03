@@ -114,7 +114,7 @@ module.exports = {
 
 You should check your plugin's documentation for the options it supports.
 
-## Creating new rehype/remark plugins
+## Creating new rehype/remark plugins {#creating-new-rehyperemark-plugins}
 
 If there isn't an existing package that satisfies your customization need, you can create your own MDX plugin.
 
@@ -168,6 +168,26 @@ module.exports = {
   ],
 };
 ```
+
+:::tip
+
+The `transformer` has a second parameter [`vfile`](https://github.com/vfile/vfile) which is useful if you need to access the current Markdown file's path.
+
+```js
+const plugin = (options) => {
+  const transformer = async (ast, vfile) => {
+    ast.children.unshift({
+      type: 'text',
+      value: `The current file path is ${vfile.path}`,
+    });
+  };
+  return transformer;
+};
+```
+
+Our `transformImage` plugin uses this parameter, for example, to transform relative image references to `require()` calls.
+
+:::
 
 :::note
 

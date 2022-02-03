@@ -6,7 +6,7 @@
  */
 
 import remark from 'remark';
-// import from the transpiled lib because Babel can't transpile `export =` syntax
+// import from the transpiled lib because Babel can't transpile `export =`
 // TODO change to `../index` after migrating to ESM
 import npm2yarn from '../../lib/index';
 import vfile from 'to-vfile';
@@ -14,7 +14,7 @@ import path from 'path';
 import mdx from 'remark-mdx';
 
 const processFixture = async (name: string, options?: {sync?: boolean}) => {
-  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
   const result = await remark()
     .use(mdx)

@@ -11,9 +11,10 @@ import type {Location, Action} from '@docusaurus/history';
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
-/*
-Permits to register a handler that will be called on history actions (pop,push,replace)
-If the handler returns false, the navigation transition will be blocked/cancelled
+/**
+ * Permits to register a handler that will be called on history actions (pop,
+ * push, replace) If the handler returns false, the navigation transition will
+ * be blocked/cancelled
  */
 export function useHistoryActionHandler(handler: HistoryBlockHandler): void {
   const {block} = useHistory();
@@ -32,11 +33,11 @@ export function useHistoryActionHandler(handler: HistoryBlockHandler): void {
   );
 }
 
-/*
-Permits to register a handler that will be called on history pop navigation (backward/forward)
-If the handler returns false, the backward/forward transition will be blocked
-
-Unfortunately there's no good way to detect the "direction" (backward/forward) of the POP event.
+/**
+ * Permits to register a handler that will be called on history pop navigation
+ * (backward/forward) If the handler returns false, the backward/forward
+ * transition will be blocked. Unfortunately there's no good way to detect the
+ * "direction" (backward/forward) of the POP event.
  */
 export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
   useHistoryActionHandler((location, action) => {

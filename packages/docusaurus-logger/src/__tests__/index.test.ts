@@ -71,3 +71,107 @@ describe('interpolate', () => {
     );
   });
 });
+
+describe('info', () => {
+  const consoleMock = jest.spyOn(console, 'info').mockImplementation(() => {});
+  test('should print objects', () => {
+    logger.info({a: 1});
+    logger.info(undefined);
+    logger.info([1, 2, 3]);
+    logger.info(new Date(2021, 10, 13));
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "[36m[1m[INFO][22m[39m {\\"a\\":1}",
+        ],
+        Array [
+          "[36m[1m[INFO][22m[39m undefined",
+        ],
+        Array [
+          "[36m[1m[INFO][22m[39m 1,2,3",
+        ],
+        Array [
+          "[36m[1m[INFO][22m[39m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+        ],
+      ]
+    `);
+  });
+});
+
+describe('warn', () => {
+  const consoleMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  test('should print objects', () => {
+    logger.warn({a: 1});
+    logger.warn(undefined);
+    logger.warn([1, 2, 3]);
+    logger.warn(new Date(2021, 10, 13));
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "[33m[1m[WARNING][22m {\\"a\\":1}[39m",
+        ],
+        Array [
+          "[33m[1m[WARNING][22m undefined[39m",
+        ],
+        Array [
+          "[33m[1m[WARNING][22m 1,2,3[39m",
+        ],
+        Array [
+          "[33m[1m[WARNING][22m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)[39m",
+        ],
+      ]
+    `);
+  });
+});
+
+describe('error', () => {
+  const consoleMock = jest.spyOn(console, 'error').mockImplementation(() => {});
+  test('should print objects', () => {
+    logger.error({a: 1});
+    logger.error(undefined);
+    logger.error([1, 2, 3]);
+    logger.error(new Date(2021, 10, 13));
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "[31m[1m[ERROR][22m {\\"a\\":1}[39m",
+        ],
+        Array [
+          "[31m[1m[ERROR][22m undefined[39m",
+        ],
+        Array [
+          "[31m[1m[ERROR][22m 1,2,3[39m",
+        ],
+        Array [
+          "[31m[1m[ERROR][22m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)[39m",
+        ],
+      ]
+    `);
+  });
+});
+
+describe('success', () => {
+  const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+  test('should print objects', () => {
+    logger.success({a: 1});
+    logger.success(undefined);
+    logger.success([1, 2, 3]);
+    logger.success(new Date(2021, 10, 13));
+    expect(consoleMock.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "[32m[1m[SUCCESS][22m[39m {\\"a\\":1}",
+        ],
+        Array [
+          "[32m[1m[SUCCESS][22m[39m undefined",
+        ],
+        Array [
+          "[32m[1m[SUCCESS][22m[39m 1,2,3",
+        ],
+        Array [
+          "[32m[1m[SUCCESS][22m[39m Sat Nov 13 2021 00:00:00 GMT+0000 (Coordinated Universal Time)",
+        ],
+      ]
+    `);
+  });
+});

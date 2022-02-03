@@ -35,3 +35,7 @@
 [![Clickable Docusaurus logo](./static/staticAssetImage.png)](/staticAssetImage.png)
 
 [<span style={{color: "red"}}>Stylized link to asset file</span>](./asset.pdf)
+
+[json](./data.json)
+
+[static json](/staticjson.json)

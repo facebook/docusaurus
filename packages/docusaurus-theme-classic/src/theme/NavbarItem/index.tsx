@@ -16,7 +16,7 @@ import type {Types, Props} from '@theme/NavbarItem';
 
 const NavbarItemComponents: Record<
   Exclude<Types, undefined>,
-  // TODO: properly type this
+  // Not really worth typing, as we pass all props down immediately
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   () => (props: any) => JSX.Element
 > = {
@@ -25,8 +25,8 @@ const NavbarItemComponents: Record<
   search: () => SearchNavbarItem,
   dropdown: () => DropdownNavbarItem,
 
-  // Need to lazy load these items as we don't know for sure the docs plugin is loaded
-  // See https://github.com/facebook/docusaurus/issues/3360
+  // Need to lazy load these items as we don't know for sure the docs plugin is
+  // loaded. See https://github.com/facebook/docusaurus/issues/3360
   /* eslint-disable @typescript-eslint/no-var-requires, global-require */
   docsVersion: () => require('@theme/NavbarItem/DocsVersionNavbarItem').default,
   docsVersionDropdown: () =>

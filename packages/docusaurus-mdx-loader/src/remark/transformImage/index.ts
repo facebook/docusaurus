@@ -10,26 +10,37 @@ import {
   posixPath,
   escapePath,
   getFileLoaderUtils,
+  findAsyncSequential,
 } from '@docusaurus/utils';
 import visit from 'unist-util-visit';
 import path from 'path';
 import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
+import sizeOf from 'image-size';
+import {promisify} from 'util';
 import type {Plugin, Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
+import logger from '@docusaurus/logger';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-interface PluginOptions {
-  filePath: string;
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
-}
+};
 
-function toImageRequireNode(node: Image, imagePath: string, filePath: string) {
+type Context = PluginOptions & {
+  filePath: string;
+};
+
+async function toImageRequireNode(
+  node: Image,
+  imagePath: string,
+  filePath: string,
+) {
   const jsxNode = node as Literal & Partial<Image>;
   let relativeImagePath = posixPath(
     path.relative(path.dirname(filePath), imagePath),
@@ -45,13 +56,27 @@ function toImageRequireNode(node: Image, imagePath: string, filePath: string) {
     escapePath(relativeImagePath) + search
   }").default${hash ? ` + '${hash}'` : ''}`;
   const title = node.title ? ` title="${escapeHtml(node.title)}"` : '';
+  let width = '';
+  let height = '';
+  try {
+    const size = (await promisify(sizeOf)(imagePath))!;
+    if (size.width) {
+      width = ` width="${size.width}"`;
+    }
+    if (size.height) {
+      height = ` height="${size.height}"`;
+    }
+  } catch (e) {
+    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
+${(e as Error).message}`;
+  }
 
   Object.keys(jsxNode).forEach(
     (key) => delete jsxNode[key as keyof typeof jsxNode],
   );
 
   (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<img ${alt}src={${src}}${title} />`;
+  jsxNode.value = `<img ${alt}src={${src}}${title}${width}${height} />`;
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
@@ -67,7 +92,7 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
 
 async function getImageAbsolutePath(
   imagePath: string,
-  {siteDir, filePath, staticDirs}: PluginOptions,
+  {siteDir, filePath, staticDirs}: Context,
 ) {
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
@@ -76,61 +101,59 @@ async function getImageAbsolutePath(
   } else if (path.isAbsolute(imagePath)) {
     // absolute paths are expected to exist in the static folder
     const possiblePaths = staticDirs.map((dir) => path.join(dir, imagePath));
-    // eslint-disable-next-line no-restricted-syntax
-    for (const possiblePath of possiblePaths) {
-      const imageFilePath = possiblePath;
-      if (await fs.pathExists(imageFilePath)) {
-        return imageFilePath;
-      }
-    }
-    throw new Error(
-      `Image ${possiblePaths
-        .map((p) => toMessageRelativeFilePath(p))
-        .join(' or ')} used in ${toMessageRelativeFilePath(
-        filePath,
-      )} not found.`,
+    const imageFilePath = await findAsyncSequential(
+      possiblePaths,
+      fs.pathExists,
     );
-  }
-  // We try to convert image urls without protocol to images with require calls
-  // going through webpack ensures that image assets exist at build time
-  else {
-    // relative paths are resolved against the source file's folder
-    const imageFilePath = path.join(path.dirname(filePath), imagePath);
-    await ensureImageFileExist(imageFilePath, filePath);
+    if (!imageFilePath) {
+      throw new Error(
+        `Image ${possiblePaths
+          .map((p) => toMessageRelativeFilePath(p))
+          .join(' or ')} used in ${toMessageRelativeFilePath(
+          filePath,
+        )} not found.`,
+      );
+    }
     return imageFilePath;
   }
+  // relative paths are resolved against the source file's folder
+  const imageFilePath = path.join(path.dirname(filePath), imagePath);
+  await ensureImageFileExist(imageFilePath, filePath);
+  return imageFilePath;
 }
 
-async function processImageNode(node: Image, options: PluginOptions) {
+async function processImageNode(node: Image, context: Context) {
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
-        options.filePath,
+        context.filePath,
       )}" file`,
     );
   }
 
   const parsedUrl = url.parse(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
-    // pathname:// is an escape hatch,
-    // in case user does not want his images to be converted to require calls going through webpack loader
-    // we don't have to document this for now,
-    // it's mostly to make next release less risky (2.0.0-alpha.59)
+    // pathname:// is an escape hatch, in case user does not want her images to
+    // be converted to require calls going through webpack loader
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;
   }
 
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, options);
-  toImageRequireNode(node, imagePath, options.filePath);
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
+  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
+  await toImageRequireNode(node, imagePath, context.filePath);
 }
 
 const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root) => {
+  const transformer: Transformer = async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image) => {
-      promises.push(processImageNode(node, options));
+      promises.push(
+        processImageNode(node, {...options, filePath: vfile.path!}),
+      );
     });
     await Promise.all(promises);
   };

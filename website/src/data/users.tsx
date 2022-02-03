@@ -13,15 +13,16 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
  *
  * Requirements for adding your site to our showcase:
- * - It is a production-ready site with real content and decent customizations (different from the init templates)
+ * - It is a production-ready site with real content and decent customizations
+ * (different from the init templates)
  * - It is NOT a work-in-progress with empty pages
- * - It has a stable domain name (a Netlify/Vercel deploy preview is not allowed)
+ * - It has a stable domain (a Netlify/Vercel deploy preview is not allowed)
  *
  * Instructions:
  * - Add your site in the json array below
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - Use relevant tags to qualify your site (read the tag descriptions below)
- * - The image MUST be added to the GitHub repository, and use `require("image")`
+ * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
  * - Open a PR and check for reported CI errors
  *
@@ -62,7 +63,7 @@ export type TagType =
 export type User = {
   title: string;
   description: string;
-  preview: any;
+  preview: string;
   website: string;
   source: string | null;
   tags: TagType[];
@@ -115,7 +116,7 @@ export const Tags: Record<TagType, Tag> = {
     color: '#fe6829',
   },
 
-  // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
+  // Large sites, with a lot of content (> 200 pages, excluding versions)
   large: {
     label: 'Large',
     description:
@@ -557,6 +558,14 @@ const Users: User[] = [
     tags: ['personal', 'design'],
   },
   {
+    title: "Kuizuo's Personal Website",
+    description: "A Software Enthusiast's blog, Sharing and Learning",
+    preview: require('./showcase/kuizuo.png'),
+    website: 'https://kuizuo.cn',
+    source: 'https://github.com/kuizuo/blog',
+    tags: ['personal', 'opensource', 'design'],
+  },
+  {
     title: 'FireCMS',
     description: 'Firebase/Firestore based headless CMS',
     preview: require('./showcase/firecms.png'),
@@ -735,11 +744,11 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
-    title: 'InfraQL Technologies',
+    title: 'StackQL',
     description:
-      'InfraQL is a SQL based approach to cloud infrastructure coding, API querying and automation.',
-    preview: require('./showcase/infraql-docs.png'),
-    website: 'https://docs.infraql.io/',
+      'StackQL is a data centric approach to provisioning, querying, and managing cloud infrastructure and SaaS resources across multiple clouds.',
+    preview: require('./showcase/stackql.png'),
+    website: 'https://stackql.io/',
     source: null,
     tags: ['product'],
   },
@@ -754,7 +763,7 @@ const Users: User[] = [
   },
   {
     title: 'IOTA-Wiki',
-    description: 'Documantation and wiki for the IOTA project',
+    description: 'Documentation and wiki for the IOTA project',
     preview: require('./showcase/iota-wiki.png'),
     website: 'https://wiki.iota.org',
     source: 'https://github.com/iota-community/iota-wiki',
@@ -769,7 +778,7 @@ const Users: User[] = [
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
-   {
+  {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
@@ -800,6 +809,14 @@ const Users: User[] = [
     website: 'https://kotest.io',
     source: 'https://github.com/kotest/kotest',
     tags: ['opensource'],
+  },
+  {
+    title: 'kube-green',
+    description: 'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
+    preview: require('./showcase/kube-green.png'),
+    website: 'https://kube-green.dev',
+    source: 'https://github.com/kube-green/kube-green.github.io',
+    tags: ['opensource', 'product']
   },
   {
     title: 'kwatch',
@@ -1356,6 +1373,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'replicad',
+    description: 'The library to build browser based 3D models with code.',
+    preview: require('./showcase/replicad.png'),
+    website: 'https://replicad.xyz/',
+    source: 'https://github.com/sgenoud/replicad',
+    tags: ['opensource'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
@@ -1397,12 +1422,30 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'versioning'],
   },
   {
+    title: 'SAP Cloud SDK',
+    description:
+      'The one-stop shop for developing and extending SAP applications in the cloud.',
+    preview: require('./showcase/sapcloudsdk.png'),
+    website: 'https://sap.github.io/cloud-sdk/',
+    source: 'https://github.com/SAP/cloud-sdk',
+    tags: ['opensource', 'product', 'large'],
+  },
+  {
     title: 'Sapphire',
     description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
     preview: require('./showcase/sapphire.png'),
     website: 'https://www.sapphirejs.dev',
     source: 'https://github.com/sapphiredev/website',
     tags: ['opensource', 'large'],
+  },
+  {
+    title: 'Sass Fairy',
+    description:
+      'Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.',
+    preview: require('./showcase/sass-fairy.png'),
+    website: 'https://sass-fairy.com/',
+    source: 'https://github.com/roydukkey/sass-fairy',
+    tags: ['opensource'],
   },
   {
     title: 'SCI WP Framework',
@@ -1461,6 +1504,15 @@ const Users: User[] = [
     website: 'https://social-embed.git-pull.com/',
     source: 'https://github.com/social-embed/social-embed',
     tags: ['opensource'],
+  },
+  {
+    title: 'SODA for SPARC',
+    description:
+      'Simplifying data curation for researchers funded by the NIH SPARC initiative',
+    preview: require('./showcase/sodaforsparc.png'),
+    website: 'https://docs.sodaforsparc.io/',
+    source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -1608,6 +1660,14 @@ const Users: User[] = [
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Verida',
+    description: 'A web3 data storage and sharing API',
+    preview: require('./showcase/verida-developers.png'),
+    website: 'https://developers.verida.io/',
+    source: 'https://github.com/verida/documentation',
     tags: ['opensource', 'product'],
   },
   {
@@ -1806,6 +1866,14 @@ const Users: User[] = [
     website: 'https://sdk.dimescheduler.com',
     source: 'https://github.com/dime-scheduler/sdk-dotnet',
     tags: ['product', 'opensource'],
+  },
+  {
+    title: "404Lab.Wiki",
+    description: 'Docs and blogs about development and study',
+    preview: require('./showcase/404lab-wiki.png'),
+    website: 'https://wiki.404lab.top',
+    source: 'https://github.com/HiChen404/MyWikiSite',
+    tags: ['opensource', 'personal'],
   },
   /*
   Pro Tip: add your site in alphabetical order.

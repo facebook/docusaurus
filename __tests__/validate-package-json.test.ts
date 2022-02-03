@@ -62,9 +62,11 @@ describe('packages', () => {
       .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
       .forEach((packageJsonFile) => {
         if (packageJsonFile) {
-          // Unfortunately jest custom message do not exist in loops, so using an exception instead to show failing package file
+          // Unfortunately jest custom message do not exist in loops,
+          // so using an exception instead to show failing package file
           // (see https://github.com/facebook/jest/issues/3293)
-          // expect(packageJsonFile.content.publishConfig?.access).toEqual('public');
+          // expect(packageJsonFile.content.publishConfig?.access)
+          //  .toEqual('public');
           if (packageJsonFile.content.publishConfig?.access !== 'public') {
             throw new Error(
               `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,

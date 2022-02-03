@@ -37,7 +37,8 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
+      // h1 title is skipped on purpose, because we don't want the page to have
+      // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -54,7 +55,8 @@ describe('createExcerpt', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
     ).toEqual(
-      // h1 title is skipped on purpose, because we don't want the page to have SEO metadata title === description
+      // h1 title is skipped on purpose, because we don't want the page to have
+      // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -114,7 +116,7 @@ describe('createExcerpt', () => {
 
           export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
 
-          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~molestie~ et sagittis ut, varius ac justo :wink:.
+          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~~molestie~~ et sagittis ut, varius ac justo :wink:.
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
@@ -552,7 +554,7 @@ Lorem Ipsum
 });
 
 describe('parseMarkdownString', () => {
-  test('parse markdown with frontmatter', () => {
+  test('parse markdown with front matter', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -592,7 +594,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown)', () => {
+  test('should warn about duplicate titles (front matter + markdown)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -617,7 +619,7 @@ describe('parseMarkdownString', () => {
     `);
   });
 
-  test('should warn about duplicate titles (frontmatter + markdown alternate)', () => {
+  test('should warn about duplicate titles (front matter + markdown alternate)', () => {
     expect(
       parseMarkdownString(dedent`
         ---

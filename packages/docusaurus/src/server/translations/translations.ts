@@ -86,7 +86,7 @@ function mergeTranslationFileContent({
   Object.entries(newContentTransformed).forEach(
     ([key, {message, description}]) => {
       result[key] = {
-        // If the messages already exist, we don't override them (unless requested)
+        // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,
@@ -252,9 +252,8 @@ export async function localizePluginTranslationFile({
         ...localizedContent,
       },
     };
-  } else {
-    return translationFile;
   }
+  return translationFile;
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(

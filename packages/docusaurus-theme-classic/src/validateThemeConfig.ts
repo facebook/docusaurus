@@ -41,6 +41,7 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -53,8 +54,8 @@ const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
   className: Joi.string(),
 })
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -250,8 +251,8 @@ const FooterLinkItemSchema = Joi.object({
   .with('to', 'label')
   .with('href', 'label')
   .nand('html', 'label')
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const CustomCssSchema = Joi.alternatives()
@@ -276,8 +277,10 @@ const ThemeConfigSchema = Joi.object({
   metadata: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadata),
+  // cSpell:ignore metadatas
   metadatas: Joi.any().forbidden().messages({
     'any.unknown':
+      // cSpell:ignore metadatas
       'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
   }),
   announcementBar: Joi.object({
@@ -352,6 +355,9 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  autoCollapseSidebarCategories: Joi.bool().default(
+    DEFAULT_CONFIG.autoCollapseSidebarCategories,
+  ),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',

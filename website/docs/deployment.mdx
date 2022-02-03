@@ -54,7 +54,38 @@ Use [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-gui
 
 :::
 
-## Choosing a hosting provider
+## Using environment variables {using-environment-variables}
+
+Putting potentially sensitive information in the environment is common practice. However, in a typical Docusaurus website, the `docusaurus.config.js` file is the only interface to the Node.js environment (see [our architecture overview](advanced/architecture.md)), while everything else—MDX pages, React components... are client side and do not have direct access to the `process` global. In this case, you can consider using [`customFields`](api/docusaurus.config.js.md#customfields) to pass environment variables to the client side.
+
+```js title="docusaurus.config.js"
+// If you are using dotenv (https://www.npmjs.com/package/dotenv)
+require('dotenv').config();
+
+module.exports = {
+  title: '...',
+  url: process.env.URL, // You can use environment variables to control site specifics as well
+  // highlight-start
+  customFields: {
+    // Put your custom environment here
+    teamEmail: process.env.EMAIL,
+  },
+  // highlight-end
+};
+```
+
+```jsx title="home.jsx"
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+export default function Home() {
+  const {
+    siteConfig: {customFields},
+  } = useDocusaurusContext();
+  return <div>Contact us through {customFields.teamEmail}!</div>;
+}
+```
+
+## Choosing a hosting provider {choosing-a-hosting-provider}
 
 There are a few common hosting options:
 
@@ -324,7 +355,7 @@ Here are two approaches to deploying your docs with GitHub Actions. Based on the
 <Tabs>
 <TabItem value="same" label="Same">
 
-While you can have both jobs defined in the same workflow file, the `deploy` job will always be listed as skipped in the PR check suite status. That's added noise providing no value to the review process, and as you cannot easily share common snippets, it is better to manage them as separate workflows instead.
+While you can have both jobs defined in the same workflow file, the original `deploy` workflow will always be listed as skipped in the PR check suite status, which is not communicative of the actual status and provides no value to the review process. We therefore propose to manage them as separate workflows instead.
 
 We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
 
@@ -334,9 +365,11 @@ We will use a popular third-party deployment action: [peaceiris/actions-gh-pages
 
 Add these two workflow files:
 
-:::warning
+:::warning Tweak the parameters for your setup
 
 These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
+If your Docusaurus project is not at the root of the repo, you would need to change the paths as well.
 
 :::
 
@@ -345,8 +378,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-    paths: [website/**]
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   deploy:
@@ -356,13 +391,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - name: Build website
-        working-directory: website
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+        run: yarn build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
@@ -371,8 +406,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
-          publish_dir: ./website/build
-          # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:
+          publish_dir: ./build
+          # The following lines assign commit authorship to the official
+          # GH-Actions bot for deploys to `gh-pages` branch:
           # https://github.com/actions/checkout/issues/13#issuecomment-724415212
           # The GH actions bot is used by default if you didn't specify the two fields.
           # You can swap them out with your own user credentials.
@@ -385,8 +421,10 @@ name: Test deployment
 
 on:
   pull_request:
-    branches: [main]
-    paths: [website/**]
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   test-deploy:
@@ -396,13 +434,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
-      - name: Test build
-        working-directory: website
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
 ```
 
 </details>
@@ -448,12 +486,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
-      - name: Test deployment
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -604,6 +642,10 @@ trigger:
 
 Now, whenever you push a new tag to GitHub, this trigger will start the drone CI job to publish your website.
 
+## Deploying to Koyeb {#deploying-to-koyeb}
+
+[Koyeb](https://www.koyeb.com) is a developer-friendly serverless platform to deploy apps globally. The platform lets you seamlessly run Docker containers, web apps, and APIs with git-based deployment, native autoscaling, a global edge network, and built-in service mesh and discovery. Check out the [Koyeb's Docusaurus deployment guide](https://www.koyeb.com/tutorials/deploy-docusaurus-on-koyeb) to get started.
+
 ## Deploying to Render {#deploying-to-render}
 
 [Render](https://render.com) offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN, and continuous auto-deploy from your Git repo. Get started in just a few minutes by following [Render's guide to deploying Docusaurus](https://render.com/docs/deploy-docusaurus).
@@ -699,10 +741,10 @@ Confirm that the site you want to publish is in the `build` directory, a randoml
 If you have a domain name you can deploy your site using surge to your domain using the command:
 
 ```bash
-surge build/ yourdomain.com
+surge build/ your-domain.com
 ```
 
-Your site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
+Your site is now deployed for free at `subdomain.surge.sh` or `your-domain.com` depending on the method you chose.
 
 ### Setting up CNAME file {#setting-up-cname-file}
 
@@ -729,6 +771,10 @@ You can deploy any other changes in the future with the command `surge`.
 
 See [docs](https://docs.quantcdn.io/docs/cli/continuous-integration) and [blog](https://www.quantcdn.io/blog) for more examples and use cases for deploying to QuantCDN.
 
-## Deploying to Layer0
+## Deploying to Layer0 {#deploying-to-layer0}
 
 [Layer0](https://www.layer0.co) is an all-in-one platform to develop, deploy, preview, experiment on, monitor, and run your headless frontend. It is focused on large, dynamic websites and best-in-class performance through EdgeJS (a JavaScript-based Content Delivery Network), predictive prefetching, and performance monitoring. Layer0 offers a free tier. Get started in just a few minutes by following [Layer0's guide to deploying Docusaurus](https://docs.layer0.co/guides/docusaurus).
+
+## Deploying to Cloudflare Pages {deploying-to-cloudflare-pages}
+
+[Cloudflare Pages](https://pages.cloudflare.com/) is a Jamstack platform for frontend developers to collaborate and deploy websites. Get started within a few minutes by following [this article](https://dev.to/apidev234/deploying-docusaurus-to-cloudflare-pages-565g).

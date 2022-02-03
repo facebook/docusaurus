@@ -70,7 +70,8 @@ describe('shortName', () => {
       字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字:
         {
           apfs: '字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字',
-          // This is pretty bad (a character clipped in half), but I doubt if it ever happens
+          // This is pretty bad (a character clipped in half), but I doubt if it
+          // ever happens
           xfs: '字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字�',
         },
     };

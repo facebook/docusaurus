@@ -12,14 +12,14 @@ import vfile from 'to-vfile';
 import plugin from '..';
 
 const processFixture = async (name) => {
-  const path = join(__dirname, 'fixtures', name);
+  const path = join(__dirname, '__fixtures__', name);
   const file = await vfile.read(path);
   const result = await remark().use(mdx).use(plugin).process(file);
   return result.toString();
 };
 
 const processFixtureAST = async (name) => {
-  const path = join(__dirname, 'fixtures', name);
+  const path = join(__dirname, '__fixtures__', name);
   const file = await vfile.read(path);
   return remark().use(mdx).use(plugin).parse(file);
 };

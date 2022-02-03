@@ -44,14 +44,15 @@ export default function CodeBlock({
     setMounted(true);
   }, []);
 
-  // TODO: the title is provided by MDX as props automatically
-  // so we probably don't need to parse the metastring
-  // (note: title="xyz" => title prop still has the quotes)
+  // We still parse the metastring in case we want to support more syntax in the
+  // future. Note that MDX doesn't strip quotes when parsing metastring:
+  // "title=\"xyz\"" => title: "\"xyz\""
   const codeBlockTitle = parseCodeBlockTitle(metastring) || title;
   const prismTheme = usePrismTheme();
 
   // <pre> tags in markdown map to CodeBlocks and they may contain JSX children.
-  // When the children is not a simple string, we just return a styled block without actually highlighting.
+  // When the children is not a simple string, we just return a styled block
+  // without actually highlighting.
   if (React.Children.toArray(children).some((el) => isValidElement(el))) {
     return (
       <Highlight

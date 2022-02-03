@@ -9,45 +9,45 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 
 Mathematical equations can be rendered using [KaTeX](https://katex.org).
 
-## Usage
+## Usage {#usage}
 
 Please read [KaTeX](https://katex.org) documentation for more details.
 
-### Inline
+### Inline {#inline}
 
 Write inline math equations by wrapping LaTeX equations between `$`:
 
 ```mdx
-Let $f:[a,b] \to \R$ be Riemann integrable. Let $F:[a,b]\to\R$ be $F(x)=
-\int_{a}^{x}f(t)dt$. Then $$F$$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
+Let $f\colon[a,b] \to \R$ be Riemann integrable. Let $F\colon[a,b]\to\R$ be $F(x)=
+\int_{a}^{x} f(t)\,dt$. Then $$F$$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
 ```
 
 <BrowserWindow>
 
-Let $f:[a,b] \to \R$ be Riemann integrable. Let $F:[a,b]\to\R$ be $F(x)=
-\int_{a}^{x}f(t)dt$. Then $F$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
+Let $f\colon[a,b] \to \R$ be Riemann integrable. Let $F\colon[a,b]\to\R$ be $F(x)=
+\int_{a}^{x} f(t)\,dt$. Then $F$ is continuous, and at all $x$ such that $f$ is continuous at $x$, $F$ is differentiable at $x$ with $F'(x)=f(x)$.
 
 </BrowserWindow>
 
-### Blocks
+### Blocks {#blocks}
 
 For equation block or display mode, use line breaks and `$$`:
 
 ```mdx
 $$
-I = \int_0^{2\pi} \sin(x) dx
+I = \int_0^{2\pi} \sin(x)\,dx
 $$
 ```
 
 <BrowserWindow>
 
 $$
-I = \int_0^{2\pi} \sin(x) dx
+I = \int_0^{2\pi} \sin(x)\,dx
 $$
 
 </BrowserWindow>
 
-## Configuration
+## Configuration {#configuration}
 
 To enable KaTeX, you need to install `remark-math` and `rehype-katex` plugins.
 
@@ -128,7 +128,22 @@ module.exports = {
 };
 ```
 
-## Upgrading rehype-katex beyond recommended version
+## Self-hosting KaTeX assets {#self-hosting-katex-assets}
+
+Loading stylesheets, fonts, and javascript libraries from CDN sources is a good practice for popular libraries and assets, since it reduces the amount of assets you have to host. In case you prefer to self-host the `katex.min.css` (along with required KaTeX fonts), you can download the latest version from [KaTeX GitHub releases](https://github.com/KaTeX/KaTeX/releases), extract and copy `katex.min.css` and `fonts` directory (only `.woff2` font types should be enough) to your site's `static` directory, and in `docusaurus.config.js`, replace the stylesheet's `href` from the CDN url to your local path (say, `/katex/katex.min.css`).
+
+```js title="docusaurus.config.js"
+module.exports = {
+  stylesheets: [
+    {
+      href: '/katex/katex.min.css',
+      type: 'text/css',
+    },
+  ],
+};
+```
+
+## Upgrading rehype-katex beyond recommended version {#upgrading-rehype-katex-beyond-recommended-version}
 
 :::tip
 

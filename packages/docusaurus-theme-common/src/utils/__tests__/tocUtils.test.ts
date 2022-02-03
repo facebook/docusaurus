@@ -112,8 +112,9 @@ describe('filterTOC', () => {
     ]);
   });
 
-  // It's not 100% clear exactly how the TOC should behave under weird heading levels provided by the user
-  // Adding a test so that behavior stays the same over time
+  // It's not 100% clear exactly how the TOC should behave under weird heading
+  // levels provided by the user. Adding a test so that behavior stays the same
+  // over time
   test('filter invalid heading levels (but possible) TOC', () => {
     const toc: TOCItem[] = [
       {

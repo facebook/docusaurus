@@ -39,7 +39,8 @@ await Promise.all(
   }),
 );
 
-// You should also run optimizt `find website/src/data/showcase -type f -name '*.png'`.
-// This is not included here because @funboxteam/optimizt doesn't seem to play well with M1
-// so I had to run this in a Rosetta terminal.
+// You should also run
+// optimizt `find website/src/data/showcase -type f -name '*.png'`.
+// This is not included here because @funboxteam/optimizt doesn't seem to play
+// well with M1 so I had to run this in a Rosetta terminal.
 // TODO integrate this as part of the script

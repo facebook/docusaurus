@@ -14,6 +14,9 @@ import {
   useCollapsible,
   findFirstCategoryLink,
   ThemeClassNames,
+  useThemeConfig,
+  useDocSidebarItemsExpandedState,
+  isSamePath,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -29,6 +32,7 @@ import type {
 
 import styles from './styles.module.css';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import type {SidebarItemHtml} from '@docusaurus/plugin-content-docs/src/sidebars/types';
 
 export default function DocSidebarItem({
   item,
@@ -36,17 +40,17 @@ export default function DocSidebarItem({
 }: Props): JSX.Element | null {
   switch (item.type) {
     case 'category':
-      if (item.items.length === 0) {
-        return null;
-      }
       return <DocSidebarItemCategory item={item} {...props} />;
+    case 'html':
+      return <DocSidebarItemHtml item={item} {...props} />;
     case 'link':
     default:
       return <DocSidebarItemLink item={item} {...props} />;
   }
 }
 
-// If we navigate to a category and it becomes active, it should automatically expand itself
+// If we navigate to a category and it becomes active, it should automatically
+// expand itself
 function useAutoExpandActiveCategory({
   isActive,
   collapsed,
@@ -65,11 +69,14 @@ function useAutoExpandActiveCategory({
   }, [isActive, wasActive, collapsed, setCollapsed]);
 }
 
-// When a collapsible category has no link, we still link it to its first child during SSR as a temporary fallback
-// This allows to be able to navigate inside the category even when JS fails to load, is delayed or simply disabled
-// React hydration becomes an optional progressive enhancement
-// see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
-// see https://github.com/facebook/docusaurus/issues/3030
+/**
+ * When a collapsible category has no link, we still link it to its first child
+ * during SSR as a temporary fallback. This allows to be able to navigate inside
+ * the category even when JS fails to load, is delayed or simply disabled
+ * React hydration becomes an optional progressive enhancement
+ * see https://github.com/facebookincubator/infima/issues/36#issuecomment-772543188
+ * see https://github.com/facebook/docusaurus/issues/3030
+ */
 function useCategoryHrefWithSSRFallback(
   item: PropSidebarItemCategory,
 ): string | undefined {
@@ -92,14 +99,16 @@ function DocSidebarItemCategory({
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible, className, href} = item;
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
 
   const isActive = isActiveSidebarItem(item, activePath);
+  const isCurrentPage = isSamePath(href, activePath);
 
-  const {collapsed, setCollapsed, toggleCollapsed} = useCollapsible({
+  const {collapsed, setCollapsed} = useCollapsible({
     // active categories are always initialized as expanded
     // the default (item.collapsed) is only used for non-active categories
     initialState: () => {
@@ -111,6 +120,28 @@ function DocSidebarItemCategory({
   });
 
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
+  const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
+  function updateCollapsed(toCollapsed: boolean = !collapsed) {
+    setExpandedItem(toCollapsed ? null : index);
+    setCollapsed(toCollapsed);
+  }
+  const {autoCollapseSidebarCategories} = useThemeConfig();
+  useEffect(() => {
+    if (
+      collapsible &&
+      expandedItem &&
+      expandedItem !== index &&
+      autoCollapseSidebarCategories
+    ) {
+      setCollapsed(true);
+    }
+  }, [
+    collapsible,
+    expandedItem,
+    index,
+    setCollapsed,
+    autoCollapseSidebarCategories,
+  ]);
 
   return (
     <li
@@ -123,7 +154,10 @@ function DocSidebarItemCategory({
         },
         className,
       )}>
-      <div className="menu__list-item-collapsible">
+      <div
+        className={clsx('menu__list-item-collapsible', {
+          'menu__list-item-collapsible--active': isCurrentPage,
+        })}>
         <Link
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
@@ -136,16 +170,17 @@ function DocSidebarItemCategory({
               ? (e) => {
                   onItemClick?.(item);
                   if (href) {
-                    setCollapsed(false);
+                    updateCollapsed(false);
                   } else {
                     e.preventDefault();
-                    toggleCollapsed();
+                    updateCollapsed();
                   }
                 }
               : () => {
                   onItemClick?.(item);
                 }
           }
+          aria-current={isCurrentPage ? 'page' : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
@@ -165,7 +200,7 @@ function DocSidebarItemCategory({
             className="clean-btn menu__caret"
             onClick={(e) => {
               e.preventDefault();
-              toggleCollapsed();
+              updateCollapsed();
             }}
           />
         )}
@@ -184,11 +219,35 @@ function DocSidebarItemCategory({
   );
 }
 
+function DocSidebarItemHtml({
+  item,
+  level,
+  index,
+}: Props & {item: SidebarItemHtml}) {
+  const {value, defaultStyle, className} = item;
+  return (
+    <li
+      className={clsx(
+        ThemeClassNames.docs.docSidebarItemLink,
+        ThemeClassNames.docs.docSidebarItemLinkLevel(level),
+        defaultStyle && `${styles.menuHtmlItem} menu__list-item`,
+        className,
+      )}
+      key={index}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{
+        __html: value,
+      }}
+    />
+  );
+}
+
 function DocSidebarItemLink({
   item,
   onItemClick,
   activePath,
   level,
+  index,
   ...props
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label, className} = item;

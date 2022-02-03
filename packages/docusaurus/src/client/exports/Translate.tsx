@@ -40,7 +40,8 @@ export function translate<Str extends string>(
 }
 
 // Maybe we'll want to improve this component with additional features
-// Like toggling a translation mode that adds a little translation button near the text?
+// Like toggling a translation mode that adds a little translation button near
+// the text?
 export default function Translate<Str extends string>({
   children,
   id,

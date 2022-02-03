@@ -8,7 +8,7 @@ This doc guides you through migrating an existing Docusaurus 1 site to Docusauru
 
 We try to make this as easy as possible, and provide a migration cli.
 
-## Main differences
+## Main differences {#main-differences}
 
 Docusaurus 1 is a pure documentation site generator, using React as a server-side template engine, but not loading React on the browser.
 

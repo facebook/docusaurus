@@ -64,7 +64,14 @@ declare module '@generated/i18n' {
     defaultLocale: string;
     locales: [string, ...string[]];
     currentLocale: string;
-    localeConfigs: Record<string, {label: string; direction: string}>;
+    localeConfigs: Record<
+      string,
+      {
+        label: string;
+        direction: string;
+        htmlLang: string;
+      }
+    >;
   };
   export = i18n;
 }
@@ -162,23 +169,23 @@ declare module '@docusaurus/Link' {
 declare module '@docusaurus/Interpolate' {
   import type {ReactNode} from 'react';
 
-  // TODO use TS template literal feature to make values typesafe!
-  // (requires upgrading TS first)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export type ExtractInterpolatePlaceholders<Str extends string> = string;
+  export type ExtractInterpolatePlaceholders<Str extends string> =
+    Str extends `${string}{${infer Key}}${infer Rest}`
+      ? Key | ExtractInterpolatePlaceholders<Rest>
+      : never;
 
   export type InterpolateValues<
     Str extends string,
     Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
-  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  // If all the values are plain strings, interpolate returns a simple string
   export function interpolate<Str extends string>(
     text: Str,
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  // If values contain any ReactNode, then the return is a ReactNode
+  // If values contain any ReactNode, the return is a ReactNode
   export function interpolate<Str extends string, Value extends ReactNode>(
     text: Str,
     values?: InterpolateValues<Str, Value>,
@@ -200,13 +207,18 @@ declare module '@docusaurus/Translate' {
 
   // TS type to ensure that at least one of id or message is always provided
   // (Generic permits to handled message provided as React children)
-  type IdOrMessage<MessageKey extends 'children' | 'message'> =
-    | ({[key in MessageKey]: string} & {id?: string})
-    | ({[key in MessageKey]?: string} & {id: string});
+  type IdOrMessage<
+    MessageKey extends 'children' | 'message',
+    Str extends string,
+  > =
+    | ({[key in MessageKey]: Str} & {id?: string})
+    | ({[key in MessageKey]?: Str} & {id: string});
 
-  export type TranslateParam<Str extends string> = IdOrMessage<'message'> & {
+  export type TranslateParam<Str extends string> = IdOrMessage<
+    'message',
+    Str
+  > & {
     description?: string;
-    values?: InterpolateValues<Str, string | number>;
   };
 
   export function translate<Str extends string>(
@@ -214,7 +226,10 @@ declare module '@docusaurus/Translate' {
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  export type TranslateProps<Str extends string> = IdOrMessage<'children'> & {
+  export type TranslateProps<Str extends string> = IdOrMessage<
+    'children',
+    Str
+  > & {
     description?: string;
     values?: InterpolateValues<Str, ReactNode>;
   };

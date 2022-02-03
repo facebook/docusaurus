@@ -31,7 +31,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([]);
   });
 
-  test('can read author from legacy frontmatter', () => {
+  test('can read author from legacy front matter', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -251,7 +251,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when mixing legacy/new authors frontmatter', () => {
+  test('throw when mixing legacy/new authors front matter', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -261,8 +261,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
 
     expect(() =>
@@ -274,8 +274,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: {slorber: {name: 'Sébastien Lorber'}},
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
   });
 });
@@ -353,15 +353,27 @@ describe('validateAuthorsMap', () => {
     });
   });
 
-  test('reject author without name', () => {
+  test('accept author with only image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
-        image_url: 'https://github.com/slorber.png',
+        imageURL: 'https://github.com/slorber.png',
+        url: 'https://github.com/slorber',
+      },
+    };
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  test('reject author without name or image', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        title: 'foo',
       },
     };
     expect(() =>
       validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" must contain at least one of [name, imageURL]"`,
+    );
   });
 
   test('reject undefined author', () => {

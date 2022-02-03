@@ -20,12 +20,13 @@ export type AuthorsMap = Record<string, Author>;
 const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
   Joi.string(),
   Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string(),
     url: URISchema,
     imageURL: URISchema,
     title: Joi.string(),
   })
     .rename('image_url', 'imageURL')
+    .or('name', 'imageURL')
     .unknown()
     .required(),
 );
@@ -53,7 +54,7 @@ type AuthorsParam = {
   authorsMap: AuthorsMap | undefined;
 };
 
-// Legacy v1/early-v2 frontmatter fields
+// Legacy v1/early-v2 front matter fields
 // We may want to deprecate those in favor of using only frontMatter.authors
 function getFrontMatterAuthorLegacy(
   frontMatter: BlogPostFrontMatter,
@@ -63,7 +64,6 @@ function getFrontMatterAuthorLegacy(
   const url = frontMatter.author_url ?? frontMatter.authorURL;
   const imageURL = frontMatter.author_image_url ?? frontMatter.authorImageURL;
 
-  // Shouldn't we require at least an author name?
   if (name || title || url || imageURL) {
     return {
       name,
@@ -83,9 +83,9 @@ function normalizeFrontMatterAuthors(
     authorInput: string | BlogPostFrontMatterAuthor,
   ): BlogPostFrontMatterAuthor {
     if (typeof authorInput === 'string') {
-      // Technically, we could allow users to provide an author's name here
-      // IMHO it's better to only support keys here
-      // Reason: a typo in a key would fallback to becoming a name and may end-up un-noticed
+      // Technically, we could allow users to provide an author's name here, but
+      // we only support keys, otherwise, a typo in a key would fallback to
+      // becoming a name and may end up unnoticed
       return {key: authorInput};
     }
     return authorInput;
@@ -123,7 +123,7 @@ ${Object.keys(authorsMap)
 
   function toAuthor(frontMatterAuthor: BlogPostFrontMatterAuthor): Author {
     return {
-      // Author def from authorsMap can be locally overridden by frontmatter
+      // Author def from authorsMap can be locally overridden by front matter
       ...getAuthorsMapAuthor(frontMatterAuthor.key),
       ...frontMatterAuthor,
     };
@@ -137,11 +137,12 @@ export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authors = getFrontMatterAuthors(params);
 
   if (authorLegacy) {
-    // Technically, we could allow mixing legacy/authors frontmatter, but do we really want to?
+    // Technically, we could allow mixing legacy/authors front matter, but do we
+    // really want to?
     if (authors.length > 0) {
       throw new Error(
-        `To declare blog post authors, use the 'authors' FrontMatter in priority.
-Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time.`,
+        `To declare blog post authors, use the 'authors' front matter in priority.
+Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time.`,
       );
     }
     return [authorLegacy];

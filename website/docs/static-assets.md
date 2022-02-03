@@ -24,9 +24,9 @@ module.exports = {
 
 Now, all files in `public` as well as `static` will be copied to the build output.
 
-## Referencing your static asset
+## Referencing your static asset {#referencing-your-static-asset}
 
-### In JSX
+### In JSX {#in-jsx}
 
 In JSX, you can reference assets from the `static` folder in your code using absolute URLs, but this is not ideal because changing the site `baseUrl` will **break those links**. For the image `<img src="/img/docusaurus.png" />` served at `https://example.com/test`, the browser will try to resolve it from the URL root, i.e. as `https://example.com/img/docusaurus.png`, which will fail because it's actually served at `https://example.com/test/img/docusaurus.png`.
 
@@ -58,7 +58,7 @@ import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
 <DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
 ```
 
-### In Markdown
+### In Markdown {#in-markdown}
 
 In Markdown, you can stick to using absolute paths when writing links or images **in Markdown syntax** because Docusaurus handles them as `require` calls instead of URLs when parsing the Markdown. See [Markdown static assets](./guides/markdown-features/markdown-features-assets.mdx).
 
@@ -74,7 +74,7 @@ Docusaurus will only parse links that are in Markdown syntax. If your asset refe
 
 :::
 
-### In CSS
+### In CSS {#in-css}
 
 In CSS, the `url()` function is commonly used to reference assets like fonts and images. To reference a static asset, use absolute paths:
 

@@ -9,6 +9,7 @@ import React, {memo} from 'react';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 import FavoriteIcon from '@site/src/components/svgIcons/FavoriteIcon';
@@ -80,7 +81,7 @@ const ShowcaseCard = memo(({user}: {user: User}) => (
               'button button--secondary button--sm',
               styles.showcaseCardSrcBtn,
             )}>
-            source
+            <Translate id="showcase.card.sourceLink">source</Translate>
           </Link>
         )}
       </div>

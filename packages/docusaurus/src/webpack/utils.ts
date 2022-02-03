@@ -36,10 +36,16 @@ import {memoize} from 'lodash';
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
-  cssOptions: {
+  cssOptionsArg: {
     [key: string]: unknown;
   } = {},
 ): RuleSetRule[] {
+  const cssOptions: {[key: string]: unknown} = {
+    // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+    esModule: false,
+    ...cssOptionsArg,
+  };
+
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -120,16 +126,13 @@ export function getBabelOptions({
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
-  } else {
-    return Object.assign(
-      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
-      {
-        babelrc: false,
-        configFile: false,
-        caller: {name: isServer ? 'server' : 'client'},
-      },
-    );
   }
+  return {
+    ...(babelOptions ?? {presets: [require.resolve('../babel/preset')]}),
+    babelrc: false,
+    configFile: false,
+    caller: {name: isServer ? 'server' : 'client'},
+  };
 }
 
 // Name is generic on purpose
@@ -230,7 +233,7 @@ export function applyConfigurePostCss(
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -399,8 +402,8 @@ export function getMinimizer(
         output: {
           ecma: 5,
           comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
+          // Turned on because emoji and regex is not minified properly using
+          // default. See https://github.com/facebook/create-react-app/issues/2488
           ascii_only: true,
         },
       },

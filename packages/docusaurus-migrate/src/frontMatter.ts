@@ -38,9 +38,9 @@ export default function extractMetadata(content: string): Data {
   // New line characters => to handle all operating systems.
   const lines = (both.header ?? '').split(/\r?\n/);
   for (let i = 0; i < lines.length - 1; i += 1) {
-    const keyvalue = lines[i].split(':');
-    const key = keyvalue[0].trim();
-    let value = keyvalue.slice(1).join(':').trim();
+    const keyValue = lines[i].split(':');
+    const key = keyValue[0].trim();
+    let value = keyValue.slice(1).join(':').trim();
     try {
       value = JSON.parse(value);
     } catch (err) {
@@ -51,7 +51,7 @@ export default function extractMetadata(content: string): Data {
   return {metadata, rawContent: both.content};
 }
 
-// The new frontmatter parser need some special chars to
+// The new front matter parser need some special chars to
 export function shouldQuotifyFrontMatter([key, value]: [
   string,
   string,
@@ -59,18 +59,16 @@ export function shouldQuotifyFrontMatter([key, value]: [
   if (key === 'tags') {
     return false;
   }
-  if (String(value).match(/^("|').+("|')$/)) {
+  if (String(value).match(/^(?<quote>["']).+\1$/)) {
     return false;
   }
-  // TODO weird graymatter case
-  // title: !something need quotes
-  // but not title: something!
+  // title: !something needs quotes because otherwise it's a YAML tag.
   if (!String(value).trim().match(/^\w.*/)) {
     return true;
   }
   // TODO this is not ideal to have to maintain such a list of allowed chars
-  // maybe we should quotify if graymatter throws instead?
+  // maybe we should quotify if gray-matter throws instead?
   return !String(value).match(
-    /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
+    /^[\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$]+$/,
   );
 }

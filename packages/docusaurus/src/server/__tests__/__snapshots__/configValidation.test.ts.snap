@@ -108,7 +108,76 @@ exports[`normalizeConfig should throw error if scripts doesn't have src 1`] = `
 "
 `;
 
+exports[`normalizeConfig should throw error if themes is not a string and it's not an array #1 for the input of: [123] 1`] = `
+" => Bad Docusaurus theme value as path [themes,0].
+Example valid theme config:
+{
+  themes: [
+    [\\"@docusaurus/theme-classic\\",options],
+    \\"./myTheme\\",
+    [\\"./myTheme\\",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};
+
+"
+`;
+
+exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #1 for the input of: [[Array]] 1`] = `
+" => Bad Docusaurus theme value as path [themes,0].
+Example valid theme config:
+{
+  themes: [
+    [\\"@docusaurus/theme-classic\\",options],
+    \\"./myTheme\\",
+    [\\"./myTheme\\",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};
+
+"
+`;
+
+exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #2 for the input of: [[Array]] 1`] = `
+" => Bad Docusaurus theme value as path [themes,0].
+Example valid theme config:
+{
+  themes: [
+    [\\"@docusaurus/theme-classic\\",options],
+    \\"./myTheme\\",
+    [\\"./myTheme\\",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};
+
+"
+`;
+
+exports[`normalizeConfig should throw error if themes is not an array of [string, object][] #3 for the input of: [[Array]] 1`] = `
+" => Bad Docusaurus theme value as path [themes,0].
+Example valid theme config:
+{
+  themes: [
+    [\\"@docusaurus/theme-classic\\",options],
+    \\"./myTheme\\",
+    [\\"./myTheme\\",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};
+
+"
+`;
+
 exports[`normalizeConfig should throw error if themes is not array 1`] = `
+"\\"themes\\" must be an array
+"
+`;
+
+exports[`normalizeConfig should throw error if themes is not array for the input of: {} 1`] = `
 "\\"themes\\" must be an array
 "
 `;

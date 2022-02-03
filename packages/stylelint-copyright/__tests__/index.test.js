@@ -13,6 +13,7 @@ const rule = require('..');
 const {ruleName, messages} = rule;
 
 function getOutputCss(output) {
+  // eslint-disable-next-line no-underscore-dangle
   const result = output.results[0]._postcssResult;
   return result.root.toString(result.opts.syntax);
 }

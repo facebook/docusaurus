@@ -7,8 +7,8 @@
 
 import rangeParser from 'parse-numeric-range';
 
-const codeBlockTitleRegex = /title=(["'])(.*?)\1/;
-const highlightLinesRangeRegex = /{([\d,-]+)}/;
+const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
+const highlightLinesRangeRegex = /{(?<range>[\d,-]+)}/;
 
 const commentTypes = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
 type CommentType = typeof commentTypes[number];
@@ -89,7 +89,7 @@ const magicCommentDirectiveRegex = (lang: string) => {
 };
 
 export function parseCodeBlockTitle(metastring?: string): string {
-  return metastring?.match(codeBlockTitleRegex)?.[2] ?? '';
+  return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
 export function parseLanguage(className: string): string | undefined {
@@ -114,7 +114,8 @@ export function parseLines(
   let code = content.replace(/\n$/, '');
   // Highlighted lines specified in props: don't parse the content
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
-    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)!
+      .groups!.range;
     const highlightLines = rangeParser(highlightLinesRange)
       .filter((n) => n > 0)
       .map((n) => n - 1);
