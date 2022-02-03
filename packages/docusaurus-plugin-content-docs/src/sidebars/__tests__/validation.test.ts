@@ -6,8 +6,7 @@
  */
 
 import {validateSidebars, validateCategoryMetadataFile} from '../validation';
-import type {CategoryMetadataFile} from '../generator';
-import type {SidebarsConfig} from '../types';
+import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
 describe('validateSidebars', () => {
   // TODO add more tests
@@ -45,10 +44,8 @@ describe('validateSidebars', () => {
     };
     validateSidebars(sidebars);
   });
-});
 
-describe('html item type', () => {
-  test('requires a value', () => {
+  test('HTML type requires a value', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -68,7 +65,7 @@ describe('html item type', () => {
     `);
   });
 
-  test('accepts valid values', () => {
+  test('HTML type accepts valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {

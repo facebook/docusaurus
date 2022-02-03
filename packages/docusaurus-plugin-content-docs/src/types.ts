@@ -8,15 +8,12 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {Sidebars} from './sidebars/types';
-import type {Tag, FrontMatterTag, Slugger} from '@docusaurus/utils';
+import type {Tag, FrontMatterTag} from '@docusaurus/utils';
 import type {
   BrokenMarkdownLink as IBrokenMarkdownLink,
   ContentPaths,
 } from '@docusaurus/utils/lib/markdownLinks';
-import type {
-  VersionBanner,
-  SidebarOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {VersionBanner} from '@docusaurus/plugin-content-docs';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -39,11 +36,6 @@ export type VersionMetadata = ContentPaths & {
   isLast: boolean;
   sidebarFilePath: string | false | undefined; // versioned_sidebars/1.0.0.json
   routePriority: number | undefined; // -1 for the latest docs
-};
-
-export type NormalizeSidebarsParams = SidebarOptions & {
-  version: VersionMetadata;
-  categoryLabelSlugger: Slugger;
 };
 
 export type LastUpdateData = {

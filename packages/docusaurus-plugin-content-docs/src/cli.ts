@@ -16,7 +16,7 @@ import type {
   PathOptions,
   SidebarOptions,
 } from '@docusaurus/plugin-content-docs';
-import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
+import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 
@@ -34,7 +34,8 @@ async function createVersionedSidebarFile({
   // Load current sidebar and create a new versioned sidebars file (if needed).
   // Note: we don't need the sidebars file to be normalized: it's ok to let
   // plugin option changes to impact older, versioned sidebars
-  const sidebars = await loadSidebarsFile(sidebarPath);
+  // We don't validate here, assuming the user has already built the version
+  const sidebars = await loadSidebarsFileUnsafe(sidebarPath);
 
   // Do not create a useless versioned sidebars file if sidebars file is empty
   // or sidebars are disabled/false)

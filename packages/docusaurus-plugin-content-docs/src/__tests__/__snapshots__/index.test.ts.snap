@@ -770,8 +770,6 @@ Object {
     \\"docs\\": [
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -791,8 +789,8 @@ Object {
                 \\"docId\\": \\"foo/baz\\"
               }
             ],
-            \\"collapsible\\": true,
-            \\"collapsed\\": true
+            \\"collapsed\\": true,
+            \\"collapsible\\": true
           },
           {
             \\"type\\": \\"category\\",
@@ -823,8 +821,8 @@ Object {
                 \\"docId\\": \\"rootTryToEscapeSlug\\"
               }
             ],
-            \\"collapsible\\": true,
             \\"collapsed\\": true,
+            \\"collapsible\\": true,
             \\"href\\": \\"/docs/category/slugs\\"
           },
           {
@@ -844,12 +842,12 @@ Object {
             \\"href\\": \\"/docs/\\",
             \\"docId\\": \\"hello\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       },
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -858,7 +856,9 @@ Object {
             \\"href\\": \\"/docs/\\",
             \\"docId\\": \\"hello\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       }
     ]
   },
@@ -3188,8 +3188,6 @@ Object {
     \\"version-1.0.0/docs\\": [
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -3204,12 +3202,12 @@ Object {
             \\"href\\": \\"/docs/1.0.0/foo/baz\\",
             \\"docId\\": \\"foo/baz\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       },
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -3218,7 +3216,9 @@ Object {
             \\"href\\": \\"/docs/1.0.0/\\",
             \\"docId\\": \\"hello\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       }
     ]
   },
@@ -3255,8 +3255,6 @@ Object {
     \\"VersionedSideBarNameDoesNotMatter/docs\\": [
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -3265,12 +3263,12 @@ Object {
             \\"href\\": \\"/docs/foo/bar\\",
             \\"docId\\": \\"foo/bar\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       },
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -3279,7 +3277,9 @@ Object {
             \\"href\\": \\"/docs/\\",
             \\"docId\\": \\"hello\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       }
     ]
   },
@@ -3310,8 +3310,6 @@ Object {
     \\"docs\\": [
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -3320,12 +3318,12 @@ Object {
             \\"href\\": \\"/docs/next/foo/barSlug\\",
             \\"docId\\": \\"foo/bar\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       },
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Guides\\",
         \\"items\\": [
           {
@@ -3334,7 +3332,9 @@ Object {
             \\"href\\": \\"/docs/next/\\",
             \\"docId\\": \\"hello\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       }
     ]
   },
@@ -3385,8 +3385,6 @@ Object {
     \\"version-1.0.1/docs\\": [
       {
         \\"type\\": \\"category\\",
-        \\"collapsed\\": true,
-        \\"collapsible\\": true,
         \\"label\\": \\"Test\\",
         \\"items\\": [
           {
@@ -3395,7 +3393,9 @@ Object {
             \\"href\\": \\"/docs/withSlugs/rootAbsoluteSlug\\",
             \\"docId\\": \\"rootAbsoluteSlug\\"
           }
-        ]
+        ],
+        \\"collapsed\\": true,
+        \\"collapsible\\": true
       }
     ]
   },

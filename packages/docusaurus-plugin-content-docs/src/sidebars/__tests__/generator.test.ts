@@ -214,8 +214,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Tutorials',
-        collapsed: true,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'tutorials-index',
@@ -228,19 +226,16 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Guides',
-        collapsed: false,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'guides-index',
         },
+        collapsed: false,
         items: [
           {type: 'doc', id: 'guide1', className: 'foo'},
           {
             type: 'category',
             label: 'SubGuides (metadata file label)',
-            collapsed: true,
-            collapsible: true,
             items: [{type: 'doc', id: 'nested-guide'}],
             link: {
               type: 'generated-index',
@@ -279,8 +274,6 @@ describe('DefaultSidebarItemsGenerator', () => {
         'subfolder/subsubfolder/subsubsubfolder3': {
           position: 1,
           label: 'subsubsubfolder3 (_category_.json label)',
-          collapsible: false,
-          collapsed: false,
           link: {
             type: 'doc',
             id: 'doc1', // This is a "fully-qualified" ID that can't be found locally
@@ -355,8 +348,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder3 (_category_.json label)',
-        collapsed: false,
-        collapsible: false,
         link: {
           id: 'doc1',
           type: 'doc',
@@ -369,8 +360,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder2 (_category_.yml label)',
-        collapsed: true,
-        collapsible: true,
         className: 'bar',
         items: [{type: 'doc', id: 'doc6'}],
       },
@@ -379,8 +368,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder',
-        collapsed: true,
-        collapsible: true,
         items: [{type: 'doc', id: 'doc5'}],
       },
     ] as Sidebar);
@@ -458,8 +445,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Category label',
-        collapsed: true,
-        collapsible: true,
         link: {
           id: 'parent/doc3',
           type: 'doc',
@@ -478,8 +463,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Category 2 label',
-        collapsed: true,
-        collapsible: true,
         items: [
           {
             id: 'parent/doc4',
@@ -583,8 +566,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Tutorials',
-        collapsed: true,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'tutorials-index',
@@ -597,8 +578,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Guides',
-        collapsed: true,
-        collapsible: true,
         items: [
           {type: 'doc', id: 'guide1', className: 'foo'},
           {type: 'doc', id: 'guide2'},
