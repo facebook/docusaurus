@@ -91,20 +91,17 @@ export function localizePath({
         i18n.currentLocale !== i18n.defaultLocale
       : options.localizePath;
 
-  if (shouldLocalizePath) {
-    // FS paths need special care, for Windows support
-    if (pathType === 'fs') {
-      return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
-    }
-    // Url paths
-    else if (pathType === 'url') {
-      return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
-    }
-    // should never happen
-    else {
-      throw new Error(`Unhandled path type "${pathType}".`);
-    }
-  } else {
+  if (!shouldLocalizePath) {
     return originalPath;
   }
+  // FS paths need special care, for Windows support
+  if (pathType === 'fs') {
+    return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+  }
+  // Url paths
+  if (pathType === 'url') {
+    return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+  }
+  // should never happen
+  throw new Error(`Unhandled path type "${pathType}".`);
 }

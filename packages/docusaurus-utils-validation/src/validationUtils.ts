@@ -58,12 +58,11 @@ export function normalizePluginOptions<T extends {id?: string}>(
     if (isValidationDisabledEscapeHatch) {
       logger.error(error);
       return options as T;
-    } else {
-      throw error;
     }
+    throw error;
   }
 
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value!; // TODO remove this ! in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
 }
 
 export function normalizeThemeConfig<T>(
@@ -86,11 +85,10 @@ export function normalizeThemeConfig<T>(
     if (isValidationDisabledEscapeHatch) {
       logger.error(error);
       return themeConfig as T;
-    } else {
-      throw error;
     }
+    throw error;
   }
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value!; // TODO remove this ! in TS 4.6
 }
 
 export function validateFrontMatter<T>(
@@ -120,5 +118,5 @@ ${errorDetails.map(({message}) => message)}
     throw error;
   }
 
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value!; // TODO remove this ! in TS 4.6
 }

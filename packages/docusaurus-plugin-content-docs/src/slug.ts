@@ -48,17 +48,16 @@ export default function getSlug({
   function computeSlug(): string {
     if (frontMatterSlug?.startsWith('/')) {
       return frontMatterSlug;
-    } else {
-      const dirNameSlug = getDirNameSlug();
-      if (
-        !frontMatterSlug &&
-        isCategoryIndex(toCategoryIndexMatcherParam({source, sourceDirName}))
-      ) {
-        return dirNameSlug;
-      }
-      const baseSlug = frontMatterSlug || baseID;
-      return resolvePathname(baseSlug, getDirNameSlug());
     }
+    const dirNameSlug = getDirNameSlug();
+    if (
+      !frontMatterSlug &&
+      isCategoryIndex(toCategoryIndexMatcherParam({source, sourceDirName}))
+    ) {
+      return dirNameSlug;
+    }
+    const baseSlug = frontMatterSlug || baseID;
+    return resolvePathname(baseSlug, getDirNameSlug());
   }
 
   function ensureValidSlug(slug: string): string {

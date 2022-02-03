@@ -69,8 +69,8 @@ export async function generate(
   }
 }
 
-const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
+const indexRE = /(?<dirname>^|.*\/)index\.(?:mdx?|jsx?|tsx?)$/i;
+const extRE = /\.(?:mdx?|jsx?|tsx?)$/;
 
 /**
  * Convert filepath to url path.
@@ -200,7 +200,8 @@ export function getPluginI18nPath({
   return path.join(
     siteDir,
     'i18n',
-    // namespace first by locale: convenient to work in a single folder for a translator
+    // namespace first by locale: convenient to work in a single folder for a
+    // translator
     locale,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
@@ -212,7 +213,8 @@ export function getPluginI18nPath({
 /**
  * @param permalink The URL that the HTML file corresponds to, without base URL
  * @param outDir Full path to the output directory
- * @param trailingSlash The site config option. If provided, only one path will be read.
+ * @param trailingSlash The site config option. If provided, only one path will
+ * be read.
  * @returns This returns a buffer, which you have to decode string yourself if
  * needed. (Not always necessary since the output isn't for human consumption
  * anyways, and most HTML manipulation libs accept buffers)
@@ -223,23 +225,25 @@ export async function readOutputHTMLFile(
   trailingSlash: boolean | undefined,
 ): Promise<Buffer> {
   const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
-  const withoutTrailingSlashPath = path.join(outDir, `${permalink}.html`);
+  const withoutTrailingSlashPath = path.join(
+    outDir,
+    `${permalink.replace(/\/$/, '')}.html`,
+  );
   if (trailingSlash) {
     return fs.readFile(withTrailingSlashPath);
   } else if (trailingSlash === false) {
     return fs.readFile(withoutTrailingSlashPath);
-  } else {
-    const HTMLPath = await findAsyncSequential(
-      [withTrailingSlashPath, withoutTrailingSlashPath],
-      fs.pathExists,
-    );
-    if (!HTMLPath) {
-      throw new Error(
-        `Expected output HTML file to be found at ${withTrailingSlashPath}`,
-      );
-    }
-    return fs.readFile(HTMLPath);
   }
+  const HTMLPath = await findAsyncSequential(
+    [withTrailingSlashPath, withoutTrailingSlashPath],
+    fs.pathExists,
+  );
+  if (!HTMLPath) {
+    throw new Error(
+      `Expected output HTML file to be found at ${withTrailingSlashPath}`,
+    );
+  }
+  return fs.readFile(HTMLPath);
 }
 
 export async function mapAsyncSequential<T, R>(

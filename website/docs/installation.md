@@ -100,7 +100,7 @@ my-website
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them
 - `/sidebar.js` - Used by the documentation to specify the order of documents in the sidebar
 
-### Monorepos
+### Monorepos {#monorepos}
 
 If you are using Docusaurus for documentation of an existing project, a monorepo may be the solution for you. Monorepos allow you to share dependencies between similar projects. For example, your website may use your local packages to showcase the latest features, instead of depending on a released version; your contributors can also conveniently update the docs as they implement features. An example monorepo folder structure is below:
 

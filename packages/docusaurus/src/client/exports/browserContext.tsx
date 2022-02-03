@@ -13,7 +13,8 @@ import React, {type ReactNode, useEffect, useState} from 'react';
 // isBrowser is set to true only after a successful hydration
 
 // Note, isBrowser is not part of useDocusaurusContext() for perf reasons
-// Using useDocusaurusContext() (much more common need) should not trigger re-rendering after a successful hydration
+// Using useDocusaurusContext() (much more common need) should not trigger
+// re-rendering after a successful hydration
 
 export const Context = React.createContext<boolean>(false);
 

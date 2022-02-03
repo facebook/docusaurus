@@ -26,13 +26,17 @@ export interface BlogContent {
 }
 
 export interface BlogTags {
-  [key: string]: BlogTag;
+  // TODO, the key is the tag slug/permalink
+  // This is due to legacy frontmatter: tags: [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}
+  // Soon we should forbid declaring permalink through frontmatter
+  [tagKey: string]: BlogTag;
 }
 
 export interface BlogTag {
   name: string;
-  items: string[];
+  items: string[]; // blog post permalinks
   permalink: string;
+  pages: BlogPaginated[];
 }
 
 export interface BlogPost {
@@ -55,7 +59,7 @@ export interface BlogPaginatedMetadata {
 
 export interface BlogPaginated {
   metadata: BlogPaginatedMetadata;
-  items: string[];
+  items: string[]; // blog post permalinks
 }
 
 export interface MetaData {

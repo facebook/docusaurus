@@ -12,7 +12,7 @@ This section is similar to [Styling and Layout](../styling-layout.md), but this 
 
 We know you are busy, so we will start with the "how" before going into the "why".
 
-## Swizzling
+## Swizzling {#swizzling}
 
 ```mdx-code-block
 import SwizzleWarning from "../_partials/swizzleWarning.mdx"
@@ -22,7 +22,7 @@ import SwizzleWarning from "../_partials/swizzleWarning.mdx"
 
 Docusaurus Themes' components are designed to be replaceable. The replacing is called "swizzle". In Objective C, method swizzling is the process of changing the implementation of an existing selector (method). **In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.** (To gain a deeper understanding of this, you have to understand [how theme components are resolved](#theme-aliases)). To help you get started, we created a command called `docusaurus swizzle`.
 
-### Ejecting theme components
+### Ejecting theme components {#ejecting-theme-components}
 
 To eject a component provided by the theme, run the following command in your doc site:
 
@@ -76,7 +76,7 @@ export default function Footer(props) {
 
 Should you be wondering why we have to use `'@theme-original/Footer'` instead of `'@theme/Footer'`, a short explanation is that once you have the swizzled component, the `'@theme/Footer'` alias will now point to your swizzled component, and thus cause a self-import. For a more in-depth explanation, see [theme aliases](#theme-aliases).
 
-## Which component should I swizzle?
+## Which component should I swizzle? {#which-component-should-i-swizzle}
 
 Currently, `theme-classic` has about 100 components[^source]! If you want to customize a part of your site's layout, which component should you choose?
 
@@ -110,7 +110,7 @@ Use this component to render React Context providers and global stateful logic.
 
 :::
 
-## Do I need to swizzle?
+## Do I need to swizzle? {#do-i-need-to-swizzle}
 
 Swizzling ultimately means you have to maintain part of the code directly used to build your site, and you have to interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
 
@@ -118,7 +118,7 @@ Swizzling ultimately means you have to maintain part of the code directly used t
 2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
 3. **The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of breaking during upgrade. [Wrapping](#wrapping-theme-components) is also a far safer alternative to [ejecting](#ejecting-theme-components).
 
-## Theme aliases
+## Theme aliases {#theme-aliases}
 
 A theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`, to render the data passed down from plugins. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
 

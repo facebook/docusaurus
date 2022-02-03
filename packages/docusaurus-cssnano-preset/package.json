@@ -13,7 +13,7 @@
     "directory": "packages/docusaurus-cssnano-preset"
   },
   "dependencies": {
-    "cssnano-preset-advanced": "^5.1.4",
+    "cssnano-preset-advanced": "^5.1.11",
     "postcss": "^8.3.7",
     "postcss-sort-media-queries": "^4.1.0"
   },

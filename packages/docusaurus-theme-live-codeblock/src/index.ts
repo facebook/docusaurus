@@ -7,9 +7,9 @@
 
 import path from 'path';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-import type {DocusaurusContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 
-export default function theme(context: DocusaurusContext): Plugin {
+export default function themeLiveCodeblock(context: LoadContext): Plugin {
   const {
     i18n: {currentLocale},
   } = context;

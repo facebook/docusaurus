@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Helmet} from 'react-helmet';
+import {Helmet} from 'react-helmet-async';
 import type {HeadProps} from '@docusaurus/Head';
 
 function Head(props: HeadProps): JSX.Element {

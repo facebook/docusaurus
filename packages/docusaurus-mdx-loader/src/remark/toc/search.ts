@@ -46,9 +46,9 @@ export default function search(node: Node): TOCItem[] {
     });
   });
 
-  // Keep track of which previous index would be the current heading's direct parent.
-  // Each entry <i> is the last index of the `headings` array at heading level <i>.
-  // We will modify these indices as we iterate through all headings.
+  // Keep track of which previous index would be the current heading's direct
+  // parent. Each entry <i> is the last index of the `headings` array at heading
+  // level <i>. We will modify these indices as we iterate through all headings.
   // e.g. if an ### H3 was last seen at index 2, then prevIndexForLevel[3] === 2
   // indices 0 and 1 will remain unused.
   const prevIndexForLevel = Array(7).fill(-1);

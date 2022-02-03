@@ -505,7 +505,8 @@ const config = {
           },
           {
             title: 'Legal',
-            // Please do not remove the privacy and terms, it's a legal requirement.
+            // Please don't remove the privacy and terms, it's a legal
+            // requirement.
             items: [
               {
                 label: 'Privacy',

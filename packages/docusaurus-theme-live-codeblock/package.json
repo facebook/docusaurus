@@ -3,12 +3,16 @@
   "version": "2.0.0-beta.15",
   "description": "Docusaurus live code block component.",
   "main": "lib/index.js",
+  "types": "src/theme-live-codeblock.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsc && node copyUntypedFiles.mjs",
-    "watch": "node copyUntypedFiles.mjs && tsc --watch"
+    "build": "yarn build:server && yarn build:client && yarn build:copy && yarn build:format",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:client": "tsc --project tsconfig.client.json",
+    "build:copy": "node copyUntypedFiles.mjs",
+    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "repository": {
     "type": "git",

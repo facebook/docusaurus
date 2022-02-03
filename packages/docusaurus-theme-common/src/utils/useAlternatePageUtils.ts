@@ -39,14 +39,15 @@ export function useAlternatePageUtils(): {
       : `${baseUrlUnlocalized}${locale}/`;
   }
 
-  // TODO support correct alternate url when localized site is deployed on another domain
+  // TODO support correct alternate url when localized site is deployed on
+  // another domain
   function createUrl({
     locale,
     fullyQualified,
   }: {
     locale: string;
-    // For hreflang SEO headers, we need it to be fully qualified (full protocol/domain/path...)
-    // For locale dropdown, using a path is good enough
+    // For hreflang SEO headers, we need it to be fully qualified (full
+    // protocol/domain/path...) or locale dropdown, using a path is good enough
     fullyQualified: boolean;
   }) {
     return `${fullyQualified ? url : ''}${getLocalizedBaseUrl(

@@ -17,7 +17,9 @@ const syncAvatars = require('./syncAvatars');
  * the reverse. Therefore, our publish time has a "fake hour" to order them.
  */
 const publishTimes = new Set();
-/** @type {Record<string, {name: string, url: string, alias: string, imageURL: string}>} */
+/**
+ * @type {Record<string, {name: string, url: string,alias: string, imageURL: string}>}
+ */
 const authorsMap = {};
 
 /**
@@ -58,7 +60,7 @@ function processSection(section) {
     });
   }
   let hour = 20;
-  const date = title.match(/ \((.*)\)/)[1];
+  const date = title.match(/ \((?<date>.*)\)/)?.groups.date;
   while (publishTimes.has(`${date}T${hour}:00`)) {
     hour -= 1;
   }

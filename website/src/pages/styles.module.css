@@ -162,6 +162,19 @@
   }
 }
 
+.tweetsSection {
+  margin-top: -2rem;
+}
+
+.tweetsSection > :global(.col) {
+  padding-top: 2rem;
+  margin-top: -2rem;
+}
+
+.tweetsSection > :global(.col) > * {
+  margin-top: 2rem;
+}
+
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
   content: 'site-index-page';

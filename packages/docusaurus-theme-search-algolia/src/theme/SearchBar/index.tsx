@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
@@ -75,8 +74,8 @@ type FacetFilters = Required<
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
   const normalize = (
     f: FacetFilters,
-  ): readonly string[] | ReadonlyArray<readonly string[]> =>
-    f instanceof Array ? f : [f];
+  ): readonly string[] | ReadonlyArray<string | readonly string[]> =>
+    typeof f === 'string' ? [f] : f;
   return [...normalize(f1), ...normalize(f2)] as FacetFilters;
 }
 
@@ -120,9 +119,7 @@ function DocSearch({
     }
 
     return Promise.all([
-      // @ts-ignore
       import('@docsearch/react/modal'),
-      // @ts-ignore
       import('@docsearch/react/style'),
       import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {
@@ -171,7 +168,8 @@ function DocSearch({
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       items.map((item) => {
-        // If Algolia contains a external domain, we should navigate without relative URL
+        // If Algolia contains a external domain, we should navigate without
+        // relative URL
         if (isRegexpStringMatch(externalUrlRegex, item.url)) {
           return item;
         }
@@ -271,8 +269,7 @@ function DocSearch({
 
 function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  // @ts-ignore
-  return <DocSearch {...siteConfig.themeConfig.algolia} />;
+  return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }
 
 export default SearchBar;

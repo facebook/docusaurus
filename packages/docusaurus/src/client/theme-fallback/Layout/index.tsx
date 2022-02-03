@@ -9,12 +9,12 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import type {Props} from '@theme/Layout';
 
-function Layout(props) {
+function Layout({children, title, description}: Props): JSX.Element {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {favicon, tagline = '', title: defaultTitle} = siteConfig;
-  const {children, title, description} = props;
+  const {siteConfig} = context;
+  const {favicon, tagline, title: defaultTitle} = siteConfig;
   const faviconUrl = useBaseUrl(favicon);
   return (
     <>

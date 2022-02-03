@@ -7,7 +7,8 @@
 
 // These class names are used to style page layouts in Docusaurus
 // Those are meant to be targeted by user-provided custom CSS selectors
-// /!\ Please do not modify the classnames! This is a breaking change, and annoying for users!
+// Please do not modify the classnames! This is a breaking change, and annoying
+// for users!
 export const ThemeClassNames = {
   page: {
     blogListPage: 'blog-list-page',

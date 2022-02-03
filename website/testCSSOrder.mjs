@@ -7,7 +7,7 @@
 
 import path from 'path';
 import {fileURLToPath} from 'url';
-// eslint-disable-next-line import/no-extraneous-dependencies
+ 
 import fs from 'fs-extra';
 
 /*
@@ -20,8 +20,8 @@ See also
 - https://github.com/facebook/docusaurus/issues/3678
 - https://github.com/facebook/docusaurus/pull/5987
 
-TODO we should probably add a real e2e test in core instead of using our own website?
-Current solution looks good-enough for now
+TODO we should probably add a real e2e test in core instead of using our own
+website? Current solution looks good-enough for now
 
  */
 

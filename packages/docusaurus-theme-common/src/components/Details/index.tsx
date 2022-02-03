@@ -41,11 +41,12 @@ function Details({summary, children, ...props}: DetailsProps): JSX.Element {
   const {collapsed, setCollapsed} = useCollapsible({
     initialState: !props.open,
   });
-  // We use a separate prop because it must be set only after animation completes
+  // Use a separate prop because it must be set only after animation completes
   // Otherwise close anim won't work
   const [open, setOpen] = useState(props.open);
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <details
       {...props}
       ref={detailsRef}

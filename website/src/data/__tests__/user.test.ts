@@ -25,7 +25,8 @@ declare global {
 
 expect.extend({
   toHaveGoodDimensions({width, height}: {width: number; height: number}) {
-    // Put this one first because aspect ratio is harder to fix than resizing (need to take another screenshot)
+    // Put this one first because aspect ratio is harder to fix than resizing
+    // (need to take another screenshot)
     if (width / height < 0.5) {
       return {
         pass: false,

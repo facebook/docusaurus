@@ -126,16 +126,13 @@ export function getBabelOptions({
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
-  } else {
-    return Object.assign(
-      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
-      {
-        babelrc: false,
-        configFile: false,
-        caller: {name: isServer ? 'server' : 'client'},
-      },
-    );
   }
+  return {
+    ...(babelOptions ?? {presets: [require.resolve('../babel/preset')]}),
+    babelrc: false,
+    configFile: false,
+    caller: {name: isServer ? 'server' : 'client'},
+  };
 }
 
 // Name is generic on purpose
@@ -405,8 +402,8 @@ export function getMinimizer(
         output: {
           ecma: 5,
           comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
+          // Turned on because emoji and regex is not minified properly using
+          // default. See https://github.com/facebook/create-react-app/issues/2488
           ascii_only: true,
         },
       },

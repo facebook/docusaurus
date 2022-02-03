@@ -55,7 +55,7 @@ function TabsComponent(props: Props): JSX.Element {
   });
   const values =
     valuesProp ??
-    // We only pick keys that we recognize. MDX would inject some keys by default
+    // Only pick keys that we recognize. MDX would inject some keys by default
     children.map(({props: {value, label, attributes}}) => ({
       value,
       label,

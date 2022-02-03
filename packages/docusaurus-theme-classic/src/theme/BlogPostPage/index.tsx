@@ -53,8 +53,9 @@ function BlogPostPage(props: Props): JSX.Element {
         ) : undefined
       }>
       <Seo
-        // TODO refactor needed: it's a bit annoying but Seo MUST be inside BlogLayout
-        // otherwise  default image (set by BlogLayout) would shadow the custom blog post image
+        // TODO refactor needed: it's a bit annoying but Seo MUST be inside
+        // BlogLayout, otherwise default image (set by BlogLayout) would shadow
+        // the custom blog post image
         title={title}
         description={description}
         keywords={keywords}

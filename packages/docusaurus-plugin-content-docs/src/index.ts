@@ -333,7 +333,7 @@ export default async function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         const contentDirs = versionsMetadata.flatMap(getDocsDirPaths);
         return {
-          test: /(\.mdx?)$/,
+          test: /\.mdx?$/i,
           include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),

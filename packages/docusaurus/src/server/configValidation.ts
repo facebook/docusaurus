@@ -37,6 +37,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
   | 'titleDelimiter'
   | 'noIndex'
+  | 'tagline'
   | 'baseUrlIssueBanner'
   | 'staticDirectories'
 > = {
@@ -51,6 +52,7 @@ export const DEFAULT_CONFIG: Pick<
   themeConfig: {},
   titleDelimiter: '|',
   noIndex: false,
+  tagline: '',
   baseUrlIssueBanner: true,
   staticDirectories: [STATIC_DIR_NAME],
 };
@@ -192,7 +194,7 @@ export const ConfigSchema = Joi.object({
     }).unknown(),
   ),
   clientModules: Joi.array().items(Joi.string()),
-  tagline: Joi.string().allow(''),
+  tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
   webpack: Joi.object({

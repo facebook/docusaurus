@@ -62,7 +62,7 @@ export default async function swizzle(
   const {list, danger, typescript} = options;
 
   const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs = await loadPluginConfigs(context);
   const plugins = await initPlugins({pluginConfigs, context});
   const themeNames = getThemeNames(plugins);
 
@@ -94,6 +94,7 @@ export default async function swizzle(
     themePath,
     componentName,
     typescript,
+    importType: 'original',
   });
   const createdFiles = result.createdFiles.map((file) =>
     path.relative(process.cwd(), file),

@@ -43,13 +43,9 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   });
 
   testOK(undefined);
-  testOK([function () {}]);
-  testOK([[function () {}, {attr: 'val'}]]);
-  testOK([
-    [function () {}, {attr: 'val'}],
-    function () {},
-    [function () {}, {attr: 'val'}],
-  ]);
+  testOK([() => {}]);
+  testOK([[() => {}, {attr: 'val'}]]);
+  testOK([[() => {}, {attr: 'val'}], () => {}, [() => {}, {attr: 'val'}]]);
 
   testFail(null);
   testFail(false);
@@ -58,8 +54,8 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   testFail([false]);
   testFail([3]);
   testFail([[]]);
-  testFail([[function () {}, undefined]]);
-  testFail([[function () {}, true]]);
+  testFail([[() => {}, undefined]]);
+  testFail([[() => {}, true]]);
 }
 
 describe('validation schemas', () => {

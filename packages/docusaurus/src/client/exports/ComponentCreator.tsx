@@ -41,17 +41,19 @@ function ComponentCreator(
       content.foo: () => import('./doc1.md'),
     }
   - optsModules: ['./Pages.js', './doc1.md']
-  - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
+  - optsWebpack: [
+      require.resolveWeak('./Pages.js'),
+      require.resolveWeak('./doc1.md'),
+    ]
   */
   const flatChunkNames = flat(chunkNames);
   Object.keys(flatChunkNames).forEach((key) => {
     const chunkRegistry = registry[flatChunkNames[key]];
     if (chunkRegistry) {
-      /* eslint-disable prefer-destructuring */
+      // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
       optsModules.push(chunkRegistry[1]);
       optsWebpack.push(chunkRegistry[2]);
-      /* eslint-enable prefer-destructuring */
     }
   });
 

@@ -16,7 +16,6 @@ import type {
   SidebarCategoriesShorthand,
   SidebarItemConfig,
   SidebarItemCategoryWithGeneratedIndex,
-  SidebarItemCategoryWithLink,
   SidebarNavigationItem,
 } from './types';
 
@@ -46,8 +45,11 @@ export function transformSidebarItems(
   return sidebar.map(transformRecursive);
 }
 
-// Flatten sidebar items into a single flat array (containing categories/docs on the same level)
-// /!\ order matters (useful for next/prev nav), top categories appear before their child elements
+/**
+ * Flatten sidebar items into a single flat array (containing categories/docs on
+ * the same level). Order matters (useful for next/prev nav), top categories
+ * appear before their child elements
+ */
 function flattenSidebarItems(items: SidebarItem[]): SidebarItem[] {
   function flattenRecursive(item: SidebarItem): SidebarItem[] {
     return item.type === 'category'
@@ -196,34 +198,33 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       sidebarName = getSidebarNameByDocId(docId);
     }
 
-    if (sidebarName) {
-      if (!sidebarNameToNavigationItems[sidebarName]) {
-        throw new Error(
-          `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
-        );
-      }
-      const navigationItems = sidebarNameToNavigationItems[sidebarName];
-      const currentItemIndex = navigationItems.findIndex((item) => {
-        if (item.type === 'doc') {
-          return item.id === docId;
-        }
-        if (item.type === 'category' && item.link.type === 'doc') {
-          return item.link.id === docId;
-        }
-        return false;
-      });
-      if (currentItemIndex === -1) {
-        return {sidebarName, next: undefined, previous: undefined};
-      }
-
-      const {previous, next} = getElementsAround(
-        navigationItems,
-        currentItemIndex,
-      );
-      return {sidebarName, previous, next};
-    } else {
+    if (!sidebarName) {
       return emptySidebarNavigation();
     }
+    if (!sidebarNameToNavigationItems[sidebarName]) {
+      throw new Error(
+        `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
+      );
+    }
+    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    const currentItemIndex = navigationItems.findIndex((item) => {
+      if (item.type === 'doc') {
+        return item.id === docId;
+      }
+      if (item.type === 'category' && item.link.type === 'doc') {
+        return item.link.id === docId;
+      }
+      return false;
+    });
+    if (currentItemIndex === -1) {
+      return {sidebarName, next: undefined, previous: undefined};
+    }
+
+    const {previous, next} = getElementsAround(
+      navigationItems,
+      currentItemIndex,
+    );
+    return {sidebarName, previous, next};
   }
 
   function getCategoryGeneratedIndexList(): SidebarItemCategoryWithGeneratedIndex[] {
@@ -237,8 +238,10 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       });
   }
 
-  // We identity the category generated index by its permalink (should be unique)
-  // More reliable than using object identity
+  /**
+   * We identity the category generated index by its permalink (should be
+   * unique). More reliable than using object identity
+   */
   function getCategoryGeneratedIndexNavigation(
     categoryGeneratedIndexPermalink: string,
   ): SidebarNavigation {
@@ -257,19 +260,18 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
         navigationItems.find(isCurrentCategoryGeneratedIndexItem),
     )?.[0];
 
-    if (sidebarName) {
-      const navigationItems = sidebarNameToNavigationItems[sidebarName];
-      const currentItemIndex = navigationItems.findIndex(
-        isCurrentCategoryGeneratedIndexItem,
-      );
-      const {previous, next} = getElementsAround(
-        navigationItems,
-        currentItemIndex,
-      );
-      return {sidebarName, previous, next};
-    } else {
+    if (!sidebarName) {
       return emptySidebarNavigation();
     }
+    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    const currentItemIndex = navigationItems.findIndex(
+      isCurrentCategoryGeneratedIndexItem,
+    );
+    const {previous, next} = getElementsAround(
+      navigationItems,
+      currentItemIndex,
+    );
+    return {sidebarName, previous, next};
   }
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
@@ -322,11 +324,10 @@ Available document ids are:
             slug: item.link.slug,
             label: item.label,
           };
-        } else {
-          const firstSubItem = getFirstLink(item.items);
-          if (firstSubItem) {
-            return firstSubItem;
-          }
+        }
+        const firstSubItem = getFirstLink(item.items);
+        if (firstSubItem) {
+          return firstSubItem;
         }
       }
     }
@@ -371,18 +372,6 @@ export function toNavigationLink(
     return doc;
   }
 
-  function handleCategory(category: SidebarItemCategoryWithLink): DocNavLink {
-    if (category.link.type === 'doc') {
-      return toDocNavigationLink(getDocById(category.link.id));
-    } else if (category.link.type === 'generated-index') {
-      return {
-        title: category.label,
-        permalink: category.link.permalink,
-      };
-    } else {
-      throw new Error('unexpected category link type');
-    }
-  }
   if (!navigationItem) {
     return undefined;
   }
@@ -390,8 +379,15 @@ export function toNavigationLink(
   if (navigationItem.type === 'doc') {
     return toDocNavigationLink(getDocById(navigationItem.id));
   } else if (navigationItem.type === 'category') {
-    return handleCategory(navigationItem);
-  } else {
-    throw new Error('unexpected navigation item');
+    if (navigationItem.link.type === 'doc') {
+      return toDocNavigationLink(getDocById(navigationItem.link.id));
+    } else if (navigationItem.link.type === 'generated-index') {
+      return {
+        title: navigationItem.label,
+        permalink: navigationItem.link.permalink,
+      };
+    }
+    throw new Error('unexpected category link type');
   }
+  throw new Error('unexpected navigation item');
 }

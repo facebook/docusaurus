@@ -24,6 +24,7 @@ function findByTitle(
 ): BlogPost | undefined {
   return blogPosts.find((v) => v.metadata.title === title);
 }
+
 function getByTitle(blogPosts: BlogPost[], title: string): BlogPost {
   const post = findByTitle(blogPosts, title);
   if (!post) {
@@ -97,6 +98,16 @@ describe('loadBlog', () => {
     const plugin = await getPlugin(siteDir, pluginOptions, i18n);
     const {blogPosts} = (await plugin.loadContent!())!;
     return blogPosts;
+  };
+
+  const getBlogTags = async (
+    siteDir: string,
+    pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
+  ) => {
+    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+    const {blogTags} = (await plugin.loadContent!())!;
+    return blogTags;
   };
 
   test('getPathsToWatch', async () => {
@@ -453,5 +464,19 @@ describe('loadBlog', () => {
     expect(normalOrder.reverse().map((x) => x.metadata.date)).toEqual(
       reversedOrder.map((x) => x.metadata.date),
     );
+  });
+
+  test('test blog tags', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const blogTags = await getBlogTags(siteDir, {
+      postsPerPage: 2,
+    });
+
+    expect(Object.keys(blogTags).length).toEqual(2);
+    expect(blogTags).toMatchSnapshot();
   });
 });

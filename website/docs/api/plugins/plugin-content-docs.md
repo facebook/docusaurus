@@ -94,6 +94,7 @@ type SidebarGenerator = (generatorArgs: {
     sidebarPosition?: number | undefined;
   }>; // all the docs of that version (unfiltered)
   numberPrefixParser: PrefixParser; // numberPrefixParser configured for this plugin
+  categoriesMetadata: Record<string, CategoryMetadata>; // key is the path relative to the doc directory, value is the category metadata file's content
   isCategoryIndex: CategoryIndexMatcher; // the default category index matcher, that you can override
   defaultSidebarItemsGenerator: SidebarGenerator; // useful to re-use/enhance default sidebar generation logic from Docusaurus
 }) => Promise<SidebarItem[]>;

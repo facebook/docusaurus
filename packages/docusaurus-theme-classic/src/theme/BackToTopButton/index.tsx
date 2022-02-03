@@ -22,7 +22,9 @@ const threshold = 300;
 // TODO proper detection is currently unreliable!
 // see https://github.com/wessberg/scroll-behavior-polyfill/issues/16
 const SupportsNativeSmoothScrolling = false;
-// const SupportsNativeSmoothScrolling = ExecutionEnvironment.canUseDOM && 'scrollBehavior' in document.documentElement.style;
+// const SupportsNativeSmoothScrolling =
+//   ExecutionEnvironment.canUseDOM &&
+//   'scrollBehavior' in document.documentElement.style;
 
 type CancelScrollTop = () => void;
 
@@ -44,13 +46,14 @@ function smoothScrollTopPolyfill(): CancelScrollTop {
   }
   rafRecursion();
 
-  // Break the recursion
-  // Prevents the user from "fighting" against that recursion producing a weird UX
+  // Break the recursion. Prevents the user from "fighting" against that
+  // recursion producing a weird UX
   return () => raf && cancelAnimationFrame(raf);
 }
 
 type UseSmoothScrollTopReturn = {
-  // We use a cancel function because the non-native smooth scroll-top implementation must be interrupted if user scroll down
+  // We use a cancel function because the non-native smooth scroll-top
+  // implementation must be interrupted if user scroll down
   smoothScrollTop: () => void;
   cancelScrollToTop: CancelScrollTop;
 };

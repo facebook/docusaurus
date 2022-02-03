@@ -19,10 +19,9 @@ export function getAllDuplicateRoutes(
   return allRoutes.filter((route) => {
     if (Object.prototype.hasOwnProperty.call(seenRoutes, route)) {
       return true;
-    } else {
-      seenRoutes[route] = true;
-      return false;
     }
+    seenRoutes[route] = true;
+    return false;
   });
 }
 
