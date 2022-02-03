@@ -47,7 +47,7 @@ const dogfoodingPluginInstances = [
       routeBasePath: '/tests/blog',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/main/website/_dogfooding/_blog-tests',
-      postsPerPage: 2,
+      postsPerPage: 3,
       feedOptions: {
         type: 'all',
         title: 'Docusaurus Tests Blog',

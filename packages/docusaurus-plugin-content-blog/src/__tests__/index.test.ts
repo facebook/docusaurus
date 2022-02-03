@@ -100,15 +100,14 @@ describe('loadBlog', () => {
     return blogPosts;
   };
 
-  const getBlogTagsPostPaginated = async (
+  const getBlogTags = async (
     siteDir: string,
     pluginOptions: Partial<PluginOptions> = {},
     i18n: I18n = DefaultI18N,
   ) => {
     const plugin = await getPlugin(siteDir, pluginOptions, i18n);
-    const {blogTagsPostListPaginated} = (await plugin.loadContent!())!;
-    console.log(blogTagsPostListPaginated);
-    return blogTagsPostListPaginated;
+    const {blogTags} = (await plugin.loadContent!())!;
+    return blogTags;
   };
 
   test('getPathsToWatch', async () => {
@@ -467,30 +466,17 @@ describe('loadBlog', () => {
     );
   });
 
-  test('test blog tags post pagination', async () => {
+  test('test blog tags', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
       'website-blog-with-tags',
     );
-    const blogTagPostPaginated = await getBlogTagsPostPaginated(siteDir, {
-      postsPerPage: 1,
+    const blogTags = await getBlogTags(siteDir, {
+      postsPerPage: 2,
     });
 
-    expect(blogTagPostPaginated[0]).toEqual({
-      tag: 'tag1',
-      metadata: {
-        permalink: '/blog/tags/tag-1',
-        page: 1,
-        postsPerPage: 1,
-        totalPages: 2,
-        totalCount: 2,
-        previousPage: null,
-        nextPage: '/blog/tags/tag-1/page/2',
-        blogDescription: 'Blog',
-        blogTitle: 'Blog',
-      },
-      items: ['/simple/slug/another'],
-    });
+    expect(Object.keys(blogTags).length).toEqual(2);
+    expect(blogTags).toMatchSnapshot();
   });
 });

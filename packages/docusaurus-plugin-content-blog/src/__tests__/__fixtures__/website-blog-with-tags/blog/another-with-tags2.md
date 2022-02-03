@@ -1,5 +1,5 @@
 ---
-slug: /another/tags
+slug: /another/tags2
 title: Another With Tag
 date: 2020-08-15
 

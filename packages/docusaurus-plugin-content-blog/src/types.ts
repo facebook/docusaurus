@@ -23,7 +23,6 @@ export interface BlogContent {
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
   blogTagsListPath: string | null;
-  blogTagsPostListPaginated: BlogTagPostPaginated[];
 }
 
 export interface BlogTags {
@@ -34,6 +33,7 @@ export interface BlogTag {
   name: string;
   items: string[];
   permalink: string;
+  pages: BlogPaginated[];
 }
 
 export interface BlogPost {
@@ -55,12 +55,6 @@ export interface BlogPaginatedMetadata {
 }
 
 export interface BlogPaginated {
-  metadata: BlogPaginatedMetadata;
-  items: string[];
-}
-
-export interface BlogTagPostPaginated {
-  tag: string;
   metadata: BlogPaginatedMetadata;
   items: string[];
 }
