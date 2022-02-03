@@ -75,5 +75,5 @@ function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
 ): NormalizedSidebars {
-  return mapValues(sidebars, (items) => normalizeSidebar(items));
+  return mapValues(sidebars, normalizeSidebar);
 }

@@ -161,18 +161,19 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       // using the "local id" (myDoc) or "qualified id" (dirName/myDoc)
       function findDocByLocalId(localId: string): SidebarItemDoc | undefined {
         return allItems.find(
-          (item) => item.type === 'doc' && getLocalDocId(item.id) === localId,
-        ) as SidebarItemDoc | undefined;
+          (item): item is SidebarItemDoc =>
+            item.type === 'doc' && getLocalDocId(item.id) === localId,
+        );
       }
 
       function findConventionalCategoryDocLink(): SidebarItemDoc | undefined {
-        return allItems.find((item) => {
+        return allItems.find((item): item is SidebarItemDoc => {
           if (item.type !== 'doc') {
             return false;
           }
           const doc = getDoc(item.id);
           return isCategoryIndex(toCategoryIndexMatcherParam(doc));
-        }) as SidebarItemDoc | undefined;
+        });
       }
 
       function getCategoryLinkedDocId(): string | undefined {
