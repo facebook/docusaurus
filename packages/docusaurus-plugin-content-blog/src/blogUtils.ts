@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
+import shell from 'shelljs';
 import {keyBy, mapValues} from 'lodash';
 import type {
   BlogPost,
@@ -37,6 +38,8 @@ import type {
   PluginOptions,
   ReadingTimeFunction,
 } from '@docusaurus/plugin-content-blog';
+
+const GIT_COMMIT_TIMESTAMP_REGEX = /^(?<timestamp>\d+)$/;
 
 export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -230,6 +233,14 @@ async function processBlogSourceFile(
 
   const parsedBlogFileName = parseBlogFileName(blogSourceRelative);
 
+  function getDateFromGitTimestamp(str: string): Date {
+    const timestamp = str.match(GIT_COMMIT_TIMESTAMP_REGEX)?.groups?.timestamp;
+    if (!timestamp) {
+      throw new Error(`Invalid timestamp from git log: ${str}`);
+    }
+    return new Date(Number(timestamp) * 1000);
+  }
+
   async function getDate(): Promise<Date> {
     // Prefer user-defined date.
     if (frontMatter.date) {
@@ -242,7 +253,44 @@ async function processBlogSourceFile(
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
-    // Fallback to file create time
+
+    if (!shell.test('-f', blogSourceAbsolute)) {
+      throw new Error(
+        `Retrieval of date failed at "${blogSourceAbsolute}" because the file does not exist.`,
+      );
+    }
+
+    // Fallback to the first commit date of the file
+    try {
+      if (!shell.which('git')) {
+        throw new Error(
+          'Git is required for the blog plugin to better infer the original post date.',
+        );
+      }
+
+      const fileBasename = path.basename(blogSourceAbsolute);
+      const fileDirname = path.dirname(blogSourceAbsolute);
+      // --follow is necessary to follow file renames
+      // --diff-filter=A ensures we only get the commit which (A)dded the file
+      const result = shell.exec(
+        `git log --follow --max-count=1 --diff-filter=A --format=%ct -- "${fileBasename}"`,
+        {
+          cwd: fileDirname, // this is needed: https://github.com/facebook/docusaurus/pull/5048
+          silent: true,
+        },
+      );
+      if (result.code !== 0) {
+        throw new Error(
+          `Retrieval of git history failed at "${blogSourceAbsolute}" with exit code ${result.code}: ${result.stderr}`,
+        );
+      }
+      return getDateFromGitTimestamp(result.stdout.trim());
+    } catch (e) {
+      logger.error(e);
+      logger.warn(
+        'Unable to infer original post date from git. Falling back to file creation time.',
+      );
+    }
     return (await fs.stat(blogSourceAbsolute)).birthtime;
   }
 

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
@@ -425,9 +424,8 @@ describe('loadBlog', () => {
     );
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
-    const noDateSourceBirthTime = (
-      await fs.stat(noDateSource.replace('@site', siteDir))
-    ).birthtime;
+    // the file creation date in git
+    const noDateSourceBirthTime = new Date('2019-07-27T11:03:14.000Z');
     const formattedDate = Intl.DateTimeFormat('en', {
       day: 'numeric',
       month: 'long',
