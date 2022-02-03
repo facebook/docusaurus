@@ -14,6 +14,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  BlogPaginated,
 } from './types';
 import {
   parseMarkdownString,
@@ -50,16 +51,79 @@ export function getSourceToPermalink(
   );
 }
 
-export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
+export function paginateBlogPosts({
+  blogPosts,
+  basePageUrl,
+  blogTitle,
+  blogDescription,
+  postsPerPageOption,
+}: {
+  blogPosts: BlogPost[];
+  basePageUrl: string;
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+}): BlogPaginated[] {
+  const totalCount = blogPosts.length;
+  const postsPerPage =
+    postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
+  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+
+  const pages: BlogPaginated[] = [];
+
+  function permalink(page: number) {
+    return page > 0 ? `${basePageUrl}/page/${page + 1}` : basePageUrl;
+  }
+
+  for (let page = 0; page < numberOfPages; page += 1) {
+    pages.push({
+      items: blogPosts
+        .slice(page * postsPerPage, (page + 1) * postsPerPage)
+        .map((item) => item.id),
+      metadata: {
+        permalink: permalink(page),
+        page: page + 1,
+        postsPerPage,
+        totalPages: numberOfPages,
+        totalCount,
+        previousPage: page !== 0 ? permalink(page - 1) : null,
+        nextPage: page < numberOfPages - 1 ? permalink(page + 1) : null,
+        blogDescription,
+        blogTitle,
+      },
+    });
+  }
+
+  return pages;
+}
+
+export function getBlogTags({
+  blogPosts,
+  ...params
+}: {
+  blogPosts: BlogPost[];
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+}): BlogTags {
   const groups = groupTaggedItems(
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-  return mapValues(groups, (group) => ({
-    name: group.tag.label,
-    items: group.items.map((item) => item.id),
-    permalink: group.tag.permalink,
-  }));
+
+  return mapValues(groups, (group) => {
+    const {tag, items: tagBlogPosts} = group;
+    return {
+      name: tag.label,
+      items: tagBlogPosts.map((item) => item.id),
+      permalink: tag.permalink,
+      pages: paginateBlogPosts({
+        blogPosts: tagBlogPosts,
+        basePageUrl: group.tag.permalink,
+        ...params,
+      }),
+    };
+  });
 }
 
 const DATE_FILENAME_REGEX =

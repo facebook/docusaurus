@@ -23,6 +23,7 @@ import {
 import {translateContent, getTranslationFiles} from './translations';
 
 import type {
+  BlogTag,
   BlogTags,
   BlogContent,
   BlogItemsToMetadata,
@@ -31,6 +32,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
+  TagModule,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
@@ -46,6 +48,7 @@ import {
   generateBlogPosts,
   getSourceToPermalink,
   getBlogTags,
+  paginateBlogPosts,
 } from './blogUtils';
 import {createBlogFeedFiles} from './feed';
 import type {
@@ -134,6 +137,7 @@ export default async function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath: null,
+          blogTagsPaginated: [],
         };
       }
 
@@ -157,45 +161,22 @@ export default async function pluginContentBlog(
         }
       });
 
-      // Blog pagination routes.
-      // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
-      const totalCount = blogPosts.length;
-      const postsPerPage =
-        postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-      const numberOfPages = Math.ceil(totalCount / postsPerPage);
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
 
-      const blogListPaginated: BlogPaginated[] = [];
+      const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
+        blogPosts,
+        blogTitle,
+        blogDescription,
+        postsPerPageOption,
+        basePageUrl: baseBlogUrl,
+      });
 
-      function blogPaginationPermalink(page: number) {
-        return page > 0
-          ? normalizeUrl([baseBlogUrl, `page/${page + 1}`])
-          : baseBlogUrl;
-      }
-
-      for (let page = 0; page < numberOfPages; page += 1) {
-        blogListPaginated.push({
-          metadata: {
-            permalink: blogPaginationPermalink(page),
-            page: page + 1,
-            postsPerPage,
-            totalPages: numberOfPages,
-            totalCount,
-            previousPage: page !== 0 ? blogPaginationPermalink(page - 1) : null,
-            nextPage:
-              page < numberOfPages - 1
-                ? blogPaginationPermalink(page + 1)
-                : null,
-            blogDescription,
-            blogTitle,
-          },
-          items: blogPosts
-            .slice(page * postsPerPage, (page + 1) * postsPerPage)
-            .map((item) => item.id),
-        });
-      }
-
-      const blogTags: BlogTags = getBlogTags(blogPosts);
+      const blogTags: BlogTags = getBlogTags({
+        blogPosts,
+        postsPerPageOption,
+        blogDescription,
+        blogTitle,
+      });
 
       const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
@@ -345,49 +326,60 @@ export default async function pluginContentBlog(
         return;
       }
 
-      const tagsModule: TagsModule = {};
-
-      await Promise.all(
-        Object.keys(blogTags).map(async (tag) => {
-          const {name, items, permalink} = blogTags[tag];
-
-          // Refactor all this, see docs implementation
-          tagsModule[tag] = {
+      const tagsModule: TagsModule = Object.fromEntries(
+        Object.entries(blogTags).map(([tagKey, tag]) => {
+          const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
-            slug: tag,
-            name,
-            count: items.length,
-            permalink,
+            slug: tagKey,
+            name: tag.name,
+            count: tag.items.length,
+            permalink: tag.permalink,
           };
-
-          const tagsMetadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(tagsModule[tag], null, 2),
-          );
-
-          addRoute({
-            path: permalink,
-            component: blogTagsPostsComponent,
-            exact: true,
-            modules: {
-              sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
-                const metadata = blogItemsToMetadata[postID];
-                return {
-                  content: {
-                    __import: true,
-                    path: metadata.source,
-                    query: {
-                      truncated: true,
-                    },
-                  },
-                };
-              }),
-              metadata: aliasedSource(tagsMetadataPath),
-            },
-          });
+          return [tag.name, tagModule];
         }),
       );
+
+      async function createTagRoutes(tag: BlogTag): Promise<void> {
+        await Promise.all(
+          tag.pages.map(async (blogPaginated) => {
+            const {metadata, items} = blogPaginated;
+            const tagsMetadataPath = await createData(
+              `${docuHash(metadata.permalink)}.json`,
+              JSON.stringify(tagsModule[tag.name], null, 2),
+            );
+
+            const listMetadataPath = await createData(
+              `${docuHash(metadata.permalink)}-list.json`,
+              JSON.stringify(metadata, null, 2),
+            );
+
+            addRoute({
+              path: metadata.permalink,
+              component: blogTagsPostsComponent,
+              exact: true,
+              modules: {
+                sidebar: aliasedSource(sidebarProp),
+                items: items.map((postID) => {
+                  const blogPostMetadata = blogItemsToMetadata[postID];
+                  return {
+                    content: {
+                      __import: true,
+                      path: blogPostMetadata.source,
+                      query: {
+                        truncated: true,
+                      },
+                    },
+                  };
+                }),
+                metadata: aliasedSource(tagsMetadataPath),
+                listMetadata: aliasedSource(listMetadataPath),
+              },
+            });
+          }),
+        );
+      }
+
+      await Promise.all(Object.values(blogTags).map(createTagRoutes));
 
       // Only create /tags page if there are tags.
       if (Object.keys(blogTags).length > 0) {

@@ -259,10 +259,12 @@ declare module '@theme/BlogTagsPostsPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {Tag} from '@theme/BlogTagsListPage';
   import type {Content} from '@theme/BlogPostPage';
+  import type {Metadata} from '@theme/BlogListPage';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
     readonly metadata: Tag;
+    readonly listMetadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
   }
 
