@@ -355,7 +355,7 @@ Here are two approaches to deploying your docs with GitHub Actions. Based on the
 <Tabs>
 <TabItem value="same" label="Same">
 
-While you can have both jobs defined in the same workflow file, the `deploy` job will always be listed as skipped in the PR check suite status. That's added noise providing no value to the review process, and as you cannot easily share common snippets, it is better to manage them as separate workflows instead.
+While you can have both jobs defined in the same workflow file, the original `deploy` workflow will always be listed as skipped in the PR check suite status, which is not communicative of the actual status and provides no value to the review process. We therefore propose to manage them as separate workflows instead.
 
 We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
 
@@ -365,9 +365,11 @@ We will use a popular third-party deployment action: [peaceiris/actions-gh-pages
 
 Add these two workflow files:
 
-:::warning
+:::warning Tweak the parameters for your setup
 
 These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+
+If your Docusaurus project is not at the root of the repo, you would need to change the paths as well.
 
 :::
 
@@ -376,8 +378,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-    paths: [website/**]
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   deploy:
@@ -387,13 +391,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - name: Build website
-        working-directory: website
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+        run: yarn build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
@@ -402,8 +406,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
-          publish_dir: ./website/build
-          # Assign commit authorship to the official GH-Actions bot for deploys to `gh-pages` branch:
+          publish_dir: ./build
+          # The following lines assign commit authorship to the official
+          # GH-Actions bot for deploys to `gh-pages` branch:
           # https://github.com/actions/checkout/issues/13#issuecomment-724415212
           # The GH actions bot is used by default if you didn't specify the two fields.
           # You can swap them out with your own user credentials.
@@ -416,8 +421,10 @@ name: Test deployment
 
 on:
   pull_request:
-    branches: [main]
-    paths: [website/**]
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   test-deploy:
@@ -427,13 +434,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
-      - name: Test build
-        working-directory: website
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
 ```
 
 </details>
@@ -479,12 +486,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
-      - name: Test deployment
-        run: |
-          yarn install --frozen-lockfile
-          yarn build
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Test build website
+        run: yarn build
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
