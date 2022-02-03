@@ -55,7 +55,7 @@ describe('lastUpdate', () => {
     await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/with exit code 128/),
+      expect.stringMatching(/because the file does not exist./),
     );
     await expect(getFileLastUpdate(null)).resolves.toBeNull();
     await expect(getFileLastUpdate(undefined)).resolves.toBeNull();

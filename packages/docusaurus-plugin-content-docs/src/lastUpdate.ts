@@ -7,6 +7,7 @@
 
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
+import path from 'path';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -43,9 +44,21 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const result = shell.exec(`git log -1 --format=%ct,%an "${filePath}"`, {
-      silent: true,
-    });
+    if (!shell.test('-f', filePath)) {
+      throw new Error(
+        `Retrieval of git history failed at "${filePath}" because the file does not exist.`,
+      );
+    }
+
+    const fileBasename = path.basename(filePath);
+    const fileDirname = path.dirname(filePath);
+    const result = shell.exec(
+      `git log --max-count=1 --format=%ct,%an -- "${fileBasename}"`,
+      {
+        cwd: fileDirname, // this is needed: https://github.com/facebook/docusaurus/pull/5048
+        silent: true,
+      },
+    );
     if (result.code !== 0) {
       throw new Error(
         `Retrieval of git history failed at "${filePath}" with exit code ${result.code}: ${result.stderr}`,
