@@ -76,10 +76,9 @@ function readStorageState({
     );
     if (versionExists) {
       return {preferredVersionName: preferredVersionNameUnsafe};
-    } else {
-      DocsPreferredVersionStorage.clear(pluginId, versionPersistence);
-      return {preferredVersionName: null};
     }
+    DocsPreferredVersionStorage.clear(pluginId, versionPersistence);
+    return {preferredVersionName: null};
   }
 
   const initialState: DocsPreferredVersionState = {};
@@ -144,9 +143,8 @@ export function DocsPreferredVersionContextProvider({
         {children}
       </DocsPreferredVersionContextProviderUnsafe>
     );
-  } else {
-    return children;
   }
+  return children;
 }
 
 function DocsPreferredVersionContextProviderUnsafe({

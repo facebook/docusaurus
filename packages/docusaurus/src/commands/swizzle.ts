@@ -50,8 +50,8 @@ export function getPluginNames(plugins: PluginConfig[]): string[] {
 
 const formatComponentName = (componentName: string): string =>
   componentName
-    .replace(/(\/|\\)index\.(js|tsx|ts|jsx)/, '')
-    .replace(/\.(js|tsx|ts|jsx)/, '');
+    .replace(/[\\/]index\.(?:jsx?|tsx?)/, '')
+    .replace(/\.(?:jsx?|tsx?)/, '');
 
 function readComponent(themePath: string) {
   function walk(dir: string): Array<string> {
@@ -147,7 +147,7 @@ export default async function swizzle(
   danger?: boolean,
 ): Promise<void> {
   const context = await loadContext(siteDir);
-  const pluginConfigs = loadPluginConfigs(context);
+  const pluginConfigs = await loadPluginConfigs(context);
   const pluginNames = getPluginNames(pluginConfigs);
   const plugins = await initPlugins({
     pluginConfigs,
@@ -240,7 +240,8 @@ export default async function swizzle(
     let score = formattedComponentName.length;
     components.forEach((component) => {
       if (component.toLowerCase() === formattedComponentName.toLowerCase()) {
-        // may be components with same lowercase key, try to match closest component
+        // may be components with same lowercase key, try to match closest
+        // component
         const currentScore = leven(formattedComponentName, component);
         if (currentScore < score) {
           score = currentScore;
@@ -259,7 +260,8 @@ export default async function swizzle(
   let fromPath = path.join(themePath, mostSuitableComponent);
   let toPath = path.resolve(siteDir, THEME_PATH, mostSuitableComponent);
   // Handle single TypeScript/JavaScript file only.
-  // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
+  // E.g: if <fromPath> does not exist, we try to swizzle
+  // <fromPath>.(ts|tsx|js) instead
   if (!fs.existsSync(fromPath)) {
     if (fs.existsSync(`${fromPath}.ts`)) {
       [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];

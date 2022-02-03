@@ -219,8 +219,8 @@ async function registerSW() {
   }
 }
 
-// TODO these events still works in chrome but have been removed from the spec in 2019!
-// See https://github.com/w3c/manifest/pull/836
+// TODO these events still works in chrome but have been removed from the spec
+// in 2019! See https://github.com/w3c/manifest/pull/836
 function addLegacyAppInstalledEventsListeners() {
   if (typeof window !== 'undefined') {
     if (debug) {
@@ -248,7 +248,8 @@ function addLegacyAppInstalledEventsListeners() {
       await clearRegistrations();
     });
 
-    // TODO this event still works in chrome but has been removed from the spec in 2019!!!
+    // TODO this event still works in chrome but has been removed from the spec
+    // in 2019!!!
     window.addEventListener('beforeinstallprompt', async (event) => {
       if (debug) {
         console.log(
@@ -256,7 +257,8 @@ function addLegacyAppInstalledEventsListeners() {
           event,
         );
       }
-      // TODO instead of default browser install UI, show custom docusaurus prompt?
+      // TODO instead of default browser install UI, show custom docusaurus
+      // prompt?
       // event.preventDefault();
       if (debug) {
         console.log(
@@ -273,7 +275,7 @@ function addLegacyAppInstalledEventsListeners() {
         }
         // After uninstalling the app, if the user doesn't clear all data, then
         // the previous service worker will continue serving cached files. We
-        // need to clear registrations and reload, otherwise the popup will show.
+        // need to clear registrations and reload, otherwise the popup shows.
         await clearRegistrations();
       }
     });

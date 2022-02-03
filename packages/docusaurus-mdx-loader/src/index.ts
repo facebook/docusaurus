@@ -49,9 +49,12 @@ type Options = RemarkAndRehypePluginOptions & {
   filepath: string;
 };
 
-// When this throws, it generally means that there's no metadata file associated with this MDX document
-// It can happen when using MDX partials (usually starting with _)
-// That's why it's important to provide the "isMDXPartial" function in config
+/**
+ * When this throws, it generally means that there's no metadata file associated
+ * with this MDX document. It can happen when using MDX partials (usually
+ * starting with _). That's why it's important to provide the `isMDXPartial`
+ * function in config
+ */
 async function readMetadataPath(metadataPath: string) {
   try {
     return await readFile(metadataPath, 'utf8');
@@ -62,11 +65,14 @@ async function readMetadataPath(metadataPath: string) {
   }
 }
 
-// Converts assets an object with Webpack require calls code
-// This is useful for mdx files to reference co-located assets using relative paths
-// Those assets should enter the Webpack assets pipeline and be hashed
-// For now, we only handle that for images and paths starting with ./
-// {image: "./myImage.png"} => {image: require("./myImage.png")}
+/**
+ * Converts assets an object with Webpack require calls code.
+ * This is useful for mdx files to reference co-located assets using relative
+ * paths. Those assets should enter the Webpack assets pipeline and be hashed.
+ * For now, we only handle that for images and paths starting with `./`:
+ *
+ * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
+ */
 function createAssetsExportCode(assets: Record<string, unknown>) {
   if (Object.keys(assets).length === 0) {
     return 'undefined';
@@ -148,7 +154,7 @@ export default async function mdxLoader(
     filepath: filePath,
   };
 
-  let result;
+  let result: string;
   try {
     result = await mdx(content, options);
   } catch (err) {
@@ -156,7 +162,7 @@ export default async function mdxLoader(
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or front matter
+  // Partial are not expected to have associated metadata files or front matter
   const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
@@ -168,9 +174,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
-      } else {
-        logger.warn(errorMessage);
       }
+      logger.warn(errorMessage);
     }
   }
 

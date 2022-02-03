@@ -7,10 +7,11 @@
 
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
+import path from 'path';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
+const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(?<timestamp>\d+),(?<author>.+)$/;
 
 let showedGitRequirementError = false;
 
@@ -25,10 +26,10 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX);
-    return !temp || temp.length < 3
-      ? null
-      : {timestamp: +temp[1], author: temp[2]};
+    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX)?.groups;
+    return temp
+      ? {timestamp: Number(temp.timestamp), author: temp.author}
+      : null;
   }
 
   // Wrap in try/catch in case the shell commands fail
@@ -43,9 +44,21 @@ export async function getFileLastUpdate(
       return null;
     }
 
-    const result = shell.exec(`git log -1 --format=%ct,%an "${filePath}"`, {
-      silent: true,
-    });
+    if (!shell.test('-f', filePath)) {
+      throw new Error(
+        `Retrieval of git history failed at "${filePath}" because the file does not exist.`,
+      );
+    }
+
+    const fileBasename = path.basename(filePath);
+    const fileDirname = path.dirname(filePath);
+    const result = shell.exec(
+      `git log --max-count=1 --format=%ct,%an -- "${fileBasename}"`,
+      {
+        cwd: fileDirname, // this is needed: https://github.com/facebook/docusaurus/pull/5048
+        silent: true,
+      },
+    );
     if (result.code !== 0) {
       throw new Error(
         `Retrieval of git history failed at "${filePath}" with exit code ${result.code}: ${result.stderr}`,

@@ -21,27 +21,24 @@ function BlogPostAuthor({author}: Props): JSX.Element {
         </Link>
       )}
 
-      {
-        // Note: only legacy author front matter allow empty name (not frontMatter.authors)
-        name && (
-          <div
-            className="avatar__intro"
-            itemProp="author"
-            itemScope
-            itemType="https://schema.org/Person">
-            <div className="avatar__name">
-              <Link href={url} itemProp="url">
-                <span itemProp="name">{name}</span>
-              </Link>
-            </div>
-            {title && (
-              <small className="avatar__subtitle" itemProp="description">
-                {title}
-              </small>
-            )}
+      {name && (
+        <div
+          className="avatar__intro"
+          itemProp="author"
+          itemScope
+          itemType="https://schema.org/Person">
+          <div className="avatar__name">
+            <Link href={url} itemProp="url">
+              <span itemProp="name">{name}</span>
+            </Link>
           </div>
-        )
-      }
+          {title && (
+            <small className="avatar__subtitle" itemProp="description">
+              {title}
+            </small>
+          )}
+        </div>
+      )}
     </div>
   );
 }

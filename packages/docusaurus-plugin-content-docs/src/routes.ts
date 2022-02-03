@@ -73,7 +73,8 @@ export async function createCategoryGeneratedIndexRoutes({
       modules: {
         categoryGeneratedIndex: aliasedSource(propData),
       },
-      // Same as doc, this sidebar route attribute permits to associate this subpage to the given sidebar
+      // Same as doc, this sidebar route attribute permits to associate this
+      // subpage to the given sidebar
       ...(sidebar && {sidebar}),
     };
   }
@@ -109,7 +110,8 @@ export async function createDocRoutes({
           content: metadataItem.source,
         },
         // Because the parent (DocPage) comp need to access it easily
-        // This permits to render the sidebar once without unmount/remount when navigating (and preserve sidebar state)
+        // This permits to render the sidebar once without unmount/remount when
+        // navigating (and preserve sidebar state)
         ...(metadataItem.sidebar && {
           sidebar: metadataItem.sidebar,
         }),

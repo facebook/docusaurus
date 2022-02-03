@@ -26,16 +26,16 @@ async function generateTemplateExample(template) {
       `generating ${template} template for codesandbox in the examples folder...`,
     );
 
-    // run the docusaurus script to bootstrap the template in the examples folder
+    // run the docusaurus script to create the template in the examples folder
     const command = template.endsWith('-typescript')
       ? template.replace('-typescript', ' -- --typescript')
       : template;
     shell.exec(
       // /!\ we use the published init script on purpose,
-      // because using the local init script is too early and could generate upcoming/unavailable config options
-      // remember CodeSandbox templates will use the published version, not the repo version
+      // because using the local init script is too early and could generate
+      // upcoming/unavailable config options. Remember CodeSandbox templates
+      // will use the published version, not the repo version
       `npm init docusaurus@latest examples/${template} ${command}`,
-      // `node ./packages/docusaurus-init/bin/index.js init examples/${template} ${template}`,
     );
 
     // read the content of the package.json
@@ -49,10 +49,10 @@ async function generateTemplateExample(template) {
     // these example projects are not meant to be published to npm
     templatePackageJson.private = true;
 
-    // make sure package.json name is not "examples-classic"
-    // the package.json name appear in CodeSandbox UI so let's display a good name!
-    // unfortunately we can't use uppercase or spaces
-    // see also https://github.com/codesandbox/codesandbox-client/pull/5136#issuecomment-763521662
+    // Make sure package.json name is not "examples-classic". The package.json
+    // name appears in CodeSandbox UI so let's display a good name!
+    // Unfortunately we can't use uppercase or spaces... See also
+    // https://github.com/codesandbox/codesandbox-client/pull/5136#issuecomment-763521662
     templatePackageJson.name =
       template === 'classic' ? 'docusaurus' : `docusaurus-${template}`;
     templatePackageJson.description =
@@ -98,12 +98,13 @@ async function generateTemplateExample(template) {
   }
 }
 
-/*
-Starters are repositories/branches that only contains a newly initialized Docusaurus site
-Those are useful for users to inspect (may be more convenient than "examples/classic)
-Also some tools like Netlify deploy button currently require using the main branch of a dedicated repo
-See https://github.com/jamstack/jamstack.org/pull/609
-Button visible here: https://jamstack.org/generators/
+/**
+ * Starters are repositories/branches that only contains a newly initialized
+ * Docusaurus site. Those are useful for users to inspect (may be more
+ * convenient than "examples/classic) Also some tools like Netlify deploy button
+ * currently require using the main branch of a dedicated repo.
+ * See https://github.com/jamstack/jamstack.org/pull/609
+ * Button visible here: https://jamstack.org/generators/
  */
 function updateStarters() {
   function forcePushGitSubtree({subfolder, remote, remoteBranch}) {

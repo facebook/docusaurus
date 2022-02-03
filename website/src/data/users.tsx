@@ -13,15 +13,16 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
  *
  * Requirements for adding your site to our showcase:
- * - It is a production-ready site with real content and decent customizations (different from the init templates)
+ * - It is a production-ready site with real content and decent customizations
+ * (different from the init templates)
  * - It is NOT a work-in-progress with empty pages
- * - It has a stable domain name (a Netlify/Vercel deploy preview is not allowed)
+ * - It has a stable domain (a Netlify/Vercel deploy preview is not allowed)
  *
  * Instructions:
  * - Add your site in the json array below
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - Use relevant tags to qualify your site (read the tag descriptions below)
- * - The image MUST be added to the GitHub repository, and use `require("image")`
+ * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
  * - Open a PR and check for reported CI errors
  *
@@ -62,7 +63,7 @@ export type TagType =
 export type User = {
   title: string;
   description: string;
-  preview: any;
+  preview: string;
   website: string;
   source: string | null;
   tags: TagType[];
@@ -115,7 +116,7 @@ export const Tags: Record<TagType, Tag> = {
     color: '#fe6829',
   },
 
-  // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
+  // Large sites, with a lot of content (> 200 pages, excluding versions)
   large: {
     label: 'Large',
     description:
@@ -1421,6 +1422,15 @@ const Users: User[] = [
     tags: ['opensource', 'product', 'versioning'],
   },
   {
+    title: 'SAP Cloud SDK',
+    description:
+      'The one-stop shop for developing and extending SAP applications in the cloud.',
+    preview: require('./showcase/sapcloudsdk.png'),
+    website: 'https://sap.github.io/cloud-sdk/',
+    source: 'https://github.com/SAP/cloud-sdk',
+    tags: ['opensource', 'product', 'large'],
+  },
+  {
     title: 'Sapphire',
     description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
     preview: require('./showcase/sapphire.png'),
@@ -1650,6 +1660,14 @@ const Users: User[] = [
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Verida',
+    description: 'A web3 data storage and sharing API',
+    preview: require('./showcase/verida-developers.png'),
+    website: 'https://developers.verida.io/',
+    source: 'https://github.com/verida/documentation',
     tags: ['opensource', 'product'],
   },
   {

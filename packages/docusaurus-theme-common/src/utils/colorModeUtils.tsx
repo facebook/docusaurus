@@ -82,16 +82,28 @@ function useColorModeContextValue(): ColorModeContextValue {
     }
   }, [disableSwitch, setTheme]);
 
+  // PCS is coerced to light mode when printing, which causes the color mode to
+  // be reset to dark when exiting print mode, disregarding user settings. When
+  // the listener fires only because of a print/screen switch, we don't change
+  // color mode. See https://github.com/facebook/docusaurus/pull/6490
+  const previousMediaIsPrint = React.useRef(false);
+
   useEffect(() => {
     if (disableSwitch && !respectPrefersColorScheme) {
-      return;
+      return undefined;
     }
-
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addListener(({matches}) => {
-        setTheme(matches ? themes.dark : themes.light);
-      });
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = ({matches}: MediaQueryListEvent) => {
+      if (window.matchMedia('print').matches || previousMediaIsPrint.current) {
+        previousMediaIsPrint.current = window.matchMedia('print').matches;
+        return;
+      }
+      setTheme(matches ? themes.dark : themes.light);
+    };
+    mql.addListener(onChange);
+    return () => {
+      mql.removeListener(onChange);
+    };
   }, [disableSwitch, respectPrefersColorScheme]);
 
   return {

@@ -75,8 +75,9 @@ export default function DocItem(props: Props): JSX.Element {
               <div
                 className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
-                Title can be declared inside md content or declared through front matter and added manually
-                To make both cases consistent, the added title is added under the same div.markdown block
+                Title can be declared inside md content or declared through
+                front matter and added manually. To make both cases consistent,
+                the added title is added under the same div.markdown block
                 See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
                 */}
                 {shouldAddTitle && (

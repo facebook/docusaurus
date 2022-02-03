@@ -23,7 +23,9 @@ export default function createClientConfig(
   const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
-    // target: 'browserslist', //  useless, disabled on purpose (errors on existing sites with no browserslist cfg)
+    // useless, disabled on purpose (errors on existing sites with no
+    // browserslist config)
+    // target: 'browserslist',
     entry: path.resolve(__dirname, '../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
@@ -39,7 +41,8 @@ export default function createClientConfig(
     ],
   });
 
-  // When building include the plugin to force terminate building if errors happened in the client bundle.
+  // When building, include the plugin to force terminate building if errors
+  // happened in the client bundle.
   if (isBuilding) {
     clientConfig.plugins?.push({
       apply: (compiler) => {

@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Pesquisar",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Pesquisa por Algolia",
   "theme.SearchPage.documentsFound.plurals": "Um documento encontrado|{count} documentos encontrados",
   "theme.SearchPage.emptyResultsTitle": "Pesquisar pela documentação",

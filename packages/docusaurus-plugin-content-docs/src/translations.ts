@@ -31,11 +31,10 @@ import {CURRENT_VERSION_NAME} from './constants';
 function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {
     return versionName;
-  } else {
-    // I don't like this "version-" prefix,
-    // but it's for consistency with site/versioned_docs
-    return `version-${versionName}`;
   }
+  // I don't like this "version-" prefix,
+  // but it's for consistency with site/versioned_docs
+  return `version-${versionName}`;
 }
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
@@ -68,7 +67,8 @@ function getDocTranslations(doc: DocMetadata): TranslationFileContent {
       ? {
           [`${doc.unversionedId}.sidebar_label`]: {
             message: doc.sidebar_label,
-            description: `The sidebar label for doc with id=${doc.unversionedId}`,
+            description:
+              `The sidebar label for doc with id=${doc.unversionedId}`,
           },
         }
       : undefined),
@@ -253,7 +253,8 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   const sidebarsTranslations: TranslationFileContent =
     getSidebarsTranslations(version);
 
-  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
+  // const docsTranslations: TranslationFileContent =
+  //   getDocsTranslations(version);
 
   return [
     {

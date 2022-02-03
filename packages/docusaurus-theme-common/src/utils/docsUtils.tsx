@@ -20,7 +20,7 @@ import {useLocation} from '@docusaurus/router';
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid context value (a doc can have no sidebar)
+// Using a Symbol because null is a valid context value (a doc with no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
@@ -101,11 +101,10 @@ export function findSidebarCategory(
     if (item.type === 'category') {
       if (predicate(item)) {
         return item;
-      } else {
-        const subItem = findSidebarCategory(item.items, predicate);
-        if (subItem) {
-          return subItem;
-        }
+      }
+      const subItem = findSidebarCategory(item.items, predicate);
+      if (subItem) {
+        return subItem;
       }
     }
   }
@@ -124,12 +123,13 @@ export function findFirstCategoryLink(
   for (const subItem of item.items) {
     if (subItem.type === 'link') {
       return subItem.href;
-    }
-    if (subItem.type === 'category') {
+    } else if (subItem.type === 'category') {
       const categoryLink = findFirstCategoryLink(subItem);
       if (categoryLink) {
         return categoryLink;
       }
+    } else if (subItem.type === 'html') {
+      // skip
     } else {
       throw new Error(
         `Unexpected category item type for ${JSON.stringify(subItem)}`,

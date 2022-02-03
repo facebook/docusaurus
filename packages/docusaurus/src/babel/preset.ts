@@ -13,7 +13,8 @@ function getTransformOptions(isServer: boolean): TransformOptions {
     require.resolve(`@babel/runtime/package.json`),
   );
   return {
-    // All optional newlines and whitespace will be omitted when generating code in compact mode
+    // All optional newlines and whitespace will be omitted when generating code
+    // in compact mode
     compact: true,
     presets: [
       isServer
@@ -48,9 +49,9 @@ function getTransformOptions(isServer: boolean): TransformOptions {
         {
           corejs: false,
           helpers: true,
-          // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0, better to
-          // explicitly specify the version so that it can reuse the helper better
-          // See https://github.com/babel/babel/issues/10261
+          // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0,
+          // better to explicitly specify the version so that it can reuse the
+          // helper better. See https://github.com/babel/babel/issues/10261
           // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
           version: require('@babel/runtime/package.json').version,
           regenerator: true,

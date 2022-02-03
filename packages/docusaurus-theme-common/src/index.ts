@@ -126,7 +126,10 @@ export {
 } from './utils/tabGroupChoiceUtils';
 
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
-export {default as useKeyboardNavigation} from './hooks/useKeyboardNavigation';
+export {
+  default as useKeyboardNavigation,
+  keyboardFocusedClassName,
+} from './hooks/useKeyboardNavigation';
 export {default as usePrismTheme} from './hooks/usePrismTheme';
 export {default as useLockBodyScroll} from './hooks/useLockBodyScroll';
 export {default as useWindowSize} from './hooks/useWindowSize';

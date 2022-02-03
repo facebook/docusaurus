@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "검색",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Search by Algolia",
   "theme.SearchPage.documentsFound.plurals": "{count}개 문서를 찾았습니다.",
   "theme.SearchPage.emptyResultsTitle": "문서를 검색합니다.",

@@ -59,7 +59,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
   if (key === 'tags') {
     return false;
   }
-  if (String(value).match(/^("|').+("|')$/)) {
+  if (String(value).match(/^(?<quote>["']).+\1$/)) {
     return false;
   }
   // title: !something needs quotes because otherwise it's a YAML tag.
@@ -69,6 +69,6 @@ export function shouldQuotifyFrontMatter([key, value]: [
   // TODO this is not ideal to have to maintain such a list of allowed chars
   // maybe we should quotify if gray-matter throws instead?
   return !String(value).match(
-    /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
+    /^[\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$]+$/,
   );
 }
