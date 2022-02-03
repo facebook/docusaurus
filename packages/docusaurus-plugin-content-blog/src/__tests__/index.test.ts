@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+import shell from 'shelljs';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
@@ -424,13 +425,17 @@ describe('loadBlog', () => {
     );
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
-    // the file creation date in git
-    const noDateSourceBirthTime = new Date('2019-07-27T11:03:14.000Z');
+    const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
+    // we know the file exist and we know we have git
+    const result = shell.exec(
+      `git log --follow --max-count=1 --diff-filter=A --format=%ct -- "${noDateSourceFile}"`,
+    );
+    const noDateSourceTime = new Date(Number(result.stdout.trim()) * 1000);
     const formattedDate = Intl.DateTimeFormat('en', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }).format(noDateSourceBirthTime);
+    }).format(noDateSourceTime);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -443,7 +448,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       authors: [],
-      date: noDateSourceBirthTime,
+      date: noDateSourceTime,
       formattedDate,
       frontMatter: {},
       tags: [],
