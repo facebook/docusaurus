@@ -11,18 +11,18 @@ import {fileURLToPath} from 'url';
 
 // Unsafe imports
 import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
-import {executeAction} from '@docusaurus/core/lib/commands/swizzle/actions.js';
+import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
 const action = process.env.SWIZZLE_ACTION ?? 'eject';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const themePath = path.join(
-  __dirname,
+  dirname,
   '../../packages/docusaurus-theme-classic/lib-next/theme',
 );
 
-const toPath = path.join(__dirname, '_swizzle_theme_tests');
+const toPath = path.join(dirname, '_swizzle_theme_tests');
 
 await fs.remove(toPath);
 
@@ -41,13 +41,29 @@ if (action === 'wrap') {
 }
 
 for (const componentName of componentNames) {
-  const result = await executeAction({
+  const baseParams = {
     action,
     siteDir: toPath,
     themePath,
     componentName,
-    importType: 'init', // For these tests, "theme-original" imports are causing an expected infinite loop
-  });
+  };
+
+  const executeAction = () => {
+    switch (action) {
+      case 'wrap':
+        return wrap({
+          ...baseParams,
+          importType: 'init', // For these tests, "theme-original" imports are causing an expected infinite loop
+          typescript: false, // TODO support TS
+        });
+      case 'eject':
+        return eject(baseParams);
+      default:
+        throw new Error(`Unknown action: ${action}`);
+    }
+  };
+
+  const result = await executeAction();
 
   console.log(
     `${action} ${componentName} => ${result.createdFiles.length} file${

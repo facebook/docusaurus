@@ -28,13 +28,13 @@ export async function getAction(
   return askSwizzleAction(componentConfig);
 }
 
-type ActionParams = {
+export type ActionParams = {
   siteDir: string;
   themePath: string;
   componentName: string;
 };
 
-type ActionResult = {
+export type ActionResult = {
   createdFiles: string[];
 };
 

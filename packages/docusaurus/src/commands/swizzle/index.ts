@@ -14,6 +14,7 @@ import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import type {InitializedPlugin} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {normalizeOptions} from './common';
+import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 
@@ -88,33 +89,37 @@ export default async function swizzle(
 
   const action = await getAction(componentConfig, options);
 
-  switch (action) {
-    case 'wrap': {
-      const result = await wrap({
-        siteDir,
-        themePath,
-        componentName,
-        typescript,
-      });
-      logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${
-        result.createdFiles
-      }.`;
-      break;
+  async function executeAction(): Promise<ActionResult> {
+    switch (action) {
+      case 'wrap': {
+        const result = await wrap({
+          siteDir,
+          themePath,
+          componentName,
+          typescript,
+        });
+        logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${
+          result.createdFiles
+        }.`;
+        return result;
+      }
+      case 'eject': {
+        const result = await eject({
+          siteDir,
+          themePath,
+          componentName,
+        });
+        logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${
+          result.createdFiles
+        }.`;
+        return result;
+      }
+      default:
+        throw new Error(`Unexpected action ${action}`);
     }
-    case 'eject': {
-      const result = await eject({
-        siteDir,
-        themePath,
-        componentName,
-      });
-      logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${
-        result.createdFiles
-      }.`;
-      break;
-    }
-    default:
-      throw new Error(`Unexpected action ${action}`);
   }
+
+  await executeAction();
 
   return process.exit(0);
 }
