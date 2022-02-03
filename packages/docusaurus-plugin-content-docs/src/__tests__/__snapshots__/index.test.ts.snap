@@ -1361,6 +1361,17 @@ Object {
 
 exports[`site with custom sidebar items generator sidebarItemsGenerator is called with appropriate data 1`] = `
 Object {
+  "categoriesMetadata": Object {
+    "3-API": Object {
+      "label": "API (label from _category_.json)",
+    },
+    "3-API/02_Extension APIs": Object {
+      "label": "Extension APIs (label from _category_.yml)",
+    },
+    "Guides": Object {
+      "position": 2,
+    },
+  },
   "defaultSidebarItemsGenerator": [Function],
   "docs": Array [
     Object {

@@ -19,9 +19,9 @@ import type {
   SidebarsConfig,
   SidebarItemCategoryLinkDoc,
   SidebarItemCategoryLinkGeneratedIndex,
+  CategoryMetadataFile,
 } from './types';
 import {isCategoriesShorthand} from './utils';
-import type {CategoryMetadataFile} from './generator';
 
 // NOTE: we don't add any default values during validation on purpose!
 // Config types are exposed to users for typechecking and we use the same type
