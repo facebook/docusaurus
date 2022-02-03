@@ -51,7 +51,7 @@ async function readCategoriesMetadata(contentPath: string) {
     mapValues(categoryToFile, async (files, folder) => {
       const [filePath] = files;
       if (files.length > 1) {
-        logger.warn`There are more than one category metadata file for folder path=${folder}: ${files.join(
+        logger.warn`There are more than one category metadata files for path=${folder}: ${files.join(
           ', ',
         )}. The behavior is undetermined.`;
       }
