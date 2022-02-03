@@ -6,23 +6,36 @@
  */
 
 import path from 'path';
-import {
-  loadNormalizedSidebars,
-  DefaultSidebars,
-  DisabledSidebars,
-} from '../index';
+import {loadSidebars, DisabledSidebars} from '../index';
+import type {SidebarProcessorParams} from '../types';
+import {DefaultSidebarItemsGenerator} from '../generator';
 
-describe('loadNormalizedSidebars', () => {
+describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
+  const params: SidebarProcessorParams = {
+    sidebarItemsGenerator: DefaultSidebarItemsGenerator,
+    numberPrefixParser: (filename) => ({filename}),
+    docs: [
+      {
+        source: '@site/docs/foo/bar.md',
+        sourceDirName: 'foo',
+        id: 'bar',
+        frontMatter: {},
+      },
+    ],
+    version: {contentPath: 'docs/foo', contentPathLocalized: 'docs/foo'},
+    categoryLabelSlugger: null,
+    sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
+  };
   test('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars with deep level of category', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-category.js');
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
@@ -32,8 +45,8 @@ describe('loadNormalizedSidebars', () => {
       fixtureDir,
       'sidebars-category-shorthand.js',
     );
-    const sidebar1 = await loadNormalizedSidebars(sidebarPath1);
-    const sidebar2 = await loadNormalizedSidebars(sidebarPath2);
+    const sidebar1 = await loadSidebars(sidebarPath1, params);
+    const sidebar2 = await loadSidebars(sidebarPath2, params);
     expect(sidebar1).toEqual(sidebar2);
   });
 
@@ -43,50 +56,10 @@ describe('loadNormalizedSidebars', () => {
       'sidebars-category-wrong-items.json',
     );
     await expect(() =>
-      loadNormalizedSidebars(sidebarPath),
+      loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Invalid category {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: items must be an array"`,
     );
-  });
-
-  test('sidebars with category but category label is not a string', async () => {
-    const sidebarPath = path.join(
-      fixtureDir,
-      'sidebars-category-wrong-label.json',
-    );
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"category\\",
-              \\"items\\": [
-                {
-                  \\"type\\": \\"doc\\",
-                  \\"id\\": \\"doc1\\"
-                }
-              ],
-              \\"label\\" [31m[1][0m: true
-            }
-            [31m
-            [1] \\"label\\" must be a string[0m"
-          `);
-  });
-
-  test('sidebars item doc but id is not a string', async () => {
-    const sidebarPath = path.join(
-      fixtureDir,
-      'sidebars-doc-id-not-string.json',
-    );
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"doc\\",
-              \\"id\\" [31m[1][0m: [
-                \\"doc1\\"
-              ]
-            }
-            [31m
-            [1] \\"id\\" must be a string[0m"
-          `);
   });
 
   test('sidebars with first level not a category', async () => {
@@ -94,95 +67,35 @@ describe('loadNormalizedSidebars', () => {
       fixtureDir,
       'sidebars-first-level-not-category.js',
     );
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
   test('sidebars link', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-link.json');
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars link wrong label', async () => {
-    const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-label.json');
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"link\\",
-              \\"href\\": \\"https://github.com\\",
-              \\"label\\" [31m[1][0m: false
-            }
-            [31m
-            [1] \\"label\\" must be a string[0m"
-          `);
-  });
-
-  test('sidebars link wrong href', async () => {
-    const sidebarPath = path.join(fixtureDir, 'sidebars-link-wrong-href.json');
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"link\\",
-              \\"label\\": \\"GitHub\\",
-              \\"href\\" [31m[1][0m: [
-                \\"example.com\\"
-              ]
-            }
-            [31m
-            [1] \\"href\\" contains an invalid value[0m"
-          `);
-  });
-
-  test('sidebars with unknown sidebar item type', async () => {
-    const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"superman\\",
-              [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
-            }
-            [31m
-            [1] Unknown sidebar item type \\"superman\\".[0m"
-          `);
-  });
-
-  test('sidebars with known sidebar item type but wrong field', async () => {
-    const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
-    await expect(() => loadNormalizedSidebars(sidebarPath)).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"category\\",
-              \\"label\\": \\"category\\",
-              \\"items\\": [],
-              \\"href\\" [31m[1][0m: \\"https://github.com\\"
-            }
-            [31m
-            [1] \\"href\\" is not allowed[0m"
-          `);
-  });
-
   test('unexisting path', async () => {
-    await expect(loadNormalizedSidebars('badpath')).resolves.toEqual(
+    await expect(loadSidebars('badpath', params)).resolves.toEqual(
       DisabledSidebars,
     );
   });
 
   test('undefined path', async () => {
-    await expect(loadNormalizedSidebars(undefined)).resolves.toEqual(
-      DefaultSidebars,
-    );
+    await expect(loadSidebars(undefined, params)).resolves.toMatchSnapshot();
   });
 
   test('literal false path', async () => {
-    await expect(loadNormalizedSidebars(false)).resolves.toEqual(
+    await expect(loadSidebars(false, params)).resolves.toEqual(
       DisabledSidebars,
     );
   });
 
   test('sidebars with category.collapsed property', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 
@@ -191,7 +104,7 @@ describe('loadNormalizedSidebars', () => {
       fixtureDir,
       'sidebars-collapsed-first-level.json',
     );
-    const result = await loadNormalizedSidebars(sidebarPath);
+    const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
   });
 });

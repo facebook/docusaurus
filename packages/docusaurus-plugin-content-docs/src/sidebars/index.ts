@@ -7,12 +7,7 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import type {
-  SidebarsConfig,
-  Sidebars,
-  NormalizedSidebars,
-  SidebarProcessorParams,
-} from './types';
+import type {SidebarsConfig, Sidebars, SidebarProcessorParams} from './types';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
 import {processSidebars} from './processor';
@@ -98,21 +93,14 @@ export async function loadSidebarsFileUnsafe(
   return importFresh(sidebarFilePath);
 }
 
-export async function loadNormalizedSidebars(
-  sidebarFilePath: string | false | undefined,
-): Promise<NormalizedSidebars> {
-  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
-  const sidebars = normalizeSidebars(sidebarsConfig);
-  validateSidebars(sidebars);
-  return sidebars;
-}
-
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const normalizedSidebars = await loadNormalizedSidebars(sidebarFilePath);
+  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
+  const normalizedSidebars = normalizeSidebars(sidebarsConfig);
+  validateSidebars(normalizedSidebars);
   const categoriesMetadata = await readCategoriesMetadata(
     options.version.contentPath,
   );

@@ -57,7 +57,7 @@ export function normalizeItem(
     }
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      items: (item.items ?? []).flatMap((subItem) => normalizeItem(subItem)),
+      items: item.items.flatMap((subItem) => normalizeItem(subItem)),
     };
     return [normalizedCategory];
   }

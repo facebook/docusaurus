@@ -43,8 +43,8 @@ function postProcessSidebarItem(
   if (item.type === 'category') {
     const category = {
       ...item,
-      collapsed: params.sidebarOptions.sidebarCollapsed ?? item.collapsed,
-      collapsible: params.sidebarOptions.sidebarCollapsible ?? item.collapsible,
+      collapsed: item.collapsed ?? params.sidebarOptions.sidebarCollapsed,
+      collapsible: item.collapsible ?? params.sidebarOptions.sidebarCollapsible,
       link: normalizeCategoryLink(item, params),
       items: item.items.map((subItem) =>
         postProcessSidebarItem(subItem, params),

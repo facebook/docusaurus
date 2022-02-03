@@ -1,6 +1,6 @@
 # Sidebars
 
-This part is very complicated and hard to navigate. There are the following steps:
+This part is very complicated and hard to navigate. Sidebars are loaded through the following steps:
 
 1. **Loading**. The sidebars file is read. Returns `SidebarsConfig`.
 2. **Normalization**. The shorthands are expanded. This step is very lenient about the sidebars' shapes. Returns `NormalizedSidebars`.
