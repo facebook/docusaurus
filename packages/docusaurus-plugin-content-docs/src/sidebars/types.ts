@@ -257,7 +257,7 @@ export type SidebarItemsGeneratorOptionArgs = {
 } & SidebarItemsGeneratorArgs;
 export type SidebarItemsGeneratorOption = (
   generatorArgs: SidebarItemsGeneratorOptionArgs,
-) => Promise<SidebarItem[]>;
+) => Promise<NormalizedSidebarItem[]>;
 
 export type SidebarProcessorParams = {
   sidebarItemsGenerator: SidebarItemsGeneratorOption;
