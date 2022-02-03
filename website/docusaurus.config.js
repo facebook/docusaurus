@@ -116,7 +116,8 @@ const config = {
       require.resolve('./src/plugins/changelog/index.js'),
       {
         blogTitle: 'Docusaurus changelog',
-        blogDescription: 'Keep yourself up-to-date about new features in every release',
+        blogDescription:
+          'Keep yourself up-to-date about new features in every release',
         blogSidebarCount: 'ALL',
         blogSidebarTitle: 'Changelog',
         routeBasePath: '/changelog',
@@ -127,10 +128,11 @@ const config = {
         feedOptions: {
           type: 'all',
           title: 'Docusaurus changelog',
-          description: 'Keep yourself up-to-date about new features in every release',
+          description:
+            'Keep yourself up-to-date about new features in every release',
           copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           language: 'en',
-        }
+        },
       },
     ],
     [
@@ -304,7 +306,7 @@ const config = {
             }
             return `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`;
           },
-          postsPerPage: 1,
+          postsPerPage: 5,
           feedOptions: {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
