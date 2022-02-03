@@ -123,7 +123,7 @@ export async function loadSidebars(
     normalizeSidebarsParams,
   );
   const categoriesMetadata = await readCategoriesMetadata(
-    options.version.contentPathLocalized,
+    options.version.contentPath,
   );
   return processSidebars(normalizedSidebars, {...options, categoriesMetadata});
 }
