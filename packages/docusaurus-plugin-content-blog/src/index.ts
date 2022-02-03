@@ -32,6 +32,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   MetaData,
+  TagModule,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
@@ -325,18 +326,16 @@ export default async function pluginContentBlog(
         return;
       }
 
-      // TODO refactor this legacy side-effect
-      const tagsModule: TagsModule = {};
-      await Promise.all(
-        Object.keys(blogTags).map(async (tag) => {
-          const {name, items, permalink} = blogTags[tag];
-          tagsModule[name] = {
+      const tagsModule: TagsModule = Object.fromEntries(
+        Object.entries(blogTags).map(([tagKey, tag]) => {
+          const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
-            slug: tag,
-            name,
-            count: items.length,
-            permalink,
+            slug: tagKey,
+            name: tag.name,
+            count: tag.items.length,
+            permalink: tag.permalink,
           };
+          return [tag.name, tagModule];
         }),
       );
 
