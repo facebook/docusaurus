@@ -83,13 +83,13 @@ export type SidebarItemCategoryLink =
 // The user-given configuration in sidebars.js, before normalization
 export type SidebarItemCategoryConfig = Expand<
   Optional<SidebarItemCategoryBase, 'collapsed' | 'collapsible'> & {
-    items: SidebarItemConfig[];
+    items: SidebarCategoriesShorthand | SidebarItemConfig[];
     link?: SidebarItemCategoryLinkConfig;
   }
 >;
 
 export type SidebarCategoriesShorthand = {
-  [sidebarCategory: string]: SidebarItemConfig[];
+  [sidebarCategory: string]: SidebarCategoriesShorthand | SidebarItemConfig[];
 };
 
 export type SidebarItemConfig =

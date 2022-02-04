@@ -50,14 +50,20 @@ export function normalizeItem(
     );
   }
   if (item.type === 'category') {
-    if (typeof item.items !== 'undefined' && !Array.isArray(item.items)) {
+    if (typeof item.items !== 'undefined' && typeof item.items !== 'object') {
       throw new Error(
-        `Invalid category ${JSON.stringify(item)}: items must be an array`,
+        `Invalid category ${JSON.stringify(
+          item,
+        )}: items must be an array of sidebar items or a category shorthand`,
       );
     }
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      items: item.items.flatMap((subItem) => normalizeItem(subItem)),
+      items: Array.isArray(item.items)
+        ? item.items.flatMap((subItem) => normalizeItem(subItem))
+        : normalizeCategoriesShorthand(item.items).flatMap((subItem) =>
+            normalizeItem(subItem),
+          ),
     };
     return [normalizedCategory];
   }

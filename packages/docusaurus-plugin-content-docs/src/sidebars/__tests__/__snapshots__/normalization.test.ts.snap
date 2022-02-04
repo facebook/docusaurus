@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalization normalizes shorthands 1`] = `
+Object {
+  "sidebar": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "doc1",
+          "type": "doc",
+        },
+        Object {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Category",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "items": Array [
+            Object {
+              "id": "doc3",
+              "type": "doc",
+            },
+            Object {
+              "id": "doc4",
+              "type": "doc",
+            },
+          ],
+          "label": "Subcategory 1",
+          "type": "category",
+        },
+        Object {
+          "items": Array [
+            Object {
+              "id": "doc5",
+              "type": "doc",
+            },
+            Object {
+              "id": "doc6",
+              "type": "doc",
+            },
+          ],
+          "label": "Subcategory 2",
+          "type": "category",
+        },
+      ],
+      "label": "Category 2",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`normalization normalizes shorthands 2`] = `
+Object {
+  "sidebar": Array [
+    Object {
+      "href": "https://google.com",
+      "label": "Google",
+      "type": "link",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "doc1",
+          "type": "doc",
+        },
+        Object {
+          "id": "doc2",
+          "type": "doc",
+        },
+      ],
+      "label": "Category 1",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "doc3",
+          "type": "doc",
+        },
+        Object {
+          "id": "doc4",
+          "type": "doc",
+        },
+      ],
+      "label": "Category 2",
+      "type": "category",
+    },
+  ],
+}
+`;
