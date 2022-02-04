@@ -69,8 +69,6 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-prototype-builtins': WARNING,
     'no-restricted-exports': OFF,
-    'no-useless-escape': WARNING,
-    'no-template-curly-in-string': WARNING,
     'no-restricted-imports': [
       ERROR,
       {
@@ -97,8 +95,33 @@ module.exports = {
         ],
       },
     ],
-    'no-restricted-syntax': WARNING,
+    'no-restricted-syntax': [
+      WARNING,
+      // Copied from airbnb, removed for...of statement, added export all
+      {
+        selector: 'ForInStatement',
+        message:
+          'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
+      },
+      {
+        selector: 'LabeledStatement',
+        message:
+          'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+      },
+      {
+        selector: 'WithStatement',
+        message:
+          '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      },
+      {
+        selector: 'ExportAllDeclaration',
+        message:
+          "Export all does't work well if imported in ESM due to how they are transpiled, and they can also lead to unexpected exposure of internal methods.",
+      },
+    ],
+    'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
+    'no-useless-escape': WARNING,
     'prefer-destructuring': WARNING,
     'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,

@@ -17,8 +17,7 @@ import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
 import Tweet from '@site/src/components/Tweet';
-import type {TweetItem} from '@site/src/data/tweets';
-import Tweets from '@site/src/data/tweets';
+import Tweets, {type TweetItem} from '@site/src/data/tweets';
 
 import clsx from 'clsx';
 

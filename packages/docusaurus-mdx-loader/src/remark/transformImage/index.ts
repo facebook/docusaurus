@@ -76,7 +76,7 @@ ${(e as Error).message}`;
   );
 
   (jsxNode as Literal).type = 'jsx';
-  jsxNode.value = `<img ${alt}src={${src}}${title}${width}${height} />`;
+  jsxNode.value = `<img loading="lazy" ${alt}src={${src}}${title}${width}${height} />`;
 }
 
 async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {

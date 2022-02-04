@@ -6,7 +6,12 @@
  */
 
 // APIs available to Node.js
-export * from '../constants';
+export {
+  CURRENT_VERSION_NAME,
+  VERSIONED_DOCS_DIR,
+  VERSIONED_SIDEBARS_DIR,
+  VERSIONS_JSON_FILE,
+} from './constants';
 
 export {
   filterVersions,
@@ -16,4 +21,4 @@ export {
   getVersionsFilePath,
   readVersionsFile,
   readVersionNames,
-} from '../versions';
+} from './versions';

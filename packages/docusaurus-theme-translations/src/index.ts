@@ -44,7 +44,6 @@ export async function readDefaultCodeTranslationMessages({
 
   // Return the content of the first file that match
   // fr_FR.json => fr.json => nothing
-  // eslint-disable-next-line no-restricted-syntax
   for (const localeToTry of localesToTry) {
     const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 
