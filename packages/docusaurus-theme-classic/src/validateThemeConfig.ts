@@ -117,6 +117,10 @@ const DropdownSubitemSchema = Joi.object({
       then: DocItemSchema,
     },
     {
+      is: itemWithType('docSidebar'),
+      then: DocSidebarItemSchema,
+    },
+    {
       is: itemWithType(undefined),
       then: DefaultNavbarItemSchema,
     },
