@@ -202,6 +202,7 @@ export default async function pluginContentBlog(
         blogPostComponent,
         blogTagsListComponent,
         blogTagsPostsComponent,
+        blogArchiveComponent,
         routeBasePath,
         archiveBasePath,
       } = options;
@@ -235,7 +236,7 @@ export default async function pluginContentBlog(
         );
         addRoute({
           path: archiveUrl,
-          component: '@theme/BlogArchivePage',
+          component: blogArchiveComponent,
           exact: true,
           modules: {
             archive: aliasedSource(archiveProp),

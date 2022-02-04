@@ -28,6 +28,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
+  blogArchiveComponent: '@theme/BlogArchivePage',
   blogDescription: 'Blog',
   blogTitle: 'Blog',
   blogSidebarCount: 5,
@@ -67,6 +68,9 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   ),
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
+  ),
+  blogArchiveComponent: Joi.string().default(
+    DEFAULT_OPTIONS.blogArchiveComponent,
   ),
   blogTitle: Joi.string().allow('').default(DEFAULT_OPTIONS.blogTitle),
   blogDescription: Joi.string()
