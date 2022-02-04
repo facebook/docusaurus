@@ -69,6 +69,9 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
   ),
+  blogArchiveComponent: Joi.string().default(
+    DEFAULT_OPTIONS.blogArchiveComponent,
+  ),
   blogTitle: Joi.string().allow('').default(DEFAULT_OPTIONS.blogTitle),
   blogDescription: Joi.string()
     .allow('')
