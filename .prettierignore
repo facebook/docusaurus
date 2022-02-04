@@ -20,3 +20,5 @@ website/versioned_sidebars/*.json
 
 examples/
 website/static/katex/katex.min.css
+
+website/_dogfooding/_swizzle_theme_tests
