@@ -15,6 +15,16 @@ import tree from 'tree-node-cli';
 import {eject, wrap} from '../actions';
 import {posixPath} from '@docusaurus/utils';
 
+// use relative paths and sort files for tests
+function stableCreatedFiles(
+  siteThemePath: string,
+  createdFiles: string[],
+): string[] {
+  return createdFiles
+    .map((file) => posixPath(path.relative(siteThemePath, file)))
+    .sort();
+}
+
 describe('eject', () => {
   async function testEject(action: SwizzleAction, componentName: string) {
     const siteDir = await createTempSiteDir();
@@ -27,9 +37,7 @@ describe('eject', () => {
     return {
       siteDir,
       siteThemePath,
-      createdFiles: result.createdFiles.map((file) =>
-        posixPath(path.relative(siteThemePath, file)),
-      ),
+      createdFiles: stableCreatedFiles(siteThemePath, result.createdFiles),
       tree: tree(siteThemePath),
     };
   }
@@ -105,9 +113,7 @@ describe('wrap', () => {
     return {
       siteDir,
       siteThemePath,
-      createdFiles: result.createdFiles.map((file) =>
-        posixPath(path.relative(siteThemePath, file)),
-      ),
+      createdFiles: stableCreatedFiles(siteThemePath, result.createdFiles),
       firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
       tree: tree(siteThemePath),
     };
