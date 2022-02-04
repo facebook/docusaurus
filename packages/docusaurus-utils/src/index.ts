@@ -30,6 +30,7 @@ export * from './markdownLinks';
 export * from './slugger';
 export * from './pathUtils';
 export * from './hashUtils';
+export * from './gitUtils';
 export * from './globUtils';
 export * from './webpackUtils';
 export * from './dataFileUtils';
