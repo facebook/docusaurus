@@ -14,27 +14,27 @@ exports[`transformImage plugin pathname protocol 1`] = `
 exports[`transformImage plugin transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
-<img src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
+<img loading=\\"lazy\\" src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
+<img loading=\\"lazy\\" alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} />
+<img loading=\\"lazy\\" alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} width=\\"256\\" height=\\"82\\" />
 
-<img alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} />
+<img loading=\\"lazy\\" alt={\\"img from second static folder\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static2/img2.png\\").default} width=\\"256\\" height=\\"82\\" />
 
-<img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"Title\\" /> <img alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
+<img loading=\\"lazy\\" alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"Title\\" width=\\"200\\" height=\\"200\\" /> <img loading=\\"lazy\\" alt={\\"img\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"&#39;Quoted&#39; title\\" />
+<img loading=\\"lazy\\" alt={\\"img with &quot;quotes&quot;\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} title=\\"&#39;Quoted&#39; title\\" width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"site alias\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} />
+<img loading=\\"lazy\\" alt={\\"site alias\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#light'} />
-<img alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#dark'} />
+<img loading=\\"lazy\\" alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#light'} width=\\"200\\" height=\\"200\\" />
+<img loading=\\"lazy\\" alt={\\"img with hash\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png\\").default + '#dark'} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10\\").default} />
-<img alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default} />
+<img loading=\\"lazy\\" alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10\\").default} width=\\"200\\" height=\\"200\\" />
+<img loading=\\"lazy\\" alt={\\"img with query\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default} width=\\"200\\" height=\\"200\\" />
 
-<img alt={\\"img with both\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default + '#light'} />
+<img loading=\\"lazy\\" alt={\\"img with both\\"} src={require(\\"![CWD]/node_modules/url-loader/dist/cjs.js?limit=10000&name=assets/images/[name]-[hash].[ext]&fallback=[CWD]/node_modules/file-loader/dist/cjs.js!./static/img.png?w=10&h=10\\").default + '#light'} width=\\"200\\" height=\\"200\\" />
 
 ## Heading
 
