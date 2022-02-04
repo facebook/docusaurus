@@ -7,13 +7,13 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import type {SidebarsConfig, Sidebars, NormalizedSidebars} from './types';
-import type {NormalizeSidebarsParams} from '../types';
+import type {SidebarsConfig, Sidebars, SidebarProcessorParams} from './types';
 import {validateSidebars, validateCategoryMetadataFile} from './validation';
 import {normalizeSidebars} from './normalization';
-import {processSidebars, type SidebarProcessorParams} from './processor';
+import {processSidebars} from './processor';
+import {postProcessSidebars} from './postProcessor';
 import path from 'path';
-import {createSlugger, Globby} from '@docusaurus/utils';
+import {Globby} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import Yaml from 'js-yaml';
@@ -69,7 +69,7 @@ async function readCategoriesMetadata(contentPath: string) {
   );
 }
 
-async function loadSidebarsFileUnsafe(
+export async function loadSidebarsFileUnsafe(
   sidebarFilePath: string | false | undefined,
 ): Promise<SidebarsConfig> {
   // false => no sidebars
@@ -93,37 +93,21 @@ async function loadSidebarsFileUnsafe(
   return importFresh(sidebarFilePath);
 }
 
-export async function loadSidebarsFile(
-  sidebarFilePath: string | false | undefined,
-): Promise<SidebarsConfig> {
-  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
-  validateSidebars(sidebarsConfig);
-  return sidebarsConfig;
-}
-
-export async function loadNormalizedSidebars(
-  sidebarFilePath: string | false | undefined,
-  params: NormalizeSidebarsParams,
-): Promise<NormalizedSidebars> {
-  return normalizeSidebars(await loadSidebarsFile(sidebarFilePath), params);
-}
-
 // Note: sidebarFilePath must be absolute, use resolveSidebarPathOption
 export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
-  options: Omit<SidebarProcessorParams, 'categoriesMetadata'>,
+  options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const normalizeSidebarsParams: NormalizeSidebarsParams = {
-    ...options.sidebarOptions,
-    version: options.version,
-    categoryLabelSlugger: createSlugger(),
-  };
-  const normalizedSidebars = await loadNormalizedSidebars(
-    sidebarFilePath,
-    normalizeSidebarsParams,
-  );
+  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
+  const normalizedSidebars = normalizeSidebars(sidebarsConfig);
+  validateSidebars(normalizedSidebars);
   const categoriesMetadata = await readCategoriesMetadata(
     options.version.contentPath,
   );
-  return processSidebars(normalizedSidebars, {...options, categoriesMetadata});
+  const processedSidebars = await processSidebars(
+    normalizedSidebars,
+    categoriesMetadata,
+    options,
+  );
+  return postProcessSidebars(processedSidebars, options);
 }

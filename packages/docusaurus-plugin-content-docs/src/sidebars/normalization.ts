@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {NormalizeSidebarsParams} from '../types';
 import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
@@ -15,41 +14,16 @@ import type {
   SidebarItemConfig,
   SidebarConfig,
   SidebarsConfig,
-  SidebarItemCategoryLink,
   NormalizedSidebarItemCategory,
 } from './types';
 import {isCategoriesShorthand} from './utils';
 import {mapValues} from 'lodash';
-import {normalizeUrl} from '@docusaurus/utils';
-import type {SidebarOptions} from '@docusaurus/plugin-content-docs';
-
-function normalizeCategoryLink(
-  category: SidebarItemCategoryConfig,
-  params: NormalizeSidebarsParams,
-): SidebarItemCategoryLink | undefined {
-  if (category.link?.type === 'generated-index') {
-    // default slug logic can be improved
-    const getDefaultSlug = () =>
-      `/category/${params.categoryLabelSlugger.slug(category.label)}`;
-    const slug = category.link.slug ?? getDefaultSlug();
-    const permalink = normalizeUrl([params.version.versionPath, slug]);
-    return {
-      ...category.link,
-      slug,
-      permalink,
-    };
-  }
-  return category.link;
-}
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
-  options: SidebarOptions,
 ): SidebarItemCategoryConfig[] {
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
-    collapsed: options.sidebarCollapsed,
-    collapsible: options.sidebarCollapsible,
     label,
     items,
   }));
@@ -61,7 +35,6 @@ function normalizeCategoriesShorthand(
  */
 export function normalizeItem(
   item: SidebarItemConfig,
-  options: NormalizeSidebarsParams,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
     return [
@@ -72,42 +45,35 @@ export function normalizeItem(
     ];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeCategoriesShorthand(item, options).flatMap((subItem) =>
-      normalizeItem(subItem, options),
+    return normalizeCategoriesShorthand(item).flatMap((subItem) =>
+      normalizeItem(subItem),
     );
   }
   if (item.type === 'category') {
-    const link = normalizeCategoryLink(item, options);
+    if (typeof item.items !== 'undefined' && !Array.isArray(item.items)) {
+      throw new Error(
+        `Invalid category ${JSON.stringify(item)}: items must be an array`,
+      );
+    }
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      link,
-      items: (item.items ?? []).flatMap((subItem) =>
-        normalizeItem(subItem, options),
-      ),
-      collapsible: item.collapsible ?? options.sidebarCollapsible,
-      collapsed: item.collapsed ?? options.sidebarCollapsed,
+      items: item.items.flatMap((subItem) => normalizeItem(subItem)),
     };
     return [normalizedCategory];
   }
   return [item];
 }
 
-function normalizeSidebar(
-  sidebar: SidebarConfig,
-  options: NormalizeSidebarsParams,
-): NormalizedSidebar {
+function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
-    : normalizeCategoriesShorthand(sidebar, options);
+    : normalizeCategoriesShorthand(sidebar);
 
-  return normalizedSidebar.flatMap((subItem) =>
-    normalizeItem(subItem, options),
-  );
+  return normalizedSidebar.flatMap((subItem) => normalizeItem(subItem));
 }
 
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
-  params: NormalizeSidebarsParams,
 ): NormalizedSidebars {
-  return mapValues(sidebars, (items) => normalizeSidebar(items, params));
+  return mapValues(sidebars, normalizeSidebar);
 }
