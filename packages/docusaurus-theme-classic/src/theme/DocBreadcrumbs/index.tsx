@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {
+  isSamePath,
   ThemeClassNames,
   useDocsBreadcrumbs,
   useThemeConfig,
@@ -14,20 +15,19 @@ import {
 import styles from './styles.module.css';
 import clsx from 'clsx';
 import {useLocation} from '@docusaurus/router';
+import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 export default function DocBreadcrumbs(): JSX.Element | null {
   const {pathname} = useLocation();
   const breadcrumbs = useDocsBreadcrumbs();
   const {breadcrumbs: enabled} = useThemeConfig();
 
-  function isExact(
-    items: {
-      href?: string;
-    }[],
-  ) {
+  function isExact(items: PropSidebar) {
+    const singleItem = items[0];
     return (
       items.length === 1 &&
-      items[0].href?.replace(/\/$/, '') === pathname.replace(/\/$/, '')
+      singleItem.type === 'link' &&
+      isSamePath(singleItem.href, pathname)
     );
   }
 
@@ -49,13 +49,14 @@ export default function DocBreadcrumbs(): JSX.Element | null {
       <ul className="breadcrumbs">
         {breadcrumbs.map((breadcrumb, idx) => (
           <li key={idx} className="breadcrumbs__item">
-            {breadcrumb.href ? (
+            {breadcrumb.type === 'link' && (
               <a
                 className={clsx('breadcrumbs__link', styles.breadcrumbItem)}
                 href={breadcrumb.href}>
                 {breadcrumb.label}
               </a>
-            ) : (
+            )}
+            {breadcrumb.type === 'category' && (
               <span
                 className={clsx('breadcrumbs__link', styles.breadcrumbItem)}>
                 {breadcrumb.label}
