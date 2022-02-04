@@ -19,6 +19,7 @@ import {askComponentName, askSwizzleDangerousComponent} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import {SwizzleActions} from './actions';
+import {posixPath} from '@docusaurus/utils';
 
 export type ThemeComponents = {
   themeName: string;
@@ -55,10 +56,10 @@ export function readComponentNames(themePath: string): string[] {
         /(?<!\.d)\.[jt]sx?$/.test(fullPath) &&
         !/(?<!\.d)\.(test|tests|story|stories)\.[jt]sx?$/.test(fullPath)
       ) {
-        return [fullPath];
-      } else {
+        return [posixPath(fullPath)];
+      } 
         return [];
-      }
+      
     });
   }
 
