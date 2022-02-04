@@ -14,15 +14,22 @@ import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/componen
 import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
 
 const action = process.env.SWIZZLE_ACTION ?? 'eject';
+const typescript = process.env.SWIZZLE_TYPESCRIPT === 'true';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const themePath = path.join(
+const classicThemePathBase = path.join(
   dirname,
-  '../../packages/docusaurus-theme-classic/lib-next/theme',
+  '../../packages/docusaurus-theme-classic',
 );
 
+const themePath = typescript
+  ? path.join(classicThemePathBase, 'src/theme')
+  : path.join(classicThemePathBase, 'lib-next/theme');
+
 const toPath = path.join(dirname, '_swizzle_theme_tests');
+
+console.log('Args', {action, typescript, dirname, themePath, toPath});
 
 await fs.remove(toPath);
 
@@ -54,7 +61,7 @@ for (const componentName of componentNames) {
         return wrap({
           ...baseParams,
           importType: 'init', // For these tests, "theme-original" imports are causing an expected infinite loop
-          typescript: false, // TODO support TS
+          typescript,
         });
       case 'eject':
         return eject(baseParams);

@@ -121,7 +121,7 @@ export async function wrap({
   const content = typescript
     ? `
 import React, {ComponentProps} from 'react';
-import ${componentName} from '@theme-original/${themeComponentName}';
+import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
 type Props = ComponentProps<typeof ${componentName}>
 

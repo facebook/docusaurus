@@ -1,0 +1,31 @@
+name: Swizzle Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        action: ['eject', 'wrap']
+        variant: ['js', 'ts']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Swizzle all components (${{matrix.action}} - ${{matrix.variant}})
+        run: yarn workspace website test:swizzle:${{matrix.action}}:${{matrix.variant}}
+      - name: Build website
+        run: yarn build:website:fast
+      - name: TypeCheck website
+        run: yarn workspace website typecheck
