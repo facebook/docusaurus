@@ -28,6 +28,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
+  blogArchiveComponent: '@theme/BlogArchivePage',
   blogDescription: 'Blog',
   blogTitle: 'Blog',
   blogSidebarCount: 5,
