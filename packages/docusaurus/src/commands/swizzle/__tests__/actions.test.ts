@@ -13,6 +13,7 @@ import type {SwizzleAction} from '@docusaurus/types';
 // @ts-expect-error: TODO no typedefs
 import tree from 'tree-node-cli';
 import {eject, wrap} from '../actions';
+import {posixPath} from '@docusaurus/utils';
 
 describe('eject', () => {
   async function testEject(action: SwizzleAction, componentName: string) {
@@ -27,7 +28,7 @@ describe('eject', () => {
       siteDir,
       siteThemePath,
       createdFiles: result.createdFiles.map((file) =>
-        path.relative(siteThemePath, file),
+        posixPath(path.relative(siteThemePath, file)),
       ),
       tree: tree(siteThemePath),
     };
@@ -104,7 +105,7 @@ describe('wrap', () => {
       siteDir,
       siteThemePath,
       createdFiles: result.createdFiles.map((file) =>
-        path.relative(siteThemePath, file),
+        posixPath(path.relative(siteThemePath, file)),
       ),
       firstFileContent: () => fs.readFile(result.createdFiles[0], 'utf8'),
       tree: tree(siteThemePath),
