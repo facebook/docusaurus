@@ -68,8 +68,6 @@ module.exports = {
     'no-nested-ternary': WARNING,
     'no-param-reassign': [WARNING, {props: false}],
     'no-prototype-builtins': WARNING,
-    'no-useless-escape': WARNING,
-    'no-template-curly-in-string': WARNING,
     'no-restricted-exports': OFF,
     'no-restricted-imports': [
       ERROR,
@@ -121,7 +119,9 @@ module.exports = {
           "Export all does't work well if imported in ESM due to how they are transpiled, and they can also lead to unexpected exposure of internal methods.",
       },
     ],
+    'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
+    'no-useless-escape': WARNING,
     'prefer-destructuring': WARNING,
     'prefer-named-capture-group': WARNING,
     'prefer-template': WARNING,
