@@ -38,9 +38,9 @@ let componentNames = await readComponentNames(themePath);
 // TODO temp workaround: non-comps should be forbidden to wrap
 if (action === 'wrap') {
   const blacklist = [
-    'NavbarItem',
-    'NavbarItem/utils',
-    'Layout',
+    'NavbarItem', // includes utils (also copied)
+    'NavbarItem/utils', // Not a component
+    'Layout', // due to theme-fallback?
     'prism-include-languages',
   ];
 
