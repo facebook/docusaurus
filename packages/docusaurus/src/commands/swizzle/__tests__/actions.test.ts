@@ -214,7 +214,7 @@ describe('wrap', () => {
               export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
                 return (
                   <>
-                    <FirstLevelComponentWrapper {...props} />
+                    <FirstLevelComponent {...props} />
                   </>
                 );
               }"
@@ -242,7 +242,7 @@ describe('wrap', () => {
               export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
                 return (
                   <>
-                    <ComponentInSubFolderWrapper {...props} />
+                    <ComponentInSubFolder {...props} />
                   </>
                 );
               }"
@@ -267,7 +267,7 @@ describe('wrap', () => {
               export default function ComponentInFolderWrapper(props: Props): JSX.Element {
                 return (
                   <>
-                    <ComponentInFolderWrapper {...props} />
+                    <ComponentInFolder {...props} />
                   </>
                 );
               }"
