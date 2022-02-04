@@ -58,7 +58,7 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid category {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: items must be an array"`,
+      `"Invalid category {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: items must be an array of sidebar items or a category shorthand"`,
     );
   });
 
