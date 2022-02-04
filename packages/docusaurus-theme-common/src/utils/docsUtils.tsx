@@ -182,7 +182,7 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function useDocsBreadcrumbs(): PropSidebar {
+export function useSidebarBreadcrumbs(): PropSidebar {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   const breadcrumbs: PropSidebar = [];

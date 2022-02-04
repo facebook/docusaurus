@@ -9,7 +9,7 @@ import React from 'react';
 import {
   isSamePath,
   ThemeClassNames,
-  useDocsBreadcrumbs,
+  useSidebarBreadcrumbs,
   useThemeConfig,
 } from '@docusaurus/theme-common';
 import styles from './styles.module.css';
@@ -19,7 +19,7 @@ import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 export default function DocBreadcrumbs(): JSX.Element | null {
   const {pathname} = useLocation();
-  const breadcrumbs = useDocsBreadcrumbs();
+  const breadcrumbs = useSidebarBreadcrumbs();
   const {breadcrumbs: enabled} = useThemeConfig();
 
   function isExact(items: PropSidebar) {

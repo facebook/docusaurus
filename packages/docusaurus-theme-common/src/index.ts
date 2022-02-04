@@ -49,7 +49,7 @@ export {
   findFirstCategoryLink,
   useCurrentSidebarCategory,
   isActiveSidebarItem,
-  useDocsBreadcrumbs,
+  useSidebarBreadcrumbs,
 } from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
