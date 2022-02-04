@@ -207,9 +207,10 @@ describe('wrap', () => {
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
               "
               import React, {ComponentProps} from 'react';
+              import type FirstLevelComponentType from '@theme/FirstLevelComponent';
               import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 
-              type Props = ComponentProps<typeof FirstLevelComponent>
+              type Props = ComponentProps<typeof FirstLevelComponentType>
 
               export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
                 return (
@@ -235,9 +236,10 @@ describe('wrap', () => {
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
               "
               import React, {ComponentProps} from 'react';
+              import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
               import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 
-              type Props = ComponentProps<typeof ComponentInSubFolder>
+              type Props = ComponentProps<typeof ComponentInSubFolderType>
 
               export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
                 return (
@@ -260,9 +262,10 @@ describe('wrap', () => {
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
               "
               import React, {ComponentProps} from 'react';
+              import type ComponentInFolderType from '@theme/ComponentInFolder';
               import ComponentInFolder from '@theme-original/ComponentInFolder';
 
-              type Props = ComponentProps<typeof ComponentInFolder>
+              type Props = ComponentProps<typeof ComponentInFolderType>
 
               export default function ComponentInFolderWrapper(props: Props): JSX.Element {
                 return (

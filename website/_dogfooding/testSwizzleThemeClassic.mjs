@@ -41,6 +41,7 @@ if (action === 'wrap') {
     'NavbarItem', // includes utils (also copied)
     'NavbarItem/utils', // Not a component
     'Layout', // due to theme-fallback?
+    'MDXComponents', // not a component
     'prism-include-languages',
   ];
 

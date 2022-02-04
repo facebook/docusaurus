@@ -121,9 +121,10 @@ export async function wrap({
   const content = typescript
     ? `
 import React, {ComponentProps} from 'react';
+import type ${componentName}Type from '@theme/${themeComponentName}';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
-type Props = ComponentProps<typeof ${componentName}>
+type Props = ComponentProps<typeof ${componentName}Type>
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (
