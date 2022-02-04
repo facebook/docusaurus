@@ -41,30 +41,48 @@ const formatComponentName = (componentName: string): string =>
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
 
+// TODO make async
 export function readComponentNames(themePath: string): string[] {
-  function walk(dir: string): string[] {
-    return fs.readdirSync(dir).flatMap((file) => {
+  type File = {file: string; fullPath: string; isDir: boolean};
+  type ComponentFile = File & {componentName: string};
+
+  function walk(dir: string): ComponentFile[] {
+    const files: File[] = fs.readdirSync(dir).flatMap((file) => {
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
-      if (stat && stat.isDirectory()) {
-        if (skipReadDirNames.includes(file)) {
+      const isDir = stat.isDirectory();
+      return {file, fullPath, isDir};
+    });
+
+    return files.flatMap((file) => {
+      if (file.isDir) {
+        if (skipReadDirNames.includes(file.file)) {
           return [];
         }
-        return walk(fullPath);
+        return walk(file.fullPath);
       } else if (
         // TODO can probably be refactored
-        /(?<!\.d)\.[jt]sx?$/.test(fullPath) &&
-        !/(?<!\.d)\.(test|tests|story|stories)\.[jt]sx?$/.test(fullPath)
+        /(?<!\.d)\.[jt]sx?$/.test(file.fullPath) &&
+        !/(?<!\.d)\.(?:test|tests|story|stories)\.[jt]sx?$/.test(file.fullPath)
       ) {
-        return [posixPath(fullPath)];
+        const componentName = formatComponentName(
+          posixPath(path.relative(themePath, file.fullPath)),
+        );
+        return [{...file, componentName}];
       }
       return [];
     });
   }
 
-  return walk(themePath).map((filePath) =>
-    formatComponentName(path.relative(themePath, filePath)),
+  const componentFiles = walk(themePath);
+
+  const componentFilesOrdered = orderBy(
+    componentFiles,
+    [(f) => f.componentName],
+    ['asc'],
   );
+
+  return componentFilesOrdered.map((f) => f.componentName);
 }
 
 export function listComponentNames(themeComponents: ThemeComponents): string {

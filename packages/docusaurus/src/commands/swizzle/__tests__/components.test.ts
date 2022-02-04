@@ -15,9 +15,9 @@ const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 describe('readComponentNames', () => {
   test('read theme', () => {
     expect(readComponentNames(FixtureThemePath)).toEqual([
+      Components.ComponentInFolder,
       Components.ComponentInSubFolder,
       Components.Sibling,
-      Components.ComponentInFolder,
       Components.FirstLevelComponent,
     ]);
   });

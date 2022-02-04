@@ -70,7 +70,8 @@ describe('eject', () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
       // TODO do we really want to copy those Sibling components?
-      // It's hard to filter those reliably (index.* is not good, we need to include styles.css too)
+      // It's hard to filter those reliably
+      // (index.* is not good, we need to include styles.css too)
       'ComponentInFolder/Sibling.css',
       'ComponentInFolder/Sibling.js',
       'ComponentInFolder/index.css',
