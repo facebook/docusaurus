@@ -120,6 +120,7 @@ declare module '@docusaurus/plugin-content-blog' {
     blogPostComponent: string;
     blogTagsListComponent: string;
     blogTagsPostsComponent: string;
+    blogArchiveComponent: string;
     blogTitle: string;
     blogDescription: string;
     blogSidebarCount: number | 'ALL';

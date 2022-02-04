@@ -6,14 +6,9 @@
  */
 
 import {validateSidebars, validateCategoryMetadataFile} from '../validation';
-import type {CategoryMetadataFile} from '../generator';
-import type {SidebarsConfig} from '../types';
+import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
 describe('validateSidebars', () => {
-  // TODO add more tests
-
-  // TODO it seems many error cases are not validated properly
-  // and error messages are quite bad
   test('throw for bad value', async () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
@@ -45,10 +40,193 @@ describe('validateSidebars', () => {
     };
     validateSidebars(sidebars);
   });
-});
 
-describe('html item type', () => {
-  test('requires a value', () => {
+  test('sidebar category wrong label', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'category',
+            label: true,
+            items: [{type: 'doc', id: 'doc1'}],
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"items\\": [
+          {
+            \\"type\\": \\"doc\\",
+            \\"id\\": \\"doc1\\"
+          }
+        ],
+        \\"label\\" [31m[1][0m: true
+      }
+      [31m
+      [1] \\"label\\" must be a string[0m"
+    `);
+  });
+
+  test('sidebars link wrong label', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'link',
+            label: false,
+            href: 'https://github.com',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+            "{
+              \\"type\\": \\"link\\",
+              \\"href\\": \\"https://github.com\\",
+              \\"label\\" [31m[1][0m: false
+            }
+            [31m
+            [1] \\"label\\" must be a string[0m"
+          `);
+  });
+
+  test('sidebars link wrong href', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'link',
+            label: 'GitHub',
+            href: ['example.com'],
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+            "{
+              \\"type\\": \\"link\\",
+              \\"label\\": \\"GitHub\\",
+              \\"href\\" [31m[1][0m: [
+                \\"example.com\\"
+              ]
+            }
+            [31m
+            [1] \\"href\\" contains an invalid value[0m"
+          `);
+  });
+
+  test('sidebars with unknown sidebar item type', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'superman',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+            "{
+              \\"type\\": \\"superman\\",
+              [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+            }
+            [31m
+            [1] Unknown sidebar item type \\"superman\\".[0m"
+          `);
+  });
+
+  test('sidebars category missing items', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'category',
+            label: 'category',
+          },
+
+          {
+            type: 'ref',
+            id: 'hello',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"label\\": \\"category\\",
+        [41m\\"items\\"[0m[31m [1]: -- missing --[0m
+      }
+      [31m
+      [1] \\"items\\" is required[0m"
+    `);
+  });
+
+  test('sidebars category wrong field', () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'category',
+            label: 'category',
+            items: [],
+            href: 'https://google.com',
+          },
+
+          {
+            type: 'ref',
+            id: 'hello',
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "{
+        \\"type\\": \\"category\\",
+        \\"label\\": \\"category\\",
+        \\"items\\": [],
+        \\"href\\" [31m[1][0m: \\"https://google.com\\"
+      }
+      [31m
+      [1] \\"href\\" is not allowed[0m"
+    `);
+  });
+
+  test('sidebar category wrong items', () => {
+    expect(() =>
+      validateSidebars({
+        docs: {
+          Test: [
+            {
+              type: 'category',
+              label: 'Category Label',
+              items: 'doc1',
+            },
+          ],
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`"sidebar.forEach is not a function"`);
+  });
+
+  test('sidebars item doc but id is not a string', async () => {
+    expect(() =>
+      validateSidebars({
+        docs: [
+          {
+            type: 'doc',
+            id: ['doc1'],
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+            "{
+              \\"type\\": \\"doc\\",
+              \\"id\\" [31m[1][0m: [
+                \\"doc1\\"
+              ]
+            }
+            [31m
+            [1] \\"id\\" must be a string[0m"
+          `);
+  });
+
+  test('HTML type requires a value', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -68,7 +246,7 @@ describe('html item type', () => {
     `);
   });
 
-  test('accepts valid values', () => {
+  test('HTML type accepts valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
