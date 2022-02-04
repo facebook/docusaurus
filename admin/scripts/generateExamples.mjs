@@ -182,7 +182,6 @@ const templates = (
   await fs.readdir('./packages/create-docusaurus/templates')
 ).filter((name) => !excludes.includes(name));
 console.log(`Will generate examples for templates: ${templates.join(',')}`);
-// eslint-disable-next-line no-restricted-syntax
 for (const template of templates) {
   await generateTemplateExample(template);
 }

@@ -240,11 +240,11 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
+  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
   export * from 'react-router-dom';
 }
 declare module '@docusaurus/history' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
+  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
   export * from 'history';
 }
 

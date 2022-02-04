@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import {Props as Tweet} from '../../components/Tweet';
+import type {Props as Tweet} from '../../components/Tweet';
 
 export interface TweetItem extends Tweet {
   showOnHomepage: boolean;

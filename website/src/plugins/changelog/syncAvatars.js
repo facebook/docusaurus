@@ -55,7 +55,6 @@ async function syncAvatars(authorsMap, generateDir) {
    */
   const lastUpdateCache = await fs.readJSON(lastUpdateCachePath);
   let limitReached = false;
-  // eslint-disable-next-line no-restricted-syntax
   for (const username of Object.keys(authorsMap)) {
     if (!limitReached && !lastUpdateCache[username]) {
       if (!(await fetchImage(username, lastUpdateCache, authorsMap))) {
@@ -69,7 +68,6 @@ async function syncAvatars(authorsMap, generateDir) {
   const usersByLastUpdate = Object.entries(lastUpdateCache)
     .sort((a, b) => a[1] - b[1])
     .map((a) => a[0]);
-  // eslint-disable-next-line no-restricted-syntax
   for (const username of usersByLastUpdate) {
     if (
       !limitReached &&
