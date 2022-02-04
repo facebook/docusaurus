@@ -57,9 +57,8 @@ export function readComponentNames(themePath: string): string[] {
         !/(?<!\.d)\.(test|tests|story|stories)\.[jt]sx?$/.test(fullPath)
       ) {
         return [posixPath(fullPath)];
-      } 
-        return [];
-      
+      }
+      return [];
     });
   }
 
