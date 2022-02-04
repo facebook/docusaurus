@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
-import {Globby, THEME_PATH} from '@docusaurus/utils';
+import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {askSwizzleAction} from './prompts';
@@ -61,13 +61,17 @@ export async function eject({
       path.join(fromPath, '*')
     : `${fromPath}.*`;
 
-  const filesToCopy = await Globby(globPattern, {
+  const globPatternPosix = posixPath(globPattern);
+
+  const filesToCopy = await Globby(globPatternPosix, {
     ignore: globIgnore,
   });
 
   if (filesToCopy.length === 0) {
     // This should never happen
-    throw new Error(logger.interpolate`No files to copy from path=${fromPath}`);
+    throw new Error(
+      logger.interpolate`No files to copy from path=${fromPath} with glob code=${globPatternPosix}`,
+    );
   }
 
   const toPath = isDirectory
