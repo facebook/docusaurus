@@ -268,8 +268,6 @@ async function updateCodeTranslations() {
   const stats = {};
   let messageCount = 0;
   const {2: newLocale} = process.argv;
-  // Order is important. The log messages must be in the same order as execution
-  // eslint-disable-next-line no-restricted-syntax
   for (const theme of Themes) {
     const {baseFile, localesFiles} = await getCodeTranslationFiles(theme.name);
     logger.info`Will update base file for name=${theme.name}\n`;
@@ -289,7 +287,6 @@ async function updateCodeTranslations() {
         )} was already created!`;
       }
     } else {
-      // eslint-disable-next-line no-restricted-syntax
       for (const localeFile of localesFiles) {
         const localeName = path.basename(path.dirname(localeFile));
         const pluginName = path.basename(localeFile, path.extname(localeFile));

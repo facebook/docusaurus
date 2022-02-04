@@ -22,17 +22,68 @@ import resolvePathnameUnsafe from 'resolve-pathname';
 import {simpleHash, docuHash} from './hashUtils';
 import {DEFAULT_PLUGIN_ID} from './constants';
 
-export * from './constants';
-export * from './urlUtils';
-export * from './tags';
-export * from './markdownParser';
-export * from './markdownLinks';
-export * from './slugger';
-export * from './pathUtils';
-export * from './hashUtils';
-export * from './globUtils';
-export * from './webpackUtils';
-export * from './dataFileUtils';
+export {
+  NODE_MAJOR_VERSION,
+  NODE_MINOR_VERSION,
+  DEFAULT_BUILD_DIR_NAME,
+  DEFAULT_CONFIG_FILE_NAME,
+  BABEL_CONFIG_FILE_NAME,
+  GENERATED_FILES_DIR_NAME,
+  SRC_DIR_NAME,
+  STATIC_DIR_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+  THEME_PATH,
+  DEFAULT_PORT,
+  DEFAULT_PLUGIN_ID,
+  WEBPACK_URL_LOADER_LIMIT,
+} from './constants';
+export {normalizeUrl, getEditUrl} from './urlUtils';
+export {
+  type Tag,
+  type FrontMatterTag,
+  type TaggedItemGroup,
+  normalizeFrontMatterTag,
+  normalizeFrontMatterTags,
+  groupTaggedItems,
+} from './tags';
+export {
+  parseMarkdownHeadingId,
+  createExcerpt,
+  parseFrontMatter,
+  parseMarkdownContentTitle,
+  parseMarkdownString,
+} from './markdownParser';
+export {
+  type ContentPaths,
+  type BrokenMarkdownLink,
+  type ReplaceMarkdownLinksParams,
+  type ReplaceMarkdownLinksReturn,
+  replaceMarkdownLinks,
+} from './markdownLinks';
+export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
+export {
+  isNameTooLong,
+  shortName,
+  posixPath,
+  toMessageRelativeFilePath,
+  aliasedSitePath,
+  escapePath,
+} from './pathUtils';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {
+  Globby,
+  GlobExcludeDefault,
+  createMatcher,
+  createAbsoluteFilePathMatcher,
+} from './globUtils';
+export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getDataFilePath,
+  getDataFileData,
+  getContentPathList,
+  findFolderContainingFile,
+  getFolderContainingFile,
+} from './dataFileUtils';
 
 const fileHash = new Map<string, string>();
 export async function generate(
@@ -251,7 +302,6 @@ export async function mapAsyncSequential<T, R>(
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
-  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     const result = await action(t);
     results.push(result);
@@ -263,7 +313,6 @@ export async function findAsyncSequential<T>(
   array: T[],
   predicate: (t: T) => Promise<boolean>,
 ): Promise<T | undefined> {
-  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     if (await predicate(t)) {
       return t;
