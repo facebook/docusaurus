@@ -106,6 +106,55 @@ module.exports = {
 };
 ```
 
+## HTML: render custom markup {#sidebar-item-html}
+
+Use the `html` type to render custom HTML within the item's `<li>` tag.
+
+This can be useful for inserting custom items such as dividers, section titles, ads, and images.
+
+```ts
+type SidebarItemHtml = {
+  type: 'html';
+  value: string;
+  defaultStyle?: boolean; // Use default menu item styles
+  className?: string;
+};
+```
+
+Example:
+
+```js title="sidebars.js"
+module.exports = {
+  myHtmlSidebar: [
+    // highlight-start
+    {
+      type: 'html',
+      value: '<img src="sponsor.png" alt="Sponsor" />', // The HTML to be rendered
+      defaultStyle: true, // Use the default menu item styling
+    },
+    // highlight-end
+  ],
+};
+```
+
+:::tip
+
+The menu item is already wrapped in an `<li>` tag, so if your custom item is simple, such as a title, just supply a string as the value and use the `className` property to style it:
+
+```js title="sidebars.js"
+module.exports = {
+  myHtmlSidebar: [
+    {
+      type: 'html',
+      value: 'Core concepts',
+      className: 'sidebar-title',
+    },
+  ],
+};
+```
+
+:::
+
 ## Category: create a hierarchy {#sidebar-item-category}
 
 Use the `category` type to create a hierarchy of sidebar items.
@@ -161,55 +210,6 @@ module.exports = {
       },
     ],
   },
-};
-```
-
-:::
-
-## HTML: render custom markup {#sidebar-item-html}
-
-Use the `html` type to render custom HTML within the item's `<li>` tag.
-
-This can be useful for inserting custom items such as dividers, section titles, ads, and images.
-
-```ts
-type SidebarItemHtml = {
-  type: 'html';
-  value: string;
-  defaultStyle?: boolean; // Use default menu item styles
-  className?: string;
-};
-```
-
-Example:
-
-```js title="sidebars.js"
-module.exports = {
-  myHtmlSidebar: [
-    // highlight-start
-    {
-      type: 'html',
-      value: '<img src="sponsor.png" alt="Sponsor" />', // The HTML to be rendered
-      defaultStyle: true, // Use the default menu item styling
-    },
-    // highlight-end
-  ],
-};
-```
-
-:::tip
-
-The menu item is already wrapped in an `<li>` tag, so if your custom item is simple, such as a title, just supply a string as the value and use the `className` property to style it:
-
-```js title="sidebars.js"
-module.exports = {
-  myHtmlSidebar: [
-    {
-      type: 'html',
-      value: 'Core concepts',
-      className: 'sidebar-title',
-    },
-  ],
 };
 ```
 
