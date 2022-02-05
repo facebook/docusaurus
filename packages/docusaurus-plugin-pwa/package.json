@@ -20,8 +20,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.16.0",
     "@babel/preset-env": "^7.16.11",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/theme-common": "2.0.0-beta.15",
