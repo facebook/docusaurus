@@ -12,7 +12,6 @@ import glob from 'glob';
 import Color from 'color';
 
 import type {
-  ClassicPresetEntries,
   SidebarEntry,
   SidebarEntries,
   VersionOneConfig,
@@ -61,11 +60,10 @@ function sanitizedFileContent(
   return sanitizedData;
 }
 
-// TODO refactor this new type should be used everywhere instead of passing many
-// params to each method
 type MigrationContext = {
   siteDir: string;
   newDir: string;
+  deps: Record<string, string>;
   shouldMigrateMdFiles: boolean;
   shouldMigratePages: boolean;
   v1Config: VersionOneConfig;
@@ -81,9 +79,17 @@ export async function migrateDocusaurusProject(
   async function createMigrationContext(): Promise<MigrationContext> {
     const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
+    const deps: Record<string, string> = {
+      '@docusaurus/core': DOCUSAURUS_VERSION,
+      '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
+      clsx: '^1.1.1',
+      react: '^17.0.2',
+      'react-dom': '^17.0.2',
+    };
     const partialMigrationContext = {
       siteDir,
       newDir,
+      deps,
       shouldMigrateMdFiles,
       shouldMigratePages,
       v1Config,
@@ -96,23 +102,9 @@ export async function migrateDocusaurusProject(
   }
 
   const migrationContext = await createMigrationContext();
-
-  // TODO need refactor legacy, we pass migrationContext to all methods
-  const siteConfig = migrationContext.v1Config;
-  const config = migrationContext.v2Config;
-
-  const classicPreset = migrationContext.v2Config.presets[0][1];
-
-  const deps: Record<string, string> = {
-    '@docusaurus/core': DOCUSAURUS_VERSION,
-    '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
-    clsx: '^1.1.1',
-    react: '^17.0.1',
-    'react-dom': '^17.0.1',
-  };
   let errorCount = 0;
   try {
-    createClientRedirects(siteConfig, deps, config);
+    createClientRedirects(migrationContext);
     logger.success('Created client redirect for non clean URL');
   } catch (e) {
     logger.error(`Failed to creating redirects: ${e}`);
@@ -120,7 +112,7 @@ export async function migrateDocusaurusProject(
   }
   if (shouldMigratePages) {
     try {
-      createPages(newDir, siteDir);
+      createPages(migrationContext);
       logger.success(
         'Created new doc pages (check migration page for more details)',
       );
@@ -130,7 +122,7 @@ export async function migrateDocusaurusProject(
     }
   } else {
     try {
-      createDefaultLandingPage(newDir);
+      createDefaultLandingPage(migrationContext);
       logger.success(
         'Created landing page (check migration page for more details)',
       );
@@ -141,34 +133,34 @@ export async function migrateDocusaurusProject(
   }
 
   try {
-    migrateStaticFiles(siteDir, newDir);
+    migrateStaticFiles(migrationContext);
     logger.success('Migrated static folder');
   } catch (e) {
     logger.error(`Failed to copy static folder: ${e}`);
     errorCount += 1;
   }
   try {
-    migrateBlogFiles(siteDir, newDir, classicPreset, shouldMigrateMdFiles);
+    migrateBlogFiles(migrationContext);
   } catch (e) {
     logger.error(`Failed to migrate blogs: ${e}`);
     errorCount += 1;
   }
   try {
-    handleVersioning(siteDir, siteConfig, newDir, config, shouldMigrateMdFiles);
+    handleVersioning(migrationContext);
   } catch (e) {
     logger.error(`Failed to migrate versioned docs: ${e}`);
     errorCount += 1;
   }
 
   try {
-    migrateLatestDocs(siteDir, newDir, shouldMigrateMdFiles, classicPreset);
+    migrateLatestDocs(migrationContext);
   } catch (e) {
     logger.error(`Failed to migrate docs: ${e}`);
     errorCount += 1;
   }
 
   try {
-    migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
+    migrateLatestSidebar(migrationContext);
   } catch (e) {
     logger.error(`Failed to migrate sidebar: ${e}`);
     errorCount += 1;
@@ -177,7 +169,7 @@ export async function migrateDocusaurusProject(
   try {
     fs.writeFileSync(
       path.join(newDir, 'docusaurus.config.js'),
-      `module.exports=${JSON.stringify(config, null, 2)}`,
+      `module.exports=${JSON.stringify(migrationContext.v2Config, null, 2)}`,
     );
     logger.success(
       `Created a new config file with new navbar and footer config`,
@@ -187,7 +179,7 @@ export async function migrateDocusaurusProject(
     errorCount += 1;
   }
   try {
-    await migratePackageFile(siteDir, deps, newDir);
+    await migratePackageFile(migrationContext);
   } catch (e) {
     logger.error(
       `Error occurred while creating package.json file for project: ${e}`,
@@ -366,21 +358,18 @@ export function createConfigFile({
   };
 }
 
-function createClientRedirects(
-  siteConfig: VersionOneConfig,
-  deps: {[key: string]: string},
-  config: VersionTwoConfig,
-): void {
-  if (!siteConfig.cleanUrl) {
-    deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
-    config.plugins.push([
+function createClientRedirects(context: MigrationContext): void {
+  if (!context.v1Config.cleanUrl) {
+    context.deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
+    context.v2Config.plugins.push([
       '@docusaurus/plugin-client-redirects',
       {fromExtensions: ['html']},
     ]);
   }
 }
 
-function createPages(newDir: string, siteDir: string): void {
+function createPages(context: MigrationContext): void {
+  const {newDir, siteDir} = context;
   fs.mkdirpSync(path.join(newDir, 'src', 'pages'));
   if (fs.existsSync(path.join(siteDir, 'pages', 'en'))) {
     try {
@@ -398,14 +387,14 @@ function createPages(newDir: string, siteDir: string): void {
       });
     } catch (e) {
       logger.error(`Unable to migrate Pages: ${e}`);
-      createDefaultLandingPage(newDir);
+      createDefaultLandingPage(context);
     }
   } else {
     logger.info('Ignoring Pages');
   }
 }
 
-function createDefaultLandingPage(newDir: string) {
+function createDefaultLandingPage({newDir}: MigrationContext) {
   const indexPage = `import Layout from "@theme/Layout";
       import React from "react";
 
@@ -417,7 +406,7 @@ function createDefaultLandingPage(newDir: string) {
   fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
 }
 
-function migrateStaticFiles(siteDir: string, newDir: string): void {
+function migrateStaticFiles({siteDir, newDir}: MigrationContext): void {
   if (fs.existsSync(path.join(siteDir, 'static'))) {
     fs.copySync(path.join(siteDir, 'static'), path.join(newDir, 'static'));
   } else {
@@ -425,33 +414,27 @@ function migrateStaticFiles(siteDir: string, newDir: string): void {
   }
 }
 
-function migrateBlogFiles(
-  siteDir: string,
-  newDir: string,
-  classicPreset: ClassicPresetEntries,
-  migrateMDFiles: boolean,
-): void {
+function migrateBlogFiles(context: MigrationContext): void {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
   if (fs.existsSync(path.join(siteDir, 'blog'))) {
     fs.copySync(path.join(siteDir, 'blog'), path.join(newDir, 'blog'));
     const files = walk(path.join(newDir, 'blog'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
+      fs.writeFileSync(
+        file,
+        sanitizedFileContent(content, shouldMigrateMdFiles),
+      );
     });
-    classicPreset.blog.path = 'blog';
+    context.v2Config.presets[0][1].blog.path = 'blog';
     logger.success('Migrated blogs to version 2 with change in front matter');
   } else {
     logger.warn('Blog not found. Skipping migration for blog');
   }
 }
 
-function handleVersioning(
-  siteDir: string,
-  siteConfig: VersionOneConfig,
-  newDir: string,
-  config: VersionTwoConfig,
-  migrateMDFiles: boolean,
-): void {
+function handleVersioning(context: MigrationContext): void {
+  const {siteDir, newDir} = context;
   if (fs.existsSync(path.join(siteDir, 'versions.json'))) {
     const loadedVersions: Array<string> = JSON.parse(
       String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
@@ -462,16 +445,9 @@ function handleVersioning(
     );
     const versions = loadedVersions.reverse();
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
-    migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
+    migrateVersionedSidebar(context, versions, versionRegex);
     fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
-    migrateVersionedDocs(
-      siteConfig,
-      versions,
-      siteDir,
-      newDir,
-      versionRegex,
-      migrateMDFiles,
-    );
+    migrateVersionedDocs(context, versions, versionRegex);
     logger.success`Migrated version docs and sidebar. The following doc versions have been created:name=${loadedVersions}`;
   } else {
     logger.warn(
@@ -481,17 +457,15 @@ function handleVersioning(
 }
 
 function migrateVersionedDocs(
-  siteConfig: VersionOneConfig,
+  context: MigrationContext,
   versions: string[],
-  siteDir: string,
-  newDir: string,
   versionRegex: RegExp,
-  migrateMDFiles: boolean,
 ): void {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
       fs.copySync(
-        path.join(siteDir, '..', siteConfig.customDocsPath || 'docs'),
+        path.join(siteDir, '..', context.v1Config.customDocsPath || 'docs'),
         path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       fs.copySync(
@@ -523,19 +497,21 @@ function migrateVersionedDocs(
       const content = fs.readFileSync(pathToFile).toString();
       fs.writeFileSync(
         pathToFile,
-        sanitizedFileContent(content.replace(versionRegex, ''), migrateMDFiles),
+        sanitizedFileContent(
+          content.replace(versionRegex, ''),
+          shouldMigrateMdFiles,
+        ),
       );
     }
   });
 }
 
 function migrateVersionedSidebar(
-  siteDir: string,
-  newDir: string,
+  context: MigrationContext,
   versions: string[],
   versionRegex: RegExp,
-  config: VersionTwoConfig,
 ): void {
+  const {siteDir, newDir} = context;
   if (fs.existsSync(path.join(siteDir, 'versioned_sidebars'))) {
     fs.mkdirpSync(path.join(newDir, 'versioned_sidebars'));
     const sidebars: {
@@ -623,7 +599,7 @@ function migrateVersionedSidebar(
         JSON.stringify(newSidebar, null, 2),
       );
     });
-    config.themeConfig.navbar.items.push({
+    context.v2Config.themeConfig.navbar.items.push({
       label: 'Version',
       to: 'docs',
       position: 'right',
@@ -650,31 +626,27 @@ function migrateVersionedSidebar(
   }
 }
 
-function migrateLatestSidebar(
-  siteDir: string,
-  newDir: string,
-  classicPreset: ClassicPresetEntries,
-  siteConfig: VersionOneConfig,
-): void {
+function migrateLatestSidebar(context: MigrationContext): void {
+  const {siteDir, newDir} = context;
   try {
     fs.copyFileSync(
       path.join(siteDir, 'sidebars.json'),
       path.join(newDir, 'sidebars.json'),
     );
-    classicPreset.docs.sidebarPath = path.join(
+    context.v2Config.presets[0][1].docs.sidebarPath = path.join(
       path.relative(newDir, siteDir),
       'sidebars.json',
     );
   } catch {
     logger.warn('Sidebar not found. Skipping migration for sidebar');
   }
-  if (siteConfig.colors) {
-    const primaryColor = Color(siteConfig.colors.primaryColor);
+  if (context.v1Config.colors) {
+    const primaryColor = Color(context.v1Config.colors.primaryColor);
     const css = `:root{
   --ifm-color-primary-lightest: ${primaryColor.darken(-0.3).hex()};
   --ifm-color-primary-lighter: ${primaryColor.darken(-0.15).hex()};
   --ifm-color-primary-light: ${primaryColor.darken(-0.1).hex()};
-  --ifm-color-primary: ${siteConfig.colors.primaryColor};
+  --ifm-color-primary: ${primaryColor.hex()};
   --ifm-color-primary-dark: ${primaryColor.darken(0.1).hex()};
   --ifm-color-primary-darker: ${primaryColor.darken(0.15).hex()};
   --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
@@ -682,7 +654,7 @@ function migrateLatestSidebar(
 `;
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
     fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
-    classicPreset.theme.customCss = path.join(
+    context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'src',
       'css',
@@ -691,14 +663,10 @@ function migrateLatestSidebar(
   }
 }
 
-function migrateLatestDocs(
-  siteDir: string,
-  newDir: string,
-  migrateMDFiles: boolean,
-  classicPreset: ClassicPresetEntries,
-): void {
+function migrateLatestDocs(context: MigrationContext): void {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    classicPreset.docs.path = path.join(
+    context.v2Config.presets[0][1].docs.path = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'docs',
     );
@@ -706,7 +674,10 @@ function migrateLatestDocs(
     files.forEach((file) => {
       if (path.extname(file) === '.md') {
         const content = fs.readFileSync(file).toString();
-        fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
+        fs.writeFileSync(
+          file,
+          sanitizedFileContent(content, shouldMigrateMdFiles),
+        );
       }
     });
     logger.success('Migrated docs to version 2');
@@ -715,11 +686,8 @@ function migrateLatestDocs(
   }
 }
 
-async function migratePackageFile(
-  siteDir: string,
-  deps: {[key: string]: string},
-  newDir: string,
-): Promise<void> {
+async function migratePackageFile(context: MigrationContext): Promise<void> {
+  const {deps, siteDir, newDir} = context;
   const packageFile = importFresh(`${siteDir}/package.json`) as {
     scripts?: Record<string, string>;
     dependencies?: Record<string, string>;
