@@ -50,7 +50,6 @@
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
