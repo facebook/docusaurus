@@ -37,13 +37,11 @@ import type {
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
-  ConfigureWebpackUtils,
   Plugin,
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import type {Configuration} from 'webpack';
 import {
   generateBlogPosts,
   getSourceToPermalink,
@@ -405,12 +403,7 @@ export default async function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-      content,
-    ) {
+    configureWebpack(_config, isServer, {getJSLoader}, content) {
       const {
         rehypePlugins,
         remarkPlugins,
