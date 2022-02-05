@@ -26,9 +26,7 @@ import type {
   Plugin,
   OptionValidationContext,
   ValidationResult,
-  ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {validatePageFrontMatter} from './pageFrontMatter';
@@ -178,11 +176,7 @@ export default async function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(_config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,

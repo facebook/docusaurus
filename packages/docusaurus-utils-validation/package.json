@@ -24,10 +24,8 @@
     "tslib": "^2.3.1"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
     "react": "*",
-    "react-dom": "*",
-    "webpack": "^5.0.0"
+    "react-dom": "*"
   },
   "engines": {
     "node": ">=14"

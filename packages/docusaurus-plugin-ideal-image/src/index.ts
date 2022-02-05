@@ -12,7 +12,6 @@ import type {
   ValidationResult,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import type {Configuration} from 'webpack';
 import {Joi} from '@docusaurus/utils-validation';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
@@ -44,7 +43,7 @@ export default function pluginIdealImage(
       });
     },
 
-    configureWebpack(_config: Configuration, isServer: boolean) {
+    configureWebpack(_config, isServer) {
       const {disableInDev, ...loaderOptions} = options;
       if (disableInDev && process.env.NODE_ENV !== 'production') {
         return {};
