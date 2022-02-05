@@ -19,7 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "2.0.0-beta.15",
-    "@mdx-js/runtime": "^1.6.22",
     "@svgr/webpack": "^6.0.0",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
