@@ -28,8 +28,6 @@
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.20",
     "micromatch": "^4.0.4",
-    "remark-mdx-remove-exports": "^1.6.22",
-    "remark-mdx-remove-imports": "^1.6.22",
     "resolve-pathname": "^3.0.0",
     "tslib": "^2.3.1",
     "url-loader": "^4.1.1",
