@@ -18,6 +18,7 @@ const sidebars = {
         type: 'generated-index',
       },
       collapsed: false,
+      collapsible: false,
       items: [
         'installation',
         'configuration',

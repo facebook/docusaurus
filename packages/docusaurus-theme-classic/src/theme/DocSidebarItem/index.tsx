@@ -162,8 +162,6 @@ function DocSidebarItemCategory({
           className={clsx('menu__link', {
             'menu__link--sublist': collapsible && !href,
             'menu__link--active': isActive,
-            [styles.menuLinkText]: !collapsible,
-            [styles.hasHref]: !!hrefWithSSRFallback,
           })}
           onClick={
             collapsible
