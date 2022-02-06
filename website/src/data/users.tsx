@@ -1381,6 +1381,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Resoto',
+    description: 'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
+    preview: require('./showcase/resoto.png'),
+    website: 'https://resoto.com',
+    source: 'https://github.com/someengineering/resoto.com',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
@@ -1513,6 +1521,14 @@ const Users: User[] = [
     website: 'https://docs.sodaforsparc.io/',
     source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'Some Engineering Inc.',
+    description: 'Startup developing open-source tools to make cloud infrastructure searchable and accessible.',
+    preview: require('./showcase/someengineering.png'),
+    website: 'https://some.engineering',
+    source: 'https://github.com/someengineering/some.engineering',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'SpotifyAPI-NET',
