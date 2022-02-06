@@ -52,7 +52,8 @@ Available document ids are:
       label: sidebarLabel || item.label || title,
       href: permalink,
       className: item.className,
-      customProps: item.customProps,
+      customProps:
+        item.customProps ?? docMetadata.frontMatter.sidebar_custom_props,
       docId: docMetadata.unversionedId,
     };
   };
