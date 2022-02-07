@@ -46,6 +46,7 @@
     "commander": "^5.1.0",
     "escape-string-regexp": "^4.0.0",
     "picomatch": "^2.1.1",
+    "shelljs": "^0.8.4",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
