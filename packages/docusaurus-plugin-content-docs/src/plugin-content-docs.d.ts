@@ -209,26 +209,6 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
-declare module '@theme/DocCard' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    readonly item: PropSidebarItem;
-  }
-
-  export default function DocCard(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocCardList' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    readonly items: PropSidebarItem[];
-  }
-
-  export default function DocCardList(props: Props): JSX.Element;
-}
-
 declare module '@theme/DocCategoryGeneratedIndexPage' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
@@ -239,12 +219,6 @@ declare module '@theme/DocCategoryGeneratedIndexPage' {
   export default function DocCategoryGeneratedIndexPage(
     props: Props,
   ): JSX.Element;
-}
-
-declare module '@theme/DocItemFooter' {
-  import type {Props} from '@theme/DocItem';
-
-  export default function DocItemFooter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocTagsListPage' {
@@ -263,22 +237,6 @@ declare module '@theme/DocTagDocListPage' {
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocVersionBanner' {
-  export interface Props {
-    readonly className?: string;
-  }
-
-  export default function DocVersionBanner(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocVersionBadge' {
-  export interface Props {
-    readonly className?: string;
-  }
-
-  export default function DocVersionBadge(props: Props): JSX.Element;
-}
-
 declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
@@ -295,21 +253,6 @@ declare module '@theme/DocPage' {
 
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
-}
-
-declare module '@theme/Seo' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly title?: string;
-    readonly description?: string;
-    readonly keywords?: readonly string[] | string;
-    readonly image?: string;
-    readonly children?: ReactNode;
-  }
-
-  const Seo: (props: Props) => JSX.Element;
-  export default Seo;
 }
 
 // TODO until TS supports exports field... hope it's in 4.6
