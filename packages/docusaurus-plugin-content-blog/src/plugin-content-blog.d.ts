@@ -148,21 +148,6 @@ declare module '@docusaurus/plugin-content-blog' {
   >;
 }
 
-declare module '@theme/BlogSidebar' {
-  export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = {
-    title: string;
-    items: BlogSidebarItem[];
-  };
-
-  export interface Props {
-    readonly sidebar: BlogSidebar;
-  }
-
-  const BlogSidebar: (props: Props) => JSX.Element;
-  export default BlogSidebar;
-}
-
 declare module '@theme/BlogPostPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {TOCItem} from '@docusaurus/types';
