@@ -1382,7 +1382,8 @@ const Users: User[] = [
   },
   {
     title: 'Resoto',
-    description: 'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
+    description:
+      'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
     preview: require('./showcase/resoto.png'),
     website: 'https://resoto.com',
     source: 'https://github.com/someengineering/resoto.com',
@@ -1524,7 +1525,8 @@ const Users: User[] = [
   },
   {
     title: 'Some Engineering Inc.',
-    description: 'Startup developing open-source tools to make cloud infrastructure searchable and accessible.',
+    description:
+      'Startup developing open-source tools to make cloud infrastructure searchable and accessible.',
     preview: require('./showcase/someengineering.png'),
     website: 'https://some.engineering',
     source: 'https://github.com/someengineering/some.engineering',
