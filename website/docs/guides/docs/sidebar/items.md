@@ -31,6 +31,7 @@ type SidebarItemDoc =
       id: string;
       label: string; // Sidebar label text
       className?: string; // Class name for sidebar label
+      customProps?: Record<string, unknown>; // Custom props
     }
 
   // Shorthand syntax
@@ -46,14 +47,17 @@ module.exports = {
     // highlight-start
     {
       type: 'doc',
-      id: 'doc1', // document id
+      id: 'doc1', // document ID
       label: 'Getting started', // sidebar label
+      customProps: {
+        /* props */
+      },
     },
     // highlight-end
 
     // Shorthand syntax:
     // highlight-start
-    'doc2', // document id
+    'doc2', // document ID
     // highlight-end
   ],
 };
