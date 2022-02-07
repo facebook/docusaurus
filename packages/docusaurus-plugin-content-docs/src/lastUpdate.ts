@@ -6,9 +6,11 @@
  */
 
 import logger from '@docusaurus/logger';
-import {getCommitterDateForFile} from '@docusaurus/utils';
+import {getFileCommitDate, GitNotFoundError} from '@docusaurus/utils';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
+
+let showedGitRequirementError = false;
 
 export async function getFileLastUpdate(
   filePath?: string,
@@ -19,15 +21,19 @@ export async function getFileLastUpdate(
 
   // Wrap in try/catch in case the shell commands fail
   // (e.g. project doesn't use Git, etc).
-  let result;
   try {
-    result = getCommitterDateForFile(filePath, {
+    const result = getFileCommitDate(filePath, {
       age: 'newest',
       includeAuthor: true,
     });
+    return {timestamp: result.timestamp, author: result.author};
   } catch (e) {
-    logger.error(e);
+    if (e instanceof GitNotFoundError && !showedGitRequirementError) {
+      logger.warn('Sorry, the docs plugin last update options require Git.');
+      showedGitRequirementError = true;
+    } else {
+      logger.error(e);
+    }
     return null;
   }
-  return {timestamp: result.timestamp, author: result.author};
 }

@@ -7,15 +7,24 @@
 import path from 'path';
 import shell from 'shelljs';
 
-export const getCommitterDateForFile = (
+export class GitNotFoundError extends Error {}
+
+export const getFileCommitDate = (
   file: string,
-  options: {
-    age: 'oldest' | 'newest';
-    includeAuthor: boolean;
-  } = {age: 'oldest', includeAuthor: false},
-): {date: Date; timestamp: number; author?: string} => {
+  {
+    age = 'oldest',
+    includeAuthor = false,
+  }: {
+    age?: 'oldest' | 'newest';
+    includeAuthor?: boolean;
+  },
+): {
+  date: Date;
+  timestamp: number;
+  author?: string;
+} => {
   if (!shell.which('git')) {
-    throw new Error(
+    throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
     );
   }
@@ -30,12 +39,12 @@ export const getCommitterDateForFile = (
   const fileDirname = path.dirname(file);
 
   let formatArg = '--format=%ct';
-  if (options.includeAuthor) {
+  if (includeAuthor) {
     formatArg += ',%an';
   }
 
   let extraArgs = '--max-count=1';
-  if (options.age === 'oldest') {
+  if (age === 'oldest') {
     // --follow is necessary to follow file renames
     // --diff-filter=A ensures we only get the commit which (A)dded the file
     extraArgs += ' --follow --diff-filter=A';
@@ -55,7 +64,7 @@ export const getCommitterDateForFile = (
     );
   }
   let regex = /^(?<timestamp>\d+)$/;
-  if (options.includeAuthor) {
+  if (includeAuthor) {
     regex = /^(?<timestamp>\d+),(?<author>.+)$/;
   }
 
@@ -66,7 +75,7 @@ export const getCommitterDateForFile = (
     !match ||
     !match.groups ||
     !match.groups.timestamp ||
-    (options.includeAuthor && !match.groups.author)
+    (includeAuthor && !match.groups.author)
   ) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with unexpected output: ${output}`,
@@ -76,7 +85,7 @@ export const getCommitterDateForFile = (
   const timestamp = Number(match.groups.timestamp);
   const date = new Date(timestamp * 1000);
 
-  if (options.includeAuthor) {
+  if (includeAuthor) {
     return {date, timestamp, author: match.groups.author};
   }
   return {date, timestamp};

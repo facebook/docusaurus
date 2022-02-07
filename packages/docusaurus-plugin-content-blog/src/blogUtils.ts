@@ -27,7 +27,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
-  getCommitterDateForFile,
+  getFileCommitDate,
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
@@ -244,18 +244,16 @@ async function processBlogSourceFile(
       return parsedBlogFileName.date;
     }
 
-    let result;
     try {
-      result = getCommitterDateForFile(blogSourceAbsolute, {
+      const result = getFileCommitDate(blogSourceAbsolute, {
         age: 'oldest',
         includeAuthor: false,
       });
+      return result.date;
     } catch (e) {
       logger.error(e);
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
-
-    return result.date;
   }
 
   const date = await getDate();

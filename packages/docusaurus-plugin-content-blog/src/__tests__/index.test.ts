@@ -6,13 +6,12 @@
  */
 
 import path from 'path';
-import shell from 'shelljs';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import type {BlogPost} from '../types';
 import type {Joi} from '@docusaurus/utils-validation';
-import {posixPath} from '@docusaurus/utils';
+import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import type {
   PluginOptions,
   EditUrlFunction,
@@ -427,10 +426,8 @@ describe('loadBlog', () => {
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
     const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
     // we know the file exist and we know we have git
-    const result = shell.exec(
-      `git log --follow --max-count=1 --diff-filter=A --format=%ct -- "${noDateSourceFile}"`,
-    );
-    const noDateSourceTime = new Date(Number(result.stdout.trim()) * 1000);
+    const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
+    const noDateSourceTime = result.date;
     const formattedDate = Intl.DateTimeFormat('en', {
       day: 'numeric',
       month: 'long',
