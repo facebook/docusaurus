@@ -30,7 +30,7 @@
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-common": "2.0.0-beta.15",
     "@docusaurus/utils-validation": "2.0.0-beta.15",
-    "@mdx-js/react": "^1.6.21",
+    "@mdx-js/react": "^1.6.22",
     "clsx": "^1.1.1",
     "copy-text-to-clipboard": "^3.0.1",
     "infima": "0.2.0-alpha.37",
@@ -54,10 +54,8 @@
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
     "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0",
-    "webpack": "^5.0.0"
+    "react-dom": "^16.8.4 || ^17.0.0"
   },
   "engines": {
     "node": ">=14"

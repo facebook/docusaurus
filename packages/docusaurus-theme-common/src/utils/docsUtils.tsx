@@ -96,7 +96,6 @@ export function findSidebarCategory(
   sidebar: PropSidebar,
   predicate: (category: PropSidebarItemCategory) => boolean,
 ): PropSidebarItemCategory | undefined {
-  // eslint-disable-next-line no-restricted-syntax
   for (const item of sidebar) {
     if (item.type === 'category') {
       if (predicate(item)) {
@@ -119,7 +118,6 @@ export function findFirstCategoryLink(
     return item.href;
   }
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const subItem of item.items) {
     if (subItem.type === 'link') {
       return subItem.href;

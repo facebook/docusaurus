@@ -303,7 +303,6 @@ Available document ids are:
         label: string;
       }
     | undefined {
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of sidebar) {
       if (item.type === 'doc') {
         return {

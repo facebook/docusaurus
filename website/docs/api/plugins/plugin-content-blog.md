@@ -54,6 +54,7 @@ Accepted fields:
 | `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
 | `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page |
 | `blogTagsPostsComponent` | `string` | `'@theme/BlogTagsPostsPage'` | Root component of the "posts containing tag" page. |
+| `blogArchiveComponent` | `string` | `'@theme/BlogArchivePage'` | Root component of the blog archive page. |
 | `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
 | `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
 | `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |

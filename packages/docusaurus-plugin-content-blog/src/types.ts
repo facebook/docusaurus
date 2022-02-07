@@ -27,7 +27,8 @@ export interface BlogContent {
 
 export interface BlogTags {
   // TODO, the key is the tag slug/permalink
-  // This is due to legacy frontmatter: tags: [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}
+  // This is due to legacy frontmatter: tags:
+  // [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}]
   // Soon we should forbid declaring permalink through frontmatter
   [tagKey: string]: BlogTag;
 }

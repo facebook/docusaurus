@@ -254,6 +254,6 @@ async function run() {
 run();
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err.stack);
+  logger.error(err);
   process.exit(1);
 });

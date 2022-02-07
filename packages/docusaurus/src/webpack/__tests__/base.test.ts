@@ -13,7 +13,6 @@ import {
   getDocusaurusAliases,
   createBaseConfig,
 } from '../base';
-// TODO seems to be a bug with how TS does star exports
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import {mapValues} from 'lodash';
