@@ -23,16 +23,10 @@ export default function preload(
   const matches = matchRoutes(routes, pathname);
 
   return Promise.all(
-    matches.map((match) => {
-      const {component} = match.route;
-
+    matches.flatMap((match) => [
       // @ts-expect-error: ComponentCreator injected this method.
-      if (component && component.preload) {
-        // @ts-expect-error: checked above.
-        return component.preload();
-      }
-
-      return undefined;
-    }),
+      match.route.component?.preload?.(),
+      match.route.preload?.({params: match.match.params}),
+    ]),
   );
 }

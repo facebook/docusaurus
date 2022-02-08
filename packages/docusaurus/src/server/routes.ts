@@ -66,7 +66,11 @@ ${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
     // Is this lib reliable? https://github.com/armanozak/should-quote
     const shouldQuote = true; // TODO
     const key = shouldQuote ? `'${propName}'` : propName;
-    parts.push(`${key}: ${JSON.stringify(propValue)}`);
+    const value =
+      typeof propValue === 'function'
+        ? propValue.toString()
+        : JSON.stringify(propValue);
+    parts.push(`${key}: ${value}`);
   });
 
   return `{
