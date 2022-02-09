@@ -37,11 +37,6 @@ function getSWBabelLoader() {
           },
         ],
       ],
-      plugins: [
-        require.resolve('@babel/plugin-proposal-object-rest-spread'),
-        require.resolve('@babel/plugin-proposal-optional-chaining'),
-        require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-      ],
     },
   };
 }

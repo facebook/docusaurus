@@ -37,6 +37,7 @@ export {
   DEFAULT_PLUGIN_ID,
   WEBPACK_URL_LOADER_LIMIT,
 } from './constants';
+export {getFileCommitDate, GitNotFoundError} from './gitUtils';
 export {normalizeUrl, getEditUrl} from './urlUtils';
 export {
   type Tag,

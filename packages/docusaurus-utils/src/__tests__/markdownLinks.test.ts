@@ -62,6 +62,49 @@ describe('replaceMarkdownLinks', () => {
     `);
   });
 
+  test('reference style Markdown links', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+
+        sourceToPermalink: {
+          '@site/docs/intro/intro.md': '/docs/intro',
+          '@site/docs/api/classes/divine_uri.URI.md': '/docs/api/classes/uri',
+        },
+
+        fileString: `
+The following operations are defined for [URI]s:
+
+* [info]: Returns metadata about the resource,
+* [list]: Returns metadata about the resource's children (like getting the content of a local directory).
+
+[URI]:    ../api/classes/divine_uri.URI.md
+[info]:   ../api/classes/divine_uri.URI.md#info
+[list]:   ../api/classes/divine_uri.URI.md#list
+      `,
+      }),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "brokenMarkdownLinks": Array [],
+        "newContent": "
+      The following operations are defined for [URI]s:
+
+      * [info]: Returns metadata about the resource,
+      * [list]: Returns metadata about the resource's children (like getting the content of a local directory).
+
+      [URI]:    /docs/api/classes/uri
+      [info]:   /docs/api/classes/uri#info
+      [list]:   /docs/api/classes/uri#list
+            ",
+      }
+    `);
+  });
+
   // TODO bad
   test('links in HTML comments', () => {
     expect(

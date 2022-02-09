@@ -27,6 +27,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getFileCommitDate,
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
@@ -242,8 +243,17 @@ async function processBlogSourceFile(
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
-    // Fallback to file create time
-    return (await fs.stat(blogSourceAbsolute)).birthtime;
+
+    try {
+      const result = getFileCommitDate(blogSourceAbsolute, {
+        age: 'oldest',
+        includeAuthor: false,
+      });
+      return result.date;
+    } catch (e) {
+      logger.error(e);
+      return (await fs.stat(blogSourceAbsolute)).birthtime;
+    }
   }
 
   const date = await getDate();

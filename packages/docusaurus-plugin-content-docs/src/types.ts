@@ -58,6 +58,7 @@ export type DocFrontMatter = {
   sidebar_label?: string;
   sidebar_position?: number;
   sidebar_class_name?: string;
+  sidebar_custom_props?: Record<string, unknown>;
   displayed_sidebar?: string | null;
   pagination_label?: string;
   custom_edit_url?: string | null;

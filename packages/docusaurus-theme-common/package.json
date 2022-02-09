@@ -23,6 +23,7 @@
     "@docusaurus/plugin-content-pages": "2.0.0-beta.15",
     "clsx": "^1.1.1",
     "parse-numeric-range": "^1.3.0",
+    "prism-react-renderer": "^1.2.1",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0"
   },
@@ -35,8 +36,6 @@
     "lodash": "^4.17.20"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
-    "prism-react-renderer": "^1.2.1",
     "react": "^16.8.4 || ^17.0.0",
     "react-dom": "^16.8.4 || ^17.0.0"
   },
