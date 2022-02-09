@@ -14,8 +14,6 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      collapsed: false,
-      collapsible: false,
       items: [
         'installation',
         'configuration',

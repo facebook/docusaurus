@@ -74,6 +74,8 @@ const sidebars = {
     {
       type: 'category',
       label: 'HTML items tests',
+      collapsed: false,
+      collapsible: false,
       items: [
         //  title
         {
