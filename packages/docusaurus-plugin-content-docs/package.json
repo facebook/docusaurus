@@ -34,7 +34,6 @@
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.20",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.4",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0",
     "webpack": "^5.68.0"
@@ -47,6 +46,7 @@
     "commander": "^5.1.0",
     "escape-string-regexp": "^4.0.0",
     "picomatch": "^2.1.1",
+    "shelljs": "^0.8.4",
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {

@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import type {BlogPost} from '../types';
 import type {Joi} from '@docusaurus/utils-validation';
-import {posixPath} from '@docusaurus/utils';
+import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import type {
   PluginOptions,
   EditUrlFunction,
@@ -425,14 +424,15 @@ describe('loadBlog', () => {
     );
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
-    const noDateSourceBirthTime = (
-      await fs.stat(noDateSource.replace('@site', siteDir))
-    ).birthtime;
+    const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
+    // we know the file exist and we know we have git
+    const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
+    const noDateSourceTime = result.date;
     const formattedDate = Intl.DateTimeFormat('en', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }).format(noDateSourceBirthTime);
+    }).format(noDateSourceTime);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -445,7 +445,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       authors: [],
-      date: noDateSourceBirthTime,
+      date: noDateSourceTime,
       formattedDate,
       frontMatter: {},
       tags: [],
