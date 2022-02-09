@@ -9,8 +9,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import {ThemePath, Components, createTempSiteDir} from './testUtils';
 import type {SwizzleAction} from '@docusaurus/types';
-
-// @ts-expect-error: TODO no typedefs
 import tree from 'tree-node-cli';
 import {eject, wrap} from '../actions';
 import {posixPath} from '@docusaurus/utils';
