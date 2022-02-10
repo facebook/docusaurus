@@ -7,7 +7,7 @@
 
 import {useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
-import type {Location} from '@docusaurus/history';
+import type {Location} from 'history';
 import {usePrevious} from './usePrevious';
 import {useDynamicCallback} from './reactUtils';
 
