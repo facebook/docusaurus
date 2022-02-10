@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Tests
+    name: Swizzle
     timeout-minutes: 30
     runs-on: ubuntu-latest
     strategy:
@@ -23,9 +23,13 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Swizzle all components (${{matrix.action}} - ${{matrix.variant}})
+
+      # Swizzle all the theme components
+      - name: Swizzle (${{matrix.action}} - ${{matrix.variant}})
         run: yarn workspace website test:swizzle:${{matrix.action}}:${{matrix.variant}}
+      # Build swizzled site
       - name: Build website
         run: yarn build:website:fast
+      # Ensure swizzled site still typechecks
       - name: TypeCheck website
         run: yarn workspace website typecheck
