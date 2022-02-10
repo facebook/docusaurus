@@ -90,7 +90,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         // highlight-next-line
-        id: 'docs-1',
+        id: 'docs-A',
         // other options
       },
     ],
@@ -98,7 +98,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         // highlight-next-line
-        id: 'docs-2',
+        id: 'docs-B',
         // other options
       },
     ],
@@ -169,9 +169,9 @@ module.exports = function preset(context, opts = {}) {
     plugins: [
       // Using three docs plugins at the same time!
       // Assigning a unique ID for each without asking the user to do it
-      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docs1'}],
-      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docs2'}],
-      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docs3'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs1, id: 'docsA'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs2, id: 'docsB'}],
+      ['@docusaurus/plugin-content-docs', {...opts.docs3, id: 'docsC'}],
     ],
   };
 };
@@ -203,9 +203,9 @@ This is equivalent of doing:
 module.exports = {
   themes: [['docusaurus-theme-awesome', {hello: 'world'}]],
   plugins: [
-    ['@docusaurus/plugin-content-docs', {id: 'docs1', path: '/docs'}],
-    ['@docusaurus/plugin-content-docs', {id: 'docs2', path: '/community'}],
-    ['@docusaurus/plugin-content-docs', {id: 'docs3', path: '/api'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docsA', path: '/docs'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docsB', path: '/community'}],
+    ['@docusaurus/plugin-content-docs', {id: 'docsC', path: '/api'}],
   ],
 };
 ```
