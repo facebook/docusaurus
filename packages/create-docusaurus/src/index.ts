@@ -119,7 +119,7 @@ async function getGitCommand(gitStrategy: typeof gitStrategies[number]) {
     }
     case 'deep':
     default:
-      return 'git clo';
+      return 'git clone';
   }
 }
 
