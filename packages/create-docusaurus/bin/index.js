@@ -11,7 +11,7 @@
 const logger = require('@docusaurus/logger').default;
 const semver = require('semver');
 const path = require('path');
-const program = require('commander');
+const {program} = require('commander');
 const {default: init} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
@@ -29,35 +29,40 @@ function wrapCommand(fn) {
     });
 }
 
-program
-  .version(require('../package.json').version)
-  .usage('<command> [options]');
+program.version(require('../package.json').version);
 
 program
-  .command('init [siteName] [template] [rootDir]', {isDefault: true})
-  .option('--use-npm')
-  .option('--skip-install')
-  .option('--typescript')
+  .arguments('[siteName] [template] [rootDir]')
+  .option('--use-npm', 'Use NPM as package manage even with Yarn installed')
+  .option(
+    '--skip-install',
+    'Do not run package manager immediately after scaffolding',
+  )
+  .option('--typescript', 'Use the TypeScript template variant')
+  .option(
+    '--git-strategy <strategy>',
+    `Only used if the template is a git repository.
+\`deep\`: preserve full history
+\`shallow\`: clone with --depth=1
+\`copy\`: do a shallow clone, but do not create a git repo
+\`custom\`: enter your custom git clone command. We will prompt you for it.`,
+  )
   .description('Initialize website.')
   .action(
     (
       siteName,
       template,
       rootDir = '.',
-      {useNpm, skipInstall, typescript} = {},
+      {useNpm, skipInstall, typescript, gitStrategy} = {},
     ) => {
       wrapCommand(init)(path.resolve(rootDir), siteName, template, {
         useNpm,
         skipInstall,
         typescript,
+        gitStrategy,
       });
     },
   );
-
-program.arguments('<command>').action((cmd) => {
-  program.outputHelp();
-  logger.error`Unknown command code=${cmd}.`;
-});
 
 program.parse(process.argv);
 
