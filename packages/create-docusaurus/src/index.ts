@@ -101,6 +101,28 @@ async function copyTemplate(
   });
 }
 
+const gitStrategies = ['deep', 'shallow', 'copy', 'custom'] as const;
+
+async function getGitCommand(gitStrategy: typeof gitStrategies[number]) {
+  switch (gitStrategy) {
+    case 'shallow':
+    case 'copy':
+      return 'git clone --recursive --depth 1';
+    case 'custom': {
+      const {command} = await prompts({
+        type: 'text',
+        name: 'command',
+        message:
+          'Write your own git clone command. The repository URL and destination directory will be supplied. E.g. "git clone --depth 10"',
+      });
+      return command;
+    }
+    case 'deep':
+    default:
+      return 'git clone';
+  }
+}
+
 export default async function init(
   rootDir: string,
   siteName?: string,
@@ -109,6 +131,7 @@ export default async function init(
     useNpm: boolean;
     skipInstall: boolean;
     typescript: boolean;
+    gitStrategy: typeof gitStrategies[number];
   }> = {},
 ): Promise<void> {
   const useYarn = cliOptions.useNpm ? false : hasYarn();
@@ -166,6 +189,8 @@ export default async function init(
     }
   }
 
+  let gitStrategy = cliOptions.gitStrategy ?? 'deep';
+
   // If user choose Git repository, we'll prompt for the url.
   if (template === 'Git repository') {
     const repoPrompt = await prompts({
@@ -180,6 +205,20 @@ export default async function init(
       message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
 (e.g: path=${'https://github.com/ownerName/repoName.git'})`,
     });
+    ({gitStrategy} = await prompts({
+      type: 'select',
+      name: 'gitStrategy',
+      message: 'How should we clone this repo?',
+      choices: [
+        {title: 'Deep clone: preserve full history', value: 'deep'},
+        {title: 'Shallow clone: clone with --depth=1', value: 'shallow'},
+        {
+          title: 'Copy: do a shallow clone, but do not create a git repo',
+          value: 'copy',
+        },
+        {title: 'Custom: enter your custom git clone command', value: 'custom'},
+      ],
+    }));
     template = repoPrompt.gitRepoUrl;
   } else if (template === 'Local template') {
     const dirPrompt = await prompts({
@@ -212,12 +251,19 @@ export default async function init(
 
   if (isValidGitRepoUrl(template)) {
     logger.info`Cloning Git template path=${template}...`;
-    if (
-      shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
-        .code !== 0
-    ) {
+    if (!gitStrategies.includes(gitStrategy)) {
+      logger.error`Invalid git strategy: name=${gitStrategy}. Value must be one of ${gitStrategies.join(
+        ', ',
+      )}.`;
+      process.exit(1);
+    }
+    const command = await getGitCommand(gitStrategy);
+    if (shell.exec(`${command} ${template} ${dest}`).code !== 0) {
       logger.error`Cloning Git template name=${template} failed!`;
       process.exit(1);
+    }
+    if (gitStrategy === 'copy') {
+      await fs.remove(path.join(dest, '.git'));
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
