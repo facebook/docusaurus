@@ -13,12 +13,13 @@
   background-color: var(--ifm-color-emphasis-200);
   width: 3rem;
   height: 3rem;
-  z-index: var(--ifm-z-index-fixed);
+  z-index: calc(var(--ifm-z-index-fixed) - 1);
   box-shadow: var(--ifm-global-shadow-lw);
   transition: all var(--ifm-transition-fast)
     var(--ifm-transition-timing-default);
   opacity: 0;
   transform: scale(0);
+  visibility: hidden;
 }
 
 .backToTopButton::after {
@@ -39,4 +40,5 @@
 .backToTopButtonShow {
   opacity: 1;
   transform: scale(1);
+  visibility: visible;
 }
