@@ -43,8 +43,6 @@ export default async function clear(siteDir: string): Promise<unknown> {
     description: 'Webpack persistent cache folder',
   }));
   return Promise.all(
-    [generatedFolder, buildFolder, ...cacheFolders].map((entry) =>
-      removePath(entry),
-    ),
+    [generatedFolder, buildFolder, ...cacheFolders].map(removePath),
   );
 }
