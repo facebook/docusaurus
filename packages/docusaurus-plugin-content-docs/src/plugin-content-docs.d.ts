@@ -38,6 +38,7 @@ declare module '@docusaurus/plugin-content-docs' {
     showLastUpdateTime?: boolean;
     showLastUpdateAuthor?: boolean;
     numberPrefixParser: NumberPrefixParser;
+    breadcrumbs: boolean | 'nested';
   };
 
   export type PathOptions = {
@@ -298,6 +299,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   export type GlobalPluginData = {
     path: string;
     versions: GlobalVersion[];
+    breadcrumbs: boolean | 'nested';
   };
   export type DocVersionSuggestions = {
     // suggest the latest version

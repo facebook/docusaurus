@@ -701,14 +701,4 @@ describe('themeConfig tableOfContents', () => {
       `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
     );
   });
-
-  test('should accept nested breadcrumb config', () => {
-    const breadcrumbConfig = {
-      breadcrumbs: 'nested',
-    };
-    expect(testValidateThemeConfig(breadcrumbConfig)).toEqual({
-      ...DEFAULT_CONFIG,
-      ...breadcrumbConfig,
-    });
-  });
 });

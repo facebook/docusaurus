@@ -6,36 +6,14 @@
  */
 
 import React from 'react';
-import {
-  isSamePath,
-  ThemeClassNames,
-  useSidebarBreadcrumbs,
-  useThemeConfig,
-} from '@docusaurus/theme-common';
+import {ThemeClassNames, useSidebarBreadcrumbs} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import clsx from 'clsx';
-import {useLocation} from '@docusaurus/router';
-import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 
 export default function DocBreadcrumbs(): JSX.Element | null {
-  const {pathname} = useLocation();
   const breadcrumbs = useSidebarBreadcrumbs();
-  const {breadcrumbs: enabled} = useThemeConfig();
 
-  function isExact(items: PropSidebar) {
-    const singleItem = items[0];
-    return (
-      items.length === 1 &&
-      singleItem.type === 'link' &&
-      isSamePath(singleItem.href, pathname)
-    );
-  }
-
-  if (
-    !breadcrumbs.length ||
-    enabled === false ||
-    (enabled === 'nested' && isExact(breadcrumbs))
-  ) {
+  if (!breadcrumbs) {
     return null;
   }
 

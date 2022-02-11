@@ -6,7 +6,10 @@
  */
 
 import React, {createContext, type ReactNode, useContext} from 'react';
-import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+import {
+  useActivePlugin,
+  useAllDocsData,
+} from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,
@@ -182,13 +185,13 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function useSidebarBreadcrumbs(): PropSidebar {
+export function useSidebarBreadcrumbs(): PropSidebar | null {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   const breadcrumbs: PropSidebar = [];
+  const enabled = useActivePlugin()?.pluginData?.breadcrumbs;
 
   function extract(items: PropSidebar) {
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of items) {
       if (item.type === 'category' && extract(item.items)) {
         breadcrumbs.push(item);
@@ -202,8 +205,26 @@ export function useSidebarBreadcrumbs(): PropSidebar {
     return false;
   }
 
+  // Check if the only breadcrumb item
+  // is a link to the current page
+  function onlyPageLink() {
+    return (
+      breadcrumbs.length === 1 &&
+      breadcrumbs[0].type === 'link' &&
+      isSamePath(breadcrumbs[0].href, pathname)
+    );
+  }
+
   if (sidebar) {
     extract(sidebar);
+  }
+
+  if (
+    !breadcrumbs.length ||
+    enabled === false ||
+    (enabled === 'nested' && onlyPageLink())
+  ) {
+    return null;
   }
 
   return breadcrumbs.reverse();
