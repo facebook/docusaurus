@@ -120,7 +120,8 @@ function ELIVideo() {
           title="Explain Like I'm 5: Docusaurus"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen={true}></iframe>
+          allowFullScreen
+        />
       </div>
     </div>
   );
