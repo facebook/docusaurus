@@ -69,6 +69,7 @@ describe('validation schemas', () => {
     testOK('docs');
     testOK('default');
     testOK('plugin-id_with-simple-special-chars');
+    testOK('doc1');
 
     testFail('/docs');
     testFail('docs/');
