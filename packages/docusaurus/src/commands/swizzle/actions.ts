@@ -123,8 +123,7 @@ export async function wrap({
   const toPath = path.resolve(siteDir, THEME_PATH, wrapperFileName);
 
   const content = typescript
-    ? `
-import React, {ComponentProps} from 'react';
+    ? `import React, {ComponentProps} from 'react';
 import type ${componentName}Type from '@theme/${themeComponentName}';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
@@ -136,9 +135,9 @@ export default function ${wrapperComponentName}(props: Props): JSX.Element {
       <${componentName} {...props} />
     </>
   );
-}`
-    : `
-import React from 'react';
+}
+`
+    : `import React from 'react';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
 export default function ${wrapperComponentName}(props) {
@@ -147,7 +146,8 @@ export default function ${wrapperComponentName}(props) {
       <${componentName} {...props} />
     </>
   );
-}`;
+}
+`;
 
   await fs.ensureDir(path.dirname(toPath));
   await fs.writeFile(toPath, content);
