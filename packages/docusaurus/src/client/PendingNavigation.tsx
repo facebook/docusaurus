@@ -6,21 +6,20 @@
  */
 
 import React from 'react';
-import {Route, withRouter, type RouteComponentProps} from 'react-router-dom';
-import type {RouteConfig} from 'react-router-config';
+import {Route, type RouteComponentProps} from 'react-router-dom';
+import type {RouteObject, Location} from 'react-router';
 import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
-import type {Location} from '@docusaurus/history';
 
 import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
 interface Props extends RouteComponentProps {
-  readonly routes: RouteConfig[];
+  readonly routes: RouteObject[];
   readonly delay: number;
   readonly location: Location;
 }
@@ -129,4 +128,4 @@ class PendingNavigation extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(PendingNavigation);
+export default PendingNavigation;

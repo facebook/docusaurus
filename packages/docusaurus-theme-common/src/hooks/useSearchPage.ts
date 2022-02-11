@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useHistory} from '@docusaurus/router';
+import {useNavigate} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useCallback, useEffect, useState} from 'react';
 
@@ -18,7 +18,7 @@ interface UseSearchPageReturn {
 }
 
 export default function useSearchPage(): UseSearchPageReturn {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     siteConfig: {baseUrl},
   } = useDocusaurusContext();
@@ -43,12 +43,15 @@ export default function useSearchPage(): UseSearchPageReturn {
         searchParams.delete(SEARCH_PARAM_QUERY);
       }
 
-      history.replace({
-        search: searchParams.toString(),
-      });
+      navigate(
+        {
+          search: searchParams.toString(),
+        },
+        {replace: true},
+      );
       setSearchQueryState(newSearchQuery);
     },
-    [history],
+    [navigate],
   );
 
   const generateSearchPageLink = useCallback(

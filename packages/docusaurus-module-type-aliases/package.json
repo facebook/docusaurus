@@ -15,8 +15,8 @@
     "@docusaurus/types": "2.0.0-beta.15",
     "@types/react": "*",
     "@types/react-helmet": "*",
-    "@types/react-router-config": "*",
-    "@types/react-router-dom": "*"
+    "react-router": "6.x",
+    "react-router-dom": "6.x"
   },
   "license": "MIT"
 }

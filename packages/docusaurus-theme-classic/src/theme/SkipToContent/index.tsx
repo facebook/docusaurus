@@ -6,7 +6,7 @@
  */
 
 import React, {useRef} from 'react';
-import {useHistory} from '@docusaurus/router';
+import {useNavigationType} from '@docusaurus/router';
 import Translate from '@docusaurus/Translate';
 import {useLocationChange} from '@docusaurus/theme-common';
 
@@ -20,7 +20,7 @@ function programmaticFocus(el: HTMLElement) {
 
 function SkipToContent(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
-  const {action} = useHistory();
+  const action = useNavigationType();
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 

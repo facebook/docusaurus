@@ -15,7 +15,7 @@ import React, {
   useEffect,
   forwardRef,
 } from 'react';
-import {useHistory} from '@docusaurus/router';
+import {useNavigate, useLocation} from '@docusaurus/router';
 import styles from './styles.module.css';
 
 interface Props {
@@ -43,18 +43,19 @@ const APITableRow = forwardRef(
     const entryName = getText(children);
     const id = name ? `${name}-${entryName}` : entryName;
     const anchor = `#${id}`;
-    const history = useHistory();
+    const navigate = useNavigate();
+    const location = useLocation();
     return (
       <tr
         id={id}
         tabIndex={0}
-        ref={history.location.hash === anchor ? ref : undefined}
+        ref={location.hash === anchor ? ref : undefined}
         onClick={() => {
-          history.push(anchor);
+          navigate(anchor);
         }}
         onKeyDown={(e: React.KeyboardEvent) => {
           if (e.key === 'Enter') {
-            history.push(anchor);
+            navigate(anchor);
           }
         }}>
         {children.props.children}

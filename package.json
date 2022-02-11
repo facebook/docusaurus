@@ -70,6 +70,7 @@
     "@types/prompts": "^2.0.9",
     "@types/react": "^17.0.2",
     "@types/react-dev-utils": "^9.0.1",
+    "@types/react-helmet": "^6.0.0",
     "@types/react-test-renderer": "^17.0.1",
     "@types/semver": "^7.1.0",
     "@types/shelljs": "^0.8.6",
