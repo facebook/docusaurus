@@ -109,6 +109,23 @@ function TweetsSection() {
   );
 }
 
+function ELIVideo() {
+  return (
+    <div className="container">
+      <div className="margin-top--md">
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/_An9EsKPhp0"
+          title="Explain Like I'm 5: Docusaurus"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen={true}></iframe>
+      </div>
+    </div>
+  );
+}
+
 function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
@@ -282,6 +299,13 @@ function Home(): JSX.Element {
                     search.
                   </Translate>
                 </p>
+              </div>
+            </div>
+          </div>
+          <div className="container text--center">
+            <div className="row">
+              <div className="col">
+                <ELIVideo />
               </div>
             </div>
           </div>
