@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
+import type {
+  LoadContext,
+  Plugin,
+  PostCssOptions,
+  SwizzleConfig,
+} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import path from 'path';
@@ -207,21 +212,80 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
   };
 }
 
-const swizzleAllowedComponents = [
-  'CodeBlock',
-  'DocSidebar',
-  'Footer',
-  'NotFound',
-  'SearchBar',
-  'IconArrow',
-  'IconEdit',
-  'IconMenu',
-  'hooks/useTheme',
-  'prism-include-languages',
-];
-
-export function getSwizzleComponentList(): string[] {
-  return swizzleAllowedComponents;
+export function getSwizzleConfig(): SwizzleConfig {
+  return {
+    components: {
+      CodeBlock: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        description:
+          'The component used to render multi-line code blocks, generally used in Markdown files.',
+      },
+      DocSidebar: {
+        actions: {
+          wrap: 'safe',
+          eject: 'unsafe', // too much technical code in sidebar, not very safe atm
+        },
+        description: 'The sidebar component on docs pages',
+      },
+      Footer: {
+        actions: {
+          wrap: 'safe',
+          eject: 'unsafe', // TODO split footer into smaller parts
+        },
+        description: "The footer component of you site's layout",
+      },
+      NotFound: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        description:
+          'The global 404 page of your site, meant to be ejected and customized',
+      },
+      SearchBar: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        // TODO how to describe this one properly?
+        // By default it's an empty placeholder for the user to fill
+        description:
+          'The search bar component of your site, appearing in the navbar.',
+      },
+      IconArrow: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        description: 'The arrow icon component',
+      },
+      IconEdit: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        description: 'The edit icon component',
+      },
+      IconMenu: {
+        actions: {
+          wrap: 'safe',
+          eject: 'safe',
+        },
+        description: 'The menu icon component',
+      },
+      'prism-include-languages': {
+        actions: {
+          wrap: 'forbidden',
+          eject: 'safe',
+        },
+        description:
+          'The Prism languages to include for code block syntax highlighting. Meant to be ejected.',
+      },
+    },
+  };
 }
 
 export {validateThemeConfig} from './validateThemeConfig';
