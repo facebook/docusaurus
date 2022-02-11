@@ -15,7 +15,8 @@ import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleComponentConfig,
-ImportedPluginModule} from '@docusaurus/types';
+  ImportedPluginModule,
+} from '@docusaurus/types';
 import type {SwizzleOptions, SwizzlePlugin} from './common';
 import {normalizeOptions} from './common';
 import type {ActionResult} from './actions';

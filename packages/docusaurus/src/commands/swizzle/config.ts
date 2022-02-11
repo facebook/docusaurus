@@ -11,7 +11,7 @@ import type {
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
-import type { SwizzlePlugin} from './common';
+import type {SwizzlePlugin} from './common';
 import {SwizzleActions} from './common';
 import {getPluginByThemeName} from './themes';
 
