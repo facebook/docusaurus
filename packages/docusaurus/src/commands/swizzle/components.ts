@@ -15,7 +15,7 @@ import type {
   SwizzleConfig,
 } from '@docusaurus/types';
 import {orderBy} from 'lodash';
-import {askComponentName, askSwizzleDangerousComponent} from './prompts';
+import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import {SwizzleActions} from './actions';
@@ -32,6 +32,7 @@ export type ThemeComponents = {
   ) => SwizzleActionStatus;
   isSafeAction: (component: string, action: SwizzleAction) => boolean;
   hasAnySafeAction: (component: string) => boolean;
+  hasAllSafeAction: (component: string) => boolean;
 };
 
 const formatComponentName = (componentName: string): string =>
@@ -179,6 +180,7 @@ export function getThemeComponents({
     getActionStatus,
     isSafeAction,
     hasAnySafeAction,
+    hasAllSafeAction,
   };
 }
 
@@ -238,12 +240,10 @@ export async function getComponentName({
   componentNameParam,
   themeComponents,
   list,
-  danger,
 }: {
   componentNameParam: string | undefined;
   themeComponents: ThemeComponents;
   list: boolean | undefined;
-  danger: boolean | undefined;
 }): Promise<string> {
   if (list) {
     logger.info(listComponentNames(themeComponents));
@@ -255,14 +255,6 @@ export async function getComponentName({
         themeComponents,
       })
     : await askComponentName(themeComponents);
-
-  if (!themeComponents.hasAnySafeAction(componentName) && !danger) {
-    logger.warn`name=${componentName} is an unsafe internal component and has a higher breaking change probability. If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you know what you are doing.`;
-    const swizzleDangerousComponent = await askSwizzleDangerousComponent();
-    if (!swizzleDangerousComponent) {
-      return process.exit(1);
-    }
-  }
 
   return componentName;
 }

@@ -8,13 +8,46 @@
 import leven from 'leven';
 import logger from '@docusaurus/logger';
 import type {SwizzleAction, SwizzleActionStatus} from '@docusaurus/types';
+import {capitalize} from 'lodash';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
-export function actionStatusSuffix(status: SwizzleActionStatus): string {
-  return status === 'safe'
-    ? ` (${logger.green('safe')})`
-    : ` (${logger.red('unsafe')})`;
+export const SwizzleActionsStatuses: SwizzleActionStatus[] = [
+  'safe',
+  'unsafe',
+  'forbidden',
+];
+
+export const PartiallySafeHint = logger.red('*');
+
+export function actionStatusLabel(status: SwizzleActionStatus): string {
+  return capitalize(status);
+}
+
+const SwizzleActionStatusColors: Record<
+  SwizzleActionStatus,
+  (str: string) => string
+> = {
+  safe: logger.green,
+  unsafe: logger.yellow,
+  forbidden: logger.red,
+};
+
+export function actionStatusColor(
+  status: SwizzleActionStatus,
+  str: string,
+): string {
+  const colorFn = SwizzleActionStatusColors[status];
+  return colorFn(str);
+}
+
+export function actionStatusSuffix(
+  status: SwizzleActionStatus,
+  options: {partiallySafe?: boolean} = {},
+): string {
+  return ` (${actionStatusColor(status, actionStatusLabel(status))}${
+    options.partiallySafe ? PartiallySafeHint : ''
+  })`;
 }
 
 export type SwizzleOptions = {

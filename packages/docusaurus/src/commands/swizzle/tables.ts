@@ -11,12 +11,14 @@ import type {ThemeComponents} from './components';
 import {SwizzleActions} from './actions';
 import {capitalize} from 'lodash';
 import type {SwizzleActionStatus} from '@docusaurus/types';
+import {actionStatusColor, actionStatusLabel} from './common';
 
-const safeLabel = logger.green('safe');
-const unsafeLabel = logger.red('unsafe');
+function tableStatusLabel(status: SwizzleActionStatus): string {
+  return actionStatusColor(status, actionStatusLabel(status));
+}
 
 function getStatusLabel(status: SwizzleActionStatus): string {
-  return status === 'safe' ? safeLabel : unsafeLabel;
+  return actionStatusColor(status, actionStatusLabel(status));
 }
 
 export function statusTable(): string {
@@ -25,7 +27,7 @@ export function statusTable(): string {
   });
 
   table.push({
-    [safeLabel]: [
+    [tableStatusLabel('safe')]: [
       '',
       `
 This component is safe to swizzle and was designed for this purpose.
@@ -35,15 +37,26 @@ The swizzled component is retro-compatible with minor version upgrades.
   });
 
   table.push({
-    [unsafeLabel]: [
+    [tableStatusLabel('unsafe')]: [
       logger.code('--danger'),
       `
 This component is unsafe to swizzle, but you can still do it!
 Warning: we may release breaking changes within minor version upgrades.
 You will have to upgrade your component manually and maintain it over time.
 
-${logger.green('Tip')}: your customization can't be done in a ${safeLabel} way?
+${logger.green(
+  'Tip',
+)}: your customization can't be done in a ${tableStatusLabel('safe')} way?
 Report it here: https://github.com/facebook/docusaurus/discussions/5468
+`,
+    ],
+  });
+
+  table.push({
+    [tableStatusLabel('forbidden')]: [
+      '',
+      `
+This component should not meant to be swizzled.
 `,
     ],
   });

@@ -320,7 +320,7 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
 };
 
 export type SwizzleAction = 'eject' | 'wrap';
-export type SwizzleActionStatus = 'safe' | 'unsafe'; // we may add other statuses later // TODO add "unknown" ?
+export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';
 
 export type SwizzleComponentConfig = {
   actions: Record<SwizzleAction, SwizzleActionStatus>;
@@ -330,7 +330,8 @@ export type SwizzleComponentConfig = {
 export type SwizzleConfig = {
   components: Record<string, SwizzleComponentConfig>;
   // Other settings could be added here,
-  // For example: the ability to declare the config as exhaustive so that we can emit errors
+  // For example: the ability to declare the config as exhaustive
+  // so that we can emit errors
 };
 
 export type PluginModule = {

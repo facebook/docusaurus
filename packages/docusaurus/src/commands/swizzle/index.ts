@@ -11,12 +11,17 @@ import initPlugins from '../../server/plugins/init';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
-import type {InitializedPlugin} from '@docusaurus/types';
+import type {
+  InitializedPlugin,
+  SwizzleAction,
+  SwizzleComponentConfig,
+} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {normalizeOptions} from './common';
 import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
+import {askSwizzleDangerousComponent} from './prompts';
 
 async function listAllThemeComponents({
   themeNames,
@@ -52,6 +57,43 @@ ${statusTable()}
   return process.exit(0);
 }
 
+async function ensureActionSafety({
+  componentName,
+  componentConfig,
+  action,
+  danger,
+}: {
+  componentName: string;
+  componentConfig: SwizzleComponentConfig;
+  action: SwizzleAction;
+  danger: boolean;
+}): Promise<void> {
+  const actionStatus = componentConfig.actions[action];
+
+  if (actionStatus === 'forbidden') {
+    logger.newLine();
+    logger.error(
+      `Swizzle action "${action}" is forbidden for component ${componentName}`,
+    );
+    logger.newLine();
+    return process.exit(1);
+  }
+
+  if (actionStatus === 'unsafe' && !danger) {
+    logger.newLine();
+    logger.warn`Swizzle action name=${action} is unsafe to perform on name=${componentName}.
+It is more likely to be affected by breaking changes in the future
+If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you understand the risks.`;
+    logger.newLine();
+    const swizzleDangerousComponent = await askSwizzleDangerousComponent();
+    if (!swizzleDangerousComponent) {
+      return process.exit(1);
+    }
+  }
+
+  return undefined;
+}
+
 export default async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
@@ -83,11 +125,12 @@ export default async function swizzle(
     componentNameParam,
     themeComponents,
     list,
-    danger,
   });
   const componentConfig = themeComponents.getConfig(componentName);
 
   const action = await getAction(componentConfig, options);
+
+  await ensureActionSafety({componentName, componentConfig, action, danger});
 
   async function executeAction(): Promise<ActionResult> {
     switch (action) {
@@ -98,9 +141,11 @@ export default async function swizzle(
           componentName,
           typescript,
         });
+        logger.newLine();
         logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${
           result.createdFiles
         }.`;
+        logger.newLine();
         return result;
       }
       case 'eject': {
@@ -109,9 +154,11 @@ export default async function swizzle(
           themePath,
           componentName,
         });
+        logger.newLine();
         logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${
           result.createdFiles
         }.`;
+        logger.newLine();
         return result;
       }
       default:

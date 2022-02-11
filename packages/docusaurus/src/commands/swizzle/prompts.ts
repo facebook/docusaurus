@@ -9,7 +9,7 @@ import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 import type {ThemeComponents} from './components';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
-import {actionStatusSuffix} from './common';
+import {actionStatusSuffix, PartiallySafeHint} from './common';
 
 const ExitTitle = logger.yellow('[Exit]');
 
@@ -32,17 +32,26 @@ export async function askComponentName(
   themeComponents: ThemeComponents,
 ): Promise<string> {
   function formatComponentName(componentName: string): string {
-    return `${componentName}${actionStatusSuffix(
-      themeComponents.hasAnySafeAction(componentName) ? 'safe' : 'unsafe',
-    )}`;
+    const anySafe = themeComponents.hasAnySafeAction(componentName);
+    const allSafe = themeComponents.hasAllSafeAction(componentName);
+    const safestStatus = anySafe ? 'safe' : 'unsafe'; // Not 100% accurate but good enough for now.
+    const partiallySafe = anySafe && !allSafe;
+    return `${componentName}${actionStatusSuffix(safestStatus, {
+      partiallySafe,
+    })}`;
   }
 
   const {componentName} = await prompts({
     type: 'autocomplete',
     name: 'componentName',
-    message: 'Select or type the component to swizzle:',
-    // limit: 30, // This doesn't work in my terminal
-    // limit: Number.POSITIVE_INFINITY, // This does not work well and messes up with terminal scroll position
+    message: `
+Select or type the component to swizzle.
+${PartiallySafeHint} = not safe for all swizzle actions
+`,
+    // This doesn't work well in small-height terminals (like IDE)
+    // limit: 30,
+    // This does not work well and messes up with terminal scroll position
+    // limit: Number.POSITIVE_INFINITY,
     choices: themeComponents.all
       .map((compName) => ({
         title: formatComponentName(compName),
@@ -55,6 +64,7 @@ export async function askComponentName(
       );
     },
   });
+  logger.newLine();
 
   if (!componentName || componentName === '[Exit]') {
     return process.exit(0);
