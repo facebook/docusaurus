@@ -5,5 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line no-restricted-syntax
-export * from 'react-router-dom';
+export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
