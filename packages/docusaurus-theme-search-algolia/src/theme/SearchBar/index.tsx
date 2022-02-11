@@ -8,7 +8,7 @@
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {useHistory} from '@docusaurus/router';
+import {useNavigate} from '@docusaurus/router';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
@@ -105,7 +105,7 @@ function DocSearch({
   };
 
   const {withBaseUrl} = useBaseUrlUtils();
-  const history = useHistory();
+  const navigate = useNavigate();
   const searchContainer = useRef<HTMLDivElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -160,7 +160,7 @@ function DocSearch({
       if (isRegexpStringMatch(externalUrlRegex, itemUrl)) {
         window.location.href = itemUrl!;
       } else {
-        history.push(itemUrl!);
+        navigate(itemUrl!);
       }
     },
   }).current;

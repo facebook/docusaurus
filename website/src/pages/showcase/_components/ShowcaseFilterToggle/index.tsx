@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useEffect, useCallback} from 'react';
-import {useHistory, useLocation} from '@docusaurus/router';
+import {useNavigate, useLocation} from '@docusaurus/router';
 
 import {prepareUserState} from '../../index';
 
@@ -25,7 +25,7 @@ export function readOperator(search: string): Operator {
 export default function ShowcaseFilterToggle(): JSX.Element {
   const id = 'showcase_filter_toggle';
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [operator, setOperator] = useState(false);
   useEffect(() => {
     setOperator(readOperator(location.search) === 'AND');
@@ -37,12 +37,14 @@ export default function ShowcaseFilterToggle(): JSX.Element {
     if (!operator) {
       searchParams.append(OperatorQueryKey, operator ? 'OR' : 'AND');
     }
-    history.push({
-      ...location,
-      search: searchParams.toString(),
-      state: prepareUserState(),
-    });
-  }, [operator, location, history]);
+    navigate(
+      {
+        ...location,
+        search: searchParams.toString(),
+      },
+      {state: prepareUserState()},
+    );
+  }, [operator, location, navigate]);
 
   return (
     <div>

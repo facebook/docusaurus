@@ -13,7 +13,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import {useHistory, useLocation} from '@docusaurus/router';
+import {useNavigate, useLocation} from '@docusaurus/router';
 import {toggleListItem} from '@site/src/utils/jsUtils';
 import {prepareUserState} from '../../index';
 import type {TagType} from '@site/src/data/users';
@@ -42,7 +42,7 @@ function replaceSearchTags(search: string, newTags: TagType[]) {
 const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
   ({id, icon, label, tag, ...rest}, ref) => {
     const location = useLocation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [selected, setSelected] = useState(false);
     useEffect(() => {
       const tags = readSearchTags(location.search);
@@ -52,12 +52,14 @@ const ShowcaseTagSelect = React.forwardRef<HTMLLabelElement, Props>(
       const tags = readSearchTags(location.search);
       const newTags = toggleListItem(tags, tag);
       const newSearch = replaceSearchTags(location.search, newTags);
-      history.push({
-        ...location,
-        search: newSearch,
-        state: prepareUserState(),
-      });
-    }, [tag, location, history]);
+      navigate(
+        {
+          ...location,
+          search: newSearch,
+        },
+        {state: prepareUserState()},
+      );
+    }, [tag, location, navigate]);
     return (
       <>
         <input
