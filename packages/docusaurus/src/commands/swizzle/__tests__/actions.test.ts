@@ -132,18 +132,18 @@ describe('wrap', () => {
               └── FirstLevelComponent.js"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-                          "
-                          import React from 'react';
-                          import FirstLevelComponent from '@theme-original/FirstLevelComponent';
+              "import React from 'react';
+              import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 
-                          export default function FirstLevelComponentWrapper(props) {
-                            return (
-                              <>
-                                <FirstLevelComponent {...props} />
-                              </>
-                            );
-                          }"
-                      `);
+              export default function FirstLevelComponentWrapper(props) {
+                return (
+                  <>
+                    <FirstLevelComponent {...props} />
+                  </>
+                );
+              }
+              "
+            `);
     });
 
     test(`wrap ${Components.ComponentInSubFolder}`, async () => {
@@ -158,18 +158,18 @@ describe('wrap', () => {
                       └── index.js"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-                          "
-                          import React from 'react';
-                          import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
+              "import React from 'react';
+              import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 
-                          export default function ComponentInSubFolderWrapper(props) {
-                            return (
-                              <>
-                                <ComponentInSubFolder {...props} />
-                              </>
-                            );
-                          }"
-                      `);
+              export default function ComponentInSubFolderWrapper(props) {
+                return (
+                  <>
+                    <ComponentInSubFolder {...props} />
+                  </>
+                );
+              }
+              "
+            `);
     });
 
     test(`wrap ${Components.ComponentInFolder}`, async () => {
@@ -181,18 +181,18 @@ describe('wrap', () => {
                   └── index.js"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-                          "
-                          import React from 'react';
-                          import ComponentInFolder from '@theme-original/ComponentInFolder';
+              "import React from 'react';
+              import ComponentInFolder from '@theme-original/ComponentInFolder';
 
-                          export default function ComponentInFolderWrapper(props) {
-                            return (
-                              <>
-                                <ComponentInFolder {...props} />
-                              </>
-                            );
-                          }"
-                      `);
+              export default function ComponentInFolderWrapper(props) {
+                return (
+                  <>
+                    <ComponentInFolder {...props} />
+                  </>
+                );
+              }
+              "
+            `);
     });
   });
 
@@ -211,8 +211,7 @@ describe('wrap', () => {
               └── FirstLevelComponent.tsx"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "
-              import React, {ComponentProps} from 'react';
+              "import React, {ComponentProps} from 'react';
               import type FirstLevelComponentType from '@theme/FirstLevelComponent';
               import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 
@@ -224,7 +223,8 @@ describe('wrap', () => {
                     <FirstLevelComponent {...props} />
                   </>
                 );
-              }"
+              }
+              "
             `);
     });
 
@@ -240,8 +240,7 @@ describe('wrap', () => {
                       └── index.tsx"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "
-              import React, {ComponentProps} from 'react';
+              "import React, {ComponentProps} from 'react';
               import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
               import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 
@@ -253,7 +252,8 @@ describe('wrap', () => {
                     <ComponentInSubFolder {...props} />
                   </>
                 );
-              }"
+              }
+              "
             `);
     });
 
@@ -266,8 +266,7 @@ describe('wrap', () => {
                   └── index.tsx"
           `);
       await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "
-              import React, {ComponentProps} from 'react';
+              "import React, {ComponentProps} from 'react';
               import type ComponentInFolderType from '@theme/ComponentInFolder';
               import ComponentInFolder from '@theme-original/ComponentInFolder';
 
@@ -279,7 +278,8 @@ describe('wrap', () => {
                     <ComponentInFolder {...props} />
                   </>
                 );
-              }"
+              }
+              "
             `);
     });
   });
