@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import importFresh from 'import-fresh';
 import {keyBy, mapValues} from 'lodash';
 import type {
   ImportedPluginModule,
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
+import type { SwizzlePlugin} from './common';
 import {SwizzleActions} from './common';
+import {getPluginByThemeName} from './themes';
 
 function getModuleSwizzleConfig(
   pluginModule: ImportedPluginModule,
@@ -67,11 +68,13 @@ const FallbackSwizzleConfig: SwizzleConfig = {
   components: {},
 };
 
-// TODO we shouldn't need to use importFresh here: we already have imported the plugin modules!
-// Current approach does not work with an inline theme plugin (although it's unusual)
-export function getThemeSwizzleConfig(themeName: string): SwizzleConfig {
-  const module = importFresh<ImportedPluginModule>(themeName);
-  const config = getModuleSwizzleConfig(module);
+export function getThemeSwizzleConfig(
+  themeName: string,
+  plugins: SwizzlePlugin[],
+): SwizzleConfig {
+  // const module = importFresh<ImportedPluginModule>(themeName);
+  const plugin = getPluginByThemeName(plugins, themeName);
+  const config = getModuleSwizzleConfig(plugin.module);
   if (config) {
     return validateSwizzleConfig(config);
   }

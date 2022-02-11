@@ -6,24 +6,44 @@
  */
 
 import logger from '@docusaurus/logger';
-import type {InitializedPlugin} from '@docusaurus/types';
 import leven from 'leven';
 import {orderBy, uniq} from 'lodash';
 import {askThemeName} from './prompts';
-import {findStringIgnoringCase} from './common';
+import {findStringIgnoringCase, type SwizzlePlugin} from './common';
+import type {InitializedPlugin} from '@docusaurus/types';
 
-export function getThemeNames(plugins: InitializedPlugin[]): string[] {
+export function pluginToThemeName(
+  pluginInstance: InitializedPlugin,
+): string | undefined {
+  if (pluginInstance.getThemePath) {
+    return (
+      (pluginInstance.version as {name: string}).name ?? pluginInstance.name
+    );
+  }
+  return undefined;
+}
+
+export function getPluginByThemeName(
+  plugins: SwizzlePlugin[],
+  themeName: string,
+): SwizzlePlugin {
+  const plugin = plugins.find(
+    (p) => pluginToThemeName(p.instance) === themeName,
+  );
+  if (!plugin) {
+    throw new Error(`Theme ${themeName} not found`);
+  }
+  return plugin;
+}
+
+export function getThemeNames(plugins: SwizzlePlugin[]): string[] {
   const themeNames = uniq(
     // The fact that getThemePath is attached to the plugin instance makes
     // this code impossible to optimize. If this is a static method, we don't
     // need to initialize all plugins just to filter which are themes
     // Benchmark: loadContext-58ms; initPlugins-323ms
-    plugins
-      .filter(
-        (plugin) => plugin.getThemePath && plugin.version.type === 'package',
-      )
-      .map((plugin) => (plugin.version as {name: string}).name),
-  );
+    plugins.map((plugin) => pluginToThemeName(plugin.instance)).filter(Boolean),
+  ) as string[];
 
   // Opinionated ordering: user is most likely to swizzle:
   // - the classic theme
@@ -111,20 +131,14 @@ export function getThemePath({
   themeName,
   typescript,
 }: {
-  plugins: InitializedPlugin[];
+  plugins: SwizzlePlugin[];
   themeName: string;
   typescript: boolean | undefined;
 }): string {
-  // Attaching getThemePath to the plugin instance means it is possible for a
-  // plugin to return different paths given different options. Maybe we need to
-  // pass in a plugin ID to decide which plugin to load?
-  const pluginInstance = plugins.find(
-    (plugin) =>
-      plugin.version.type === 'package' && plugin.version.name === themeName,
-  )!;
+  const pluginInstance = getPluginByThemeName(plugins, themeName);
   const themePath = typescript
-    ? pluginInstance.getTypeScriptThemePath?.()
-    : pluginInstance.getThemePath?.();
+    ? pluginInstance.instance.getTypeScriptThemePath?.()
+    : pluginInstance.instance.getThemePath?.();
   if (!themePath) {
     logger.warn(
       typescript

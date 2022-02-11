@@ -7,7 +7,12 @@
 
 import leven from 'leven';
 import logger from '@docusaurus/logger';
-import type {SwizzleAction, SwizzleActionStatus} from '@docusaurus/types';
+import type {
+  InitializedPlugin,
+  ImportedPluginModule,
+  SwizzleAction,
+  SwizzleActionStatus,
+} from '@docusaurus/types';
 import {capitalize} from 'lodash';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
@@ -49,6 +54,11 @@ export function actionStatusSuffix(
     options.partiallySafe ? PartiallySafeHint : ''
   })`;
 }
+
+export type SwizzlePlugin = {
+  instance: InitializedPlugin;
+  module: ImportedPluginModule;
+};
 
 export type SwizzleOptions = {
   typescript: boolean;

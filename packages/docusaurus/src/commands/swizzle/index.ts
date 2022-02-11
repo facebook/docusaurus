@@ -7,7 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import {loadContext, loadPluginConfigs} from '../../server';
-import initPlugins from '../../server/plugins/init';
+import initPlugins, {normalizePluginConfigs} from '../../server/plugins/init';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
@@ -15,13 +15,14 @@ import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleComponentConfig,
-} from '@docusaurus/types';
-import type {SwizzleOptions} from './common';
+ImportedPluginModule} from '@docusaurus/types';
+import type {SwizzleOptions, SwizzlePlugin} from './common';
 import {normalizeOptions} from './common';
 import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 import {askSwizzleDangerousComponent} from './prompts';
+import {createRequire} from 'module';
 
 async function listAllThemeComponents({
   themeNames,
@@ -29,14 +30,14 @@ async function listAllThemeComponents({
   typescript,
 }: {
   themeNames: string[];
-  plugins: InitializedPlugin[];
+  plugins: SwizzlePlugin[];
   typescript: SwizzleOptions['typescript'];
 }) {
   const themeComponentsTables = (
     await Promise.all(
       themeNames.map((themeName) => {
         const themePath = getThemePath({themeName, plugins, typescript});
-        const swizzleConfig = getThemeSwizzleConfig(themeName);
+        const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
         const themeComponents = getThemeComponents({
           themeName,
           themePath,
@@ -94,6 +95,43 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
   return undefined;
 }
 
+async function initSwizzle(
+  siteDir: string,
+): Promise<{plugins: SwizzlePlugin[]}> {
+  const context = await loadContext(siteDir);
+  const pluginRequire = createRequire(context.siteConfigPath);
+
+  const pluginConfigs = await loadPluginConfigs(context);
+  const plugins: InitializedPlugin[] = await initPlugins({
+    pluginConfigs,
+    context,
+  });
+
+  const pluginsNormalized = await normalizePluginConfigs(
+    pluginConfigs,
+    pluginRequire,
+  );
+
+  // For now only support imported plugin modules
+  // TODO support inline themes?
+  const modules: (ImportedPluginModule | undefined)[] = pluginsNormalized.map(
+    (p) => p.pluginModule?.module,
+  );
+
+  const swizzlePlugins = plugins
+    .map((plugin, pluginIndex) => ({
+      module: modules[pluginIndex],
+      instance: plugin,
+    }))
+    .filter((p) => p.module !== undefined) as SwizzlePlugin[];
+
+  console.log({swizzlePlugins});
+
+  return {
+    plugins: swizzlePlugins,
+  };
+}
+
 export default async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
@@ -103,9 +141,7 @@ export default async function swizzle(
   const options = normalizeOptions(optionsParam);
   const {list, danger, typescript} = options;
 
-  const context = await loadContext(siteDir);
-  const pluginConfigs = await loadPluginConfigs(context);
-  const plugins = await initPlugins({pluginConfigs, context});
+  const {plugins} = await initSwizzle(siteDir);
   const themeNames = getThemeNames(plugins);
 
   if (list && !themeNameParam) {
@@ -114,7 +150,7 @@ export default async function swizzle(
 
   const themeName = await getThemeName({themeNameParam, themeNames, list});
   const themePath = getThemePath({themeName, plugins, typescript});
-  const swizzleConfig = getThemeSwizzleConfig(themeName);
+  const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
   const themeComponents = getThemeComponents({
     themeName,
     themePath,
