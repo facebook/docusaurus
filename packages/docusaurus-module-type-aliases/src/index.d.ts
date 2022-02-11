@@ -137,7 +137,7 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet';
+  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
 
   export type HeadProps = HelmetProps & {children: ReactNode};

@@ -14,9 +14,9 @@
   "dependencies": {
     "@docusaurus/types": "2.0.0-beta.15",
     "@types/react": "*",
-    "@types/react-helmet": "*",
     "@types/react-router-config": "*",
-    "@types/react-router-dom": "*"
+    "@types/react-router-dom": "*",
+    "react-helmet-async": "*"
   },
   "license": "MIT"
 }
