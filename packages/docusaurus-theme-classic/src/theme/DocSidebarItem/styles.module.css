@@ -6,18 +6,6 @@
  */
 
 @media (min-width: 997px) {
-  .menuLinkText {
-    cursor: initial;
-  }
-
-  .menuLinkText:hover {
-    background: none;
-  }
-
-  .menuLinkText.hasHref {
-    cursor: pointer;
-  }
-
   .menuHtmlItem {
     padding: var(--ifm-menu-link-padding-vertical)
       var(--ifm-menu-link-padding-horizontal);
