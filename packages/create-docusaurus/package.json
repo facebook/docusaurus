@@ -15,7 +15,7 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
-  "bin": "bin/index.js",
+  "bin": "bin/index.mjs",
   "publishConfig": {
     "access": "public"
   },
