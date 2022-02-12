@@ -25,18 +25,18 @@
     "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0-alpha.39",
+    "@docsearch/react": "^3.0.0-alpha.50",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/logger": "2.0.0-beta.15",
     "@docusaurus/theme-common": "2.0.0-beta.15",
     "@docusaurus/theme-translations": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-validation": "2.0.0-beta.15",
-    "algoliasearch": "^4.10.5",
-    "algoliasearch-helper": "^3.5.5",
+    "algoliasearch": "^4.12.1",
+    "algoliasearch-helper": "^3.7.0",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0"
   },

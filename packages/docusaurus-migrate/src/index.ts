@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import logger from '@docusaurus/logger';
-import glob from 'glob';
+import {Globby} from '@docusaurus/utils';
 import Color from 'color';
 
 import type {
@@ -377,7 +377,7 @@ function createPages(context: MigrationContext): void {
         path.join(siteDir, 'pages', 'en'),
         path.join(newDir, 'src', 'pages'),
       );
-      const files = glob.sync('**/*.js', {
+      const files = Globby.sync('**/*.js', {
         cwd: path.join(newDir, 'src', 'pages'),
       });
       files.forEach((file) => {

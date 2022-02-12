@@ -18,9 +18,9 @@
   "license": "MIT",
   "dependencies": {
     "file-loader": "^6.2.0",
-    "lodash": "^4.17.20",
-    "node-vibrant": "^3.1.5",
-    "sharp": "^0.29.1",
+    "lodash": "^4.17.21",
+    "node-vibrant": "^3.1.6",
+    "sharp": "^0.30.1",
     "tslib": "^2.3.1"
   },
   "engines": {
