@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase, sortBy} from 'lodash';
+import {kebabCase, sortBy} from 'lodash-es';
 import supportsColor from 'supports-color';
 import {fileURLToPath} from 'url';
 
