@@ -6,7 +6,7 @@
  */
 
 import type {RuleSetRule, Configuration} from 'webpack';
-import type {CustomizeRuleString} from 'webpack-merge';
+import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
