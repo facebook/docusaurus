@@ -15,8 +15,8 @@ import {program} from 'commander';
 import {createRequire} from 'module';
 import init from '../lib/index.js';
 
-const requiredVersion = createRequire(import.meta.url)('../package.json')
-  .engines.node;
+const packageJson = createRequire(import.meta.url)('../package.json');
+const requiredVersion = packageJson.engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
@@ -32,7 +32,7 @@ function wrapCommand(fn) {
     });
 }
 
-program.version(require('../package.json').version);
+program.version(packageJson.version);
 
 program
   .arguments('[siteName] [template] [rootDir]')
