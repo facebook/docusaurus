@@ -13,7 +13,7 @@ import semver from 'semver';
 import path from 'path';
 import {program} from 'commander';
 import {createRequire} from 'module';
-import init from '../lib/index.js';
+import {init} from '../lib/index.js';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const requiredVersion = packageJson.engines.node;

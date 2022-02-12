@@ -123,7 +123,7 @@ async function getGitCommand(gitStrategy: typeof gitStrategies[number]) {
   }
 }
 
-export default async function init(
+export async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,
