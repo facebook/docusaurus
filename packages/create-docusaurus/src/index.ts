@@ -7,19 +7,19 @@
 
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import {execSync} from 'child_process';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
 import {kebabCase, sortBy} from 'lodash';
 import supportsColor from 'supports-color';
+import {fileURLToPath} from 'url';
 
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
 function hasYarn() {
   try {
-    execSync('yarnpkg --version', {stdio: 'ignore'});
+    shell.exec('yarnpkg --version', {silent: true});
     return true;
   } catch (e) {
     return false;
@@ -123,7 +123,7 @@ async function getGitCommand(gitStrategy: typeof gitStrategies[number]) {
   }
 }
 
-export async function init(
+export default async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,
@@ -135,7 +135,7 @@ export async function init(
   }> = {},
 ): Promise<void> {
   const useYarn = cliOptions.useNpm ? false : hasYarn();
-  const templatesDir = path.resolve(__dirname, '../templates');
+  const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExistsSync(
