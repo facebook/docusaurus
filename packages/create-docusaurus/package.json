@@ -2,6 +2,7 @@
   "name": "create-docusaurus",
   "version": "2.0.0-beta.15",
   "description": "Create Docusaurus apps easily.",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
@@ -15,7 +16,7 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
-  "bin": "bin/index.mjs",
+  "bin": "bin/index.js",
   "publishConfig": {
     "access": "public"
   },
