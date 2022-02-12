@@ -25,9 +25,9 @@
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.20",
-    "prompts": "^2.4.1",
-    "semver": "^7.3.4",
-    "shelljs": "^0.8.4",
+    "prompts": "^2.4.2",
+    "semver": "^7.3.5",
+    "shelljs": "^0.8.5",
     "supports-color": "^8.1.1",
     "tslib": "^2.3.1"
   },

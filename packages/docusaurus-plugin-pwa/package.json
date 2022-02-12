@@ -26,16 +26,16 @@
     "@docusaurus/theme-translations": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-validation": "2.0.0-beta.15",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.3",
     "clsx": "^1.1.1",
     "core-js": "^3.21.0",
-    "terser-webpack-plugin": "^5.2.4",
+    "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.3.1",
     "webpack": "^5.68.0",
-    "webpack-merge": "^5.7.3",
-    "workbox-build": "^6.1.1",
+    "webpack-merge": "^5.8.0",
+    "workbox-build": "^6.4.2",
     "workbox-precaching": "^6.1.1",
-    "workbox-window": "^6.1.1"
+    "workbox-window": "^6.4.2"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.15",
