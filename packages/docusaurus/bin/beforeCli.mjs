@@ -17,7 +17,7 @@ import {createRequire} from 'module';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const sitePkg = createRequire(path.join(process.cwd(), 'package.json'))(
-  'package.json',
+  './package.json',
 );
 
 const {
