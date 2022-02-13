@@ -142,6 +142,9 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       maxHeadingLevel,
     } = config;
 
+    // When the page is scrolling (either a user scroll or smooth CSS scroll),
+    // We need to defer the TOC scroll or the two concurrent scrolls would block
+    // each other.
     function scheduleScroll(link: HTMLAnchorElement) {
       const handle = setTimeout(() => {
         link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
@@ -162,6 +165,8 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
           }
           link.classList.add(linkActiveClassName);
           lastActiveLinkRef.current = link;
+          // Cancel the last scheduled TOC scroll, and start a new timeout
+          cancelScroll.current?.();
           cancelScroll.current = scheduleScroll(link);
         } else {
           link.classList.remove(linkActiveClassName);
@@ -170,8 +175,6 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     }
 
     function updateActiveLink() {
-      // Cancel the last scheduled TOC scroll, and start a new timeout
-      cancelScroll.current?.();
       const links = getLinks(linkClassName);
       const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
       const activeAnchor = getActiveAnchor(anchors, {
