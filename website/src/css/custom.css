@@ -63,6 +63,10 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgb(66 66 66 / 30%);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .header-github-link:hover {
   opacity: 0.6;
 }
@@ -187,8 +191,4 @@ html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
 /* Used to test CSS insertion order */
 .test-marker-site-custom-css-unique-rule {
   content: 'site-custom-css-unique-rule';
-}
-
-html {
-  scroll-behavior: smooth;
 }
