@@ -127,6 +127,8 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
+  const isScrolling = useRef(false);
+
   useEffect(() => {
     if (!config) {
       // no-op, highlighting is disabled
@@ -147,7 +149,11 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
-        link.scrollIntoView({block: 'nearest'});
+        setTimeout(() => {
+          if (!isScrolling.current) {
+            link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+          }
+        }, 200);
       } else {
         link.classList.remove(linkActiveClassName);
       }
@@ -166,6 +172,10 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       links.forEach((link) => {
         updateLinkActiveClass(link, link === activeLink);
       });
+      isScrolling.current = true;
+      setTimeout(() => {
+        isScrolling.current = false;
+      }, 100);
     }
 
     document.addEventListener('scroll', updateActiveLink);
