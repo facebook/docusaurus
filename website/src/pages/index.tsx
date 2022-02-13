@@ -185,7 +185,9 @@ function Home(): JSX.Element {
             </div>
           </div>
         </div>
-        <div className={clsx(styles.announcement, styles.announcementDark)}>
+        <div
+          className={clsx(styles.announcement, styles.announcementDark)}
+          data-theme="dark">
           <div className={styles.announcementInner}>
             <Translate
               values={{
