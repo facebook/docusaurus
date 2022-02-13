@@ -303,6 +303,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CyberDrain Improved Partner Portal (CIPP)',
+    description: 'Free and open-source multi-tenant management for Microsoft 365.',
+    preview: require('./showcase/cipp.png'),
+    website: 'https://cipp.app',
+    source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Discord Resources',
     description: 'All Discord resources in one place',
     preview: require('./showcase/discordresources.png'),
