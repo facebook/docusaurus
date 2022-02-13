@@ -127,7 +127,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
-  const cancelScroll = useRef<(() => void) | null>(null);
+  const cancelScroll = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (!config) {
@@ -152,7 +152,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         // Only scroll if a vertical scroll is sufficient to bring the link into
         // view. e.g. if the window is pinch-zoomed, we should not horizontally
         // scroll
-        if (linkRect.right < viewport.pageLeft + viewport.width) {
+        if (linkRect.right <= viewport.pageLeft + viewport.width) {
           link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
         }
       }, 100);
@@ -179,7 +179,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
           link.classList.add(linkActiveClassName);
           lastActiveLinkRef.current = link;
           // Cancel the last scheduled TOC scroll, and start a new timeout
-          cancelScroll.current?.();
+          cancelScroll.current();
           cancelScroll.current = scheduleScroll(link);
         } else {
           link.classList.remove(linkActiveClassName);
