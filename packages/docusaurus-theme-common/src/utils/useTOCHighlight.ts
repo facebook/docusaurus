@@ -175,12 +175,10 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       const activeAnchor = getActiveAnchor(anchors, {
         anchorTopOffset: anchorTopOffsetRef.current,
       });
-      const activeLink = links.find(
-        (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
-      );
 
       links.forEach((link) => {
-        if (link === activeLink) {
+        const isActive = activeAnchor?.id === getLinkAnchorValue(link);
+        if (isActive) {
           if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
             lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
           }
