@@ -147,7 +147,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
-        link.scrollIntoView({block: 'nearest'});
+        link.scrollIntoView( {behavior: "smooth", block: "start", inline: "nearest"});
       } else {
         link.classList.remove(linkActiveClassName);
       }
