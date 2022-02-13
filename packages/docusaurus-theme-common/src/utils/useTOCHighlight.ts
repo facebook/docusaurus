@@ -127,7 +127,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
 
-  const isScrolling = useRef(false);
+  const cancelScroll = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (!config) {
@@ -150,7 +150,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
         setTimeout(() => {
-          if (!isScrolling.current) {
+          if (!cancelScroll.current) {
             link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
           }
         }, 200);
@@ -159,7 +159,17 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       }
     }
 
+    function scheduleScroll() {
+      const handle = setTimeout(() => {
+        cancelScroll.current = null;
+      }, 100);
+      return () => {
+        clearTimeout(handle);
+      };
+    }
+
     function updateActiveLink() {
+      cancelScroll.current?.();
       const links = getLinks(linkClassName);
       const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
       const activeAnchor = getActiveAnchor(anchors, {
@@ -172,10 +182,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       links.forEach((link) => {
         updateLinkActiveClass(link, link === activeLink);
       });
-      isScrolling.current = true;
-      setTimeout(() => {
-        isScrolling.current = false;
-      }, 100);
+      cancelScroll.current = scheduleScroll();
     }
 
     document.addEventListener('scroll', updateActiveLink);
