@@ -190,5 +190,5 @@ html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth!important;
 }
