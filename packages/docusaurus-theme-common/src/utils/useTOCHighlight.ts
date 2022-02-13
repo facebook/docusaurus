@@ -147,17 +147,30 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     // each other.
     function scheduleScroll(link: HTMLAnchorElement) {
       const handle = setTimeout(() => {
-        link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+        const linkRect = link.getBoundingClientRect();
+        const viewport = window.visualViewport;
+        // Only scroll if a vertical scroll is sufficient to bring the link into
+        // view. e.g. if the window is pinch-zoomed, we should not horizontally
+        // scroll
+        if (linkRect.left < viewport.pageLeft + viewport.width) {
+          link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+        }
       }, 100);
       return () => {
         clearTimeout(handle);
       };
     }
 
-    function updateLinkActiveClass(
-      links: HTMLAnchorElement[],
-      activeLink: HTMLAnchorElement | undefined,
-    ) {
+    function updateActiveLink() {
+      const links = getLinks(linkClassName);
+      const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
+      const activeAnchor = getActiveAnchor(anchors, {
+        anchorTopOffset: anchorTopOffsetRef.current,
+      });
+      const activeLink = links.find(
+        (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
+      );
+
       links.forEach((link) => {
         if (link === activeLink) {
           if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
@@ -172,19 +185,6 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
           link.classList.remove(linkActiveClassName);
         }
       });
-    }
-
-    function updateActiveLink() {
-      const links = getLinks(linkClassName);
-      const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
-      const activeAnchor = getActiveAnchor(anchors, {
-        anchorTopOffset: anchorTopOffsetRef.current,
-      });
-      const activeLink = links.find(
-        (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
-      );
-
-      updateLinkActiveClass(links, activeLink);
     }
 
     document.addEventListener('scroll', updateActiveLink);
