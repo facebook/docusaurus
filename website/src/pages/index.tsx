@@ -109,19 +109,26 @@ function TweetsSection() {
   );
 }
 
-function ELIVideo() {
+function VideoContainer() {
   return (
-    <div className="container">
-      <div className="margin-top--md">
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/_An9EsKPhp0"
-          title="Explain Like I'm 5: Docusaurus"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+    <div className="container text--center margin-bottom--xl">
+      <div className="row">
+        <div className="col">
+          <h2>
+            <Translate>Check it out in the intro video</Translate>
+          </h2>
+          <div className={styles.ytVideo}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/_An9EsKPhp0"
+              title="Explain Like I'm 5: Docusaurus"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -199,7 +206,12 @@ function Home(): JSX.Element {
           </div>
         </div>
         <div className={styles.section}>
+          <VideoContainer />
+
           <div className="container text--center margin-bottom--xl">
+            <h2>
+              <Translate>Main features</Translate>
+            </h2>
             <div className="row">
               <div className="col">
                 <img
@@ -209,9 +221,9 @@ function Home(): JSX.Element {
                   width="1009.54"
                   height="717.96"
                 />
-                <h2 className={clsx(styles.featureHeading)}>
+                <h3 className={clsx(styles.featureHeading)}>
                   <Translate>Powered by Markdown</Translate>
-                </h2>
+                </h3>
                 <p className="padding-horiz--md">
                   <Translate>
                     Save time and focus on your project&apos;s documentation.
@@ -230,9 +242,9 @@ function Home(): JSX.Element {
                   width="1108"
                   height="731.18"
                 />
-                <h2 className={clsx(styles.featureHeading)}>
+                <h3 className={clsx(styles.featureHeading)}>
                   <Translate>Built Using React</Translate>
-                </h2>
+                </h3>
                 <p className="padding-horiz--md">
                   <Translate>
                     Extend or customize your project&apos;s layout by reusing
@@ -249,9 +261,9 @@ function Home(): JSX.Element {
                   width="1137"
                   height="776.59"
                 />
-                <h2 className={clsx(styles.featureHeading)}>
+                <h3 className={clsx(styles.featureHeading)}>
                   <Translate>Ready for Translations</Translate>
-                </h2>
+                </h3>
                 <p className="padding-horiz--md">
                   <Translate>
                     Localization comes pre-configured. Use Crowdin to translate
@@ -271,9 +283,9 @@ function Home(): JSX.Element {
                   width="1038.23"
                   height="693.31"
                 />
-                <h2 className={clsx(styles.featureHeading)}>
+                <h3 className={clsx(styles.featureHeading)}>
                   <Translate>Document Versioning</Translate>
-                </h2>
+                </h3>
                 <p className="padding-horiz--md">
                   <Translate>
                     Support users on all versions of your project. Document
@@ -290,9 +302,9 @@ function Home(): JSX.Element {
                   width="1137.97"
                   height="736.21"
                 />
-                <h2 className={clsx(styles.featureHeading)}>
+                <h3 className={clsx(styles.featureHeading)}>
                   <Translate>Content Search</Translate>
-                </h2>
+                </h3>
                 <p className="padding-horiz--md">
                   <Translate>
                     Make it easy for your community to find what they need in
@@ -300,13 +312,6 @@ function Home(): JSX.Element {
                     search.
                   </Translate>
                 </p>
-              </div>
-            </div>
-          </div>
-          <div className="container text--center">
-            <div className="row">
-              <div className="col">
-                <ELIVideo />
               </div>
             </div>
           </div>
