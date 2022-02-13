@@ -179,3 +179,22 @@
 .test-marker-site-index-page {
   content: 'site-index-page';
 }
+
+@media only screen and (max-width: 996px) {
+  .ytVideo {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding-top: 56.25%;
+  }
+
+  .ytVideo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

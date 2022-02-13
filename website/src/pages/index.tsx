@@ -109,19 +109,24 @@ function TweetsSection() {
   );
 }
 
-function ELIVideo() {
+function VideoContainer() {
   return (
-    <div className="container">
-      <div className="margin-top--md">
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/_An9EsKPhp0"
-          title="Explain Like I'm 5: Docusaurus"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+    <div className="container text--center margin-top--lg">
+      <div className="row">
+        <div className="col">
+          <h2>Check it out intro video</h2>
+          <div className={styles.ytVideo}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/_An9EsKPhp0"
+              title="Explain Like I'm 5: Docusaurus"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -303,13 +308,7 @@ function Home(): JSX.Element {
               </div>
             </div>
           </div>
-          <div className="container text--center">
-            <div className="row">
-              <div className="col">
-                <ELIVideo />
-              </div>
-            </div>
-          </div>
+          <VideoContainer />
         </div>
         <TweetsSection />
         <div className={clsx(styles.section)}>
