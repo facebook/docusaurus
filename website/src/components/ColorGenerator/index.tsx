@@ -287,7 +287,7 @@ function ColorGenerator(): JSX.Element {
         </Translate>
       </p>
       <CodeBlock className="language-css" title="/src/css/custom.css">
-        {`${isDarkTheme ? "html[data-theme='dark']" : ':root'} {
+        {`${isDarkTheme ? "[data-theme='dark']" : ':root'} {
 ${getAdjustedColors(shades, baseColor)
   .sort((a, b) => a.codeOrder - b.codeOrder)
   .map((value) => `  ${value.variableName}: ${value.hex.toLowerCase()};`)

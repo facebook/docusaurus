@@ -24,7 +24,7 @@
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
 }
 
-html[data-theme='dark'] .cardContainer.cardContainerLink:hover {
+[data-theme='dark'] .cardContainer.cardContainerLink:hover {
   --ifm-card-background-color: #2d2d2d; /* original, non-hovered color is #242526 */
 }
 
