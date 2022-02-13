@@ -164,9 +164,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
           link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
         }
       }, 30);
-      return () => {
-        clearTimeout(handle);
-      };
+      return () => clearTimeout(handle);
     }
 
     function updateActiveLink() {
@@ -179,7 +177,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       links.forEach((link) => {
         const isActive = activeAnchor?.id === getLinkAnchorValue(link);
         if (isActive) {
-          if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
+          if (lastActiveLinkRef.current !== link) {
             lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
           }
           link.classList.add(linkActiveClassName);
