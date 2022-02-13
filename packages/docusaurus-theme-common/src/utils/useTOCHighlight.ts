@@ -120,6 +120,7 @@ export type TOCHighlightConfig = {
   linkActiveClassName: string;
   minHeadingLevel: number;
   maxHeadingLevel: number;
+  autoScrollTOC: boolean;
 };
 
 function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
@@ -140,12 +141,16 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       linkActiveClassName,
       minHeadingLevel,
       maxHeadingLevel,
+      autoScrollTOC,
     } = config;
 
     // When the page is scrolling (either a user scroll or smooth CSS scroll),
     // We need to defer the TOC scroll or the two concurrent scrolls would block
     // each other.
     function scheduleScroll(link: HTMLAnchorElement) {
+      if (!autoScrollTOC) {
+        return () => {};
+      }
       const handle = setTimeout(() => {
         const linkRect = link.getBoundingClientRect();
         const viewport = window.visualViewport;
@@ -155,7 +160,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         if (linkRect.right <= viewport.pageLeft + viewport.width) {
           link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
         }
-      }, 100);
+      }, 30);
       return () => {
         clearTimeout(handle);
       };

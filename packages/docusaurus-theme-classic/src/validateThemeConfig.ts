@@ -46,6 +46,7 @@ const DEFAULT_CONFIG = {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
   },
+  autoScrollTOC: true,
 };
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
@@ -362,6 +363,7 @@ const ThemeConfigSchema = Joi.object({
   autoCollapseSidebarCategories: Joi.bool().default(
     DEFAULT_CONFIG.autoCollapseSidebarCategories,
   ),
+  autoScrollTOC: Joi.bool().default(DEFAULT_CONFIG.autoScrollTOC),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
