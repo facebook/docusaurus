@@ -152,7 +152,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         // Only scroll if a vertical scroll is sufficient to bring the link into
         // view. e.g. if the window is pinch-zoomed, we should not horizontally
         // scroll
-        if (linkRect.left < viewport.pageLeft + viewport.width) {
+        if (linkRect.right < viewport.pageLeft + viewport.width) {
           link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
         }
       }, 100);
