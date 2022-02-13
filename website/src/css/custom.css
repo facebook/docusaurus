@@ -189,6 +189,6 @@ html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
   content: 'site-custom-css-unique-rule';
 }
 
-body {
+html {
   scroll-behavior: smooth;
 }
