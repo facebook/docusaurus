@@ -50,8 +50,6 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
-  --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
-  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
 }
 
 .heroInner {
