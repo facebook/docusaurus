@@ -142,33 +142,35 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
       maxHeadingLevel,
     } = config;
 
-    function updateLinkActiveClass(link: HTMLAnchorElement, active: boolean) {
-      if (active) {
-        if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
-          lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
-        }
-        link.classList.add(linkActiveClassName);
-        lastActiveLinkRef.current = link;
-        setTimeout(() => {
-          if (!cancelScroll.current) {
-            link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
-          }
-        }, 200);
-      } else {
-        link.classList.remove(linkActiveClassName);
-      }
-    }
-
-    function scheduleScroll() {
+    function scheduleScroll(link: HTMLAnchorElement) {
       const handle = setTimeout(() => {
-        cancelScroll.current = null;
+        link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
       }, 100);
       return () => {
         clearTimeout(handle);
       };
     }
 
+    function updateLinkActiveClass(
+      links: HTMLAnchorElement[],
+      activeLink: HTMLAnchorElement | undefined,
+    ) {
+      links.forEach((link) => {
+        if (link === activeLink) {
+          if (lastActiveLinkRef.current && lastActiveLinkRef.current !== link) {
+            lastActiveLinkRef.current?.classList.remove(linkActiveClassName);
+          }
+          link.classList.add(linkActiveClassName);
+          lastActiveLinkRef.current = link;
+          cancelScroll.current = scheduleScroll(link);
+        } else {
+          link.classList.remove(linkActiveClassName);
+        }
+      });
+    }
+
     function updateActiveLink() {
+      // Cancel the last scheduled TOC scroll, and start a new timeout
       cancelScroll.current?.();
       const links = getLinks(linkClassName);
       const anchors = getAnchors({minHeadingLevel, maxHeadingLevel});
@@ -179,10 +181,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         (link) => activeAnchor && activeAnchor.id === getLinkAnchorValue(link),
       );
 
-      links.forEach((link) => {
-        updateLinkActiveClass(link, link === activeLink);
-      });
-      cancelScroll.current = scheduleScroll();
+      updateLinkActiveClass(links, activeLink);
     }
 
     document.addEventListener('scroll', updateActiveLink);
