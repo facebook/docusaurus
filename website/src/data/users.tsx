@@ -1190,6 +1190,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'Rivalis',
+    description:
+      'An open source framework for developing servers for real-time applications and games',
+    preview: require('./showcase/rivalis.png'),
+    website: 'https://rivalis.io',
+    source: 'https://github.com/rivalis/rivalis',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'RactivePlayer',
     description: 'Interactive videos in React',
     preview: require('./showcase/ractive-player.png'),
