@@ -1497,6 +1497,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SmartCookieWeb',
+    description: 'Webpage for an open source, telemetry-free Android web browser',
+    preview: require('./showcase/smartcookieweb.png'),
+    website: 'https://smartcookieweb.com/',
+    source: null,
+    tags: ['product', 'i18n'],
+  },
+  {
     title: 'Shabad OS Docs',
     description:
       'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
