@@ -41,7 +41,13 @@ function smoothScrollTopPolyfill(): CancelScrollTop {
     const currentScroll = document.documentElement.scrollTop;
     if (currentScroll > 0) {
       raf = requestAnimationFrame(rafRecursion);
-      window.scrollTo(0, Math.floor(currentScroll * 0.85));
+      window.scrollTo({
+        left: 0,
+        top: Math.floor(currentScroll * 0.85),
+        // Coercing to a single jump to prevent conflicts with scroll-behavior.
+        // This is a polyfill for browsers without smooth scrolling anyways.
+        behavior: 'auto',
+      });
     }
   }
   rafRecursion();
