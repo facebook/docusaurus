@@ -303,14 +303,6 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Discord Resources',
-    description: 'All Discord resources in one place',
-    preview: require('./showcase/discordresources.png'),
-    website: 'https://discordresources.com/',
-    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
-    tags: ['opensource'],
-  },
-  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
@@ -406,6 +398,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CyberDrain Improved Partner Portal (CIPP)',
+    description: 'Free and open-source multi-tenant management for Microsoft 365.',
+    preview: require('./showcase/CIPP.png'),
+    website: 'https://cipp.app',
+    source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
       'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
@@ -456,6 +456,14 @@ const Users: User[] = [
     website: 'https://notes.nayanpatel.net',
     source: 'https://github.com/PatelN123/Digital-Support-Notes',
     tags: ['opensource', 'design', 'personal'],
+  },
+  {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
+    tags: ['opensource'],
   },
   {
     title: 'Djamaile Rahamat',
