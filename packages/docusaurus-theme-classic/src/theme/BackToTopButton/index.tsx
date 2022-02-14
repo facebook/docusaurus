@@ -37,24 +37,29 @@ function smoothScrollTopNative(): CancelScrollTop {
 
 function smoothScrollTopPolyfill(): CancelScrollTop {
   let raf: number | null = null;
+  // Coercing to auto scroll to prevent conflicts with scroll-behavior.
+  // This is a polyfill for browsers without smooth scrolling anyways.
+  document.documentElement.style.scrollBehavior = 'auto';
   function rafRecursion() {
     const currentScroll = document.documentElement.scrollTop;
     if (currentScroll > 0) {
       raf = requestAnimationFrame(rafRecursion);
-      window.scrollTo({
-        left: 0,
-        top: Math.floor(currentScroll * 0.85),
-        // Coercing to a single jump to prevent conflicts with scroll-behavior.
-        // This is a polyfill for browsers without smooth scrolling anyways.
-        behavior: 'auto',
-      });
+      window.scrollTo(0, Math.floor(currentScroll * 0.85));
+    } else {
+      // Revert style change
+      document.documentElement.style.scrollBehavior = '';
     }
   }
   rafRecursion();
 
   // Break the recursion. Prevents the user from "fighting" against that
   // recursion producing a weird UX
-  return () => raf && cancelAnimationFrame(raf);
+  return () => {
+    if (raf) {
+      cancelAnimationFrame(raf);
+    }
+    document.documentElement.style.scrollBehavior = '';
+  };
 }
 
 type UseSmoothScrollTopReturn = {
