@@ -47,7 +47,7 @@ Here's a mental model for a presumptuous plugin implementation.
 // A JavaScript function that returns an object.
 // `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
 // `opts` is the user-defined options.
-async function myPlugin(context, opts) {
+function myPlugin(context, opts) {
   return {
     // A compulsory field used as the namespace for directories to cache
     // the intermediate data for each plugin.
