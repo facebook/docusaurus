@@ -32,7 +32,14 @@ export default function Tweet({
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">
         <div className="avatar">
-          <img alt={name} className="avatar__photo" src={avatar} />
+          <img
+            alt={name}
+            className="avatar__photo"
+            src={avatar}
+            width="48"
+            height="48"
+            loading="lazy"
+          />
           <div className="avatar__intro">
             <div className={styles.tweet}>
               <div>
