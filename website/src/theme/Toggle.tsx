@@ -39,7 +39,7 @@ export default function Toggle(props: Props): JSX.Element {
             : LIGHT_BACKGROUND_COLOR,
           shades: COLOR_SHADES,
         };
-        updateDOMColors(colorState);
+        updateDOMColors(colorState, isDarkMode);
       }}
     />
   );

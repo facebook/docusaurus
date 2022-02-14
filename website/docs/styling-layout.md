@@ -112,11 +112,11 @@ In light mode, the `<html>` element has a `data-theme="light"` attribute; and in
 
 ```css
 /* Overriding root Infima variables */
-html[data-theme='dark'] {
+[data-theme='dark'] {
   --ifm-color-primary: #4e89e8;
 }
 /* Styling one class specially in dark mode */
-html[data-theme='dark'] .purple-text {
+[data-theme='dark'] .purple-text {
   color: plum;
 }
 ```

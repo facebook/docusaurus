@@ -142,7 +142,7 @@ function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
-        <div className={styles.hero}>
+        <div className={styles.hero} data-theme="dark">
           <div className={styles.heroInner}>
             <h1 className={styles.heroProjectTagline}>
               <img
@@ -185,7 +185,9 @@ function Home(): JSX.Element {
             </div>
           </div>
         </div>
-        <div className={clsx(styles.announcement, styles.announcementDark)}>
+        <div
+          className={clsx(styles.announcement, styles.announcementDark)}
+          data-theme="dark">
           <div className={styles.announcementInner}>
             <Translate
               values={{
