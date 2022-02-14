@@ -32,9 +32,9 @@ const FEATURES: FeatureItem[] = [
     text: (
       <Translate id="homepage.features.powered-by-mdx.text">
         Save time and focus on text documents. Simply write docs and blog posts
-        with MDX, while Docusaurus builds them into static HTML files ready to
-        be served. You can even embed React components in your Markdown thanks
-        to MDX.
+        with MDX, and Docusaurus builds them into static HTML files ready to be
+        served. You can even embed React components in your Markdown thanks to
+        MDX.
       </Translate>
     ),
   },
@@ -52,8 +52,7 @@ const FEATURES: FeatureItem[] = [
       <Translate id="homepage.features.built-using-react.text">
         Extend and customize your project&apos;s layout by writing React
         components. Leverage the pluggable architecture, and design your own
-        site&apos;s theme while reusing the same data created by Docusaurus
-        plugins.
+        site while reusing the same data created by Docusaurus plugins.
       </Translate>
     ),
   },
