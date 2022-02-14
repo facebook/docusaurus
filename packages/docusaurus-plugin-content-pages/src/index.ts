@@ -130,7 +130,6 @@ export default async function pluginContentPages(
           source: aliasedSourcePath,
           title: frontMatter.title ?? contentTitle,
           description: frontMatter.description ?? excerpt,
-          image: frontMatter.image,
           frontMatter,
         };
       }

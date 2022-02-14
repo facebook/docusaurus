@@ -15,7 +15,6 @@ import type {FrontMatter} from '@docusaurus/plugin-content-pages';
 const PageFrontMatterSchema = Joi.object<FrontMatter>({
   title: Joi.string(),
   description: Joi.string(),
-  image: Joi.string(),
   wrapperClassName: Joi.string(),
   hide_table_of_contents: Joi.boolean(),
   ...FrontMatterTOCHeadingLevels,
