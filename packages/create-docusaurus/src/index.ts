@@ -7,7 +7,6 @@
 
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import {execSync} from 'child_process';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
@@ -17,13 +16,20 @@ import supportsColor from 'supports-color';
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
-function hasYarn() {
-  try {
-    execSync('yarnpkg --version', {stdio: 'ignore'});
-    return true;
-  } catch (e) {
-    return false;
+const SupportedPackageManagers = ['npm', 'yarn', 'pnpm'];
+
+function getPackageManagerForUse(
+  forceUseNpm?: boolean,
+): typeof SupportedPackageManagers[number] {
+  if (forceUseNpm) {
+    return 'npm';
   }
+
+  return (
+    SupportedPackageManagers.find((packageManager) =>
+      process.env.npm_config_user_agent?.startsWith(packageManager),
+    ) || 'npm'
+  );
 }
 
 function isValidGitRepoUrl(gitRepoUrl: string) {
@@ -134,14 +140,13 @@ export default async function init(
     gitStrategy: typeof gitStrategies[number];
   }> = {},
 ): Promise<void> {
-  const useYarn = cliOptions.useNpm ? false : hasYarn();
+  const pkgManager = getPackageManagerForUse(cliOptions.useNpm);
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExistsSync(
       path.resolve(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
     );
-
   let name = siteName;
 
   // Prompt if siteName is not passed from CLI.
@@ -316,21 +321,23 @@ export default async function init(
     fs.removeSync(path.join(dest, 'gitignore'));
   }
 
-  const pkgManager = useYarn ? 'yarn' : 'npm';
   // Display the most elegant way to cd.
   const cdpath = path.relative('.', dest);
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
-      shell.exec(useYarn ? 'yarn' : 'npm install --color always', {
-        env: {
-          ...process.env,
-          // Force coloring the output, since the command is invoked by shelljs,
-          // which is not the interactive shell
-          ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+      shell.exec(
+        pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install --color always`,
+        {
+          env: {
+            ...process.env,
+            // Force coloring the output, since the command is invoked,
+            // by shelljs which is not the interactive shell
+            ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
+          },
         },
-      }).code !== 0
+      ).code !== 0
     ) {
       logger.error('Dependency installation failed.');
       logger.info`The site directory has already been created, and you can retry by typing:
@@ -341,16 +348,17 @@ export default async function init(
     }
   }
 
+  const useNpm = pkgManager === 'npm';
   logger.success`Created path=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
     Starts the development server.
 
-  code=${`${pkgManager} ${useYarn ? '' : 'run '}build`}
+  code=${`${pkgManager} ${useNpm ? 'run ' : ''}build`}
     Bundles your website into static files for production.
 
-  code=${`${pkgManager} ${useYarn ? '' : 'run '}serve`}
+  code=${`${pkgManager} ${useNpm ? 'run ' : ''}serve`}
     Serves the built website locally.
 
   code=${`${pkgManager} deploy`}
