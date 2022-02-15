@@ -1333,6 +1333,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Redux Cool',
+    description: 'Build redux logic, without getting nervous 😬',
+    preview: require('./showcase/redux-cool.png'),
+    website: 'https://redux-cool.js.org/',
+    source: 'https://github.com/Redux-Cool/redux-cool',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
