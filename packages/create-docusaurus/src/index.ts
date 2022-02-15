@@ -16,20 +16,40 @@ import supportsColor from 'supports-color';
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
-const SupportedPackageManagers = ['npm', 'yarn', 'pnpm'];
+const DefaultPackageManager = 'npm';
+const SupportedPackageManagers = {
+  npm: 'package-lock.json',
+  yarn: 'yarn.lock',
+  pnpm: 'pnpm-lock.yaml',
+};
+
+type SupportedPackageManager = keyof typeof SupportedPackageManagers;
 
 function getPackageManagerForUse(
   forceUseNpm?: boolean,
-): typeof SupportedPackageManagers[number] {
+): SupportedPackageManager {
   if (forceUseNpm) {
     return 'npm';
   }
 
-  return (
-    SupportedPackageManagers.find((packageManager) =>
-      process.env.npm_config_user_agent?.startsWith(packageManager),
-    ) || 'npm'
+  const packageManagers = Object.keys(
+    SupportedPackageManagers,
+  ) as SupportedPackageManager[];
+  const packageManagerFromLockFile = packageManagers.find((packageManager) =>
+    fs.existsSync(
+      path.resolve(process.cwd(), SupportedPackageManagers[packageManager]),
+    ),
   );
+
+  if (packageManagerFromLockFile) {
+    return packageManagerFromLockFile;
+  }
+
+  const packageManagerFromUserAgent = packageManagers.find((packageManager) =>
+    process.env.npm_config_user_agent?.startsWith(packageManager),
+  );
+
+  return packageManagerFromUserAgent || DefaultPackageManager;
 }
 
 function isValidGitRepoUrl(gitRepoUrl: string) {
