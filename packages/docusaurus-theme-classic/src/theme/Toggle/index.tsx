@@ -77,7 +77,7 @@ const ToggleComponent = memo(
                   })
                 : translate({
                     message: 'light mode',
-                    id: 'theme.colorToggle.ariaLabel,mode.light',
+                    id: 'theme.colorToggle.ariaLabel.mode.light',
                     description: 'The name for the light color mode',
                   }),
             },
