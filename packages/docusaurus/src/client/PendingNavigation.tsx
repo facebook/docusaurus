@@ -77,7 +77,9 @@ class PendingNavigation extends React.Component<Props, State> {
           );
           const {hash} = nextLocation;
           if (!hash) {
+            document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
+            document.documentElement.style.scrollBehavior = '';
           } else {
             const id = decodeURIComponent(hash.substring(1));
             const element = document.getElementById(id);
