@@ -160,7 +160,7 @@ function VideoContainer() {
       <div className="row">
         <div className="col">
           <h2>
-            <Translate>Check it out in the intro video</Translate>
+            <Translate>Brief Introduction into Docusaurus</Translate>
           </h2>
           <div className={styles.ytVideo}>
             <iframe
@@ -168,6 +168,22 @@ function VideoContainer() {
               height="315"
               src="https://www.youtube.com/embed/_An9EsKPhp0"
               title="Explain Like I'm 5: Docusaurus"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+        <div className="col">
+          <h2>
+            <Translate>Deep Dive: Docusaurus in Practice</Translate>
+          </h2>
+          <div className={styles.ytVideo}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/Yhyx7otSksg"
+              title="Docusaurus: Documentation Made Easy"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
