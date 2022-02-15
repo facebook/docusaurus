@@ -163,7 +163,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         ) {
           link.scrollIntoView({block: 'nearest', behavior: 'smooth'});
         }
-      }, 30);
+      }, 200);
       return () => clearTimeout(handle);
     }
 
