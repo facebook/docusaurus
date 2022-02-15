@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase, sortBy} from 'lodash-es';
+import _ from 'lodash';
 import supportsColor from 'supports-color';
 import {fileURLToPath} from 'url';
 
@@ -50,7 +50,7 @@ function readTemplates(templatesDir: string) {
     );
 
   // Classic should be first in list!
-  return sortBy(templates, (t) => t !== RecommendedTemplate);
+  return _.sortBy(templates, (t) => t !== RecommendedTemplate);
 }
 
 function createTemplateChoices(templates: string[]) {
@@ -296,7 +296,7 @@ export default async function init(
   // Update package.json info.
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: kebabCase(name),
+      name: _.kebabCase(name),
       version: '0.0.0',
       private: true,
     });
