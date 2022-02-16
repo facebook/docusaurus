@@ -9,18 +9,18 @@
   margin-bottom: 0.4rem;
 }
 
-.breadcrumbItem {
+.breadcrumbsItemLink {
   --ifm-breadcrumb-size-multiplier: 0.7 !important;
   margin-bottom: 0.4rem;
   background: var(--ifm-color-gray-100);
 }
 
-html[data-theme='dark'] .breadcrumbItem {
+html[data-theme='dark'] .breadcrumbsItemLink {
   background-color: var(--ifm-color-gray-900);
 }
 
 @media (min-width: 997px) {
-  .breadcrumbItem {
+  .breadcrumbsItemLink {
     --ifm-breadcrumb-size-multiplier: 0.8;
   }
 }

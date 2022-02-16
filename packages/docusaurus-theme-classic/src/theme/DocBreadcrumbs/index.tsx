@@ -5,34 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import {ThemeClassNames, useSidebarBreadcrumbs} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import clsx from 'clsx';
-import type {PropSidebarBreadcrumbsItem} from '@docusaurus/plugin-content-docs';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-function DocBreadcrumbsItemContent({
-  item,
+// TODO move to design system folder
+function BreadcrumbsItemLink({
+  children,
+  href,
 }: {
-  item: PropSidebarBreadcrumbsItem;
+  children: ReactNode;
+  href?: string;
 }): JSX.Element {
-  const className = clsx('breadcrumbs__link', styles.breadcrumbItem);
-
-  return item.href ? (
-    <Link className={className} href={item.href}>
-      {item.label}
+  const className = clsx('breadcrumbs__link', styles.breadcrumbsItemLink);
+  return href ? (
+    <Link className={className} href={href}>
+      {children}
     </Link>
   ) : (
-    <span className={className}>{item.label}</span>
+    <span className={className}>{children}</span>
   );
 }
 
-function DocBreadcrumbsItem({
-  item,
+// TODO move to design system folder
+function BreadcrumbsItem({
+  children,
   active,
 }: {
-  item: PropSidebarBreadcrumbsItem;
+  children: ReactNode;
   active?: boolean;
 }): JSX.Element {
   return (
@@ -40,8 +43,17 @@ function DocBreadcrumbsItem({
       className={clsx('breadcrumbs__item', {
         'breadcrumbs__item--active': active,
       })}>
-      <DocBreadcrumbsItemContent item={item} />
+      {children}
     </li>
+  );
+}
+
+function HomeBreadcrumbItem() {
+  const homeHref = useBaseUrl('/');
+  return (
+    <BreadcrumbsItem>
+      <BreadcrumbsItemLink href={homeHref}>🏠</BreadcrumbsItemLink>
+    </BreadcrumbsItem>
   );
 }
 
@@ -60,12 +72,13 @@ export default function DocBreadcrumbs(): JSX.Element | null {
       )}
       aria-label="breadcrumbs">
       <ul className="breadcrumbs">
+        <HomeBreadcrumbItem />
         {breadcrumbs.map((item, idx) => (
-          <DocBreadcrumbsItem
-            key={idx}
-            item={item}
-            active={idx === breadcrumbs.length - 1}
-          />
+          <BreadcrumbsItem key={idx} active={idx === breadcrumbs.length - 1}>
+            <BreadcrumbsItemLink href={item.href}>
+              {item.label}
+            </BreadcrumbsItemLink>
+          </BreadcrumbsItem>
         ))}
       </ul>
     </nav>
