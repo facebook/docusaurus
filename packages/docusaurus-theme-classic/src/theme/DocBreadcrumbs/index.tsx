@@ -30,11 +30,16 @@ function DocBreadcrumbsItemContent({
 
 function DocBreadcrumbsItem({
   item,
+  active,
 }: {
   item: PropSidebarBreadcrumbsItem;
+  active?: boolean;
 }): JSX.Element {
   return (
-    <li className="breadcrumbs__item">
+    <li
+      className={clsx('breadcrumbs__item', {
+        'breadcrumbs__item--active': active,
+      })}>
       <DocBreadcrumbsItemContent item={item} />
     </li>
   );
@@ -56,7 +61,11 @@ export default function DocBreadcrumbs(): JSX.Element | null {
       aria-label="breadcrumbs">
       <ul className="breadcrumbs">
         {breadcrumbs.map((item, idx) => (
-          <DocBreadcrumbsItem key={idx} item={item} />
+          <DocBreadcrumbsItem
+            key={idx}
+            item={item}
+            active={idx === breadcrumbs.length - 1}
+          />
         ))}
       </ul>
     </nav>
