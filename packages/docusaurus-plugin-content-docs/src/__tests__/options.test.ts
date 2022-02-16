@@ -56,7 +56,7 @@ describe('normalizeDocsPluginOptions', () => {
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
       beforeDefaultRemarkPlugins: [],
-      breadcrumbs: 'nested',
+      breadcrumbs: true,
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},

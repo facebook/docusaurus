@@ -220,17 +220,11 @@ export function getBreadcrumbs({
 export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
-  const breadcrumbsOption = useActivePlugin()?.pluginData?.breadcrumbs;
+  const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
 
-  if (!sidebar || breadcrumbsOption === false) {
+  if (breadcrumbsOption === false || !sidebar) {
     return null;
   }
 
-  const breadcrumbs = getBreadcrumbs({sidebar, pathname});
-
-  if (breadcrumbsOption === 'nested' && breadcrumbs.length < 2) {
-    return null;
-  }
-
-  return breadcrumbs;
+  return getBreadcrumbs({sidebar, pathname});
 }

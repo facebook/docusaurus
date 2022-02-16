@@ -242,7 +242,7 @@ exports[`simple website content 5`] = `
 Object {
   "pluginName": Object {
     "pluginId": Object {
-      "breadcrumbs": "nested",
+      "breadcrumbs": true,
       "path": "/docs",
       "versions": Array [
         Object {
@@ -956,7 +956,7 @@ exports[`simple website content: global data 1`] = `
 Object {
   "pluginName": Object {
     "pluginId": Object {
-      "breadcrumbs": "nested",
+      "breadcrumbs": true,
       "path": "/docs",
       "versions": Array [
         Object {
@@ -2413,7 +2413,7 @@ exports[`versioned website (community) content: global data 1`] = `
 Object {
   "pluginName": Object {
     "pluginId": Object {
-      "breadcrumbs": "nested",
+      "breadcrumbs": true,
       "path": "/community",
       "versions": Array [
         Object {
@@ -3453,7 +3453,7 @@ exports[`versioned website content: global data 1`] = `
 Object {
   "pluginName": Object {
     "pluginId": Object {
-      "breadcrumbs": "nested",
+      "breadcrumbs": true,
       "path": "/docs",
       "versions": Array [
         Object {
