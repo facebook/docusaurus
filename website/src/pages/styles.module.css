@@ -39,7 +39,9 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
-  --ifm-link-color: hsl(var(--site-primary-hue-saturation) 45%);
+  /* Reapply the primary color, because it has been locally overridden as
+   * the dark theme color */
+  --ifm-link-color: var(--ifm-color-primary);
 }
 
 .announcementInner {
@@ -50,8 +52,6 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
-  --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
-  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
 }
 
 .heroInner {
@@ -178,4 +178,23 @@
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
   content: 'site-index-page';
+}
+
+@media only screen and (max-width: 996px) {
+  .ytVideo {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding-top: 56.25%;
+  }
+
+  .ytVideo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }

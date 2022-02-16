@@ -30,7 +30,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number}}
       - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

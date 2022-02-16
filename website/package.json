@@ -30,8 +30,8 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.1",
-    "@crowdin/crowdin-api-client": "^1.13.0",
+    "@crowdin/cli": "^3.7.7",
+    "@crowdin/crowdin-api-client": "^1.14.0",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.15",
     "@docusaurus/plugin-ideal-image": "2.0.0-beta.15",
@@ -42,7 +42,7 @@
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-common": "2.0.0-beta.15",
-    "@popperjs/core": "^2.10.2",
+    "@popperjs/core": "^2.11.2",
     "axios": "^0.25.0",
     "clsx": "^1.1.1",
     "color": "^4.0.1",

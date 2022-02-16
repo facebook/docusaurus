@@ -191,7 +191,7 @@ By default, DocSearch comes with a fine-tuned theme that was designed for access
 Still, you can reuse the [Infima CSS variables](styling-layout.md#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
-html[data-theme='light'] .DocSearch {
+[data-theme='light'] .DocSearch {
   /* --docsearch-primary-color: var(--ifm-color-primary); */
   /* --docsearch-text-color: var(--ifm-font-color-base); */
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
@@ -209,7 +209,7 @@ html[data-theme='light'] .DocSearch {
   --docsearch-footer-background: var(--ifm-color-white);
 }
 
-html[data-theme='dark'] .DocSearch {
+[data-theme='dark'] .DocSearch {
   --docsearch-text-color: var(--ifm-font-color-base);
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
   --docsearch-container-background: rgba(47, 55, 69, 0.7);

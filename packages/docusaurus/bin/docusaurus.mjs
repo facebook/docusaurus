@@ -8,10 +8,11 @@
 
 // @ts-check
 
-const logger = require('@docusaurus/logger').default;
-const fs = require('fs');
-const cli = require('commander');
-const {
+import logger from '@docusaurus/logger';
+import fs from 'fs';
+import cli from 'commander';
+import {createRequire} from 'module';
+import {
   build,
   swizzle,
   deploy,
@@ -21,15 +22,16 @@ const {
   clear,
   writeTranslations,
   writeHeadingIds,
-} = require('../lib');
-
-const beforeCli = require('./beforeCli');
+} from '../lib/index.js';
+import beforeCli from './beforeCli.mjs';
 
 beforeCli();
 
 const resolveDir = (dir = '.') => fs.realpathSync(dir);
 
-cli.version(require('../package.json').version).usage('<command> [options]');
+cli
+  .version(createRequire(import.meta.url)('../package.json').version)
+  .usage('<command> [options]');
 
 cli
   .command('build [siteDir]')
@@ -226,6 +228,9 @@ cli.arguments('<command>').action((cmd) => {
   logger.error`    Unknown command name=${cmd}.`;
 });
 
+/**
+ * @param {string} command
+ */
 function isInternalCommand(command) {
   return [
     'start',

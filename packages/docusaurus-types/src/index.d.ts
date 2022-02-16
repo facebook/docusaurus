@@ -6,15 +6,11 @@
  */
 
 import type {RuleSetRule, Configuration} from 'webpack';
+import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
-
-// Convert webpack-merge webpack-merge enum to union type
-// For type retro-compatible webpack-merge upgrade: we used string literals
-// before) See https://github.com/survivejs/webpack-merge/issues/179
-type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -333,7 +329,10 @@ export type ImportedPluginModule = PluginModule & {
 };
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
-export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+export type ConfigureWebpackFnMergeStrategy = Record<
+  string,
+  CustomizeRuleString
+>;
 export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
