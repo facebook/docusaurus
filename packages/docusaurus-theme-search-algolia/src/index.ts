@@ -23,8 +23,9 @@ const getCompiledOpenSearchTemplate = memoize(() =>
 
 function renderOpenSearchTemplate(data: {
   title: string;
-  url: string;
-  favicon: string | null;
+  siteUrl: string;
+  searchUrl: string;
+  faviconUrl: string | null;
 }) {
   const compiled = getCompiledOpenSearchTemplate();
   return compiled(data, defaultConfig);
@@ -78,13 +79,16 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
         return;
       }
 
+      const siteUrl = normalizeUrl([url, baseUrl]);
+
       try {
         fs.writeFileSync(
           path.join(outDir, OPEN_SEARCH_FILENAME),
           renderOpenSearchTemplate({
             title,
-            url: url + baseUrl,
-            favicon: favicon ? normalizeUrl([url, baseUrl, favicon]) : null,
+            siteUrl,
+            searchUrl: normalizeUrl([siteUrl, searchPagePath as string]),
+            faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
           }),
         );
       } catch (e) {
