@@ -42,7 +42,6 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
   const {
     algolia: {searchPagePath},
   } = themeConfig as ThemeConfig;
-  const isSearchPageDisabled = Boolean(searchPagePath) === false;
 
   return {
     name: 'docusaurus-theme-search-algolia',
@@ -63,42 +62,38 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
     },
 
     async contentLoaded({actions: {addRoute}}) {
-      if (isSearchPageDisabled) {
-        return;
+      if (searchPagePath) {
+        addRoute({
+          path: normalizeUrl([baseUrl, searchPagePath]),
+          component: '@theme/SearchPage',
+          exact: true,
+        });
       }
-
-      addRoute({
-        path: normalizeUrl([baseUrl, searchPagePath as string]),
-        component: '@theme/SearchPage',
-        exact: true,
-      });
     },
 
     async postBuild({outDir}) {
-      if (isSearchPageDisabled) {
-        return;
-      }
+      if (searchPagePath) {
+        const siteUrl = normalizeUrl([url, baseUrl]);
 
-      const siteUrl = normalizeUrl([url, baseUrl]);
-
-      try {
-        fs.writeFileSync(
-          path.join(outDir, OPEN_SEARCH_FILENAME),
-          renderOpenSearchTemplate({
-            title,
-            siteUrl,
-            searchUrl: normalizeUrl([siteUrl, searchPagePath as string]),
-            faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
-          }),
-        );
-      } catch (e) {
-        logger.error('Generating OpenSearch file failed.');
-        throw e;
+        try {
+          fs.writeFileSync(
+            path.join(outDir, OPEN_SEARCH_FILENAME),
+            renderOpenSearchTemplate({
+              title,
+              siteUrl,
+              searchUrl: normalizeUrl([siteUrl, searchPagePath]),
+              faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
+            }),
+          );
+        } catch (e) {
+          logger.error('Generating OpenSearch file failed.');
+          throw e;
+        }
       }
     },
 
     injectHtmlTags() {
-      if (isSearchPageDisabled) {
+      if (!searchPagePath) {
         return {};
       }
 
