@@ -127,6 +127,8 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebarBreadcrumbsItem =
+    import('./sidebars/types').PropSidebarBreadcrumbsItem;
   export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 

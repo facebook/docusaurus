@@ -9,6 +9,36 @@ import React from 'react';
 import {ThemeClassNames, useSidebarBreadcrumbs} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import clsx from 'clsx';
+import type {PropSidebarBreadcrumbsItem} from '@docusaurus/plugin-content-docs';
+import Link from '@docusaurus/Link';
+
+function DocBreadcrumbsItemContent({
+  item,
+}: {
+  item: PropSidebarBreadcrumbsItem;
+}): JSX.Element {
+  const className = clsx('breadcrumbs__link', styles.breadcrumbItem);
+
+  return item.href ? (
+    <Link className={className} href={item.href}>
+      {item.label}
+    </Link>
+  ) : (
+    <span className={className}>{item.label}</span>
+  );
+}
+
+function DocBreadcrumbsItem({
+  item,
+}: {
+  item: PropSidebarBreadcrumbsItem;
+}): JSX.Element {
+  return (
+    <li className="breadcrumbs__item">
+      <DocBreadcrumbsItemContent item={item} />
+    </li>
+  );
+}
 
 export default function DocBreadcrumbs(): JSX.Element | null {
   const breadcrumbs = useSidebarBreadcrumbs();
@@ -25,22 +55,8 @@ export default function DocBreadcrumbs(): JSX.Element | null {
       )}
       aria-label="breadcrumbs">
       <ul className="breadcrumbs">
-        {breadcrumbs.map((breadcrumb, idx) => (
-          <li key={idx} className="breadcrumbs__item">
-            {breadcrumb.type === 'link' && (
-              <a
-                className={clsx('breadcrumbs__link', styles.breadcrumbItem)}
-                href={breadcrumb.href}>
-                {breadcrumb.label}
-              </a>
-            )}
-            {breadcrumb.type === 'category' && (
-              <span
-                className={clsx('breadcrumbs__link', styles.breadcrumbItem)}>
-                {breadcrumb.label}
-              </span>
-            )}
-          </li>
+        {breadcrumbs.map((item, idx) => (
+          <DocBreadcrumbsItem key={idx} item={item} />
         ))}
       </ul>
     </nav>

@@ -16,6 +16,7 @@ import type {
   PropSidebarItemCategory,
   PropVersionDoc,
   PropVersionMetadata,
+  PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
 import {useLocation} from '@docusaurus/router';
@@ -185,10 +186,10 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function useSidebarBreadcrumbs(): PropSidebar | null {
+export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
-  const breadcrumbs: PropSidebar = [];
+  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
   const enabled = useActivePlugin()?.pluginData?.breadcrumbs;
 
   function extract(items: PropSidebar) {
