@@ -63,6 +63,39 @@ You can also use the template's TypeScript variant by passing the `--typescript`
 npx create-docusaurus@latest my-website classic --typescript
 ```
 
+<details>
+  <summary>Alternative installation methods</summary>
+
+You can also initialize a new project using your preferred project manager:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="npm v6+">
+
+```bash
+npm init docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn create docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="pnpm">
+
+```bash
+pnpm create docusaurus website classic
+```
+
+</TabItem>
+</Tabs>
+````
+
+</details>
+
 ## Project structure {#project-structure}
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
