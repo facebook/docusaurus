@@ -1,6 +1,5 @@
 {
   "theme.AnnouncementBar.closeButtonAriaLabel": "닫기",
-
   "theme.BackToTopButton.buttonAriaLabel": "맨 위로 스크롤하기",
   "theme.CodeBlock.copied": "복사했습니다",
   "theme.CodeBlock.copy": "복사",
