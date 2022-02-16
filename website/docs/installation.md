@@ -31,35 +31,11 @@ The easiest way to install Docusaurus is to use the command line tool that helps
 npx create-docusaurus@latest [name] [template]
 ```
 
-To create a new Docusaurus app, you may choose one of the following package manager that you like:
-
-<Tabs>
-<TabItem value="npm/npx">
+Example:
 
 ```bash
-# Modern way available since npm v6+
-npm init docusaurus website classic
-
-# Outdated way available since npm v5.2+
 npx create-docusaurus@latest website classic
 ```
-
-</TabItem>
-<TabItem value="yarn">
-
-```bash
-yarn create docusaurus website classic
-```
-
-</TabItem>
-<TabItem value="pnpm">
-
-```bash
-pnpm create docusaurus website classic
-```
-
-</TabItem>
-</Tabs>
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
