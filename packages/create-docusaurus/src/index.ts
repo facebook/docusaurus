@@ -19,8 +19,7 @@ const TypeScriptTemplateSuffix = '-typescript';
 
 function hasYarn() {
   try {
-    shell.exec('yarnpkg --version', {silent: true});
-    return true;
+    return shell.exec('yarnpkg --version', {silent: true}).code === 0;
   } catch (e) {
     return false;
   }
