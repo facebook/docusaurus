@@ -6,12 +6,12 @@
  */
 
 .breadcrumbsContainer {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .breadcrumbItem {
-  --ifm-breadcrumb-size-multiplier: 0.75;
-  margin-bottom: 0.5rem;
+  --ifm-breadcrumb-size-multiplier: 0.7 !important;
+  margin-bottom: 0.4rem;
   background: var(--ifm-color-gray-100);
 }
 
