@@ -21,7 +21,7 @@
     "directory": "packages/docusaurus"
   },
   "bin": {
-    "docusaurus": "bin/docusaurus.js"
+    "docusaurus": "bin/docusaurus.mjs"
   },
   "scripts": {
     "build": "tsc && tsc -p tsconfig.client.json && node copyUntypedFiles.mjs",

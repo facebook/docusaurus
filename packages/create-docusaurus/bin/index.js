@@ -8,12 +8,15 @@
 
 // @ts-check
 
-const logger = require('@docusaurus/logger').default;
-const semver = require('semver');
-const path = require('path');
-const {program} = require('commander');
-const {default: init} = require('../lib');
-const requiredVersion = require('../package.json').engines.node;
+import logger from '@docusaurus/logger';
+import semver from 'semver';
+import path from 'path';
+import {program} from 'commander';
+import {createRequire} from 'module';
+import init from '../lib/index.js';
+
+const packageJson = createRequire(import.meta.url)('../package.json');
+const requiredVersion = packageJson.engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
@@ -29,7 +32,7 @@ function wrapCommand(fn) {
     });
 }
 
-program.version(require('../package.json').version);
+program.version(packageJson.version);
 
 program
   .arguments('[siteName] [template] [rootDir]')

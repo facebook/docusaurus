@@ -138,4 +138,9 @@ const logger = {
   success,
 };
 
+// TODO remove when migrating to ESM
+// logger can only be default-imported in ESM with this
+module.exports = logger;
+module.exports.default = logger;
+
 export default logger;

@@ -8,14 +8,15 @@
 
 // @ts-check
 
-const logger = require('@docusaurus/logger').default;
-const semver = require('semver');
-const cli = require('commander');
-const path = require('path');
+import logger from '@docusaurus/logger';
+import semver from 'semver';
+import cli from 'commander';
+import path from 'path';
+import {createRequire} from 'module';
+import {migrateDocusaurusProject, migrateMDToMDX} from '../lib/index.js';
 
-const requiredVersion = require('../package.json').engines.node;
-
-const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
+const requiredVersion = createRequire(import.meta.url)('../package.json')
+  .engines.node;
 
 function wrapCommand(fn) {
   return (...args) =>
@@ -50,6 +51,7 @@ cli
     const newSitePath = path.resolve(newDir);
     wrapCommand(migrateMDToMDX)(sitePath, newSitePath);
   });
+
 cli.parse(process.argv);
 
 if (!process.argv.slice(2).length) {

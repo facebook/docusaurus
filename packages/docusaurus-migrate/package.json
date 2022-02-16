@@ -20,7 +20,7 @@
     "access": "public"
   },
   "bin": {
-    "docusaurus-migrate": "bin/index.js"
+    "docusaurus-migrate": "bin/index.mjs"
   },
   "dependencies": {
     "@babel/preset-env": "^7.16.11",
