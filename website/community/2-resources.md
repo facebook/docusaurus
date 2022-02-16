@@ -29,6 +29,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus2-dotenv](https://github.com/jonnynabors/docusaurus2-dotenv) - A Docusaurus 2 plugin that supports dotenv and other environment variables
 - [posthog-docusaurus](https://github.com/PostHog/posthog-docusaurus) - Integrate [PostHog](https://posthog.com/) product analytics with Docusaurus v2
 - [docusaurus-plugin-moesif](https://github.com/Moesif/docusaurus-plugin-moesif) - Adds [Moesif API Analytics](https://www.moesif.com/) to track user behavior and pinpoint where developers drop off in your activation funnel.
+- [docusaurus-plugin-clarity](https://github.com/PatelN123/docusaurus-plugin-clarity) - A plugin that links your site to Microsoft Bing clarity, a solution that records what users do on your site that you can watch back. 
 
 ### Features {#features}
 
