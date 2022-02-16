@@ -186,15 +186,21 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
-  const sidebar = useDocsSidebar();
-  const {pathname} = useLocation();
+export function getBreadcrumbs({
+  sidebar,
+  pathname,
+}: {
+  sidebar: PropSidebar;
+  pathname: string;
+}): PropSidebarBreadcrumbsItem[] {
   const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
-  const enabled = useActivePlugin()?.pluginData?.breadcrumbs;
 
   function extract(items: PropSidebar) {
     for (const item of items) {
-      if (item.type === 'category' && extract(item.items)) {
+      if (
+        item.type === 'category' &&
+        (isSamePath(item.href, pathname) || extract(item.items))
+      ) {
         breadcrumbs.push(item);
         return true;
       } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
@@ -206,27 +212,25 @@ export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
     return false;
   }
 
-  // Check if the only breadcrumb item
-  // is a link to the current page
-  function onlyPageLink() {
-    return (
-      breadcrumbs.length === 1 &&
-      breadcrumbs[0].type === 'link' &&
-      isSamePath(breadcrumbs[0].href, pathname)
-    );
-  }
+  extract(sidebar);
 
-  if (sidebar) {
-    extract(sidebar);
-  }
+  return breadcrumbs.reverse();
+}
 
-  if (
-    !breadcrumbs.length ||
-    enabled === false ||
-    (enabled === 'nested' && onlyPageLink())
-  ) {
+export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  const breadcrumbsOption = useActivePlugin()?.pluginData?.breadcrumbs;
+
+  if (!sidebar || breadcrumbsOption === false) {
     return null;
   }
 
-  return breadcrumbs.reverse();
+  const breadcrumbs = getBreadcrumbs({sidebar, pathname});
+
+  if (breadcrumbsOption === 'nested' && breadcrumbs.length < 2) {
+    return null;
+  }
+
+  return breadcrumbs;
 }
