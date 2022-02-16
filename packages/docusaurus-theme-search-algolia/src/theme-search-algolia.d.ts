@@ -16,7 +16,7 @@ declare module '@docusaurus/theme-search-algolia' {
       apiKey: string;
       indexName: string;
       searchParameters: Record<string, unknown>;
-      searchPage: boolean | string;
+      searchPagePath: boolean | string | null;
     };
   };
   export type UserThemeConfig = DeepPartial<ThemeConfig>;

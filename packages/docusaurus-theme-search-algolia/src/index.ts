@@ -39,9 +39,9 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
     i18n: {currentLocale},
   } = context;
   const {
-    algolia: {searchPage},
+    algolia: {searchPagePath},
   } = themeConfig as ThemeConfig;
-  const isSearchPageDisabled = searchPage === false;
+  const isSearchPageDisabled = Boolean(searchPagePath) === false;
 
   return {
     name: 'docusaurus-theme-search-algolia',
@@ -67,7 +67,7 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
       }
 
       addRoute({
-        path: normalizeUrl([baseUrl, searchPage as string]),
+        path: normalizeUrl([baseUrl, searchPagePath as string]),
         component: '@theme/SearchPage',
         exact: true,
       });

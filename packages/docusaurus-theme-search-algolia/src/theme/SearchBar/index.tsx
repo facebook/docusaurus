@@ -34,7 +34,7 @@ type DocSearchProps = Omit<
 > & {
   contextualSearch?: string;
   externalUrlRegex?: string;
-  searchPage: boolean | string;
+  searchPagePath: boolean | string;
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
@@ -258,7 +258,7 @@ function DocSearch({
             transformItems={transformItems}
             hitComponent={Hit}
             transformSearchClient={transformSearchClient}
-            {...(props.searchPage && {
+            {...(props.searchPagePath && {
               resultsFooterComponent,
             })}
             {...props}
