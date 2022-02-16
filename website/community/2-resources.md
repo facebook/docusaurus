@@ -48,6 +48,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [mdx-mermaid](https://github.com/sjwall/mdx-mermaid) - A Docusaurus v2 compatible MDX plugin for displaying [Mermaid](https://mermaid-js.github.io/mermaid) diagrams
 - [redocusaurus](https://github.com/rohit-gohri/redocusaurus) - A Docusaurus preset for integrating OpenAPI documentation into your docs with [Redoc](https://github.com/redocly/redoc)
 - [plugin-image-zoom](https://github.com/flexanalytics/plugin-image-zoom) - An Image Zoom plugin for Docusaurus 2
+- [docusaurus-plugin-help-widget](https://github.com/PatelN123/docusaurus-plugin-help-widget) - Adds a help widget to the bottom right of your site that shows on every page
 
 ## Enterprise usage {#enterprise-usage}
 
