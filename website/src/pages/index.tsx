@@ -162,7 +162,7 @@ function VideoContainer() {
           <h2>
             <Translate>Check it out in the intro video</Translate>
           </h2>
-          <div className={styles.ytVideo}>
+          <div className="video-container">
             <iframe
               width="560"
               height="315"

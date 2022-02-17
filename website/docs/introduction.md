@@ -50,18 +50,16 @@ Or read the **[5-minute tutorial](https://tutorial.docusaurus.io)** online.
 
 In this presentation at [Algolia Community Event](https://www.algolia.com/), [Meta Open Source team](https://opensource.facebook.com/) shared a brief walk-through of Docusaurus. They covered how to get started with the project, enable plugins, and set up functionalities like documentation and blogging.
 
-<div className="col">
-  <div>
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/Yhyx7otSksg"
-      title="Docusaurus: Documentation Made Easy"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  </div>
+<div className="video-container">
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/Yhyx7otSksg"
+    title="Docusaurus: Documentation Made Easy"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  />
 </div>
 
 ## Disclaimer {#disclaimer}
