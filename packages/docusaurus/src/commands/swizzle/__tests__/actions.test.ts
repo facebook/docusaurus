@@ -79,7 +79,7 @@ describe('eject', () => {
       // It's hard to filter those reliably
       // (index.* is not good, we need to include styles.css too)
       'ComponentInFolder/Sibling.css',
-      'ComponentInFolder/Sibling.js',
+      'ComponentInFolder/Sibling.tsx',
       'ComponentInFolder/index.css',
       'ComponentInFolder/index.tsx',
     ]);
@@ -87,7 +87,7 @@ describe('eject', () => {
       "theme
       └── ComponentInFolder
           ├── Sibling.css
-          ├── Sibling.js
+          ├── Sibling.tsx
           ├── index.css
           └── index.tsx"
     `);

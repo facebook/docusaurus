@@ -126,8 +126,6 @@ async function initSwizzle(
     }))
     .filter((p) => p.module !== undefined) as SwizzlePlugin[];
 
-  console.log({swizzlePlugins});
-
   return {
     plugins: swizzlePlugins,
   };

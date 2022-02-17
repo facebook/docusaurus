@@ -7,27 +7,38 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {ThemePath, createTempSiteDir} from './testUtils';
+import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import tree from 'tree-node-cli';
-// import swizzle from '../index';
+import swizzle from '../index';
+import {Globby} from '@docusaurus/utils';
+
+const FixtureThemeName = 'fixture-theme-name';
+
+// TODO is it really worth it to duplicate fixtures?
+const ThemePathJS = ThemePath;
+const ThemePathTS = ThemePath;
 
 async function createTestSiteConfig(siteDir: string) {
   const configPath = path.join(siteDir, 'docusaurus.config.js');
   const themeFileName = 'fixtureTheme.js';
   const themeFilePath = path.join(siteDir, themeFileName);
 
+  // TODO we shouldn't need to write an intermediate file here
+  // We should support inline theme functions
   await fs.writeFile(
     themeFilePath,
     `
 module.exports = function fixtureTheme() {
-      return {
-        name: 'fixture-theme-name',
-        getThemePath() {
-          return '${ThemePath}';
-        },
-      };
-      }
-  `,
+  return {
+    name: '${FixtureThemeName}',
+    getThemePath() {
+      return '${ThemePathJS}';
+    },
+    getTypeScriptThemePath() {
+      return '${ThemePathTS}';
+    },
+  };
+}`,
   );
 
   await fs.writeFile(
@@ -43,10 +54,37 @@ module.exports = {
   );
 }
 
+class MockExitError extends Error {
+  constructor(public code: number) {
+    super(`Exit with code ${code}`);
+    this.code = code;
+  }
+}
+
+function createExitMock() {
+  let mock: jest.SpyInstance;
+
+  beforeEach(async () => {
+    mock = jest.spyOn(process, 'exit').mockImplementation((code) => {
+      throw new MockExitError(code as number);
+    });
+  });
+  afterEach(async () => {
+    mock?.mockRestore();
+  });
+
+  return {
+    expectExitCode: (code: number) => {
+      expect(mock).toHaveBeenCalledWith(code);
+    },
+  };
+}
+
+const swizzleWithExit: typeof swizzle = async (...args) => {
+  await expect(() => swizzle(...args)).rejects.toThrow(MockExitError);
+};
+
 async function createTestSite() {
-  // const testDir = path.join(__dirname, '.tmp');
-  // await fs.ensureDir(testDir);
-  // const siteDir = await fs.mkdtemp(path.join(testDir, 'test-swizzle'));
   const siteDir = await createTempSiteDir();
 
   await createTestSiteConfig(siteDir);
@@ -54,31 +92,212 @@ async function createTestSite() {
   const siteThemePath = path.join(siteDir, 'src/theme');
   await fs.ensureDir(siteThemePath);
 
+  function readThemeFile(themeFilePath: string) {
+    return fs.readFileSync(path.join(siteThemePath, themeFilePath), 'utf8');
+  }
+
+  function snapshotThemeDir() {
+    expect(tree(siteThemePath)).toMatchSnapshot('theme dir tree');
+
+    const files = Globby.sync(siteThemePath)
+      .map((file) => path.relative(siteThemePath, file))
+      .sort();
+    for (const file of files) {
+      expect(readThemeFile(file)).toMatchSnapshot(file);
+    }
+  }
+
+  function testWrap({
+    component,
+    typescript,
+  }: {
+    component: string;
+    typescript?: boolean;
+  }) {
+    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+      wrap: true,
+      danger: true,
+      typescript,
+    });
+  }
+
+  function testEject({
+    component,
+    typescript,
+  }: {
+    component: string;
+    typescript?: boolean;
+  }) {
+    return swizzleWithExit(siteDir, FixtureThemeName, component, {
+      eject: true,
+      danger: true,
+      typescript,
+    });
+  }
+
   return {
     siteDir,
     siteThemePath,
+    snapshotThemeDir,
+    testWrap,
+    testEject,
   };
 }
 
-describe('swizzle', () => {
-  test(`swizzle wrap`, async () => {
-    const {siteDir, siteThemePath} = await createTestSite();
+describe('swizzle wrap', () => {
+  const exitMock = createExitMock();
 
-    console.log({siteDir, siteThemePath});
+  test(`${Components.FirstLevelComponent} JS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.FirstLevelComponent,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
 
-    // TODO almost working apart Jest failing due to exit codes
-    /*
-    await swizzle(
-      siteDir,
-      'fixture-theme-name',
-      Components.ComponentInSubFolder,
-      {
-        wrap: true,
-        danger: true,
-      },
-    );
-     */
+  test(`${Components.FirstLevelComponent} TS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.FirstLevelComponent,
+      typescript: true,
+    });
+    snapshotThemeDir();
+  });
 
-    expect(tree(siteThemePath)).toMatchInlineSnapshot(`"theme"`);
+  test(`${Components.ComponentInFolder} JS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.ComponentInFolder,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInFolder} TS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.ComponentInFolder,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInSubFolder} JS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.ComponentInSubFolder,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInSubFolder} TS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.ComponentInSubFolder,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.Sibling} JS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.Sibling,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.Sibling} TS`, async () => {
+    const {snapshotThemeDir, testWrap} = await createTestSite();
+    await testWrap({
+      component: Components.Sibling,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+});
+
+describe('swizzle eject', () => {
+  const exitMock = createExitMock();
+
+  test(`${Components.FirstLevelComponent} JS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.FirstLevelComponent,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.FirstLevelComponent} TS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.FirstLevelComponent,
+      typescript: true,
+    });
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInFolder} JS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.ComponentInFolder,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInFolder} TS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.ComponentInFolder,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInSubFolder} JS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.ComponentInSubFolder,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.ComponentInSubFolder} TS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.ComponentInSubFolder,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.Sibling} JS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.Sibling,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
+  });
+
+  test(`${Components.Sibling} TS`, async () => {
+    const {snapshotThemeDir, testEject} = await createTestSite();
+    await testEject({
+      component: Components.Sibling,
+      typescript: true,
+    });
+    exitMock.expectExitCode(0);
+    snapshotThemeDir();
   });
 });
