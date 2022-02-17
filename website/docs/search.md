@@ -127,9 +127,9 @@ Refer to its [official DocSearch documentation](https://docsearch.algolia.com/do
 
 :::caution
 
-The search feature will not work reliably until Algolia crawls your site with the **search plugin enabled**.
+The search feature will not work reliably until Algolia crawls your site.
 
-If you are installing the Algolia plugin for the first time and want to ensure the search feature works before deploying it to production, you can ask the DocSearch team to trigger a crawl on a staging environment url or deploy preview.
+If search doesn't work after any significant change, please use the Algolia dashboard to **trigger a new crawl**.
 
 :::
 
