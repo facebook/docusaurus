@@ -138,7 +138,7 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet';
+  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
 
   export type HeadProps = HelmetProps & {children: ReactNode};
@@ -241,12 +241,8 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
-  export * from 'react-router-dom';
-}
-declare module '@docusaurus/history' {
-  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
-  export * from 'history';
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
 declare module '@docusaurus/useDocusaurusContext' {

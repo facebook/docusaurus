@@ -39,7 +39,9 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
-  --ifm-link-color: hsl(var(--site-primary-hue-saturation) 45%);
+  /* Reapply the primary color, because it has been locally overridden as
+   * the dark theme color */
+  --ifm-link-color: var(--ifm-color-primary);
 }
 
 .announcementInner {
@@ -50,8 +52,6 @@
 .hero {
   background-color: #2b3137;
   padding: 48px;
-  --ifm-color-primary: hsl(var(--site-primary-hue-saturation) 45%);
-  --ifm-color-primary-dark: hsl(var(--site-primary-hue-saturation) 41%);
 }
 
 .heroInner {

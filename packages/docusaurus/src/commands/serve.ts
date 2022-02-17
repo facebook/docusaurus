@@ -67,6 +67,7 @@ export default async function serve(
       cleanUrls: true,
       public: dir,
       trailingSlash,
+      directoryListing: false,
     });
   });
 

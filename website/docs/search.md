@@ -107,6 +107,9 @@ module.exports = {
       // Optional: Algolia search parameters
       searchParameters: {},
 
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
       //... other Algolia params
     },
     // highlight-end
@@ -118,13 +121,15 @@ module.exports = {
 
 The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1.
 
+Refer to its [official DocSearch documentation](https://docsearch.algolia.com/docs/api#searchparameters) for possible values.
+
 :::
 
 :::caution
 
-The search feature will not work reliably until Algolia crawls your site with the **search plugin enabled**.
+The search feature will not work reliably until Algolia crawls your site.
 
-If you are installing the Algolia plugin for the first time and want to ensure the search feature works before deploying it to production, you can ask the DocSearch team to trigger a crawl on a staging environment url or deploy preview.
+If search doesn't work after any significant change, please use the Algolia dashboard to **trigger a new crawl**.
 
 :::
 
@@ -173,7 +178,9 @@ module.exports = {
     // highlight-start
     algolia: {
       contextualSearch: false,
-      facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      searchParameters: {
+        facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      },
     },
     // highlight-end
   },
@@ -191,7 +198,7 @@ By default, DocSearch comes with a fine-tuned theme that was designed for access
 Still, you can reuse the [Infima CSS variables](styling-layout.md#styling-your-site-with-infima) from Docusaurus to style DocSearch by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
-html[data-theme='light'] .DocSearch {
+[data-theme='light'] .DocSearch {
   /* --docsearch-primary-color: var(--ifm-color-primary); */
   /* --docsearch-text-color: var(--ifm-font-color-base); */
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
@@ -209,7 +216,7 @@ html[data-theme='light'] .DocSearch {
   --docsearch-footer-background: var(--ifm-color-white);
 }
 
-html[data-theme='dark'] .DocSearch {
+[data-theme='dark'] .DocSearch {
   --docsearch-text-color: var(--ifm-font-color-base);
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
   --docsearch-container-background: rgba(47, 55, 69, 0.7);

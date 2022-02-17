@@ -112,6 +112,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
                       name: 'preset-default',
                       params: {
                         overrides: {
+                          removeTitle: false,
                           removeViewBox: false,
                         },
                       },

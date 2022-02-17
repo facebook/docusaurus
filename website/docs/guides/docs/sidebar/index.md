@@ -160,6 +160,28 @@ To pass in custom props to a swizzled sidebar item, add the optional `customProp
 };
 ```
 
+## Sidebar Breadcrumbs {#sidebar-breadcrumbs}
+
+By default, breadcrumbs are rendered at the top, using the "sidebar path" of the current page.
+
+This behavior can be disabled with plugin options:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          breadcrumbs: false,
+        },
+      },
+    ],
+  ],
+};
+```
+
 ## Complex sidebars example {#complex-sidebars-example}
 
 A real-world example from the Docusaurus site:

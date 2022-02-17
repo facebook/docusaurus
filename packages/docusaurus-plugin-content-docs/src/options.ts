@@ -55,6 +55,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   editLocalizedFiles: false,
   sidebarCollapsible: true,
   sidebarCollapsed: true,
+  breadcrumbs: true,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -139,6 +140,7 @@ export const OptionsSchema = Joi.object({
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
+  breadcrumbs: Joi.bool().default(DEFAULT_OPTIONS.breadcrumbs),
 });
 
 export function validateOptions({

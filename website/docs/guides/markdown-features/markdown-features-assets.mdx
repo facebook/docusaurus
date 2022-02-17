@@ -120,11 +120,11 @@ import DocusaurusSvg from './docusaurus.svg';
 ```
 
 ```css
-html[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
+[data-theme='light'] .themedDocusaurus [fill='#FFFF50'] {
   fill: greenyellow;
 }
 
-html[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
+[data-theme='dark'] .themedDocusaurus [fill='#FFFF50'] {
   fill: seagreen;
 }
 ```
@@ -173,8 +173,8 @@ GitHub uses its own [image theming approach](https://github.blog/changelog/2021-
 To toggle the visibility of an image using the path fragment (for GitHub, it's `#gh-dark-mode-only` and `#gh-light-mode-only`), add the following to your custom CSS (you can also use your own suffix if you don't want to be coupled to GitHub):
 
 ```css title="src/css/custom.css"
-html[data-theme='light'] img[src$='#gh-dark-mode-only'],
-html[data-theme='dark'] img[src$='#gh-light-mode-only'] {
+[data-theme='light'] img[src$='#gh-dark-mode-only'],
+[data-theme='dark'] img[src$='#gh-light-mode-only'] {
   display: none;
 }
 ```

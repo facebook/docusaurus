@@ -38,6 +38,7 @@ declare module '@docusaurus/plugin-content-docs' {
     showLastUpdateTime?: boolean;
     showLastUpdateAuthor?: boolean;
     numberPrefixParser: NumberPrefixParser;
+    breadcrumbs: boolean;
   };
 
   export type PathOptions = {
@@ -126,6 +127,8 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebarBreadcrumbsItem =
+    import('./sidebars/types').PropSidebarBreadcrumbsItem;
   export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
@@ -237,6 +240,10 @@ declare module '@theme/DocTagDocListPage' {
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocBreadcrumbs' {
+  export default function DocBreadcrumbs(): JSX.Element;
+}
+
 declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
@@ -294,6 +301,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   export type GlobalPluginData = {
     path: string;
     versions: GlobalVersion[];
+    breadcrumbs: boolean;
   };
   export type DocVersionSuggestions = {
     // suggest the latest version

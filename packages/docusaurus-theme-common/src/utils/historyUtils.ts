@@ -7,7 +7,7 @@
 
 import {useEffect, useRef} from 'react';
 import {useHistory} from '@docusaurus/router';
-import type {Location, Action} from '@docusaurus/history';
+import type {Location, Action} from 'history';
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 

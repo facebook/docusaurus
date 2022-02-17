@@ -62,11 +62,26 @@ const ToggleComponent = memo(
           checked={checked}
           type="checkbox"
           className={styles.toggleScreenReader}
-          aria-label={translate({
-            message: 'Switch between dark and light mode',
-            id: 'theme.colorToggle.ariaLabel',
-            description: 'The ARIA label for the navbar color mode toggle',
-          })}
+          aria-label={translate(
+            {
+              message: 'Switch between dark and light mode (currently {mode})',
+              id: 'theme.colorToggle.ariaLabel',
+              description: 'The ARIA label for the navbar color mode toggle',
+            },
+            {
+              mode: checked
+                ? translate({
+                    message: 'dark mode',
+                    id: 'theme.colorToggle.ariaLabel.mode.dark',
+                    description: 'The name for the dark color mode',
+                  })
+                : translate({
+                    message: 'light mode',
+                    id: 'theme.colorToggle.ariaLabel.mode.light',
+                    description: 'The name for the light color mode',
+                  }),
+            },
+          )}
           onChange={onChange}
           onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}

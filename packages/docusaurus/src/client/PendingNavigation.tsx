@@ -13,7 +13,7 @@ import nprogress from 'nprogress';
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
-import type {Location} from '@docusaurus/history';
+import type {Location} from 'history';
 
 import './nprogress.css';
 

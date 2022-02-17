@@ -66,9 +66,9 @@ function ColorGenerator(): JSX.Element {
 
   // State changes -> update DOM styles
   useEffect(() => {
-    updateDOMColors({baseColor, background, shades});
+    updateDOMColors({baseColor, background, shades}, isDarkTheme);
     storage.set(JSON.stringify({baseColor, background, shades}));
-  }, [baseColor, background, shades, storage]);
+  }, [baseColor, background, shades, storage, isDarkTheme]);
 
   function updateColor(event: React.ChangeEvent<HTMLInputElement>) {
     // Only prepend # when there isn't one.
@@ -287,7 +287,7 @@ function ColorGenerator(): JSX.Element {
         </Translate>
       </p>
       <CodeBlock className="language-css" title="/src/css/custom.css">
-        {`${isDarkTheme ? "html[data-theme='dark']" : ':root'} {
+        {`${isDarkTheme ? "[data-theme='dark']" : ':root'} {
 ${getAdjustedColors(shades, baseColor)
   .sort((a, b) => a.codeOrder - b.codeOrder)
   .map((value) => `  ${value.variableName}: ${value.hex.toLowerCase()};`)

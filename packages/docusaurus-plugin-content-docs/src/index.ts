@@ -217,6 +217,7 @@ export default async function pluginContentDocs(
         docLayoutComponent,
         docItemComponent,
         docCategoryGeneratedIndexComponent,
+        breadcrumbs,
       } = options;
       const {addRoute, createData, setGlobalData} = actions;
 
@@ -295,6 +296,7 @@ export default async function pluginContentDocs(
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: loadedVersions.map(toGlobalDataVersion),
+        breadcrumbs,
       });
     },
 
