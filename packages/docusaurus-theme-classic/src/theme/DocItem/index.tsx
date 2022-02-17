@@ -18,6 +18,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
@@ -58,6 +59,7 @@ export default function DocItem(props: Props): JSX.Element {
           <DocVersionBanner />
           <div className={styles.docItemContainer}>
             <article>
+              <DocBreadcrumbs />
               <DocVersionBadge />
 
               {canRenderTOC && (

@@ -195,6 +195,10 @@ export type PropSidebars = {
   [sidebarId: string]: PropSidebar;
 };
 
+export type PropSidebarBreadcrumbsItem =
+  | PropSidebarItemLink
+  | PropSidebarItemCategory;
+
 export type PropVersionDoc = {
   id: string;
   title: string;

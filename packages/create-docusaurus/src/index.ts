@@ -10,8 +10,9 @@ import fs from 'fs-extra';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase, sortBy} from 'lodash';
+import _ from 'lodash';
 import supportsColor from 'supports-color';
+import {fileURLToPath} from 'url';
 
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
@@ -76,7 +77,7 @@ function readTemplates(templatesDir: string) {
     );
 
   // Classic should be first in list!
-  return sortBy(templates, (t) => t !== RecommendedTemplate);
+  return _.sortBy(templates, (t) => t !== RecommendedTemplate);
 }
 
 function createTemplateChoices(templates: string[]) {
@@ -161,7 +162,7 @@ export default async function init(
   }> = {},
 ): Promise<void> {
   const pkgManager = getPackageManagerForUse(cliOptions.useNpm);
-  const templatesDir = path.resolve(__dirname, '../templates');
+  const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExistsSync(
@@ -321,7 +322,7 @@ export default async function init(
   // Update package.json info.
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: kebabCase(name),
+      name: _.kebabCase(name),
       version: '0.0.0',
       private: true,
     });

@@ -8,7 +8,7 @@
 import {getFileLoaderUtils} from '../webpackUtils';
 
 describe('getFileLoaderUtils()', () => {
-  test('plugin svgo/removeViewBox should be disabled', () => {
+  test('plugin svgo/removeViewBox and removeTitle should be disabled', () => {
     const {oneOf} = getFileLoaderUtils().rules.svg();
     expect(oneOf[0].use).toContainEqual(
       expect.objectContaining({
@@ -20,6 +20,7 @@ describe('getFileLoaderUtils()', () => {
                 name: 'preset-default',
                 params: {
                   overrides: {
+                    removeTitle: false,
                     removeViewBox: false,
                   },
                 },

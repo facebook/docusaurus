@@ -16,11 +16,13 @@ import {
   useDocsSidebar,
   DocsSidebarProvider,
   findSidebarCategory,
+  getBreadcrumbs,
 } from '../docsUtils';
 import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
+  PropSidebarItemLink,
   PropVersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 
@@ -35,6 +37,15 @@ function testCategory(
     items: [],
     collapsed: true,
     collapsible: true,
+    ...data,
+  };
+}
+
+function testLink(data?: Partial<PropSidebarItemLink>): PropSidebarItemLink {
+  return {
+    type: 'link',
+    href: '/testLinkHref',
+    label: 'Link label',
     ...data,
   };
 }
@@ -329,5 +340,124 @@ describe('docsUtils', () => {
       expect(isActiveSidebarItem(item, '/sub-category-path/')).toEqual(true);
       expect(isActiveSidebarItem(item, '/sub-sub-link-path/')).toEqual(true);
     });
+  });
+
+  describe('getBreadcrumbs', () => {
+    test('should return empty for empty sidebar', () => {
+      expect(
+        getBreadcrumbs({
+          sidebar: [],
+          pathname: '/doesNotExist',
+        }),
+      ).toEqual([]);
+    });
+
+    test('should return empty for sidebar but unknown pathname', () => {
+      const sidebar = [testCategory(), testLink()];
+      expect(
+        getBreadcrumbs({
+          sidebar,
+          pathname: '/doesNotExist',
+        }),
+      ).toEqual([]);
+    });
+
+    test('should return first level category', () => {
+      const pathname = '/somePathName';
+      const sidebar = [testCategory({href: pathname}), testLink()];
+
+      expect(
+        getBreadcrumbs({
+          sidebar,
+          pathname,
+        }),
+      ).toEqual([sidebar[0]]);
+    });
+
+    test('should return first level link', () => {
+      const pathname = '/somePathName';
+      const sidebar = [testCategory(), testLink({href: pathname})];
+
+      expect(
+        getBreadcrumbs({
+          sidebar,
+          pathname,
+        }),
+      ).toEqual([sidebar[1]]);
+    });
+
+    test('should return nested category', () => {
+      const pathname = '/somePathName';
+
+      const categoryLevel3 = testCategory({
+        href: pathname,
+      });
+
+      const categoryLevel2 = testCategory({
+        items: [
+          testCategory(),
+          categoryLevel3,
+          testLink({href: pathname}),
+          testLink(),
+        ],
+      });
+
+      const categoryLevel1 = testCategory({
+        items: [testLink(), categoryLevel2],
+      });
+
+      const sidebar = [
+        testLink(),
+        testCategory(),
+        categoryLevel1,
+        testLink(),
+        testCategory(),
+      ];
+
+      expect(
+        getBreadcrumbs({
+          sidebar,
+          pathname,
+        }),
+      ).toEqual([categoryLevel1, categoryLevel2, categoryLevel3]);
+    });
+  });
+
+  test('should return nested link', () => {
+    const pathname = '/somePathName';
+
+    const link = testLink({href: pathname});
+
+    const categoryLevel3 = testCategory({
+      items: [testLink(), link, testLink()],
+    });
+
+    const categoryLevel2 = testCategory({
+      items: [
+        testCategory(),
+        categoryLevel3,
+        testLink({href: pathname}),
+        testLink(),
+      ],
+    });
+
+    const categoryLevel1 = testCategory({
+      items: [testLink(), categoryLevel2],
+    });
+
+    const sidebar = [
+      testLink(),
+      testCategory(),
+      categoryLevel1,
+      testLink(),
+      testCategory(),
+    ];
+
+    expect(
+      getBreadcrumbs({
+        sidebar,
+        pathname,
+      }),
+    ).toEqual([categoryLevel1, categoryLevel2, categoryLevel3, link]);
   });
 });

@@ -1190,6 +1190,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'Rivalis',
+    description:
+      'An open source framework for developing servers for real-time applications and games',
+    preview: require('./showcase/rivalis.png'),
+    website: 'https://rivalis.io',
+    source: 'https://github.com/rivalis/rivalis',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'RactivePlayer',
     description: 'Interactive videos in React',
     preview: require('./showcase/ractive-player.png'),
@@ -1321,6 +1330,14 @@ const Users: User[] = [
     preview: require('./showcase/redux.png'),
     website: 'https://redux.js.org/',
     source: 'https://www.github.com/reduxjs/redux',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Redux Cool',
+    description: 'Build redux logic, without getting nervous 😬',
+    preview: require('./showcase/redux-cool.png'),
+    website: 'https://redux-cool.js.org/',
+    source: 'https://github.com/Redux-Cool/redux-cool',
     tags: ['opensource'],
   },
   {
@@ -1497,6 +1514,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SmartCookieWeb',
+    description: 'Webpage for an open source, telemetry-free Android web browser',
+    preview: require('./showcase/smartcookieweb.png'),
+    website: 'https://smartcookieweb.com/',
+    source: null,
+    tags: ['product', 'i18n'],
+  },
+  {
     title: 'Shabad OS Docs',
     description:
       'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
@@ -1621,6 +1646,14 @@ const Users: User[] = [
     website: 'https://docs.tasit.io/',
     source: 'https://github.com/tasitlabs/tasit-sdk',
     tags: ['opensource'],
+  },
+  {
+    title: 'TechHarvesting',
+    description: 'Learn full stack web development from tutorials and blog posts',
+    preview: require('./showcase/techharvesting.png'),
+    website: 'https://techharvesting.in',
+    source: 'https://github.com/techharvesting/techharvesting.github.io',
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'The Diff Podcast',

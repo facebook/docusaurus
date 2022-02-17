@@ -6,13 +6,17 @@
  */
 
 import React, {createContext, type ReactNode, useContext} from 'react';
-import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+import {
+  useActivePlugin,
+  useAllDocsData,
+} from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
   PropVersionMetadata,
+  PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
 import {useLocation} from '@docusaurus/router';
@@ -180,4 +184,47 @@ export function isActiveSidebarItem(
   }
 
   return false;
+}
+
+export function getBreadcrumbs({
+  sidebar,
+  pathname,
+}: {
+  sidebar: PropSidebar;
+  pathname: string;
+}): PropSidebarBreadcrumbsItem[] {
+  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
+
+  function extract(items: PropSidebar) {
+    for (const item of items) {
+      if (
+        item.type === 'category' &&
+        (isSamePath(item.href, pathname) || extract(item.items))
+      ) {
+        breadcrumbs.push(item);
+        return true;
+      } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
+        breadcrumbs.push(item);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  extract(sidebar);
+
+  return breadcrumbs.reverse();
+}
+
+export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
+
+  if (breadcrumbsOption === false || !sidebar) {
+    return null;
+  }
+
+  return getBreadcrumbs({sidebar, pathname});
 }

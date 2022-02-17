@@ -7,21 +7,24 @@
 
 // @ts-check
 
-const logger = require('@docusaurus/logger').default;
-const fs = require('fs-extra');
-const semver = require('semver');
-const path = require('path');
-const updateNotifier = require('update-notifier');
-const boxen = require('boxen');
+import logger from '@docusaurus/logger';
+import fs from 'fs-extra';
+import semver from 'semver';
+import path from 'path';
+import updateNotifier from 'update-notifier';
+import boxen from 'boxen';
+import {createRequire} from 'module';
+
+const packageJson = createRequire(import.meta.url)('../package.json');
+const sitePkg = createRequire(path.join(process.cwd(), 'package.json'))(
+  './package.json',
+);
 
 const {
   name,
   version,
   engines: {node: requiredVersion},
-} = require('../package.json');
-
-// eslint-disable-next-line import/no-dynamic-require
-const sitePkg = require(path.resolve(process.cwd(), 'package.json'));
+} = packageJson;
 
 /**
  * Notify user if `@docusaurus` packages are outdated
@@ -130,4 +133,4 @@ function beforeCli() {
   }
 }
 
-module.exports = beforeCli;
+export default beforeCli;
