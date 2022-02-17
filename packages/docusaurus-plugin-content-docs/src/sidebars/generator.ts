@@ -250,7 +250,13 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     });
     const sortedSidebarItems = _.sortBy(
       processedSidebarItems,
-      (item) => item.position,
+      (item) =>
+        item.position ??
+        // Our generator only generates items with "category" and "doc" types,
+        // but if we allow "items" as category metadata others may be possible
+        (['category', 'doc', 'ref', 'link'].includes(item.type)
+          ? (item as {label: string}).label
+          : undefined),
     );
     return sortedSidebarItems.map(({position, ...item}) => item);
   }
