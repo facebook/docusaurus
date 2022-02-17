@@ -121,6 +121,8 @@ module.exports = {
 
 The `searchParameters` option used to be named `algoliaOptions` in Docusaurus v1.
 
+Refer to its [official DocSearch documentation](https://docsearch.algolia.com/docs/api#searchparameters) for possible values.
+
 :::
 
 :::caution
@@ -176,7 +178,9 @@ module.exports = {
     // highlight-start
     algolia: {
       contextualSearch: false,
-      facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      searchParameters: {
+        facetFilters: ['language:en', ['filter1', 'filter2'], 'filter3'],
+      },
     },
     // highlight-end
   },
