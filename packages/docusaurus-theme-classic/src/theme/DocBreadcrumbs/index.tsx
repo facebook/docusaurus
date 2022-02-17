@@ -22,11 +22,13 @@ function BreadcrumbsItemLink({
 }): JSX.Element {
   const className = clsx('breadcrumbs__link', styles.breadcrumbsItemLink);
   return href ? (
-    <Link className={className} href={href}>
-      {children}
+    <Link className={className} href={href} itemProp="item">
+      <span itemProp="name">{children}</span>
     </Link>
   ) : (
-    <span className={className}>{children}</span>
+    <span className={className} itemProp="item name">
+      {children}
+    </span>
   );
 }
 
@@ -34,26 +36,35 @@ function BreadcrumbsItemLink({
 function BreadcrumbsItem({
   children,
   active,
+  position,
 }: {
   children: ReactNode;
   active?: boolean;
+  position?: string;
 }): JSX.Element {
   return (
     <li
+      itemScope
+      itemProp="itemListElement"
+      itemType="https://schema.org/ListItem"
       className={clsx('breadcrumbs__item', {
         'breadcrumbs__item--active': active,
       })}>
       {children}
+      <meta itemProp="position" content={position} />
     </li>
   );
 }
 
 function HomeBreadcrumbItem() {
-  const homeHref = useBaseUrl('/');
   return (
-    <BreadcrumbsItem>
-      <BreadcrumbsItemLink href={homeHref}>🏠</BreadcrumbsItemLink>
-    </BreadcrumbsItem>
+    <li className="breadcrumbs__item">
+      <Link
+        className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
+        href={useBaseUrl('/')}>
+        🏠
+      </Link>
+    </li>
   );
 }
 
@@ -71,10 +82,16 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         styles.breadcrumbsContainer,
       )}
       aria-label="breadcrumbs">
-      <ul className="breadcrumbs">
+      <ul
+        className="breadcrumbs"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList">
         <HomeBreadcrumbItem />
         {breadcrumbs.map((item, idx) => (
-          <BreadcrumbsItem key={idx} active={idx === breadcrumbs.length - 1}>
+          <BreadcrumbsItem
+            key={idx}
+            active={idx === breadcrumbs.length - 1}
+            position={String(idx + 1)}>
             <BreadcrumbsItemLink href={item.href}>
               {item.label}
             </BreadcrumbsItemLink>
