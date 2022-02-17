@@ -9,11 +9,11 @@ import leven from 'leven';
 import logger from '@docusaurus/logger';
 import type {
   InitializedPlugin,
-  ImportedPluginModule,
   SwizzleAction,
   SwizzleActionStatus,
 } from '@docusaurus/types';
 import {capitalize} from 'lodash';
+import type {NormalizedPluginConfig} from '../../server/plugins/init';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
@@ -57,8 +57,10 @@ export function actionStatusSuffix(
 
 export type SwizzlePlugin = {
   instance: InitializedPlugin;
-  module: ImportedPluginModule;
+  plugin: NormalizedPluginConfig;
 };
+
+export type SwizzleContext = {plugins: SwizzlePlugin[]};
 
 export type SwizzleOptions = {
   typescript: boolean;

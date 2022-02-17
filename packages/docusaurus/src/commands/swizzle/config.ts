@@ -6,28 +6,29 @@
  */
 
 import {keyBy, mapValues} from 'lodash';
-import type {
-  ImportedPluginModule,
-  SwizzleComponentConfig,
-  SwizzleConfig,
-} from '@docusaurus/types';
+import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
 import type {SwizzlePlugin} from './common';
 import {SwizzleActions} from './common';
 import {getPluginByThemeName} from './themes';
 
 function getModuleSwizzleConfig(
-  pluginModule: ImportedPluginModule,
+  swizzlePlugin: SwizzlePlugin,
 ): SwizzleConfig | undefined {
   const getSwizzleConfig =
-    pluginModule.default?.getSwizzleConfig ?? pluginModule.getSwizzleConfig;
+    swizzlePlugin.plugin.plugin?.getSwizzleConfig ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleConfig ??
+    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleConfig;
+
   if (getSwizzleConfig) {
     return getSwizzleConfig();
   }
 
   // TODO deprecate getSwizzleComponentList later
   const getSwizzleComponentList =
-    pluginModule.default?.getSwizzleComponentList ??
-    pluginModule.getSwizzleComponentList;
+    swizzlePlugin.plugin.plugin?.getSwizzleComponentList ??
+    swizzlePlugin.plugin.pluginModule?.module.getSwizzleComponentList ??
+    swizzlePlugin.plugin.pluginModule?.module?.getSwizzleComponentList;
+
   if (getSwizzleComponentList) {
     const safeComponents = getSwizzleComponentList() ?? [];
     const safeComponentConfig: SwizzleComponentConfig = {
@@ -74,7 +75,7 @@ export function getThemeSwizzleConfig(
 ): SwizzleConfig {
   // const module = importFresh<ImportedPluginModule>(themeName);
   const plugin = getPluginByThemeName(plugins, themeName);
-  const config = getModuleSwizzleConfig(plugin.module);
+  const config = getModuleSwizzleConfig(plugin);
   if (config) {
     return validateSwizzleConfig(config);
   }

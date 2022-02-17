@@ -47,6 +47,10 @@ export function readComponentNames(themePath: string): string[] {
   type File = {file: string; fullPath: string; isDir: boolean};
   type ComponentFile = File & {componentName: string};
 
+  if (!fs.existsSync(themePath)) {
+    return [];
+  }
+
   function walk(dir: string): ComponentFile[] {
     const files: File[] = fs.readdirSync(dir).flatMap((file) => {
       const fullPath = path.join(dir, file);

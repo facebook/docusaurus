@@ -10,14 +10,11 @@ import leven from 'leven';
 import {orderBy, uniq} from 'lodash';
 import {askThemeName} from './prompts';
 import {findStringIgnoringCase, type SwizzlePlugin} from './common';
-import type {InitializedPlugin} from '@docusaurus/types';
 
-export function pluginToThemeName(
-  pluginInstance: InitializedPlugin,
-): string | undefined {
-  if (pluginInstance.getThemePath) {
+export function pluginToThemeName(plugin: SwizzlePlugin): string | undefined {
+  if (plugin.instance.getThemePath) {
     return (
-      (pluginInstance.version as {name: string}).name ?? pluginInstance.name
+      (plugin.instance.version as {name: string}).name ?? plugin.instance.name
     );
   }
   return undefined;
@@ -27,9 +24,7 @@ export function getPluginByThemeName(
   plugins: SwizzlePlugin[],
   themeName: string,
 ): SwizzlePlugin {
-  const plugin = plugins.find(
-    (p) => pluginToThemeName(p.instance) === themeName,
-  );
+  const plugin = plugins.find((p) => pluginToThemeName(p) === themeName);
   if (!plugin) {
     throw new Error(`Theme ${themeName} not found`);
   }
@@ -42,7 +37,7 @@ export function getThemeNames(plugins: SwizzlePlugin[]): string[] {
     // this code impossible to optimize. If this is a static method, we don't
     // need to initialize all plugins just to filter which are themes
     // Benchmark: loadContext-58ms; initPlugins-323ms
-    plugins.map((plugin) => pluginToThemeName(plugin.instance)).filter(Boolean),
+    plugins.map((plugin) => pluginToThemeName(plugin)).filter(Boolean),
   ) as string[];
 
   // Opinionated ordering: user is most likely to swizzle:

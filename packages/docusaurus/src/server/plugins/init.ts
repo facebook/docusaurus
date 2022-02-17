@@ -24,7 +24,7 @@ import {
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
 
-type NormalizedPluginConfig = {
+export type NormalizedPluginConfig = {
   plugin: PluginModule;
   options: PluginOptions;
   // Only available when a string is provided in config

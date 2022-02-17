@@ -15,10 +15,9 @@ import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleComponentConfig,
-  ImportedPluginModule,
 } from '@docusaurus/types';
 import type {SwizzleOptions, SwizzlePlugin} from './common';
-import {normalizeOptions} from './common';
+import {normalizeOptions, type SwizzleContext} from './common';
 import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
@@ -96,9 +95,7 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
   return undefined;
 }
 
-async function initSwizzle(
-  siteDir: string,
-): Promise<{plugins: SwizzlePlugin[]}> {
+async function initSwizzleContext(siteDir: string): Promise<SwizzleContext> {
   const context = await loadContext(siteDir);
   const pluginRequire = createRequire(context.siteConfigPath);
 
@@ -113,21 +110,11 @@ async function initSwizzle(
     pluginRequire,
   );
 
-  // For now only support imported plugin modules
-  // TODO support inline themes?
-  const modules: (ImportedPluginModule | undefined)[] = pluginsNormalized.map(
-    (p) => p.pluginModule?.module,
-  );
-
-  const swizzlePlugins = plugins
-    .map((plugin, pluginIndex) => ({
-      module: modules[pluginIndex],
-      instance: plugin,
-    }))
-    .filter((p) => p.module !== undefined) as SwizzlePlugin[];
-
   return {
-    plugins: swizzlePlugins,
+    plugins: plugins.map((plugin, pluginIndex) => ({
+      plugin: pluginsNormalized[pluginIndex],
+      instance: plugin,
+    })),
   };
 }
 
@@ -140,7 +127,7 @@ export default async function swizzle(
   const options = normalizeOptions(optionsParam);
   const {list, danger, typescript} = options;
 
-  const {plugins} = await initSwizzle(siteDir);
+  const {plugins} = await initSwizzleContext(siteDir);
   const themeNames = getThemeNames(plugins);
 
   if (list && !themeNameParam) {

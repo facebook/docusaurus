@@ -20,26 +20,6 @@ const ThemePathTS = ThemePath;
 
 async function createTestSiteConfig(siteDir: string) {
   const configPath = path.join(siteDir, 'docusaurus.config.js');
-  const themeFileName = 'fixtureTheme.js';
-  const themeFilePath = path.join(siteDir, themeFileName);
-
-  // TODO we shouldn't need to write an intermediate file here
-  // We should support inline theme functions
-  await fs.writeFile(
-    themeFilePath,
-    `
-module.exports = function fixtureTheme() {
-  return {
-    name: '${FixtureThemeName}',
-    getThemePath() {
-      return '${ThemePathJS}';
-    },
-    getTypeScriptThemePath() {
-      return '${ThemePathTS}';
-    },
-  };
-}`,
-  );
 
   await fs.writeFile(
     configPath,
@@ -49,7 +29,19 @@ module.exports = {
   tagline: 'Dinosaurs are cool',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
-  themes: ['./${themeFileName}'],
+  themes: [
+    function fixtureTheme() {
+      return {
+        name: '${FixtureThemeName}',
+        getThemePath() {
+          return '${ThemePathJS}';
+        },
+        getTypeScriptThemePath() {
+          return '${ThemePathTS}';
+        },
+      };
+    },
+  ],
 }`,
   );
 }
