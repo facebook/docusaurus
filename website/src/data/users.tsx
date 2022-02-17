@@ -1648,6 +1648,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'TechHarvesting',
+    description: 'Learn full stack web development from tutorials and blog posts',
+    preview: require('./showcase/techharvesting.png'),
+    website: 'https://techharvesting.in',
+    source: 'https://github.com/techharvesting/techharvesting.github.io',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'The Diff Podcast',
     description: 'A Podcast from Facebook Open Source',
     preview: require('./showcase/the-diff.png'),
