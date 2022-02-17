@@ -25,6 +25,10 @@ export function useLocationChange(onLocationChange: OnLocationChange): void {
   const onLocationChangeDynamic = useDynamicCallback(onLocationChange);
 
   useEffect(() => {
+    if (!previousLocation) {
+      return;
+    }
+
     if (location !== previousLocation) {
       onLocationChangeDynamic({
         location,
