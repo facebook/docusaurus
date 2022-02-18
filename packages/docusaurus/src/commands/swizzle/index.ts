@@ -6,23 +6,17 @@
  */
 
 import logger from '@docusaurus/logger';
-import {loadContext, loadPluginConfigs} from '../../server';
-import initPlugins, {normalizePluginConfigs} from '../../server/plugins/init';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
-import type {
-  InitializedPlugin,
-  SwizzleAction,
-  SwizzleComponentConfig,
-} from '@docusaurus/types';
+import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions, SwizzlePlugin} from './common';
-import {normalizeOptions, type SwizzleContext} from './common';
+import {normalizeOptions} from './common';
 import type {ActionResult} from './actions';
 import {eject, getAction, wrap} from './actions';
 import {getThemeSwizzleConfig} from './config';
 import {askSwizzleDangerousComponent} from './prompts';
-import {createRequire} from 'module';
+import {initSwizzleContext} from './context';
 
 async function listAllThemeComponents({
   themeNames,
@@ -93,29 +87,6 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
   }
 
   return undefined;
-}
-
-async function initSwizzleContext(siteDir: string): Promise<SwizzleContext> {
-  const context = await loadContext(siteDir);
-  const pluginRequire = createRequire(context.siteConfigPath);
-
-  const pluginConfigs = await loadPluginConfigs(context);
-  const plugins: InitializedPlugin[] = await initPlugins({
-    pluginConfigs,
-    context,
-  });
-
-  const pluginsNormalized = await normalizePluginConfigs(
-    pluginConfigs,
-    pluginRequire,
-  );
-
-  return {
-    plugins: plugins.map((plugin, pluginIndex) => ({
-      plugin: pluginsNormalized[pluginIndex],
-      instance: plugin,
-    })),
-  };
 }
 
 export default async function swizzle(
