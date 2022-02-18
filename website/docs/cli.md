@@ -127,7 +127,7 @@ Unstable Components: components that have a higher risk of breaking changes due 
 
 :::
 
-To learn more about swizzling, see the [swizzling guide](./advanced/swizzling.md).
+To learn more about swizzling, see the [swizzling guide](./guides/swizzling.md).
 
 ### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
 
