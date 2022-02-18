@@ -73,7 +73,6 @@ function createExitMock() {
 }
 
 const swizzleWithExit: typeof swizzle = async (...args) => {
-  console.log('swizzleWithExit', args);
   await expect(() => swizzle(...args)).rejects.toThrow(MockExitError);
 };
 
@@ -92,8 +91,6 @@ async function createTestSite() {
     const files = Globby.sync(siteThemePathPosix)
       .map((file) => path.posix.relative(siteThemePathPosix, file))
       .sort();
-
-    console.log('snapshotThemeDir', {files, tree: tree(siteThemePathPosix)});
 
     for (const file of files) {
       const fileContent = fs.readFileSync(
@@ -131,8 +128,6 @@ async function createTestSite() {
       typescript,
     });
   }
-
-  console.log('create test site', {siteDir, siteThemePath, ThemePath});
 
   return {
     siteDir,

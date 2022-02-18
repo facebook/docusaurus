@@ -138,14 +138,6 @@ export default async function swizzle(
   const themePath = getThemePath({themeName, plugins, typescript});
   const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
 
-  console.log('swizzle', {
-    siteDir,
-    themeName,
-    themeNames,
-    themePath,
-    swizzleConfig,
-  });
-
   const themeComponents = getThemeComponents({
     themeName,
     themePath,
