@@ -6,9 +6,10 @@
  */
 
 import {keyBy, mapValues} from 'lodash';
+import {Joi} from '@docusaurus/utils-validation';
 import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
 import type {SwizzlePlugin} from './common';
-import {SwizzleActions} from './common';
+import {SwizzleActions, SwizzleActionsStatuses} from './common';
 import {getPluginByThemeName} from './themes';
 
 function getModuleSwizzleConfig(
@@ -46,23 +47,44 @@ function getModuleSwizzleConfig(
   return undefined;
 }
 
-function validateSwizzleConfig(swizzleConfig: unknown): SwizzleConfig {
-  // TODO add Joi schema validation
+export function normalizeSwizzleConfig(
+  unsafeSwizzleConfig: unknown,
+): SwizzleConfig {
+  const schema = Joi.object<SwizzleConfig>({
+    components: Joi.object()
+      .pattern(
+        Joi.string(),
+        Joi.object({
+          actions: Joi.object().pattern(
+            Joi.string().valid(...SwizzleActions),
+            Joi.string().valid(...SwizzleActionsStatuses),
+          ),
+          description: Joi.string(),
+        }),
+      )
+      .required(),
+  });
 
-  const normalizedSwizzleConfig = swizzleConfig as SwizzleConfig;
+  const result = schema.validate(unsafeSwizzleConfig);
+
+  if (result.error) {
+    throw new Error(
+      `Swizzle config does not match expected schema: ${result.error.message}`,
+    );
+  }
+
+  const swizzleConfig: SwizzleConfig = result.value;
 
   // Ensure all components always declare all actions
-  Object.values(normalizedSwizzleConfig.components).forEach(
-    (componentConfig) => {
-      SwizzleActions.forEach((action) => {
-        if (!componentConfig.actions[action]) {
-          componentConfig.actions[action] = 'unsafe';
-        }
-      });
-    },
-  );
+  Object.values(swizzleConfig.components).forEach((componentConfig) => {
+    SwizzleActions.forEach((action) => {
+      if (!componentConfig.actions[action]) {
+        componentConfig.actions[action] = 'unsafe';
+      }
+    });
+  });
 
-  return normalizedSwizzleConfig;
+  return swizzleConfig;
 }
 
 const FallbackSwizzleConfig: SwizzleConfig = {
@@ -73,11 +95,18 @@ export function getThemeSwizzleConfig(
   themeName: string,
   plugins: SwizzlePlugin[],
 ): SwizzleConfig {
-  // const module = importFresh<ImportedPluginModule>(themeName);
   const plugin = getPluginByThemeName(plugins, themeName);
   const config = getModuleSwizzleConfig(plugin);
   if (config) {
-    return validateSwizzleConfig(config);
+    try {
+      return normalizeSwizzleConfig(config);
+    } catch (e) {
+      throw new Error(
+        `Invalid Swizzle config for theme ${themeName}.\n${
+          (e as Error).message
+        }`,
+      );
+    }
   }
   return FallbackSwizzleConfig;
 }
