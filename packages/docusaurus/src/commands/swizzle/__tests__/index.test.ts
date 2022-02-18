@@ -34,10 +34,10 @@ module.exports = {
       return {
         name: '${FixtureThemeName}',
         getThemePath() {
-          return '${ThemePathJS}';
+          return ${JSON.stringify(ThemePathJS)};
         },
         getTypeScriptThemePath() {
-          return '${ThemePathTS}';
+          return ${JSON.stringify(ThemePathTS)};
         },
       };
     },
