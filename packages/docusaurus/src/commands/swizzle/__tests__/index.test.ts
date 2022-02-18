@@ -10,7 +10,7 @@ import fs from 'fs-extra';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import tree from 'tree-node-cli';
 import swizzle from '../index';
-import {Globby} from '@docusaurus/utils';
+import {escapePath, Globby, posixPath} from '@docusaurus/utils';
 
 const FixtureThemeName = 'fixture-theme-name';
 
@@ -34,10 +34,10 @@ module.exports = {
       return {
         name: '${FixtureThemeName}',
         getThemePath() {
-          return ${JSON.stringify(ThemePathJS)};
+          return '${escapePath(ThemePathJS)}';
         },
         getTypeScriptThemePath() {
-          return ${JSON.stringify(ThemePathTS)};
+          return '${escapePath(ThemePathTS)}';
         },
       };
     },
@@ -85,18 +85,22 @@ async function createTestSite() {
   const siteThemePath = path.join(siteDir, 'src/theme');
   await fs.ensureDir(siteThemePath);
 
-  function readThemeFile(themeFilePath: string) {
-    return fs.readFileSync(path.join(siteThemePath, themeFilePath), 'utf8');
-  }
-
   function snapshotThemeDir() {
-    expect(tree(siteThemePath)).toMatchSnapshot('theme dir tree');
+    const siteThemePathPosix = posixPath(siteThemePath);
+    expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = Globby.sync(siteThemePath)
-      .map((file) => path.relative(siteThemePath, file))
+    const files = Globby.sync(siteThemePathPosix)
+      .map((file) => path.posix.relative(siteThemePath, file))
       .sort();
+
+    console.log('snapshotThemeDir', {files, tree: tree(siteThemePathPosix)});
+
     for (const file of files) {
-      expect(readThemeFile(file)).toMatchSnapshot(file);
+      const fileContent = fs.readFileSync(
+        path.posix.join(siteThemePath, file),
+        'utf8',
+      );
+      expect(fileContent).toMatchSnapshot(file);
     }
   }
 
