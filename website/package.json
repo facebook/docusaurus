@@ -42,6 +42,8 @@
     "@docusaurus/plugin-pwa": "2.0.0-beta.15",
     "@docusaurus/preset-classic": "2.0.0-beta.15",
     "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.15",
+    "@docusaurus/logger": "2.0.0-beta.15",
+    "@docusaurus/theme-classic": "2.0.0-beta.15",
     "@docusaurus/theme-common": "2.0.0-beta.15",
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",

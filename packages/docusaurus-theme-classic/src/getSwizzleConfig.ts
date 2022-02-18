@@ -10,12 +10,6 @@ import type {SwizzleConfig} from '@docusaurus/types';
 export default function getSwizzleConfig(): SwizzleConfig {
   return {
     components: {
-      'NavbarItem/utils': {
-        actions: {
-          wrap: 'forbidden', // not a component!
-          eject: 'unsafe',
-        },
-      },
       CodeBlock: {
         actions: {
           wrap: 'safe',
@@ -77,13 +71,30 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The menu icon component',
       },
+
       'prism-include-languages': {
         actions: {
-          wrap: 'forbidden',
+          wrap: 'forbidden', // not a component!
           eject: 'safe',
         },
         description:
           'The Prism languages to include for code block syntax highlighting. Meant to be ejected.',
+      },
+      MDXComponents: {
+        actions: {
+          wrap: 'forbidden', /// TODO allow wrapping objects???
+          eject: 'safe',
+        },
+        description:
+          'The MDX components to use for rendering MDX files. Meant to be ejected.',
+      },
+
+      // TODO should probably not even appear here
+      'NavbarItem/utils': {
+        actions: {
+          wrap: 'forbidden',
+          eject: 'forbidden',
+        },
       },
     },
   };

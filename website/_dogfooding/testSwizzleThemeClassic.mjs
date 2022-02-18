@@ -8,10 +8,16 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {fileURLToPath} from 'url';
+import logger from '@docusaurus/logger';
+
+import ClassicTheme from '@docusaurus/theme-classic';
 
 // Unsafe imports
 import {readComponentNames} from '@docusaurus/core/lib/commands/swizzle/components.js';
+import {normalizeSwizzleConfig} from '@docusaurus/core/lib/commands/swizzle/config.js';
 import {wrap, eject} from '@docusaurus/core/lib/commands/swizzle/actions.js';
+
+const swizzleConfig = normalizeSwizzleConfig(ClassicTheme.getSwizzleConfig());
 
 const action = process.env.SWIZZLE_ACTION ?? 'eject';
 const typescript = process.env.SWIZZLE_TYPESCRIPT === 'true';
@@ -23,40 +29,77 @@ const classicThemePathBase = path.join(
   '../../packages/docusaurus-theme-classic',
 );
 
-const themePath = typescript
+const themePath = swizzleConfig
   ? path.join(classicThemePathBase, 'src/theme')
   : path.join(classicThemePathBase, 'lib-next/theme');
 
 const toPath = path.join(dirname, '_swizzle_theme_tests');
 
-console.log('Args', {action, typescript, dirname, themePath, toPath});
+console.log('\n');
+console.log('Swizzle test script');
+console.log('Args', {
+  action,
+  typescript,
+  dirname,
+  themePath,
+  toPath,
+  swizzleConfig,
+});
+console.log('\n');
 
 await fs.remove(toPath);
 
 let componentNames = await readComponentNames(themePath);
 
+const componentsNotFound = Object.keys(swizzleConfig.components).filter(
+  (componentName) => !componentNames.includes(componentName),
+);
+if (componentsNotFound.length > 0) {
+  logger.error(
+    `${
+      componentsNotFound.length
+    } components exist in the swizzle config but do not exist in practice.
+Please double-check or clean up these components from the config:
+- ${componentsNotFound.join('\n- ')}
+`,
+  );
+  process.exit(1);
+}
+
 // TODO temp workaround: non-comps should be forbidden to wrap
 if (action === 'wrap') {
-  const blacklist = [
-    'NavbarItem', // includes utils (also copied)
-    'NavbarItem/utils', // Not a component
+  const WrapBlacklist = [
     'Layout', // due to theme-fallback?
-    'MDXComponents', // not a component
-    'prism-include-languages',
   ];
 
-  componentNames = componentNames.filter((name) => !blacklist.includes(name));
+  componentNames = componentNames.filter((componentName) => {
+    const blacklisted = WrapBlacklist.includes(componentName);
+    if (!WrapBlacklist) {
+      logger.warn(`${componentName} is blacklisted and will not be wrapped`);
+    }
+    return !blacklisted;
+  });
+}
+
+function getActionStatus(componentName) {
+  const actionStatus =
+    swizzleConfig.components[componentName]?.actions[action] ?? 'unsafe';
+  if (!actionStatus) {
+    throw new Error(
+      `Unexpected: missing action ${action} for ${componentName}`,
+    );
+  }
+  return actionStatus;
 }
 
 for (const componentName of componentNames) {
-  const baseParams = {
-    action,
-    siteDir: toPath,
-    themePath,
-    componentName,
-  };
-
   const executeAction = () => {
+    const baseParams = {
+      action,
+      siteDir: toPath,
+      themePath,
+      componentName,
+    };
     switch (action) {
       case 'wrap':
         return wrap({
@@ -71,13 +114,45 @@ for (const componentName of componentNames) {
     }
   };
 
+  const actionStatus = getActionStatus(componentName);
+
+  if (actionStatus === 'forbidden') {
+    logger.warn(
+      `${componentName} is marked as forbidden for action ${action} => skipping`,
+    );
+    // eslint-disable-next-line no-continue
+    continue;
+  }
+
   const result = await executeAction();
 
+  const safetyLog =
+    actionStatus === 'unsafe' ? logger.red('unsafe') : logger.green('safe');
+
   console.log(
-    `${action} ${componentName} => ${result.createdFiles.length} file${
-      result.createdFiles.length > 1 ? 's' : ''
-    } written`,
+    `${componentName} ${action} (${safetyLog}) => ${
+      result.createdFiles.length
+    } file${result.createdFiles.length > 1 ? 's' : ''} written`,
   );
 }
 
-console.log('END');
+logger.newLine();
+logger.success(`End of the Swizzle test script
+Now try to build the site and see if it works
+`);
+logger.newLine();
+
+const componentsWithMissingConfigs = componentNames.filter(
+  (componentName) => !swizzleConfig.components[componentName],
+);
+
+// TODO require theme exhaustive config, fail fast?
+// (at least for our classic theme?)
+// TODO provide util so that theme authors can also check exhaustiveness?
+if (componentsWithMissingConfigs.length > 0) {
+  logger.warn(
+    `${componentsWithMissingConfigs.length} components have no swizzle config.
+Sample: ${componentsWithMissingConfigs.slice(0, 5).join(', ')} ...`,
+  );
+  logger.newLine();
+}
