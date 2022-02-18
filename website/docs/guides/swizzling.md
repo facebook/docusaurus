@@ -4,6 +4,182 @@ description: Customize your site's appearance through creating your own theme co
 
 # Swizzling
 
+When [styling with CSS](docs/styling-layout.md) is not enough, **swizzling** comes into play.
+
+Swizzling allows **deeper site customizations** through **React components**.
+
+<details>
+  <summary>
+    Why is it called swizzling?
+  </summary>
+
+**The name comes from Objective-C and Swift-UI**: [method swizzling](https://pspdfkit.com/blog/2019/swizzling-in-swift/) is the process of changing the implementation of an existing selector (method).
+
+**For Docusaurus, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.**
+
+You can think of it has [Monkey Patching](https://en.wikipedia.org/wiki/Monkey_patch) for React components, enabling you to override the default implementation. Gatsby has a similar concept called [theme shadowing](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/).
+
+To gain a deeper understanding of this, you have to understand [how theme components are resolved](#theme-aliases).
+
+</details>
+
+In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
+
+- [**Ejecting**](#ejecting): creates a **copy** of the original theme component, that you can fully **customize**
+- [**Wrapping**](#wrapping): creates a **wrapper** around the original theme component, that you can **enhance**
+
+Docusaurus provides an **interactive CLI** to swizzle components:
+
+```bash npm2yarn
+npm run swizzle
+```
+
+It will generate a new component your `src/theme` directory, that should look like this example:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="Ejecting">
+
+   ```jsx title="src/theme/SomeComponent.js"
+    import React from 'react';
+
+    export default function SomeComponent(props) {
+      // You can fully customize this implementation
+      // including changing the markup and CSS
+      return (
+        <div className="some-class">
+          <h1>Some Component</h1>
+          <p>Some component implementation details</p>
+        </div>
+      );
+    }
+   ```
+
+</TabItem>
+<TabItem value="Wrapping">
+
+   ```jsx title="src/theme/SomeComponent.js"
+    import React from 'react';
+    import SomeComponent from '@theme-original/SomeComponent';
+
+    export default function SomeComponentWrapper(props) {
+      // You can enhance the original component,
+      // including adding extra props or JSX elements around it
+      return (
+        <>
+          <SomeComponent {...props} />
+        </>
+      );
+    }
+   ```
+
+</TabItem>
+</Tabs>
+````
+
+:::warning
+
+Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
+
+:::
+
+:::tip
+
+To get an overview of all the themes and components available to swizzle, run:
+
+```bash npm2yarn
+npm run swizzle --list
+```
+
+:::
+
+## Swizzle CLI {#swizzle-cli}
+
+The swizzle CLI is **interactive**, and you generally only need to remember the following command:
+
+```bash npm2yarn
+npm run swizzle
+```
+
+:::tip
+
+Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../api.md#docusaurus-swizzle-sitedir).
+
+:::
+
+## What is safe to swizzle {#what-is-safe-to-swizzle}
+
+> With great power comes great responsibility
+
+Some theme components are **internal implementation details** of a theme. Docusaurus allows you to swizzle them, but it **might be risky**.
+
+<details>
+  <summary>
+    Why is it risky?
+  </summary>
+
+Theme authors (including us) might have to update their theme over time: changing the component props, name, file-system location, types...
+
+When upgrading a theme (or Docusaurus), your swizzle customizations might **stop working**, and can even **break your site**, leading to more **complex upgrades**.
+
+</details>
+
+For each theme component, the swizzle CLI will indicate **3 different levels of safety** declared by theme authors:
+
+- **Safe**: this component is safe to be swizzled, its public API is considered stable, and no breaking changes should happen within a theme **major version**.
+- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen withing a theme **minor version**
+- **Forbidden**: the swizzle CLI will prevent you from swizzling this component
+
+:::note
+
+Some components might be safe to wrap, but not safe to eject.
+
+:::
+
+:::info
+
+Don't be too **afraid to swizzle unsafe components**: just keep in mind that **breaking changes** might happen, and you might need to upgrade your customizations manually on minor version upgrades.
+
+:::
+
+:::tip
+
+If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
+
+:::
+
+## Ejecting {#ejecting}
+
+Ejecting a theme component is the process of creating a **copy** of the original theme component, that you can fully customize and override.
+
+---
+
+---
+
+---
+
+---
+
+---
+
+---
+
+## Old
+
+## Old
+
+## Old
+
+## Old
+
+## Old
+
+## Old
+
+## Old
+
+---
+
 In this section, we will introduce how customization of layout is done in Docusaurus.
 
 > Déja vu...?
@@ -11,12 +187,6 @@ In this section, we will introduce how customization of layout is done in Docusa
 This section is similar to [Styling and Layout](docs/styling-layout.md), but this time, we are going to write more code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, from how to swizzle, to how it works under the hood.
 
 We know you are busy, so we will start with the "how" before going into the "why".
-
-:::tip
-
-If you can't find a way to create a robust CSS selector, please [report your customization use-case](https://github.com/facebook/docusaurus/discussions/5468) and we will consider adding new class names.
-
-:::
 
 ## Swizzling {#swizzling}
 
