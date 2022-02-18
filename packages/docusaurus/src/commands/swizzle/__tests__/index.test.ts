@@ -73,6 +73,7 @@ function createExitMock() {
 }
 
 const swizzleWithExit: typeof swizzle = async (...args) => {
+  console.log('swizzleWithExit', args);
   await expect(() => swizzle(...args)).rejects.toThrow(MockExitError);
 };
 
@@ -126,6 +127,8 @@ async function createTestSite() {
       typescript,
     });
   }
+
+  console.log('create test site', {siteDir, siteThemePath, ThemePath});
 
   return {
     siteDir,
