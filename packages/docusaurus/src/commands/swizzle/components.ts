@@ -48,11 +48,13 @@ export function readComponentNames(themePath: string): string[] {
   type ComponentFile = File & {componentName: string};
 
   if (!fs.existsSync(themePath)) {
+    console.log(`themePath doesn't exist: ${themePath}`);
     return [];
   }
 
   function walk(dir: string): ComponentFile[] {
     const files: File[] = fs.readdirSync(dir).flatMap((file) => {
+      console.log('file', file);
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
       const isDir = stat.isDirectory();
@@ -127,6 +129,13 @@ export function getThemeComponents({
   };
 
   const allComponents = readComponentNames(themePath);
+
+  console.log('getThemeComponents', {
+    themeName,
+    themePath,
+    swizzleConfig,
+    allComponents,
+  });
 
   function getConfig(component: string): SwizzleComponentConfig {
     if (!allComponents.includes(component)) {
