@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.17.2",
+    "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/theme-common": "2.0.0-beta.15",
@@ -32,7 +32,7 @@
     "core-js": "^3.21.0",
     "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.3.1",
-    "webpack": "^5.68.0",
+    "webpack": "^5.69.1",
     "webpack-merge": "^5.8.0",
     "workbox-build": "^6.4.2",
     "workbox-precaching": "^6.1.1",
