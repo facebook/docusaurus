@@ -15,7 +15,7 @@ import type {
   SimpleFooter,
 } from '@docusaurus/theme-common';
 
-import {keyBy, chain} from 'lodash';
+import _ from 'lodash';
 import {mergeTranslations} from '@docusaurus/utils';
 
 function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
@@ -30,15 +30,17 @@ function getNavbarTranslationFile(navbar: Navbar): TranslationFileContent {
 
   const allNavbarItems = flattenNavbarItems(navbar.items);
 
-  const navbarItemsTranslations: TranslationFileContent = chain(
-    allNavbarItems.filter((navbarItem) => !!navbarItem.label),
-  )
-    .keyBy((navbarItem) => `item.label.${navbarItem.label}`)
-    .mapValues((navbarItem) => ({
-      message: navbarItem.label!,
-      description: `Navbar item with label ${navbarItem.label}`,
-    }))
-    .value();
+  const navbarItemsTranslations: TranslationFileContent = Object.fromEntries(
+    allNavbarItems
+      .filter((navbarItem) => navbarItem.label)
+      .map((navbarItem) => [
+        `item.label.${navbarItem.label}`,
+        {
+          message: navbarItem.label!,
+          description: `Navbar item with label ${navbarItem.label}`,
+        },
+      ]),
+  );
 
   const titleTranslations: TranslationFileContent = navbar.title
     ? {title: {message: navbar.title, description: 'The title in the navbar'}}
@@ -78,33 +80,33 @@ function isMultiColumnFooterLinks(
 }
 
 function getFooterTranslationFile(footer: Footer): TranslationFileContent {
-  const footerLinkTitles: TranslationFileContent = chain(
-    isMultiColumnFooterLinks(footer.links)
-      ? footer.links.filter((link) => !!link.title)
-      : [],
-  )
-    .keyBy((link) => `link.title.${link.title}`)
-    .mapValues((link) => ({
-      message: link.title!,
-      description: `The title of the footer links column with title=${link.title} in the footer`,
-    }))
-    .value();
+  const footerLinkTitles: TranslationFileContent = Object.fromEntries(
+    (isMultiColumnFooterLinks(footer.links)
+      ? footer.links.filter((link) => link.title)
+      : []
+    ).map((link) => [
+      `link.title.${link.title}`,
+      {
+        message: link.title!,
+        description: `The title of the footer links column with title=${link.title} in the footer`,
+      },
+    ]),
+  );
 
-  const footerLinkLabels: TranslationFileContent = chain(
-    isMultiColumnFooterLinks(footer.links)
-      ? footer.links
-          .flatMap((link) => link.items)
-          .filter((link) => !!link.label)
-      : footer.links.filter((link) => !!link.label),
-  )
-    .keyBy((linkItem) => `link.item.label.${linkItem.label}`)
-    .mapValues((linkItem) => ({
-      message: linkItem.label!,
-      description: `The label of footer link with label=${
-        linkItem.label
-      } linking to ${linkItem.to ?? linkItem.href}`,
-    }))
-    .value();
+  const footerLinkLabels: TranslationFileContent = Object.fromEntries(
+    (isMultiColumnFooterLinks(footer.links)
+      ? footer.links.flatMap((link) => link.items).filter((link) => link.label)
+      : footer.links.filter((link) => link.label)
+    ).map((link) => [
+      `link.item.label.${link.label}`,
+      {
+        message: link.label!,
+        description: `The label of footer link with label=${
+          link.label
+        } linking to ${link.to ?? link.href}`,
+      },
+    ]),
+  );
 
   const copyright: TranslationFileContent = footer.copyright
     ? {
@@ -176,7 +178,7 @@ export function translateThemeConfig({
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {
-  const translationFilesMap: Record<string, TranslationFile> = keyBy(
+  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

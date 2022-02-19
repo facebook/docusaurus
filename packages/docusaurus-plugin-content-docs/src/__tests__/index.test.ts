@@ -8,7 +8,7 @@
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
-import {kebabCase, orderBy} from 'lodash';
+import _ from 'lodash';
 
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
@@ -89,7 +89,7 @@ Entries created:
 
     checkVersionMetadataPropCreated: (version: LoadedVersion) => {
       const versionMetadataProp = getCreatedDataByPrefix(
-        `version-${kebabCase(version.versionName)}-metadata-prop`,
+        `version-${_.kebabCase(version.versionName)}-metadata-prop`,
       );
       expect(versionMetadataProp.docsSidebars).toEqual(toSidebarsProp(version));
     },
@@ -815,7 +815,7 @@ describe('site with custom sidebar items generator', () => {
     ): SidebarItemsGeneratorOptionArgs {
       return {
         ...arg,
-        docs: orderBy(arg.docs, 'id'),
+        docs: _.orderBy(arg.docs, 'id'),
         version: {
           ...arg.version,
           contentPath: path.relative(siteDir, arg.version.contentPath),

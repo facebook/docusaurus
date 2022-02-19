@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {memoize} from 'lodash';
+import _ from 'lodash';
 
 import type {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
@@ -63,7 +63,7 @@ export function toRedirectFilesMetadata(
   // Perf: avoid rendering the template twice with the exact same "props"
   // We might create multiple redirect pages for the same destination url
   // note: the first fn arg is the cache key!
-  const createPageContentMemoized = memoize((toUrl: string) =>
+  const createPageContentMemoized = _.memoize((toUrl: string) =>
     createRedirectPageContent({toUrl}),
   );
 

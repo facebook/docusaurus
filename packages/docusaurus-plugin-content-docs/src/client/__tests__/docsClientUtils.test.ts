@@ -17,7 +17,7 @@ import type {
   GlobalVersion,
   ActivePlugin,
 } from '@docusaurus/plugin-content-docs/client';
-import {shuffle} from 'lodash';
+import _ from 'lodash';
 
 describe('docsClientUtils', () => {
   test('getActivePlugin', () => {
@@ -227,7 +227,7 @@ describe('docsClientUtils', () => {
     };
 
     // shuffle, because order shouldn't matter
-    const versions: GlobalVersion[] = shuffle([
+    const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
       version1,
@@ -356,7 +356,7 @@ describe('docsClientUtils', () => {
     };
 
     // shuffle, because order shouldn't matter
-    const versions: GlobalVersion[] = shuffle([
+    const versions: GlobalVersion[] = _.shuffle([
       versionNext,
       version2,
       version1,

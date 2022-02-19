@@ -10,7 +10,7 @@ import {
   type RouteConfig as RRRouteConfig,
 } from 'react-router-config';
 import fs from 'fs-extra';
-import {mapValues, pickBy, countBy} from 'lodash';
+import _ from 'lodash';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {
   removePrefix,
@@ -84,12 +84,12 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+  const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
     getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
   );
 
   // remove pages without any broken link
-  return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
+  return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
 export function getBrokenLinksErrorMessage(
@@ -126,7 +126,7 @@ export function getBrokenLinksErrorMessage(
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
 
-    const countedBrokenLinks = countBy(
+    const countedBrokenLinks = _.countBy(
       flatList,
       (item) => item.brokenLink.link,
     );
@@ -197,7 +197,7 @@ export async function filterExistingFileLinks({
     return filePathsToTry.some(isExistingFile);
   }
 
-  return mapValues(allCollectedLinks, (links) =>
+  return _.mapValues(allCollectedLinks, (links) =>
     links.filter((link) => !linkFileExists(link)),
   );
 }

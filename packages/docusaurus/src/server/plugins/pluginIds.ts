@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {groupBy} from 'lodash';
+import _ from 'lodash';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import type {InitializedPlugin} from '@docusaurus/types';
 
@@ -14,9 +14,9 @@ import type {InitializedPlugin} from '@docusaurus/types';
 export function ensureUniquePluginInstanceIds(
   plugins: InitializedPlugin[],
 ): void {
-  const pluginsByName = groupBy(plugins, (p) => p.name);
+  const pluginsByName = _.groupBy(plugins, (p) => p.name);
   Object.entries(pluginsByName).forEach(([pluginName, pluginInstances]) => {
-    const pluginInstancesById = groupBy(
+    const pluginInstancesById = _.groupBy(
       pluginInstances,
       (p) => p.options.id ?? DEFAULT_PLUGIN_ID,
     );

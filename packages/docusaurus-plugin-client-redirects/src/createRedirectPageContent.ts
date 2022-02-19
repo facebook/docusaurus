@@ -7,13 +7,13 @@
 
 import * as eta from 'eta';
 import redirectPageTemplate from './templates/redirectPage.template.html';
-import {memoize} from 'lodash';
+import _ from 'lodash';
 
 type CreateRedirectPageOptions = {
   toUrl: string;
 };
 
-const getCompiledRedirectPageTemplate = memoize(() =>
+const getCompiledRedirectPageTemplate = _.memoize(() =>
   eta.compile(redirectPageTemplate.trim()),
 );
 

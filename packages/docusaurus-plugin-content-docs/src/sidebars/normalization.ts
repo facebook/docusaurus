@@ -17,7 +17,7 @@ import type {
   NormalizedSidebarItemCategory,
 } from './types';
 import {isCategoriesShorthand} from './utils';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -81,5 +81,5 @@ function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
 ): NormalizedSidebars {
-  return mapValues(sidebars, normalizeSidebar);
+  return _.mapValues(sidebars, normalizeSidebar);
 }
