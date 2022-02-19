@@ -13,6 +13,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import Translate, {translate} from '@docusaurus/Translate';
 import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
+import BlogListPaginator from '@theme/BlogListPaginator';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -33,7 +34,7 @@ function useBlogPostsPlural() {
 }
 
 export default function BlogTagsPostsPage(props: Props): JSX.Element {
-  const {metadata, items, sidebar} = props;
+  const {metadata, items, sidebar, listMetadata} = props;
   const {allTagsPath, name: tagName, count} = metadata;
   const blogPostsPlural = useBlogPostsPlural();
   const title = translate(
@@ -77,6 +78,7 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
           <BlogPostContent />
         </BlogPostItem>
       ))}
+      <BlogListPaginator metadata={listMetadata} />
     </BlogLayout>
   );
 }

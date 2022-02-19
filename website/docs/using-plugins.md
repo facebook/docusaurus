@@ -112,7 +112,7 @@ At most one plugin instance can be the "default plugin instance", by omitting th
 
 :::
 
-## Using themes
+## Using themes {#using-themes}
 
 Themes are loaded in the exact same way as plugins—the line between them is blurry. From the consumer perspective, the `themes` and `plugins` entries are interchangeable when installing and configuring a plugin. The only nuance is that themes are loaded after plugins, and it's possible for [a theme to override a plugin's default theme components](./advanced/swizzling.md#theme-aliases).
 
@@ -278,7 +278,7 @@ module.exports = {
 };
 ```
 
-## Module shorthands
+## Module shorthands {#module-shorthands}
 
 Docusaurus supports shorthands for plugins, themes, and presets. When it sees a plugin / theme / preset name, it tries to load one of the following, in that order:
 

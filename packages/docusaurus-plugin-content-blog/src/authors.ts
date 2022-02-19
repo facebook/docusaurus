@@ -83,9 +83,9 @@ function normalizeFrontMatterAuthors(
     authorInput: string | BlogPostFrontMatterAuthor,
   ): BlogPostFrontMatterAuthor {
     if (typeof authorInput === 'string') {
-      // Technically, we could allow users to provide an author's name here
-      // IMHO it's better to only support keys here
-      // Reason: a typo in a key would fallback to becoming a name and may end-up un-noticed
+      // Technically, we could allow users to provide an author's name here, but
+      // we only support keys, otherwise, a typo in a key would fallback to
+      // becoming a name and may end up unnoticed
       return {key: authorInput};
     }
     return authorInput;
@@ -137,7 +137,8 @@ export function getBlogPostAuthors(params: AuthorsParam): Author[] {
   const authors = getFrontMatterAuthors(params);
 
   if (authorLegacy) {
-    // Technically, we could allow mixing legacy/authors front matter, but do we really want to?
+    // Technically, we could allow mixing legacy/authors front matter, but do we
+    // really want to?
     if (authors.length > 0) {
       throw new Error(
         `To declare blog post authors, use the 'authors' front matter in priority.

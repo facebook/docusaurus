@@ -8,6 +8,7 @@ tags:
   [
     blog,
     docusaurus,
+    paginated-tag,
     long,
     long-long,
     long-long-long,

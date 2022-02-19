@@ -40,7 +40,7 @@ export default {
       '@docusaurus/core/lib/client/exports/$1',
     // Maybe point to a fixture?
     '@generated/.*': '<rootDir>/jest/emptyModule.js',
-    // TODO maybe use "projects" + multiple configs if we plan to add tests to another theme?
+    // TODO use "projects" + multiple configs if we work on another theme?
     '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
     '@site/(.*)': 'website/$1',
 

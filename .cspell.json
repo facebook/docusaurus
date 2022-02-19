@@ -28,9 +28,11 @@
     "yarn.lock",
     "project-words.txt",
     "website/src/data/users.tsx",
+    "website/src/data/tweets.tsx",
     "*.xyz",
     "*.docx",
-    "versioned_docs"
+    "versioned_docs",
+    "*.min.*"
   ],
   "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
 }

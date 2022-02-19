@@ -13,15 +13,16 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE:
  *
  * Requirements for adding your site to our showcase:
- * - It is a production-ready site with real content and decent customizations (different from the init templates)
+ * - It is a production-ready site with real content and decent customizations
+ * (different from the init templates)
  * - It is NOT a work-in-progress with empty pages
- * - It has a stable domain name (a Netlify/Vercel deploy preview is not allowed)
+ * - It has a stable domain (a Netlify/Vercel deploy preview is not allowed)
  *
  * Instructions:
  * - Add your site in the json array below
  * - Add a local image preview (decent screenshot of your Docusaurus site)
  * - Use relevant tags to qualify your site (read the tag descriptions below)
- * - The image MUST be added to the GitHub repository, and use `require("image")`
+ * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
  * - Open a PR and check for reported CI errors
  *
@@ -62,7 +63,7 @@ export type TagType =
 export type User = {
   title: string;
   description: string;
-  preview: any;
+  preview: string;
   website: string;
   source: string | null;
   tags: TagType[];
@@ -115,7 +116,7 @@ export const Tags: Record<TagType, Tag> = {
     color: '#fe6829',
   },
 
-  // Large Docusaurus sites, with a lot of content (> 200 pages, excluding versions)
+  // Large sites, with a lot of content (> 200 pages, excluding versions)
   large: {
     label: 'Large',
     description:
@@ -302,14 +303,6 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Discord Resources',
-    description: 'All Discord resources in one place',
-    preview: require('./showcase/discordresources.png'),
-    website: 'https://discordresources.com/',
-    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
-    tags: ['opensource'],
-  },
-  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
@@ -405,6 +398,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CyberDrain Improved Partner Portal (CIPP)',
+    description: 'Free and open-source multi-tenant management for Microsoft 365.',
+    preview: require('./showcase/CIPP.png'),
+    website: 'https://cipp.app',
+    source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
       'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
@@ -455,6 +456,14 @@ const Users: User[] = [
     website: 'https://notes.nayanpatel.net',
     source: 'https://github.com/PatelN123/Digital-Support-Notes',
     tags: ['opensource', 'design', 'personal'],
+  },
+  {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
+    tags: ['opensource'],
   },
   {
     title: 'Djamaile Rahamat',
@@ -1181,6 +1190,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'Rivalis',
+    description:
+      'An open source framework for developing servers for real-time applications and games',
+    preview: require('./showcase/rivalis.png'),
+    website: 'https://rivalis.io',
+    source: 'https://github.com/rivalis/rivalis',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'RactivePlayer',
     description: 'Interactive videos in React',
     preview: require('./showcase/ractive-player.png'),
@@ -1315,6 +1333,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Redux Cool',
+    description: 'Build redux logic, without getting nervous 😬',
+    preview: require('./showcase/redux-cool.png'),
+    website: 'https://redux-cool.js.org/',
+    source: 'https://github.com/Redux-Cool/redux-cool',
+    tags: ['opensource'],
+  },
+  {
     title: 'Redis Labs Developer Site',
     description: 'The Home of Redis Developers',
     preview: require('./showcase/redis-developer.png'),
@@ -1380,6 +1406,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Resoto',
+    description:
+      'Open-source cloud infrastructure management tool—find leaky resources, manage quota limits, detect drift, and clean up!',
+    preview: require('./showcase/resoto.png'),
+    website: 'https://resoto.com',
+    source: 'https://github.com/someengineering/resoto.com',
+    tags: ['opensource', 'product', 'design'],
+  },
+  {
     title: 'Rooks',
     description:
       'Supercharge your components with this collection of React hooks.',
@@ -1419,6 +1454,15 @@ const Users: User[] = [
     website: 'https://docs.getsaleor.com/',
     source: 'https://github.com/mirumee/saleor-docs',
     tags: ['opensource', 'product', 'versioning'],
+  },
+  {
+    title: 'SAP Cloud SDK',
+    description:
+      'The one-stop shop for developing and extending SAP applications in the cloud.',
+    preview: require('./showcase/sapcloudsdk.png'),
+    website: 'https://sap.github.io/cloud-sdk/',
+    source: 'https://github.com/SAP/cloud-sdk',
+    tags: ['opensource', 'product', 'large'],
   },
   {
     title: 'Sapphire',
@@ -1470,6 +1514,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SmartCookieWeb',
+    description: 'Webpage for an open source, telemetry-free Android web browser',
+    preview: require('./showcase/smartcookieweb.png'),
+    website: 'https://smartcookieweb.com/',
+    source: null,
+    tags: ['product', 'i18n'],
+  },
+  {
     title: 'Shabad OS Docs',
     description:
       'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
@@ -1503,6 +1555,15 @@ const Users: User[] = [
     website: 'https://docs.sodaforsparc.io/',
     source: 'https://github.com/fairdataihub/SODA-for-SPARC-Docs',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'Some Engineering Inc.',
+    description:
+      'Startup developing open-source tools to make cloud infrastructure searchable and accessible.',
+    preview: require('./showcase/someengineering.png'),
+    website: 'https://some.engineering',
+    source: 'https://github.com/someengineering/some.engineering',
+    tags: ['opensource', 'design'],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -1587,6 +1648,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'TechHarvesting',
+    description: 'Learn full stack web development from tutorials and blog posts',
+    preview: require('./showcase/techharvesting.png'),
+    website: 'https://techharvesting.in',
+    source: 'https://github.com/techharvesting/techharvesting.github.io',
+    tags: ['opensource', 'personal'],
+  },
+  {
     title: 'The Diff Podcast',
     description: 'A Podcast from Facebook Open Source',
     preview: require('./showcase/the-diff.png'),
@@ -1650,6 +1719,14 @@ const Users: User[] = [
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
     source: 'https://github.com/Unleash/unleash/',
+    tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Verida',
+    description: 'A web3 data storage and sharing API',
+    preview: require('./showcase/verida-developers.png'),
+    website: 'https://developers.verida.io/',
+    source: 'https://github.com/verida/documentation',
     tags: ['opensource', 'product'],
   },
   {

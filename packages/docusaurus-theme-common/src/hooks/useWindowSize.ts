@@ -15,7 +15,8 @@ const windowSizes = {
 
   // This "ssr" value is very important to handle hydration FOUC / layout shifts
   // You have to handle server-rendering explicitly on the call-site
-  // On the server, you may need to render BOTH the mobile/desktop elements (and hide one of them with mediaquery)
+  // On the server, you may need to render BOTH the mobile/desktop elements (and
+  // hide one of them with mediaquery)
   // We don't return "undefined" on purpose, to make it more explicit
   ssr: 'ssr',
 } as const;
@@ -33,7 +34,8 @@ function getWindowSize() {
     : windowSizes.mobile;
 }
 
-// Simulate the SSR window size in dev, so that potential hydration FOUC/layout shift problems can be seen in dev too!
+// Simulate the SSR window size in dev, so that potential hydration FOUC/layout
+// shift problems can be seen in dev too!
 const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
 
 // This hook returns an enum value on purpose!

@@ -45,8 +45,8 @@ export default function applyTrailingSlash(
 
   // Never transform '/' to ''
   // Never remove the baseUrl trailing slash!
-  // If baseUrl = /myBase/, we want to emit /myBase/index.html and not /myBase.html !
-  // See https://github.com/facebook/docusaurus/issues/5077
+  // If baseUrl = /myBase/, we want to emit /myBase/index.html and not
+  // /myBase.html! See https://github.com/facebook/docusaurus/issues/5077
   const shouldNotApply = pathname === '/' || pathname === baseUrl;
 
   const newPathname = shouldNotApply

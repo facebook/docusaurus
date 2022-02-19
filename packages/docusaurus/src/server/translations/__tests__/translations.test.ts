@@ -459,8 +459,9 @@ describe('localizePluginTranslationFile', () => {
     expect(localizedTranslationFile).toEqual({
       path: translationFile.path,
       content: {
-        // We only append/override localized messages, but never delete the data of the unlocalized translation file
-        // This ensures that all required keys are present when trying to read the translations files
+        // We only append/override localized messages, but never delete the data
+        // of the unlocalized translation file. This ensures that all required
+        // keys are present when trying to read the translations files
         key1: {message: 'key1 message'},
         key2: {message: 'key2 message localized'},
         key3: {message: 'key3 message'},

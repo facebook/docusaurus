@@ -84,9 +84,9 @@ export async function loadPlugins({
   });
 
   // 2. Plugin Lifecycle - loadContent.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
       const content = plugin.loadContent ? await plugin.loadContent() : null;
@@ -199,9 +199,9 @@ export async function loadPlugins({
   );
 
   // 4. Plugin Lifecycle - routesLoaded.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   await Promise.all(
     contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {

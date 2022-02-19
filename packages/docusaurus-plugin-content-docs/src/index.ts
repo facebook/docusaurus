@@ -217,6 +217,7 @@ export default async function pluginContentDocs(
         docLayoutComponent,
         docItemComponent,
         docCategoryGeneratedIndexComponent,
+        breadcrumbs,
       } = options;
       const {addRoute, createData, setGlobalData} = actions;
 
@@ -295,6 +296,7 @@ export default async function pluginContentDocs(
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: loadedVersions.map(toGlobalDataVersion),
+        breadcrumbs,
       });
     },
 
@@ -333,7 +335,7 @@ export default async function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         const contentDirs = versionsMetadata.flatMap(getDocsDirPaths);
         return {
-          test: /(\.mdx?)$/,
+          test: /\.mdx?$/i,
           include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),

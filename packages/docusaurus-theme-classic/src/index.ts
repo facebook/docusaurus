@@ -23,7 +23,7 @@ const ContextReplacementPlugin: typeof webpack.ContextReplacementPlugin =
   requireFromDocusaurusCore('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
-// Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
+// Make sure the key is the same as the one in `/theme/hooks/useTheme.js`
 const ThemeStorageKey = 'theme';
 const noFlashColorMode = ({
   defaultMode,
@@ -64,15 +64,17 @@ const noFlashColorMode = ({
   }
 })();`;
 
-// Duplicated constant. Unfortunately we can't import it from theme-common, as we need to support older nodejs versions without ESM support
+// Duplicated constant. Unfortunately we can't import it from theme-common, as
+// we need to support older nodejs versions without ESM support
 // TODO: import from theme-common once we only support Node.js with ESM support
 // + move all those announcementBar stuff there too
 export const AnnouncementBarDismissStorageKey =
   'docusaurus.announcement.dismiss';
 const AnnouncementBarDismissDataAttribute =
   'data-announcement-bar-initially-dismissed';
-// We always render the announcement bar html on the server, to prevent layout shifts on React hydration
-// The theme can use CSS + the data attribute to hide the announcement bar asap (before React hydration)
+// We always render the announcement bar html on the server, to prevent layout
+// shifts on React hydration. The theme can use CSS + the data attribute to hide
+// the announcement bar asap (before React hydration)
 const AnnouncementBarInlineJavaScript = `
 (function() {
   function isDismissed() {

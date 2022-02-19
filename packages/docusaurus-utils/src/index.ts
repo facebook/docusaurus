@@ -22,18 +22,69 @@ import resolvePathnameUnsafe from 'resolve-pathname';
 import {simpleHash, docuHash} from './hashUtils';
 import {DEFAULT_PLUGIN_ID} from './constants';
 
-export * from './constants';
-export * from './mdxUtils';
-export * from './urlUtils';
-export * from './tags';
-export * from './markdownParser';
-export * from './markdownLinks';
-export * from './slugger';
-export * from './pathUtils';
-export * from './hashUtils';
-export * from './globUtils';
-export * from './webpackUtils';
-export * from './dataFileUtils';
+export {
+  NODE_MAJOR_VERSION,
+  NODE_MINOR_VERSION,
+  DEFAULT_BUILD_DIR_NAME,
+  DEFAULT_CONFIG_FILE_NAME,
+  BABEL_CONFIG_FILE_NAME,
+  GENERATED_FILES_DIR_NAME,
+  SRC_DIR_NAME,
+  STATIC_DIR_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+  THEME_PATH,
+  DEFAULT_PORT,
+  DEFAULT_PLUGIN_ID,
+  WEBPACK_URL_LOADER_LIMIT,
+} from './constants';
+export {getFileCommitDate, GitNotFoundError} from './gitUtils';
+export {normalizeUrl, getEditUrl} from './urlUtils';
+export {
+  type Tag,
+  type FrontMatterTag,
+  type TaggedItemGroup,
+  normalizeFrontMatterTag,
+  normalizeFrontMatterTags,
+  groupTaggedItems,
+} from './tags';
+export {
+  parseMarkdownHeadingId,
+  createExcerpt,
+  parseFrontMatter,
+  parseMarkdownContentTitle,
+  parseMarkdownString,
+} from './markdownParser';
+export {
+  type ContentPaths,
+  type BrokenMarkdownLink,
+  type ReplaceMarkdownLinksParams,
+  type ReplaceMarkdownLinksReturn,
+  replaceMarkdownLinks,
+} from './markdownLinks';
+export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
+export {
+  isNameTooLong,
+  shortName,
+  posixPath,
+  toMessageRelativeFilePath,
+  aliasedSitePath,
+  escapePath,
+} from './pathUtils';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {
+  Globby,
+  GlobExcludeDefault,
+  createMatcher,
+  createAbsoluteFilePathMatcher,
+} from './globUtils';
+export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getDataFilePath,
+  getDataFileData,
+  getContentPathList,
+  findFolderContainingFile,
+  getFolderContainingFile,
+} from './dataFileUtils';
 
 const fileHash = new Map<string, string>();
 export async function generate(
@@ -70,8 +121,8 @@ export async function generate(
   }
 }
 
-const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
+const indexRE = /(?<dirname>^|.*\/)index\.(?:mdx?|jsx?|tsx?)$/i;
+const extRE = /\.(?:mdx?|jsx?|tsx?)$/;
 
 /**
  * Convert filepath to url path.
@@ -201,7 +252,8 @@ export function getPluginI18nPath({
   return path.join(
     siteDir,
     'i18n',
-    // namespace first by locale: convenient to work in a single folder for a translator
+    // namespace first by locale: convenient to work in a single folder for a
+    // translator
     locale,
     // Make it convenient to use for single-instance
     // ie: return "docs", not "docs-default" nor "docs/default"
@@ -210,12 +262,47 @@ export function getPluginI18nPath({
   );
 }
 
+/**
+ * @param permalink The URL that the HTML file corresponds to, without base URL
+ * @param outDir Full path to the output directory
+ * @param trailingSlash The site config option. If provided, only one path will
+ * be read.
+ * @returns This returns a buffer, which you have to decode string yourself if
+ * needed. (Not always necessary since the output isn't for human consumption
+ * anyways, and most HTML manipulation libs accept buffers)
+ */
+export async function readOutputHTMLFile(
+  permalink: string,
+  outDir: string,
+  trailingSlash: boolean | undefined,
+): Promise<Buffer> {
+  const withTrailingSlashPath = path.join(outDir, permalink, 'index.html');
+  const withoutTrailingSlashPath = path.join(
+    outDir,
+    `${permalink.replace(/\/$/, '')}.html`,
+  );
+  if (trailingSlash) {
+    return fs.readFile(withTrailingSlashPath);
+  } else if (trailingSlash === false) {
+    return fs.readFile(withoutTrailingSlashPath);
+  }
+  const HTMLPath = await findAsyncSequential(
+    [withTrailingSlashPath, withoutTrailingSlashPath],
+    fs.pathExists,
+  );
+  if (!HTMLPath) {
+    throw new Error(
+      `Expected output HTML file to be found at ${withTrailingSlashPath}`,
+    );
+  }
+  return fs.readFile(HTMLPath);
+}
+
 export async function mapAsyncSequential<T, R>(
   array: T[],
   action: (t: T) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = [];
-  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     const result = await action(t);
     results.push(result);
@@ -227,7 +314,6 @@ export async function findAsyncSequential<T>(
   array: T[],
   predicate: (t: T) => Promise<boolean>,
 ): Promise<T | undefined> {
-  // eslint-disable-next-line no-restricted-syntax
   for (const t of array) {
     if (await predicate(t)) {
       return t;

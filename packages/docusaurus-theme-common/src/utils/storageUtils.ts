@@ -11,8 +11,8 @@ export type StorageType = typeof StorageTypes[number];
 
 const DefaultStorageType: StorageType = 'localStorage';
 
-// Will return null browser storage is unavailable (like running Docusaurus in iframe)
-// See https://github.com/facebook/docusaurus/pull/4501
+// Will return null browser storage is unavailable (like running Docusaurus in
+// iframe) See https://github.com/facebook/docusaurus/pull/4501
 function getBrowserStorage(
   storageType: StorageType = DefaultStorageType,
 ): Storage | null {
@@ -23,13 +23,12 @@ function getBrowserStorage(
   }
   if (storageType === 'none') {
     return null;
-  } else {
-    try {
-      return window[storageType];
-    } catch (e) {
-      logOnceBrowserStorageNotAvailableWarning(e as Error);
-      return null;
-    }
+  }
+  try {
+    return window[storageType];
+  } catch (e) {
+    logOnceBrowserStorageNotAvailableWarning(e as Error);
+    return null;
   }
 }
 
@@ -79,10 +78,10 @@ Please only call storage APIs in effects and event handlers.`);
 
 /**
  * Creates an object for accessing a particular key in localStorage.
- * The API is fail-safe, and usage of browser storage should be considered unreliable
- * Local storage might simply be unavailable (iframe + browser security) or operations might fail individually
- * Please assume that using this API can be a NO-OP
- * See also https://github.com/facebook/docusaurus/issues/6036
+ * The API is fail-safe, and usage of browser storage should be considered
+ * unreliable. Local storage might simply be unavailable (iframe + browser
+ * security) or operations might fail individually. Please assume that using
+ * this API can be a NO-OP. See also https://github.com/facebook/docusaurus/issues/6036
  */
 export const createStorageSlot = (
   key: string,

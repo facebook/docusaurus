@@ -70,3 +70,5 @@ const config = {
   priority: 0.5,
 };
 ```
+
+You can find your sitemap at `/sitemap.xml`.

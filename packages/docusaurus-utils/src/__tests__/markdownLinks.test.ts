@@ -21,6 +21,7 @@ describe('replaceMarkdownLinks', () => {
           '@site/docs/intro.md': '/docs/intro',
           '@site/docs/foo.md': '/doc/foo',
           '@site/docs/bar/baz.md': '/doc/baz',
+          '@site/docs/http.foo.md': '/doc/http',
         },
         fileString: `
 [foo](./foo.md)
@@ -29,6 +30,8 @@ describe('replaceMarkdownLinks', () => {
 [http](http://github.com/facebook/docusaurus/README.md)
 [https](https://github.com/facebook/docusaurus/README.md)
 [asset](./foo.js)
+[asset as well](@site/docs/_partial.md)
+[looks like http...](http.foo.md)
 [nonexistent](hmmm.md)
 `,
       }),
@@ -51,8 +54,53 @@ describe('replaceMarkdownLinks', () => {
       [http](http://github.com/facebook/docusaurus/README.md)
       [https](https://github.com/facebook/docusaurus/README.md)
       [asset](./foo.js)
+      [asset as well](@site/docs/_partial.md)
+      [looks like http...](/doc/http)
       [nonexistent](hmmm.md)
       ",
+      }
+    `);
+  });
+
+  test('reference style Markdown links', () => {
+    expect(
+      replaceMarkdownLinks({
+        siteDir: '.',
+        filePath: 'docs/intro/intro.md',
+        contentPaths: {
+          contentPath: 'docs',
+          contentPathLocalized: 'i18n/docs-localized',
+        },
+
+        sourceToPermalink: {
+          '@site/docs/intro/intro.md': '/docs/intro',
+          '@site/docs/api/classes/divine_uri.URI.md': '/docs/api/classes/uri',
+        },
+
+        fileString: `
+The following operations are defined for [URI]s:
+
+* [info]: Returns metadata about the resource,
+* [list]: Returns metadata about the resource's children (like getting the content of a local directory).
+
+[URI]:    ../api/classes/divine_uri.URI.md
+[info]:   ../api/classes/divine_uri.URI.md#info
+[list]:   ../api/classes/divine_uri.URI.md#list
+      `,
+      }),
+    ).toMatchInlineSnapshot(`
+      Object {
+        "brokenMarkdownLinks": Array [],
+        "newContent": "
+      The following operations are defined for [URI]s:
+
+      * [info]: Returns metadata about the resource,
+      * [list]: Returns metadata about the resource's children (like getting the content of a local directory).
+
+      [URI]:    /docs/api/classes/uri
+      [info]:   /docs/api/classes/uri#info
+      [list]:   /docs/api/classes/uri#list
+            ",
       }
     `);
   });

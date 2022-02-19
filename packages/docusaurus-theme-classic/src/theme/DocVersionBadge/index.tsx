@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Translate from '@docusaurus/Translate';
 import {ThemeClassNames, useDocsVersion} from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import type {Props} from '@theme/DocVersionBadge';
@@ -22,7 +23,11 @@ export default function DocVersionBadge({
           ThemeClassNames.docs.docVersionBadge,
           'badge badge--secondary',
         )}>
-        Version: {versionMetadata.label}
+        <Translate
+          id="theme.docs.versionBadge.label"
+          values={{versionLabel: versionMetadata.label}}>
+          {'Version: {versionLabel}'}
+        </Translate>
       </span>
     );
   }

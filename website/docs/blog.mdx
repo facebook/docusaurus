@@ -69,39 +69,7 @@ This is my first post on Docusaurus 2.
 A whole bunch of exploration to follow.
 ```
 
-:::note
-
-Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYYY-MM-DD-my-blog-post-title.md`.
-
-This naming convention is optional, and you can provide the date as front matter.
-
-<details>
-<summary>Example supported patterns</summary>
-
-| Pattern | Example |
-| --- | --- |
-| Single file | `2021-05-28-my-blog-post-title.md` |
-| MDX file | `2021-05-28-my-blog-post-title.mdx` |
-| Single folder + `index.md` | `2021-05-28-my-blog-post-title/index.md` |
-| Folder named by date | `2021-05-28/my-blog-post-title.md` |
-| Nested folders by date | `2021/05/28/my-blog-post-title.md` |
-| Partially nested folders by date | `2021/05-28-my-blog-post-title.md` |
-| Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
-| Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
-
-The date will be excised from the path and appended to the beginning of the URL slug.
-
-</details>
-
-:::
-
-:::tip
-
-Using a folder can be convenient to co-locate blog post images alongside the Markdown file.
-
-:::
-
-The only required field in the front matter is `title`; however, we provide options to add more metadata to your blog post, for example, author information. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
+The front matter is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.md#markdown-front-matter).
 
 ## Blog list {#blog-list}
 
@@ -171,6 +139,48 @@ module.exports = {
     ],
   ],
 };
+```
+
+## Blog post date {#blog-post-date}
+
+Docusaurus will extract a `YYYY-MM-DD` date from a file/folder name such as `YYYY-MM-DD-my-blog-post-title.md`.
+
+<details>
+<summary>Example supported patterns</summary>
+
+| Pattern | Example |
+| --- | --- |
+| Single file | `2021-05-28-my-blog-post-title.md` |
+| MDX file | `2021-05-28-my-blog-post-title.mdx` |
+| Single folder + `index.md` | `2021-05-28-my-blog-post-title/index.md` |
+| Folder named by date | `2021-05-28/my-blog-post-title.md` |
+| Nested folders by date | `2021/05/28/my-blog-post-title.md` |
+| Partially nested folders by date | `2021/05-28-my-blog-post-title.md` |
+| Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
+| Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
+
+The date will be excised from the path and appended to the beginning of the URL slug.
+
+</details>
+
+:::tip
+
+Using a folder can be convenient to co-locate blog post images alongside the Markdown file.
+
+:::
+
+This naming convention is optional, and you can also provide the date as front matter. Since the front matter follows YAML syntax where the datetime notation is supported, you can use front matter if you need more fine-grained publish dates. For example, if you have multiple posts published on the same day, you can order them according to the time of the day:
+
+```md title="earlier-post.md"
+---
+date: 2021-09-13T10:00
+---
+```
+
+```md title="later-post.md"
+---
+date: 2021-09-13T18:00
+---
 ```
 
 ## Blog post authors {#blog-post-authors}

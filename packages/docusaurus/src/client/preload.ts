@@ -9,7 +9,8 @@ import {matchRoutes, type RouteConfig} from 'react-router-config';
 
 /**
  * Helper function to make sure all async components for that particular route
- * is preloaded before rendering. This is especially useful to avoid loading screens.
+ * is preloaded before rendering. This is especially useful to avoid loading
+ * screens.
  *
  * @param routes react-router-config
  * @param pathname the route pathname, example: /docs/installation

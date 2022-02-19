@@ -7,20 +7,19 @@
 
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
-import {execSync} from 'child_process';
 import prompts, {type Choice} from 'prompts';
 import path from 'path';
 import shell from 'shelljs';
-import {kebabCase, sortBy} from 'lodash';
+import _ from 'lodash';
 import supportsColor from 'supports-color';
+import {fileURLToPath} from 'url';
 
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
 function hasYarn() {
   try {
-    execSync('yarnpkg --version', {stdio: 'ignore'});
-    return true;
+    return shell.exec('yarnpkg --version', {silent: true}).code === 0;
   } catch (e) {
     return false;
   }
@@ -50,7 +49,7 @@ function readTemplates(templatesDir: string) {
     );
 
   // Classic should be first in list!
-  return sortBy(templates, (t) => t !== RecommendedTemplate);
+  return _.sortBy(templates, (t) => t !== RecommendedTemplate);
 }
 
 function createTemplateChoices(templates: string[]) {
@@ -81,7 +80,8 @@ async function copyTemplate(
 ) {
   await fs.copy(path.resolve(templatesDir, 'shared'), dest);
 
-  // TypeScript variants will copy duplicate resources like CSS & config from base template
+  // TypeScript variants will copy duplicate resources like CSS & config from
+  // base template
   const tsBaseTemplate = getTypeScriptBaseTemplate(template);
   if (tsBaseTemplate) {
     const tsBaseTemplatePath = path.resolve(templatesDir, tsBaseTemplate);
@@ -94,9 +94,32 @@ async function copyTemplate(
   }
 
   await fs.copy(path.resolve(templatesDir, template), dest, {
-    // Symlinks don't exist in published NPM packages anymore, so this is only to prevent errors during local testing
+    // Symlinks don't exist in published NPM packages anymore, so this is only
+    // to prevent errors during local testing
     filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
   });
+}
+
+const gitStrategies = ['deep', 'shallow', 'copy', 'custom'] as const;
+
+async function getGitCommand(gitStrategy: typeof gitStrategies[number]) {
+  switch (gitStrategy) {
+    case 'shallow':
+    case 'copy':
+      return 'git clone --recursive --depth 1';
+    case 'custom': {
+      const {command} = await prompts({
+        type: 'text',
+        name: 'command',
+        message:
+          'Write your own git clone command. The repository URL and destination directory will be supplied. E.g. "git clone --depth 10"',
+      });
+      return command;
+    }
+    case 'deep':
+    default:
+      return 'git clone';
+  }
 }
 
 export default async function init(
@@ -107,10 +130,11 @@ export default async function init(
     useNpm: boolean;
     skipInstall: boolean;
     typescript: boolean;
+    gitStrategy: typeof gitStrategies[number];
   }> = {},
 ): Promise<void> {
   const useYarn = cliOptions.useNpm ? false : hasYarn();
-  const templatesDir = path.resolve(__dirname, '../templates');
+  const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
   const templates = readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExistsSync(
@@ -164,6 +188,8 @@ export default async function init(
     }
   }
 
+  let gitStrategy = cliOptions.gitStrategy ?? 'deep';
+
   // If user choose Git repository, we'll prompt for the url.
   if (template === 'Git repository') {
     const repoPrompt = await prompts({
@@ -178,6 +204,20 @@ export default async function init(
       message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
 (e.g: path=${'https://github.com/ownerName/repoName.git'})`,
     });
+    ({gitStrategy} = await prompts({
+      type: 'select',
+      name: 'gitStrategy',
+      message: 'How should we clone this repo?',
+      choices: [
+        {title: 'Deep clone: preserve full history', value: 'deep'},
+        {title: 'Shallow clone: clone with --depth=1', value: 'shallow'},
+        {
+          title: 'Copy: do a shallow clone, but do not create a git repo',
+          value: 'copy',
+        },
+        {title: 'Custom: enter your custom git clone command', value: 'custom'},
+      ],
+    }));
     template = repoPrompt.gitRepoUrl;
   } else if (template === 'Local template') {
     const dirPrompt = await prompts({
@@ -210,12 +250,19 @@ export default async function init(
 
   if (isValidGitRepoUrl(template)) {
     logger.info`Cloning Git template path=${template}...`;
-    if (
-      shell.exec(`git clone --recursive ${template} ${dest}`, {silent: true})
-        .code !== 0
-    ) {
+    if (!gitStrategies.includes(gitStrategy)) {
+      logger.error`Invalid git strategy: name=${gitStrategy}. Value must be one of ${gitStrategies.join(
+        ', ',
+      )}.`;
+      process.exit(1);
+    }
+    const command = await getGitCommand(gitStrategy);
+    if (shell.exec(`${command} ${template} ${dest}`).code !== 0) {
       logger.error`Cloning Git template name=${template} failed!`;
       process.exit(1);
+    }
+    if (gitStrategy === 'copy') {
+      await fs.remove(path.join(dest, '.git'));
     }
   } else if (templates.includes(template)) {
     // Docusaurus templates.
@@ -248,7 +295,7 @@ export default async function init(
   // Update package.json info.
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: kebabCase(name),
+      name: _.kebabCase(name),
       version: '0.0.0',
       private: true,
     });
@@ -278,7 +325,8 @@ export default async function init(
       shell.exec(useYarn ? 'yarn' : 'npm install --color always', {
         env: {
           ...process.env,
-          // Force coloring the output, since the command is invoked by shelljs, which is not the interactive shell
+          // Force coloring the output, since the command is invoked by shelljs,
+          // which is not the interactive shell
           ...(supportsColor.stdout ? {FORCE_COLOR: '1'} : {}),
         },
       }).code !== 0

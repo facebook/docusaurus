@@ -32,159 +32,159 @@ describe('docsVersion', () => {
     sidebarCollapsible: true,
   };
 
-  test('no version tag provided', () => {
-    expect(() =>
+  test('no version tag provided', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         null,
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         undefined,
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         '',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
   });
 
-  test('version tag should not have slash', () => {
-    expect(() =>
+  test('version tag should not have slash', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         'foo/bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         'foo\\bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
     );
   });
 
-  test('version tag should not be too long', () => {
-    expect(() =>
+  test('version tag should not be too long', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         'a'.repeat(255),
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0."`,
     );
   });
 
-  test('version tag should not be a dot or two dots', () => {
-    expect(() =>
+  test('version tag should not be a dot or two dots', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         '..',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         '.',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
   });
 
-  test('version tag should be a valid pathname', () => {
-    expect(() =>
+  test('version tag should be a valid pathname', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         '<foo|bar>',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         'foo\x00bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         'foo:bar',
         simpleSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
   });
 
-  test('version tag already exist', () => {
-    expect(() =>
+  test('version tag already exist', async () => {
+    await expect(() =>
       cliDocsVersionCommand(
         '1.0.0',
         versionedSiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: this version already exists! Use a version tag that does not already exist."`,
     );
   });
 
-  test('no docs file to version', () => {
+  test('no docs file to version', async () => {
     const emptySiteDir = path.join(fixtureDir, 'empty-site');
-    expect(() =>
+    await expect(() =>
       cliDocsVersionCommand(
         '1.0.0',
         emptySiteDir,
         DEFAULT_PLUGIN_ID,
         DEFAULT_OPTIONS,
       ),
-    ).toThrowErrorMatchingInlineSnapshot(
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: there is no docs to version!"`,
     );
   });
 
-  test('first time versioning', () => {
+  test('first time versioning', async () => {
     const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
     const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
     const writeMock = jest.spyOn(fs, 'writeFileSync');
@@ -205,7 +205,12 @@ describe('docsVersion', () => {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
-    cliDocsVersionCommand('1.0.0', simpleSiteDir, DEFAULT_PLUGIN_ID, options);
+    await cliDocsVersionCommand(
+      '1.0.0',
+      simpleSiteDir,
+      DEFAULT_PLUGIN_ID,
+      options,
+    );
     expect(copyMock).toHaveBeenCalledWith(
       path.join(simpleSiteDir, options.path),
       path.join(
@@ -236,7 +241,7 @@ describe('docsVersion', () => {
     ensureMock.mockRestore();
   });
 
-  test('not the first time versioning', () => {
+  test('not the first time versioning', async () => {
     const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
     const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
     const writeMock = jest.spyOn(fs, 'writeFileSync');
@@ -257,7 +262,7 @@ describe('docsVersion', () => {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
-    cliDocsVersionCommand(
+    await cliDocsVersionCommand(
       '2.0.0',
       versionedSiteDir,
       DEFAULT_PLUGIN_ID,
@@ -293,7 +298,7 @@ describe('docsVersion', () => {
     ensureMock.mockRestore();
   });
 
-  test('second docs instance versioning', () => {
+  test('second docs instance versioning', async () => {
     const pluginId = 'community';
 
     const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
@@ -317,7 +322,7 @@ describe('docsVersion', () => {
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };
-    cliDocsVersionCommand('2.0.0', versionedSiteDir, pluginId, options);
+    await cliDocsVersionCommand('2.0.0', versionedSiteDir, pluginId, options);
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(

@@ -117,7 +117,7 @@ type SidebarsFile = {
 };
 ```
 
-## Theme configuration
+## Theme configuration {#theme-configuration}
 
 ### Hideable sidebar {#hideable-sidebar}
 
@@ -133,7 +133,7 @@ module.exports = {
 };
 ```
 
-### Auto-collapse sidebar categories
+### Auto-collapse sidebar categories {#auto-collapse-sidebar-categories}
 
 The `themeConfig.autoCollapseSidebarCategories` option would collapse all sibling categories when expanding one category. This saves the user from having too many categories open and helps them focus on the selected section.
 
@@ -157,6 +157,28 @@ To pass in custom props to a swizzled sidebar item, add the optional `customProp
   customProps: {
     /* props */
   },
+};
+```
+
+## Sidebar Breadcrumbs {#sidebar-breadcrumbs}
+
+By default, breadcrumbs are rendered at the top, using the "sidebar path" of the current page.
+
+This behavior can be disabled with plugin options:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // highlight-next-line
+          breadcrumbs: false,
+        },
+      },
+    ],
+  ],
 };
 ```
 

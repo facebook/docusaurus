@@ -137,7 +137,7 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet';
+  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
 
   export type HeadProps = HelmetProps & {children: ReactNode};
@@ -179,13 +179,13 @@ declare module '@docusaurus/Interpolate' {
     Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
-  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  // If all the values are plain strings, interpolate returns a simple string
   export function interpolate<Str extends string>(
     text: Str,
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  // If values contain any ReactNode, then the return is a ReactNode
+  // If values contain any ReactNode, the return is a ReactNode
   export function interpolate<Str extends string, Value extends ReactNode>(
     text: Str,
     values?: InterpolateValues<Str, Value>,
@@ -241,11 +241,7 @@ declare module '@docusaurus/Translate' {
 
 declare module '@docusaurus/router' {
   // eslint-disable-next-line import/no-extraneous-dependencies
-  export * from 'react-router-dom';
-}
-declare module '@docusaurus/history' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  export * from 'history';
+  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
 declare module '@docusaurus/useDocusaurusContext' {

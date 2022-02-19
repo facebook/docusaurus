@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef, type ComponentType} from 'react';
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  type ComponentType,
+} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import useDocusaurusContext from './useDocusaurusContext';
@@ -31,21 +36,30 @@ declare global {
 // like "introduction" to "/baseUrl/introduction" => bad behavior to fix
 const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
 
-function Link({
-  isNavLink,
-  to,
-  href,
-  activeClassName,
-  isActive,
-  'data-noBrokenLinkCheck': noBrokenLinkCheck,
-  autoAddBaseUrl = true,
-  ...props
-}: LinkProps): JSX.Element {
+function Link(
+  {
+    isNavLink,
+    to,
+    href,
+    activeClassName,
+    isActive,
+    'data-noBrokenLinkCheck': noBrokenLinkCheck,
+    autoAddBaseUrl = true,
+    ...props
+  }: LinkProps,
+  forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
+): JSX.Element {
   const {
     siteConfig: {trailingSlash, baseUrl},
   } = useDocusaurusContext();
   const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
+  const innerRef = useRef<HTMLAnchorElement | null>(null);
+
+  useImperativeHandle(
+    forwardedRef,
+    () => innerRef.current as HTMLAnchorElement,
+  );
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props
@@ -95,7 +109,7 @@ function Link({
     ioRef.current = new window.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (el === entry.target) {
-          // If element is in viewport, stop listening/observing and run callback.
+          // If element is in viewport, stop observing and run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
             ioRef.current!.unobserve(el);
@@ -111,8 +125,10 @@ function Link({
   };
 
   const handleRef = (ref: HTMLAnchorElement | null) => {
+    innerRef.current = ref;
+
     if (IOSupported && ref && isInternal) {
-      // If IO supported and element reference found, setup Observer functionality.
+      // If IO supported and element reference found, set up Observer.
       handleIntersection(ref, () => {
         if (targetLink != null) {
           window.docusaurus.prefetch(targetLink);
@@ -154,6 +170,7 @@ function Link({
   return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
+      ref={innerRef}
       href={targetLink}
       {...(targetLinkUnprefixed &&
         !isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
@@ -165,10 +182,11 @@ function Link({
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
       to={targetLink || ''}
-      // avoid "React does not recognize the `activeClassName` prop on a DOM element"
+      // avoid "React does not recognize the `activeClassName` prop on a DOM
+      // element"
       {...(isNavLink && {isActive, activeClassName})}
     />
   );
 }
 
-export default Link;
+export default React.forwardRef(Link);

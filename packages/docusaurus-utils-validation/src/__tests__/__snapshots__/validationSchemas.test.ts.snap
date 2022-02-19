@@ -12,13 +12,13 @@ exports[`validation schemas PathnameSchema: for value="foo" 1`] = `"\\"value\\" 
 
 exports[`validation schemas PathnameSchema: for value="https://github.com/foo" 1`] = `"\\"value\\" is not a valid pathname. Pathname should start with slash and not contain any domain or query string."`;
 
-exports[`validation schemas PluginIdSchema: for value="/docs" 1`] = `"\\"value\\" with value \\"/docs\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;
+exports[`validation schemas PluginIdSchema: for value="/docs" 1`] = `"Illegal plugin ID value \\"/docs\\": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas PluginIdSchema: for value="do cs" 1`] = `"\\"value\\" with value \\"do cs\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;
+exports[`validation schemas PluginIdSchema: for value="do cs" 1`] = `"Illegal plugin ID value \\"do cs\\": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas PluginIdSchema: for value="do/cs" 1`] = `"\\"value\\" with value \\"do/cs\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;
+exports[`validation schemas PluginIdSchema: for value="do/cs" 1`] = `"Illegal plugin ID value \\"do/cs\\": it should only contain alphanumerics, underscores, and dashes."`;
 
-exports[`validation schemas PluginIdSchema: for value="docs/" 1`] = `"\\"value\\" with value \\"docs/\\" fails to match the required pattern: /^[a-zA-Z_-]+$/"`;
+exports[`validation schemas PluginIdSchema: for value="docs/" 1`] = `"Illegal plugin ID value \\"docs/\\": it should only contain alphanumerics, underscores, and dashes."`;
 
 exports[`validation schemas PluginIdSchema: for value=[] 1`] = `"\\"value\\" must be a string"`;
 

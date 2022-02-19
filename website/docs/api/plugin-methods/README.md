@@ -8,14 +8,14 @@ This section is a work in progress. Anchor links or even URLs are not guaranteed
 
 Plugin APIs are shared by themes and plugins—themes are loaded just like plugins.
 
-## Plugin module
+## Plugin module {#plugin-module}
 
 Every plugin is imported as a module. The module is expected to have the following members:
 
 - A **default export**: the constructor function for the plugin.
 - **Named exports**: the [static methods](./static-methods.md) called before plugins are initialized.
 
-## Plugin constructor
+## Plugin constructor {#plugin-constructor}
 
 The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`.
 

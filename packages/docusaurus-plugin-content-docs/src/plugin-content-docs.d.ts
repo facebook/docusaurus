@@ -13,6 +13,15 @@ declare module '@docusaurus/plugin-content-docs' {
     numberPrefix?: number;
   };
 
+  export type CategoryIndexMatcherParam = {
+    fileName: string;
+    directories: string[];
+    extension: string;
+  };
+  export type CategoryIndexMatcher = (
+    param: CategoryIndexMatcherParam,
+  ) => boolean;
+
   export type EditUrlFunction = (editUrlParams: {
     version: string;
     versionDocsDirPath: string;
@@ -29,6 +38,7 @@ declare module '@docusaurus/plugin-content-docs' {
     showLastUpdateTime?: boolean;
     showLastUpdateAuthor?: boolean;
     numberPrefixParser: NumberPrefixParser;
+    breadcrumbs: boolean;
   };
 
   export type PathOptions = {
@@ -36,7 +46,8 @@ declare module '@docusaurus/plugin-content-docs' {
     sidebarPath?: string | false | undefined;
   };
 
-  // TODO support custom version banner? {type: "error", content: "html content"}
+  // TODO support custom version banner?
+  // {type: "error", content: "html content"}
   export type VersionBanner = 'unreleased' | 'unmaintained';
   export type VersionOptions = {
     path?: string;
@@ -116,6 +127,8 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebarBreadcrumbsItem =
+    import('./sidebars/types').PropSidebarBreadcrumbsItem;
   export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
@@ -199,26 +212,6 @@ declare module '@theme/DocItem' {
   export default DocItem;
 }
 
-declare module '@theme/DocCard' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    readonly item: PropSidebarItem;
-  }
-
-  export default function DocCard(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocCardList' {
-  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
-
-  export interface Props {
-    readonly items: PropSidebarItem[];
-  }
-
-  export default function DocCardList(props: Props): JSX.Element;
-}
-
 declare module '@theme/DocCategoryGeneratedIndexPage' {
   import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
 
@@ -229,12 +222,6 @@ declare module '@theme/DocCategoryGeneratedIndexPage' {
   export default function DocCategoryGeneratedIndexPage(
     props: Props,
   ): JSX.Element;
-}
-
-declare module '@theme/DocItemFooter' {
-  import type {Props} from '@theme/DocItem';
-
-  export default function DocItemFooter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocTagsListPage' {
@@ -253,20 +240,8 @@ declare module '@theme/DocTagDocListPage' {
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocVersionBanner' {
-  export interface Props {
-    readonly className?: string;
-  }
-
-  export default function DocVersionBanner(props: Props): JSX.Element;
-}
-
-declare module '@theme/DocVersionBadge' {
-  export interface Props {
-    readonly className?: string;
-  }
-
-  export default function DocVersionBadge(props: Props): JSX.Element;
+declare module '@theme/DocBreadcrumbs' {
+  export default function DocBreadcrumbs(): JSX.Element;
 }
 
 declare module '@theme/DocPage' {
@@ -285,21 +260,6 @@ declare module '@theme/DocPage' {
 
   const DocPage: (props: Props) => JSX.Element;
   export default DocPage;
-}
-
-declare module '@theme/Seo' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly title?: string;
-    readonly description?: string;
-    readonly keywords?: readonly string[] | string;
-    readonly image?: string;
-    readonly children?: ReactNode;
-  }
-
-  const Seo: (props: Props) => JSX.Element;
-  export default Seo;
 }
 
 // TODO until TS supports exports field... hope it's in 4.6
@@ -341,6 +301,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   export type GlobalPluginData = {
     path: string;
     versions: GlobalVersion[];
+    breadcrumbs: boolean;
   };
   export type DocVersionSuggestions = {
     // suggest the latest version

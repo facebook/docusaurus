@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
 import {PluginOptionSchema} from '../pluginOptionSchema';
 import type {BlogPost} from '../types';
 import type {Joi} from '@docusaurus/utils-validation';
-import {posixPath} from '@docusaurus/utils';
+import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import type {
   PluginOptions,
   EditUrlFunction,
@@ -24,6 +23,7 @@ function findByTitle(
 ): BlogPost | undefined {
   return blogPosts.find((v) => v.metadata.title === title);
 }
+
 function getByTitle(blogPosts: BlogPost[], title: string): BlogPost {
   const post = findByTitle(blogPosts, title);
   if (!post) {
@@ -97,6 +97,16 @@ describe('loadBlog', () => {
     const plugin = await getPlugin(siteDir, pluginOptions, i18n);
     const {blogPosts} = (await plugin.loadContent!())!;
     return blogPosts;
+  };
+
+  const getBlogTags = async (
+    siteDir: string,
+    pluginOptions: Partial<PluginOptions> = {},
+    i18n: I18n = DefaultI18N,
+  ) => {
+    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+    const {blogTags} = (await plugin.loadContent!())!;
+    return blogTags;
   };
 
   test('getPathsToWatch', async () => {
@@ -414,14 +424,15 @@ describe('loadBlog', () => {
     );
     const blogPosts = await getBlogPosts(siteDir);
     const noDateSource = path.posix.join('@site', PluginPath, 'no date.md');
-    const noDateSourceBirthTime = (
-      await fs.stat(noDateSource.replace('@site', siteDir))
-    ).birthtime;
+    const noDateSourceFile = path.posix.join(siteDir, PluginPath, 'no date.md');
+    // we know the file exist and we know we have git
+    const result = getFileCommitDate(noDateSourceFile, {age: 'oldest'});
+    const noDateSourceTime = result.date;
     const formattedDate = Intl.DateTimeFormat('en', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }).format(noDateSourceBirthTime);
+    }).format(noDateSourceTime);
 
     expect({
       ...getByTitle(blogPosts, 'no date').metadata,
@@ -434,7 +445,7 @@ describe('loadBlog', () => {
       title: 'no date',
       description: `no date`,
       authors: [],
-      date: noDateSourceBirthTime,
+      date: noDateSourceTime,
       formattedDate,
       frontMatter: {},
       tags: [],
@@ -453,5 +464,19 @@ describe('loadBlog', () => {
     expect(normalOrder.reverse().map((x) => x.metadata.date)).toEqual(
       reversedOrder.map((x) => x.metadata.date),
     );
+  });
+
+  test('test blog tags', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const blogTags = await getBlogTags(siteDir, {
+      postsPerPage: 2,
+    });
+
+    expect(Object.keys(blogTags).length).toEqual(2);
+    expect(blogTags).toMatchSnapshot();
   });
 });

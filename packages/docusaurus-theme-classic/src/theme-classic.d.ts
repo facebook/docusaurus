@@ -43,6 +43,21 @@ declare module '@theme/BlogListPaginator' {
   export default BlogListPaginator;
 }
 
+declare module '@theme/BlogSidebar' {
+  export type BlogSidebarItem = {title: string; permalink: string};
+  export type BlogSidebar = {
+    title: string;
+    items: BlogSidebarItem[];
+  };
+
+  export interface Props {
+    readonly sidebar: BlogSidebar;
+  }
+
+  const BlogSidebar: (props: Props) => JSX.Element;
+  export default BlogSidebar;
+}
+
 declare module '@theme/BlogPostItem' {
   import type {FrontMatter, Metadata} from '@theme/BlogPostPage';
   import type {Assets} from '@docusaurus/plugin-content-blog';
@@ -123,6 +138,32 @@ declare module '@theme/CodeBlock' {
   export default CodeBlock;
 }
 
+declare module '@theme/DocCard' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly item: PropSidebarItem;
+  }
+
+  export default function DocCard(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocCardList' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly items: PropSidebarItem[];
+  }
+
+  export default function DocCardList(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocItemFooter' {
+  import type {Props} from '@theme/DocItem';
+
+  export default function DocItemFooter(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocPaginator' {
   import type {PropNavigation} from '@docusaurus/plugin-content-docs';
 
@@ -172,6 +213,22 @@ declare module '@theme/DocSidebarItems' {
   };
 
   export default function DocSidebarItems(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBanner' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function DocVersionBanner(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocVersionBadge' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function DocVersionBadge(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocVersionSuggestions' {
@@ -726,4 +783,19 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
+}
+
+declare module '@theme/Seo' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly title?: string;
+    readonly description?: string;
+    readonly keywords?: readonly string[] | string;
+    readonly image?: string;
+    readonly children?: ReactNode;
+  }
+
+  const Seo: (props: Props) => JSX.Element;
+  export default Seo;
 }
