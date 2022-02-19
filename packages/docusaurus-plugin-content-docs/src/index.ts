@@ -362,7 +362,7 @@ export default async function pluginContentDocs(
                   return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
                 },
                 // Assets allow to convert some relative images paths to
-                // require() calls
+                // require(...) calls
                 createAssets: ({
                   frontMatter,
                 }: {
