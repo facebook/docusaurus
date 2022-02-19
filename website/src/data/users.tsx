@@ -312,6 +312,15 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Butterfly Documentation',
+    description:
+      'The documentation of the note taking app Linwood Butterfly',
+    preview: require('./showcase/docs-butterfly.png'),
+    website: 'https://docs.butterfly.linwood.dev',
+    source: 'https://github.com/LinwoodCloud/Butterfly',
+    tags: ['opensource', 'i18n', 'versioning'],
+  },
+  {
     title: 'ClarityChallenge',
     description:
       'Documentation for the Clarity machine learning challenges for improving hearing aid signal processing',
