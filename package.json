@@ -58,31 +58,31 @@
     "lock:update": "npx yarn-deduplicate"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.2",
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.5",
     "@babel/preset-typescript": "^7.16.7",
-    "@crowdin/cli": "^3.7.7",
+    "@crowdin/cli": "^3.7.8",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
-    "@types/node": "^17.0.17",
+    "@types/node": "^17.0.18",
     "@types/prompts": "^2.0.14",
     "@types/react": "^17.0.39",
     "@types/react-dev-utils": "^9.0.10",
     "@types/react-test-renderer": "^17.0.1",
     "@types/semver": "^7.3.9",
     "@types/shelljs": "^0.8.11",
-    "@typescript-eslint/eslint-plugin": "^5.11.0",
-    "@typescript-eslint/parser": "^5.11.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
-    "cspell": "^5.18.4",
+    "cspell": "^5.18.5",
     "eslint": "^8.9.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.0",
+    "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
@@ -91,8 +91,8 @@
     "jest": "^27.5.1",
     "lerna": "^4.0.0",
     "lerna-changelog": "^2.2.0",
-    "lint-staged": "^12.3.3",
-    "netlify-cli": "^9.4.0",
+    "lint-staged": "^12.3.4",
+    "netlify-cli": "^9.6.5",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
@@ -101,25 +101,10 @@
     "remark-parse": "^8.0.2",
     "rimraf": "^3.0.2",
     "sharp": "^0.30.1",
-    "stylelint": "^14.5.0",
+    "stylelint": "^14.5.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",
     "typescript": "^4.5.5",
     "unified": "^9.2.1"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs}": [
-      "eslint --fix"
-    ],
-    "*.css": [
-      "stylelint --allow-empty-input --fix"
-    ],
-    "*": [
-      "prettier --ignore-unknown --write",
-      "cspell --no-must-find-files --no-progress"
-    ]
-  },
-  "engines": {
-    "node": ">=14"
   }
 }

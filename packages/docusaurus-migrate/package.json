@@ -26,7 +26,7 @@
     "@babel/preset-env": "^7.16.11",
     "@docusaurus/logger": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",
-    "@mapbox/hast-util-to-jsx": "^1.0.0",
+    "@mapbox/hast-util-to-jsx": "^2.0.0",
     "color": "^4.0.1",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.0",
