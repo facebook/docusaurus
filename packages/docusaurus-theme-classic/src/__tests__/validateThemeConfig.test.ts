@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {merge} from 'lodash';
+import _ from 'lodash';
 import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 import {normalizeThemeConfig} from '@docusaurus/utils-validation';
@@ -507,7 +507,7 @@ describe('themeConfig', () => {
 
   describe('color mode config', () => {
     const withDefaultValues = (colorMode) =>
-      merge({}, DEFAULT_CONFIG.colorMode, colorMode);
+      _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
     test('minimal config', () => {
       const colorMode = {

@@ -21,7 +21,7 @@ import type {
 } from '@docusaurus/types';
 import initPlugins from './init';
 import logger from '@docusaurus/logger';
-import {chain} from 'lodash';
+import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
@@ -121,10 +121,10 @@ export async function loadPlugins({
       }),
     );
 
-  const allContent: AllContent = chain(loadedPlugins)
+  const allContent: AllContent = _.chain(loadedPlugins)
     .groupBy((item) => item.name)
     .mapValues((nameItems) =>
-      chain(nameItems)
+      _.chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
         .value(),

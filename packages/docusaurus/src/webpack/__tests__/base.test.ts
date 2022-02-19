@@ -15,7 +15,7 @@ import {
 } from '../base';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import type {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
@@ -70,7 +70,7 @@ describe('babel transpilation exclude logic', () => {
 describe('getDocusaurusAliases()', () => {
   test('return appropriate webpack aliases', () => {
     // using relative paths makes tests work everywhere
-    const relativeDocusaurusAliases = mapValues(
+    const relativeDocusaurusAliases = _.mapValues(
       getDocusaurusAliases(),
       (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
     );
@@ -125,7 +125,7 @@ describe('base webpack config', () => {
     const aliases: ThemeAliases =
       createBaseConfig(props, true).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
-    const relativeAliases = mapValues(aliases, (a) =>
+    const relativeAliases = _.mapValues(aliases, (a) =>
       posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();

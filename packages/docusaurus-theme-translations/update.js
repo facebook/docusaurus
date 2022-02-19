@@ -11,7 +11,7 @@
 const logger = require('@docusaurus/logger').default;
 const path = require('path');
 const fs = require('fs-extra');
-const {mapValues, pickBy, difference, orderBy} = require('lodash');
+const _ = require('lodash');
 
 const LocalesDirPath = path.join(__dirname, 'locales');
 const Themes = [
@@ -80,7 +80,7 @@ function removeDescriptionSuffix(key) {
  */
 function sortObjectKeys(obj) {
   let keys = Object.keys(obj);
-  keys = orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
+  keys = _.orderBy(keys, [(k) => removeDescriptionSuffix(k)]);
   return keys.reduce((acc, key) => {
     acc[key] = obj[key];
     return acc;
@@ -179,18 +179,18 @@ const DescriptionSuffix = '___DESCRIPTION';
  */
 async function updateBaseFile(baseFile, targetDirs) {
   const baseMessagesWithDescriptions = await readMessagesFile(baseFile);
-  const baseMessages = pickBy(
+  const baseMessages = _.pickBy(
     baseMessagesWithDescriptions,
-    (_, key) => !key.endsWith(DescriptionSuffix),
+    (v, key) => !key.endsWith(DescriptionSuffix),
   );
 
   const codeExtractedTranslations = await extractThemeCodeMessages(targetDirs);
-  const codeMessages = mapValues(
+  const codeMessages = _.mapValues(
     codeExtractedTranslations,
     (translation) => translation.message,
   );
 
-  const unknownMessages = difference(
+  const unknownMessages = _.difference(
     Object.keys(baseMessages),
     Object.keys(codeMessages),
   );
@@ -236,7 +236,7 @@ They won't be removed automatically, so do the cleanup manually if necessary! co
 async function updateLocaleCodeTranslations(localeFile, baseFileMessages) {
   const localeFileMessages = await readMessagesFile(localeFile);
 
-  const unknownMessages = difference(
+  const unknownMessages = _.difference(
     Object.keys(localeFileMessages),
     Object.keys(baseFileMessages),
   );

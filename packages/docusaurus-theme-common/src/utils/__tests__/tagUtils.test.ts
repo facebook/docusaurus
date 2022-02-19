@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {shuffle} from 'lodash';
+import _ from 'lodash';
 import {listTagsByLetters} from '../tagsUtils';
 
 describe('listTagsByLetters', () => {
@@ -60,7 +60,9 @@ describe('listTagsByLetters', () => {
       listTagsByLetters([tagzxy, tagdef, tagaaa, tag2, tagAbc, tag1]),
     ).toEqual(expectedResult);
     expect(
-      listTagsByLetters(shuffle([tagzxy, tagdef, tagaaa, tag2, tagAbc, tag1])),
+      listTagsByLetters(
+        _.shuffle([tagzxy, tagdef, tagaaa, tag2, tagAbc, tag1]),
+      ),
     ).toEqual(expectedResult);
   });
 });

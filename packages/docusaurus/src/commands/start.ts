@@ -10,7 +10,7 @@ import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import {debounce} from 'lodash';
+import _ from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
@@ -63,7 +63,7 @@ export default async function start(
   logger.success`Docusaurus website is running at path=${openUrl}.`;
 
   // Reload files processing.
-  const reload = debounce(() => {
+  const reload = _.debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);

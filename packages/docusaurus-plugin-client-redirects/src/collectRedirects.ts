@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {uniqBy, difference, groupBy} from 'lodash';
+import _ from 'lodash';
 import type {
   PluginOptions,
   RedirectOption,
@@ -79,7 +79,7 @@ function validateCollectedRedirects(
 
   const allowedToPaths = pluginContext.relativeRoutesPaths;
   const toPaths = redirects.map((redirect) => redirect.to);
-  const illegalToPaths = difference(toPaths, allowedToPaths);
+  const illegalToPaths = _.difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
     throw new Error(
       `You are trying to create client-side redirections to paths that do not exist:
@@ -98,7 +98,7 @@ function filterUnwantedRedirects(
 ): RedirectMetadata[] {
   // we don't want to create twice the same redirect
   // that would lead to writing twice the same html redirection file
-  Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
+  Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
         logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
@@ -108,7 +108,7 @@ It is not possible to redirect the same pathname to multiple destinations: ${gro
       }
     },
   );
-  const collectedRedirects = uniqBy(redirects, (redirect) => redirect.from);
+  const collectedRedirects = _.uniqBy(redirects, (redirect) => redirect.from);
 
   // We don't want to override an already existing route with a redirect file!
   const redirectsOverridingExistingPath = collectedRedirects.filter(

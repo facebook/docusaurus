@@ -42,7 +42,6 @@ import type {
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {keyBy, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp} from './props';
 import {
@@ -311,9 +310,8 @@ export default async function pluginContentDocs(
 
       function getSourceToPermalink(): SourceToPermalink {
         const allDocs = content.loadedVersions.flatMap((v) => v.docs);
-        return mapValues(
-          keyBy(allDocs, (d) => d.source),
-          (d) => d.permalink,
+        return Object.fromEntries(
+          allDocs.map(({source, permalink}) => [source, permalink]),
         );
       }
 

@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
 import type {ThemeAliases} from '@docusaurus/types';
-import {sortBy} from 'lodash';
+import _ from 'lodash';
 
 // Order of Webpack aliases is important because one alias can shadow another
 // This ensure @theme/NavbarItem alias is after @theme/NavbarItem/LocaleDropdown
@@ -17,7 +17,7 @@ import {sortBy} from 'lodash';
 // See https://github.com/facebook/docusaurus/issues/5382
 export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   // Alphabetical order by default
-  const entries = sortBy(Object.entries(aliases), ([alias]) => alias);
+  const entries = _.sortBy(Object.entries(aliases), ([alias]) => alias);
   // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
   entries.sort(([alias1], [alias2]) =>
     alias1.includes(`${alias2}/`) ? -1 : 0,

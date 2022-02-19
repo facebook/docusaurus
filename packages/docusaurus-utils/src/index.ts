@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import fs from 'fs-extra';
 import {URL} from 'url';
 import type {
@@ -361,7 +361,7 @@ export function updateTranslationFileMessages(
 ): TranslationFile {
   return {
     ...translationFile,
-    content: mapValues(translationFile.content, (translation) => ({
+    content: _.mapValues(translationFile.content, (translation) => ({
       ...translation,
       message: updateMessage(translation.message),
     })),
