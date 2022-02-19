@@ -13,7 +13,7 @@ import type {
   NormalizedSidebarItem,
   SidebarItemCategoryLinkConfig,
 } from './types';
-import {sortBy, last} from 'lodash';
+import _ from 'lodash';
 import {addTrailingSlash, posixPath} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
@@ -25,7 +25,7 @@ const docIdPrefix = '$doc$/';
 
 // Just an alias to the make code more explicit
 function getLocalDocId(docId: string): string {
-  return last(docId.split('/'))!;
+  return _.last(docId.split('/'))!;
 }
 
 export const CategoryMetadataFilenameBase = '_category_';
@@ -248,7 +248,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       }
       return item;
     });
-    const sortedSidebarItems = sortBy(
+    const sortedSidebarItems = _.sortBy(
       processedSidebarItems,
       (item) => item.position,
     );

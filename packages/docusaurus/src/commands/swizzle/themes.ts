@@ -7,7 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import leven from 'leven';
-import {orderBy, uniq} from 'lodash';
+import _ from 'lodash';
 import {askThemeName} from './prompts';
 import {findStringIgnoringCase, type SwizzlePlugin} from './common';
 
@@ -32,7 +32,7 @@ export function getPluginByThemeName(
 }
 
 export function getThemeNames(plugins: SwizzlePlugin[]): string[] {
-  const themeNames = uniq(
+  const themeNames = _.uniq(
     // The fact that getThemePath is attached to the plugin instance makes
     // this code impossible to optimize. If this is a static method, we don't
     // need to initialize all plugins just to filter which are themes
@@ -44,7 +44,7 @@ export function getThemeNames(plugins: SwizzlePlugin[]): string[] {
   // - the classic theme
   // - official themes
   // - official plugins
-  return orderBy(
+  return _.orderBy(
     themeNames,
     [
       (t) => t === '@docusaurus/theme-classic',

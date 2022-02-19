@@ -9,7 +9,7 @@ import logger from '@docusaurus/logger';
 import Table from 'cli-table3';
 import type {ThemeComponents} from './components';
 import {SwizzleActions} from './actions';
-import {capitalize} from 'lodash';
+import _ from 'lodash';
 import type {SwizzleActionStatus} from '@docusaurus/types';
 import {actionStatusColor, actionStatusLabel} from './common';
 
@@ -104,7 +104,7 @@ export function themeComponentsTable(themeComponents: ThemeComponents): string {
   const table = new Table({
     head: [
       'Component name',
-      ...SwizzleActions.map((action) => capitalize(action)),
+      ...SwizzleActions.map((action) => _.capitalize(action)),
       'Description',
     ],
   });

@@ -12,7 +12,7 @@ import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {askSwizzleAction} from './prompts';
-import {last} from 'lodash';
+import _ from 'lodash';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
@@ -111,7 +111,7 @@ export async function wrap({
   const isDirectory = await isDir(path.join(themePath, themeComponentName));
 
   // Top/Parent/ComponentName => ComponentName
-  const componentName = last(themeComponentName.split('/'));
+  const componentName = _.last(themeComponentName.split('/'));
   const wrapperComponentName = `${componentName}Wrapper`;
 
   const wrapperFileName = `${themeComponentName}${isDirectory ? '/index' : ''}${

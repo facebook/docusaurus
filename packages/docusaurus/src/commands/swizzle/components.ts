@@ -14,7 +14,7 @@ import type {
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
-import {orderBy} from 'lodash';
+import _ from 'lodash';
 import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
@@ -81,7 +81,7 @@ export function readComponentNames(themePath: string): string[] {
 
   const componentFiles = walk(themePath);
 
-  const componentFilesOrdered = orderBy(
+  const componentFilesOrdered = _.orderBy(
     componentFiles,
     [(f) => f.componentName],
     ['asc'],
@@ -165,7 +165,7 @@ export function getThemeComponents({
   }
 
   // Present the safest components first
-  const orderedComponents = orderBy(
+  const orderedComponents = _.orderBy(
     allComponents,
     [
       hasAllSafeAction,

@@ -15,7 +15,7 @@ import type {
   ProcessedSidebars,
   SidebarItemCategoryLink,
 } from './types';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 
 function normalizeCategoryLink(
   category: ProcessedSidebarItemCategory,
@@ -88,7 +88,7 @@ export function postProcessSidebars(
   sidebars: ProcessedSidebars,
   params: SidebarProcessorParams,
 ): Sidebars {
-  return mapValues(sidebars, (sidebar) =>
+  return _.mapValues(sidebars, (sidebar) =>
     sidebar.map((item) => postProcessSidebarItem(item, params)),
   );
 }

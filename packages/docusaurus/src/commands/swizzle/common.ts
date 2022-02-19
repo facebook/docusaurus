@@ -12,7 +12,7 @@ import type {
   SwizzleAction,
   SwizzleActionStatus,
 } from '@docusaurus/types';
-import {capitalize} from 'lodash';
+import _ from 'lodash';
 import type {NormalizedPluginConfig} from '../../server/plugins/init';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
@@ -26,7 +26,7 @@ export const SwizzleActionsStatuses: SwizzleActionStatus[] = [
 export const PartiallySafeHint = logger.red('*');
 
 export function actionStatusLabel(status: SwizzleActionStatus): string {
-  return capitalize(status);
+  return _.capitalize(status);
 }
 
 const SwizzleActionStatusColors: Record<

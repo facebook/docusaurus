@@ -69,31 +69,44 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-prototype-builtins': WARNING,
     'no-restricted-exports': OFF,
-    'no-restricted-imports': [
+    'no-restricted-properties': [
       ERROR,
-      {
-        paths: [
-          {
-            name: 'lodash',
-            importNames: [
-              // TODO: TS doesn't make Boolean a narrowing function yet,
-              // so filter(Boolean) is problematic type-wise
-              // 'compact',
-              'filter',
-              'flatten',
-              'flatMap',
-              'map',
-              'reduce',
-              'take',
-              'takeRight',
-              'head',
-              'tail',
-              'initial',
-            ],
-            message: 'These APIs have their ES counterparts.',
-          },
-        ],
-      },
+      ...[
+        // TODO: TS doesn't make Boolean a narrowing function yet,
+        // so filter(Boolean) is problematic type-wise
+        // ['compact', 'Array#filter(Boolean)'],
+        ['concat', 'Array#concat'],
+        ['drop', 'Array#slice(n)'],
+        ['dropRight', 'Array#slice(0, -n)'],
+        ['fill', 'Array#fill'],
+        ['filter', 'Array#filter'],
+        ['find', 'Array#find'],
+        ['findIndex', 'Array#findIndex'],
+        ['first', 'foo[0]'],
+        ['flatten', 'Array#flat'],
+        ['flattenDeep', 'Array#flat(Infinity)'],
+        ['flatMap', 'Array#flatMap'],
+        ['fromPairs', 'Object.fromEntries'],
+        ['head', 'foo[0]'],
+        ['indexOf', 'Array#indexOf'],
+        ['initial', 'Array#slice(0, -1)'],
+        ['join', 'Array#join'],
+        // Unfortunately there's no great alternative to _.last yet
+        // Candidates: foo.slice(-1)[0]; foo[foo.length - 1]
+        // Array#at is ES2022; could replace _.nth as well
+        // ['last'],
+        ['map', 'Array#map'],
+        ['reduce', 'Array#reduce'],
+        ['reverse', 'Array#reverse'],
+        ['slice', 'Array#slice'],
+        ['take', 'Array#slice(0, n)'],
+        ['takeRight', 'Array#slice(-n)'],
+        ['tail', 'Array#slice(1)'],
+      ].map(([property, alternative]) => ({
+        object: '_',
+        property,
+        message: `Use ${alternative} instead.`,
+      })),
     ],
     'no-restricted-syntax': [
       WARNING,

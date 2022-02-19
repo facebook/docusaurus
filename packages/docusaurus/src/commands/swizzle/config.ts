@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {keyBy, mapValues} from 'lodash';
 import {Joi} from '@docusaurus/utils-validation';
 import type {SwizzleComponentConfig, SwizzleConfig} from '@docusaurus/types';
 import type {SwizzlePlugin} from './common';
@@ -40,7 +39,9 @@ function getModuleSwizzleConfig(
       description: undefined,
     };
     return {
-      components: mapValues(keyBy(safeComponents), () => safeComponentConfig),
+      components: Object.fromEntries(
+        safeComponents.map((comp) => [comp, safeComponentConfig]),
+      ),
     };
   }
 

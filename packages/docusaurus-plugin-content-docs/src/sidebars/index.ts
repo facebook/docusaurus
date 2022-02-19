@@ -17,7 +17,7 @@ import {Globby} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import Yaml from 'js-yaml';
-import {groupBy, mapValues} from 'lodash';
+import _ from 'lodash';
 import combinePromises from 'combine-promises';
 
 export const DefaultSidebars: SidebarsConfig = {
@@ -46,9 +46,9 @@ async function readCategoriesMetadata(contentPath: string) {
   const categoryFiles = await Globby('**/_category_.{json,yml,yaml}', {
     cwd: contentPath,
   });
-  const categoryToFile = groupBy(categoryFiles, path.dirname);
+  const categoryToFile = _.groupBy(categoryFiles, path.dirname);
   return combinePromises(
-    mapValues(categoryToFile, async (files, folder) => {
+    _.mapValues(categoryToFile, async (files, folder) => {
       const [filePath] = files;
       if (files.length > 1) {
         logger.warn`There are more than one category metadata files for path=${folder}: ${files.join(

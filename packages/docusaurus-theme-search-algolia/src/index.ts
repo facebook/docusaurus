@@ -12,12 +12,12 @@ import {normalizeUrl} from '@docusaurus/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import logger from '@docusaurus/logger';
 import openSearchTemplate from './templates/opensearch';
-import {memoize} from 'lodash';
+import _ from 'lodash';
 
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
-const getCompiledOpenSearchTemplate = memoize(() =>
+const getCompiledOpenSearchTemplate = _.memoize(() =>
   compile(openSearchTemplate.trim()),
 );
 

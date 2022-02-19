@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
-import {keyBy, mapValues} from 'lodash';
+import _ from 'lodash';
 import type {
   BlogPost,
   BlogContentPaths,
@@ -46,9 +46,8 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
 export function getSourceToPermalink(
   blogPosts: BlogPost[],
 ): Record<string, string> {
-  return mapValues(
-    keyBy(blogPosts, (item) => item.metadata.source),
-    (v) => v.metadata.permalink,
+  return Object.fromEntries(
+    blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );
 }
 
@@ -112,19 +111,16 @@ export function getBlogTags({
     (blogPost) => blogPost.metadata.tags,
   );
 
-  return mapValues(groups, (group) => {
-    const {tag, items: tagBlogPosts} = group;
-    return {
-      name: tag.label,
-      items: tagBlogPosts.map((item) => item.id),
-      permalink: tag.permalink,
-      pages: paginateBlogPosts({
-        blogPosts: tagBlogPosts,
-        basePageUrl: group.tag.permalink,
-        ...params,
-      }),
-    };
-  });
+  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
+    name: tag.label,
+    items: tagBlogPosts.map((item) => item.id),
+    permalink: tag.permalink,
+    pages: paginateBlogPosts({
+      blogPosts: tagBlogPosts,
+      basePageUrl: tag.permalink,
+      ...params,
+    }),
+  }));
 }
 
 const DATE_FILENAME_REGEX =

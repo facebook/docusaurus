@@ -31,7 +31,7 @@ import type {
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import {memoize} from 'lodash';
+import _ from 'lodash';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -164,7 +164,7 @@ export const getCustomizableJSLoader =
       : jsLoader(isServer);
 
 // TODO remove this before end of 2021?
-const warnBabelLoaderOnce = memoize(() => {
+const warnBabelLoaderOnce = _.memoize(() => {
   logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
 });
 const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
@@ -176,7 +176,7 @@ const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
 };
 
 // TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = memoize(() => {
+const warnCacheLoaderOnce = _.memoize(() => {
   logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
 });
 function getCacheLoaderDeprecated() {
