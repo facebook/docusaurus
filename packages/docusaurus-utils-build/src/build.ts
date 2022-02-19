@@ -10,7 +10,12 @@ import {Globby} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import Prettier from 'prettier';
 import shelljs from 'shelljs';
-import {compileOrCopy, compileServerCode, compileClientCode} from './compiler';
+import {
+  compileOrCopy,
+  compileServerCode,
+  compileClientCode,
+  // eslint-disable-next-line import/no-unresolved
+} from './compiler.js';
 // import {tsc} from './tsc';
 
 function transformDir(

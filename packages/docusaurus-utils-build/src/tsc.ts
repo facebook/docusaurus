@@ -8,7 +8,8 @@
 import fs from 'fs';
 import ts from 'typescript';
 import {Globby} from '@docusaurus/utils';
-import {getTargetPath} from './compiler';
+// eslint-disable-next-line import/no-unresolved
+import {getTargetPath} from './compiler.js';
 
 const formatHost: ts.FormatDiagnosticsHost = {
   getCanonicalFileName: (p) => p,
@@ -30,7 +31,7 @@ function reportDiagnostic(diagnostic: ts.Diagnostic) {
 
 /**
  * Prints a diagnostic every time the watch status changes.
- * This is mainly for messages like "Starting compilation" or "Compilation completed".
+ * This is mainly for messages like "Starting" or "Completed".
  */
 function reportWatchStatusChanged(diagnostic: ts.Diagnostic) {
   console.info(ts.formatDiagnostic(diagnostic, formatHost));
@@ -63,7 +64,8 @@ export function watch(): void {
 }
 
 /**
- * There's no API for unrolling the `extends` field in tsconfig, so we do it ourselves.
+ * There's no API for unrolling the `extends` field in tsconfig, so we do it
+ * ourselves.
  */
 function resolveCompilerOptions(configEntryPath: string): ts.CompilerOptions {
   let configPath: string | undefined = configEntryPath;

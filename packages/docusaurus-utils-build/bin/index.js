@@ -8,7 +8,8 @@
 
 import logger from '@docusaurus/logger';
 import cli from 'commander';
-import {build, watch} from '../lib/index.js';
+import build from '../lib/build.js';
+import watch from '../lib/watch.js';
 
 cli
   .command('build')

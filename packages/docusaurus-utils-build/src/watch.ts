@@ -7,9 +7,14 @@
 
 import fs from 'fs';
 import chokidar from 'chokidar';
-import {debounce} from 'lodash';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
-import {compileOrCopy, compileClientCode, compileServerCode} from './compiler';
+import {
+  compileOrCopy,
+  compileServerCode,
+  compileClientCode,
+  // eslint-disable-next-line import/no-unresolved
+} from './compiler.js';
 
 export default async function watch(
   options: Partial<{
@@ -35,7 +40,7 @@ export default async function watch(
       pollInterval: 10,
     },
   });
-  const compile = debounce((filePath: string) => {
+  const compile = _.debounce((filePath: string) => {
     try {
       // TODO: is check this good enough?
       if (filePath.includes(themeDir)) {
