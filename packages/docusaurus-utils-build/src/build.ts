@@ -6,8 +6,8 @@
  */
 
 import fs from 'fs';
-import chalk from 'chalk';
 import {Globby} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 import Prettier from 'prettier';
 import shelljs from 'shelljs';
 import {compileOrCopy, compileServerCode, compileClientCode} from './compiler';
@@ -43,21 +43,20 @@ export default async function build(
     ignore = ['**/__tests__/**'],
   } = options;
   // Compile: src/*.ts -> lib/*.js
-  console.log(chalk.cyan('Compiling source with Babel...'));
+  logger.info('Compiling source with Babel...');
   transformDir(sourceDir, targetDir, compileServerCode, [
     ...ignore,
     '**/*.d.ts',
   ]);
   // Generate declaration: src/*.ts -> lib/*.d.ts
   // await tsc(sourceDir, targetDir, ignore);
-  console.log(
-    chalk.cyan('Typechecking and generating declaration with TSC...'),
-  );
+  logger.info('Typechecking and generating declaration with TSC...');
   const res = shelljs.exec('tsc --emitDeclarationOnly'); // 😅
   if (res.code !== 0) {
     throw new Error('Typechecking failed.');
   }
-  // Strip types & prettier: src/theme/*.tsx -> lib/theme/*.js (client code will be swizzlable)
+  // Strip types & format: src/theme/*.tsx -> lib/theme/*.js
+  // (client code will be swizzlable)
   if (fs.existsSync(themeDir)) {
     const prettierConfig = await Prettier.resolveConfig(themeDir);
     if (!prettierConfig) {
@@ -65,7 +64,7 @@ export default async function build(
         'Prettier config file not found. Building the theme code requires using Prettier to format the JS code, which will be used for swizzling.',
       );
     }
-    console.log(chalk.cyan('Compiling theme with Babel + Prettier...'));
+    logger.info('Compiling theme with Babel + Prettier...');
     transformDir(
       themeDir,
       themeTargetDir,

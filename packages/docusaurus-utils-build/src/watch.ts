@@ -8,7 +8,7 @@
 import fs from 'fs';
 import chokidar from 'chokidar';
 import {debounce} from 'lodash';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import {compileOrCopy, compileClientCode, compileServerCode} from './compiler';
 
 export default async function watch(
@@ -45,26 +45,20 @@ export default async function watch(
         compileOrCopy(filePath, sourceDir, targetDir, compileServerCode);
       }
     } catch (e) {
-      console.log(chalk.red(`Error while processing ${chalk.cyan(filePath)}:`));
-      console.error(e);
+      logger.error`Error while processing path=${filePath}:`;
+      logger.error(e);
     }
   }, 200);
 
   ['add', 'change'].forEach((event) =>
     watcher.on(event, async (filePath: string) => {
       compile(filePath);
-      console.log(
-        chalk.green(`Compilation of ${chalk.cyan(filePath)} finished`),
-      );
+      logger.success`Compilation of path=${filePath} finished`;
     }),
   );
-  console.log(
-    chalk.green(
-      `Watching file changes in ${chalk.cyan(sourceDir)}${
-        fs.existsSync(themeDir)
-          ? ` (server) and ${chalk.cyan(themeDir)} (client)`
-          : ''
-      }...`,
-    ),
-  );
+  logger.info`Watching file changes in path=${sourceDir}${
+    fs.existsSync(themeDir)
+      ? logger.interpolate` (server) and path=${themeDir} (client)`
+      : ''
+  }...`;
 }

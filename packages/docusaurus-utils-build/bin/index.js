@@ -5,10 +5,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const chalk = require('chalk');
-const cli = require('commander');
-const build = require('../lib/build').default;
-const watch = require('../lib/watch').default;
+
+import logger from '@docusaurus/logger';
+import cli from 'commander';
+import {build, watch} from '../lib/index.js';
 
 cli
   .command('build')
@@ -28,8 +28,7 @@ cli
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
-  console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
-  console.log();
+  logger.error`    Unknown command name=${cmd}.`;
 });
 
 cli.parse(process.argv);

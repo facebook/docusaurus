@@ -1,8 +1,9 @@
 {
   "name": "@docusaurus/utils-build",
-  "version": "2.0.0-beta.14",
+  "version": "2.0.0-beta.15",
   "description": "Build and pack docusaurus plugins in one command",
   "license": "MIT",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -18,21 +19,19 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.16.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
-    "@babel/preset-typescript": "^7.16.0",
-    "@docusaurus/utils": "2.0.0-beta.14",
-    "chalk": "^4.1.2",
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
+    "@babel/preset-typescript": "^7.16.7",
+    "@docusaurus/logger": "2.0.0-beta.15",
+    "@docusaurus/utils": "2.0.0-beta.15",
     "chokidar": "^3.5.2",
     "commander": "^5.1.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
-    "shelljs": "^0.8.4",
-    "typescript": "^4.5.2"
+    "shelljs": "^0.8.5",
+    "typescript": "^4.5.5"
   },
   "devDependencies": {
-    "@docusaurus/types": "2.0.0-beta.14"
+    "@docusaurus/types": "2.0.0-beta.15"
   }
 }

@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "incremental": true,
+    "module": "es2020",
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib"
