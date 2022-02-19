@@ -8,9 +8,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::tip
 
-This section is focused on styling through stylesheets.
-
-For more advanced customizations (DOM structure, React code...), refer to the [swizzling guide](./guides/swizzling.md).
+This section is focused on styling through stylesheets. For more advanced customizations (DOM structure, React code...), refer to the [swizzling guide](./guides/swizzling.md).
 
 :::
 
@@ -68,9 +66,7 @@ If you want to add CSS to any element, you can open the DevTools in your browser
 
 ### Theme Class Names {#theme-class-names}
 
-We provide some stable CSS class names for robust and maintainable global layout styling.
-
-These names are theme-agnostic and meant to be targeted by custom CSS.
+We provide some stable CSS class names for robust and maintainable global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
 
 :::tip
 
