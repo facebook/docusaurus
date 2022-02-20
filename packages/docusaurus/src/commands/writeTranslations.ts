@@ -97,7 +97,7 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
 
   const babelOptions = getBabelOptions({
     isServer: true,
-    babelOptions: getCustomBabelConfigFilePath(siteDir),
+    babelOptions: await getCustomBabelConfigFilePath(siteDir),
   });
   const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
     siteDir,

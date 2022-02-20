@@ -18,13 +18,13 @@ import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import StaticSiteGeneratorPlugin from '@slorber/static-site-generator-webpack-plugin';
 
-export default function createServerConfig({
+export default async function createServerConfig({
   props,
   onLinksCollected = () => {},
 }: {
   props: Props;
   onLinksCollected?: (staticPagePath: string, links: string[]) => void;
-}): Configuration {
+}): Promise<Configuration> {
   const {
     baseUrl,
     routesPaths,
@@ -35,7 +35,7 @@ export default function createServerConfig({
     ssrTemplate,
     siteConfig: {noIndex, trailingSlash},
   } = props;
-  const config = createBaseConfig(props, true);
+  const config = await createBaseConfig(props, true);
 
   const routesLocation: Record<string, string> = {};
   // Array of paths to be rendered. Relative to output directory

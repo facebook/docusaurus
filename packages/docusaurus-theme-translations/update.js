@@ -6,7 +6,8 @@
  */
 
 // @ts-check
-/* eslint-disable import/no-extraneous-dependencies */
+// TODO convert this to ESM, which would also allow TLA
+/* eslint-disable import/no-extraneous-dependencies, no-restricted-properties */
 
 const logger = require('@docusaurus/logger').default;
 const path = require('path');

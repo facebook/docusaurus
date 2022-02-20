@@ -49,7 +49,7 @@ expect.extend({
 
 describe('users', () => {
   sortedUsers.forEach((user) => {
-    test(user.title, () => {
+    test(user.title, async () => {
       Joi.attempt(
         user,
         Joi.object<User>({
@@ -86,6 +86,7 @@ describe('users', () => {
   });
 
   const imageDir = path.join(__dirname, '../showcase');
+  // eslint-disable-next-line no-restricted-properties
   const files = fs
     .readdirSync(imageDir)
     .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));

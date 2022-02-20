@@ -14,7 +14,7 @@ describe('webpack production config', () => {
   test('simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
-    const config = createServerConfig({props});
+    const config = await createServerConfig({props});
     const errors = validate(config);
     expect(errors).toBeUndefined();
   });
@@ -22,7 +22,7 @@ describe('webpack production config', () => {
   test('custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
-    const config = createServerConfig({props});
+    const config = await createServerConfig({props});
     const errors = validate(config);
     expect(errors).toBeUndefined();
   });

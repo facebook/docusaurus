@@ -143,7 +143,7 @@ describe('load utils', () => {
 describe('generate', () => {
   test('behaves correctly', async () => {
     const writeMock = jest.spyOn(fs, 'writeFile').mockImplementation(() => {});
-    const existsMock = jest.spyOn(fs, 'existsSync');
+    const existsMock = jest.spyOn(fs, 'pathExists');
     const readMock = jest.spyOn(fs, 'readFile');
 
     // First call: no file, no cache
