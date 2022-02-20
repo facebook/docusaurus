@@ -37,16 +37,14 @@ async function updatePkg(pkgPath: string, obj: Record<string, unknown>) {
   await fs.outputFile(pkgPath, `${JSON.stringify(newPkg, null, 2)}\n`);
 }
 
-function readTemplates(templatesDir: string) {
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter(
-      (d) =>
-        !d.startsWith('.') &&
-        !d.startsWith('README') &&
-        !d.endsWith(TypeScriptTemplateSuffix) &&
-        d !== 'shared',
-    );
+async function readTemplates(templatesDir: string) {
+  const templates = (await fs.readdir(templatesDir)).filter(
+    (d) =>
+      !d.startsWith('.') &&
+      !d.startsWith('README') &&
+      !d.endsWith(TypeScriptTemplateSuffix) &&
+      d !== 'shared',
+  );
 
   // Classic should be first in list!
   return _.sortBy(templates, (t) => t !== RecommendedTemplate);
@@ -86,8 +84,8 @@ async function copyTemplate(
   if (tsBaseTemplate) {
     const tsBaseTemplatePath = path.resolve(templatesDir, tsBaseTemplate);
     await fs.copy(tsBaseTemplatePath, dest, {
-      filter: (filePath) =>
-        fs.statSync(filePath).isDirectory() ||
+      filter: async (filePath) =>
+        (await fs.stat(filePath)).isDirectory() ||
         path.extname(filePath) === '.css' ||
         path.basename(filePath) === 'docusaurus.config.js',
     });
@@ -96,7 +94,7 @@ async function copyTemplate(
   await fs.copy(path.resolve(templatesDir, template), dest, {
     // Symlinks don't exist in published NPM packages anymore, so this is only
     // to prevent errors during local testing
-    filter: (filePath) => !fs.lstatSync(filePath).isSymbolicLink(),
+    filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
   });
 }
 
@@ -135,9 +133,9 @@ export default async function init(
 ): Promise<void> {
   const useYarn = cliOptions.useNpm ? false : hasYarn();
   const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
-  const templates = readTemplates(templatesDir);
+  const templates = await readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
-    fs.pathExistsSync(
+    fs.pathExists(
       path.resolve(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
     );
 
@@ -160,7 +158,7 @@ export default async function init(
   }
 
   const dest = path.resolve(rootDir, name);
-  if (fs.existsSync(dest)) {
+  if (await fs.pathExists(dest)) {
     logger.error`Directory already exists at path=${dest}!`;
     process.exit(1);
   }
@@ -176,7 +174,7 @@ export default async function init(
       choices: createTemplateChoices(templates),
     });
     template = templatePrompt.template;
-    if (template && !useTS && hasTS(template)) {
+    if (template && !useTS && (await hasTS(template))) {
       const tsPrompt = await prompts({
         type: 'confirm',
         name: 'useTS',
@@ -223,10 +221,10 @@ export default async function init(
     const dirPrompt = await prompts({
       type: 'text',
       name: 'templateDir',
-      validate: (dir?: string) => {
+      validate: async (dir?: string) => {
         if (dir) {
           const fullDir = path.resolve(process.cwd(), dir);
-          if (fs.existsSync(fullDir)) {
+          if (await fs.pathExists(fullDir)) {
             return true;
           }
           return logger.red(
@@ -267,7 +265,7 @@ export default async function init(
   } else if (templates.includes(template)) {
     // Docusaurus templates.
     if (useTS) {
-      if (!hasTS(template)) {
+      if (!(await hasTS(template))) {
         logger.error`Template name=${template} doesn't provide the Typescript variant.`;
         process.exit(1);
       }
@@ -279,7 +277,7 @@ export default async function init(
       logger.error`Copying Docusaurus template name=${template} failed!`;
       throw err;
     }
-  } else if (fs.existsSync(path.resolve(process.cwd(), template))) {
+  } else if (await fs.pathExists(path.resolve(process.cwd(), template))) {
     const templateDir = path.resolve(process.cwd(), template);
     try {
       await fs.copy(templateDir, dest);
@@ -306,13 +304,13 @@ export default async function init(
 
   // We need to rename the gitignore file to .gitignore
   if (
-    !fs.pathExistsSync(path.join(dest, '.gitignore')) &&
-    fs.pathExistsSync(path.join(dest, 'gitignore'))
+    !(await fs.pathExists(path.join(dest, '.gitignore'))) &&
+    (await fs.pathExists(path.join(dest, 'gitignore')))
   ) {
     await fs.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'));
   }
-  if (fs.pathExistsSync(path.join(dest, 'gitignore'))) {
-    fs.removeSync(path.join(dest, 'gitignore'));
+  if (await fs.pathExists(path.join(dest, 'gitignore'))) {
+    await fs.remove(path.join(dest, 'gitignore'));
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm';

@@ -148,9 +148,9 @@ export default async function initPlugins({
     pluginRequire,
   );
 
-  function doGetPluginVersion(
+  async function doGetPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): DocusaurusPluginVersionInformation {
+  ): Promise<DocusaurusPluginVersionInformation> {
     // get plugin version
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
@@ -198,7 +198,7 @@ export default async function initPlugins({
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<InitializedPlugin> {
     const pluginVersion: DocusaurusPluginVersionInformation =
-      doGetPluginVersion(normalizedPluginConfig);
+      await doGetPluginVersion(normalizedPluginConfig);
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
     // Side-effect: merge the normalized theme config in the original one

@@ -29,10 +29,10 @@ async function listAllThemeComponents({
 }) {
   const themeComponentsTables = (
     await Promise.all(
-      themeNames.map((themeName) => {
+      themeNames.map(async (themeName) => {
         const themePath = getThemePath({themeName, plugins, typescript});
         const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
-        const themeComponents = getThemeComponents({
+        const themeComponents = await getThemeComponents({
           themeName,
           themePath,
           swizzleConfig,
@@ -109,7 +109,7 @@ export default async function swizzle(
   const themePath = getThemePath({themeName, plugins, typescript});
   const swizzleConfig = getThemeSwizzleConfig(themeName, plugins);
 
-  const themeComponents = getThemeComponents({
+  const themeComponents = await getThemeComponents({
     themeName,
     themePath,
     swizzleConfig,

@@ -47,8 +47,8 @@ async function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
+    await fs.ensureDir(path.dirname(newSidebarFile));
+    await fs.writeFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -104,8 +104,8 @@ export async function cliDocsVersionCommand(
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
+  if (await fs.pathExists(versionsJSONFile)) {
+    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
   }
 
   // Check if version already exists.
@@ -120,10 +120,13 @@ export async function cliDocsVersionCommand(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
 
-  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
+  if (
+    (await fs.pathExists(docsDir)) &&
+    (await fs.readdir(docsDir)).length > 0
+  ) {
     const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
-    fs.copySync(docsDir, newVersionDir);
+    await fs.copy(docsDir, newVersionDir);
   } else {
     throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
   }
@@ -137,8 +140,11 @@ export async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  fs.ensureDirSync(path.dirname(versionsJSONFile));
-  fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
+  await fs.ensureDir(path.dirname(versionsJSONFile));
+  await fs.writeFile(
+    versionsJSONFile,
+    `${JSON.stringify(versions, null, 2)}\n`,
+  );
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

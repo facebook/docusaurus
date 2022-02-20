@@ -57,6 +57,7 @@
     "chokidar": "^3.5.3",
     "clean-css": "^5.2.4",
     "cli-table3": "^0.6.1",
+    "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
     "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.21.1",

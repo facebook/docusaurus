@@ -84,7 +84,7 @@ async function createTestSite() {
   const siteThemePath = path.join(siteDir, 'src/theme');
   await fs.ensureDir(siteThemePath);
 
-  function snapshotThemeDir() {
+  async function snapshotThemeDir() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
@@ -93,9 +93,9 @@ async function createTestSite() {
       .sort();
 
     for (const file of files) {
-      const fileContent = fs.readFileSync(
+      const fileContent = await fs.readFile(
         path.posix.join(siteThemePath, file),
-        'utf8',
+        'utf-8',
       );
       expect(fileContent).toMatchSnapshot(file);
     }
@@ -147,7 +147,7 @@ describe('swizzle wrap', () => {
       component: Components.FirstLevelComponent,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.FirstLevelComponent} TS`, async () => {
@@ -156,7 +156,7 @@ describe('swizzle wrap', () => {
       component: Components.FirstLevelComponent,
       typescript: true,
     });
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInFolder} JS`, async () => {
@@ -165,7 +165,7 @@ describe('swizzle wrap', () => {
       component: Components.ComponentInFolder,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInFolder} TS`, async () => {
@@ -175,7 +175,7 @@ describe('swizzle wrap', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInSubFolder} JS`, async () => {
@@ -184,7 +184,7 @@ describe('swizzle wrap', () => {
       component: Components.ComponentInSubFolder,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInSubFolder} TS`, async () => {
@@ -194,7 +194,7 @@ describe('swizzle wrap', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.Sibling} JS`, async () => {
@@ -203,7 +203,7 @@ describe('swizzle wrap', () => {
       component: Components.Sibling,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.Sibling} TS`, async () => {
@@ -213,7 +213,7 @@ describe('swizzle wrap', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 });
 
@@ -226,7 +226,7 @@ describe('swizzle eject', () => {
       component: Components.FirstLevelComponent,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.FirstLevelComponent} TS`, async () => {
@@ -235,7 +235,7 @@ describe('swizzle eject', () => {
       component: Components.FirstLevelComponent,
       typescript: true,
     });
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInFolder} JS`, async () => {
@@ -244,7 +244,7 @@ describe('swizzle eject', () => {
       component: Components.ComponentInFolder,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInFolder} TS`, async () => {
@@ -254,7 +254,7 @@ describe('swizzle eject', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInSubFolder} JS`, async () => {
@@ -263,7 +263,7 @@ describe('swizzle eject', () => {
       component: Components.ComponentInSubFolder,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.ComponentInSubFolder} TS`, async () => {
@@ -273,7 +273,7 @@ describe('swizzle eject', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.Sibling} JS`, async () => {
@@ -282,7 +282,7 @@ describe('swizzle eject', () => {
       component: Components.Sibling,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 
   test(`${Components.Sibling} TS`, async () => {
@@ -292,6 +292,6 @@ describe('swizzle eject', () => {
       typescript: true,
     });
     exitMock.expectExitCode(0);
-    snapshotThemeDir();
+    await snapshotThemeDir();
   });
 });

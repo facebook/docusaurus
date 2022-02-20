@@ -36,50 +36,57 @@ export type ThemeComponents = {
 };
 
 const formatComponentName = (componentName: string): string =>
-  componentName
-    .replace(/([/\\])index\.(js|tsx|ts|jsx)/, '')
-    .replace(/\.(js|tsx|ts|jsx)/, '');
+  componentName.replace(/[/\\]index\.[jt]sx?/, '').replace(/\.[jt]sx?/, '');
 
 const skipReadDirNames = ['__test__', '__tests__', '__mocks__', '__fixtures__'];
 
-// TODO make async
-export function readComponentNames(themePath: string): string[] {
+export async function readComponentNames(themePath: string): Promise<string[]> {
   type File = {file: string; fullPath: string; isDir: boolean};
   type ComponentFile = File & {componentName: string};
 
-  if (!fs.existsSync(themePath)) {
+  if (!(await fs.pathExists(themePath))) {
     return [];
   }
 
-  function walk(dir: string): ComponentFile[] {
-    const files: File[] = fs.readdirSync(dir).flatMap((file) => {
-      const fullPath = path.join(dir, file);
-      const stat = fs.statSync(fullPath);
-      const isDir = stat.isDirectory();
-      return {file, fullPath, isDir};
-    });
+  async function walk(dir: string): Promise<ComponentFile[]> {
+    const files: File[] = await Promise.all(
+      (
+        await fs.readdir(dir)
+      ).flatMap(async (file) => {
+        const fullPath = path.join(dir, file);
+        const stat = await fs.stat(fullPath);
+        const isDir = stat.isDirectory();
+        return {file, fullPath, isDir};
+      }),
+    );
 
-    return files.flatMap((file) => {
-      if (file.isDir) {
-        if (skipReadDirNames.includes(file.file)) {
+    return (
+      await Promise.all(
+        files.map(async (file) => {
+          if (file.isDir) {
+            if (skipReadDirNames.includes(file.file)) {
+              return [];
+            }
+            return walk(file.fullPath);
+          } else if (
+            // TODO can probably be refactored
+            /(?<!\.d)\.[jt]sx?$/.test(file.fullPath) &&
+            !/(?<!\.d)\.(?:test|tests|story|stories)\.[jt]sx?$/.test(
+              file.fullPath,
+            )
+          ) {
+            const componentName = formatComponentName(
+              posixPath(path.relative(themePath, file.fullPath)),
+            );
+            return [{...file, componentName}];
+          }
           return [];
-        }
-        return walk(file.fullPath);
-      } else if (
-        // TODO can probably be refactored
-        /(?<!\.d)\.[jt]sx?$/.test(file.fullPath) &&
-        !/(?<!\.d)\.(?:test|tests|story|stories)\.[jt]sx?$/.test(file.fullPath)
-      ) {
-        const componentName = formatComponentName(
-          posixPath(path.relative(themePath, file.fullPath)),
-        );
-        return [{...file, componentName}];
-      }
-      return [];
-    });
+        }),
+      )
+    ).flat();
   }
 
-  const componentFiles = walk(themePath);
+  const componentFiles = await walk(themePath);
 
   const componentFilesOrdered = _.orderBy(
     componentFiles,
@@ -105,7 +112,7 @@ ${statusTable()}
 `;
 }
 
-export function getThemeComponents({
+export async function getThemeComponents({
   themeName,
   themePath,
   swizzleConfig,
@@ -113,7 +120,7 @@ export function getThemeComponents({
   themeName: string;
   themePath: string;
   swizzleConfig: SwizzleConfig;
-}): ThemeComponents {
+}): Promise<ThemeComponents> {
   const FallbackSwizzleActionStatus: SwizzleActionStatus = 'unsafe';
 
   const FallbackSwizzleComponentDescription = 'N/A';
@@ -126,7 +133,7 @@ export function getThemeComponents({
     description: FallbackSwizzleComponentDescription,
   };
 
-  const allComponents = readComponentNames(themePath);
+  const allComponents = await readComponentNames(themePath);
 
   function getConfig(component: string): SwizzleComponentConfig {
     if (!allComponents.includes(component)) {

@@ -403,10 +403,12 @@ ${Object.keys(registry)
 
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
-    docusaurusVersion: getPackageJsonVersion(
+    docusaurusVersion: (await getPackageJsonVersion(
       path.join(__dirname, '../../package.json'),
-    )!,
-    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
+    ))!,
+    siteVersion: await getPackageJsonVersion(
+      path.join(siteDir, 'package.json'),
+    ),
     pluginVersions: {},
   };
   plugins

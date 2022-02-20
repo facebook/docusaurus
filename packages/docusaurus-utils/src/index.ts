@@ -106,7 +106,7 @@ export async function generate(
   // If file already exists but its not in runtime cache yet,
   // we try to calculate the content hash and then compare
   // This is to avoid unnecessary overwriting and we can reuse old file.
-  if (!lastHash && fs.existsSync(filepath)) {
+  if (!lastHash && (await fs.pathExists(filepath))) {
     const lastContent = await fs.readFile(filepath, 'utf8');
     lastHash = createHash('md5').update(lastContent).digest('hex');
     fileHash.set(filepath, lastHash);

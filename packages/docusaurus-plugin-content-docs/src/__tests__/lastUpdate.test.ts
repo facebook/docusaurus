@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
 
@@ -64,9 +64,9 @@ describe('lastUpdate', () => {
 
   test('temporary created file that has no git timestamp', async () => {
     const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
-    fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
+    await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
-    fs.unlinkSync(tempFilePath);
+    await fs.unlink(tempFilePath);
   });
 
   test('Git does not exist', async () => {

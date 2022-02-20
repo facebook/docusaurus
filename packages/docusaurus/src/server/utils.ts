@@ -6,7 +6,7 @@
  */
 
 import type {RouteConfig} from '@docusaurus/types';
-import nodePath from 'path';
+import path from 'path';
 import {posixPath, Globby} from '@docusaurus/utils';
 
 // Recursively get the final routes (routes with no subroutes)
@@ -26,7 +26,7 @@ export async function safeGlobby(
   // Required for Windows support, as paths using \ should not be used by globby
   // (also using the windows hard drive prefix like c: is not a good idea)
   const globPaths = patterns.map((dirPath) =>
-    posixPath(nodePath.relative(process.cwd(), dirPath)),
+    posixPath(path.relative(process.cwd(), dirPath)),
   );
 
   return Globby(globPaths, options);

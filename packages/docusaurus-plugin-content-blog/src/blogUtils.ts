@@ -332,7 +332,7 @@ export async function generateBlogPosts(
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
-  if (!fs.existsSync(contentPaths.contentPath)) {
+  if (!(await fs.pathExists(contentPaths.contentPath))) {
     return [];
   }
 
