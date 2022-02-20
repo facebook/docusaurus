@@ -107,7 +107,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
-  const httpsConfig = getHttpsConfig();
+  const httpsConfig = await getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -118,7 +118,7 @@ export default async function start(
     fsWatcher.on(event, reload),
   );
 
-  let config: webpack.Configuration = merge(createClientConfig(props), {
+  let config: webpack.Configuration = merge(await createClientConfig(props), {
     infrastructureLogging: {
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       level: 'warn',

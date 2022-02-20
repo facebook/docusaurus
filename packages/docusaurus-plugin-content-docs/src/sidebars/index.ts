@@ -85,7 +85,7 @@ export async function loadSidebarsFileUnsafe(
   // Non-existent sidebars file: no sidebars
   // Note: this edge case can happen on versioned docs, not current version
   // We avoid creating empty versioned sidebars file with the CLI
-  if (!fs.existsSync(sidebarFilePath)) {
+  if (!(await fs.pathExists(sidebarFilePath))) {
     return DisabledSidebars;
   }
 

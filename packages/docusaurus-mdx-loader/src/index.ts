@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {readFile} from 'fs-extra';
+import fs from 'fs-extra';
 import mdx from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
@@ -57,7 +57,7 @@ type Options = RemarkAndRehypePluginOptions & {
  */
 async function readMetadataPath(metadataPath: string) {
   try {
-    return await readFile(metadataPath, 'utf8');
+    return await fs.readFile(metadataPath, 'utf8');
   } catch (e) {
     throw new Error(
       `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,

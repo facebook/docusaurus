@@ -68,10 +68,10 @@ describe('babel transpilation exclude logic', () => {
 });
 
 describe('getDocusaurusAliases()', () => {
-  test('return appropriate webpack aliases', () => {
+  test('return appropriate webpack aliases', async () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = _.mapValues(
-      getDocusaurusAliases(),
+      await getDocusaurusAliases(),
       (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
     );
     expect(relativeDocusaurusAliases).toMatchSnapshot();
@@ -120,10 +120,10 @@ describe('base webpack config', () => {
     jest.restoreAllMocks();
   });
 
-  test('should create webpack aliases', () => {
+  test('should create webpack aliases', async () => {
     // @ts-expect-error: Docusaurus webpack alias is always an object
     const aliases: ThemeAliases =
-      createBaseConfig(props, true).resolve?.alias ?? {};
+      (await createBaseConfig(props, true)).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
     const relativeAliases = _.mapValues(aliases, (a) =>
       posixPath(path.relative(props.siteDir, a)),
@@ -131,14 +131,14 @@ describe('base webpack config', () => {
     expect(relativeAliases).toMatchSnapshot();
   });
 
-  test('should use svg rule', () => {
+  test('should use svg rule', async () => {
     const fileLoaderUtils = utils.getFileLoaderUtils();
     const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
     jest
       .spyOn(utils, 'getFileLoaderUtils')
       .mockImplementation(() => fileLoaderUtils);
 
-    createBaseConfig(props, false, false);
+    await createBaseConfig(props, false, false);
     expect(mockSvg).toBeCalled();
   });
 });

@@ -25,16 +25,15 @@ export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   return Object.fromEntries(entries);
 }
 
-// TODO make async
-export default function themeAlias(
+export default async function themeAlias(
   themePath: string,
   addOriginalAlias: boolean,
-): ThemeAliases {
-  if (!fs.pathExistsSync(themePath)) {
+): Promise<ThemeAliases> {
+  if (!(await fs.pathExists(themePath))) {
     return {};
   }
 
-  const themeComponentFiles = Globby.sync(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = await Globby(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 

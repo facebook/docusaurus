@@ -130,7 +130,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
@@ -148,23 +148,26 @@ async function buildLocale({
 
   const allCollectedLinks: Record<string, string[]> = {};
 
-  let serverConfig: Configuration = createServerConfig({
+  let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
     },
   });
 
-  serverConfig = merge(serverConfig, {
-    plugins: [
-      new CopyWebpackPlugin({
-        patterns: staticDirectories
-          .map((dir) => path.resolve(siteDir, dir))
-          .filter(fs.existsSync)
-          .map((dir) => ({from: dir, to: outDir})),
-      }),
-    ],
-  });
+  if (staticDirectories.length > 0) {
+    await Promise.all(staticDirectories.map((dir) => fs.ensureDir(dir)));
+
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: staticDirectories
+            .map((dir) => path.resolve(siteDir, dir))
+            .map((dir) => ({from: dir, to: outDir})),
+        }),
+      ],
+    });
+  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {

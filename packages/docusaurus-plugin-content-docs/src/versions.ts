@@ -418,7 +418,7 @@ function createVersionMetadata({
   };
 }
 
-function checkVersionMetadataPaths({
+async function checkVersionMetadataPaths({
   versionMetadata,
   context,
 }: {
@@ -429,7 +429,7 @@ function checkVersionMetadataPaths({
   const {siteDir} = context;
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
 
-  if (!fs.existsSync(contentPath)) {
+  if (!(await fs.pathExists(contentPath))) {
     throw new Error(
       `The docs folder does not exist for version "${versionName}". A docs folder is expected to be found at ${path.relative(
         siteDir,
@@ -446,7 +446,7 @@ function checkVersionMetadataPaths({
   if (
     isCurrentVersion &&
     typeof sidebarFilePath === 'string' &&
-    !fs.existsSync(sidebarFilePath)
+    !(await fs.pathExists(sidebarFilePath))
   ) {
     throw new Error(`The path to the sidebar file does not exist at "${path.relative(
       siteDir,
@@ -585,8 +585,10 @@ export async function readVersionsMetadata({
       options,
     }),
   );
-  versionsMetadata.forEach((versionMetadata) =>
-    checkVersionMetadataPaths({versionMetadata, context}),
+  await Promise.all(
+    versionsMetadata.map((versionMetadata) =>
+      checkVersionMetadataPaths({versionMetadata, context}),
+    ),
   );
   return versionsMetadata;
 }

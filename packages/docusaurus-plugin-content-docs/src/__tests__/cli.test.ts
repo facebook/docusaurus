@@ -185,9 +185,9 @@ describe('docsVersion', () => {
   });
 
   test('first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFileSync');
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
+    const writeMock = jest.spyOn(fs, 'writeFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
@@ -242,9 +242,9 @@ describe('docsVersion', () => {
   });
 
   test('not the first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFileSync');
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
+    const writeMock = jest.spyOn(fs, 'writeFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
@@ -301,9 +301,9 @@ describe('docsVersion', () => {
   test('second docs instance versioning', async () => {
     const pluginId = 'community';
 
-    const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFileSync');
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
+    const writeMock = jest.spyOn(fs, 'writeFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {

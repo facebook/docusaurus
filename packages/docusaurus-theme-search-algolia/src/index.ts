@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 import {defaultConfig, compile} from 'eta';
 import {normalizeUrl} from '@docusaurus/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
@@ -76,7 +76,7 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
         const siteUrl = normalizeUrl([url, baseUrl]);
 
         try {
-          fs.writeFileSync(
+          await fs.writeFile(
             path.join(outDir, OPEN_SEARCH_FILENAME),
             renderOpenSearchTemplate({
               title,
