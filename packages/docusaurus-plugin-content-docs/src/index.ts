@@ -38,6 +38,7 @@ import type {
   DocFile,
   DocsMarkdownOption,
   VersionTag,
+  DocFrontMatter,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
@@ -360,6 +361,15 @@ export default async function pluginContentDocs(
                   const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                   return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
                 },
+                // Assets allow to convert some relative images paths to
+                // require(...) calls
+                createAssets: ({
+                  frontMatter,
+                }: {
+                  frontMatter: DocFrontMatter;
+                }) => ({
+                  image: frontMatter.image,
+                }),
               },
             },
             {
