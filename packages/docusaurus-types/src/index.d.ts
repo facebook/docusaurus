@@ -122,6 +122,7 @@ export type I18nLocaleConfig = {
   label: string;
   htmlLang: string;
   direction: string;
+  baseUrl: string;
 };
 
 export type I18nConfig = {

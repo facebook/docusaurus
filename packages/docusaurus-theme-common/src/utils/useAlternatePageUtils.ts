@@ -22,21 +22,33 @@ export function useAlternatePageUtils(): {
 } {
   const {
     siteConfig: {baseUrl, url},
-    i18n: {defaultLocale, currentLocale},
+    i18n: {defaultLocale, currentLocale, localeConfigs},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
 
-  const baseUrlUnlocalized =
-    currentLocale === defaultLocale
-      ? baseUrl
-      : baseUrl.replace(`/${currentLocale}/`, '/');
+  function getLocalizedPath(locale: string) {
+    if (localeConfigs[locale].baseUrl) {
+      return localeConfigs[locale].baseUrl
+        .replace(/^\//, '')
+        .replace(/\/$/, '');
+    }
+    return locale === defaultLocale ? '' : locale;
+  }
 
-  const pathnameSuffix = pathname.replace(baseUrl, '');
+  const currentLocalizedPath = getLocalizedPath(currentLocale);
+  const baseUrlUnlocalized = baseUrl.replace(
+    new RegExp(`/${currentLocalizedPath}/$`),
+    '/',
+  );
 
+  const pathnameSuffix = pathname.match(new RegExp(`^${baseUrl}`))
+    ? pathname.replace(new RegExp(`^${baseUrl}`), '')
+    : pathname.replace(new RegExp(`^${baseUrlUnlocalized}`), '');
   function getLocalizedBaseUrl(locale: string) {
-    return locale === defaultLocale
-      ? `${baseUrlUnlocalized}`
-      : `${baseUrlUnlocalized}${locale}/`;
+    const localizedPath = getLocalizedPath(locale);
+    return localizedPath
+      ? `${baseUrlUnlocalized}${localizedPath}/`
+      : baseUrlUnlocalized;
   }
 
   // TODO support correct alternate url when localized site is deployed on another domain
