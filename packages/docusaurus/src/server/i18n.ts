@@ -25,7 +25,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     label: getDefaultLocaleLabel(locale),
     direction: getLangDir(locale),
     htmlLang: locale,
-    baseUrl: '',
+    baseUrl: undefined,
   };
 }
 
@@ -108,7 +108,7 @@ export function localizePath({
   if (shouldLocalizePath({i18n, options})) {
     // FS paths need special care, for Windows support
     const localePath =
-      i18n.localeConfigs[i18n.currentLocale].baseUrl || i18n.currentLocale;
+      i18n.localeConfigs[i18n.currentLocale].baseUrl ?? i18n.currentLocale;
     if (pathType === 'fs') {
       return path.join(originalPath, path.sep, localePath, path.sep);
     }

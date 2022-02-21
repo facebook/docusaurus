@@ -27,10 +27,9 @@ export function useAlternatePageUtils(): {
   const {pathname} = useLocation();
 
   function getLocalizedPath(locale: string) {
-    if (localeConfigs[locale].baseUrl) {
-      return localeConfigs[locale].baseUrl
-        .replace(/^\//, '')
-        .replace(/\/$/, '');
+    const localeConfigBaseUrl = localeConfigs[locale].baseUrl ?? '';
+    if (localeConfigBaseUrl) {
+      return localeConfigBaseUrl.replace(/^\//, '').replace(/\/$/, '');
     }
     return locale === defaultLocale ? '' : locale;
   }
