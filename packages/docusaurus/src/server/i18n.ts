@@ -87,9 +87,9 @@ export function localizePath({
   if (pathType === 'fs') {
     return path.join(originalPath, i18n.currentLocale);
   }
-  // Url paths
+  // Url paths; add a trailing slash so it's a valid base URL
   if (pathType === 'url') {
-    return normalizeUrl([originalPath, i18n.currentLocale]);
+    return normalizeUrl([originalPath, i18n.currentLocale, '/']);
   }
   // should never happen
   throw new Error(`Unhandled path type "${pathType}".`);
