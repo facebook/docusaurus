@@ -6,13 +6,17 @@
  */
 
 import React, {createContext, type ReactNode, useContext} from 'react';
-import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+import {
+  useActivePlugin,
+  useAllDocsData,
+} from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
   PropVersionMetadata,
+  PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
 import {useLocation} from '@docusaurus/router';
@@ -20,7 +24,7 @@ import {useLocation} from '@docusaurus/router';
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid context value (a doc can have no sidebar)
+// Using a Symbol because null is a valid context value (a doc with no sidebar)
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
@@ -96,16 +100,14 @@ export function findSidebarCategory(
   sidebar: PropSidebar,
   predicate: (category: PropSidebarItemCategory) => boolean,
 ): PropSidebarItemCategory | undefined {
-  // eslint-disable-next-line no-restricted-syntax
   for (const item of sidebar) {
     if (item.type === 'category') {
       if (predicate(item)) {
         return item;
-      } else {
-        const subItem = findSidebarCategory(item.items, predicate);
-        if (subItem) {
-          return subItem;
-        }
+      }
+      const subItem = findSidebarCategory(item.items, predicate);
+      if (subItem) {
+        return subItem;
       }
     }
   }
@@ -120,16 +122,16 @@ export function findFirstCategoryLink(
     return item.href;
   }
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const subItem of item.items) {
     if (subItem.type === 'link') {
       return subItem.href;
-    }
-    if (subItem.type === 'category') {
+    } else if (subItem.type === 'category') {
       const categoryLink = findFirstCategoryLink(subItem);
       if (categoryLink) {
         return categoryLink;
       }
+    } else if (subItem.type === 'html') {
+      // skip
     } else {
       throw new Error(
         `Unexpected category item type for ${JSON.stringify(subItem)}`,
@@ -182,4 +184,47 @@ export function isActiveSidebarItem(
   }
 
   return false;
+}
+
+export function getBreadcrumbs({
+  sidebar,
+  pathname,
+}: {
+  sidebar: PropSidebar;
+  pathname: string;
+}): PropSidebarBreadcrumbsItem[] {
+  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
+
+  function extract(items: PropSidebar) {
+    for (const item of items) {
+      if (
+        item.type === 'category' &&
+        (isSamePath(item.href, pathname) || extract(item.items))
+      ) {
+        breadcrumbs.push(item);
+        return true;
+      } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
+        breadcrumbs.push(item);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  extract(sidebar);
+
+  return breadcrumbs.reverse();
+}
+
+export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
+
+  if (breadcrumbsOption === false || !sidebar) {
+    return null;
+  }
+
+  return getBreadcrumbs({sidebar, pathname});
 }

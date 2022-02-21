@@ -12,7 +12,6 @@ import {
   simpleHash,
   escapePath,
 } from '@docusaurus/utils';
-import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
 import type {
   ChunkRegistry,
@@ -28,7 +27,7 @@ type RegistryMap = {
 
 function indent(str: string) {
   const spaces = '  ';
-  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
+  return `${spaces}${str.replace(/\n/g, `\n${spaces}`)}`;
 }
 
 const createRouteCodeString = ({
@@ -85,10 +84,15 @@ const RoutesImportsCode = [
 ].join('\n');
 
 function isModule(value: unknown): value is Module {
-  if (isString(value)) {
+  if (typeof value === 'string') {
     return true;
   }
-  if (isPlainObject(value) && has(value, '__import') && has(value, 'path')) {
+  if (
+    typeof value === 'object' &&
+    // eslint-disable-next-line no-underscore-dangle
+    (value as Record<string, unknown>)?.__import &&
+    (value as Record<string, unknown>)?.path
+  ) {
     return true;
   }
   return false;
@@ -137,17 +141,17 @@ export default async function loadRoutes(
       ...props
     } = routeConfig;
 
-    if (!isString(routePath) || !component) {
+    if (typeof routePath !== 'string' || !component) {
       throw new Error(
-        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
-          routeConfig,
-        )}`,
+        `Invalid route config: path must be a string and component is required.
+${JSON.stringify(routeConfig)}`,
       );
     }
 
     // Collect all page paths for injecting it later in the plugin lifecycle
     // This is useful for plugins like sitemaps, redirects etc...
-    // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
+    // If a route has subroutes, it is not necessarily a valid page path (more
+    // likely to be a wrapper)
     if (!subroutes) {
       routesPaths.push(routePath);
     }

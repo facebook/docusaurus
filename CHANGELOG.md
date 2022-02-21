@@ -3686,7 +3686,7 @@ Failed release
 - ehsan jso ([@ehsanjso](https://github.com/ehsanjso))
 - matbub ([@hi-matbub](https://github.com/hi-matbub))
 
-## 2.0.0-alpha.58
+## 2.0.0-alpha.58 (2020-06-18)
 
 #### :rocket: New Feature
 
@@ -3825,11 +3825,11 @@ Failed release
 - moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
 - tetunori ([@tetunori](https://github.com/tetunori))
 
-## 2.0.0-alpha.57
+## 2.0.0-alpha.57 (2020-06-18)
 
 Bad release, check ## 2.0.0-alpha.58
 
-## 2.0.0-alpha.56
+## 2.0.0-alpha.56 (2020-05-28)
 
 #### :boom: Breaking Change
 
@@ -3898,7 +3898,7 @@ Bad release, check ## 2.0.0-alpha.58
 - Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
 - Sylvain Pace ([@s-pace](https://github.com/s-pace))
 
-## 2.0.0-alpha.55
+## 2.0.0-alpha.55 (2020-05-19)
 
 #### :boom: Breaking Change
 
@@ -3991,7 +3991,7 @@ Bad release, check ## 2.0.0-alpha.58
 - Yamagishi Kazutoshi ([@ykzts](https://github.com/ykzts))
 - Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-## 2.0.0-alpha.54
+## 2.0.0-alpha.54 (2020-04-28)
 
 **HOTFIX for 2.0.0-alpha.53**.
 
@@ -4012,7 +4012,7 @@ Bad release, check ## 2.0.0-alpha.58
 - Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
 - Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
 
-## 2.0.0-alpha.53
+## 2.0.0-alpha.53 (2020-04-27)
 
 **HOTFIX for 2.0.0-alpha.51**.
 
@@ -4025,7 +4025,7 @@ Bad release, check ## 2.0.0-alpha.58
 
 - Alexey Pyltsyn ([@lex111](https://github.com/lex111))
 
-## 2.0.0-alpha.51
+## 2.0.0-alpha.51 (2020-04-27)
 
 #### :boom: Breaking Change
 
@@ -4593,7 +4593,7 @@ Bad release, check ## 2.0.0-alpha.58
 - Yangshun Tay ([@yangshun](https://github.com/yangshun))
 - t11s ([@TransmissionsDev](https://github.com/TransmissionsDev))
 
-## 2.0.0-alpha.39
+## 2.0.0-alpha.39 (2019-12-07)
 
 #### :bug: Bug Fix
 
@@ -4613,7 +4613,7 @@ Bad release, check ## 2.0.0-alpha.58
 
 - Endi ([@endiliey](https://github.com/endiliey))
 
-## 2.0.0-alpha.38
+## 2.0.0-alpha.38 (2019-12-06)
 
 #### :boom: Breaking Change
 
@@ -4666,7 +4666,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Shivangna Kaistha ([@shivangna](https://github.com/shivangna))
 - kaichu ([@qshiwu](https://github.com/qshiwu))
 
-## 2.0.0-alpha.37
+## 2.0.0-alpha.37 (2019-12-01)
 
 #### :boom: Breaking Change
 
@@ -4750,7 +4750,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Endi ([@endiliey](https://github.com/endiliey))
 - Wei Gao ([@wgao19](https://github.com/wgao19))
 
-## 2.0.0-alpha.36
+## 2.0.0-alpha.36 (2019-11-22)
 
 #### :boom: Breaking Change
 
@@ -4796,7 +4796,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Endi ([@endiliey](https://github.com/endiliey))
 - Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-## 2.0.0-alpha.35
+## 2.0.0-alpha.35 (2019-11-17)
 
 #### :rocket: New Feature
 
@@ -4871,7 +4871,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Nick McCormick ([@kenning](https://github.com/kenning))
 - Vincent van der Walt ([@vinnytheviking](https://github.com/vinnytheviking))
 
-## 2.0.0-alpha.34
+## 2.0.0-alpha.34 (2019-11-11)
 
 #### :rocket: New Feature
 
@@ -4916,7 +4916,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Endi ([@endiliey](https://github.com/endiliey))
 - Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
-## 2.0.0-alpha.33
+## 2.0.0-alpha.33 (2019-11-08)
 
 #### Features
 
@@ -4946,7 +4946,7 @@ For example, if you've swizzled `@theme/DocItem`. You'll have to update
 - Misc dependency upgrades.
 - Stability improvement (more tests) & refactoring on docs plugin to prevent regression.
 
-## 2.0.0-alpha.32
+## 2.0.0-alpha.32 (2019-11-04)
 
 #### Features
 
@@ -4993,7 +4993,7 @@ function Home() {
 - Convert sitemap plugin to TypeScript. ([#1894](https://github.com/facebook/Docusaurus/issues/1894))
 - Refactor dark mode toggle into a hook. ([#1899](https://github.com/facebook/Docusaurus/issues/1899))
 
-## 2.0.0-alpha.31
+## 2.0.0-alpha.31 (2019-10-26)
 
 - Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers.
 - Footer is now also displayed in docs page for consistency.
@@ -5010,13 +5010,13 @@ function Home() {
   - Increase sidebar width
   - etc
 
-## 2.0.0-alpha.30
+## 2.0.0-alpha.30 (2019-10-22)
 
 - Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'`.([#1868](https://github.com/facebook/docusaurus/pull/1868))
 
 If you are still encountering the error. Please check whether you use `module.exports` for your `.js` file instead of doing `export` (mixing CJS and ES). See https://github.com/webpack/webpack/issues/4039#issuecomment-477779322 and https://github.com/webpack/webpack/issues/4039#issuecomment-273804003 for more context.
 
-## 2.0.0-alpha.29
+## 2.0.0-alpha.29 (2019-10-21)
 
 **HOTFIX for 2.0.0-alpha.28**.
 
@@ -5024,7 +5024,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Fix wrong `@babel/env` preset configuration that causes build compilation error.
 - New UI for webpack compilation progress bar.
 
-## 2.0.0-alpha.28
+## 2.0.0-alpha.28 (2019-10-21)
 
 - Further reduce memory usage to avoid heap memory allocation failure.
 - Fix `keywords` frontmatter for SEO not working properly.
@@ -5039,14 +5039,14 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Fix potential security vulnerability because we're exposing the directory structure of the host machine.
 - Upgrade dependencies.
 
-## 2.0.0-alpha.27
+## 2.0.0-alpha.27 (2019-10-14)
 
 - Add `@theme/Tabs` which can be used to implement multi-language code tabs.
 - Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
 - Reduce memory usage and slightly faster production build.
 - Misc dependency upgrades.
 
-## 2.0.0-alpha.26
+## 2.0.0-alpha.26 (2019-10-12)
 
 - Docs, pages plugin is rewritten in TypeScript
 - Docs improvements and tweaks
@@ -5063,7 +5063,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Add `scripts` and `stylesheets` field to `docusaurus.config.js`
 - More documentation...
 
-## 2.0.0-alpha.25
+## 2.0.0-alpha.25 (2019-10-01)
 
 - Blog plugin is rewritten in TypeScript and can now support CJK
 - Upgrade key direct dependencies such as webpack, mdx and babel to latest
@@ -5073,7 +5073,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Add `truncateMarker` option to blog plugin, support string or regex.
 - Webpack `optimization.removeAvailableModules` is now disabled for performance gain. See https://github.com/webpack/webpack/releases/tag/v4.38.0 for more context.
 
-## 2.0.0-alpha.24
+## 2.0.0-alpha.24 (2019-07-24)
 
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
 - Upgrade dependencies of css-loader from 2.x to 3.x. Css modules localIdentName hash now only use the last 4 characters instead of 8.
@@ -5082,11 +5082,11 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Use contenthash instead of chunkhash for better long term caching
 - Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
 
-## 2.0.0-alpha.23
+## 2.0.0-alpha.23 (2019-07-21)
 
 - Fix docusaurus route config generation for certain edge case
 
-## 2.0.0-alpha.22
+## 2.0.0-alpha.22 (2019-07-20)
 
 - Add missing dependencies on `@docusaurus/preset-classic`
 - New plugin `@docusaurus/plugin-ideal-image` to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
@@ -5097,11 +5097,11 @@ If you are still encountering the error. Please check whether you use `module.ex
 - `@docusaurus/theme-live-codeblock` is now much smaller in size and no longer only load on viewport
 - Blog markdown files now support using the id field to specify the path
 
-## 2.0.0-alpha.21
+## 2.0.0-alpha.21 (2019-07-14)
 
 - Fix babel-loader not transpiling docusaurus package
 
-## 2.0.0-alpha.20
+## 2.0.0-alpha.20 (2019-07-14)
 
 - Add copy codeblock button
 - Add Google analytics and Google gtag plugins.
@@ -5117,7 +5117,7 @@ If you are still encountering the error. Please check whether you use `module.ex
   - Drop cache-loader in CI and test environment because it has an initial overhead. We always start from scratch in vm instance like CI so cache-loader is useless
   - Better splitchunks and babel default webpack config
 
-## 2.0.0-alpha.19
+## 2.0.0-alpha.19 (2019-06-07)
 
 - Add a sensible default for browserslist config.
 - UI
@@ -5156,7 +5156,7 @@ presets: [
 - Minify css for production build
 - Fix weird scrolling problem when navigating to a route with a `hash` location
 
-## V2 Changelog
+## V2 Changelog (2019-04-10)
 
 ### `siteConfig.js` changes
 
@@ -5189,7 +5189,7 @@ themeConfig: {
 }
 ```
 
-# Migration Guide
+### Migration Guide
 
 _Work in Progress_
 

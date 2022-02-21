@@ -21,7 +21,7 @@ More details here: https://github.com/facebook/docusaurus/pull/4295
 const ValueRegexp = /{\w+}/g;
 const ValueFoundMarker = '{}'; // does not care much
 
-// TS function overload: if all the values are plain strings, then interpolate returns a simple string
+// If all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
   text: Str,
   values?: InterpolateValues<Str, string | number>,
@@ -55,9 +55,8 @@ export function interpolate<Str extends string, Value extends ReactNode>(
           String(value);
       elements.push(element);
       return ValueFoundMarker;
-    } else {
-      return match; // no match? add warning?
     }
+    return match; // no match? add warning?
   });
 
   // No interpolation to be done: just return the text
@@ -65,7 +64,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
     return text;
   }
   // Basic string interpolation: returns interpolated string
-  else if (elements.every((el) => typeof el === 'string')) {
+  if (elements.every((el) => typeof el === 'string')) {
     return processedText
       .split(ValueFoundMarker)
       .reduce<string>(
@@ -75,18 +74,16 @@ export function interpolate<Str extends string, Value extends ReactNode>(
       );
   }
   // JSX interpolation: returns ReactNode
-  else {
-    return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
-      (array, value, index) => [
-        ...array,
-        <React.Fragment key={index}>
-          {value}
-          {elements[index]}
-        </React.Fragment>,
-      ],
-      [],
-    );
-  }
+  return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
+    (array, value, index) => [
+      ...array,
+      <React.Fragment key={index}>
+        {value}
+        {elements[index]}
+      </React.Fragment>,
+    ],
+    [],
+  );
 }
 
 export default function Interpolate<Str extends string>({

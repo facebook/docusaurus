@@ -13,20 +13,36 @@ import {
   GENERATED_FILES_DIR_NAME,
 } from '@docusaurus/utils';
 
-async function removePath(fsPath: string) {
+async function removePath(entry: {path: string; description: string}) {
+  if (!(await fs.pathExists(entry.path))) {
+    return;
+  }
   try {
-    fs.remove(path.join(fsPath));
-    logger.success`Removed the path=${fsPath} directory.`;
+    await fs.remove(entry.path);
+    logger.success`Removed the ${entry.description} at path=${entry.path}.`;
   } catch (e) {
-    logger.error`Could not remove path=${fsPath} directory.
+    logger.error`Could not remove the ${entry.description} at path=${
+      entry.path
+    }.
 ${e as string}`;
   }
 }
 
 export default async function clear(siteDir: string): Promise<unknown> {
-  return Promise.all([
-    removePath(path.join(siteDir, GENERATED_FILES_DIR_NAME)),
-    removePath(path.join(siteDir, DEFAULT_BUILD_DIR_NAME)),
-    removePath(path.join(siteDir, 'node_modules', '.cache')),
-  ]);
+  const generatedFolder = {
+    path: path.join(siteDir, GENERATED_FILES_DIR_NAME),
+    description: 'generated folder',
+  };
+  const buildFolder = {
+    path: path.join(siteDir, DEFAULT_BUILD_DIR_NAME),
+    description: 'build output folder',
+  };
+  // In Yarn PnP, cache is stored in `.yarn/.cache` because n_m doesn't exist
+  const cacheFolders = ['node_modules', '.yarn'].map((p) => ({
+    path: path.join(siteDir, p, '.cache'),
+    description: 'Webpack persistent cache folder',
+  }));
+  return Promise.all(
+    [generatedFolder, buildFolder, ...cacheFolders].map(removePath),
+  );
 }

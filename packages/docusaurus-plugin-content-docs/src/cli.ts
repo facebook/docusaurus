@@ -16,11 +16,11 @@ import type {
   PathOptions,
   SidebarOptions,
 } from '@docusaurus/plugin-content-docs';
-import {loadSidebarsFile, resolveSidebarPathOption} from './sidebars';
+import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 
-function createVersionedSidebarFile({
+async function createVersionedSidebarFile({
   siteDir,
   pluginId,
   sidebarPath,
@@ -32,10 +32,13 @@ function createVersionedSidebarFile({
   version: string;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  // Note: we don't need the sidebars file to be normalized: it's ok to let plugin option changes to impact older, versioned sidebars
-  const sidebars = loadSidebarsFile(sidebarPath);
+  // Note: we don't need the sidebars file to be normalized: it's ok to let
+  // plugin option changes to impact older, versioned sidebars
+  // We don't validate here, assuming the user has already built the version
+  const sidebars = await loadSidebarsFileUnsafe(sidebarPath);
 
-  // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
+  // Do not create a useless versioned sidebars file if sidebars file is empty
+  // or sidebars are disabled/false)
   const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
@@ -44,8 +47,8 @@ function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
+    await fs.ensureDir(path.dirname(newSidebarFile));
+    await fs.writeFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -54,12 +57,12 @@ function createVersionedSidebarFile({
 }
 
 // Tests depend on non-default export for mocking.
-export function cliDocsVersionCommand(
+export async function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
   options: PathOptions & SidebarOptions,
-): void {
+): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
   const pluginIdLogPrefix =
@@ -101,8 +104,8 @@ export function cliDocsVersionCommand(
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
+  if (await fs.pathExists(versionsJSONFile)) {
+    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
   }
 
   // Check if version already exists.
@@ -117,15 +120,18 @@ export function cliDocsVersionCommand(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
 
-  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
+  if (
+    (await fs.pathExists(docsDir)) &&
+    (await fs.readdir(docsDir)).length > 0
+  ) {
     const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
-    fs.copySync(docsDir, newVersionDir);
+    await fs.copy(docsDir, newVersionDir);
   } else {
     throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
   }
 
-  createVersionedSidebarFile({
+  await createVersionedSidebarFile({
     siteDir,
     pluginId,
     version,
@@ -134,8 +140,11 @@ export function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  fs.ensureDirSync(path.dirname(versionsJSONFile));
-  fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
+  await fs.ensureDir(path.dirname(versionsJSONFile));
+  await fs.writeFile(
+    versionsJSONFile,
+    `${JSON.stringify(versions, null, 2)}\n`,
+  );
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

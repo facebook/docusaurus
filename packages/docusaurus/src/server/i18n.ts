@@ -105,22 +105,17 @@ export function localizePath({
   i18n: I18n;
   options?: {localizePath?: boolean};
 }): string {
-  if (shouldLocalizePath({i18n, options})) {
-    // FS paths need special care, for Windows support
-    const localePath =
-      i18n.localeConfigs[i18n.currentLocale].baseUrl ?? i18n.currentLocale;
-    if (pathType === 'fs') {
-      return path.join(originalPath, path.sep, localePath, path.sep);
-    }
-    // Url paths
-    else if (pathType === 'url') {
-      return normalizeUrl([originalPath, '/', localePath, '/']);
-    }
-    // should never happen
-    else {
-      throw new Error(`Unhandled path type "${pathType}".`);
-    }
-  } else {
+  if (!shouldLocalizePath({i18n, options})) {
     return originalPath;
   }
+  // FS paths need special care, for Windows support
+  if (pathType === 'fs') {
+    return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+  }
+  // Url paths
+  if (pathType === 'url') {
+    return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+  }
+  // should never happen
+  throw new Error(`Unhandled path type "${pathType}".`);
 }

@@ -38,11 +38,11 @@ import type {
   DocFile,
   DocsMarkdownOption,
   VersionTag,
+  DocFrontMatter,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
-import {keyBy, mapValues} from 'lodash';
 import {toGlobalDataVersion} from './globalData';
 import {toTagDocListProp} from './props';
 import {
@@ -217,6 +217,7 @@ export default async function pluginContentDocs(
         docLayoutComponent,
         docItemComponent,
         docCategoryGeneratedIndexComponent,
+        breadcrumbs,
       } = options;
       const {addRoute, createData, setGlobalData} = actions;
 
@@ -295,6 +296,7 @@ export default async function pluginContentDocs(
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: loadedVersions.map(toGlobalDataVersion),
+        breadcrumbs,
       });
     },
 
@@ -309,9 +311,8 @@ export default async function pluginContentDocs(
 
       function getSourceToPermalink(): SourceToPermalink {
         const allDocs = content.loadedVersions.flatMap((v) => v.docs);
-        return mapValues(
-          keyBy(allDocs, (d) => d.source),
-          (d) => d.permalink,
+        return Object.fromEntries(
+          allDocs.map(({source, permalink}) => [source, permalink]),
         );
       }
 
@@ -333,7 +334,7 @@ export default async function pluginContentDocs(
       function createMDXLoaderRule(): RuleSetRule {
         const contentDirs = versionsMetadata.flatMap(getDocsDirPaths);
         return {
-          test: /(\.mdx?)$/,
+          test: /\.mdx?$/i,
           include: contentDirs
             // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
             .map(addTrailingPathSeparator),
@@ -360,6 +361,15 @@ export default async function pluginContentDocs(
                   const aliasedPath = aliasedSitePath(mdxPath, siteDir);
                   return path.join(dataDir, `${docuHash(aliasedPath)}.json`);
                 },
+                // Assets allow to convert some relative images paths to
+                // require(...) calls
+                createAssets: ({
+                  frontMatter,
+                }: {
+                  frontMatter: DocFrontMatter;
+                }) => ({
+                  image: frontMatter.image,
+                }),
               },
             },
             {

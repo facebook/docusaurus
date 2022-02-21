@@ -35,7 +35,7 @@ npx create-docusaurus@latest website classic
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory.
+The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory. If it's a git repository, you can also specify a cloning strategy. Run `npx create-docusaurus@latest --help` for more information.
 
 :::info FB-Only
 
@@ -100,7 +100,7 @@ my-website
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them
 - `/sidebar.js` - Used by the documentation to specify the order of documents in the sidebar
 
-### Monorepos
+### Monorepos {#monorepos}
 
 If you are using Docusaurus for documentation of an existing project, a monorepo may be the solution for you. Monorepos allow you to share dependencies between similar projects. For example, your website may use your local packages to showcase the latest features, instead of depending on a released version; your contributors can also conveniently update the docs as they implement features. An example monorepo folder structure is below:
 

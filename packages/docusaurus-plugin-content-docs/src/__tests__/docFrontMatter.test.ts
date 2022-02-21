@@ -210,6 +210,19 @@ describe('validateDocFrontMatter sidebar_position', () => {
   });
 });
 
+describe('validateDocFrontMatter sidebar_custom_props', () => {
+  testField({
+    prefix: 'sidebar_custom_props',
+    validFrontMatters: [
+      {sidebar_custom_props: {}},
+      {sidebar_custom_props: {prop: 'custom', number: 1, boolean: true}},
+    ],
+    invalidFrontMatters: [
+      [{sidebar_custom_props: ''}, 'must be of type object'],
+    ],
+  });
+});
+
 describe('validateDocFrontMatter custom_edit_url', () => {
   testField({
     prefix: 'custom_edit_url',

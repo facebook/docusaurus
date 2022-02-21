@@ -138,12 +138,12 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet';
+  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
 
-  export type HeadProps = HelmetProps & {children: ReactNode};
+  export type Props = HelmetProps & {children: ReactNode};
 
-  const Head: (props: HeadProps) => JSX.Element;
+  const Head: (props: Props) => JSX.Element;
   export default Head;
 }
 
@@ -151,7 +151,7 @@ declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
 
   type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
-  export type LinkProps = NavLinkProps &
+  export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;
       readonly style?: CSSProperties;
@@ -163,7 +163,7 @@ declare module '@docusaurus/Link' {
       // escape hatch in case broken links check is annoying for a specific link
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
-  const Link: (props: LinkProps) => JSX.Element;
+  const Link: (props: Props) => JSX.Element;
   export default Link;
 }
 
@@ -180,13 +180,13 @@ declare module '@docusaurus/Interpolate' {
     Value extends ReactNode,
   > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
 
-  // TS function overload: if all the values are plain strings, then interpolate returns a simple string
+  // If all the values are plain strings, interpolate returns a simple string
   export function interpolate<Str extends string>(
     text: Str,
     values?: InterpolateValues<Str, string | number>,
   ): string;
 
-  // If values contain any ReactNode, then the return is a ReactNode
+  // If values contain any ReactNode, the return is a ReactNode
   export function interpolate<Str extends string, Value extends ReactNode>(
     text: Str,
     values?: InterpolateValues<Str, Value>,
@@ -242,11 +242,7 @@ declare module '@docusaurus/Translate' {
 
 declare module '@docusaurus/router' {
   // eslint-disable-next-line import/no-extraneous-dependencies
-  export * from 'react-router-dom';
-}
-declare module '@docusaurus/history' {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  export * from 'history';
+  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
 declare module '@docusaurus/useDocusaurusContext' {

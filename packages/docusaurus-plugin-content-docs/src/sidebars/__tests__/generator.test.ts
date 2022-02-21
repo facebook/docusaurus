@@ -5,12 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  DefaultSidebarItemsGenerator,
-  type CategoryMetadataFile,
-} from '../generator';
+import {DefaultSidebarItemsGenerator} from '../generator';
 import type {Sidebar, SidebarItemsGenerator} from '../types';
-import fs from 'fs-extra';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
 
@@ -34,24 +30,9 @@ describe('DefaultSidebarItemsGenerator', () => {
         sidebarCollapsed: true,
         sidebarCollapsible: true,
       },
+      categoriesMetadata: {},
       ...params,
     });
-  }
-
-  function mockCategoryMetadataFiles(
-    categoryMetadataFiles: Record<string, Partial<CategoryMetadataFile>>,
-  ) {
-    jest
-      .spyOn(fs, 'pathExists')
-      .mockImplementation(
-        (metadataFilePath) =>
-          typeof categoryMetadataFiles[metadataFilePath] !== 'undefined',
-      );
-    jest.spyOn(fs, 'readFile').mockImplementation(
-      // @ts-expect-error: annoying TS error due to overrides
-      async (metadataFilePath: string) =>
-        JSON.stringify(categoryMetadataFiles[metadataFilePath]),
-    );
   }
 
   test('generates empty sidebar slice when no docs and emit a warning', async () => {
@@ -133,19 +114,6 @@ describe('DefaultSidebarItemsGenerator', () => {
   });
 
   test('generates complex nested sidebar', async () => {
-    mockCategoryMetadataFiles({
-      '02-Guides/_category_.json': {collapsed: false} as CategoryMetadataFile,
-      '02-Guides/01-SubGuides/_category_.yml': {
-        label: 'SubGuides (metadata file label)',
-        link: {
-          type: 'generated-index',
-          slug: 'subguides-generated-index-slug',
-          title: 'subguides-title',
-          description: 'subguides-description',
-        },
-      },
-    });
-
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
@@ -156,6 +124,18 @@ describe('DefaultSidebarItemsGenerator', () => {
       version: {
         versionName: 'current',
         contentPath: '',
+      },
+      categoriesMetadata: {
+        '02-Guides': {collapsed: false},
+        '02-Guides/01-SubGuides': {
+          label: 'SubGuides (metadata file label)',
+          link: {
+            type: 'generated-index',
+            slug: 'subguides-generated-index-slug',
+            title: 'subguides-title',
+            description: 'subguides-description',
+          },
+        },
       },
       docs: [
         {
@@ -234,8 +214,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Tutorials',
-        collapsed: true,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'tutorials-index',
@@ -248,19 +226,16 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Guides',
-        collapsed: false,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'guides-index',
         },
+        collapsed: false,
         items: [
           {type: 'doc', id: 'guide1', className: 'foo'},
           {
             type: 'category',
             label: 'SubGuides (metadata file label)',
-            collapsed: true,
-            collapsible: true,
             items: [{type: 'doc', id: 'nested-guide'}],
             link: {
               type: 'generated-index',
@@ -279,24 +254,6 @@ describe('DefaultSidebarItemsGenerator', () => {
   test('generates subfolder sidebar', async () => {
     // Ensure that category metadata file is correctly read
     // fix edge case found in https://github.com/facebook/docusaurus/issues/4638
-    mockCategoryMetadataFiles({
-      'subfolder/subsubfolder/subsubsubfolder2/_category_.yml': {
-        position: 2,
-        label: 'subsubsubfolder2 (_category_.yml label)',
-        className: 'bar',
-      },
-      'subfolder/subsubfolder/subsubsubfolder3/_category_.json': {
-        position: 1,
-        label: 'subsubsubfolder3 (_category_.json label)',
-        collapsible: false,
-        collapsed: false,
-        link: {
-          type: 'doc',
-          id: 'doc1', // This is a "fully-qualified" ID that can't be found locally
-        },
-      },
-    });
-
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
@@ -307,6 +264,21 @@ describe('DefaultSidebarItemsGenerator', () => {
       version: {
         versionName: 'current',
         contentPath: '',
+      },
+      categoriesMetadata: {
+        'subfolder/subsubfolder/subsubsubfolder2': {
+          position: 2,
+          label: 'subsubsubfolder2 (_category_.yml label)',
+          className: 'bar',
+        },
+        'subfolder/subsubfolder/subsubsubfolder3': {
+          position: 1,
+          label: 'subsubsubfolder3 (_category_.json label)',
+          link: {
+            type: 'doc',
+            id: 'doc1', // This is a "fully-qualified" ID that can't be found locally
+          },
+        },
       },
       docs: [
         {
@@ -376,8 +348,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder3 (_category_.json label)',
-        collapsed: false,
-        collapsible: false,
         link: {
           id: 'doc1',
           type: 'doc',
@@ -390,8 +360,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder2 (_category_.yml label)',
-        collapsed: true,
-        collapsible: true,
         className: 'bar',
         items: [{type: 'doc', id: 'doc6'}],
       },
@@ -400,24 +368,12 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'subsubsubfolder',
-        collapsed: true,
-        collapsible: true,
         items: [{type: 'doc', id: 'doc5'}],
       },
     ] as Sidebar);
   });
 
   test('uses explicit link over the index/readme.{md,mdx} naming convention', async () => {
-    mockCategoryMetadataFiles({
-      'Category/_category_.yml': {
-        label: 'Category label',
-        link: {
-          type: 'doc',
-          id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
-        },
-      },
-    });
-
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       item: {
@@ -427,6 +383,19 @@ describe('DefaultSidebarItemsGenerator', () => {
       version: {
         versionName: 'current',
         contentPath: '',
+      },
+      categoriesMetadata: {
+        Category: {
+          label: 'Category label',
+          link: {
+            type: 'doc',
+            id: 'doc3', // Using a "local doc id" ("doc1" instead of "parent/doc1") on purpose
+          },
+        },
+        Category2: {
+          label: 'Category 2 label',
+          link: null,
+        },
       },
       docs: [
         {
@@ -447,6 +416,24 @@ describe('DefaultSidebarItemsGenerator', () => {
           sourceDirName: 'Category',
           frontMatter: {},
         },
+        {
+          id: 'parent/doc4',
+          source: '@site/docs/Category2/doc1.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc5',
+          source: '@site/docs/Category2/index.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
+        {
+          id: 'parent/doc6',
+          source: '@site/docs/Category2/doc3.md',
+          sourceDirName: 'Category2',
+          frontMatter: {},
+        },
       ],
       options: {
         sidebarCollapsed: true,
@@ -458,8 +445,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Category label',
-        collapsed: true,
-        collapsible: true,
         link: {
           id: 'parent/doc3',
           type: 'doc',
@@ -471,6 +456,24 @@ describe('DefaultSidebarItemsGenerator', () => {
           },
           {
             id: 'parent/doc2',
+            type: 'doc',
+          },
+        ],
+      },
+      {
+        type: 'category',
+        label: 'Category 2 label',
+        items: [
+          {
+            id: 'parent/doc4',
+            type: 'doc',
+          },
+          {
+            id: 'parent/doc5',
+            type: 'doc',
+          },
+          {
+            id: 'parent/doc6',
             type: 'doc',
           },
         ],
@@ -499,6 +502,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         versionName: 'current',
         contentPath: '',
       },
+      categoriesMetadata: {},
       docs: [
         {
           id: 'intro',
@@ -562,8 +566,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Tutorials',
-        collapsed: true,
-        collapsible: true,
         link: {
           type: 'doc',
           id: 'tutorials-index',
@@ -576,8 +578,6 @@ describe('DefaultSidebarItemsGenerator', () => {
       {
         type: 'category',
         label: 'Guides',
-        collapsed: true,
-        collapsible: true,
         items: [
           {type: 'doc', id: 'guide1', className: 'foo'},
           {type: 'doc', id: 'guide2'},

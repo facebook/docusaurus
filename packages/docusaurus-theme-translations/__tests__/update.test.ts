@@ -8,7 +8,7 @@
 import {extractThemeCodeMessages} from '../update';
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);
@@ -37,7 +37,7 @@ describe('theme-translations package', () => {
         .flat()
         .filter(([key]) => !key.endsWith('___DESCRIPTION')),
     );
-    const codeMessages = mapValues(
+    const codeMessages = _.mapValues(
       await extractThemeCodeMessages(),
       (translation) => translation.message,
     );

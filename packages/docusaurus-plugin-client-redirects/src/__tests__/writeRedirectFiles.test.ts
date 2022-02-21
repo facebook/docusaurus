@@ -114,7 +114,9 @@ describe('toRedirectFilesMetadata', () => {
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
-      // path.join(pluginContext.outDir, '/abc.html/index.html'), // Can't be used because /abc.html already exists, and file/folder can't share same name on Unix!
+      // Can't be used because /abc.html already exists, and file/folder can't
+      // share same name on Unix!
+      // path.join(pluginContext.outDir, '/abc.html/index.html'),
       path.join(pluginContext.outDir, '/abc.html.html'), // Weird but on purpose!
       path.join(pluginContext.outDir, '/def/index.html'),
       path.join(pluginContext.outDir, '/xyz/index.html'),

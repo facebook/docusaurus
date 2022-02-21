@@ -6,10 +6,10 @@
  */
 
 import React from 'react';
-import {Helmet} from 'react-helmet';
-import type {HeadProps} from '@docusaurus/Head';
+import {Helmet} from 'react-helmet-async';
+import type {Props} from '@docusaurus/Head';
 
-function Head(props: HeadProps): JSX.Element {
+function Head(props: Props): JSX.Element {
   return <Helmet {...props} />;
 }
 

@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import shell from 'shelljs';
 import logger from '@docusaurus/logger';
+import {getFileCommitDate, GitNotFoundError} from '@docusaurus/utils';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
-
-const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+),(.+)$/;
 
 let showedGitRequirementError = false;
 
@@ -20,41 +18,22 @@ export async function getFileLastUpdate(
   if (!filePath) {
     return null;
   }
-  function getTimestampAndAuthor(str: string): FileLastUpdateData | null {
-    if (!str) {
-      return null;
-    }
-
-    const temp = str.match(GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX);
-    return !temp || temp.length < 3
-      ? null
-      : {timestamp: +temp[1], author: temp[2]};
-  }
 
   // Wrap in try/catch in case the shell commands fail
   // (e.g. project doesn't use Git, etc).
   try {
-    if (!shell.which('git')) {
-      if (!showedGitRequirementError) {
-        showedGitRequirementError = true;
-        logger.warn('Sorry, the docs plugin last update options require Git.');
-      }
-
-      return null;
-    }
-
-    const result = shell.exec(`git log -1 --format=%ct,%an "${filePath}"`, {
-      silent: true,
+    const result = getFileCommitDate(filePath, {
+      age: 'newest',
+      includeAuthor: true,
     });
-    if (result.code !== 0) {
-      throw new Error(
-        `Retrieval of git history failed at "${filePath}" with exit code ${result.code}: ${result.stderr}`,
-      );
-    }
-    return getTimestampAndAuthor(result.stdout.trim());
+    return {timestamp: result.timestamp, author: result.author};
   } catch (e) {
-    logger.error(e);
+    if (e instanceof GitNotFoundError && !showedGitRequirementError) {
+      logger.warn('Sorry, the docs plugin last update options require Git.');
+      showedGitRequirementError = true;
+    } else {
+      logger.error(e);
+    }
+    return null;
   }
-
-  return null;
 }

@@ -18,6 +18,7 @@ export const DEFAULT_CONFIG = {
   appId: 'BH4D9OD16A',
 
   searchParameters: {},
+  searchPagePath: 'search',
 };
 
 export const Schema = Joi.object({
@@ -32,6 +33,10 @@ export const Schema = Joi.object({
     searchParameters: Joi.object()
       .default(DEFAULT_CONFIG.searchParameters)
       .unknown(),
+    searchPagePath: Joi.alternatives()
+      .try(Joi.boolean().invalid(true), Joi.string())
+      .allow(null)
+      .default(DEFAULT_CONFIG.searchPagePath),
   })
     .label('themeConfig.algolia')
     .required()

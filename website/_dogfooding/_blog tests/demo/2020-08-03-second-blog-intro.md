@@ -1,7 +1,7 @@
 ---
 title: Using twice the blog plugin
 authors: [slorber]
-tags: [blog, docusaurus]
+tags: [paginated-tag, blog, docusaurus]
 ---
 
 Did you know you can use multiple instances of the same plugin?

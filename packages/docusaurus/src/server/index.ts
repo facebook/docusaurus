@@ -37,7 +37,7 @@ import {
   readCodeTranslationFileContent,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
@@ -111,7 +111,7 @@ export async function loadContext(
     })) ?? {};
 
   // We only need key->message for code translations
-  const codeTranslations = mapValues(
+  const codeTranslations = _.mapValues(
     codeTranslationFileContent,
     (value) => value.message,
   );
@@ -129,8 +129,12 @@ export async function loadContext(
   };
 }
 
-export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
-  let {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+export async function loadPluginConfigs(
+  context: LoadContext,
+): Promise<PluginConfig[]> {
+  let {plugins: presetPlugins, themes: presetThemes} = await loadPresets(
+    context,
+  );
   const {siteConfig, siteConfigPath} = context;
   const require = createRequire(siteConfigPath);
   function normalizeShorthand(
@@ -221,10 +225,12 @@ function createBootstrapPlugin({
   };
 }
 
-// Configure Webpack fallback mdx loader for md/mdx files out of content-plugin folders
-// Adds a "fallback" mdx loader for mdx files that are not processed by content plugins
-// This allows to do things such as importing repo/README.md as a partial from another doc
-// Not ideal solution though, but good enough for now
+/**
+ * Configure Webpack fallback mdx loader for md/mdx files out of content-plugin
+ * folders. Adds a "fallback" mdx loader for mdx files that are not processed by
+ * content plugins. This allows to do things such as importing repo/README.md as
+ * a partial from another doc. Not ideal solution, but good enough for now
+ */
 function createMDXFallbackPlugin({
   siteDir,
   siteConfig,
@@ -238,9 +244,9 @@ function createMDXFallbackPlugin({
     options: {},
     version: {type: 'synthetic'},
     configureWebpack(config, isServer, {getJSLoader}) {
-      // We need the mdx fallback loader to exclude files that were already processed by content plugins mdx loaders
-      // This works, but a bit hacky...
-      // Not sure there's a way to handle that differently in webpack :s
+      // We need the mdx fallback loader to exclude files that were already
+      // processed by content plugins mdx loaders. This works, but a bit
+      // hacky... Not sure there's a way to handle that differently in webpack
       function getMDXFallbackExcludedPaths(): string[] {
         const rules: RuleSetRule[] = config?.module?.rules as RuleSetRule[];
         return rules.flatMap((rule) => {
@@ -254,7 +260,7 @@ function createMDXFallbackPlugin({
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               exclude: getMDXFallbackExcludedPaths(),
               use: [
                 getJSLoader({isServer}),
@@ -296,7 +302,7 @@ export async function load(
     codeTranslations,
   } = context;
   // Plugins.
-  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
+  const pluginConfigs: PluginConfig[] = await loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
     await loadPlugins({pluginConfigs, context});
 
@@ -397,10 +403,12 @@ ${Object.keys(registry)
 
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
-    docusaurusVersion: getPackageJsonVersion(
+    docusaurusVersion: (await getPackageJsonVersion(
       path.join(__dirname, '../../package.json'),
-    )!,
-    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
+    ))!,
+    siteVersion: await getPackageJsonVersion(
+      path.join(siteDir, 'package.json'),
+    ),
     pluginVersions: {},
   };
   plugins

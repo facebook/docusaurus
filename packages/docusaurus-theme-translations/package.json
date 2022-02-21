@@ -25,7 +25,7 @@
   "devDependencies": {
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/logger": "2.0.0-beta.15",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "engines": {
     "node": ">=14"

@@ -168,7 +168,7 @@ function DocPage(props: Props): JSX.Element {
   return (
     <>
       <Head>
-        {/* TODO we should add a core addRoute({htmlClassName}) generic plugin option */}
+        {/* TODO we should add a core addRoute({htmlClassName}) action */}
         <html className={versionMetadata.className} />
       </Head>
       <DocsVersionProvider version={versionMetadata}>

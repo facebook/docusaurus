@@ -93,9 +93,8 @@ function filterUsers(
     }
     if (operator === 'AND') {
       return selectedTags.every((tag) => user.tags.includes(tag));
-    } else {
-      return selectedTags.some((tag) => user.tags.includes(tag));
     }
+    return selectedTags.some((tag) => user.tags.includes(tag));
   });
 }
 
@@ -105,7 +104,8 @@ function useFilteredUsers() {
   // On SSR / first mount (hydration) no tag is selected
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
   const [searchName, setSearchName] = useState<string | null>(null);
-  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client hydration mismatch)
+  // Sync tags from QS to state (delayed on purpose to avoid SSR/Client
+  // hydration mismatch)
   useEffect(() => {
     setSelectedTags(readSearchTags(location.search));
     setOperator(readOperator(location.search));

@@ -18,6 +18,7 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
@@ -58,6 +59,7 @@ export default function DocItem(props: Props): JSX.Element {
           <DocVersionBanner />
           <div className={styles.docItemContainer}>
             <article>
+              <DocBreadcrumbs />
               <DocVersionBadge />
 
               {canRenderTOC && (
@@ -75,8 +77,9 @@ export default function DocItem(props: Props): JSX.Element {
               <div
                 className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
                 {/*
-                Title can be declared inside md content or declared through front matter and added manually
-                To make both cases consistent, the added title is added under the same div.markdown block
+                Title can be declared inside md content or declared through
+                front matter and added manually. To make both cases consistent,
+                the added title is added under the same div.markdown block
                 See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
                 */}
                 {shouldAddTitle && (

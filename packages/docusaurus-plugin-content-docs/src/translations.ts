@@ -13,7 +13,7 @@ import type {
   Sidebars,
 } from './sidebars/types';
 
-import {chain, mapValues, keyBy} from 'lodash';
+import _ from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
@@ -31,11 +31,10 @@ import {CURRENT_VERSION_NAME} from './constants';
 function getVersionFileName(versionName: string): string {
   if (versionName === CURRENT_VERSION_NAME) {
     return versionName;
-  } else {
-    // I don't like this "version-" prefix,
-    // but it's for consistency with site/versioned_docs
-    return `version-${versionName}`;
   }
+  // I don't like this "version-" prefix,
+  // but it's for consistency with site/versioned_docs
+  return `version-${versionName}`;
 }
 
 // TODO legacy, the sidebar name is like "version-2.0.0-alpha.66/docs"
@@ -68,7 +67,8 @@ function getDocTranslations(doc: DocMetadata): TranslationFileContent {
       ? {
           [`${doc.unversionedId}.sidebar_label`]: {
             message: doc.sidebar_label,
-            description: `The sidebar label for doc with id=${doc.unversionedId}`,
+            description:
+              `The sidebar label for doc with id=${doc.unversionedId}`,
           },
         }
       : undefined),
@@ -146,13 +146,15 @@ function getSidebarTranslationFileContent(
   );
 
   const links = collectSidebarLinks(sidebar);
-  const linksContent: TranslationFileContent = chain(links)
-    .keyBy((link) => `sidebar.${sidebarName}.link.${link.label}`)
-    .mapValues((link) => ({
-      message: link.label,
-      description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
-    }))
-    .value();
+  const linksContent: TranslationFileContent = Object.fromEntries(
+    links.map((link) => [
+      `sidebar.${sidebarName}.link.${link.label}`,
+      {
+        message: link.label,
+        description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
+      },
+    ]),
+  );
 
   return mergeTranslations([categoryContent, linksContent]);
 }
@@ -230,7 +232,7 @@ function translateSidebars(
   version: LoadedVersion,
   sidebarsTranslations: TranslationFileContent,
 ): Sidebars {
-  return mapValues(version.sidebars, (sidebar, sidebarName) =>
+  return _.mapValues(version.sidebars, (sidebar, sidebarName) =>
     translateSidebar({
       sidebar,
       sidebarName: getNormalizedSidebarName({
@@ -253,7 +255,8 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
   const sidebarsTranslations: TranslationFileContent =
     getSidebarsTranslations(version);
 
-  // const docsTranslations: TranslationFileContent = getDocsTranslations(version);
+  // const docsTranslations: TranslationFileContent =
+  //   getDocsTranslations(version);
 
   return [
     {
@@ -301,7 +304,7 @@ export function translateLoadedContent(
   loadedContent: LoadedContent,
   translationFiles: TranslationFile[],
 ): LoadedContent {
-  const translationFilesMap: Record<string, TranslationFile> = keyBy(
+  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

@@ -21,7 +21,7 @@ describe('migration test', () => {
     await expect(
       migrateDocusaurusProject(siteDir, newDir),
     ).resolves.toBeUndefined();
-    fs.removeSync(newDir);
+    await fs.remove(newDir);
   });
   test('complex website', async () => {
     const siteDir = path.join(
@@ -38,7 +38,7 @@ describe('migration test', () => {
     await expect(
       migrateDocusaurusProject(siteDir, newDir),
     ).resolves.toBeUndefined();
-    fs.removeSync(newDir);
+    await fs.remove(newDir);
   });
 
   test('missing versions', async () => {
@@ -56,6 +56,6 @@ describe('migration test', () => {
     await expect(
       migrateDocusaurusProject(siteDir, newDir),
     ).resolves.toBeUndefined();
-    fs.removeSync(newDir);
+    await fs.remove(newDir);
   });
 });

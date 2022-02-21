@@ -21,6 +21,7 @@ import Readme from "../README.md"
 ### Other tests
 
 - [Code block tests](/tests/pages/code-block-tests)
+- [Link tests](/tests/pages/link-tests)
 - [Error boundary tests](/tests/pages/error-boundary-tests)
 - [Hydration tests](/tests/pages/hydration-tests)
 - [Asset linking tests](/tests/pages/markdown-tests)

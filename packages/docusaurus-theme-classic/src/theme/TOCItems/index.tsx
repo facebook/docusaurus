@@ -6,7 +6,7 @@
  */
 
 import React, {useMemo} from 'react';
-import type {TOCItemsProps} from '@theme/TOCItems';
+import type {Props} from '@theme/TOCItems';
 import type {TOCItem} from '@docusaurus/types';
 import {
   type TOCHighlightConfig,
@@ -62,7 +62,7 @@ export default function TOCItems({
   minHeadingLevel: minHeadingLevelOption,
   maxHeadingLevel: maxHeadingLevelOption,
   ...props
-}: TOCItemsProps): JSX.Element | null {
+}: Props): JSX.Element | null {
   const themeConfig = useThemeConfig();
 
   const minHeadingLevel =

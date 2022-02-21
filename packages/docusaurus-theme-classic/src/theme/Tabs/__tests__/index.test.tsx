@@ -120,7 +120,9 @@ describe('Tabs', () => {
               values={tabs.map((t, idx) => ({label: t, value: idx}))}
               defaultValue={0}>
               {tabs.map((t, idx) => (
-                <TabItem value={idx}>{t}</TabItem>
+                <TabItem key={idx} value={idx}>
+                  {t}
+                </TabItem>
               ))}
             </Tabs>
           </TabGroupChoiceProvider>

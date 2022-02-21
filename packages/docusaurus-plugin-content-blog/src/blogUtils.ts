@@ -8,12 +8,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import readingTime from 'reading-time';
-import {keyBy, mapValues} from 'lodash';
+import _ from 'lodash';
 import type {
   BlogPost,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
   BlogTags,
+  BlogPaginated,
 } from './types';
 import {
   parseMarkdownString,
@@ -26,6 +27,7 @@ import {
   Globby,
   normalizeFrontMatterTags,
   groupTaggedItems,
+  getFileCommitDate,
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
@@ -44,26 +46,85 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
 export function getSourceToPermalink(
   blogPosts: BlogPost[],
 ): Record<string, string> {
-  return mapValues(
-    keyBy(blogPosts, (item) => item.metadata.source),
-    (v) => v.metadata.permalink,
+  return Object.fromEntries(
+    blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );
 }
 
-export function getBlogTags(blogPosts: BlogPost[]): BlogTags {
+export function paginateBlogPosts({
+  blogPosts,
+  basePageUrl,
+  blogTitle,
+  blogDescription,
+  postsPerPageOption,
+}: {
+  blogPosts: BlogPost[];
+  basePageUrl: string;
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+}): BlogPaginated[] {
+  const totalCount = blogPosts.length;
+  const postsPerPage =
+    postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
+  const numberOfPages = Math.ceil(totalCount / postsPerPage);
+
+  const pages: BlogPaginated[] = [];
+
+  function permalink(page: number) {
+    return page > 0 ? `${basePageUrl}/page/${page + 1}` : basePageUrl;
+  }
+
+  for (let page = 0; page < numberOfPages; page += 1) {
+    pages.push({
+      items: blogPosts
+        .slice(page * postsPerPage, (page + 1) * postsPerPage)
+        .map((item) => item.id),
+      metadata: {
+        permalink: permalink(page),
+        page: page + 1,
+        postsPerPage,
+        totalPages: numberOfPages,
+        totalCount,
+        previousPage: page !== 0 ? permalink(page - 1) : null,
+        nextPage: page < numberOfPages - 1 ? permalink(page + 1) : null,
+        blogDescription,
+        blogTitle,
+      },
+    });
+  }
+
+  return pages;
+}
+
+export function getBlogTags({
+  blogPosts,
+  ...params
+}: {
+  blogPosts: BlogPost[];
+  blogTitle: string;
+  blogDescription: string;
+  postsPerPageOption: number | 'ALL';
+}): BlogTags {
   const groups = groupTaggedItems(
     blogPosts,
     (blogPost) => blogPost.metadata.tags,
   );
-  return mapValues(groups, (group) => ({
-    name: group.tag.label,
-    items: group.items.map((item) => item.id),
-    permalink: group.tag.permalink,
+
+  return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
+    name: tag.label,
+    items: tagBlogPosts.map((item) => item.id),
+    permalink: tag.permalink,
+    pages: paginateBlogPosts({
+      blogPosts: tagBlogPosts,
+      basePageUrl: tag.permalink,
+      ...params,
+    }),
   }));
 }
 
 const DATE_FILENAME_REGEX =
-  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(\/index)?.mdx?$/;
+  /^(?<folder>.*)(?<date>\d{4}[-/]\d{1,2}[-/]\d{1,2})[-/]?(?<text>.*?)(?:\/index)?.mdx?$/;
 
 type ParsedBlogFileName = {
   date: Date | undefined;
@@ -82,11 +143,10 @@ export function parseBlogFileName(
     const slugDate = dateString.replace(/-/g, '/');
     const slug = `/${slugDate}/${folder}${text}`;
     return {date, text, slug};
-  } else {
-    const text = blogSourceRelative.replace(/(\/index)?\.mdx?$/, '');
-    const slug = `/${text}`;
-    return {date: undefined, text, slug};
   }
+  const text = blogSourceRelative.replace(/(?:\/index)?\.mdx?$/, '');
+  const slug = `/${text}`;
+  return {date: undefined, text, slug};
 }
 
 function formatBlogPostDate(locale: string, date: Date): string {
@@ -179,8 +239,17 @@ async function processBlogSourceFile(
     } else if (parsedBlogFileName.date) {
       return parsedBlogFileName.date;
     }
-    // Fallback to file create time
-    return (await fs.stat(blogSourceAbsolute)).birthtime;
+
+    try {
+      const result = getFileCommitDate(blogSourceAbsolute, {
+        age: 'oldest',
+        includeAuthor: false,
+      });
+      return result.date;
+    } catch (e) {
+      logger.error(e);
+      return (await fs.stat(blogSourceAbsolute)).birthtime;
+    }
   }
 
   const date = await getDate();
@@ -263,7 +332,7 @@ export async function generateBlogPosts(
 ): Promise<BlogPost[]> {
   const {include, exclude} = options;
 
-  if (!fs.existsSync(contentPaths.contentPath)) {
+  if (!(await fs.pathExists(contentPaths.contentPath))) {
     return [];
   }
 

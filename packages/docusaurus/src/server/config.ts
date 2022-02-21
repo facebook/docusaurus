@@ -13,7 +13,7 @@ import {validateConfig} from './configValidation';
 export default async function loadConfig(
   configPath: string,
 ): Promise<DocusaurusConfig> {
-  if (!fs.existsSync(configPath)) {
+  if (!(await fs.pathExists(configPath))) {
     throw new Error(`Config file at "${configPath}" not found.`);
   }
 

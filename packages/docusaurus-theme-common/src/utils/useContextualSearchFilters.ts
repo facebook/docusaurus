@@ -18,8 +18,8 @@ export type useContextualSearchFiltersReturns = {
   tags: string[];
 };
 
-// We may want to support multiple search engines, don't couple that to Algolia/DocSearch
-// Maybe users will want to use its own search engine solution
+// We may want to support multiple search engines, don't couple that to
+// Algolia/DocSearch. Maybe users want to use their own search engine solution
 export function useContextualSearchFilters(): useContextualSearchFiltersReturns {
   const {i18n} = useDocusaurusContext();
   const allDocsData = useAllDocsData();

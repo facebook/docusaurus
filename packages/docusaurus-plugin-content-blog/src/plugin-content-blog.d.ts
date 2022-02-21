@@ -120,6 +120,7 @@ declare module '@docusaurus/plugin-content-blog' {
     blogPostComponent: string;
     blogTagsListComponent: string;
     blogTagsPostsComponent: string;
+    blogArchiveComponent: string;
     blogTitle: string;
     blogDescription: string;
     blogSidebarCount: number | 'ALL';
@@ -145,21 +146,6 @@ declare module '@docusaurus/plugin-content-blog' {
     Partial<PluginOptions>,
     {feedOptions?: UserFeedOptions}
   >;
-}
-
-declare module '@theme/BlogSidebar' {
-  export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = {
-    title: string;
-    items: BlogSidebarItem[];
-  };
-
-  export interface Props {
-    readonly sidebar: BlogSidebar;
-  }
-
-  const BlogSidebar: (props: Props) => JSX.Element;
-  export default BlogSidebar;
 }
 
 declare module '@theme/BlogPostPage' {
@@ -259,10 +245,12 @@ declare module '@theme/BlogTagsPostsPage' {
   import type {BlogSidebar} from '@theme/BlogSidebar';
   import type {Tag} from '@theme/BlogTagsListPage';
   import type {Content} from '@theme/BlogPostPage';
+  import type {Metadata} from '@theme/BlogListPage';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
     readonly metadata: Tag;
+    readonly listMetadata: Metadata;
     readonly items: readonly {readonly content: Content}[];
   }
 

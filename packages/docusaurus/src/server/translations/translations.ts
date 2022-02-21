@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues, difference} from 'lodash';
+import _ from 'lodash';
 import type {
   TranslationFileContent,
   TranslationFile,
@@ -75,7 +75,7 @@ function mergeTranslationFileContent({
   options: WriteTranslationsOptions;
 }): TranslationFileContent {
   // Apply messagePrefix to all messages
-  const newContentTransformed = mapValues(newContent, (value) => ({
+  const newContentTransformed = _.mapValues(newContent, (value) => ({
     ...value,
     message: `${options.messagePrefix ?? ''}${value.message}`,
   }));
@@ -86,7 +86,7 @@ function mergeTranslationFileContent({
   Object.entries(newContentTransformed).forEach(
     ([key, {message, description}]) => {
       result[key] = {
-        // If the messages already exist, we don't override them (unless requested)
+        // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,
@@ -110,7 +110,7 @@ export async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = difference(
+  const unknownKeys = _.difference(
     Object.keys(existingContent ?? {}),
     Object.keys(newContent),
   );
@@ -252,9 +252,8 @@ export async function localizePluginTranslationFile({
         ...localizedContent,
       },
     };
-  } else {
-    return translationFile;
   }
+  return translationFile;
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(
@@ -277,7 +276,7 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations: Record<string, TranslationMessage>;
   defaultCodeMessages: Record<string, string>;
 }): Record<string, TranslationMessage> {
-  const unusedDefaultCodeMessages = difference(
+  const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),
   );
@@ -286,7 +285,7 @@ export function applyDefaultCodeTranslations({
 Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
-  return mapValues(
+  return _.mapValues(
     extractedCodeTranslations,
     (messageTranslation, messageId) => ({
       ...messageTranslation,

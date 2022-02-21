@@ -14,7 +14,7 @@ export function getNamePatterns(
     if (!moduleName.includes('/')) {
       return [`${moduleName}/docusaurus-${moduleType}`];
     }
-    const [scope, packageName] = moduleName.split(/\/(.*)/);
+    const [scope, packageName] = moduleName.split(/\/(?<rest>.*)/);
     return [
       `${scope}/${packageName}`,
       `${scope}/docusaurus-${moduleType}-${packageName}`,

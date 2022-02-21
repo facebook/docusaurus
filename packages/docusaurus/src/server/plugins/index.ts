@@ -21,7 +21,7 @@ import type {
 } from '@docusaurus/types';
 import initPlugins from './init';
 import logger from '@docusaurus/logger';
-import {chain} from 'lodash';
+import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
@@ -84,9 +84,9 @@ export async function loadPlugins({
   });
 
   // 2. Plugin Lifecycle - loadContent.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
       const content = plugin.loadContent ? await plugin.loadContent() : null;
@@ -121,10 +121,10 @@ export async function loadPlugins({
       }),
     );
 
-  const allContent: AllContent = chain(loadedPlugins)
+  const allContent: AllContent = _.chain(loadedPlugins)
     .groupBy((item) => item.name)
     .mapValues((nameItems) =>
-      chain(nameItems)
+      _.chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
         .mapValues((idItems) => idItems[0].content)
         .value(),
@@ -199,9 +199,9 @@ export async function loadPlugins({
   );
 
   // 4. Plugin Lifecycle - routesLoaded.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   await Promise.all(
     contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {

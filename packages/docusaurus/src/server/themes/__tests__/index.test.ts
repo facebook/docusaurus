@@ -9,12 +9,12 @@ import path from 'path';
 import {loadThemeAliases} from '../index';
 
 describe('loadThemeAliases', () => {
-  test('next alias can override the previous alias', () => {
+  test('next alias can override the previous alias', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const theme1Path = path.join(fixtures, 'theme-1');
     const theme2Path = path.join(fixtures, 'theme-2');
 
-    const alias = loadThemeAliases([theme1Path, theme2Path], []);
+    const alias = await loadThemeAliases([theme1Path, theme2Path], []);
 
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(

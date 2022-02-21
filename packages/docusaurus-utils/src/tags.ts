@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {kebabCase, uniq, uniqBy} from 'lodash';
+import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
 
 export type Tag = {
@@ -22,15 +22,15 @@ export function normalizeFrontMatterTag(
   function toTagObject(tagString: string): Tag {
     return {
       label: tagString,
-      permalink: kebabCase(tagString),
+      permalink: _.kebabCase(tagString),
     };
   }
 
   // TODO maybe make ensure the permalink is valid url path?
   function normalizeTagPermalink(permalink: string): string {
-    // note: we always apply tagsPath on purpose
-    // for versioned docs, v1/doc.md and v2/doc.md tags with custom permalinks don't lead to the same created page
-    // tagsPath is different for each doc version
+    // note: we always apply tagsPath on purpose. For versioned docs, v1/doc.md
+    // and v2/doc.md tags with custom permalinks don't lead to the same created
+    // page. tagsPath is different for each doc version
     return normalizeUrl([tagsPath, permalink]);
   }
 
@@ -53,7 +53,7 @@ export function normalizeFrontMatterTags(
     normalizeFrontMatterTag(tagsPath, tag),
   );
 
-  return uniqBy(tags, (tag) => tag.permalink);
+  return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
 export type TaggedItemGroup<Item> = {
@@ -61,11 +61,14 @@ export type TaggedItemGroup<Item> = {
   items: Item[];
 };
 
-// Permits to group docs/blogPosts by tag (provided by FrontMatter)
-// Note: groups are indexed by permalink, because routes must be unique in the end
-// Labels may vary on 2 md files but they are normalized.
-// Docs with label='some label' and label='some-label' should end-up in the same group/page in the end
-// We can't create 2 routes /some-label because one would override the other
+/**
+ * Permits to group docs/blogPosts by tag (provided by front matter)
+ * Note: groups are indexed by permalink, because routes must be unique in the
+ * end. Labels may vary on 2 md files but they are normalized. Docs with
+ * label='some label' and label='some-label' should end-up in the same
+ * group/page in the end. We can't create 2 routes /some-label because one would
+ * override the other
+ */
 export function groupTaggedItems<Item>(
   items: Item[],
   getItemTags: (item: Item) => Tag[],
@@ -74,7 +77,8 @@ export function groupTaggedItems<Item>(
 
   function handleItemTag(item: Item, tag: Tag) {
     // Init missing tag groups
-    // TODO: it's not really clear what should be the behavior if 2 items have the same tag but the permalink is different for each
+    // TODO: it's not really clear what should be the behavior if 2 items have
+    // the same tag but the permalink is different for each
     // For now, the first tag found wins
     result[tag.permalink] = result[tag.permalink] ?? {
       tag,
@@ -94,7 +98,7 @@ export function groupTaggedItems<Item>(
   // If user add twice the same tag to a md doc (weird but possible),
   // we don't want the item to appear twice in the list...
   Object.values(result).forEach((group) => {
-    group.items = uniq(group.items);
+    group.items = _.uniq(group.items);
   });
 
   return result;

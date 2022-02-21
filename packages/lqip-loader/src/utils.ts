@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {sortBy} from 'lodash';
+import _ from 'lodash';
 import type {Palette} from 'node-vibrant/lib/color';
 
 /**
@@ -29,7 +29,7 @@ const toPalette = (swatch: Palette): string[] => {
     }
     return result;
   }, [] as {popularity: number; hex: string}[]);
-  palette = sortBy(palette, ['popularity']);
+  palette = _.sortBy(palette, ['popularity']);
   return palette.map((color) => color.hex).reverse();
 };
 

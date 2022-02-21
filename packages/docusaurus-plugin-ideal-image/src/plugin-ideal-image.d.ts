@@ -12,15 +12,21 @@ declare module '@docusaurus/plugin-ideal-image' {
      */
     name?: string;
     /**
-     * Specify all widths you want to use; if a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). You may also declare a default sizes array in the loader options in your webpack.config.js.
+     * Specify all widths you want to use; if a specified size exceeds the
+     * original image's width, the latter will be used (i.e. images won't be
+     * scaled up). You may also declare a default sizes array in the loader
+     * options in your webpack.config.js.
      */
     sizes?: number[];
     /**
-     * Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up)
+     * Specify one width you want to use; if the specified size exceeds the
+     * original image's width, the latter will be used (i.e. images won't be
+     * scaled up)
      */
     size?: number;
     /**
-     * As an alternative to manually specifying sizes, you can specify min, max and steps, and the sizes will be generated for you.
+     * As an alternative to manually specifying sizes, you can specify min, max
+     * and steps, and the sizes will be generated for you.
      */
     min?: number;
     /**
@@ -60,8 +66,8 @@ declare module '@theme/IdealImage' {
     images: SrcType[];
   };
 
-  export type Props = ComponentProps<'img'> & {
-    img: {default: string} | {src: SrcImage; preSrc: string} | string;
-  };
+  export interface Props extends ComponentProps<'img'> {
+    readonly img: {default: string} | {src: SrcImage; preSrc: string} | string;
+  }
   export default function IdealImage(props: Props): JSX.Element;
 }

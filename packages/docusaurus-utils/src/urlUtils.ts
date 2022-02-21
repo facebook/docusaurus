@@ -16,7 +16,8 @@ export function normalizeUrl(rawUrls: string[]): string {
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
     const first = urls.shift();
     if (first!.startsWith('file:') && urls[0].startsWith('/')) {
-      // Force a double slash here, else we lose the information that the next segment is an absolute path
+      // Force a double slash here, else we lose the information that the next
+      // segment is an absolute path
       urls[0] = `${first}//${urls[0]}`;
     } else {
       urls[0] = first + urls[0];
@@ -26,10 +27,9 @@ export function normalizeUrl(rawUrls: string[]): string {
   // There must be two or three slashes in the file protocol,
   // two slashes in anything else.
   const replacement = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
-  urls[0] = urls[0].replace(/^([^/:]+):\/*/, replacement);
+  urls[0] = urls[0].replace(/^(?<protocol>[^/:]+):\/*/, replacement);
 
-  // eslint-disable-next-line
-  for (let i = 0; i < urls.length; i++) {
+  for (let i = 0; i < urls.length; i += 1) {
     let component = urls[i];
 
     if (typeof component !== 'string') {
@@ -40,7 +40,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i === urls.length - 1 && hasEndingSlash) {
         resultArray.push('/');
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -49,14 +49,15 @@ export function normalizeUrl(rawUrls: string[]): string {
         // Removing the starting slashes for each component but the first.
         component = component.replace(
           /^[/]+/,
-          // Special case where the first element of rawUrls is empty ["", "/hello"] => /hello
+          // Special case where the first element of rawUrls is empty
+          // ["", "/hello"] => /hello
           component[0] === '/' && !hasStartingSlash ? '/' : '',
         );
       }
 
       hasEndingSlash = component[component.length - 1] === '/';
-      // Removing the ending slashes for each component but the last.
-      // For the last component we will combine multiple slashes to a single one.
+      // Removing the ending slashes for each component but the last. For the
+      // last component we will combine multiple slashes to a single one.
       component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
     }
 
@@ -69,14 +70,14 @@ export function normalizeUrl(rawUrls: string[]): string {
   // except the possible first plain protocol part.
 
   // Remove trailing slash before parameters or hash.
-  str = str.replace(/\/(\?|&|#[^!])/g, '$1');
+  str = str.replace(/\/(?<search>\?|&|#[^!])/g, '$1');
 
   // Replace ? in parameters with &.
   const parts = str.split('?');
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
   // Dedupe forward slashes in the entire path, avoiding protocol slashes.
-  str = str.replace(/([^:/]\/)\/+/g, '$1');
+  str = str.replace(/(?<textBefore>[^:/]\/)\/+/g, '$1');
 
   // Dedupe forward slashes at the beginning of the path.
   str = str.replace(/^\/+/g, '/');

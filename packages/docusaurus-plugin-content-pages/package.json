@@ -23,10 +23,9 @@
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-validation": "2.0.0-beta.15",
     "fs-extra": "^10.0.0",
-    "globby": "^11.0.2",
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",
-    "webpack": "^5.61.0"
+    "webpack": "^5.69.1"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.15"

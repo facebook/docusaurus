@@ -32,6 +32,7 @@ Accepted fields:
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `path` | `string` | `'docs'` | Path to data on filesystem relative to site dir. |
+| `breadcrumbs` | `boolean` | `true` | To enable or disable the breadcrumbs on docs pages. |
 | `editUrl` | <code>string \| EditUrlFunction</code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
 | `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
 | `editCurrentVersion` | `boolean` | `false` | The edit URL will always target the current version doc instead of older versions. Ignored when `editUrl` is a function. |
@@ -94,6 +95,7 @@ type SidebarGenerator = (generatorArgs: {
     sidebarPosition?: number | undefined;
   }>; // all the docs of that version (unfiltered)
   numberPrefixParser: PrefixParser; // numberPrefixParser configured for this plugin
+  categoriesMetadata: Record<string, CategoryMetadata>; // key is the path relative to the doc directory, value is the category metadata file's content
   isCategoryIndex: CategoryIndexMatcher; // the default category index matcher, that you can override
   defaultSidebarItemsGenerator: SidebarGenerator; // useful to re-use/enhance default sidebar generation logic from Docusaurus
 }) => Promise<SidebarItem[]>;
@@ -126,6 +128,7 @@ Most Docusaurus users configure this plugin through the preset options.
 
 const config = {
   path: 'docs',
+  breadcrumbs: true,
   // Simple use-case: string editUrl
   // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl

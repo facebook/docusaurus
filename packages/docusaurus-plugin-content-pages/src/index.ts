@@ -26,9 +26,7 @@ import type {
   Plugin,
   OptionValidationContext,
   ValidationResult,
-  ConfigureWebpackUtils,
 } from '@docusaurus/types';
-import type {Configuration} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {validatePageFrontMatter} from './pageFrontMatter';
@@ -112,29 +110,28 @@ export default async function pluginContentPages(
           options.routeBasePath,
           encodePath(fileToPath(relativeSource)),
         ]);
-        if (isMarkdownSource(relativeSource)) {
-          const content = await fs.readFile(source, 'utf-8');
-          const {
-            frontMatter: unsafeFrontMatter,
-            contentTitle,
-            excerpt,
-          } = parseMarkdownString(content);
-          const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
-          return {
-            type: 'mdx',
-            permalink,
-            source: aliasedSourcePath,
-            title: frontMatter.title ?? contentTitle,
-            description: frontMatter.description ?? excerpt,
-            frontMatter,
-          };
-        } else {
+        if (!isMarkdownSource(relativeSource)) {
           return {
             type: 'jsx',
             permalink,
             source: aliasedSourcePath,
           };
         }
+        const content = await fs.readFile(source, 'utf-8');
+        const {
+          frontMatter: unsafeFrontMatter,
+          contentTitle,
+          excerpt,
+        } = parseMarkdownString(content);
+        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+        return {
+          type: 'mdx',
+          permalink,
+          source: aliasedSourcePath,
+          title: frontMatter.title ?? contentTitle,
+          description: frontMatter.description ?? excerpt,
+          frontMatter,
+        };
       }
 
       return Promise.all(pagesFiles.map(toMetadata));
@@ -179,11 +176,7 @@ export default async function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(_config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -200,7 +193,7 @@ export default async function pluginContentPages(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),

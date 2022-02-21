@@ -37,16 +37,11 @@ function getSWBabelLoader() {
           },
         ],
       ],
-      plugins: [
-        require.resolve('@babel/plugin-proposal-object-rest-spread'),
-        require.resolve('@babel/plugin-proposal-optional-chaining'),
-        require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-      ],
     },
   };
 }
 
-export default function (
+export default function pluginPWA(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<void> {
@@ -174,7 +169,7 @@ export default function (
           rules: [
             {
               test: swSourceFileTest,
-              exclude: /(node_modules)/,
+              exclude: /node_modules/,
               use: getSWBabelLoader(),
             },
           ],
