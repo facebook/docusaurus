@@ -82,11 +82,6 @@ function shouldLocalizePath({
   i18n: I18n;
   options?: {localizePath?: boolean};
 }): boolean {
-  // console.log(`i18n: %o`, i18n);
-  // if (typeof options.localizePath === 'undefined') {
-  //   return i18n.currentLocale !== i18n.defaultLocale;
-  // }
-  // return options.localizePath;
   if (options.localizePath === true || options.localizePath === false) {
     return options.localizePath;
   }
