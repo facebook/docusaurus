@@ -29,15 +29,6 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
   };
 }
 
-export function shouldWarnAboutNodeVersion(
-  version: number,
-  locales: string[],
-): boolean {
-  const isOnlyEnglish = locales.length === 1 && locales.includes('en');
-  const isOlderNodeVersion = version < 14;
-  return isOlderNodeVersion && !isOnlyEnglish;
-}
-
 export async function loadI18n(
   config: DocusaurusConfig,
   options: {locale?: string} = {},
@@ -75,25 +66,6 @@ Note: Docusaurus only support running one locale at a time.`;
   };
 }
 
-function shouldLocalizePath({
-  i18n,
-  options = {},
-}: {
-  i18n: I18n;
-  options?: {localizePath?: boolean};
-}): boolean {
-  if (options.localizePath === true || options.localizePath === false) {
-    return options.localizePath;
-  }
-  if (
-    i18n.currentLocale !== i18n.defaultLocale ||
-    i18n.localeConfigs[i18n.currentLocale].baseUrl
-  ) {
-    return true;
-  }
-  return false;
-}
-
 export function localizePath({
   pathType,
   path: originalPath,
@@ -105,16 +77,22 @@ export function localizePath({
   i18n: I18n;
   options?: {localizePath?: boolean};
 }): string {
-  if (!shouldLocalizePath({i18n, options})) {
+  const shouldLocalizePath: boolean =
+    // By default, we don't localize the path of defaultLocale
+    options.localizePath ??
+    (i18n.currentLocale !== i18n.defaultLocale ||
+      i18n.localeConfigs[i18n.currentLocale].baseUrl !== undefined);
+
+  if (!shouldLocalizePath) {
     return originalPath;
   }
   // FS paths need special care, for Windows support
   if (pathType === 'fs') {
-    return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+    return path.join(originalPath, i18n.currentLocale);
   }
-  // Url paths
+  // Url paths; add a trailing slash so it's a valid base URL
   if (pathType === 'url') {
-    return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+    return normalizeUrl([originalPath, i18n.currentLocale, '/']);
   }
   // should never happen
   throw new Error(`Unhandled path type "${pathType}".`);

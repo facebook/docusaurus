@@ -206,11 +206,7 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
-  if (
-    serverConfig.output &&
-    serverConfig.output.filename &&
-    typeof serverConfig.output.filename === 'string'
-  ) {
+  if (typeof serverConfig.output?.filename === 'string') {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);
