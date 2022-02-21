@@ -381,15 +381,15 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 
 declare module '@theme/NavbarItem/NavbarNavLink' {
   import type {ReactNode} from 'react';
-  import type {LinkProps} from '@docusaurus/Link';
+  import type {Props as LinkProps} from '@docusaurus/Link';
 
-  export type Props = LinkProps & {
+  export interface Props extends LinkProps {
     readonly activeBasePath?: string;
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
     readonly prependBaseUrlToHref?: string;
-  };
+  }
 
   export default function NavbarNavLink(props: Props): JSX.Element;
 }
