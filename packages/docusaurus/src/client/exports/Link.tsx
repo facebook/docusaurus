@@ -20,7 +20,7 @@ import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 
-import type {LinkProps} from '@docusaurus/Link';
+import type {Props} from '@docusaurus/Link';
 import type docusaurus from '../docusaurus';
 
 declare global {
@@ -46,7 +46,7 @@ function Link(
     'data-noBrokenLinkCheck': noBrokenLinkCheck,
     autoAddBaseUrl = true,
     ...props
-  }: LinkProps,
+  }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
   const {
@@ -98,9 +98,7 @@ function Link(
   }
 
   const preloaded = useRef(false);
-  const LinkComponent = (
-    isNavLink ? NavLink : RRLink
-  ) as ComponentType<LinkProps>;
+  const LinkComponent = (isNavLink ? NavLink : RRLink) as ComponentType<Props>;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 

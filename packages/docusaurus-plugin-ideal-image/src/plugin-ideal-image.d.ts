@@ -66,8 +66,8 @@ declare module '@theme/IdealImage' {
     images: SrcType[];
   };
 
-  export type Props = ComponentProps<'img'> & {
-    img: {default: string} | {src: SrcImage; preSrc: string} | string;
-  };
+  export interface Props extends ComponentProps<'img'> {
+    readonly img: {default: string} | {src: SrcImage; preSrc: string} | string;
+  }
   export default function IdealImage(props: Props): JSX.Element;
 }
