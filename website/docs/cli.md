@@ -25,12 +25,6 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 }
 ```
 
-## Index {#index}
-
-import TOCInline from "@theme/TOCInline"
-
-<TOCInline toc={toc[1].children}/>
-
 ## Docusaurus CLI commands {#docusaurus-cli-commands}
 
 Below is a list of Docusaurus CLI commands and their usages:

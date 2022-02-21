@@ -17,7 +17,7 @@ However, it can be helpful if you have a high-level understanding of how the con
 
 The high-level overview of Docusaurus configuration can be categorized into:
 
-<TOCInline toc={toc[0].children} />
+<TOCInline toc={toc} minHeadingLevel={3} maxHeadingLevel={3} />
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.md).
 

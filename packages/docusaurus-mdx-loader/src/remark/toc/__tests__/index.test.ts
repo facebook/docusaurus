@@ -41,26 +41,21 @@ test('text content', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: [],
     		level: 3
     	},
     	{
     		value: 'Endi',
     		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Yangshun',
+    		id: 'yangshun',
+    		level: 3
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: [],
     		level: 2
     	}
     ];
@@ -91,21 +86,17 @@ test('should export even with existing name', async () => {
     	{
     		value: 'Thanos',
     		id: 'thanos',
-    		children: [],
     		level: 2
     	},
     	{
     		value: 'Tony Stark',
     		id: 'tony-stark',
-    		children: [
-    			{
-    				value: 'Avengers',
-    				id: 'avengers',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Avengers',
+    		id: 'avengers',
+    		level: 3
     	}
     ];
 
@@ -128,26 +119,21 @@ test('should export with custom name', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: [],
     		level: 3
     	},
     	{
     		value: 'Endi',
     		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Yangshun',
+    		id: 'yangshun',
+    		level: 3
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: [],
     		level: 2
     	}
     ];
@@ -182,21 +168,17 @@ test('should insert below imports', async () => {
     	{
     		value: 'Title',
     		id: 'title',
-    		children: [],
     		level: 2
     	},
     	{
     		value: 'Test',
     		id: 'test',
-    		children: [
-    			{
-    				value: 'Again',
-    				id: 'again',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Again',
+    		id: 'again',
+    		level: 3
     	}
     ];
 
