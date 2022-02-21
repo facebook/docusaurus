@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {TOCInlineProps} from '@theme/TOCInline';
+import type {Props} from '@theme/TOCInline';
 import styles from './styles.module.css';
 import TOCItems from '@theme/TOCItems';
 
@@ -14,7 +14,7 @@ function TOCInline({
   toc,
   minHeadingLevel,
   maxHeadingLevel,
-}: TOCInlineProps): JSX.Element {
+}: Props): JSX.Element {
   return (
     <div className={styles.tableOfContentsInline}>
       <TOCItems
