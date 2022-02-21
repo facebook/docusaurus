@@ -605,16 +605,16 @@ declare module '@theme/Details' {
 declare module '@theme/TOCItems' {
   import type {TOCItem} from '@docusaurus/types';
 
-  export type TOCItemsProps = {
+  export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
     readonly className?: string;
     readonly linkClassName?: string | null;
     readonly linkActiveClassName?: string;
-  };
+  }
 
-  export default function TOCItems(props: TOCItemsProps): JSX.Element;
+  export default function TOCItems(props: Props): JSX.Element;
 }
 
 declare module '@theme/TOC' {
