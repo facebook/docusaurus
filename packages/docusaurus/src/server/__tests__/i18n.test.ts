@@ -196,7 +196,7 @@ describe('localizePath', () => {
         },
         options: {localizePath: true},
       }),
-    ).toEqual(`${path.sep}baseFsPath${path.sep}fr${path.sep}`);
+    ).toEqual(`${path.sep}baseFsPath${path.sep}fr`);
   });
 
   test('should localize path for default locale, if requested', () => {
