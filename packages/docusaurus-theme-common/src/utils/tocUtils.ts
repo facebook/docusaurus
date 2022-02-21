@@ -15,6 +15,12 @@ export type TOCTreeNode = {
   readonly children: readonly TOCTreeNode[];
 };
 
+type FilterTOCParam = {
+  toc: readonly TOCTreeNode[];
+  minHeadingLevel: number;
+  maxHeadingLevel: number;
+};
+
 function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   const headings = flatTOC.map((heading) => ({
     ...heading,
@@ -60,11 +66,7 @@ function filterTOC({
   toc,
   minHeadingLevel,
   maxHeadingLevel,
-}: {
-  toc: readonly TOCTreeNode[];
-  minHeadingLevel: number;
-  maxHeadingLevel: number;
-}): TOCTreeNode[] {
+}: FilterTOCParam): TOCTreeNode[] {
   function isValid(item: TOCTreeNode) {
     return item.level >= minHeadingLevel && item.level <= maxHeadingLevel;
   }
@@ -91,11 +93,7 @@ export function useFilteredAndTreeifiedTOC({
   toc,
   minHeadingLevel,
   maxHeadingLevel,
-}: {
-  toc: readonly TOCItem[];
-  minHeadingLevel: number;
-  maxHeadingLevel: number;
-}): readonly TOCTreeNode[] {
+}: FilterTOCParam): readonly TOCTreeNode[] {
   return useMemo(
     () =>
       // Note: we have to filter the TOC after it has been treeified. This is
