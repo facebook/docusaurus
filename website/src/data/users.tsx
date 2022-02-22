@@ -293,7 +293,7 @@ const Users: User[] = [
     preview: require('./showcase/blogmatheusbrunelli.png'),
     website: 'https://mrbrunelli.github.io/blog/',
     source: 'https://github.com/mrbrunelli/blog',
-    tags: ['personal']
+    tags: ['opensource', 'personal']
   },
   {
     title: 'Botonic',
