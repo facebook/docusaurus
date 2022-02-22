@@ -102,7 +102,7 @@ npm run swizzle
 
 :::tip
 
-Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../api.md#docusaurus-swizzle-sitedir).
+Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../cli.md#docusaurus-swizzle-sitedir).
 
 :::
 
