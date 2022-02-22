@@ -288,7 +288,8 @@ const Users: User[] = [
   },
   {
     title: 'Blog Matheus Brunelli',
-    description: 'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+    description:
+      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
     preview: require('./showcase/blogmatheusbrunelli.png'),
     website: 'https://mrbrunelli.github.io/blog/',
     source: 'https://github.com/mrbrunelli/blog',
