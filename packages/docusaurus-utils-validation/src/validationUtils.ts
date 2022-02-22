@@ -9,26 +9,6 @@ import type Joi from './Joi';
 import logger from '@docusaurus/logger';
 import {PluginIdSchema} from './validationSchemas';
 
-// TODO temporary escape hatch for alpha-60: to be removed soon
-// Our validation schemas might be buggy at first
-// will permit users to bypass validation until we fix all validation errors
-// see for example: https://github.com/facebook/docusaurus/pull/3120
-// Undocumented on purpose, as we don't want users to keep using it over time
-// Maybe we'll make this escape hatch official some day, with a better api?
-export const isValidationDisabledEscapeHatch =
-  process.env.DISABLE_DOCUSAURUS_VALIDATION === 'true';
-
-if (isValidationDisabledEscapeHatch) {
-  logger.error`You should avoid using code=${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
-}
-
-export const logValidationBugReportHint = (): void => {
-  logger.error('A validation error occurred.');
-  logger.info(`The validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.
-We may have made some mistakes.
-If you think your configuration is valid and should keep working, please open a bug report.`);
-};
-
 export function printWarning(warning?: Joi.ValidationError): void {
   if (warning) {
     const warningMessages = warning.details
@@ -54,11 +34,6 @@ export function normalizePluginOptions<T extends {id?: string}>(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error);
-      return options as T;
-    }
     throw error;
   }
 
@@ -81,11 +56,6 @@ export function normalizeThemeConfig<T>(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error);
-      return themeConfig as T;
-    }
     throw error;
   }
   return value!; // TODO remove this ! in TS 4.6
@@ -107,8 +77,6 @@ export function validateFrontMatter<T>(
     const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
-
-    logValidationBugReportHint();
 
     logger.error`The following front matter:
 ${logger.yellow(frontMatterString)}

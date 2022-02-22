@@ -182,13 +182,13 @@ module.exports = function (context, options) {
     name: 'custom-docusaurus-plugin',
     // highlight-start
     configureWebpack(config, isServer, utils) {
-      const {getCacheLoader} = utils;
+      const {getJSLoader} = utils;
       return {
         module: {
           rules: [
             {
               test: /\.foo$/,
-              use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
+              use: [getJSLoader(isServer), 'my-custom-webpack-loader'],
             },
           ],
         },
