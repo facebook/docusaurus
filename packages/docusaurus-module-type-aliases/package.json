@@ -18,5 +18,9 @@
     "@types/react-router-dom": "*",
     "react-helmet-async": "*"
   },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
   "license": "MIT"
 }
