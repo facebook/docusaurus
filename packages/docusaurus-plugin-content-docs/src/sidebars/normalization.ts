@@ -80,6 +80,6 @@ export function normalizeSidebars(
   sidebars: SidebarsConfig,
 ): NormalizedSidebars {
   return _.mapValues(sidebars, (sidebar, id) =>
-    normalizeSidebar(sidebar, logger.interpolate`sidebar with ID name=${id}`),
+    normalizeSidebar(sidebar, logger.interpolate`sidebar name=${id}`),
   );
 }
