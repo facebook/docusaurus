@@ -37,33 +37,15 @@ export function normalizeItem(
   item: SidebarItemConfig,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
-    return [
-      {
-        type: 'doc',
-        id: item,
-      },
-    ];
+    return [{type: 'doc', id: item}];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeCategoriesShorthand(item).flatMap((subItem) =>
-      normalizeItem(subItem),
-    );
+    return normalizeSidebar(item);
   }
   if (item.type === 'category') {
-    if (typeof item.items !== 'undefined' && typeof item.items !== 'object') {
-      throw new Error(
-        `Invalid category ${JSON.stringify(
-          item,
-        )}: items must be an array of sidebar items or a category shorthand`,
-      );
-    }
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      items: Array.isArray(item.items)
-        ? item.items.flatMap((subItem) => normalizeItem(subItem))
-        : normalizeCategoriesShorthand(item.items).flatMap((subItem) =>
-            normalizeItem(subItem),
-          ),
+      items: normalizeSidebar(item.items),
     };
     return [normalizedCategory];
   }
@@ -71,6 +53,14 @@ export function normalizeItem(
 }
 
 function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
+  if (!Array.isArray(sidebar) && !isCategoriesShorthand(sidebar)) {
+    throw new Error(
+      `Invalid sidebar items collection ${JSON.stringify(
+        sidebar,
+      )}: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a "type" property). See https://docusaurus.io/docs/sidebar/items for all valid syntax.`,
+    );
+  }
+
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
     : normalizeCategoriesShorthand(sidebar);
