@@ -49,7 +49,7 @@ export function normalizeItem(
       ...item,
       items: normalizeSidebar(
         item.items,
-        logger.interpolate`name=${'items'} of the category name=${item.label}`,
+        logger.interpolate`code=${'items'} of the category name=${item.label}`,
       ),
     };
     return [normalizedCategory];
