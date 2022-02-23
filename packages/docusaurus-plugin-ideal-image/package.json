@@ -5,11 +5,8 @@
   "main": "lib/index.js",
   "types": "src/plugin-ideal-image.d.ts",
   "scripts": {
-    "build": "yarn build:server && yarn build:browser && yarn build:copy && yarn build:format",
-    "build:server": "tsc --project tsconfig.server.json",
-    "build:browser": "tsc --project tsconfig.browser.json",
-    "build:copy": "node copyUntypedFiles.mjs",
-    "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
+    "build": "docusaurus-plugin build",
+    "watch": "docusaurus-plugin watch"
   },
   "publishConfig": {
     "access": "public"
@@ -35,6 +32,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.15",
     "@docusaurus/types": "2.0.0-beta.15",
+    "@docusaurus/utils-build": "2.0.0-beta.15",
     "fs-extra": "^10.0.0"
   },
   "peerDependencies": {

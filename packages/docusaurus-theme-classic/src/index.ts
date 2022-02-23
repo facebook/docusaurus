@@ -113,7 +113,7 @@ export default function docusaurusThemeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, '../lib-next/theme');
+      return path.join(__dirname, '../lib/theme');
     },
 
     getTypeScriptThemePath() {

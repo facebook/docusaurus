@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "types": "src/plugin-content-blog.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "docusaurus-plugin build",
+    "watch": "docusaurus-plugin watch"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.15",
+    "@docusaurus/utils-build": "2.0.0-beta.15",
     "escape-string-regexp": "^4.0.0"
   },
   "peerDependencies": {
