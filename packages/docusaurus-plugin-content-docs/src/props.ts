@@ -22,7 +22,7 @@ import type {
   PropTagDocListDoc,
   PropSidebarItemLink,
 } from '@docusaurus/plugin-content-docs';
-import {compact, keyBy, mapValues} from 'lodash';
+import _ from 'lodash';
 import {createDocsByIdIndex} from './docs';
 
 export function toSidebarsProp(loadedVersion: LoadedVersion): PropSidebars {
@@ -93,18 +93,22 @@ Available document ids are:
   // Transform the sidebar so that all sidebar item will be in the
   // form of 'link' or 'category' only.
   // This is what will be passed as props to the UI component.
-  return mapValues(loadedVersion.sidebars, (items) => items.map(normalizeItem));
+  return _.mapValues(loadedVersion.sidebars, (items) =>
+    items.map(normalizeItem),
+  );
 }
 
 function toVersionDocsProp(loadedVersion: LoadedVersion): PropVersionDocs {
-  return mapValues(
-    keyBy(loadedVersion.docs, (doc) => doc.unversionedId),
-    (doc) => ({
-      id: doc.unversionedId,
-      title: doc.title,
-      description: doc.description,
-      sidebar: doc.sidebar,
-    }),
+  return Object.fromEntries(
+    loadedVersion.docs.map((doc) => [
+      doc.unversionedId,
+      {
+        id: doc.unversionedId,
+        title: doc.title,
+        description: doc.description,
+        sidebar: doc.sidebar,
+      },
+    ]),
   );
 }
 
@@ -135,7 +139,7 @@ export function toTagDocListProp({
   docs: Pick<DocMetadata, 'id' | 'title' | 'description' | 'permalink'>[];
 }): PropTagDocList {
   function toDocListProp(): PropTagDocListDoc[] {
-    const list = compact(
+    const list = _.compact(
       tag.docIds.map((id) => docs.find((doc) => doc.id === id)),
     );
     // Sort docs by title

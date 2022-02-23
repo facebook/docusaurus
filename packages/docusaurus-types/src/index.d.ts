@@ -11,6 +11,7 @@ import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
+import type {Location} from 'history';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -391,18 +392,6 @@ export interface ConfigureWebpackUtils {
     isServer: boolean;
     babelOptions?: Record<string, unknown>;
   }) => RuleSetRule;
-
-  // TODO deprecated: remove before end of 2021?
-  getCacheLoader: (
-    isServer: boolean,
-    cacheOptions?: Record<string, unknown>,
-  ) => RuleSetRule | null;
-
-  // TODO deprecated: remove before end of 2021?
-  getBabelLoader: (
-    isServer: boolean,
-    options?: Record<string, unknown>,
-  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {
@@ -448,3 +437,11 @@ export interface TOCItem {
 }
 
 export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
+
+export type ClientModule = {
+  onRouteUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => void;
+  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+};

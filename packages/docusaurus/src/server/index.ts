@@ -37,7 +37,7 @@ import {
   readCodeTranslationFileContent,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
@@ -111,7 +111,7 @@ export async function loadContext(
     })) ?? {};
 
   // We only need key->message for code translations
-  const codeTranslations = mapValues(
+  const codeTranslations = _.mapValues(
     codeTranslationFileContent,
     (value) => value.message,
   );
@@ -403,10 +403,12 @@ ${Object.keys(registry)
 
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
-    docusaurusVersion: getPackageJsonVersion(
+    docusaurusVersion: (await getPackageJsonVersion(
       path.join(__dirname, '../../package.json'),
-    )!,
-    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
+    ))!,
+    siteVersion: await getPackageJsonVersion(
+      path.join(siteDir, 'package.json'),
+    ),
     pluginVersions: {},
   };
   plugins

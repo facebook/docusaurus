@@ -208,9 +208,9 @@ declare module '@theme/DocSidebarItems' {
   import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
-  export type Props = Omit<DocSidebarItemProps, 'item' | 'index'> & {
+  export interface Props extends Omit<DocSidebarItemProps, 'item' | 'index'> {
     readonly items: readonly PropSidebarItem[];
-  };
+  }
 
   export default function DocSidebarItems(props: Props): JSX.Element;
 }
@@ -381,15 +381,15 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
 
 declare module '@theme/NavbarItem/NavbarNavLink' {
   import type {ReactNode} from 'react';
-  import type {LinkProps} from '@docusaurus/Link';
+  import type {Props as LinkProps} from '@docusaurus/Link';
 
-  export type Props = LinkProps & {
+  export interface Props extends LinkProps {
     readonly activeBasePath?: string;
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
     readonly prependBaseUrlToHref?: string;
-  };
+  }
 
   export default function NavbarNavLink(props: Props): JSX.Element;
 }
@@ -605,67 +605,58 @@ declare module '@theme/Details' {
 declare module '@theme/TOCItems' {
   import type {TOCItem} from '@docusaurus/types';
 
-  export type TOCItemsProps = {
+  export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
     readonly className?: string;
     readonly linkClassName?: string | null;
     readonly linkActiveClassName?: string;
-  };
+  }
 
-  export default function TOCItems(props: TOCItemsProps): JSX.Element;
+  export default function TOCItems(props: Props): JSX.Element;
 }
 
 declare module '@theme/TOC' {
   import type {TOCItem} from '@docusaurus/types';
 
-  // minHeadingLevel only exists as a per-doc option,
-  // and won't have a default set by Joi. See TOC, TOCInline,
-  // TOCCollapsible for examples
-  export type TOCProps = {
+  // minHeadingLevel only exists as a per-doc option, and won't have a default
+  // set by Joi. See TOC, TOCInline, TOCCollapsible for examples
+  export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
     readonly className?: string;
-  };
+  }
 
-  export type TOCHeadingsProps = {
-    readonly toc: readonly TOCItem[];
-    readonly minHeadingLevel?: number;
-    readonly maxHeadingLevel?: number;
-  };
-
-  export const TOCHeadings: (props: TOCHeadingsProps) => JSX.Element;
-
-  const TOC: (props: TOCProps) => JSX.Element;
+  const TOC: (props: Props) => JSX.Element;
   export default TOC;
 }
 
 declare module '@theme/TOCInline' {
   import type {TOCItem} from '@docusaurus/types';
 
-  export type TOCInlineProps = {
+  export interface Props {
     readonly toc: readonly TOCItem[];
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
-  };
+  }
 
-  const TOCInline: (props: TOCInlineProps) => JSX.Element;
+  const TOCInline: (props: Props) => JSX.Element;
   export default TOCInline;
 }
 
 declare module '@theme/TOCCollapsible' {
   import type {TOCItem} from '@docusaurus/types';
 
-  export type TOCCollapsibleProps = {
+  export interface Props {
     readonly className?: string;
     readonly minHeadingLevel?: number;
     readonly maxHeadingLevel?: number;
     readonly toc: readonly TOCItem[];
-  };
+  }
 
-  const TOCCollapsible: (props: TOCCollapsibleProps) => JSX.Element;
+  const TOCCollapsible: (props: Props) => JSX.Element;
   export default TOCCollapsible;
 }
 

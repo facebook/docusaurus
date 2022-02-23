@@ -10,10 +10,10 @@ import fs from 'fs-extra';
 import themeAlias from '../alias';
 
 describe('themeAlias', () => {
-  test('valid themePath 1 with components', () => {
+  test('valid themePath 1 with components', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-1');
-    const alias = themeAlias(themePath, true);
+    const alias = await themeAlias(themePath, true);
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(
       Object.entries({
@@ -26,10 +26,10 @@ describe('themeAlias', () => {
     expect(alias).not.toEqual({});
   });
 
-  test('valid themePath 1 with components without original', () => {
+  test('valid themePath 1 with components without original', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-1');
-    const alias = themeAlias(themePath, false);
+    const alias = await themeAlias(themePath, false);
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(
       Object.entries({
@@ -40,10 +40,10 @@ describe('themeAlias', () => {
     expect(alias).not.toEqual({});
   });
 
-  test('valid themePath 2 with components', () => {
+  test('valid themePath 2 with components', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-2');
-    const alias = themeAlias(themePath, true);
+    const alias = await themeAlias(themePath, true);
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(
       Object.entries({
@@ -83,10 +83,10 @@ describe('themeAlias', () => {
     expect(alias).not.toEqual({});
   });
 
-  test('valid themePath 2 with components without original', () => {
+  test('valid themePath 2 with components without original', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'theme-2');
-    const alias = themeAlias(themePath, false);
+    const alias = await themeAlias(themePath, false);
     // Testing entries, because order matters!
     expect(Object.entries(alias)).toEqual(
       Object.entries({
@@ -107,26 +107,26 @@ describe('themeAlias', () => {
     expect(alias).not.toEqual({});
   });
 
-  test('valid themePath with no components', () => {
+  test('valid themePath with no components', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'empty-theme');
-    fs.ensureDirSync(themePath);
-    const alias = themeAlias(themePath, true);
+    await fs.ensureDir(themePath);
+    const alias = await themeAlias(themePath, true);
     expect(alias).toEqual({});
   });
 
-  test('valid themePath with no components without original', () => {
+  test('valid themePath with no components without original', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, 'empty-theme');
-    fs.ensureDirSync(themePath);
-    const alias = themeAlias(themePath, false);
+    await fs.ensureDir(themePath);
+    const alias = await themeAlias(themePath, false);
     expect(alias).toEqual({});
   });
 
-  test('invalid themePath that does not exist', () => {
+  test('invalid themePath that does not exist', async () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const themePath = path.join(fixtures, '__noExist__');
-    const alias = themeAlias(themePath, true);
+    const alias = await themeAlias(themePath, true);
     expect(alias).toEqual({});
   });
 });

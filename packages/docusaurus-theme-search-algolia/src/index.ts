@@ -6,18 +6,18 @@
  */
 
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 import {defaultConfig, compile} from 'eta';
 import {normalizeUrl} from '@docusaurus/utils';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import logger from '@docusaurus/logger';
 import openSearchTemplate from './templates/opensearch';
-import {memoize} from 'lodash';
+import _ from 'lodash';
 
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
-const getCompiledOpenSearchTemplate = memoize(() =>
+const getCompiledOpenSearchTemplate = _.memoize(() =>
   compile(openSearchTemplate.trim()),
 );
 
@@ -76,7 +76,7 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
         const siteUrl = normalizeUrl([url, baseUrl]);
 
         try {
-          fs.writeFileSync(
+          await fs.writeFile(
             path.join(outDir, OPEN_SEARCH_FILENAME),
             renderOpenSearchTemplate({
               title,

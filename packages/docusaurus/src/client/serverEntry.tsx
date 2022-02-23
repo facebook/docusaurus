@@ -25,13 +25,13 @@ import {
 } from './LinksCollector';
 import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
-import {memoize} from 'lodash';
+import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require('../../package.json');
 
-const getCompiledSSRTemplate = memoize((template: string) =>
+const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
     rmWhitespace: true,
   }),

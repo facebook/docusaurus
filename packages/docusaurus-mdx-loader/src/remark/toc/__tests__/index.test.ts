@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -13,8 +13,8 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options?) => {
-  const path = join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(path);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)

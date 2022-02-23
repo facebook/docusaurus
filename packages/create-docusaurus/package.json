@@ -32,10 +32,10 @@
     "supports-color": "^9.2.1",
     "tslib": "^2.3.1"
   },
-  "engines": {
-    "node": ">=14"
-  },
   "devDependencies": {
     "@types/supports-color": "^8.1.1"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

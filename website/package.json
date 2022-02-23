@@ -30,7 +30,7 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.7",
+    "@crowdin/cli": "^3.7.8",
     "@crowdin/crowdin-api-client": "^1.14.0",
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.15",
@@ -43,9 +43,9 @@
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-common": "2.0.0-beta.15",
     "@popperjs/core": "^2.11.2",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "clsx": "^1.1.1",
-    "color": "^4.0.1",
+    "color": "^4.2.1",
     "esbuild-loader": "2.16.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",

@@ -36,7 +36,7 @@ const {
  *
  * cache data is stored in `~/.config/configstore/update-notifier-@docusaurus`
  */
-function beforeCli() {
+async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
@@ -98,7 +98,9 @@ function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
+    const isYarnUsed = await fs.pathExists(
+      path.resolve(process.cwd(), 'yarn.lock'),
+    );
     const upgradeCommand = isYarnUsed
       ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
       : `npm i ${siteDocusaurusPackagesForUpdate}`;

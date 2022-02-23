@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import {normalizeUrl} from '@docusaurus/utils';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
@@ -43,7 +43,7 @@ export function toGlobalSidebars(
   version: LoadedVersion,
 ): Record<string, GlobalSidebar> {
   const {getFirstLink} = createSidebarsUtils(sidebars);
-  return mapValues(sidebars, (sidebar, sidebarId) => {
+  return _.mapValues(sidebars, (sidebar, sidebarId) => {
     const firstLink = getFirstLink(sidebarId);
     if (!firstLink) {
       return {};

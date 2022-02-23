@@ -28,7 +28,7 @@ import {
   posixPath,
   readOutputHTMLFile,
 } from '../index';
-import {sum} from 'lodash';
+import _ from 'lodash';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -143,7 +143,7 @@ describe('load utils', () => {
 describe('generate', () => {
   test('behaves correctly', async () => {
     const writeMock = jest.spyOn(fs, 'writeFile').mockImplementation(() => {});
-    const existsMock = jest.spyOn(fs, 'existsSync');
+    const existsMock = jest.spyOn(fs, 'pathExists');
     const readMock = jest.spyOn(fs, 'readFile');
 
     // First call: no file, no cache
@@ -322,7 +322,7 @@ describe('mapAsyncSequential', () => {
 
     const timeTotal = timeAfter - timeBefore;
 
-    const totalTimeouts = sum(Object.values(itemToTimeout));
+    const totalTimeouts = _.sum(Object.values(itemToTimeout));
     expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 20);
 
     expect(itemMapStartsAt['1']).toBeGreaterThanOrEqual(0);

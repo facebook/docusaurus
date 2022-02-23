@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable no-restricted-properties */
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';

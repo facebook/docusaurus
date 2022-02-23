@@ -36,13 +36,13 @@
     "algoliasearch-helper": "^3.7.0",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
+    "fs-extra": "^10.0.0",
     "lodash": "^4.17.21",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.15",
-    "fs-extra": "^10.0.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.15"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

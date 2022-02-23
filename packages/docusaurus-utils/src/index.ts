@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createHash} from 'crypto';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import fs from 'fs-extra';
 import {URL} from 'url';
 import type {
@@ -106,7 +106,7 @@ export async function generate(
   // If file already exists but its not in runtime cache yet,
   // we try to calculate the content hash and then compare
   // This is to avoid unnecessary overwriting and we can reuse old file.
-  if (!lastHash && fs.existsSync(filepath)) {
+  if (!lastHash && (await fs.pathExists(filepath))) {
     const lastContent = await fs.readFile(filepath, 'utf8');
     lastHash = createHash('md5').update(lastContent).digest('hex');
     fileHash.set(filepath, lastHash);
@@ -361,7 +361,7 @@ export function updateTranslationFileMessages(
 ): TranslationFile {
   return {
     ...translationFile,
-    content: mapValues(translationFile.content, (translation) => ({
+    content: _.mapValues(translationFile.content, (translation) => ({
       ...translation,
       message: updateMessage(translation.message),
     })),

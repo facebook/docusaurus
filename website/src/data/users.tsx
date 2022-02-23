@@ -287,6 +287,15 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
+    title: 'Blog Matheus Brunelli',
+    description:
+      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+    preview: require('./showcase/blogmatheusbrunelli.png'),
+    website: 'https://mrbrunelli.github.io/blog/',
+    source: 'https://github.com/mrbrunelli/blog',
+    tags: ['opensource', 'personal']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
@@ -310,6 +319,15 @@ const Users: User[] = [
     website: 'https://buildtracker.dev',
     source: 'https://github.com/paularmstrong/build-tracker',
     tags: ['opensource'],
+  },
+  {
+    title: 'Butterfly Documentation',
+    description:
+      'The documentation of the note taking app Linwood Butterfly',
+    preview: require('./showcase/docs-butterfly.png'),
+    website: 'https://docs.butterfly.linwood.dev',
+    source: 'https://github.com/LinwoodCloud/Butterfly',
+    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'ClarityChallenge',
