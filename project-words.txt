@@ -246,6 +246,7 @@ stylelintrc
 sublabel
 sublicensable
 sublist
+subsubsection
 subpage
 subroute
 subroutes
@@ -260,6 +261,7 @@ toolset
 toplevel
 transifex
 transpiles
+treeified
 treeify
 treosh
 triaging

@@ -429,12 +429,11 @@ export interface ThemeConfigValidationContext<T> {
   themeConfig: Partial<T>;
 }
 
-export interface TOCItem {
+export type TOCItem = {
   readonly value: string;
   readonly id: string;
-  readonly children: TOCItem[];
   readonly level: number;
-}
+};
 
 export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
 

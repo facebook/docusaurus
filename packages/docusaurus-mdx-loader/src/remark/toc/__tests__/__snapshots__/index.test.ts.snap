@@ -5,32 +5,26 @@ exports[`inline code should be escaped 1`] = `
 	{
 		value: '<code>&lt;Head /&gt;</code>',
 		id: 'head-',
-		children: [
-			{
-				value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
-				id: 'headtesthead',
-				children: [],
-				level: 3
-			}
-		],
 		level: 2
+	},
+	{
+		value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
+		id: 'headtesthead',
+		level: 3
 	},
 	{
 		value: '<code>&lt;div /&gt;</code>',
 		id: 'div-',
-		children: [],
 		level: 2
 	},
 	{
 		value: '<code>&lt;div&gt; Test &lt;/div&gt;</code>',
 		id: 'div-test-div',
-		children: [],
 		level: 2
 	},
 	{
 		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
 		id: 'divitestidiv',
-		children: [],
 		level: 2
 	}
 ];
@@ -52,32 +46,26 @@ exports[`non text phrasing content 1`] = `
 	{
 		value: '<em>Emphasis</em>',
 		id: 'emphasis',
-		children: [
-			{
-				value: '<strong>Importance</strong>',
-				id: 'importance',
-				children: [],
-				level: 3
-			}
-		],
 		level: 2
+	},
+	{
+		value: '<strong>Importance</strong>',
+		id: 'importance',
+		level: 3
 	},
 	{
 		value: '<del>Strikethrough</del>',
 		id: 'strikethrough',
-		children: [],
 		level: 2
 	},
 	{
 		value: '<i>HTML</i>',
 		id: 'html',
-		children: [],
 		level: 2
 	},
 	{
 		value: '<code>inline.code()</code>',
 		id: 'inlinecode',
-		children: [],
 		level: 2
 	}
 ];

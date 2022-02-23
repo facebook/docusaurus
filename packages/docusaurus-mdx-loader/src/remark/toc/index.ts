@@ -9,10 +9,14 @@ import {parse, type ParserOptions} from '@babel/parser';
 import type {Identifier} from '@babel/types';
 import traverse from '@babel/traverse';
 import stringifyObject from 'stringify-object';
-import search from './search';
-import type {Plugin, Transformer} from 'unified';
+import toString from 'mdast-util-to-string';
+import visit from 'unist-util-visit';
+import {toValue} from '../utils';
+
+import type {TOCItem} from '@docusaurus/types';
 import type {Node, Parent} from 'unist';
-import type {Literal} from 'mdast';
+import type {Heading, Literal} from 'mdast';
+import type {Plugin, Transformer} from 'unified';
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
@@ -70,7 +74,22 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const name = options.name || 'toc';
 
   const transformer: Transformer = (node) => {
-    const headings = search(node);
+    const headings: TOCItem[] = [];
+
+    visit(node, 'heading', (child: Heading, _index, parent) => {
+      const value = toString(child);
+
+      // depth:1 headings are titles and not included in the TOC
+      if (parent !== node || !value || child.depth < 2) {
+        return;
+      }
+
+      headings.push({
+        value: toValue(child),
+        id: child.data!.id as string,
+        level: child.depth,
+      });
+    });
     const {children} = node as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 

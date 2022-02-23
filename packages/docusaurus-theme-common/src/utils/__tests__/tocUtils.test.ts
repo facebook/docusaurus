@@ -6,55 +6,53 @@
  */
 
 import type {TOCItem} from '@docusaurus/types';
-import {filterTOC} from '../tocUtils';
+import {renderHook} from '@testing-library/react-hooks';
+import {useFilteredAndTreeifiedTOC} from '../tocUtils';
 
-describe('filterTOC', () => {
+describe('useFilteredAndTreeifiedTOC', () => {
   test('filter a toc with all heading levels', () => {
     const toc: TOCItem[] = [
       {
         id: 'alpha',
         level: 1,
         value: 'alpha',
-        children: [
-          {
-            id: 'bravo',
-            level: 2,
-            value: 'Bravo',
-            children: [
-              {
-                id: 'charlie',
-                level: 3,
-                value: 'Charlie',
-                children: [
-                  {
-                    id: 'delta',
-                    level: 4,
-                    value: 'Delta',
-                    children: [
-                      {
-                        id: 'echo',
-                        level: 5,
-                        value: 'Echo',
-                        children: [
-                          {
-                            id: 'foxtrot',
-                            level: 6,
-                            value: 'Foxtrot',
-                            children: [],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+      },
+      {
+        id: 'bravo',
+        level: 2,
+        value: 'Bravo',
+      },
+      {
+        id: 'charlie',
+        level: 3,
+        value: 'Charlie',
+      },
+      {
+        id: 'delta',
+        level: 4,
+        value: 'Delta',
+      },
+      {
+        id: 'echo',
+        level: 5,
+        value: 'Echo',
+      },
+      {
+        id: 'foxtrot',
+        level: 6,
+        value: 'Foxtrot',
       },
     ];
 
-    expect(filterTOC({toc, minHeadingLevel: 2, maxHeadingLevel: 2})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 2,
+          maxHeadingLevel: 2,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'bravo',
         level: 2,
@@ -63,7 +61,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 3, maxHeadingLevel: 3})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 3,
+          maxHeadingLevel: 3,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'charlie',
         level: 3,
@@ -72,7 +78,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 2, maxHeadingLevel: 3})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 2,
+          maxHeadingLevel: 3,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'bravo',
         level: 2,
@@ -88,7 +102,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 2, maxHeadingLevel: 4})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 2,
+          maxHeadingLevel: 4,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'bravo',
         level: 2,
@@ -121,24 +143,28 @@ describe('filterTOC', () => {
         id: 'charlie',
         level: 3,
         value: 'Charlie',
-        children: [],
       },
       {
         id: 'bravo',
         level: 2,
         value: 'Bravo',
-        children: [
-          {
-            id: 'delta',
-            level: 4,
-            value: 'Delta',
-            children: [],
-          },
-        ],
+      },
+      {
+        id: 'delta',
+        level: 4,
+        value: 'Delta',
       },
     ];
 
-    expect(filterTOC({toc, minHeadingLevel: 2, maxHeadingLevel: 2})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 2,
+          maxHeadingLevel: 2,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'bravo',
         level: 2,
@@ -147,7 +173,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 3, maxHeadingLevel: 3})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 3,
+          maxHeadingLevel: 3,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'charlie',
         level: 3,
@@ -156,7 +190,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 4, maxHeadingLevel: 4})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 4,
+          maxHeadingLevel: 4,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'delta',
         level: 4,
@@ -165,7 +207,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 2, maxHeadingLevel: 3})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 2,
+          maxHeadingLevel: 3,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'charlie',
         level: 3,
@@ -180,7 +230,15 @@ describe('filterTOC', () => {
       },
     ]);
 
-    expect(filterTOC({toc, minHeadingLevel: 3, maxHeadingLevel: 4})).toEqual([
+    expect(
+      renderHook(() =>
+        useFilteredAndTreeifiedTOC({
+          toc,
+          minHeadingLevel: 3,
+          maxHeadingLevel: 4,
+        }),
+      ).result.current,
+    ).toEqual([
       {
         id: 'charlie',
         level: 3,
