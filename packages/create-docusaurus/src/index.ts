@@ -18,6 +18,7 @@ const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
 const DefaultPackageManager = 'npm';
+
 const SupportedPackageManagers = {
   npm: 'package-lock.json',
   yarn: 'yarn.lock',
@@ -26,31 +27,45 @@ const SupportedPackageManagers = {
 
 type SupportedPackageManager = keyof typeof SupportedPackageManagers;
 
-function getPackageManagerForUse(
+const PackageManagersList = Object.keys(
+  SupportedPackageManagers,
+) as SupportedPackageManager[];
+
+async function findPackageManagerFromLockFile(): Promise<
+  SupportedPackageManager | undefined
+> {
+  for (const packageManager of PackageManagersList) {
+    const lockFilePath = path.resolve(
+      process.cwd(),
+      SupportedPackageManagers[packageManager],
+    );
+    if (await fs.pathExists(lockFilePath)) {
+      return packageManager;
+    }
+  }
+  return undefined;
+}
+
+function findPackageManagerFromUserAgent():
+  | SupportedPackageManager
+  | undefined {
+  return PackageManagersList.find((packageManager) =>
+    process.env.npm_config_user_agent?.startsWith(packageManager),
+  );
+}
+
+async function getPackageManager(
   forceUseNpm?: boolean,
-): SupportedPackageManager {
+): Promise<SupportedPackageManager> {
   if (forceUseNpm) {
     return 'npm';
   }
 
-  const packageManagers = Object.keys(
-    SupportedPackageManagers,
-  ) as SupportedPackageManager[];
-  const packageManagerFromLockFile = packageManagers.find((packageManager) =>
-    fs.existsSync(
-      path.resolve(process.cwd(), SupportedPackageManagers[packageManager]),
-    ),
+  return (
+    (await findPackageManagerFromLockFile()) ??
+    findPackageManagerFromUserAgent() ??
+    DefaultPackageManager
   );
-
-  if (packageManagerFromLockFile) {
-    return packageManagerFromLockFile;
-  }
-
-  const packageManagerFromUserAgent = packageManagers.find((packageManager) =>
-    process.env.npm_config_user_agent?.startsWith(packageManager),
-  );
-
-  return packageManagerFromUserAgent || DefaultPackageManager;
 }
 
 function isValidGitRepoUrl(gitRepoUrl: string) {
@@ -159,7 +174,7 @@ export default async function init(
     gitStrategy: typeof gitStrategies[number];
   }> = {},
 ): Promise<void> {
-  const pkgManager = getPackageManagerForUse(cliOptions.useNpm);
+  const pkgManager = await getPackageManager(cliOptions.useNpm);
   const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
   const templates = await readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
