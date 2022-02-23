@@ -3,6 +3,11 @@ id: installation
 title: Installation
 ---
 
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
 Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
 
 :::tip
@@ -17,7 +22,6 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 - [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
   - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-- [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website {#scaffold-project-website}
 
@@ -58,6 +62,39 @@ You can also use the template's TypeScript variant by passing the `--typescript`
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
 ```
+
+<details>
+  <summary>Alternative installation methods</summary>
+
+You can also initialize a new project using your preferred project manager:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="npm v6+">
+
+```bash
+npm init docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn create docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="pnpm">
+
+```bash
+pnpm create docusaurus website classic
+```
+
+</TabItem>
+</Tabs>
+````
+
+</details>
 
 ## Project structure {#project-structure}
 
