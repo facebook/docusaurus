@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, memo} from 'react';
+import React, {useState, useRef, useEffect, memo} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig, type ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -30,6 +30,10 @@ const ToggleComponent = memo(
     const [checked, setChecked] = useState(defaultChecked);
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      setChecked(defaultChecked);
+    }, [defaultChecked]);
 
     return (
       <div

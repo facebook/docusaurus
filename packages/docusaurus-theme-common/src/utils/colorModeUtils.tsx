@@ -24,7 +24,8 @@ type ColorModeContextValue = {
   readonly setDarkTheme: () => void;
 };
 
-const ThemeStorage = createStorageSlot('theme');
+const ThemeStorageKey = 'theme';
+const ThemeStorage = createStorageSlot(ThemeStorageKey);
 
 const themes = {
   light: 'light',
@@ -45,7 +46,7 @@ const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
 };
 
 const storeTheme = (newTheme: Themes) => {
-  createStorageSlot('theme').set(coerceToTheme(newTheme));
+  ThemeStorage.set(coerceToTheme(newTheme));
 };
 
 function useColorModeContextValue(): ColorModeContextValue {
@@ -69,17 +70,25 @@ function useColorModeContextValue(): ColorModeContextValue {
 
   useEffect(() => {
     if (disableSwitch) {
-      return;
+      return undefined;
     }
-
-    try {
-      const storedTheme = ThemeStorage.get();
-      if (storedTheme !== null) {
-        setTheme(coerceToTheme(storedTheme));
+    const onChange = (e: StorageEvent) => {
+      if (e.key !== ThemeStorageKey) {
+        return;
       }
-    } catch (err) {
-      console.error(err);
-    }
+      try {
+        const storedTheme = ThemeStorage.get();
+        if (storedTheme !== null) {
+          setTheme(coerceToTheme(storedTheme));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    window.addEventListener('storage', onChange);
+    return () => {
+      window.removeEventListener('storage', onChange);
+    };
   }, [disableSwitch, setTheme]);
 
   // PCS is coerced to light mode when printing, which causes the color mode to
