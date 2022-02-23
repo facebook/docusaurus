@@ -392,18 +392,6 @@ export interface ConfigureWebpackUtils {
     isServer: boolean;
     babelOptions?: Record<string, unknown>;
   }) => RuleSetRule;
-
-  // TODO deprecated: remove before end of 2021?
-  getCacheLoader: (
-    isServer: boolean,
-    cacheOptions?: Record<string, unknown>,
-  ) => RuleSetRule | null;
-
-  // TODO deprecated: remove before end of 2021?
-  getBabelLoader: (
-    isServer: boolean,
-    options?: Record<string, unknown>,
-  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {
