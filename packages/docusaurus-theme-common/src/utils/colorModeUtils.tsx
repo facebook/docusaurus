@@ -46,7 +46,7 @@ const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
 };
 
 const storeTheme = (newTheme: Themes) => {
-  createStorageSlot(ThemeStorageKey).set(coerceToTheme(newTheme));
+  ThemeStorage.set(coerceToTheme(newTheme));
 };
 
 function useColorModeContextValue(): ColorModeContextValue {
