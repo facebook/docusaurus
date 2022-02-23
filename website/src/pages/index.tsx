@@ -171,6 +171,7 @@ function VideoContainer() {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              loading="lazy"
             />
           </div>
         </div>
@@ -196,6 +197,7 @@ function Feature({
         width={feature.image.width}
         height={feature.image.height}
         src={withBaseUrl(feature.image.src)}
+        loading="lazy"
       />
       <h3 className={clsx(styles.featureHeading)}>{feature.title}</h3>
       <p className="padding-horiz--md">{feature.text}</p>
