@@ -6,8 +6,9 @@
  */
 
 declare module '@generated/client-modules' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const clientModules: readonly any[];
+  import type {ClientModule} from '@docusaurus/types';
+
+  const clientModules: readonly (ClientModule & {default: ClientModule})[];
   export default clientModules;
 }
 
