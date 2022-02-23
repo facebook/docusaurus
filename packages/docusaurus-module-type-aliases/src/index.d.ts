@@ -37,7 +37,7 @@ declare module '@generated/registry' {
 declare module '@generated/routes' {
   import type {RouteConfig} from 'react-router-config';
 
-  type Route = {
+  export type Route = {
     readonly path: string;
     readonly component: RouteConfig['component'];
     readonly exact?: boolean;

@@ -124,6 +124,8 @@ export {
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
 
+export {useHomePageRoute} from './utils/routesUtils';
+
 export {useColorMode, ColorModeProvider} from './utils/colorModeUtils';
 export {
   useTabGroupChoice,
