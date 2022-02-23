@@ -18,6 +18,7 @@ import type {
 } from './types';
 import {isCategoriesShorthand} from './utils';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -40,24 +41,31 @@ export function normalizeItem(
     return [{type: 'doc', id: item}];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeSidebar(item);
+    // This will never throw anyways
+    return normalizeSidebar(item, 'sidebar items slice');
   }
   if (item.type === 'category') {
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      items: normalizeSidebar(item.items),
+      items: normalizeSidebar(
+        item.items,
+        logger.interpolate`name=${'items'} of the category name=${item.label}`,
+      ),
     };
     return [normalizedCategory];
   }
   return [item];
 }
 
-function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
+function normalizeSidebar(
+  sidebar: SidebarConfig,
+  place: string,
+): NormalizedSidebar {
   if (!Array.isArray(sidebar) && !isCategoriesShorthand(sidebar)) {
     throw new Error(
-      `Invalid sidebar items collection ${JSON.stringify(
+      logger.interpolate`Invalid sidebar items collection code=${JSON.stringify(
         sidebar,
-      )}: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a "type" property). See https://docusaurus.io/docs/sidebar/items for all valid syntax.`,
+      )} in ${place}: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a code=${'type'} property). See path=${'https://docusaurus.io/docs/sidebar/items'} for all valid syntaxes.`,
     );
   }
 
@@ -71,5 +79,7 @@ function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
 ): NormalizedSidebars {
-  return _.mapValues(sidebars, normalizeSidebar);
+  return _.mapValues(sidebars, (sidebar, id) =>
+    normalizeSidebar(sidebar, logger.interpolate`sidebar with ID name=${id}`),
+  );
 }
