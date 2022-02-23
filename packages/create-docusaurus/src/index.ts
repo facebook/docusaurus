@@ -57,6 +57,7 @@ function findPackageManagerFromUserAgent():
 async function getPackageManager(
   forceUseNpm?: boolean,
 ): Promise<SupportedPackageManager> {
+  // TODO replace --use-npm by --package-manager option
   if (forceUseNpm) {
     return 'npm';
   }
