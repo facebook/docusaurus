@@ -11,6 +11,7 @@ import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
+import type {Location} from 'history';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -448,3 +449,11 @@ export interface TOCItem {
 }
 
 export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
+
+export type ClientModule = {
+  onRouteUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => void;
+  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+};
