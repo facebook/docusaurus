@@ -18,7 +18,7 @@ const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
 // Only used in the rare, rare case of running globally installed create +
-// using --skip-install to show the tip text
+// using --skip-install. We need a default name to show the tip text
 const DefaultPackageManager = 'npm';
 
 const SupportedPackageManagers = {
