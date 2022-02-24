@@ -122,7 +122,9 @@ export type TOCHighlightConfig = {
   maxHeadingLevel: number;
 };
 
-function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
+export default function useTOCHighlight(
+  config: TOCHighlightConfig | undefined,
+): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
@@ -179,5 +181,3 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     };
   }, [config, anchorTopOffsetRef]);
 }
-
-export default useTOCHighlight;

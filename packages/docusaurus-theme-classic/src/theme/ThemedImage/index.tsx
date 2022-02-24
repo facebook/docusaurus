@@ -14,7 +14,7 @@ import type {Props} from '@theme/ThemedImage';
 
 import styles from './styles.module.css';
 
-function ThemedImage(props: Props): JSX.Element {
+export default function ThemedImage(props: Props): JSX.Element {
   const isBrowser = useIsBrowser();
   const {isDarkTheme} = useColorMode();
   const {sources, className, alt = '', ...propsRest} = props;
@@ -47,5 +47,3 @@ function ThemedImage(props: Props): JSX.Element {
     </>
   );
 }
-
-export default ThemedImage;

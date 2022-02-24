@@ -161,6 +161,12 @@ module.exports = {
         message:
           "Export all does't work well if imported in ESM due to how they are transpiled, and they can also lead to unexpected exposure of internal methods.",
       },
+      // TODO make an internal plugin to ensure this
+      // {
+      //   selector:
+      // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
+      //   message: 'Export in one statement'
+      // }
     ],
     'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],

@@ -13,7 +13,7 @@ type Options = {
   palette: boolean;
 };
 
-async function lqipLoader(
+export default async function lqipLoader(
   this: LoaderContext<Options>,
   contentBuffer: Buffer,
 ): Promise<void> {
@@ -78,5 +78,3 @@ async function lqipLoader(
 }
 
 lqipLoader.raw = true;
-
-export default lqipLoader;

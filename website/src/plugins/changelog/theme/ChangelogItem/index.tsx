@@ -18,7 +18,7 @@ import type {Props} from '@theme/BlogPostItem';
 import styles from './styles.module.css';
 import ChangelogAuthors from '@theme/ChangelogAuthors';
 
-function ChangelogItem(props: Props): JSX.Element {
+export default function ChangelogItem(props: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
   const {
     children,
@@ -75,5 +75,3 @@ function ChangelogItem(props: Props): JSX.Element {
     </article>
   );
 }
-
-export default ChangelogItem;

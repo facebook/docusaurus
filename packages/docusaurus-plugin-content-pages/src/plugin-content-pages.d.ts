@@ -63,6 +63,5 @@ declare module '@theme/MDXPage' {
     };
   }
 
-  const MDXPage: (props: Props) => JSX.Element;
-  export default MDXPage;
+  export default function MDXPage(props: Props): JSX.Element;
 }

@@ -9,8 +9,6 @@ import React from 'react';
 import {Helmet} from 'react-helmet-async';
 import type {Props} from '@docusaurus/Head';
 
-function Head(props: Props): JSX.Element {
+export default function Head(props: Props): JSX.Element {
   return <Helmet {...props} />;
 }
-
-export default Head;

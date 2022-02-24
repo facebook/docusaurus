@@ -15,7 +15,7 @@ import {
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/DocTagsListPage';
 
-function DocTagsListPage({tags}: Props): JSX.Element {
+export default function DocTagsListPage({tags}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
     <Layout
@@ -37,5 +37,3 @@ function DocTagsListPage({tags}: Props): JSX.Element {
     </Layout>
   );
 }
-
-export default DocTagsListPage;

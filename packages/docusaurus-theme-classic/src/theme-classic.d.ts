@@ -24,8 +24,7 @@ declare module '@theme/Admonition' {
 }
 
 declare module '@theme/AnnouncementBar' {
-  const AnnouncementBar: () => JSX.Element | null;
-  export default AnnouncementBar;
+  export default function AnnouncementBar(): JSX.Element | null;
 }
 
 declare module '@theme/BackToTopButton' {
@@ -38,9 +37,7 @@ declare module '@theme/BlogListPaginator' {
   export interface Props {
     readonly metadata: Metadata;
   }
-
-  const BlogListPaginator: (props: Props) => JSX.Element;
-  export default BlogListPaginator;
+  export default function BlogListPaginator(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogSidebar' {
@@ -54,8 +51,7 @@ declare module '@theme/BlogSidebar' {
     readonly sidebar: BlogSidebar;
   }
 
-  const BlogSidebar: (props: Props) => JSX.Element;
-  export default BlogSidebar;
+  export default function BlogSidebar(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostItem' {
@@ -71,8 +67,7 @@ declare module '@theme/BlogPostItem' {
     readonly children: JSX.Element;
   }
 
-  const BlogPostItem: (props: Props) => JSX.Element;
-  export default BlogPostItem;
+  export default function BlogPostItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogPostAuthor' {
@@ -105,8 +100,7 @@ declare module '@theme/BlogPostPaginator' {
     readonly prevItem?: Item;
   }
 
-  const BlogPostPaginator: (props: Props) => JSX.Element;
-  export default BlogPostPaginator;
+  export default function BlogPostPaginator(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogLayout' {
@@ -119,8 +113,7 @@ declare module '@theme/BlogLayout' {
     readonly toc?: ReactNode;
   }
 
-  const BlogLayout: (props: Props) => JSX.Element;
-  export default BlogLayout;
+  export default function BlogLayout(props: Props): JSX.Element;
 }
 
 declare module '@theme/CodeBlock' {
@@ -134,8 +127,7 @@ declare module '@theme/CodeBlock' {
     readonly language?: string;
   }
 
-  const CodeBlock: (props: Props) => JSX.Element;
-  export default CodeBlock;
+  export default function CodeBlock(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {
@@ -185,8 +177,7 @@ declare module '@theme/DocSidebar' {
     readonly [key: string]: unknown;
   }
 
-  const DocSidebar: (props: Props) => JSX.Element;
-  export default DocSidebar;
+  export default function DocSidebar(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebarItem' {
@@ -232,16 +223,14 @@ declare module '@theme/DocVersionBadge' {
 }
 
 declare module '@theme/DocVersionSuggestions' {
-  const DocVersionSuggestions: () => JSX.Element;
-  export default DocVersionSuggestions;
+  export default function DocVersionSuggestions(): JSX.Element;
 }
 
 declare module '@theme/EditThisPage' {
   export interface Props {
     readonly editUrl: string;
   }
-  const EditThisPage: (props: Props) => JSX.Element;
-  export default EditThisPage;
+  export default function EditThisPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/ErrorPageContent' {
@@ -252,8 +241,7 @@ declare module '@theme/ErrorPageContent' {
 }
 
 declare module '@theme/Footer' {
-  const Footer: () => JSX.Element | null;
-  export default Footer;
+  export default function Footer(): JSX.Element | null;
 }
 
 declare module '@theme/Heading' {
@@ -315,8 +303,7 @@ declare module '@theme/SearchMetadata' {
     readonly tag?: string;
   }
 
-  const SearchMetadata: (props: Props) => JSX.Element;
-  export default SearchMetadata;
+  export default function SearchMetadata(props: Props): JSX.Element;
 }
 
 declare module '@theme/LastUpdated' {
@@ -326,13 +313,11 @@ declare module '@theme/LastUpdated' {
     readonly lastUpdatedBy?: string;
   }
 
-  const LastUpdated: (props: Props) => JSX.Element;
-  export default LastUpdated;
+  export default function LastUpdated(props: Props): JSX.Element;
 }
 
 declare module '@theme/SkipToContent' {
-  const SkipToContent: () => JSX.Element;
-  export default SkipToContent;
+  export default function SkipToContent(): JSX.Element;
 }
 
 declare module '@theme/MDXComponents' {
@@ -359,8 +344,7 @@ declare module '@theme/MDXComponents' {
 }
 
 declare module '@theme/Navbar' {
-  const Navbar: () => JSX.Element;
-  export default Navbar;
+  export default function Navbar(): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
@@ -409,8 +393,7 @@ declare module '@theme/NavbarItem/DropdownNavbarItem' {
     readonly mobile?: boolean;
   }
 
-  const DropdownNavbarItem: (props: Props) => JSX.Element;
-  export default DropdownNavbarItem;
+  export default function DropdownNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/SearchNavbarItem' {
@@ -418,8 +401,7 @@ declare module '@theme/NavbarItem/SearchNavbarItem' {
     readonly mobile?: boolean;
   }
 
-  const SearchNavbarItem: (props: Props) => JSX.Element;
-  export default SearchNavbarItem;
+  export default function SearchNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
@@ -431,8 +413,7 @@ declare module '@theme/NavbarItem/LocaleDropdownNavbarItem' {
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
   }
 
-  const LocaleDropdownNavbarItem: (props: Props) => JSX.Element;
-  export default LocaleDropdownNavbarItem;
+  export default function LocaleDropdownNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
@@ -446,8 +427,9 @@ declare module '@theme/NavbarItem/DocsVersionDropdownNavbarItem' {
     readonly dropdownItemsAfter: LinkLikeNavbarItemProps[];
   }
 
-  const DocsVersionDropdownNavbarItem: (props: Props) => JSX.Element;
-  export default DocsVersionDropdownNavbarItem;
+  export default function DocsVersionDropdownNavbarItem(
+    props: Props,
+  ): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DocsVersionNavbarItem' {
@@ -457,8 +439,7 @@ declare module '@theme/NavbarItem/DocsVersionNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  const DocsVersionNavbarItem: (props: Props) => JSX.Element;
-  export default DocsVersionNavbarItem;
+  export default function DocsVersionNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DocNavbarItem' {
@@ -469,8 +450,7 @@ declare module '@theme/NavbarItem/DocNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  const DocsSidebarNavbarItem: (props: Props) => JSX.Element;
-  export default DocsSidebarNavbarItem;
+  export default function DocsSidebarNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
@@ -481,8 +461,7 @@ declare module '@theme/NavbarItem/DocSidebarNavbarItem' {
     readonly docsPluginId?: string;
   }
 
-  const DocSidebarNavbarItem: (props: Props) => JSX.Element;
-  export default DocSidebarNavbarItem;
+  export default function DocSidebarNavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem' {
@@ -518,8 +497,7 @@ declare module '@theme/NavbarItem' {
 
   export type Types = Props['type'];
 
-  const NavbarItem: (props: Props) => JSX.Element;
-  export default NavbarItem;
+  export default function NavbarItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/utils' {
@@ -555,8 +533,7 @@ declare module '@theme/TabItem' {
     readonly attributes?: Record<string, unknown>;
   }
 
-  const TabItem: (props: Props) => JSX.Element;
-  export default TabItem;
+  export default function TabItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/Tabs' {
@@ -577,8 +554,7 @@ declare module '@theme/Tabs' {
     readonly className?: string;
   }
 
-  const Tabs: (props: Props) => JSX.Element;
-  export default Tabs;
+  export default function Tabs(props: Props): JSX.Element;
 }
 
 declare module '@theme/ThemedImage' {
@@ -591,8 +567,7 @@ declare module '@theme/ThemedImage' {
     };
   }
 
-  const ThemedImage: (props: Props) => JSX.Element;
-  export default ThemedImage;
+  export default function ThemedImage(props: Props): JSX.Element;
 }
 
 declare module '@theme/Details' {
@@ -629,8 +604,7 @@ declare module '@theme/TOC' {
     readonly className?: string;
   }
 
-  const TOC: (props: Props) => JSX.Element;
-  export default TOC;
+  export default function TOC(props: Props): JSX.Element;
 }
 
 declare module '@theme/TOCInline' {
@@ -642,8 +616,7 @@ declare module '@theme/TOCInline' {
     readonly maxHeadingLevel?: number;
   }
 
-  const TOCInline: (props: Props) => JSX.Element;
-  export default TOCInline;
+  export default function TOCInline(props: Props): JSX.Element;
 }
 
 declare module '@theme/TOCCollapsible' {
@@ -656,8 +629,7 @@ declare module '@theme/TOCCollapsible' {
     readonly toc: readonly TOCItem[];
   }
 
-  const TOCCollapsible: (props: Props) => JSX.Element;
-  export default TOCCollapsible;
+  export default function TOCCollapsible(props: Props): JSX.Element;
 }
 
 declare module '@theme/Toggle' {
@@ -669,8 +641,7 @@ declare module '@theme/Toggle' {
     readonly onChange: (e: SyntheticEvent) => void;
   }
 
-  const Toggle: (props: Props) => JSX.Element;
-  export default Toggle;
+  export default function Toggle(props: Props): JSX.Element;
 }
 
 declare module '@theme/Logo' {
@@ -681,8 +652,7 @@ declare module '@theme/Logo' {
     readonly titleClassName?: string;
   }
 
-  const Logo: (props: Props) => JSX.Element;
-  export default Logo;
+  export default function Logo(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconArrow' {
@@ -690,8 +660,7 @@ declare module '@theme/IconArrow' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconArrow: (props: Props) => JSX.Element;
-  export default IconArrow;
+  export default function IconArrow(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconEdit' {
@@ -699,8 +668,7 @@ declare module '@theme/IconEdit' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconEdit: (props: Props) => JSX.Element;
-  export default IconEdit;
+  export default function IconEdit(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconMenu' {
@@ -708,8 +676,7 @@ declare module '@theme/IconMenu' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconMenu: (props: Props) => JSX.Element;
-  export default IconMenu;
+  export default function IconMenu(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconClose' {
@@ -717,8 +684,7 @@ declare module '@theme/IconClose' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconClose: (props: Props) => JSX.Element;
-  export default IconClose;
+  export default function IconClose(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconLanguage' {
@@ -726,8 +692,7 @@ declare module '@theme/IconLanguage' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconLanguage: (props: Props) => JSX.Element;
-  export default IconLanguage;
+  export default function IconLanguage(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconExternalLink' {
@@ -735,8 +700,7 @@ declare module '@theme/IconExternalLink' {
 
   export interface Props extends ComponentProps<'svg'> {}
 
-  const IconExternalLink: (props: Props) => JSX.Element;
-  export default IconExternalLink;
+  export default function IconExternalLink(props: Props): JSX.Element;
 }
 
 declare module '@theme/TagsListByLetter' {
@@ -787,6 +751,5 @@ declare module '@theme/Seo' {
     readonly children?: ReactNode;
   }
 
-  const Seo: (props: Props) => JSX.Element;
-  export default Seo;
+  export default function Seo(props: Props): JSX.Element;
 }

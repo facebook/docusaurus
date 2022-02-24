@@ -21,7 +21,7 @@ const SUPPORTED_MIMES: Record<string, string> = {
   png: 'image/png',
 };
 
-async function base64(file: string): Promise<string> {
+export async function base64(file: string): Promise<string> {
   let extension = path.extname(file) || '';
   extension = extension.split('.').pop()!;
 
@@ -36,7 +36,7 @@ async function base64(file: string): Promise<string> {
   throw new Error('Unhandled promise rejection in base64 promise');
 }
 
-async function palette(file: string): Promise<string[]> {
+export async function palette(file: string): Promise<string[]> {
   const vibrant = new Vibrant(file, {});
   const pal = await vibrant.getPalette();
   if (pal) {
@@ -48,5 +48,3 @@ async function palette(file: string): Promise<string[]> {
 process.on('unhandledRejection', (up) => {
   throw up;
 });
-
-export {base64, palette};

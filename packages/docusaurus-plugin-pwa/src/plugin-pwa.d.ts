@@ -28,7 +28,5 @@ declare module '@theme/PwaReloadPopup' {
   export interface Props {
     readonly onReload: () => void;
   }
-
-  const PwaReloadPopup: (props: Props) => JSX.Element;
-  export default PwaReloadPopup;
+  export default function PwaReloadPopup(props: Props): JSX.Element;
 }

@@ -12,14 +12,14 @@ import type {Palette} from 'node-vibrant/lib/color';
  * it returns a Base64 image string with required formatting
  * to work on the web (<img src=".." /> or in CSS url('..'))
  */
-const toBase64 = (extMimeType: string, data: Buffer): string =>
+export const toBase64 = (extMimeType: string, data: Buffer): string =>
   `data:${extMimeType};base64,${data.toString('base64')}`;
 
 /**
  * takes a color swatch object, converts it to an array & returns
  * only hex color
  */
-const toPalette = (swatch: Palette): string[] => {
+export const toPalette = (swatch: Palette): string[] => {
   let palette = Object.keys(swatch).reduce((result, key) => {
     if (swatch[key] !== null) {
       result.push({
@@ -32,5 +32,3 @@ const toPalette = (swatch: Palette): string[] => {
   palette = _.sortBy(palette, ['popularity']);
   return palette.map((color) => color.hex).reverse();
 };
-
-export {toBase64, toPalette};

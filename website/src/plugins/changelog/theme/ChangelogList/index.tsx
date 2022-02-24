@@ -15,7 +15,7 @@ import ChangelogItem from '@theme/ChangelogItem';
 
 import styles from './styles.module.css';
 
-function ChangelogList(props: Props): JSX.Element {
+export default function ChangelogList(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {blogDescription, blogTitle} = metadata;
 
@@ -88,5 +88,3 @@ function ChangelogList(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default ChangelogList;

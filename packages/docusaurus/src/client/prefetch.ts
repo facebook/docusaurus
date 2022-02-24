@@ -67,7 +67,7 @@ const supportedPrefetchStrategy = support('prefetch')
 
 const preFetched: Record<string, boolean> = {};
 
-function prefetch(url: string): Promise<void> {
+export default function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {
     if (preFetched[url]) {
       resolve();
@@ -82,5 +82,3 @@ function prefetch(url: string): Promise<void> {
       .catch(() => {}); // 404s are logged to the console anyway.
   });
 }
-
-export default prefetch;

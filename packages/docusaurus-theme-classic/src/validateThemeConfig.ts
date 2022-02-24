@@ -29,7 +29,7 @@ const DEFAULT_COLOR_MODE_CONFIG = {
   },
 };
 
-const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
   metadata: [],
@@ -263,7 +263,7 @@ const CustomCssSchema = Joi.alternatives()
   .try(Joi.array().items(Joi.string().required()), Joi.string().required())
   .optional();
 
-const ThemeConfigSchema = Joi.object({
+export const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
@@ -385,8 +385,6 @@ const ThemeConfigSchema = Joi.object({
       .default(DEFAULT_CONFIG.tableOfContents.maxHeadingLevel),
   }).default(DEFAULT_CONFIG.tableOfContents),
 });
-
-export {DEFAULT_CONFIG, ThemeConfigSchema};
 
 export function validateThemeConfig({
   validate,
