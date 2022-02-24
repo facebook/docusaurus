@@ -83,10 +83,6 @@ jobs:
           # https://yarnpkg.com/features/pnp#fallback-mode
           yarn config set pnpFallbackMode none
 
-          # Patch package so that peer deps are provided. This has been fixed in terser by making acorn a direct dependency
-          # TODO watch out for the next terser release. Commit: https://github.com/terser/terser/commit/05b23eeb682d732484ad51b19bf528258fd5dc2a
-          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}, "html-minifier-terser@*": {"dependencies": {"acorn": "^8.6.0"}}}'
-
           yarn install
         working-directory: ../test-website
         env:
