@@ -46,7 +46,7 @@
     "axios": "^0.26.0",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
-    "esbuild-loader": "2.16.0",
+    "esbuild-loader": "2.18.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -56,8 +56,8 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
-    "workbox-routing": "^6.4.2",
-    "workbox-strategies": "^6.4.2"
+    "workbox-routing": "^6.5.0",
+    "workbox-strategies": "^6.5.0"
   },
   "browserslist": {
     "production": [
@@ -73,8 +73,8 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.4.1",
     "cross-env": "^7.0.3",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.1"
   }
 }

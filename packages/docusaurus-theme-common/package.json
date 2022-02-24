@@ -32,7 +32,7 @@
     "@docusaurus/core": "2.0.0-beta.15",
     "@docusaurus/types": "2.0.0-beta.15",
     "@testing-library/react-hooks": "^7.0.2",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
