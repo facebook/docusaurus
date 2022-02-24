@@ -10,7 +10,7 @@ import {load} from './index';
 import type {Props} from '@docusaurus/types';
 
 // Helper methods to setup dummy/fake projects.
-const loadSetup = async (name: string): Promise<Props> => {
+export default async function loadSetup(name: string): Promise<Props> {
   const fixtures = path.join(__dirname, '__tests__', '__fixtures__');
   const simpleSite = path.join(fixtures, 'simple-site');
   const customSite = path.join(fixtures, 'custom-site');
@@ -22,6 +22,4 @@ const loadSetup = async (name: string): Promise<Props> => {
     default:
       return load(simpleSite);
   }
-};
-
-export default loadSetup;
+}

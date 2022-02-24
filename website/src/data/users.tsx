@@ -287,6 +287,15 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
+    title: 'Blog Matheus Brunelli',
+    description:
+      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+    preview: require('./showcase/blogmatheusbrunelli.png'),
+    website: 'https://mrbrunelli.github.io/blog/',
+    source: 'https://github.com/mrbrunelli/blog',
+    tags: ['opensource', 'personal']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),

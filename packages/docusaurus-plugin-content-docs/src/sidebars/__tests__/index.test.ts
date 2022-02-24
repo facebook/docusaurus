@@ -58,7 +58,7 @@ describe('loadSidebars', () => {
     await expect(() =>
       loadSidebars(sidebarPath, params),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Invalid category {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}: items must be an array of sidebar items or a category shorthand"`,
+      `"Invalid sidebar items collection [36m\`\\"doc1\\"\`[39m in [36m\`items\`[39m of the category [34m[1mCategory Label[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
     );
   });
 

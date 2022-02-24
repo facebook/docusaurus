@@ -25,10 +25,8 @@ declare module '@docusaurus/plugin-pwa' {
 }
 
 declare module '@theme/PwaReloadPopup' {
-  export type PwaReloadPopupProps = {
+  export interface Props {
     readonly onReload: () => void;
-  };
-
-  const PwaReloadPopup: (props: PwaReloadPopupProps) => JSX.Element;
-  export default PwaReloadPopup;
+  }
+  export default function PwaReloadPopup(props: Props): JSX.Element;
 }

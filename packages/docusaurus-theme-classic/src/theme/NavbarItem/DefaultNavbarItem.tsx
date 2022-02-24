@@ -51,7 +51,7 @@ function DefaultNavbarItemMobile({
   );
 }
 
-function DefaultNavbarItem({
+export default function DefaultNavbarItem({
   mobile = false,
   position: _position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
@@ -66,5 +66,3 @@ function DefaultNavbarItem({
     />
   );
 }
-
-export default DefaultNavbarItem;

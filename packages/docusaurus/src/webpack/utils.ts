@@ -31,7 +31,6 @@ import type {
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import _ from 'lodash';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -163,27 +162,6 @@ export const getCustomizableJSLoader =
       ? getDefaultBabelLoader({isServer, babelOptions})
       : jsLoader(isServer);
 
-// TODO remove this before end of 2021?
-const warnBabelLoaderOnce = _.memoize(() => {
-  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
-});
-const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-) {
-  warnBabelLoaderOnce();
-  return getDefaultBabelLoader({isServer, babelOptions});
-};
-
-// TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = _.memoize(() => {
-  logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
-});
-function getCacheLoaderDeprecated() {
-  warnCacheLoaderOnce();
-  return null;
-}
-
 /**
  * Helper function to modify webpack config
  * @param configureWebpack a webpack config or a function to modify config
@@ -204,8 +182,6 @@ export function applyConfigureWebpack(
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
     getJSLoader: getCustomizableJSLoader(jsLoader),
-    getBabelLoader: getBabelLoaderDeprecated,
-    getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
     const {mergeStrategy, ...res} = configureWebpack(

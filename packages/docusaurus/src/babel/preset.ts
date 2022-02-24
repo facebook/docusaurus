@@ -70,9 +70,7 @@ function getTransformOptions(isServer: boolean): TransformOptions {
   };
 }
 
-function babelPresets(api: ConfigAPI): TransformOptions {
+export default function babelPresets(api: ConfigAPI): TransformOptions {
   const callerName = api.caller((caller) => caller?.name);
   return getTransformOptions(callerName === 'server');
 }
-
-export default babelPresets;

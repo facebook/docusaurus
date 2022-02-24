@@ -14,8 +14,6 @@ import type {ReactNode} from 'react';
 // and these providers won't reset state when we navigate
 //
 // See https://github.com/facebook/docusaurus/issues/3919
-function Root({children}: {children: ReactNode}): ReactNode {
+export default function Root({children}: {children: ReactNode}): ReactNode {
   return children;
 }
-
-export default Root;

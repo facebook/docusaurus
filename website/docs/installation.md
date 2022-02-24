@@ -3,6 +3,11 @@ id: installation
 title: Installation
 ---
 
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
 Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
 
 :::tip
@@ -17,7 +22,6 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 - [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
   - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-- [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website {#scaffold-project-website}
 
@@ -33,9 +37,17 @@ Example:
 npx create-docusaurus@latest website classic
 ```
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+If you do not specify `name` or `template`, it will prompt you for them.
+
+We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
 The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory. If it's a git repository, you can also specify a cloning strategy. Run `npx create-docusaurus@latest --help` for more information.
+
+You can also use the template's TypeScript variant by passing the `--typescript` flag.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
 
 :::info FB-Only
 
@@ -47,16 +59,50 @@ npx create-docusaurus@latest my-website facebook
 
 :::
 
-If you want to skip installing dependencies, use the `--skip-install` option, like the following:
+<details>
+  <summary>Alternative installation commands</summary>
+
+You can also initialize a new project using your preferred project manager:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="npm v6+">
+
+```bash
+npm init docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn create docusaurus website classic
+```
+
+</TabItem>
+<TabItem value="pnpm">
+
+```bash
+pnpm create docusaurus website classic
+```
+
+</TabItem>
+</Tabs>
+````
+
+</details>
+
+Docusaurus makes best efforts to select a package manager to install dependencies for you, based on the command you are using and the project you are in. You can override this behavior by using `--package-manager [npm/yarn/pnpm]`.
+
+```bash
+# Use Yarn to install dependencies even when the command is npx
+npx create-docusaurus@latest my-website classic --package-manager yarn
+```
+
+If you want to skip installing dependencies, use the `--skip-install` option.
 
 ```bash
 npx create-docusaurus@latest my-website classic --skip-install
-```
-
-You can also use the template's TypeScript variant by passing the `--typescript` flag.
-
-```bash
-npx create-docusaurus@latest my-website classic --typescript
 ```
 
 ## Project structure {#project-structure}

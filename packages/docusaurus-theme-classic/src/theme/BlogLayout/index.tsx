@@ -12,7 +12,7 @@ import BlogSidebar from '@theme/BlogSidebar';
 
 import type {Props} from '@theme/BlogLayout';
 
-function BlogLayout(props: Props): JSX.Element {
+export default function BlogLayout(props: Props): JSX.Element {
   const {sidebar, toc, children, ...layoutProps} = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
 
@@ -40,5 +40,3 @@ function BlogLayout(props: Props): JSX.Element {
     </Layout>
   );
 }
-
-export default BlogLayout;

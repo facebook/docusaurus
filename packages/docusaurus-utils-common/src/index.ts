@@ -6,5 +6,7 @@
  */
 
 export const blogPostContainerID = 'post-content';
-export {default as applyTrailingSlash} from './applyTrailingSlash';
-export type {ApplyTrailingSlashParams} from './applyTrailingSlash';
+export {
+  default as applyTrailingSlash,
+  type ApplyTrailingSlashParams,
+} from './applyTrailingSlash';

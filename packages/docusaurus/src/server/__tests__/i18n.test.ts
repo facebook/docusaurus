@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  loadI18n,
-  localizePath,
-  getDefaultLocaleConfig,
-  shouldWarnAboutNodeVersion,
-} from '../i18n';
+import {loadI18n, localizePath, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
 import path from 'path';
 import type {I18nConfig} from '@docusaurus/types';
@@ -80,20 +75,6 @@ describe('defaultLocaleConfig', () => {
       direction: 'rtl',
       htmlLang: 'fa-IR',
     });
-  });
-});
-
-describe('shouldWarnAboutNodeVersion', () => {
-  test('warns for old NodeJS version and [en,fr]', () => {
-    expect(shouldWarnAboutNodeVersion(12, ['en', 'fr'])).toEqual(true);
-  });
-
-  test('not warn for old NodeJS version and [en]', () => {
-    expect(shouldWarnAboutNodeVersion(12, ['en'])).toEqual(false);
-  });
-
-  test('not warn for recent NodeJS version and [en,fr]', () => {
-    expect(shouldWarnAboutNodeVersion(14, ['en', 'fr'])).toEqual(false);
   });
 });
 
@@ -215,7 +196,7 @@ describe('localizePath', () => {
         },
         options: {localizePath: true},
       }),
-    ).toEqual(`${path.sep}baseFsPath${path.sep}fr${path.sep}`);
+    ).toEqual(`${path.sep}baseFsPath${path.sep}fr`);
   });
 
   test('should localize path for default locale, if requested', () => {

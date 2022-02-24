@@ -8,6 +8,10 @@
 declare module '@docusaurus/plugin-content-docs' {
   import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
+  export interface Assets {
+    image?: string;
+  }
+
   export type NumberPrefixParser = (filename: string) => {
     filename: string;
     numberPrefix?: number;
@@ -159,6 +163,7 @@ declare module '@theme/DocItem' {
   import type {
     PropNavigationLink,
     PropVersionMetadata,
+    Assets,
   } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
@@ -204,12 +209,12 @@ declare module '@theme/DocItem' {
       readonly metadata: Metadata;
       readonly toc: readonly TOCItem[];
       readonly contentTitle: string | undefined;
+      readonly assets: Assets;
       (): JSX.Element;
     };
   }
 
-  const DocItem: (props: Props) => JSX.Element;
-  export default DocItem;
+  export default function DocItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCategoryGeneratedIndexPage' {
@@ -258,8 +263,7 @@ declare module '@theme/DocPage' {
     };
   }
 
-  const DocPage: (props: Props) => JSX.Element;
-  export default DocPage;
+  export default function DocPage(props: Props): JSX.Element;
 }
 
 // TODO until TS supports exports field... hope it's in 4.6

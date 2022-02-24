@@ -15,7 +15,7 @@ interface Props {
   url: string;
 }
 
-function BrowserWindow({
+export default function BrowserWindow({
   children,
   minHeight,
   url = 'http://localhost:3000',
@@ -42,5 +42,3 @@ function BrowserWindow({
     </div>
   );
 }
-
-export default BrowserWindow;

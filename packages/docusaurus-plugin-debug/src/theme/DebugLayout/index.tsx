@@ -25,7 +25,11 @@ function DebugNavLink({to, children}: {to: string; children: ReactNode}) {
   );
 }
 
-function DebugLayout({children}: {children: ReactNode}): JSX.Element {
+export default function DebugLayout({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <>
       <Head>
@@ -53,5 +57,3 @@ function DebugLayout({children}: {children: ReactNode}): JSX.Element {
     </>
   );
 }
-
-export default DebugLayout;

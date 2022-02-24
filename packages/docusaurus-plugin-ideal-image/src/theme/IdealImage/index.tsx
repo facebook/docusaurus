@@ -80,7 +80,7 @@ const getMessage = (icon: IconKey, state: State) => {
   }
 };
 
-function IdealImage(props: Props): JSX.Element {
+export default function IdealImage(props: Props): JSX.Element {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file
@@ -112,5 +112,3 @@ function IdealImage(props: Props): JSX.Element {
     />
   );
 }
-
-export default IdealImage;

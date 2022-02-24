@@ -7,7 +7,14 @@ body:
       value: |
         ## Please help us help you!
 
-        Make it obvious to understand and reproduce this bug. Ideally, we should be able to understand it without running any code.
+        Before filing your issue, ask yourself:
+        - Is this clearly a Docusaurus defect?
+        - Do I have basic ideas about where it goes wrong? (For example, if there are stack traces, are they pointing to one file?)
+        - Could it be because of my own mistakes?
+
+        **The GitHub issue tracker is not a support forum**. If you are not sure whether it could be your mistakes, ask in the [Discord server](https://discord.gg/docusaurus) or [GitHub discussions](https://github.com/facebook/docusaurus/discussions) first. The quickest way to verify whether it's a Docusaurus defect is through a **reproduction**, starting with a fresh installation and making changes until the bug is reproduced.
+
+        Make the bug obvious. Ideally, we should be able to understand it without running any code.
 
         Bugs are fixed faster if you include:
         - A repro repository to inspect the code
@@ -41,13 +48,27 @@ body:
     validations:
       required: true
 
+  - type: input
+    attributes:
+      label: Reproducible demo
+      description: |
+        Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue. It can either be a playground link created from https://new.docusaurus.io, or a git repository.
+
+        > **What happens if you skip this step?** Someone will read your bug report, and maybe will be able to help you, but it’s unlikely that it will get much attention from the team. Eventually, the issue will likely get closed in favor of issues that have reproducible demos.
+
+        Please remember that:
+
+        - Issues without reproducible demos have a very low priority.
+        - The person fixing the bug would have to do that anyway. Please be respectful of their time.
+        - You might figure out the issues yourself as you work on extracting it.
+
+        Thanks for helping us help you!
+
   - type: textarea
     attributes:
       label: Steps to reproduce
-      description: Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
+      description: Write down the steps to reproduce the bug. You should start with a fresh installation, or your git repository linked above.
       placeholder: |
-        Write your steps here.
-
         1. Step 1...
         2. Step 2...
         3. Step 3...
@@ -55,7 +76,6 @@ body:
       required: true
 
   - type: textarea
-
     attributes:
       label: Expected behavior
       description: |
@@ -86,22 +106,6 @@ body:
         - Docusaurus version used:
         - Environment name and version (e.g. Chrome 89, Node.js 16.4):
         - Operating system and version (e.g. Ubuntu 20.04.2 LTS):
-
-  - type: input
-    attributes:
-      label: Reproducible demo
-      description: |
-        Paste the link to an example repo, including a `docusaurus.config.js`, and exact instructions to reproduce the issue. Use https://new.docusaurus.io to create a CodeSandbox reproducible demo of the bug.
-
-        > **What happens if you skip this step?** Someone will read your bug report, and maybe will be able to help you, but it’s unlikely that it will get much attention from the team. Eventually, the issue will likely get closed in favor of issues that have reproducible demos.
-
-        Please remember that:
-
-        - Issues without reproducible demos have a very low priority.
-        - The person fixing the bug would have to do that anyway. Please be respectful of their time.
-        - You might figure out the issues yourself as you work on extracting it.
-
-        Thanks for helping us help you!
 
   - type: checkboxes
     attributes:

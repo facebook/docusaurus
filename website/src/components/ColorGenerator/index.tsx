@@ -34,7 +34,7 @@ function wcagContrast(foreground: string, background: string) {
   return contrast > 7 ? 'AAA 🏅' : contrast > 4.5 ? 'AA 👍' : 'Fail 🔴';
 }
 
-function ColorGenerator(): JSX.Element {
+export default function ColorGenerator(): JSX.Element {
   const {isDarkTheme, setDarkTheme, setLightTheme} = useColorMode();
   const DEFAULT_PRIMARY_COLOR = isDarkTheme
     ? DARK_PRIMARY_COLOR
@@ -301,5 +301,3 @@ ${getAdjustedColors(shades, baseColor)
     </div>
   );
 }
-
-export default ColorGenerator;

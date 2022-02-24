@@ -36,7 +36,7 @@ const {
  *
  * cache data is stored in `~/.config/configstore/update-notifier-@docusaurus`
  */
-async function beforeCli() {
+export default async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
@@ -134,5 +134,3 @@ async function beforeCli() {
     process.exit(1);
   }
 }
-
-export default beforeCli;

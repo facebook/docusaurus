@@ -67,7 +67,7 @@ export interface Options {
   cleanOnceBeforeBuildPatterns?: string[];
 }
 
-class CleanWebpackPlugin {
+export default class CleanWebpackPlugin {
   private readonly verbose: boolean;
   private readonly cleanStaleWebpackAssets: boolean;
   private readonly protectWebpackAssets: boolean;
@@ -250,5 +250,3 @@ class CleanWebpackPlugin {
     }
   }
 }
-
-export default CleanWebpackPlugin;

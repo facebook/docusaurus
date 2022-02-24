@@ -19,7 +19,7 @@ import {ThemeClassNames, useKeyboardNavigation} from '@docusaurus/theme-common';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 
-function Layout(props: Props): JSX.Element {
+export default function Layout(props: Props): JSX.Element {
   const {children, noFooter, wrapperClassName, pageClassName} = props;
 
   useKeyboardNavigation();
@@ -47,5 +47,3 @@ function Layout(props: Props): JSX.Element {
     </LayoutProviders>
   );
 }
-
-export default Layout;
