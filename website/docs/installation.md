@@ -37,9 +37,17 @@ Example:
 npx create-docusaurus@latest website classic
 ```
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+If you do not specify `name` or `template`, it will prompt you for them.
+
+We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
 The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory. If it's a git repository, you can also specify a cloning strategy. Run `npx create-docusaurus@latest --help` for more information.
+
+You can also use the template's TypeScript variant by passing the `--typescript` flag.
+
+```bash
+npx create-docusaurus@latest my-website classic --typescript
+```
 
 :::info FB-Only
 
@@ -51,20 +59,8 @@ npx create-docusaurus@latest my-website facebook
 
 :::
 
-If you want to skip installing dependencies, use the `--skip-install` option, like the following:
-
-```bash
-npx create-docusaurus@latest my-website classic --skip-install
-```
-
-You can also use the template's TypeScript variant by passing the `--typescript` flag.
-
-```bash
-npx create-docusaurus@latest my-website classic --typescript
-```
-
 <details>
-  <summary>Alternative installation methods</summary>
+  <summary>Alternative installation commands</summary>
 
 You can also initialize a new project using your preferred project manager:
 
@@ -95,6 +91,19 @@ pnpm create docusaurus website classic
 ````
 
 </details>
+
+Docusaurus makes best efforts to select a package manager to install dependencies for you, based on the command you are using and the project you are in. You can override this behavior by using `--package-manager [npm/yarn/pnpm]`.
+
+```bash
+# Use Yarn to install dependencies even when the command is npx
+npx create-docusaurus@latest my-website classic --package-manager yarn
+```
+
+If you want to skip installing dependencies, use the `--skip-install` option.
+
+```bash
+npx create-docusaurus@latest my-website classic --skip-install
+```
 
 ## Project structure {#project-structure}
 

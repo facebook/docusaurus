@@ -17,6 +17,8 @@ import {fileURLToPath} from 'url';
 const RecommendedTemplate = 'classic';
 const TypeScriptTemplateSuffix = '-typescript';
 
+// Only used in the rare, rare case of running globally installed create +
+// using --skip-install. We need a default name to show the tip text
 const DefaultPackageManager = 'npm';
 
 const SupportedPackageManagers = {
@@ -54,18 +56,48 @@ function findPackageManagerFromUserAgent():
   );
 }
 
-async function getPackageManager(
-  forceUseNpm?: boolean,
-): Promise<SupportedPackageManager> {
-  // TODO replace --use-npm by --package-manager option
-  if (forceUseNpm) {
+async function askForPackageManagerChoice(): Promise<SupportedPackageManager> {
+  const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
+  const hasPNPM = shell.exec('pnpm --version', {silent: true}).code === 0;
+
+  if (!hasYarn && !hasPNPM) {
     return 'npm';
+  }
+  const choices = ['npm', hasYarn && 'yarn', hasPNPM && 'pnpm']
+    .filter((p): p is string => Boolean(p))
+    .map((p) => ({title: p, value: p}));
+
+  return (
+    await prompts({
+      type: 'select',
+      name: 'packageManager',
+      message: 'Select a package manager...',
+      choices,
+    })
+  ).packageManager;
+}
+
+async function getPackageManager(
+  packageManagerChoice: SupportedPackageManager | undefined,
+  skipInstall: boolean = false,
+): Promise<SupportedPackageManager> {
+  if (
+    packageManagerChoice &&
+    !PackageManagersList.includes(packageManagerChoice)
+  ) {
+    throw new Error(
+      `Invalid package manager choice ${packageManagerChoice}. Must be one of ${PackageManagersList.join(
+        ', ',
+      )}`,
+    );
   }
 
   return (
+    packageManagerChoice ??
     (await findPackageManagerFromLockFile()) ??
     findPackageManagerFromUserAgent() ??
-    DefaultPackageManager
+    // This only happens if the user has a global installation in PATH
+    (skipInstall ? DefaultPackageManager : askForPackageManagerChoice())
   );
 }
 
@@ -169,13 +201,12 @@ export default async function init(
   siteName?: string,
   reqTemplate?: string,
   cliOptions: Partial<{
-    useNpm: boolean;
+    packageManager: SupportedPackageManager;
     skipInstall: boolean;
     typescript: boolean;
     gitStrategy: typeof gitStrategies[number];
   }> = {},
 ): Promise<void> {
-  const pkgManager = await getPackageManager(cliOptions.useNpm);
   const templatesDir = fileURLToPath(new URL('../templates', import.meta.url));
   const templates = await readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
@@ -358,6 +389,10 @@ export default async function init(
 
   // Display the most elegant way to cd.
   const cdpath = path.relative('.', dest);
+  const pkgManager = await getPackageManager(
+    cliOptions.packageManager,
+    cliOptions.skipInstall,
+  );
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
     logger.info`Installing dependencies with name=${pkgManager}...`;
