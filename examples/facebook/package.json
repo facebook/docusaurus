@@ -30,7 +30,7 @@
     "@babel/eslint-parser": "^7.16.3",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
-    "eslint-config-prettier": "^8.4.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
