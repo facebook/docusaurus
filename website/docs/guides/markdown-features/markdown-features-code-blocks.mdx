@@ -430,7 +430,7 @@ export default MyComponent;
 
 ## Interactive code editor {#interactive-code-editor}
 
-(Powered by [React Live](https://github.com/FormidableLabs/react-live))
+(Powered by [React Runner](https://github.com/nihgwu/react-runner))
 
 You can create an interactive coding editor with the `@docusaurus/theme-live-codeblock` plugin. First, add the plugin to your package.
 
@@ -510,13 +510,13 @@ function Clock(props) {
 
 ### Imports {#imports}
 
-:::caution react-live and imports
+:::caution globals and imports
 
-It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
+To use components in the live code editor, you have to define available globals or imports upfront.
 
 :::
 
-By default, all React imports are available. If you need more imports available, swizzle the react-live scope:
+By default, all React imports are available as globals. If you need more globals or imports available, swizzle the live code scope:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-live-codeblock ReactLiveScope
@@ -542,7 +542,7 @@ const ButtonExample = (props) => (
 );
 // highlight-end
 
-// Add react-live imports you need here
+// Add globals you need here
 const ReactLiveScope = {
   React,
   ...React,
@@ -572,42 +572,6 @@ function MyPlayground(props) {
 ```mdx-code-block
 </BrowserWindow>
 ```
-
-### Imperative Rendering (noInline)
-
-The `noInline` option should be used to avoid errors when your code spans multiple components or variables.
-
-````md
-```jsx live noInline
-const project = 'Docusaurus';
-
-const Greeting = () => <p>Hello {project}!</p>;
-
-render(<Greeting />);
-```
-````
-
-Unlike an ordinary interactive code block, when using `noInline` React Live won't wrap your code in an inline function to render it.
-
-You will need to explicitly call `render()` at the end of your code to display the output.
-
-````mdx-code-block
-<BrowserWindow>
-
-```jsx live noInline
-const project = "Docusaurus";
-
-const Greeting = () => (
-  <p>Hello {project}!</p>
-);
-
-render(
-  <Greeting />
-);
-```
-
-</BrowserWindow>
-````
 
 ## Using JSX markup in code blocks {#using-jsx-markup}
 

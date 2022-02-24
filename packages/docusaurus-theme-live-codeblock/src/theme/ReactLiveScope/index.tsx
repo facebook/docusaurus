@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-// Add react-live imports you need here
+// Add globals you need here
 const ReactLiveScope = {
   React,
   ...React,

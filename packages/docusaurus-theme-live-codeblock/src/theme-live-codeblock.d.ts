@@ -17,15 +17,12 @@ declare module '@docusaurus/theme-live-codeblock' {
 }
 
 declare module '@theme/Playground' {
-  import type {Props as BaseProps} from '@theme/CodeBlock';
-  import type {LiveProviderProps} from 'react-live';
+  import type {LiveProviderProps} from 'react-live-runner';
 
-  type CodeBlockProps = Omit<BaseProps, 'className' | 'language' | 'title'>;
-
-  export interface Props extends CodeBlockProps, LiveProviderProps {
-    children: string;
+  export interface Props extends LiveProviderProps {
+    children?: string;
   }
-  export default function Playground(props: LiveProviderProps): JSX.Element;
+  export default function Playground(props: Props): JSX.Element;
 }
 
 declare module '@theme/ReactLiveScope' {
