@@ -21,7 +21,7 @@
     "@docusaurus/logger": "2.0.0-beta.15",
     "@svgr/webpack": "^6.0.0",
     "file-loader": "^6.2.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "github-slugger": "^1.4.0",
     "globby": "^11.0.4",
     "gray-matter": "^4.0.3",

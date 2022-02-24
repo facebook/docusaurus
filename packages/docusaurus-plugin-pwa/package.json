@@ -34,13 +34,13 @@
     "tslib": "^2.3.1",
     "webpack": "^5.69.1",
     "webpack-merge": "^5.8.0",
-    "workbox-build": "^6.4.2",
-    "workbox-precaching": "^6.1.1",
-    "workbox-window": "^6.4.2"
+    "workbox-build": "^6.5.0",
+    "workbox-precaching": "^6.5.0",
+    "workbox-window": "^6.5.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.15",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.1"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

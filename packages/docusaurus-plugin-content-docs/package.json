@@ -29,7 +29,7 @@
     "@docusaurus/utils": "2.0.0-beta.15",
     "@docusaurus/utils-validation": "2.0.0-beta.15",
     "combine-promises": "^1.1.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "import-fresh": "^3.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
