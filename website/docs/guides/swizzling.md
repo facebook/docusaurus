@@ -8,6 +8,11 @@ When [styling with CSS](../styling-layout.md) is not enough, **swizzling** comes
 
 Swizzling allows **deeper site customizations** through **React components**.
 
+In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
+
+- [**Ejecting**](#ejecting): creates a **copy** of the original theme component, which you can fully **customize**
+- [**Wrapping**](#wrapping): creates a **wrapper** around the original theme component, which you can **enhance**
+
 <details>
 
 <summary>Why is it called swizzling?</summary>
@@ -22,12 +27,11 @@ To gain a deeper understanding of this, you have to understand [how theme compon
 
 </details>
 
-In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
+## Swizzling Process
 
-- [**Ejecting**](#ejecting): creates a **copy** of the original theme component, which you can fully **customize**
-- [**Wrapping**](#wrapping): creates a **wrapper** around the original theme component, which you can **enhance**
+### Overview
 
-Docusaurus provides an **interactive CLI** to swizzle components:
+Docusaurus provides an convenient **interactive CLI** to swizzle components:
 
 ```bash npm2yarn
 npm run swizzle
@@ -44,7 +48,7 @@ import React from 'react';
 
 export default function SomeComponent(props) {
   // You can fully customize this implementation
-  // including changing the markup and CSS
+  // including changing the JSX, CSS and React hooks
   return (
     <div className="some-class">
       <h1>Some Component</h1>
@@ -76,6 +80,12 @@ export default function SomeComponentWrapper(props) {
 </Tabs>
 ````
 
+:::note
+
+After swizzling a component, **restart your dev server** in order for Docusaurus to know about the new component.
+
+:::
+
 :::warning
 
 Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
@@ -92,7 +102,7 @@ npm run swizzle --list
 
 :::
 
-## Swizzle CLI {#swizzle-cli}
+### Swizzle CLI {#swizzle-cli}
 
 The swizzle CLI is **interactive**, and you generally only need to remember the following command:
 
@@ -102,11 +112,139 @@ npm run swizzle
 
 :::tip
 
-Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../cli.md#docusaurus-swizzle-sitedir).
+Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../cli.md#docusaurus-swizzle).
 
 :::
 
-## What is safe to swizzle {#what-is-safe-to-swizzle}
+:::info
+
+The swizzle CLI is a **convenient** way to swizzle theme components, but it is not magical.
+
+You can also create the `src/theme/SomeComponent.js` file manually, and Docusaurus will [resolve it](#theme-aliases).
+
+:::
+
+### Ejecting {#ejecting}
+
+Ejecting a theme component is the process of **creating a copy** of the original theme component, which you can **fully customize and override**.
+
+To eject a theme component, use the swizzle CLI interactively, or with the `--eject` option:
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] --eject
+```
+
+An example:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer --eject
+```
+
+This will copy the current `<Footer />` component in your site's `src/theme/Footer` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one.
+
+You are now free to customize the `<Footer>` component with a lot of flexibility.
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+
+export default function Footer(props) {
+  return (
+    <footer>
+      <h1>This is my custom site footer</h1>
+      <p>And it is very different from the original</p>
+    </footer>
+  );
+}
+```
+
+:::caution
+
+Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead to copying a large amount of internal code, that you now **have to maintain over time**.
+
+It can make Docusaurus upgrades more difficult, as you will need to figure out a way to migrate your customizations to the new theme component version.
+
+**Prefer [wrapping](#wrapping) whenever possible**: the amount of code to maintain is smaller.
+
+:::
+
+:::tip
+
+To **keep ejected components up-to-date** after a Docusaurus upgrade, **re-eject** them and compare the changes with `git diff`.
+
+:::
+
+### Wrapping {#wrapping}
+
+Wrapping a theme component is the process of **creating a wrapper** around the original theme component, which you can **enhance**.
+
+To wrap a theme component, use the swizzle CLI interactively, or with the `--wrap` option:
+
+```bash npm2yarn
+npm run swizzle [theme name] [component name] --wrap
+```
+
+An example:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer --wrap
+```
+
+This will create a wrapper in your site's `src/theme/Footer` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one.
+
+You can now add customizations around the original component:
+
+```jsx title="src/theme/SomeComponent.js"
+import React from 'react';
+import Footer from '@theme-original/Footer';
+
+export default function FooterWrapper(props) {
+  return (
+    <>
+      <section>
+        <h2>Extra section</h2>
+        <p>This is an extra section that appears above the original footer</p>
+      </section>
+      <Footer {...props} />
+    </>
+  );
+}
+```
+
+<details>
+  <summary>What is this <code>@theme-original</code> thing?</summary>
+
+Docusaurus uses [theme aliases](#theme-aliases) to resolve the theme components to use.
+
+The newly created wrapper takes the `@theme/SomeComponent` alias.
+
+`@theme-original/SomeComponent` permits to import original component inside the wrapper without creating an infinite import loop where the wrapper imports itself.
+
+</details>
+
+:::tip
+
+Wrapping a theme is a great way to **add extra components around existing one**, without [ejecting](#ejecting) it.
+
+For example, you can easily add a custom comment system under each blog post:
+
+```jsx title="src/theme/BlogPostItem.js"
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
+
+export default function BlogPostItemWrapper(props) {
+  return (
+    <>
+      <BlogPostItem {...props} />
+      <MyCustomCommentSystem />
+    </>
+  );
+}
+```
+
+:::
+
+## What is safe to swizzle? {#what-is-safe-to-swizzle}
 
 > With great power comes great responsibility
 
@@ -120,7 +258,7 @@ Theme authors (including us) might have to update their theme over time: changin
 
 Moreover, internal components may simply disappear. If a component is called `Sidebar` and it's later renamed to `DocSidebar`, your swizzled component will be completely ignored.
 
-**Theme components marked as internal may change in a backward-incompatible way between minor versions.** When upgrading a theme (or Docusaurus), your customizations might **behave unexpectedly**, and can even **break your site**.
+**Theme components marked as unsafe may change in a backward-incompatible way between theme minor versions.** When upgrading a theme (or Docusaurus), your customizations might **behave unexpectedly**, and can even **break your site**.
 
 </details>
 
@@ -148,151 +286,78 @@ If you have a **strong use-case for swizzling an unsafe component**, please [**r
 
 :::
 
-## Ejecting {#ejecting}
+## Which component should I swizzle? {#which-component-should-i-swizzle}
 
-Ejecting a theme component is the process of creating a **copy** of the original theme component, which you can fully customize and override.
+It is not always clear which component you should swizzle exactly to achieve the desired result.
 
----
+You most likely want to swizzle a component from the classic theme `@docusaurus/theme-classic`, but it has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
 
----
+:::tip
 
----
-
----
-
----
-
----
-
-## Old
-
-## Old
-
-## Old
-
-## Old
-
-## Old
-
-## Old
-
-## Old
-
----
-
-In this section, we will introduce how customization of layout is done in Docusaurus.
-
-> Déja vu...?
-
-This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write more code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, from how to swizzle, to how it works under the hood.
-
-We know you are busy, so we will start with the "how" before going into the "why".
-
-## Swizzling {#swizzling}
-
-```mdx-code-block
-import SwizzleWarning from "../_partials/swizzleWarning.mdx"
-
-<SwizzleWarning/>
-```
-
-Docusaurus Themes' components are designed to be replaceable. The replacing is called "swizzle". In Objective C, method swizzling is the process of changing the implementation of an existing selector (method). **In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.** (To gain a deeper understanding of this, you have to understand [how theme components are resolved](#theme-aliases)). To help you get started, we created a command called `docusaurus swizzle`.
-
-### Ejecting theme components {#ejecting-theme-components}
-
-To eject a component provided by the theme, run the following command in your doc site:
-
-```bash npm2yarn
-npm run swizzle [theme name] [component name]
-```
-
-As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
-
-```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Footer
-```
-
-This will copy the current `<Footer />` component used by Docusaurus to an `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use the swizzled component in place of the original one from the theme.
-
-:::note
-
-You need to restart your webpack dev server in order for Docusaurus to know about the new component.
-
-:::
-
-If you run `swizzle` without `component name` or `theme name`, the command will give you a list to choose from. To only list available components, run with the `--list` option:
+To print an overview of all the `@docusaurus/theme-classic` components:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic --list
 ```
 
-"Swizzle" is a central concept in Docusaurus, and is a natural product of our [layered theme architecture](#theme-aliases). Note that the command `docusaurus swizzle` is only an automated way to help you swizzle the component: you can still do it manually by creating the `src/theme/Footer.js` file, and Docusaurus will pick that one up when resolving theme components. There's no internal magic behind this command!
+:::
 
-### Wrapping theme components {#wrapping-theme-components}
+You can follow these steps to locate the appropriate component to swizzle:
 
-Ejecting a component is risky. It means you have to maintain an almost duplicate copy of the original theme component. Also, it's likely that we will change internal implementations in future versions and break your component, even if you never touched that part of the code.
-
-Very often, you don't need to re-implement a component from scratch, but only to render additional items before or after it, or conditionally call some other logic. In this case, you are still going to swizzle the component—but not making a self-sustained one. Instead, you can delegate most of the logic and layout to the original theme component. The `@theme-original` alias allows you to import the original theme component and wrap it as a higher-order component.
-
-Here is an example to display some text just above the footer, with minimal code duplication.
-
-```js title="src/theme/Footer.js"
-import OriginalFooter from '@theme-original/Footer';
-import React from 'react';
-
-export default function Footer(props) {
-  return (
-    <>
-      <div>Before footer</div>
-      <OriginalFooter {...props} />
-    </>
-  );
-}
-```
-
-Should you be wondering why we have to use `'@theme-original/Footer'` instead of `'@theme/Footer'`, a short explanation is that once you have the swizzled component, the `'@theme/Footer'` alias will now point to your swizzled component, and thus cause a self-import. For a more in-depth explanation, see [theme aliases](#theme-aliases).
-
-## Which component should I swizzle? {#which-component-should-i-swizzle}
-
-Currently, `theme-classic` has about 100 components[^source]! If you want to customize a part of your site's layout, which component should you choose?
-
-[^source]: https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme
-
-You can follow the following steps to locate the component to swizzle:
-
-1. **Search.** Our components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
-2. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](../advanced/routing.md#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
-3. **Read the source code and use search wisely.** Topmost components are registered by the plugin with `addRoute`, so you can search for `addRoute` and see which component the plugin references. Afterwards, read the code of all components that this component references.
-4. **Ask.** If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
-
-### Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
-
-The `<Root>` component is one that you probably won't spot. Every component provided by `theme-classic` is ultimately only rendered on certain routes, and will be unmounted during route transition; however, the `<Root>` theme component is rendered at the very top of the Docusaurus SPA, above the router and the theme `<Layout>`, and will **never unmount**, allowing you to wrap your site with additional logic like global state. You can swizzle it by creating a file at `src/theme/Root.js`:
-
-```js title="website/src/theme/Root.js"
-import React from 'react';
-
-// Default implementation, that you can customize
-function Root({children}) {
-  return <>{children}</>;
-}
-
-export default Root;
-```
+1. **Component description.** Some components provide a short description, which is a good way to find the right one.
+2. **Component name.** Official theme components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
+3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](../advanced/routing.md#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
+4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
 
 :::tip
 
-Use this component to render React Context providers and global stateful logic.
+**Just ask!**
+
+If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
+
+We also want to understand better your fanciest customization use-cases, so please [**report them**](https://github.com/facebook/docusaurus/discussions/5468).
 
 :::
 
 ## Do I need to swizzle? {#do-i-need-to-swizzle}
 
-Swizzling ultimately means you have to maintain part of the code directly used to build your site, and you have to interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
+Swizzling ultimately means you have to maintain some additional React code that interact with Docusaurus internal APIs.
+
+If you can, think about the following alternatives when customizing your site:
 
 1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](../styling-layout.md) for more details.
-2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
-3. **The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of breaking during upgrade. [Wrapping](#wrapping-theme-components) is also a far safer alternative to [ejecting](#ejecting-theme-components).
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
+
+:::tip
+
+**The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of **breaking changes** during upgrade.
+
+[Wrapping](#wrapping) is also a far safer alternative to [ejecting](#ejecting).
+
+:::
+
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
+
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**.
+
+It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping card state...).
+
+Swizzle it **manually** by creating a file at `src/theme/Root.js`:
+
+```js title="src/theme/Root.js"
+import React from 'react';
+
+// Default implementation, that you can customize
+export default function Root({children}) {
+  return <>{children}</>;
+}
+```
+
+:::tip
+
+Use this component to render React Context providers.
+
+:::
 
 ## Theme aliases {#theme-aliases}
 
@@ -323,7 +388,7 @@ website
 
 `website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. If you are familiar with Objective C where a function's implementation can be swapped during runtime, it's the exact same concept here with changing the target `@theme/Navbar` is pointing to!
 
-We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](#wrapping-theme-components) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
+We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](#wrapping) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
 
 Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
 
