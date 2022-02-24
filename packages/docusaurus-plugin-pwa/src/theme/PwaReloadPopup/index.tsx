@@ -13,7 +13,7 @@ import type {Props} from '@theme/PwaReloadPopup';
 
 import styles from './styles.module.css';
 
-function PwaReloadPopup({onReload}: Props): JSX.Element | false {
+export default function PwaReloadPopup({onReload}: Props): JSX.Element | false {
   const [isVisible, setIsVisible] = useState(true);
 
   return (
@@ -58,5 +58,3 @@ function PwaReloadPopup({onReload}: Props): JSX.Element | false {
     )
   );
 }
-
-export default PwaReloadPopup;

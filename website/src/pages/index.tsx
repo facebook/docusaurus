@@ -230,7 +230,7 @@ function FeaturesContainer() {
   );
 }
 
-function Home(): JSX.Element {
+export default function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
@@ -250,5 +250,3 @@ function Home(): JSX.Element {
     </Layout>
   );
 }
-
-export default Home;

@@ -11,7 +11,7 @@ import type {Props} from '@theme/BlogPostAuthor';
 
 import styles from './styles.module.css';
 
-function BlogPostAuthor({author}: Props): JSX.Element {
+export default function BlogPostAuthor({author}: Props): JSX.Element {
   const {name, title, url, imageURL} = author;
   return (
     <div className="avatar margin-bottom--sm">
@@ -42,5 +42,3 @@ function BlogPostAuthor({author}: Props): JSX.Element {
     </div>
   );
 }
-
-export default BlogPostAuthor;

@@ -27,7 +27,10 @@ function BrowserOnlyReactJson(props: ReactJsonViewProps) {
   );
 }
 
-function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
+export default function DebugJsonView({
+  src,
+  collapseDepth,
+}: Props): JSX.Element {
   return (
     <BrowserOnlyReactJson
       src={src as object}
@@ -52,5 +55,3 @@ function DebugJsonView({src, collapseDepth}: Props): JSX.Element {
     />
   );
 }
-
-export default DebugJsonView;

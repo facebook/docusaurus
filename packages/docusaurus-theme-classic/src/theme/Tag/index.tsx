@@ -12,7 +12,7 @@ import type {Props} from '@theme/Tag';
 
 import styles from './styles.module.css';
 
-function Tag(props: Props): JSX.Element {
+export default function Tag(props: Props): JSX.Element {
   const {permalink, name, count} = props;
 
   return (
@@ -27,5 +27,3 @@ function Tag(props: Props): JSX.Element {
     </Link>
   );
 }
-
-export default Tag;

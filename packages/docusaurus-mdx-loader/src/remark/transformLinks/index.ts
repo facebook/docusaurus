@@ -18,7 +18,7 @@ import url from 'url';
 import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import {stringifyContent} from '../utils';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Link, Literal} from 'mdast';
 
 const {
@@ -136,15 +136,12 @@ async function processLinkNode(node: Link, context: Context) {
   }
 }
 
-const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root, vfile) => {
+export default function plugin(options: PluginOptions): Transformer {
+  return async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'link', (node: Link) => {
       promises.push(processLinkNode(node, {...options, filePath: vfile.path!}));
     });
     await Promise.all(promises);
   };
-  return transformer;
-};
-
-export default plugin;
+}

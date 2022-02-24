@@ -20,7 +20,7 @@ const pluginName = 'chunk-asset-plugin';
  *
  * "gca" stands for "get chunk asset"
  */
-class ChunkAssetPlugin {
+export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
     compiler.hooks.thisCompilation.tap(pluginName, ({mainTemplate}) => {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
@@ -52,5 +52,3 @@ class ChunkAssetPlugin {
     });
   }
 }
-
-export default ChunkAssetPlugin;

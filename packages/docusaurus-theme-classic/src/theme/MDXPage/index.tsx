@@ -16,7 +16,7 @@ import {ThemeClassNames} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
-function MDXPage(props: Props): JSX.Element {
+export default function MDXPage(props: Props): JSX.Element {
   const {content: MDXPageContent} = props;
   const {
     metadata: {title, description, permalink, frontMatter},
@@ -52,5 +52,3 @@ function MDXPage(props: Props): JSX.Element {
     </Layout>
   );
 }
-
-export default MDXPage;

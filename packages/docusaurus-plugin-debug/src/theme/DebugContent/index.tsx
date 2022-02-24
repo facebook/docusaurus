@@ -54,7 +54,7 @@ function PluginContent({
   );
 }
 
-function DebugContent({allContent}: Props): JSX.Element {
+export default function DebugContent({allContent}: Props): JSX.Element {
   return (
     <DebugLayout>
       <h2>Plugin content</h2>
@@ -77,5 +77,3 @@ function DebugContent({allContent}: Props): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugContent;

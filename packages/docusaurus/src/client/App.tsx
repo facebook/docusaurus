@@ -21,7 +21,7 @@ import './client-lifecycles-dispatcher';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
@@ -37,5 +37,3 @@ function App(): JSX.Element {
     </ErrorBoundary>
   );
 }
-
-export default App;

@@ -19,7 +19,7 @@ import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import {promisify} from 'util';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
 import logger from '@docusaurus/logger';
 
@@ -147,8 +147,8 @@ async function processImageNode(node: Image, context: Context) {
   await toImageRequireNode(node, imagePath, context.filePath);
 }
 
-const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root, vfile) => {
+export default function plugin(options: PluginOptions): Transformer {
+  return async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image) => {
       promises.push(
@@ -157,7 +157,4 @@ const plugin: Plugin<[PluginOptions]> = (options) => {
     });
     await Promise.all(promises);
   };
-  return transformer;
-};
-
-export default plugin;
+}

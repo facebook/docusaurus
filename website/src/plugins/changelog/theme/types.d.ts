@@ -15,6 +15,5 @@ declare module '@theme/IconExpand' {
     expanded?: boolean;
   }
 
-  const IconExpand: (props: Props) => JSX.Element;
-  export default IconExpand;
+  export default function IconExpand(props: Props): JSX.Element;
 }

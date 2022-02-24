@@ -214,8 +214,7 @@ declare module '@theme/DocItem' {
     };
   }
 
-  const DocItem: (props: Props) => JSX.Element;
-  export default DocItem;
+  export default function DocItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCategoryGeneratedIndexPage' {
@@ -264,8 +263,7 @@ declare module '@theme/DocPage' {
     };
   }
 
-  const DocPage: (props: Props) => JSX.Element;
-  export default DocPage;
+  export default function DocPage(props: Props): JSX.Element;
 }
 
 // TODO until TS supports exports field... hope it's in 4.6

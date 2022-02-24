@@ -10,7 +10,7 @@ import useIsBrowser from '@docusaurus/useIsBrowser';
 
 // Similar comp to the one described here:
 // https://www.joshwcomeau.com/react/the-perils-of-rehydration/#abstractions
-function BrowserOnly({
+export default function BrowserOnly({
   children,
   fallback,
 }: {
@@ -32,5 +32,3 @@ Current type: ${isValidElement(children) ? 'React element' : typeof children}`);
 
   return fallback || null;
 }
-
-export default BrowserOnly;

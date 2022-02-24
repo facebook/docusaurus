@@ -8,11 +8,11 @@
 import {Joi} from '@docusaurus/utils-validation';
 import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
 
-const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG = {
   playgroundPosition: 'bottom',
 };
 
-const Schema = Joi.object({
+export const Schema = Joi.object({
   liveCodeBlock: Joi.object({
     playgroundPosition: Joi.string()
       .equal('top', 'bottom')
@@ -22,7 +22,7 @@ const Schema = Joi.object({
     .default(DEFAULT_CONFIG),
 });
 
-function validateThemeConfig({
+export function validateThemeConfig({
   validate,
   themeConfig,
 }: {
@@ -31,5 +31,3 @@ function validateThemeConfig({
 }): ValidationResult<ThemeConfig> {
   return validate(Schema, themeConfig);
 }
-
-export {DEFAULT_CONFIG, Schema, validateThemeConfig};

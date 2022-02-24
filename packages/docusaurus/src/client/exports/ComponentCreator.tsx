@@ -14,7 +14,7 @@ import flat from '../flat';
 
 type OptsLoader = Record<string, typeof registry[keyof typeof registry][0]>;
 
-function ComponentCreator(
+export default function ComponentCreator(
   path: string,
   hash: string,
 ): ReturnType<typeof Loadable> {
@@ -89,5 +89,3 @@ function ComponentCreator(
     },
   });
 }
-
-export default ComponentCreator;

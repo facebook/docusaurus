@@ -16,7 +16,7 @@ import {toValue} from '../utils';
 import type {TOCItem} from '@docusaurus/types';
 import type {Node, Parent} from 'unist';
 import type {Heading, Literal} from 'mdast';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 
 const parseOptions: ParserOptions = {
   plugins: ['jsx'],
@@ -70,17 +70,17 @@ const getOrCreateExistingTargetIndex = (children: Node[], name: string) => {
   return targetIndex;
 };
 
-const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
+export default function plugin(options: PluginOptions = {}): Transformer {
   const name = options.name || 'toc';
 
-  const transformer: Transformer = (node) => {
+  return (root) => {
     const headings: TOCItem[] = [];
 
-    visit(node, 'heading', (child: Heading, _index, parent) => {
+    visit(root, 'heading', (child: Heading, _index, parent) => {
       const value = toString(child);
 
       // depth:1 headings are titles and not included in the TOC
-      if (parent !== node || !value || child.depth < 2) {
+      if (parent !== root || !value || child.depth < 2) {
         return;
       }
 
@@ -90,7 +90,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
         level: child.depth,
       });
     });
-    const {children} = node as Parent<Literal>;
+    const {children} = root as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
     if (headings && headings.length) {
@@ -99,8 +99,4 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       )};`;
     }
   };
-
-  return transformer;
-};
-
-export default plugin;
+}

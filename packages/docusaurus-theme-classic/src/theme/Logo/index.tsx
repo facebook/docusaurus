@@ -14,7 +14,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
-function Logo(props: Props): JSX.Element {
+export default function Logo(props: Props): JSX.Element {
   const {
     siteConfig: {title},
   } = useDocusaurusContext();
@@ -52,5 +52,3 @@ function Logo(props: Props): JSX.Element {
     </Link>
   );
 }
-
-export default Logo;
