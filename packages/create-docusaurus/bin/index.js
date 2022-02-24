@@ -36,7 +36,10 @@ program.version(packageJson.version);
 
 program
   .arguments('[siteName] [template] [rootDir]')
-  .option('--use-npm', 'Use NPM as package manage even with Yarn installed')
+  .option(
+    '--package-manager <manager>',
+    'The package manager used to install dependencies. One of yarn, npm, and pnpm.',
+  )
   .option(
     '--skip-install',
     'Do not run package manager immediately after scaffolding',
@@ -56,10 +59,10 @@ program
       siteName,
       template,
       rootDir = '.',
-      {useNpm, skipInstall, typescript, gitStrategy} = {},
+      {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
       wrapCommand(init)(path.resolve(rootDir), siteName, template, {
-        useNpm,
+        packageManager,
         skipInstall,
         typescript,
         gitStrategy,

@@ -12,13 +12,10 @@ NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version").
 CONTAINER_NAME="verdaccio"
 EXTRA_OPTS=""
 
-usage() { echo "Usage: $0 [-n] [-s]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-s]" 1>&2; exit 1; }
 
 while getopts ":ns" o; do
   case "${o}" in
-    n)
-      EXTRA_OPTS="${EXTRA_OPTS} --use-npm"
-      ;;
     s)
       EXTRA_OPTS="${EXTRA_OPTS} --skip-install"
       ;;
