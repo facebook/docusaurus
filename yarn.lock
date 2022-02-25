@@ -11712,15 +11712,6 @@ jest-runtime@^27.5.1:
     slash "^3.0.0"
     strip-bom "^4.0.0"
 
-jest-serializer-path@^0.1.15:
-  version "0.1.15"
-  resolved "https://registry.npmmirror.com/jest-serializer-path/-/jest-serializer-path-0.1.15.tgz#68528c98e3f8be652484f1c3876228f6864bd662"
-  integrity sha512-sXb+Ckz9LK5bB5sRAXFeG/nwhGn1XBKayy9xhPpgOmAWaljJiS+VN/xJ3P4I19jZ+WejowvO/kES+A9HePTMvQ==
-  dependencies:
-    lodash.clonedeep "^4.5.0"
-    lodash.iserror "^3.1.1"
-    slash "^2.0.0"
-
 jest-serializer@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-serializer/-/jest-serializer-27.5.1.tgz#81438410a30ea66fd57ff730835123dea1fb1f64"
@@ -12506,11 +12497,6 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
 
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.npmmirror.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
-
 lodash.curry@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.curry/-/lodash.curry-4.1.1.tgz#248e36072ede906501d75966200a86dab8b23170"
@@ -12570,11 +12556,6 @@ lodash.isempty@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
   integrity sha512-oKMuF3xEeqDltrGMfDxAPGIVMSSRv8tbRSODbrs4KGsRRLEhrW8N8Rd4DRgB2+621hY8A8XwwrTVhXWpxFvMzg==
-
-lodash.iserror@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.npmmirror.com/lodash.iserror/-/lodash.iserror-3.1.1.tgz#297b9a05fab6714bc2444d7cc19d1d7c44b5ecec"
-  integrity sha512-eT/VeNns9hS7vAj1NKW/rRX6b+C3UX3/IAAqEE7aC4Oo2C0iD82NaP5IS4bSlQsammTii4qBJ8G1zd1LTL8hCw==
 
 lodash.isinteger@^4.0.4:
   version "4.0.4"
