@@ -275,9 +275,9 @@ export function processDocMetadata(args: {
 }): DocMetadataBase {
   try {
     return doProcessDocMetadata(args);
-  } catch (e) {
+  } catch (err) {
     logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
-    throw e;
+    throw err;
   }
 }
 

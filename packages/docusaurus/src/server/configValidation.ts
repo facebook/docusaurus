@@ -131,7 +131,7 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
         warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
       });
     }
-  } catch (e) {}
+  } catch {}
   return value;
 }, 'siteUrlCustomValidation');
 

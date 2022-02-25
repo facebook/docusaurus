@@ -36,7 +36,7 @@ async function getExtraSourceCodeFilePaths(): Promise<string[]> {
       require.resolve('@docusaurus/theme-common/lib'),
     );
     return globSourceCodeFilePaths([themeCommonSourceDir]);
-  } catch (e) {
+  } catch {
     return []; // User may not use a Docusaurus official theme? Quite unlikely...
   }
 }

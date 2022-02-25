@@ -54,9 +54,9 @@ function testField(params: {
               )}`,
             ),
           );
-        } catch (e) {
+        } catch (err) {
           // eslint-disable-next-line jest/no-conditional-expect
-          expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+          expect(err.message).toMatch(new RegExp(escapeStringRegexp(message)));
         }
       });
     });

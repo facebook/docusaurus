@@ -21,10 +21,7 @@ const processFixture = async (name, options) => {
     .use(plugin, {...options, filePath})
     .process(file);
 
-  return result
-    .toString()
-    .replace(/\\\\/g, '/')
-    .replace(new RegExp(process.cwd().replace(/\\/g, '/'), 'g'), '[CWD]');
+  return result.toString();
 };
 
 const staticDirs = [
@@ -59,5 +56,12 @@ describe('transformImage plugin', () => {
   test('pathname protocol', async () => {
     const result = await processFixture('pathname', {staticDirs});
     expect(result).toMatchSnapshot();
+  });
+
+  test('does not choke on invalid image', async () => {
+    const errorMock = jest.spyOn(console, 'error').mockImplementation();
+    const result = await processFixture('invalid-img', {staticDirs});
+    expect(result).toMatchSnapshot();
+    expect(errorMock).toBeCalledTimes(1);
   });
 });

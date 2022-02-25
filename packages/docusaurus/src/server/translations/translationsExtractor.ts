@@ -166,11 +166,9 @@ export async function extractSourceCodeFileTranslations(
       sourceCodeFilePath,
     );
     return translations;
-  } catch (e) {
-    if (e instanceof Error) {
-      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
-    }
-    throw e;
+  } catch (err) {
+    logger.error`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`;
+    throw err;
   }
 }
 

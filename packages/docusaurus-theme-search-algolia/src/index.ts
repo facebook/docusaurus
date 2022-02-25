@@ -85,9 +85,9 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
               faviconUrl: favicon ? normalizeUrl([siteUrl, favicon]) : null,
             }),
           );
-        } catch (e) {
+        } catch (err) {
           logger.error('Generating OpenSearch file failed.');
-          throw e;
+          throw err;
         }
       }
     },

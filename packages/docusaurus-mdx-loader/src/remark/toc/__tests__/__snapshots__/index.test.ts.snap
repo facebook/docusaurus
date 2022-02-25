@@ -26,6 +26,11 @@ exports[`inline code should be escaped 1`] = `
 		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
 		id: 'divitestidiv',
 		level: 2
+	},
+	{
+		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
+		id: 'divitestidiv-1',
+		level: 2
 	}
 ];
 
@@ -38,6 +43,8 @@ exports[`inline code should be escaped 1`] = `
 ## \`<div> Test </div>\`
 
 ## \`<div><i>Test</i></div>\`
+
+## [\`<div><i>Test</i></div>\`](/some/link)
 "
 `;
 

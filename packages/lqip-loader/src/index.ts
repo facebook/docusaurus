@@ -71,8 +71,8 @@ export default async function lqipLoader(
     } else {
       callback(new Error('ERROR'), undefined);
     }
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     callback(new Error('ERROR'), undefined);
   }
 }

@@ -162,7 +162,7 @@ export function getBrokenLinksErrorMessage(
 async function isExistingFile(filePath: string) {
   try {
     return (await fs.stat(filePath)).isFile();
-  } catch (e) {
+  } catch {
     return false;
   }
 }

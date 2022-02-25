@@ -45,18 +45,22 @@ function sanitizedFileContent(
   migrateMDFiles: boolean,
 ): string {
   const extractedData = extractMetadata(content);
-  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, [key, value]) =>
-      `${metaData}\n${key}: ${
-        shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
-      }`,
-    '',
-  );
-  const sanitizedData = `---${extractedMetaData}\n---\n${
-    migrateMDFiles
-      ? sanitizeMD(extractedData.rawContent)
-      : extractedData.rawContent
-  }`;
+  const extractedMetaData = Object.entries(extractedData.metadata)
+    .map(
+      ([key, value]) =>
+        `${key}: ${
+          shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
+        }`,
+    )
+    .join('\n');
+  const sanitizedData = `---
+${extractedMetaData}
+---
+${
+  migrateMDFiles
+    ? sanitizeMD(extractedData.rawContent)
+    : extractedData.rawContent
+}`;
   return sanitizedData;
 }
 
@@ -106,8 +110,8 @@ export async function migrateDocusaurusProject(
   try {
     createClientRedirects(migrationContext);
     logger.success('Created client redirect for non clean URL');
-  } catch (e) {
-    logger.error(`Failed to creating redirects: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to creating redirects: ${err}`);
     errorCount += 1;
   }
   if (shouldMigratePages) {
@@ -116,8 +120,8 @@ export async function migrateDocusaurusProject(
       logger.success(
         'Created new doc pages (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create new doc pages: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create new doc pages: ${err}`);
       errorCount += 1;
     }
   } else {
@@ -126,8 +130,8 @@ export async function migrateDocusaurusProject(
       logger.success(
         'Created landing page (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create landing page: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create landing page: ${err}`);
       errorCount += 1;
     }
   }
@@ -135,34 +139,34 @@ export async function migrateDocusaurusProject(
   try {
     await migrateStaticFiles(migrationContext);
     logger.success('Migrated static folder');
-  } catch (e) {
-    logger.error(`Failed to copy static folder: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to copy static folder: ${err}`);
     errorCount += 1;
   }
   try {
     await migrateBlogFiles(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate blogs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate blogs: ${err}`);
     errorCount += 1;
   }
   try {
     await handleVersioning(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate versioned docs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate versioned docs: ${err}`);
     errorCount += 1;
   }
 
   try {
     await migrateLatestDocs(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate docs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate docs: ${err}`);
     errorCount += 1;
   }
 
   try {
     await migrateLatestSidebar(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate sidebar: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate sidebar: ${err}`);
     errorCount += 1;
   }
 
@@ -174,15 +178,15 @@ export async function migrateDocusaurusProject(
     logger.success(
       `Created a new config file with new navbar and footer config`,
     );
-  } catch (e) {
-    logger.error(`Failed to create config file: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to create config file: ${err}`);
     errorCount += 1;
   }
   try {
     await migratePackageFile(migrationContext);
-  } catch (e) {
+  } catch (err) {
     logger.error(
-      `Error occurred while creating package.json file for project: ${e}`,
+      `Error occurred while creating package.json file for project: ${err}`,
     );
     errorCount += 1;
   }
@@ -387,8 +391,8 @@ async function createPages(context: MigrationContext) {
           await fs.writeFile(filePath, migratePage(content));
         }),
       );
-    } catch (e) {
-      logger.error(`Unable to migrate Pages: ${e}`);
+    } catch (err) {
+      logger.error(`Unable to migrate Pages: ${err}`);
       await createDefaultLandingPage(context);
     }
   } else {
@@ -664,9 +668,7 @@ async function migrateLatestSidebar(context: MigrationContext) {
     await fs.writeFile(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
     context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
-      'src',
-      'css',
-      'customTheme.css',
+      'src/css/customTheme.css',
     );
   }
 }

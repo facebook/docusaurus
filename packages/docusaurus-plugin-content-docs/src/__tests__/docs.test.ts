@@ -123,15 +123,13 @@ function createTestUtils({
   async function generateNavigation(
     docFiles: DocFile[],
   ): Promise<[DocNavLink | undefined, DocNavLink | undefined][]> {
-    const rawDocs = await Promise.all(
-      docFiles.map((docFile) =>
-        processDocMetadata({
-          docFile,
-          versionMetadata,
-          context,
-          options,
-        }),
-      ),
+    const rawDocs = docFiles.map((docFile) =>
+      processDocMetadata({
+        docFile,
+        versionMetadata,
+        context,
+        options,
+      }),
     );
     const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
       sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>

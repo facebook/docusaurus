@@ -90,6 +90,7 @@ goss
 goyal
 gtag
 héctor
+heuristical
 hideable
 hola
 horiz
@@ -227,13 +228,13 @@ roadmap
 rocketvalidator
 rtcts
 rtlcss
-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ
 scaleway
 searchbar
 sebastien
 sébastien
 sebastienlorber
 sensical
+serializers
 setaf
 sida
 simen

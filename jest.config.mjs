@@ -53,4 +53,5 @@ export default {
       location: {href: 'https://docusaurus.io'},
     },
   },
+  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.js'],
 };

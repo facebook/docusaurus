@@ -69,7 +69,7 @@ function getProcessForPort(port: number): string | null {
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
     return logger.interpolate`code=${command} subdue=${`(pid ${processId})`} in path=${directory}`;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -82,47 +82,34 @@ export default async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
-  return detect({port: defaultPort, hostname: host}).then(
-    (port) =>
-      new Promise((resolve) => {
-        if (port === defaultPort) {
-          resolve(port);
-          return;
-        }
-        const message =
-          process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
-            ? `Admin permissions are required to run a server on a port below 1024.`
-            : `Something is already running on port ${defaultPort}.`;
-        if (isInteractive) {
-          clearConsole();
-          const existingProcess = getProcessForPort(defaultPort);
-          const question: prompts.PromptObject = {
-            type: 'confirm',
-            name: 'shouldChangePort',
-            message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
-              existingProcess ? ` Probably:\n  ${existingProcess}` : ''
-            }
+  try {
+    const port = await detect({port: defaultPort, hostname: host});
+    if (port === defaultPort) {
+      return port;
+    }
+    const message =
+      process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
+        ? `Admin permissions are required to run a server on a port below 1024.`
+        : `Something is already running on port ${defaultPort}.`;
+    if (!isInteractive) {
+      logger.error(message);
+      return null;
+    }
+    clearConsole();
+    const existingProcess = getProcessForPort(defaultPort);
+    const {shouldChangePort} = await prompts({
+      type: 'confirm',
+      name: 'shouldChangePort',
+      message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
+        existingProcess ? ` Probably:\n  ${existingProcess}` : ''
+      }
 
 Would you like to run the app on another port instead?`),
-            initial: true,
-          };
-          prompts(question).then((answer) => {
-            if (answer.shouldChangePort === true) {
-              resolve(port);
-            } else {
-              resolve(null);
-            }
-          });
-        } else {
-          logger.error(message);
-          resolve(null);
-        }
-      }),
-    (err) => {
-      throw new Error(
-        `Could not find an open port at ${host}.
-${`Network error message: "${err.message || err}".`}`,
-      );
-    },
-  );
+      initial: true,
+    });
+    return shouldChangePort ? port : null;
+  } catch (err) {
+    logger.error`Could not find an open port at ${host}.`;
+    throw err;
+  }
 }
