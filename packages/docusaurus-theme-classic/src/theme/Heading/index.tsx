@@ -11,7 +11,6 @@ import type {Props} from '@theme/Heading';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
-import './styles.css';
 import styles from './styles.module.css';
 
 function AnchorHeading({as: As, id, ...props}: Props) {
