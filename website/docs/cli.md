@@ -85,9 +85,9 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::
 
-### `docusaurus swizzle [options] [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
 
-[Swizzle](./guides/swizzle.md) a theme component to customize it.
+[Swizzle](./swizzling.md) a theme component to customize it.
 
 ```bash npm2yarn
 npm run swizzle [themeName] [componentName] [siteDir]
@@ -96,19 +96,19 @@ npm run swizzle [themeName] [componentName] [siteDir]
 npm run swizzle @docusaurus/theme-classic Footer --eject
 ```
 
-The swizzle CLI is interactive and will guide you through the whole [swizzle process](./guides/swizzle.md).
+The swizzle CLI is interactive and will guide you through the whole [swizzle process](./swizzling.md).
 
 #### Options {#options-swizzle}
 
-| Name            | Description                                               |
-| --------------- | --------------------------------------------------------- |
-| `themeName`     | The name of the theme to swizzle from.                    |
-| `componentName` | The name of the theme component to swizzle.               |
-| `--list`        | Display components available for swizzling                |
-| `--eject`       | [Eject](./guides/swizzle.md#ejecting) the theme component |
-| `--wrap`        | [Wrap](./guides/swizzle.md#wrapping) the theme component  |
-| `--danger`      | Allow immediate swizzling of unsafe components            |
-| `--typescript`  | Swizzle the TypeScript variant component                  |
+| Name            | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `themeName`     | The name of the theme to swizzle from.               |
+| `componentName` | The name of the theme component to swizzle.          |
+| `--list`        | Display components available for swizzling           |
+| `--eject`       | [Eject](./swizzling.md#ejecting) the theme component |
+| `--wrap`        | [Wrap](./swizzling.md#wrapping) the theme component  |
+| `--danger`      | Allow immediate swizzling of unsafe components       |
+| `--typescript`  | Swizzle the TypeScript variant component             |
 
 :::caution
 
