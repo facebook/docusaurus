@@ -93,7 +93,7 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 npm run swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
-npm run swizzle @docusaurus/theme-classic Footer --eject
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
 ```
 
 The swizzle CLI is interactive and will guide you through the whole [swizzle process](./swizzling.md).

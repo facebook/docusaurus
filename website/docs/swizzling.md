@@ -85,7 +85,7 @@ export default function SomeComponentWrapper(props) {
 To get an overview of all the themes and components available to swizzle, run:
 
 ```bash npm2yarn
-npm run swizzle --list
+npm run swizzle -- --list
 ```
 
 Use `--help` to see all available CLI options, or refer to the reference [swizzle CLI documentation](./cli.md#docusaurus-swizzle).
@@ -115,13 +115,13 @@ Ejecting a theme component is the process of **creating a copy** of the original
 To eject a theme component, use the swizzle CLI interactively, or with the `--eject` option:
 
 ```bash npm2yarn
-npm run swizzle [theme name] [component name] --eject
+npm run swizzle [theme name] [component name] -- --eject
 ```
 
 An example:
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Footer --eject
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
 ```
 
 This will copy the current `<Footer />` component's implementation to your site's `src/theme` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one. You are now free to completely re-implement the `<Footer>` component.
@@ -160,13 +160,13 @@ Wrapping a theme component is the process of **creating a wrapper** around the o
 To wrap a theme component, use the swizzle CLI interactively, or with the `--wrap` option:
 
 ```bash npm2yarn
-npm run swizzle [theme name] [component name] --wrap
+npm run swizzle [theme name] [component name] -- --wrap
 ```
 
 An example:
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Footer --wrap
+npm run swizzle @docusaurus/theme-classic Footer -- --wrap
 ```
 
 This will create a wrapper in your site's `src/theme` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one. You can now add customizations around the original component.
@@ -267,7 +267,7 @@ It is not always clear which component you should swizzle exactly to achieve the
 To print an overview of all the `@docusaurus/theme-classic` components:
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic --list
+npm run swizzle @docusaurus/theme-classic -- --list
 ```
 
 :::
