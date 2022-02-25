@@ -55,7 +55,7 @@ export type TagType =
   | 'design'
   | 'i18n'
   | 'versioning'
-  | 'large'
+  | ''meta'
   | 'meta'
   | 'personal'
   | 'rtl';
