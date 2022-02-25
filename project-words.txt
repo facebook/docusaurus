@@ -227,7 +227,6 @@ roadmap
 rocketvalidator
 rtcts
 rtlcss
-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ
 scaleway
 searchbar
 sebastien
