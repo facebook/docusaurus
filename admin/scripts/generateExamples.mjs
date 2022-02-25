@@ -92,9 +92,9 @@ async function generateTemplateExample(template) {
     );
 
     console.log(`Generated example for template ${template}`);
-  } catch (error) {
+  } catch (err) {
     console.error(`Failed to generated example for template ${template}`);
-    throw error;
+    throw err;
   }
 }
 
@@ -115,12 +115,12 @@ function updateStarters() {
       console.log(`forcePushGitSubtree command: ${command}`);
       shell.exec(command);
       console.log('forcePushGitSubtree success!');
-    } catch (e) {
+    } catch (err) {
       console.error(
         `Can't force push to git subtree with command '${command}'`,
       );
       console.error(`If it's a permission problem, ask @slorber`);
-      console.error(e);
+      console.error(err);
     }
     console.log('');
   }

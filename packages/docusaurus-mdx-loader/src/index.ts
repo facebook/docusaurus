@@ -58,10 +58,9 @@ type Options = RemarkAndRehypePluginOptions & {
 async function readMetadataPath(metadataPath: string) {
   try {
     return await fs.readFile(metadataPath, 'utf8');
-  } catch (e) {
-    throw new Error(
-      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-    );
+  } catch (err) {
+    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
+    throw err;
   }
 }
 

@@ -61,9 +61,9 @@ async function readCategoriesMetadata(contentPath: string) {
       );
       try {
         return validateCategoryMetadataFile(Yaml.load(content));
-      } catch (e) {
+      } catch (err) {
         logger.error`The docs sidebar category metadata file path=${filePath} looks invalid!`;
-        throw e;
+        throw err;
       }
     }),
   );

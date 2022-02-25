@@ -61,9 +61,9 @@ export default async function beforeCli() {
       notifier.config.set('lastUpdateCheck', 0);
       notifier.check();
     }
-  } catch (e) {
+  } catch (err) {
     // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
-    logger.error(e);
+    logger.error(err);
   }
 
   /**

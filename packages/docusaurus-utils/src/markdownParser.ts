@@ -193,9 +193,9 @@ export function parseMarkdownString(
       contentTitle,
       excerpt,
     };
-  } catch (e) {
+  } catch (err) {
     logger.error(`Error while parsing Markdown front matter.
 This can happen if you use special characters in front matter values (try using double quotes around that value).`);
-    throw e;
+    throw err;
   }
 }
