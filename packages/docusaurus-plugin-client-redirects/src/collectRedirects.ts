@@ -64,8 +64,8 @@ function validateCollectedRedirects(
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e) {
-        return (e as Error).message;
+      } catch (err) {
+        return (err as Error).message;
       }
     })
     .filter(Boolean);

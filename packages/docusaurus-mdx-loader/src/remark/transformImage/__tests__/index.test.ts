@@ -60,4 +60,11 @@ describe('transformImage plugin', () => {
     const result = await processFixture('pathname', {staticDirs});
     expect(result).toMatchSnapshot();
   });
+
+  test('does not choke on invalid image', async () => {
+    const errorMock = jest.spyOn(console, 'error').mockImplementation();
+    const result = await processFixture('invalid-img', {staticDirs});
+    expect(result).toMatchSnapshot();
+    expect(errorMock).toBeCalledTimes(1);
+  });
 });

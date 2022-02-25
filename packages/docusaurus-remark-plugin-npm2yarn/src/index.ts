@@ -6,7 +6,7 @@
  */
 
 import type {Code, Content, Literal} from 'mdast';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Node, Parent} from 'unist';
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
@@ -59,11 +59,11 @@ const nodeForImport: Literal = {
     "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
-const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
+export default function plugin(options: PluginOptions = {}): Transformer {
   const {sync = false} = options;
   let transformed = false;
   let alreadyImported = false;
-  const transformer: Transformer = (root) => {
+  return (root) => {
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;
@@ -87,9 +87,9 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       (root as Parent).children.unshift(nodeForImport);
     }
   };
-  return transformer;
-};
+}
 
-// To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ
-// TODO change to export default after migrating to ESM
-export = plugin;
+// TODO remove when migrating to ESM
+// The plugin can only be `require`d without .default with this
+module.exports = plugin;
+module.exports.default = plugin;

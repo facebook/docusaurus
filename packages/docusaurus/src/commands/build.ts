@@ -56,9 +56,9 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-    } catch (e) {
+    } catch (err) {
       logger.error`Unable to build website for locale name=${locale}.`;
-      throw e;
+      throw err;
     }
   }
   const context = await loadContext(siteDir, {

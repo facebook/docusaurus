@@ -75,3 +75,64 @@ Object {
   },
 }
 `;
+
+exports[`loadBlog test blog tags: no pagination 1`] = `
+Object {
+  "/blog/tags/tag-1": Object {
+    "items": Array [
+      "/simple/slug/another",
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "name": "tag1",
+    "pages": Array [
+      Object {
+        "items": Array [
+          "/simple/slug/another",
+          "/another/tags",
+          "/another/tags2",
+        ],
+        "metadata": Object {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": null,
+          "page": 1,
+          "permalink": "/blog/tags/tag-1",
+          "postsPerPage": 3,
+          "previousPage": null,
+          "totalCount": 3,
+          "totalPages": 1,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-1",
+  },
+  "/blog/tags/tag-2": Object {
+    "items": Array [
+      "/another/tags",
+      "/another/tags2",
+    ],
+    "name": "tag2",
+    "pages": Array [
+      Object {
+        "items": Array [
+          "/another/tags",
+          "/another/tags2",
+        ],
+        "metadata": Object {
+          "blogDescription": "Blog",
+          "blogTitle": "Blog",
+          "nextPage": null,
+          "page": 1,
+          "permalink": "/blog/tags/tag-2",
+          "postsPerPage": 2,
+          "previousPage": null,
+          "totalCount": 2,
+          "totalPages": 1,
+        },
+      },
+    ],
+    "permalink": "/blog/tags/tag-2",
+  },
+}
+`;

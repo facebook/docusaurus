@@ -27,9 +27,9 @@ function shellExecLog(cmd: string) {
     const result = shell.exec(cmd);
     logger.info`code=${obfuscateGitPass(cmd)} subdue=${`code: ${result.code}`}`;
     return result;
-  } catch (e) {
+  } catch (err) {
     logger.error`code=${obfuscateGitPass(cmd)}`;
-    throw e;
+    throw err;
   }
 }
 
@@ -235,10 +235,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
     try {
       await fs.copy(fromPath, toPath);
-    } catch (error) {
-      throw new Error(
-        `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
-      );
+    } catch (err) {
+      logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
+      throw err;
     }
     shellExecLog('git add --all');
 
@@ -272,9 +271,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
     // Build site, then push to deploymentBranch branch of specified repo.
     try {
       await runDeploy(await build(siteDir, cliOptions, false));
-    } catch (buildError) {
-      logger.error((buildError as Error).message);
-      process.exit(1);
+    } catch (err) {
+      logger.error('Deployment of the build output failed.');
+      throw err;
     }
   } else {
     // Push current build to deploymentBranch branch of specified repo.

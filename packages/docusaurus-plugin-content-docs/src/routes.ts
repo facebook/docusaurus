@@ -178,8 +178,8 @@ export async function createVersionRoutes({
 
   try {
     return await doCreateVersionRoutes(loadedVersion);
-  } catch (e) {
+  } catch (err) {
     logger.error`Can't create version routes for version name=${loadedVersion.versionName}`;
-    throw e;
+    throw err;
   }
 }

@@ -233,10 +233,10 @@ export default class CleanWebpackPlugin {
           console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
-    } catch (error) {
+    } catch (err) {
       const needsForce =
         /Cannot delete files\/folders outside the current working directory\./.test(
-          (error as Error).message,
+          (err as Error).message,
         );
 
       if (needsForce) {
@@ -246,7 +246,7 @@ export default class CleanWebpackPlugin {
         throw new Error(message);
       }
 
-      throw error;
+      throw err;
     }
   }
 }
