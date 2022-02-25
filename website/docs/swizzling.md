@@ -4,7 +4,7 @@ description: Customize your site's appearance through creating your own theme co
 
 # Swizzling
 
-When [styling with CSS](../styling-layout.md) is not enough, **swizzling** comes into play.
+When [styling with CSS](./styling-layout.md) is not enough, **swizzling** comes into play.
 
 Swizzling allows **deeper site customizations** through **React components**.
 
@@ -112,7 +112,7 @@ npm run swizzle
 
 :::tip
 
-Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](../cli.md#docusaurus-swizzle).
+Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](./cli.md#docusaurus-swizzle).
 
 :::
 
@@ -306,7 +306,7 @@ You can follow these steps to locate the appropriate component to swizzle:
 
 1. **Component description.** Some components provide a short description, which is a good way to find the right one.
 2. **Component name.** Official theme components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
-3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](../advanced/routing.md#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
+3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.md#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
 4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
 
 :::tip
@@ -325,8 +325,8 @@ Swizzling ultimately means you have to maintain some additional React code that 
 
 If you can, think about the following alternatives when customizing your site:
 
-1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](../styling-layout.md) for more details.
-2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](../i18n/i18n-tutorial.md) for more details.
+1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](./styling-layout.md) for more details.
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](./i18n/i18n-tutorial.md) for more details.
 
 :::tip
 
