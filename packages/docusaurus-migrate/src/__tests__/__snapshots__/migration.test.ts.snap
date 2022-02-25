@@ -3,12 +3,12 @@
 exports[`migration test complex website: copy 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/static",
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/static",
-  ],
-  Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/blog",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/blog",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/static",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/static",
   ],
 ]
 `;
@@ -16,10 +16,10 @@ Array [
 exports[`migration test complex website: mkdirp 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css",
   ],
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/",
   ],
 ]
 `;
@@ -28,29 +28,6 @@ exports[`migration test complex website: mkdirs 1`] = `Array []`;
 
 exports[`migration test complex website: write 1`] = `
 Array [
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css/customTheme.css",
-    ":root{
-  --ifm-color-primary-lightest: #3CAD6E;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-light: #33925D;
-  --ifm-color-primary: #2E8555;
-  --ifm-color-primary-dark: #29784C;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205D3B;
-}
-",
-  ],
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/docusaurus.config.js",
     "module.exports={
@@ -189,49 +166,8 @@ Array [
   }
 }",
   ],
-]
-`;
-
-exports[`migration test missing versions: copy 1`] = `
-Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/static",
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/static",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/blog",
-  ],
-]
-`;
-
-exports[`migration test missing versions: mkdirp 1`] = `
-Array [
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css",
-  ],
-]
-`;
-
-exports[`migration test missing versions: mkdirs 1`] = `Array []`;
-
-exports[`migration test missing versions: write 1`] = `
-Array [
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css/customTheme.css",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css/customTheme.css",
     ":root{
   --ifm-color-primary-lightest: #3CAD6E;
   --ifm-color-primary-lighter: #359962;
@@ -243,6 +179,47 @@ Array [
 }
 ",
   ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
+
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
+]
+`;
+
+exports[`migration test missing versions: copy 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/blog",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/static",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/static",
+  ],
+]
+`;
+
+exports[`migration test missing versions: mkdirp 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/",
+  ],
+]
+`;
+
+exports[`migration test missing versions: mkdirs 1`] = `Array []`;
+
+exports[`migration test missing versions: write 1`] = `
+Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/docusaurus.config.js",
     "module.exports={
@@ -381,6 +358,29 @@ Array [
   }
 }",
   ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css/customTheme.css",
+    ":root{
+  --ifm-color-primary-lightest: #3CAD6E;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-light: #33925D;
+  --ifm-color-primary: #2E8555;
+  --ifm-color-primary-dark: #29784C;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205D3B;
+}
+",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
+
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
 ]
 `;
 
@@ -396,10 +396,10 @@ Array [
 exports[`migration test simple website: mkdirp 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css",
   ],
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/",
   ],
 ]
 `;
@@ -408,47 +408,6 @@ exports[`migration test simple website: mkdirs 1`] = `Array []`;
 
 exports[`migration test simple website: write 1`] = `
 Array [
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-commands.md",
-    "---
-id: commands
-title: CLI Commands
----
-
-## Doc ",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-doc-markdown.md",
-    "---
-id: doc-markdown
-title: Markdown Features
----
-
-## Doc",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css/customTheme.css",
-    ":root{
-  --ifm-color-primary-lightest: #3CAD6E;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-light: #33925D;
-  --ifm-color-primary: #2E8555;
-  --ifm-color-primary-dark: #29784C;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205D3B;
-}
-",
-  ],
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/docusaurus.config.js",
     "module.exports={
@@ -587,6 +546,47 @@ title: Markdown Features
     \\"react-dom\\": \\"^17.0.2\\"
   }
 }",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css/customTheme.css",
+    ":root{
+  --ifm-color-primary-lightest: #3CAD6E;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-light: #33925D;
+  --ifm-color-primary: #2E8555;
+  --ifm-color-primary-dark: #29784C;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205D3B;
+}
+",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
+
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-commands.md",
+    "---
+id: commands
+title: CLI Commands
+---
+
+## Doc ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-doc-markdown.md",
+    "---
+id: doc-markdown
+title: Markdown Features
+---
+
+## Doc",
   ],
 ]
 `;
