@@ -11,6 +11,7 @@
 
 const slash = require('slash');
 const _ = require('lodash');
+const {escapePath} = require('@docusaurus/utils');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
@@ -131,8 +132,13 @@ function normalizePaths(value) {
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTemp}`)
         .join('<HOME_DIR>'), // untested
 
+    // In case the CWD is escaped
+    (val) => val.split(escapePath(cwd)).join('<PROJECT_ROOT>'),
+
     // Remove win32 drive letters, C:\ -> \
     (val) => val.replace(/[a-zA-Z]:\\/g, '\\'),
+
+    // Remove duplicate backslashes created from escapePath
     (val) => val.replace(/\\\\/g, '\\'),
 
     // Convert win32 backslash's to forward slashes, \ -> /
