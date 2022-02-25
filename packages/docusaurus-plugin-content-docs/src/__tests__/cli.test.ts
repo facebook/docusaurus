@@ -74,7 +74,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
+      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (/). Try something like: 1.0.0."`,
     );
     await expect(() =>
       cliDocsVersionCommand(
@@ -84,7 +84,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\\\). Try something like: 1.0.0."`,
+      `"[docs]: invalid version tag specified! Do not include slash (/) or backslash (/). Try something like: 1.0.0."`,
     );
   });
 

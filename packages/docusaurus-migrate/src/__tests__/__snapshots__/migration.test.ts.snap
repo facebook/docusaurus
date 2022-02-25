@@ -1,25 +1,592 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`migration test complex website: copy 1`] = `"[[\\"[fixtureDir]/complex_website/website/static\\",\\"[fixtureDir]/migrated_complex_site/static\\"],[\\"[fixtureDir]/complex_website/website/blog\\",\\"[fixtureDir]/migrated_complex_site/blog\\"]]"`;
+exports[`migration test complex website: copy 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/static",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/static",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/blog",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/blog",
+  ],
+]
+`;
 
-exports[`migration test complex website: mkdirp 1`] = `"[[\\"[fixtureDir]/migrated_complex_site/src/pages/\\"],[\\"[fixtureDir]/migrated_complex_site/src/css\\"]]"`;
+exports[`migration test complex website: mkdirp 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css",
+  ],
+]
+`;
 
-exports[`migration test complex website: mkdirs 1`] = `"[]"`;
+exports[`migration test complex website: mkdirs 1`] = `Array []`;
 
-exports[`migration test complex website: write 1`] = `"[[\\"[fixtureDir]/migrated_complex_site/src/pages/index.js\\",\\"import Layout from \\\\\\"@theme/Layout\\\\\\";\\\\n      import React from \\\\\\"react\\\\\\";\\\\n\\\\n      export default () => {\\\\n        return <Layout />;\\\\n      };\\\\n      \\"],[\\"[fixtureDir]/migrated_complex_site/src/css/customTheme.css\\",\\":root{\\\\n  --ifm-color-primary-lightest: #3CAD6E;\\\\n  --ifm-color-primary-lighter: #359962;\\\\n  --ifm-color-primary-light: #33925D;\\\\n  --ifm-color-primary: #2E8555;\\\\n  --ifm-color-primary-dark: #29784C;\\\\n  --ifm-color-primary-darker: #277148;\\\\n  --ifm-color-primary-darkest: #205D3B;\\\\n}\\\\n\\"],[\\"[fixtureDir]/migrated_complex_site/docusaurus.config.js\\",\\"module.exports={\\\\n  \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n  \\\\\\"tagline\\\\\\": \\\\\\"Easy to Maintain Open Source Documentation Websites\\\\\\",\\\\n  \\\\\\"url\\\\\\": \\\\\\"https://docusaurus.io\\\\\\",\\\\n  \\\\\\"baseUrl\\\\\\": \\\\\\"/\\\\\\",\\\\n  \\\\\\"organizationName\\\\\\": \\\\\\"facebook\\\\\\",\\\\n  \\\\\\"projectName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n  \\\\\\"noIndex\\\\\\": false,\\\\n  \\\\\\"scripts\\\\\\": [\\\\n    \\\\\\"https://buttons.github.io/buttons.js\\\\\\",\\\\n    \\\\\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\\\\\",\\\\n    \\\\\\"/js/code-blocks-buttons.js\\\\\\"\\\\n  ],\\\\n  \\\\\\"favicon\\\\\\": \\\\\\"img/docusaurus.ico\\\\\\",\\\\n  \\\\\\"customFields\\\\\\": {\\\\n    \\\\\\"users\\\\\\": {\\\\n      \\\\\\"caption\\\\\\": \\\\\\"DevSpace\\\\\\",\\\\n      \\\\\\"image\\\\\\": \\\\\\"/img/users/devspace.svg\\\\\\",\\\\n      \\\\\\"infoLink\\\\\\": \\\\\\"https://devspace.cloud/docs/\\\\\\",\\\\n      \\\\\\"fbOpenSource\\\\\\": false,\\\\n      \\\\\\"pinned\\\\\\": false\\\\n    },\\\\n    \\\\\\"translationRecruitingLink\\\\\\": \\\\\\"https://crowdin.com/project/docusaurus\\\\\\",\\\\n    \\\\\\"facebookAppId\\\\\\": \\\\\\"199138890728411\\\\\\"\\\\n  },\\\\n  \\\\\\"onBrokenLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"onBrokenMarkdownLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"presets\\\\\\": [\\\\n    [\\\\n      \\\\\\"@docusaurus/preset-classic\\\\\\",\\\\n      {\\\\n        \\\\\\"docs\\\\\\": {\\\\n          \\\\\\"showLastUpdateAuthor\\\\\\": true,\\\\n          \\\\\\"showLastUpdateTime\\\\\\": true,\\\\n          \\\\\\"editUrl\\\\\\": \\\\\\"https://github.com/facebook/docusaurus/edit/main/docs/\\\\\\"\\\\n        },\\\\n        \\\\\\"blog\\\\\\": {},\\\\n        \\\\\\"theme\\\\\\": {\\\\n          \\\\\\"customCss\\\\\\": \\\\\\"../complex_website/src/css/customTheme.css\\\\\\"\\\\n        },\\\\n        \\\\\\"googleAnalytics\\\\\\": {\\\\n          \\\\\\"trackingID\\\\\\": \\\\\\"UA-44373548-31\\\\\\"\\\\n        }\\\\n      }\\\\n    ]\\\\n  ],\\\\n  \\\\\\"plugins\\\\\\": [],\\\\n  \\\\\\"themeConfig\\\\\\": {\\\\n    \\\\\\"navbar\\\\\\": {\\\\n      \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus.svg\\\\\\"\\\\n      },\\\\n      \\\\\\"items\\\\\\": [\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/installation\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Docs\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/tutorial-setup\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Tutorial\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"/users\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Users\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"href\\\\\\": \\\\\\"https://github.com/facebook/docusaurus\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"GitHub\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        }\\\\n      ]\\\\n    },\\\\n    \\\\\\"image\\\\\\": \\\\\\"img/docusaurus.png\\\\\\",\\\\n    \\\\\\"footer\\\\\\": {\\\\n      \\\\\\"links\\\\\\": [\\\\n        {\\\\n          \\\\\\"title\\\\\\": \\\\\\"Community\\\\\\",\\\\n          \\\\\\"items\\\\\\": [\\\\n            {\\\\n              \\\\\\"label\\\\\\": \\\\\\"Twitter\\\\\\",\\\\n              \\\\\\"to\\\\\\": \\\\\\"https://twitter.com/docusaurus\\\\\\"\\\\n            }\\\\n          ]\\\\n        }\\\\n      ],\\\\n      \\\\\\"copyright\\\\\\": \\\\\\"Copyright © 2022 Facebook Inc.\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus_monochrome.svg\\\\\\"\\\\n      }\\\\n    },\\\\n    \\\\\\"algolia\\\\\\": {\\\\n      \\\\\\"apiKey\\\\\\": \\\\\\"3eb9507824b8be89e7a199ecaa1a9d2c\\\\\\",\\\\n      \\\\\\"indexName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n      \\\\\\"algoliaOptions\\\\\\": {\\\\n        \\\\\\"facetFilters\\\\\\": [\\\\n          \\\\\\"language:LANGUAGE\\\\\\",\\\\n          \\\\\\"version:VERSION\\\\\\"\\\\n        ]\\\\n      }\\\\n    }\\\\n  }\\\\n}\\"],[\\"[fixtureDir]/migrated_complex_site/package.json\\",\\"{\\\\n  \\\\\\"name\\\\\\": \\\\\\"docusaurus-1-website\\\\\\",\\\\n  \\\\\\"version\\\\\\": \\\\\\"2.0.0-alpha.58\\\\\\",\\\\n  \\\\\\"private\\\\\\": true,\\\\n  \\\\\\"scripts\\\\\\": {\\\\n    \\\\\\"start\\\\\\": \\\\\\"docusaurus start\\\\\\",\\\\n    \\\\\\"build\\\\\\": \\\\\\"docusaurus build\\\\\\",\\\\n    \\\\\\"publish-gh-pages\\\\\\": \\\\\\"docusaurus-publish\\\\\\",\\\\n    \\\\\\"examples\\\\\\": \\\\\\"docusaurus-examples\\\\\\",\\\\n    \\\\\\"write-translations\\\\\\": \\\\\\"docusaurus-write-translations\\\\\\",\\\\n    \\\\\\"docusaurus-version\\\\\\": \\\\\\"docusaurus-version\\\\\\",\\\\n    \\\\\\"rename-version\\\\\\": \\\\\\"docusaurus-rename-version\\\\\\",\\\\n    \\\\\\"crowdin-upload\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\\\\\",\\\\n    \\\\\\"crowdin-download\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml download -b master\\\\\\",\\\\n    \\\\\\"swizzle\\\\\\": \\\\\\"docusaurus swizzle\\\\\\",\\\\n    \\\\\\"deploy\\\\\\": \\\\\\"docusaurus deploy\\\\\\",\\\\n    \\\\\\"docusaurus\\\\\\": \\\\\\"docusaurus\\\\\\"\\\\n  },\\\\n  \\\\\\"dependencies\\\\\\": {\\\\n    \\\\\\"@docusaurus/core\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"@docusaurus/preset-classic\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"clsx\\\\\\": \\\\\\"^1.1.1\\\\\\",\\\\n    \\\\\\"react\\\\\\": \\\\\\"^17.0.2\\\\\\",\\\\n    \\\\\\"react-dom\\\\\\": \\\\\\"^17.0.2\\\\\\"\\\\n  }\\\\n}\\"]]"`;
+exports[`migration test complex website: write 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
 
-exports[`migration test missing versions: copy 1`] = `"[[\\"[fixtureDir]/missing_version_website/website/static\\",\\"[fixtureDir]/migrated_missing_version_site/static\\"],[\\"[fixtureDir]/missing_version_website/website/blog\\",\\"[fixtureDir]/migrated_missing_version_site/blog\\"]]"`;
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css/customTheme.css",
+    ":root{
+  --ifm-color-primary-lightest: #3CAD6E;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-light: #33925D;
+  --ifm-color-primary: #2E8555;
+  --ifm-color-primary-dark: #29784C;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205D3B;
+}
+",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/docusaurus.config.js",
+    "module.exports={
+  \\"title\\": \\"Docusaurus\\",
+  \\"tagline\\": \\"Easy to Maintain Open Source Documentation Websites\\",
+  \\"url\\": \\"https://docusaurus.io\\",
+  \\"baseUrl\\": \\"/\\",
+  \\"organizationName\\": \\"facebook\\",
+  \\"projectName\\": \\"docusaurus\\",
+  \\"noIndex\\": false,
+  \\"scripts\\": [
+    \\"https://buttons.github.io/buttons.js\\",
+    \\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\",
+    \\"/js/code-blocks-buttons.js\\"
+  ],
+  \\"favicon\\": \\"img/docusaurus.ico\\",
+  \\"customFields\\": {
+    \\"users\\": {
+      \\"caption\\": \\"DevSpace\\",
+      \\"image\\": \\"/img/users/devspace.svg\\",
+      \\"infoLink\\": \\"https://devspace.cloud/docs/\\",
+      \\"fbOpenSource\\": false,
+      \\"pinned\\": false
+    },
+    \\"translationRecruitingLink\\": \\"https://crowdin.com/project/docusaurus\\",
+    \\"facebookAppId\\": \\"199138890728411\\"
+  },
+  \\"onBrokenLinks\\": \\"log\\",
+  \\"onBrokenMarkdownLinks\\": \\"log\\",
+  \\"presets\\": [
+    [
+      \\"@docusaurus/preset-classic\\",
+      {
+        \\"docs\\": {
+          \\"showLastUpdateAuthor\\": true,
+          \\"showLastUpdateTime\\": true,
+          \\"editUrl\\": \\"https://github.com/facebook/docusaurus/edit/main/docs/\\"
+        },
+        \\"blog\\": {},
+        \\"theme\\": {
+          \\"customCss\\": \\"../complex_website/src/css/customTheme.css\\"
+        },
+        \\"googleAnalytics\\": {
+          \\"trackingID\\": \\"UA-44373548-31\\"
+        }
+      }
+    ]
+  ],
+  \\"plugins\\": [],
+  \\"themeConfig\\": {
+    \\"navbar\\": {
+      \\"title\\": \\"Docusaurus\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus.svg\\"
+      },
+      \\"items\\": [
+        {
+          \\"to\\": \\"docs/installation\\",
+          \\"label\\": \\"Docs\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"docs/tutorial-setup\\",
+          \\"label\\": \\"Tutorial\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"/users\\",
+          \\"label\\": \\"Users\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"href\\": \\"https://github.com/facebook/docusaurus\\",
+          \\"label\\": \\"GitHub\\",
+          \\"position\\": \\"left\\"
+        }
+      ]
+    },
+    \\"image\\": \\"img/docusaurus.png\\",
+    \\"footer\\": {
+      \\"links\\": [
+        {
+          \\"title\\": \\"Community\\",
+          \\"items\\": [
+            {
+              \\"label\\": \\"Twitter\\",
+              \\"to\\": \\"https://twitter.com/docusaurus\\"
+            }
+          ]
+        }
+      ],
+      \\"copyright\\": \\"Copyright © 2022 Facebook Inc.\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus_monochrome.svg\\"
+      }
+    },
+    \\"algolia\\": {
+      \\"apiKey\\": \\"3eb9507824b8be89e7a199ecaa1a9d2c\\",
+      \\"indexName\\": \\"docusaurus\\",
+      \\"algoliaOptions\\": {
+        \\"facetFilters\\": [
+          \\"language:LANGUAGE\\",
+          \\"version:VERSION\\"
+        ]
+      }
+    }
+  }
+}",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/package.json",
+    "{
+  \\"name\\": \\"docusaurus-1-website\\",
+  \\"version\\": \\"2.0.0-alpha.58\\",
+  \\"private\\": true,
+  \\"scripts\\": {
+    \\"start\\": \\"docusaurus start\\",
+    \\"build\\": \\"docusaurus build\\",
+    \\"publish-gh-pages\\": \\"docusaurus-publish\\",
+    \\"examples\\": \\"docusaurus-examples\\",
+    \\"write-translations\\": \\"docusaurus-write-translations\\",
+    \\"docusaurus-version\\": \\"docusaurus-version\\",
+    \\"rename-version\\": \\"docusaurus-rename-version\\",
+    \\"crowdin-upload\\": \\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\",
+    \\"crowdin-download\\": \\"crowdin --config ../crowdin.yaml download -b master\\",
+    \\"swizzle\\": \\"docusaurus swizzle\\",
+    \\"deploy\\": \\"docusaurus deploy\\",
+    \\"docusaurus\\": \\"docusaurus\\"
+  },
+  \\"dependencies\\": {
+    \\"@docusaurus/core\\": \\"2.0.0-beta.15\\",
+    \\"@docusaurus/preset-classic\\": \\"2.0.0-beta.15\\",
+    \\"clsx\\": \\"^1.1.1\\",
+    \\"react\\": \\"^17.0.2\\",
+    \\"react-dom\\": \\"^17.0.2\\"
+  }
+}",
+  ],
+]
+`;
 
-exports[`migration test missing versions: mkdirp 1`] = `"[[\\"[fixtureDir]/migrated_missing_version_site/src/pages/\\"],[\\"[fixtureDir]/migrated_missing_version_site/src/css\\"]]"`;
+exports[`migration test missing versions: copy 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/static",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/static",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/blog",
+  ],
+]
+`;
 
-exports[`migration test missing versions: mkdirs 1`] = `"[]"`;
+exports[`migration test missing versions: mkdirp 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css",
+  ],
+]
+`;
 
-exports[`migration test missing versions: write 1`] = `"[[\\"[fixtureDir]/migrated_missing_version_site/src/pages/index.js\\",\\"import Layout from \\\\\\"@theme/Layout\\\\\\";\\\\n      import React from \\\\\\"react\\\\\\";\\\\n\\\\n      export default () => {\\\\n        return <Layout />;\\\\n      };\\\\n      \\"],[\\"[fixtureDir]/migrated_missing_version_site/src/css/customTheme.css\\",\\":root{\\\\n  --ifm-color-primary-lightest: #3CAD6E;\\\\n  --ifm-color-primary-lighter: #359962;\\\\n  --ifm-color-primary-light: #33925D;\\\\n  --ifm-color-primary: #2E8555;\\\\n  --ifm-color-primary-dark: #29784C;\\\\n  --ifm-color-primary-darker: #277148;\\\\n  --ifm-color-primary-darkest: #205D3B;\\\\n}\\\\n\\"],[\\"[fixtureDir]/migrated_missing_version_site/docusaurus.config.js\\",\\"module.exports={\\\\n  \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n  \\\\\\"tagline\\\\\\": \\\\\\"Easy to Maintain Open Source Documentation Websites\\\\\\",\\\\n  \\\\\\"url\\\\\\": \\\\\\"https://docusaurus.io\\\\\\",\\\\n  \\\\\\"baseUrl\\\\\\": \\\\\\"/\\\\\\",\\\\n  \\\\\\"organizationName\\\\\\": \\\\\\"facebook\\\\\\",\\\\n  \\\\\\"projectName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n  \\\\\\"noIndex\\\\\\": false,\\\\n  \\\\\\"scripts\\\\\\": [\\\\n    \\\\\\"https://buttons.github.io/buttons.js\\\\\\",\\\\n    \\\\\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\\\\\",\\\\n    \\\\\\"/js/code-blocks-buttons.js\\\\\\"\\\\n  ],\\\\n  \\\\\\"favicon\\\\\\": \\\\\\"img/docusaurus.ico\\\\\\",\\\\n  \\\\\\"customFields\\\\\\": {\\\\n    \\\\\\"users\\\\\\": {\\\\n      \\\\\\"caption\\\\\\": \\\\\\"DevSpace\\\\\\",\\\\n      \\\\\\"image\\\\\\": \\\\\\"/img/users/devspace.svg\\\\\\",\\\\n      \\\\\\"infoLink\\\\\\": \\\\\\"https://devspace.cloud/docs/\\\\\\",\\\\n      \\\\\\"fbOpenSource\\\\\\": false,\\\\n      \\\\\\"pinned\\\\\\": false\\\\n    },\\\\n    \\\\\\"translationRecruitingLink\\\\\\": \\\\\\"https://crowdin.com/project/docusaurus\\\\\\",\\\\n    \\\\\\"facebookAppId\\\\\\": \\\\\\"199138890728411\\\\\\"\\\\n  },\\\\n  \\\\\\"onBrokenLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"onBrokenMarkdownLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"presets\\\\\\": [\\\\n    [\\\\n      \\\\\\"@docusaurus/preset-classic\\\\\\",\\\\n      {\\\\n        \\\\\\"docs\\\\\\": {\\\\n          \\\\\\"showLastUpdateAuthor\\\\\\": true,\\\\n          \\\\\\"showLastUpdateTime\\\\\\": true,\\\\n          \\\\\\"editUrl\\\\\\": \\\\\\"https://github.com/facebook/docusaurus/edit/main/docs/\\\\\\"\\\\n        },\\\\n        \\\\\\"blog\\\\\\": {},\\\\n        \\\\\\"theme\\\\\\": {\\\\n          \\\\\\"customCss\\\\\\": \\\\\\"../missing_version_website/src/css/customTheme.css\\\\\\"\\\\n        },\\\\n        \\\\\\"googleAnalytics\\\\\\": {\\\\n          \\\\\\"trackingID\\\\\\": \\\\\\"UA-44373548-31\\\\\\"\\\\n        }\\\\n      }\\\\n    ]\\\\n  ],\\\\n  \\\\\\"plugins\\\\\\": [],\\\\n  \\\\\\"themeConfig\\\\\\": {\\\\n    \\\\\\"navbar\\\\\\": {\\\\n      \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus.svg\\\\\\"\\\\n      },\\\\n      \\\\\\"items\\\\\\": [\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/installation\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Docs\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/tutorial-setup\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Tutorial\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"/users\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Users\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"href\\\\\\": \\\\\\"https://github.com/facebook/docusaurus\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"GitHub\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        }\\\\n      ]\\\\n    },\\\\n    \\\\\\"image\\\\\\": \\\\\\"img/docusaurus.png\\\\\\",\\\\n    \\\\\\"footer\\\\\\": {\\\\n      \\\\\\"links\\\\\\": [\\\\n        {\\\\n          \\\\\\"title\\\\\\": \\\\\\"Community\\\\\\",\\\\n          \\\\\\"items\\\\\\": [\\\\n            {\\\\n              \\\\\\"label\\\\\\": \\\\\\"Twitter\\\\\\",\\\\n              \\\\\\"to\\\\\\": \\\\\\"https://twitter.com/docusaurus\\\\\\"\\\\n            }\\\\n          ]\\\\n        }\\\\n      ],\\\\n      \\\\\\"copyright\\\\\\": \\\\\\"Copyright © 2022 Facebook Inc.\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus_monochrome.svg\\\\\\"\\\\n      }\\\\n    },\\\\n    \\\\\\"algolia\\\\\\": {\\\\n      \\\\\\"apiKey\\\\\\": \\\\\\"3eb9507824b8be89e7a199ecaa1a9d2c\\\\\\",\\\\n      \\\\\\"indexName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n      \\\\\\"algoliaOptions\\\\\\": {\\\\n        \\\\\\"facetFilters\\\\\\": [\\\\n          \\\\\\"language:LANGUAGE\\\\\\",\\\\n          \\\\\\"version:VERSION\\\\\\"\\\\n        ]\\\\n      }\\\\n    }\\\\n  }\\\\n}\\"],[\\"[fixtureDir]/migrated_missing_version_site/package.json\\",\\"{\\\\n  \\\\\\"name\\\\\\": \\\\\\"docusaurus-1-website\\\\\\",\\\\n  \\\\\\"version\\\\\\": \\\\\\"2.0.0-alpha.58\\\\\\",\\\\n  \\\\\\"private\\\\\\": true,\\\\n  \\\\\\"scripts\\\\\\": {\\\\n    \\\\\\"start\\\\\\": \\\\\\"docusaurus start\\\\\\",\\\\n    \\\\\\"build\\\\\\": \\\\\\"docusaurus build\\\\\\",\\\\n    \\\\\\"publish-gh-pages\\\\\\": \\\\\\"docusaurus-publish\\\\\\",\\\\n    \\\\\\"examples\\\\\\": \\\\\\"docusaurus-examples\\\\\\",\\\\n    \\\\\\"write-translations\\\\\\": \\\\\\"docusaurus-write-translations\\\\\\",\\\\n    \\\\\\"docusaurus-version\\\\\\": \\\\\\"docusaurus-version\\\\\\",\\\\n    \\\\\\"rename-version\\\\\\": \\\\\\"docusaurus-rename-version\\\\\\",\\\\n    \\\\\\"crowdin-upload\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\\\\\",\\\\n    \\\\\\"crowdin-download\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml download -b master\\\\\\",\\\\n    \\\\\\"swizzle\\\\\\": \\\\\\"docusaurus swizzle\\\\\\",\\\\n    \\\\\\"deploy\\\\\\": \\\\\\"docusaurus deploy\\\\\\",\\\\n    \\\\\\"docusaurus\\\\\\": \\\\\\"docusaurus\\\\\\"\\\\n  },\\\\n  \\\\\\"dependencies\\\\\\": {\\\\n    \\\\\\"@docusaurus/core\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"@docusaurus/preset-classic\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"clsx\\\\\\": \\\\\\"^1.1.1\\\\\\",\\\\n    \\\\\\"react\\\\\\": \\\\\\"^17.0.2\\\\\\",\\\\n    \\\\\\"react-dom\\\\\\": \\\\\\"^17.0.2\\\\\\"\\\\n  }\\\\n}\\"]]"`;
+exports[`migration test missing versions: mkdirs 1`] = `Array []`;
 
-exports[`migration test simple website: copy 1`] = `"[[\\"[fixtureDir]/simple_website/website/static\\",\\"[fixtureDir]/migrated_simple_site/static\\"]]"`;
+exports[`migration test missing versions: write 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
 
-exports[`migration test simple website: mkdirp 1`] = `"[[\\"[fixtureDir]/migrated_simple_site/src/pages/\\"],[\\"[fixtureDir]/migrated_simple_site/src/css\\"]]"`;
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css/customTheme.css",
+    ":root{
+  --ifm-color-primary-lightest: #3CAD6E;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-light: #33925D;
+  --ifm-color-primary: #2E8555;
+  --ifm-color-primary-dark: #29784C;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205D3B;
+}
+",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/docusaurus.config.js",
+    "module.exports={
+  \\"title\\": \\"Docusaurus\\",
+  \\"tagline\\": \\"Easy to Maintain Open Source Documentation Websites\\",
+  \\"url\\": \\"https://docusaurus.io\\",
+  \\"baseUrl\\": \\"/\\",
+  \\"organizationName\\": \\"facebook\\",
+  \\"projectName\\": \\"docusaurus\\",
+  \\"noIndex\\": false,
+  \\"scripts\\": [
+    \\"https://buttons.github.io/buttons.js\\",
+    \\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\",
+    \\"/js/code-blocks-buttons.js\\"
+  ],
+  \\"favicon\\": \\"img/docusaurus.ico\\",
+  \\"customFields\\": {
+    \\"users\\": {
+      \\"caption\\": \\"DevSpace\\",
+      \\"image\\": \\"/img/users/devspace.svg\\",
+      \\"infoLink\\": \\"https://devspace.cloud/docs/\\",
+      \\"fbOpenSource\\": false,
+      \\"pinned\\": false
+    },
+    \\"translationRecruitingLink\\": \\"https://crowdin.com/project/docusaurus\\",
+    \\"facebookAppId\\": \\"199138890728411\\"
+  },
+  \\"onBrokenLinks\\": \\"log\\",
+  \\"onBrokenMarkdownLinks\\": \\"log\\",
+  \\"presets\\": [
+    [
+      \\"@docusaurus/preset-classic\\",
+      {
+        \\"docs\\": {
+          \\"showLastUpdateAuthor\\": true,
+          \\"showLastUpdateTime\\": true,
+          \\"editUrl\\": \\"https://github.com/facebook/docusaurus/edit/main/docs/\\"
+        },
+        \\"blog\\": {},
+        \\"theme\\": {
+          \\"customCss\\": \\"../missing_version_website/src/css/customTheme.css\\"
+        },
+        \\"googleAnalytics\\": {
+          \\"trackingID\\": \\"UA-44373548-31\\"
+        }
+      }
+    ]
+  ],
+  \\"plugins\\": [],
+  \\"themeConfig\\": {
+    \\"navbar\\": {
+      \\"title\\": \\"Docusaurus\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus.svg\\"
+      },
+      \\"items\\": [
+        {
+          \\"to\\": \\"docs/installation\\",
+          \\"label\\": \\"Docs\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"docs/tutorial-setup\\",
+          \\"label\\": \\"Tutorial\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"/users\\",
+          \\"label\\": \\"Users\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"href\\": \\"https://github.com/facebook/docusaurus\\",
+          \\"label\\": \\"GitHub\\",
+          \\"position\\": \\"left\\"
+        }
+      ]
+    },
+    \\"image\\": \\"img/docusaurus.png\\",
+    \\"footer\\": {
+      \\"links\\": [
+        {
+          \\"title\\": \\"Community\\",
+          \\"items\\": [
+            {
+              \\"label\\": \\"Twitter\\",
+              \\"to\\": \\"https://twitter.com/docusaurus\\"
+            }
+          ]
+        }
+      ],
+      \\"copyright\\": \\"Copyright © 2022 Facebook Inc.\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus_monochrome.svg\\"
+      }
+    },
+    \\"algolia\\": {
+      \\"apiKey\\": \\"3eb9507824b8be89e7a199ecaa1a9d2c\\",
+      \\"indexName\\": \\"docusaurus\\",
+      \\"algoliaOptions\\": {
+        \\"facetFilters\\": [
+          \\"language:LANGUAGE\\",
+          \\"version:VERSION\\"
+        ]
+      }
+    }
+  }
+}",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/package.json",
+    "{
+  \\"name\\": \\"docusaurus-1-website\\",
+  \\"version\\": \\"2.0.0-alpha.58\\",
+  \\"private\\": true,
+  \\"scripts\\": {
+    \\"start\\": \\"docusaurus start\\",
+    \\"build\\": \\"docusaurus build\\",
+    \\"publish-gh-pages\\": \\"docusaurus-publish\\",
+    \\"examples\\": \\"docusaurus-examples\\",
+    \\"write-translations\\": \\"docusaurus-write-translations\\",
+    \\"docusaurus-version\\": \\"docusaurus-version\\",
+    \\"rename-version\\": \\"docusaurus-rename-version\\",
+    \\"crowdin-upload\\": \\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\",
+    \\"crowdin-download\\": \\"crowdin --config ../crowdin.yaml download -b master\\",
+    \\"swizzle\\": \\"docusaurus swizzle\\",
+    \\"deploy\\": \\"docusaurus deploy\\",
+    \\"docusaurus\\": \\"docusaurus\\"
+  },
+  \\"dependencies\\": {
+    \\"@docusaurus/core\\": \\"2.0.0-beta.15\\",
+    \\"@docusaurus/preset-classic\\": \\"2.0.0-beta.15\\",
+    \\"clsx\\": \\"^1.1.1\\",
+    \\"react\\": \\"^17.0.2\\",
+    \\"react-dom\\": \\"^17.0.2\\"
+  }
+}",
+  ],
+]
+`;
 
-exports[`migration test simple website: mkdirs 1`] = `"[]"`;
+exports[`migration test simple website: copy 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/static",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/static",
+  ],
+]
+`;
 
-exports[`migration test simple website: write 1`] = `"[[\\"[fixtureDir]/migrated_simple_site/src/pages/index.js\\",\\"import Layout from \\\\\\"@theme/Layout\\\\\\";\\\\n      import React from \\\\\\"react\\\\\\";\\\\n\\\\n      export default () => {\\\\n        return <Layout />;\\\\n      };\\\\n      \\"],[\\"[fixtureDir]/simple_website/docs/api-commands.md\\",\\"---\\\\nid: commands\\\\ntitle: CLI Commands\\\\n---\\\\n\\\\n## Doc \\"],[\\"[fixtureDir]/simple_website/docs/api-doc-markdown.md\\",\\"---\\\\nid: doc-markdown\\\\ntitle: Markdown Features\\\\n---\\\\n\\\\n## Doc\\"],[\\"[fixtureDir]/migrated_simple_site/src/css/customTheme.css\\",\\":root{\\\\n  --ifm-color-primary-lightest: #3CAD6E;\\\\n  --ifm-color-primary-lighter: #359962;\\\\n  --ifm-color-primary-light: #33925D;\\\\n  --ifm-color-primary: #2E8555;\\\\n  --ifm-color-primary-dark: #29784C;\\\\n  --ifm-color-primary-darker: #277148;\\\\n  --ifm-color-primary-darkest: #205D3B;\\\\n}\\\\n\\"],[\\"[fixtureDir]/migrated_simple_site/docusaurus.config.js\\",\\"module.exports={\\\\n  \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n  \\\\\\"tagline\\\\\\": \\\\\\"Easy to Maintain Open Source Documentation Websites\\\\\\",\\\\n  \\\\\\"url\\\\\\": \\\\\\"https://docusaurus.io\\\\\\",\\\\n  \\\\\\"baseUrl\\\\\\": \\\\\\"/\\\\\\",\\\\n  \\\\\\"organizationName\\\\\\": \\\\\\"facebook\\\\\\",\\\\n  \\\\\\"projectName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n  \\\\\\"noIndex\\\\\\": false,\\\\n  \\\\\\"scripts\\\\\\": [\\\\n    \\\\\\"https://buttons.github.io/buttons.js\\\\\\",\\\\n    \\\\\\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\\\\\",\\\\n    \\\\\\"/js/code-blocks-buttons.js\\\\\\"\\\\n  ],\\\\n  \\\\\\"favicon\\\\\\": \\\\\\"img/docusaurus.ico\\\\\\",\\\\n  \\\\\\"customFields\\\\\\": {\\\\n    \\\\\\"users\\\\\\": {\\\\n      \\\\\\"caption\\\\\\": \\\\\\"DevSpace\\\\\\",\\\\n      \\\\\\"image\\\\\\": \\\\\\"/img/users/devspace.svg\\\\\\",\\\\n      \\\\\\"infoLink\\\\\\": \\\\\\"https://devspace.cloud/docs/\\\\\\",\\\\n      \\\\\\"fbOpenSource\\\\\\": false,\\\\n      \\\\\\"pinned\\\\\\": false\\\\n    },\\\\n    \\\\\\"translationRecruitingLink\\\\\\": \\\\\\"https://crowdin.com/project/docusaurus\\\\\\",\\\\n    \\\\\\"facebookAppId\\\\\\": \\\\\\"199138890728411\\\\\\"\\\\n  },\\\\n  \\\\\\"onBrokenLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"onBrokenMarkdownLinks\\\\\\": \\\\\\"log\\\\\\",\\\\n  \\\\\\"presets\\\\\\": [\\\\n    [\\\\n      \\\\\\"@docusaurus/preset-classic\\\\\\",\\\\n      {\\\\n        \\\\\\"docs\\\\\\": {\\\\n          \\\\\\"showLastUpdateAuthor\\\\\\": true,\\\\n          \\\\\\"showLastUpdateTime\\\\\\": true,\\\\n          \\\\\\"editUrl\\\\\\": \\\\\\"https://github.com/facebook/docusaurus/edit/main/docs/\\\\\\",\\\\n          \\\\\\"path\\\\\\": \\\\\\"../simple_website/docs\\\\\\"\\\\n        },\\\\n        \\\\\\"blog\\\\\\": {},\\\\n        \\\\\\"theme\\\\\\": {\\\\n          \\\\\\"customCss\\\\\\": \\\\\\"../simple_website/src/css/customTheme.css\\\\\\"\\\\n        },\\\\n        \\\\\\"googleAnalytics\\\\\\": {\\\\n          \\\\\\"trackingID\\\\\\": \\\\\\"UA-44373548-31\\\\\\"\\\\n        }\\\\n      }\\\\n    ]\\\\n  ],\\\\n  \\\\\\"plugins\\\\\\": [],\\\\n  \\\\\\"themeConfig\\\\\\": {\\\\n    \\\\\\"navbar\\\\\\": {\\\\n      \\\\\\"title\\\\\\": \\\\\\"Docusaurus\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus.svg\\\\\\"\\\\n      },\\\\n      \\\\\\"items\\\\\\": [\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/installation\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Docs\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"docs/tutorial-setup\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Tutorial\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"to\\\\\\": \\\\\\"/users\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"Users\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        },\\\\n        {\\\\n          \\\\\\"href\\\\\\": \\\\\\"https://github.com/facebook/docusaurus\\\\\\",\\\\n          \\\\\\"label\\\\\\": \\\\\\"GitHub\\\\\\",\\\\n          \\\\\\"position\\\\\\": \\\\\\"left\\\\\\"\\\\n        }\\\\n      ]\\\\n    },\\\\n    \\\\\\"image\\\\\\": \\\\\\"img/docusaurus.png\\\\\\",\\\\n    \\\\\\"footer\\\\\\": {\\\\n      \\\\\\"links\\\\\\": [\\\\n        {\\\\n          \\\\\\"title\\\\\\": \\\\\\"Community\\\\\\",\\\\n          \\\\\\"items\\\\\\": [\\\\n            {\\\\n              \\\\\\"label\\\\\\": \\\\\\"Twitter\\\\\\",\\\\n              \\\\\\"to\\\\\\": \\\\\\"https://twitter.com/docusaurus\\\\\\"\\\\n            }\\\\n          ]\\\\n        }\\\\n      ],\\\\n      \\\\\\"copyright\\\\\\": \\\\\\"Copyright © 2022 Facebook Inc.\\\\\\",\\\\n      \\\\\\"logo\\\\\\": {\\\\n        \\\\\\"src\\\\\\": \\\\\\"img/docusaurus_monochrome.svg\\\\\\"\\\\n      }\\\\n    },\\\\n    \\\\\\"algolia\\\\\\": {\\\\n      \\\\\\"apiKey\\\\\\": \\\\\\"3eb9507824b8be89e7a199ecaa1a9d2c\\\\\\",\\\\n      \\\\\\"indexName\\\\\\": \\\\\\"docusaurus\\\\\\",\\\\n      \\\\\\"algoliaOptions\\\\\\": {\\\\n        \\\\\\"facetFilters\\\\\\": [\\\\n          \\\\\\"language:LANGUAGE\\\\\\",\\\\n          \\\\\\"version:VERSION\\\\\\"\\\\n        ]\\\\n      }\\\\n    }\\\\n  }\\\\n}\\"],[\\"[fixtureDir]/migrated_simple_site/package.json\\",\\"{\\\\n  \\\\\\"name\\\\\\": \\\\\\"docusaurus-1-website\\\\\\",\\\\n  \\\\\\"version\\\\\\": \\\\\\"2.0.0-alpha.58\\\\\\",\\\\n  \\\\\\"private\\\\\\": true,\\\\n  \\\\\\"scripts\\\\\\": {\\\\n    \\\\\\"start\\\\\\": \\\\\\"docusaurus start\\\\\\",\\\\n    \\\\\\"build\\\\\\": \\\\\\"docusaurus build\\\\\\",\\\\n    \\\\\\"publish-gh-pages\\\\\\": \\\\\\"docusaurus-publish\\\\\\",\\\\n    \\\\\\"examples\\\\\\": \\\\\\"docusaurus-examples\\\\\\",\\\\n    \\\\\\"write-translations\\\\\\": \\\\\\"docusaurus-write-translations\\\\\\",\\\\n    \\\\\\"docusaurus-version\\\\\\": \\\\\\"docusaurus-version\\\\\\",\\\\n    \\\\\\"rename-version\\\\\\": \\\\\\"docusaurus-rename-version\\\\\\",\\\\n    \\\\\\"crowdin-upload\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\\\\\",\\\\n    \\\\\\"crowdin-download\\\\\\": \\\\\\"crowdin --config ../crowdin.yaml download -b master\\\\\\",\\\\n    \\\\\\"swizzle\\\\\\": \\\\\\"docusaurus swizzle\\\\\\",\\\\n    \\\\\\"deploy\\\\\\": \\\\\\"docusaurus deploy\\\\\\",\\\\n    \\\\\\"docusaurus\\\\\\": \\\\\\"docusaurus\\\\\\"\\\\n  },\\\\n  \\\\\\"dependencies\\\\\\": {\\\\n    \\\\\\"@docusaurus/core\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"@docusaurus/preset-classic\\\\\\": \\\\\\"2.0.0-beta.15\\\\\\",\\\\n    \\\\\\"clsx\\\\\\": \\\\\\"^1.1.1\\\\\\",\\\\n    \\\\\\"react\\\\\\": \\\\\\"^17.0.2\\\\\\",\\\\n    \\\\\\"react-dom\\\\\\": \\\\\\"^17.0.2\\\\\\"\\\\n  }\\\\n}\\"]]"`;
+exports[`migration test simple website: mkdirp 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css",
+  ],
+]
+`;
+
+exports[`migration test simple website: mkdirs 1`] = `Array []`;
+
+exports[`migration test simple website: write 1`] = `
+Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/index.js",
+    "import Layout from \\"@theme/Layout\\";
+      import React from \\"react\\";
+
+      export default () => {
+        return <Layout />;
+      };
+      ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-commands.md",
+    "---
+id: commands
+title: CLI Commands
+---
+
+## Doc ",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-doc-markdown.md",
+    "---
+id: doc-markdown
+title: Markdown Features
+---
+
+## Doc",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css/customTheme.css",
+    ":root{
+  --ifm-color-primary-lightest: #3CAD6E;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-light: #33925D;
+  --ifm-color-primary: #2E8555;
+  --ifm-color-primary-dark: #29784C;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205D3B;
+}
+",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/docusaurus.config.js",
+    "module.exports={
+  \\"title\\": \\"Docusaurus\\",
+  \\"tagline\\": \\"Easy to Maintain Open Source Documentation Websites\\",
+  \\"url\\": \\"https://docusaurus.io\\",
+  \\"baseUrl\\": \\"/\\",
+  \\"organizationName\\": \\"facebook\\",
+  \\"projectName\\": \\"docusaurus\\",
+  \\"noIndex\\": false,
+  \\"scripts\\": [
+    \\"https://buttons.github.io/buttons.js\\",
+    \\"https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js\\",
+    \\"/js/code-blocks-buttons.js\\"
+  ],
+  \\"favicon\\": \\"img/docusaurus.ico\\",
+  \\"customFields\\": {
+    \\"users\\": {
+      \\"caption\\": \\"DevSpace\\",
+      \\"image\\": \\"/img/users/devspace.svg\\",
+      \\"infoLink\\": \\"https://devspace.cloud/docs/\\",
+      \\"fbOpenSource\\": false,
+      \\"pinned\\": false
+    },
+    \\"translationRecruitingLink\\": \\"https://crowdin.com/project/docusaurus\\",
+    \\"facebookAppId\\": \\"199138890728411\\"
+  },
+  \\"onBrokenLinks\\": \\"log\\",
+  \\"onBrokenMarkdownLinks\\": \\"log\\",
+  \\"presets\\": [
+    [
+      \\"@docusaurus/preset-classic\\",
+      {
+        \\"docs\\": {
+          \\"showLastUpdateAuthor\\": true,
+          \\"showLastUpdateTime\\": true,
+          \\"editUrl\\": \\"https://github.com/facebook/docusaurus/edit/main/docs/\\",
+          \\"path\\": \\"../simple_website/docs\\"
+        },
+        \\"blog\\": {},
+        \\"theme\\": {
+          \\"customCss\\": \\"../simple_website/src/css/customTheme.css\\"
+        },
+        \\"googleAnalytics\\": {
+          \\"trackingID\\": \\"UA-44373548-31\\"
+        }
+      }
+    ]
+  ],
+  \\"plugins\\": [],
+  \\"themeConfig\\": {
+    \\"navbar\\": {
+      \\"title\\": \\"Docusaurus\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus.svg\\"
+      },
+      \\"items\\": [
+        {
+          \\"to\\": \\"docs/installation\\",
+          \\"label\\": \\"Docs\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"docs/tutorial-setup\\",
+          \\"label\\": \\"Tutorial\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"to\\": \\"/users\\",
+          \\"label\\": \\"Users\\",
+          \\"position\\": \\"left\\"
+        },
+        {
+          \\"href\\": \\"https://github.com/facebook/docusaurus\\",
+          \\"label\\": \\"GitHub\\",
+          \\"position\\": \\"left\\"
+        }
+      ]
+    },
+    \\"image\\": \\"img/docusaurus.png\\",
+    \\"footer\\": {
+      \\"links\\": [
+        {
+          \\"title\\": \\"Community\\",
+          \\"items\\": [
+            {
+              \\"label\\": \\"Twitter\\",
+              \\"to\\": \\"https://twitter.com/docusaurus\\"
+            }
+          ]
+        }
+      ],
+      \\"copyright\\": \\"Copyright © 2022 Facebook Inc.\\",
+      \\"logo\\": {
+        \\"src\\": \\"img/docusaurus_monochrome.svg\\"
+      }
+    },
+    \\"algolia\\": {
+      \\"apiKey\\": \\"3eb9507824b8be89e7a199ecaa1a9d2c\\",
+      \\"indexName\\": \\"docusaurus\\",
+      \\"algoliaOptions\\": {
+        \\"facetFilters\\": [
+          \\"language:LANGUAGE\\",
+          \\"version:VERSION\\"
+        ]
+      }
+    }
+  }
+}",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/package.json",
+    "{
+  \\"name\\": \\"docusaurus-1-website\\",
+  \\"version\\": \\"2.0.0-alpha.58\\",
+  \\"private\\": true,
+  \\"scripts\\": {
+    \\"start\\": \\"docusaurus start\\",
+    \\"build\\": \\"docusaurus build\\",
+    \\"publish-gh-pages\\": \\"docusaurus-publish\\",
+    \\"examples\\": \\"docusaurus-examples\\",
+    \\"write-translations\\": \\"docusaurus-write-translations\\",
+    \\"docusaurus-version\\": \\"docusaurus-version\\",
+    \\"rename-version\\": \\"docusaurus-rename-version\\",
+    \\"crowdin-upload\\": \\"crowdin --config ../crowdin.yaml upload sources --auto-update -b master\\",
+    \\"crowdin-download\\": \\"crowdin --config ../crowdin.yaml download -b master\\",
+    \\"swizzle\\": \\"docusaurus swizzle\\",
+    \\"deploy\\": \\"docusaurus deploy\\",
+    \\"docusaurus\\": \\"docusaurus\\"
+  },
+  \\"dependencies\\": {
+    \\"@docusaurus/core\\": \\"2.0.0-beta.15\\",
+    \\"@docusaurus/preset-classic\\": \\"2.0.0-beta.15\\",
+    \\"clsx\\": \\"^1.1.1\\",
+    \\"react\\": \\"^17.0.2\\",
+    \\"react-dom\\": \\"^17.0.2\\"
+  }
+}",
+  ],
+]
+`;
