@@ -9,7 +9,6 @@
 // Forked from https://github.com/tribou/jest-serializer-path/blob/master/lib/index.js
 // Added some project-specific handlers
 
-const slash = require('slash');
 const _ = require('lodash');
 const {escapePath} = require('@docusaurus/utils');
 const os = require('os');
@@ -142,7 +141,7 @@ function normalizePaths(value) {
     (val) => val.replace(/\\\\/g, '\\'),
 
     // Convert win32 backslash's to forward slashes, \ -> /
-    (val) => slash(val),
+    (val) => val.replace(/\\/g, '/'),
   ];
 
   let result = value;
