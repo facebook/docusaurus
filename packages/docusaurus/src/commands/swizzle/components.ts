@@ -101,11 +101,7 @@ export function listComponentNames(themeComponents: ThemeComponents): string {
   if (themeComponents.all.length === 0) {
     return 'No component to swizzle.';
   }
-  return `
-
-Components available for swizzle in ${logger.name(themeComponents.themeName)}:
-
-${themeComponentsTable(themeComponents)}
+  return `${themeComponentsTable(themeComponents)}
 
 ${actionsTable()}
 ${statusTable()}
