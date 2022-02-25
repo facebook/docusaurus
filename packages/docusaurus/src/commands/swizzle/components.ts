@@ -18,7 +18,7 @@ import type {
 import {posixPath} from '@docusaurus/utils';
 import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
-import {actionsTable, statusTable, themeComponentsTable} from './tables';
+import {helpTables, themeComponentsTable} from './tables';
 import {SwizzleActions} from './actions';
 
 export type ThemeComponents = {
@@ -103,8 +103,7 @@ export function listComponentNames(themeComponents: ThemeComponents): string {
   }
   return `${themeComponentsTable(themeComponents)}
 
-${actionsTable()}
-${statusTable()}
+${helpTables()}
 `;
 }
 

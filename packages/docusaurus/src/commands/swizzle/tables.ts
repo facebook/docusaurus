@@ -21,7 +21,7 @@ function getStatusLabel(status: SwizzleActionStatus): string {
   return actionStatusColor(status, actionStatusLabel(status));
 }
 
-export function statusTable(): string {
+function statusTable(): string {
   const table = new Table({
     head: ['Status', 'CLI option', 'Description'],
   });
@@ -64,7 +64,7 @@ This component should not meant to be swizzled.
   return table.toString();
 }
 
-export function actionsTable(): string {
+function actionsTable(): string {
   const table = new Table({
     head: ['Actions', 'CLI option', 'Description'],
   });
@@ -100,6 +100,16 @@ ${logger.green('Tip')}: ${logger.code(
   return table.toString();
 }
 
+export function helpTables(): string {
+  return `${logger.bold('Swizzle actions')}:
+${actionsTable()}
+
+${logger.bold('Swizzle safety statuses')}:
+${statusTable()}
+
+${logger.bold('Swizzle guide')}: https://docusaurus.io/docs/guides/swizzling`;
+}
+
 export function themeComponentsTable(themeComponents: ThemeComponents): string {
   const table = new Table({
     head: [
@@ -120,8 +130,10 @@ export function themeComponentsTable(themeComponents: ThemeComponents): string {
     });
   });
 
-  return `Components available for swizzle in ${logger.name(
-    themeComponents.themeName,
+  return `${logger.bold(
+    `Components available for swizzle in ${logger.name(
+      themeComponents.themeName,
+    )}`,
   )}:
 ${table.toString()}
 `;

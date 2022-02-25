@@ -8,7 +8,7 @@
 import logger from '@docusaurus/logger';
 import {getThemeName, getThemePath, getThemeNames} from './themes';
 import {getThemeComponents, getComponentName} from './components';
-import {actionsTable, statusTable, themeComponentsTable} from './tables';
+import {helpTables, themeComponentsTable} from './tables';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions, SwizzlePlugin} from './common';
 import {normalizeOptions} from './common';
@@ -46,8 +46,7 @@ async function listAllThemeComponents({
 
 ${themeComponentsTables}
 
-${actionsTable()}
-${statusTable()}
+${helpTables()}
     `);
   return process.exit(0);
 }
