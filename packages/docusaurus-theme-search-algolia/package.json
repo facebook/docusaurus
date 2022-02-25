@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.15",
+  "version": "2.0.0-beta.16",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
   "exports": {
@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "@docsearch/react": "^3.0.0",
-    "@docusaurus/core": "2.0.0-beta.15",
-    "@docusaurus/logger": "2.0.0-beta.15",
-    "@docusaurus/theme-common": "2.0.0-beta.15",
-    "@docusaurus/theme-translations": "2.0.0-beta.15",
-    "@docusaurus/utils": "2.0.0-beta.15",
-    "@docusaurus/utils-validation": "2.0.0-beta.15",
+    "@docusaurus/core": "2.0.0-beta.16",
+    "@docusaurus/logger": "2.0.0-beta.16",
+    "@docusaurus/theme-common": "2.0.0-beta.16",
+    "@docusaurus/theme-translations": "2.0.0-beta.16",
+    "@docusaurus/utils": "2.0.0-beta.16",
+    "@docusaurus/utils-validation": "2.0.0-beta.16",
     "algoliasearch": "^4.12.1",
     "algoliasearch-helper": "^3.7.0",
     "clsx": "^1.1.1",
@@ -42,7 +42,7 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.15"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.16"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
