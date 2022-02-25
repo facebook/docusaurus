@@ -87,7 +87,7 @@ const sidebars = {
           ],
         },
         'styling-layout',
-        'guides/swizzling',
+        'swizzling',
         'static-assets',
         'search',
         'browser-support',
