@@ -8,6 +8,7 @@
 import {migrateDocusaurusProject} from '../index';
 import path from 'path';
 import fs from 'fs-extra';
+import {posixPath} from '@docusaurus/utils';
 
 async function testMigration(siteDir: string, newDir: string) {
   const writeMock = jest.spyOn(fs, 'writeFile').mockImplementation();
@@ -15,10 +16,26 @@ async function testMigration(siteDir: string, newDir: string) {
   const mkdirsMock = jest.spyOn(fs, 'mkdirs').mockImplementation();
   const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
   await migrateDocusaurusProject(siteDir, newDir);
-  expect(writeMock.mock.calls).toMatchSnapshot('write');
-  expect(mkdirpMock.mock.calls).toMatchSnapshot('mkdirp');
-  expect(mkdirsMock.mock.calls).toMatchSnapshot('mkdirs');
-  expect(copyMock.mock.calls).toMatchSnapshot('copy');
+  expect(
+    writeMock.mock.calls.sort((a, b) =>
+      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+    ),
+  ).toMatchSnapshot('write');
+  expect(
+    mkdirpMock.mock.calls.sort((a, b) =>
+      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+    ),
+  ).toMatchSnapshot('mkdirp');
+  expect(
+    mkdirsMock.mock.calls.sort((a, b) =>
+      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+    ),
+  ).toMatchSnapshot('mkdirs');
+  expect(
+    copyMock.mock.calls.sort((a, b) =>
+      posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),
+    ),
+  ).toMatchSnapshot('copy');
   writeMock.mockRestore();
   mkdirpMock.mockRestore();
   mkdirsMock.mockRestore();
