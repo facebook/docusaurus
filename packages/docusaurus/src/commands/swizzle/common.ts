@@ -6,13 +6,13 @@
  */
 
 import leven from 'leven';
+import _ from 'lodash';
 import logger from '@docusaurus/logger';
 import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleActionStatus,
 } from '@docusaurus/types';
-import _ from 'lodash';
 import type {NormalizedPluginConfig} from '../../server/plugins/init';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];

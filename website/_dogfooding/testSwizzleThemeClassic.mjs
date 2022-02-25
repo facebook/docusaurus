@@ -136,11 +136,10 @@ for (const componentName of componentNames) {
   );
 }
 
-logger.newLine();
-logger.success(`End of the Swizzle test script
-Now try to build the site and see if it works
+logger.success(`
+End of the Swizzle test script.
+Now try to build the site and see if it works!
 `);
-logger.newLine();
 
 const componentsWithMissingConfigs = componentNames.filter(
   (componentName) => !swizzleConfig.components[componentName],

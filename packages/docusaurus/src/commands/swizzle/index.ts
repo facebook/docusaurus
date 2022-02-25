@@ -66,20 +66,18 @@ async function ensureActionSafety({
   const actionStatus = componentConfig.actions[action];
 
   if (actionStatus === 'forbidden') {
-    logger.newLine();
-    logger.error(
-      `Swizzle action "${action}" is forbidden for component ${componentName}`,
-    );
-    logger.newLine();
+    logger.error`
+Swizzle action name=${action} is forbidden for component name=${componentName}
+`;
     return process.exit(1);
   }
 
   if (actionStatus === 'unsafe' && !danger) {
-    logger.newLine();
-    logger.warn`Swizzle action name=${action} is unsafe to perform on name=${componentName}.
+    logger.warn`
+Swizzle action name=${action} is unsafe to perform on name=${componentName}.
 It is more likely to be affected by breaking changes in the future
-If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you understand the risks.`;
-    logger.newLine();
+If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you understand the risks.
+`;
     const swizzleDangerousComponent = await askSwizzleDangerousComponent();
     if (!swizzleDangerousComponent) {
       return process.exit(1);
@@ -135,11 +133,9 @@ export default async function swizzle(
           componentName,
           typescript,
         });
-        logger.newLine();
-        logger.success`Wrapped code=${`${themeName} ${componentName}`} in path=${
-          result.createdFiles
-        }.`;
-        logger.newLine();
+        logger.success`
+Created wrapper of name=${componentName} from name=${themeName} in path=${result.createdFiles}.
+`;
         return result;
       }
       case 'eject': {
@@ -148,11 +144,9 @@ export default async function swizzle(
           themePath,
           componentName,
         });
-        logger.newLine();
-        logger.success`Ejected code=${`${themeName} ${componentName}`} to path=${
-          result.createdFiles
-        }.`;
-        logger.newLine();
+        logger.success`
+Ejected name=${componentName} from name=${themeName} to path=${result.createdFiles}.
+`;
         return result;
       }
       default:

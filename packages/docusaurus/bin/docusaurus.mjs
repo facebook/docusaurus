@@ -72,11 +72,11 @@ cli
     'Wraps or ejects the original theme files into website folder for customization.',
   )
   .option(
-    '--wrap',
+    '-w, --wrap',
     'Creates a wrapper around the original theme component.\nAllows rendering other components before/after the original theme component.',
   )
   .option(
-    '--eject',
+    '-e, --eject',
     'Ejects the full source code of the original theme component.\nAllows overriding the original component entirely with your own UI and logic.',
   )
   .option(

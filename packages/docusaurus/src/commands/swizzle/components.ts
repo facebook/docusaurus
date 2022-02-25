@@ -8,18 +8,18 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import type {
   SwizzleAction,
   SwizzleActionStatus,
   SwizzleComponentConfig,
   SwizzleConfig,
 } from '@docusaurus/types';
-import _ from 'lodash';
+import {posixPath} from '@docusaurus/utils';
 import {askComponentName} from './prompts';
 import {findClosestValue, findStringIgnoringCase} from './common';
 import {actionsTable, statusTable, themeComponentsTable} from './tables';
 import {SwizzleActions} from './actions';
-import {posixPath} from '@docusaurus/utils';
 
 export type ThemeComponents = {
   themeName: string;
@@ -122,9 +122,7 @@ export async function getThemeComponents({
   swizzleConfig: SwizzleConfig;
 }): Promise<ThemeComponents> {
   const FallbackSwizzleActionStatus: SwizzleActionStatus = 'unsafe';
-
   const FallbackSwizzleComponentDescription = 'N/A';
-
   const FallbackSwizzleComponentConfig: SwizzleComponentConfig = {
     actions: {
       wrap: FallbackSwizzleActionStatus,

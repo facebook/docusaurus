@@ -8,11 +8,11 @@
 import logger from '@docusaurus/logger';
 import fs from 'fs-extra';
 import path from 'path';
+import _ from 'lodash';
 import {Globby, posixPath, THEME_PATH} from '@docusaurus/utils';
 import type {SwizzleAction, SwizzleComponentConfig} from '@docusaurus/types';
 import type {SwizzleOptions} from './common';
 import {askSwizzleAction} from './prompts';
-import _ from 'lodash';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
@@ -51,11 +51,7 @@ export async function eject({
   componentName,
 }: ActionParams): Promise<ActionResult> {
   const fromPath = path.join(themePath, componentName);
-
   const isDirectory = await isDir(fromPath);
-
-  const globIgnore = ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'];
-
   const globPattern = isDirectory
     ? // do we really want to copy all components?
       path.join(fromPath, '*')
@@ -64,7 +60,7 @@ export async function eject({
   const globPatternPosix = posixPath(globPattern);
 
   const filesToCopy = await Globby(globPatternPosix, {
-    ignore: globIgnore,
+    ignore: ['**/*.{story,stories,test,tests}.{js,jsx,ts,tsx}'],
   });
 
   if (filesToCopy.length === 0) {
@@ -80,7 +76,7 @@ export async function eject({
 
   await fs.ensureDir(toPath);
 
-  async function copyFile(sourceFile: string) {
+  const createdFiles = await Promise.all(filesToCopy.map(async (sourceFile: string) => {
     const fileName = path.basename(sourceFile);
     const targetFile = path.join(toPath, fileName);
     try {
@@ -91,10 +87,7 @@ export async function eject({
       );
     }
     return targetFile;
-  }
-
-  const createdFiles = await Promise.all(filesToCopy.map(copyFile));
-
+  }));
   return {createdFiles};
 }
 

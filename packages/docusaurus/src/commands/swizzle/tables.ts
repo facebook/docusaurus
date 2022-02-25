@@ -7,9 +7,9 @@
 
 import logger from '@docusaurus/logger';
 import Table from 'cli-table3';
+import _ from 'lodash';
 import type {ThemeComponents} from './components';
 import {SwizzleActions} from './actions';
-import _ from 'lodash';
 import type {SwizzleActionStatus} from '@docusaurus/types';
 import {actionStatusColor, actionStatusLabel} from './common';
 
@@ -123,5 +123,6 @@ export function themeComponentsTable(themeComponents: ThemeComponents): string {
   return `Components available for swizzle in ${logger.name(
     themeComponents.themeName,
   )}:
-${table.toString()}`;
+${table.toString()}
+`;
 }
