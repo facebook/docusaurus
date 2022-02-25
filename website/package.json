@@ -49,7 +49,6 @@
     "@docusaurus/utils": "2.0.0-beta.16",
     "@docusaurus/utils-common": "2.0.0-beta.16",
     "@popperjs/core": "^2.11.2",
-    "axios": "^0.26.0",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
     "esbuild-loader": "2.18.0",

@@ -11,6 +11,7 @@
 
 const _ = require('lodash');
 const {escapePath} = require('@docusaurus/utils');
+const {version} = require('@docusaurus/core/package.json');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
@@ -130,6 +131,9 @@ function normalizePaths(value) {
       val
         .split(`<TEMP_DIR>${path.sep + homeRealRelativeToTemp}`)
         .join('<HOME_DIR>'), // untested
+
+    // Replace the Docusaurus version with a stub
+    (val) => val.split(version).join('<CURRENT_VERSION>'),
 
     // In case the CWD is escaped
     (val) => val.split(escapePath(cwd)).join('<PROJECT_ROOT>'),
