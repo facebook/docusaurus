@@ -151,7 +151,7 @@ const componentsWithMissingConfigs = componentNames.filter(
 if (componentsWithMissingConfigs.length > 0) {
   logger.warn(
     `${componentsWithMissingConfigs.length} components have no swizzle config.
-Sample: ${componentsWithMissingConfigs.slice(0, 5).join(', ')} ...`,
+Sample: ${componentsWithMissingConfigs.slice(0, 5).join(', ')} ...
+`,
   );
-  logger.newLine();
 }
