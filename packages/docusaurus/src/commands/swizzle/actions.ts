@@ -76,18 +76,20 @@ export async function eject({
 
   await fs.ensureDir(toPath);
 
-  const createdFiles = await Promise.all(filesToCopy.map(async (sourceFile: string) => {
-    const fileName = path.basename(sourceFile);
-    const targetFile = path.join(toPath, fileName);
-    try {
-      await fs.copy(sourceFile, targetFile, {overwrite: true});
-    } catch (err) {
-      throw new Error(
-        logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
-      );
-    }
-    return targetFile;
-  }));
+  const createdFiles = await Promise.all(
+    filesToCopy.map(async (sourceFile: string) => {
+      const fileName = path.basename(sourceFile);
+      const targetFile = path.join(toPath, fileName);
+      try {
+        await fs.copy(sourceFile, targetFile, {overwrite: true});
+      } catch (err) {
+        throw new Error(
+          logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
+        );
+      }
+      return targetFile;
+    }),
+  );
   return {createdFiles};
 }
 
