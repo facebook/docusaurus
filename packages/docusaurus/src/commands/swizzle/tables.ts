@@ -107,7 +107,7 @@ ${actionsTable()}
 ${logger.bold('Swizzle safety statuses')}:
 ${statusTable()}
 
-${logger.bold('Swizzle guide')}: https://docusaurus.io/docs/guides/swizzling`;
+${logger.bold('Swizzle guide')}: https://docusaurus.io/docs/swizzling`;
 }
 
 export function themeComponentsTable(themeComponents: ThemeComponents): string {
