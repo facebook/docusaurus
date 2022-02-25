@@ -140,8 +140,9 @@ function normalizePaths(value) {
     // Remove duplicate backslashes created from escapePath
     (val) => val.replace(/\\\\/g, '\\'),
 
-    // Convert win32 backslash's to forward slashes, \ -> /
-    (val) => val.replace(/\\/g, '/'),
+    // Convert win32 backslash's to forward slashes, \ -> /;
+    // ignore some that look like escape sequences
+    (val) => val.replace(/\\(?!["n])/g, '/'),
   ];
 
   let result = value;
