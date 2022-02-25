@@ -668,9 +668,7 @@ async function migrateLatestSidebar(context: MigrationContext) {
     await fs.writeFile(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
     context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
-      'src',
-      'css',
-      'customTheme.css',
+      'src/css/customTheme.css',
     );
   }
 }
