@@ -8,7 +8,7 @@ In this section, we will introduce how customization of layout is done in Docusa
 
 > Déja vu...?
 
-This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write actual React code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, swizzling allows **deeper site customizations** through **React components**.
+This section is similar to [Styling and Layout](./styling-layout.md), but this time, we are going to write actual React code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, swizzling allows **deeper site customizations** through **React components**.
 
 In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
 
