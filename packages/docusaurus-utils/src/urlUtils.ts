@@ -85,6 +85,13 @@ export function normalizeUrl(rawUrls: string[]): string {
   return str;
 }
 
+/**
+ * Some slugs that seem valid may be dynamic routes for React router. We sanitize these paths.
+ */
+export function sanitizeURL(url: string): string {
+  return url.replace(/(?:(?<=\/):)|[()*[\]{}]/g, '');
+}
+
 export function getEditUrl(
   fileRelativePath: string,
   editUrl?: string,
