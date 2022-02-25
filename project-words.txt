@@ -90,6 +90,7 @@ goss
 goyal
 gtag
 héctor
+heuristical
 hideable
 hola
 horiz
