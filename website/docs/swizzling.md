@@ -4,9 +4,11 @@ description: Customize your site's appearance through creating your own theme co
 
 # Swizzling
 
-When [styling with CSS](./styling-layout.md) is not enough, **swizzling** comes into play.
+In this section, we will introduce how customization of layout is done in Docusaurus.
 
-Swizzling allows **deeper site customizations** through **React components**.
+> Déja vu...?
+
+This section is similar to [Styling and Layout](../styling-layout.md), but this time, we are going to write actual React code and go deeper into the internals instead of playing with stylesheets. We will talk about a central concept in Docusaurus customization: **swizzling**, swizzling allows **deeper site customizations** through **React components**.
 
 In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
 
@@ -23,7 +25,7 @@ In practice, swizzling permits to **swap a theme component with your own impleme
 
 You can think of it as [Monkey Patching](https://en.wikipedia.org/wiki/Monkey_patch) for React components, enabling you to override the default implementation. Gatsby has a similar concept called [theme shadowing](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/).
 
-To gain a deeper understanding of this, you have to understand [how theme components are resolved](#theme-aliases).
+To gain a deeper understanding of this, you have to understand [how theme components are resolved](./advanced/client.md#theme-aliases).
 
 </details>
 
@@ -31,7 +33,7 @@ To gain a deeper understanding of this, you have to understand [how theme compon
 
 ### Overview
 
-Docusaurus provides an convenient **interactive CLI** to swizzle components:
+Docusaurus provides an convenient **interactive CLI** to swizzle components. You generally only need to remember the following command:
 
 ```bash npm2yarn
 npm run swizzle
@@ -80,47 +82,29 @@ export default function SomeComponentWrapper(props) {
 </Tabs>
 ````
 
-:::note
-
-After swizzling a component, **restart your dev server** in order for Docusaurus to know about the new component.
-
-:::
-
-:::warning
-
-Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
-
-:::
-
-:::tip
-
 To get an overview of all the themes and components available to swizzle, run:
 
 ```bash npm2yarn
 npm run swizzle --list
 ```
 
+Use `--help` to see all available CLI options, or refer to the reference [swizzle CLI documentation](./cli.md#docusaurus-swizzle).
+
+:::note
+
+After swizzling a component, **restart your dev server** in order for Docusaurus to know about the new component.
+
 :::
 
-### Swizzle CLI {#swizzle-cli}
+:::warning Prefer staying on the safe side
 
-The swizzle CLI is **interactive**, and you generally only need to remember the following command:
-
-```bash npm2yarn
-npm run swizzle
-```
-
-:::tip
-
-Use `--help` to see all the CLI options, or refer to the reference [swizzle CLI documentation](./cli.md#docusaurus-swizzle).
+Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
 
 :::
 
 :::info
 
-The swizzle CLI is a **convenient** way to swizzle theme components, but it is not magical.
-
-You can also create the `src/theme/SomeComponent.js` file manually, and Docusaurus will [resolve it](#theme-aliases).
+`docusaurus swizzle` is only an automated way to help you swizzle the component. You can also create the `src/theme/SomeComponent.js` file manually, and Docusaurus will [resolve it](./advanced/client.md#theme-aliases). There's no internal magic behind this command!
 
 :::
 
@@ -140,9 +124,7 @@ An example:
 npm run swizzle @docusaurus/theme-classic Footer --eject
 ```
 
-This will copy the current `<Footer />` component in your site's `src/theme/Footer` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one.
-
-You are now free to customize the `<Footer>` component with a lot of flexibility.
+This will copy the current `<Footer />` component's implementation to your site's `src/theme` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one. You are now free to completely re-implement the `<Footer>` component.
 
 ```jsx title="src/theme/SomeComponent.js"
 import React from 'react';
@@ -159,17 +141,15 @@ export default function Footer(props) {
 
 :::caution
 
-Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead to copying a large amount of internal code, that you now **have to maintain over time**.
-
-It can make Docusaurus upgrades more difficult, as you will need to figure out a way to migrate your customizations to the new theme component version.
+Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead to copying a large amount of internal code, which you now have to maintain yourself. It can make Docusaurus upgrades more difficult, as you will need to migrate your customizations if the props received or internal theme APIs used have changed.
 
 **Prefer [wrapping](#wrapping) whenever possible**: the amount of code to maintain is smaller.
 
 :::
 
-:::tip
+:::tip Re-swizzling
 
-To **keep ejected components up-to-date** after a Docusaurus upgrade, **re-eject** them and compare the changes with `git diff`.
+To keep ejected components up-to-date after a Docusaurus upgrade, re-run the eject command and compare the changes with `git diff`. You are also recommended to write a brief comment at the top of the file explaining what changes you have made, so that you could more easily re-apply your changes after re-ejection.
 
 :::
 
@@ -189,9 +169,7 @@ An example:
 npm run swizzle @docusaurus/theme-classic Footer --wrap
 ```
 
-This will create a wrapper in your site's `src/theme/Footer` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one.
-
-You can now add customizations around the original component:
+This will create a wrapper in your site's `src/theme` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one. You can now add customizations around the original component.
 
 ```jsx title="src/theme/SomeComponent.js"
 import React from 'react';
@@ -213,19 +191,13 @@ export default function FooterWrapper(props) {
 <details>
   <summary>What is this <code>@theme-original</code> thing?</summary>
 
-Docusaurus uses [theme aliases](#theme-aliases) to resolve the theme components to use.
-
-The newly created wrapper takes the `@theme/SomeComponent` alias.
-
-`@theme-original/SomeComponent` permits to import original component inside the wrapper without creating an infinite import loop where the wrapper imports itself.
+Docusaurus uses [theme aliases](./advanced/client.md#theme-aliases) to resolve the theme components to use. The newly created wrapper takes the `@theme/SomeComponent` alias. `@theme-original/SomeComponent` permits to import original component that the wrapper shadows without creating an infinite import loop where the wrapper imports itself.
 
 </details>
 
 :::tip
 
-Wrapping a theme is a great way to **add extra components around existing one**, without [ejecting](#ejecting) it.
-
-For example, you can easily add a custom comment system under each blog post:
+Wrapping a theme is a great way to **add extra components around existing one** without [ejecting](#ejecting) it. For example, you can easily add a custom comment system under each blog post:
 
 ```jsx title="src/theme/BlogPostItem.js"
 import React from 'react';
@@ -280,7 +252,7 @@ Don't be too **afraid to swizzle unsafe components**: just keep in mind that **b
 
 :::
 
-:::tip
+:::note Report your use-case
 
 If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
 
@@ -288,9 +260,7 @@ If you have a **strong use-case for swizzling an unsafe component**, please [**r
 
 ## Which component should I swizzle? {#which-component-should-i-swizzle}
 
-It is not always clear which component you should swizzle exactly to achieve the desired result.
-
-You most likely want to swizzle a component from the classic theme `@docusaurus/theme-classic`, but it has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
+It is not always clear which component you should swizzle exactly to achieve the desired result. `@docusaurus/theme-classic`, which provides most of the theme components, has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
 
 :::tip
 
@@ -309,9 +279,7 @@ You can follow these steps to locate the appropriate component to swizzle:
 3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.md#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
 4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
 
-:::tip
-
-**Just ask!**
+:::tip Just ask!
 
 If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
 
@@ -321,9 +289,7 @@ We also want to understand better your fanciest customization use-cases, so plea
 
 ## Do I need to swizzle? {#do-i-need-to-swizzle}
 
-Swizzling ultimately means you have to maintain some additional React code that interact with Docusaurus internal APIs.
-
-If you can, think about the following alternatives when customizing your site:
+Swizzling ultimately means you have to maintain some additional React code that interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
 
 1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](./styling-layout.md) for more details.
 2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](./i18n/i18n-tutorial.md) for more details.
@@ -338,9 +304,7 @@ If you can, think about the following alternatives when customizing your site:
 
 ## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
-The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**.
-
-It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping card state...).
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping card state...).
 
 Swizzle it **manually** by creating a file at `src/theme/Root.js`:
 
@@ -358,79 +322,3 @@ export default function Root({children}) {
 Use this component to render React Context providers.
 
 :::
-
-## Theme aliases {#theme-aliases}
-
-A theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`, to render the data passed down from plugins. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
-
-```js
-import Navbar from '@theme/Navbar';
-```
-
-The alias `@theme` can refer to a few directories, in the following priority:
-
-1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
-2. A Docusaurus theme package's `theme` directory.
-3. Fallback components provided by Docusaurus core (usually not needed).
-
-This is called a _layered architecture_: a higher-priority layer providing the component would shadow a lower-priority layer, making swizzling possible. Given the following structure:
-
-```
-website
-├── node_modules
-│   └── @docusaurus/theme-classic
-│       └── theme
-│           └── Navbar.js
-└── src
-    └── theme
-        └── Navbar.js
-```
-
-`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. If you are familiar with Objective C where a function's implementation can be swapped during runtime, it's the exact same concept here with changing the target `@theme/Navbar` is pointing to!
-
-We already talked about how the "userland theme" in `src/theme` can re-use a theme component through the [`@theme-original`](#wrapping) alias. One theme package can also wrap a component from another theme, by importing the component from the initial theme, using the `@theme-init` import.
-
-Here's an example of using this feature to enhance the default theme `CodeBlock` component with a `react-live` playground feature.
-
-```js
-import InitialCodeBlock from '@theme-init/CodeBlock';
-import React from 'react';
-
-export default function CodeBlock(props) {
-  return props.live ? (
-    <ReactLivePlayground {...props} />
-  ) : (
-    <InitialCodeBlock {...props} />
-  );
-}
-```
-
-Check the code of `@docusaurus/theme-live-codeblock` for details.
-
-:::caution
-
-Unless you want to publish a re-usable "theme enhancer" (like `@docusaurus/theme-live-codeblock`), you likely don't need `@theme-init`.
-
-:::
-
-It can be quite hard to wrap your mind around these aliases. Let's imagine the following case with a super convoluted setup with three themes/plugins and the site itself all trying to define the same component. Internally, Docusaurus loads these themes as a "stack".
-
-```text
-+-------------------------------------------------+
-|        `website/src/theme/CodeBlock.js`         | <-- `@theme/CodeBlock` always points to the top
-+-------------------------------------------------+
-| `theme-live-codeblock/theme/CodeBlock/index.js` | <-- `@theme-original/CodeBlock` points to the topmost non-swizzled component
-+-------------------------------------------------+
-|  `plugin-awesome-codeblock/theme/CodeBlock.js`  |
-+-------------------------------------------------+
-|     `theme-classic/theme/CodeBlock/index.js`    | <-- `@theme-init/CodeBlock` always points to the bottom
-+-------------------------------------------------+
-```
-
-The components in this "stack" are pushed in the order of `preset plugins > preset themes > plugins > themes > site`, so the swizzled component in `website/src/theme` always comes out on top because it's loaded last.
-
-`@theme/*` always points to the topmost component—when `CodeBlock` is swizzled, all other components requesting `@theme/CodeBlock` receive the swizzled version.
-
-`@theme-original/*` always points to the topmost non-swizzled component. That's why you can import `@theme-original/CodeBlock` in the swizzled component—it points to the next one in the "component stack", a theme-provided one. Plugin authors should not try to use this because your component could be the topmost component and cause a self-import.
-
-`@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!

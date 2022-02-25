@@ -128,6 +128,7 @@ const sidebars = {
         'advanced/plugins',
         'advanced/routing',
         'advanced/ssg',
+        'advanced/client',
       ],
     },
     {
