@@ -8,7 +8,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::tip
 
-This section is focused on styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./advanced/swizzling.md#swizzling).
+This section is focused on styling through stylesheets. For more advanced customizations (DOM structure, React code...), refer to the [swizzling guide](./swizzling.md).
 
 :::
 
@@ -60,13 +60,19 @@ function MyComponent() {
 
 If you want to add CSS to any element, you can open the DevTools in your browser to inspect its class names. Class names come in several kinds:
 
-- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). They don't have any default properties. You should always prioritize targeting stable class names in your custom CSS.
-- **Infima class names**. These class names usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
+- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). They don't have any default properties. You should always prioritize targeting those stable class names in your custom CSS.
+- **Infima class names**. These class names are found in the classic theme and usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
 - **CSS module class names**. These class names have a hash in production (`codeBlockContainer_RIuc`) and are appended with a long file path in development. They are considered implementation details and you should almost always avoid targeting them in your custom CSS. If you must, you can use an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) that ignores the hash.
 
 ### Theme Class Names {#theme-class-names}
 
-We provide some predefined CSS class names for global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
+We provide some stable CSS class names for robust and maintainable global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
+
+:::tip
+
+If you can't find a way to create a robust CSS selector, please [report your customization use-case](https://github.com/facebook/docusaurus/discussions/5468) and we will consider adding new class names.
+
+:::
 
 <details>
 

@@ -11,6 +11,10 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
+    "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:eject:ts": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='true' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:wrap:js": "cross-env SWIZZLE_ACTION='wrap' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:wrap:ts": "cross-env SWIZZLE_ACTION='wrap' SWIZZLE_TYPESCRIPT='true' node _dogfooding/testSwizzleThemeClassic.mjs",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
@@ -38,6 +42,8 @@
     "@docusaurus/plugin-pwa": "2.0.0-beta.15",
     "@docusaurus/preset-classic": "2.0.0-beta.15",
     "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.15",
+    "@docusaurus/logger": "2.0.0-beta.15",
+    "@docusaurus/theme-classic": "2.0.0-beta.15",
     "@docusaurus/theme-common": "2.0.0-beta.15",
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.15",
     "@docusaurus/utils": "2.0.0-beta.15",
@@ -47,6 +53,7 @@
     "clsx": "^1.1.1",
     "color": "^4.2.1",
     "esbuild-loader": "2.18.0",
+    "fs-extra": "^10.0.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -74,7 +81,6 @@
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/jest": "^27.4.1",
-    "cross-env": "^7.0.3",
-    "fs-extra": "^10.0.1"
+    "cross-env": "^7.0.3"
   }
 }

@@ -34,5 +34,10 @@ jobs:
           mkdir -p "website/_dogfooding/_pages tests/deep-file-path-test/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar"
           cd "$_"
           echo "# hello" > test-file.md
+      # Lightweight version of tests-swizzle.yml workflow, but for Windows
+      - name: Swizzle Wrap TS
+        run: yarn workspace website test:swizzle:wrap:ts
       - name: Docusaurus Build
-        run: yarn build:website --locale en
+        run: yarn build:website:fast
+      - name: TypeCheck website
+        run: yarn workspace website typecheck

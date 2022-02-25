@@ -120,6 +120,10 @@ function success(msg: unknown, ...values: InterpolatableValue[]): void {
   );
 }
 
+function newLine(): void {
+  console.log();
+}
+
 const logger = {
   red: chalk.red,
   yellow: chalk.yellow,
@@ -136,6 +140,7 @@ const logger = {
   warn,
   error,
   success,
+  newLine,
 };
 
 // TODO remove when migrating to ESM

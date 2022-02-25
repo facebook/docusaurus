@@ -83,6 +83,7 @@ declare module '@generated/codeTranslations' {
 }
 
 declare module '@theme-original/*';
+declare module '@theme-init/*';
 
 declare module '@theme/Error' {
   export interface Props {

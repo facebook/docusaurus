@@ -85,43 +85,36 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::
 
-### `docusaurus swizzle [siteDir]` {#docusaurus-swizzle-sitedir}
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
 
-```mdx-code-block
-import SwizzleWarning from "./_partials/swizzleWarning.mdx"
-
-<SwizzleWarning/>
-```
-
-Change any Docusaurus theme components to your liking with `npm run swizzle`.
+[Swizzle](./swizzling.md) a theme component to customize it.
 
 ```bash npm2yarn
 npm run swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
-npm run swizzle @docusaurus/theme-classic DocSidebar
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
 ```
 
-Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
+The swizzle CLI is interactive and will guide you through the whole [swizzle process](./swizzling.md).
 
-`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle [themeName]` without `componentName` lists all the components available for swizzling.
+#### Options {#options-swizzle}
 
-#### Options {#options-2}
-
-| Name               | Description                            |
-| ------------------ | -------------------------------------- |
-| `themeName`        | The name of the theme you are using.   |
-| `swizzleComponent` | The name of the component to swizzle.  |
-| `--danger`         | Allow swizzling of unstable components |
-| `--typescript`     | Swizzle TypeScript components          |
+| Name            | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `themeName`     | The name of the theme to swizzle from.               |
+| `componentName` | The name of the theme component to swizzle.          |
+| `--list`        | Display components available for swizzling           |
+| `--eject`       | [Eject](./swizzling.md#ejecting) the theme component |
+| `--wrap`        | [Wrap](./swizzling.md#wrapping) the theme component  |
+| `--danger`      | Allow immediate swizzling of unsafe components       |
+| `--typescript`  | Swizzle the TypeScript variant component             |
 
 :::caution
 
-Unstable Components: components that have a higher risk of breaking changes due to internal refactorings.
+Unsafe components have a higher risk of breaking changes due to internal refactorings.
 
 :::
-
-To learn more about swizzling, see the [swizzling guide](./advanced/swizzling.md).
 
 ### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
 

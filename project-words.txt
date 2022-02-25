@@ -267,6 +267,7 @@ treeify
 treosh
 triaging
 typecheck
+typechecks
 typesense
 unflat
 unist

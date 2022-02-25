@@ -492,7 +492,7 @@ You'll have to migrate your sidebar if it contains category type. Rename `subcat
 
 ### Footer {#footer}
 
-`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by Docusaurus, [swizzle](../advanced/swizzling.md#swizzling) it:
+`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by Docusaurus, [swizzle](../swizzling.md) it:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Footer

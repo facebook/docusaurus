@@ -316,13 +316,30 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
   readonly content: Content;
 };
 
+export type SwizzleAction = 'eject' | 'wrap';
+export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';
+
+export type SwizzleComponentConfig = {
+  actions: Record<SwizzleAction, SwizzleActionStatus>;
+  description?: string;
+};
+
+export type SwizzleConfig = {
+  components: Record<string, SwizzleComponentConfig>;
+  // Other settings could be added here,
+  // For example: the ability to declare the config as exhaustive
+  // so that we can emit errors
+};
+
 export type PluginModule = {
   <Options, Content>(context: LoadContext, options: Options):
     | Plugin<Content>
     | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
-  getSwizzleComponentList?: () => string[];
+
+  getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
+  getSwizzleConfig?: () => SwizzleConfig | undefined;
 };
 
 export type ImportedPluginModule = PluginModule & {

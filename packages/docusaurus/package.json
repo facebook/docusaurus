@@ -56,6 +56,7 @@
     "boxen": "^6.2.1",
     "chokidar": "^3.5.3",
     "clean-css": "^5.2.4",
+    "cli-table3": "^0.6.1",
     "combine-promises": "^1.1.0",
     "commander": "^5.1.0",
     "copy-webpack-plugin": "^10.2.4",
@@ -117,7 +118,8 @@
     "@types/wait-on": "^5.3.1",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "react-test-renderer": "^17.0.2",
-    "tmp-promise": "^3.0.3"
+    "tmp-promise": "^3.0.3",
+    "tree-node-cli": "^1.5.2"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
