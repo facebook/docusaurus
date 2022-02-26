@@ -6,11 +6,12 @@
  */
 
 .toggle {
-  touch-action: pan-x;
   position: relative;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  width: 32px;
+  height: 32px;
 }
 
 .toggleScreenReader {
@@ -27,80 +28,15 @@
   cursor: not-allowed;
 }
 
-.toggleTrack {
-  width: 50px;
-  height: 24px;
-  border-radius: 30px;
-  background-color: #4d4d4d;
-  transition: all 0.2s ease;
-}
-
-.toggleTrackCheck {
-  position: absolute;
-  width: 14px;
-  height: 10px;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  left: 8px;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.toggleChecked .toggleTrackCheck,
-[data-theme='dark'] .toggle .toggleTrackCheck {
-  opacity: 1;
-  transition: opacity 0.25s ease;
-}
-
-.toggleTrackX {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  right: 10px;
-  opacity: 1;
-  transition: opacity 0.25s ease;
-}
-
-.toggleChecked .toggleTrackX,
-[data-theme='dark'] .toggle .toggleTrackX {
-  opacity: 0;
-}
-
-.toggleTrackThumb {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 22px;
-  height: 22px;
-  border: 1px solid #4d4d4d;
-  border-radius: 50%;
-  background-color: #fafafa;
-  transition: all 0.25s ease;
-}
-
-.toggleFocused .toggleTrackThumb,
-.toggle:hover .toggleTrackThumb {
-  box-shadow: 0 0 2px 3px var(--ifm-color-primary);
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.toggleChecked .toggleTrackThumb,
-[data-theme='dark'] .toggle .toggleTrackThumb {
-  left: 27px;
-}
-
-.toggle:active:not(.toggleDisabled) .toggleTrackThumb {
-  box-shadow: 0 0 5px 5px var(--ifm-color-primary);
-}
-
-.toggleIcon {
+.toggleButton {
   align-items: center;
   display: flex;
-  height: 10px;
   justify-content: center;
-  width: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme='light'] .darkToggleIcon,
+[data-theme='dark'] .lightToggleIcon {
+  display: none;
 }

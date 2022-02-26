@@ -7,9 +7,10 @@
 
 import React, {useState, useRef, useEffect, memo} from 'react';
 import type {Props} from '@theme/Toggle';
-import {useThemeConfig, type ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
+import IconLightMode from '@theme/IconLightMode';
+import IconDarkMode from '@theme/IconDarkMode';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -18,15 +19,12 @@ import styles from './styles.module.css';
 const ToggleComponent = memo(
   ({
     className,
-    switchConfig,
     checked: defaultChecked,
     disabled,
     onChange,
   }: Props & {
-    switchConfig: ColorModeConfig['switchConfig'];
     disabled: boolean;
   }): JSX.Element => {
-    const {darkIcon, darkIconStyle, lightIcon, lightIconStyle} = switchConfig;
     const [checked, setChecked] = useState(defaultChecked);
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -44,21 +42,16 @@ const ToggleComponent = memo(
         })}>
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className={styles.toggleTrack}
+          className={styles.toggleButton}
           role="button"
           tabIndex={-1}
           onClick={() => inputRef.current?.click()}>
-          <div className={styles.toggleTrackCheck}>
-            <span className={styles.toggleIcon} style={darkIconStyle}>
-              {darkIcon}
-            </span>
-          </div>
-          <div className={styles.toggleTrackX}>
-            <span className={styles.toggleIcon} style={lightIconStyle}>
-              {lightIcon}
-            </span>
-          </div>
-          <div className={styles.toggleTrackThumb} />
+          <IconLightMode
+            className={clsx(styles.toggleIcon, styles.lightToggleIcon)}
+          />
+          <IconDarkMode
+            className={clsx(styles.toggleIcon, styles.darkToggleIcon)}
+          />
         </div>
 
         <input
@@ -102,16 +95,7 @@ const ToggleComponent = memo(
 );
 
 export default function Toggle(props: Props): JSX.Element {
-  const {
-    colorMode: {switchConfig},
-  } = useThemeConfig();
   const isBrowser = useIsBrowser();
 
-  return (
-    <ToggleComponent
-      switchConfig={switchConfig}
-      disabled={!isBrowser}
-      {...props}
-    />
-  );
+  return <ToggleComponent disabled={!isBrowser} {...props} />;
 }
