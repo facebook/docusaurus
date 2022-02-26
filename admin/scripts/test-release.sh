@@ -19,6 +19,9 @@ while getopts ":ns" o; do
     s)
       EXTRA_OPTS="${EXTRA_OPTS} --skip-install"
       ;;
+    t)
+      EXTRA_OPTS="${EXTRA_OPTS} --typescript"
+      ;;
     *)
       usage
       ;;

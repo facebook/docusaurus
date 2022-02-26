@@ -54,6 +54,11 @@ jobs:
     strategy:
       matrix:
         nodeLinker: [pnp, node-modules]
+        variant:
+          - name: JS
+            option: -s
+          - name: TS
+            option: -s -t
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16
@@ -63,8 +68,8 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
+      - name: Generate test-website project in ${{ matrix.variant.name }} against main branch
+        run: yarn test:build:website ${{ matrix.variant.option }}
         env:
           KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
@@ -92,6 +97,9 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
+      - name: Type check
+        if: matrix.variant.name == 'TS'
+        run: yarn typecheck
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
