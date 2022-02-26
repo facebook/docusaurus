@@ -378,7 +378,7 @@ module.exports = function (context, options) {
 
 ## `getClientModules()` {#getClientModules}
 
-Returns an array of paths to the modules that are to be imported into the client bundle. These modules are imported globally before React even renders the initial UI.
+Returns an array of paths to the [client modules](../../advanced/client.md#client-modules) that are to be imported into the client bundle.
 
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 

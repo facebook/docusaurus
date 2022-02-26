@@ -75,3 +75,43 @@ The components in this "stack" are pushed in the order of `preset plugins > pres
 `@theme-original/*` always points to the topmost non-swizzled component. That's why you can import `@theme-original/CodeBlock` in the swizzled component—it points to the next one in the "component stack", a theme-provided one. Plugin authors should not try to use this because your component could be the topmost component and cause a self-import.
 
 `@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
+
+## Client modules {#client-modules}
+
+Client modules are part of your site's bundle, just like theme components. However, they are usually side-effect-ful. Client modules are anything that can be `import`ed by Webpack—CSS, JS, etc. JS scripts usually work on the global context, like registering event listeners, creating global variables...
+
+These modules are imported globally before React even renders the initial UI.
+
+```js title="App.tsx"
+// How it works under the hood
+import '@generated/client-modules';
+```
+
+Plugins and sites can both declare client modules, through [`getClientModules`](../api/plugin-methods/lifecycle-apis.md#getClientModules) and [`siteConfig.clientModules`](../api/docusaurus.config.js.md#clientModules), respectively.
+
+Client modules are called during server-side rendering as well, so remember to check the [execution environment](./ssg.md#escape-hatches) before accessing client-side globals.
+
+```js title="mySiteGlobalJs.js"
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
+if (ExecutionEnvironment.canUseDOM) {
+  // As soon as the site loads in the browser, register a global event listener
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Period') {
+      location.assign(location.href.replace('.com', '.dev'));
+    }
+  });
+}
+```
+
+CSS stylesheets imported as client modules are [global](../styling-layout.md#global-styles).
+
+```css title="mySiteGlobalCss.css"
+/* This stylesheet is global. */
+.globalSelector {
+  color: red;
+}
+```
+
+<!-- TODO client module lifecycles -->
+<!-- https://github.com/facebook/docusaurus/issues/3399 -->

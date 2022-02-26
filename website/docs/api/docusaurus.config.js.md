@@ -450,7 +450,7 @@ module.exports = {
 
 ### `clientModules` {#clientmodules}
 
-An array of client modules to load globally on your site:
+An array of [client modules](../advanced/client.md#client-modules) to load globally on your site:
 
 Example:
 
@@ -462,8 +462,6 @@ module.exports = {
   ],
 };
 ```
-
-See also: [`getClientModules()`](./plugin-methods/lifecycle-apis.md#getClientModules).
 
 ### `ssrTemplate` {#ssrtemplate}
 
