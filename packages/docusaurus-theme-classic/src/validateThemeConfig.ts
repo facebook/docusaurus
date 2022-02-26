@@ -214,12 +214,10 @@ const ColorModeSchema = Joi.object({
   respectPrefersColorScheme: Joi.bool().default(
     DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
   ),
-  switchConfig: Joi.any()
-    .forbidden()
-    .messages({
-      'any.unknown':
-        'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or Toggle instead.',
-    }),
+  switchConfig: Joi.any().forbidden().messages({
+    'any.unknown':
+      'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or Toggle instead.',
+  }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
 // schema can probably be improved
