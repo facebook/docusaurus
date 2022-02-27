@@ -55,7 +55,7 @@ cd ..
 npm_config_registry="$CUSTOM_REGISTRY_URL" npx create-docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
 
 # Stop Docker container
-if [[ -z "${KEEP_CONTAINER:-}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
+if [[ -z "${KEEP_CONTAINER:-true}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
   # Remove Docker container
   docker container stop $CONTAINER_NAME > /dev/null
 fi

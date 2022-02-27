@@ -31,8 +31,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn v1
         run: yarn install
         working-directory: ../test-website
@@ -69,10 +67,8 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Generate test-website project in ${{ matrix.variant }} against main branch
+      - name: Generate test-website project with ${{ matrix.variant }} against main branch
         run: yarn test:build:website ${{ matrix.variant }}
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           yarn set version berry
@@ -99,7 +95,7 @@ jobs:
         env:
           E2E_TEST: true
       - name: Type check
-        if: matrix.variant.name == 'TS'
+        if: matrix.variant == '-st'
         run: yarn typecheck
         working-directory: ../test-website
       - name: Build test-website project
@@ -121,8 +117,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with NPM
         run: npm install
         working-directory: ../test-website
@@ -152,8 +146,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with PNPM
         run: |
           curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
