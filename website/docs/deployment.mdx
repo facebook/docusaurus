@@ -343,7 +343,7 @@ The workflow examples below assume your website source resides in the `main` bra
 
 Our goal is that:
 
-1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
+1. When a new pull request is made to `main`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
 2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new build output will be served on the GitHub Pages site. This job will be called `deploy`.
 
 Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
@@ -369,7 +369,7 @@ Add these two workflow files:
 
 These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
 
-If your Docusaurus project is not at the root of the repo, you would need to change the paths as well.
+If your Docusaurus project is at the root of the repo, you would need to remove the `paths`, `defaults` and change the `publish_dir` to `./build`.
 
 :::
 
@@ -383,19 +383,36 @@ on:
     # Review gh actions docs if you want to further define triggers, paths, etc
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
+    paths:
+    - website/**
+
+defaults:
+  run:
+    working-directory: ./website
+
 jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Set up Node
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
-          cache: yarn
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Build website
         run: yarn build
 
@@ -406,7 +423,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
-          publish_dir: ./build
+          publish_dir: ./website/build
           # The following lines assign commit authorship to the official
           # GH-Actions bot for deploys to `gh-pages` branch:
           # https://github.com/actions/checkout/issues/13#issuecomment-724415212
@@ -426,19 +443,33 @@ on:
     # Review gh actions docs if you want to further define triggers, paths, etc
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
+defaults:
+  run:
+    working-directory: ./website
+
 jobs:
   test-deploy:
     name: Test deployment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
-          cache: yarn
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Test build website
         run: yarn build
 ```
