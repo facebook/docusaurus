@@ -59,7 +59,7 @@ describe('transformImage plugin', () => {
   });
 
   test('does not choke on invalid image', async () => {
-    const errorMock = jest.spyOn(console, 'error').mockImplementation();
+    const errorMock = jest.spyOn(console, 'warn').mockImplementation();
     const result = await processFixture('invalid-img', {staticDirs});
     expect(result).toMatchSnapshot();
     expect(errorMock).toBeCalledTimes(1);
