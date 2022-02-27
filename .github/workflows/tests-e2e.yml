@@ -54,11 +54,12 @@ jobs:
     strategy:
       matrix:
         nodeLinker: [pnp, node-modules]
-        variant:
-          - name: JS
-            option: -s
-          - name: TS
-            option: -s -t
+        variant: [-s, -st]
+        exclude:
+          # Running tsc on PnP requires additional installations, which is not
+          # worthwhile for a simple E2E test
+          - variant: -st
+            nodeLinker: pnp
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16
@@ -68,8 +69,8 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Generate test-website project in ${{ matrix.variant.name }} against main branch
-        run: yarn test:build:website ${{ matrix.variant.option }}
+      - name: Generate test-website project in ${{ matrix.variant }} against main branch
+        run: yarn test:build:website ${{ matrix.variant }}
         env:
           KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
