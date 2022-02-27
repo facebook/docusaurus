@@ -339,12 +339,12 @@ Alternatively, you can use SSH (`USE_SSH=true`) to log in.
 
 [GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
 
-The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), under a folder called `website/`, and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _deployment branch_ is `gh-pages`).
+The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _deployment branch_ is `gh-pages`).
 
 Our goal is that:
 
-1. When a new pull request is made to `main` and updates `website/`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
-2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly and `website/` is updated, it will be built and deployed to the `gh-pages` branch. After that, the new build output will be served on the GitHub Pages site. This job will be called `deploy`.
+1. When a new pull request is made to `main`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
+2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly, it will be built and deployed to the `gh-pages` branch. After that, the new build output will be served on the GitHub Pages site. This job will be called `deploy`.
 
 Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
 
@@ -369,7 +369,7 @@ Add these two workflow files:
 
 These files assume you are using yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
 
-If your Docusaurus project is not at the root of the repo, you would need to change the paths as well.
+If your Docusaurus project is not at the root of your repo, you may need to configure a [default working directory](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-set-the-default-shell-and-working-directory), and adjust the paths accordingly.
 
 :::
 
@@ -499,7 +499,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
       - uses: webfactory/ssh-agent@v0.5.0
         with:
