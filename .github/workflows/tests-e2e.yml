@@ -70,6 +70,7 @@ jobs:
         run: yarn
       - name: Generate test-website project in ${{ matrix.variant.name }} against main branch
         run: yarn test:build:website ${{ matrix.variant.option }}
+        working-directory: ../test-website
         env:
           KEEP_CONTAINER: true
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
