@@ -31,8 +31,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn v1
         run: yarn install
         working-directory: ../test-website
@@ -54,6 +52,12 @@ jobs:
     strategy:
       matrix:
         nodeLinker: [pnp, node-modules]
+        variant: [-s, -st]
+        exclude:
+          # Running tsc on PnP requires additional installations, which is not
+          # worthwhile for a simple E2E test
+          - variant: -st
+            nodeLinker: pnp
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16
@@ -63,10 +67,8 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
+      - name: Generate test-website project with ${{ matrix.variant }} against main branch
+        run: yarn test:build:website ${{ matrix.variant }}
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           yarn set version berry
@@ -92,6 +94,10 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
+      - name: Type check
+        if: matrix.variant == '-st'
+        run: yarn typecheck
+        working-directory: ../test-website
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
@@ -111,8 +117,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with NPM
         run: npm install
         working-directory: ../test-website
@@ -142,8 +146,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with PNPM
         run: |
           curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm

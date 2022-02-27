@@ -12,12 +12,15 @@ NEW_VERSION="$(node -p "require('./packages/docusaurus/package.json').version").
 CONTAINER_NAME="verdaccio"
 EXTRA_OPTS=""
 
-usage() { echo "Usage: $0 [-s]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-s] [-t]" 1>&2; exit 1; }
 
-while getopts ":ns" o; do
+while getopts ":st" o; do
   case "${o}" in
     s)
       EXTRA_OPTS="${EXTRA_OPTS} --skip-install"
+      ;;
+    t)
+      EXTRA_OPTS="${EXTRA_OPTS} --typescript"
       ;;
     *)
       usage
@@ -52,7 +55,7 @@ cd ..
 npm_config_registry="$CUSTOM_REGISTRY_URL" npx create-docusaurus@"$NEW_VERSION" test-website classic $EXTRA_OPTS
 
 # Stop Docker container
-if [[ -z "${KEEP_CONTAINER:-}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
+if [[ -z "${KEEP_CONTAINER:-true}" ]] && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
   # Remove Docker container
   docker container stop $CONTAINER_NAME > /dev/null
 fi
