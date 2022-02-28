@@ -3,6 +3,7 @@ JMarcey:
   title: Technical Lead & Developer Advocate at Facebook
   url: http://twitter.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
   twitter: JoelMarcey
 
 slorber:
@@ -11,6 +12,7 @@ slorber:
   url: https://sebastienlorber.com
   image_url: https://github.com/slorber.png
   twitter: sebastienlorber
+  email: lorber.sebastien@gmail.com
 
 yangshun:
   name: Yangshun Tay
@@ -18,15 +20,18 @@ yangshun:
   url: https://github.com/yangshun
   image_url: https://github.com/yangshun.png
   twitter: yangshunz
+  email: tay.yang.shun@gmail.com
 
 lex111:
   name: Alexey Pyltsyn
   title: Open-source enthusiast
   url: https://github.com/lex111
   image_url: https://github.com/lex111.png
+  email: lex@php.net
 
 Josh-Cena:
   name: Joshua Chen
   title: Working hard on Docusaurus
   url: https://joshcena.com/
   image_url: https://github.com/josh-cena.png
+  email: sidachen2003@gmail.com
