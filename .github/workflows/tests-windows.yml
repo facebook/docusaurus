@@ -20,7 +20,7 @@ jobs:
         run: git config --system core.longpaths true
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
