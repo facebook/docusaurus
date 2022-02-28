@@ -67,8 +67,12 @@ async function toImageRequireNode(
       height = ` height="${size.height}"`;
     }
   } catch (err) {
-    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
+    // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
+    // TODO remove this check once fixed in Yarn PnP
+    if (!process.versions.pnp) {
+      logger.warn`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
 ${(err as Error).message}`;
+    }
   }
 
   Object.keys(jsxNode).forEach(
