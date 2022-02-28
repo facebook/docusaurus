@@ -189,7 +189,7 @@ export function applyConfigureWebpack(
       isServer,
       utils,
       content,
-    );
+    ) || {};
     if (res && typeof res === 'object') {
       const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
