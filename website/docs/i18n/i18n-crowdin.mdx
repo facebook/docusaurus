@@ -124,19 +124,19 @@ api_token_env: CROWDIN_PERSONAL_TOKEN
 preserve_hierarchy: true
 files:
   # JSON translation files
-  - source: /i18n/en/**/*
+  - source: /i18n/en/**/*.json
     translation: /i18n/%two_letters_code%/**/%original_file_name%
   # Docs Markdown files
-  - source: /docs/**/*
+  - source: /docs/**/*.md
     translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
   # Blog Markdown files
-  - source: /blog/**/*
+  - source: /blog/**/*.md
     translation: /i18n/%two_letters_code%/docusaurus-plugin-content-blog/**/%original_file_name%
 ```
 
 Crowdin has its own syntax for declaring source/translation paths:
 
-- `**/*`: everything in a subfolder
+- `**/*.md`: all markdown files in a subfolder.
 - `%two_letters_code%`: the 2-letters variant of Crowdin target languages (`fr` in our case)
 - `**/%original_file_name%`: the translations will preserve the original folder/file hierarchy
 
@@ -149,7 +149,7 @@ We advise to:
 - change one thing at a time
 - re-upload sources after any configuration change
 - use paths starting with `/` (`./` does not work)
-- avoid fancy globbing patterns like `/docs/**/*.(md|mdx)` (does not work)
+- use one file type and avoid fancy globbing patterns like `/docs/**/*.(md|mdx)` (does not work)
 
 :::
 
