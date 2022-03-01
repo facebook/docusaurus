@@ -138,7 +138,7 @@ function Home(): JSX.Element {
         <div>
           <div className={styles.banner}>
             Support Ukraine 🇺🇦{' '}
-            <Link to="https://razomforukraine.org/donate">
+            <Link to="https://www.facebook.com/fundraisers">
               Help Provide Humanitarian Aid to Ukraine
             </Link>
             .
