@@ -61,7 +61,7 @@
     "react-popper": "^2.2.5",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
-    "unist-util-visit": "^2.0.2",
+    "unist-util-visit": "^4.1.0",
     "workbox-routing": "^6.5.0",
     "workbox-strategies": "^6.5.0"
   },
