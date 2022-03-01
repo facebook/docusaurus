@@ -18,6 +18,6 @@
     "postcss-sort-media-queries": "^4.2.1"
   },
   "devDependencies": {
-    "to-vfile": "^6.0.0"
+    "to-vfile": "^7.2.3"
   }
 }

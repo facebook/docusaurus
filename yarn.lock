@@ -18362,13 +18362,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-to-vfile@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/to-vfile/-/to-vfile-6.1.0.tgz#5f7a3f65813c2c4e34ee1f7643a5646344627699"
-  integrity sha512-BxX8EkCxOAZe+D/ToHdDsJcVI4HqQfmw0tCkp31zf3dNP/XWIAjU4CmeuSwsSoOzOTqHPOL0KUzyZqJplkD0Qw==
+to-vfile@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/to-vfile/-/to-vfile-7.2.3.tgz#4e54ad10878901703f1a956a33ba4f131c31eef7"
+  integrity sha512-QO0A9aE6Z/YkmQadJ0syxpmNXtcQiu0qAtCKYKD5cS3EfgfFTAXfgLX6AOaBrSfWSek5nfsMf3gBZ9KGVFcLuw==
   dependencies:
     is-buffer "^2.0.0"
-    vfile "^4.0.0"
+    vfile "^5.1.0"
 
 toggle-selection@^1.0.6:
   version "1.0.6"
@@ -19217,7 +19217,7 @@ vfile@^4.0.0:
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
 
-vfile@^5.0.0:
+vfile@^5.0.0, vfile@^5.1.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/vfile/-/vfile-5.3.0.tgz#4990c78cb3157005590ee8c930b71cd7fa6a006e"
   integrity sha512-Tj44nY/48OQvarrE4FAjUfrv7GZOYzPbl5OD65HxVKwLJKMPU7zmfV8cCgCnzKWnSfYG2f3pxu+ALqs7j22xQQ==
