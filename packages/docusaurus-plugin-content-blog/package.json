@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.16",
-    "escape-string-regexp": "^4.0.0"
+    "escape-string-regexp": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",
