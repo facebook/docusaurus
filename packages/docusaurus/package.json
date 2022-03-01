@@ -79,7 +79,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.5.3",
     "nprogress": "^0.2.0",
-    "postcss": "^8.4.6",
+    "postcss": "^8.4.7",
     "postcss-loader": "^6.2.1",
     "prompts": "^2.4.2",
     "react-dev-utils": "^12.0.0",

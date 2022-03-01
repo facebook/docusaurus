@@ -35,7 +35,7 @@
     "copy-text-to-clipboard": "^3.0.1",
     "infima": "0.2.0-alpha.37",
     "lodash": "^4.17.21",
-    "postcss": "^8.4.6",
+    "postcss": "^8.4.7",
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.27.0",
     "react-router-dom": "^5.2.0",
