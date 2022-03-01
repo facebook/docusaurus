@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/mdast": "^3.0.10",
     "remark": "^12.0.0",
-    "remark-mdx": "^1.6.21",
+    "remark-mdx": "^2.0.0",
     "to-vfile": "^6.0.0"
   },
   "engines": {
