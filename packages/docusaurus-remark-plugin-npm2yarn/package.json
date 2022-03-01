@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/mdast": "^3.0.10",
-    "remark": "^12.0.0",
+    "remark": "^14.0.2",
     "remark-mdx": "^1.6.21",
     "to-vfile": "^6.0.0"
   },
