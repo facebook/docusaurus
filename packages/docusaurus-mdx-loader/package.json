@@ -22,7 +22,7 @@
     "@babel/traverse": "^7.17.3",
     "@docusaurus/logger": "2.0.0-beta.16",
     "@docusaurus/utils": "2.0.0-beta.16",
-    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/mdx": "^2.0.0",
     "escape-html": "^1.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.1",
