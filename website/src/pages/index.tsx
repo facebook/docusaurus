@@ -120,7 +120,7 @@ function ELIVideo() {
           title="Explain Like I'm 5: Docusaurus"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen={true}></iframe>
+          allowFullScreen />
       </div>
     </div>
   );
@@ -134,6 +134,15 @@ function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
+        <div>
+          <div className={styles.banner}>
+            Support Ukraine.{' '}
+            <Link to="https://razomforukraine.org/donate">
+              Help Provide Humanitarian Aid to Ukraine
+            </Link>
+            .
+          </div>
+        </div>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={styles.heroProjectTagline}>
