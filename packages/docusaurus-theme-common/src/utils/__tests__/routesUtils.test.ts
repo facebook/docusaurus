@@ -15,59 +15,94 @@ describe('routesUtils findHomePageRoute', () => {
   };
 
   test('should return undefined for no routes', () => {
-    expect(findHomePageRoute([])).toEqual(undefined);
+    expect(findHomePageRoute({baseUrl: '/', routes: []})).toEqual(undefined);
   });
 
   test('should return undefined for no homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {path: '/b', exact: false},
-        {path: '/c', exact: undefined},
-        {
-          path: '/d',
-          exact: false,
-          routes: [
-            {path: '/d/1', exact: true},
-            {path: '/d/2', exact: false},
-            {path: '/d/3', exact: undefined},
-          ],
-        },
-      ]),
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {path: '/b', exact: false},
+          {path: '/c', exact: undefined},
+          {
+            path: '/d',
+            exact: false,
+            routes: [
+              {path: '/d/1', exact: true},
+              {path: '/d/2', exact: false},
+              {path: '/d/3', exact: undefined},
+            ],
+          },
+        ],
+      }),
     ).toEqual(undefined);
   });
 
   test('should find top-level homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {path: '/b', exact: false},
-        {path: '/c', exact: undefined},
-        {...homePage, exact: false},
-        homePage,
-        {...homePage, exact: undefined},
-      ]),
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {path: '/b', exact: false},
+          {path: '/c', exact: undefined},
+          {...homePage, exact: false},
+          homePage,
+          {...homePage, exact: undefined},
+        ],
+      }),
     ).toEqual(homePage);
   });
 
   test('should find nested homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {
-          path: '/',
-          exact: false,
-          routes: [
-            {path: '/b', exact: true},
-            {
-              path: '/',
-              exact: false,
-              routes: [{path: '/c', exact: true}, homePage],
-            },
-          ],
-        },
-        {path: '/d', exact: true},
-      ]),
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {
+            path: '/',
+            exact: false,
+            routes: [
+              {path: '/b', exact: true},
+              {
+                path: '/',
+                exact: false,
+                routes: [{path: '/c', exact: true}, homePage],
+              },
+            ],
+          },
+          {path: '/d', exact: true},
+        ],
+      }),
     ).toEqual(homePage);
+  });
+
+  test('should find nested homepage with baseUrl', () => {
+    const baseUrl = '/baseUrl/';
+    const baseUrlHomePage = {...homePage, path: baseUrl};
+    expect(
+      findHomePageRoute({
+        baseUrl,
+        routes: [
+          {path: `${baseUrl}a`, exact: true},
+          {
+            path: baseUrl,
+            exact: false,
+            routes: [
+              {path: `${baseUrl}b`, exact: true},
+              {
+                path: baseUrl,
+                exact: false,
+                routes: [{path: `${baseUrl}c`, exact: true}, baseUrlHomePage],
+              },
+            ],
+          },
+          {path: `${baseUrl}d`, exact: true},
+        ],
+      }),
+    ).toEqual(baseUrlHomePage);
   });
 });
