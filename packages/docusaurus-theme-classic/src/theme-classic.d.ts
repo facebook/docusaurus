@@ -632,7 +632,7 @@ declare module '@theme/TOCCollapsible' {
   export default function TOCCollapsible(props: Props): JSX.Element;
 }
 
-declare module '@theme/Toggle' {
+declare module '@theme/ColorModeToggle' {
   import type {SyntheticEvent} from 'react';
 
   export interface Props {

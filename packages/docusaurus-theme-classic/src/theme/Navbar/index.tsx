@@ -9,7 +9,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import SearchBar from '@theme/SearchBar';
-import Toggle from '@theme/Toggle';
+import ColorModeToggle from '@theme/ColorModeToggle';
 import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
@@ -171,7 +171,7 @@ function NavbarMobileSidebar({
           titleClassName="navbar__title"
         />
         {!colorModeToggle.disabled && (
-          <Toggle
+          <ColorModeToggle
             className={styles.navbarSidebarToggle}
             checked={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
@@ -271,7 +271,7 @@ export default function Navbar(): JSX.Element {
             <NavbarItem {...item} key={i} />
           ))}
           {!colorModeToggle.disabled && (
-            <Toggle
+            <ColorModeToggle
               className={styles.toggle}
               checked={colorModeToggle.isDarkTheme}
               onChange={colorModeToggle.toggle}

@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useRef, useEffect} from 'react';
-import type {Props} from '@theme/Toggle';
+import type {Props} from '@theme/ColorModeToggle';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
 import IconLightMode from '@theme/IconLightMode';
@@ -15,7 +15,7 @@ import IconDarkMode from '@theme/IconDarkMode';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-function Toggle({
+function ColorModeToggle({
   className,
   checked: defaultChecked,
   onChange,
@@ -89,4 +89,4 @@ function Toggle({
   );
 }
 
-export default React.memo(Toggle);
+export default React.memo(ColorModeToggle);

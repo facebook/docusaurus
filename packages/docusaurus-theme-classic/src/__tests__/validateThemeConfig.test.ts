@@ -518,7 +518,7 @@ describe('themeConfig', () => {
       expect(() =>
         testValidateThemeConfig({colorMode}),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or Toggle instead."`,
+        `"colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead."`,
       );
     });
 
