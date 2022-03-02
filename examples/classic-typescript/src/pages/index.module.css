@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 966px) {
   .heroBanner {
     padding: 2rem;
   }
