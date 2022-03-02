@@ -149,7 +149,7 @@ type ResultDispatcher =
   | {type: 'update'; value: ResultDispatcherState}
   | {type: 'advance'; value?: undefined};
 
-function SearchPage(): JSX.Element {
+export default function SearchPage(): JSX.Element {
   const {
     siteConfig: {themeConfig},
     i18n: {currentLocale},
@@ -516,5 +516,3 @@ function SearchPage(): JSX.Element {
     </Layout>
   );
 }
-
-export default SearchPage;

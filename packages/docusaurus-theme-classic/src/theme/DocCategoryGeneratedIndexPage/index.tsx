@@ -13,6 +13,7 @@ import DocPaginator from '@theme/DocPaginator';
 import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Heading from '@theme/Heading';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -33,6 +34,7 @@ export default function DocCategoryGeneratedIndexPage({
       />
       <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
+        <DocBreadcrumbs />
         <DocVersionBadge />
         <header>
           <Heading as="h1" className={styles.title}>

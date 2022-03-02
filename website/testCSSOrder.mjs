@@ -7,7 +7,6 @@
 
 import path from 'path';
 import {fileURLToPath} from 'url';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import fs from 'fs-extra';
 
 /*

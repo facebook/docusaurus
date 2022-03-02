@@ -287,6 +287,15 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
+    title: 'Blog Matheus Brunelli',
+    description:
+      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+    preview: require('./showcase/blogmatheusbrunelli.png'),
+    website: 'https://mrbrunelli.github.io/blog/',
+    source: 'https://github.com/mrbrunelli/blog',
+    tags: ['opensource', 'personal']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
@@ -303,14 +312,6 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Discord Resources',
-    description: 'All Discord resources in one place',
-    preview: require('./showcase/discordresources.png'),
-    website: 'https://discordresources.com/',
-    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
-    tags: ['opensource'],
-  },
-  {
     title: 'Build Tracker',
     description:
       'Track performance budgets & prevent unexpected bloat in your app',
@@ -318,6 +319,15 @@ const Users: User[] = [
     website: 'https://buildtracker.dev',
     source: 'https://github.com/paularmstrong/build-tracker',
     tags: ['opensource'],
+  },
+  {
+    title: 'Butterfly Documentation',
+    description:
+      'The documentation of the note taking app Linwood Butterfly',
+    preview: require('./showcase/docs-butterfly.png'),
+    website: 'https://docs.butterfly.linwood.dev',
+    source: 'https://github.com/LinwoodCloud/Butterfly',
+    tags: ['opensource', 'i18n', 'versioning'],
   },
   {
     title: 'ClarityChallenge',
@@ -406,6 +416,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'CyberDrain Improved Partner Portal (CIPP)',
+    description: 'Free and open-source multi-tenant management for Microsoft 365.',
+    preview: require('./showcase/CIPP.png'),
+    website: 'https://cipp.app',
+    source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Daily Digest - COVID-19 IN FRANCE',
     description:
       'A website that presents daily COVID-19 statistics and news in France in the form of a daily digest.',
@@ -456,6 +474,14 @@ const Users: User[] = [
     website: 'https://notes.nayanpatel.net',
     source: 'https://github.com/PatelN123/Digital-Support-Notes',
     tags: ['opensource', 'design', 'personal'],
+  },
+  {
+    title: 'Discord Resources',
+    description: 'All Discord resources in one place',
+    preview: require('./showcase/discordresources.png'),
+    website: 'https://discordresources.com/',
+    source: 'https://github.com/Discord-Resources-Wiki/Discord-Resources-Wiki',
+    tags: ['opensource'],
   },
   {
     title: 'Djamaile Rahamat',
@@ -1182,6 +1208,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large'],
   },
   {
+    title: 'Rivalis',
+    description:
+      'An open source framework for developing servers for real-time applications and games',
+    preview: require('./showcase/rivalis.png'),
+    website: 'https://rivalis.io',
+    source: 'https://github.com/rivalis/rivalis',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'RactivePlayer',
     description: 'Interactive videos in React',
     preview: require('./showcase/ractive-player.png'),
@@ -1313,6 +1348,14 @@ const Users: User[] = [
     preview: require('./showcase/redux.png'),
     website: 'https://redux.js.org/',
     source: 'https://www.github.com/reduxjs/redux',
+    tags: ['opensource'],
+  },
+  {
+    title: 'Redux Cool',
+    description: 'Build redux logic, without getting nervous 😬',
+    preview: require('./showcase/redux-cool.png'),
+    website: 'https://redux-cool.js.org/',
+    source: 'https://github.com/Redux-Cool/redux-cool',
     tags: ['opensource'],
   },
   {
@@ -1489,6 +1532,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'SmartCookieWeb',
+    description: 'Webpage for an open source, telemetry-free Android web browser',
+    preview: require('./showcase/smartcookieweb.png'),
+    website: 'https://smartcookieweb.com/',
+    source: null,
+    tags: ['product', 'i18n'],
+  },
+  {
     title: 'Shabad OS Docs',
     description:
       'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
@@ -1613,6 +1664,14 @@ const Users: User[] = [
     website: 'https://docs.tasit.io/',
     source: 'https://github.com/tasitlabs/tasit-sdk',
     tags: ['opensource'],
+  },
+  {
+    title: 'TechHarvesting',
+    description: 'Learn full stack web development from tutorials and blog posts',
+    preview: require('./showcase/techharvesting.png'),
+    website: 'https://techharvesting.in',
+    source: 'https://github.com/techharvesting/techharvesting.github.io',
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'The Diff Podcast',

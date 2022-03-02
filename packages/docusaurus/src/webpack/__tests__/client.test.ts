@@ -8,13 +8,13 @@
 import {validate} from 'webpack';
 
 import createClientConfig from '../client';
-import loadSetup from '../../server/loadSetup';
+import loadSetup from '../../server/__tests__/testUtils';
 
 describe('webpack dev config', () => {
   test('simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
-    const config = createClientConfig(props);
+    const config = await createClientConfig(props);
     const errors = validate(config);
     expect(errors).toBeUndefined();
   });
@@ -22,7 +22,7 @@ describe('webpack dev config', () => {
   test('custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
-    const config = createClientConfig(props);
+    const config = await createClientConfig(props);
     const errors = validate(config);
     expect(errors).toBeUndefined();
   });

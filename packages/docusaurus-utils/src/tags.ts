@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {kebabCase, uniq, uniqBy} from 'lodash';
+import _ from 'lodash';
 import {normalizeUrl} from './urlUtils';
 
 export type Tag = {
@@ -22,7 +22,7 @@ export function normalizeFrontMatterTag(
   function toTagObject(tagString: string): Tag {
     return {
       label: tagString,
-      permalink: kebabCase(tagString),
+      permalink: _.kebabCase(tagString),
     };
   }
 
@@ -53,7 +53,7 @@ export function normalizeFrontMatterTags(
     normalizeFrontMatterTag(tagsPath, tag),
   );
 
-  return uniqBy(tags, (tag) => tag.permalink);
+  return _.uniqBy(tags, (tag) => tag.permalink);
 }
 
 export type TaggedItemGroup<Item> = {
@@ -98,7 +98,7 @@ export function groupTaggedItems<Item>(
   // If user add twice the same tag to a md doc (weird but possible),
   // we don't want the item to appear twice in the list...
   Object.values(result).forEach((group) => {
-    group.items = uniq(group.items);
+    group.items = _.uniq(group.items);
   });
 
   return result;

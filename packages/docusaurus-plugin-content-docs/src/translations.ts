@@ -13,7 +13,7 @@ import type {
   Sidebars,
 } from './sidebars/types';
 
-import {chain, mapValues, keyBy} from 'lodash';
+import _ from 'lodash';
 import {
   collectSidebarCategories,
   transformSidebarItems,
@@ -146,13 +146,15 @@ function getSidebarTranslationFileContent(
   );
 
   const links = collectSidebarLinks(sidebar);
-  const linksContent: TranslationFileContent = chain(links)
-    .keyBy((link) => `sidebar.${sidebarName}.link.${link.label}`)
-    .mapValues((link) => ({
-      message: link.label,
-      description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
-    }))
-    .value();
+  const linksContent: TranslationFileContent = Object.fromEntries(
+    links.map((link) => [
+      `sidebar.${sidebarName}.link.${link.label}`,
+      {
+        message: link.label,
+        description: `The label for link ${link.label} in sidebar ${sidebarName}, linking to ${link.href}`,
+      },
+    ]),
+  );
 
   return mergeTranslations([categoryContent, linksContent]);
 }
@@ -230,7 +232,7 @@ function translateSidebars(
   version: LoadedVersion,
   sidebarsTranslations: TranslationFileContent,
 ): Sidebars {
-  return mapValues(version.sidebars, (sidebar, sidebarName) =>
+  return _.mapValues(version.sidebars, (sidebar, sidebarName) =>
     translateSidebar({
       sidebar,
       sidebarName: getNormalizedSidebarName({
@@ -302,7 +304,7 @@ export function translateLoadedContent(
   loadedContent: LoadedContent,
   translationFiles: TranslationFile[],
 ): LoadedContent {
-  const translationFilesMap: Record<string, TranslationFile> = keyBy(
+  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

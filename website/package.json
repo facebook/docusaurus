@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.0-beta.15",
+  "version": "2.0.0-beta.16",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -11,6 +11,10 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
+    "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:eject:ts": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='true' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:wrap:js": "cross-env SWIZZLE_ACTION='wrap' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
+    "test:swizzle:wrap:ts": "cross-env SWIZZLE_ACTION='wrap' SWIZZLE_TYPESCRIPT='true' node _dogfooding/testSwizzleThemeClassic.mjs",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "start:baseUrl": "cross-env BASE_URL='/build/' yarn start",
@@ -30,23 +34,25 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.7.1",
-    "@crowdin/crowdin-api-client": "^1.13.0",
-    "@docusaurus/core": "2.0.0-beta.15",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.15",
-    "@docusaurus/plugin-ideal-image": "2.0.0-beta.15",
-    "@docusaurus/plugin-pwa": "2.0.0-beta.15",
-    "@docusaurus/preset-classic": "2.0.0-beta.15",
-    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.15",
-    "@docusaurus/theme-common": "2.0.0-beta.15",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.15",
-    "@docusaurus/utils": "2.0.0-beta.15",
-    "@docusaurus/utils-common": "2.0.0-beta.15",
-    "@popperjs/core": "^2.10.2",
-    "axios": "^0.25.0",
+    "@crowdin/cli": "^3.7.8",
+    "@crowdin/crowdin-api-client": "^1.14.0",
+    "@docusaurus/core": "2.0.0-beta.16",
+    "@docusaurus/logger": "2.0.0-beta.16",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.16",
+    "@docusaurus/plugin-ideal-image": "2.0.0-beta.16",
+    "@docusaurus/plugin-pwa": "2.0.0-beta.16",
+    "@docusaurus/preset-classic": "2.0.0-beta.16",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.16",
+    "@docusaurus/theme-classic": "2.0.0-beta.16",
+    "@docusaurus/theme-common": "2.0.0-beta.16",
+    "@docusaurus/theme-live-codeblock": "2.0.0-beta.16",
+    "@docusaurus/utils": "2.0.0-beta.16",
+    "@docusaurus/utils-common": "2.0.0-beta.16",
+    "@popperjs/core": "^2.11.2",
     "clsx": "^1.1.1",
-    "color": "^4.0.1",
-    "esbuild-loader": "2.16.0",
+    "color": "^4.2.1",
+    "esbuild-loader": "2.18.0",
+    "fs-extra": "^10.0.0",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -56,8 +62,8 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
-    "workbox-routing": "^6.4.2",
-    "workbox-strategies": "^6.4.2"
+    "workbox-routing": "^6.5.0",
+    "workbox-strategies": "^6.5.0"
   },
   "browserslist": {
     "production": [
@@ -73,8 +79,7 @@
   },
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
-    "@types/jest": "^27.4.0",
-    "cross-env": "^7.0.3",
-    "fs-extra": "^10.0.0"
+    "@types/jest": "^27.4.1",
+    "cross-env": "^7.0.3"
   }
 }

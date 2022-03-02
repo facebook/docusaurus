@@ -6,15 +6,12 @@
  */
 
 import type {RuleSetRule, Configuration} from 'webpack';
+import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
-
-// Convert webpack-merge webpack-merge enum to union type
-// For type retro-compatible webpack-merge upgrade: we used string literals
-// before) See https://github.com/survivejs/webpack-merge/issues/179
-type MergeStrategy = 'match' | 'merge' | 'append' | 'prepend' | 'replace';
+import type {Location} from 'history';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -319,13 +316,30 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
   readonly content: Content;
 };
 
+export type SwizzleAction = 'eject' | 'wrap';
+export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';
+
+export type SwizzleComponentConfig = {
+  actions: Record<SwizzleAction, SwizzleActionStatus>;
+  description?: string;
+};
+
+export type SwizzleConfig = {
+  components: Record<string, SwizzleComponentConfig>;
+  // Other settings could be added here,
+  // For example: the ability to declare the config as exhaustive
+  // so that we can emit errors
+};
+
 export type PluginModule = {
   <Options, Content>(context: LoadContext, options: Options):
     | Plugin<Content>
     | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
-  getSwizzleComponentList?: () => string[];
+
+  getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
+  getSwizzleConfig?: () => SwizzleConfig | undefined;
 };
 
 export type ImportedPluginModule = PluginModule & {
@@ -333,7 +347,10 @@ export type ImportedPluginModule = PluginModule & {
 };
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
-export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+export type ConfigureWebpackFnMergeStrategy = Record<
+  string,
+  CustomizeRuleString
+>;
 export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
 export type PluginOptions = {id?: string} & Record<string, unknown>;
@@ -392,18 +409,6 @@ export interface ConfigureWebpackUtils {
     isServer: boolean;
     babelOptions?: Record<string, unknown>;
   }) => RuleSetRule;
-
-  // TODO deprecated: remove before end of 2021?
-  getCacheLoader: (
-    isServer: boolean,
-    cacheOptions?: Record<string, unknown>,
-  ) => RuleSetRule | null;
-
-  // TODO deprecated: remove before end of 2021?
-  getBabelLoader: (
-    isServer: boolean,
-    options?: Record<string, unknown>,
-  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {
@@ -441,11 +446,18 @@ export interface ThemeConfigValidationContext<T> {
   themeConfig: Partial<T>;
 }
 
-export interface TOCItem {
+export type TOCItem = {
   readonly value: string;
   readonly id: string;
-  readonly children: TOCItem[];
   readonly level: number;
-}
+};
 
 export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
+
+export type ClientModule = {
+  onRouteUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => void;
+  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+};

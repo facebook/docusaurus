@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -13,8 +13,8 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options?) => {
-  const path = join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(path);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
@@ -41,26 +41,21 @@ test('text content', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: [],
     		level: 3
     	},
     	{
     		value: 'Endi',
     		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Yangshun',
+    		id: 'yangshun',
+    		level: 3
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: [],
     		level: 2
     	}
     ];
@@ -91,21 +86,17 @@ test('should export even with existing name', async () => {
     	{
     		value: 'Thanos',
     		id: 'thanos',
-    		children: [],
     		level: 2
     	},
     	{
     		value: 'Tony Stark',
     		id: 'tony-stark',
-    		children: [
-    			{
-    				value: 'Avengers',
-    				id: 'avengers',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Avengers',
+    		id: 'avengers',
+    		level: 3
     	}
     ];
 
@@ -128,26 +119,21 @@ test('should export with custom name', async () => {
     	{
     		value: 'Endi',
     		id: 'endi',
-    		children: [],
     		level: 3
     	},
     	{
     		value: 'Endi',
     		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Yangshun',
+    		id: 'yangshun',
+    		level: 3
     	},
     	{
     		value: 'I ♥ unicode.',
     		id: 'i--unicode',
-    		children: [],
     		level: 2
     	}
     ];
@@ -182,21 +168,17 @@ test('should insert below imports', async () => {
     	{
     		value: 'Title',
     		id: 'title',
-    		children: [],
     		level: 2
     	},
     	{
     		value: 'Test',
     		id: 'test',
-    		children: [
-    			{
-    				value: 'Again',
-    				id: 'again',
-    				children: [],
-    				level: 3
-    			}
-    		],
     		level: 2
+    	},
+    	{
+    		value: 'Again',
+    		id: 'again',
+    		level: 3
     	}
     ];
 

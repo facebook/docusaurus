@@ -173,7 +173,7 @@ describe('findFolderContainingFile', () => {
     await expect(
       findFolderContainingFile(
         ['/abcdef', '/gehij', __dirname, '/klmn'],
-        'index.test.ts',
+        'dataFileUtils.test.ts',
       ),
     ).resolves.toEqual(__dirname);
   });
@@ -190,16 +190,19 @@ describe('getFolderContainingFile', () => {
     await expect(
       getFolderContainingFile(
         ['/abcdef', '/gehij', __dirname, '/klmn'],
-        'index.test.ts',
+        'dataFileUtils.test.ts',
       ),
     ).resolves.toEqual(__dirname);
   });
 
   test('throw if no folder contain such file', async () => {
     await expect(
-      getFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
+      getFolderContainingFile(
+        ['/abcdef', '/gehij', '/klmn'],
+        'dataFileUtils.test.ts',
+      ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "File \\"index.test.ts\\" does not exist in any of these folders:
+            "File \\"dataFileUtils.test.ts\\" does not exist in any of these folders:
             - /abcdef
             - /gehij
             - /klmn]"

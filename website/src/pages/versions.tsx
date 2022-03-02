@@ -34,7 +34,7 @@ function ReleaseNotesLabel() {
   );
 }
 
-function Version(): JSX.Element {
+export default function Version(): JSX.Element {
   const {
     siteConfig: {organizationName, projectName},
   } = useDocusaurusContext();
@@ -191,5 +191,3 @@ function Version(): JSX.Element {
     </Layout>
   );
 }
-
-export default Version;

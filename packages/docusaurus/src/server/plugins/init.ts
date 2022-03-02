@@ -24,7 +24,7 @@ import {
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
 
-type NormalizedPluginConfig = {
+export type NormalizedPluginConfig = {
   plugin: PluginModule;
   options: PluginOptions;
   // Only available when a string is provided in config
@@ -96,6 +96,17 @@ async function normalizePluginConfig(
   );
 }
 
+export async function normalizePluginConfigs(
+  pluginConfigs: PluginConfig[],
+  pluginRequire: NodeRequire,
+): Promise<NormalizedPluginConfig[]> {
+  return Promise.all(
+    pluginConfigs.map((pluginConfig) =>
+      normalizePluginConfig(pluginConfig, pluginRequire),
+    ),
+  );
+}
+
 function getOptionValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,
 ): PluginModule['validateOptions'] {
@@ -132,10 +143,14 @@ export default async function initPlugins({
   // We need to resolve plugins from the perspective of the siteDir, since the
   // siteDir's package.json declares the dependency on these plugins.
   const pluginRequire = createRequire(context.siteConfigPath);
+  const pluginConfigsNormalized = await normalizePluginConfigs(
+    pluginConfigs,
+    pluginRequire,
+  );
 
-  function doGetPluginVersion(
+  async function doGetPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): DocusaurusPluginVersionInformation {
+  ): Promise<DocusaurusPluginVersionInformation> {
     // get plugin version
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
@@ -180,14 +195,10 @@ export default async function initPlugins({
   }
 
   async function initializePlugin(
-    pluginConfig: PluginConfig,
+    normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<InitializedPlugin> {
-    const normalizedPluginConfig = await normalizePluginConfig(
-      pluginConfig,
-      pluginRequire,
-    );
     const pluginVersion: DocusaurusPluginVersionInformation =
-      doGetPluginVersion(normalizedPluginConfig);
+      await doGetPluginVersion(normalizedPluginConfig);
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
     // Side-effect: merge the normalized theme config in the original one
@@ -210,7 +221,7 @@ export default async function initPlugins({
 
   const plugins: InitializedPlugin[] = (
     await Promise.all(
-      pluginConfigs.map((pluginConfig) => {
+      pluginConfigsNormalized.map((pluginConfig) => {
         if (!pluginConfig) {
           return null;
         }

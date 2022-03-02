@@ -10,7 +10,7 @@ import {
   type RouteConfig as RRRouteConfig,
 } from 'react-router-config';
 import fs from 'fs-extra';
-import {mapValues, pickBy, countBy} from 'lodash';
+import _ from 'lodash';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {
   removePrefix,
@@ -20,6 +20,7 @@ import {
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
+import combinePromises from 'combine-promises';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -84,12 +85,12 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+  const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
     getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
   );
 
   // remove pages without any broken link
-  return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
+  return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
 export function getBrokenLinksErrorMessage(
@@ -126,7 +127,7 @@ export function getBrokenLinksErrorMessage(
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
 
-    const countedBrokenLinks = countBy(
+    const countedBrokenLinks = _.countBy(
       flatList,
       (item) => item.brokenLink.link,
     );
@@ -158,10 +159,10 @@ export function getBrokenLinksErrorMessage(
   );
 }
 
-function isExistingFile(filePath: string) {
+async function isExistingFile(filePath: string) {
   try {
-    return fs.statSync(filePath).isFile();
-  } catch (e) {
+    return (await fs.stat(filePath)).isFile();
+  } catch {
     return false;
   }
 }
@@ -177,8 +178,7 @@ export async function filterExistingFileLinks({
   outDir: string;
   allCollectedLinks: Record<string, string[]>;
 }): Promise<Record<string, string[]>> {
-  // not easy to make this async :'(
-  function linkFileExists(link: string): boolean {
+  async function linkFileExists(link: string) {
     // /baseUrl/javadoc/ -> /outDir/javadoc
     const baseFilePath = removeSuffix(
       `${outDir}/${removePrefix(link, baseUrl)}`,
@@ -194,11 +194,22 @@ export async function filterExistingFileLinks({
       filePathsToTry.push(path.join(baseFilePath, 'index.html'));
     }
 
-    return filePathsToTry.some(isExistingFile);
+    for (const file of filePathsToTry) {
+      if (await isExistingFile(file)) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  return mapValues(allCollectedLinks, (links) =>
-    links.filter((link) => !linkFileExists(link)),
+  return combinePromises(
+    _.mapValues(allCollectedLinks, async (links) =>
+      (
+        await Promise.all(
+          links.map(async (link) => ((await linkFileExists(link)) ? '' : link)),
+        )
+      ).filter(Boolean),
+    ),
   );
 }
 

@@ -114,6 +114,5 @@ declare module '@endiliey/react-ideal-image' {
     width: number;
   }
 
-  declare const IdealImage: (props: ImageProps) => JSX.Element;
-  export default IdealImage;
+  export default function IdealImage(props: ImageProps): JSX.Element;
 }

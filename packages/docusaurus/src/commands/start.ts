@@ -10,7 +10,7 @@ import logger from '@docusaurus/logger';
 import chokidar from 'chokidar';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import {debounce} from 'lodash';
+import _ from 'lodash';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
@@ -63,7 +63,7 @@ export default async function start(
   logger.success`Docusaurus website is running at path=${openUrl}.`;
 
   // Reload files processing.
-  const reload = debounce(() => {
+  const reload = _.debounce(() => {
     loadSite()
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
@@ -107,7 +107,7 @@ export default async function start(
       ? (cliOptions.poll as number)
       : undefined,
   };
-  const httpsConfig = getHttpsConfig();
+  const httpsConfig = await getHttpsConfig();
   const fsWatcher = chokidar.watch(pathsToWatch, {
     cwd: siteDir,
     ignoreInitial: true,
@@ -118,7 +118,7 @@ export default async function start(
     fsWatcher.on(event, reload),
   );
 
-  let config: webpack.Configuration = merge(createClientConfig(props), {
+  let config: webpack.Configuration = merge(await createClientConfig(props), {
     infrastructureLogging: {
       // Reduce log verbosity, see https://github.com/facebook/docusaurus/pull/5420#issuecomment-906613105
       level: 'warn',

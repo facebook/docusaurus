@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues, difference} from 'lodash';
+import _ from 'lodash';
 import type {
   TranslationFileContent,
   TranslationFile,
@@ -56,10 +56,9 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-    } catch (e) {
-      throw new Error(
-        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
-      );
+    } catch (err) {
+      logger.error`Invalid translation file at path=${filePath}.`;
+      throw err;
     }
   }
   return undefined;
@@ -75,7 +74,7 @@ function mergeTranslationFileContent({
   options: WriteTranslationsOptions;
 }): TranslationFileContent {
   // Apply messagePrefix to all messages
-  const newContentTransformed = mapValues(newContent, (value) => ({
+  const newContentTransformed = _.mapValues(newContent, (value) => ({
     ...value,
     message: `${options.messagePrefix ?? ''}${value.message}`,
   }));
@@ -110,7 +109,7 @@ export async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = difference(
+  const unknownKeys = _.difference(
     Object.keys(existingContent ?? {}),
     Object.keys(newContent),
   );
@@ -276,7 +275,7 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations: Record<string, TranslationMessage>;
   defaultCodeMessages: Record<string, string>;
 }): Record<string, TranslationMessage> {
-  const unusedDefaultCodeMessages = difference(
+  const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),
   );
@@ -285,7 +284,7 @@ export function applyDefaultCodeTranslations({
 Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
-  return mapValues(
+  return _.mapValues(
     extractedCodeTranslations,
     (messageTranslation, messageId) => ({
       ...messageTranslation,

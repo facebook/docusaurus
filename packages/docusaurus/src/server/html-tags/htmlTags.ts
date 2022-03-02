@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isPlainObject} from 'lodash';
 import type {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 import escapeHTML from 'escape-html';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
-  if (!isPlainObject(val)) {
+  if (typeof val !== 'object' || !val) {
     throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
   if (typeof (val as HtmlTagObject).tagName !== 'string') {

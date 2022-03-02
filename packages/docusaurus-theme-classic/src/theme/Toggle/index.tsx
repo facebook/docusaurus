@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, memo} from 'react';
+import React, {useState, useRef, useEffect, memo} from 'react';
 import type {Props} from '@theme/Toggle';
 import {useThemeConfig, type ColorModeConfig} from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -30,6 +30,10 @@ const ToggleComponent = memo(
     const [checked, setChecked] = useState(defaultChecked);
     const [focused, setFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      setChecked(defaultChecked);
+    }, [defaultChecked]);
 
     return (
       <div
@@ -62,11 +66,26 @@ const ToggleComponent = memo(
           checked={checked}
           type="checkbox"
           className={styles.toggleScreenReader}
-          aria-label={translate({
-            message: 'Switch between dark and light mode',
-            id: 'theme.colorToggle.ariaLabel',
-            description: 'The ARIA label for the navbar color mode toggle',
-          })}
+          aria-label={translate(
+            {
+              message: 'Switch between dark and light mode (currently {mode})',
+              id: 'theme.colorToggle.ariaLabel',
+              description: 'The ARIA label for the navbar color mode toggle',
+            },
+            {
+              mode: checked
+                ? translate({
+                    message: 'dark mode',
+                    id: 'theme.colorToggle.ariaLabel.mode.dark',
+                    description: 'The name for the dark color mode',
+                  })
+                : translate({
+                    message: 'light mode',
+                    id: 'theme.colorToggle.ariaLabel.mode.light',
+                    description: 'The name for the light color mode',
+                  }),
+            },
+          )}
           onChange={onChange}
           onClick={() => setChecked(!checked)}
           onFocus={() => setFocused(true)}

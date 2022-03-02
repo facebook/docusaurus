@@ -12,14 +12,14 @@ import themeAlias, {sortAliases} from './alias';
 
 const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
 
-export function loadThemeAliases(
+export async function loadThemeAliases(
   themePaths: string[],
   userThemePaths: string[],
-): ThemeAliases {
+): Promise<ThemeAliases> {
   const aliases: ThemeAliases = {};
 
-  themePaths.forEach((themePath) => {
-    const themeAliases = themeAlias(themePath, true);
+  for (const themePath of themePaths) {
+    const themeAliases = await themeAlias(themePath, true);
     Object.keys(themeAliases).forEach((aliasKey) => {
       // If this alias shadows a previous one, use @theme-init to preserve the
       // initial one. @theme-init is only applied once: to the initial theme
@@ -33,12 +33,12 @@ export function loadThemeAliases(
       }
       aliases[aliasKey] = themeAliases[aliasKey];
     });
-  });
+  }
 
-  userThemePaths.forEach((themePath) => {
-    const userThemeAliases = themeAlias(themePath, false);
+  for (const themePath of userThemePaths) {
+    const userThemeAliases = await themeAlias(themePath, false);
     Object.assign(aliases, userThemeAliases);
-  });
+  }
 
   return sortAliases(aliases);
 }
@@ -49,7 +49,7 @@ export function loadPluginsThemeAliases({
 }: {
   siteDir: string;
   plugins: LoadedPlugin[];
-}): ThemeAliases {
+}): Promise<ThemeAliases> {
   const pluginThemes: string[] = plugins
     .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
     .filter((x): x is string => Boolean(x));

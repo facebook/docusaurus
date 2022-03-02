@@ -49,6 +49,7 @@ export {
   findFirstCategoryLink,
   useCurrentSidebarCategory,
   isActiveSidebarItem,
+  useSidebarBreadcrumbs,
 } from './utils/docsUtils';
 
 export {isSamePath} from './utils/pathUtils';
@@ -103,7 +104,11 @@ export {useHistoryPopHandler} from './utils/historyUtils';
 export {default as useTOCHighlight} from './utils/useTOCHighlight';
 export type {TOCHighlightConfig} from './utils/useTOCHighlight';
 
-export {useTOCFilter} from './utils/tocUtils';
+export {
+  useFilteredAndTreeifiedTOC,
+  useTreeifiedTOC,
+  type TOCTreeNode,
+} from './utils/tocUtils';
 
 export {
   ScrollControllerProvider,
@@ -118,6 +123,8 @@ export {
 } from './utils/reactUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
+
+export {useHomePageRoute} from './utils/routesUtils';
 
 export {useColorMode, ColorModeProvider} from './utils/colorModeUtils';
 export {

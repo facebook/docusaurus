@@ -19,7 +19,7 @@ import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import {promisify} from 'util';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
 import logger from '@docusaurus/logger';
 
@@ -66,9 +66,13 @@ async function toImageRequireNode(
     if (size.height) {
       height = ` height="${size.height}"`;
     }
-  } catch (e) {
-    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
-${(e as Error).message}`;
+  } catch (err) {
+    // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
+    // TODO remove this check once fixed in Yarn PnP
+    if (!process.versions.pnp) {
+      logger.warn`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
+${(err as Error).message}`;
+    }
   }
 
   Object.keys(jsxNode).forEach(
@@ -147,8 +151,8 @@ async function processImageNode(node: Image, context: Context) {
   await toImageRequireNode(node, imagePath, context.filePath);
 }
 
-const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root, vfile) => {
+export default function plugin(options: PluginOptions): Transformer {
+  return async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image) => {
       promises.push(
@@ -157,7 +161,4 @@ const plugin: Plugin<[PluginOptions]> = (options) => {
     });
     await Promise.all(promises);
   };
-  return transformer;
-};
-
-export default plugin;
+}

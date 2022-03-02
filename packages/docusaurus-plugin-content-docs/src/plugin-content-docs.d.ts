@@ -8,6 +8,10 @@
 declare module '@docusaurus/plugin-content-docs' {
   import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 
+  export interface Assets {
+    image?: string;
+  }
+
   export type NumberPrefixParser = (filename: string) => {
     filename: string;
     numberPrefix?: number;
@@ -38,6 +42,7 @@ declare module '@docusaurus/plugin-content-docs' {
     showLastUpdateTime?: boolean;
     showLastUpdateAuthor?: boolean;
     numberPrefixParser: NumberPrefixParser;
+    breadcrumbs: boolean;
   };
 
   export type PathOptions = {
@@ -126,6 +131,8 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropSidebarItemCategory =
     import('./sidebars/types').PropSidebarItemCategory;
   export type PropSidebarItem = import('./sidebars/types').PropSidebarItem;
+  export type PropSidebarBreadcrumbsItem =
+    import('./sidebars/types').PropSidebarBreadcrumbsItem;
   export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
@@ -156,6 +163,7 @@ declare module '@theme/DocItem' {
   import type {
     PropNavigationLink,
     PropVersionMetadata,
+    Assets,
   } from '@docusaurus/plugin-content-docs';
 
   export type DocumentRoute = {
@@ -201,12 +209,12 @@ declare module '@theme/DocItem' {
       readonly metadata: Metadata;
       readonly toc: readonly TOCItem[];
       readonly contentTitle: string | undefined;
+      readonly assets: Assets;
       (): JSX.Element;
     };
   }
 
-  const DocItem: (props: Props) => JSX.Element;
-  export default DocItem;
+  export default function DocItem(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCategoryGeneratedIndexPage' {
@@ -237,6 +245,10 @@ declare module '@theme/DocTagDocListPage' {
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocBreadcrumbs' {
+  export default function DocBreadcrumbs(): JSX.Element;
+}
+
 declare module '@theme/DocPage' {
   import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
   import type {DocumentRoute} from '@theme/DocItem';
@@ -251,8 +263,7 @@ declare module '@theme/DocPage' {
     };
   }
 
-  const DocPage: (props: Props) => JSX.Element;
-  export default DocPage;
+  export default function DocPage(props: Props): JSX.Element;
 }
 
 // TODO until TS supports exports field... hope it's in 4.6
@@ -294,6 +305,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   export type GlobalPluginData = {
     path: string;
     versions: GlobalVersion[];
+    breadcrumbs: boolean;
   };
   export type DocVersionSuggestions = {
     // suggest the latest version

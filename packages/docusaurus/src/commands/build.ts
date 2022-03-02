@@ -56,9 +56,9 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-    } catch (e) {
+    } catch (err) {
       logger.error`Unable to build website for locale name=${locale}.`;
-      throw e;
+      throw err;
     }
   }
   const context = await loadContext(siteDir, {
@@ -130,7 +130,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
@@ -148,23 +148,26 @@ async function buildLocale({
 
   const allCollectedLinks: Record<string, string[]> = {};
 
-  let serverConfig: Configuration = createServerConfig({
+  let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
     },
   });
 
-  serverConfig = merge(serverConfig, {
-    plugins: [
-      new CopyWebpackPlugin({
-        patterns: staticDirectories
-          .map((dir) => path.resolve(siteDir, dir))
-          .filter(fs.existsSync)
-          .map((dir) => ({from: dir, to: outDir})),
-      }),
-    ],
-  });
+  if (staticDirectories.length > 0) {
+    await Promise.all(staticDirectories.map((dir) => fs.ensureDir(dir)));
+
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: staticDirectories
+            .map((dir) => path.resolve(siteDir, dir))
+            .map((dir) => ({from: dir, to: outDir})),
+        }),
+      ],
+    });
+  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
@@ -203,11 +206,7 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
-  if (
-    serverConfig.output &&
-    serverConfig.output.filename &&
-    typeof serverConfig.output.filename === 'string'
-  ) {
+  if (typeof serverConfig.output?.filename === 'string') {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);

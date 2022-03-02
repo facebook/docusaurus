@@ -6,8 +6,9 @@
  */
 
 declare module '@generated/client-modules' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const clientModules: readonly any[];
+  import type {ClientModule} from '@docusaurus/types';
+
+  const clientModules: readonly (ClientModule & {default: ClientModule})[];
   export default clientModules;
 }
 
@@ -36,7 +37,7 @@ declare module '@generated/registry' {
 declare module '@generated/routes' {
   import type {RouteConfig} from 'react-router-config';
 
-  type Route = {
+  export type Route = {
     readonly path: string;
     readonly component: RouteConfig['component'];
     readonly exact?: boolean;
@@ -82,6 +83,7 @@ declare module '@generated/codeTranslations' {
 }
 
 declare module '@theme-original/*';
+declare module '@theme-init/*';
 
 declare module '@theme/Error' {
   export interface Props {
@@ -137,20 +139,19 @@ declare module '@docusaurus/ErrorBoundary' {
 }
 
 declare module '@docusaurus/Head' {
-  import type {HelmetProps} from 'react-helmet';
+  import type {HelmetProps} from 'react-helmet-async';
   import type {ReactNode} from 'react';
 
-  export type HeadProps = HelmetProps & {children: ReactNode};
+  export type Props = HelmetProps & {children: ReactNode};
 
-  const Head: (props: HeadProps) => JSX.Element;
-  export default Head;
+  export default function Head(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
 
   type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
-  export type LinkProps = NavLinkProps &
+  export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;
       readonly style?: CSSProperties;
@@ -162,8 +163,7 @@ declare module '@docusaurus/Link' {
       // escape hatch in case broken links check is annoying for a specific link
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
-  const Link: (props: LinkProps) => JSX.Element;
-  export default Link;
+  export default function Link(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Interpolate' {
@@ -240,12 +240,8 @@ declare module '@docusaurus/Translate' {
 }
 
 declare module '@docusaurus/router' {
-  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
-  export * from 'react-router-dom';
-}
-declare module '@docusaurus/history' {
-  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
-  export * from 'history';
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  export {useHistory, useLocation, Redirect, matchPath} from 'react-router-dom';
 }
 
 declare module '@docusaurus/useDocusaurusContext' {
@@ -289,11 +285,10 @@ declare module '@docusaurus/ExecutionEnvironment' {
 declare module '@docusaurus/ComponentCreator' {
   import type Loadable from 'react-loadable';
 
-  function ComponentCreator(
+  export default function ComponentCreator(
     path: string,
     hash: string,
   ): ReturnType<typeof Loadable>;
-  export default ComponentCreator;
 }
 
 declare module '@docusaurus/BrowserOnly' {
@@ -301,8 +296,7 @@ declare module '@docusaurus/BrowserOnly' {
     readonly children?: () => JSX.Element;
     readonly fallback?: JSX.Element;
   }
-  const BrowserOnly: (props: Props) => JSX.Element | null;
-  export default BrowserOnly;
+  export default function BrowserOnly(props: Props): JSX.Element | null;
 }
 
 declare module '@docusaurus/isInternalUrl' {
@@ -332,8 +326,7 @@ declare module '@docusaurus/useGlobalData' {
   ): T;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function useGlobalData(): Record<string, any>;
-  export default useGlobalData;
+  export default function useGlobalData(): Record<string, any>;
 }
 
 declare module '*.svg' {

@@ -4,13 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable import/no-extraneous-dependencies */
 
-import util from 'util';
-import globCb from 'glob';
-import fsCb from 'fs';
-
-const glob = util.promisify(globCb);
-const readFile = util.promisify(fsCb.readFile);
+import {Globby} from '@docusaurus/utils';
+import fs from 'fs-extra';
 
 type PackageJsonFile = {
   file: string;
@@ -19,12 +16,12 @@ type PackageJsonFile = {
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
-  const files = await glob('packages/*/package.json');
+  const files = await Globby('packages/*/package.json');
 
   return Promise.all(
     files.map(async (file) => ({
       file,
-      content: JSON.parse(await readFile(file, 'utf8')),
+      content: JSON.parse(await fs.readFile(file, 'utf8')),
     })),
   );
 }

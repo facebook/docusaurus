@@ -18,12 +18,12 @@ import TOCCollapsible from '@theme/TOCCollapsible';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
-  const {metadata, frontMatter} = DocContent;
+  const {metadata, frontMatter, assets} = DocContent;
   const {
-    image,
     keywords,
     hide_title: hideTitle,
     hide_table_of_contents: hideTableOfContents,
@@ -31,6 +31,7 @@ export default function DocItem(props: Props): JSX.Element {
     toc_max_heading_level: tocMaxHeadingLevel,
   } = frontMatter;
   const {description, title} = metadata;
+  const image = assets.image ?? frontMatter.image;
 
   // We only add a title if:
   // - user asks to hide it with front matter
@@ -58,6 +59,7 @@ export default function DocItem(props: Props): JSX.Element {
           <DocVersionBanner />
           <div className={styles.docItemContainer}>
             <article>
+              <DocBreadcrumbs />
               <DocVersionBadge />
 
               {canRenderTOC && (

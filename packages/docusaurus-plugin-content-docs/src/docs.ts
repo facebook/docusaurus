@@ -8,7 +8,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import logger from '@docusaurus/logger';
-import {keyBy} from 'lodash';
 import {
   aliasedSitePath,
   getEditUrl,
@@ -276,9 +275,9 @@ export function processDocMetadata(args: {
 }): DocMetadataBase {
   try {
     return doProcessDocMetadata(args);
-  } catch (e) {
+  } catch (err) {
     logger.error`Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`;
-    throw e;
+    throw err;
   }
 }
 
@@ -444,8 +443,10 @@ export function getDocIds(doc: DocMetadataBase): [string, string] {
 export function createDocsByIdIndex<
   Doc extends {id: string; unversionedId: string},
 >(docs: Doc[]): Record<string, Doc> {
-  return {
-    ...keyBy(docs, (doc) => doc.unversionedId),
-    ...keyBy(docs, (doc) => doc.id),
-  };
+  return Object.fromEntries(
+    docs.flatMap((doc) => [
+      [doc.unversionedId, doc],
+      [doc.id, doc],
+    ]),
+  );
 }

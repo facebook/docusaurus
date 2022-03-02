@@ -145,7 +145,7 @@ function DocPageContent({
   );
 }
 
-function DocPage(props: Props): JSX.Element {
+export default function DocPage(props: Props): JSX.Element {
   const {
     route: {routes: docRoutes},
     versionMetadata,
@@ -184,5 +184,3 @@ function DocPage(props: Props): JSX.Element {
     </>
   );
 }
-
-export default DocPage;
