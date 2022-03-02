@@ -154,6 +154,7 @@ Frequent broken links are linking to:${frequentLinks}
   }
 
   return `Docusaurus found broken links!
+
 Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
 Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
 

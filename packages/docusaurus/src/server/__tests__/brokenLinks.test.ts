@@ -153,6 +153,7 @@ describe('brokenLinks', () => {
     const linkToJavadoc1 = '/javadoc';
     const linkToJavadoc2 = '/javadoc/';
     const linkToJavadoc3 = '/javadoc/index.html';
+    const linkToJavadoc4 = '/javadoc/index.html#foo';
 
     const linkToZipFile = '/files/file.zip';
     const linkToHtmlFile1 = '/files/hey.html';
@@ -168,6 +169,7 @@ describe('brokenLinks', () => {
         linkToJavadoc1,
         linkToHtmlFile2,
         linkToJavadoc3,
+        linkToJavadoc4,
         linkToEmptyFolder1,
       ],
       '/page2': [
