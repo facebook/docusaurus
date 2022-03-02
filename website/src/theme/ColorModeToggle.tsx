@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import OriginalToggle from '@theme-original/Toggle';
+import OriginalToggle from '@theme-original/ColorModeToggle';
 import type {Props} from '@theme/ColorModeToggle';
 import {
   lightStorage,
