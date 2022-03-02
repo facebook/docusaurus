@@ -185,7 +185,7 @@ date: 2021-09-13T18:00
 
 ## Blog post authors {#blog-post-authors}
 
-Use the `authors` front matter field to declare blog post authors.
+Use the `authors` front matter field to declare blog post authors. An author should have at least a `name` or an `image_url`. Docusaurus uses information like `url`, `email`, and `title`, but any other information is allowed.
 
 ### Inline authors {#inline-authors}
 
@@ -202,6 +202,7 @@ authors:
   title: Co-creator of Docusaurus 1
   url: https://github.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
 ---
 ```
 
@@ -215,6 +216,7 @@ authors:
     title: Co-creator of Docusaurus 1
     url: https://github.com/JoelMarcey
     image_url: https://github.com/JoelMarcey.png
+    email: jimarcey@gmail.com
   - name: Sébastien Lorber
     title: Docusaurus maintainer
     url: https://sebastienlorber.com
@@ -259,6 +261,7 @@ jmarcey:
   title: Co-creator of Docusaurus 1
   url: https://github.com/JoelMarcey
   image_url: https://github.com/JoelMarcey.png
+  email: jimarcey@gmail.com
 
 slorber:
   name: Sébastien Lorber
@@ -352,6 +355,12 @@ website/i18n/[locale]/docusaurus-plugin-content-blog/authors.yml
 :::
 
 An author, either declared through front matter or through the authors map, needs to have a name or an avatar, or both. If all authors of a post don't have names, Docusaurus will display their avatars compactly. See [this test post](/tests/blog/2022/01/20/image-only-authors) for the effect.
+
+:::caution Feed generation
+
+[RSS feeds](#feed) require the author's email to be set for the author to appear in the feed.
+
+:::
 
 ## Reading time {#reading-time}
 

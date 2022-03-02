@@ -24,6 +24,7 @@ const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
     url: URISchema,
     imageURL: URISchema,
     title: Joi.string(),
+    email: Joi.string(),
   })
     .rename('image_url', 'imageURL')
     .or('name', 'imageURL')

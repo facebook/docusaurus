@@ -177,6 +177,7 @@ describe('loadBlog', () => {
           name: 'Yangshun Tay (translated)',
         },
         {
+          email: 'lorber.sebastien@gmail.com',
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',

@@ -21,6 +21,7 @@ declare module '@docusaurus/plugin-content-blog' {
     imageURL?: string;
     url?: string;
     title?: string;
+    email?: string;
   }
 
   export type BlogPostFrontMatter = {

@@ -77,6 +77,7 @@ Array [
         </author>
         <author>
             <name>Sébastien Lorber (translated)</name>
+            <email>lorber.sebastien@gmail.com</email>
         </author>
     </entry>
 </feed>",
@@ -238,6 +239,7 @@ Array [
             <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
             <description><![CDATA[Happy birthday! (translated)]]></description>
             <content:encoded><![CDATA[<p>Happy birthday!</p>]]></content:encoded>
+            <author>lorber.sebastien@gmail.com (Sébastien Lorber (translated))</author>
         </item>
     </channel>
 </rss>",
