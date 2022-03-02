@@ -1925,8 +1925,8 @@ const Users: User[] = [
       'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
     preview: require('./showcase/juffalow.png'),
     website: 'https://juffalow.com/',
-    source: 'https://github.com/juffalow/juffalow-com',
-    tags: ['personal', 'opensource'],
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'SigNoz',
