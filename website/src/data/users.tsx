@@ -456,7 +456,7 @@ const Users: User[] = [
       'A persian tutorial website strive to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
