@@ -503,9 +503,9 @@ const Users: User[] = [
     title: 'Dyte',
     description: 'The most developer friendly live video SDK',
     preview: require('./showcase/dyte.png'),
-    source: null,
+    source: 'https://github.com/dyte-in/docs',
     website: 'https://docs.dyte.io',
-    tags: ['favorite', 'product', 'design', 'versioning', 'large']
+    tags: ['favorite', 'product', 'design', 'versioning', 'large', 'opensource']
   },
   {
     title: 'Easyjwt',
