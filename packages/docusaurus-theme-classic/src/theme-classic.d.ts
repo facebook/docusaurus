@@ -632,7 +632,7 @@ declare module '@theme/TOCCollapsible' {
   export default function TOCCollapsible(props: Props): JSX.Element;
 }
 
-declare module '@theme/Toggle' {
+declare module '@theme/ColorModeToggle' {
   import type {SyntheticEvent} from 'react';
 
   export interface Props {
@@ -663,12 +663,28 @@ declare module '@theme/IconArrow' {
   export default function IconArrow(props: Props): JSX.Element;
 }
 
+declare module '@theme/IconDarkMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconDarkMode(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconEdit' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconEdit(props: Props): JSX.Element;
+}
+
+declare module '@theme/IconLightMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconLightMode(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconMenu' {

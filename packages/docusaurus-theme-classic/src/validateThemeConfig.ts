@@ -21,12 +21,6 @@ const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
   disableSwitch: false,
   respectPrefersColorScheme: false,
-  switchConfig: {
-    darkIcon: '🌜',
-    darkIconStyle: {},
-    lightIcon: '🌞',
-    lightIconStyle: {},
-  },
 };
 
 export const DEFAULT_CONFIG = {
@@ -220,20 +214,10 @@ const ColorModeSchema = Joi.object({
   respectPrefersColorScheme: Joi.bool().default(
     DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
   ),
-  switchConfig: Joi.object({
-    darkIcon: Joi.string().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIcon,
-    ),
-    darkIconStyle: Joi.object().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIconStyle,
-    ),
-    lightIcon: Joi.string().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIcon,
-    ),
-    lightIconStyle: Joi.object().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIconStyle,
-    ),
-  }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
+  switchConfig: Joi.any().forbidden().messages({
+    'any.unknown':
+      'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead.',
+  }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
 // schema can probably be improved

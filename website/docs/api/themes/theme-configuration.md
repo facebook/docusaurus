@@ -28,11 +28,6 @@ Accepted fields:
 | `defaultMode` | <code>'light' \| 'dark'</code> | `'light'` | The color mode when user first visits the site. |
 | `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
 | `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
-| `switchConfig` | _See below_ | _See below_ | Dark/light switch icon options. |
-| `switchConfig.darkIcon` | `string` | `'🌜'` | Icon for the switch while in dark mode. |
-| `switchConfig.darkIconStyle` | JSX style object (see [documentation](https://reactjs.org/docs/dom-elements.html#style)) | `{}` | CSS to apply to dark icon. |
-| `switchConfig.lightIcon` | `string` | `'🌞'` | Icon for the switch while in light mode. |
-| `switchConfig.lightIconStyle` | JSX style object | `{}` | CSS to apply to light icon. |
 
 </APITable>
 
@@ -46,18 +41,6 @@ module.exports = {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: false,
-      switchConfig: {
-        darkIcon: '🌙',
-        darkIconStyle: {
-          marginLeft: '2px',
-        },
-        // Unicode icons such as '\u2600' will work
-        // Unicode with 5 chars require brackets: '\u{1F602}'
-        lightIcon: '\u{1F602}',
-        lightIconStyle: {
-          marginLeft: '1px',
-        },
-      },
     },
     // highlight-end
   },

@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import OriginalToggle from '@theme-original/Toggle';
-import type {Props} from '@theme/Toggle';
+import OriginalToggle from '@theme-original/ColorModeToggle';
+import type {Props} from '@theme/ColorModeToggle';
 import {
   lightStorage,
   darkStorage,
@@ -24,7 +24,7 @@ import {
 // session storage, and we need to apply the same style when toggling modes even
 // when we are not on the styling-layout page. The only way to do this so far is
 // by hooking into the Toggle component.
-export default function Toggle(props: Props): JSX.Element {
+export default function ColorModeToggle(props: Props): JSX.Element {
   return (
     <OriginalToggle
       {...props}
