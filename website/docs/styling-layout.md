@@ -129,14 +129,14 @@ In light mode, the `<html>` element has a `data-theme="light"` attribute; and in
 
 ### Mobile View {#mobile-view}
 
-Docusaurus uses `966px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
+Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
 
 ```css
 .banner {
   padding: 4rem;
 }
 /** In mobile view, reduce the padding */
-@media screen and (max-width: 966px) {
+@media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
   }
