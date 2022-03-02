@@ -456,7 +456,7 @@ const Users: User[] = [
       'A persian tutorial website strive to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
@@ -865,8 +865,8 @@ const Users: User[] = [
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
     website: 'https://docs.luxalgo.com',
-    source: 'https://github.com/smack0202/luxdocs',
-    tags: ['opensource', 'design', 'i18n', 'product'],
+    source: null,
+    tags: ['design', 'i18n', 'product'],
   },
   {
     title: 'SICOPE Model',
@@ -949,7 +949,7 @@ const Users: User[] = [
     description:
       'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
     preview: require('./showcase/molecule-home.png'),
-    website: 'https://dtstack.github.io/molecule/en',
+    website: 'https://dtstack.github.io/molecule/',
     source: 'https://github.com/DTStack/molecule',
     tags: ['opensource', 'i18n'],
   },
@@ -1925,8 +1925,8 @@ const Users: User[] = [
       'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
     preview: require('./showcase/juffalow.png'),
     website: 'https://juffalow.com/',
-    source: 'https://github.com/juffalow/juffalow-com',
-    tags: ['personal', 'opensource'],
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'SigNoz',
