@@ -130,7 +130,10 @@ async function processLinkNode(node: Link, context: Context) {
     return;
   }
 
-  const assetPath = await getAssetAbsolutePath(parsedUrl.pathname, context);
+  const assetPath = await getAssetAbsolutePath(
+    decodeURIComponent(parsedUrl.pathname),
+    context,
+  );
   if (assetPath) {
     toAssetRequireNode(node, assetPath, context.filePath);
   }

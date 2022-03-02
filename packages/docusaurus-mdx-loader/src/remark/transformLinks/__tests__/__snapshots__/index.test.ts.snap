@@ -16,6 +16,8 @@ exports[`transformAsset plugin transform md links to <a /> 1`] = `
 
 <a target=\\"_blank\\" href={require('!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./asset.pdf').default}>asset</a>
 
+<a target=\\"_blank\\" href={require('!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./asset (2).pdf').default}>asset with URL encoded chars</a>
+
 <a target=\\"_blank\\" href={require('!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./asset.pdf').default + '#page=2'}>asset with hash</a>
 
 <a target=\\"_blank\\" href={require('!<PROJECT_ROOT>/node_modules/file-loader/dist/cjs.js?name=assets/files/[name]-[contenthash].[ext]!./asset.pdf').default} title=\\"Title\\">asset</a>

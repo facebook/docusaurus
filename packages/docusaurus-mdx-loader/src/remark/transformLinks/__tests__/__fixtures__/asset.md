@@ -4,6 +4,8 @@
 
 [asset](./asset.pdf)
 
+[asset with URL encoded chars](./asset%20%282%29.pdf)
+
 [asset with hash](./asset.pdf#page=2)
 
 [asset](asset.pdf 'Title')
