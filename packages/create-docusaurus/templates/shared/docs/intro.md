@@ -2,46 +2,80 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting Started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+To get a full experience of School Information System, you will have to go through these steps first.
 
-## Getting Started
+## Add classrooms
 
-Get started by **creating a new site**.
+https://demo.schoost.com/smartclass/classrooms 
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Add courses
 
-### What you'll need
+It is a best practice to add a course for each grade like 5th Grade, 6th Grade and so on.
 
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+https://demo.schoost.com/smartclass/courses 
 
-## Generate a new site
+## Add batches for each course
 
-Generate a new Docusaurus site using the **classic template**.
+If you have batches called 5/A and 6/A and so on, you can add them under 5th Grade and 6th Grade and so on, respectively.
 
-The classic template will automatically be added to your project after you run the command:
+https://demo.schoost.com/smartclass/courses 
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+## Add bell schedule
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Adding bell setting for each day of a week will let you set the schedule timetable for all weeks. 
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+https://demo.schoost.com/smartclass/bellSettings 
 
-## Start your site
+## Add students or import them from a template
 
-Run the development server:
+### You can add individual students here: 
 
-```bash
-cd my-website
-npm run start
-```
+https://demo.schoost.com/smartclass/registration  
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+### You can import students with a template here: 
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+https://demo.schoost.com/smartclass/importData 
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+While filling out the template, if you add course and batch names, the students will be assigned to these course and batches automatically.
+
+## Add teachers and other personnel
+
+### You can add individual personnel here: 
+
+https://demo.schoost.com/smartclass/personnel  
+
+### You can import personel with a template here: 
+
+https://demo.schoost.com/smartclass/importData  
+
+## Add mandatory and elective classes
+
+If you add mandatory class like Math, it will be assigned to all students in the batch automatically.
+
+If you add elective class, you can select students for this class individually.
+
+https://demo.schoost.com/smartclass/classes   
+
+## Make schedule
+
+You can set classes for batches for a week and then copy this week’s schedule to all weeks.
+
+https://demo.schoost.com/smartclass/schedule
+
+https://demo.schoost.com/smartclass/copySchedule 
+
+## Activate users
+
+### You can activate user for a personnel from the Personnel page by clicking to the Action options called Activate User. 
+
+https://demo.schoost.com/smartclass/personnel   
+
+### You can activate users for parents/guardians in bulk here:
+
+https://demo.schoost.com/smartclass/parentPasswordOperations 
+
+### You can activate users for students in bulk here:
+
+https://demo.schoost.com/smartclass/studentPasswordOperations 
