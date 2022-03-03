@@ -1584,6 +1584,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'Spicetify',
+    description: 'Powerful CLI tool to take control of the Spotify client.',
+    preview: require('./showcase/spicetify.png'),
+    website: 'https://spicetify.app/',
+    source: 'https://github.com/spicetify/spicetify-docs',
+    tags: ['opensource'],
+  },
+  {
     title: 'SpotifyAPI-NET',
     description: 'A Client for the Spotify Web API, written in C#/.NET',
     preview: require('./showcase/spotifyapi-net.png'),
