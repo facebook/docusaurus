@@ -120,6 +120,7 @@ export {
 export {
   useIsomorphicLayoutEffect,
   useDynamicCallback,
+  ReactContextError,
 } from './utils/reactUtils';
 
 export {isRegexpStringMatch} from './utils/regexpUtils';

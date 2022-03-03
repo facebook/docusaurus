@@ -15,6 +15,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import {createStorageSlot, listStorageKeys} from './storageUtils';
+import {ReactContextError} from './reactUtils';
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
@@ -82,9 +83,7 @@ export function TabGroupChoiceProvider({
 export function useTabGroupChoice(): TabGroupChoiceContextValue {
   const context = useContext(TabGroupChoiceContext);
   if (context == null) {
-    throw new Error(
-      '"useUserPreferencesContext" is used outside of "Layout" component.',
-    );
+    throw new ReactContextError('TabGroupChoiceProvider');
   }
   return context;
 }
