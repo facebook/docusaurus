@@ -121,9 +121,7 @@ function createTestUtils({
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
 
-  async function generateNavigation(
-    docFiles: DocFile[],
-  ): Promise<{
+  async function generateNavigation(docFiles: DocFile[]): Promise<{
     pagination: {prev?: DocNavLink; next?: DocNavLink; id: string}[];
     sidebars: Sidebars;
   }> {
