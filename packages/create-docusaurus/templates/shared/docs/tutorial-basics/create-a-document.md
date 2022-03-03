@@ -47,8 +47,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Tutorial',
--     items: [...],
-+     items: ['hello'],
+      items: ['hello'],
     },
   ],
 };
