@@ -6,8 +6,8 @@ Object {
     Object {
       "id": "doc with space",
       "next": Object {
-        "permalink": "/docs/headingAsTitle",
-        "title": "My heading as title",
+        "permalink": "/docs/foo/bar",
+        "title": "Bar",
       },
       "prev": undefined,
     },
@@ -19,8 +19,8 @@ Object {
     Object {
       "id": "foo/baz",
       "next": Object {
-        "permalink": "/docs/absoluteSlug",
-        "title": "absoluteSlug",
+        "permalink": "/docs/headingAsTitle",
+        "title": "My heading as title",
       },
       "prev": Object {
         "permalink": "/docs/foo/bar",
@@ -34,8 +34,8 @@ Object {
         "title": "Hello sidebar_label",
       },
       "prev": Object {
-        "permalink": "/docs/doc with space",
-        "title": "Hoo hoo, if this path tricks you...",
+        "permalink": "/docs/foo/bazSlug.html",
+        "title": "baz pagination_label",
       },
     },
     Object {
@@ -122,8 +122,8 @@ Object {
         "title": "relativeSlug",
       },
       "prev": Object {
-        "permalink": "/docs/foo/bazSlug.html",
-        "title": "baz pagination_label",
+        "permalink": "/docs/rootTryToEscapeSlug",
+        "title": "rootTryToEscapeSlug",
       },
     },
     Object {
@@ -164,6 +164,23 @@ Object {
         "type": "doc",
       },
       Object {
+        "collapsed": false,
+        "collapsible": true,
+        "items": Array [
+          Object {
+            "id": "foo/bar",
+            "type": "doc",
+          },
+          Object {
+            "id": "foo/baz",
+            "type": "doc",
+          },
+        ],
+        "label": "foo",
+        "link": undefined,
+        "type": "category",
+      },
+      Object {
         "id": "headingAsTitle",
         "type": "doc",
       },
@@ -195,23 +212,6 @@ Object {
       Object {
         "id": "rootTryToEscapeSlug",
         "type": "doc",
-      },
-      Object {
-        "collapsed": false,
-        "collapsible": true,
-        "items": Array [
-          Object {
-            "id": "foo/bar",
-            "type": "doc",
-          },
-          Object {
-            "id": "foo/baz",
-            "type": "doc",
-          },
-        ],
-        "label": "foo",
-        "link": undefined,
-        "type": "category",
       },
       Object {
         "collapsed": false,
