@@ -254,19 +254,10 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       }
       return item;
     });
-    function compareItems(
-      a: WithPosition<NormalizedSidebarItem>,
-      b: WithPosition<NormalizedSidebarItem>,
-    ) {
-      if (a.position !== undefined && b.position !== undefined) {
-        return a.position - b.position;
-      }
-      if (a.position === undefined && b.position === undefined) {
-        return a.source!.localeCompare(b.source!);
-      }
-      return a.position === undefined ? 1 : -1;
-    }
-    const sortedSidebarItems = processedSidebarItems.sort(compareItems);
+    const sortedSidebarItems = _.sortBy(processedSidebarItems, [
+      'position',
+      'source',
+    ]);
     return sortedSidebarItems.map(({position, source, ...item}) => item);
   }
   // TODO: the whole code is designed for pipeline operator
