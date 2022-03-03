@@ -14,6 +14,7 @@ import React, {
   type ComponentType,
   useMemo,
 } from 'react';
+import {ReactContextError} from './reactUtils';
 
 /*
 The idea behind all this is that a specific component must be able to fill a
@@ -60,9 +61,7 @@ export function MobileSecondaryMenuProvider({
 function useMobileSecondaryMenuContext(): ContextValue {
   const value = useContext(Context);
   if (value === null) {
-    throw new Error(
-      'MobileSecondaryMenuProvider was not used correctly, context value is null',
-    );
+    throw new ReactContextError('MobileSecondaryMenuProvider');
   }
   return value;
 }

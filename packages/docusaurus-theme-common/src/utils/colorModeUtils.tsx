@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactNode} from 'react';
 import React, {
   useState,
   useCallback,
   useEffect,
   useContext,
   useMemo,
+  type ReactNode,
 } from 'react';
+import {ReactContextError} from './reactUtils';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {createStorageSlot} from './storageUtils';
@@ -148,8 +149,9 @@ export function useColorMode(): ColorModeContextValue {
     ColorModeContext,
   );
   if (context == null) {
-    throw new Error(
-      '"useColorMode()" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
+    throw new ReactContextError(
+      'ColorModeProvider',
+      'Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
     );
   }
   return context;
