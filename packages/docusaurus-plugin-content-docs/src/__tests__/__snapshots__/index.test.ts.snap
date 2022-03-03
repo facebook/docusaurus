@@ -1065,38 +1065,6 @@ Object {
 exports[`simple website content: route config 1`] = `
 Array [
   Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/tags",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
-    },
-    "path": "/docs/tags/tag-1",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
-    },
-    "path": "/docs/tags/tag-3",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
-    },
-    "path": "/docs/tags/tag2-custom-permalink",
-  },
-  Object {
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
@@ -1233,6 +1201,30 @@ Array [
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/slugs/relativeSlug",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
+        },
+        "path": "/docs/tags/tag-1",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
+        },
+        "path": "/docs/tags/tag-3",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
+        },
+        "path": "/docs/tags/tag2-custom-permalink",
       },
       Object {
         "component": "@theme/DocItem",
@@ -3628,38 +3620,6 @@ Object {
 exports[`versioned website content: route config 1`] = `
 Array [
   Object {
-    "component": "@theme/DocTagsListPage",
-    "exact": true,
-    "modules": Object {
-      "tags": "~docs/tags-list-current-prop-15a.json",
-    },
-    "path": "/docs/next/tags",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
-    },
-    "path": "/docs/next/tags/bar-tag-1",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
-    },
-    "path": "/docs/next/tags/bar-tag-2",
-  },
-  Object {
-    "component": "@theme/DocTagDocListPage",
-    "exact": true,
-    "modules": Object {
-      "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
-    },
-    "path": "/docs/next/tags/barTag-3-permalink",
-  },
-  Object {
     "component": "@theme/DocPage",
     "exact": false,
     "modules": Object {
@@ -3747,6 +3707,30 @@ Array [
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/next/slugs/relativeSlug",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
+        },
+        "path": "/docs/next/tags/bar-tag-1",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
+        },
+        "path": "/docs/next/tags/bar-tag-2",
+      },
+      Object {
+        "component": "@theme/DocTagDocListPage",
+        "exact": true,
+        "modules": Object {
+          "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
+        },
+        "path": "/docs/next/tags/barTag-3-permalink",
       },
       Object {
         "component": "@theme/DocItem",

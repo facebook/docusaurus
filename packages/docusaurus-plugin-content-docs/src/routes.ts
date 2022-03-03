@@ -9,14 +9,18 @@ import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
 import type {
   CategoryGeneratedIndexMetadata,
-  DocMetadata,
   LoadedVersion,
+  VersionTag,
 } from './types';
-import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
-import {toVersionMetadataProp} from './props';
+import type {
+  PropCategoryGeneratedIndex,
+  PropTagsListPage,
+} from '@docusaurus/plugin-content-docs';
+import {toVersionMetadataProp, toTagDocListProp} from './props';
+import {getVersionTags} from './tags';
 import logger from '@docusaurus/logger';
 
-export async function createCategoryGeneratedIndexRoutes({
+async function createCategoryGeneratedIndexRoutes({
   version,
   actions,
   docCategoryGeneratedIndexComponent,
@@ -84,17 +88,17 @@ export async function createCategoryGeneratedIndexRoutes({
   );
 }
 
-export async function createDocRoutes({
-  docs,
+async function createDocRoutes({
+  version,
   actions,
   docItemComponent,
 }: {
-  docs: DocMetadata[];
+  version: LoadedVersion;
   actions: PluginContentLoadedActions;
   docItemComponent: string;
 }): Promise<RouteConfig[]> {
   return Promise.all(
-    docs.map(async (metadataItem) => {
+    version.docs.map(async (metadataItem) => {
       await actions.createData(
         // Note that this created data path must be in sync with
         // metadataPath provided to mdx-loader.
@@ -122,12 +126,78 @@ export async function createDocRoutes({
   );
 }
 
+async function createTagsRoutes({
+  version,
+  actions,
+  docTagsListComponent,
+  docTagDocListComponent,
+  aliasedSource,
+}: {
+  version: LoadedVersion;
+  actions: PluginContentLoadedActions;
+  docTagsListComponent: string;
+  docTagDocListComponent: string;
+  aliasedSource: (str: string) => string;
+}): Promise<RouteConfig[]> {
+  const tags = Object.values(getVersionTags(version.docs));
+
+  async function createTagsListPage(): Promise<RouteConfig> {
+    const tagsProp: PropTagsListPage['tags'] = tags.map((tagValue) => ({
+      name: tagValue.name,
+      permalink: tagValue.permalink,
+      count: tagValue.docIds.length,
+    }));
+
+    const tagsPropPath = await actions.createData(
+      `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
+      JSON.stringify(tagsProp, null, 2),
+    );
+    return {
+      path: version.tagsPath,
+      exact: true,
+      component: docTagsListComponent,
+      modules: {
+        tags: aliasedSource(tagsPropPath),
+      },
+    };
+  }
+
+  async function createTagDocListPage(tag: VersionTag): Promise<RouteConfig> {
+    const tagProps = toTagDocListProp({
+      allTagsPath: version.tagsPath,
+      tag,
+      docs: version.docs,
+    });
+    const tagPropPath = await actions.createData(
+      `${docuHash(`tag-${tag.permalink}`)}.json`,
+      JSON.stringify(tagProps, null, 2),
+    );
+    return {
+      path: tag.permalink,
+      component: docTagDocListComponent,
+      exact: true,
+      modules: {
+        tag: aliasedSource(tagPropPath),
+      },
+    };
+  }
+  const tagsRoutes = tags.map(createTagDocListPage);
+  // Only create /tags page if there are tags.
+  if (tags.length > 0) {
+    tagsRoutes.concat(createTagsListPage());
+  }
+
+  return Promise.all(tagsRoutes);
+}
+
 export async function createVersionRoutes({
   loadedVersion,
   actions,
   docItemComponent,
   docLayoutComponent,
   docCategoryGeneratedIndexComponent,
+  docTagsListComponent,
+  docTagDocListComponent,
   pluginId,
   aliasedSource,
 }: {
@@ -136,6 +206,8 @@ export async function createVersionRoutes({
   docLayoutComponent: string;
   docItemComponent: string;
   docCategoryGeneratedIndexComponent: string;
+  docTagsListComponent: string;
+  docTagDocListComponent: string;
   pluginId: string;
   aliasedSource: (str: string) => string;
 }): Promise<void> {
@@ -147,17 +219,24 @@ export async function createVersionRoutes({
     );
 
     async function createVersionSubRoutes() {
-      const [docRoutes, sidebarsRoutes] = await Promise.all([
-        createDocRoutes({docs: version.docs, actions, docItemComponent}),
+      const [docRoutes, sidebarsRoutes, tagsRoutes] = await Promise.all([
+        createDocRoutes({version, actions, docItemComponent}),
         createCategoryGeneratedIndexRoutes({
           version,
           actions,
           docCategoryGeneratedIndexComponent,
           aliasedSource,
         }),
+        createTagsRoutes({
+          version,
+          actions,
+          docTagsListComponent,
+          docTagDocListComponent,
+          aliasedSource,
+        }),
       ]);
 
-      const routes = [...docRoutes, ...sidebarsRoutes];
+      const routes = [...docRoutes, ...sidebarsRoutes, ...tagsRoutes];
       return routes.sort((a, b) => a.path.localeCompare(b.path));
     }
 

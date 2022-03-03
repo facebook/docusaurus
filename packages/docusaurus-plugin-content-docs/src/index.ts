@@ -37,25 +37,19 @@ import type {
   LoadedVersion,
   DocFile,
   DocsMarkdownOption,
-  VersionTag,
   DocFrontMatter,
 } from './types';
 import type {RuleSetRule} from 'webpack';
 import {cliDocsVersionCommand} from './cli';
 import {VERSIONS_JSON_FILE} from './constants';
 import {toGlobalDataVersion} from './globalData';
-import {toTagDocListProp} from './props';
 import {
   translateLoadedContent,
   getLoadedContentTranslationFiles,
 } from './translations';
 import logger from '@docusaurus/logger';
-import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
-import type {
-  PropTagsListPage,
-  PluginOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import type {GlobalPluginData} from '@docusaurus/plugin-content-docs/client';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
@@ -217,64 +211,11 @@ export default async function pluginContentDocs(
         docLayoutComponent,
         docItemComponent,
         docCategoryGeneratedIndexComponent,
+        docTagsListComponent,
+        docTagDocListComponent,
         breadcrumbs,
       } = options;
-      const {addRoute, createData, setGlobalData} = actions;
-
-      async function createVersionTagsRoutes(version: LoadedVersion) {
-        const versionTags = getVersionTags(version.docs);
-
-        // TODO tags should be a sub route of the version route
-        async function createTagsListPage() {
-          const tagsProp: PropTagsListPage['tags'] = Object.values(
-            versionTags,
-          ).map((tagValue) => ({
-            name: tagValue.name,
-            permalink: tagValue.permalink,
-            count: tagValue.docIds.length,
-          }));
-
-          // Only create /tags page if there are tags.
-          if (Object.keys(tagsProp).length > 0) {
-            const tagsPropPath = await createData(
-              `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
-              JSON.stringify(tagsProp, null, 2),
-            );
-            addRoute({
-              path: version.tagsPath,
-              exact: true,
-              component: options.docTagsListComponent,
-              modules: {
-                tags: aliasedSource(tagsPropPath),
-              },
-            });
-          }
-        }
-
-        // TODO tags should be a sub route of the version route
-        async function createTagDocListPage(tag: VersionTag) {
-          const tagProps = toTagDocListProp({
-            allTagsPath: version.tagsPath,
-            tag,
-            docs: version.docs,
-          });
-          const tagPropPath = await createData(
-            `${docuHash(`tag-${tag.permalink}`)}.json`,
-            JSON.stringify(tagProps, null, 2),
-          );
-          addRoute({
-            path: tag.permalink,
-            component: options.docTagDocListComponent,
-            exact: true,
-            modules: {
-              tag: aliasedSource(tagPropPath),
-            },
-          });
-        }
-
-        await createTagsListPage();
-        await Promise.all(Object.values(versionTags).map(createTagDocListPage));
-      }
+      const {setGlobalData} = actions;
 
       await Promise.all(
         loadedVersions.map((loadedVersion) =>
@@ -283,15 +224,14 @@ export default async function pluginContentDocs(
             docItemComponent,
             docLayoutComponent,
             docCategoryGeneratedIndexComponent,
+            docTagsListComponent,
+            docTagDocListComponent,
             pluginId,
             aliasedSource,
             actions,
           }),
         ),
       );
-
-      // TODO tags should be a sub route of the version route
-      await Promise.all(loadedVersions.map(createVersionTagsRoutes));
 
       setGlobalData<GlobalPluginData>({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
