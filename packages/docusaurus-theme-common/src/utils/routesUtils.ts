@@ -23,7 +23,7 @@ export function findHomePageRoute({
   }
 
   function isHomeParentRoute(route: Route): boolean {
-    return route.path === baseUrl && route.exact === false;
+    return route.path === baseUrl && !route.exact;
   }
 
   function doFindHomePageRoute(routes: Route[]): Route | undefined {

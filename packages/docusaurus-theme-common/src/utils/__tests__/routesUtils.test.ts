@@ -69,7 +69,7 @@ describe('routesUtils findHomePageRoute', () => {
               {path: '/b', exact: true},
               {
                 path: '/',
-                exact: false,
+                exact: undefined,
                 routes: [{path: '/c', exact: true}, homePage],
               },
             ],
