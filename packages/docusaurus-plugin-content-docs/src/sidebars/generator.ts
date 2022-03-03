@@ -38,8 +38,8 @@ type WithPosition<T> = T & {
 /**
  * A representation of the fs structure. For each object entry:
  * If it's a folder, the key is the directory name, and value is the directory
- * content; If it's a doc file, the key is the doc's source file name prefixed
- * with '$doc$/', and value is the doc ID
+ * content; If it's a doc file, the key is the doc's source file name, and value
+ * is the doc ID
  */
 type Dir = {
   [item: string]: Dir | string;
