@@ -406,7 +406,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         {
           id: 'parent/doc2',
-          source: '@site/docs/Category/index.md',
+          source: '@site/docs/Category/doc2.md',
           sourceDirName: 'Category',
           frontMatter: {},
         },
@@ -451,11 +451,12 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         items: [
           {
-            id: 'parent/doc1',
+            id: 'parent/doc2',
             type: 'doc',
           },
+          // doc1 is below doc2, because its file name is index.md
           {
-            id: 'parent/doc2',
+            id: 'parent/doc1',
             type: 'doc',
           },
         ],
@@ -469,11 +470,11 @@ describe('DefaultSidebarItemsGenerator', () => {
             type: 'doc',
           },
           {
-            id: 'parent/doc5',
+            id: 'parent/doc6',
             type: 'doc',
           },
           {
-            id: 'parent/doc6',
+            id: 'parent/doc5',
             type: 'doc',
           },
         ],
