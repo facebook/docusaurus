@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-pwa",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "description": "Docusaurus Plugin to add PWA support.",
   "main": "lib/index.js",
   "types": "src/plugin-pwa.d.ts",
@@ -22,11 +22,11 @@
   "dependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
-    "@docusaurus/core": "2.0.0-beta.16",
-    "@docusaurus/theme-common": "2.0.0-beta.16",
-    "@docusaurus/theme-translations": "2.0.0-beta.16",
-    "@docusaurus/utils": "2.0.0-beta.16",
-    "@docusaurus/utils-validation": "2.0.0-beta.16",
+    "@docusaurus/core": "2.0.0-beta.17",
+    "@docusaurus/theme-common": "2.0.0-beta.17",
+    "@docusaurus/theme-translations": "2.0.0-beta.17",
+    "@docusaurus/utils": "2.0.0-beta.17",
+    "@docusaurus/utils-validation": "2.0.0-beta.17",
     "babel-loader": "^8.2.3",
     "clsx": "^1.1.1",
     "core-js": "^3.21.0",
@@ -39,7 +39,7 @@
     "workbox-window": "^6.5.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.16",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.17",
     "fs-extra": "^10.0.1"
   },
   "peerDependencies": {

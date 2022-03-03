@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "description": "Docs plugin for Docusaurus.",
   "main": "lib/index.js",
   "exports": {
@@ -23,11 +23,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.16",
-    "@docusaurus/logger": "2.0.0-beta.16",
-    "@docusaurus/mdx-loader": "2.0.0-beta.16",
-    "@docusaurus/utils": "2.0.0-beta.16",
-    "@docusaurus/utils-validation": "2.0.0-beta.16",
+    "@docusaurus/core": "2.0.0-beta.17",
+    "@docusaurus/logger": "2.0.0-beta.17",
+    "@docusaurus/mdx-loader": "2.0.0-beta.17",
+    "@docusaurus/utils": "2.0.0-beta.17",
+    "@docusaurus/utils-validation": "2.0.0-beta.17",
     "combine-promises": "^1.1.0",
     "fs-extra": "^10.0.1",
     "import-fresh": "^3.3.0",
@@ -39,8 +39,8 @@
     "webpack": "^5.69.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.16",
-    "@docusaurus/types": "2.0.0-beta.16",
+    "@docusaurus/module-type-aliases": "2.0.0-beta.17",
+    "@docusaurus/types": "2.0.0-beta.17",
     "@types/js-yaml": "^4.0.5",
     "@types/picomatch": "^2.3.0",
     "commander": "^5.1.0",
