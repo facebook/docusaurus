@@ -184,7 +184,7 @@ async function createTagsRoutes({
   const tagsRoutes = tags.map(createTagDocListPage);
   // Only create /tags page if there are tags.
   if (tags.length > 0) {
-    tagsRoutes.concat(createTagsListPage());
+    tagsRoutes.push(createTagsListPage());
   }
 
   return Promise.all(tagsRoutes);
