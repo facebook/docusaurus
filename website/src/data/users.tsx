@@ -1516,6 +1516,23 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Shabad OS Docs',
+    description:
+      'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
+    preview: require('./showcase/shabados.png'),
+    website: 'https://docs.shabados.com',
+    source: 'https://github.com/shabados/docs',
+    tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Shotstack',
+    description: 'The cloud video editing API',
+    preview: require('./showcase/shotstack.png'),
+    website: 'https://shotstack.io/docs/guide/',
+    source: 'https://github.com/shotstack/documentation',
+    tags: ['product', 'design', 'opensource'],
+  },
+  {
     title: 'Smart Docs',
     description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
     preview: require('./showcase/smart-docs.png'),
@@ -1538,23 +1555,6 @@ const Users: User[] = [
     website: 'https://smartcookieweb.com/',
     source: null,
     tags: ['product', 'i18n'],
-  },
-  {
-    title: 'Shabad OS Docs',
-    description:
-      'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
-    preview: require('./showcase/shabados.png'),
-    website: 'https://docs.shabados.com',
-    source: 'https://github.com/shabados/docs',
-    tags: ['opensource', 'design'],
-  },
-  {
-    title: 'Shotstack',
-    description: 'The cloud video editing API',
-    preview: require('./showcase/shotstack.png'),
-    website: 'https://shotstack.io/docs/guide/',
-    source: 'https://github.com/shotstack/documentation',
-    tags: ['product', 'design', 'opensource'],
   },
   {
     title: 'social-embed',
@@ -1582,6 +1582,14 @@ const Users: User[] = [
     website: 'https://some.engineering',
     source: 'https://github.com/someengineering/some.engineering',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Spicetify',
+    description: 'Powerful CLI tool to take control of the Spotify client.',
+    preview: require('./showcase/spicetify.png'),
+    website: 'https://spicetify.app/',
+    source: 'https://github.com/spicetify/spicetify-docs',
+    tags: ['opensource'],
   },
   {
     title: 'SpotifyAPI-NET',
