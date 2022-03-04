@@ -27,6 +27,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:en
+          clean-script: clear:website # see https://github.com/facebook/docusaurus/pull/6838
           pattern: '{website/build/assets/js/main*js,website/build/assets/css/styles*css,website/.docusaurus/globalData.json,website/build/index.html,website/build/blog/index.html,website/build/blog/**/introducing-docusaurus/*,website/build/docs/index.html,website/build/docs/installation/index.html,website/build/tests/docs/index.html,website/build/tests/docs/standalone/index.html}'
           strip-hash: '\.([^;]\w{7})\.'
           minimum-change-threshold: 30
