@@ -10,7 +10,6 @@ import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
-import MDXContent from '@theme/MDXContent';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
@@ -135,7 +134,7 @@ function DocPageContent({
                 [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
               },
             )}>
-            <MDXContent>{children}</MDXContent>
+            {children}
           </div>
         </main>
       </div>

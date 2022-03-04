@@ -19,6 +19,7 @@ import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
+import MDXContent from '@theme/MDXContent';
 
 export default function DocItem(props: Props): JSX.Element {
   const {content: DocContent} = props;
@@ -87,8 +88,9 @@ export default function DocItem(props: Props): JSX.Element {
                     <Heading as="h1">{title}</Heading>
                   </header>
                 )}
-
-                <DocContent />
+                <MDXContent>
+                  <DocContent />
+                </MDXContent>
               </div>
 
               <DocItemFooter {...props} />
