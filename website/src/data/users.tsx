@@ -1081,6 +1081,14 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'PcapPlusPlus',
+    description: 'A multi-platform C++ library for capturing, parsing and crafting of network packets',
+    preview: require('./showcase/pcapplusplus.png'),
+    website: 'https://pcapplusplus.github.io/',
+    source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'Pearl UI',
     description:
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
