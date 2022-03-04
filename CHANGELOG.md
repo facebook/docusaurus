@@ -1,5 +1,17 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-beta.18 (2022-04-04)
+
+#### :rocket: New Feature
+
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#6783](https://github.com/facebook/docusaurus/pull/6783) feat: allow blog authors email ([@Josh-Cena](https://github.com/Josh-Cena)) re: various internal fixes ([@Josh-Cena](https://github.com/Josh-Cena))
+
+#### Committers: 8
+
+- fakeuserXyz ([@fakeuserXyz](https://github.com/fakeuserXyz))
+- absdfsfddsff ([@absdfsfddsff](https://github.com/absdfsfddsff))
+
 ## 2.0.0-beta.17 (2022-03-03)
 
 #### :rocket: New Feature
