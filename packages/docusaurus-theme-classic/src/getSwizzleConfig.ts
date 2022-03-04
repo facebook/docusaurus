@@ -85,6 +85,14 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The MDX components to use for rendering MDX files. Meant to be ejected.',
       },
+      MDXContent: {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'A component wrapping all MDX content and providing the MDXComponents to the MDX context',
+      },
       // TODO should probably not even appear here
       'NavbarItem/utils': {
         actions: {

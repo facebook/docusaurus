@@ -6,13 +6,11 @@
  */
 
 import React, {type ReactNode, useState, useCallback} from 'react';
-import {MDXProvider} from '@mdx-js/react';
-
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
-import MDXComponents from '@theme/MDXComponents';
+import MDXContent from '@theme/MDXContent';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
@@ -137,7 +135,7 @@ function DocPageContent({
                 [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
               },
             )}>
-            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+            <MDXContent>{children}</MDXContent>
           </div>
         </main>
       </div>
