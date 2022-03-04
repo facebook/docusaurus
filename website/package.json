@@ -8,7 +8,7 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
+    "clear": "docusaurus clear && rimraf changelog",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
     "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
@@ -80,6 +80,7 @@
   "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/jest": "^27.4.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "rimraf": "^3.0.2"
   }
 }
