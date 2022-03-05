@@ -159,6 +159,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
       const categoryMetadata =
         categoriesMetadata[posixPath(path.join(autogenDir, fullPath))];
       const className = categoryMetadata?.className;
+      const customProps = categoryMetadata?.customProps;
       const {filename, numberPrefix} = numberPrefixParser(folderName);
       const allItems = Object.entries(dir).map(([key, content]) =>
         dirToItem(content, key, `${fullPath}/${key}`),
@@ -219,6 +220,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         collapsed: categoryMetadata?.collapsed,
         position: categoryMetadata?.position ?? numberPrefix,
         source: folderName,
+        ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),
         items,
         ...(link && {link}),

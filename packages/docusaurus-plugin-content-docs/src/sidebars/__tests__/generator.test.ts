@@ -126,7 +126,12 @@ describe('DefaultSidebarItemsGenerator', () => {
         contentPath: '',
       },
       categoriesMetadata: {
-        '02-Guides': {collapsed: false},
+        '02-Guides': {
+          collapsed: false,
+          customProps: {
+            description: 'foo',
+          },
+        },
         '02-Guides/01-SubGuides': {
           label: 'SubGuides (metadata file label)',
           link: {
@@ -229,6 +234,9 @@ describe('DefaultSidebarItemsGenerator', () => {
         link: {
           type: 'doc',
           id: 'guides-index',
+        },
+        customProps: {
+          description: 'foo',
         },
         collapsed: false,
         items: [
