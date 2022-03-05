@@ -38,66 +38,52 @@ function addHeadingId(
 
   const headingText = line.slice(headingLevel).trimEnd();
   const headingHashes = line.slice(0, headingLevel);
-  const slug = slugger
-    .slug(unwrapMarkdownLinks(headingText).trim(), {maintainCase})
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
+  const slug = slugger.slug(unwrapMarkdownLinks(headingText).trim(), {
+    maintainCase,
+  });
 
   return `${headingHashes}${headingText} {#${slug}}`;
 }
 
-export function transformMarkdownHeadingLine(
-  line: string,
-  slugger: Slugger,
+export function transformMarkdownContent(
+  content: string,
   options: Options = {maintainCase: false, overwrite: false},
 ): string {
   const {maintainCase = false, overwrite = false} = options;
-  if (!line.startsWith('#')) {
-    throw new Error(`Line is not a Markdown heading: ${line}.`);
-  }
-
-  const parsedHeading = parseMarkdownHeadingId(line);
-
-  // Do not process if id is already there
-  if (parsedHeading.id && !overwrite) {
-    return line;
-  }
-  return addHeadingId(parsedHeading.text, slugger, maintainCase);
-}
-
-function transformMarkdownLine(
-  line: string,
-  slugger: Slugger,
-  options?: Options,
-): string {
-  // Ignore h1 headings on purpose, as we don't create anchor links for those
-  if (line.startsWith('##')) {
-    return transformMarkdownHeadingLine(line, slugger, options);
-  }
-  return line;
-}
-
-function transformMarkdownLines(lines: string[], options?: Options): string[] {
-  let inCode = false;
+  const lines = content.split('\n');
   const slugger = createSlugger();
 
-  return lines.map((line) => {
-    if (line.startsWith('```')) {
-      inCode = !inCode;
-      return line;
-    }
-    if (inCode) {
-      return line;
-    }
-    return transformMarkdownLine(line, slugger, options);
-  });
-}
+  // If we can't overwrite existing slugs, make sure other headings don't
+  // generate colliding slugs by first marking these slugs as occupied
+  if (!overwrite) {
+    lines.forEach((line) => {
+      const parsedHeading = parseMarkdownHeadingId(line);
+      if (parsedHeading.id) {
+        slugger.slug(parsedHeading.id);
+      }
+    });
+  }
 
-export function transformMarkdownContent(
-  content: string,
-  options?: Options,
-): string {
-  return transformMarkdownLines(content.split('\n'), options).join('\n');
+  let inCode = false;
+  return lines
+    .map((line) => {
+      if (line.startsWith('```')) {
+        inCode = !inCode;
+        return line;
+      }
+      // Ignore h1 headings, as we don't create anchor links for those
+      if (inCode || !line.startsWith('##')) {
+        return line;
+      }
+      const parsedHeading = parseMarkdownHeadingId(line);
+
+      // Do not process if id is already there
+      if (parsedHeading.id && !overwrite) {
+        return line;
+      }
+      return addHeadingId(parsedHeading.text, slugger, maintainCase);
+    })
+    .join('\n');
 }
 
 async function transformMarkdownFile(
@@ -105,10 +91,7 @@ async function transformMarkdownFile(
   options?: Options,
 ): Promise<string | undefined> {
   const content = await fs.readFile(filepath, 'utf8');
-  const updatedContent = transformMarkdownLines(
-    content.split('\n'),
-    options,
-  ).join('\n');
+  const updatedContent = transformMarkdownContent(content, options);
   if (content !== updatedContent) {
     await fs.writeFile(filepath, updatedContent);
     return filepath;
