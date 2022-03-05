@@ -51,7 +51,7 @@ export function loadPluginsThemeAliases({
   plugins: LoadedPlugin[];
 }): Promise<ThemeAliases> {
   const pluginThemes: string[] = plugins
-    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
+    .map((plugin) => plugin.getThemePath?.())
     .filter((x): x is string => Boolean(x));
   const userTheme = path.resolve(siteDir, THEME_PATH);
   return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);
