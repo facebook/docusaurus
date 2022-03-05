@@ -14,19 +14,17 @@ export async function getPackageJsonVersion(
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    const {version} = require(packageJsonPath);
-    return typeof version === 'string' ? version : undefined;
+    return require(packageJsonPath).version;
   }
   return undefined;
 }
 
-export async function getPackageJsonName(
+async function getPackageJsonName(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    const {name} = require(packageJsonPath);
-    return typeof name === 'string' ? name : undefined;
+    return require(packageJsonPath).name;
   }
   return undefined;
 }

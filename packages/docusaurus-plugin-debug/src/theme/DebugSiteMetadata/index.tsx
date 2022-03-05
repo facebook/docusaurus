@@ -11,7 +11,7 @@ import DebugLayout from '@theme/DebugLayout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-function DebugMetadata(): JSX.Element {
+export default function DebugMetadata(): JSX.Element {
   const {siteMetadata} = useDocusaurusContext();
   return (
     <DebugLayout>
@@ -43,5 +43,3 @@ function DebugMetadata(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugMetadata;

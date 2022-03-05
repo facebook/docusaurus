@@ -11,7 +11,7 @@ import type {Parent} from 'unist';
 import type {PhrasingContent, Heading} from 'mdast';
 
 export function stringifyContent(node: Parent): string {
-  return ((node.children || []) as PhrasingContent[]).map(toValue).join('');
+  return (node.children as PhrasingContent[]).map(toValue).join('');
 }
 
 export function toValue(node: PhrasingContent | Heading): string {

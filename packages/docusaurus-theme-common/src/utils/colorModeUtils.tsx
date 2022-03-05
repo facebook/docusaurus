@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactNode} from 'react';
 import React, {
   useState,
   useCallback,
   useEffect,
   useContext,
   useMemo,
+  type ReactNode,
 } from 'react';
+import {ReactContextError} from './reactUtils';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {createStorageSlot} from './storageUtils';
@@ -24,7 +25,8 @@ type ColorModeContextValue = {
   readonly setDarkTheme: () => void;
 };
 
-const ThemeStorage = createStorageSlot('theme');
+const ThemeStorageKey = 'theme';
+const ThemeStorage = createStorageSlot(ThemeStorageKey);
 
 const themes = {
   light: 'light',
@@ -45,7 +47,7 @@ const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
 };
 
 const storeTheme = (newTheme: Themes) => {
-  createStorageSlot('theme').set(coerceToTheme(newTheme));
+  ThemeStorage.set(coerceToTheme(newTheme));
 };
 
 function useColorModeContextValue(): ColorModeContextValue {
@@ -69,17 +71,25 @@ function useColorModeContextValue(): ColorModeContextValue {
 
   useEffect(() => {
     if (disableSwitch) {
-      return;
+      return undefined;
     }
-
-    try {
-      const storedTheme = ThemeStorage.get();
-      if (storedTheme !== null) {
-        setTheme(coerceToTheme(storedTheme));
+    const onChange = (e: StorageEvent) => {
+      if (e.key !== ThemeStorageKey) {
+        return;
       }
-    } catch (err) {
-      console.error(err);
-    }
+      try {
+        const storedTheme = ThemeStorage.get();
+        if (storedTheme !== null) {
+          setTheme(coerceToTheme(storedTheme));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    window.addEventListener('storage', onChange);
+    return () => {
+      window.removeEventListener('storage', onChange);
+    };
   }, [disableSwitch, setTheme]);
 
   // PCS is coerced to light mode when printing, which causes the color mode to
@@ -139,8 +149,9 @@ export function useColorMode(): ColorModeContextValue {
     ColorModeContext,
   );
   if (context == null) {
-    throw new Error(
-      '"useColorMode()" is used outside of "Layout" component. Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
+    throw new ReactContextError(
+      'ColorModeProvider',
+      'Please see https://docusaurus.io/docs/api/themes/configuration#use-color-mode.',
     );
   }
   return context;

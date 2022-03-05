@@ -10,7 +10,7 @@ import type {Props} from '@theme/TOCInline';
 import styles from './styles.module.css';
 import TOCItems from '@theme/TOCItems';
 
-function TOCInline({
+export default function TOCInline({
   toc,
   minHeadingLevel,
   maxHeadingLevel,
@@ -27,5 +27,3 @@ function TOCInline({
     </div>
   );
 }
-
-export default TOCInline;

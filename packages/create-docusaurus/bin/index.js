@@ -36,14 +36,17 @@ program.version(packageJson.version);
 
 program
   .arguments('[siteName] [template] [rootDir]')
-  .option('--use-npm', 'Use NPM as package manage even with Yarn installed')
   .option(
-    '--skip-install',
+    '-p, --package-manager <manager>',
+    'The package manager used to install dependencies. One of yarn, npm, and pnpm.',
+  )
+  .option(
+    '-s, --skip-install',
     'Do not run package manager immediately after scaffolding',
   )
-  .option('--typescript', 'Use the TypeScript template variant')
+  .option('-t, --typescript', 'Use the TypeScript template variant')
   .option(
-    '--git-strategy <strategy>',
+    '-g, --git-strategy <strategy>',
     `Only used if the template is a git repository.
 \`deep\`: preserve full history
 \`shallow\`: clone with --depth=1
@@ -56,10 +59,10 @@ program
       siteName,
       template,
       rootDir = '.',
-      {useNpm, skipInstall, typescript, gitStrategy} = {},
+      {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
       wrapCommand(init)(path.resolve(rootDir), siteName, template, {
-        useNpm,
+        packageManager,
         skipInstall,
         typescript,
         gitStrategy,

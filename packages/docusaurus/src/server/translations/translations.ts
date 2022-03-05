@@ -56,10 +56,9 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-    } catch (e) {
-      throw new Error(
-        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
-      );
+    } catch (err) {
+      logger.error`Invalid translation file at path=${filePath}.`;
+      throw err;
     }
   }
   return undefined;

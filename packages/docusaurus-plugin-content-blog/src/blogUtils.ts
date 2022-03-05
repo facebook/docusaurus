@@ -157,8 +157,9 @@ function formatBlogPostDate(locale: string, date: Date): string {
       year: 'numeric',
       timeZone: 'UTC',
     }).format(date);
-  } catch (e) {
-    throw new Error(`Can't format blog post date "${date}"`);
+  } catch (err) {
+    logger.error`Can't format blog post date "${String(date)}"`;
+    throw err;
   }
 }
 
@@ -172,12 +173,9 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
       ...result,
       frontMatter: validateBlogPostFrontMatter(result.frontMatter),
     };
-  } catch (e) {
-    throw new Error(
-      `Error while parsing blog post file ${blogSourceAbsolute}: "${
-        (e as Error).message
-      }".`,
-    );
+  } catch (err) {
+    logger.error`Error while parsing blog post file path=${blogSourceAbsolute}.`;
+    throw err;
   }
 }
 
@@ -246,8 +244,8 @@ async function processBlogSourceFile(
         includeAuthor: false,
       });
       return result.date;
-    } catch (e) {
-      logger.error(e);
+    } catch (err) {
+      logger.error(err);
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
   }
@@ -357,9 +355,9 @@ export async function generateBlogPosts(
             options,
             authorsMap,
           );
-        } catch (e) {
-          logger.error`Processing of blog source file failed for path path=${blogSourceFile}.`;
-          throw e;
+        } catch (err) {
+          logger.error`Processing of blog source file path=${blogSourceFile} failed.`;
+          throw err;
         }
       }),
     )

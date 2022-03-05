@@ -12,7 +12,7 @@ import DebugJsonView from '@theme/DebugJsonView';
 import routes from '@generated/routes';
 import styles from './styles.module.css';
 
-function DebugRoutes(): JSX.Element {
+export default function DebugRoutes(): JSX.Element {
   return (
     <DebugLayout>
       <h2>Routes</h2>
@@ -37,5 +37,3 @@ function DebugRoutes(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugRoutes;

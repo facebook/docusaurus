@@ -15,11 +15,11 @@ import type {Code, Parent} from 'mdast';
 // with the markup, but the JSX inside such code blocks should still be
 // evaluated as JSX
 // See https://github.com/facebook/docusaurus/pull/4278
-function plugin(this: Processor): Transformer {
-  const transformer: Transformer = (root) => {
+export default function plugin(this: Processor): Transformer {
+  return (root) => {
     visit(root, 'code', (node: Code, _index, parent) => {
       if (node.lang === 'mdx-code-block') {
-        const newChildren = (this!.parse(node.value) as Parent).children;
+        const newChildren = (this.parse(node.value) as Parent).children;
 
         // Replace the mdx code block by its content, parsed
         parent!.children.splice(
@@ -30,8 +30,4 @@ function plugin(this: Processor): Transformer {
       }
     });
   };
-
-  return transformer;
 }
-
-export default plugin;

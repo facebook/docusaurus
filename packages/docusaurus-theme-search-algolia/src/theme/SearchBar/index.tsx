@@ -270,9 +270,7 @@ function DocSearch({
   );
 }
 
-function SearchBar(): JSX.Element {
+export default function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }
-
-export default SearchBar;

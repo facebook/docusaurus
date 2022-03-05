@@ -87,6 +87,7 @@ const sidebars = {
           ],
         },
         'styling-layout',
+        'swizzling',
         'static-assets',
         'search',
         'browser-support',
@@ -126,8 +127,8 @@ const sidebars = {
         'advanced/architecture',
         'advanced/plugins',
         'advanced/routing',
-        'advanced/swizzling',
         'advanced/ssg',
+        'advanced/client',
       ],
     },
     {

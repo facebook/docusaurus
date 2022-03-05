@@ -41,7 +41,7 @@ function useReadingTimePlural() {
   };
 }
 
-function BlogPostItem(props: Props): JSX.Element {
+export default function BlogPostItem(props: Props): JSX.Element {
   const readingTimePlural = useReadingTimePlural();
   const {withBaseUrl} = useBaseUrlUtils();
   const {
@@ -159,5 +159,3 @@ function BlogPostItem(props: Props): JSX.Element {
     </article>
   );
 }
-
-export default BlogPostItem;

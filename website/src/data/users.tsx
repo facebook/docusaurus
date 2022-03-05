@@ -287,6 +287,15 @@ const Users: User[] = [
     tags: ['personal', 'opensource'],
   },
   {
+    title: 'Blog Matheus Brunelli',
+    description:
+      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+    preview: require('./showcase/blogmatheusbrunelli.png'),
+    website: 'https://mrbrunelli.github.io/blog/',
+    source: 'https://github.com/mrbrunelli/blog',
+    tags: ['opensource', 'personal']
+  },
+  {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
@@ -447,7 +456,7 @@ const Users: User[] = [
       'A persian tutorial website strive to make quality education for everyone.',
     preview: require('./showcase/datagit.png'),
     website: 'https://datagit.ir/',
-    source: 'https://github.com/massoudmaboudi/datagit_v2.docusaurus',
+    source: 'https://github.com/ghaseminya/datagit_v2.docusaurus',
     tags: ['opensource', 'favorite', 'rtl'],
   },
   {
@@ -494,9 +503,9 @@ const Users: User[] = [
     title: 'Dyte',
     description: 'The most developer friendly live video SDK',
     preview: require('./showcase/dyte.png'),
-    source: null,
+    source: 'https://github.com/dyte-in/docs',
     website: 'https://docs.dyte.io',
-    tags: ['favorite', 'product', 'design', 'versioning', 'large']
+    tags: ['favorite', 'product', 'design', 'versioning', 'large', 'opensource']
   },
   {
     title: 'Easyjwt',
@@ -856,8 +865,8 @@ const Users: User[] = [
     description: 'Creation of technical trading tools',
     preview: require('./showcase/lux-algo.png'),
     website: 'https://docs.luxalgo.com',
-    source: 'https://github.com/smack0202/luxdocs',
-    tags: ['opensource', 'design', 'i18n', 'product'],
+    source: null,
+    tags: ['design', 'i18n', 'product'],
   },
   {
     title: 'SICOPE Model',
@@ -940,7 +949,7 @@ const Users: User[] = [
     description:
       'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
     preview: require('./showcase/molecule-home.png'),
-    website: 'https://dtstack.github.io/molecule/en',
+    website: 'https://dtstack.github.io/molecule/',
     source: 'https://github.com/DTStack/molecule',
     tags: ['opensource', 'i18n'],
   },
@@ -1070,6 +1079,14 @@ const Users: User[] = [
     website: 'https://docs.paubox.com/',
     source: null,
     tags: ['product'],
+  },
+  {
+    title: 'PcapPlusPlus',
+    description: 'A multi-platform C++ library for capturing, parsing and crafting of network packets',
+    preview: require('./showcase/pcapplusplus.png'),
+    website: 'https://pcapplusplus.github.io/',
+    source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'Pearl UI',
@@ -1507,6 +1524,23 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
+    title: 'Shabad OS Docs',
+    description:
+      'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
+    preview: require('./showcase/shabados.png'),
+    website: 'https://docs.shabados.com',
+    source: 'https://github.com/shabados/docs',
+    tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Shotstack',
+    description: 'The cloud video editing API',
+    preview: require('./showcase/shotstack.png'),
+    website: 'https://shotstack.io/docs/guide/',
+    source: 'https://github.com/shotstack/documentation',
+    tags: ['product', 'design', 'opensource'],
+  },
+  {
     title: 'Smart Docs',
     description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
     preview: require('./showcase/smart-docs.png'),
@@ -1529,23 +1563,6 @@ const Users: User[] = [
     website: 'https://smartcookieweb.com/',
     source: null,
     tags: ['product', 'i18n'],
-  },
-  {
-    title: 'Shabad OS Docs',
-    description:
-      'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
-    preview: require('./showcase/shabados.png'),
-    website: 'https://docs.shabados.com',
-    source: 'https://github.com/shabados/docs',
-    tags: ['opensource', 'design'],
-  },
-  {
-    title: 'Shotstack',
-    description: 'The cloud video editing API',
-    preview: require('./showcase/shotstack.png'),
-    website: 'https://shotstack.io/docs/guide/',
-    source: 'https://github.com/shotstack/documentation',
-    tags: ['product', 'design', 'opensource'],
   },
   {
     title: 'social-embed',
@@ -1573,6 +1590,14 @@ const Users: User[] = [
     website: 'https://some.engineering',
     source: 'https://github.com/someengineering/some.engineering',
     tags: ['opensource', 'design'],
+  },
+  {
+    title: 'Spicetify',
+    description: 'Powerful CLI tool to take control of the Spotify client.',
+    preview: require('./showcase/spicetify.png'),
+    website: 'https://spicetify.app/',
+    source: 'https://github.com/spicetify/spicetify-docs',
+    tags: ['opensource'],
   },
   {
     title: 'SpotifyAPI-NET',
@@ -1916,8 +1941,8 @@ const Users: User[] = [
       'IT enthusiast that loves to write code, try new things and share knowledge. If not sitting in front of computer, then I am playing badminton, riding bike or hiking.',
     preview: require('./showcase/juffalow.png'),
     website: 'https://juffalow.com/',
-    source: 'https://github.com/juffalow/juffalow-com',
-    tags: ['personal', 'opensource'],
+    source: null,
+    tags: ['personal'],
   },
   {
     title: 'SigNoz',

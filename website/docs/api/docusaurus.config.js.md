@@ -287,18 +287,6 @@ module.exports = {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
-      switchConfig: {
-        darkIcon: '🌙',
-        lightIcon: '\u2600',
-        // React inline style object
-        // see https://reactjs.org/docs/dom-elements.html#style
-        darkIconStyle: {
-          marginLeft: '2px',
-        },
-        lightIconStyle: {
-          marginLeft: '1px',
-        },
-      },
     },
     navbar: {
       title: 'Site Title',
@@ -453,7 +441,7 @@ module.exports = {
 
 ### `clientModules` {#clientmodules}
 
-An array of client modules to load globally on your site:
+An array of [client modules](../advanced/client.md#client-modules) to load globally on your site:
 
 Example:
 
@@ -465,8 +453,6 @@ module.exports = {
   ],
 };
 ```
-
-See also: [`getClientModules()`](./plugin-methods/lifecycle-apis.md#getClientModules).
 
 ### `ssrTemplate` {#ssrtemplate}
 

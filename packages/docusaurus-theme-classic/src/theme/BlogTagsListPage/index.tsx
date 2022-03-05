@@ -15,7 +15,7 @@ import {
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
 
-function BlogTagsListPage(props: Props): JSX.Element {
+export default function BlogTagsListPage(props: Props): JSX.Element {
   const {tags, sidebar} = props;
   const title = translateTagsPageTitle();
   return (
@@ -33,5 +33,3 @@ function BlogTagsListPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogTagsListPage;

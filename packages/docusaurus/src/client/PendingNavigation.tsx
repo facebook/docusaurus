@@ -69,12 +69,7 @@ class PendingNavigation extends React.Component<Props, State> {
           });
           // Route has loaded, we can reset previousLocation.
           this.previousLocation = null;
-          this.setState(
-            {
-              nextRouteHasLoaded: true,
-            },
-            this.stopProgressBar,
-          );
+          this.setState({nextRouteHasLoaded: true}, this.stopProgressBar);
           const {hash} = nextLocation;
           if (!hash) {
             window.scrollTo(0, 0);

@@ -15,7 +15,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import {useDynamicCallback} from './reactUtils';
+import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
@@ -76,9 +76,7 @@ export function ScrollControllerProvider({
 export function useScrollController(): ScrollController {
   const context = useContext(ScrollMonitorContext);
   if (context == null) {
-    throw new Error(
-      '"useScrollController" is used but no context provider was found in the React tree.',
-    );
+    throw new ReactContextError('ScrollControllerProvider');
   }
   return context;
 }

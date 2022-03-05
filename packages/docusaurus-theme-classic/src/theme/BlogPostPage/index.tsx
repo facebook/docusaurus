@@ -14,7 +14,7 @@ import type {Props} from '@theme/BlogPostPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import TOC from '@theme/TOC';
 
-function BlogPostPage(props: Props): JSX.Element {
+export default function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {assets, metadata} = BlogPostContents;
   const {
@@ -95,5 +95,3 @@ function BlogPostPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogPostPage;

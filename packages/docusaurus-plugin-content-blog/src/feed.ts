@@ -57,9 +57,7 @@ async function generateBlogFeed({
   });
 
   function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
+    return {name: author.name, link: author.url, email: author.email};
   }
 
   await mapAsyncSequential(blogPosts, async (post) => {

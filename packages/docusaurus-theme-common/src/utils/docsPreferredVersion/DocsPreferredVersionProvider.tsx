@@ -15,6 +15,7 @@ import React, {
 } from 'react';
 import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
+import {ReactContextError} from '../reactUtils';
 
 import {
   useAllDocsData,
@@ -159,9 +160,7 @@ function DocsPreferredVersionContextProviderUnsafe({
 export function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
   const value = useContext(Context);
   if (!value) {
-    throw new Error(
-      'Can\'t find docs preferred context, maybe you forgot to use the "DocsPreferredVersionContextProvider"?',
-    );
+    throw new ReactContextError('DocsPreferredVersionContextProvider');
   }
   return value;
 }

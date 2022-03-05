@@ -7,7 +7,6 @@
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {PrismTheme} from 'prism-react-renderer';
-import type {CSSProperties} from 'react';
 import type {DeepPartial} from 'utility-types';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
@@ -43,12 +42,6 @@ export type ColorModeConfig = {
   defaultMode: 'light' | 'dark';
   disableSwitch: boolean;
   respectPrefersColorScheme: boolean;
-  switchConfig: {
-    darkIcon: string;
-    darkIconStyle: CSSProperties;
-    lightIcon: string;
-    lightIconStyle: CSSProperties;
-  };
 };
 
 export type AnnouncementBarConfig = {

@@ -69,6 +69,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
   // TODO this is not ideal to have to maintain such a list of allowed chars
   // maybe we should quotify if gray-matter throws instead?
   return !String(value).match(
+    // cSpell:ignore sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ
     /^[\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$]+$/,
   );
 }

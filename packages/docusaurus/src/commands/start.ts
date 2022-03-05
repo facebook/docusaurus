@@ -146,12 +146,12 @@ export default async function start(
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      config = applyConfigurePostCss(configurePostCss, config);
+      config = applyConfigurePostCss(configurePostCss.bind(plugin), config);
     }
 
     if (configureWebpack) {
       config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
         props.siteConfig.webpack?.jsLoader,

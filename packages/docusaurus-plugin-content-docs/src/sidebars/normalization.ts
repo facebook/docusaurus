@@ -18,6 +18,7 @@ import type {
 } from './types';
 import {isCategoriesShorthand} from './utils';
 import _ from 'lodash';
+import logger from '@docusaurus/logger';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
@@ -37,40 +38,37 @@ export function normalizeItem(
   item: SidebarItemConfig,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
-    return [
-      {
-        type: 'doc',
-        id: item,
-      },
-    ];
+    return [{type: 'doc', id: item}];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeCategoriesShorthand(item).flatMap((subItem) =>
-      normalizeItem(subItem),
-    );
+    // This will never throw anyways
+    return normalizeSidebar(item, 'sidebar items slice');
   }
   if (item.type === 'category') {
-    if (typeof item.items !== 'undefined' && typeof item.items !== 'object') {
-      throw new Error(
-        `Invalid category ${JSON.stringify(
-          item,
-        )}: items must be an array of sidebar items or a category shorthand`,
-      );
-    }
     const normalizedCategory: NormalizedSidebarItemCategory = {
       ...item,
-      items: Array.isArray(item.items)
-        ? item.items.flatMap((subItem) => normalizeItem(subItem))
-        : normalizeCategoriesShorthand(item.items).flatMap((subItem) =>
-            normalizeItem(subItem),
-          ),
+      items: normalizeSidebar(
+        item.items,
+        logger.interpolate`code=${'items'} of the category name=${item.label}`,
+      ),
     };
     return [normalizedCategory];
   }
   return [item];
 }
 
-function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
+function normalizeSidebar(
+  sidebar: SidebarConfig,
+  place: string,
+): NormalizedSidebar {
+  if (!Array.isArray(sidebar) && !isCategoriesShorthand(sidebar)) {
+    throw new Error(
+      logger.interpolate`Invalid sidebar items collection code=${JSON.stringify(
+        sidebar,
+      )} in ${place}: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a code=${'type'} property). See path=${'https://docusaurus.io/docs/sidebar/items'} for all valid syntaxes.`,
+    );
+  }
+
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
     : normalizeCategoriesShorthand(sidebar);
@@ -81,5 +79,7 @@ function normalizeSidebar(sidebar: SidebarConfig): NormalizedSidebar {
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
 ): NormalizedSidebars {
-  return _.mapValues(sidebars, normalizeSidebar);
+  return _.mapValues(sidebars, (sidebar, id) =>
+    normalizeSidebar(sidebar, logger.interpolate`sidebar name=${id}`),
+  );
 }

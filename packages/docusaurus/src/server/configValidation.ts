@@ -5,16 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
 import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
-import {
-  Joi,
-  logValidationBugReportHint,
-  isValidationDisabledEscapeHatch,
-  URISchema,
-  printWarning,
-} from '@docusaurus/utils-validation';
+import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -139,7 +132,7 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
         warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
       });
     }
-  } catch (e) {}
+  } catch {}
   return value;
 }, 'siteUrlCustomValidation');
 
@@ -219,12 +212,6 @@ export function validateConfig(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error.message);
-      return config as DocusaurusConfig;
-    }
-
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

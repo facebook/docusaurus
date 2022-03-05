@@ -207,21 +207,5 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
   };
 }
 
-const swizzleAllowedComponents = [
-  'CodeBlock',
-  'DocSidebar',
-  'Footer',
-  'NotFound',
-  'SearchBar',
-  'IconArrow',
-  'IconEdit',
-  'IconMenu',
-  'hooks/useTheme',
-  'prism-include-languages',
-];
-
-export function getSwizzleComponentList(): string[] {
-  return swizzleAllowedComponents;
-}
-
+export {default as getSwizzleConfig} from './getSwizzleConfig';
 export {validateThemeConfig} from './validateThemeConfig';

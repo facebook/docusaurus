@@ -19,6 +19,7 @@ import type {
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
+import {ReactContextError} from './reactUtils';
 import {useLocation} from '@docusaurus/router';
 
 // TODO not ideal, see also "useDocs"
@@ -49,7 +50,7 @@ export function DocsVersionProvider({
 export function useDocsVersion(): PropVersionMetadata {
   const version = useContext(DocsVersionContext);
   if (version === EmptyContextValue) {
-    throw new Error('This hook requires usage of <DocsVersionProvider>');
+    throw new ReactContextError('DocsVersionProvider');
   }
   return version;
 }
@@ -89,7 +90,7 @@ export function DocsSidebarProvider({
 export function useDocsSidebar(): PropSidebar | null {
   const sidebar = useContext(DocsSidebarContext);
   if (sidebar === EmptyContextValue) {
-    throw new Error('This hook requires usage of <DocsSidebarProvider>');
+    throw new ReactContextError('DocsSidebarProvider');
   }
   return sidebar;
 }

@@ -26,7 +26,7 @@ import type {DocMetadataBase, DocNavLink} from '../types';
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
 ): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
+  return typeof item === 'object' && !item.type;
 }
 
 export function transformSidebarItems(

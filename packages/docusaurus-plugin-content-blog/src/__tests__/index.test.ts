@@ -177,6 +177,7 @@ describe('loadBlog', () => {
           name: 'Yangshun Tay (translated)',
         },
         {
+          email: 'lorber.sebastien@gmail.com',
           key: 'slorber',
           name: 'Sébastien Lorber (translated)',
           title: 'Docusaurus maintainer (translated)',
@@ -477,6 +478,19 @@ describe('loadBlog', () => {
     });
 
     expect(Object.keys(blogTags).length).toEqual(2);
+    expect(blogTags).toMatchSnapshot();
+  });
+
+  test('test blog tags: no pagination', async () => {
+    const siteDir = path.join(
+      __dirname,
+      '__fixtures__',
+      'website-blog-with-tags',
+    );
+    const blogTags = await getBlogTags(siteDir, {
+      postsPerPage: 'ALL',
+    });
+
     expect(blogTags).toMatchSnapshot();
   });
 });
