@@ -219,6 +219,7 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
         collapsed: categoryMetadata?.collapsed,
         position: categoryMetadata?.position ?? numberPrefix,
         source: folderName,
+        customProps: categoryMetadata?.customProps,
         ...(className !== undefined && {className}),
         items,
         ...(link && {link}),

@@ -1268,6 +1268,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "API/api-end",
@@ -1276,6 +1277,7 @@ Object {
         Object {
           "collapsed": true,
           "collapsible": true,
+          "customProps": undefined,
           "items": Array [
             Object {
               "id": "API/Extension APIs/Theme API",
@@ -1293,6 +1295,7 @@ Object {
         Object {
           "collapsed": true,
           "collapsible": true,
+          "customProps": undefined,
           "items": Array [
             Object {
               "id": "API/Core APIs/Server API",
@@ -1319,6 +1322,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "Guides/guide5",
@@ -1964,6 +1968,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "Guides/guide1",
@@ -1997,6 +2002,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "API/api-overview",
@@ -2005,6 +2011,7 @@ Object {
         Object {
           "collapsed": true,
           "collapsible": true,
+          "customProps": undefined,
           "items": Array [
             Object {
               "id": "API/Core APIs/Client API",
@@ -2022,6 +2029,7 @@ Object {
         Object {
           "collapsed": true,
           "collapsible": true,
+          "customProps": undefined,
           "items": Array [
             Object {
               "id": "API/Extension APIs/Plugin API",
@@ -2063,6 +2071,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "API/Core APIs/Client API",
@@ -2080,6 +2089,7 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
+      "customProps": undefined,
       "items": Array [
         Object {
           "id": "API/Extension APIs/Plugin API",
