@@ -174,7 +174,10 @@ async function buildLocale({
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
+      clientConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        clientConfig,
+      );
     }
 
     if (configureWebpack) {
