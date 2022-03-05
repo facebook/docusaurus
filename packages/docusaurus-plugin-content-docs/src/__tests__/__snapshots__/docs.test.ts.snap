@@ -166,7 +166,6 @@ Object {
       Object {
         "collapsed": false,
         "collapsible": true,
-        "customProps": undefined,
         "items": Array [
           Object {
             "id": "foo/bar",
@@ -217,7 +216,6 @@ Object {
       Object {
         "collapsed": false,
         "collapsible": true,
-        "customProps": undefined,
         "items": Array [
           Object {
             "id": "slugs/absoluteSlug",

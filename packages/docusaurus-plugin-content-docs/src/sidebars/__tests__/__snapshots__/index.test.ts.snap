@@ -253,7 +253,6 @@ Object {
     Object {
       "collapsed": true,
       "collapsible": true,
-      "customProps": undefined,
       "items": Array [
         Object {
           "id": "bar",
