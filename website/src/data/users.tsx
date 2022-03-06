@@ -559,7 +559,7 @@ const Users: User[] = [
     tags: ['opensource', 'personal', 'i18n'],
   },
   {
-    title: "Evan Tay's Personal Website",
+    title: "KayaFolio",
     description:
       "A Software Engineer's blog, documentation and project portfolio.",
     preview: require('./showcase/evantay.png'),
