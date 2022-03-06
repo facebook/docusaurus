@@ -1371,8 +1371,8 @@ const Users: User[] = [
     description: 'A JavaScript package for fetching reddit images, memes, wallpapers and more',
     preview: require('./showcase/reddit-image-fetcher.png'),
     website: 'https://arifszn.github.io/reddit-image-fetcher',
-    source: 'https://github.com/arifszn/reddit-image-fetcher',
-    tags: ['opensource'],
+    source: null,
+    tags: [],
   },
   {
     title: 'Refine',
