@@ -74,7 +74,7 @@ function actionsTable(): string {
       logger.code('--wrap'),
       `
 Creates a wrapper around the original theme component.
-Allows rendering of other components before/after the original theme component.
+Allows rendering other components before/after the original theme component.
 
 ${logger.green('Tip')}: prefer ${logger.code(
         '--wrap',
