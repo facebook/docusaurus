@@ -24,14 +24,6 @@ if (!semver.satisfies(process.version, requiredVersion)) {
   process.exit(1);
 }
 
-function wrapCommand(fn) {
-  return (...args) =>
-    fn(...args).catch((err) => {
-      logger.error(err.stack);
-      process.exitCode = 1;
-    });
-}
-
 program.version(packageJson.version);
 
 program
@@ -55,13 +47,13 @@ program
   )
   .description('Initialize website.')
   .action(
-    (
+    async (
       siteName,
       template,
       rootDir = '.',
       {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
-      wrapCommand(init)(path.resolve(rootDir), siteName, template, {
+      init(path.resolve(rootDir), siteName, template, {
         packageManager,
         skipInstall,
         typescript,
@@ -75,3 +67,8 @@ program.parse(process.argv);
 if (!process.argv.slice(1).length) {
   program.outputHelp();
 }
+
+process.on('unhandledRejection', (err) => {
+  logger.error(err);
+  process.exit(1);
+});
