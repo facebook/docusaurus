@@ -12,6 +12,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import imageSize from 'image-size';
 import {fileURLToPath} from 'url';
+import logger from '@docusaurus/logger';
 
 const allImages = (
   await fs.readdir(new URL('../../website/src/data/showcase', import.meta.url))
@@ -27,10 +28,11 @@ await Promise.all(
     );
     const {width, height} = imageSize(imgPath);
     if (width === 640 && height === 320) {
-      // Do not emit if no resized. Important because we
-      // can't guarantee idempotency during resize -> optimization
+      // Do not emit if not resized. Important because we can't guarantee
+      // idempotency during resize -> optimization
       return;
     }
+    logger.info`Resized path=${imgPath}: Before number=${width}×number=${height}`;
     const data = await sharp(imgPath)
       .resize(640, 320, {fit: 'cover', position: 'top'})
       .png()
