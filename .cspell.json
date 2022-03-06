@@ -31,6 +31,7 @@
     "website/src/data/tweets.tsx",
     "*.xyz",
     "*.docx",
+    "*.webp",
     "versioned_docs",
     "*.min.*"
   ],
