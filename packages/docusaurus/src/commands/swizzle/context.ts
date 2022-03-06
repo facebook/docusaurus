@@ -30,7 +30,7 @@ export async function initSwizzleContext(
 
   return {
     plugins: plugins.map((plugin, pluginIndex) => ({
-      plugin: pluginsNormalized[pluginIndex],
+      plugin: pluginsNormalized[pluginIndex]!,
       instance: plugin,
     })),
   };

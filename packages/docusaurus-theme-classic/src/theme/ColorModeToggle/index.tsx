@@ -32,9 +32,9 @@ function ColorModeToggle({
   return (
     <div
       className={clsx(styles.toggle, className, {
-        [styles.toggleChecked]: checked,
-        [styles.toggleFocused]: focused,
-        [styles.toggleDisabled]: !isBrowser,
+        [styles.toggleChecked!]: checked,
+        [styles.toggleFocused!]: focused,
+        [styles.toggleDisabled!]: !isBrowser,
       })}>
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div

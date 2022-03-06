@@ -79,7 +79,7 @@ export default async function build(
 
   // We need the default locale to always be the 1st in the list. If we build it
   // last, it would "erase" the localized sites built in sub-folders
-  const orderedLocales: string[] = [
+  const orderedLocales: [string, ...string[]] = [
     i18n.defaultLocale,
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
@@ -89,7 +89,7 @@ export default async function build(
       orderedLocales.indexOf(locale) === orderedLocales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
   });
-  return results[0];
+  return results[0]!;
 }
 
 async function buildLocale({

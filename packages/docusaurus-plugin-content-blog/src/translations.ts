@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {DEFAULT_OPTIONS} from './pluginOptionSchema';
 import type {BlogContent, BlogPaginated} from './types';
 import type {TranslationFileContent, TranslationFiles} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
@@ -19,8 +20,9 @@ function translateListPage(
       items,
       metadata: {
         ...metadata,
-        blogTitle: translations.title.message,
-        blogDescription: translations.description.message,
+        blogTitle: translations.title?.message ?? DEFAULT_OPTIONS.blogTitle,
+        blogDescription:
+          translations.description?.message ?? DEFAULT_OPTIONS.blogDescription,
       },
     };
   });
@@ -52,10 +54,15 @@ export function translateContent(
   content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
-  const [{content: optionsTranslations}] = translationFiles;
+  if (translationFiles.length === 0) {
+    return content;
+  }
+  const {content: optionsTranslations} = translationFiles[0]!;
   return {
     ...content,
-    blogSidebarTitle: optionsTranslations['sidebar.title'].message,
+    blogSidebarTitle:
+      optionsTranslations['sidebar.title']?.message ??
+      DEFAULT_OPTIONS.blogSidebarTitle,
     blogListPaginated: translateListPage(
       content.blogListPaginated,
       optionsTranslations,

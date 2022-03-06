@@ -241,8 +241,8 @@ export default function Navbar(): JSX.Element {
         'navbar--dark': style === 'dark',
         'navbar--primary': style === 'primary',
         'navbar-sidebar--show': mobileSidebar.shown,
-        [styles.navbarHideable]: hideOnScroll,
-        [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
+        [styles.navbarHideable!]: hideOnScroll,
+        [styles.navbarHidden!]: hideOnScroll && !isNavbarVisible,
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">

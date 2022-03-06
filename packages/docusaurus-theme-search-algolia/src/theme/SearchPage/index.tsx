@@ -58,7 +58,7 @@ function useDocsSearchVersionsHelpers() {
       Object.entries(allDocsData).reduce(
         (acc, [pluginId, pluginData]) => ({
           ...acc,
-          [pluginId]: pluginData.versions[0].name,
+          [pluginId]: pluginData.versions[0]!.name,
         }),
         {},
       ),
@@ -277,7 +277,7 @@ export default function SearchPage(): JSX.Element {
           const {
             isIntersecting,
             boundingClientRect: {y: currentY},
-          } = entries[0];
+          } = entries[0]!;
 
           if (isIntersecting && prevY.current > currentY) {
             searchResultStateDispatcher({type: 'advance'});

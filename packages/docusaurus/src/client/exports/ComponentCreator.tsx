@@ -27,7 +27,7 @@ export default function ComponentCreator(
   }
 
   const chunkNamesKey = `${path}-${hash}`;
-  const chunkNames = routesChunkNames[chunkNamesKey];
+  const chunkNames = routesChunkNames[chunkNamesKey]!;
   const optsModules: string[] = [];
   const optsWebpack: string[] = [];
   const optsLoader: OptsLoader = {};
@@ -47,8 +47,8 @@ export default function ComponentCreator(
     ]
   */
   const flatChunkNames = flat(chunkNames);
-  Object.keys(flatChunkNames).forEach((key) => {
-    const chunkRegistry = registry[flatChunkNames[key]];
+  Object.entries(flatChunkNames).forEach(([key, chunkName]) => {
+    const chunkRegistry = registry[chunkName];
     if (chunkRegistry) {
       // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
@@ -65,20 +65,20 @@ export default function ComponentCreator(
     render: (loaded, props) => {
       // Clone the original object since we don't want to alter the original.
       const loadedModules = JSON.parse(JSON.stringify(chunkNames));
-      Object.keys(loaded).forEach((key) => {
+      Object.entries(loaded).forEach(([key, loadedModule]) => {
         let val = loadedModules;
         const keyPath = key.split('.');
-        for (let i = 0; i < keyPath.length - 1; i += 1) {
-          val = val[keyPath[i]];
-        }
-        val[keyPath[keyPath.length - 1]] = loaded[key].default;
-        const nonDefaultKeys = Object.keys(loaded[key]).filter(
+        keyPath.forEach((k) => {
+          val = val[k];
+        });
+        val[keyPath[keyPath.length - 1]!] = loadedModule.default;
+        const nonDefaultKeys = Object.keys(loadedModule).filter(
           (k) => k !== 'default',
         );
         if (nonDefaultKeys && nonDefaultKeys.length) {
           nonDefaultKeys.forEach((nonDefaultKey) => {
-            val[keyPath[keyPath.length - 1]][nonDefaultKey] =
-              loaded[key][nonDefaultKey];
+            val[keyPath[keyPath.length - 1]!][nonDefaultKey] =
+              loadedModule[nonDefaultKey];
           });
         }
       });

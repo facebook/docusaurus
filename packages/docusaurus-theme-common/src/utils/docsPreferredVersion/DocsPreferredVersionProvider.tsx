@@ -71,7 +71,7 @@ function readStorageState({
       pluginId,
       versionPersistence,
     );
-    const pluginData = allDocsData[pluginId];
+    const pluginData = allDocsData[pluginId]!;
     const versionExists = pluginData.versions.some(
       (version) => version.name === preferredVersionNameUnsafe,
     );

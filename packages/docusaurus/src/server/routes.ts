@@ -249,8 +249,8 @@ function genRouteChunkNames(
   }
 
   const newValue: ChunkNames = {};
-  Object.keys(value).forEach((key) => {
-    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+  Object.entries(value).forEach(([key, v]) => {
+    newValue[key] = genRouteChunkNames(registry, v, key, name);
   });
   return newValue;
 }

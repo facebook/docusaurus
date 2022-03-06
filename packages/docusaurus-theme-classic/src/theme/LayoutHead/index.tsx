@@ -92,7 +92,7 @@ export default function LayoutHead(props: Props): JSX.Element {
   const {title, description, image, keywords, searchMetadata} = props;
   const faviconUrl = useBaseUrl(favicon);
   const pageTitle = useTitleFormatter(title);
-  const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale];
+  const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale]!;
 
   return (
     <>

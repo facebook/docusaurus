@@ -35,7 +35,7 @@ type BrokenLink = {
 
 // matchRoutes does not support qs/anchors, so we remove it!
 function onlyPathname(link: string) {
-  return link.split('#')[0].split('?')[0];
+  return link.split('#')[0]!.split('?')[0]!;
 }
 
 function getPageBrokenLinks({

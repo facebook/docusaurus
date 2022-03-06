@@ -74,12 +74,12 @@ function DocPageContent({
               ThemeClassNames.docs.docSidebarContainer,
               styles.docSidebarContainer,
               {
-                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+                [styles.docSidebarContainerHidden!]: hiddenSidebarContainer,
               },
             )}
             onTransitionEnd={(e) => {
               if (
-                !e.currentTarget.classList.contains(styles.docSidebarContainer)
+                !e.currentTarget.classList.contains(styles.docSidebarContainer!)
               ) {
                 return;
               }
@@ -126,7 +126,7 @@ function DocPageContent({
         )}
         <main
           className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]:
+            [styles.docMainContainerEnhanced!]:
               hiddenSidebarContainer || !sidebar,
           })}>
           <div
@@ -134,7 +134,7 @@ function DocPageContent({
               'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
               {
-                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+                [styles.docItemWrapperEnhanced!]: hiddenSidebarContainer,
               },
             )}>
             <MDXProvider components={MDXComponents}>{children}</MDXProvider>
@@ -172,7 +172,7 @@ export default function DocPage(props: Props): JSX.Element {
         <html className={versionMetadata.className} />
       </Head>
       <DocsVersionProvider version={versionMetadata}>
-        <DocsSidebarProvider sidebar={sidebar}>
+        <DocsSidebarProvider sidebar={sidebar ?? null}>
           <DocPageContent
             currentDocRoute={currentDocRoute}
             versionMetadata={versionMetadata}

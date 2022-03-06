@@ -26,8 +26,8 @@ export default class ChunkAssetPlugin {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
         const chunkNameToId = Object.create(null);
-        Object.keys(chunkIdToName).forEach((chunkId) => {
-          const chunkName = chunkIdToName[chunkId];
+        Object.entries(chunkIdToName).forEach(([chunkId, name]) => {
+          const chunkName = name;
           chunkNameToId[chunkName] = chunkId;
         });
         const buf = [source];

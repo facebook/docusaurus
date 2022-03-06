@@ -133,7 +133,7 @@ export default function BackToTopButton(): JSX.Element {
         ThemeClassNames.common.backToTopButton,
         styles.backToTopButton,
         {
-          [styles.backToTopButtonShow]: show,
+          [styles.backToTopButtonShow!]: show,
         },
       )}
       type="button"

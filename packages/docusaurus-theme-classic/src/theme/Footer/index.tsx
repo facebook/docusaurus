@@ -131,7 +131,7 @@ function SimpleLinks({links}: {links: SimpleFooter['links']}) {
 function isMultiColumnFooterLinks(
   links: MultiColumnFooter['links'] | SimpleFooter['links'],
 ): links is MultiColumnFooter['links'] {
-  return 'title' in links[0];
+  return 'title' in links[0]!;
 }
 
 function Footer(): JSX.Element | null {

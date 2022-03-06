@@ -5,7 +5,7 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib",
-    "jsx": "react",
+    "jsx": "react-native",
     "allowJs": true
   },
   "include": ["src"],

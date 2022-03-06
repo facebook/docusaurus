@@ -359,13 +359,13 @@ export default ${JSON.stringify(siteConfig, null, 2)};`,
     generatedFilesDir,
     'registry.js',
     `export default {
-${Object.keys(registry)
-  .sort()
+${Object.entries(registry)
+  .sort((a, b) => a[0].localeCompare(b[0]))
   .map(
-    (key) =>
-      `  '${key}': [${registry[key].loader}, '${escapePath(
-        registry[key].modulePath,
-      )}', require.resolveWeak('${escapePath(registry[key].modulePath)}')],`,
+    ([key, chunk]) =>
+      `  '${key}': [${chunk.loader}, '${escapePath(
+        chunk.modulePath,
+      )}', require.resolveWeak('${escapePath(chunk.modulePath)}')],`,
   )
   .join('\n')}};\n`,
   );

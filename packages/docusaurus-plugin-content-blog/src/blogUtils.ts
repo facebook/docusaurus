@@ -139,10 +139,10 @@ export function parseBlogFileName(
   if (dateFilenameMatch) {
     const {folder, text, date: dateString} = dateFilenameMatch.groups!;
     // Always treat dates as UTC by adding the `Z`
-    const date = new Date(`${dateString}Z`);
-    const slugDate = dateString.replace(/-/g, '/');
-    const slug = `/${slugDate}/${folder}${text}`;
-    return {date, text, slug};
+    const date = new Date(`${dateString!}Z`);
+    const slugDate = dateString!.replace(/-/g, '/');
+    const slug = `/${slugDate}/${folder!}${text!}`;
+    return {date, text: text!, slug};
   }
   const text = blogSourceRelative.replace(/(?:\/index)?\.mdx?$/, '');
   const slug = `/${text}`;

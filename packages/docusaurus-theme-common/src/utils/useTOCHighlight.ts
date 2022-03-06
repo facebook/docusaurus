@@ -83,7 +83,7 @@ function getActiveAnchor(
   }
   // no anchor under viewport top? (ie we are at the bottom of the page)
   // => highlight the last anchor found
-  return anchors[anchors.length - 1];
+  return anchors[anchors.length - 1] ?? null;
 }
 
 function getLinkAnchorValue(link: HTMLAnchorElement): string {

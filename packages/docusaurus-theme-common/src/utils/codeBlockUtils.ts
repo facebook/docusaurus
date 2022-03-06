@@ -115,7 +115,7 @@ export function parseLines(
   // Highlighted lines specified in props: don't parse the content
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)!
-      .groups!.range;
+      .groups!.range!;
     const highlightLines = rangeParser(highlightLinesRange)
       .filter((n) => n > 0)
       .map((n) => n - 1);
@@ -131,7 +131,7 @@ export function parseLines(
   let highlightRange = '';
   // loop through lines
   for (let lineNumber = 0; lineNumber < lines.length; ) {
-    const line = lines[lineNumber];
+    const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
     if (match !== null) {
       const directive = match.slice(1).find((item) => item !== undefined);
