@@ -245,34 +245,33 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 /**
- * @param {string} command
+ * @param {string | undefined} command
  */
 function isInternalCommand(command) {
-  return [
-    'start',
-    'build',
-    'swizzle',
-    'deploy',
-    'serve',
-    'clear',
-    'write-translations',
-    'write-heading-ids',
-  ].includes(command);
+  return (
+    command &&
+    [
+      'start',
+      'build',
+      'swizzle',
+      'deploy',
+      'serve',
+      'clear',
+      'write-translations',
+      'write-heading-ids',
+    ].includes(command)
+  );
 }
 
-async function run() {
-  if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, await resolveDir('.'));
-  }
-
-  cli.parse(process.argv);
-
-  if (!process.argv.slice(2).length) {
-    cli.outputHelp();
-  }
+if (!isInternalCommand(process.argv.slice(2)[0])) {
+  await externalCommand(cli, await resolveDir('.'));
 }
 
-run();
+if (!process.argv.slice(2).length) {
+  cli.outputHelp();
+}
+
+cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   logger.error(err);
