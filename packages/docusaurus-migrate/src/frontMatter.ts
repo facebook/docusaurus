@@ -37,7 +37,7 @@ export default function extractMetadata(content: string): Data {
 
   // New line characters => to handle all operating systems.
   const lines = (both.header ?? '').split(/\r?\n/);
-  lines.forEach((line) => {
+  lines.slice(0, -1).forEach((line) => {
     const keyValue = line.split(':') as [string, ...string[]];
     const key = keyValue[0].trim();
     let value = keyValue.slice(1).join(':').trim();
