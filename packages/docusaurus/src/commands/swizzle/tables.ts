@@ -56,7 +56,7 @@ Report it here: https://github.com/facebook/docusaurus/discussions/5468
     [tableStatusLabel('forbidden')]: [
       '',
       `
-This component should not meant to be swizzled.
+This component is not meant to be swizzled.
 `,
     ],
   });
@@ -78,7 +78,7 @@ Allows rendering other components before/after the original theme component.
 
 ${logger.green('Tip')}: prefer ${logger.code(
         '--wrap',
-      )} whenever possible to reduces the amount of code to maintain.
+      )} whenever possible to reduce the amount of code to maintain.
       `,
     ],
   });
@@ -88,11 +88,11 @@ ${logger.green('Tip')}: prefer ${logger.code(
       logger.code('--eject'),
       `
 Ejects the full source code of the original theme component.
-Allows overriding the original component entirely with your own UI and logic.
+Allows overriding of the original component entirely with your own UI and logic.
 
 ${logger.green('Tip')}: ${logger.code(
         '--eject',
-      )} can be useful to completely redesign a component.
+      )} can be useful for completely redesigning a component.
 `,
     ],
   });
