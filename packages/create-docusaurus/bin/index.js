@@ -13,7 +13,6 @@ import semver from 'semver';
 import path from 'path';
 import {program} from 'commander';
 import {createRequire} from 'module';
-import init from '../lib/index.js';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const requiredVersion = packageJson.engines.node;
@@ -47,17 +46,20 @@ program
   )
   .description('Initialize website.')
   .action(
-    async (
+    (
       siteName,
       template,
       rootDir = '.',
       {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
-      init(path.resolve(rootDir), siteName, template, {
-        packageManager,
-        skipInstall,
-        typescript,
-        gitStrategy,
+      // See https://github.com/facebook/docusaurus/pull/6860
+      import('../lib/index.js').then(({default: init}) => {
+        init(path.resolve(rootDir), siteName, template, {
+          packageManager,
+          skipInstall,
+          typescript,
+          gitStrategy,
+        });
       });
     },
   );
