@@ -1,12 +1,10 @@
+// For editor typechecking; includes bin
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "module": "es2020",
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
+    "noEmit": true,
+    "allowJs": true,
+    "rootDir": "."
   },
-  "include": ["src/"],
-  "exclude": ["templates/"]
+  "include": ["src", "bin"]
 }
