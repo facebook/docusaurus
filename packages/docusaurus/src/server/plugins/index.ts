@@ -89,7 +89,7 @@ export async function loadPlugins({
   // need to run in certain order or depend on others for data.
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
-      const content = plugin.loadContent ? await plugin.loadContent() : null;
+      const content = await plugin.loadContent?.();
       return {...plugin, content};
     }),
   );
@@ -205,7 +205,7 @@ export async function loadPlugins({
   await Promise.all(
     contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
-        return null;
+        return;
       }
 
       // TODO remove this deprecated lifecycle soon
@@ -213,7 +213,7 @@ export async function loadPlugins({
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
       logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: path=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
-      return plugin.routesLoaded(pluginsRouteConfigs);
+      await plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

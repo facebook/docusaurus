@@ -55,7 +55,9 @@ function createPluginSchema(theme: boolean = false) {
     Joi.alternatives()
       .try(
         Joi.function(),
-        Joi.array().ordered(Joi.function().required(), Joi.object().required()),
+        Joi.array()
+          .ordered(Joi.function().required(), Joi.object().required())
+          .length(2),
         Joi.string(),
         Joi.array()
           .ordered(Joi.string().required(), Joi.object().required())

@@ -61,39 +61,29 @@ async function normalizePluginConfig(
     };
   }
 
-  if (Array.isArray(pluginConfig)) {
-    // plugins: [
-    //   ['./plugin',options],
-    // ]
-    if (typeof pluginConfig[0] === 'string') {
-      const pluginModuleImport = pluginConfig[0];
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-      return {
-        plugin: pluginModule?.default ?? pluginModule,
-        options: pluginConfig[1] ?? {},
-        pluginModule: {
-          path: pluginModuleImport,
-          module: pluginModule,
-        },
-      };
-    }
-    // plugins: [
-    //   [function plugin() { },options],
-    // ]
-    if (typeof pluginConfig[0] === 'function') {
-      return {
-        plugin: pluginConfig[0],
-        options: pluginConfig[1] ?? {},
-      };
-    }
+  // plugins: [
+  //   ['./plugin',options],
+  // ]
+  if (typeof pluginConfig[0] === 'string') {
+    const pluginModuleImport = pluginConfig[0];
+    const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    return {
+      plugin: pluginModule?.default ?? pluginModule,
+      options: pluginConfig[1],
+      pluginModule: {
+        path: pluginModuleImport,
+        module: pluginModule,
+      },
+    };
   }
-
-  throw new Error(
-    `Unexpected: can't load plugin for following plugin config.\n${JSON.stringify(
-      pluginConfig,
-    )}`,
-  );
+  // plugins: [
+  //   [function plugin() { },options],
+  // ]
+  return {
+    plugin: pluginConfig[0],
+    options: pluginConfig[1],
+  };
 }
 
 export async function normalizePluginConfigs(
@@ -219,16 +209,9 @@ export default async function initPlugins({
     };
   }
 
-  const plugins: InitializedPlugin[] = (
-    await Promise.all(
-      pluginConfigsNormalized.map((pluginConfig) => {
-        if (!pluginConfig) {
-          return null;
-        }
-        return initializePlugin(pluginConfig);
-      }),
-    )
-  ).filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
+  const plugins: InitializedPlugin[] = await Promise.all(
+    pluginConfigsNormalized.map(initializePlugin),
+  );
 
   ensureUniquePluginInstanceIds(plugins);
 

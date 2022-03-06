@@ -161,10 +161,7 @@ export type ImportedPresetModule = PresetModule & {
   default?: PresetModule;
 };
 
-export type PresetConfig =
-  | [string, Record<string, unknown>]
-  | [string]
-  | string;
+export type PresetConfig = string | [string, Record<string, unknown>];
 
 export type HostPortCLIOptions = {
   host?: string;
@@ -356,9 +353,8 @@ export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
 export type PluginConfig =
-  | [string, PluginOptions]
-  | [string]
   | string
+  | [string, PluginOptions]
   | [PluginModule, PluginOptions]
   | PluginModule;
 

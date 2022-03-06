@@ -258,11 +258,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     const sidebarName = Object.entries(sidebarNameToNavigationItems).find(
       ([, navigationItems]) =>
         navigationItems.find(isCurrentCategoryGeneratedIndexItem),
-    )?.[0];
-
-    if (!sidebarName) {
-      return emptySidebarNavigation();
-    }
+    )![0];
     const navigationItems = sidebarNameToNavigationItems[sidebarName]!;
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,

@@ -53,9 +53,6 @@ export function translateContent(
   content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
-  if (translationFiles.length === 0) {
-    return content;
-  }
   const {content: optionsTranslations} = translationFiles[0]!;
   return {
     ...content,
