@@ -77,6 +77,12 @@ describe('getContentTranslationFiles', () => {
 });
 
 describe('translateContent', () => {
+  test('should fallback when translation is incomplete', () => {
+    expect(
+      translateContent(sampleBlogContent, [{path: 'foo', content: {}}]),
+    ).toMatchSnapshot();
+  });
+
   test('should not translate anything if translation files are untranslated', () => {
     const translationFiles = getSampleTranslationFiles();
     expect(translateContent(sampleBlogContent, translationFiles)).toEqual(

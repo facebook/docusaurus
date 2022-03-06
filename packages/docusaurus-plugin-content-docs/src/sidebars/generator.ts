@@ -60,9 +60,9 @@ export const DefaultSidebarItemsGenerator: SidebarItemsGenerator = async ({
     const doc = findDoc(docId);
     if (!doc) {
       throw new Error(
-        `Can't find any doc with id=${docId}.\nAvailable doc ids:\n- ${Object.keys(
-          docsById,
-        ).join('\n- ')}`,
+        `Can't find any doc with ID ${docId}.
+Available doc IDs:
+- ${Object.keys(docsById).join('\n- ')}`,
       );
     }
     return doc;

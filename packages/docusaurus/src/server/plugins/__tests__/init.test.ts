@@ -38,6 +38,7 @@ describe('initPlugins', () => {
     expect(plugins[1].name).toBe('second-plugin');
     expect(plugins[2].name).toBe('third-plugin');
     expect(plugins[3].name).toBe('fourth-plugin');
+    expect(context.siteConfig.themeConfig).toEqual({a: 1});
   });
 
   test('plugins with bad values throw user-friendly error message', async () => {
