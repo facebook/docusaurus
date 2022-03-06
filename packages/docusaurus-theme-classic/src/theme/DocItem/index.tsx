@@ -54,7 +54,7 @@ export default function DocItem(props: Props): JSX.Element {
       <div className="row">
         <div
           className={clsx('col', {
-            [styles.docItemCol]: !hideTableOfContents,
+            [styles.docItemCol!]: !hideTableOfContents,
           })}>
           <DocVersionBanner />
           <div className={styles.docItemContainer}>

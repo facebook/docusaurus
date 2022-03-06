@@ -19,8 +19,8 @@ export default function Tag(props: Props): JSX.Element {
     <Link
       href={permalink}
       className={clsx(styles.tag, {
-        [styles.tagRegular]: !count,
-        [styles.tagWithCount]: count,
+        [styles.tagRegular!]: !count,
+        [styles.tagWithCount!]: count,
       })}>
       {name}
       {count && <span>{count}</span>}

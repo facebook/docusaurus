@@ -535,7 +535,7 @@ async function migrateVersionedSidebar(
     // Order matters: if a sidebar file doesn't exist, we have to use the
     // previous version's
     for (let i = 0; i < versions.length; i += 1) {
-      const version = versions[i];
+      const version = versions[i]!;
       let sidebarEntries: SidebarEntries;
       const sidebarPath = path.join(
         siteDir,
@@ -545,7 +545,7 @@ async function migrateVersionedSidebar(
       try {
         sidebarEntries = JSON.parse(await fs.readFile(sidebarPath, 'utf-8'));
       } catch {
-        sidebars.push({version, entries: sidebars[i - 1].entries});
+        sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(

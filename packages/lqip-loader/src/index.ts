@@ -39,7 +39,7 @@ export default async function lqipLoader(
   if (contentIsUrlExport) {
     source = content.match(
       /^(?:export default|module.exports =) (?<source>.*)/,
-    )!.groups!.source;
+    )!.groups!.source!;
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
@@ -48,7 +48,7 @@ export default async function lqipLoader(
     }
     source = content.match(
       /^(?:export default|module.exports =) (?<source>.*);/,
-    )!.groups!.source;
+    )!.groups!.source!;
   }
 
   const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [

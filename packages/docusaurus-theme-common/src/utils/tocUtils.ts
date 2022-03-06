@@ -44,7 +44,7 @@ function treeifyTOC(flatTOC: readonly TOCItem[]): TOCTreeNode[] {
   headings.forEach((heading) => {
     const {parentIndex, ...rest} = heading;
     if (parentIndex >= 0) {
-      headings[parentIndex].children.push(rest);
+      headings[parentIndex]!.children.push(rest);
     } else {
       rootNodes.push(rest);
     }

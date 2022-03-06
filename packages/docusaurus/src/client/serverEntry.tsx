@@ -75,7 +75,7 @@ async function doRender(locals: Locals & {path: string}) {
     ssrTemplate,
     noIndex,
   } = locals;
-  const location = routesLocation[locals.path];
+  const location = routesLocation[locals.path]!;
   await preload(routes, location);
   const modules = new Set<string>();
   const context = {};

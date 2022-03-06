@@ -274,10 +274,14 @@ function translateVersion(
   translationFiles: Record<string, TranslationFile>,
 ): LoadedVersion {
   const versionTranslations =
-    translationFiles[getVersionFileName(version.versionName)].content;
+    translationFiles[getVersionFileName(version.versionName)]?.content;
+  if (!versionTranslations) {
+    return version;
+  }
   return {
     ...version,
-    versionLabel: versionTranslations['version.label']?.message,
+    versionLabel:
+      versionTranslations['version.label']?.message ?? version.versionLabel,
     sidebars: translateSidebars(version, versionTranslations),
     // docs: translateDocs(version.docs, versionTranslations),
   };

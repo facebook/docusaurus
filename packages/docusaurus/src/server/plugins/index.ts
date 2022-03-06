@@ -126,7 +126,7 @@ export async function loadPlugins({
     .mapValues((nameItems) =>
       _.chain(nameItems)
         .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
-        .mapValues((idItems) => idItems[0].content)
+        .mapValues((idItems) => idItems[0]!.content)
         .value(),
     )
     .value();
@@ -177,7 +177,7 @@ export async function loadPlugins({
           data,
         ) => {
           globalData[plugin.name] = globalData[plugin.name] ?? {};
-          globalData[plugin.name][pluginId] = data;
+          globalData[plugin.name]![pluginId] = data;
         };
 
         const actions: PluginContentLoadedActions = {

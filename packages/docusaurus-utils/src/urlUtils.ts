@@ -15,10 +15,17 @@ export function normalizeUrl(rawUrls: string[]): string {
   let hasStartingSlash = false;
   let hasEndingSlash = false;
 
+  const isNonEmptyArray = (arr: string[]): arr is [string, ...string[]] =>
+    arr.length > 0;
+
+  if (!isNonEmptyArray(urls)) {
+    return '';
+  }
+
   // If the first part is a plain protocol, we combine it with the next part.
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
-    const first = urls.shift();
-    if (first!.startsWith('file:') && urls[0].startsWith('/')) {
+    const first = urls.shift()!;
+    if (first.startsWith('file:') && urls[0].startsWith('/')) {
       // Force a double slash here, else we lose the information that the next
       // segment is an absolute path
       urls[0] = `${first}//${urls[0]}`;

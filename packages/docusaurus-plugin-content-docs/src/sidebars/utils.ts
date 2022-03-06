@@ -201,12 +201,12 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    if (!sidebarNameToNavigationItems[sidebarName]) {
+    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    if (!navigationItems) {
       throw new Error(
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
         return item.id === docId;
@@ -263,7 +263,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    const navigationItems = sidebarNameToNavigationItems[sidebarName]!;
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,
     );
@@ -341,7 +341,7 @@ Available document ids are:
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
-    getFirstLink: (id) => getFirstLink(sidebars[id]),
+    getFirstLink: (id) => getFirstLink(sidebars[id]!),
   };
 }
 

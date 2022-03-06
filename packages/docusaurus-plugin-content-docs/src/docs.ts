@@ -363,7 +363,7 @@ export function getMainDocId({
           doc.unversionedId === firstDocIdOfFirstSidebar,
       )!;
     }
-    return docs[0];
+    return docs[0]!;
   }
 
   return getMainDoc().unversionedId;

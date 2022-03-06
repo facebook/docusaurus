@@ -19,7 +19,7 @@ type TagsListItem = Readonly<{name: string; permalink: string; count: number}>; 
 export type TagLetterEntry = Readonly<{letter: string; tags: TagsListItem[]}>;
 
 function getTagLetter(tag: string): string {
-  return tag[0].toUpperCase();
+  return tag[0]!.toUpperCase();
 }
 
 export function listTagsByLetters(
@@ -29,8 +29,8 @@ export function listTagsByLetters(
   const groups: Record<string, TagsListItem[]> = {};
   Object.values(tags).forEach((tag) => {
     const letter = getTagLetter(tag.name);
-    groups[letter] = groups[letter] ?? [];
-    groups[letter].push(tag);
+    groups[letter] ??= [];
+    groups[letter]!.push(tag);
   });
 
   return (

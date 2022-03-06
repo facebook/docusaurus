@@ -107,7 +107,7 @@ export default function docusaurusThemeClassic(
     prism: {additionalLanguages = []} = {},
   } = themeConfig;
   const {customCss} = options || {};
-  const {direction} = localeConfigs[currentLocale];
+  const {direction} = localeConfigs[currentLocale]!;
 
   return {
     name: 'docusaurus-theme-classic',

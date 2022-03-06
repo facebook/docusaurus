@@ -18,8 +18,8 @@ export function parseMarkdownHeadingId(heading: string): {
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {
-      text: matches.groups!.text,
-      id: matches.groups!.id,
+      text: matches.groups!.text!,
+      id: matches.groups!.id!,
     };
   }
   return {text: heading, id: undefined};
@@ -51,14 +51,13 @@ export function createExcerpt(fileString: string): string | undefined {
 
     // Skip code block line.
     if (fileLine.trim().startsWith('```')) {
+      const codeFence = fileLine.trim().match(/^`+/)![0]!;
       if (!inCode) {
         inCode = true;
-        [lastCodeFence] = fileLine.trim().match(/^`+/)!;
+        lastCodeFence = codeFence;
         // If we are in a ````-fenced block, all ``` would be plain text instead
         // of fences
-      } else if (
-        fileLine.trim().match(/^`+/)![0].length >= lastCodeFence.length
-      ) {
+      } else if (codeFence.length >= lastCodeFence.length) {
         inCode = false;
       }
       continue;

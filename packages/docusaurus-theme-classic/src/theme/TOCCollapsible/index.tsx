@@ -28,7 +28,7 @@ export default function TOCCollapsible({
       className={clsx(
         styles.tocCollapsible,
         {
-          [styles.tocCollapsibleExpanded]: !collapsed,
+          [styles.tocCollapsibleExpanded!]: !collapsed,
         },
         className,
       )}>

@@ -49,7 +49,7 @@ async function readCategoriesMetadata(contentPath: string) {
   const categoryToFile = _.groupBy(categoryFiles, path.dirname);
   return combinePromises(
     _.mapValues(categoryToFile, async (files, folder) => {
-      const [filePath] = files;
+      const filePath = files[0]!;
       if (files.length > 1) {
         logger.warn`There are more than one category metadata files for path=${folder}: ${files.join(
           ', ',
