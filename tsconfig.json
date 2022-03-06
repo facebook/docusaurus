@@ -6,7 +6,7 @@
     "lib": ["ESNext", "DOM"],
     "declaration": true,
     "declarationMap": false,
-    "jsx": "react-native",
+    "jsx": "react",
     "importHelpers": true,
     "noEmitHelpers": true,
 
