@@ -34,7 +34,7 @@ export default {
   },
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
-    '^.+\\.(css|jpg|jpeg|png|svg)$': '<rootDir>/jest/emptyModule.js',
+    '^.+\\.(css|jpe?g|png|svg)$': '<rootDir>/jest/emptyModule.js',
 
     // TODO we need to allow Jest to resolve core Webpack aliases automatically
     '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
