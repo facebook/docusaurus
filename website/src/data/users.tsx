@@ -344,8 +344,8 @@ const Users: User[] = [
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
     website: 'https://clutch.sh/',
-    source: null,
-    tags: [],
+    source: 'https://github.com/lyft/clutch/tree/main/docs/_website',
+    tags: ['opensource'],
   },
   {
     title: 'CodeYourFuture',
@@ -692,8 +692,8 @@ const Users: User[] = [
     description: 'A toolkit to automate & enhance your workflow',
     preview: require('./showcase/gulp.png'),
     website: 'https://gulpjs.com',
-    source: null,
-    tags: ['large'],
+    source: 'https://github.com/gulpjs/gulpjs.github.io',
+    tags: ['opensource', 'large'],
   },
   {
     title: 'Hashnode Support',
