@@ -25,6 +25,8 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
  * - Open a PR and check for reported CI errors
+ * - If your website is open-source, add your source link. The link should open
+ *   to a directory containing the `docusaurus.config.js` file
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
@@ -39,7 +41,6 @@ import {sortBy} from '@site/src/utils/jsUtils';
  * - Ensure site tags remains correct over time
  * - Remove sites not using Docusaurus anymore
  * - Add missing Docusaurus sites (if the site owner agreed)
- *
  */
 
 export type Tag = {
@@ -83,6 +84,7 @@ export const Tags: Record<TagType, Tag> = {
   },
 
   // For open-source sites, a link to the source code is required
+  // The source should be your *website's* source, not your project's source!
   opensource: {
     label: 'Open-Source',
     description: 'Open-Source Docusaurus sites can be useful for inspiration!',
@@ -154,8 +156,8 @@ const Users: User[] = [
       'French Discord server that helps young people who have been bullied or feel bad about themselves',
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
-    source: 'https://github.com/AideJeune',
-    tags: ['opensource'],
+    source: null,
+    tags: [],
   },
   {
     title: 'AgileTs',
@@ -181,15 +183,6 @@ const Users: User[] = [
     website: 'https://docsearch.algolia.com/',
     source: 'https://github.com/algolia/docsearch-website',
     tags: ['favorite', 'opensource', 'product'],
-  },
-  // TODO site unavailable on 12/31/2021
-  {
-    title: 'Amphora Data',
-    description: 'Connecting the world’s real-time information',
-    preview: require('./showcase/amphora.png'),
-    website: 'https://www.amphoradata.com/',
-    source: 'https://github.com/amphoradata/amphoradata.github.io',
-    tags: ['opensource', 'product'],
   },
   {
     title: 'Apache APISIX',
@@ -232,15 +225,14 @@ const Users: User[] = [
       'Awe framework, Build light-weight and functional websites quickly',
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
-    source: 'https://gitlab.com/aweframework/awe',
+    source: 'https://gitlab.com/aweframework/awe/-/tree/develop/website',
     tags: ['opensource', 'i18n', 'versioning'],
   },
-  // TODO site unavailable on 12/31/2021
   {
     title: 'Axioms',
     description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
-    website: 'https://developer.axioms.io/',
+    website: 'https://axioms.io/',
     source: 'https://github.com/axioms-io/developer',
     tags: ['opensource', 'product'],
   },
@@ -258,7 +250,7 @@ const Users: User[] = [
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
     website: 'https://benthos.dev/',
-    source: 'https://github.com/Jeffail/benthos',
+    source: 'https://github.com/Jeffail/benthos/tree/main/website',
     tags: ['opensource', 'large'],
   },
   {
@@ -293,14 +285,14 @@ const Users: User[] = [
     preview: require('./showcase/blogmatheusbrunelli.png'),
     website: 'https://mrbrunelli.github.io/blog/',
     source: 'https://github.com/mrbrunelli/blog',
-    tags: ['opensource', 'personal']
+    tags: ['opensource', 'personal'],
   },
   {
     title: 'Botonic',
     description: 'Build Chatbots and Conversational Apps Using React',
     preview: require('./showcase/botonic.png'),
     website: 'https://botonic.io/',
-    source: 'https://github.com/hubtype/botonic',
+    source: 'https://github.com/hubtype/botonic/tree/master/docs/website',
     tags: ['opensource'],
   },
   {
@@ -317,16 +309,15 @@ const Users: User[] = [
       'Track performance budgets & prevent unexpected bloat in your app',
     preview: require('./showcase/build-tracker.png'),
     website: 'https://buildtracker.dev',
-    source: 'https://github.com/paularmstrong/build-tracker',
+    source: 'https://github.com/paularmstrong/build-tracker/tree/main/docs',
     tags: ['opensource'],
   },
   {
     title: 'Butterfly Documentation',
-    description:
-      'The documentation of the note taking app Linwood Butterfly',
+    description: 'The documentation of the note taking app Linwood Butterfly',
     preview: require('./showcase/docs-butterfly.png'),
     website: 'https://docs.butterfly.linwood.dev',
-    source: 'https://github.com/LinwoodCloud/Butterfly',
+    source: 'https://github.com/LinwoodCloud/Butterfly/tree/develop/docs',
     tags: ['opensource', 'i18n', 'versioning'],
   },
   {
@@ -353,8 +344,8 @@ const Users: User[] = [
     description: 'An extensible API and UI platform for infrastructure tooling',
     preview: require('./showcase/clutch.png'),
     website: 'https://clutch.sh/',
-    source: 'https://github.com/lyft/clutch',
-    tags: ['opensource'],
+    source: null,
+    tags: [],
   },
   {
     title: 'CodeYourFuture',
@@ -370,8 +361,8 @@ const Users: User[] = [
     description: 'A declarative UI framework for iOS',
     preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
-    source: 'https://github.com/facebook/componentkit',
-    tags: ['opensource', 'meta'],
+    source: null,
+    tags: ['meta'],
   },
   {
     title: 'ConfigCat Feature Flags',
@@ -403,7 +394,7 @@ const Users: User[] = [
     description: 'Set up a modern web app by running one command',
     preview: require('./showcase/create-react-app.png'),
     website: 'https://facebook.github.io/create-react-app/',
-    source: 'https://github.com/facebook/create-react-app',
+    source: 'https://github.com/facebook/create-react-app/tree/main/docusaurus/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -417,7 +408,8 @@ const Users: User[] = [
   },
   {
     title: 'CyberDrain Improved Partner Portal (CIPP)',
-    description: 'Free and open-source multi-tenant management for Microsoft 365.',
+    description:
+      'Free and open-source multi-tenant management for Microsoft 365.',
     preview: require('./showcase/CIPP.png'),
     website: 'https://cipp.app',
     source: 'https://github.com/KelvinTegelaar/CIPP/tree/website',
@@ -464,7 +456,7 @@ const Users: User[] = [
     description: 'Deploy & Develop Kubernetes Apps',
     preview: require('./showcase/devspace.png'),
     website: 'https://devspace.sh/cli/docs/',
-    source: 'https://github.com/loft-sh/devspace',
+    source: 'https://github.com/loft-sh/devspace/tree/master/docs',
     tags: ['opensource'],
   },
   {
@@ -496,23 +488,30 @@ const Users: User[] = [
     description: 'Rich Text Editor Framework for React',
     preview: require('./showcase/draftjs.png'),
     website: 'https://draftjs.org/',
-    source: 'https://github.com/facebook/draft-js',
+    source: 'https://github.com/facebook/draft-js/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
     title: 'Dyte',
     description: 'The most developer friendly live video SDK',
     preview: require('./showcase/dyte.png'),
-    source: 'https://github.com/dyte-in/docs',
     website: 'https://docs.dyte.io',
-    tags: ['favorite', 'product', 'design', 'versioning', 'large', 'opensource']
+    source: 'https://github.com/dyte-in/docs',
+    tags: [
+      'favorite',
+      'product',
+      'design',
+      'versioning',
+      'large',
+      'opensource',
+    ],
   },
   {
     title: 'Easyjwt',
     description: 'JWT creation and validation library',
     preview: require('./showcase/easyjwt.png'),
     website: 'https://www.easyjwt.org',
-    source: 'https://github.com/authdog/easyjwt',
+    source: 'https://github.com/authdog/easyjwt/tree/master/docs',
     tags: ['opensource', 'i18n'],
   },
   {
@@ -531,7 +530,7 @@ const Users: User[] = [
     preview: require('./showcase/enarx.png'),
     website: 'https://enarx.dev/',
     source: 'https://github.com/enarx/enarx.github.io',
-    tags: ['opensource']
+    tags: ['opensource'],
   },
   {
     title: 'Erxes',
@@ -539,7 +538,7 @@ const Users: User[] = [
       'Combine all your business tools into one streamlined and integrated open-source framework',
     preview: require('./showcase/erxes.png'),
     website: 'https://docs.erxes.io/',
-    source: 'https://github.com/erxes/erxes',
+    source: 'https://github.com/erxes/erxes/tree/master/docs',
     tags: ['opensource'],
   },
   {
@@ -547,7 +546,7 @@ const Users: User[] = [
     description: 'Faster embedded JS template engine in TypeScript',
     preview: require('./showcase/eta.png'),
     website: 'https://eta.js.org/',
-    source: 'https://github.com/eta-dev/eta',
+    source: 'https://github.com/eta-dev/eta-docs',
     tags: ['opensource'],
   },
   {
@@ -559,7 +558,7 @@ const Users: User[] = [
     tags: ['opensource', 'personal', 'i18n'],
   },
   {
-    title: "KayaFolio",
+    title: 'KayaFolio',
     description:
       "A Software Engineer's blog, documentation and project portfolio.",
     preview: require('./showcase/evantay.png'),
@@ -572,7 +571,7 @@ const Users: User[] = [
     description: 'An internationalization framework',
     preview: require('./showcase/fbt.png'),
     website: 'https://facebookincubator.github.io/fbt/',
-    source: 'https://github.com/facebook/fbt',
+    source: 'https://github.com/facebook/fbt/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -596,7 +595,7 @@ const Users: User[] = [
     description: 'Firebase/Firestore based headless CMS',
     preview: require('./showcase/firecms.png'),
     website: 'https://firecms.co',
-    source: 'https://github.com/Camberi/firecms',
+    source: 'https://github.com/Camberi/firecms/tree/master/website',
     tags: ['opensource', 'design'],
   },
   {
@@ -609,10 +608,11 @@ const Users: User[] = [
   },
   {
     title: 'FlatifyCSS',
-    description: 'Modern flat design framework for the web — inspired by Duolingo design system.',
+    description:
+      'Modern flat design framework for the web — inspired by Duolingo design system.',
     preview: require('./showcase/flatifycss.png'),
     website: 'https://flatifycss.com',
-    source: 'https://github.com/amir2mi/flatifycss/',
+    source: 'https://github.com/amir2mi/flatifycss/tree/master/website',
     tags: ['opensource', 'design'],
   },
   {
@@ -620,7 +620,7 @@ const Users: User[] = [
     description: 'Extensible mobile app debugger',
     preview: require('./showcase/flipper.png'),
     website: 'https://fbflipper.com',
-    source: 'https://github.com/facebook/flipper',
+    source: 'https://github.com/facebook/flipper/tree/main/website',
     tags: ['opensource', 'design', 'meta'],
   },
   {
@@ -636,7 +636,7 @@ const Users: User[] = [
     description: 'Application architecture for building user interfaces',
     preview: require('./showcase/flux.png'),
     website: 'https://facebook.github.io/flux/',
-    source: 'https://github.com/facebook/flux',
+    source: 'https://github.com/facebook/flux/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -680,19 +680,11 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
-    title: 'GraphQL Inspector',
-    description: 'An open-source tool to help you work with GraphQL',
-    preview: require('./showcase/graphql-inspector.png'),
-    website: 'https://graphql-inspector.com',
-    source: 'https://github.com/kamilkisiela/graphql-inspector',
-    tags: ['opensource', 'design', 'product'],
-  },
-  {
     title: 'GTFS-to-HTML',
     description: 'Generate human-readable HTML timetables from GTFS',
     preview: require('./showcase/gtfs-to-html.png'),
     website: 'https://gtfstohtml.com',
-    source: 'https://github.com/BlinkTagInc/gtfs-to-html',
+    source: 'https://github.com/BlinkTagInc/gtfs-to-html/tree/master/www',
     tags: ['opensource'],
   },
   {
@@ -700,8 +692,8 @@ const Users: User[] = [
     description: 'A toolkit to automate & enhance your workflow',
     preview: require('./showcase/gulp.png'),
     website: 'https://gulpjs.com',
-    source: 'https://github.com/gulpjs/gulp',
-    tags: ['opensource', 'large'],
+    source: null,
+    tags: ['large'],
   },
   {
     title: 'Hashnode Support',
@@ -725,7 +717,7 @@ const Users: User[] = [
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),
     website: 'https://hermesengine.dev',
-    source: 'https://github.com/facebook/hermes',
+    source: 'https://github.com/facebook/hermes/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -733,7 +725,7 @@ const Users: User[] = [
     description: 'All you need to start developing',
     preview: require('./showcase/home-assistant.png'),
     website: 'https://developers.home-assistant.io/',
-    source: 'https://github.com/home-assistant/core',
+    source: 'https://github.com/home-assistant/developers.home-assistant',
     tags: ['opensource'],
   },
   {
@@ -749,7 +741,7 @@ const Users: User[] = [
     description: 'iOS Development Bridge',
     preview: require('./showcase/idb.png'),
     website: 'https://www.fbidb.io/',
-    source: 'https://github.com/facebook/idb',
+    source: 'https://github.com/facebook/idb/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -785,7 +777,15 @@ const Users: User[] = [
     preview: require('./showcase/ionic.png'),
     website: 'https://ionicframework.com/docs',
     source: 'https://github.com/ionic-team/ionic-docs',
-    tags: ['favorite', 'opensource', 'product', 'design', 'i18n', 'versioning', 'large'],
+    tags: [
+      'favorite',
+      'opensource',
+      'product',
+      'design',
+      'i18n',
+      'versioning',
+      'large',
+    ],
   },
   {
     title: 'IOTA-Wiki',
@@ -814,7 +814,8 @@ const Users: User[] = [
   },
   {
     title: 'Khyron Realm',
-    description: 'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
+    description:
+      'Free-to-Play social MMO game that stimulates strategic thinking for achieving goals.',
     preview: require('./showcase/khyron_realm.png'),
     website: 'https://khyron-realm.com',
     source: 'https://github.com/khyron-realm/khyron-realm-website',
@@ -825,7 +826,7 @@ const Users: User[] = [
     description: 'Organize Kubernetes manifests in JavaScript',
     preview: require('./showcase/kosko.png'),
     website: 'https://kosko.dev',
-    source: 'https://github.com/tommy351/kosko',
+    source: 'https://github.com/tommy351/kosko/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -833,20 +834,22 @@ const Users: User[] = [
     description: 'Kotlin test framework',
     preview: require('./showcase/kotest.png'),
     website: 'https://kotest.io',
-    source: 'https://github.com/kotest/kotest',
+    source: 'https://github.com/kotest/kotest/tree/master/documentation',
     tags: ['opensource'],
   },
   {
     title: 'kube-green',
-    description: 'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
+    description:
+      'A kubernetes (k8s) operator to suspend your pods when no-one using them to save energy',
     preview: require('./showcase/kube-green.png'),
     website: 'https://kube-green.dev',
     source: 'https://github.com/kube-green/kube-green.github.io',
-    tags: ['opensource', 'product']
+    tags: ['opensource', 'product'],
   },
   {
     title: 'kwatch',
-    description: 'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
+    description:
+      'monitor & detect crashes in your Kubernetes(K8s) cluster instantly',
     preview: require('./showcase/kwatch.png'),
     website: 'https://kwatch.dev',
     source: 'https://github.com/abahmed/kwatch.dev',
@@ -873,7 +876,7 @@ const Users: User[] = [
     description: 'An open source model-based testing tool for web applications',
     preview: require('./showcase/sicope-model.png'),
     website: 'https://sicope-model.github.io/',
-    source: 'https://github.com/sicope-model/sicope-model',
+    source: 'https://github.com/sicope-model/sicope-model-website',
     tags: ['opensource'],
   },
   {
@@ -889,7 +892,7 @@ const Users: User[] = [
     description: 'Interactive, extendable street imagery map experiences',
     preview: require('./showcase/mapillaryjs.png'),
     website: 'https://mapillary.github.io/mapillary-js/',
-    source: 'https://github.com/mapillary/mapillary-js',
+    source: 'https://github.com/mapillary/mapillary-js/tree/main/doc',
     tags: ['opensource', 'meta'],
   },
   {
@@ -906,7 +909,7 @@ const Users: User[] = [
       'Platform to deploy static sites, frontend applications and hosted forms',
     preview: require('./showcase/meli.png'),
     website: 'https://docs.meli.sh/',
-    source: 'https://github.com/getmeli/meli',
+    source: 'https://github.com/getmeli/meli-docs',
     tags: ['opensource'],
   },
   {
@@ -914,7 +917,7 @@ const Users: User[] = [
     description: 'The JavaScript bundler for React Native',
     preview: require('./showcase/metro.png'),
     website: 'https://facebook.github.io/metro/',
-    source: 'https://github.com/facebook/metro',
+    source: 'https://github.com/facebook/metro/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -932,7 +935,7 @@ const Users: User[] = [
       'TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.',
     preview: require('./showcase/mikro-orm.png'),
     website: 'https://mikro-orm.io',
-    source: 'https://github.com/mikro-orm/mikro-orm',
+    source: 'https://github.com/mikro-orm/mikro-orm/tree/master/docs',
     tags: ['opensource', 'large', 'versioning'],
   },
   {
@@ -950,7 +953,7 @@ const Users: User[] = [
       'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
     preview: require('./showcase/molecule-home.png'),
     website: 'https://dtstack.github.io/molecule/',
-    source: 'https://github.com/DTStack/molecule',
+    source: 'https://github.com/DTStack/molecule/tree/main/website',
     tags: ['opensource', 'i18n'],
   },
   {
@@ -959,12 +962,13 @@ const Users: User[] = [
       'Create beautiful immersive React.js animations using shared components',
     preview: require('./showcase/motion-layout.png'),
     website: 'https://motion-layout.azurewebsites.net',
-    source: 'https://github.com/jeffersonlicet/react-motion-layout',
+    source: 'https://github.com/jeffersonlicet/react-motion-layout/tree/master/website',
     tags: ['opensource'],
   },
   {
     title: 'moja global',
-    description: 'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
+    description:
+      'A non-profit, collaborative open source project to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector',
     preview: require('./showcase/mojaglobal.png'),
     website: 'https://community.moja.global/',
     source: 'https://github.com/moja-global/community-website',
@@ -1001,7 +1005,7 @@ const Users: User[] = [
     description: 'An open source CLI to work with Redux + Redux Saga',
     preview: require('./showcase/neutronjs.png'),
     website: 'https://www.neutronjs.com/',
-    source: 'https://github.com/neutronjs/neutron-cli',
+    source: 'https://github.com/neutronjs/neutron/tree/master/website',
     tags: ['opensource', 'versioning'],
   },
   {
@@ -1009,7 +1013,7 @@ const Users: User[] = [
     description: 'An open source serverless authentication library for next.js',
     preview: require('./showcase/nextauthjs.png'),
     website: 'https://next-auth.js.org/',
-    source: 'https://github.com/nextauthjs/next-auth',
+    source: 'https://github.com/nextauthjs/next-auth/tree/main/docs',
     tags: ['opensource', 'design'],
   },
   {
@@ -1017,7 +1021,7 @@ const Users: User[] = [
     description: 'Talk to your Serial devices',
     preview: require('./showcase/node-serialport.png'),
     website: 'https://serialport.io',
-    source: 'https://github.com/serialport/node-serialport',
+    source: 'https://github.com/serialport/website',
     tags: ['opensource', 'versioning'],
   },
   {
@@ -1026,18 +1030,8 @@ const Users: User[] = [
       'High-performance WPF node editor component designed for MVVM.',
     preview: require('./showcase/nodify.png'),
     website: 'https://miroiu.github.io/nodify/',
-    source: 'https://github.com/miroiu/nodify',
+    source: 'https://github.com/miroiu/nodify/tree/docs',
     tags: ['opensource', 'design'],
-  },
-  // TODO site unavailable on 01/08/2022
-  {
-    title: 'OCPeasy',
-    description:
-      'Open-source software provisioning, configuration management, and application-deployment tool enabling infrastructure as code on OpenShift.',
-    preview: require('./showcase/ocpeasy.png'),
-    website: 'https://www.ocpeasy.org',
-    source: 'https://github.com/ocpeasy/website',
-    tags: ['opensource'],
   },
   {
     title: 'Orca',
@@ -1082,7 +1076,8 @@ const Users: User[] = [
   },
   {
     title: 'PcapPlusPlus',
-    description: 'A multi-platform C++ library for capturing, parsing and crafting of network packets',
+    description:
+      'A multi-platform C++ library for capturing, parsing and crafting of network packets',
     preview: require('./showcase/pcapplusplus.png'),
     website: 'https://pcapplusplus.github.io/',
     source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
@@ -1094,7 +1089,7 @@ const Users: User[] = [
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
     preview: require('./showcase/pearl-ui.png'),
     website: 'https://docs.pearl-ui.dev/',
-    source: 'https://github.com/agrawal-rohit/pearl-ui',
+    source: 'https://github.com/agrawal-rohit/pearl-ui/tree/main/documentationwebsite',
     tags: ['opensource', 'design', 'product'],
   },
   {
@@ -1111,7 +1106,7 @@ const Users: User[] = [
     description: 'Pipeline UI Documentation',
     preview: require('./showcase/pipeline-ui.png'),
     website: 'https://www.pipeline-ui.com/',
-    source: 'https://github.com/headline-design/pipeline-ui',
+    source: 'https://github.com/headline-design/pipeline-ui/tree/main/design-site',
     tags: ['opensource'],
   },
   {
@@ -1153,7 +1148,7 @@ const Users: User[] = [
     description: 'PowerPoint JavaScript Library',
     preview: require('./showcase/pptxgenjs.png'),
     website: 'https://gitbrent.github.io/PptxGenJS/',
-    source: 'https://github.com/gitbrent/PptxGenJS',
+    source: 'https://github.com/gitbrent/PptxGenJS/tree/gh-pages',
     tags: ['opensource', 'design'],
   },
   {
@@ -1161,7 +1156,7 @@ const Users: User[] = [
     description: 'PREFS Python library website and documentation',
     preview: require('./showcase/prefs.png'),
     website: 'https://patitotective.github.io/PREFS/',
-    source: 'https://github.com/Patitotective/PREFS',
+    source: 'https://github.com/Patitotective/PREFS/tree/main/website',
     tags: ['opensource', 'versioning'],
   },
   {
@@ -1177,7 +1172,7 @@ const Users: User[] = [
     description: 'An Android performance library',
     preview: require('./showcase/profilo.png'),
     website: 'https://facebookincubator.github.io/profilo/',
-    source: 'https://github.com/facebookincubator/profilo',
+    source: 'https://github.com/facebookincubator/profilo/tree/main/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -1185,7 +1180,7 @@ const Users: User[] = [
     description: 'A performant type-checker for Python 3',
     preview: require('./showcase/pyre.png'),
     website: 'https://pyre-check.org',
-    source: 'https://github.com/facebook/pyre-check',
+    source: 'https://github.com/facebook/pyre-check/tree/main/documentation/website',
     tags: ['opensource', 'meta'],
   },
   {
@@ -1194,7 +1189,7 @@ const Users: User[] = [
       'An open source run-tracker for algorithm and performance engineering with rich visualizations',
     preview: require('./showcase/qa-board.png'),
     website: 'https://samsung.github.io/qaboard/',
-    source: 'https://github.com/Samsung/qaboard',
+    source: 'https://github.com/Samsung/qaboard/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1221,15 +1216,15 @@ const Users: User[] = [
       'An open source framework for developing servers for real-time applications and games',
     preview: require('./showcase/rivalis.png'),
     website: 'https://rivalis.io',
-    source: 'https://github.com/rivalis/rivalis',
+    source: 'https://github.com/rivalis/rivalis.github.io',
     tags: ['opensource', 'design', 'product'],
   },
   {
-    title: 'RactivePlayer',
+    title: 'Liqvid',
     description: 'Interactive videos in React',
-    preview: require('./showcase/ractive-player.png'),
-    website: 'https://ractive-player.org',
-    source: 'https://github.com/ysulyma/ractive-player',
+    preview: require('./showcase/liqvid.png'),
+    website: 'https://liqvidjs.org/',
+    source: 'https://github.com/liqvidjs/liqvidjs.org',
     tags: ['opensource'],
   },
   {
@@ -1238,7 +1233,7 @@ const Users: User[] = [
       'Unopinionated Accessible React Tree Component with Multi-Select and Drag-And-Drop',
     preview: require('./showcase/react-complex-tree.png'),
     website: 'https://rct.lukasbach.com/',
-    source: 'https://github.com/lukasbach/react-complex-tree',
+    source: 'https://github.com/lukasbach/react-complex-tree/tree/main/packages/docs',
     tags: ['opensource'],
   },
   {
@@ -1246,7 +1241,7 @@ const Users: User[] = [
     description: 'React components for Leaflet maps',
     preview: require('./showcase/react-leaflet.png'),
     website: 'https://react-leaflet.js.org/',
-    source: 'https://github.com/PaulLeCam/react-leaflet',
+    source: 'https://github.com/PaulLeCam/react-leaflet/tree/master/packages/website',
     tags: ['opensource'],
   },
   {
@@ -1255,14 +1250,7 @@ const Users: User[] = [
     preview: require('./showcase/reactnative.png'),
     website: 'https://reactnative.dev',
     source: 'https://github.com/facebook/react-native-website',
-    tags: [
-      'opensource',
-      'meta',
-      'large',
-      'favorite',
-      'design',
-      'versioning',
-    ],
+    tags: ['opensource', 'meta', 'large', 'favorite', 'design', 'versioning'],
   },
   {
     title: 'React Native ARIA',
@@ -1279,7 +1267,7 @@ const Users: User[] = [
       'A React Native project template for building solid applications through separation of concerns between the UI, state management and business logic.',
     preview: require('./showcase/reactnativeboilerplate.png'),
     website: 'https://thecodingmachine.github.io/react-native-boilerplate/',
-    source: 'https://github.com/thecodingmachine/react-native-boilerplate',
+    source: 'https://github.com/thecodingmachine/react-native-boilerplate/tree/master/documentation',
     tags: ['opensource'],
   },
   {
@@ -1287,7 +1275,7 @@ const Users: User[] = [
     description: 'Cross Platform React Native UI Toolkit',
     preview: require('./showcase/react-native-elements.png'),
     website: 'https://react-native-training.github.io/react-native-elements/',
-    source: 'https://github.com/react-native-elements/react-native-elements',
+    source: 'https://github.com/react-native-elements/react-native-elements/tree/next/website',
     tags: ['opensource'],
   },
   {
@@ -1295,7 +1283,7 @@ const Users: User[] = [
     description: 'The missing React Native UI Kit for iOS.',
     preview: require('./showcase/react-native-ios-kit.png'),
     website: 'https://callstack.github.io/react-native-ios-kit',
-    source: 'https://github.com/callstack/react-native-ios-kit',
+    source: 'https://github.com/callstack/react-native-ios-kit/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1322,7 +1310,7 @@ const Users: User[] = [
     description: 'Helps you to write better tests with less effort.',
     preview: require('./showcase/react-native-testing-library.png'),
     website: 'https://callstack.github.io/react-native-testing-library/',
-    source: 'https://github.com/callstack/react-native-testing-library',
+    source: 'https://github.com/callstack/react-native-testing-library/tree/main/website',
     tags: ['opensource'],
   },
   {
@@ -1338,7 +1326,7 @@ const Users: User[] = [
     description: 'Official React bindings for Redux',
     preview: require('./showcase/react-redux.png'),
     website: 'https://react-redux.js.org',
-    source: 'https://www.github.com/reduxjs/react-redux',
+    source: 'https://github.com/reduxjs/react-redux/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1355,7 +1343,7 @@ const Users: User[] = [
     description: 'A Predictable State Container for JS Apps',
     preview: require('./showcase/redux.png'),
     website: 'https://redux.js.org/',
-    source: 'https://www.github.com/reduxjs/redux',
+    source: 'https://github.com/reduxjs/redux/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1363,7 +1351,7 @@ const Users: User[] = [
     description: 'Build redux logic, without getting nervous 😬',
     preview: require('./showcase/redux-cool.png'),
     website: 'https://redux-cool.js.org/',
-    source: 'https://github.com/Redux-Cool/redux-cool',
+    source: 'https://github.com/Ruben-Arushanyan/redux-cool/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1376,11 +1364,19 @@ const Users: User[] = [
   },
   {
     title: 'Refine',
-    description: 'A React-based framework for building data-intensive applications in no time!',
+    description:
+      'A React-based framework for building data-intensive applications in no time!',
     preview: require('./showcase/refine.png'),
     website: 'https://refine.dev',
-    source: 'https://github.com/pankod/refine',
-    tags: ['favorite', 'opensource', 'product', 'design', 'versioning', 'large'],
+    source: 'https://github.com/pankod/refine/tree/master/documentation',
+    tags: [
+      'favorite',
+      'opensource',
+      'product',
+      'design',
+      'versioning',
+      'large',
+    ],
   },
   {
     title: 'Rematch',
@@ -1388,7 +1384,7 @@ const Users: User[] = [
       'Redux best practices without the boilerplate in less than 2kb',
     preview: require('./showcase/rematch.png'),
     website: 'https://rematchjs.org',
-    source: 'https://github.com/rematch/rematch',
+    source: 'https://github.com/rematch/rematch/tree/main/website',
     tags: ['opensource', 'design'],
   },
   {
@@ -1401,10 +1397,11 @@ const Users: User[] = [
   },
   {
     title: 'Remirror',
-    description: 'The editor that makes ProseMirror fun to use for React developers',
+    description:
+      'The editor that makes ProseMirror fun to use for React developers',
     preview: require('./showcase/remirror.png'),
     website: 'https://remirror.io/',
-    source: 'https://github.com/remirror/remirror',
+    source: 'https://github.com/remirror/remirror/tree/main/website',
     tags: ['opensource', 'design', 'large'],
   },
   {
@@ -1420,7 +1417,7 @@ const Users: User[] = [
     description: 'The missing constructor for creating safe async iterators',
     preview: require('./showcase/repeaterjs.png'),
     website: 'https://repeater.js.org/',
-    source: 'https://github.com/repeaterjs/repeater',
+    source: 'https://github.com/repeaterjs/repeater/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1428,7 +1425,7 @@ const Users: User[] = [
     description: 'The library to build browser based 3D models with code.',
     preview: require('./showcase/replicad.png'),
     website: 'https://replicad.xyz/',
-    source: 'https://github.com/sgenoud/replicad',
+    source: 'https://github.com/sgenoud/replicad/tree/main/packages/replicad-docs',
     tags: ['opensource'],
   },
   {
@@ -1492,7 +1489,8 @@ const Users: User[] = [
   },
   {
     title: 'Sapphire',
-    description: 'Sapphire is a next-gen object-oriented Discord.js bot framework.',
+    description:
+      'Sapphire is a next-gen object-oriented Discord.js bot framework.',
     preview: require('./showcase/sapphire.png'),
     website: 'https://www.sapphirejs.dev',
     source: 'https://github.com/sapphiredev/website',
@@ -1504,7 +1502,7 @@ const Users: User[] = [
       'Enhances built-in Sass modules with additional functions and adds modules for handling breakpoints and exceptions.',
     preview: require('./showcase/sass-fairy.png'),
     website: 'https://sass-fairy.com/',
-    source: 'https://github.com/roydukkey/sass-fairy',
+    source: 'https://github.com/roydukkey/sass-fairy/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1512,7 +1510,7 @@ const Users: User[] = [
     description: 'A PHP framework to create MVC plugins for WordPress',
     preview: require('./showcase/sciwp.png'),
     website: 'https://sciwp.com/',
-    source: 'https://github.com/sciwp/sciwp-framework',
+    source: 'https://github.com/sciwp/docs',
     tags: ['opensource'],
   },
   {
@@ -1520,7 +1518,7 @@ const Users: User[] = [
     description: 'A javascript router for front-end microservices',
     preview: require('./showcase/single-spa.png'),
     website: 'https://single-spa.js.org/',
-    source: 'https://github.com/single-spa/single-spa',
+    source: 'https://github.com/single-spa/single-spa.js.org/tree/master/website',
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
@@ -1542,7 +1540,8 @@ const Users: User[] = [
   },
   {
     title: 'Smart Docs',
-    description: 'A smart contract documentation visualizer for Solidity ABI interfaces.',
+    description:
+      'A smart contract documentation visualizer for Solidity ABI interfaces.',
     preview: require('./showcase/smart-docs.png'),
     website: 'https://smart-docs.vercel.app/',
     source: 'https://github.com/wowtvds/smart-docs',
@@ -1553,12 +1552,13 @@ const Users: User[] = [
     description: 'Turning passions into careers',
     preview: require('./showcase/smashgg.png'),
     website: 'https://developer.smash.gg',
-    source: 'https://github.com/smashgg/developer-portal',
+    source: 'https://github.com/smashgg/developer-portal/tree/master/website',
     tags: ['opensource', 'product'],
   },
   {
     title: 'SmartCookieWeb',
-    description: 'Webpage for an open source, telemetry-free Android web browser',
+    description:
+      'Webpage for an open source, telemetry-free Android web browser',
     preview: require('./showcase/smartcookieweb.png'),
     website: 'https://smartcookieweb.com/',
     source: null,
@@ -1570,7 +1570,7 @@ const Users: User[] = [
       'Drop-in replacement for embed-friendly websites (and à la carte APIs for detecting and parsing them)',
     preview: require('./showcase/social-embed.png'),
     website: 'https://social-embed.git-pull.com/',
-    source: 'https://github.com/social-embed/social-embed',
+    source: 'https://github.com/social-embed/social-embed/tree/master/packages/site',
     tags: ['opensource'],
   },
   {
@@ -1636,7 +1636,7 @@ const Users: User[] = [
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
     website: 'https://www.supabase.io/docs',
-    source: 'https://github.com/supabase/monorepo',
+    source: 'https://github.com/supabase/supabase/tree/master/web',
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
@@ -1644,24 +1644,25 @@ const Users: User[] = [
     description: 'Programmer-oriented Regular Expressions library for PHP',
     preview: require('./showcase/t-regx.png'),
     website: 'https://t-regx.com/',
-    source: 'https://github.com/T-Regx/T-Regx',
+    source: 'https://github.com/T-Regx/T-Regx.github.io',
     tags: ['opensource'],
   },
   {
     title: 'TalentBrick',
-    description: 'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
+    description:
+      'Learning made easy without ADS and trackers, Clear concepts at a glance, and Get access to quality study materials.',
     preview: require('./showcase/talentbrick.png'),
     website: 'https://www.talentbrick.com/',
     source: 'https://gitlab.com/talentbrick/talentbrick',
-    tags: ['opensource', 'design']
+    tags: ['opensource', 'design'],
   },
   {
     title: 'Taro',
     description: 'An open cross-end and cross-frame solution',
     preview: require('./showcase/docs-taro-zone.png'),
     website: 'https://docs.taro.zone/',
-    source: 'https://github.com/NervJS/taro',
-    tags: ['opensource', 'versioning', 'large'],
+    source: 'https://github.com/NervJS/taro/tree/docs',
+    tags: ['opensource', 'versioning', 'large', 'i18n'],
   },
   {
     title: 'Testing Library',
@@ -1678,12 +1679,13 @@ const Users: User[] = [
       'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
     preview: require('./showcase/tasit.png'),
     website: 'https://docs.tasit.io/',
-    source: 'https://github.com/tasitlabs/tasit-sdk',
+    source: 'https://github.com/tasitlabs/tasit-sdk/tree/develop/packages/docs',
     tags: ['opensource'],
   },
   {
     title: 'TechHarvesting',
-    description: 'Learn full stack web development from tutorials and blog posts',
+    description:
+      'Learn full stack web development from tutorials and blog posts',
     preview: require('./showcase/techharvesting.png'),
     website: 'https://techharvesting.in',
     source: 'https://github.com/techharvesting/techharvesting.github.io',
@@ -1708,10 +1710,11 @@ const Users: User[] = [
   },
   {
     title: 'ToolJet',
-    description: 'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
+    description:
+      'Open-source low-code platform to build & deploy internal tools with minimal engineering effort.',
     preview: require('./showcase/tooljet.png'),
     website: 'https://docs.tooljet.com/docs/intro/',
-    source: 'https://github.com/tooljet/tooljet',
+    source: 'https://github.com/ToolJet/ToolJet/tree/develop/docs',
     tags: ['opensource', 'design', 'large', 'product'],
   },
   {
@@ -1728,15 +1731,15 @@ const Users: User[] = [
     description: 'IM Application which build for TRPG, like slack and discord',
     preview: require('./showcase/trpgengine.png'),
     website: 'https://trpgdoc.moonrailgun.com/',
-    source: 'https://github.com/TRPGEngine/Client',
-    tags: ['opensource'],
+    source: null,
+    tags: [],
   },
   {
     title: 'Tuist',
     description: 'A tool to maintain and interact with Xcode projects at scale',
     preview: require('./showcase/tuist.png'),
     website: 'https://docs.tuist.io/',
-    source: 'https://github.com/tuist/tuist',
+    source: 'https://github.com/tuist/tuist/tree/main/projects/docs',
     tags: ['opensource'],
   },
   {
@@ -1744,7 +1747,7 @@ const Users: User[] = [
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
     website: 'https://uniforms.tools/',
-    source: 'https://github.com/vazco/uniforms',
+    source: 'https://github.com/vazco/uniforms/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1752,7 +1755,7 @@ const Users: User[] = [
     description: 'A feature management solution.',
     preview: require('./showcase/unleash.png'),
     website: 'https://docs.getunleash.io/',
-    source: 'https://github.com/Unleash/unleash/',
+    source: 'https://github.com/Unleash/unleash/tree/main/website',
     tags: ['opensource', 'product'],
   },
   {
@@ -1768,7 +1771,7 @@ const Users: User[] = [
     description: 'A cross-platform native desktop app library',
     preview: require('./showcase/vue-nodegui.png'),
     website: 'https://vue.nodegui.org/',
-    source: 'https://github.com/nodegui/vue-nodegui',
+    source: 'https://github.com/nodegui/vue-nodegui/tree/master/website',
     tags: ['opensource'],
   },
   {
@@ -1786,7 +1789,7 @@ const Users: User[] = [
       'A DSL for building full-stack web apps with less boilerplate.',
     preview: require('./showcase/wasp.png'),
     website: 'https://wasp-lang.dev/',
-    source: 'https://github.com/wasp-lang/wasp',
+    source: 'https://github.com/wasp-lang/wasp/tree/main/web',
     tags: ['opensource'],
   },
   {
@@ -1795,7 +1798,7 @@ const Users: User[] = [
       'Next-gen browser and mobile automation test framework for Node.js',
     preview: require('./showcase/webdriverio.png'),
     website: 'https://webdriver.io/',
-    source: 'https://github.com/webdriverio/webdriverio',
+    source: 'https://github.com/webdriverio/webdriverio/tree/main/website',
     tags: ['opensource', 'design', 'large', 'favorite'],
   },
   {
@@ -1807,15 +1810,6 @@ const Users: User[] = [
     source: 'https://github.com/webiny/docs.webiny.com',
     tags: ['opensource', 'product'],
   },
-  // TODO site unavailable on 12/31/2021
-  {
-    title: 'Wisdom',
-    description: 'Session replay web analytics with open data SQL/S3 access.',
-    preview: require('./showcase/wisdom.png'),
-    website: 'https://developers.getwisdom.io/',
-    source: 'https://github.com/Wisdom/dev-docs',
-    tags: ['opensource', 'design', 'product'],
-  },
   {
     title: 'Whirl',
     description: "Whirl's Personal Website and Blog",
@@ -1826,10 +1820,10 @@ const Users: User[] = [
   },
   {
     title: 'WoodpeckerCI',
-    description: "Woodpecker is a simple CI engine with great extensibility.",
+    description: 'Woodpecker is a simple CI engine with great extensibility.',
     preview: require('./showcase/woodpecker.png'),
     website: 'https://woodpecker-ci.org/',
-    source: 'https://github.com/woodpecker-ci/woodpecker',
+    source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
     tags: ['opensource'],
   },
   {
@@ -1881,15 +1875,15 @@ const Users: User[] = [
       'The open source search engine on object storage with subsecond latency',
     preview: require('./showcase/quickwit.png'),
     website: 'https://quickwit.io',
-    source: 'https://github.com/quickwit-inc/quickwit',
-    tags: ['favorite', 'opensource', 'design'],
+    source: null,
+    tags: ['favorite', 'design'],
   },
   {
     title: 'Verdaccio',
     description: 'A lightweight open source private npm proxy registry',
     preview: require('./showcase/verdaccio.png'),
     website: 'https://verdaccio.org',
-    source: 'https://github.com/verdaccio/verdaccio',
+    source: 'https://github.com/verdaccio/verdaccio/tree/master/website',
     tags: ['favorite', 'opensource', 'large', 'i18n', 'design'],
   },
   {
@@ -1915,7 +1909,7 @@ const Users: User[] = [
     description: 'Server-side component framework',
     preview: require('./showcase/drayman.png'),
     website: 'https://drayman.io/',
-    source: 'https://github.com/Claviz/drayman',
+    source: 'https://github.com/Claviz/drayman/tree/main/docs',
     tags: ['opensource'],
   },
   {
@@ -1924,7 +1918,7 @@ const Users: User[] = [
       'An open-source toolsets help to build cloud-native applications easier and faster.',
     preview: require('./showcase/nocalhost.png'),
     website: 'https://nocalhost.dev/',
-    source: 'https://github.com/nocalhost/nocalhost',
+    source: 'https://github.com/nocalhost/nocalhost.github.io',
     tags: ['opensource', 'i18n'],
   },
   {
@@ -1946,7 +1940,8 @@ const Users: User[] = [
   },
   {
     title: 'SigNoz',
-    description: 'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
+    description:
+      'Open source Application Performance Monitoring (APM) & Observability tool. SigNoz helps developers monitor their applications & troubleshoot problems, an open-source alternative to DataDog, NewRelic, etc. 🔥 💻',
     preview: require('./showcase/signoz.png'),
     website: 'https://signoz.io/',
     source: null,
@@ -1954,14 +1949,15 @@ const Users: User[] = [
   },
   {
     title: 'Dime.Scheduler',
-    description: 'Stop puzzling and start planning with Dime.Scheduler, the resource and project planning solution for the Microsoft Dynamics product suite.',
+    description:
+      'Stop puzzling and start planning with Dime.Scheduler, the resource and project planning solution for the Microsoft Dynamics product suite.',
     preview: require('./showcase/dimeschedulersdk.png'),
     website: 'https://sdk.dimescheduler.com',
-    source: 'https://github.com/dime-scheduler/sdk-dotnet',
+    source: 'https://github.com/dime-scheduler/sdk-dotnet/tree/master/docs',
     tags: ['product', 'opensource'],
   },
   {
-    title: "404Lab.Wiki",
+    title: '404Lab.Wiki',
     description: 'Docs and blogs about development and study',
     preview: require('./showcase/404lab-wiki.png'),
     website: 'https://wiki.404lab.top',
