@@ -37,7 +37,7 @@ import {
   readCodeTranslationFileContent,
   getPluginsDefaultCodeTranslationMessages,
 } from './translations/translations';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import type {RuleSetRule} from 'webpack';
 import admonitions from 'remark-admonitions';
 import {createRequire} from 'module';
@@ -111,7 +111,7 @@ export async function loadContext(
     })) ?? {};
 
   // We only need key->message for code translations
-  const codeTranslations = mapValues(
+  const codeTranslations = _.mapValues(
     codeTranslationFileContent,
     (value) => value.message,
   );
@@ -359,13 +359,13 @@ export default ${JSON.stringify(siteConfig, null, 2)};`,
     generatedFilesDir,
     'registry.js',
     `export default {
-${Object.keys(registry)
-  .sort()
+${Object.entries(registry)
+  .sort((a, b) => a[0].localeCompare(b[0]))
   .map(
-    (key) =>
-      `  '${key}': [${registry[key].loader}, '${escapePath(
-        registry[key].modulePath,
-      )}', require.resolveWeak('${escapePath(registry[key].modulePath)}')],`,
+    ([key, chunk]) =>
+      `  '${key}': [${chunk.loader}, '${escapePath(
+        chunk.modulePath,
+      )}', require.resolveWeak('${escapePath(chunk.modulePath)}')],`,
   )
   .join('\n')}};\n`,
   );
@@ -403,10 +403,12 @@ ${Object.keys(registry)
 
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
-    docusaurusVersion: getPackageJsonVersion(
+    docusaurusVersion: (await getPackageJsonVersion(
       path.join(__dirname, '../../package.json'),
-    )!,
-    siteVersion: getPackageJsonVersion(path.join(siteDir, 'package.json')),
+    ))!,
+    siteVersion: await getPackageJsonVersion(
+      path.join(siteDir, 'package.json'),
+    ),
     pluginVersions: {},
   };
   plugins

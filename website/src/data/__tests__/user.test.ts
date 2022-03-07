@@ -27,11 +27,11 @@ expect.extend({
   toHaveGoodDimensions({width, height}: {width: number; height: number}) {
     // Put this one first because aspect ratio is harder to fix than resizing
     // (need to take another screenshot)
-    if (width / height < 0.5) {
+    if (width / height > 2) {
       return {
         pass: false,
         message: () =>
-          `The preview image's width is ${width} and height is ${height}. To make sure it takes up the entire container in our showcase card, it needs to have a minimum aspect ratio of 2:1. Please make your image taller.`,
+          `The preview image's width is ${width} and height is ${height}. To make sure it takes up the entire container in our showcase card, it needs to have an aspect ratio of no wider than 2:1. Please make your image taller.`,
       };
     } else if (width < 640) {
       return {
@@ -49,7 +49,7 @@ expect.extend({
 
 describe('users', () => {
   sortedUsers.forEach((user) => {
-    test(user.title, () => {
+    test(user.title, async () => {
       Joi.attempt(
         user,
         Joi.object<User>({
@@ -86,6 +86,7 @@ describe('users', () => {
   });
 
   const imageDir = path.join(__dirname, '../showcase');
+  // eslint-disable-next-line no-restricted-properties
   const files = fs
     .readdirSync(imageDir)
     .filter((file) => ['.png', 'jpg', '.jpeg'].includes(path.extname(file)));

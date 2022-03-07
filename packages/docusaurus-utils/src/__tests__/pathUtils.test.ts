@@ -12,6 +12,7 @@ import {
   posixPath,
   aliasedSitePath,
   toMessageRelativeFilePath,
+  addTrailingPathSeparator,
 } from '../pathUtils';
 import path from 'path';
 
@@ -116,63 +117,63 @@ describe('shortName', () => {
   });
 });
 
-describe('toMessageRelativeFilePath', () => {
-  test('behaves correctly', () => {
-    jest
-      .spyOn(process, 'cwd')
-      .mockImplementationOnce(() => path.join(__dirname, '..'));
-    expect(
-      toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js')),
-    ).toEqual('__tests__/foo/bar.js');
+test('toMessageRelativeFilePath', () => {
+  jest
+    .spyOn(process, 'cwd')
+    .mockImplementationOnce(() => path.join(__dirname, '..'));
+  expect(toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js'))).toEqual(
+    '__tests__/foo/bar.js',
+  );
+});
+
+test('escapePath', () => {
+  const asserts: Record<string, string> = {
+    'c:/aaaa\\bbbb': 'c:/aaaa\\\\bbbb',
+    'c:\\aaaa\\bbbb\\★': 'c:\\\\aaaa\\\\bbbb\\\\★',
+    '\\\\?\\c:\\aaaa\\bbbb': '\\\\\\\\?\\\\c:\\\\aaaa\\\\bbbb',
+    'c:\\aaaa\\bbbb': 'c:\\\\aaaa\\\\bbbb',
+    'foo\\bar': 'foo\\\\bar',
+    'foo\\bar/lol': 'foo\\\\bar/lol',
+    'website\\docs/**/*.{md,mdx}': 'website\\\\docs/**/*.{md,mdx}',
+  };
+  Object.keys(asserts).forEach((file) => {
+    expect(escapePath(file)).toBe(asserts[file]);
   });
 });
 
-describe('escapePath', () => {
-  test('escapePath works', () => {
-    const asserts: Record<string, string> = {
-      'c:/aaaa\\bbbb': 'c:/aaaa\\\\bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\\\aaaa\\\\bbbb\\\\★',
-      '\\\\?\\c:\\aaaa\\bbbb': '\\\\\\\\?\\\\c:\\\\aaaa\\\\bbbb',
-      'c:\\aaaa\\bbbb': 'c:\\\\aaaa\\\\bbbb',
-      'foo\\bar': 'foo\\\\bar',
-      'foo\\bar/lol': 'foo\\\\bar/lol',
-      'website\\docs/**/*.{md,mdx}': 'website\\\\docs/**/*.{md,mdx}',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(escapePath(file)).toBe(asserts[file]);
-    });
+test('posixPath', () => {
+  const asserts: Record<string, string> = {
+    'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
+    'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
+    '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
+    'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
+    'foo\\bar': 'foo/bar',
+    'foo\\bar/lol': 'foo/bar/lol',
+    'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
+  };
+  Object.keys(asserts).forEach((file) => {
+    expect(posixPath(file)).toBe(asserts[file]);
   });
 });
 
-describe('posixPath', () => {
-  test('posixPath works', () => {
-    const asserts: Record<string, string> = {
-      'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
-      '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
-      'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
-      'foo\\bar': 'foo/bar',
-      'foo\\bar/lol': 'foo/bar/lol',
-      'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(posixPath(file)).toBe(asserts[file]);
-    });
+test('aliasedSitePath', () => {
+  const asserts: Record<string, string> = {
+    'user/website/docs/asd.md': '@site/docs/asd.md',
+    'user/website/versioned_docs/foo/bar.md': '@site/versioned_docs/foo/bar.md',
+    'user/docs/test.md': '@site/../docs/test.md',
+  };
+  Object.keys(asserts).forEach((file) => {
+    expect(posixPath(aliasedSitePath(file, 'user/website'))).toBe(
+      asserts[file],
+    );
   });
 });
 
-describe('aliasedSitePath', () => {
-  test('behaves correctly', () => {
-    const asserts: Record<string, string> = {
-      'user/website/docs/asd.md': '@site/docs/asd.md',
-      'user/website/versioned_docs/foo/bar.md':
-        '@site/versioned_docs/foo/bar.md',
-      'user/docs/test.md': '@site/../docs/test.md',
-    };
-    Object.keys(asserts).forEach((file) => {
-      expect(posixPath(aliasedSitePath(file, 'user/website'))).toBe(
-        asserts[file],
-      );
-    });
-  });
+test('addTrailingPathSeparator', () => {
+  expect(addTrailingPathSeparator('foo')).toEqual(
+    process.platform === 'win32' ? 'foo\\' : 'foo/',
+  );
+  expect(addTrailingPathSeparator('foo/')).toEqual(
+    process.platform === 'win32' ? 'foo\\' : 'foo/',
+  );
 });

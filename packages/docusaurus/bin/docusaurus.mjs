@@ -9,7 +9,7 @@
 // @ts-check
 
 import logger from '@docusaurus/logger';
-import fs from 'fs';
+import fs from 'fs-extra';
 import cli from 'commander';
 import {createRequire} from 'module';
 import {
@@ -25,9 +25,9 @@ import {
 } from '../lib/index.js';
 import beforeCli from './beforeCli.mjs';
 
-beforeCli();
+await beforeCli();
 
-const resolveDir = (dir = '.') => fs.realpathSync(dir);
+const resolveDir = (dir = '.') => fs.realpath(dir);
 
 cli
   .version(createRequire(import.meta.url)('../package.json').version)
@@ -56,8 +56,8 @@ cli
     '--no-minify',
     'build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
-    build(resolveDir(siteDir), {
+  .action(async (siteDir, {bundleAnalyzer, config, outDir, locale, minify}) => {
+    build(await resolveDir(siteDir), {
       bundleAnalyzer,
       outDir,
       config,
@@ -68,14 +68,28 @@ cli
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
-  .description('Copy the theme files into website folder for customization.')
+  .description(
+    'Wraps or ejects the original theme files into website folder for customization.',
+  )
   .option(
-    '--typescript',
+    '-w, --wrap',
+    'Creates a wrapper around the original theme component.\nAllows rendering other components before/after the original theme component.',
+  )
+  .option(
+    '-e, --eject',
+    'Ejects the full source code of the original theme component.\nAllows overriding the original component entirely with your own UI and logic.',
+  )
+  .option(
+    '-l, --list',
+    'only list the available themes/components without further prompting (default: false)',
+  )
+  .option(
+    '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
-  .option('--danger', 'enable swizzle for internal component of themes')
-  .action((themeName, componentName, siteDir, {typescript, danger}) => {
-    swizzle(resolveDir(siteDir), themeName, componentName, typescript, danger);
+  .option('--danger', 'enable swizzle for unsafe component of themes')
+  .action(async (themeName, componentName, siteDir, options) => {
+    swizzle(await resolveDir(siteDir), themeName, componentName, options);
   });
 
 cli
@@ -97,8 +111,8 @@ cli
     '--skip-build',
     'skip building website before deploy it (default: false)',
   )
-  .action((siteDir, {outDir, skipBuild, config}) => {
-    deploy(resolveDir(siteDir), {
+  .action(async (siteDir, {outDir, skipBuild, config}) => {
+    deploy(await resolveDir(siteDir), {
       outDir,
       config,
       skipBuild,
@@ -124,17 +138,19 @@ cli
     '--poll [interval]',
     'use polling rather than watching for reload (default: false). Can specify a poll interval in milliseconds',
   )
-  .action((siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
-    start(resolveDir(siteDir), {
-      port,
-      host,
-      locale,
-      config,
-      hotOnly,
-      open,
-      poll,
-    });
-  });
+  .action(
+    async (siteDir, {port, host, locale, config, hotOnly, open, poll}) => {
+      start(await resolveDir(siteDir), {
+        port,
+        host,
+        locale,
+        config,
+        hotOnly,
+        open,
+        poll,
+      });
+    },
+  );
 
 cli
   .command('serve [siteDir]')
@@ -151,7 +167,7 @@ cli
   .option('--build', 'build website before serving (default: false)')
   .option('-h, --host <host>', 'use specified host (default: localhost)')
   .action(
-    (
+    async (
       siteDir,
       {
         dir = 'build',
@@ -161,7 +177,7 @@ cli
         config,
       },
     ) => {
-      serve(resolveDir(siteDir), {
+      serve(await resolveDir(siteDir), {
         dir,
         port,
         build: buildSite,
@@ -174,8 +190,8 @@ cli
 cli
   .command('clear [siteDir]')
   .description('Remove build artifacts.')
-  .action((siteDir) => {
-    clear(resolveDir(siteDir));
+  .action(async (siteDir) => {
+    clear(await resolveDir(siteDir));
   });
 
 cli
@@ -198,11 +214,11 @@ cli
     'allows to init new written messages with a given prefix. This might help you to highlight untranslated message to make them stand out in the UI',
   )
   .action(
-    (
+    async (
       siteDir,
       {locale = undefined, override = false, messagePrefix = '', config},
     ) => {
-      writeTranslations(resolveDir(siteDir), {
+      writeTranslations(await resolveDir(siteDir), {
         locale,
         override,
         config,
@@ -219,8 +235,8 @@ cli
     "keep the headings' casing, otherwise make all lowercase (default: false)",
   )
   .option('--overwrite', 'overwrite existing heading IDs (default: false)')
-  .action((siteDir, files, options) =>
-    writeHeadingIds(resolveDir(siteDir), files, options),
+  .action(async (siteDir, files, options) =>
+    writeHeadingIds(await resolveDir(siteDir), files, options),
   );
 
 cli.arguments('<command>').action((cmd) => {
@@ -229,34 +245,33 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 /**
- * @param {string} command
+ * @param {string | undefined} command
  */
 function isInternalCommand(command) {
-  return [
-    'start',
-    'build',
-    'swizzle',
-    'deploy',
-    'serve',
-    'clear',
-    'write-translations',
-    'write-heading-ids',
-  ].includes(command);
+  return (
+    command &&
+    [
+      'start',
+      'build',
+      'swizzle',
+      'deploy',
+      'serve',
+      'clear',
+      'write-translations',
+      'write-heading-ids',
+    ].includes(command)
+  );
 }
 
-async function run() {
-  if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, resolveDir('.'));
-  }
-
-  cli.parse(process.argv);
-
-  if (!process.argv.slice(2).length) {
-    cli.outputHelp();
-  }
+if (!isInternalCommand(process.argv.slice(2)[0])) {
+  await externalCommand(cli, await resolveDir('.'));
 }
 
-run();
+if (!process.argv.slice(2).length) {
+  cli.outputHelp();
+}
+
+cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   logger.error(err);

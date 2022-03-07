@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {merge} from 'lodash';
+import _ from 'lodash';
 import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 import {normalizeThemeConfig} from '@docusaurus/utils-validation';
@@ -507,18 +507,19 @@ describe('themeConfig', () => {
 
   describe('color mode config', () => {
     const withDefaultValues = (colorMode) =>
-      merge({}, DEFAULT_CONFIG.colorMode, colorMode);
+      _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
-    test('minimal config', () => {
+    test('switch config', () => {
       const colorMode = {
         switchConfig: {
           darkIcon: '🌙',
         },
       };
-      expect(testValidateThemeConfig({colorMode})).toEqual({
-        ...DEFAULT_CONFIG,
-        colorMode: withDefaultValues(colorMode),
-      });
+      expect(() =>
+        testValidateThemeConfig({colorMode}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead."`,
+      );
     });
 
     test('max config', () => {
@@ -526,17 +527,6 @@ describe('themeConfig', () => {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: true,
-        switchConfig: {
-          darkIcon: '🌙',
-          darkIconStyle: {
-            marginTop: '1px',
-            marginLeft: '2px',
-          },
-          lightIcon: '☀️',
-          lightIconStyle: {
-            marginLeft: '1px',
-          },
-        },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
         ...DEFAULT_CONFIG,
@@ -560,16 +550,6 @@ describe('themeConfig', () => {
           ...DEFAULT_CONFIG.colorMode,
           ...colorMode,
         },
-      });
-    });
-
-    test('empty switch config', () => {
-      const colorMode = {
-        switchConfig: {},
-      };
-      expect(testValidateThemeConfig({colorMode})).toEqual({
-        ...DEFAULT_CONFIG,
-        colorMode: withDefaultValues(colorMode),
       });
     });
   });

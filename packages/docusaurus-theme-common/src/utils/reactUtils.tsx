@@ -41,3 +41,13 @@ export function useDynamicCallback<T extends (...args: never[]) => unknown>(
   // but good enough for our use
   return useCallback<T>((...args) => ref.current(...args), []);
 }
+
+export class ReactContextError extends Error {
+  constructor(providerName: string, additionalInfo?: string) {
+    super();
+    this.name = 'ReactContextError';
+    this.message = `Hook ${
+      this.stack?.split('\n')[1]?.match(/at (?<name>\w+)/)?.groups!.name
+    } is called outside the <${providerName}>. ${additionalInfo || ''}`;
+  }
+}

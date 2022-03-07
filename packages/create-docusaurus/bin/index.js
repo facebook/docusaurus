@@ -13,7 +13,6 @@ import semver from 'semver';
 import path from 'path';
 import {program} from 'commander';
 import {createRequire} from 'module';
-import init from '../lib/index.js';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const requiredVersion = packageJson.engines.node;
@@ -24,26 +23,21 @@ if (!semver.satisfies(process.version, requiredVersion)) {
   process.exit(1);
 }
 
-function wrapCommand(fn) {
-  return (...args) =>
-    fn(...args).catch((err) => {
-      logger.error(err.stack);
-      process.exitCode = 1;
-    });
-}
-
 program.version(packageJson.version);
 
 program
   .arguments('[siteName] [template] [rootDir]')
-  .option('--use-npm', 'Use NPM as package manage even with Yarn installed')
   .option(
-    '--skip-install',
+    '-p, --package-manager <manager>',
+    'The package manager used to install dependencies. One of yarn, npm, and pnpm.',
+  )
+  .option(
+    '-s, --skip-install',
     'Do not run package manager immediately after scaffolding',
   )
-  .option('--typescript', 'Use the TypeScript template variant')
+  .option('-t, --typescript', 'Use the TypeScript template variant')
   .option(
-    '--git-strategy <strategy>',
+    '-g, --git-strategy <strategy>',
     `Only used if the template is a git repository.
 \`deep\`: preserve full history
 \`shallow\`: clone with --depth=1
@@ -56,13 +50,16 @@ program
       siteName,
       template,
       rootDir = '.',
-      {useNpm, skipInstall, typescript, gitStrategy} = {},
+      {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
-      wrapCommand(init)(path.resolve(rootDir), siteName, template, {
-        useNpm,
-        skipInstall,
-        typescript,
-        gitStrategy,
+      // See https://github.com/facebook/docusaurus/pull/6860
+      import('../lib/index.js').then(({default: init}) => {
+        init(path.resolve(rootDir), siteName, template, {
+          packageManager,
+          skipInstall,
+          typescript,
+          gitStrategy,
+        });
       });
     },
   );
@@ -72,3 +69,8 @@ program.parse(process.argv);
 if (!process.argv.slice(1).length) {
   program.outputHelp();
 }
+
+process.on('unhandledRejection', (err) => {
+  logger.error(err);
+  process.exit(1);
+});

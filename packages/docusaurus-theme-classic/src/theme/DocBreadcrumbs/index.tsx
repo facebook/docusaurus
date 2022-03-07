@@ -6,7 +6,11 @@
  */
 
 import React, {type ReactNode} from 'react';
-import {ThemeClassNames, useSidebarBreadcrumbs} from '@docusaurus/theme-common';
+import {
+  ThemeClassNames,
+  useSidebarBreadcrumbs,
+  useHomePageRoute,
+} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
@@ -67,6 +71,7 @@ function HomeBreadcrumbItem() {
 
 export default function DocBreadcrumbs(): JSX.Element | null {
   const breadcrumbs = useSidebarBreadcrumbs();
+  const homePageRoute = useHomePageRoute();
 
   if (!breadcrumbs) {
     return null;
@@ -83,7 +88,7 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         className="breadcrumbs"
         itemScope
         itemType="https://schema.org/BreadcrumbList">
-        <HomeBreadcrumbItem />
+        {homePageRoute && <HomeBreadcrumbItem />}
         {breadcrumbs.map((item, idx) => (
           <BreadcrumbsItem key={idx} active={idx === breadcrumbs.length - 1}>
             <BreadcrumbsItemLink href={item.href}>

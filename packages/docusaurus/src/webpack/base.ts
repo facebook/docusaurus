@@ -44,13 +44,13 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export function getDocusaurusAliases(): Record<string, string> {
+export async function getDocusaurusAliases(): Promise<Record<string, string>> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
   const aliases: Record<string, string> = {};
 
-  fs.readdirSync(dirPath)
+  (await fs.readdir(dirPath))
     .filter((fileName) => extensions.includes(path.extname(fileName)))
     .forEach((fileName) => {
       const fileNameWithoutExtension = path.basename(
@@ -64,11 +64,11 @@ export function getDocusaurusAliases(): Record<string, string> {
   return aliases;
 }
 
-export function createBaseConfig(
+export async function createBaseConfig(
   props: Props,
   isServer: boolean,
   minify: boolean = true,
-): Configuration {
+): Promise<Configuration> {
   const {
     outDir,
     siteDir,
@@ -90,7 +90,7 @@ export function createBaseConfig(
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
-  const themeAliases = loadPluginsThemeAliases({siteDir, plugins});
+  const themeAliases = await loadPluginsThemeAliases({siteDir, plugins});
 
   return {
     mode,
@@ -158,7 +158,7 @@ export function createBaseConfig(
         // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
         // so we use fine-grained aliases instead
         // '@docusaurus': path.resolve(__dirname, '../client/exports'),
-        ...getDocusaurusAliases(),
+        ...(await getDocusaurusAliases()),
         ...themeAliases,
       },
       // This allows you to set a fallback for where Webpack should look for
@@ -169,7 +169,7 @@ export function createBaseConfig(
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
-        path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
+        path.resolve(await fs.realpath(process.cwd()), 'node_modules'),
       ],
     },
     resolveLoader: {
@@ -225,7 +225,7 @@ export function createBaseConfig(
           use: [
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
               isServer,
-              babelOptions: getCustomBabelConfigFilePath(siteDir),
+              babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
           ],
         },

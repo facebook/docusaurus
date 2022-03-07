@@ -75,7 +75,7 @@ function useLocalePluralForms(): LocalePluralForms {
     if (Intl.PluralRules) {
       try {
         return createLocalePluralForms(currentLocale);
-      } catch (e) {
+      } catch {
         console.error(`Failed to use Intl.PluralRules for locale "${currentLocale}".
 Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
 `);
@@ -99,7 +99,7 @@ function selectPluralMessage(
   const parts = pluralMessages.split(separator);
 
   if (parts.length === 1) {
-    return parts[0];
+    return parts[0]!;
   }
   if (parts.length > localePluralForms.pluralForms.length) {
     console.error(
@@ -110,7 +110,7 @@ function selectPluralMessage(
   const pluralFormIndex = localePluralForms.pluralForms.indexOf(pluralForm);
   // In case of not enough plural form messages, we take the last one (other)
   // instead of returning undefined
-  return parts[Math.min(pluralFormIndex, parts.length - 1)];
+  return parts[Math.min(pluralFormIndex, parts.length - 1)]!;
 }
 
 export function usePluralForm(): {

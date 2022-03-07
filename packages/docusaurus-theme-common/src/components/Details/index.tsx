@@ -34,7 +34,11 @@ export type DetailsProps = {
   summary?: ReactElement;
 } & ComponentProps<'details'>;
 
-function Details({summary, children, ...props}: DetailsProps): JSX.Element {
+export default function Details({
+  summary,
+  children,
+  ...props
+}: DetailsProps): JSX.Element {
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -54,7 +58,7 @@ function Details({summary, children, ...props}: DetailsProps): JSX.Element {
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
-        {[styles.isBrowser]: isBrowser},
+        {[styles.isBrowser!]: isBrowser},
         props.className,
       )}
       onMouseDown={(e) => {
@@ -96,5 +100,3 @@ function Details({summary, children, ...props}: DetailsProps): JSX.Element {
     </details>
   );
 }
-
-export default Details;

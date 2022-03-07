@@ -11,6 +11,7 @@ import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
+import type {Location} from 'history';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -160,10 +161,7 @@ export type ImportedPresetModule = PresetModule & {
   default?: PresetModule;
 };
 
-export type PresetConfig =
-  | [string, Record<string, unknown>]
-  | [string]
-  | string;
+export type PresetConfig = string | [string, Record<string, unknown>];
 
 export type HostPortCLIOptions = {
   host?: string;
@@ -315,13 +313,30 @@ export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
   readonly content: Content;
 };
 
+export type SwizzleAction = 'eject' | 'wrap';
+export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';
+
+export type SwizzleComponentConfig = {
+  actions: Record<SwizzleAction, SwizzleActionStatus>;
+  description?: string;
+};
+
+export type SwizzleConfig = {
+  components: Record<string, SwizzleComponentConfig>;
+  // Other settings could be added here,
+  // For example: the ability to declare the config as exhaustive
+  // so that we can emit errors
+};
+
 export type PluginModule = {
   <Options, Content>(context: LoadContext, options: Options):
     | Plugin<Content>
     | Promise<Plugin<Content>>;
   validateOptions?: <T>(data: OptionValidationContext<T>) => T;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
-  getSwizzleComponentList?: () => string[];
+
+  getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
+  getSwizzleConfig?: () => SwizzleConfig | undefined;
 };
 
 export type ImportedPluginModule = PluginModule & {
@@ -338,9 +353,8 @@ export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 export type PluginOptions = {id?: string} & Record<string, unknown>;
 
 export type PluginConfig =
-  | [string, PluginOptions]
-  | [string]
   | string
+  | [string, PluginOptions]
   | [PluginModule, PluginOptions]
   | PluginModule;
 
@@ -391,18 +405,6 @@ export interface ConfigureWebpackUtils {
     isServer: boolean;
     babelOptions?: Record<string, unknown>;
   }) => RuleSetRule;
-
-  // TODO deprecated: remove before end of 2021?
-  getCacheLoader: (
-    isServer: boolean,
-    cacheOptions?: Record<string, unknown>,
-  ) => RuleSetRule | null;
-
-  // TODO deprecated: remove before end of 2021?
-  getBabelLoader: (
-    isServer: boolean,
-    options?: Record<string, unknown>,
-  ) => RuleSetRule;
 }
 
 interface HtmlTagObject {
@@ -440,11 +442,18 @@ export interface ThemeConfigValidationContext<T> {
   themeConfig: Partial<T>;
 }
 
-export interface TOCItem {
+export type TOCItem = {
   readonly value: string;
   readonly id: string;
-  readonly children: TOCItem[];
   readonly level: number;
-}
+};
 
 export type RouteChunksTree = {[x: string | number]: string | RouteChunksTree};
+
+export type ClientModule = {
+  onRouteUpdate?: (args: {
+    previousLocation: Location | null;
+    location: Location;
+  }) => void;
+  onRouteUpdateDelayed?: (args: {location: Location}) => void;
+};

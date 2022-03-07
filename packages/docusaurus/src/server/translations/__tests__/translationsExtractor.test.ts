@@ -57,10 +57,16 @@ const default => {
 `,
     });
 
+    const errorMock = jest.spyOn(console, 'error').mockImplementation();
+
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
-    ).rejects.toThrowError(
-      /Error while attempting to extract Docusaurus translations from source code file at path/,
+    ).rejects.toThrow();
+
+    expect(errorMock).toBeCalledWith(
+      expect.stringMatching(
+        /Error while attempting to extract Docusaurus translations from source code file at/,
+      ),
     );
   });
 

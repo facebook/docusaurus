@@ -166,11 +166,9 @@ export async function extractSourceCodeFileTranslations(
       sourceCodeFilePath,
     );
     return translations;
-  } catch (e) {
-    if (e instanceof Error) {
-      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
-    }
-    throw e;
+  } catch (err) {
+    logger.error`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`;
+    throw err;
   }
 }
 
@@ -342,7 +340,7 @@ ${sourceWarningPart(path.node)}`,
 
         const args = path.get('arguments');
         if (args.length === 1 || args.length === 2) {
-          const firstArgPath = args[0];
+          const firstArgPath = args[0]!;
 
           // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();

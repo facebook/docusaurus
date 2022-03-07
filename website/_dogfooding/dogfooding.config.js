@@ -6,6 +6,20 @@
  */
 
 const fs = require('fs');
+const path = require('path');
+
+/** @type {import('@docusaurus/types').PluginConfig[]} */
+const dogfoodingThemeInstances = [
+  /** @type {import('@docusaurus/types').PluginModule} */
+  function swizzleThemeTests() {
+    return {
+      name: 'swizzle-theme-tests',
+      getThemePath: () =>
+        path.join(__dirname, '_swizzle_theme_tests/src/theme'),
+    };
+  },
+];
+exports.dogfoodingThemeInstances = dogfoodingThemeInstances;
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
@@ -19,6 +33,7 @@ const dogfoodingPluginInstances = [
 
       // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
       // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
+      // eslint-disable-next-line no-restricted-properties
       path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
       showLastUpdateTime: true,
       sidebarItemsGenerator(args) {

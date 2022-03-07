@@ -34,7 +34,9 @@ export function useContextualSearchFilters(): useContextualSearchFiltersReturns 
 
     const preferredVersion = docsPreferredVersionByPluginId[pluginId];
 
-    const latestVersion = allDocsData[pluginId].versions.find((v) => v.isLast)!;
+    const latestVersion = allDocsData[pluginId]!.versions.find(
+      (v) => v.isLast,
+    )!;
 
     const version = activeVersion ?? preferredVersion ?? latestVersion;
 

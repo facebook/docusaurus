@@ -30,7 +30,7 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
     new (props: {filename: string});
   }
 
-  declare const plugin: ReactLoadableSSRAddon;
+  const plugin: ReactLoadableSSRAddon;
   export default plugin;
 }
 
@@ -57,7 +57,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     });
   }
 
-  declare const plugin: StaticSiteGeneratorPlugin;
+  const plugin: StaticSiteGeneratorPlugin;
   export default plugin;
 }
 

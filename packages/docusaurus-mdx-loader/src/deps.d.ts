@@ -23,7 +23,8 @@ declare module '@mdx-js/mdx' {
     function createMdxAstCompiler(options?: Options): Processor;
     function createCompiler(options?: Options): Processor;
   }
-  function mdx(content: string, options?: mdx.Options): Promise<string>;
-
-  export default mdx;
+  export default function mdx(
+    content: string,
+    options?: mdx.Options,
+  ): Promise<string>;
 }

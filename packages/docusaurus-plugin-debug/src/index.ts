@@ -26,7 +26,6 @@ export default function pluginDebug({
     getThemePath() {
       return path.resolve(__dirname, '../lib/theme');
     },
-
     getTypeScriptThemePath() {
       return path.resolve(__dirname, '../src/theme');
     },

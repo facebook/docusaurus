@@ -18,7 +18,7 @@ import Link from '@docusaurus/Link';
 // This page doesn't change anything. It's just swapping BlogPostItem with our
 // own ChangelogItem. We don't want to apply the swizzled item to the actual
 // blog.
-function BlogPostPage(props: Props): JSX.Element {
+export default function BlogPostPage(props: Props): JSX.Element {
   const {content: BlogPostContents, sidebar} = props;
   const {assets, metadata} = BlogPostContents;
   const {
@@ -99,5 +99,3 @@ function BlogPostPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogPostPage;

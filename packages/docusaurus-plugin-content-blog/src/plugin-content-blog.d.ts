@@ -21,6 +21,7 @@ declare module '@docusaurus/plugin-content-blog' {
     imageURL?: string;
     url?: string;
     title?: string;
+    email?: string;
   }
 
   export type BlogPostFrontMatter = {
@@ -191,8 +192,7 @@ declare module '@theme/BlogPostPage' {
     readonly content: Content;
   }
 
-  const BlogPostPage: (props: Props) => JSX.Element;
-  export default BlogPostPage;
+  export default function BlogPostPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogListPage' {
@@ -217,8 +217,7 @@ declare module '@theme/BlogListPage' {
     readonly items: readonly {readonly content: Content}[];
   }
 
-  const BlogListPage: (props: Props) => JSX.Element;
-  export default BlogListPage;
+  export default function BlogListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsListPage' {
@@ -237,8 +236,7 @@ declare module '@theme/BlogTagsListPage' {
     readonly tags: Readonly<Record<string, Tag>>;
   }
 
-  const BlogTagsListPage: (props: Props) => JSX.Element;
-  export default BlogTagsListPage;
+  export default function BlogTagsListPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogTagsPostsPage' {
@@ -254,8 +252,7 @@ declare module '@theme/BlogTagsPostsPage' {
     readonly items: readonly {readonly content: Content}[];
   }
 
-  const BlogTagsPostsPage: (props: Props) => JSX.Element;
-  export default BlogTagsPostsPage;
+  export default function BlogTagsPostsPage(props: Props): JSX.Element;
 }
 
 declare module '@theme/BlogArchivePage' {

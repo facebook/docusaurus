@@ -32,10 +32,8 @@ export default async function loadPresets(context: LoadContext): Promise<{
     let presetOptions = {};
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
-    } else if (Array.isArray(presetItem)) {
-      [presetModuleImport, presetOptions = {}] = presetItem;
     } else {
-      throw new Error('Invalid presets format detected in config.');
+      [presetModuleImport, presetOptions] = presetItem;
     }
     const presetName = resolveModuleName(
       presetModuleImport,

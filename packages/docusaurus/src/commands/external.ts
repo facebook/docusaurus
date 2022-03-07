@@ -19,12 +19,6 @@ export default async function externalCommand(
 
   // Plugin Lifecycle - extendCli.
   plugins.forEach((plugin) => {
-    const {extendCli} = plugin;
-
-    if (!extendCli) {
-      return;
-    }
-
-    extendCli(cli);
+    plugin.extendCli?.(cli);
   });
 }

@@ -12,7 +12,6 @@ import {
   simpleHash,
   escapePath,
 } from '@docusaurus/utils';
-import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
 import type {
   ChunkRegistry,
@@ -85,10 +84,15 @@ const RoutesImportsCode = [
 ].join('\n');
 
 function isModule(value: unknown): value is Module {
-  if (isString(value)) {
+  if (typeof value === 'string') {
     return true;
   }
-  if (isPlainObject(value) && has(value, '__import') && has(value, 'path')) {
+  if (
+    typeof value === 'object' &&
+    // eslint-disable-next-line no-underscore-dangle
+    (value as Record<string, unknown>)?.__import &&
+    (value as Record<string, unknown>)?.path
+  ) {
     return true;
   }
   return false;
@@ -137,11 +141,10 @@ export default async function loadRoutes(
       ...props
     } = routeConfig;
 
-    if (!isString(routePath) || !component) {
+    if (typeof routePath !== 'string' || !component) {
       throw new Error(
-        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
-          routeConfig,
-        )}`,
+        `Invalid route config: path must be a string and component is required.
+${JSON.stringify(routeConfig)}`,
       );
     }
 
@@ -246,8 +249,8 @@ function genRouteChunkNames(
   }
 
   const newValue: ChunkNames = {};
-  Object.keys(value).forEach((key) => {
-    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+  Object.entries(value).forEach(([key, v]) => {
+    newValue[key] = genRouteChunkNames(registry, v, key, name);
   });
   return newValue;
 }

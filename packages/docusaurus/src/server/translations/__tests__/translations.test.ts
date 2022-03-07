@@ -269,7 +269,9 @@ describe('writeTranslationFileContent', () => {
           key1: {message: 'key1 message'},
         },
       }),
-    ).rejects.toThrowError(/Invalid translation file at/);
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"\\"bad\\" must be of type object"`,
+    );
   });
 });
 

@@ -16,6 +16,7 @@ import React, {
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {createStorageSlot} from './storageUtils';
+import {ReactContextError} from './reactUtils';
 import {useThemeConfig} from './useThemeConfig';
 
 export const AnnouncementBarDismissStorageKey =
@@ -110,12 +111,10 @@ export function AnnouncementBarProvider({
   );
 }
 
-export const useAnnouncementBar = (): AnnouncementBarAPI => {
+export function useAnnouncementBar(): AnnouncementBarAPI {
   const api = useContext(AnnouncementBarContext);
   if (!api) {
-    throw new Error(
-      'useAnnouncementBar(): AnnouncementBar not found in React context: make sure to use the AnnouncementBarProvider on top of the tree',
-    );
+    throw new ReactContextError('AnnouncementBarProvider');
   }
   return api;
-};
+}

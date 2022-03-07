@@ -6,42 +6,40 @@
  */
 
 import type {DocusaurusPluginVersionInformation} from '@docusaurus/types';
-import {existsSync, lstatSync} from 'fs-extra';
-import {dirname, join} from 'path';
+import fs from 'fs-extra';
+import path from 'path';
 
-export function getPackageJsonVersion(
+export async function getPackageJsonVersion(
   packageJsonPath: string,
-): string | undefined {
-  if (existsSync(packageJsonPath)) {
+): Promise<string | undefined> {
+  if (await fs.pathExists(packageJsonPath)) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    const {version} = require(packageJsonPath);
-    return typeof version === 'string' ? version : undefined;
+    return require(packageJsonPath).version;
   }
   return undefined;
 }
 
-export function getPackageJsonName(
+async function getPackageJsonName(
   packageJsonPath: string,
-): string | undefined {
-  if (existsSync(packageJsonPath)) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
-    const {name} = require(packageJsonPath);
-    return typeof name === 'string' ? name : undefined;
-  }
-  return undefined;
+): Promise<string | undefined> {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-dynamic-require, global-require
+  return require(packageJsonPath).name;
 }
 
-export function getPluginVersion(
+export async function getPluginVersion(
   pluginPath: string,
   siteDir: string,
-): DocusaurusPluginVersionInformation {
-  let potentialPluginPackageJsonDirectory = dirname(pluginPath);
+): Promise<DocusaurusPluginVersionInformation> {
+  let potentialPluginPackageJsonDirectory = path.dirname(pluginPath);
   while (potentialPluginPackageJsonDirectory !== '/') {
-    const packageJsonPath = join(
+    const packageJsonPath = path.join(
       potentialPluginPackageJsonDirectory,
       'package.json',
     );
-    if (existsSync(packageJsonPath) && lstatSync(packageJsonPath).isFile()) {
+    if (
+      (await fs.pathExists(packageJsonPath)) &&
+      (await fs.lstat(packageJsonPath)).isFile()
+    ) {
       if (potentialPluginPackageJsonDirectory === siteDir) {
         // If the plugin belongs to the same docusaurus project, we classify it
         // as local plugin.
@@ -49,11 +47,11 @@ export function getPluginVersion(
       }
       return {
         type: 'package',
-        name: getPackageJsonName(packageJsonPath),
-        version: getPackageJsonVersion(packageJsonPath),
+        name: await getPackageJsonName(packageJsonPath),
+        version: await getPackageJsonVersion(packageJsonPath),
       };
     }
-    potentialPluginPackageJsonDirectory = dirname(
+    potentialPluginPackageJsonDirectory = path.dirname(
       potentialPluginPackageJsonDirectory,
     );
   }

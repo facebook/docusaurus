@@ -69,31 +69,74 @@ module.exports = {
     'no-param-reassign': [WARNING, {props: false}],
     'no-prototype-builtins': WARNING,
     'no-restricted-exports': OFF,
-    'no-restricted-imports': [
+    'no-restricted-properties': [
       ERROR,
-      {
-        paths: [
-          {
-            name: 'lodash',
-            importNames: [
-              // TODO: TS doesn't make Boolean a narrowing function yet,
-              // so filter(Boolean) is problematic type-wise
-              // 'compact',
-              'filter',
-              'flatten',
-              'flatMap',
-              'map',
-              'reduce',
-              'take',
-              'takeRight',
-              'head',
-              'tail',
-              'initial',
-            ],
-            message: 'These APIs have their ES counterparts.',
-          },
-        ],
-      },
+      ...[
+        // TODO: TS doesn't make Boolean a narrowing function yet,
+        // so filter(Boolean) is problematic type-wise
+        // ['compact', 'Array#filter(Boolean)'],
+        ['concat', 'Array#concat'],
+        ['drop', 'Array#slice(n)'],
+        ['dropRight', 'Array#slice(0, -n)'],
+        ['fill', 'Array#fill'],
+        ['filter', 'Array#filter'],
+        ['find', 'Array#find'],
+        ['findIndex', 'Array#findIndex'],
+        ['first', 'foo[0]'],
+        ['flatten', 'Array#flat'],
+        ['flattenDeep', 'Array#flat(Infinity)'],
+        ['flatMap', 'Array#flatMap'],
+        ['fromPairs', 'Object.fromEntries'],
+        ['head', 'foo[0]'],
+        ['indexOf', 'Array#indexOf'],
+        ['initial', 'Array#slice(0, -1)'],
+        ['join', 'Array#join'],
+        // Unfortunately there's no great alternative to _.last yet
+        // Candidates: foo.slice(-1)[0]; foo[foo.length - 1]
+        // Array#at is ES2022; could replace _.nth as well
+        // ['last'],
+        ['map', 'Array#map'],
+        ['reduce', 'Array#reduce'],
+        ['reverse', 'Array#reverse'],
+        ['slice', 'Array#slice'],
+        ['take', 'Array#slice(0, n)'],
+        ['takeRight', 'Array#slice(-n)'],
+        ['tail', 'Array#slice(1)'],
+      ].map(([property, alternative]) => ({
+        object: '_',
+        property,
+        message: `Use ${alternative} instead.`,
+      })),
+      ...[
+        'readdirSync',
+        'readFileSync',
+        'statSync',
+        'lstatSync',
+        'existsSync',
+        'pathExistsSync',
+        'realpathSync',
+        'mkdirSync',
+        'mkdirpSync',
+        'mkdirsSync',
+        'writeFileSync',
+        'writeJsonSync',
+        'outputFileSync',
+        'outputJsonSync',
+        'moveSync',
+        'copySync',
+        'copyFileSync',
+        'ensureFileSync',
+        'ensureDirSync',
+        'ensureLinkSync',
+        'ensureSymlinkSync',
+        'unlinkSync',
+        'removeSync',
+        'emptyDirSync',
+      ].map((property) => ({
+        object: 'fs',
+        property,
+        message: 'Do not use sync fs methods.',
+      })),
     ],
     'no-restricted-syntax': [
       WARNING,
@@ -118,6 +161,12 @@ module.exports = {
         message:
           "Export all does't work well if imported in ESM due to how they are transpiled, and they can also lead to unexpected exposure of internal methods.",
       },
+      // TODO make an internal plugin to ensure this
+      // {
+      //   selector:
+      // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
+      //   message: 'Export in one statement'
+      // }
     ],
     'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
@@ -173,6 +222,7 @@ module.exports = {
     ],
     'react/jsx-filename-extension': OFF,
     'react/jsx-key': [ERROR, {checkFragmentShorthand: true}],
+    'react/jsx-no-useless-fragment': [ERROR, {allowExpressions: true}],
     'react/jsx-props-no-spreading': OFF,
     'react/no-array-index-key': OFF, // We build a static site, and nearly all components don't change.
     'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
@@ -211,7 +261,11 @@ module.exports = {
     'no-unused-vars': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
-      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
     ],
   },
   overrides: [

@@ -8,7 +8,7 @@
 import React from 'react';
 import type {Props} from '@theme/IconMenu';
 
-function IconMenu({
+export default function IconMenu({
   width = 30,
   height = 30,
   className,
@@ -32,5 +32,3 @@ function IconMenu({
     </svg>
   );
 }
-
-export default IconMenu;

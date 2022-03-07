@@ -64,7 +64,10 @@ export default function pluginPWA(
     name: 'docusaurus-plugin-pwa',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return path.resolve(__dirname, '../lib/theme');
+    },
+    getTypeScriptThemePath() {
+      return path.resolve(__dirname, '../src/theme');
     },
 
     getClientModules() {

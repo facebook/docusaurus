@@ -10,7 +10,7 @@ import {
   type RouteConfig as RRRouteConfig,
 } from 'react-router-config';
 import fs from 'fs-extra';
-import {mapValues, pickBy, countBy} from 'lodash';
+import _ from 'lodash';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {
   removePrefix,
@@ -20,6 +20,8 @@ import {
 } from '@docusaurus/utils';
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
+import combinePromises from 'combine-promises';
+import logger from '@docusaurus/logger';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -33,7 +35,7 @@ type BrokenLink = {
 
 // matchRoutes does not support qs/anchors, so we remove it!
 function onlyPathname(link: string) {
-  return link.split('#')[0].split('?')[0];
+  return link.split('#')[0]!.split('?')[0]!;
 }
 
 function getPageBrokenLinks({
@@ -84,12 +86,12 @@ export function getAllBrokenLinks({
 }): Record<string, BrokenLink[]> {
   const filteredRoutes = filterIntermediateRoutes(routes);
 
-  const allBrokenLinks = mapValues(allCollectedLinks, (pageLinks, pagePath) =>
+  const allBrokenLinks = _.mapValues(allCollectedLinks, (pageLinks, pagePath) =>
     getPageBrokenLinks({pageLinks, pagePath, routes: filteredRoutes}),
   );
 
   // remove pages without any broken link
-  return pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
+  return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
 export function getBrokenLinksErrorMessage(
@@ -110,9 +112,11 @@ export function getBrokenLinksErrorMessage(
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `\n- On source page path = ${pagePath}:\n   -> linking to ${brokenLinks
-      .map(brokenLinkMessage)
-      .join('\n   -> linking to ')}`;
+    return `
+- On source page path = ${pagePath}:
+   -> linking to ${brokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`;
   }
 
   /**
@@ -126,7 +130,7 @@ export function getBrokenLinksErrorMessage(
         brokenLinks.map((brokenLink) => ({pagePage, brokenLink})),
     );
 
-    const countedBrokenLinks = countBy(
+    const countedBrokenLinks = _.countBy(
       flatList,
       (item) => item.brokenLink.link,
     );
@@ -140,28 +144,33 @@ export function getBrokenLinksErrorMessage(
       return '';
     }
 
-    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
-      `\n- `,
-    )}\n`;
+    return logger.interpolate`
+
+It looks like some of the broken links we found appear in many pages of your site.
+Maybe those broken links appear on all pages through your site layout?
+We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
+Frequent broken links are linking to:${frequentLinks}
+`;
   }
 
-  return (
-    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
-    `\n\nExhaustive list of all broken links found:\n${Object.entries(
-      allBrokenLinks,
-    )
-      .map(([pagePath, brokenLinks]) =>
-        pageBrokenLinksMessage(pagePath, brokenLinks),
-      )
-      .join('\n')}
-`
-  );
+  return `Docusaurus found broken links!
+
+Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
+
+Exhaustive list of all broken links found:
+${Object.entries(allBrokenLinks)
+  .map(([pagePath, brokenLinks]) =>
+    pageBrokenLinksMessage(pagePath, brokenLinks),
+  )
+  .join('\n')}
+`;
 }
 
-function isExistingFile(filePath: string) {
+async function isExistingFile(filePath: string) {
   try {
-    return fs.statSync(filePath).isFile();
-  } catch (e) {
+    return (await fs.stat(filePath)).isFile();
+  } catch {
     return false;
   }
 }
@@ -177,12 +186,10 @@ export async function filterExistingFileLinks({
   outDir: string;
   allCollectedLinks: Record<string, string[]>;
 }): Promise<Record<string, string[]>> {
-  // not easy to make this async :'(
-  function linkFileExists(link: string): boolean {
+  async function linkFileExists(link: string) {
     // /baseUrl/javadoc/ -> /outDir/javadoc
-    const baseFilePath = removeSuffix(
-      `${outDir}/${removePrefix(link, baseUrl)}`,
-      '/',
+    const baseFilePath = onlyPathname(
+      removeSuffix(`${outDir}/${removePrefix(link, baseUrl)}`, '/'),
     );
 
     // -> /outDir/javadoc
@@ -194,11 +201,22 @@ export async function filterExistingFileLinks({
       filePathsToTry.push(path.join(baseFilePath, 'index.html'));
     }
 
-    return filePathsToTry.some(isExistingFile);
+    for (const file of filePathsToTry) {
+      if (await isExistingFile(file)) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  return mapValues(allCollectedLinks, (links) =>
-    links.filter((link) => !linkFileExists(link)),
+  return combinePromises(
+    _.mapValues(allCollectedLinks, async (links) =>
+      (
+        await Promise.all(
+          links.map(async (link) => ((await linkFileExists(link)) ? '' : link)),
+        )
+      ).filter(Boolean),
+    ),
   );
 }
 

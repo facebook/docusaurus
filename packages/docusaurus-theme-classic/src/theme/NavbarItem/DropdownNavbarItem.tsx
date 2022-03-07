@@ -172,9 +172,10 @@ function DropdownNavbarItemMobile({
   );
 }
 
-function DropdownNavbarItem({mobile = false, ...props}: Props): JSX.Element {
+export default function DropdownNavbarItem({
+  mobile = false,
+  ...props
+}: Props): JSX.Element {
   const Comp = mobile ? DropdownNavbarItemMobile : DropdownNavbarItemDesktop;
   return <Comp {...props} />;
 }
-
-export default DropdownNavbarItem;

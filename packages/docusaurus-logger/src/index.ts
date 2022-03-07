@@ -21,8 +21,8 @@ function interpolate(
 ): string {
   let res = '';
   values.forEach((value, idx) => {
-    const flag = msgs[idx].match(/[a-z]+=$/);
-    res += msgs[idx].replace(/[a-z]+=$/, '');
+    const flag = msgs[idx]!.match(/[a-z]+=$/);
+    res += msgs[idx]!.replace(/[a-z]+=$/, '');
     const format = (() => {
       if (!flag) {
         return (a: string | number) => a;
@@ -120,6 +120,10 @@ function success(msg: unknown, ...values: InterpolatableValue[]): void {
   );
 }
 
+function newLine(): void {
+  console.log();
+}
+
 const logger = {
   red: chalk.red,
   yellow: chalk.yellow,
@@ -136,6 +140,7 @@ const logger = {
   warn,
   error,
   success,
+  newLine,
 };
 
 // TODO remove when migrating to ESM

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
-
 import path from 'path';
 
+// Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
 // MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars,
 // Others = 255 bytes
 const MAX_PATH_SEGMENT_CHARS = 255;
@@ -112,4 +111,11 @@ export function escapePath(str: string): string {
 
   // Remove the " around the json string;
   return escaped.substring(1, escaped.length - 1);
+}
+
+export function addTrailingPathSeparator(str: string): string {
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }

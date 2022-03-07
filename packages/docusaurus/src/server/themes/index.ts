@@ -12,15 +12,15 @@ import themeAlias, {sortAliases} from './alias';
 
 const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
 
-export function loadThemeAliases(
+export async function loadThemeAliases(
   themePaths: string[],
   userThemePaths: string[],
-): ThemeAliases {
+): Promise<ThemeAliases> {
   const aliases: ThemeAliases = {};
 
-  themePaths.forEach((themePath) => {
-    const themeAliases = themeAlias(themePath, true);
-    Object.keys(themeAliases).forEach((aliasKey) => {
+  for (const themePath of themePaths) {
+    const themeAliases = await themeAlias(themePath, true);
+    Object.entries(themeAliases).forEach(([aliasKey, alias]) => {
       // If this alias shadows a previous one, use @theme-init to preserve the
       // initial one. @theme-init is only applied once: to the initial theme
       // that provided this component
@@ -28,17 +28,17 @@ export function loadThemeAliases(
         const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
         const initAlias = `@theme-init/${componentName}`;
         if (!(initAlias in aliases)) {
-          aliases[initAlias] = aliases[aliasKey];
+          aliases[initAlias] = aliases[aliasKey]!;
         }
       }
-      aliases[aliasKey] = themeAliases[aliasKey];
+      aliases[aliasKey] = alias;
     });
-  });
+  }
 
-  userThemePaths.forEach((themePath) => {
-    const userThemeAliases = themeAlias(themePath, false);
+  for (const themePath of userThemePaths) {
+    const userThemeAliases = await themeAlias(themePath, false);
     Object.assign(aliases, userThemeAliases);
-  });
+  }
 
   return sortAliases(aliases);
 }
@@ -49,9 +49,9 @@ export function loadPluginsThemeAliases({
 }: {
   siteDir: string;
   plugins: LoadedPlugin[];
-}): ThemeAliases {
+}): Promise<ThemeAliases> {
   const pluginThemes: string[] = plugins
-    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
+    .map((plugin) => plugin.getThemePath?.())
     .filter((x): x is string => Boolean(x));
   const userTheme = path.resolve(siteDir, THEME_PATH);
   return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);

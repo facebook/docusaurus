@@ -43,8 +43,11 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
-const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
+const transform = async (
+  filePath: string,
+  options?: Partial<LinkifyParams>,
+) => {
+  const fileContent = await fs.readFile(filePath, 'utf-8');
   const transformedContent = linkify({
     filePath,
     fileString: fileContent,
@@ -61,9 +64,9 @@ const transform = (filePath: string, options?: Partial<LinkifyParams>) => {
   return [fileContent, transformedContent];
 };
 
-test('transform to correct link', () => {
+test('transform to correct link', async () => {
   const post = path.join(contentPaths.contentPath, 'post.md');
-  const [content, transformedContent] = transform(post);
+  const [content, transformedContent] = await transform(post);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain(
     '](/blog/2018/12/14/Happy-First-Birthday-Slash',
@@ -74,12 +77,12 @@ test('transform to correct link', () => {
   expect(content).not.toEqual(transformedContent);
 });
 
-test('report broken markdown links', () => {
+test('report broken markdown links', async () => {
   const filePath = 'post-with-broken-links.md';
   const folderPath = contentPaths.contentPath;
   const postWithBrokenLinks = path.join(folderPath, filePath);
   const onBrokenMarkdownLink = jest.fn();
-  const [, transformedContent] = transform(postWithBrokenLinks, {
+  const [, transformedContent] = await transform(postWithBrokenLinks, {
     onBrokenMarkdownLink,
   });
   expect(transformedContent).toMatchSnapshot();

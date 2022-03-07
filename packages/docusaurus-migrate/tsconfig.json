@@ -1,9 +1,11 @@
+// For editor typechecking; includes bin
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "rootDir": "src",
-    "outDir": "lib"
-  }
+    "noEmit": true,
+    "module": "esnext",
+    "allowJs": true,
+    "rootDir": "."
+  },
+  "include": ["src", "bin"]
 }

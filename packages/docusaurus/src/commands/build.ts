@@ -56,9 +56,9 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-    } catch (e) {
+    } catch (err) {
       logger.error`Unable to build website for locale name=${locale}.`;
-      throw e;
+      throw err;
     }
   }
   const context = await loadContext(siteDir, {
@@ -79,7 +79,7 @@ export default async function build(
 
   // We need the default locale to always be the 1st in the list. If we build it
   // last, it would "erase" the localized sites built in sub-folders
-  const orderedLocales: string[] = [
+  const orderedLocales: [string, ...string[]] = [
     i18n.defaultLocale,
     ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
   ];
@@ -89,7 +89,7 @@ export default async function build(
       orderedLocales.indexOf(locale) === orderedLocales.length - 1;
     return tryToBuildLocale({locale, isLastLocale});
   });
-  return results[0];
+  return results[0]!;
 }
 
 async function buildLocale({
@@ -130,7 +130,7 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
@@ -148,30 +148,36 @@ async function buildLocale({
 
   const allCollectedLinks: Record<string, string[]> = {};
 
-  let serverConfig: Configuration = createServerConfig({
+  let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
     },
   });
 
-  serverConfig = merge(serverConfig, {
-    plugins: [
-      new CopyWebpackPlugin({
-        patterns: staticDirectories
-          .map((dir) => path.resolve(siteDir, dir))
-          .filter(fs.existsSync)
-          .map((dir) => ({from: dir, to: outDir})),
-      }),
-    ],
-  });
+  if (staticDirectories.length > 0) {
+    await Promise.all(staticDirectories.map((dir) => fs.ensureDir(dir)));
+
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: staticDirectories
+            .map((dir) => path.resolve(siteDir, dir))
+            .map((dir) => ({from: dir, to: outDir})),
+        }),
+      ],
+    });
+  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
+      clientConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        clientConfig,
+      );
     }
 
     if (configureWebpack) {
@@ -203,11 +209,7 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
-  if (
-    serverConfig.output &&
-    serverConfig.output.filename &&
-    typeof serverConfig.output.filename === 'string'
-  ) {
+  if (typeof serverConfig.output?.filename === 'string') {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);

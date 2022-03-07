@@ -25,7 +25,7 @@ function getLocalizedMessage({
     );
   }
 
-  return codeTranslations[(id ?? message)!] ?? message ?? id;
+  return codeTranslations[(id ?? message)!] ?? message ?? id!;
 }
 
 // Imperative translation API is useful for some edge-cases:

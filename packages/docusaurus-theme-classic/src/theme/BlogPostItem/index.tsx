@@ -41,7 +41,7 @@ function useReadingTimePlural() {
   };
 }
 
-function BlogPostItem(props: Props): JSX.Element {
+export default function BlogPostItem(props: Props): JSX.Element {
   const readingTimePlural = useReadingTimePlural();
   const {withBaseUrl} = useBaseUrlUtils();
   const {
@@ -114,7 +114,7 @@ function BlogPostItem(props: Props): JSX.Element {
       {(tagsExists || truncated) && (
         <footer
           className={clsx('row docusaurus-mt-lg', {
-            [styles.blogPostDetailsFull]: isBlogPostPage,
+            [styles.blogPostDetailsFull!]: isBlogPostPage,
           })}>
           {tagsExists && (
             <div className={clsx('col', {'col--9': truncatedPost})}>
@@ -159,5 +159,3 @@ function BlogPostItem(props: Props): JSX.Element {
     </article>
   );
 }
-
-export default BlogPostItem;

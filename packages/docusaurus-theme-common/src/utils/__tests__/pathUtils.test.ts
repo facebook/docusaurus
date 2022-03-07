@@ -16,6 +16,14 @@ describe('isSamePath', () => {
     expect(isSamePath('/docs', '/docs/')).toBeTruthy();
   });
 
+  test('should be true for compared path with different case', () => {
+    expect(isSamePath('/doCS', '/DOcs')).toBeTruthy();
+  });
+
+  test('should be true for compared path with different case + trailing slash', () => {
+    expect(isSamePath('/doCS', '/DOcs/')).toBeTruthy();
+  });
+
   test('should be false for compared path with double trailing slash', () => {
     expect(isSamePath('/docs', '/docs//')).toBeFalsy();
   });

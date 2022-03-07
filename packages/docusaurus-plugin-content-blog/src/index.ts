@@ -307,7 +307,7 @@ export default async function pluginContentBlog(
                 ({
                   content: {
                     __import: true,
-                    path: blogItemsToMetadata[postID].source,
+                    path: blogItemsToMetadata[postID]!.source,
                     query: {
                       truncated: true,
                     },
@@ -359,7 +359,7 @@ export default async function pluginContentBlog(
               modules: {
                 sidebar: aliasedSource(sidebarProp),
                 items: items.map((postID) => {
-                  const blogPostMetadata = blogItemsToMetadata[postID];
+                  const blogPostMetadata = blogItemsToMetadata[postID]!;
                   return {
                     content: {
                       __import: true,

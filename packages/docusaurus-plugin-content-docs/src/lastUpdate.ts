@@ -27,12 +27,12 @@ export async function getFileLastUpdate(
       includeAuthor: true,
     });
     return {timestamp: result.timestamp, author: result.author};
-  } catch (e) {
-    if (e instanceof GitNotFoundError && !showedGitRequirementError) {
+  } catch (err) {
+    if (err instanceof GitNotFoundError && !showedGitRequirementError) {
       logger.warn('Sorry, the docs plugin last update options require Git.');
       showedGitRequirementError = true;
     } else {
-      logger.error(e);
+      logger.error(err);
     }
     return null;
   }

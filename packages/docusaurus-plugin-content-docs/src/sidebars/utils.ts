@@ -19,14 +19,14 @@ import type {
   SidebarNavigationItem,
 } from './types';
 
-import {mapValues, difference, uniq} from 'lodash';
+import _ from 'lodash';
 import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
 import type {DocMetadataBase, DocNavLink} from '../types';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
 ): item is SidebarCategoriesShorthand {
-  return typeof item !== 'string' && !item.type;
+  return typeof item === 'object' && !item.type;
 }
 
 export function transformSidebarItems(
@@ -110,13 +110,13 @@ export function collectSidebarNavigation(
 export function collectSidebarsDocIds(
   sidebars: Sidebars,
 ): Record<string, string[]> {
-  return mapValues(sidebars, collectSidebarDocIds);
+  return _.mapValues(sidebars, collectSidebarDocIds);
 }
 
 export function collectSidebarsNavigations(
   sidebars: Sidebars,
 ): Record<string, SidebarNavigationItem[]> {
-  return mapValues(sidebars, collectSidebarNavigation);
+  return _.mapValues(sidebars, collectSidebarNavigation);
 }
 
 export type SidebarNavigation = {
@@ -201,12 +201,12 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    if (!sidebarNameToNavigationItems[sidebarName]) {
+    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    if (!navigationItems) {
       throw new Error(
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
         return item.id === docId;
@@ -258,12 +258,8 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     const sidebarName = Object.entries(sidebarNameToNavigationItems).find(
       ([, navigationItems]) =>
         navigationItems.find(isCurrentCategoryGeneratedIndexItem),
-    )?.[0];
-
-    if (!sidebarName) {
-      return emptySidebarNavigation();
-    }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    )![0];
+    const navigationItems = sidebarNameToNavigationItems[sidebarName]!;
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,
     );
@@ -276,7 +272,7 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
     const allSidebarDocIds = Object.values(sidebarNameToDocIds).flat();
-    const invalidSidebarDocIds = difference(allSidebarDocIds, validDocIds);
+    const invalidSidebarDocIds = _.difference(allSidebarDocIds, validDocIds);
     if (invalidSidebarDocIds.length > 0) {
       throw new Error(
         `Invalid sidebar file at "${toMessageRelativeFilePath(
@@ -286,7 +282,7 @@ These sidebar document ids do not exist:
 - ${invalidSidebarDocIds.sort().join('\n- ')}
 
 Available document ids are:
-- ${uniq(validDocIds).sort().join('\n- ')}`,
+- ${_.uniq(validDocIds).sort().join('\n- ')}`,
       );
     }
   }
@@ -341,7 +337,7 @@ Available document ids are:
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
-    getFirstLink: (id) => getFirstLink(sidebars[id]),
+    getFirstLink: (id) => getFirstLink(sidebars[id]!),
   };
 }
 

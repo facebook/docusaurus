@@ -8,7 +8,7 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 
-function NotFound(): JSX.Element {
+export default function NotFound(): JSX.Element {
   return (
     <Layout title="Page Not Found">
       <div
@@ -24,5 +24,3 @@ function NotFound(): JSX.Element {
     </Layout>
   );
 }
-
-export default NotFound;

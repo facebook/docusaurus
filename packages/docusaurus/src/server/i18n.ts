@@ -15,6 +15,9 @@ function getDefaultLocaleLabel(locale: string) {
   const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
     locale,
   );
+  if (!languageName) {
+    return locale;
+  }
   return (
     languageName.charAt(0).toLocaleUpperCase(locale) + languageName.substring(1)
   );
@@ -26,15 +29,6 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
     direction: getLangDir(locale),
     htmlLang: locale,
   };
-}
-
-export function shouldWarnAboutNodeVersion(
-  version: number,
-  locales: string[],
-): boolean {
-  const isOnlyEnglish = locales.length === 1 && locales.includes('en');
-  const isOlderNodeVersion = version < 14;
-  return isOlderNodeVersion && !isOnlyEnglish;
 }
 
 export async function loadI18n(
@@ -86,21 +80,19 @@ export function localizePath({
   options?: {localizePath?: boolean};
 }): string {
   const shouldLocalizePath: boolean =
-    typeof options.localizePath === 'undefined'
-      ? // By default, we don't localize the path of defaultLocale
-        i18n.currentLocale !== i18n.defaultLocale
-      : options.localizePath;
+    // By default, we don't localize the path of defaultLocale
+    options.localizePath ?? i18n.currentLocale !== i18n.defaultLocale;
 
   if (!shouldLocalizePath) {
     return originalPath;
   }
   // FS paths need special care, for Windows support
   if (pathType === 'fs') {
-    return path.join(originalPath, path.sep, i18n.currentLocale, path.sep);
+    return path.join(originalPath, i18n.currentLocale);
   }
-  // Url paths
+  // Url paths; add a trailing slash so it's a valid base URL
   if (pathType === 'url') {
-    return normalizeUrl([originalPath, '/', i18n.currentLocale, '/']);
+    return normalizeUrl([originalPath, i18n.currentLocale, '/']);
   }
   // should never happen
   throw new Error(`Unhandled path type "${pathType}".`);

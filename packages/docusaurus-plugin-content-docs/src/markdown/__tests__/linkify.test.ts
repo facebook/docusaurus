@@ -89,23 +89,26 @@ function createMarkdownOptions(
   };
 }
 
-const transform = (filepath: string, options?: Partial<DocsMarkdownOption>) => {
+const transform = async (
+  filepath: string,
+  options?: Partial<DocsMarkdownOption>,
+) => {
   const markdownOptions = createMarkdownOptions(options);
-  const content = fs.readFileSync(filepath, 'utf-8');
+  const content = await fs.readFile(filepath, 'utf-8');
   const transformedContent = linkify(content, filepath, markdownOptions);
   return [content, transformedContent];
 };
 
-test('transform nothing', () => {
+test('transform nothing', async () => {
   const doc1 = path.join(versionCurrent.contentPath, 'doc1.md');
-  const [content, transformedContent] = transform(doc1);
+  const [content, transformedContent] = await transform(doc1);
   expect(transformedContent).toMatchSnapshot();
   expect(content).toEqual(transformedContent);
 });
 
-test('transform to correct links', () => {
+test('transform to correct links', async () => {
   const doc2 = path.join(versionCurrent.contentPath, 'doc2.md');
-  const [content, transformedContent] = transform(doc2);
+  const [content, transformedContent] = await transform(doc2);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain('](/docs/doc1');
   expect(transformedContent).toContain('](/docs/doc2');
@@ -118,19 +121,19 @@ test('transform to correct links', () => {
   expect(content).not.toEqual(transformedContent);
 });
 
-test('transform relative links', () => {
+test('transform relative links', async () => {
   const doc3 = path.join(versionCurrent.contentPath, 'subdir', 'doc3.md');
 
-  const [content, transformedContent] = transform(doc3);
+  const [content, transformedContent] = await transform(doc3);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain('](/docs/doc2');
   expect(transformedContent).not.toContain('](../doc2.md)');
   expect(content).not.toEqual(transformedContent);
 });
 
-test('transforms reference links', () => {
+test('transforms reference links', async () => {
   const doc4 = path.join(versionCurrent.contentPath, 'doc4.md');
-  const [content, transformedContent] = transform(doc4);
+  const [content, transformedContent] = await transform(doc4);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain('[doc1]: /docs/doc1');
   expect(transformedContent).toContain('[doc2]: /docs/doc2');
@@ -139,10 +142,10 @@ test('transforms reference links', () => {
   expect(content).not.toEqual(transformedContent);
 });
 
-test('report broken markdown links', () => {
+test('report broken markdown links', async () => {
   const doc5 = path.join(versionCurrent.contentPath, 'doc5.md');
   const onBrokenMarkdownLink = jest.fn();
-  const [content, transformedContent] = transform(doc5, {
+  const [content, transformedContent] = await transform(doc5, {
     onBrokenMarkdownLink,
   });
   expect(transformedContent).toEqual(content);
@@ -169,9 +172,9 @@ test('report broken markdown links', () => {
   } as BrokenMarkdownLink);
 });
 
-test('transforms absolute links in versioned docs', () => {
+test('transforms absolute links in versioned docs', async () => {
   const doc2 = path.join(version100.contentPath, 'doc2.md');
-  const [content, transformedContent] = transform(doc2);
+  const [content, transformedContent] = await transform(doc2);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain('](/docs/1.0.0/subdir/doc1');
   expect(transformedContent).toContain('](/docs/1.0.0/doc2#existing-docs');
@@ -180,9 +183,9 @@ test('transforms absolute links in versioned docs', () => {
   expect(content).not.toEqual(transformedContent);
 });
 
-test('transforms relative links in versioned docs', () => {
+test('transforms relative links in versioned docs', async () => {
   const doc1 = path.join(version100.contentPath, 'subdir', 'doc1.md');
-  const [content, transformedContent] = transform(doc1);
+  const [content, transformedContent] = await transform(doc1);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain('](/docs/1.0.0/doc2');
   expect(transformedContent).not.toContain('](../doc2.md)');

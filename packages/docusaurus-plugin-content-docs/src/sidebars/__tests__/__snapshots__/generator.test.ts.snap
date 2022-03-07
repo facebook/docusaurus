@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefaultSidebarItemsGenerator generates complex nested sidebar 1`] = `
+Array [
+  Object {
+    "id": "intro",
+    "type": "doc",
+  },
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "tutorial1",
+        "type": "doc",
+      },
+      Object {
+        "id": "tutorial2",
+        "type": "doc",
+      },
+    ],
+    "label": "Tutorials",
+    "link": Object {
+      "id": "tutorials-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  Object {
+    "collapsed": false,
+    "collapsible": undefined,
+    "customProps": Object {
+      "description": "foo",
+    },
+    "items": Array [
+      Object {
+        "className": "foo",
+        "id": "guide1",
+        "type": "doc",
+      },
+      Object {
+        "collapsed": undefined,
+        "collapsible": undefined,
+        "items": Array [
+          Object {
+            "id": "nested-guide",
+            "type": "doc",
+          },
+        ],
+        "label": "SubGuides (metadata file label)",
+        "link": Object {
+          "description": "subguides-description",
+          "slug": "subguides-generated-index-slug",
+          "title": "subguides-title",
+          "type": "generated-index",
+        },
+        "type": "category",
+      },
+      Object {
+        "id": "guide2",
+        "type": "doc",
+      },
+    ],
+    "label": "Guides",
+    "link": Object {
+      "id": "guides-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  Object {
+    "id": "end",
+    "type": "doc",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator generates simple flat sidebar 1`] = `
+Array [
+  Object {
+    "id": "doc3",
+    "type": "doc",
+  },
+  Object {
+    "id": "doc4",
+    "type": "doc",
+  },
+  Object {
+    "id": "doc1",
+    "label": "doc1 sidebar label",
+    "type": "doc",
+  },
+  Object {
+    "id": "doc2",
+    "type": "doc",
+  },
+  Object {
+    "id": "doc5",
+    "type": "doc",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
+Array [
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "doc8",
+        "type": "doc",
+      },
+      Object {
+        "id": "doc7",
+        "type": "doc",
+      },
+    ],
+    "label": "subsubsubfolder3 (_category_.json label)",
+    "link": Object {
+      "id": "doc1",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  Object {
+    "className": "bar",
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "doc6",
+        "type": "doc",
+      },
+    ],
+    "label": "subsubsubfolder2 (_category_.yml label)",
+    "type": "category",
+  },
+  Object {
+    "id": "doc1",
+    "type": "doc",
+  },
+  Object {
+    "id": "doc4",
+    "type": "doc",
+  },
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "doc5",
+        "type": "doc",
+      },
+    ],
+    "label": "subsubsubfolder",
+    "type": "category",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator respects custom isCategoryIndex 1`] = `
+Array [
+  Object {
+    "id": "intro",
+    "type": "doc",
+  },
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "tutorial1",
+        "type": "doc",
+      },
+      Object {
+        "id": "tutorial2",
+        "type": "doc",
+      },
+    ],
+    "label": "Tutorials",
+    "link": Object {
+      "id": "tutorials-index",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "className": "foo",
+        "id": "guide1",
+        "type": "doc",
+      },
+      Object {
+        "id": "guide2",
+        "type": "doc",
+      },
+      Object {
+        "id": "not-guides-index",
+        "type": "doc",
+      },
+    ],
+    "label": "Guides",
+    "type": "category",
+  },
+]
+`;
+
+exports[`DefaultSidebarItemsGenerator uses explicit link over the index/readme.{md,mdx} naming convention 1`] = `
+Array [
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "parent/doc2",
+        "type": "doc",
+      },
+      Object {
+        "id": "parent/doc1",
+        "type": "doc",
+      },
+    ],
+    "label": "Category label",
+    "link": Object {
+      "id": "parent/doc3",
+      "type": "doc",
+    },
+    "type": "category",
+  },
+  Object {
+    "collapsed": undefined,
+    "collapsible": undefined,
+    "items": Array [
+      Object {
+        "id": "parent/doc4",
+        "type": "doc",
+      },
+      Object {
+        "id": "parent/doc6",
+        "type": "doc",
+      },
+      Object {
+        "id": "parent/doc5",
+        "type": "doc",
+      },
+    ],
+    "label": "Category 2 label",
+    "type": "category",
+  },
+]
+`;
