@@ -77,7 +77,7 @@ export default async function pluginContentPages(
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );

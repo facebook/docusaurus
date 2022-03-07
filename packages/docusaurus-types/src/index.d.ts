@@ -47,17 +47,17 @@ export interface DocusaurusConfig {
   customFields?: {
     [key: string]: unknown;
   };
-  scripts?: (
+  scripts: (
     | string
     | {
         src: string;
         [key: string]: unknown;
       }
   )[];
-  clientModules?: string[];
+  clientModules: string[];
   ssrTemplate?: string;
   staticDirectories: string[];
-  stylesheets?: (
+  stylesheets: (
     | string
     | {
         href: string;
