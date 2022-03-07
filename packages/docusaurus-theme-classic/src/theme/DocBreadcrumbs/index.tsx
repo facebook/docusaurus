@@ -40,9 +40,11 @@ function BreadcrumbsItemLink({
 function BreadcrumbsItem({
   children,
   active,
+  index,
 }: {
   children: ReactNode;
   active?: boolean;
+  index: number;
 }): JSX.Element {
   return (
     <li
@@ -53,16 +55,18 @@ function BreadcrumbsItem({
         'breadcrumbs__item--active': active,
       })}>
       {children}
+      <meta itemProp="position" content={String(index + 1)} />
     </li>
   );
 }
 
 function HomeBreadcrumbItem() {
+  const homeHref = useBaseUrl('/');
   return (
     <li className="breadcrumbs__item">
       <Link
         className={clsx('breadcrumbs__link', styles.breadcrumbsItemLink)}
-        href={useBaseUrl('/')}>
+        href={homeHref}>
         🏠
       </Link>
     </li>
@@ -90,11 +94,13 @@ export default function DocBreadcrumbs(): JSX.Element | null {
         itemType="https://schema.org/BreadcrumbList">
         {homePageRoute && <HomeBreadcrumbItem />}
         {breadcrumbs.map((item, idx) => (
-          <BreadcrumbsItem key={idx} active={idx === breadcrumbs.length - 1}>
+          <BreadcrumbsItem
+            key={idx}
+            active={idx === breadcrumbs.length - 1}
+            index={idx}>
             <BreadcrumbsItemLink href={item.href}>
               {item.label}
             </BreadcrumbsItemLink>
-            <meta itemProp="position" content={String(idx + 1)} />
           </BreadcrumbsItem>
         ))}
       </ul>
