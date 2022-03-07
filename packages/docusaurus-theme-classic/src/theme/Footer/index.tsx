@@ -15,10 +15,10 @@ import {
   type MultiColumnFooter,
   type SimpleFooter,
 } from '@docusaurus/theme-common';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl, {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import styles from './styles.module.css';
-import ThemedImage, {type Props as ThemedImageProps} from '@theme/ThemedImage';
+import ThemedImage from '@theme/ThemedImage';
 import IconExternalLink from '@theme/IconExternalLink';
 
 function FooterLink({
@@ -54,20 +54,34 @@ function FooterLink({
   );
 }
 
-function FooterLogo({
-  sources,
-  alt,
-  width,
-  height,
-}: Pick<ThemedImageProps, 'sources' | 'alt' | 'width' | 'height'>) {
-  return (
+function FooterLogo({logo}: {logo: SimpleFooter['logo']}) {
+  const {withBaseUrl} = useBaseUrlUtils();
+  if (!logo?.src) {
+    return null;
+  }
+  const sources = {
+    light: withBaseUrl(logo.src),
+    dark: withBaseUrl(logo.srcDark ?? logo.src),
+  };
+  const image = (
     <ThemedImage
       className="footer__logo"
-      alt={alt}
+      alt={logo.alt}
       sources={sources}
-      width={width}
-      height={height}
+      width={logo.width}
+      height={logo.height}
     />
+  );
+  return (
+    <div className="margin-bottom--sm">
+      {logo.href ? (
+        <Link href={logo.href} className={styles.footerLogoLink}>
+          {image}
+        </Link>
+      ) : (
+        image
+      )}
+    </div>
   );
 }
 
@@ -136,16 +150,10 @@ function isMultiColumnFooterLinks(
 
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
-
-  const {copyright, links = [], logo = {}} = footer || {};
-  const sources = {
-    light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark || logo.src),
-  };
-
   if (!footer) {
     return null;
   }
+  const {copyright, links, logo} = footer;
 
   return (
     <footer
@@ -166,28 +174,8 @@ function Footer(): JSX.Element | null {
           ))}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">
-            {logo && (logo.src || logo.srcDark) && (
-              <div className="margin-bottom--sm">
-                {logo.href ? (
-                  <Link href={logo.href} className={styles.footerLogoLink}>
-                    <FooterLogo
-                      alt={logo.alt}
-                      sources={sources}
-                      width={logo.width}
-                      height={logo.height}
-                    />
-                  </Link>
-                ) : (
-                  <FooterLogo
-                    alt={logo.alt}
-                    sources={sources}
-                    width={logo.width}
-                    height={logo.height}
-                  />
-                )}
-              </div>
-            )}
-            {copyright ? (
+            <FooterLogo logo={logo} />
+            {copyright && (
               <div
                 className="footer__copyright"
                 // Developer provided the HTML, so assume it's safe.
@@ -196,7 +184,7 @@ function Footer(): JSX.Element | null {
                   __html: copyright,
                 }}
               />
-            ) : null}
+            )}
           </div>
         )}
       </div>

@@ -47,7 +47,7 @@ export default async function pluginContentPages(
 ): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
   const {
@@ -77,7 +77,7 @@ export default async function pluginContentPages(
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );

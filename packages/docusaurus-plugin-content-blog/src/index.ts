@@ -546,13 +546,11 @@ export default async function pluginContentBlog(
       const headTags: HtmlTags = [];
 
       feedTypes.forEach((feedType) => {
-        const feedConfig = feedsConfig[feedType] || {};
-
-        if (!feedsConfig) {
-          return;
-        }
-
-        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
+        const {
+          type,
+          path: feedConfigPath,
+          title: feedConfigTitle,
+        } = feedsConfig[feedType];
 
         headTags.push({
           tagName: 'link',

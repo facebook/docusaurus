@@ -26,6 +26,9 @@ export const DEFAULT_CONFIG: Pick<
   | 'plugins'
   | 'themes'
   | 'presets'
+  | 'stylesheets'
+  | 'scripts'
+  | 'clientModules'
   | 'customFields'
   | 'themeConfig'
   | 'titleDelimiter'
@@ -41,6 +44,9 @@ export const DEFAULT_CONFIG: Pick<
   plugins: [],
   themes: [],
   presets: [],
+  stylesheets: [],
+  scripts: [],
+  clientModules: [],
   customFields: {},
   themeConfig: {},
   titleDelimiter: '|',
@@ -170,25 +176,31 @@ export const ConfigSchema = Joi.object({
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
-  scripts: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      src: Joi.string().required(),
-      async: Joi.bool(),
-      defer: Joi.bool(),
-    })
-      // See https://github.com/facebook/docusaurus/issues/3378
-      .unknown(),
-  ),
+  scripts: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        src: Joi.string().required(),
+        async: Joi.bool(),
+        defer: Joi.bool(),
+      })
+        // See https://github.com/facebook/docusaurus/issues/3378
+        .unknown(),
+    )
+    .default(DEFAULT_CONFIG.scripts),
   ssrTemplate: Joi.string(),
-  stylesheets: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      href: Joi.string().required(),
-      type: Joi.string(),
-    }).unknown(),
-  ),
-  clientModules: Joi.array().items(Joi.string()),
+  stylesheets: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        href: Joi.string().required(),
+        type: Joi.string(),
+      }).unknown(),
+    )
+    .default(DEFAULT_CONFIG.stylesheets),
+  clientModules: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.clientModules),
   tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),

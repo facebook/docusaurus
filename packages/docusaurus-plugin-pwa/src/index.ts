@@ -191,7 +191,7 @@ export default function pluginPWA(
           '**/*.{woff,woff2,eot,ttf,otf}',
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          ...(injectManifest.globPatterns || []),
+          ...(injectManifest.globPatterns ?? []),
         ],
         // those attributes are not overrideable
         swDest,

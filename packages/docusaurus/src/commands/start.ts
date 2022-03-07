@@ -75,7 +75,7 @@ export default async function start(
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins = []} = props;
+  const {siteConfig, plugins} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -84,12 +84,9 @@ export default async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths = ([] as string[])
-    .concat(
-      ...plugins
-        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
-        .filter(Boolean),
-    )
+  const pluginPaths = plugins
+    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
+    .filter(Boolean)
     .map(normalizeToSiteDir);
 
   const pathsToWatch = [

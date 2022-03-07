@@ -28,7 +28,7 @@ export function loadHtmlTags(plugins: LoadedPlugin[]): InjectedHtmlTags {
         return acc;
       }
       const {headTags, preBodyTags, postBodyTags} =
-        plugin.injectHtmlTags({content: plugin.content}) || {};
+        plugin.injectHtmlTags({content: plugin.content}) ?? {};
       return {
         headTags: headTags
           ? `${acc.headTags}\n${createHtmlTagsString(headTags)}`

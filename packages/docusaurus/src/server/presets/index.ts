@@ -10,7 +10,6 @@ import importFresh from 'import-fresh';
 import type {
   LoadContext,
   PluginConfig,
-  PresetConfig,
   ImportedPresetModule,
 } from '@docusaurus/types';
 import {resolveModuleName} from '../moduleShorthand';
@@ -23,7 +22,7 @@ export default async function loadPresets(context: LoadContext): Promise<{
   // siteDir's package.json declares the dependency on these presets.
   const presetRequire = createRequire(context.siteConfigPath);
 
-  const presets: PresetConfig[] = context.siteConfig.presets || [];
+  const {presets} = context.siteConfig;
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
 
