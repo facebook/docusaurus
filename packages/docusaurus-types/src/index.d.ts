@@ -226,18 +226,15 @@ export interface Props extends LoadContext, InjectedHtmlTags {
 
 export interface PluginContentLoadedActions {
   addRoute: (config: RouteConfig) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createData: (name: string, data: any) => Promise<string>;
+  createData: (name: string, data: string) => Promise<string>;
   setGlobalData: <T = unknown>(data: T) => void;
 }
 
-export type AllContent = Record<
-  string, // plugin name
-  Record<
-    string, // plugin id
-    unknown // plugin data
-  >
->;
+export type AllContent = {
+  [pluginName: string]: {
+    [pluginID: string]: unknown;
+  };
+};
 
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
@@ -245,12 +242,11 @@ export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
 export interface Plugin<Content = unknown> {
   name: string;
   loadContent?: () => Promise<Content>;
-  contentLoaded?: ({
-    content,
-    actions,
-  }: {
-    content: Content; // the content loaded by this plugin instance
-    allContent: AllContent; // content loaded by ALL the plugins
+  contentLoaded?: (args: {
+    /** the content loaded by this plugin instance */
+    content: Content; //
+    /** content loaded by ALL the plugins */
+    allContent: AllContent;
     actions: PluginContentLoadedActions;
   }) => Promise<void>;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
@@ -269,7 +265,7 @@ export interface Plugin<Content = unknown> {
   getPathsToWatch?: () => string[];
   getClientModules?: () => string[];
   extendCli?: (cli: CommanderStatic) => void;
-  injectHtmlTags?: ({content}: {content: Content}) => {
+  injectHtmlTags?: (args: {content: Content}) => {
     headTags?: HtmlTags;
     preBodyTags?: HtmlTags;
     postBodyTags?: HtmlTags;
@@ -277,28 +273,13 @@ export interface Plugin<Content = unknown> {
   // TODO before/afterDevServer implementation
 
   // translations
-  getTranslationFiles?: ({
-    content,
-  }: {
-    content: Content;
-  }) => Promise<TranslationFiles>;
-  getDefaultCodeTranslationMessages?: () => Promise<
-    Record<
-      string, // id
-      string // message
-    >
-  >;
-  translateContent?: ({
-    content,
-    translationFiles,
-  }: {
+  getTranslationFiles?: (args: {content: Content}) => Promise<TranslationFiles>;
+  getDefaultCodeTranslationMessages?: () => Promise<{[id: string]: string}>;
+  translateContent?: (args: {
     content: Content; // the content loaded by this plugin instance
     translationFiles: TranslationFiles;
   }) => Content;
-  translateThemeConfig?: ({
-    themeConfig,
-    translationFiles,
-  }: {
+  translateThemeConfig?: (args: {
     themeConfig: ThemeConfig;
     translationFiles: TranslationFiles;
   }) => ThemeConfig;
