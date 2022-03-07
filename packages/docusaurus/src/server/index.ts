@@ -160,10 +160,10 @@ export async function loadPluginConfigs(
   presetThemes = presetThemes.map((theme) =>
     normalizeShorthand(theme, 'theme'),
   );
-  const standalonePlugins = (siteConfig.plugins || []).map((plugin) =>
+  const standalonePlugins = siteConfig.plugins.map((plugin) =>
     normalizeShorthand(plugin, 'plugin'),
   );
-  const standaloneThemes = (siteConfig.themes || []).map((theme) =>
+  const standaloneThemes = siteConfig.themes.map((theme) =>
     normalizeShorthand(theme, 'theme'),
   );
   return [

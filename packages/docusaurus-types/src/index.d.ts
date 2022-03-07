@@ -40,9 +40,9 @@ export interface DocusaurusConfig {
   deploymentBranch?: string;
   githubHost?: string;
   githubPort?: string;
-  plugins?: PluginConfig[];
-  themes?: PluginConfig[];
-  presets?: PresetConfig[];
+  plugins: PluginConfig[];
+  themes: PluginConfig[];
+  presets: PresetConfig[];
   themeConfig: ThemeConfig;
   customFields?: {
     [key: string]: unknown;

@@ -105,7 +105,7 @@ export default function docusaurusThemeClassic(
     colorMode,
     prism: {additionalLanguages},
   } = themeConfig;
-  const {customCss} = options;
+  const {customCss} = options ?? {};
   const {direction} = localeConfigs[currentLocale]!;
 
   return {

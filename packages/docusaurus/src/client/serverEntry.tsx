@@ -116,14 +116,14 @@ async function doRender(locals: Locals & {path: string}) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map((b) => b.file);
-  const scripts = (bundles.js || []).map((b) => b.file);
+  const stylesheets = (bundles.css ?? []).map((b) => b.file);
+  const scripts = (bundles.js ?? []).map((b) => b.file);
 
   const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
-    htmlAttributes: htmlAttributes || '',
-    bodyAttributes: bodyAttributes || '',
+    htmlAttributes,
+    bodyAttributes,
     headTags,
     preBodyTags,
     postBodyTags,

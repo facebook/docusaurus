@@ -537,7 +537,7 @@ export function filterVersions(
 ): string[] {
   if (options.onlyIncludeVersions) {
     return versionNamesUnfiltered.filter((name) =>
-      (options.onlyIncludeVersions || []).includes(name),
+      options.onlyIncludeVersions!.includes(name),
     );
   }
   return versionNamesUnfiltered;

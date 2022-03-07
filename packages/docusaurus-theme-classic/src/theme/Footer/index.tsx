@@ -61,7 +61,7 @@ function FooterLogo({logo}: {logo: SimpleFooter['logo']}) {
   }
   const sources = {
     light: withBaseUrl(logo.src),
-    dark: withBaseUrl(logo.srcDark || logo.src),
+    dark: withBaseUrl(logo.srcDark ?? logo.src),
   };
   const image = (
     <ThemedImage

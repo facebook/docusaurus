@@ -23,7 +23,7 @@ export default async function lqipLoader(
   const callback = this.async();
   const imgPath = this.resourcePath;
 
-  const config = this.getOptions() || {};
+  const config = this.getOptions() ?? {};
   config.base64 = 'base64' in config ? config.base64 : true;
   // color palette generation is set to false by default
   // since it is little bit slower than base64 generation

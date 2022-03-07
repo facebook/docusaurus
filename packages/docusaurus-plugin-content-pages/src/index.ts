@@ -47,7 +47,7 @@ export default async function pluginContentPages(
 ): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
   const {
