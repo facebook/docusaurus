@@ -17,7 +17,7 @@ function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
 }
 
-export function createHtmlTagsString(tags: HtmlTags): string {
+function createHtmlTagsString(tags: HtmlTags): string {
   return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 

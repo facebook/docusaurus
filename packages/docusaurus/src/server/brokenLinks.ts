@@ -77,7 +77,7 @@ function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   return getAllFinalRoutes(routesWithout404);
 }
 
-export function getAllBrokenLinks({
+function getAllBrokenLinks({
   allCollectedLinks,
   routes,
 }: {
@@ -94,7 +94,7 @@ export function getAllBrokenLinks({
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
-export function getBrokenLinksErrorMessage(
+function getBrokenLinksErrorMessage(
   allBrokenLinks: Record<string, BrokenLink[]>,
 ): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
@@ -149,8 +149,7 @@ export function getBrokenLinksErrorMessage(
 It looks like some of the broken links we found appear in many pages of your site.
 Maybe those broken links appear on all pages through your site layout?
 We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
-Frequent broken links are linking to:${frequentLinks}
-`;
+Frequent broken links are linking to:${frequentLinks}`;
   }
 
   return `Docusaurus found broken links!
@@ -177,7 +176,7 @@ async function isExistingFile(filePath: string) {
 
 // If a file actually exist on the file system, we know the link is valid
 // even if docusaurus does not know about this file, so we don't report it
-export async function filterExistingFileLinks({
+async function filterExistingFileLinks({
   baseUrl,
   outDir,
   allCollectedLinks,
