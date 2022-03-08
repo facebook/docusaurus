@@ -1731,8 +1731,8 @@ const Users: User[] = [
     description: 'IM Application which build for TRPG, like slack and discord',
     preview: require('./showcase/trpgengine.png'),
     website: 'https://trpgdoc.moonrailgun.com/',
-    source: null,
-    tags: [],
+    source: 'https://github.com/TRPGEngine/Server/tree/master/services/Website',
+    tags: ['opensource'],
   },
   {
     title: 'Tuist',
