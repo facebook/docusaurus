@@ -32,12 +32,16 @@ describe('initPlugins', () => {
   test('plugins gets parsed correctly and loads in correct order', async () => {
     const {context, plugins} = await loadSite();
     expect(context.siteConfig.plugins?.length).toBe(4);
-    expect(plugins.length).toBe(4);
+    expect(plugins.length).toBe(8);
 
-    expect(plugins[0].name).toBe('first-plugin');
-    expect(plugins[1].name).toBe('second-plugin');
-    expect(plugins[2].name).toBe('third-plugin');
-    expect(plugins[3].name).toBe('fourth-plugin');
+    expect(plugins[0].name).toBe('preset-plugin1');
+    expect(plugins[1].name).toBe('preset-plugin2');
+    expect(plugins[2].name).toBe('preset-theme1');
+    expect(plugins[3].name).toBe('preset-theme2');
+    expect(plugins[4].name).toBe('first-plugin');
+    expect(plugins[5].name).toBe('second-plugin');
+    expect(plugins[6].name).toBe('third-plugin');
+    expect(plugins[7].name).toBe('fourth-plugin');
     expect(context.siteConfig.themeConfig).toEqual({a: 1});
   });
 

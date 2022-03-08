@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  getAllDuplicateRoutes,
-  getDuplicateRoutesMessage,
-  handleDuplicateRoutes,
-} from '../duplicateRoutes';
+import {handleDuplicateRoutes} from '../duplicateRoutes';
 import type {RouteConfig} from '@docusaurus/types';
 
 const routes: RouteConfig[] = [
@@ -30,26 +26,25 @@ const routes: RouteConfig[] = [
       {path: '/uniqueDoc', component: ''},
     ],
   },
+  {
+    path: '/',
+    component: '',
+  },
+  {
+    path: '/',
+    component: '',
+  },
+  {
+    path: '/',
+    component: '',
+  },
 ];
 
-describe('duplicateRoutes', () => {
-  test('getDuplicateRoutesMessage', () => {
-    const message = getDuplicateRoutesMessage([
-      '/',
-      '/',
-      '/blog',
-      '/doc/search',
-    ]);
-    expect(message).toMatchSnapshot();
-  });
-
-  test('getAllDuplicateRoutes', () => {
-    expect(getAllDuplicateRoutes(routes)).toEqual(['/search', '/sameDoc']);
-  });
-
-  test('handleDuplicateRoutes', () => {
-    expect(() => {
-      handleDuplicateRoutes(routes, 'throw');
-    }).toThrowErrorMatchingSnapshot();
-  });
+test('handleDuplicateRoutes', () => {
+  expect(() => {
+    handleDuplicateRoutes(routes, 'throw');
+  }).toThrowErrorMatchingSnapshot();
+  const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+  handleDuplicateRoutes(routes, 'ignore');
+  expect(consoleMock).toBeCalledTimes(0);
 });

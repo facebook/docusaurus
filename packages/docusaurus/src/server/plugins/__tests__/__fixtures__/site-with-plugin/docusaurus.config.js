@@ -24,4 +24,7 @@ module.exports = {
     './plugin3.js',
     ['./plugin4.js', {}],
   ],
+  presets: [
+    './preset.js',
+  ],
 };

@@ -23,8 +23,8 @@ export default async function loadPresets(context: LoadContext): Promise<{
   const presetRequire = createRequire(context.siteConfigPath);
 
   const {presets} = context.siteConfig;
-  const unflatPlugins: PluginConfig[][] = [];
-  const unflatThemes: PluginConfig[][] = [];
+  const plugins: PluginConfig[] = [];
+  const themes: PluginConfig[] = [];
 
   presets.forEach((presetItem) => {
     let presetModuleImport: string;
@@ -49,15 +49,12 @@ export default async function loadPresets(context: LoadContext): Promise<{
     );
 
     if (preset.plugins) {
-      unflatPlugins.push(preset.plugins);
+      plugins.push(...preset.plugins.filter(Boolean));
     }
     if (preset.themes) {
-      unflatThemes.push(preset.themes);
+      themes.push(...preset.themes.filter(Boolean));
     }
   });
 
-  return {
-    plugins: unflatPlugins.flat().filter(Boolean),
-    themes: unflatThemes.flat().filter(Boolean),
-  };
+  return {plugins, themes};
 }

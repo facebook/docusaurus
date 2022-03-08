@@ -14,10 +14,7 @@ import logger from '@docusaurus/logger';
 function getDefaultLocaleLabel(locale: string) {
   const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
     locale,
-  );
-  if (!languageName) {
-    return locale;
-  }
+  )!;
   return (
     languageName.charAt(0).toLocaleUpperCase(locale) + languageName.substring(1)
   );
