@@ -148,8 +148,8 @@ describe('findAsyncSequential', () => {
     expect(findFn).toHaveBeenNthCalledWith(2, '2');
 
     const timeTotal = timeAfter - timeBefore;
-    expect(timeTotal).toBeGreaterThanOrEqual(800);
-    expect(timeTotal).toBeLessThan(1600);
+    expect(timeTotal).toBeGreaterThanOrEqual(600);
+    expect(timeTotal).toBeLessThan(1000);
   });
 });
 
