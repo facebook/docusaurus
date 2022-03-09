@@ -408,8 +408,7 @@ async function createDefaultLandingPage({newDir}: MigrationContext) {
         return <Layout />;
       };
       `;
-  await fs.mkdirp(`${newDir}/src/pages/`);
-  await fs.writeFile(`${newDir}/src/pages/index.js`, indexPage);
+  await fs.outputFile(`${newDir}/src/pages/index.js`, indexPage);
 }
 
 async function migrateStaticFiles({siteDir, newDir}: MigrationContext) {
@@ -664,8 +663,10 @@ async function migrateLatestSidebar(context: MigrationContext) {
   --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
 }
 `;
-    await fs.mkdirp(path.join(newDir, 'src', 'css'));
-    await fs.writeFile(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
+    await fs.outputFile(
+      path.join(newDir, 'src', 'css', 'customTheme.css'),
+      css,
+    );
     context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'src/css/customTheme.css',
