@@ -50,11 +50,11 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
-:::info Running Development Server on GitHub Codespaces
+:::info Running on GitHub Codespaces
 
-Sometimes, you can have issues with starting development server on Codespaces and the website cannot be viewed on the forwarded port. Most probably, you can get `502 Bad Gateway` error. In that case, you can try running the command with `host` argument.
+When forwarding port 3000 from a remote server (e.g. GitHub Codespaces), you may encounter a 502 Bad Gateway error. In this case, try running the dev server on `0.0.0.0` instead.
 
-```bash
+```bash npm2yarn
 npm run start -- --host 0.0.0.0
 ```
 
