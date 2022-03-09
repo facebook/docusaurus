@@ -42,8 +42,10 @@ function FooterLink({
             to: toUrl,
           })}
       {...props}>
-      {label}
-      {href && !isInternalUrl(href) && <IconExternalLink />}
+      <span>
+        {label}
+        {href && !isInternalUrl(href) && <IconExternalLink />}
+      </span>
     </Link>
   );
 }

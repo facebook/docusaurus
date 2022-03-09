@@ -269,8 +269,10 @@ function DocSidebarItemLink({
           onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
-        {label}
-        {!isInternalUrl(href) && <IconExternalLink />}
+        <span>
+          {label}
+          {!isInternalUrl(href) && <IconExternalLink />}
+        </span>
       </Link>
     </li>
   );
