@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {RuleSetRule, Configuration} from 'webpack';
+import type {RuleSetRule, Configuration as WebpackConfiguration} from 'webpack';
 import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
@@ -254,11 +254,13 @@ export interface Plugin<Content = unknown> {
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (
-    config: Configuration,
+    config: WebpackConfiguration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
     content: Content,
-  ) => Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
+  ) => WebpackConfiguration & {
+    mergeStrategy?: ConfigureWebpackFnMergeStrategy;
+  };
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
   getTypeScriptThemePath?: () => string;

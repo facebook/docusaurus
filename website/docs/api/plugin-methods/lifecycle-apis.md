@@ -233,6 +233,27 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
+### Configuring dev server {#configuring-dev-server}
+
+The dev server can be configured through returning a `devServer` field.
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        devServer: {
+          open: '/docs', // Opens localhost:3000/docs instead of localhost:3000/
+        },
+        // highlight-end
+      };
+    },
+  };
+};
+```
+
 ## `configurePostCss(options)` {#configurePostCss}
 
 Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during the generation of the client bundle.
