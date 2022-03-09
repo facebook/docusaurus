@@ -8,8 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
-import {MDXProvider} from '@mdx-js/react';
-import MDXComponents from '@theme/MDXComponents';
+import MDXContent from '@theme/MDXContent';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
 import {ThemeClassNames} from '@docusaurus/theme-common';
@@ -34,9 +33,9 @@ export default function MDXPage(props: Props): JSX.Element {
       <main className="container container--fluid margin-vert--lg">
         <div className={clsx('row', styles.mdxPageWrapper)}>
           <div className={clsx('col', !hideTableOfContents && 'col--8')}>
-            <MDXProvider components={MDXComponents}>
+            <MDXContent>
               <MDXPageContent />
-            </MDXProvider>
+            </MDXContent>
           </div>
           {!hideTableOfContents && MDXPageContent.toc && (
             <div className="col col--2">

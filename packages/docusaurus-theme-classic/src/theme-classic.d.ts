@@ -343,6 +343,16 @@ declare module '@theme/MDXComponents' {
   export default MDXComponents;
 }
 
+declare module '@theme/MDXContent' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function MDXContent(props: Props): JSX.Element;
+}
+
 declare module '@theme/Navbar' {
   export default function Navbar(): JSX.Element;
 }
