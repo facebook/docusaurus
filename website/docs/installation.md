@@ -177,6 +177,16 @@ cd my-website
 npm run start
 ```
 
+:::info Running Dev Server on GitHub Codespaces
+
+Sometimes, you can have issues with starting development server on Codespaces and the website cannot be viewed on the forwarded port. In that case, you have try running the command with `host` argument.
+
+```bash
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
 By default, a browser window will open at http://localhost:3000.
 
 Congratulations! You have just created your first Docusaurus site! Browse around the site to see what's available.
