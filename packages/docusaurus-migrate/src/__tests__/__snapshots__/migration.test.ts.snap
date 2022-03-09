@@ -7,6 +7,10 @@ Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/blog",
   ],
   Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/pages/en",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages",
+  ],
+  Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/static",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/static",
   ],
@@ -16,10 +20,7 @@ Array [
 exports[`migration test complex website: mkdirp 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages",
   ],
 ]
 `;
@@ -179,16 +180,6 @@ Array [
 }
 ",
   ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
 ]
 `;
 
@@ -197,6 +188,10 @@ Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/blog",
+  ],
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/pages/en",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages",
   ],
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/static",
@@ -208,10 +203,7 @@ Array [
 exports[`migration test missing versions: mkdirp 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages",
   ],
 ]
 `;
@@ -371,21 +363,15 @@ Array [
 }
 ",
   ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
 ]
 `;
 
 exports[`migration test simple website: copy 1`] = `
 Array [
+  Array [
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/pages/en",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages",
+  ],
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/static",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/static",
@@ -396,10 +382,7 @@ Array [
 exports[`migration test simple website: mkdirp 1`] = `
 Array [
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css",
-  ],
-  Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/",
+    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages",
   ],
 ]
 `;
@@ -561,23 +544,13 @@ Array [
 ",
   ],
   Array [
-    "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages/index.js",
-    "import Layout from \\"@theme/Layout\\";
-      import React from \\"react\\";
-
-      export default () => {
-        return <Layout />;
-      };
-      ",
-  ],
-  Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-commands.md",
     "---
 id: commands
 title: CLI Commands
 ---
-
-## Doc ",
+## Doc
+",
   ],
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-doc-markdown.md",
@@ -585,8 +558,8 @@ title: CLI Commands
 id: doc-markdown
 title: Markdown Features
 ---
-
-## Doc",
+## Doc
+",
   ],
 ]
 `;
