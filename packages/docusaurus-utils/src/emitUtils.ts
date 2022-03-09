@@ -22,8 +22,7 @@ export async function generate(
   const filepath = path.join(generatedFilesDir, file);
 
   if (skipCache) {
-    await fs.ensureDir(path.dirname(filepath));
-    await fs.writeFile(filepath, content);
+    await fs.outputFile(filepath, content);
     return;
   }
 
@@ -41,8 +40,7 @@ export async function generate(
   const currentHash = createHash('md5').update(content).digest('hex');
 
   if (lastHash !== currentHash) {
-    await fs.ensureDir(path.dirname(filepath));
-    await fs.writeFile(filepath, content);
+    await fs.outputFile(filepath, content);
     fileHash.set(filepath, currentHash);
   }
 }

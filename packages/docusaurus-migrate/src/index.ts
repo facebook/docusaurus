@@ -171,7 +171,7 @@ export async function migrateDocusaurusProject(
   }
 
   try {
-    await fs.writeFile(
+    await fs.outputFile(
       path.join(newDir, 'docusaurus.config.js'),
       `module.exports=${JSON.stringify(migrationContext.v2Config, null, 2)}`,
     );
@@ -388,7 +388,7 @@ async function createPages(context: MigrationContext) {
         files.map(async (file) => {
           const filePath = path.join(newDir, 'src', 'pages', file);
           const content = await fs.readFile(filePath, 'utf-8');
-          await fs.writeFile(filePath, migratePage(content));
+          await fs.outputFile(filePath, migratePage(content));
         }),
       );
     } catch (err) {
@@ -408,8 +408,7 @@ async function createDefaultLandingPage({newDir}: MigrationContext) {
         return <Layout />;
       };
       `;
-  await fs.mkdirp(`${newDir}/src/pages/`);
-  await fs.writeFile(`${newDir}/src/pages/index.js`, indexPage);
+  await fs.outputFile(`${newDir}/src/pages/index.js`, indexPage);
 }
 
 async function migrateStaticFiles({siteDir, newDir}: MigrationContext) {
@@ -428,7 +427,7 @@ async function migrateBlogFiles(context: MigrationContext) {
     await Promise.all(
       files.map(async (file) => {
         const content = await fs.readFile(file, 'utf-8');
-        await fs.writeFile(
+        await fs.outputFile(
           file,
           sanitizedFileContent(content, shouldMigrateMdFiles),
         );
@@ -508,7 +507,7 @@ async function migrateVersionedDocs(
     files.map(async (pathToFile) => {
       if (path.extname(pathToFile) === '.md') {
         const content = await fs.readFile(pathToFile, 'utf-8');
-        await fs.writeFile(
+        await fs.outputFile(
           pathToFile,
           sanitizedFileContent(
             content.replace(versionRegex, ''),
@@ -601,7 +600,7 @@ async function migrateVersionedSidebar(
           },
           {} as SidebarEntries,
         );
-        await fs.writeFile(
+        await fs.outputFile(
           path.join(
             newDir,
             'versioned_sidebars',
@@ -664,8 +663,10 @@ async function migrateLatestSidebar(context: MigrationContext) {
   --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
 }
 `;
-    await fs.mkdirp(path.join(newDir, 'src', 'css'));
-    await fs.writeFile(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
+    await fs.outputFile(
+      path.join(newDir, 'src', 'css', 'customTheme.css'),
+      css,
+    );
     context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'src/css/customTheme.css',
@@ -685,7 +686,7 @@ async function migrateLatestDocs(context: MigrationContext) {
       files.map(async (file) => {
         if (path.extname(file) === '.md') {
           const content = await fs.readFile(file, 'utf-8');
-          await fs.writeFile(
+          await fs.outputFile(
             file,
             sanitizedFileContent(content, shouldMigrateMdFiles),
           );
@@ -725,7 +726,7 @@ async function migratePackageFile(context: MigrationContext): Promise<void> {
     ...packageFile.dependencies,
     ...deps,
   };
-  await fs.writeFile(
+  await fs.outputFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
@@ -743,7 +744,7 @@ export async function migrateMDToMDX(
     files.map(async (filePath) => {
       if (path.extname(filePath) === '.md') {
         const content = await fs.readFile(filePath, 'utf-8');
-        await fs.writeFile(filePath, sanitizedFileContent(content, true));
+        await fs.outputFile(filePath, sanitizedFileContent(content, true));
       }
     }),
   );

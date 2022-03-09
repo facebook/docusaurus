@@ -552,8 +552,7 @@ describe('extractSiteSourceCodeTranslations', () => {
       SRC_DIR_NAME,
       'site-component-1.jsx',
     );
-    await fs.ensureDir(path.dirname(siteComponentFile1));
-    await fs.writeFile(
+    await fs.outputFile(
       siteComponentFile1,
       `
 import Translate from '@docusaurus/Translate';
@@ -586,8 +585,7 @@ export default function MySiteComponent1() {
 
     const plugin1Dir = await createTmpDir();
     const plugin1File1 = path.join(plugin1Dir, 'subpath', 'file1.jsx');
-    await fs.ensureDir(path.dirname(plugin1File1));
-    await fs.writeFile(
+    await fs.outputFile(
       plugin1File1,
       `
 import {translate} from '@docusaurus/Translate';
@@ -606,8 +604,7 @@ export default function MyComponent() {
 `,
     );
     const plugin1File2 = path.join(plugin1Dir, 'src', 'theme', 'file2.jsx');
-    await fs.ensureDir(path.dirname(plugin1File2));
-    await fs.writeFile(
+    await fs.outputFile(
       plugin1File2,
       `
 import {translate} from '@docusaurus/Translate';
@@ -624,8 +621,7 @@ export default function MyComponent() {
 
     // This one should not be found! On purpose!
     const plugin1File3 = path.join(plugin1Dir, 'unscannedFolder', 'file3.jsx');
-    await fs.ensureDir(path.dirname(plugin1File3));
-    await fs.writeFile(
+    await fs.outputFile(
       plugin1File3,
       `
 import {translate} from '@docusaurus/Translate';
@@ -643,8 +639,7 @@ export default function MyComponent() {
 
     const plugin2Dir = await createTmpDir();
     const plugin2File = path.join(plugin1Dir, 'subpath', 'file.tsx');
-    await fs.ensureDir(path.dirname(plugin2File));
-    await fs.writeFile(
+    await fs.outputFile(
       plugin2File,
       `
 import Translate, {translate} from '@docusaurus/Translate';
