@@ -52,7 +52,7 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::info Running Development Server on GitHub Codespaces
 
-Sometimes, you can have issues with starting development server on Codespaces and the website cannot be viewed on the forwarded port. In that case, you have try running the command with `host` argument.
+Sometimes, you can have issues with starting development server on Codespaces and the website cannot be viewed on the forwarded port. Most probably, you can get `502 Bad Gateway` error. In that case, you can try running the command with `host` argument.
 
 ```bash
 npm run start -- --host 0.0.0.0
