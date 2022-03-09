@@ -50,6 +50,16 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
+:::info Running Development Server on GitHub Codespaces
+
+Sometimes, you can have issues with starting development server on Codespaces and the website cannot be viewed on the forwarded port. In that case, you have try running the command with `host` argument.
+
+```bash
+npm run start -- --host 0.0.0.0
+```
+
+::: 
+
 #### Enabling HTTPS {#enabling-https}
 
 There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
