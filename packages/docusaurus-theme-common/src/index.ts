@@ -133,6 +133,12 @@ export {
   TabGroupChoiceProvider,
 } from './utils/tabGroupChoiceUtils';
 
+export {
+  splitNavbarItems,
+  useNavbarMobileSidebar,
+  useNavbarSecondaryMenu,
+} from './utils/navbarUtils';
+
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   default as useKeyboardNavigation,

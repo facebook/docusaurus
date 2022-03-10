@@ -23,6 +23,7 @@ type ColorModeContextValue = {
   readonly isDarkTheme: boolean;
   readonly setLightTheme: () => void;
   readonly setDarkTheme: () => void;
+  readonly toggle: () => void;
 };
 
 const ThemeStorageKey = 'theme';
@@ -116,10 +117,17 @@ function useColorModeContextValue(): ColorModeContextValue {
     };
   }, [disableSwitch, respectPrefersColorScheme]);
 
+  const toggle = useCallback(() => {
+    setTheme((currentTheme) =>
+      currentTheme === themes.dark ? themes.light : themes.dark,
+    );
+  }, []);
+
   return {
     isDarkTheme: theme === themes.dark,
     setLightTheme,
     setDarkTheme,
+    toggle,
   };
 }
 
@@ -132,10 +140,11 @@ export function ColorModeProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorModeContextValue();
+  const {isDarkTheme, setLightTheme, setDarkTheme, toggle} =
+    useColorModeContextValue();
   const contextValue = useMemo(
-    () => ({isDarkTheme, setLightTheme, setDarkTheme}),
-    [isDarkTheme, setLightTheme, setDarkTheme],
+    () => ({isDarkTheme, setLightTheme, setDarkTheme, toggle}),
+    [isDarkTheme, setLightTheme, setDarkTheme, toggle],
   );
   return (
     <ColorModeContext.Provider value={contextValue}>

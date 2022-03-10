@@ -687,7 +687,7 @@ declare module '@theme/ColorModeToggle' {
     readonly onChange: (e: SyntheticEvent) => void;
   }
 
-  export default function Toggle(props: Props): JSX.Element;
+  export default function ColorModeToggle(props: Props): JSX.Element;
 }
 
 declare module '@theme/Logo' {
