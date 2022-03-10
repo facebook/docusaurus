@@ -237,13 +237,19 @@ export default function Navbar(): JSX.Element {
   return (
     <nav
       ref={navbarRef}
-      className={clsx('navbar', 'navbar--fixed-top', {
-        'navbar--dark': style === 'dark',
-        'navbar--primary': style === 'primary',
-        'navbar-sidebar--show': mobileSidebar.shown,
-        [styles.navbarHideable!]: hideOnScroll,
-        [styles.navbarHidden!]: hideOnScroll && !isNavbarVisible,
-      })}>
+      className={clsx(
+        'navbar',
+        'navbar--fixed-top',
+        hideOnScroll && [
+          styles.navbarHideable,
+          !isNavbarVisible && styles.navbarHidden,
+        ],
+        {
+          'navbar--dark': style === 'dark',
+          'navbar--primary': style === 'primary',
+          'navbar-sidebar--show': mobileSidebar.shown,
+        },
+      )}>
       <div className="navbar__inner">
         <div className="navbar__items">
           {(items?.length > 0 || activeDocPlugin) && (

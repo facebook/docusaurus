@@ -70,9 +70,7 @@ function DocPageContent({
             className={clsx(
               ThemeClassNames.docs.docSidebarContainer,
               styles.docSidebarContainer,
-              {
-                [styles.docSidebarContainerHidden!]: hiddenSidebarContainer,
-              },
+              hiddenSidebarContainer && styles.docSidebarContainerHidden,
             )}
             onTransitionEnd={(e) => {
               if (
@@ -122,17 +120,16 @@ function DocPageContent({
           </aside>
         )}
         <main
-          className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced!]:
-              hiddenSidebarContainer || !sidebar,
-          })}>
+          className={clsx(
+            styles.docMainContainer,
+            (hiddenSidebarContainer || !sidebar) &&
+              styles.docMainContainerEnhanced,
+          )}>
           <div
             className={clsx(
               'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
-              {
-                [styles.docItemWrapperEnhanced!]: hiddenSidebarContainer,
-              },
+              hiddenSidebarContainer && styles.docItemWrapperEnhanced,
             )}>
             {children}
           </div>

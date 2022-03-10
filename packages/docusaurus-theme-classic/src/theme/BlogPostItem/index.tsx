@@ -112,9 +112,10 @@ export default function BlogPostItem(props: Props): JSX.Element {
 
       {(tagsExists || truncated) && (
         <footer
-          className={clsx('row docusaurus-mt-lg', {
-            [styles.blogPostDetailsFull!]: isBlogPostPage,
-          })}>
+          className={clsx(
+            'row docusaurus-mt-lg',
+            isBlogPostPage && styles.blogPostDetailsFull,
+          )}>
           {tagsExists && (
             <div className={clsx('col', {'col--9': truncatedPost})}>
               <TagsListInline tags={tags} />
