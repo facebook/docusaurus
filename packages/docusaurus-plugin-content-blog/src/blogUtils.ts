@@ -29,10 +29,12 @@ import {
   groupTaggedItems,
   getFileCommitDate,
   getContentPathList,
+  type TagsMap,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
 import {validateBlogPostFrontMatter} from './blogFrontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
+import {getTagsMap} from './tags';
 import logger from '@docusaurus/logger';
 import type {
   PluginOptions,
@@ -182,12 +184,16 @@ async function parseBlogPostMarkdownFile(blogSourceAbsolute: string) {
 const defaultReadingTime: ReadingTimeFunction = ({content, options}) =>
   readingTime(content, options).minutes;
 
+/**
+ * @param tagsMap When this is undefined, we fall back to treating tag values as labels rather than keys (no validation)
+ */
 async function processBlogSourceFile(
   blogSourceRelative: string,
   contentPaths: BlogContentPaths,
   context: LoadContext,
   options: PluginOptions,
-  authorsMap?: AuthorsMap,
+  authorsMap: AuthorsMap | undefined,
+  tagsMap: TagsMap | undefined,
 ): Promise<BlogPost | undefined> {
   const {
     siteConfig: {baseUrl},
@@ -290,12 +296,19 @@ async function processBlogSourceFile(
     return undefined;
   }
 
+  const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
   const tagsBasePath = normalizeUrl([
     baseUrl,
     routeBasePath,
     tagsRouteBasePath,
   ]);
-  const authors = getBlogPostAuthors({authorsMap, frontMatter});
+
+  const tags = normalizeFrontMatterTags(
+    tagsBasePath,
+    frontMatter.tags,
+    tagsMap,
+  );
 
   return {
     id: slug,
@@ -307,7 +320,7 @@ async function processBlogSourceFile(
       description,
       date,
       formattedDate,
-      tags: normalizeFrontMatterTags(tagsBasePath, frontMatter.tags),
+      tags,
       readingTime: showReadingTime
         ? options.readingTime({
             content,
@@ -344,6 +357,11 @@ export async function generateBlogPosts(
     authorsMapPath: options.authorsMapPath,
   });
 
+  const tagsMap = await getTagsMap({
+    contentPaths,
+    tagsMapPath: options.tagsMapPath,
+  });
+
   const blogPosts = (
     await Promise.all(
       blogSourceFiles.map(async (blogSourceFile: string) => {
@@ -354,6 +372,7 @@ export async function generateBlogPosts(
             context,
             options,
             authorsMap,
+            tagsMap,
           );
         } catch (err) {
           logger.error`Processing of blog source file path=${blogSourceFile} failed.`;

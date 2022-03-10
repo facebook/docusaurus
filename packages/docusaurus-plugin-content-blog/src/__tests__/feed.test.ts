@@ -78,6 +78,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             tagsBasePath: 'tags',
             authorsMapPath: 'authors.yml',
+            tagsMapPath: 'tags.yml',
             include: ['*.md', '*.mdx'],
             feedOptions: {
               type: [feedType],
@@ -116,6 +117,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             tagsBasePath: 'tags',
             authorsMapPath: 'authors.yml',
+            tagsMapPath: 'tags.yml',
             include: DEFAULT_OPTIONS.include,
             exclude: DEFAULT_OPTIONS.exclude,
             feedOptions: {

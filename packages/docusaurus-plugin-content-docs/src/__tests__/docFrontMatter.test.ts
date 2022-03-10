@@ -267,12 +267,9 @@ describe('validateDocFrontMatter tags', () => {
         {tags: 'tag1, tag2'},
         '"tags" does not look like a valid FrontMatter Yaml array.',
       ],
-      [{tags: [{}]}, '"tags[0]" does not look like a valid tag'],
+      [{tags: [{}]}, '"tags[0].label" is required'],
       [{tags: [true]}, '"tags[0]" does not look like a valid tag'],
-      [
-        {tags: ['tag1', {hey: 'test'}]},
-        '"tags[1]" does not look like a valid tag',
-      ],
+      [{tags: ['tag1', {hey: 'test'}]}, '"tags[1].label" is required'],
     ],
   });
 });

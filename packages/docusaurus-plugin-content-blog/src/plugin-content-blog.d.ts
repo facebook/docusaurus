@@ -139,6 +139,7 @@ declare module '@docusaurus/plugin-content-blog' {
     editLocalizedFiles?: boolean;
     admonitions: Record<string, unknown>;
     authorsMapPath: string;
+    tagsMapPath: string;
     readingTime: ReadingTimeFunctionOption;
     sortPosts: 'ascending' | 'descending';
   };

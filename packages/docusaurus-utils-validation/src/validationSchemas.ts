@@ -66,7 +66,7 @@ const FrontMatterTagSchema = JoiFrontMatter.alternatives()
     JoiFrontMatter.string().required(),
     JoiFrontMatter.object<Tag>({
       label: JoiFrontMatter.string().required(),
-      permalink: JoiFrontMatter.string().required(),
+      permalink: JoiFrontMatter.string(),
     }).required(),
   )
   .messages({

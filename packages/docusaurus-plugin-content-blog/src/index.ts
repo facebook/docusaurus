@@ -97,6 +97,11 @@ export default async function pluginContentBlog(
     contentPaths,
   });
 
+  const tagsMapFilePath = await getDataFilePath({
+    filePath: options.tagsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
@@ -106,9 +111,11 @@ export default async function pluginContentBlog(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
-        Boolean,
-      ) as string[];
+      return [
+        authorsMapFilePath,
+        tagsMapFilePath,
+        ...contentMarkdownGlobs,
+      ].filter(Boolean) as string[];
     },
 
     async getTranslationFiles() {
