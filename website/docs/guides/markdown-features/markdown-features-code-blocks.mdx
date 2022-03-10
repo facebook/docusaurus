@@ -14,11 +14,13 @@ Code blocks within documentation are super-powered 💪.
 
 You can add a title to the code block by adding a `title` key after the language (leave a space between them).
 
-    ```jsx title="/src/components/HelloCodeTitle.js"
-    function HelloCodeTitle(props) {
-      return <h1>Hello, {props.name}</h1>;
-    }
-    ```
+````md
+```jsx title="/src/components/HelloCodeTitle.js"
+function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+````
 
 <BrowserWindow>
 
@@ -34,9 +36,11 @@ function HelloCodeTitle(props) {
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
 
-    ```js
-    console.log('Every repo must come with a mascot.');
-    ```
+````md
+```js
+console.log('Every repo must come with a mascot.');
+```
+````
 
 Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer).
 
@@ -127,26 +131,28 @@ You can refer to [Prism's official language definitions](https://github.com/Pris
 
 You can use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
-    ```js
-    function HighlightSomeText(highlight) {
-      if (highlight) {
-        // highlight-next-line
-        return 'This text is highlighted!';
-      }
+````md
+```js
+function HighlightSomeText(highlight) {
+  if (highlight) {
+    // highlight-next-line
+    return 'This text is highlighted!';
+  }
 
-      return 'Nothing highlighted';
-    }
+  return 'Nothing highlighted';
+}
 
-    function HighlightMoreText(highlight) {
-      // highlight-start
-      if (highlight) {
-        return 'This range is highlighted!';
-      }
-      // highlight-end
+function HighlightMoreText(highlight) {
+  // highlight-start
+  if (highlight) {
+    return 'This range is highlighted!';
+  }
+  // highlight-end
 
-      return 'Nothing highlighted';
-    }
-    ```
+  return 'Nothing highlighted';
+}
+```
+````
 
 ````mdx-code-block
 <BrowserWindow>
@@ -177,14 +183,14 @@ function HighlightMoreText(highlight) {
 
 Supported commenting syntax:
 
-| Language   | Syntax                   |
+| Style      | Syntax                   |
 | ---------- | ------------------------ |
-| JavaScript | `/* ... */` and `// ...` |
-| JSX        | `{/* ... */}`            |
-| Python     | `# ...`                  |
-| HTML       | `<!-- ... -->`           |
+| C-style    | `/* ... */` and `// ...` |
+| JSX-style  | `{/* ... */}`            |
+| Bash-style | `# ...`                  |
+| HTML-style | `<!-- ... -->`           |
 
-If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
+We will do our best to infer which set of comment styles to use based on the language, and default to allowing _all_ comment styles. If there's a comment style that is not currently supported, we are open to adding them! Pull requests welcome.
 
 To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
@@ -207,19 +213,21 @@ To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class t
 
 You can also specify highlighted line ranges within the language meta string (leave a space after the language). To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
-    ```jsx {1,4-6,11}
-    import React from 'react';
+````md
+```jsx {1,4-6,11}
+import React from 'react';
 
-    function MyComponent(props) {
-      if (props.isBar) {
-        return <div>Bar</div>;
-      }
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
 
-      return <div>Foo</div>;
-    }
+  return <div>Foo</div>;
+}
 
-    export default MyComponent;
-    ```
+export default MyComponent;
+```
+````
 
 <BrowserWindow>
 
@@ -265,9 +273,7 @@ In the future, we may extend the magic comment system and let you define custom 
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
 
-You can create an interactive coding editor with the `@docusaurus/theme-live-codeblock` plugin.
-
-First, add the plugin to your package.
+You can create an interactive coding editor with the `@docusaurus/theme-live-codeblock` plugin. First, add the plugin to your package.
 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-live-codeblock
@@ -285,28 +291,30 @@ module.exports = {
 
 To use the plugin, create a code block with `live` attached to the language meta string.
 
-    ```jsx live
-    function Clock(props) {
-      const [date, setDate] = useState(new Date());
-      useEffect(() => {
-        var timerID = setInterval(() => tick(), 1000);
+````md
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
 
-        return function cleanup() {
-          clearInterval(timerID);
-        };
-      });
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
 
-      function tick() {
-        setDate(new Date());
-      }
+  function tick() {
+    setDate(new Date());
+  }
 
-      return (
-        <div>
-          <h2>It is {date.toLocaleTimeString()}.</h2>
-        </div>
-      );
-    }
-    ```
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+````
 
 The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
 
@@ -445,9 +453,9 @@ Syntax highlighting only works on plain strings. Docusaurus will not attempt to 
 
 With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switch between them using a tabs component.
 
-Instead of implementing a dedicated component for multi-language support code blocks, we've implemented a generic Tabs component in the classic theme so that you can use it for other non-code scenarios as well.
+Instead of implementing a dedicated component for multi-language support code blocks, we've implemented a general-purpose [`<Tabs>`](./markdown-features-tabs.mdx) component in the classic theme so that you can use it for other non-code scenarios as well.
 
-The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block are **intentional**. This is a current limitation of MDX: you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
+The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block are **intentional**. This is a [current limitation of MDX](./markdown-features-react.mdx#markdown-and-jsx-interoperability): you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
 
 ````jsx
 import Tabs from '@theme/Tabs';
@@ -467,7 +475,7 @@ function helloWorld() {
 
 ```py
 def hello_world():
-  print 'Hello, world!'
+  print("Hello, world!")
 ```
 
 </TabItem>
@@ -503,7 +511,7 @@ function helloWorld() {
 
 ```py
 def hello_world():
-  print 'Hello, world!'
+  print("Hello, world!")
 ```
 
 </TabItem>
