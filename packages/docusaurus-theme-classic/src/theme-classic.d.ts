@@ -180,6 +180,42 @@ declare module '@theme/DocSidebar' {
   export default function DocSidebar(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocSidebar/Mobile' {
+  import type {Props as DocSidebarProps} from '@theme/DocSidebar';
+
+  export interface Props extends DocSidebarProps {}
+
+  export default function DocSidebarMobile(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop' {
+  import type {Props as DocSidebarProps} from '@theme/DocSidebar';
+
+  export interface Props extends DocSidebarProps {}
+
+  export default function DocSidebarDesktop(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop/Content' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly className?: string;
+    readonly path: string;
+    readonly sidebar: readonly PropSidebarItem[];
+  }
+
+  export default function CollapseButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop/CollapseButton' {
+  export interface Props {
+    onClick: React.MouseEventHandler;
+  }
+
+  export default function CollapseButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
