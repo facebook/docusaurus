@@ -50,6 +50,16 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
+:::info Development over network
+
+When forwarding port 3000 from a remote server or VM (e.g. GitHub Codespaces), you can run the dev server on `0.0.0.0` to make it listen on the local IP.
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
+
+:::
+
 #### Enabling HTTPS {#enabling-https}
 
 There are multiple ways to obtain a certificate. We will use [mkcert](https://github.com/FiloSottile/mkcert) as an example.
