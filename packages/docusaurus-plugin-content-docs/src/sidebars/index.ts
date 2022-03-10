@@ -98,16 +98,23 @@ export async function loadSidebars(
   sidebarFilePath: string | false | undefined,
   options: SidebarProcessorParams,
 ): Promise<Sidebars> {
-  const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
-  const normalizedSidebars = normalizeSidebars(sidebarsConfig);
-  validateSidebars(normalizedSidebars);
-  const categoriesMetadata = await readCategoriesMetadata(
-    options.version.contentPath,
-  );
-  const processedSidebars = await processSidebars(
-    normalizedSidebars,
-    categoriesMetadata,
-    options,
-  );
-  return postProcessSidebars(processedSidebars, options);
+  try {
+    const sidebarsConfig = await loadSidebarsFileUnsafe(sidebarFilePath);
+    const normalizedSidebars = normalizeSidebars(sidebarsConfig);
+    validateSidebars(normalizedSidebars);
+    const categoriesMetadata = await readCategoriesMetadata(
+      options.version.contentPath,
+    );
+    const processedSidebars = await processSidebars(
+      normalizedSidebars,
+      categoriesMetadata,
+      options,
+    );
+    return postProcessSidebars(processedSidebars, options);
+  } catch (err) {
+    logger.error`Sidebars file at path=${
+      sidebarFilePath as string
+    } failed to be loaded.`;
+    throw err;
+  }
 }
