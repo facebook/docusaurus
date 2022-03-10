@@ -353,7 +353,7 @@ const config = {
         // and the YAML front matter is highlighted correctly.
         // TODO after we have forked prism-react-renderer, we should tweak the
         // import order and fix it there
-        additionalLanguages: ['java', 'markdown'],
+        additionalLanguages: ['java', 'markdown', 'latex'],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],

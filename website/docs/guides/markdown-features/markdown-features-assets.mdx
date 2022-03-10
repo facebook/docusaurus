@@ -6,6 +6,8 @@ slug: /markdown-features/assets
 ---
 
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Sometimes you want to link to assets (e.g. docx files, images...) directly from Markdown files, and it is convenient to co-locate the asset next to the Markdown file using it.
 
@@ -24,11 +26,17 @@ Let's imagine the following file structure:
 
 You can display images in three different ways: Markdown syntax, CJS require, or ES imports syntax.
 
+<Tabs>
+<TabItem value="Markdown syntax">
+
 Display images using simple Markdown syntax:
 
 ```md
 ![Example banner](./assets/docusaurus-asset-example-banner.png)
 ```
+
+</TabItem>
+<TabItem value="CommonJS require">
 
 Display images using inline CommonJS `require` in JSX image tag:
 
@@ -39,6 +47,9 @@ Display images using inline CommonJS `require` in JSX image tag:
 />
 ```
 
+</TabItem>
+<TabItem value="Import statement">
+
 Display images using ES `import` syntax and JSX image tag:
 
 ```jsx
@@ -47,7 +58,10 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 <img src={myImageUrl} alt="Example banner" />;
 ```
 
-This results in displaying the image:
+</TabItem>
+</Tabs>
+
+All of the above result in displaying the image:
 
 <BrowserWindow>
 
@@ -63,7 +77,7 @@ If you are using [@docusaurus/plugin-ideal-image](../../api/plugins/plugin-ideal
 
 ## Files {#files}
 
-In the same way, you can link to existing assets by requiring them and using the returned url in videos, links, etc.
+In the same way, you can link to existing assets by `require`'ing them and using the returned URL in `video`s, `a` anchor links, etc.
 
 ```md
 # My Markdown page
@@ -89,7 +103,7 @@ or
 
 :::info markdown links are always file paths
 
-If you use the Markdown image or link syntax, all asset paths will be resolved as file paths by Docusaurus and automatically converted to `require()` calls. You don't need to use `require()` in Markdown unless you use the JSX syntax.
+If you use the Markdown image or link syntax, all asset paths will be resolved as file paths by Docusaurus and automatically converted to `require()` calls. You don't need to use `require()` in Markdown unless you use the JSX syntax, which you do have to handle yourself.
 
 :::
 

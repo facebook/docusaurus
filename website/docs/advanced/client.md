@@ -1,3 +1,7 @@
+---
+description: How the Docusaurus client is structured
+---
+
 # Client architecture
 
 ## Theme aliases {#theme-aliases}
