@@ -15,6 +15,7 @@ import {
   isCategoryIndex,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
+import type {Sidebars} from '../sidebars/types';
 import {readVersionsMetadata} from '../versions';
 import type {
   DocFile,
@@ -120,18 +121,17 @@ function createTestUtils({
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
 
-  async function generateNavigation(
-    docFiles: DocFile[],
-  ): Promise<[DocNavLink | undefined, DocNavLink | undefined][]> {
-    const rawDocs = await Promise.all(
-      docFiles.map((docFile) =>
-        processDocMetadata({
-          docFile,
-          versionMetadata,
-          context,
-          options,
-        }),
-      ),
+  async function generateNavigation(docFiles: DocFile[]): Promise<{
+    pagination: {prev?: DocNavLink; next?: DocNavLink; id: string}[];
+    sidebars: Sidebars;
+  }> {
+    const rawDocs = docFiles.map((docFile) =>
+      processDocMetadata({
+        docFile,
+        versionMetadata,
+        context,
+        options,
+      }),
     );
     const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
       sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>
@@ -147,11 +147,14 @@ function createTestUtils({
     });
     const sidebarsUtils = createSidebarsUtils(sidebars);
 
-    return addDocNavigation(
-      rawDocs,
-      sidebarsUtils,
-      versionMetadata.sidebarFilePath as string,
-    ).map((doc) => [doc.previous, doc.next]);
+    return {
+      pagination: addDocNavigation(
+        rawDocs,
+        sidebarsUtils,
+        versionMetadata.sidebarFilePath as string,
+      ).map((doc) => ({prev: doc.previous, next: doc.next, id: doc.id})),
+      sidebars,
+    };
   }
 
   return {processDocFile, testMeta, testSlug, generateNavigation};

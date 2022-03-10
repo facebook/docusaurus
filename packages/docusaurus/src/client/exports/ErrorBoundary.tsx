@@ -15,20 +15,20 @@ interface State {
   error: Error | null;
 }
 
-class ErrorBoundary extends React.Component<Props, State> {
+export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {error: null};
   }
 
-  componentDidCatch(error: Error): void {
+  override componentDidCatch(error: Error): void {
     // Catch errors in any components below and re-render with error message
     if (ExecutionEnvironment.canUseDOM) {
       this.setState({error});
     }
   }
 
-  render(): ReactNode {
+  override render(): ReactNode {
     const {children} = this.props;
     const {error} = this.state;
 
@@ -47,5 +47,3 @@ class ErrorBoundary extends React.Component<Props, State> {
     );
   }
 }
-
-export default ErrorBoundary;

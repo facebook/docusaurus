@@ -37,7 +37,7 @@ declare module '@generated/registry' {
 declare module '@generated/routes' {
   import type {RouteConfig} from 'react-router-config';
 
-  type Route = {
+  export type Route = {
     readonly path: string;
     readonly component: RouteConfig['component'];
     readonly exact?: boolean;
@@ -83,6 +83,7 @@ declare module '@generated/codeTranslations' {
 }
 
 declare module '@theme-original/*';
+declare module '@theme-init/*';
 
 declare module '@theme/Error' {
   export interface Props {
@@ -143,8 +144,7 @@ declare module '@docusaurus/Head' {
 
   export type Props = HelmetProps & {children: ReactNode};
 
-  const Head: (props: Props) => JSX.Element;
-  export default Head;
+  export default function Head(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Link' {
@@ -163,8 +163,7 @@ declare module '@docusaurus/Link' {
       // escape hatch in case broken links check is annoying for a specific link
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
-  const Link: (props: Props) => JSX.Element;
-  export default Link;
+  export default function Link(props: Props): JSX.Element;
 }
 
 declare module '@docusaurus/Interpolate' {
@@ -286,11 +285,10 @@ declare module '@docusaurus/ExecutionEnvironment' {
 declare module '@docusaurus/ComponentCreator' {
   import type Loadable from 'react-loadable';
 
-  function ComponentCreator(
+  export default function ComponentCreator(
     path: string,
     hash: string,
   ): ReturnType<typeof Loadable>;
-  export default ComponentCreator;
 }
 
 declare module '@docusaurus/BrowserOnly' {
@@ -298,8 +296,7 @@ declare module '@docusaurus/BrowserOnly' {
     readonly children?: () => JSX.Element;
     readonly fallback?: JSX.Element;
   }
-  const BrowserOnly: (props: Props) => JSX.Element | null;
-  export default BrowserOnly;
+  export default function BrowserOnly(props: Props): JSX.Element | null;
 }
 
 declare module '@docusaurus/isInternalUrl' {
@@ -329,8 +326,7 @@ declare module '@docusaurus/useGlobalData' {
   ): T;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function useGlobalData(): Record<string, any>;
-  export default useGlobalData;
+  export default function useGlobalData(): Record<string, any>;
 }
 
 declare module '*.svg' {

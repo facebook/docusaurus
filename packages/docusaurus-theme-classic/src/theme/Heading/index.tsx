@@ -11,7 +11,6 @@ import type {Props} from '@theme/Heading';
 import {translate} from '@docusaurus/Translate';
 import {useThemeConfig} from '@docusaurus/theme-common';
 
-import './styles.css';
 import styles from './styles.module.css';
 
 function AnchorHeading({as: As, id, ...props}: Props) {
@@ -26,10 +25,12 @@ function AnchorHeading({as: As, id, ...props}: Props) {
   return (
     <As
       {...props}
-      className={clsx('anchor', {
-        [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
-        [styles.anchorWithStickyNavbar]: !hideOnScroll,
-      })}
+      className={clsx(
+        'anchor',
+        hideOnScroll
+          ? styles.anchorWithHideOnScrollNavbar
+          : styles.anchorWithStickyNavbar,
+      )}
       id={id}>
       {props.children}
       <a

@@ -49,6 +49,15 @@
   max-width: 768px;
 }
 
+.banner {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 20px;
+  max-width: 768px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .hero {
   background-color: #2b3137;
   padding: 48px;

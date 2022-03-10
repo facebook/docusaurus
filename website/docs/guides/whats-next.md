@@ -6,8 +6,8 @@ Congratulations! You have understood most core features of Docusaurus now. You h
 - [Used the docs plugin](./docs/docs-introduction.md) to create documentation pages. This includes [configuring the sidebar](./docs/sidebar/index.md), and even [versioning](./docs/versioning.md)
 - [Used the blog plugin](../blog.mdx) to create a fully featured blog
 - Tried your hands on [a range of Markdown features](./markdown-features/markdown-features-intro.mdx), which are useful for all content plugins
-- [Used stylesheets](../styling-layout.md) to customize your site's appearance
-- [Put images and other assets](../static-assets.md) in your pages
+- [Used stylesheets](../styling-layout.md) or [swizzling](../swizzling.md) to customize your site's appearance
+- [Included images and other assets](../static-assets.md) in your pages
 - [Added search](../search.md) to your site
 - Understood how [browser support](../browser-support.md) and [SEO](../seo.md) are done through standard Docusaurus APIs
 - Learned about how [individual plugins](../using-plugins.md) are installed and configured

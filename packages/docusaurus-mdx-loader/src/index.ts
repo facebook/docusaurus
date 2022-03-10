@@ -58,10 +58,9 @@ type Options = RemarkAndRehypePluginOptions & {
 async function readMetadataPath(metadataPath: string) {
   try {
     return await fs.readFile(metadataPath, 'utf8');
-  } catch (e) {
-    throw new Error(
-      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-    );
+  } catch (err) {
+    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
+    throw err;
   }
 }
 
@@ -115,7 +114,7 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions() ?? {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -128,7 +127,7 @@ export default async function mdxLoader(
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
+      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...DEFAULT_OPTIONS.remarkPlugins,
       [
         transformImage,
@@ -144,12 +143,12 @@ export default async function mdxLoader(
           siteDir: reqOptions.siteDir,
         },
       ],
-      ...(reqOptions.remarkPlugins || []),
+      ...(reqOptions.remarkPlugins ?? []),
     ],
     rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
+      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
+      ...(reqOptions.rehypePlugins ?? []),
     ],
     filepath: filePath,
   };

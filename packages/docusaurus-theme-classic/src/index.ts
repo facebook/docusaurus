@@ -97,17 +97,16 @@ export default function docusaurusThemeClassic(
   options: Options,
 ): Plugin<void> {
   const {
-    siteConfig: {themeConfig: roughlyTypedThemeConfig},
     i18n: {currentLocale, localeConfigs},
   } = context;
-  const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
+  const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
     announcementBar,
     colorMode,
-    prism: {additionalLanguages = []} = {},
+    prism: {additionalLanguages},
   } = themeConfig;
-  const {customCss} = options || {};
-  const {direction} = localeConfigs[currentLocale];
+  const {customCss} = options ?? {};
+  const {direction} = localeConfigs[currentLocale]!;
 
   return {
     name: 'docusaurus-theme-classic',
@@ -207,21 +206,5 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
   };
 }
 
-const swizzleAllowedComponents = [
-  'CodeBlock',
-  'DocSidebar',
-  'Footer',
-  'NotFound',
-  'SearchBar',
-  'IconArrow',
-  'IconEdit',
-  'IconMenu',
-  'hooks/useTheme',
-  'prism-include-languages',
-];
-
-export function getSwizzleComponentList(): string[] {
-  return swizzleAllowedComponents;
-}
-
+export {default as getSwizzleConfig} from './getSwizzleConfig';
 export {validateThemeConfig} from './validateThemeConfig';

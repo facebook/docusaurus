@@ -6,13 +6,10 @@
  */
 
 import React, {type ReactNode, useState, useCallback} from 'react';
-import {MDXProvider} from '@mdx-js/react';
-
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
-import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
@@ -73,13 +70,11 @@ function DocPageContent({
             className={clsx(
               ThemeClassNames.docs.docSidebarContainer,
               styles.docSidebarContainer,
-              {
-                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-              },
+              hiddenSidebarContainer && styles.docSidebarContainerHidden,
             )}
             onTransitionEnd={(e) => {
               if (
-                !e.currentTarget.classList.contains(styles.docSidebarContainer)
+                !e.currentTarget.classList.contains(styles.docSidebarContainer!)
               ) {
                 return;
               }
@@ -125,19 +120,18 @@ function DocPageContent({
           </aside>
         )}
         <main
-          className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]:
-              hiddenSidebarContainer || !sidebar,
-          })}>
+          className={clsx(
+            styles.docMainContainer,
+            (hiddenSidebarContainer || !sidebar) &&
+              styles.docMainContainerEnhanced,
+          )}>
           <div
             className={clsx(
               'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
-              {
-                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
-              },
+              hiddenSidebarContainer && styles.docItemWrapperEnhanced,
             )}>
-            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+            {children}
           </div>
         </main>
       </div>
@@ -145,7 +139,7 @@ function DocPageContent({
   );
 }
 
-function DocPage(props: Props): JSX.Element {
+export default function DocPage(props: Props): JSX.Element {
   const {
     route: {routes: docRoutes},
     versionMetadata,
@@ -172,7 +166,7 @@ function DocPage(props: Props): JSX.Element {
         <html className={versionMetadata.className} />
       </Head>
       <DocsVersionProvider version={versionMetadata}>
-        <DocsSidebarProvider sidebar={sidebar}>
+        <DocsSidebarProvider sidebar={sidebar ?? null}>
           <DocPageContent
             currentDocRoute={currentDocRoute}
             versionMetadata={versionMetadata}
@@ -184,5 +178,3 @@ function DocPage(props: Props): JSX.Element {
     </>
   );
 }
-
-export default DocPage;

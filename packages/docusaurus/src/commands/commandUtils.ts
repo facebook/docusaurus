@@ -12,7 +12,7 @@ import {DEFAULT_PORT} from '@docusaurus/utils';
 export function getCLIOptionHost(
   hostOption: HostPortCLIOptions['host'],
 ): string {
-  return hostOption || 'localhost';
+  return hostOption ?? 'localhost';
 }
 
 export async function getCLIOptionPort(

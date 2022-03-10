@@ -13,7 +13,7 @@ import {
   mapAsyncSequential,
   readOutputHTMLFile,
 } from '@docusaurus/utils';
-import cheerio from 'cheerio';
+import {load as cheerioLoad} from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
@@ -57,9 +57,7 @@ async function generateBlogFeed({
   });
 
   function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
+    return {name: author.name, link: author.url, email: author.email};
   }
 
   await mapAsyncSequential(blogPosts, async (post) => {
@@ -80,7 +78,7 @@ async function generateBlogFeed({
       outDir,
       siteConfig.trailingSlash,
     );
-    const $ = cheerio.load(content);
+    const $ = cheerioLoad(content);
 
     const feedItem: FeedItem = {
       title: metadataTitle,

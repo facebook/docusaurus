@@ -83,7 +83,7 @@ function getActiveAnchor(
   }
   // no anchor under viewport top? (ie we are at the bottom of the page)
   // => highlight the last anchor found
-  return anchors[anchors.length - 1];
+  return anchors[anchors.length - 1] ?? null;
 }
 
 function getLinkAnchorValue(link: HTMLAnchorElement): string {
@@ -122,7 +122,9 @@ export type TOCHighlightConfig = {
   maxHeadingLevel: number;
 };
 
-function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
+export default function useTOCHighlight(
+  config: TOCHighlightConfig | undefined,
+): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
@@ -147,7 +149,7 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
         }
         link.classList.add(linkActiveClassName);
         lastActiveLinkRef.current = link;
-        link.scrollIntoView({block: 'nearest'});
+        // link.scrollIntoView({block: 'nearest'});
       } else {
         link.classList.remove(linkActiveClassName);
       }
@@ -179,5 +181,3 @@ function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
     };
   }, [config, anchorTopOffsetRef]);
 }
-
-export default useTOCHighlight;

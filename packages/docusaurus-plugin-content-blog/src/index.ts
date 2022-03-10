@@ -307,7 +307,7 @@ export default async function pluginContentBlog(
                 ({
                   content: {
                     __import: true,
-                    path: blogItemsToMetadata[postID].source,
+                    path: blogItemsToMetadata[postID]!.source,
                     query: {
                       truncated: true,
                     },
@@ -359,7 +359,7 @@ export default async function pluginContentBlog(
               modules: {
                 sidebar: aliasedSource(sidebarProp),
                 items: items.map((postID) => {
-                  const blogPostMetadata = blogItemsToMetadata[postID];
+                  const blogPostMetadata = blogItemsToMetadata[postID]!;
                   return {
                     content: {
                       __import: true,
@@ -546,13 +546,11 @@ export default async function pluginContentBlog(
       const headTags: HtmlTags = [];
 
       feedTypes.forEach((feedType) => {
-        const feedConfig = feedsConfig[feedType] || {};
-
-        if (!feedsConfig) {
-          return;
-        }
-
-        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
+        const {
+          type,
+          path: feedConfigPath,
+          title: feedConfigTitle,
+        } = feedsConfig[feedType];
 
         headTags.push({
           tagName: 'link',

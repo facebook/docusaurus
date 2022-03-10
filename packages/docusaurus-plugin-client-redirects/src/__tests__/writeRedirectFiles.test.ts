@@ -194,8 +194,7 @@ describe('writeRedirectFiles', () => {
       },
     ];
 
-    await fs.ensureDir(path.dirname(filesMetadata[0].fileAbsolutePath));
-    await fs.writeFile(
+    await fs.outputFile(
       filesMetadata[0].fileAbsolutePath,
       'file already exists!',
     );

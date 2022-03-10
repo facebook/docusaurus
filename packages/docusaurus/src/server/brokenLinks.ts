@@ -21,6 +21,7 @@ import {
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
 import combinePromises from 'combine-promises';
+import logger from '@docusaurus/logger';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -34,7 +35,7 @@ type BrokenLink = {
 
 // matchRoutes does not support qs/anchors, so we remove it!
 function onlyPathname(link: string) {
-  return link.split('#')[0].split('?')[0];
+  return link.split('#')[0]!.split('?')[0]!;
 }
 
 function getPageBrokenLinks({
@@ -76,7 +77,7 @@ function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   return getAllFinalRoutes(routesWithout404);
 }
 
-export function getAllBrokenLinks({
+function getAllBrokenLinks({
   allCollectedLinks,
   routes,
 }: {
@@ -93,7 +94,7 @@ export function getAllBrokenLinks({
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
-export function getBrokenLinksErrorMessage(
+function getBrokenLinksErrorMessage(
   allBrokenLinks: Record<string, BrokenLink[]>,
 ): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
@@ -111,9 +112,11 @@ export function getBrokenLinksErrorMessage(
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `\n- On source page path = ${pagePath}:\n   -> linking to ${brokenLinks
-      .map(brokenLinkMessage)
-      .join('\n   -> linking to ')}`;
+    return `
+- On source page path = ${pagePath}:
+   -> linking to ${brokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`;
   }
 
   /**
@@ -141,35 +144,39 @@ export function getBrokenLinksErrorMessage(
       return '';
     }
 
-    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
-      `\n- `,
-    )}\n`;
+    return logger.interpolate`
+
+It looks like some of the broken links we found appear in many pages of your site.
+Maybe those broken links appear on all pages through your site layout?
+We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
+Frequent broken links are linking to:${frequentLinks}`;
   }
 
-  return (
-    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
-    `\n\nExhaustive list of all broken links found:\n${Object.entries(
-      allBrokenLinks,
-    )
-      .map(([pagePath, brokenLinks]) =>
-        pageBrokenLinksMessage(pagePath, brokenLinks),
-      )
-      .join('\n')}
-`
-  );
+  return `Docusaurus found broken links!
+
+Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
+
+Exhaustive list of all broken links found:
+${Object.entries(allBrokenLinks)
+  .map(([pagePath, brokenLinks]) =>
+    pageBrokenLinksMessage(pagePath, brokenLinks),
+  )
+  .join('\n')}
+`;
 }
 
 async function isExistingFile(filePath: string) {
   try {
     return (await fs.stat(filePath)).isFile();
-  } catch (e) {
+  } catch {
     return false;
   }
 }
 
 // If a file actually exist on the file system, we know the link is valid
 // even if docusaurus does not know about this file, so we don't report it
-export async function filterExistingFileLinks({
+async function filterExistingFileLinks({
   baseUrl,
   outDir,
   allCollectedLinks,
@@ -180,9 +187,8 @@ export async function filterExistingFileLinks({
 }): Promise<Record<string, string[]>> {
   async function linkFileExists(link: string) {
     // /baseUrl/javadoc/ -> /outDir/javadoc
-    const baseFilePath = removeSuffix(
-      `${outDir}/${removePrefix(link, baseUrl)}`,
-      '/',
+    const baseFilePath = onlyPathname(
+      removeSuffix(`${outDir}/${removePrefix(link, baseUrl)}`, '/'),
     );
 
     // -> /outDir/javadoc

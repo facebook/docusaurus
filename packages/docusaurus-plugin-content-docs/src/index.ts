@@ -196,9 +196,9 @@ export default async function pluginContentDocs(
       async function loadVersion(versionMetadata: VersionMetadata) {
         try {
           return await doLoadVersion(versionMetadata);
-        } catch (e) {
+        } catch (err) {
           logger.error`Loading of version failed for version name=${versionMetadata.versionName}`;
-          throw e;
+          throw err;
         }
       }
 

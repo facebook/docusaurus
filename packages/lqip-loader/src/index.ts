@@ -13,7 +13,7 @@ type Options = {
   palette: boolean;
 };
 
-async function lqipLoader(
+export default async function lqipLoader(
   this: LoaderContext<Options>,
   contentBuffer: Buffer,
 ): Promise<void> {
@@ -23,8 +23,10 @@ async function lqipLoader(
   const callback = this.async();
   const imgPath = this.resourcePath;
 
-  const config = this.getOptions() || {};
+  const config = this.getOptions() ?? {};
   config.base64 = 'base64' in config ? config.base64 : true;
+  // color palette generation is set to false by default
+  // since it is little bit slower than base64 generation
   config.palette = 'palette' in config ? config.palette : false;
 
   let content = contentBuffer.toString('utf8');
@@ -39,7 +41,7 @@ async function lqipLoader(
   if (contentIsUrlExport) {
     source = content.match(
       /^(?:export default|module.exports =) (?<source>.*)/,
-    )!.groups!.source;
+    )!.groups!.source!;
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
@@ -48,13 +50,11 @@ async function lqipLoader(
     }
     source = content.match(
       /^(?:export default|module.exports =) (?<source>.*);/,
-    )!.groups!.source;
+    )!.groups!.source!;
   }
 
   const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [
     config.base64 === true ? lqip.base64(imgPath) : null,
-    // color palette generation is set to false by default
-    // since it is little bit slower than base64 generation
     config.palette === true ? lqip.palette(imgPath) : null,
   ];
 
@@ -71,12 +71,10 @@ async function lqipLoader(
     } else {
       callback(new Error('ERROR'), undefined);
     }
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     callback(new Error('ERROR'), undefined);
   }
 }
 
 lqipLoader.raw = true;
-
-export default lqipLoader;

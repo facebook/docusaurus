@@ -10,13 +10,12 @@ import type {RouteChunksTree} from '@docusaurus/types';
 const isTree = (x: string | RouteChunksTree): x is RouteChunksTree =>
   typeof x === 'object' && !!x && Object.keys(x).length > 0;
 
-function flat(target: RouteChunksTree): Record<string, string> {
+export default function flat(target: RouteChunksTree): Record<string, string> {
   const delimiter = '.';
   const output: Record<string, string> = {};
 
   function step(object: RouteChunksTree, prefix?: string | number) {
-    Object.keys(object).forEach((key: string | number) => {
-      const value = object[key];
+    Object.entries(object).forEach(([key, value]) => {
       const newKey = prefix ? `${prefix}${delimiter}${key}` : key;
 
       if (isTree(value)) {
@@ -30,5 +29,3 @@ function flat(target: RouteChunksTree): Record<string, string> {
   step(target);
   return output;
 }
-
-export default flat;

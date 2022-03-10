@@ -20,7 +20,7 @@ export async function loadThemeAliases(
 
   for (const themePath of themePaths) {
     const themeAliases = await themeAlias(themePath, true);
-    Object.keys(themeAliases).forEach((aliasKey) => {
+    Object.entries(themeAliases).forEach(([aliasKey, alias]) => {
       // If this alias shadows a previous one, use @theme-init to preserve the
       // initial one. @theme-init is only applied once: to the initial theme
       // that provided this component
@@ -28,10 +28,10 @@ export async function loadThemeAliases(
         const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
         const initAlias = `@theme-init/${componentName}`;
         if (!(initAlias in aliases)) {
-          aliases[initAlias] = aliases[aliasKey];
+          aliases[initAlias] = aliases[aliasKey]!;
         }
       }
-      aliases[aliasKey] = themeAliases[aliasKey];
+      aliases[aliasKey] = alias;
     });
   }
 
@@ -51,7 +51,7 @@ export function loadPluginsThemeAliases({
   plugins: LoadedPlugin[];
 }): Promise<ThemeAliases> {
   const pluginThemes: string[] = plugins
-    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
+    .map((plugin) => plugin.getThemePath?.())
     .filter((x): x is string => Boolean(x));
   const userTheme = path.resolve(siteDir, THEME_PATH);
   return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);

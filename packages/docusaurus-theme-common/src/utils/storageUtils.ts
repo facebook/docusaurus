@@ -26,8 +26,8 @@ function getBrowserStorage(
   }
   try {
     return window[storageType];
-  } catch (e) {
-    logOnceBrowserStorageNotAvailableWarning(e as Error);
+  } catch (err) {
+    logOnceBrowserStorageNotAvailableWarning(err as Error);
     return null;
   }
 }
@@ -98,23 +98,26 @@ export const createStorageSlot = (
     get: () => {
       try {
         return browserStorage.getItem(key);
-      } catch (e) {
-        console.error(`Docusaurus storage error, can't get key=${key}`, e);
+      } catch (err) {
+        console.error(`Docusaurus storage error, can't get key=${key}`, err);
         return null;
       }
     },
     set: (value) => {
       try {
         browserStorage.setItem(key, value);
-      } catch (e) {
-        console.error(`Docusaurus storage error, can't set ${key}=${value}`, e);
+      } catch (err) {
+        console.error(
+          `Docusaurus storage error, can't set ${key}=${value}`,
+          err,
+        );
       }
     },
     del: () => {
       try {
         browserStorage.removeItem(key);
-      } catch (e) {
-        console.error(`Docusaurus storage error, can't delete key=${key}`, e);
+      } catch (err) {
+        console.error(`Docusaurus storage error, can't delete key=${key}`, err);
       }
     },
   };

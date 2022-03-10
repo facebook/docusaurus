@@ -68,20 +68,28 @@ cli
 
 cli
   .command('swizzle [themeName] [componentName] [siteDir]')
-  .description('Copy the theme files into website folder for customization.')
+  .description(
+    'Wraps or ejects the original theme files into website folder for customization.',
+  )
   .option(
-    '--typescript',
+    '-w, --wrap',
+    'Creates a wrapper around the original theme component.\nAllows rendering other components before/after the original theme component.',
+  )
+  .option(
+    '-e, --eject',
+    'Ejects the full source code of the original theme component.\nAllows overriding the original component entirely with your own UI and logic.',
+  )
+  .option(
+    '-l, --list',
+    'only list the available themes/components without further prompting (default: false)',
+  )
+  .option(
+    '-t, --typescript',
     'copy TypeScript theme files when possible (default: false)',
   )
-  .option('--danger', 'enable swizzle for internal component of themes')
-  .action(async (themeName, componentName, siteDir, {typescript, danger}) => {
-    swizzle(
-      await resolveDir(siteDir),
-      themeName,
-      componentName,
-      typescript,
-      danger,
-    );
+  .option('--danger', 'enable swizzle for unsafe component of themes')
+  .action(async (themeName, componentName, siteDir, options) => {
+    swizzle(await resolveDir(siteDir), themeName, componentName, options);
   });
 
 cli
@@ -237,34 +245,33 @@ cli.arguments('<command>').action((cmd) => {
 });
 
 /**
- * @param {string} command
+ * @param {string | undefined} command
  */
 function isInternalCommand(command) {
-  return [
-    'start',
-    'build',
-    'swizzle',
-    'deploy',
-    'serve',
-    'clear',
-    'write-translations',
-    'write-heading-ids',
-  ].includes(command);
+  return (
+    command &&
+    [
+      'start',
+      'build',
+      'swizzle',
+      'deploy',
+      'serve',
+      'clear',
+      'write-translations',
+      'write-heading-ids',
+    ].includes(command)
+  );
 }
 
-async function run() {
-  if (!isInternalCommand(process.argv.slice(2)[0])) {
-    await externalCommand(cli, await resolveDir('.'));
-  }
-
-  cli.parse(process.argv);
-
-  if (!process.argv.slice(2).length) {
-    cli.outputHelp();
-  }
+if (!isInternalCommand(process.argv.slice(2)[0])) {
+  await externalCommand(cli, await resolveDir('.'));
 }
 
-run();
+if (!process.argv.slice(2).length) {
+  cli.outputHelp();
+}
+
+cli.parse(process.argv);
 
 process.on('unhandledRejection', (err) => {
   logger.error(err);

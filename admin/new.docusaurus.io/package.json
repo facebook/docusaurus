@@ -1,6 +1,6 @@
 {
   "name": "new.docusaurus.io",
-  "version": "2.0.0-beta.15",
+  "version": "2.0.0-beta.17",
   "private": true,
   "scripts": {
     "start": "netlify dev"
@@ -9,6 +9,6 @@
     "@netlify/functions": "^1.0.0"
   },
   "devDependencies": {
-    "netlify-cli": "^9.4.0"
+    "netlify-cli": "^9.13.0"
   }
 }

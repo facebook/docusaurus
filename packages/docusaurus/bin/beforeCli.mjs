@@ -36,7 +36,7 @@ const {
  *
  * cache data is stored in `~/.config/configstore/update-notifier-@docusaurus`
  */
-async function beforeCli() {
+export default async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
@@ -61,9 +61,9 @@ async function beforeCli() {
       notifier.config.set('lastUpdateCheck', 0);
       notifier.check();
     }
-  } catch (e) {
+  } catch (err) {
     // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
-    logger.error(e);
+    logger.error(err);
   }
 
   /**
@@ -134,5 +134,3 @@ async function beforeCli() {
     process.exit(1);
   }
 }
-
-export default beforeCli;

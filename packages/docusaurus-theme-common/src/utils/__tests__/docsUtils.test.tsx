@@ -71,7 +71,7 @@ describe('docsUtils', () => {
       expect(
         () => renderHook(() => useDocsVersion()).result.current,
       ).toThrowErrorMatchingInlineSnapshot(
-        `"This hook requires usage of <DocsVersionProvider>"`,
+        `"Hook useDocsVersion is called outside the <DocsVersionProvider>. "`,
       );
     });
 
@@ -93,7 +93,7 @@ describe('docsUtils', () => {
       expect(
         () => renderHook(() => useDocsSidebar()).result.current,
       ).toThrowErrorMatchingInlineSnapshot(
-        `"This hook requires usage of <DocsSidebarProvider>"`,
+        `"Hook useDocsSidebar is called outside the <DocsSidebarProvider>. "`,
       );
     });
 

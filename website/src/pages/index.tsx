@@ -232,7 +232,7 @@ function FeaturesContainer() {
   );
 }
 
-function Home(): JSX.Element {
+export default function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
@@ -240,6 +240,15 @@ function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
+        <div>
+          <div className={styles.banner}>
+            Support Ukraine 🇺🇦{' '}
+            <Link to="https://opensource.facebook.com/support-ukraine">
+              Help Provide Humanitarian Aid to Ukraine
+            </Link>
+            .
+          </div>
+        </div>
         <HeroBanner />
         <MigrationAnnouncement />
         <div className={styles.section}>
@@ -252,5 +261,3 @@ function Home(): JSX.Element {
     </Layout>
   );
 }
-
-export default Home;

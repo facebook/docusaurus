@@ -37,7 +37,7 @@ export function normalizePluginOptions<T extends {id?: string}>(
     throw error;
   }
 
-  return value!; // TODO remove this ! in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value;
 }
 
 export function normalizeThemeConfig<T>(
@@ -58,7 +58,7 @@ export function normalizeThemeConfig<T>(
   if (error) {
     throw error;
   }
-  return value!; // TODO remove this ! in TS 4.6
+  return value;
 }
 
 export function validateFrontMatter<T>(
@@ -86,5 +86,5 @@ ${errorDetails.map(({message}) => message)}
     throw error;
   }
 
-  return value!; // TODO remove this ! in TS 4.6
+  return value;
 }

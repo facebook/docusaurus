@@ -8,7 +8,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 :::tip
 
-This section is focused on styling through stylesheets. If you find yourself needing to update the DOM structure, you can refer to [swizzling](./advanced/swizzling.md#swizzling).
+This section is focused on styling through stylesheets. For more advanced customizations (DOM structure, React code...), refer to the [swizzling guide](./swizzling.md).
 
 :::
 
@@ -20,7 +20,7 @@ There are a few approaches/frameworks which will work, depending on your prefere
 
 This is the most traditional way of styling that most developers (including non-front-end developers) would be familiar with. It works fine for small websites that do not have much customization.
 
-If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option into the preset.
+If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -60,13 +60,19 @@ function MyComponent() {
 
 If you want to add CSS to any element, you can open the DevTools in your browser to inspect its class names. Class names come in several kinds:
 
-- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). They don't have any default properties. You should always prioritize targeting stable class names in your custom CSS.
-- **Infima class names**. These class names usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
+- **Theme class names**. These class names are listed exhaustively in [the next subsection](#theme-class-names). They don't have any default properties. You should always prioritize targeting those stable class names in your custom CSS.
+- **Infima class names**. These class names are found in the classic theme and usually follow the [BEM convention](http://getbem.com/naming/) of `block__element--modifier`. They are usually stable but are still considered implementation details, so you should generally avoid targeting them. However, you can [modify Infima CSS variables](#styling-your-site-with-infima).
 - **CSS module class names**. These class names have a hash in production (`codeBlockContainer_RIuc`) and are appended with a long file path in development. They are considered implementation details and you should almost always avoid targeting them in your custom CSS. If you must, you can use an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) (`[class*='codeBlockContainer']`) that ignores the hash.
 
 ### Theme Class Names {#theme-class-names}
 
-We provide some predefined CSS class names for global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
+We provide some stable CSS class names for robust and maintainable global layout styling. These names are theme-agnostic and meant to be targeted by custom CSS.
+
+:::tip
+
+If you can't find a way to create a robust CSS selector, please [report your customization use-case](https://github.com/facebook/docusaurus/discussions/5468) and we will consider adding new class names.
+
+:::
 
 <details>
 
@@ -108,7 +114,7 @@ Alternatively, use the following tool to generate the different shades for your 
 
 ### Dark Mode {#dark-mode}
 
-In light mode, the `<html>` element has a `data-theme="light"` attribute; and in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
+In light mode, the `<html>` element has a `data-theme="light"` attribute; in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
 
 ```css
 /* Overriding root Infima variables */
@@ -123,14 +129,14 @@ In light mode, the `<html>` element has a `data-theme="light"` attribute; and in
 
 ### Mobile View {#mobile-view}
 
-Docusaurus uses `966px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
+Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. If you want your layout to be different in the mobile view, you can use media queries.
 
 ```css
 .banner {
   padding: 4rem;
 }
 /** In mobile view, reduce the padding */
-@media screen and (max-width: 966px) {
+@media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
   }
@@ -139,7 +145,7 @@ Docusaurus uses `966px` as the cutoff between mobile screen width and desktop. I
 
 ## CSS modules {#css-modules}
 
-To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
+To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). Webpack will load such CSS files as CSS modules and you have to reference the class names as properties of the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
 
 ```css title="styles.module.css"
 .main {
@@ -174,7 +180,7 @@ The class names will be processed by webpack into a globally unique class name d
 
 :::caution
 
-This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
+CSS-in-JS support is a work in progress, so libs like MUI may have display quirks. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
 
 :::
 

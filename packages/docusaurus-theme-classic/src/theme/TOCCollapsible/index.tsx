@@ -27,9 +27,7 @@ export default function TOCCollapsible({
     <div
       className={clsx(
         styles.tocCollapsible,
-        {
-          [styles.tocCollapsibleExpanded]: !collapsed,
-        },
+        !collapsed && styles.tocCollapsibleExpanded,
         className,
       )}>
       <button

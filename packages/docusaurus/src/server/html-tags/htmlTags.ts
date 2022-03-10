@@ -33,7 +33,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
     );
   }
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
-  const tagAttributes = tagDefinition.attributes || {};
+  const tagAttributes = tagDefinition.attributes ?? {};
   const attributes = Object.keys(tagAttributes)
     .filter((attributeName) => tagAttributes[attributeName] !== false)
     .map((attributeName) => {

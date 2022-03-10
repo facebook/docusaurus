@@ -5,91 +5,63 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  transformMarkdownHeadingLine,
-  transformMarkdownContent,
-} from '../writeHeadingIds';
-import {createSlugger} from '@docusaurus/utils';
+import {transformMarkdownContent} from '../writeHeadingIds';
 
-describe('transformMarkdownHeadingLine', () => {
-  test('throws when not a heading', () => {
-    expect(() =>
-      transformMarkdownHeadingLine('ABC', createSlugger()),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Line is not a Markdown heading: ABC."`,
-    );
-  });
-
+describe('transformMarkdownContent', () => {
   test('works for simple level-2 heading', () => {
-    expect(transformMarkdownHeadingLine('## ABC', createSlugger())).toEqual(
-      '## ABC {#abc}',
-    );
+    expect(transformMarkdownContent('## ABC')).toEqual('## ABC {#abc}');
   });
 
   test('works for simple level-3 heading', () => {
-    expect(transformMarkdownHeadingLine('### ABC', createSlugger())).toEqual(
-      '### ABC {#abc}',
-    );
+    expect(transformMarkdownContent('### ABC')).toEqual('### ABC {#abc}');
   });
 
   test('works for simple level-4 heading', () => {
-    expect(transformMarkdownHeadingLine('#### ABC', createSlugger())).toEqual(
-      '#### ABC {#abc}',
-    );
+    expect(transformMarkdownContent('#### ABC')).toEqual('#### ABC {#abc}');
   });
 
   test('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
-    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
+    expect(transformMarkdownContent(input)).toEqual(
       `${input} {#hello-facebook-crowdin}`,
     );
   });
 
   test('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
-    expect(transformMarkdownHeadingLine(input, createSlugger())).toEqual(
+    expect(transformMarkdownContent(input)).toEqual(
       `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
 
   test('does not duplicate duplicate id', () => {
-    expect(
-      transformMarkdownHeadingLine(
-        '## hello world {#hello-world}',
-        createSlugger(),
-      ),
-    ).toEqual('## hello world {#hello-world}');
+    expect(transformMarkdownContent('## hello world {#hello-world}')).toEqual(
+      '## hello world {#hello-world}',
+    );
   });
 
   test('respects existing heading', () => {
-    expect(
-      transformMarkdownHeadingLine(
-        '## New heading {#old-heading}',
-        createSlugger(),
-      ),
-    ).toEqual('## New heading {#old-heading}');
+    expect(transformMarkdownContent('## New heading {#old-heading}')).toEqual(
+      '## New heading {#old-heading}',
+    );
   });
 
   test('overwrites heading ID when asked to', () => {
     expect(
-      transformMarkdownHeadingLine(
-        '## New heading {#old-heading}',
-        createSlugger(),
-        {overwrite: true},
-      ),
+      transformMarkdownContent('## New heading {#old-heading}', {
+        overwrite: true,
+      }),
     ).toEqual('## New heading {#new-heading}');
   });
 
   test('maintains casing when asked to', () => {
     expect(
-      transformMarkdownHeadingLine('## getDataFromAPI()', createSlugger(), {
+      transformMarkdownContent('## getDataFromAPI()', {
         maintainCase: true,
       }),
     ).toEqual('## getDataFromAPI() {#getDataFromAPI}');
   });
-});
 
-describe('transformMarkdownContent', () => {
   test('transform the headings', () => {
     const input = `
 
@@ -113,14 +85,11 @@ describe('transformMarkdownContent', () => {
 
     `;
 
-    // TODO the first heading should probably rather be slugified to abc-1
-    // otherwise we end up with 2 x "abc" anchors
-    // not sure how to implement that atm
     const expected = `
 
 # Ignored title
 
-## abc {#abc}
+## abc {#abc-1}
 
 ### Hello world {#hello-world}
 

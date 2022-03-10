@@ -19,8 +19,9 @@ function translateListPage(
       items,
       metadata: {
         ...metadata,
-        blogTitle: translations.title.message,
-        blogDescription: translations.description.message,
+        blogTitle: translations.title?.message ?? page.metadata.blogTitle,
+        blogDescription:
+          translations.description?.message ?? page.metadata.blogDescription,
       },
     };
   });
@@ -52,10 +53,11 @@ export function translateContent(
   content: BlogContent,
   translationFiles: TranslationFiles,
 ): BlogContent {
-  const [{content: optionsTranslations}] = translationFiles;
+  const {content: optionsTranslations} = translationFiles[0]!;
   return {
     ...content,
-    blogSidebarTitle: optionsTranslations['sidebar.title'].message,
+    blogSidebarTitle:
+      optionsTranslations['sidebar.title']?.message ?? content.blogSidebarTitle,
     blogListPaginated: translateListPage(
       content.blogListPaginated,
       optionsTranslations,

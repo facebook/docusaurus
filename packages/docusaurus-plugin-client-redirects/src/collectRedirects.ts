@@ -64,8 +64,8 @@ function validateCollectedRedirects(
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e) {
-        return (e as Error).message;
+      } catch (err) {
+        return (err as Error).message;
       }
     })
     .filter(Boolean);
@@ -166,9 +166,7 @@ function createCreateRedirectsOptionRedirects(
   createRedirects: PluginOptions['createRedirects'],
 ): RedirectMetadata[] {
   function createPathRedirects(path: string): RedirectMetadata[] {
-    const fromsMixed: string | string[] = createRedirects
-      ? createRedirects(path) || []
-      : [];
+    const fromsMixed: string | string[] = createRedirects?.(path) ?? [];
 
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;

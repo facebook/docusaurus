@@ -39,7 +39,7 @@
   "theme.docs.sidebar.collapseButtonTitle": "收起側邊欄",
   "theme.docs.sidebar.expandButtonAriaLabel": "展開側邊欄",
   "theme.docs.sidebar.expandButtonTitle": "展開側邊欄",
-  "theme.docs.tagDocListPageTitle": "{nDocsTagged} 篇帶有標籤「{tagName}」",
+  "theme.docs.tagDocListPageTitle": "{nDocsTagged}「{tagName}」",
   "theme.docs.tagDocListPageTitle.nDocsTagged": "{count} 篇文件帶有標籤",
   "theme.docs.versionBadge.label": "版本：{versionLabel}",
   "theme.docs.versions.latestVersionLinkLabel": "最新版本",

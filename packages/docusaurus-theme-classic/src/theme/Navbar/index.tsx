@@ -9,7 +9,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import SearchBar from '@theme/SearchBar';
-import Toggle from '@theme/Toggle';
+import ColorModeToggle from '@theme/ColorModeToggle';
 import {
   useThemeConfig,
   useMobileSecondaryMenuRenderer,
@@ -171,7 +171,7 @@ function NavbarMobileSidebar({
           titleClassName="navbar__title"
         />
         {!colorModeToggle.disabled && (
-          <Toggle
+          <ColorModeToggle
             className={styles.navbarSidebarToggle}
             checked={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
@@ -220,7 +220,7 @@ function NavbarMobileSidebar({
   );
 }
 
-function Navbar(): JSX.Element {
+export default function Navbar(): JSX.Element {
   const {
     navbar: {hideOnScroll, style},
   } = useThemeConfig();
@@ -237,13 +237,19 @@ function Navbar(): JSX.Element {
   return (
     <nav
       ref={navbarRef}
-      className={clsx('navbar', 'navbar--fixed-top', {
-        'navbar--dark': style === 'dark',
-        'navbar--primary': style === 'primary',
-        'navbar-sidebar--show': mobileSidebar.shown,
-        [styles.navbarHideable]: hideOnScroll,
-        [styles.navbarHidden]: hideOnScroll && !isNavbarVisible,
-      })}>
+      className={clsx(
+        'navbar',
+        'navbar--fixed-top',
+        hideOnScroll && [
+          styles.navbarHideable,
+          !isNavbarVisible && styles.navbarHidden,
+        ],
+        {
+          'navbar--dark': style === 'dark',
+          'navbar--primary': style === 'primary',
+          'navbar-sidebar--show': mobileSidebar.shown,
+        },
+      )}>
       <div className="navbar__inner">
         <div className="navbar__items">
           {(items?.length > 0 || activeDocPlugin) && (
@@ -271,7 +277,7 @@ function Navbar(): JSX.Element {
             <NavbarItem {...item} key={i} />
           ))}
           {!colorModeToggle.disabled && (
-            <Toggle
+            <ColorModeToggle
               className={styles.toggle}
               checked={colorModeToggle.isDarkTheme}
               onChange={colorModeToggle.toggle}
@@ -296,5 +302,3 @@ function Navbar(): JSX.Element {
     </nav>
   );
 }
-
-export default Navbar;

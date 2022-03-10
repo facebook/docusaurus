@@ -73,7 +73,7 @@ function useSmoothScrollToTop(): UseSmoothScrollTopReturn {
   };
 }
 
-function BackToTopButton(): JSX.Element {
+export default function BackToTopButton(): JSX.Element {
   const [show, setShow] = useState(false);
   const isFocusedAnchor = useRef(false);
   const {smoothScrollTop, cancelScrollToTop} = useSmoothScrollToTop();
@@ -132,14 +132,10 @@ function BackToTopButton(): JSX.Element {
         'clean-btn',
         ThemeClassNames.common.backToTopButton,
         styles.backToTopButton,
-        {
-          [styles.backToTopButtonShow]: show,
-        },
+        show && styles.backToTopButtonShow,
       )}
       type="button"
       onClick={() => smoothScrollTop()}
     />
   );
 }
-
-export default BackToTopButton;

@@ -14,7 +14,7 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 
-function BlogListPage(props: Props): JSX.Element {
+export default function BlogListPage(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
   const {
     siteConfig: {title: siteTitle},
@@ -48,5 +48,3 @@ function BlogListPage(props: Props): JSX.Element {
     </BlogLayout>
   );
 }
-
-export default BlogListPage;

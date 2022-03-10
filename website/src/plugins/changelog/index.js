@@ -10,7 +10,6 @@ const path = require('path');
 const fs = require('fs-extra');
 const pluginContentBlog = require('@docusaurus/plugin-content-blog');
 const {aliasedSitePath, docuHash, normalizeUrl} = require('@docusaurus/utils');
-const syncAvatars = require('./syncAvatars');
 
 /**
  * Multiple versions may be published on the same day, causing the order to be
@@ -51,7 +50,7 @@ function processSection(section) {
       .map((author) => ({
         ...author,
         name: author.name ?? author.alias,
-        imageURL: `./img/${author.alias}.png`,
+        imageURL: `https://github.com/${author.alias}.png`,
       }))
       .sort((a, b) => a.url.localeCompare(b.url));
 
@@ -117,7 +116,8 @@ async function ChangelogPlugin(context, options) {
           ),
         ),
       );
-      await syncAvatars(authorsMap, generateDir);
+      const authorsPath = path.join(generateDir, 'authors.json');
+      await fs.outputFile(authorsPath, JSON.stringify(authorsMap, null, 2));
       const content = await blogPlugin.loadContent();
       content.blogPosts.forEach((post, index) => {
         const pageIndex = Math.floor(index / options.postsPerPage);

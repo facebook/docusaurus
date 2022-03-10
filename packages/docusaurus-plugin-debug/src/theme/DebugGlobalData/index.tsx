@@ -11,7 +11,7 @@ import DebugLayout from '@theme/DebugLayout';
 import DebugJsonView from '@theme/DebugJsonView';
 import useGlobalData from '@docusaurus/useGlobalData';
 
-function DebugMetadata(): JSX.Element {
+export default function DebugMetadata(): JSX.Element {
   const globalData = useGlobalData();
   return (
     <DebugLayout>
@@ -20,5 +20,3 @@ function DebugMetadata(): JSX.Element {
     </DebugLayout>
   );
 }
-
-export default DebugMetadata;

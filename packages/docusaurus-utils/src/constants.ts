@@ -6,11 +6,11 @@
  */
 
 export const NODE_MAJOR_VERSION = parseInt(
-  process.versions.node.split('.')[0],
+  process.versions.node.split('.')[0]!,
   10,
 );
 export const NODE_MINOR_VERSION = parseInt(
-  process.versions.node.split('.')[1],
+  process.versions.node.split('.')[1]!,
   10,
 );
 

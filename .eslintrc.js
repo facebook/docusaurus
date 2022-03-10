@@ -161,6 +161,12 @@ module.exports = {
         message:
           "Export all does't work well if imported in ESM due to how they are transpiled, and they can also lead to unexpected exposure of internal methods.",
       },
+      // TODO make an internal plugin to ensure this
+      // {
+      //   selector:
+      // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
+      //   message: 'Export in one statement'
+      // }
     ],
     'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
@@ -216,6 +222,7 @@ module.exports = {
     ],
     'react/jsx-filename-extension': OFF,
     'react/jsx-key': [ERROR, {checkFragmentShorthand: true}],
+    'react/jsx-no-useless-fragment': [ERROR, {allowExpressions: true}],
     'react/jsx-props-no-spreading': OFF,
     'react/no-array-index-key': OFF, // We build a static site, and nearly all components don't change.
     'react/no-unstable-nested-components': [WARNING, {allowAsProps: true}],
@@ -254,7 +261,11 @@ module.exports = {
     'no-unused-vars': OFF,
     '@typescript-eslint/no-unused-vars': [
       ERROR,
-      {argsIgnorePattern: '^_', ignoreRestSiblings: true},
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
     ],
   },
   overrides: [

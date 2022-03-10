@@ -25,7 +25,7 @@ export function useDocsPreferredVersion(
   const docsData = useDocsData(pluginId);
   const [state, api] = useDocsPreferredVersionContext();
 
-  const {preferredVersionName} = state[pluginId];
+  const {preferredVersionName} = state[pluginId]!;
 
   const preferredVersion = preferredVersionName
     ? docsData.versions.find((version) => version.name === preferredVersionName)
@@ -49,8 +49,8 @@ export function useDocsPreferredVersionByPluginId(): Record<
   const [state] = useDocsPreferredVersionContext();
 
   function getPluginIdPreferredVersion(pluginId: string) {
-    const docsData = allDocsData[pluginId];
-    const {preferredVersionName} = state[pluginId];
+    const docsData = allDocsData[pluginId]!;
+    const {preferredVersionName} = state[pluginId]!;
 
     return preferredVersionName
       ? docsData.versions.find(

@@ -10,7 +10,7 @@ import type {Location} from 'history';
 // Memoize previously normalized pathnames.
 const pathnames: Record<string, string> = {};
 
-function normalizeLocation<T extends Location>(location: T): T {
+export default function normalizeLocation<T extends Location>(location: T): T {
   if (pathnames[location.pathname]) {
     return {
       ...location,
@@ -32,5 +32,3 @@ function normalizeLocation<T extends Location>(location: T): T {
     pathname,
   };
 }
-
-export default normalizeLocation;

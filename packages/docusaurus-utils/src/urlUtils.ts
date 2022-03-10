@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {removeSuffix} from './jsUtils';
+import resolvePathnameUnsafe from 'resolve-pathname';
+
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = [...rawUrls];
   const resultArray = [];
@@ -12,10 +15,17 @@ export function normalizeUrl(rawUrls: string[]): string {
   let hasStartingSlash = false;
   let hasEndingSlash = false;
 
+  const isNonEmptyArray = (arr: string[]): arr is [string, ...string[]] =>
+    arr.length > 0;
+
+  if (!isNonEmptyArray(urls)) {
+    return '';
+  }
+
   // If the first part is a plain protocol, we combine it with the next part.
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
-    const first = urls.shift();
-    if (first!.startsWith('file:') && urls[0].startsWith('/')) {
+    const first = urls.shift()!;
+    if (first.startsWith('file:') && urls[0].startsWith('/')) {
       // Force a double slash here, else we lose the information that the next
       // segment is an absolute path
       urls[0] = `${first}//${urls[0]}`;
@@ -93,4 +103,54 @@ export function getEditUrl(
     ? // Don't use posixPath for this: we need to force a forward slash path
       normalizeUrl([editUrl, fileRelativePath.replace(/\\/g, '/')])
     : undefined;
+}
+
+/**
+ * Convert filepath to url path.
+ * Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
+ */
+export function fileToPath(file: string): string {
+  const indexRE = /(?<dirname>^|.*\/)index\.(?:mdx?|jsx?|tsx?)$/i;
+  const extRE = /\.(?:mdx?|jsx?|tsx?)$/;
+
+  if (indexRE.test(file)) {
+    return file.replace(indexRE, '/$1');
+  }
+  return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
+}
+
+export function encodePath(userPath: string): string {
+  return userPath
+    .split('/')
+    .map((item) => encodeURIComponent(item))
+    .join('/');
+}
+
+export function isValidPathname(str: string): boolean {
+  if (!str.startsWith('/')) {
+    return false;
+  }
+  try {
+    // weird, but is there a better way?
+    const parsedPathname = new URL(str, 'https://domain.com').pathname;
+    return parsedPathname === str || parsedPathname === encodeURI(str);
+  } catch {
+    return false;
+  }
+}
+
+// resolve pathname and fail fast if resolution fails
+export function resolvePathname(to: string, from?: string): string {
+  return resolvePathnameUnsafe(to, from);
+}
+export function addLeadingSlash(str: string): string {
+  return str.startsWith('/') ? str : `/${str}`;
+}
+
+// TODO deduplicate: also present in @docusaurus/utils-common
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
+export function removeTrailingSlash(str: string): string {
+  return removeSuffix(str, '/');
 }

@@ -20,16 +20,17 @@ const pluginName = 'chunk-asset-plugin';
  *
  * "gca" stands for "get chunk asset"
  */
-class ChunkAssetPlugin {
+export default class ChunkAssetPlugin {
   apply(compiler: Compiler): void {
     compiler.hooks.thisCompilation.tap(pluginName, ({mainTemplate}) => {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
-        const chunkNameToId = Object.create(null);
-        Object.keys(chunkIdToName).forEach((chunkId) => {
-          const chunkName = chunkIdToName[chunkId];
-          chunkNameToId[chunkName] = chunkId;
-        });
+        const chunkNameToId = Object.fromEntries(
+          Object.entries(chunkIdToName).map(([chunkId, chunkName]) => [
+            chunkName,
+            chunkId,
+          ]),
+        );
         const buf = [source];
         buf.push('// function to get chunk asset');
         buf.push(
@@ -52,5 +53,3 @@ class ChunkAssetPlugin {
     });
   }
 }
-
-export default ChunkAssetPlugin;

@@ -9,7 +9,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
 
-function NotFound(): JSX.Element {
+export default function NotFound(): JSX.Element {
   return (
     <Layout
       title={translate({
@@ -47,5 +47,3 @@ function NotFound(): JSX.Element {
     </Layout>
   );
 }
-
-export default NotFound;

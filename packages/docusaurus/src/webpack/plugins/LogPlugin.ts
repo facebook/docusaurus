@@ -14,7 +14,7 @@ function showError(arr: string[]) {
 }
 
 export default class LogPlugin extends WebpackBar {
-  apply(compiler: Compiler): void {
+  override apply(compiler: Compiler): void {
     super.apply(compiler);
 
     // TODO can't this be done in compile(configs) alongside the warnings???

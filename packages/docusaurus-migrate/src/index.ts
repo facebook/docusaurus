@@ -45,18 +45,22 @@ function sanitizedFileContent(
   migrateMDFiles: boolean,
 ): string {
   const extractedData = extractMetadata(content);
-  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, [key, value]) =>
-      `${metaData}\n${key}: ${
-        shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
-      }`,
-    '',
-  );
-  const sanitizedData = `---${extractedMetaData}\n---\n${
-    migrateMDFiles
-      ? sanitizeMD(extractedData.rawContent)
-      : extractedData.rawContent
-  }`;
+  const extractedMetaData = Object.entries(extractedData.metadata)
+    .map(
+      ([key, value]) =>
+        `${key}: ${
+          shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
+        }`,
+    )
+    .join('\n');
+  const sanitizedData = `---
+${extractedMetaData}
+---
+${
+  migrateMDFiles
+    ? sanitizeMD(extractedData.rawContent)
+    : extractedData.rawContent
+}`;
   return sanitizedData;
 }
 
@@ -106,8 +110,8 @@ export async function migrateDocusaurusProject(
   try {
     createClientRedirects(migrationContext);
     logger.success('Created client redirect for non clean URL');
-  } catch (e) {
-    logger.error(`Failed to creating redirects: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to creating redirects: ${err}`);
     errorCount += 1;
   }
   if (shouldMigratePages) {
@@ -116,8 +120,8 @@ export async function migrateDocusaurusProject(
       logger.success(
         'Created new doc pages (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create new doc pages: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create new doc pages: ${err}`);
       errorCount += 1;
     }
   } else {
@@ -126,8 +130,8 @@ export async function migrateDocusaurusProject(
       logger.success(
         'Created landing page (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create landing page: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create landing page: ${err}`);
       errorCount += 1;
     }
   }
@@ -135,54 +139,54 @@ export async function migrateDocusaurusProject(
   try {
     await migrateStaticFiles(migrationContext);
     logger.success('Migrated static folder');
-  } catch (e) {
-    logger.error(`Failed to copy static folder: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to copy static folder: ${err}`);
     errorCount += 1;
   }
   try {
     await migrateBlogFiles(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate blogs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate blogs: ${err}`);
     errorCount += 1;
   }
   try {
     await handleVersioning(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate versioned docs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate versioned docs: ${err}`);
     errorCount += 1;
   }
 
   try {
     await migrateLatestDocs(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate docs: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate docs: ${err}`);
     errorCount += 1;
   }
 
   try {
     await migrateLatestSidebar(migrationContext);
-  } catch (e) {
-    logger.error(`Failed to migrate sidebar: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to migrate sidebar: ${err}`);
     errorCount += 1;
   }
 
   try {
-    await fs.writeFile(
+    await fs.outputFile(
       path.join(newDir, 'docusaurus.config.js'),
       `module.exports=${JSON.stringify(migrationContext.v2Config, null, 2)}`,
     );
     logger.success(
       `Created a new config file with new navbar and footer config`,
     );
-  } catch (e) {
-    logger.error(`Failed to create config file: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to create config file: ${err}`);
     errorCount += 1;
   }
   try {
     await migratePackageFile(migrationContext);
-  } catch (e) {
+  } catch (err) {
     logger.error(
-      `Error occurred while creating package.json file for project: ${e}`,
+      `Error occurred while creating package.json file for project: ${err}`,
     );
     errorCount += 1;
   }
@@ -384,11 +388,11 @@ async function createPages(context: MigrationContext) {
         files.map(async (file) => {
           const filePath = path.join(newDir, 'src', 'pages', file);
           const content = await fs.readFile(filePath, 'utf-8');
-          await fs.writeFile(filePath, migratePage(content));
+          await fs.outputFile(filePath, migratePage(content));
         }),
       );
-    } catch (e) {
-      logger.error(`Unable to migrate Pages: ${e}`);
+    } catch (err) {
+      logger.error(`Unable to migrate Pages: ${err}`);
       await createDefaultLandingPage(context);
     }
   } else {
@@ -404,8 +408,7 @@ async function createDefaultLandingPage({newDir}: MigrationContext) {
         return <Layout />;
       };
       `;
-  await fs.mkdirp(`${newDir}/src/pages/`);
-  await fs.writeFile(`${newDir}/src/pages/index.js`, indexPage);
+  await fs.outputFile(`${newDir}/src/pages/index.js`, indexPage);
 }
 
 async function migrateStaticFiles({siteDir, newDir}: MigrationContext) {
@@ -424,7 +427,7 @@ async function migrateBlogFiles(context: MigrationContext) {
     await Promise.all(
       files.map(async (file) => {
         const content = await fs.readFile(file, 'utf-8');
-        await fs.writeFile(
+        await fs.outputFile(
           file,
           sanitizedFileContent(content, shouldMigrateMdFiles),
         );
@@ -504,7 +507,7 @@ async function migrateVersionedDocs(
     files.map(async (pathToFile) => {
       if (path.extname(pathToFile) === '.md') {
         const content = await fs.readFile(pathToFile, 'utf-8');
-        await fs.writeFile(
+        await fs.outputFile(
           pathToFile,
           sanitizedFileContent(
             content.replace(versionRegex, ''),
@@ -531,7 +534,7 @@ async function migrateVersionedSidebar(
     // Order matters: if a sidebar file doesn't exist, we have to use the
     // previous version's
     for (let i = 0; i < versions.length; i += 1) {
-      const version = versions[i];
+      const version = versions[i]!;
       let sidebarEntries: SidebarEntries;
       const sidebarPath = path.join(
         siteDir,
@@ -541,7 +544,7 @@ async function migrateVersionedSidebar(
       try {
         sidebarEntries = JSON.parse(await fs.readFile(sidebarPath, 'utf-8'));
       } catch {
-        sidebars.push({version, entries: sidebars[i - 1].entries});
+        sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(
@@ -597,7 +600,7 @@ async function migrateVersionedSidebar(
           },
           {} as SidebarEntries,
         );
-        await fs.writeFile(
+        await fs.outputFile(
           path.join(
             newDir,
             'versioned_sidebars',
@@ -660,13 +663,13 @@ async function migrateLatestSidebar(context: MigrationContext) {
   --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
 }
 `;
-    await fs.mkdirp(path.join(newDir, 'src', 'css'));
-    await fs.writeFile(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
+    await fs.outputFile(
+      path.join(newDir, 'src', 'css', 'customTheme.css'),
+      css,
+    );
     context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
-      'src',
-      'css',
-      'customTheme.css',
+      'src/css/customTheme.css',
     );
   }
 }
@@ -683,7 +686,7 @@ async function migrateLatestDocs(context: MigrationContext) {
       files.map(async (file) => {
         if (path.extname(file) === '.md') {
           const content = await fs.readFile(file, 'utf-8');
-          await fs.writeFile(
+          await fs.outputFile(
             file,
             sanitizedFileContent(content, shouldMigrateMdFiles),
           );
@@ -723,7 +726,7 @@ async function migratePackageFile(context: MigrationContext): Promise<void> {
     ...packageFile.dependencies,
     ...deps,
   };
-  await fs.writeFile(
+  await fs.outputFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
@@ -741,7 +744,7 @@ export async function migrateMDToMDX(
     files.map(async (filePath) => {
       if (path.extname(filePath) === '.md') {
         const content = await fs.readFile(filePath, 'utf-8');
-        await fs.writeFile(filePath, sanitizedFileContent(content, true));
+        await fs.outputFile(filePath, sanitizedFileContent(content, true));
       }
     }),
   );

@@ -14,7 +14,9 @@ describe('loadPresets', () => {
   test('no presets', async () => {
     const context = {
       siteConfigPath: __dirname,
-      siteConfig: {},
+      siteConfig: {
+        presets: [],
+      },
     } as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
