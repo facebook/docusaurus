@@ -58,7 +58,7 @@ When forwarding port 3000 from a remote server or VM (e.g. GitHub Codespaces), y
 npm run start -- --host 0.0.0.0
 ```
 
-::: 
+:::
 
 #### Enabling HTTPS {#enabling-https}
 
