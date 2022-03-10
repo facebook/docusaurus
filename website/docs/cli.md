@@ -50,9 +50,9 @@ Please note that some functionality (for example, anchor links) will not work in
 
 :::
 
-:::info Running on GitHub Codespaces
+:::info Development over network
 
-When forwarding port 3000 from a remote server (e.g. GitHub Codespaces), you may encounter a 502 Bad Gateway error. In this case, try running the dev server on `0.0.0.0` instead.
+When forwarding port 3000 from a remote server or VM (e.g. GitHub Codespaces), you may encounter a 502 Bad Gateway error. In this case, try running the dev server on `0.0.0.0` instead.
 
 ```bash npm2yarn
 npm run start -- --host 0.0.0.0
