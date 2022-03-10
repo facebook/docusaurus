@@ -1980,6 +1980,14 @@ const Users: User[] = [
     source: 'https://github.com/HiChen404/MyWikiSite',
     tags: ['opensource', 'personal'],
   },
+  {
+    title: 'Vedant\'s Projects\' Docs',
+    description: 'Documentation of all projects by @vedantmgoyal2009',
+    preview: require('./showcase/vedantmgoyal2009.png'),
+    website: 'https://bittu.eu.org',
+    source: 'https://github.com/vedantmgoyal2009/vedantmgoyal2009/tree/main/docs',
+    tags: ['personal', 'opensource']
+  }
   /*
   Pro Tip: add your site in alphabetical order.
   Appending your site here (at the end) is more likely to produce Git conflicts.
