@@ -515,6 +515,14 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'EduLinks',
+    description: 'Catalog of free educational resources. STEM, ESL and more.',
+    preview: require('./showcase/edulinks.png'),
+    website: 'https://edulinks.app',
+    source: null,
+    tags: ['product'],
+  },
+  {
     title: 'Eightshift Docs',
     description:
       'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
