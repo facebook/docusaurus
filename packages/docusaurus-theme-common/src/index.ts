@@ -20,6 +20,7 @@ export type {
   MultiColumnFooter,
   SimpleFooter,
   Footer,
+  FooterLogo,
   FooterLinkItem,
   ColorModeConfig,
 } from './utils/useThemeConfig';

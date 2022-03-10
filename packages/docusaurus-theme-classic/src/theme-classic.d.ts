@@ -205,7 +205,7 @@ declare module '@theme/DocSidebar/Desktop/Content' {
     readonly sidebar: readonly PropSidebarItem[];
   }
 
-  export default function CollapseButton(props: Props): JSX.Element;
+  export default function Content(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar/Desktop/CollapseButton' {
@@ -278,6 +278,54 @@ declare module '@theme/ErrorPageContent' {
 
 declare module '@theme/Footer' {
   export default function Footer(): JSX.Element | null;
+}
+
+declare module '@theme/Footer/Logo' {
+  import type {FooterLogo} from '@docusaurus/theme-common';
+
+  export interface Props {
+    logo: FooterLogo;
+  }
+
+  export default function Logo(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Copyright' {
+  export interface Props {
+    copyright: string;
+  }
+
+  export default function Copyright(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/LinkItem' {
+  import type {FooterLinkItem} from '@docusaurus/theme-common';
+
+  export interface Props {
+    item: FooterLinkItem;
+  }
+
+  export default function LinkItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/MultiColumn' {
+  import type {MultiColumnFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    columns: MultiColumnFooter['links'];
+  }
+
+  export default function MultiColumn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Simple' {
+  import type {SimpleFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: SimpleFooter['links'];
+  }
+
+  export default function Simple(props: Props): JSX.Element;
 }
 
 declare module '@theme/Heading' {

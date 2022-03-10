@@ -37,10 +37,46 @@ export default function getSwizzleConfig(): SwizzleConfig {
       },
       Footer: {
         actions: {
-          eject: 'unsafe', // TODO split footer into smaller parts
+          eject: 'safe',
           wrap: 'safe',
         },
         description: "The footer component of you site's layout",
+      },
+      'Footer/Copyright': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer copyright',
+      },
+      'Footer/LinkItem': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer link item component',
+      },
+      'Footer/Logo': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer logo',
+      },
+      'Footer/MultiColumn': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer component for the multi-column layout',
+      },
+      'Footer/Simple': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The footer component for the simple layout (single link row)',
       },
       IconArrow: {
         actions: {
