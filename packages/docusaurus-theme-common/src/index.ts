@@ -111,6 +111,8 @@ export {
   type TOCTreeNode,
 } from './utils/tocUtils';
 
+export {isMultiColumnFooterLinks} from './utils/footerUtils';
+
 export {
   ScrollControllerProvider,
   useScrollController,

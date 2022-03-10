@@ -10,31 +10,24 @@ import clsx from 'clsx';
 
 import {
   useThemeConfig,
-  type MultiColumnFooter,
-  type SimpleFooter,
+  isMultiColumnFooterLinks,
 } from '@docusaurus/theme-common';
 import Logo from '@theme/Footer/Logo';
 import Copyright from '@theme/Footer/Copyright';
 import MultiColumn from '@theme/Footer/MultiColumn';
 import Simple from '@theme/Footer/Simple';
 
-function isMultiColumnFooterLinks(
-  links: MultiColumnFooter['links'] | SimpleFooter['links'],
-): links is MultiColumnFooter['links'] {
-  return 'title' in links[0]!;
-}
-
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
   if (!footer) {
     return null;
   }
-  const {copyright, links, logo} = footer;
+  const {copyright, links, logo, style} = footer;
 
   return (
     <footer
       className={clsx('footer', {
-        'footer--dark': footer.style === 'dark',
+        'footer--dark': style === 'dark',
       })}>
       <div className="container container-fluid">
         {links &&
