@@ -28,6 +28,7 @@
     "@docsearch/react": "^3.0.0",
     "@docusaurus/core": "2.0.0-beta.17",
     "@docusaurus/logger": "2.0.0-beta.17",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.17",
     "@docusaurus/theme-common": "2.0.0-beta.17",
     "@docusaurus/theme-translations": "2.0.0-beta.17",
     "@docusaurus/utils": "2.0.0-beta.17",
