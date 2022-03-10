@@ -46,7 +46,11 @@ function Footer(): JSX.Element | null {
           ))}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">
-            {logo && <Logo logo={logo} />}
+            {logo && (
+              <div className="margin-bottom--sm">
+                <Logo logo={logo} />
+              </div>
+            )}
             {copyright && <Copyright copyright={copyright} />}
           </div>
         )}

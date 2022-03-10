@@ -31,15 +31,11 @@ function LogoImage({logo}: Props) {
 }
 
 export default function Logo({logo}: Props): JSX.Element {
-  return (
-    <div className="margin-bottom--sm">
-      {logo.href ? (
-        <Link href={logo.href} className={styles.footerLogoLink}>
-          <LogoImage logo={logo} />
-        </Link>
-      ) : (
-        <LogoImage logo={logo} />
-      )}
-    </div>
+  return logo.href ? (
+    <Link href={logo.href} className={styles.footerLogoLink}>
+      <LogoImage logo={logo} />
+    </Link>
+  ) : (
+    <LogoImage logo={logo} />
   );
 }
