@@ -338,6 +338,9 @@ This is the easy tutorial!
   "link": {
     "type": "generated-index",
     "title": "Tutorial overview"
+  },
+  "customProps": {
+    "description": "This description can be used in the swizzled DocCard"
   }
 }
 ```
@@ -354,6 +357,8 @@ className: red
 link:
   type: generated-index
   title: Tutorial overview
+customProps:
+  description: This description can be used in the swizzled DocCard
 ```
 
 </TabItem>

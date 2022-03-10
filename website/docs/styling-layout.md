@@ -20,7 +20,7 @@ There are a few approaches/frameworks which will work, depending on your prefere
 
 This is the most traditional way of styling that most developers (including non-front-end developers) would be familiar with. It works fine for small websites that do not have much customization.
 
-If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option into the preset.
+If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing them as an option of the classic theme.
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -114,7 +114,7 @@ Alternatively, use the following tool to generate the different shades for your 
 
 ### Dark Mode {#dark-mode}
 
-In light mode, the `<html>` element has a `data-theme="light"` attribute; and in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
+In light mode, the `<html>` element has a `data-theme="light"` attribute; in dark mode, it's `data-theme="dark"`. Therefore, you can scope your CSS to dark-mode-only by targeting `html` with a specific attribute.
 
 ```css
 /* Overriding root Infima variables */
@@ -145,7 +145,7 @@ Docusaurus uses `996px` as the cutoff between mobile screen width and desktop. I
 
 ## CSS modules {#css-modules}
 
-To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
+To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). Webpack will load such CSS files as CSS modules and you have to reference the class names as properties of the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
 
 ```css title="styles.module.css"
 .main {
@@ -180,7 +180,7 @@ The class names will be processed by webpack into a globally unique class name d
 
 :::caution
 
-This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
+CSS-in-JS support is a work in progress, so libs like MUI may have display quirks. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).
 
 :::
 

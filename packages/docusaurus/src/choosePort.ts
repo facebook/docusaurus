@@ -38,7 +38,7 @@ function clearConsole(): void {
 function getProcessIdOnPort(port: number): string {
   return execSync(`lsof -i:${port} -P -t -sTCP:LISTEN`, execOptions)
     .toString()
-    .split('\n')[0]
+    .split('\n')[0]!
     .trim();
 }
 

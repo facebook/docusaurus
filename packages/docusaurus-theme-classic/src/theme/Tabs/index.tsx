@@ -108,7 +108,7 @@ function TabsComponent(props: Props): JSX.Element {
   ) => {
     const newTab = event.currentTarget;
     const newTabIndex = tabRefs.indexOf(newTab);
-    const newTabValue = values[newTabIndex].value;
+    const newTabValue = values[newTabIndex]!.value;
 
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
@@ -126,12 +126,12 @@ function TabsComponent(props: Props): JSX.Element {
     switch (event.key) {
       case 'ArrowRight': {
         const nextTab = tabRefs.indexOf(event.currentTarget) + 1;
-        focusElement = tabRefs[nextTab] || tabRefs[0];
+        focusElement = tabRefs[nextTab] || tabRefs[0]!;
         break;
       }
       case 'ArrowLeft': {
         const prevTab = tabRefs.indexOf(event.currentTarget) - 1;
-        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
+        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1]!;
         break;
       }
       default:
@@ -181,7 +181,7 @@ function TabsComponent(props: Props): JSX.Element {
         cloneElement(
           children.filter(
             (tabItem) => tabItem.props.value === selectedValue,
-          )[0],
+          )[0]!,
           {className: 'margin-vert--md'},
         )
       ) : (

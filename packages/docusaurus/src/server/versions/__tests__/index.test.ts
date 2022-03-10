@@ -12,7 +12,7 @@ describe('getPluginVersion', () => {
   it('Can detect external packages plugins versions of correctly.', async () => {
     await expect(
       getPluginVersion(
-        path.join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
+        path.join(__dirname, '__fixtures__/dummy-plugin.js'),
         // Make the plugin appear external.
         path.join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
       ),
@@ -22,9 +22,9 @@ describe('getPluginVersion', () => {
   it('Can detect project plugins versions correctly.', async () => {
     await expect(
       getPluginVersion(
-        path.join(__dirname, '..', '__fixtures__', 'dummy-plugin.js'),
+        path.join(__dirname, '__fixtures__/dummy-plugin.js'),
         // Make the plugin appear project local.
-        path.join(__dirname, '..', '__fixtures__'),
+        path.join(__dirname, '__fixtures__'),
       ),
     ).resolves.toEqual({type: 'project'});
   });

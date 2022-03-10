@@ -30,5 +30,5 @@ Current type: ${isValidElement(children) ? 'React element' : typeof children}`);
     return <>{children()}</>;
   }
 
-  return fallback || null;
+  return fallback ?? null;
 }

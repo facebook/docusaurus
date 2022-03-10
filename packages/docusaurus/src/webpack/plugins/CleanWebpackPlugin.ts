@@ -176,7 +176,7 @@ export default class CleanWebpackPlugin {
       stats.toJson({
         all: false,
         assets: true,
-      }).assets || [];
+      }).assets ?? [];
     const assets = statsAssets.map((asset: {name: string}) => asset.name);
 
     /**

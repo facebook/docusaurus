@@ -2,14 +2,13 @@
   "name": "@docusaurus/migrate",
   "version": "2.0.0-beta.17",
   "description": "A CLI tool to migrate from older versions of Docusaurus.",
-  "main": "lib/index.js",
   "license": "MIT",
   "engines": {
     "node": ">=14"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json --watch"
   },
   "repository": {
     "type": "git",

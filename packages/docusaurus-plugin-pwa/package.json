@@ -32,11 +32,11 @@
     "core-js": "^3.21.0",
     "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.3.1",
-    "webpack": "^5.69.1",
+    "webpack": "^5.70.0",
     "webpack-merge": "^5.8.0",
-    "workbox-build": "^6.5.0",
-    "workbox-precaching": "^6.5.0",
-    "workbox-window": "^6.5.0"
+    "workbox-build": "^6.5.1",
+    "workbox-precaching": "^6.5.1",
+    "workbox-window": "^6.5.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.17",

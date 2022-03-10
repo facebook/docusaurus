@@ -11,11 +11,11 @@ import fs from 'fs-extra';
 import {posixPath} from '@docusaurus/utils';
 
 async function testMigration(siteDir: string, newDir: string) {
-  const writeMock = jest.spyOn(fs, 'writeFile').mockImplementation();
+  const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation();
   const mkdirpMock = jest.spyOn(fs, 'mkdirp').mockImplementation();
   const mkdirsMock = jest.spyOn(fs, 'mkdirs').mockImplementation();
   const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
-  await migrateDocusaurusProject(siteDir, newDir);
+  await migrateDocusaurusProject(siteDir, newDir, true, true);
   expect(
     writeMock.mock.calls.sort((a, b) =>
       posixPath(a[0] as string).localeCompare(posixPath(b[0] as string)),

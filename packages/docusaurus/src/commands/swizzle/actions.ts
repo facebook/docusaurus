@@ -144,8 +144,7 @@ export default function ${wrapperComponentName}(props) {
 }
 `;
 
-  await fs.ensureDir(path.dirname(toPath));
-  await fs.writeFile(toPath, content);
+  await fs.outputFile(toPath, content);
 
   return {createdFiles: [toPath]};
 }

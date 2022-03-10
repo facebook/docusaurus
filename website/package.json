@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
-    "@crowdin/crowdin-api-client": "^1.14.0",
+    "@crowdin/crowdin-api-client": "^1.14.1",
     "@docusaurus/core": "2.0.0-beta.17",
     "@docusaurus/logger": "2.0.0-beta.17",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.17",
@@ -62,8 +62,8 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "unist-util-visit": "^2.0.2",
-    "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0"
+    "workbox-routing": "^6.5.1",
+    "workbox-strategies": "^6.5.1"
   },
   "browserslist": {
     "production": [

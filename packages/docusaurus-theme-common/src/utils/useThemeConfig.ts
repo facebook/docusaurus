@@ -56,7 +56,7 @@ export type PrismConfig = {
   theme?: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
-  additionalLanguages?: string[];
+  additionalLanguages: string[];
 };
 
 export type FooterLinkItem = {
@@ -71,7 +71,7 @@ export type FooterBase = {
   style: 'light' | 'dark';
   logo?: {
     alt?: string;
-    src?: string;
+    src: string;
     srcDark?: string;
     width?: string | number;
     height?: string | number;

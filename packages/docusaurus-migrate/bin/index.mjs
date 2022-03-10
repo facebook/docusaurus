@@ -13,24 +13,19 @@ import semver from 'semver';
 import cli from 'commander';
 import path from 'path';
 import {createRequire} from 'module';
-import {migrateDocusaurusProject, migrateMDToMDX} from '../lib/index.js';
 
-const requiredVersion = createRequire(import.meta.url)('../package.json')
-  .engines.node;
-
-function wrapCommand(fn) {
-  return (...args) =>
-    fn(...args).catch((err) => {
-      logger.error(err.stack);
-      process.exitCode = 1;
-    });
-}
+const moduleRequire = createRequire(import.meta.url);
+const requiredVersion = moduleRequire('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
   logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
 }
+
+// See https://github.com/facebook/docusaurus/pull/6860
+const {migrateDocusaurusProject, migrateMDToMDX} =
+  moduleRequire('../lib/index.js');
 
 cli
   .command('migrate [siteDir] [newDir]')
@@ -40,7 +35,7 @@ cli
   .action((siteDir = '.', newDir = '.', {mdx, page} = {}) => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
-    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath, mdx, page);
+    migrateDocusaurusProject(sitePath, newSitePath, mdx, page);
   });
 
 cli
@@ -49,7 +44,7 @@ cli
   .action((siteDir = '.', newDir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
-    wrapCommand(migrateMDToMDX)(sitePath, newSitePath);
+    migrateMDToMDX(sitePath, newSitePath);
   });
 
 cli.parse(process.argv);
@@ -57,3 +52,8 @@ cli.parse(process.argv);
 if (!process.argv.slice(2).length) {
   cli.outputHelp();
 }
+
+process.on('unhandledRejection', (err) => {
+  logger.error(err);
+  process.exit(1);
+});

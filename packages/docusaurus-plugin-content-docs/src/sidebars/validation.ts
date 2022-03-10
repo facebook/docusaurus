@@ -164,6 +164,7 @@ const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
   collapsible: Joi.boolean(),
   className: Joi.string(),
   link: sidebarItemCategoryLinkSchema,
+  customProps: Joi.object().unknown(),
 });
 
 export function validateCategoryMetadataFile(

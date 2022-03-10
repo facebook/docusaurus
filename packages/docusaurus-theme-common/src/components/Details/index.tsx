@@ -58,7 +58,7 @@ export default function Details({
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
-        {[styles.isBrowser]: isBrowser},
+        {[styles.isBrowser!]: isBrowser},
         props.className,
       )}
       onMouseDown={(e) => {

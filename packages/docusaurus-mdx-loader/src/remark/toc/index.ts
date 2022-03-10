@@ -94,7 +94,7 @@ export default function plugin(options: PluginOptions = {}): Transformer {
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
     if (headings && headings.length) {
-      children[targetIndex].value = `export const ${name} = ${stringifyObject(
+      children[targetIndex]!.value = `export const ${name} = ${stringifyObject(
         headings,
       )};`;
     }

@@ -47,8 +47,7 @@ async function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    await fs.ensureDir(path.dirname(newSidebarFile));
-    await fs.writeFile(
+    await fs.outputFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -140,8 +139,7 @@ export async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  await fs.ensureDir(path.dirname(versionsJSONFile));
-  await fs.writeFile(
+  await fs.outputFile(
     versionsJSONFile,
     `${JSON.stringify(versions, null, 2)}\n`,
   );

@@ -71,7 +71,7 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       if (isParent(node)) {
         let index = 0;
         while (index < node.children.length) {
-          const child = node.children[index];
+          const child = node.children[index]!;
           if (matchNode(child)) {
             const result = transformNode(child, sync);
             node.children.splice(index, 1, ...result);

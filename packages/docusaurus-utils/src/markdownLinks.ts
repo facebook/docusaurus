@@ -48,12 +48,13 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   let lastCodeFence = '';
   const lines = fileString.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
+      const codeFence = line.trim().match(/^`+/)![0]!;
       if (!fencedBlock) {
         fencedBlock = true;
-        [lastCodeFence] = line.trim().match(/^`+/)!;
+        lastCodeFence = codeFence;
         // If we are in a ````-fenced block, all ``` would be plain text instead
         // of fences
-      } else if (line.trim().match(/^`+/)![0].length >= lastCodeFence.length) {
+      } else if (codeFence.length >= lastCodeFence.length) {
         fencedBlock = false;
       }
     }
@@ -71,7 +72,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       // Replace it to correct html link.
-      const mdLink = mdMatch.groups!.filename;
+      const mdLink = mdMatch.groups!.filename!;
 
       const sourcesToTry = [
         path.resolve(path.dirname(filePath), decodeURIComponent(mdLink)),

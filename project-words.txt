@@ -38,6 +38,8 @@ chedeau
 cheng
 clément
 clsx
+codeql
+codespaces
 codesandbox
 contravariance
 corejs

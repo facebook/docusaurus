@@ -25,14 +25,15 @@ const SUPPORTED_MIMES: Record<string, string> = {
 export async function base64(file: string): Promise<string> {
   let extension = path.extname(file);
   extension = extension.split('.').pop()!;
+  const mime = SUPPORTED_MIMES[extension];
 
-  if (!SUPPORTED_MIMES[extension]) {
+  if (!mime) {
     throw new Error(ERROR_EXT);
   }
 
   try {
     const data = await sharp(file).resize(10).toBuffer();
-    return toBase64(SUPPORTED_MIMES[extension], data);
+    return toBase64(mime, data);
   } catch (err) {
     logger.error`Generation of base64 failed for image path=${file}.`;
     throw err;

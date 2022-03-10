@@ -131,8 +131,10 @@ Maybe you should remove them? ${unknownKeys}`;
     } translations will be written at path=${toMessageRelativeFilePath(
       filePath,
     )}.`;
-    await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, `${JSON.stringify(mergedContent, null, 2)}\n`);
+    await fs.outputFile(
+      filePath,
+      `${JSON.stringify(mergedContent, null, 2)}\n`,
+    );
   }
 }
 

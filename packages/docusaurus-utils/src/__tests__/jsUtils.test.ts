@@ -88,9 +88,9 @@ describe('mapAsyncSequential', () => {
 
   test('map sequentially', async () => {
     const itemToTimeout: Record<string, number> = {
-      '1': 50,
-      '2': 150,
-      '3': 100,
+      '1': 200,
+      '2': 600,
+      '3': 400,
     };
     const items = Object.keys(itemToTimeout);
 
@@ -112,14 +112,14 @@ describe('mapAsyncSequential', () => {
     const timeTotal = timeAfter - timeBefore;
 
     const totalTimeouts = _.sum(Object.values(itemToTimeout));
-    expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 20);
+    expect(timeTotal).toBeGreaterThanOrEqual(totalTimeouts - 100);
 
     expect(itemMapStartsAt['1']).toBeGreaterThanOrEqual(0);
     expect(itemMapStartsAt['2']).toBeGreaterThanOrEqual(
-      itemMapEndsAt['1'] - 20,
+      itemMapEndsAt['1'] - 100,
     );
     expect(itemMapStartsAt['3']).toBeGreaterThanOrEqual(
-      itemMapEndsAt['2'] - 20,
+      itemMapEndsAt['2'] - 100,
     );
   });
 });
@@ -135,7 +135,7 @@ describe('findAsyncSequential', () => {
     const items = ['1', '2', '3'];
 
     const findFn = jest.fn(async (item: string) => {
-      await sleep(50);
+      await sleep(400);
       return item === '2';
     });
 
@@ -148,8 +148,8 @@ describe('findAsyncSequential', () => {
     expect(findFn).toHaveBeenNthCalledWith(2, '2');
 
     const timeTotal = timeAfter - timeBefore;
-    expect(timeTotal).toBeGreaterThanOrEqual(80);
-    expect(timeTotal).toBeLessThan(120);
+    expect(timeTotal).toBeGreaterThanOrEqual(600);
+    expect(timeTotal).toBeLessThan(1000);
   });
 });
 

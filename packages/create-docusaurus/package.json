@@ -13,8 +13,8 @@
   },
   "scripts": {
     "create-docusaurus": "create-docusaurus",
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json --watch"
   },
   "bin": "bin/index.js",
   "publishConfig": {

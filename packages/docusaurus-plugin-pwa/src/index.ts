@@ -189,9 +189,8 @@ export default function pluginPWA(
           '**/*.{js,json,css,html}',
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          ...(injectManifest.globPatterns || []),
+          // @ts-expect-error: internal API?
+          ...(injectManifest.globPatterns ?? []),
         ],
         // those attributes are not overrideable
         swDest,

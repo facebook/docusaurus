@@ -45,7 +45,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  override shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
     const {routes, delay} = this.props;
 
@@ -116,7 +116,7 @@ class PendingNavigation extends React.Component<Props, State> {
     nprogress.done();
   }
 
-  render() {
+  override render() {
     const {children, location} = this.props;
     return (
       <Route location={normalizeLocation(location)} render={() => children} />

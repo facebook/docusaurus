@@ -304,7 +304,7 @@ export const ThemeConfigSchema = Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
       alt: Joi.string().allow(''),
-      src: Joi.string(),
+      src: Joi.string().required(),
       srcDark: Joi.string(),
       // TODO infer this from reading the image
       width: Joi.alternatives().try(Joi.string(), Joi.number()),

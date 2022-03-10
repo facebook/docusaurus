@@ -44,9 +44,7 @@ export default function DocSidebarDesktopContent({
       className={clsx(
         'menu thin-scrollbar',
         styles.menu,
-        {
-          [styles.menuWithAnnouncementBar]: showAnnouncementBar,
-        },
+        showAnnouncementBar && styles.menuWithAnnouncementBar,
         className,
       )}>
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>

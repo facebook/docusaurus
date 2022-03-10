@@ -6,13 +6,10 @@
  */
 
 import React, {type ReactNode, useState, useCallback} from 'react';
-import {MDXProvider} from '@mdx-js/react';
-
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
-import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
 import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
@@ -74,12 +71,12 @@ function DocPageContent({
               ThemeClassNames.docs.docSidebarContainer,
               styles.docSidebarContainer,
               {
-                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+                [styles.docSidebarContainerHidden!]: hiddenSidebarContainer,
               },
             )}
             onTransitionEnd={(e) => {
               if (
-                !e.currentTarget.classList.contains(styles.docSidebarContainer)
+                !e.currentTarget.classList.contains(styles.docSidebarContainer!)
               ) {
                 return;
               }
@@ -126,7 +123,7 @@ function DocPageContent({
         )}
         <main
           className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]:
+            [styles.docMainContainerEnhanced!]:
               hiddenSidebarContainer || !sidebar,
           })}>
           <div
@@ -134,10 +131,10 @@ function DocPageContent({
               'container padding-top--md padding-bottom--lg',
               styles.docItemWrapper,
               {
-                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+                [styles.docItemWrapperEnhanced!]: hiddenSidebarContainer,
               },
             )}>
-            <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+            {children}
           </div>
         </main>
       </div>
@@ -172,7 +169,7 @@ export default function DocPage(props: Props): JSX.Element {
         <html className={versionMetadata.className} />
       </Head>
       <DocsVersionProvider version={versionMetadata}>
-        <DocsSidebarProvider sidebar={sidebar}>
+        <DocsSidebarProvider sidebar={sidebar ?? null}>
           <DocPageContent
             currentDocRoute={currentDocRoute}
             versionMetadata={versionMetadata}

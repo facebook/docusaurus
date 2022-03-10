@@ -23,7 +23,10 @@ describe('loadSidebars', () => {
         frontMatter: {},
       },
     ],
-    version: {contentPath: 'docs/foo', contentPathLocalized: 'docs/foo'},
+    version: {
+      contentPath: path.join(fixtureDir, 'docs'),
+      contentPathLocalized: path.join(fixtureDir, 'docs'),
+    },
     categoryLabelSlugger: null,
     sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
   };
@@ -106,5 +109,37 @@ describe('loadSidebars', () => {
     );
     const result = await loadSidebars(sidebarPath, params);
     expect(result).toMatchSnapshot();
+  });
+
+  test('duplicate category metadata files', async () => {
+    const sidebarPath = path.join(
+      fixtureDir,
+      'sidebars-collapsed-first-level.json',
+    );
+    const consoleWarnMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const consoleErrorMock = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    await expect(() =>
+      loadSidebars(sidebarPath, {
+        ...params,
+        version: {
+          contentPath: path.join(fixtureDir, 'invalid-docs'),
+          contentPathLocalized: path.join(fixtureDir, 'invalid-docs'),
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" is not allowed"`);
+    expect(consoleWarnMock).toBeCalledWith(
+      expect.stringMatching(
+        /.*\[WARNING].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
+      ),
+    );
+    expect(consoleErrorMock).toBeCalledWith(
+      expect.stringMatching(
+        /.*\[ERROR].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
+      ),
+    );
   });
 });

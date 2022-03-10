@@ -340,7 +340,7 @@ ${sourceWarningPart(path.node)}`,
 
         const args = path.get('arguments');
         if (args.length === 1 || args.length === 2) {
-          const firstArgPath = args[0];
+          const firstArgPath = args[0]!;
 
           // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();

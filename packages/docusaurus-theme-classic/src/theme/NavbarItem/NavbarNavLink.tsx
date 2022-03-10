@@ -55,14 +55,12 @@ export default function NavbarNavLink({
               : null),
           })}
       {...props}>
-      {isExternalLink ? (
-        <span>
-          {label}
+      <span>
+        {label}
+        {isExternalLink && (
           <IconExternalLink {...(isDropdownLink && {width: 12, height: 12})} />
-        </span>
-      ) : (
-        label
-      )}
+        )}
+      </span>
     </Link>
   );
 }

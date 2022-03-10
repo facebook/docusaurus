@@ -464,11 +464,11 @@ Please set the docs "sidebarPath" field in your config file to:
 // "last version" is not a very good concept nor api surface
 function getDefaultLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
-    return versionNames[0];
+    return versionNames[0]!;
   }
   return versionNames.filter(
     (versionName) => versionName !== CURRENT_VERSION_NAME,
-  )[0];
+  )[0]!;
 }
 
 function checkVersionsOptions(
@@ -537,7 +537,7 @@ export function filterVersions(
 ): string[] {
   if (options.onlyIncludeVersions) {
     return versionNamesUnfiltered.filter((name) =>
-      (options.onlyIncludeVersions || []).includes(name),
+      options.onlyIncludeVersions!.includes(name),
     );
   }
   return versionNamesUnfiltered;

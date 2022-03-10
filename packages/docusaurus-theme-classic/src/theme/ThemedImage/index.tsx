@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 export default function ThemedImage(props: Props): JSX.Element {
   const isBrowser = useIsBrowser();
   const {isDarkTheme} = useColorMode();
-  const {sources, className, alt = '', ...propsRest} = props;
+  const {sources, className, alt, ...propsRest} = props;
 
   type SourceName = keyof Props['sources'];
 
