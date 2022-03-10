@@ -53,10 +53,7 @@ export default function DocItem(props: Props): JSX.Element {
       <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
-        <div
-          className={clsx('col', {
-            [styles.docItemCol!]: !hideTableOfContents,
-          })}>
+        <div className={clsx('col', !hideTableOfContents && styles.docItemCol)}>
           <DocVersionBanner />
           <div className={styles.docItemContainer}>
             <article>
