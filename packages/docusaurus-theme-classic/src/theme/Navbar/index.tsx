@@ -9,12 +9,11 @@ import React from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
 import SearchBar from '@theme/SearchBar';
-import ColorModeToggle from '@theme/ColorModeToggle';
+import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import {
   useThemeConfig,
   useHideableNavbar,
   useLockBodyScroll,
-  useColorMode,
   splitNavbarItems,
   useNavbarSecondaryMenu,
   useNavbarMobileSidebar,
@@ -30,21 +29,6 @@ import styles from './styles.module.css';
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved
   return useThemeConfig().navbar.items as NavbarItemConfig[];
-}
-
-function NavbarColorModeToggle({className}: {className?: string}) {
-  const disabled = useThemeConfig().colorMode.disableSwitch;
-  const {isDarkTheme, toggle} = useColorMode();
-  if (disabled) {
-    return null;
-  }
-  return (
-    <ColorModeToggle
-      className={className}
-      checked={isDarkTheme}
-      onChange={toggle}
-    />
-  );
 }
 
 type NavbarMobileSidebarProps = {

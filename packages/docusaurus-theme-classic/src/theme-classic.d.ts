@@ -393,6 +393,16 @@ declare module '@theme/Navbar' {
   export default function Navbar(): JSX.Element;
 }
 
+declare module '@theme/Navbar/ColorModeToggle' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NavbarColorModeToggle(
+    props: Props,
+  ): JSX.Element | null;
+}
+
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
