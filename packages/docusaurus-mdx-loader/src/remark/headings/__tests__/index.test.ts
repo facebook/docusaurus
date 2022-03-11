@@ -27,8 +27,8 @@ function heading(label, id) {
   );
 }
 
-describe('headings plugin', () => {
-  test('should patch `id`s and `data.hProperties.id', () => {
+describe('headings remark plugin', () => {
+  it('patches `id`s and `data.hProperties.id', () => {
     const result = process('# Normal\n\n## Table of Contents\n\n# Baz\n');
     const expected = u('root', [
       u(
@@ -55,7 +55,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should not overwrite `data` on headings', () => {
+  it('does not overwrite `data` on headings', () => {
     const result = process('# Normal\n', [
       () => {
         function transform(tree) {
@@ -78,7 +78,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should not overwrite `data.hProperties` on headings', () => {
+  it('does not overwrite `data.hProperties` on headings', () => {
     const result = process('# Normal\n', [
       () => {
         function transform(tree) {
@@ -101,7 +101,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should generate `id`s and `hProperties.id`s, based on `hProperties.id` if they exist', () => {
+  it('generates `id`s and `hProperties.id`s, based on `hProperties.id` if they exist', () => {
     const result = process(
       [
         '## Something',
@@ -157,7 +157,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should create GitHub-style headings ids', () => {
+  it('creates GitHub-style headings ids', () => {
     const result = process(
       [
         '## I ♥ unicode',
@@ -225,7 +225,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should generate id from only text contents of headings if they contains HTML tags', () => {
+  it('generates id from only text contents of headings if they contains HTML tags', () => {
     const result = process('# <span class="normal-header">Normal</span>\n');
     const expected = u('root', [
       u(
@@ -245,7 +245,7 @@ describe('headings plugin', () => {
     expect(result).toEqual(expected);
   });
 
-  test('should create custom headings ids', () => {
+  it('creates custom headings ids', () => {
     const result = process(`
 # Heading One {#custom_h1}
 

@@ -7,8 +7,8 @@
 
 import {shouldQuotifyFrontMatter} from '../frontMatter';
 
-describe('frontMatter', () => {
-  test('shouldQuotifyFrontMatter', () => {
+describe('shouldQuotifyFrontMatter', () => {
+  it('works', () => {
     expect(shouldQuotifyFrontMatter(['id', 'value'])).toEqual(false);
     expect(
       shouldQuotifyFrontMatter([

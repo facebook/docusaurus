@@ -11,7 +11,7 @@ import {
 } from '../extensionRedirects';
 
 describe('createToExtensionsRedirects', () => {
-  test('should reject empty extensions', () => {
+  it('rejects empty extensions', () => {
     expect(() => {
       createToExtensionsRedirects(['/'], ['']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -20,7 +20,7 @@ describe('createToExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with .', () => {
+  it('rejects extensions with "."', () => {
     expect(() => {
       createToExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -29,7 +29,7 @@ describe('createToExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with /', () => {
+  it('rejects extensions with /', () => {
     expect(() => {
       createToExtensionsRedirects(['/'], ['ht/ml']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -38,7 +38,7 @@ describe('createToExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with illegal url char', () => {
+  it('rejects extensions with illegal url char', () => {
     expect(() => {
       createToExtensionsRedirects(['/'], [',']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -47,7 +47,7 @@ describe('createToExtensionsRedirects', () => {
     `);
   });
 
-  test('should create redirects from html/htm extensions', () => {
+  it('creates redirects from html/htm extensions', () => {
     const ext = ['html', 'htm'];
     expect(createToExtensionsRedirects([''], ext)).toEqual([]);
     expect(createToExtensionsRedirects(['/'], ext)).toEqual([]);
@@ -60,13 +60,13 @@ describe('createToExtensionsRedirects', () => {
     expect(createToExtensionsRedirects(['/abc.xyz'], ext)).toEqual([]);
   });
 
-  test('should create "to" redirects when relativeRoutesPath contains a prefix', () => {
+  it('creates "to" redirects when relativeRoutesPath contains a prefix', () => {
     expect(
       createToExtensionsRedirects(['/prefix/file.html'], ['html']),
     ).toEqual([{from: '/prefix/file', to: '/prefix/file.html'}]);
   });
 
-  test('should not create redirection for an empty extension array', () => {
+  it('does not create redirection for an empty extension array', () => {
     const ext: string[] = [];
     expect(createToExtensionsRedirects([''], ext)).toEqual([]);
     expect(createToExtensionsRedirects(['/'], ext)).toEqual([]);
@@ -75,7 +75,7 @@ describe('createToExtensionsRedirects', () => {
 });
 
 describe('createFromExtensionsRedirects', () => {
-  test('should reject empty extensions', () => {
+  it('rejects empty extensions', () => {
     expect(() => {
       createFromExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -84,7 +84,7 @@ describe('createFromExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with .', () => {
+  it('rejects extensions with "."', () => {
     expect(() => {
       createFromExtensionsRedirects(['/'], ['.html']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -93,7 +93,7 @@ describe('createFromExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with /', () => {
+  it('rejects extensions with /', () => {
     expect(() => {
       createFromExtensionsRedirects(['/'], ['ht/ml']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -102,7 +102,7 @@ describe('createFromExtensionsRedirects', () => {
     `);
   });
 
-  test('should reject extensions with illegal url char', () => {
+  it('rejects extensions with illegal url char', () => {
     expect(() => {
       createFromExtensionsRedirects(['/'], [',']);
     }).toThrowErrorMatchingInlineSnapshot(`
@@ -111,7 +111,7 @@ describe('createFromExtensionsRedirects', () => {
     `);
   });
 
-  test('should create redirects from html/htm extensions', () => {
+  it('creates redirects from html/htm extensions', () => {
     const ext = ['html', 'htm'];
     expect(createFromExtensionsRedirects([''], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/'], ext)).toEqual([]);
@@ -126,13 +126,13 @@ describe('createFromExtensionsRedirects', () => {
     ]);
   });
 
-  test('should create "from" redirects when relativeRoutesPath contains a prefix', () => {
+  it('creates "from" redirects when relativeRoutesPath contains a prefix', () => {
     expect(createFromExtensionsRedirects(['/prefix/file'], ['html'])).toEqual([
       {from: '/prefix/file.html', to: '/prefix/file'},
     ]);
   });
 
-  test('should not create redirection for an empty extension array', () => {
+  it('does not create redirection for an empty extension array', () => {
     const ext: string[] = [];
     expect(createFromExtensionsRedirects([''], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/'], ext)).toEqual([]);

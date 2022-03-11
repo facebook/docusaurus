@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`unwrapMdxCodeBlocks should unwrap the mdx code blocks 1`] = `
+exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks 1`] = `
 "# MDX code blocks test document
 
 ## Some basic markdown
@@ -95,7 +95,7 @@ cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
 "
 `;
 
-exports[`unwrapMdxCodeBlocks should unwrap the mdx code blocks AST 1`] = `
+exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] = `
 Object {
   "children": Array [
     Object {

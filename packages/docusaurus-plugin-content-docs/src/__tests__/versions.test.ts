@@ -27,7 +27,7 @@ const DefaultI18N: I18n = {
 };
 
 describe('version paths', () => {
-  test('getVersionsFilePath', () => {
+  it('getVersionsFilePath', () => {
     expect(getVersionsFilePath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
       `someSiteDir${path.sep}versions.json`,
     );
@@ -36,7 +36,7 @@ describe('version paths', () => {
     );
   });
 
-  test('getVersionedDocsDirPath', () => {
+  it('getVersionedDocsDirPath', () => {
     expect(getVersionedDocsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
       `someSiteDir${path.sep}versioned_docs`,
     );
@@ -45,7 +45,7 @@ describe('version paths', () => {
     );
   });
 
-  test('getVersionedSidebarsDirPath', () => {
+  it('getVersionedSidebarsDirPath', () => {
     expect(getVersionedSidebarsDirPath('someSiteDir', DEFAULT_PLUGIN_ID)).toBe(
       `someSiteDir${path.sep}versioned_sidebars`,
     );
@@ -90,7 +90,7 @@ describe('simple site', () => {
     return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
   }
 
-  test('readVersionsMetadata simple site', async () => {
+  it('readVersionsMetadata simple site', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -101,7 +101,7 @@ describe('simple site', () => {
     expect(versionsMetadata).toEqual([vCurrent]);
   });
 
-  test('readVersionsMetadata simple site with base url', async () => {
+  it('readVersionsMetadata simple site with base url', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -121,7 +121,7 @@ describe('simple site', () => {
     ]);
   });
 
-  test('readVersionsMetadata simple site with current version config', async () => {
+  it('readVersionsMetadata simple site with current version config', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -154,7 +154,7 @@ describe('simple site', () => {
     ]);
   });
 
-  test('readVersionsMetadata simple site with unknown lastVersion should throw', async () => {
+  it('readVersionsMetadata simple site with unknown lastVersion should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -167,7 +167,7 @@ describe('simple site', () => {
     );
   });
 
-  test('readVersionsMetadata simple site with unknown version configurations should throw', async () => {
+  it('readVersionsMetadata simple site with unknown version configurations should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -187,7 +187,7 @@ describe('simple site', () => {
     );
   });
 
-  test('readVersionsMetadata simple site with disableVersioning while single version should throw', async () => {
+  it('readVersionsMetadata simple site with disableVersioning while single version should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -200,7 +200,7 @@ describe('simple site', () => {
     );
   });
 
-  test('readVersionsMetadata simple site without including current version should throw', async () => {
+  it('readVersionsMetadata simple site without including current version should throw', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -325,7 +325,7 @@ describe('versioned site, pluginId=default', () => {
     };
   }
 
-  test('readVersionsMetadata versioned site', async () => {
+  it('readVersionsMetadata versioned site', async () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
@@ -337,7 +337,7 @@ describe('versioned site, pluginId=default', () => {
     expect(versionsMetadata).toEqual([vCurrent, v101, v100, vwithSlugs]);
   });
 
-  test('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
+  it('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
     const {defaultOptions, defaultContext, v101, v100, vwithSlugs} =
       await loadSite();
 
@@ -354,7 +354,7 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with version options', async () => {
+  it('readVersionsMetadata versioned site with version options', async () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
@@ -408,7 +408,7 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with editUrl', async () => {
+  it('readVersionsMetadata versioned site with editUrl', async () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
@@ -452,7 +452,7 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
+  it('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
     const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
       await loadSite();
 
@@ -497,7 +497,7 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with onlyIncludeVersions option', async () => {
+  it('readVersionsMetadata versioned site with onlyIncludeVersions option', async () => {
     const {defaultOptions, defaultContext, v101, vwithSlugs} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -512,7 +512,7 @@ describe('versioned site, pluginId=default', () => {
     expect(versionsMetadata).toEqual([v101, vwithSlugs]);
   });
 
-  test('readVersionsMetadata versioned site with disableVersioning', async () => {
+  it('readVersionsMetadata versioned site with disableVersioning', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -533,7 +533,7 @@ describe('versioned site, pluginId=default', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site with all versions disabled', async () => {
+  it('readVersionsMetadata versioned site with all versions disabled', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -550,7 +550,7 @@ describe('versioned site, pluginId=default', () => {
     );
   });
 
-  test('readVersionsMetadata versioned site with empty onlyIncludeVersions', async () => {
+  it('readVersionsMetadata versioned site with empty onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -566,7 +566,7 @@ describe('versioned site, pluginId=default', () => {
     );
   });
 
-  test('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', async () => {
+  it('readVersionsMetadata versioned site with unknown versions in onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -582,7 +582,7 @@ describe('versioned site, pluginId=default', () => {
     );
   });
 
-  test('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', async () => {
+  it('readVersionsMetadata versioned site with lastVersion not in onlyIncludeVersions', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(
@@ -599,7 +599,7 @@ describe('versioned site, pluginId=default', () => {
     );
   });
 
-  test('readVersionsMetadata versioned site with invalid versions.json file', async () => {
+  it('readVersionsMetadata versioned site with invalid versions.json file', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => ({
@@ -681,7 +681,7 @@ describe('versioned site, pluginId=community', () => {
     return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
   }
 
-  test('readVersionsMetadata versioned site (community)', async () => {
+  it('readVersionsMetadata versioned site (community)', async () => {
     const {defaultOptions, defaultContext, vCurrent, v100} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -692,7 +692,7 @@ describe('versioned site, pluginId=community', () => {
     expect(versionsMetadata).toEqual([vCurrent, v100]);
   });
 
-  test('readVersionsMetadata versioned site (community) with includeCurrentVersion=false', async () => {
+  it('readVersionsMetadata versioned site (community) with includeCurrentVersion=false', async () => {
     const {defaultOptions, defaultContext, v100} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -706,7 +706,7 @@ describe('versioned site, pluginId=community', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site (community) with disableVersioning', async () => {
+  it('readVersionsMetadata versioned site (community) with disableVersioning', async () => {
     const {defaultOptions, defaultContext, vCurrent} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -727,7 +727,7 @@ describe('versioned site, pluginId=community', () => {
     ]);
   });
 
-  test('readVersionsMetadata versioned site (community) with all versions disabled', async () => {
+  it('readVersionsMetadata versioned site (community) with all versions disabled', async () => {
     const {defaultOptions, defaultContext} = await loadSite();
 
     await expect(

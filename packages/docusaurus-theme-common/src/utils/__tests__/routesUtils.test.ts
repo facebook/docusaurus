@@ -8,17 +8,17 @@
 import {type Route} from '@generated/routes';
 import {findHomePageRoute} from '../routesUtils';
 
-describe('routesUtils findHomePageRoute', () => {
+describe('findHomePageRoute', () => {
   const homePage: Route = {
     path: '/',
     exact: true,
   };
 
-  test('should return undefined for no routes', () => {
+  it('returns undefined for no routes', () => {
     expect(findHomePageRoute({baseUrl: '/', routes: []})).toEqual(undefined);
   });
 
-  test('should return undefined for no homepage', () => {
+  it('returns undefined for no homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -40,7 +40,7 @@ describe('routesUtils findHomePageRoute', () => {
     ).toEqual(undefined);
   });
 
-  test('should find top-level homepage', () => {
+  it('finds top-level homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -56,7 +56,7 @@ describe('routesUtils findHomePageRoute', () => {
     ).toEqual(homePage);
   });
 
-  test('should find nested homepage', () => {
+  it('finds nested homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -80,7 +80,7 @@ describe('routesUtils findHomePageRoute', () => {
     ).toEqual(homePage);
   });
 
-  test('should find nested homepage with baseUrl', () => {
+  it('finds nested homepage with baseUrl', () => {
     const baseUrl = '/baseUrl/';
     const baseUrlHomePage = {...homePage, path: baseUrl};
     expect(

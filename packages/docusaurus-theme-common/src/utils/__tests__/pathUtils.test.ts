@@ -8,32 +8,32 @@
 import {isSamePath} from '../pathUtils';
 
 describe('isSamePath', () => {
-  test('should be true for compared path without trailing slash', () => {
+  it('returns true for compared path without trailing slash', () => {
     expect(isSamePath('/docs', '/docs')).toBeTruthy();
   });
 
-  test('should be true for compared path with trailing slash', () => {
+  it('returns true for compared path with trailing slash', () => {
     expect(isSamePath('/docs', '/docs/')).toBeTruthy();
   });
 
-  test('should be true for compared path with different case', () => {
+  it('returns true for compared path with different case', () => {
     expect(isSamePath('/doCS', '/DOcs')).toBeTruthy();
   });
 
-  test('should be true for compared path with different case + trailing slash', () => {
+  it('returns true for compared path with different case + trailing slash', () => {
     expect(isSamePath('/doCS', '/DOcs/')).toBeTruthy();
   });
 
-  test('should be false for compared path with double trailing slash', () => {
+  it('returns false for compared path with double trailing slash', () => {
     expect(isSamePath('/docs', '/docs//')).toBeFalsy();
   });
 
-  test('should be true for twice undefined/null', () => {
+  it('returns true for twice undefined/null', () => {
     expect(isSamePath(undefined, undefined)).toBeTruthy();
     expect(isSamePath(undefined, undefined)).toBeTruthy();
   });
 
-  test('should be false when one undefined', () => {
+  it('returns false when one undefined', () => {
     expect(isSamePath('/docs', undefined)).toBeFalsy();
     expect(isSamePath(undefined, '/docs')).toBeFalsy();
   });

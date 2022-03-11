@@ -13,7 +13,7 @@ import BrowserOnly from '../BrowserOnly';
 jest.mock('@docusaurus/useIsBrowser', () => () => true);
 
 describe('BrowserOnly', () => {
-  test('Should reject react element children', () => {
+  it('rejects react element children', () => {
     process.env.NODE_ENV = 'development';
     expect(() => {
       renderer.create(
@@ -27,7 +27,7 @@ describe('BrowserOnly', () => {
       Current type: React element"
     `);
   });
-  test('Should reject string children', () => {
+  it('rejects string children', () => {
     expect(() => {
       renderer.create(
         // @ts-expect-error test
@@ -38,7 +38,7 @@ describe('BrowserOnly', () => {
       Current type: string"
     `);
   });
-  test('Should accept valid children', () => {
+  it('accepts valid children', () => {
     expect(
       renderer
         .create(

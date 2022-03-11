@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getContentTranslationFiles should return translation files matching snapshot 1`] = `
+exports[`getContentTranslationFiles returns translation files matching snapshot 1`] = `
 Array [
   Object {
     "content": Object {
@@ -22,7 +22,7 @@ Array [
 ]
 `;
 
-exports[`translateContent should fallback when translation is incomplete 1`] = `
+exports[`translateContent falls back when translation is incomplete 1`] = `
 Object {
   "blogListPaginated": Array [
     Object {
@@ -63,7 +63,7 @@ Object {
 }
 `;
 
-exports[`translateContent should return translated loaded content matching snapshot 1`] = `
+exports[`translateContent returns translated loaded 1`] = `
 Object {
   "blogListPaginated": Array [
     Object {

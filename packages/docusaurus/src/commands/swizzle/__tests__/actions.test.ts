@@ -40,7 +40,7 @@ describe('eject', () => {
     };
   }
 
-  test(`eject ${Components.FirstLevelComponent}`, async () => {
+  it(`eject ${Components.FirstLevelComponent}`, async () => {
     const result = await testEject('eject', Components.FirstLevelComponent);
     expect(result.createdFiles).toEqual([
       'FirstLevelComponent.css',
@@ -53,7 +53,7 @@ describe('eject', () => {
     `);
   });
 
-  test(`eject ${Components.ComponentInSubFolder}`, async () => {
+  it(`eject ${Components.ComponentInSubFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInSubFolder);
     expect(result.createdFiles).toEqual([
       'ComponentInFolder/ComponentInSubFolder/index.css',
@@ -72,7 +72,7 @@ describe('eject', () => {
     `);
   });
 
-  test(`eject ${Components.ComponentInFolder}`, async () => {
+  it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
       // TODO do we really want to copy those Sibling components?
@@ -124,7 +124,7 @@ describe('wrap', () => {
       });
     }
 
-    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+    it(`wrap ${Components.FirstLevelComponent}`, async () => {
       const result = await doWrap(Components.FirstLevelComponent);
       expect(result.createdFiles).toEqual(['FirstLevelComponent.js']);
       expect(result.tree).toMatchInlineSnapshot(`
@@ -146,7 +146,7 @@ describe('wrap', () => {
             `);
     });
 
-    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+    it(`wrap ${Components.ComponentInSubFolder}`, async () => {
       const result = await doWrap(Components.ComponentInSubFolder);
       expect(result.createdFiles).toEqual([
         'ComponentInFolder/ComponentInSubFolder/index.js',
@@ -172,7 +172,7 @@ describe('wrap', () => {
             `);
     });
 
-    test(`wrap ${Components.ComponentInFolder}`, async () => {
+    it(`wrap ${Components.ComponentInFolder}`, async () => {
       const result = await doWrap(Components.ComponentInFolder);
       expect(result.createdFiles).toEqual(['ComponentInFolder/index.js']);
       expect(result.tree).toMatchInlineSnapshot(`
@@ -203,7 +203,7 @@ describe('wrap', () => {
       });
     }
 
-    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+    it(`wrap ${Components.FirstLevelComponent}`, async () => {
       const result = await doWrap(Components.FirstLevelComponent);
       expect(result.createdFiles).toEqual(['FirstLevelComponent.tsx']);
       expect(result.tree).toMatchInlineSnapshot(`
@@ -228,7 +228,7 @@ describe('wrap', () => {
             `);
     });
 
-    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+    it(`wrap ${Components.ComponentInSubFolder}`, async () => {
       const result = await doWrap(Components.ComponentInSubFolder);
       expect(result.createdFiles).toEqual([
         'ComponentInFolder/ComponentInSubFolder/index.tsx',
@@ -257,7 +257,7 @@ describe('wrap', () => {
             `);
     });
 
-    test(`wrap ${Components.ComponentInFolder}`, async () => {
+    it(`wrap ${Components.ComponentInFolder}`, async () => {
       const result = await doWrap(Components.ComponentInFolder);
       expect(result.createdFiles).toEqual(['ComponentInFolder/index.tsx']);
       expect(result.tree).toMatchInlineSnapshot(`

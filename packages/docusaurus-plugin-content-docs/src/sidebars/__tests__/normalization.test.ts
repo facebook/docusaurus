@@ -8,7 +8,7 @@
 import {normalizeSidebars} from '../normalization';
 
 describe('normalization', () => {
-  test('normalizes shorthands', () => {
+  it('normalizes shorthands', () => {
     expect(
       normalizeSidebars({
         sidebar: {
@@ -37,7 +37,7 @@ describe('normalization', () => {
       }),
     ).toMatchSnapshot();
   });
-  test('rejects some invalid cases', () => {
+  it('rejects some invalid cases', () => {
     expect(() =>
       normalizeSidebars({
         sidebar: {

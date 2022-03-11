@@ -14,7 +14,7 @@ import {
 describe('createMatcher', () => {
   const matcher = createMatcher(GlobExcludeDefault);
 
-  test('match default exclude MD/MDX partials correctly', () => {
+  it('match default exclude MD/MDX partials correctly', () => {
     expect(matcher('doc.md')).toEqual(false);
     expect(matcher('category/doc.md')).toEqual(false);
     expect(matcher('category/subcategory/doc.md')).toEqual(false);
@@ -31,7 +31,7 @@ describe('createMatcher', () => {
     expect(matcher('category/_subcategory/doc.md')).toEqual(true);
   });
 
-  test('match default exclude tests correctly', () => {
+  it('match default exclude tests correctly', () => {
     expect(matcher('xyz.js')).toEqual(false);
     expect(matcher('xyz.ts')).toEqual(false);
     expect(matcher('xyz.jsx')).toEqual(false);
@@ -73,7 +73,7 @@ describe('createAbsoluteFilePathMatcher', () => {
     rootFolders,
   );
 
-  test('match default exclude MD/MDX partials correctly', () => {
+  it('match default exclude MD/MDX partials correctly', () => {
     expect(matcher('/_root/docs/myDoc.md')).toEqual(false);
     expect(matcher('/_root/docs/myDoc.mdx')).toEqual(false);
     expect(matcher('/root/_docs/myDoc.md')).toEqual(false);
@@ -93,13 +93,13 @@ describe('createAbsoluteFilePathMatcher', () => {
     expect(matcher('/root/_docs/_category/myDoc.mdx')).toEqual(true);
   });
 
-  test('match default exclude tests correctly', () => {
+  it('match default exclude tests correctly', () => {
     expect(matcher('/__test__/website/src/xyz.js')).toEqual(false);
     expect(matcher('/__test__/website/src/__test__/xyz.js')).toEqual(true);
     expect(matcher('/__test__/website/src/xyz.test.js')).toEqual(true);
   });
 
-  test('throw if file is not contained in any root doc', () => {
+  it('throw if file is not contained in any root doc', () => {
     expect(() =>
       matcher('/bad/path/myDoc.md'),
     ).toThrowErrorMatchingInlineSnapshot(

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`blogFeed atom shows feed item for each post 1`] = `
+exports[`atom has feed item for each post 1`] = `
 Array [
   "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <feed xmlns=\\"http://www.w3.org/2005/Atom\\">
@@ -84,7 +84,7 @@ Array [
 ]
 `;
 
-exports[`blogFeed json shows feed item for each post 1`] = `
+exports[`json has feed item for each post 1`] = `
 Array [
   "{
     \\"version\\": \\"https://jsonfeed.org/version/1\\",
@@ -171,7 +171,7 @@ Array [
 ]
 `;
 
-exports[`blogFeed rss shows feed item for each post 1`] = `
+exports[`rss has feed item for each post 1`] = `
 Array [
   "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
 <rss version=\\"2.0\\" xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\" xmlns:content=\\"http://purl.org/rss/1.0/modules/content/\\">

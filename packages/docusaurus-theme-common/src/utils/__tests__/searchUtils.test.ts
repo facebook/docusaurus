@@ -8,7 +8,7 @@
 import {docVersionSearchTag} from '../searchUtils';
 
 describe('docVersionSearchTag', () => {
-  test('behaves correctly', () => {
+  it('works', () => {
     expect(docVersionSearchTag('foo', 'bar')).toEqual('docs-foo-bar');
   });
 });

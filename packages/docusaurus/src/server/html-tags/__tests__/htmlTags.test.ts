@@ -8,7 +8,7 @@
 import htmlTagObjectToString from '../htmlTags';
 
 describe('htmlTagObjectToString', () => {
-  test('valid html tag', () => {
+  it('valid html tag', () => {
     expect(
       htmlTagObjectToString({
         tagName: 'script',
@@ -55,7 +55,7 @@ describe('htmlTagObjectToString', () => {
     ).toMatchInlineSnapshot(`"<div>Test</div>"`);
   });
 
-  test('valid html void tag', () => {
+  it('valid html void tag', () => {
     expect(
       htmlTagObjectToString({
         tagName: 'meta',
@@ -83,7 +83,7 @@ describe('htmlTagObjectToString', () => {
     );
   });
 
-  test('invalid tag', () => {
+  it('invalid tag', () => {
     expect(() =>
       htmlTagObjectToString({
         tagName: 'endiliey',
@@ -96,7 +96,7 @@ describe('htmlTagObjectToString', () => {
     );
   });
 
-  test('invalid tagName', () => {
+  it('invalid tagName', () => {
     expect(() =>
       htmlTagObjectToString({
         tagName: true,
@@ -106,7 +106,7 @@ describe('htmlTagObjectToString', () => {
     );
   });
 
-  test('invalid html tag object', () => {
+  it('invalid html tag object', () => {
     expect(() =>
       htmlTagObjectToString('fooofofoofo'),
     ).toThrowErrorMatchingInlineSnapshot(

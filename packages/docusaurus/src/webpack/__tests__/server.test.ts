@@ -12,7 +12,7 @@ import createServerConfig from '../server';
 import loadSetup from '../../server/__tests__/testUtils';
 
 describe('webpack production config', () => {
-  test('simple', async () => {
+  it('simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
     const config = await createServerConfig({props});
@@ -20,7 +20,7 @@ describe('webpack production config', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('custom', async () => {
+  it('custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
     const config = await createServerConfig({props});

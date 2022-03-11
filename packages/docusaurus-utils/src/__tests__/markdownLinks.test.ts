@@ -8,7 +8,7 @@
 import {replaceMarkdownLinks} from '../markdownLinks';
 
 describe('replaceMarkdownLinks', () => {
-  test('basic replace', () => {
+  it('basic replace', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -62,7 +62,7 @@ describe('replaceMarkdownLinks', () => {
     `);
   });
 
-  test('reference style Markdown links', () => {
+  it('reference style Markdown links', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -106,7 +106,7 @@ The following operations are defined for [URI]s:
   });
 
   // TODO bad
-  test('links in HTML comments', () => {
+  it('links in HTML comments', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -155,7 +155,7 @@ The following operations are defined for [URI]s:
     `);
   });
 
-  test('links in fenced blocks', () => {
+  it('links in fenced blocks', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -214,7 +214,7 @@ The following operations are defined for [URI]s:
   });
 
   // TODO bad
-  test('links in inline code', () => {
+  it('links in inline code', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -250,7 +250,7 @@ The following operations are defined for [URI]s:
   });
 
   // TODO bad
-  test('links with same title as URL', () => {
+  it('links with same title as URL', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',
@@ -283,7 +283,7 @@ The following operations are defined for [URI]s:
     `);
   });
 
-  test('multiple links on same line', () => {
+  it('multiple links on same line', () => {
     expect(
       replaceMarkdownLinks({
         siteDir: '.',

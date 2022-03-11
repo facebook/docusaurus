@@ -113,7 +113,7 @@ Entries created:
 };
 
 describe('sidebar', () => {
-  test('site with wrong sidebar content', async () => {
+  it('site with wrong sidebar content', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext(siteDir);
     const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
@@ -126,7 +126,7 @@ describe('sidebar', () => {
     await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('site with wrong sidebar file path', async () => {
+  it('site with wrong sidebar file path', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
 
@@ -147,7 +147,7 @@ describe('sidebar', () => {
           `);
   });
 
-  test('site with undefined sidebar', async () => {
+  it('site with undefined sidebar', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
@@ -176,7 +176,7 @@ describe('sidebar', () => {
       `);
   });
 
-  test('site with disabled sidebar', async () => {
+  it('site with disabled sidebar', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
@@ -195,7 +195,7 @@ describe('sidebar', () => {
 describe('empty/no docs website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
 
-  test('no files in docs folder', async () => {
+  it('no files in docs folder', async () => {
     const context = await loadContext(siteDir);
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = await pluginContentDocs(
@@ -209,7 +209,7 @@ describe('empty/no docs website', () => {
     );
   });
 
-  test('docs folder does not exist', async () => {
+  it('docs folder does not exist', async () => {
     const context = await loadContext(siteDir);
     await expect(
       pluginContentDocs(
@@ -245,11 +245,11 @@ describe('simple website', () => {
     return {siteDir, context, sidebarPath, plugin, pluginContentDir};
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -265,7 +265,7 @@ describe('simple website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
 
     const pathToWatch = plugin.getPathsToWatch!();
@@ -294,7 +294,7 @@ describe('simple website', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('configureWebpack', async () => {
+  it('configureWebpack', async () => {
     const {plugin} = await loadSite();
 
     const content = await plugin.loadContent?.();
@@ -316,7 +316,7 @@ describe('simple website', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(1);
@@ -370,11 +370,11 @@ describe('versioned website', () => {
     };
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, routeBasePath, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -390,7 +390,7 @@ describe('versioned website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
@@ -449,7 +449,7 @@ describe('versioned website', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(4);
@@ -519,12 +519,12 @@ describe('versioned website (community)', () => {
     };
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, routeBasePath, sidebarPath, pluginId, plugin} =
       await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -540,7 +540,7 @@ describe('versioned website (community)', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
@@ -581,7 +581,7 @@ describe('versioned website (community)', () => {
     ).toEqual(false);
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
     expect(content.loadedVersions.length).toEqual(2);
@@ -625,7 +625,7 @@ describe('site with doc label', () => {
     return {content};
   }
 
-  test('label in sidebar.json is used', async () => {
+  it('label in sidebar.json is used', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
@@ -633,7 +633,7 @@ describe('site with doc label', () => {
     expect(sidebarProps.docs[0].label).toBe('Hello One');
   });
 
-  test('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+  it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
@@ -662,14 +662,14 @@ describe('site with full autogenerated sidebar', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is fully autogenerated', async () => {
+  it('sidebar is fully autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('docs in fully generated sidebar have correct metadata', async () => {
+  it('docs in fully generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -720,14 +720,14 @@ describe('site with partial autogenerated sidebars', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is partially autogenerated', async () => {
+  it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('docs in partially generated sidebar have correct metadata', async () => {
+  it('docs in partially generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -773,7 +773,7 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is partially autogenerated', async () => {
+  it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -800,7 +800,7 @@ describe('site with custom sidebar items generator', () => {
     return {content, siteDir};
   }
 
-  test('sidebarItemsGenerator is called with appropriate data', async () => {
+  it('sidebarItemsGenerator is called with appropriate data', async () => {
     const customSidebarItemsGeneratorMock = jest.fn(
       async (_arg: SidebarItemsGeneratorOptionArgs) => [],
     );
@@ -830,7 +830,7 @@ describe('site with custom sidebar items generator', () => {
     );
   });
 
-  test('sidebar is autogenerated according to a custom sidebarItemsGenerator', async () => {
+  it('sidebar is autogenerated according to a custom sidebarItemsGenerator', async () => {
     const customSidebarItemsGenerator: SidebarItemsGeneratorOption =
       async () => [
         {type: 'doc', id: 'API/api-overview'},
@@ -843,7 +843,7 @@ describe('site with custom sidebar items generator', () => {
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
+  it('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
     function reverseSidebarItems(items: SidebarItem[]): SidebarItem[] {
       const result: SidebarItem[] = items.map((item) => {
         if (item.type === 'category') {

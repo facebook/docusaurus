@@ -13,7 +13,7 @@ import {Components} from './testUtils';
 const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 
 describe('readComponentNames', () => {
-  test('read theme', async () => {
+  it('read theme', async () => {
     await expect(readComponentNames(FixtureThemePath)).resolves.toEqual([
       Components.ComponentInFolder,
       Components.ComponentInSubFolder,
@@ -45,7 +45,7 @@ describe('getThemeComponents', () => {
     },
   };
 
-  test('read name', async () => {
+  it('read name', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -54,7 +54,7 @@ describe('getThemeComponents', () => {
     expect(themeComponents.themeName).toEqual(themeName);
   });
 
-  test('read all', async () => {
+  it('read all', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -69,7 +69,7 @@ describe('getThemeComponents', () => {
     ]);
   });
 
-  test('getConfig', async () => {
+  it('getConfig', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -112,7 +112,7 @@ describe('getThemeComponents', () => {
     );
   });
 
-  test('getDescription', async () => {
+  it('getDescription', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -129,7 +129,7 @@ describe('getThemeComponents', () => {
     ).toEqual('N/A');
   });
 
-  test('getActionStatus', async () => {
+  it('getActionStatus', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -157,7 +157,7 @@ describe('getThemeComponents', () => {
     ).toEqual('unsafe');
   });
 
-  test('isSafeAction', async () => {
+  it('isSafeAction', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -185,7 +185,7 @@ describe('getThemeComponents', () => {
     ).toEqual(false);
   });
 
-  test('hasAnySafeAction', async () => {
+  it('hasAnySafeAction', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,

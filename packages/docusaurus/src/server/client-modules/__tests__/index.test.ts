@@ -12,12 +12,12 @@ import pluginFooBar from './__fixtures__/plugin-foo-bar';
 import pluginHelloWorld from './__fixtures__/plugin-hello-world';
 
 describe('loadClientModules', () => {
-  test('empty', () => {
+  it('empty', () => {
     const clientModules = loadClientModules([pluginEmpty()]);
     expect(clientModules).toMatchInlineSnapshot(`Array []`);
   });
 
-  test('non-empty', () => {
+  it('non-empty', () => {
     const clientModules = loadClientModules([pluginFooBar()]);
     expect(clientModules).toMatchInlineSnapshot(`
       Array [
@@ -27,7 +27,7 @@ describe('loadClientModules', () => {
     `);
   });
 
-  test('multiple non-empty', () => {
+  it('multiple non-empty', () => {
     const clientModules = loadClientModules([
       pluginFooBar(),
       pluginHelloWorld(),
@@ -42,7 +42,7 @@ describe('loadClientModules', () => {
     `);
   });
 
-  test('multiple non-empty different order', () => {
+  it('multiple non-empty different order', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginFooBar(),
@@ -57,7 +57,7 @@ describe('loadClientModules', () => {
     `);
   });
 
-  test('empty and non-empty', () => {
+  it('empty and non-empty', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginEmpty(),
@@ -73,7 +73,7 @@ describe('loadClientModules', () => {
     `);
   });
 
-  test('empty and non-empty different order', () => {
+  it('empty and non-empty different order', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginFooBar(),

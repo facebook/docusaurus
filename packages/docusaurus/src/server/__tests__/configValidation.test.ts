@@ -21,7 +21,7 @@ const baseConfig: DocusaurusConfig = {
 const normalizeConfig = (config) => validateConfig({...baseConfig, ...config});
 
 describe('normalizeConfig', () => {
-  test('should normalize empty config', () => {
+  it('normalizes empty config', () => {
     const value = normalizeConfig({});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
@@ -29,7 +29,7 @@ describe('normalizeConfig', () => {
     });
   });
 
-  test('should accept correctly defined config options', () => {
+  it('accepts correctly defined config options', () => {
     const userConfig = {
       ...DEFAULT_CONFIG,
       ...baseConfig,
@@ -60,7 +60,7 @@ describe('normalizeConfig', () => {
     expect(normalizedConfig).toEqual(userConfig);
   });
 
-  test('should accept custom field in config', () => {
+  it('accepts custom field in config', () => {
     const value = normalizeConfig({
       customFields: {
         author: 'anshul',
@@ -75,7 +75,7 @@ describe('normalizeConfig', () => {
     });
   });
 
-  test('should throw error for unknown field', () => {
+  it('throws error for unknown field', () => {
     expect(() => {
       normalizeConfig({
         invalid: true,
@@ -83,7 +83,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('should throw error for baseUrl without trailing `/`', () => {
+  it('throws error for baseUrl without trailing `/`', () => {
     expect(() => {
       normalizeConfig({
         baseUrl: 'noslash',
@@ -91,7 +91,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test.each([
+  it.each([
     ['should throw error if plugins is not array', {}],
     [
       "should throw error if plugins is not a string and it's not an array #1",
@@ -117,7 +117,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test.each([
+  it.each([
     ['should throw error if themes is not array', {}],
     [
       "should throw error if themes is not a string and it's not an array #1",
@@ -143,7 +143,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test.each([
+  it.each([
     ['should accept [string] for plugins', ['plain/string']],
     [
       'should accept string[] for plugins',
@@ -184,7 +184,7 @@ describe('normalizeConfig', () => {
     }).not.toThrowError();
   });
 
-  test.each([
+  it.each([
     ['should accept [string] for themes', ['plain/string']],
     [
       'should accept string[] for themes',
@@ -225,7 +225,7 @@ describe('normalizeConfig', () => {
     }).not.toThrowError();
   });
 
-  test('should throw error if themes is not array', () => {
+  it('throws error if themes is not array', () => {
     expect(() => {
       normalizeConfig({
         themes: {},
@@ -233,7 +233,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('should throw error if presets is not array', () => {
+  it('throws error if presets is not array', () => {
     expect(() => {
       normalizeConfig({
         presets: {},
@@ -241,7 +241,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test("should throw error if scripts doesn't have src", () => {
+  it("throws error if scripts doesn't have src", () => {
     expect(() => {
       normalizeConfig({
         scripts: ['https://some.com', {}],
@@ -249,7 +249,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test("should throw error if css doesn't have href", () => {
+  it("throws error if css doesn't have href", () => {
     expect(() => {
       normalizeConfig({
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
@@ -257,7 +257,7 @@ describe('normalizeConfig', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
-  test('should throw error for required fields', () => {
+  it('throws error for required fields', () => {
     expect(
       () =>
         validateConfig({
@@ -276,12 +276,12 @@ describe('config warnings', () => {
     return ConfigSchema.validate(config).warning;
   }
 
-  test('baseConfig has no warning', () => {
+  it('baseConfig has no warning', () => {
     const warning = getWarning(baseConfig);
     expect(warning).toBeUndefined();
   });
 
-  test('site url has warning when using subpath', () => {
+  it('site url has warning when using subpath', () => {
     const warning = getWarning({
       ...baseConfig,
       url: 'https://mysite.com/someSubpath',

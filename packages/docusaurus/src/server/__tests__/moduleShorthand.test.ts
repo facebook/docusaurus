@@ -8,7 +8,7 @@
 import {getNamePatterns, resolveModuleName} from '../moduleShorthand';
 
 describe('getNamePatterns', () => {
-  test('should resolve plain names', () => {
+  it('resolves plain names', () => {
     expect(getNamePatterns('awesome', 'plugin')).toEqual([
       'awesome',
       '@docusaurus/plugin-awesome',
@@ -22,7 +22,7 @@ describe('getNamePatterns', () => {
     ]);
   });
 
-  test('should expand bare scopes', () => {
+  it('expands bare scopes', () => {
     expect(getNamePatterns('@joshcena', 'plugin')).toEqual([
       '@joshcena/docusaurus-plugin',
     ]);
@@ -32,7 +32,7 @@ describe('getNamePatterns', () => {
     ]);
   });
 
-  test('should expand scoped names', () => {
+  it('expands scoped names', () => {
     expect(getNamePatterns('@joshcena/awesome', 'plugin')).toEqual([
       '@joshcena/awesome',
       '@joshcena/docusaurus-plugin-awesome',
@@ -44,7 +44,7 @@ describe('getNamePatterns', () => {
     ]);
   });
 
-  test('should expand deep scoped paths', () => {
+  it('expands deep scoped paths', () => {
     expect(getNamePatterns('@joshcena/awesome/web', 'plugin')).toEqual([
       '@joshcena/awesome/web',
       '@joshcena/docusaurus-plugin-awesome/web',
@@ -58,17 +58,17 @@ describe('getNamePatterns', () => {
 });
 
 describe('resolveModuleName', () => {
-  test('should resolve longhand', () => {
+  it('resolves longhand', () => {
     expect(
       resolveModuleName('@docusaurus/plugin-content-docs', require, 'plugin'),
     ).toBeDefined();
   });
 
-  test('should resolve shorthand', () => {
+  it('resolves shorthand', () => {
     expect(resolveModuleName('content-docs', require, 'plugin')).toBeDefined();
   });
 
-  test('should throw good error message for longhand', () => {
+  it('throws good error message for longhand', () => {
     expect(() =>
       resolveModuleName('@docusaurus/plugin-content-doc', require, 'plugin'),
     ).toThrowErrorMatchingInlineSnapshot(`
@@ -78,7 +78,7 @@ describe('resolveModuleName', () => {
     `);
   });
 
-  test('should throw good error message for shorthand', () => {
+  it('throws good error message for shorthand', () => {
     expect(() => resolveModuleName('content-doc', require, 'plugin'))
       .toThrowErrorMatchingInlineSnapshot(`
       "Docusaurus was unable to resolve the \\"content-doc\\" plugin. Make sure one of the following packages are installed:

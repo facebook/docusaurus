@@ -22,7 +22,7 @@ function testValidateThemeConfig(themeConfig) {
 }
 
 describe('validateThemeConfig', () => {
-  test('undefined config', () => {
+  it('undefined config', () => {
     const liveCodeBlock = undefined;
     expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
       liveCodeBlock: {
@@ -31,7 +31,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('unexist config', () => {
+  it('unexist config', () => {
     expect(testValidateThemeConfig({})).toEqual({
       liveCodeBlock: {
         ...DEFAULT_CONFIG,
@@ -39,7 +39,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('empty config', () => {
+  it('empty config', () => {
     const liveCodeBlock = {};
     expect(testValidateThemeConfig({liveCodeBlock})).toEqual({
       liveCodeBlock: {
@@ -48,7 +48,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('playgroundPosition top', () => {
+  it('playgroundPosition top', () => {
     const liveCodeBlock = {
       playgroundPosition: 'top',
     };
@@ -60,7 +60,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('playgroundPosition bottom', () => {
+  it('playgroundPosition bottom', () => {
     const liveCodeBlock = {
       playgroundPosition: 'bottom',
     };
@@ -72,7 +72,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('playgroundPosition invalid string', () => {
+  it('playgroundPosition invalid string', () => {
     const liveCodeBlock = {playgroundPosition: 'invalid'};
     expect(() =>
       testValidateThemeConfig({liveCodeBlock}),
@@ -80,7 +80,7 @@ describe('validateThemeConfig', () => {
       `"\\"liveCodeBlock.playgroundPosition\\" must be one of [top, bottom]"`,
     );
   });
-  test('playgroundPosition invalid boolean', () => {
+  it('playgroundPosition invalid boolean', () => {
     const liveCodeBlock = {playgroundPosition: true};
     expect(() =>
       testValidateThemeConfig({liveCodeBlock}),

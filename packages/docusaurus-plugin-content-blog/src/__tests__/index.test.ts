@@ -59,58 +59,58 @@ function validateAndNormalize(
   }
 }
 
-describe('loadBlog', () => {
-  const PluginPath = 'blog';
+const PluginPath = 'blog';
 
-  const BaseEditUrl = 'https://baseEditUrl.com/edit';
+const BaseEditUrl = 'https://baseEditUrl.com/edit';
 
-  const getPlugin = async (
-    siteDir: string,
-    pluginOptions: Partial<PluginOptions> = {},
-    i18n: I18n = DefaultI18N,
-  ) => {
-    const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
-    const siteConfig = {
-      title: 'Hello',
-      baseUrl: '/',
-      url: 'https://docusaurus.io',
-    } as DocusaurusConfig;
-    return pluginContentBlog(
-      {
-        siteDir,
-        siteConfig,
-        generatedFilesDir,
-        i18n,
-      } as LoadContext,
-      validateAndNormalize(PluginOptionSchema, {
-        path: PluginPath,
-        editUrl: BaseEditUrl,
-        ...pluginOptions,
-      }),
-    );
-  };
+const getPlugin = async (
+  siteDir: string,
+  pluginOptions: Partial<PluginOptions> = {},
+  i18n: I18n = DefaultI18N,
+) => {
+  const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
+  const siteConfig = {
+    title: 'Hello',
+    baseUrl: '/',
+    url: 'https://docusaurus.io',
+  } as DocusaurusConfig;
+  return pluginContentBlog(
+    {
+      siteDir,
+      siteConfig,
+      generatedFilesDir,
+      i18n,
+    } as LoadContext,
+    validateAndNormalize(PluginOptionSchema, {
+      path: PluginPath,
+      editUrl: BaseEditUrl,
+      ...pluginOptions,
+    }),
+  );
+};
 
-  const getBlogPosts = async (
-    siteDir: string,
-    pluginOptions: Partial<PluginOptions> = {},
-    i18n: I18n = DefaultI18N,
-  ) => {
-    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
-    const {blogPosts} = (await plugin.loadContent!())!;
-    return blogPosts;
-  };
+const getBlogPosts = async (
+  siteDir: string,
+  pluginOptions: Partial<PluginOptions> = {},
+  i18n: I18n = DefaultI18N,
+) => {
+  const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+  const {blogPosts} = (await plugin.loadContent!())!;
+  return blogPosts;
+};
 
-  const getBlogTags = async (
-    siteDir: string,
-    pluginOptions: Partial<PluginOptions> = {},
-    i18n: I18n = DefaultI18N,
-  ) => {
-    const plugin = await getPlugin(siteDir, pluginOptions, i18n);
-    const {blogTags} = (await plugin.loadContent!())!;
-    return blogTags;
-  };
+const getBlogTags = async (
+  siteDir: string,
+  pluginOptions: Partial<PluginOptions> = {},
+  i18n: I18n = DefaultI18N,
+) => {
+  const plugin = await getPlugin(siteDir, pluginOptions, i18n);
+  const {blogTags} = (await plugin.loadContent!())!;
+  return blogTags;
+};
 
-  test('getPathsToWatch', async () => {
+describe('blog plugin', () => {
+  it('getPathsToWatch returns right files', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const plugin = await getPlugin(siteDir);
     const pathsToWatch = plugin.getPathsToWatch!();
@@ -124,7 +124,7 @@ describe('loadBlog', () => {
     ]);
   });
 
-  test('simple website', async () => {
+  it('builds a simple website', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir);
 
@@ -303,7 +303,7 @@ describe('loadBlog', () => {
     });
   });
 
-  test('simple website blog dates localized', async () => {
+  it('builds simple website blog with localized dates', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPostsFrench = await getBlogPosts(siteDir, {}, getI18n('fr'));
     expect(blogPostsFrench).toHaveLength(8);
@@ -333,7 +333,7 @@ describe('loadBlog', () => {
     );
   });
 
-  test('edit url with editLocalizedBlogs true', async () => {
+  it('handles edit URL with editLocalizedBlogs: true', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir, {editLocalizedFiles: true});
 
@@ -346,7 +346,7 @@ describe('loadBlog', () => {
     );
   });
 
-  test('edit url with editUrl function', async () => {
+  it('handles edit URL with editUrl function', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
 
     const hardcodedEditUrl = 'hardcoded-edit-url';
@@ -410,7 +410,7 @@ describe('loadBlog', () => {
     });
   });
 
-  test('draft blog post not exists in production build', async () => {
+  it('excludes draft blog post from production build', async () => {
     process.env.NODE_ENV = 'production';
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const blogPosts = await getBlogPosts(siteDir);
@@ -418,7 +418,7 @@ describe('loadBlog', () => {
     expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
   });
 
-  test('create blog post without date', async () => {
+  it('creates blog post without date', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -457,7 +457,7 @@ describe('loadBlog', () => {
     });
   });
 
-  test('test ascending sort direction of blog post', async () => {
+  it('can sort blog posts in ascending order', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const normalOrder = await getBlogPosts(siteDir);
     const reversedOrder = await getBlogPosts(siteDir, {
@@ -468,7 +468,7 @@ describe('loadBlog', () => {
     );
   });
 
-  test('test blog tags', async () => {
+  it('works with blog tags', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -482,7 +482,7 @@ describe('loadBlog', () => {
     expect(blogTags).toMatchSnapshot();
   });
 
-  test('test blog tags: no pagination', async () => {
+  it('works on blog tags without pagination', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',

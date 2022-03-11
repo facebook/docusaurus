@@ -8,7 +8,7 @@
 import {postProcessSidebars} from '../postProcessor';
 
 describe('postProcess', () => {
-  test('transforms category without subitems', () => {
+  it('transforms category without subitems', () => {
     const processedSidebar = postProcessSidebars(
       {
         sidebar: [
@@ -76,7 +76,7 @@ describe('postProcess', () => {
     );
   });
 
-  test('corrects collapsed state inconsistencies', () => {
+  it('corrects collapsed state inconsistencies', () => {
     expect(
       postProcessSidebars(
         {

@@ -36,7 +36,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     });
   }
 
-  test('generates empty sidebar slice when no docs and emit a warning', async () => {
+  it('generates empty sidebar slice when no docs and emit a warning', async () => {
     const consoleWarn = jest.spyOn(console, 'warn');
     const sidebarSlice = await testDefaultSidebarItemsGenerator({
       docs: [],
@@ -49,7 +49,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     );
   });
 
-  test('generates simple flat sidebar', async () => {
+  it('generates simple flat sidebar', async () => {
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       item: {
@@ -108,7 +108,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  test('generates complex nested sidebar', async () => {
+  it('generates complex nested sidebar', async () => {
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
@@ -212,7 +212,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  test('generates subfolder sidebar', async () => {
+  it('generates subfolder sidebar', async () => {
     // Ensure that category metadata file is correctly read
     // fix edge case found in https://github.com/facebook/docusaurus/issues/4638
     const sidebarSlice = await DefaultSidebarItemsGenerator({
@@ -308,7 +308,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  test('uses explicit link over the index/readme.{md,mdx} naming convention', async () => {
+  it('uses explicit link over the index/readme.{md,mdx} naming convention', async () => {
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       item: {
@@ -379,7 +379,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  test('respects custom isCategoryIndex', async () => {
+  it('respects custom isCategoryIndex', async () => {
     const sidebarSlice = await DefaultSidebarItemsGenerator({
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex({fileName, directories}) {
@@ -462,7 +462,7 @@ describe('DefaultSidebarItemsGenerator', () => {
     expect(sidebarSlice).toMatchSnapshot();
   });
 
-  test('throws for unknown index link', async () => {
+  it('throws for unknown index link', async () => {
     const generateSidebar = () =>
       DefaultSidebarItemsGenerator({
         numberPrefixParser: DefaultNumberPrefixParser,

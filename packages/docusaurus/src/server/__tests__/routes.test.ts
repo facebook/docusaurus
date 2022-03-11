@@ -9,7 +9,7 @@ import loadRoutes from '../routes';
 import type {RouteConfig} from '@docusaurus/types';
 
 describe('loadRoutes', () => {
-  test('nested route config', async () => {
+  it('nested route config', async () => {
     const nestedRouteConfig: RouteConfig = {
       component: '@theme/DocPage',
       path: '/docs:route',
@@ -42,7 +42,7 @@ describe('loadRoutes', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('flat route config', async () => {
+  it('flat route config', async () => {
     const flatRouteConfig: RouteConfig = {
       path: '/blog',
       component: '@theme/BlogListPage',
@@ -70,7 +70,7 @@ describe('loadRoutes', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('invalid route config', async () => {
+  it('invalid route config', async () => {
     const routeConfigWithoutPath = {
       component: 'hello/world.js',
     } as RouteConfig;
@@ -92,7 +92,7 @@ describe('loadRoutes', () => {
     `);
   });
 
-  test('route config with empty (but valid) path string', async () => {
+  it('route config with empty (but valid) path string', async () => {
     const routeConfig = {
       path: '',
       component: 'hello/world.js',

@@ -9,7 +9,7 @@ import {validateSidebars, validateCategoryMetadataFile} from '../validation';
 import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
 describe('validateSidebars', () => {
-  test('throw for bad value', async () => {
+  it('throw for bad value', async () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
@@ -21,12 +21,12 @@ describe('validateSidebars', () => {
     `);
   });
 
-  test('accept empty object', async () => {
+  it('accept empty object', async () => {
     const sidebars: SidebarsConfig = {};
     validateSidebars(sidebars);
   });
 
-  test('accept valid values', async () => {
+  it('accept valid values', async () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {type: 'doc', id: 'doc1'},
@@ -41,7 +41,7 @@ describe('validateSidebars', () => {
     validateSidebars(sidebars);
   });
 
-  test('sidebar category wrong label', () => {
+  it('sidebar category wrong label', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -68,7 +68,7 @@ describe('validateSidebars', () => {
     `);
   });
 
-  test('sidebars link wrong label', () => {
+  it('sidebars link wrong label', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -90,7 +90,7 @@ describe('validateSidebars', () => {
           `);
   });
 
-  test('sidebars link wrong href', () => {
+  it('sidebars link wrong href', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -114,7 +114,7 @@ describe('validateSidebars', () => {
           `);
   });
 
-  test('sidebars with unknown sidebar item type', () => {
+  it('sidebars with unknown sidebar item type', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -133,7 +133,7 @@ describe('validateSidebars', () => {
           `);
   });
 
-  test('sidebars category missing items', () => {
+  it('sidebars category missing items', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -159,7 +159,7 @@ describe('validateSidebars', () => {
     `);
   });
 
-  test('sidebars category wrong field', () => {
+  it('sidebars category wrong field', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -188,7 +188,7 @@ describe('validateSidebars', () => {
     `);
   });
 
-  test('sidebar category wrong items', () => {
+  it('sidebar category wrong items', () => {
     expect(() =>
       validateSidebars({
         docs: {
@@ -204,7 +204,7 @@ describe('validateSidebars', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"sidebar.forEach is not a function"`);
   });
 
-  test('sidebars item doc but id is not a string', async () => {
+  it('sidebars item doc but id is not a string', async () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -226,7 +226,7 @@ describe('validateSidebars', () => {
           `);
   });
 
-  test('HTML type requires a value', () => {
+  it('hTML type requires a value', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -246,7 +246,7 @@ describe('validateSidebars', () => {
     `);
   });
 
-  test('HTML type accepts valid values', () => {
+  it('hTML type accepts valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -264,7 +264,7 @@ describe('validateSidebars', () => {
 describe('validateCategoryMetadataFile', () => {
   // TODO add more tests
 
-  test('throw for bad value', async () => {
+  it('throw for bad value', async () => {
     expect(() =>
       validateCategoryMetadataFile(42),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -272,12 +272,12 @@ describe('validateCategoryMetadataFile', () => {
     );
   });
 
-  test('accept empty object', async () => {
+  it('accept empty object', async () => {
     const content: CategoryMetadataFile = {};
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  test('accept valid values', async () => {
+  it('accept valid values', async () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
@@ -294,7 +294,7 @@ describe('validateCategoryMetadataFile', () => {
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  test('rejects permalink', async () => {
+  it('rejects permalink', async () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',

@@ -20,7 +20,7 @@ import type {
 import _ from 'lodash';
 
 describe('docsClientUtils', () => {
-  test('getActivePlugin', () => {
+  it('getActivePlugin', () => {
     const data: Record<string, GlobalPluginData> = {
       pluginIosId: {
         path: '/ios',
@@ -91,7 +91,7 @@ describe('docsClientUtils', () => {
     ).toEqual('pluginAndroidId');
   });
 
-  test('getLatestVersion', () => {
+  it('getLatestVersion', () => {
     const versions: GlobalVersion[] = [
       {
         name: 'version1',
@@ -127,7 +127,7 @@ describe('docsClientUtils', () => {
     ).toEqual(versions[1]);
   });
 
-  test('getActiveVersion', () => {
+  it('getActiveVersion', () => {
     const data: GlobalPluginData = {
       path: 'docs',
       versions: [
@@ -175,7 +175,7 @@ describe('docsClientUtils', () => {
     );
   });
 
-  test('getActiveDocContext', () => {
+  it('getActiveDocContext', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
       label: 'next',
@@ -304,7 +304,7 @@ describe('docsClientUtils', () => {
     });
   });
 
-  test('getDocVersionSuggestions', () => {
+  it('getDocVersionSuggestions', () => {
     const versionNext: GlobalVersion = {
       name: 'next',
       label: 'next',

@@ -19,14 +19,14 @@ function getOutputCss(output) {
 }
 
 function testStylelintRule(config, tests) {
-  describe(tests.ruleName, () => {
+  describe(`${tests.ruleName}`, () => {
     const checkTestCaseContent = (testCase) =>
       testCase.description || testCase.code || 'no description';
 
     if (tests.accept && tests.accept.length) {
       describe('accept cases', () => {
         tests.accept.forEach((testCase) => {
-          test(checkTestCaseContent(testCase), async () => {
+          it(`${checkTestCaseContent(testCase)}`, async () => {
             const options = {
               code: testCase.code,
               config,
@@ -49,7 +49,7 @@ function testStylelintRule(config, tests) {
     if (tests.reject && tests.reject.length) {
       describe('reject cases', () => {
         tests.reject.forEach((testCase) => {
-          test(checkTestCaseContent(testCase), async () => {
+          it(`${checkTestCaseContent(testCase)}`, async () => {
             const options = {
               code: testCase.code,
               config,

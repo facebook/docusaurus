@@ -8,7 +8,7 @@
 import {createSlugger} from '../slugger';
 
 describe('createSlugger', () => {
-  test('can create unique slugs', () => {
+  it('can create unique slugs', () => {
     const slugger = createSlugger();
     expect(slugger.slug('Some$/vaLue$!^')).toEqual('somevalue');
     expect(slugger.slug('Some$/vaLue$!^')).toEqual('somevalue-1');
@@ -16,7 +16,7 @@ describe('createSlugger', () => {
     expect(slugger.slug('Some$/vaLue$!^-1')).toEqual('somevalue-1-1');
   });
 
-  test('can create unique slugs respecting case', () => {
+  it('can create unique slugs respecting case', () => {
     const slugger = createSlugger();
     const opt = {maintainCase: true};
     expect(slugger.slug('Some$/vaLue$!^', opt)).toEqual('SomevaLue');

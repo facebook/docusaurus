@@ -17,13 +17,13 @@ function params(
 }
 
 describe('applyTrailingSlash', () => {
-  test('should apply to empty', () => {
+  it('applies to empty', () => {
     expect(applyTrailingSlash('', params(true))).toEqual('/');
     expect(applyTrailingSlash('', params(false))).toEqual('');
     expect(applyTrailingSlash('', params(undefined))).toEqual('');
   });
 
-  test('should not apply to /', () => {
+  it('does not apply to /', () => {
     expect(applyTrailingSlash('/', params(true))).toEqual('/');
     expect(applyTrailingSlash('/', params(false))).toEqual('/');
     expect(applyTrailingSlash('/', params(undefined))).toEqual('/');
@@ -39,7 +39,7 @@ describe('applyTrailingSlash', () => {
     );
   });
 
-  test('should not apply to /baseUrl/', () => {
+  it('does not apply to /baseUrl/', () => {
     const baseUrl = '/baseUrl/';
     expect(applyTrailingSlash('/baseUrl/', params(true, baseUrl))).toEqual(
       '/baseUrl/',
@@ -62,7 +62,7 @@ describe('applyTrailingSlash', () => {
     ).toEqual('/baseUrl/?query#anchor');
   });
 
-  test('should not apply to #anchor links', () => {
+  it('does not apply to #anchor links', () => {
     expect(applyTrailingSlash('#', params(true))).toEqual('#');
     expect(applyTrailingSlash('#', params(false))).toEqual('#');
     expect(applyTrailingSlash('#', params(undefined))).toEqual('#');
@@ -71,7 +71,7 @@ describe('applyTrailingSlash', () => {
     expect(applyTrailingSlash('#anchor', params(undefined))).toEqual('#anchor');
   });
 
-  test('should apply to simple paths', () => {
+  it('applies to simple paths', () => {
     expect(applyTrailingSlash('abc', params(true))).toEqual('abc/');
     expect(applyTrailingSlash('abc', params(false))).toEqual('abc');
     expect(applyTrailingSlash('abc', params(undefined))).toEqual('abc');
@@ -86,7 +86,7 @@ describe('applyTrailingSlash', () => {
     expect(applyTrailingSlash('/abc/', params(undefined))).toEqual('/abc/');
   });
 
-  test('should apply to path with #anchor', () => {
+  it('applies to path with #anchor', () => {
     expect(applyTrailingSlash('/abc#anchor', params(true))).toEqual(
       '/abc/#anchor',
     );
@@ -107,7 +107,7 @@ describe('applyTrailingSlash', () => {
     );
   });
 
-  test('should apply to path with ?search', () => {
+  it('applies to path with ?search', () => {
     expect(applyTrailingSlash('/abc?search', params(true))).toEqual(
       '/abc/?search',
     );
@@ -128,7 +128,7 @@ describe('applyTrailingSlash', () => {
     );
   });
 
-  test('should apply to path with ?search#anchor', () => {
+  it('applies to path with ?search#anchor', () => {
     expect(applyTrailingSlash('/abc?search#anchor', params(true))).toEqual(
       '/abc/?search#anchor',
     );
@@ -149,7 +149,7 @@ describe('applyTrailingSlash', () => {
     ).toEqual('/abc/?search#anchor');
   });
 
-  test('should apply to fully qualified urls', () => {
+  it('applies to fully qualified urls', () => {
     expect(
       applyTrailingSlash('https://xyz.com/abc?search#anchor', params(true)),
     ).toEqual('https://xyz.com/abc/?search#anchor');

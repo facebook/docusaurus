@@ -11,7 +11,7 @@ import loadPresets from '../index';
 import type {LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {
-  test('no presets', async () => {
+  it('no presets', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -27,7 +27,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('string form', async () => {
+  it('string form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -52,7 +52,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('string form composite', async () => {
+  it('string form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -88,7 +88,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form', async () => {
+  it('array form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -113,7 +113,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form with options', async () => {
+  it('array form with options', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -145,7 +145,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('array form composite', async () => {
+  it('array form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -191,7 +191,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('mixed form', async () => {
+  it('mixed form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -232,7 +232,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('mixed form with themes', async () => {
+  it('mixed form with themes', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {

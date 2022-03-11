@@ -28,7 +28,7 @@ Example valid plugin config:
 "
 `;
 
-exports[`sortConfig should sort route config correctly 1`] = `
+exports[`sortConfig sorts route config correctly 1`] = `
 Array [
   Object {
     "component": "",
@@ -83,7 +83,7 @@ Array [
 ]
 `;
 
-exports[`sortConfig should sort route config given a baseURL 1`] = `
+exports[`sortConfig sorts route config given a baseURL 1`] = `
 Array [
   Object {
     "component": "",

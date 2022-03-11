@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`inline code should be escaped 1`] = `
+exports[`toc remark plugin escapes inline code 1`] = `
 "export const toc = [
 	{
 		value: '<code>&lt;Head /&gt;</code>',
@@ -48,7 +48,7 @@ exports[`inline code should be escaped 1`] = `
 "
 `;
 
-exports[`non text phrasing content 1`] = `
+exports[`toc remark plugin works on non text phrasing content 1`] = `
 "export const toc = [
 	{
 		value: '<em>Emphasis</em>',

@@ -16,7 +16,7 @@ describe('normalizeFrontMatterTag', () => {
   type Input = Parameters<typeof normalizeFrontMatterTag>[1];
   type Output = ReturnType<typeof normalizeFrontMatterTag>;
 
-  test('should normalize simple string tag', () => {
+  it('normalizes simple string tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = 'tag';
     const expectedOutput: Output = {
@@ -26,7 +26,7 @@ describe('normalizeFrontMatterTag', () => {
     expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize complex string tag', () => {
+  it('normalizes complex string tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = 'some more Complex_tag';
     const expectedOutput: Output = {
@@ -36,7 +36,7 @@ describe('normalizeFrontMatterTag', () => {
     expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize simple object tag', () => {
+  it('normalizes simple object tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = {label: 'tag', permalink: 'tagPermalink'};
     const expectedOutput: Output = {
@@ -46,7 +46,7 @@ describe('normalizeFrontMatterTag', () => {
     expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize complex string tag with object tag', () => {
+  it('normalizes complex string tag with object tag', () => {
     const tagsPath = '/all/tags';
     const input: Input = {
       label: 'tag complex Label',
@@ -64,7 +64,7 @@ describe('normalizeFrontMatterTags', () => {
   type Input = Parameters<typeof normalizeFrontMatterTags>[1];
   type Output = ReturnType<typeof normalizeFrontMatterTags>;
 
-  test('should normalize string list', () => {
+  it('normalizes string list', () => {
     const tagsPath = '/all/tags';
     const input: Input = ['tag 1', 'tag-1', 'tag 3', 'tag1', 'tag-2'];
     // Keep user input order but remove tags that lead to same permalink
@@ -85,11 +85,11 @@ describe('normalizeFrontMatterTags', () => {
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('succeeds for empty list', () => {
+  it('succeeds for empty list', () => {
     expect(normalizeFrontMatterTags('/foo')).toEqual([]);
   });
 
-  test('should normalize complex mixed list', () => {
+  it('normalizes complex mixed list', () => {
     const tagsPath = '/all/tags';
     const input: Input = [
       'tag 1',
@@ -131,7 +131,7 @@ describe('groupTaggedItems', () => {
   type Input = Parameters<typeof groupItems>[0];
   type Output = ReturnType<typeof groupItems>;
 
-  test('should group items by tag permalink', () => {
+  it('groups items by tag permalink', () => {
     const tagGuide = {label: 'Guide', permalink: '/guide'};
     const tagTutorial = {label: 'Tutorial', permalink: '/tutorial'};
     const tagAPI = {label: 'API', permalink: '/api'};

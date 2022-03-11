@@ -22,14 +22,14 @@ const processFixtureAST = async (name: string) => {
   return remark().use(mdx).use(plugin).parse(file);
 };
 
-describe('unwrapMdxCodeBlocks', () => {
-  test('should unwrap the mdx code blocks', async () => {
+describe('unwrapMdxCodeBlocks remark plugin', () => {
+  it('unwraps the mdx code blocks', async () => {
     const result = await processFixture('has-mdx-code-blocks.mdx');
     expect(result).toMatchSnapshot();
   });
 
   // The AST output should be parsed correctly or the MDX loader won't work!
-  test('should unwrap the mdx code blocks AST', async () => {
+  it('unwraps the mdx code blocks AST', async () => {
     const result = await processFixtureAST('has-mdx-code-blocks.mdx');
     expect(result).toMatchSnapshot();
   });

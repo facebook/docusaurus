@@ -47,8 +47,8 @@ async function createTmpSourceCodeFile({
   };
 }
 
-describe('extractSourceCodeTranslations', () => {
-  test('throw for bad source code', async () => {
+describe('extractSourceCodeFileTranslations', () => {
+  it('throws for bad source code', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -58,7 +58,7 @@ const default => {
 `,
     });
 
-    const errorMock = jest.spyOn(console, 'error').mockImplementation();
+    const errorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     await expect(
       extractSourceCodeFileTranslations(sourceCodeFilePath, TestBabelOptions),
@@ -71,7 +71,7 @@ const default => {
     );
   });
 
-  test('extract nothing from untranslated source code', async () => {
+  it('extracts nothing from untranslated source code', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -91,7 +91,7 @@ const unrelated =  42;
     });
   });
 
-  test('extract from a translate() functions calls', async () => {
+  it('extracts from a translate() functions calls', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -124,7 +124,7 @@ export default function MyComponent() {
     });
   });
 
-  test('extract from a <Translate> components', async () => {
+  it('extracts from a <Translate> components', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -159,7 +159,7 @@ export default function MyComponent() {
     });
   });
 
-  test('extract statically evaluable content', async () => {
+  it('extracts statically evaluable content', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -220,7 +220,7 @@ export default function MyComponent() {
     });
   });
 
-  test('extract from TypeScript file', async () => {
+  it('extracts from TypeScript file', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'tsx',
       content: `
@@ -252,7 +252,7 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
     });
   });
 
-  test('do not extract from functions that is not docusaurus provided', async () => {
+  it('does not extract from functions that is not docusaurus provided', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -277,7 +277,7 @@ export default function somethingElse() {
     });
   });
 
-  test('do not extract from functions that is internal', async () => {
+  it('does not extract from functions that is internal', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -304,7 +304,7 @@ export default function somethingElse() {
     });
   });
 
-  test('recognize aliased imports', async () => {
+  it('recognizes aliased imports', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -354,7 +354,7 @@ export default function () {
     });
   });
 
-  test('recognize aliased imports as string literal', async () => {
+  it('recognizes aliased imports as string literal', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -388,7 +388,7 @@ export default function () {
     });
   });
 
-  test('warn about id if no children', async () => {
+  it('warns about id if no children', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -419,7 +419,7 @@ Full code: <Translate description="foo" />`,
     });
   });
 
-  test('warn about dynamic id', async () => {
+  it('warns about dynamic id', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -455,7 +455,7 @@ Full code: <Translate id={index}>foo</Translate>`,
     });
   });
 
-  test('warn about dynamic children', async () => {
+  it('warns about dynamic children', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -485,7 +485,7 @@ Full code: <Translate id='foo'><a>hhh</a></Translate>`,
     });
   });
 
-  test('warn about dynamic translate argument', async () => {
+  it('warns about dynamic translate argument', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -513,7 +513,7 @@ Full code: translate(foo)`,
     });
   });
 
-  test('warn about too many arguments', async () => {
+  it('warns about too many arguments', async () => {
     const {sourceCodeFilePath} = await createTmpSourceCodeFile({
       extension: 'js',
       content: `
@@ -545,7 +545,7 @@ Full code: translate({
 });
 
 describe('extractSiteSourceCodeTranslations', () => {
-  test('should extract translation from all plugins source code', async () => {
+  it('extracts translation from all plugins source code', async () => {
     const siteDir = await createTmpDir();
 
     const siteComponentFile1 = path.join(
