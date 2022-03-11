@@ -133,9 +133,11 @@ export {
   splitNavbarItems,
   NavbarProvider,
   useNavbarMobileSidebar,
-  useNavbarSecondaryMenu,
 } from './utils/navbarUtils';
-export {NavbarSecondaryMenuFiller} from './utils/navbarSecondaryMenuUtils';
+export {
+  useNavbarSecondaryMenu,
+  NavbarSecondaryMenuFiller,
+} from './utils/navbarSecondaryMenuUtils';
 export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
 
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';

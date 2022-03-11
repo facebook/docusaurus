@@ -10,10 +10,13 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useCallback,
   type ReactNode,
   type ComponentType,
 } from 'react';
 import {ReactContextError} from './reactUtils';
+import {usePrevious} from './usePrevious';
+import {useNavbarMobileSidebar} from './navbarUtils';
 
 /*
 The idea behind all this is that a specific component must be able to fill a
@@ -28,13 +31,53 @@ Not sure any of those is safe regarding concurrent mode.
 
 export type NavbarSecondaryMenuComponent<Props> = ComponentType<Props>;
 
-type State<Props extends object = object> = {
-  component: ComponentType<Props>;
-  props: Props;
-} | null;
+type State = {
+  shown: boolean;
+  content:
+    | {
+        component: ComponentType<object>;
+        props: object;
+      }
+    | {component: null; props: null};
+};
+
+const InitialState: State = {
+  shown: false,
+  content: {component: null, props: null},
+};
 
 function useContextValue() {
-  return useState<State>(null);
+  const mobileSidebar = useNavbarMobileSidebar();
+
+  const [state, setState] = useState<State>(InitialState);
+
+  const setShown = (shown: boolean) => setState((s) => ({...s, shown}));
+
+  const hasContent = state.content?.component !== null;
+  const previousHasContent = usePrevious(state.content?.component !== null);
+
+  // When content is become available for the first time (set in useEffect)
+  // we set this content to be shown!
+  useEffect(() => {
+    const contentBecameAvailable = hasContent && !previousHasContent;
+    if (contentBecameAvailable) {
+      setShown(true);
+    }
+  }, [hasContent, previousHasContent]);
+
+  // On sidebar close, secondary menu is set to be shown on next re-opening
+  // (if any secondary menu content available)
+  useEffect(() => {
+    if (!hasContent) {
+      setShown(false);
+      return;
+    }
+    if (!mobileSidebar.shown) {
+      setShown(true);
+    }
+  }, [mobileSidebar.shown, hasContent]);
+
+  return [state, setState] as const;
 }
 
 type ContextValue = ReturnType<typeof useContextValue>;
@@ -57,15 +100,6 @@ function useNavbarSecondaryMenuContext(): ContextValue {
     throw new ReactContextError('MobileSecondaryMenuProvider');
   }
   return value;
-}
-
-export function useNavbarSecondaryMenuElement(): ReactNode | undefined {
-  const [state] = useNavbarSecondaryMenuContext();
-  if (state) {
-    const Comp = state.component;
-    return <Comp {...state.props} />;
-  }
-  return undefined;
 }
 
 function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
@@ -94,10 +128,43 @@ export function NavbarSecondaryMenuFiller<
 
   useEffect(() => {
     // @ts-expect-error: context is not 100% type-safe but it's ok
-    setState({component, props: memoizedProps});
+    setState((s) => ({...s, content: {component, props: memoizedProps}}));
   }, [setState, component, memoizedProps]);
 
-  useEffect(() => () => setState(null), [setState]);
+  useEffect(
+    () => () => setState((s) => ({...s, component: null, props: null})),
+    [setState],
+  );
 
   return null;
+}
+
+function renderElement(state: State): JSX.Element | undefined {
+  if (state.content && state.content.component) {
+    const Comp = state.content.component;
+    return <Comp {...state.content.props} />;
+  }
+  return undefined;
+}
+
+export function useNavbarSecondaryMenu(): {
+  shown: boolean;
+  hide: () => void;
+  content: JSX.Element | undefined;
+} {
+  const [state, setState] = useNavbarSecondaryMenuContext();
+
+  const hide = useCallback(
+    () => setState((s) => ({...s, shown: false})),
+    [setState],
+  );
+
+  return useMemo(
+    () => ({
+      shown: state.shown,
+      hide,
+      content: renderElement(state),
+    }),
+    [hide, state],
+  );
 }
