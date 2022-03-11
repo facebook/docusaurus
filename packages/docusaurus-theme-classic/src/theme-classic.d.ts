@@ -403,6 +403,15 @@ declare module '@theme/Navbar/ColorModeToggle' {
   ): JSX.Element | null;
 }
 
+declare module '@theme/Navbar/MobileSidebar' {
+  export interface Props {
+    readonly sidebarShown: boolean;
+    readonly toggleSidebar: () => void;
+  }
+
+  export default function NavbarMobileSidebar(props: Props): JSX.Element;
+}
+
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 

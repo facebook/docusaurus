@@ -21,7 +21,3 @@ Hide toggle in small viewports
 .navbarHidden {
   transform: translate3d(0, calc(-100% - 2px), 0);
 }
-
-.navbarSidebarToggle {
-  margin-right: 1rem;
-}
