@@ -287,7 +287,7 @@ declare module '@theme/Footer/Logo' {
     logo: FooterLogo;
   }
 
-  export default function Logo(props: Props): JSX.Element;
+  export default function FooterLogo(props: Props): JSX.Element;
 }
 
 declare module '@theme/Footer/Copyright' {
@@ -295,7 +295,7 @@ declare module '@theme/Footer/Copyright' {
     copyright: string;
   }
 
-  export default function Copyright(props: Props): JSX.Element;
+  export default function FooterCopyright(props: Props): JSX.Element;
 }
 
 declare module '@theme/Footer/LinkItem' {
@@ -305,27 +305,50 @@ declare module '@theme/Footer/LinkItem' {
     item: FooterLinkItem;
   }
 
-  export default function LinkItem(props: Props): JSX.Element;
+  export default function FooterLinkItem(props: Props): JSX.Element;
 }
 
-declare module '@theme/Footer/MultiColumn' {
+declare module '@theme/Footer/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    style: 'light' | 'dark';
+    links: ReactNode;
+    logo: ReactNode;
+    copyright: ReactNode;
+  }
+
+  export default function FooterLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links' {
+  import type {Footer} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: Footer['links'];
+  }
+
+  export default function FooterLinks(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links/MultiColumn' {
   import type {MultiColumnFooter} from '@docusaurus/theme-common';
 
   export interface Props {
     columns: MultiColumnFooter['links'];
   }
 
-  export default function MultiColumn(props: Props): JSX.Element;
+  export default function FooterLinksMultiColumn(props: Props): JSX.Element;
 }
 
-declare module '@theme/Footer/Simple' {
+declare module '@theme/Footer/Links/Simple' {
   import type {SimpleFooter} from '@docusaurus/theme-common';
 
   export interface Props {
     links: SimpleFooter['links'];
   }
 
-  export default function Simple(props: Props): JSX.Element;
+  export default function FooterLinksSimple(props: Props): JSX.Element;
 }
 
 declare module '@theme/Heading' {

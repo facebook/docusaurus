@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Footer/Simple';
+import type {Props} from '@theme/Footer/Links/Simple';
 import LinkItem from '@theme/Footer/LinkItem';
 
 function Separator() {
@@ -28,7 +28,7 @@ function SimpleLinkItem({item}: {item: Props['links'][number]}) {
   );
 }
 
-export default function Simple({links}: Props): JSX.Element {
+export default function FooterSimple({links}: Props): JSX.Element {
   return (
     <div className="footer__links text--center">
       <div className="footer__links">

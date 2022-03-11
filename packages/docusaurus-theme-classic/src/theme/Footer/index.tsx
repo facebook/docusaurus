@@ -6,16 +6,12 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
 
-import {
-  useThemeConfig,
-  isMultiColumnFooterLinks,
-} from '@docusaurus/theme-common';
-import Logo from '@theme/Footer/Logo';
-import Copyright from '@theme/Footer/Copyright';
-import MultiColumn from '@theme/Footer/MultiColumn';
-import Simple from '@theme/Footer/Simple';
+import {useThemeConfig} from '@docusaurus/theme-common';
+import FooterLinks from '@theme/Footer/Links';
+import FooterLogo from '@theme/Footer/Logo';
+import FooterCopyright from '@theme/Footer/Copyright';
+import FooterLayout from '@theme/Footer/Layout';
 
 function Footer(): JSX.Element | null {
   const {footer} = useThemeConfig();
@@ -25,30 +21,12 @@ function Footer(): JSX.Element | null {
   const {copyright, links, logo, style} = footer;
 
   return (
-    <footer
-      className={clsx('footer', {
-        'footer--dark': style === 'dark',
-      })}>
-      <div className="container container-fluid">
-        {links &&
-          links.length > 0 &&
-          (isMultiColumnFooterLinks(links) ? (
-            <MultiColumn columns={links} />
-          ) : (
-            <Simple links={links} />
-          ))}
-        {(logo || copyright) && (
-          <div className="footer__bottom text--center">
-            {logo && (
-              <div className="margin-bottom--sm">
-                <Logo logo={logo} />
-              </div>
-            )}
-            {copyright && <Copyright copyright={copyright} />}
-          </div>
-        )}
-      </div>
-    </footer>
+    <FooterLayout
+      style={style}
+      links={links && links.length > 0 && <FooterLinks links={links} />}
+      logo={logo && <FooterLogo logo={logo} />}
+      copyright={copyright && <FooterCopyright copyright={copyright} />}
+    />
   );
 }
 

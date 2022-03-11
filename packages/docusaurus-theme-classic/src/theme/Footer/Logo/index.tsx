@@ -30,7 +30,7 @@ function LogoImage({logo}: Props) {
   );
 }
 
-export default function Logo({logo}: Props): JSX.Element {
+export default function FooterLogo({logo}: Props): JSX.Element {
   return logo.href ? (
     <Link href={logo.href} className={styles.footerLogoLink}>
       <LogoImage logo={logo} />

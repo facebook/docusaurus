@@ -13,7 +13,7 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/IconExternalLink';
 import type {Props} from '@theme/Footer/LinkItem';
 
-export default function LinkItem({item}: Props): JSX.Element {
+export default function FooterLinkItem({item}: Props): JSX.Element {
   const {to, href, label, prependBaseUrlToHref, ...props} = item;
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});

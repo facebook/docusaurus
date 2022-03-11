@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Footer/MultiColumn';
+import type {Props} from '@theme/Footer/Links/MultiColumn';
 import LinkItem from '@theme/Footer/LinkItem';
 
 type ColumnType = Props['columns'][number];
@@ -42,7 +42,7 @@ function Column({column}: {column: ColumnType}) {
   );
 }
 
-export default function MultiColumn({columns}: Props): JSX.Element {
+export default function FooterMultiColumn({columns}: Props): JSX.Element {
   return (
     <div className="row footer__links">
       {columns.map((column, i) => (
