@@ -15,7 +15,7 @@ import {
   useNavbarMobileSidebar,
   useThemeConfig,
 } from '@docusaurus/theme-common';
-import MobileSidebarToggle from '@theme/Navbar/MobileSidebarToggle';
+import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
 import styles from './styles.module.css';
 
@@ -62,7 +62,7 @@ export default function NavbarContent(): JSX.Element {
       left={
         // TODO stop hardcoding items?
         <>
-          {!mobileSidebar.disabled && <MobileSidebarToggle />}
+          {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
           <NavbarLogo />
           <NavbarItems items={leftItems} />
         </>

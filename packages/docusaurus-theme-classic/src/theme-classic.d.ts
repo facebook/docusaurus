@@ -490,33 +490,36 @@ declare module '@theme/Navbar/Layout' {
   export default function NavbarLayout(props: Props): JSX.Element;
 }
 
-declare module '@theme/Navbar/MobileSidebarToggle' {
-  export default function NavbarMobileSidebarToggleButton(): JSX.Element;
+declare module '@theme/Navbar/MobileSidebar' {
+  export default function NavbarMobileSidebar(): JSX.Element;
 }
 
-declare module '@theme/Navbar/MobileSidebar' {
-  export interface Props {
-    readonly sidebarShown: boolean;
-    readonly toggleSidebar: () => void;
+declare module '@theme/Navbar/MobileSidebar/Layout' {
+  import type {ReactNode} from 'react';
+
+  interface Props {
+    header: ReactNode;
+    primaryMenu: ReactNode;
+    secondaryMenu: ReactNode;
   }
 
-  export default function NavbarMobileSidebar(props: Props): JSX.Element;
+  export default function NavbarMobileSidebarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Toggle' {
+  export default function NavbarMobileSidebarToggle(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/PrimaryMenu' {
+  export default function NavbarMobileSidebarPrimaryMenu(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/SecondaryMenu' {
+  export default function NavbarMobileSidebarSecondaryMenu(): JSX.Element;
 }
 
 declare module '@theme/Navbar/MobileSidebar/Header' {
-  import type {Props as MobileSidebarProps} from '@theme/Navbar/MobileSidebar';
-
-  export interface Props extends MobileSidebarProps {}
-
-  export default function NavbarMobileSidebarHeader(props: Props): JSX.Element;
-}
-
-declare module '@theme/Navbar/MobileSidebar/Content' {
-  import type {Props as MobileSidebarProps} from '@theme/Navbar/MobileSidebar';
-
-  export interface Props extends MobileSidebarProps {}
-
-  export default function NavbarMobileSidebarContent(props: Props): JSX.Element;
+  export default function NavbarMobileSidebarHeader(): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {

@@ -6,18 +6,28 @@
  */
 
 import React from 'react';
-import type {Props} from '@theme/Navbar/MobileSidebar';
+import NavbarMobileSidebarLayout from '@theme/Navbar/MobileSidebar/Layout';
 import NavbarMobileSidebarHeader from '@theme/Navbar/MobileSidebar/Header';
-import NavbarMobileSidebarContent from '@theme/Navbar/MobileSidebar/Content';
-import {useLockBodyScroll} from '@docusaurus/theme-common';
+import {
+  useLockBodyScroll,
+  useNavbarMobileSidebar,
+} from '@docusaurus/theme-common';
+import NavbarMobileSidebarPrimaryMenu from '@theme/Navbar/MobileSidebar/PrimaryMenu';
+import NavbarMobileSidebarSecondaryMenu from '@theme/Navbar/MobileSidebar/SecondaryMenu';
 
-export default function NavbarMobileSidebar(props: Props): JSX.Element {
-  useLockBodyScroll(props.sidebarShown);
+export default function NavbarMobileSidebar(): JSX.Element | null {
+  const mobileSidebar = useNavbarMobileSidebar();
+  useLockBodyScroll(mobileSidebar.shown);
+
+  if (!mobileSidebar.shouldRender) {
+    return null;
+  }
 
   return (
-    <div className="navbar-sidebar">
-      <NavbarMobileSidebarHeader {...props} />
-      <NavbarMobileSidebarContent {...props} />
-    </div>
+    <NavbarMobileSidebarLayout
+      header={<NavbarMobileSidebarHeader />}
+      primaryMenu={<NavbarMobileSidebarPrimaryMenu />}
+      secondaryMenu={<NavbarMobileSidebarSecondaryMenu />}
+    />
   );
 }

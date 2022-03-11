@@ -50,15 +50,8 @@ export default function NavbarLayout({children}: Props): JSX.Element {
         },
       )}>
       {children}
-
       <NavbarBackdrop onClick={mobileSidebar.toggle} />
-
-      {mobileSidebar.shouldRender && (
-        <NavbarMobileSidebar
-          sidebarShown={mobileSidebar.shown}
-          toggleSidebar={mobileSidebar.toggle}
-        />
-      )}
+      <NavbarMobileSidebar />
     </nav>
   );
 }

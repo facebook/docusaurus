@@ -7,23 +7,28 @@
 
 import React from 'react';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
-import type {Props} from '@theme/Navbar/MobileSidebar/Header';
 import IconClose from '@theme/IconClose';
 import NavbarLogo from '@theme/Navbar/Logo';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common';
 
-export default function NavbarMobileSidebarHeader({
-  toggleSidebar,
-}: Props): JSX.Element {
+function CloseButton() {
+  const mobileSidebar = useNavbarMobileSidebar();
+  return (
+    <button
+      type="button"
+      className="clean-btn navbar-sidebar__close"
+      onClick={() => mobileSidebar.toggle()}>
+      <IconClose color="var(--ifm-color-emphasis-600)" />
+    </button>
+  );
+}
+
+export default function NavbarMobileSidebarHeader(): JSX.Element {
   return (
     <div className="navbar-sidebar__brand">
       <NavbarLogo />
       <NavbarColorModeToggle className="margin-right--md" />
-      <button
-        type="button"
-        className="clean-btn navbar-sidebar__close"
-        onClick={() => toggleSidebar()}>
-        <IconClose color="var(--ifm-color-emphasis-600)" />
-      </button>
+      <CloseButton />
     </div>
   );
 }

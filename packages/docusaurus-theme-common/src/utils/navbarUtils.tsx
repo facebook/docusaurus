@@ -121,15 +121,15 @@ export function useNavbarMobileSidebar(): NavbarMobileSidebarContextValue {
   return context;
 }
 
-export function useNavbarSecondaryMenu({
-  sidebarShown,
-  toggleSidebar,
-}: {
-  sidebarShown: boolean;
-  toggleSidebar: () => void;
-}): {shown: boolean; hide: () => void; content: ReactNode} {
+export function useNavbarSecondaryMenu(): {
+  shown: boolean;
+  hide: () => void;
+  content: ReactNode;
+} {
+  const mobileSidebar = useNavbarMobileSidebar();
+
   const content = useMobileSecondaryMenuRenderer()?.({
-    toggleSidebar,
+    toggleSidebar: mobileSidebar.toggle,
   });
   const previousContent = usePrevious(content);
 
@@ -159,14 +159,21 @@ export function useNavbarSecondaryMenu({
       setShown(false);
       return;
     }
-    if (!sidebarShown) {
+    if (!mobileSidebar.shown) {
       setShown(true);
     }
-  }, [sidebarShown, hasContent]);
+  }, [mobileSidebar.shown, hasContent]);
 
   const hide = useCallback(() => {
     setShown(false);
   }, []);
 
-  return {shown, hide, content};
+  return useMemo(
+    () => ({
+      shown,
+      hide,
+      content,
+    }),
+    [shown, hide, content],
+  );
 }
