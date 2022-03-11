@@ -24,37 +24,6 @@ function useNavbarItems() {
   return useThemeConfig().navbar.items as NavbarItemConfig[];
 }
 
-function NavbarContentLayout({
-  mobileSidebarToggle,
-  logo,
-  leftItems,
-  rightItems,
-  colorModeToggle,
-  searchBar,
-}: {
-  mobileSidebarToggle: ReactNode;
-  logo: ReactNode;
-  leftItems: ReactNode;
-  rightItems: ReactNode;
-  colorModeToggle: ReactNode;
-  searchBar: ReactNode;
-}) {
-  return (
-    <div className="navbar__inner">
-      <div className="navbar__items">
-        {mobileSidebarToggle}
-        {logo}
-        {leftItems}
-      </div>
-      <div className="navbar__items navbar__items--right">
-        {rightItems}
-        {colorModeToggle}
-        {searchBar}
-      </div>
-    </div>
-  );
-}
-
 function NavbarItems({items}: {items: NavbarItemConfig[]}): JSX.Element {
   return (
     <>
@@ -62,6 +31,21 @@ function NavbarItems({items}: {items: NavbarItemConfig[]}): JSX.Element {
         <NavbarItem {...item} key={i} />
       ))}
     </>
+  );
+}
+
+function NavbarContentLayout({
+  left,
+  right,
+}: {
+  left: ReactNode;
+  right: ReactNode;
+}) {
+  return (
+    <div className="navbar__inner">
+      <div className="navbar__items">{left}</div>
+      <div className="navbar__items navbar__items--right">{right}</div>
+    </div>
   );
 }
 
@@ -75,14 +59,23 @@ export default function NavbarContent(): JSX.Element {
 
   return (
     <NavbarContentLayout
-      mobileSidebarToggle={!mobileSidebar.disabled && <MobileSidebarToggle />}
-      logo={<NavbarLogo />}
-      colorModeToggle={
-        <NavbarColorModeToggle className={styles.colorModeToggle} />
+      left={
+        // TODO stop hardcoding items?
+        <>
+          {!mobileSidebar.disabled && <MobileSidebarToggle />}
+          <NavbarLogo />
+          <NavbarItems items={leftItems} />
+        </>
       }
-      leftItems={<NavbarItems items={leftItems} />}
-      rightItems={<NavbarItems items={rightItems} />}
-      searchBar={autoAddSearchBar && <SearchBar />}
+      right={
+        // TODO stop hardcoding items?
+        // Ask the user to add the respective navbar items => more flexible
+        <>
+          <NavbarItems items={rightItems} />
+          <NavbarColorModeToggle className={styles.colorModeToggle} />
+          {autoAddSearchBar && <SearchBar />}
+        </>
+      }
     />
   );
 }

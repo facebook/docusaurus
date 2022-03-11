@@ -91,6 +91,7 @@ globby
 goss
 goyal
 gtag
+hardcoding
 héctor
 heuristical
 hideable
