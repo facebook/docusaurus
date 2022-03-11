@@ -403,6 +403,18 @@ declare module '@theme/Navbar/ColorModeToggle' {
   ): JSX.Element | null;
 }
 
+declare module '@theme/Navbar/Items' {
+  export default function NavbarItems(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Layout' {
+  export interface Props {
+    children: React.ReactNode;
+  }
+
+  export default function NavbarLayout(props: Props): JSX.Element;
+}
+
 declare module '@theme/Navbar/MobileSidebar' {
   export interface Props {
     readonly sidebarShown: boolean;
@@ -410,6 +422,22 @@ declare module '@theme/Navbar/MobileSidebar' {
   }
 
   export default function NavbarMobileSidebar(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Header' {
+  import type {Props as MobileSidebarProps} from '@theme/Navbar/MobileSidebar';
+
+  export interface Props extends MobileSidebarProps {}
+
+  export default function NavbarMobileSidebarHeader(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Content' {
+  import type {Props as MobileSidebarProps} from '@theme/Navbar/MobileSidebar';
+
+  export interface Props extends MobileSidebarProps {}
+
+  export default function NavbarMobileSidebarContent(props: Props): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {

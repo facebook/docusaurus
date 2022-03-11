@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.navbarSidebarToggle {
-  margin-right: 1rem;
+.navbarHideable {
+  transition: transform var(--ifm-transition-fast) ease;
+}
+
+.navbarHidden {
+  transform: translate3d(0, calc(-100% - 2px), 0);
 }
