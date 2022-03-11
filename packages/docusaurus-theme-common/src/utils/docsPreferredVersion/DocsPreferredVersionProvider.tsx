@@ -6,12 +6,11 @@
  */
 
 import React, {
-  createContext,
-  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
+  type ReactNode,
 } from 'react';
 import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
@@ -131,7 +130,9 @@ function useContextValue() {
 
 type DocsPreferredVersionContextValue = ReturnType<typeof useContextValue>;
 
-const Context = createContext<DocsPreferredVersionContextValue | null>(null);
+const Context = React.createContext<DocsPreferredVersionContextValue | null>(
+  null,
+);
 
 export function DocsPreferredVersionContextProvider({
   children,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import React, {isValidElement, type ReactNode} from 'react';
 import type {
   InterpolateProps,
   InterpolateValues,
@@ -49,7 +49,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
     const value = values?.[key];
 
     if (typeof value !== 'undefined') {
-      const element = React.isValidElement(value)
+      const element = isValidElement(value)
         ? value
         : // For non-React elements: basic primitive->string conversion
           String(value);

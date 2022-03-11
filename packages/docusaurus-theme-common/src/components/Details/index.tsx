@@ -6,10 +6,10 @@
  */
 
 import React, {
-  type ComponentProps,
-  type ReactElement,
   useRef,
   useState,
+  type ComponentProps,
+  type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';

@@ -10,9 +10,8 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-  type ReactNode,
   useContext,
-  createContext,
+  type ReactNode,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {createStorageSlot} from './storageUtils';
@@ -96,7 +95,9 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
   );
 };
 
-const AnnouncementBarContext = createContext<AnnouncementBarAPI | null>(null);
+const AnnouncementBarContext = React.createContext<AnnouncementBarAPI | null>(
+  null,
+);
 
 export function AnnouncementBarProvider({
   children,

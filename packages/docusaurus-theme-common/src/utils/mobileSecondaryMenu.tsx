@@ -7,12 +7,11 @@
 
 import React, {
   useState,
-  type ReactNode,
   useContext,
-  createContext,
   useEffect,
-  type ComponentType,
   useMemo,
+  type ReactNode,
+  type ComponentType,
 } from 'react';
 import {ReactContextError} from './reactUtils';
 
@@ -46,7 +45,7 @@ function useContextValue() {
 
 type ContextValue = ReturnType<typeof useContextValue>;
 
-const Context = createContext<ContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
 export function MobileSecondaryMenuProvider({
   children,

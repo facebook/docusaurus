@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 import _ from 'lodash';
 import {handleBrokenLinks} from '../brokenLinks';
@@ -157,7 +158,7 @@ describe('handleBrokenLinks', () => {
   test('no-op for ignore', async () => {
     // In any case, _.mapValues will always be called, unless handleBrokenLinks
     // has already bailed
-    const lodashMock = jest.spyOn(_, 'mapValues').mockImplementation();
+    const lodashMock = jest.spyOn(_, 'mapValues');
     await handleBrokenLinks({
       allCollectedLinks,
       onBrokenLinks: 'ignore',

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import {linkify} from '../linkify';

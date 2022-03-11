@@ -166,7 +166,12 @@ module.exports = {
       //   selector:
       // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
       //   message: 'Export in one statement'
-      // }
+      // },
+      ...['path', 'fs-extra', 'webpack', 'lodash'].map((m) => ({
+        selector: `ImportDeclaration[importKind=value]:has(Literal[value=${m}]) > ImportSpecifier[importKind=value]`,
+        message:
+          'Default-import this, both for readability and interoperability with ESM',
+      })),
     ],
     'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
@@ -310,6 +315,12 @@ module.exports = {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+      },
+    },
+    {
+      files: ['*.test.ts', '*.test.tsx'],
+      rules: {
+        'import/no-extraneous-dependencies': OFF,
       },
     },
   ],

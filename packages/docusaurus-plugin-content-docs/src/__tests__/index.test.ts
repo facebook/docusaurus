@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
@@ -29,7 +30,7 @@ import type {
 } from '../sidebars/types';
 import {toSidebarsProp} from '../props';
 
-import {validate} from 'webpack';
+import webpack from 'webpack';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {DisabledSidebars} from '../sidebars';
 
@@ -311,7 +312,7 @@ describe('simple website', () => {
       undefined,
       content,
     );
-    const errors = validate(config);
+    const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 

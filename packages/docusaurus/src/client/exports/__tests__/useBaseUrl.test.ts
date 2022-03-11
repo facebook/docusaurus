@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
 import useDocusaurusContext from '../useDocusaurusContext';
 
-jest.mock('../useDocusaurusContext', () => jest.fn(), {virtual: true});
+jest.mock('../useDocusaurusContext');
 
-const mockedContext = <jest.Mock>useDocusaurusContext;
+const mockedContext = useDocusaurusContext as jest.Mock;
 
 const forcePrepend = {forcePrependBaseUrl: true};
 
