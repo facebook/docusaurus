@@ -56,25 +56,7 @@ describe('normalizeSwizzleConfig', () => {
         },
       },
     };
-    expect(normalizeSwizzleConfig(config)).toMatchInlineSnapshot(`
-      Object {
-        "components": Object {
-          "Other/Component": Object {
-            "actions": Object {
-              "eject": "unsafe",
-              "wrap": "forbidden",
-            },
-          },
-          "SomeComponent": Object {
-            "actions": Object {
-              "eject": "safe",
-              "wrap": "unsafe",
-            },
-            "description": "SomeComponent description",
-          },
-        },
-      }
-    `);
+    expect(normalizeSwizzleConfig(config)).toMatchSnapshot();
   });
 
   it(`reject missing components`, async () => {

@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseMarkdownString deletes only first heading 1`] = `
+Object {
+  "content": "# Markdown Title
+
+test test test # test bar
+
+# Markdown Title 2
+
+### Markdown Title h3",
+  "contentTitle": "Markdown Title",
+  "excerpt": "test test test # test bar",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString deletes only first heading 2 1`] = `
+Object {
+  "content": "# test
+
+test test test test test test
+test test test # test bar
+# test2
+### test
+test3",
+  "contentTitle": "test",
+  "excerpt": "test test test test test test",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString does not warn for duplicate title if markdown title is not at the top 1`] = `
+Object {
+  "content": "foo
+
+# Markdown Title",
+  "contentTitle": undefined,
+  "excerpt": "foo",
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownString handles code blocks 1`] = `
+Object {
+  "content": "\`\`\`js
+code
+\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString handles code blocks 2`] = `
+Object {
+  "content": "\`\`\`\`js
+Foo
+\`\`\`diff
+code
+\`\`\`
+Bar
+\`\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString handles code blocks 3`] = `
+Object {
+  "content": "\`\`\`\`js
+Foo
+\`\`\`diff
+code
+\`\`\`\`
+
+Content",
+  "contentTitle": undefined,
+  "excerpt": "Content",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString ignores markdown title if its not a first text 1`] = `
+Object {
+  "content": "foo
+# test",
+  "contentTitle": undefined,
+  "excerpt": "foo",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString parse markdown with front matter 1`] = `
+Object {
+  "content": "Some text",
+  "contentTitle": undefined,
+  "excerpt": "Some text",
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownString parses first heading as contentTitle 1`] = `
+Object {
+  "content": "# Markdown Title
+
+Some text",
+  "contentTitle": "Markdown Title",
+  "excerpt": "Some text",
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString parses front-matter and ignore h2 1`] = `
+Object {
+  "content": "## test",
+  "contentTitle": undefined,
+  "excerpt": "test",
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownString parses title only 1`] = `
+Object {
+  "content": "# test",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString parses title only alternate 1`] = `
+Object {
+  "content": "test
+===",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": Object {},
+}
+`;
+
+exports[`parseMarkdownString reads front matter only 1`] = `
+Object {
+  "content": "",
+  "contentTitle": undefined,
+  "excerpt": undefined,
+  "frontMatter": Object {
+    "title": "test",
+  },
+}
+`;
+
+exports[`parseMarkdownString warns about duplicate titles (front matter + markdown alternate) 1`] = `
+Object {
+  "content": "Markdown Title alternate
+================
+
+Some text",
+  "contentTitle": "Markdown Title alternate",
+  "excerpt": "Some text",
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownString warns about duplicate titles (front matter + markdown) 1`] = `
+Object {
+  "content": "# Markdown Title
+
+Some text",
+  "contentTitle": "Markdown Title",
+  "excerpt": "Some text",
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;
+
+exports[`parseMarkdownString warns about duplicate titles 1`] = `
+Object {
+  "content": "# test",
+  "contentTitle": "test",
+  "excerpt": undefined,
+  "frontMatter": Object {
+    "title": "Frontmatter title",
+  },
+}
+`;

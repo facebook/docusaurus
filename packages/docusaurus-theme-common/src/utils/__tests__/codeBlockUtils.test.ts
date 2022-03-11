@@ -68,15 +68,7 @@ describe('parseLanguage', () => {
 
 describe('parseLines', () => {
   it('does not parse content with metastring', () => {
-    expect(parseLines('aaaaa\nbbbbb', '{1}', 'js')).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    expect(parseLines('aaaaa\nbbbbb', '{1}', 'js')).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -85,31 +77,14 @@ bbbbb`,
         '{1}',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `aaaaa
 bbbbb`,
         '{1}',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
   it('does not parse content with no language', () => {
     expect(
@@ -120,14 +95,7 @@ bbbbb`,
         '',
         undefined,
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
   });
   it('removes lines correctly', () => {
     expect(
@@ -138,15 +106,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-start
@@ -156,15 +116,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-start
@@ -177,19 +129,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbbbb
-      bbbbb",
-        "highlightLines": Array [
-          0,
-          2,
-          0,
-          1,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
   it('respects language', () => {
     expect(
@@ -200,14 +140,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "# highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `/* highlight-next-line */
@@ -216,14 +149,7 @@ bbbbb`,
         '',
         'py',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "/* highlight-next-line */
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -237,20 +163,7 @@ dddd`,
         '',
         'py',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaa
-      /* highlight-next-line */
-      bbbbb
-      ccccc
-      <!-- highlight-next-line -->
-      dddd",
-        "highlightLines": Array [
-          4,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -264,19 +177,6 @@ dddd`,
         '',
         '',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaa
-      bbbbb
-      ccccc
-      dddd",
-        "highlightLines": Array [
-          0,
-          1,
-          2,
-          3,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
 });

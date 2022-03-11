@@ -563,16 +563,7 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "Some text",
-        "contentTitle": undefined,
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('parses first heading as contentTitle', () => {
@@ -582,16 +573,7 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      Some text",
-        "contentTitle": "Markdown Title",
-        "excerpt": "Some text",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('warns about duplicate titles (front matter + markdown)', () => {
@@ -605,18 +587,7 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      Some text",
-        "contentTitle": "Markdown Title",
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('warns about duplicate titles (front matter + markdown alternate)', () => {
@@ -631,19 +602,7 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "Markdown Title alternate
-      ================
-
-      Some text",
-        "contentTitle": "Markdown Title alternate",
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('does not warn for duplicate title if markdown title is not at the top', () => {
@@ -657,18 +616,7 @@ describe('parseMarkdownString', () => {
 
         # Markdown Title
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "foo
-
-      # Markdown Title",
-        "contentTitle": undefined,
-        "excerpt": "foo",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('deletes only first heading', () => {
@@ -682,20 +630,7 @@ describe('parseMarkdownString', () => {
 
         ### Markdown Title h3
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      test test test # test bar
-
-      # Markdown Title 2
-
-      ### Markdown Title h3",
-        "contentTitle": "Markdown Title",
-        "excerpt": "test test test # test bar",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('parses front-matter and ignore h2', () => {
@@ -708,16 +643,7 @@ describe('parseMarkdownString', () => {
           ## test
           `,
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "## test",
-        "contentTitle": undefined,
-        "excerpt": "test",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('reads front matter only', () => {
@@ -727,27 +653,11 @@ describe('parseMarkdownString', () => {
         title: test
         ---
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "",
-        "contentTitle": undefined,
-        "excerpt": undefined,
-        "frontMatter": Object {
-          "title": "test",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('parses title only', () => {
-    expect(parseMarkdownString('# test')).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {},
-      }
-    `);
+    expect(parseMarkdownString('# test')).toMatchSnapshot();
   });
 
   it('parses title only alternate', () => {
@@ -756,15 +666,7 @@ describe('parseMarkdownString', () => {
         test
         ===
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "test
-      ===",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('warns about duplicate titles', () => {
@@ -775,16 +677,7 @@ describe('parseMarkdownString', () => {
         ---
         # test
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('ignores markdown title if its not a first text', () => {
@@ -793,15 +686,7 @@ describe('parseMarkdownString', () => {
         foo
         # test
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "foo
-      # test",
-        "contentTitle": undefined,
-        "excerpt": "foo",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('deletes only first heading 2', () => {
@@ -815,20 +700,7 @@ describe('parseMarkdownString', () => {
         ### test
         test3
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test
-
-      test test test test test test
-      test test test # test bar
-      # test2
-      ### test
-      test3",
-        "contentTitle": "test",
-        "excerpt": "test test test test test test",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('handles code blocks', () => {
@@ -840,18 +712,7 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`js
-      code
-      \`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseMarkdownString(dedent`
         \`\`\`\`js
@@ -864,22 +725,7 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`\`js
-      Foo
-      \`\`\`diff
-      code
-      \`\`\`
-      Bar
-      \`\`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseMarkdownString(dedent`
         \`\`\`\`js
@@ -890,20 +736,7 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`\`js
-      Foo
-      \`\`\`diff
-      code
-      \`\`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
   it('throws for invalid front matter', () => {

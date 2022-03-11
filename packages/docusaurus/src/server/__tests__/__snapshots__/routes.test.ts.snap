@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadRoutes flat route config 1`] = `
+exports[`loadRoutes loads flat route config 1`] = `
 Object {
   "registry": Object {
     "component---theme-blog-list-pagea-6-a-7ba": Object {
@@ -58,7 +58,7 @@ export default [
 }
 `;
 
-exports[`loadRoutes nested route config 1`] = `
+exports[`loadRoutes loads nested route config 1`] = `
 Object {
   "registry": Object {
     "component---theme-doc-item-178-a40": Object {
@@ -142,7 +142,7 @@ export default [
 }
 `;
 
-exports[`loadRoutes route config with empty (but valid) path string 1`] = `
+exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
 Object {
   "registry": Object {
     "component---hello-world-jse-0-f-b6c": Object {

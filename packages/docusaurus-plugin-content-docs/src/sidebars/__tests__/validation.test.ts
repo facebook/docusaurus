@@ -42,16 +42,18 @@ describe('validateSidebars', () => {
   });
 
   it('sidebar category wrong label', () => {
-    expect(() =>
-      validateSidebars({
-        docs: [
-          {
-            type: 'category',
-            label: true,
-            items: [{type: 'doc', id: 'doc1'}],
-          },
-        ],
-      }),
+    expect(
+      () =>
+        validateSidebars({
+          docs: [
+            {
+              type: 'category',
+              label: true,
+              items: [{type: 'doc', id: 'doc1'}],
+            },
+          ],
+        }),
+      // eslint-disable-next-line jest/no-large-snapshots
     ).toThrowErrorMatchingInlineSnapshot(`
       "{
         \\"type\\": \\"category\\",

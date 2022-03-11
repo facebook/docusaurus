@@ -123,7 +123,29 @@ describe('sidebar', () => {
         sidebarPath,
       }),
     );
-    await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
+    await expect(plugin.loadContent!()).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+            "Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
+            These sidebar document ids do not exist:
+            - goku
+
+            Available document ids are:
+            - doc with space
+            - foo/bar
+            - foo/baz
+            - headingAsTitle
+            - hello
+            - ipsum
+            - lorem
+            - rootAbsoluteSlug
+            - rootRelativeSlug
+            - rootResolvedSlug
+            - rootTryToEscapeSlug
+            - slugs/absoluteSlug
+            - slugs/relativeSlug
+            - slugs/resolvedSlug
+            - slugs/tryToEscapeSlug"
+          `);
   });
 
   it('site with wrong sidebar file path', async () => {
@@ -159,21 +181,7 @@ describe('sidebar', () => {
     const result = await plugin.loadContent!();
 
     expect(result.loadedVersions).toHaveLength(1);
-    expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
-          Object {
-            "defaultSidebar": Array [
-              Object {
-                "id": "hello-1",
-                "type": "doc",
-              },
-              Object {
-                "id": "hello-2",
-                "label": "Hello 2 From Doc",
-                "type": "doc",
-              },
-            ],
-          }
-      `);
+    expect(result.loadedVersions[0].sidebars).toMatchSnapshot();
   });
 
   it('site with disabled sidebar', async () => {
@@ -272,15 +280,7 @@ describe('simple website', () => {
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
-    expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
-        "docs/**/*.{md,mdx}",
-        "docs/**/_category_.{json,yml,yaml}",
-      ]
-    `);
+    expect(matchPattern).toMatchSnapshot();
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
     expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
     expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
@@ -397,26 +397,7 @@ describe('versioned website', () => {
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
-        "docs/**/*.{md,mdx}",
-        "docs/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-1.0.1-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.1/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.0/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-withSlugs-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
-        "versioned_docs/version-withSlugs/**/*.{md,mdx}",
-        "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
-      ]
-    `);
+    expect(matchPattern).toMatchSnapshot();
     expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
     expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
     expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
@@ -547,18 +528,7 @@ describe('versioned website (community)', () => {
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "community_sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
-        "community/**/*.{md,mdx}",
-        "community/**/_category_.{json,yml,yaml}",
-        "community_versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
-        "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
-        "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
-      ]
-    `);
+    expect(matchPattern).toMatchSnapshot();
     expect(isMatch('community/team.md', matchPattern)).toEqual(true);
     expect(
       isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
@@ -630,7 +600,7 @@ describe('site with doc label', () => {
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[0].label).toBe('Hello One');
+    expect(sidebarProps.docs[0].label).toEqual('Hello One');
   });
 
   it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
@@ -638,7 +608,7 @@ describe('site with doc label', () => {
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[1].label).toBe('Hello 2 From Doc');
+    expect(sidebarProps.docs[1].label).toEqual('Hello 2 From Doc');
   });
 });
 
