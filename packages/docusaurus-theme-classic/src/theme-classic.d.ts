@@ -205,7 +205,7 @@ declare module '@theme/DocSidebar/Desktop/Content' {
     readonly sidebar: readonly PropSidebarItem[];
   }
 
-  export default function CollapseButton(props: Props): JSX.Element;
+  export default function Content(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebar/Desktop/CollapseButton' {
@@ -278,6 +278,77 @@ declare module '@theme/ErrorPageContent' {
 
 declare module '@theme/Footer' {
   export default function Footer(): JSX.Element | null;
+}
+
+declare module '@theme/Footer/Logo' {
+  import type {FooterLogo} from '@docusaurus/theme-common';
+
+  export interface Props {
+    logo: FooterLogo;
+  }
+
+  export default function FooterLogo(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Copyright' {
+  export interface Props {
+    copyright: string;
+  }
+
+  export default function FooterCopyright(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/LinkItem' {
+  import type {FooterLinkItem} from '@docusaurus/theme-common';
+
+  export interface Props {
+    item: FooterLinkItem;
+  }
+
+  export default function FooterLinkItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    style: 'light' | 'dark';
+    links: ReactNode;
+    logo: ReactNode;
+    copyright: ReactNode;
+  }
+
+  export default function FooterLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links' {
+  import type {Footer} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: Footer['links'];
+  }
+
+  export default function FooterLinks(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links/MultiColumn' {
+  import type {MultiColumnFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    columns: MultiColumnFooter['links'];
+  }
+
+  export default function FooterLinksMultiColumn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links/Simple' {
+  import type {SimpleFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: SimpleFooter['links'];
+  }
+
+  export default function FooterLinksSimple(props: Props): JSX.Element;
 }
 
 declare module '@theme/Heading' {

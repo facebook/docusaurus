@@ -11,36 +11,35 @@ import type {Palette} from 'node-vibrant/lib/color';
 
 import {toPalette, toBase64} from '../utils';
 
-describe('lqip-loader', () => {
-  describe('toBase64', () => {
-    test('should return a properly formatted Base64 image string', () => {
-      const expected = 'data:image/jpeg;base64,aGVsbG8gd29ybGQ=';
-      const mockedMimeType = 'image/jpeg';
-      const mockedBase64Data = Buffer.from('hello world');
-      expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(expected);
+describe('toBase64', () => {
+  test('should return a properly formatted Base64 image string', () => {
+    const mockedMimeType = 'image/jpeg';
+    const mockedBase64Data = Buffer.from('hello world');
+    expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(
+      'data:image/jpeg;base64,aGVsbG8gd29ybGQ=',
+    );
+  });
+});
+
+describe('toPalette', () => {
+  let correctTestSwatch: Palette = {};
+  let testSwatchWithNull: Palette & {Vibrant?: null} = {};
+
+  beforeAll(() => {
+    const imgPath = path.join(__dirname, '__fixtures__/endi.jpg');
+    const vibrant = new Vibrant(imgPath, {});
+
+    return vibrant.getPalette().then((palette) => {
+      correctTestSwatch = {...palette};
+      testSwatchWithNull = {...palette, Vibrant: null};
     });
   });
 
-  describe('toPalette', () => {
-    let correctTestSwatch: Palette = {};
-    let testSwatchWithNull: Palette & {Vibrant?: null} = {};
+  it('should return 6 hex colours sorted by popularity', () => {
+    expect(toPalette(correctTestSwatch)).toHaveLength(6);
+  });
 
-    beforeAll(() => {
-      const imgPath = path.join(__dirname, '__fixtures__', 'endi.jpg');
-      const vibrant = new Vibrant(imgPath, {});
-
-      return vibrant.getPalette().then((palette) => {
-        correctTestSwatch = {...palette};
-        testSwatchWithNull = {...palette, Vibrant: null};
-      });
-    });
-
-    it('should return 6 hex colours sorted by popularity', () => {
-      expect(toPalette(correctTestSwatch)).toHaveLength(6);
-    });
-
-    it('should return 5 hex colours with no errors if a palette was incomplete', () => {
-      expect(toPalette(testSwatchWithNull)).toHaveLength(5);
-    });
+  it('should return 5 hex colours with no errors if a palette was incomplete', () => {
+    expect(toPalette(testSwatchWithNull)).toHaveLength(5);
   });
 });

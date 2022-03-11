@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import BrowserOnly from '../BrowserOnly';

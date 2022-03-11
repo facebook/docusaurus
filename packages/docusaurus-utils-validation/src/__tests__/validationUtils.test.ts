@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import Joi from '../Joi';
 import {JoiFrontMatter} from '../JoiFrontMatter';
 import {validateFrontMatter} from '../validationUtils';
@@ -21,7 +22,9 @@ describe('validateFrontMatter', () => {
   });
 
   test('should reject bad values', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation();
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     const schema = Joi.object<{test: string}>({
       test: Joi.string(),
     });

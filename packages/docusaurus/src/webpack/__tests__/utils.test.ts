@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate, type Configuration, type RuleSetRule} from 'webpack';
+import webpack, {type Configuration, type RuleSetRule} from 'webpack';
 import path from 'path';
 
 import {
@@ -86,7 +86,7 @@ describe('extending generated webpack config', () => {
         filename: 'new.bundle.js',
       },
     });
-    const errors = validate(config);
+    const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 
@@ -116,7 +116,7 @@ describe('extending generated webpack config', () => {
         filename: 'new.bundle.js',
       },
     });
-    const errors = validate(config);
+    const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 

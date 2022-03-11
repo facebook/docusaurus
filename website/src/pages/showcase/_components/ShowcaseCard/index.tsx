@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {memo} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Image from '@theme/IdealImage';
 import Link from '@docusaurus/Link';
@@ -95,4 +95,4 @@ function ShowcaseCard({user}: {user: User}) {
   );
 }
 
-export default memo(ShowcaseCard);
+export default React.memo(ShowcaseCard);

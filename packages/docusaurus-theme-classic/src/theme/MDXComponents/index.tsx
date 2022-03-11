@@ -6,8 +6,8 @@
  */
 
 import React, {
-  type ComponentProps,
   isValidElement,
+  type ComponentProps,
   type ReactElement,
 } from 'react';
 import Head from '@docusaurus/Head';
@@ -52,7 +52,7 @@ const MDXComponents: MDXComponentsObject = {
     const shouldBeInline = React.Children.toArray(props.children).every(
       (el) =>
         (typeof el === 'string' && !el.includes('\n')) ||
-        (React.isValidElement(el) && inlineElements.includes(el.props.mdxType)),
+        (isValidElement(el) && inlineElements.includes(el.props.mdxType)),
     );
 
     return shouldBeInline ? <code {...props} /> : <CodeBlock {...props} />;

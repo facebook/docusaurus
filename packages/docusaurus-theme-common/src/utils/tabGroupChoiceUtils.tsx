@@ -9,7 +9,6 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  createContext,
   useMemo,
   useContext,
   type ReactNode,
@@ -24,7 +23,7 @@ type TabGroupChoiceContextValue = {
   readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
 };
 
-const TabGroupChoiceContext = createContext<
+const TabGroupChoiceContext = React.createContext<
   TabGroupChoiceContextValue | undefined
 >(undefined);
 

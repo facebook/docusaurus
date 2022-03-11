@@ -65,18 +65,20 @@ export type FooterLinkItem = {
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
+} & Record<string, unknown>;
+
+export type FooterLogo = {
+  alt?: string;
+  src: string;
+  srcDark?: string;
+  width?: string | number;
+  height?: string | number;
+  href?: string;
 };
 
 export type FooterBase = {
   style: 'light' | 'dark';
-  logo?: {
-    alt?: string;
-    src: string;
-    srcDark?: string;
-    width?: string | number;
-    height?: string | number;
-    href?: string;
-  };
+  logo?: FooterLogo;
   copyright?: string;
 };
 
