@@ -73,11 +73,10 @@ export {default as Details} from './components/Details';
 export type {DetailsProps} from './components/Details';
 
 export {
-  MobileSecondaryMenuProvider,
-  MobileSecondaryMenuFiller,
-  useMobileSecondaryMenuRenderer,
-} from './utils/mobileSecondaryMenu';
-export type {MobileSecondaryMenuComponent} from './utils/mobileSecondaryMenu';
+  NavbarSecondaryMenuProvider,
+  NavbarSecondaryMenuFiller,
+} from './utils/navbarSecondaryMenuUtils';
+export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
 
 export {
   useDocsPreferredVersion,

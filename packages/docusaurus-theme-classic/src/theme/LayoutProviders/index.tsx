@@ -12,7 +12,7 @@ import {
   TabGroupChoiceProvider,
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
-  MobileSecondaryMenuProvider,
+  NavbarSecondaryMenuProvider,
   ScrollControllerProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
@@ -24,11 +24,11 @@ export default function LayoutProviders({children}: Props): JSX.Element {
         <TabGroupChoiceProvider>
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
-              <MobileSecondaryMenuProvider>
+              <NavbarSecondaryMenuProvider>
                 <NavbarMobileSidebarProvider>
                   {children}
                 </NavbarMobileSidebarProvider>
-              </MobileSecondaryMenuProvider>
+              </NavbarSecondaryMenuProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>
         </TabGroupChoiceProvider>

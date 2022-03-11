@@ -14,7 +14,7 @@ import React, {
 } from 'react';
 import useWindowSize from '../hooks/useWindowSize';
 import {useHistoryPopHandler} from './historyUtils';
-import {useMobileSecondaryMenuRenderer} from './mobileSecondaryMenu';
+import {useNavbarSecondaryMenuElement} from './navbarSecondaryMenuUtils';
 import {usePrevious} from './usePrevious';
 import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
 import {useThemeConfig} from './useThemeConfig';
@@ -128,9 +128,7 @@ export function useNavbarSecondaryMenu(): {
 } {
   const mobileSidebar = useNavbarMobileSidebar();
 
-  const content = useMobileSecondaryMenuRenderer()?.({
-    toggleSidebar: mobileSidebar.toggle,
-  });
+  const content = useNavbarSecondaryMenuElement();
   const previousContent = usePrevious(content);
 
   const [shown, setShown] = useState<boolean>(

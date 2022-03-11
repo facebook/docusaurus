@@ -26,17 +26,11 @@ unmaintained React libs exist. Most up-to-date one: https://github.com/gregberge
 Not sure any of those is safe regarding concurrent mode.
  */
 
-type ExtraProps = {
-  toggleSidebar: () => void;
-};
+export type NavbarSecondaryMenuComponent<Props> = ComponentType<Props>;
 
-export type MobileSecondaryMenuComponent<Props> = ComponentType<
-  Props & ExtraProps
->;
-
-type State = {
-  component: MobileSecondaryMenuComponent<unknown>;
-  props: unknown;
+type State<Props extends object = object> = {
+  component: ComponentType<Props>;
+  props: Props;
 } | null;
 
 function useContextValue() {
@@ -47,7 +41,7 @@ type ContextValue = ReturnType<typeof useContextValue>;
 
 const Context = React.createContext<ContextValue | null>(null);
 
-export function MobileSecondaryMenuProvider({
+export function NavbarSecondaryMenuProvider({
   children,
 }: {
   children: ReactNode;
@@ -57,7 +51,7 @@ export function MobileSecondaryMenuProvider({
   );
 }
 
-function useMobileSecondaryMenuContext(): ContextValue {
+function useNavbarSecondaryMenuContext(): ContextValue {
   const value = useContext(Context);
   if (value === null) {
     throw new ReactContextError('MobileSecondaryMenuProvider');
@@ -65,17 +59,13 @@ function useMobileSecondaryMenuContext(): ContextValue {
   return value;
 }
 
-export function useMobileSecondaryMenuRenderer(): (
-  extraProps: ExtraProps,
-) => ReactNode | undefined {
-  const [state] = useMobileSecondaryMenuContext();
+export function useNavbarSecondaryMenuElement(): ReactNode | undefined {
+  const [state] = useNavbarSecondaryMenuContext();
   if (state) {
     const Comp = state.component;
-    return function render(extraProps) {
-      return <Comp {...state.props} {...extraProps} />;
-    };
+    return <Comp {...state.props} />;
   }
-  return () => undefined;
+  return undefined;
 }
 
 function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
@@ -88,16 +78,16 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
 }
 
 // Fill the secondary menu placeholder with some real content
-export function MobileSecondaryMenuFiller<
+export function NavbarSecondaryMenuFiller<
   Props extends Record<string, unknown>,
 >({
   component,
   props,
 }: {
-  component: MobileSecondaryMenuComponent<Props & ExtraProps>;
+  component: NavbarSecondaryMenuComponent<Props>;
   props: Props;
 }): JSX.Element | null {
-  const [, setState] = useMobileSecondaryMenuContext();
+  const [, setState] = useNavbarSecondaryMenuContext();
 
   // To avoid useless context re-renders, props are memoized shallowly
   const memoizedProps = useShallowMemoizedObject(props);
