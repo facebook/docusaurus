@@ -49,6 +49,13 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The footer copyright',
       },
+      'Footer/Layout': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer main layout component',
+      },
       'Footer/LinkItem': {
         actions: {
           eject: 'safe',
@@ -56,27 +63,35 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description: 'The footer link item component',
       },
+      'Footer/Links': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer component rendering the footer links',
+      },
+      'Footer/Links/MultiColumn': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The footer component rendering the footer links with a multi-column layout',
+      },
+      'Footer/Links/Simple': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The footer component rendering the footer links with a simple layout (single row)',
+      },
       'Footer/Logo': {
         actions: {
           eject: 'safe',
           wrap: 'safe',
         },
         description: 'The footer logo',
-      },
-      'Footer/MultiColumn': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description: 'The footer component for the multi-column layout',
-      },
-      'Footer/Simple': {
-        actions: {
-          eject: 'safe',
-          wrap: 'safe',
-        },
-        description:
-          'The footer component for the simple layout (single link row)',
       },
       IconArrow: {
         actions: {
