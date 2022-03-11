@@ -20,6 +20,7 @@ export type {
   MultiColumnFooter,
   SimpleFooter,
   Footer,
+  FooterLogo,
   FooterLinkItem,
   ColorModeConfig,
 } from './utils/useThemeConfig';
@@ -109,6 +110,8 @@ export {
   useTreeifiedTOC,
   type TOCTreeNode,
 } from './utils/tocUtils';
+
+export {isMultiColumnFooterLinks} from './utils/footerUtils';
 
 export {
   ScrollControllerProvider,
