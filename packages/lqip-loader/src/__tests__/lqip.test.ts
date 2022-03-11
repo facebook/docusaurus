@@ -13,7 +13,9 @@ describe('lqip library', () => {
   const invalidPath = path.join(__dirname, '__fixtures__', 'docusaurus.svg');
 
   it('should reject unknown or unsupported file format', async () => {
-    await expect(lqip.base64(invalidPath)).rejects.toBeTruthy();
+    await expect(lqip.base64(invalidPath)).rejects.toThrow(
+      /Error: Input file is missing or uses unsupported image format, lqip v.*/,
+    );
   });
 
   it('should generate a valid base64', async () => {

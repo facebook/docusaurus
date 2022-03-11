@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import {
   ensureTranslationFileContent,
   writeTranslationFileContent,
@@ -560,7 +561,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
 });
 
 describe('applyDefaultCodeTranslations', () => {
-  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+  const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   beforeEach(() => {
     consoleSpy.mockClear();
   });

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';

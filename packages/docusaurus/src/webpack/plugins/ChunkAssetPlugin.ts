@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Template, type Compiler} from 'webpack';
+import webpack, {type Compiler} from 'webpack';
 
 const pluginName = 'chunk-asset-plugin';
 
@@ -48,7 +48,7 @@ export default class ChunkAssetPlugin {
             chunkNameToId,
           )}[chunkId]||chunkId; return __webpack_require__.p + __webpack_require__.u(chunkId); };`,
         );
-        return Template.asString(buf);
+        return webpack.Template.asString(buf);
       });
     });
   }

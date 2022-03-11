@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import type {SidebarItemsGenerator} from '../types';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
