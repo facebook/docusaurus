@@ -155,9 +155,7 @@ export function ColorModeProvider({
 }
 
 export function useColorMode(): ColorModeContextValue {
-  const context = useContext<ColorModeContextValue | undefined>(
-    ColorModeContext,
-  );
+  const context = useContext(ColorModeContext);
   if (context == null) {
     throw new ReactContextError(
       'ColorModeProvider',

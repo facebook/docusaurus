@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import NavbarLayout from '@theme/Navbar/Layout';
-import NavbarContent from '@theme/Navbar/Content';
+import Logo from '@theme/Logo';
 
-export default function Navbar(): JSX.Element {
+export default function NavbarLogo(): JSX.Element {
   return (
-    <NavbarLayout>
-      <NavbarContent />
-    </NavbarLayout>
+    <Logo
+      className="navbar__brand"
+      imageClassName="navbar__logo"
+      titleClassName="navbar__title"
+    />
   );
 }

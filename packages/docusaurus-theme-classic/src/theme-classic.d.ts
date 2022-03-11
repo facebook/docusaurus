@@ -474,8 +474,12 @@ declare module '@theme/Navbar/ColorModeToggle' {
   ): JSX.Element | null;
 }
 
-declare module '@theme/Navbar/Items' {
-  export default function NavbarItems(): JSX.Element;
+declare module '@theme/Navbar/Logo' {
+  export default function NavbarLogo(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Content' {
+  export default function NavbarContent(): JSX.Element;
 }
 
 declare module '@theme/Navbar/Layout' {
@@ -484,6 +488,10 @@ declare module '@theme/Navbar/Layout' {
   }
 
   export default function NavbarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebarToggle' {
+  export default function NavbarMobileSidebarToggleButton(): JSX.Element;
 }
 
 declare module '@theme/Navbar/MobileSidebar' {

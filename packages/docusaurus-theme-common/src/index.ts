@@ -138,6 +138,7 @@ export {
 
 export {
   splitNavbarItems,
+  NavbarMobileSidebarProvider,
   useNavbarMobileSidebar,
   useNavbarSecondaryMenu,
 } from './utils/navbarUtils';

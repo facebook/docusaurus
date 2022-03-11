@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {
+  NavbarMobileSidebarProvider,
   ColorModeProvider,
   TabGroupChoiceProvider,
   AnnouncementBarProvider,
@@ -24,7 +25,9 @@ export default function LayoutProviders({children}: Props): JSX.Element {
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
               <MobileSecondaryMenuProvider>
-                {children}
+                <NavbarMobileSidebarProvider>
+                  {children}
+                </NavbarMobileSidebarProvider>
               </MobileSecondaryMenuProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>

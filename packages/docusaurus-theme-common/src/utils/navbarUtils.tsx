@@ -5,11 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+} from 'react';
 import useWindowSize from '../hooks/useWindowSize';
 import {useHistoryPopHandler} from './historyUtils';
 import {useMobileSecondaryMenuRenderer} from './mobileSecondaryMenu';
 import {usePrevious} from './usePrevious';
+import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
+import {useThemeConfig} from './useThemeConfig';
+import {ReactContextError} from './reactUtils';
 
 const DefaultNavItemPosition = 'right';
 
@@ -29,15 +38,31 @@ export function splitNavbarItems<
   return [leftItems, rightItems];
 }
 
-export function useNavbarMobileSidebar(): {
+type NavbarMobileSidebarContextValue = {
+  disabled: boolean;
   shouldRender: boolean;
   toggle: () => void;
   shown: boolean;
-} {
+};
+
+const NavbarMobileSidebarContext = React.createContext<
+  NavbarMobileSidebarContextValue | undefined
+>(undefined);
+
+// Mobile sidebar can be disabled in case it would lead to an empty sidebar
+// In this case it's not useful to display a navbar sidebar toggle button
+function useNavbarMobileSidebarDisabled() {
+  const activeDocPlugin = useActivePlugin();
+  const {items} = useThemeConfig().navbar;
+  return items.length === 0 && !activeDocPlugin;
+}
+
+function useNavbarMobileSidebarContextValue(): NavbarMobileSidebarContextValue {
+  const disabled = useNavbarMobileSidebarDisabled();
   const windowSize = useWindowSize();
 
-  // Mobile sidebar not visible on hydration: can avoid SSR rendering
-  const shouldRender = windowSize === 'mobile'; // || windowSize === 'ssr';
+  // Mobile sidebar not visible until user interaction: can avoid SSR rendering
+  const shouldRender = !disabled && windowSize === 'mobile'; // || windowSize === 'ssr';
 
   const [shown, setShown] = useState(false);
 
@@ -63,7 +88,37 @@ export function useNavbarMobileSidebar(): {
     }
   }, [windowSize]);
 
-  return {shouldRender, toggle, shown};
+  // Return stable context value
+  return useMemo(
+    () => ({
+      disabled,
+      shouldRender,
+      toggle,
+      shown,
+    }),
+    [disabled, shouldRender, toggle, shown],
+  );
+}
+
+export function NavbarMobileSidebarProvider({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <NavbarMobileSidebarContext.Provider
+      value={useNavbarMobileSidebarContextValue()}>
+      {children}
+    </NavbarMobileSidebarContext.Provider>
+  );
+}
+
+export function useNavbarMobileSidebar(): NavbarMobileSidebarContextValue {
+  const context = React.useContext(NavbarMobileSidebarContext);
+  if (context == null) {
+    throw new ReactContextError('NavbarMobileSidebarProvider');
+  }
+  return context;
 }
 
 export function useNavbarSecondaryMenu({
