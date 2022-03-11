@@ -6,14 +6,13 @@
  */
 
 import React, {
-  createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
+  type ReactNode,
 } from 'react';
 import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
@@ -57,7 +56,7 @@ function useScrollControllerContextValue(): ScrollController {
   );
 }
 
-const ScrollMonitorContext = createContext<ScrollController | undefined>(
+const ScrollMonitorContext = React.createContext<ScrollController | undefined>(
   undefined,
 );
 

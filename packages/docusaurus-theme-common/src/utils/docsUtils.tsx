@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {createContext, type ReactNode, useContext} from 'react';
+import React, {type ReactNode, useContext} from 'react';
 import {
   useActivePlugin,
   useAllDocsData,
@@ -29,7 +29,7 @@ export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
-const DocsVersionContext = createContext<
+const DocsVersionContext = React.createContext<
   PropVersionMetadata | typeof EmptyContextValue
 >(EmptyContextValue);
 
@@ -69,7 +69,7 @@ export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   return doc;
 }
 
-const DocsSidebarContext = createContext<
+const DocsSidebarContext = React.createContext<
   PropSidebar | null | typeof EmptyContextValue
 >(EmptyContextValue);
 

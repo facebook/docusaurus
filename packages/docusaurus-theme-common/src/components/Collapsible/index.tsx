@@ -11,11 +11,11 @@ import React, {
   useEffect,
   useRef,
   useCallback,
+  useLayoutEffect,
   type RefObject,
   type Dispatch,
   type SetStateAction,
   type ReactNode,
-  useLayoutEffect,
 } from 'react';
 
 const DefaultAnimationEasing = 'ease-in-out';

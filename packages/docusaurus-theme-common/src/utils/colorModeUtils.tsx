@@ -11,6 +11,7 @@ import React, {
   useEffect,
   useContext,
   useMemo,
+  useRef,
   type ReactNode,
 } from 'react';
 import {ReactContextError} from './reactUtils';
@@ -96,7 +97,7 @@ function useColorModeContextValue(): ColorModeContextValue {
   // be reset to dark when exiting print mode, disregarding user settings. When
   // the listener fires only because of a print/screen switch, we don't change
   // color mode. See https://github.com/facebook/docusaurus/pull/6490
-  const previousMediaIsPrint = React.useRef(false);
+  const previousMediaIsPrint = useRef(false);
 
   useEffect(() => {
     if (disableSwitch && !respectPrefersColorScheme) {

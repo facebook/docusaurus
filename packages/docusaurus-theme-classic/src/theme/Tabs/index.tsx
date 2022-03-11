@@ -8,7 +8,6 @@
 import React, {
   useState,
   cloneElement,
-  Children,
   isValidElement,
   type ReactElement,
 } from 'react';
@@ -40,7 +39,7 @@ function TabsComponent(props: Props): JSX.Element {
     groupId,
     className,
   } = props;
-  const children = Children.map(props.children, (child) => {
+  const children = React.Children.map(props.children, (child) => {
     if (isValidElement(child) && isTabItem(child)) {
       return child;
     }
