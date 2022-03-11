@@ -14,7 +14,10 @@ import React, {
 } from 'react';
 import useWindowSize from '../hooks/useWindowSize';
 import {useHistoryPopHandler} from './historyUtils';
-import {useNavbarSecondaryMenuElement} from './navbarSecondaryMenuUtils';
+import {
+  NavbarSecondaryMenuProvider,
+  useNavbarSecondaryMenuElement,
+} from './navbarSecondaryMenuUtils';
 import {usePrevious} from './usePrevious';
 import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
 import {useThemeConfig} from './useThemeConfig';
@@ -100,7 +103,7 @@ function useNavbarMobileSidebarContextValue(): NavbarMobileSidebarContextValue {
   );
 }
 
-export function NavbarMobileSidebarProvider({
+function NavbarMobileSidebarProvider({
   children,
 }: {
   children: ReactNode;
@@ -173,5 +176,14 @@ export function useNavbarSecondaryMenu(): {
       content,
     }),
     [shown, hide, content],
+  );
+}
+
+// Add all Navbar providers at once
+export function NavbarProvider({children}: {children: ReactNode}): JSX.Element {
+  return (
+    <NavbarMobileSidebarProvider>
+      <NavbarSecondaryMenuProvider>{children}</NavbarSecondaryMenuProvider>
+    </NavbarMobileSidebarProvider>
   );
 }

@@ -7,12 +7,11 @@
 
 import React from 'react';
 import {
-  NavbarMobileSidebarProvider,
   ColorModeProvider,
   TabGroupChoiceProvider,
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
-  NavbarSecondaryMenuProvider,
+  NavbarProvider,
   ScrollControllerProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
@@ -24,11 +23,7 @@ export default function LayoutProviders({children}: Props): JSX.Element {
         <TabGroupChoiceProvider>
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
-              <NavbarSecondaryMenuProvider>
-                <NavbarMobileSidebarProvider>
-                  {children}
-                </NavbarMobileSidebarProvider>
-              </NavbarSecondaryMenuProvider>
+              <NavbarProvider>{children}</NavbarProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>
         </TabGroupChoiceProvider>

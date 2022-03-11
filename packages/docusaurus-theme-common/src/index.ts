@@ -73,12 +73,6 @@ export {default as Details} from './components/Details';
 export type {DetailsProps} from './components/Details';
 
 export {
-  NavbarSecondaryMenuProvider,
-  NavbarSecondaryMenuFiller,
-} from './utils/navbarSecondaryMenuUtils';
-export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
-
-export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
@@ -137,10 +131,12 @@ export {
 
 export {
   splitNavbarItems,
-  NavbarMobileSidebarProvider,
+  NavbarProvider,
   useNavbarMobileSidebar,
   useNavbarSecondaryMenu,
 } from './utils/navbarUtils';
+export {NavbarSecondaryMenuFiller} from './utils/navbarSecondaryMenuUtils';
+export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
 
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
 export {
