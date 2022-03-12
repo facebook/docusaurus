@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import {interpolate} from '../Interpolate';
+import renderer from 'react-test-renderer';
+import Interpolate, {interpolate} from '../Interpolate';
 
-describe('Interpolate', () => {
+describe('interpolate', () => {
   it('without placeholders', () => {
     const text = 'Hello how are you?';
     expect(interpolate(text)).toEqual(text);
@@ -84,5 +85,52 @@ describe('Interpolate', () => {
       extraUselessValue2: 'hi',
     };
     expect(interpolate(text, values)).toMatchSnapshot();
+  });
+});
+
+describe('<Interpolate>', () => {
+  it('without placeholders', () => {
+    const text = 'Hello how are you?';
+    expect(renderer.create(<Interpolate>{text}</Interpolate>).toJSON()).toEqual(
+      text,
+    );
+  });
+
+  it('placeholders with string values', () => {
+    const text = 'Hello {name} how are you {day}?';
+    const values = {name: 'Sébastien', day: 'today'};
+    expect(
+      renderer
+        .create(<Interpolate values={values}>{text}</Interpolate>)
+        .toJSON(),
+    ).toMatchInlineSnapshot(`"Hello Sébastien how are you today?"`);
+  });
+
+  it('acceptance test', () => {
+    const text = 'Hello {name} how are you {day}? Another {unprovidedValue}!';
+    const values = {
+      name: 'Sébastien',
+      day: <span>today</span>,
+      extraUselessValue1: <div>test</div>,
+      extraUselessValue2: 'hi',
+    };
+    expect(
+      renderer
+        .create(<Interpolate values={values}>{text}</Interpolate>)
+        .toJSON(),
+    ).toMatchSnapshot();
+  });
+
+  it('rejects when children is not string', () => {
+    expect(() =>
+      renderer.create(
+        <Interpolate>
+          {/* @ts-expect-error: for test */}
+          <span>aaa</span>
+        </Interpolate>,
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"The Docusaurus <Interpolate> component only accept simple string values"`,
+    );
   });
 });

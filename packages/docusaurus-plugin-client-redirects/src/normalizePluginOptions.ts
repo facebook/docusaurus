@@ -31,7 +31,7 @@ const RedirectPluginOptionValidation = Joi.object<RedirectOption>({
 const isString = Joi.string().required().not(null);
 
 const UserOptionsSchema = Joi.object<UserPluginOptions>({
-  id: Joi.string().optional(), // TODO remove once validation  migrated to new system
+  id: Joi.string().optional(), // TODO remove once validation migrated to new system
   fromExtensions: Joi.array().items(isString),
   toExtensions: Joi.array().items(isString),
   redirects: Joi.array().items(RedirectPluginOptionValidation),
