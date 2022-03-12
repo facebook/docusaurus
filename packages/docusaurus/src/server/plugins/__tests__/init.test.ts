@@ -29,10 +29,10 @@ describe('initPlugins', () => {
     return {siteDir, context, plugins};
   }
 
-  it('plugins gets parsed correctly and loads in correct order', async () => {
+  it('parses plugins correctly and loads them in correct order', async () => {
     const {context, plugins} = await loadSite();
     expect(context.siteConfig.plugins?.length).toBe(4);
-    expect(plugins.length).toBe(8);
+    expect(plugins).toHaveLength(8);
 
     expect(plugins[0].name).toBe('preset-plugin1');
     expect(plugins[1].name).toBe('preset-plugin2');
@@ -45,7 +45,7 @@ describe('initPlugins', () => {
     expect(context.siteConfig.themeConfig).toEqual({a: 1});
   });
 
-  it('plugins with bad values throw user-friendly error message', async () => {
+  it('throws user-friendly error message for plugins with bad values', async () => {
     await expect(() =>
       loadSite({
         customConfigFilePath: 'badPlugins.docusaurus.config.js',

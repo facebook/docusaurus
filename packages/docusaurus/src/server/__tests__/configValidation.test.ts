@@ -287,8 +287,8 @@ describe('config warnings', () => {
       url: 'https://mysite.com/someSubpath',
     });
     expect(warning).toBeDefined();
-    expect(warning?.details.length).toEqual(1);
-    expect(warning?.details[0].message).toMatchInlineSnapshot(
+    expect(warning.details).toHaveLength(1);
+    expect(warning.details[0].message).toMatchInlineSnapshot(
       `"Docusaurus config validation warning. Field \\"url\\": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
     );
   });

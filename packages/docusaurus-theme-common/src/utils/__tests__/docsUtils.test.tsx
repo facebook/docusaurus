@@ -16,8 +16,11 @@ import {
   useDocsSidebar,
   DocsSidebarProvider,
   findSidebarCategory,
-  getBreadcrumbs,
+  useCurrentSidebarCategory,
+  useSidebarBreadcrumbs,
 } from '../docsUtils';
+import {StaticRouter} from 'react-router-dom';
+import {Context} from '@docusaurus/docusaurusContext';
 import type {
   PropSidebar,
   PropSidebarItem,
@@ -123,7 +126,7 @@ describe('useDocById', () => {
     },
   });
 
-  function callHook(docId: string | undefined) {
+  function mockUseDocById(docId: string | undefined) {
     const {result} = renderHook(() => useDocById(docId), {
       wrapper: ({children}) => (
         <DocsVersionProvider version={version}>{children}</DocsVersionProvider>
@@ -133,25 +136,25 @@ describe('useDocById', () => {
   }
 
   it('accepts undefined', () => {
-    expect(callHook(undefined)).toBeUndefined();
+    expect(mockUseDocById(undefined)).toBeUndefined();
   });
 
   it('finds doc1', () => {
-    expect(callHook('doc1')).toMatchObject({id: 'doc1'});
+    expect(mockUseDocById('doc1')).toMatchObject({id: 'doc1'});
   });
   it('finds doc2', () => {
-    expect(callHook('doc2')).toMatchObject({id: 'doc2'});
+    expect(mockUseDocById('doc2')).toMatchObject({id: 'doc2'});
   });
 
   it('throws for doc3', () => {
-    expect(() => callHook('doc3')).toThrowErrorMatchingInlineSnapshot(
+    expect(() => mockUseDocById('doc3')).toThrowErrorMatchingInlineSnapshot(
       `"no version doc found by id=doc3"`,
     );
   });
 });
 
 describe('findSidebarCategory', () => {
-  it('os able to return undefined', () => {
+  it('is able to return undefined', () => {
     expect(findSidebarCategory([], () => false)).toBeUndefined();
     expect(
       findSidebarCategory([testCategory(), testCategory()], () => false),
@@ -207,7 +210,7 @@ describe('findFirstCategoryLink', () => {
           href: undefined,
         }),
       ),
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   it('works with category with link', () => {
@@ -217,7 +220,7 @@ describe('findFirstCategoryLink', () => {
           href: '/itemPath',
         }),
       ),
-    ).toEqual('/itemPath');
+    ).toBe('/itemPath');
   });
 
   it('works with category with deeply nested category link', () => {
@@ -239,7 +242,7 @@ describe('findFirstCategoryLink', () => {
           ],
         }),
       ),
-    ).toEqual('/itemPath');
+    ).toBe('/itemPath');
   });
 
   it('works with category with deeply nested link', () => {
@@ -255,7 +258,7 @@ describe('findFirstCategoryLink', () => {
           ],
         }),
       ),
-    ).toEqual('/itemPath');
+    ).toBe('/itemPath');
   });
 });
 
@@ -267,15 +270,15 @@ describe('isActiveSidebarItem', () => {
       label: 'Label',
     };
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toEqual(false);
+    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
 
-    expect(isActiveSidebarItem(item, '/itemPath')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/itemPath')).toBe(true);
 
     // Ensure it's not trailing slash sensitive:
-    expect(isActiveSidebarItem(item, '/itemPath/')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/itemPath/')).toBe(true);
     expect(
       isActiveSidebarItem({...item, href: '/itemPath/'}, '/itemPath'),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('works with category href', () => {
@@ -283,15 +286,15 @@ describe('isActiveSidebarItem', () => {
       href: '/itemPath',
     });
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toEqual(false);
+    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
 
-    expect(isActiveSidebarItem(item, '/itemPath')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/itemPath')).toBe(true);
 
     // Ensure it's not trailing slash sensitive:
-    expect(isActiveSidebarItem(item, '/itemPath/')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/itemPath/')).toBe(true);
     expect(
       isActiveSidebarItem({...item, href: '/itemPath/'}, '/itemPath'),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('works with category nested items', () => {
@@ -316,63 +319,70 @@ describe('isActiveSidebarItem', () => {
       ],
     });
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toEqual(false);
+    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
 
-    expect(isActiveSidebarItem(item, '/category-path')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-link-path')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-category-path')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-sub-link-path')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/category-path')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-link-path')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-category-path')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-sub-link-path')).toBe(true);
 
     // Ensure it's not trailing slash sensitive:
-    expect(isActiveSidebarItem(item, '/category-path/')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-link-path/')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-category-path/')).toEqual(true);
-    expect(isActiveSidebarItem(item, '/sub-sub-link-path/')).toEqual(true);
+    expect(isActiveSidebarItem(item, '/category-path/')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-link-path/')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-category-path/')).toBe(true);
+    expect(isActiveSidebarItem(item, '/sub-sub-link-path/')).toBe(true);
   });
 });
 
-describe('getBreadcrumbs', () => {
+describe('useSidebarBreadcrumbs', () => {
+  const createUseSidebarBreadcrumbsMock =
+    (sidebar: PropSidebar, breadcrumbsOption?: boolean) => (location: string) =>
+      renderHook(() => useSidebarBreadcrumbs(), {
+        wrapper: ({children}) => (
+          <StaticRouter location={location}>
+            <Context.Provider
+              // eslint-disable-next-line react/jsx-no-constructed-context-values
+              value={{
+                globalData: {
+                  'docusaurus-plugin-content-docs': {
+                    default: {path: '/', breadcrumbs: breadcrumbsOption},
+                  },
+                },
+              }}>
+              <DocsSidebarProvider sidebar={sidebar}>
+                {children}
+              </DocsSidebarProvider>
+            </Context.Provider>
+          </StaticRouter>
+        ),
+      }).result.current;
   it('returns empty for empty sidebar', () => {
-    expect(
-      getBreadcrumbs({
-        sidebar: [],
-        pathname: '/doesNotExist',
-      }),
-    ).toEqual([]);
+    expect(createUseSidebarBreadcrumbsMock([])('/doesNotExist')).toEqual([]);
   });
 
   it('returns empty for sidebar but unknown pathname', () => {
     const sidebar = [testCategory(), testLink()];
-    expect(
-      getBreadcrumbs({
-        sidebar,
-        pathname: '/doesNotExist',
-      }),
-    ).toEqual([]);
+    expect(createUseSidebarBreadcrumbsMock(sidebar)('/doesNotExist')).toEqual(
+      [],
+    );
   });
 
   it('returns first level category', () => {
     const pathname = '/somePathName';
     const sidebar = [testCategory({href: pathname}), testLink()];
 
-    expect(
-      getBreadcrumbs({
-        sidebar,
-        pathname,
-      }),
-    ).toEqual([sidebar[0]]);
+    expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
+      sidebar[0],
+    ]);
   });
 
   it('returns first level link', () => {
     const pathname = '/somePathName';
     const sidebar = [testCategory(), testLink({href: pathname})];
 
-    expect(
-      getBreadcrumbs({
-        sidebar,
-        pathname,
-      }),
-    ).toEqual([sidebar[1]]);
+    expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
+      sidebar[1],
+    ]);
   });
 
   it('returns nested category', () => {
@@ -403,12 +413,11 @@ describe('getBreadcrumbs', () => {
       testCategory(),
     ];
 
-    expect(
-      getBreadcrumbs({
-        sidebar,
-        pathname,
-      }),
-    ).toEqual([categoryLevel1, categoryLevel2, categoryLevel3]);
+    expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
+      categoryLevel1,
+      categoryLevel2,
+      categoryLevel3,
+    ]);
   });
 
   it('returns nested link', () => {
@@ -441,11 +450,75 @@ describe('getBreadcrumbs', () => {
       testCategory(),
     ];
 
-    expect(
-      getBreadcrumbs({
-        sidebar,
-        pathname,
-      }),
-    ).toEqual([categoryLevel1, categoryLevel2, categoryLevel3, link]);
+    expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
+      categoryLevel1,
+      categoryLevel2,
+      categoryLevel3,
+      link,
+    ]);
+  });
+
+  it('returns null when breadcrumbs disabled', () => {
+    expect(createUseSidebarBreadcrumbsMock([], false)('/foo')).toBeNull();
+  });
+
+  it('returns null when there is no sidebar', () => {
+    expect(createUseSidebarBreadcrumbsMock(null, false)('/foo')).toBeNull();
+  });
+});
+
+describe('useCurrentSidebarCategory', () => {
+  const createUseCurrentSidebarCategoryMock =
+    (sidebar?: PropSidebar) => (location: string) =>
+      renderHook(() => useCurrentSidebarCategory(), {
+        wrapper: ({children}) => (
+          <DocsSidebarProvider sidebar={sidebar}>
+            <StaticRouter location={location}>{children}</StaticRouter>
+          </DocsSidebarProvider>
+        ),
+      }).result.current;
+  it('works', () => {
+    const category = {
+      type: 'category',
+      href: '/cat',
+      items: [
+        {type: 'link', href: '/cat/foo', label: 'Foo'},
+        {type: 'link', href: '/cat/bar', label: 'Bar'},
+        {type: 'link', href: '/baz', label: 'Baz'},
+      ],
+    };
+    const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock([
+      {type: 'link', href: '/cat/fake', label: 'Fake'},
+      category,
+    ]);
+    expect(mockUseCurrentSidebarCategory('/cat')).toEqual(category);
+  });
+
+  it('throws for non-category index page', () => {
+    const category = {
+      type: 'category',
+      items: [
+        {type: 'link', href: '/cat/foo', label: 'Foo'},
+        {type: 'link', href: '/cat/bar', label: 'Bar'},
+        {type: 'link', href: '/baz', label: 'Baz'},
+      ],
+    };
+    const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock([
+      category,
+    ]);
+    expect(() => mockUseCurrentSidebarCategory('/cat'))
+      .toThrowErrorMatchingInlineSnapshot(`
+      "Unexpected: sidebar category could not be found for pathname='/cat'.
+      Hook useCurrentSidebarCategory() should only be used on Category pages"
+    `);
+  });
+
+  it('throws when sidebar is missing', () => {
+    const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock();
+    expect(() =>
+      mockUseCurrentSidebarCategory('/cat'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected: cant find current sidebar in context"`,
+    );
   });
 });

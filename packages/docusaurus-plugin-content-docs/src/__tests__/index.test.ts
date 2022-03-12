@@ -123,29 +123,7 @@ describe('sidebar', () => {
         sidebarPath,
       }),
     );
-    await expect(plugin.loadContent!()).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
-            "Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
-            These sidebar document ids do not exist:
-            - goku
-
-            Available document ids are:
-            - doc with space
-            - foo/bar
-            - foo/baz
-            - headingAsTitle
-            - hello
-            - ipsum
-            - lorem
-            - rootAbsoluteSlug
-            - rootRelativeSlug
-            - rootResolvedSlug
-            - rootTryToEscapeSlug
-            - slugs/absoluteSlug
-            - slugs/relativeSlug
-            - slugs/resolvedSlug
-            - slugs/tryToEscapeSlug"
-          `);
+    await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
   });
 
   it('site with wrong sidebar file path', async () => {
@@ -281,17 +259,17 @@ describe('simple website', () => {
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
-    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
-    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toEqual(true);
-    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
-    expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toBe(true);
+    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+    expect(isMatch('versioned_docs/hello.md', matchPattern)).toBe(false);
+    expect(isMatch('hello.md', matchPattern)).toBe(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
   });
 
   it('configureWebpack', async () => {
@@ -319,7 +297,7 @@ describe('simple website', () => {
   it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(1);
+    expect(content.loadedVersions).toHaveLength(1);
     const [currentVersion] = content.loadedVersions;
 
     expect(findDocById(currentVersion, 'foo/baz')).toMatchSnapshot();
@@ -398,42 +376,42 @@ describe('versioned website', () => {
     );
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
-    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
-    expect(
-      isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern),
-    ).toEqual(true);
+    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+    expect(isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern)).toBe(
+      true,
+    );
     expect(
       isMatch('versioned_docs/version-1.0.0/foo/bar.md', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
 
     // Non existing version
     expect(
       isMatch('versioned_docs/version-2.0.0/foo/bar.md', matchPattern),
-    ).toEqual(false);
-    expect(
-      isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
+    expect(isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern)).toBe(
+      false,
+    );
     expect(
       isMatch('versioned_sidebars/version-2.0.0-sidebars.json', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
 
-    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
-    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
-    expect(isMatch('hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+    expect(isMatch('hello.md', matchPattern)).toBe(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
   });
 
   it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(4);
+    expect(content.loadedVersions).toHaveLength(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
       content.loadedVersions;
 
@@ -529,32 +507,32 @@ describe('versioned website (community)', () => {
     );
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchSnapshot();
-    expect(isMatch('community/team.md', matchPattern)).toEqual(true);
+    expect(isMatch('community/team.md', matchPattern)).toBe(true);
     expect(
       isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
 
     // Non existing version
     expect(
       isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isMatch(
         'community_versioned_sidebars/version-2.0.0-sidebars.json',
         matchPattern,
       ),
-    ).toEqual(false);
+    ).toBe(false);
 
-    expect(isMatch('community/team.js', matchPattern)).toEqual(false);
+    expect(isMatch('community/team.js', matchPattern)).toBe(false);
     expect(
       isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
   });
 
   it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(2);
+    expect(content.loadedVersions).toHaveLength(2);
     const [currentVersion, version100] = content.loadedVersions;
 
     expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
@@ -600,7 +578,7 @@ describe('site with doc label', () => {
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[0].label).toEqual('Hello One');
+    expect(sidebarProps.docs[0].label).toBe('Hello One');
   });
 
   it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
@@ -608,7 +586,7 @@ describe('site with doc label', () => {
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
 
-    expect(sidebarProps.docs[1].label).toEqual('Hello 2 From Doc');
+    expect(sidebarProps.docs[1].label).toBe('Hello 2 From Doc');
   });
 });
 

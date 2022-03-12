@@ -9,19 +9,19 @@ import {shouldQuotifyFrontMatter} from '../frontMatter';
 
 describe('shouldQuotifyFrontMatter', () => {
   it('works', () => {
-    expect(shouldQuotifyFrontMatter(['id', 'value'])).toEqual(false);
+    expect(shouldQuotifyFrontMatter(['id', 'value'])).toBe(false);
     expect(
       shouldQuotifyFrontMatter([
         'title',
         "Some title front matter with allowed special chars like sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+-_?'`&#()[]§%€$",
       ]),
-    ).toEqual(false);
+    ).toBe(false);
 
-    expect(shouldQuotifyFrontMatter(['title', 'Special char :'])).toEqual(true);
+    expect(shouldQuotifyFrontMatter(['title', 'Special char :'])).toBe(true);
 
-    expect(shouldQuotifyFrontMatter(['title', 'value!'])).toEqual(false);
-    expect(shouldQuotifyFrontMatter(['title', '!value'])).toEqual(true);
+    expect(shouldQuotifyFrontMatter(['title', 'value!'])).toBe(false);
+    expect(shouldQuotifyFrontMatter(['title', '!value'])).toBe(true);
 
-    expect(shouldQuotifyFrontMatter(['tags', '[tag1, tag2]'])).toEqual(false);
+    expect(shouldQuotifyFrontMatter(['tags', '[tag1, tag2]'])).toBe(false);
   });
 });

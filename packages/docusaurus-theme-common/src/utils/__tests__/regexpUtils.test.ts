@@ -9,13 +9,13 @@ import {isRegexpStringMatch} from '../regexpUtils';
 
 describe('isRegexpStringMatch', () => {
   it('works', () => {
-    expect(isRegexpStringMatch(undefined, 'foo')).toEqual(false);
-    expect(isRegexpStringMatch('bar', undefined)).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'bar')).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'foo')).toEqual(true);
-    expect(isRegexpStringMatch('fooooooooooo', 'foo')).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'fooooooo')).toEqual(true);
-    expect(isRegexpStringMatch('f.*o', 'fggo')).toEqual(true);
-    expect(isRegexpStringMatch('FOO', 'foo')).toEqual(true);
+    expect(isRegexpStringMatch(undefined, 'foo')).toBe(false);
+    expect(isRegexpStringMatch('bar', undefined)).toBe(false);
+    expect(isRegexpStringMatch('foo', 'bar')).toBe(false);
+    expect(isRegexpStringMatch('foo', 'foo')).toBe(true);
+    expect(isRegexpStringMatch('fooooooooooo', 'foo')).toBe(false);
+    expect(isRegexpStringMatch('foo', 'fooooooo')).toBe(true);
+    expect(isRegexpStringMatch('f.*o', 'fggo')).toBe(true);
+    expect(isRegexpStringMatch('FOO', 'foo')).toBe(true);
   });
 });

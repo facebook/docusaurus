@@ -13,7 +13,7 @@ import loadSetup from '../../server/__tests__/testUtils';
 
 describe('webpack production config', () => {
   it('simple', async () => {
-    console.log = jest.fn();
+    jest.spyOn(console, 'log').mockImplementation();
     const props = await loadSetup('simple');
     const config = await createServerConfig({props});
     const errors = webpack.validate(config);
@@ -21,7 +21,7 @@ describe('webpack production config', () => {
   });
 
   it('custom', async () => {
-    console.log = jest.fn();
+    jest.spyOn(console, 'log').mockImplementation();
     const props = await loadSetup('custom');
     const config = await createServerConfig({props});
     const errors = webpack.validate(config);

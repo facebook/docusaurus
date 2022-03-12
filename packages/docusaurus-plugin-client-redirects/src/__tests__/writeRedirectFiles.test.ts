@@ -18,25 +18,25 @@ import writeRedirectFiles, {
 // - https://github.com/facebook/docusaurus/issues/3925
 describe('createToUrl', () => {
   it('creates appropriate redirect urls', async () => {
-    expect(createToUrl('/', '/docs/something/else')).toEqual(
+    expect(createToUrl('/', '/docs/something/else')).toBe(
       '/docs/something/else',
     );
-    expect(createToUrl('/', '/docs/something/else/')).toEqual(
+    expect(createToUrl('/', '/docs/something/else/')).toBe(
       '/docs/something/else/',
     );
-    expect(createToUrl('/', 'docs/something/else')).toEqual(
+    expect(createToUrl('/', 'docs/something/else')).toBe(
       '/docs/something/else',
     );
   });
 
   it('creates appropriate redirect urls with baseUrl', async () => {
-    expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
+    expect(createToUrl('/baseUrl/', '/docs/something/else')).toBe(
       '/baseUrl/docs/something/else',
     );
-    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toEqual(
+    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toBe(
       '/baseUrl/docs/something/else/',
     );
-    expect(createToUrl('/baseUrl/', 'docs/something/else')).toEqual(
+    expect(createToUrl('/baseUrl/', 'docs/something/else')).toBe(
       '/baseUrl/docs/something/else',
     );
   });
@@ -177,11 +177,11 @@ describe('writeRedirectFiles', () => {
 
     await expect(
       fs.readFile(filesMetadata[0].fileAbsolutePath, 'utf8'),
-    ).resolves.toEqual('content 1');
+    ).resolves.toBe('content 1');
 
     await expect(
       fs.readFile(filesMetadata[1].fileAbsolutePath, 'utf8'),
-    ).resolves.toEqual('content 2');
+    ).resolves.toBe('content 2');
   });
 
   it('avoid overwriting existing files', async () => {

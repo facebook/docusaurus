@@ -33,7 +33,7 @@ describe('normalizeDocsPluginOptions', () => {
   it('returns default options for undefined user options', async () => {
     const {value, error} = await OptionsSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts correctly defined user options', async () => {
@@ -79,7 +79,7 @@ describe('normalizeDocsPluginOptions', () => {
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts correctly defined remark and rehype plugin options', async () => {
@@ -95,7 +95,7 @@ describe('normalizeDocsPluginOptions', () => {
     };
     const {value, error} = await OptionsSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts admonitions false', async () => {
@@ -105,7 +105,7 @@ describe('normalizeDocsPluginOptions', () => {
     };
     const {value, error} = OptionsSchema.validate(admonitionsFalse);
     expect(value).toEqual(admonitionsFalse);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts numberPrefixParser function', () => {
@@ -256,7 +256,7 @@ describe('normalizeDocsPluginOptions', () => {
         sidebarCollapsible: true,
         sidebarCollapsed: undefined,
       }).sidebarCollapsed,
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
       testValidateOptions({
@@ -264,7 +264,7 @@ describe('normalizeDocsPluginOptions', () => {
         sidebarCollapsible: false,
         sidebarCollapsed: undefined,
       }).sidebarCollapsed,
-    ).toEqual(false);
+    ).toBe(false);
 
     expect(
       testValidateOptions({
@@ -272,6 +272,6 @@ describe('normalizeDocsPluginOptions', () => {
         sidebarCollapsible: false,
         sidebarCollapsed: true,
       }).sidebarCollapsed,
-    ).toEqual(false);
+    ).toBe(false);
   });
 });

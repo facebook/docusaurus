@@ -187,7 +187,7 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function getBreadcrumbs({
+function getBreadcrumbs({
   sidebar,
   pathname,
 }: {

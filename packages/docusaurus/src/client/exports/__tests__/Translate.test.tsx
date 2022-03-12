@@ -9,15 +9,15 @@ import {translate} from '../Translate';
 
 describe('translate', () => {
   it('accept id and use it as fallback', () => {
-    expect(translate({id: 'some-id'})).toEqual('some-id');
+    expect(translate({id: 'some-id'})).toBe('some-id');
   });
 
   it('accept message and use it as fallback', () => {
-    expect(translate({message: 'some-message'})).toEqual('some-message');
+    expect(translate({message: 'some-message'})).toBe('some-message');
   });
 
   it('accept id+message and use message as fallback', () => {
-    expect(translate({id: 'some-id', message: 'some-message'})).toEqual(
+    expect(translate({id: 'some-id', message: 'some-message'})).toBe(
       'some-message',
     );
   });

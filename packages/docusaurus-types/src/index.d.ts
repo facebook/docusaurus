@@ -372,6 +372,14 @@ export interface RouteConfig {
   [propName: string]: unknown;
 }
 
+export type Route = {
+  readonly path: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly component: any;
+  readonly exact?: boolean;
+  readonly routes?: Route[];
+};
+
 // Aliases used for Webpack resolution (when using docusaurus swizzle)
 export interface ThemeAliases {
   [alias: string]: string;

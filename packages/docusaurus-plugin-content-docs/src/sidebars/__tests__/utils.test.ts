@@ -132,18 +132,18 @@ describe('createSidebarsUtils', () => {
   } = createSidebarsUtils(sidebars);
 
   it('getFirstDocIdOfFirstSidebar', async () => {
-    expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
+    expect(getFirstDocIdOfFirstSidebar()).toBe('doc1');
   });
 
   it('getSidebarNameByDocId', async () => {
-    expect(getSidebarNameByDocId('doc1')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc2')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc3')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc4')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc5')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('doc6')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('doc7')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('unknown_id')).toEqual(undefined);
+    expect(getSidebarNameByDocId('doc1')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc2')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc3')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc4')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc5')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc6')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc7')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('unknown_id')).toBeUndefined();
   });
 
   it('getDocNavigation', async () => {

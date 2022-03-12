@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`initPlugins plugins with bad values throw user-friendly error message 1`] = `
+exports[`initPlugins throws user-friendly error message for plugins with bad values 1`] = `
 " => Bad Docusaurus plugin value as path [plugins,0].
 Example valid plugin config:
 {

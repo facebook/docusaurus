@@ -70,21 +70,13 @@ function useLocalePluralForms(): LocalePluralForms {
     i18n: {currentLocale},
   } = useDocusaurusContext();
   return useMemo(() => {
-    // @ts-expect-error checking Intl.PluralRules in case browser doesn't
-    // have it (e.g Safari 12-)
-    if (Intl.PluralRules) {
-      try {
-        return createLocalePluralForms(currentLocale);
-      } catch {
-        console.error(`Failed to use Intl.PluralRules for locale "${currentLocale}".
-Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
+    try {
+      return createLocalePluralForms(currentLocale);
+    } catch (err) {
+      console.error(`Failed to use Intl.PluralRules for locale "${currentLocale}".
+Docusaurus will fallback to the default (English) implementation.
+Error: ${(err as Error).message}
 `);
-        return EnglishPluralForms;
-      }
-    } else {
-      console.error(`Intl.PluralRules not available!
-Docusaurus will fallback to a default/fallback (English) Intl.PluralRules implementation.
-        `);
       return EnglishPluralForms;
     }
   }, [currentLocale]);
@@ -103,7 +95,7 @@ function selectPluralMessage(
   }
   if (parts.length > localePluralForms.pluralForms.length) {
     console.error(
-      `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length} plural forms: ${pluralMessages} `,
+      `For locale=${localePluralForms.locale}, a maximum of ${localePluralForms.pluralForms.length} plural forms are expected (${localePluralForms.pluralForms}), but the message contains ${parts.length}: ${pluralMessages}`,
     );
   }
   const pluralForm = localePluralForms.select(count);

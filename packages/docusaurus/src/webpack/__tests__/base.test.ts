@@ -28,7 +28,7 @@ describe('babel transpilation exclude logic', () => {
       path.join('exports', 'Link.js'),
     ];
     clientFiles.forEach((file) => {
-      expect(excludeJS(path.join(clientDir, file))).toEqual(false);
+      expect(excludeJS(path.join(clientDir, file))).toBe(false);
     });
   });
 
@@ -39,7 +39,7 @@ describe('babel transpilation exclude logic', () => {
       '/src/theme/SearchBar/index.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(false);
+      expect(excludeJS(file)).toBe(false);
     });
   });
 
@@ -50,7 +50,7 @@ describe('babel transpilation exclude logic', () => {
       '/docusaurus/website/node_modules/@docusaurus/theme-search-algolia/theme/SearchBar.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(false);
+      expect(excludeJS(file)).toBe(false);
     });
   });
 
@@ -63,7 +63,7 @@ describe('babel transpilation exclude logic', () => {
       'node_modules/docusaurus-theme-classic/node_modules/react-daypicker/index.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(true);
+      expect(excludeJS(file)).toBe(true);
     });
   });
 });

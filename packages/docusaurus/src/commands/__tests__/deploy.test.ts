@@ -10,11 +10,11 @@ import {buildSshUrl, buildHttpsUrl, hasSSHProtocol} from '../deploy';
 describe('remoteBranchUrl', () => {
   it('builds a normal ssh url', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus');
-    expect(url).toEqual('git@github.com:facebook/docusaurus.git');
+    expect(url).toBe('git@github.com:facebook/docusaurus.git');
   });
   it('builds a ssh url with port', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus', '422');
-    expect(url).toEqual('ssh://git@github.com:422/facebook/docusaurus.git');
+    expect(url).toBe('ssh://git@github.com:422/facebook/docusaurus.git');
   });
   it('builds a normal http url', () => {
     const url = buildHttpsUrl(
@@ -23,7 +23,7 @@ describe('remoteBranchUrl', () => {
       'facebook',
       'docusaurus',
     );
-    expect(url).toEqual('https://user:pass@github.com/facebook/docusaurus.git');
+    expect(url).toBe('https://user:pass@github.com/facebook/docusaurus.git');
   });
   it('builds a normal http url with port', () => {
     const url = buildHttpsUrl(
@@ -33,7 +33,7 @@ describe('remoteBranchUrl', () => {
       'docusaurus',
       '5433',
     );
-    expect(url).toEqual(
+    expect(url).toBe(
       'https://user:pass@github.com:5433/facebook/docusaurus.git',
     );
   });
@@ -42,21 +42,21 @@ describe('remoteBranchUrl', () => {
 describe('hasSSHProtocol', () => {
   it('recognizes explicit SSH protocol', () => {
     const url = 'ssh://git@github.com:422/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(true);
+    expect(hasSSHProtocol(url)).toBe(true);
   });
 
   it('recognizes implied SSH protocol', () => {
     const url = 'git@github.com:facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(true);
+    expect(hasSSHProtocol(url)).toBe(true);
   });
 
   it('does not recognize HTTPS with credentials', () => {
     const url = 'https://user:pass@github.com/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(false);
+    expect(hasSSHProtocol(url)).toBe(false);
   });
 
   it('does not recognize plain HTTPS URL', () => {
     const url = 'https://github.com:5433/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(false);
+    expect(hasSSHProtocol(url)).toBe(false);
   });
 });

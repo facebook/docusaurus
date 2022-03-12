@@ -18,23 +18,23 @@ import _ from 'lodash';
 
 describe('removeSuffix', () => {
   it("is no-op when suffix doesn't exist", () => {
-    expect(removeSuffix('abcdef', 'ijk')).toEqual('abcdef');
-    expect(removeSuffix('abcdef', 'abc')).toEqual('abcdef');
-    expect(removeSuffix('abcdef', '')).toEqual('abcdef');
+    expect(removeSuffix('abcdef', 'ijk')).toBe('abcdef');
+    expect(removeSuffix('abcdef', 'abc')).toBe('abcdef');
+    expect(removeSuffix('abcdef', '')).toBe('abcdef');
   });
   it('removes suffix', () => {
-    expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
+    expect(removeSuffix('abcdef', 'ef')).toBe('abcd');
   });
 });
 
 describe('removePrefix', () => {
   it("is no-op when prefix doesn't exist", () => {
-    expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
-    expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
-    expect(removePrefix('abcdef', '')).toEqual('abcdef');
+    expect(removePrefix('abcdef', 'ijk')).toBe('abcdef');
+    expect(removePrefix('abcdef', 'def')).toBe('abcdef');
+    expect(removePrefix('abcdef', '')).toBe('abcdef');
   });
   it('removes prefix', () => {
-    expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
+    expect(removePrefix('abcdef', 'ab')).toBe('cdef');
   });
 });
 
@@ -133,7 +133,7 @@ describe('findAsyncSequential', () => {
     });
 
     const timeBefore = Date.now();
-    await expect(findAsyncSequential(items, findFn)).resolves.toEqual('2');
+    await expect(findAsyncSequential(items, findFn)).resolves.toBe('2');
     const timeAfter = Date.now();
 
     expect(findFn).toHaveBeenCalledTimes(2);
