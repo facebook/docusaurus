@@ -59,7 +59,7 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
 }
 
 describe('validation schemas', () => {
-  test('PluginIdSchema', () => {
+  it('pluginIdSchema', () => {
     const {testOK, testFail} = createTestHelpers({
       schema: PluginIdSchema,
       defaultValue: 'default',
@@ -81,7 +81,7 @@ describe('validation schemas', () => {
     testFail([]);
   });
 
-  test('AdmonitionsSchema', () => {
+  it('admonitionsSchema', () => {
     const {testOK, testFail} = createTestHelpers({
       schema: AdmonitionsSchema,
       defaultValue: {},
@@ -97,15 +97,15 @@ describe('validation schemas', () => {
     testFail([]);
   });
 
-  test('RemarkPluginsSchema', () => {
+  it('remarkPluginsSchema', () => {
     testMarkdownPluginSchemas(RemarkPluginsSchema);
   });
 
-  test('RehypePluginsSchema', () => {
+  it('rehypePluginsSchema', () => {
     testMarkdownPluginSchemas(RehypePluginsSchema);
   });
 
-  test('URISchema', () => {
+  it('uRISchema', () => {
     const {testFail, testOK} = createTestHelpers({schema: URISchema});
 
     const validURL = 'https://docusaurus.io';
@@ -127,7 +127,7 @@ describe('validation schemas', () => {
     testOK(protocolRelativeUrl2);
   });
 
-  test('PathnameSchema', () => {
+  it('pathnameSchema', () => {
     const {testFail, testOK} = createTestHelpers({schema: PathnameSchema});
 
     testOK('/foo');

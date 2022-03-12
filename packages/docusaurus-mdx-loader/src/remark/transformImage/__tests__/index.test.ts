@@ -33,34 +33,34 @@ const staticDirs = [
 const siteDir = path.join(__dirname, '__fixtures__');
 
 describe('transformImage plugin', () => {
-  test('fail if image does not exist', async () => {
+  it('fail if image does not exist', async () => {
     await expect(
       processFixture('fail', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
-  test('fail if image relative path does not exist', async () => {
+  it('fail if image relative path does not exist', async () => {
     await expect(
       processFixture('fail2', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
-  test('fail if image url is absent', async () => {
+  it('fail if image url is absent', async () => {
     await expect(
       processFixture('noUrl', {staticDirs}),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('transform md images to <img />', async () => {
+  it('transform md images to <img />', async () => {
     const result = await processFixture('img', {staticDirs, siteDir});
     expect(result).toMatchSnapshot();
   });
 
-  test('pathname protocol', async () => {
+  it('pathname protocol', async () => {
     const result = await processFixture('pathname', {staticDirs});
     expect(result).toMatchSnapshot();
   });
 
-  test('does not choke on invalid image', async () => {
-    const errorMock = jest.spyOn(console, 'warn').mockImplementation();
+  it('does not choke on invalid image', async () => {
+    const errorMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const result = await processFixture('invalid-img', {staticDirs});
     expect(result).toMatchSnapshot();
     expect(errorMock).toBeCalledTimes(1);

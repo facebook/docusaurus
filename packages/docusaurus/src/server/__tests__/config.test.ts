@@ -9,7 +9,7 @@ import path from 'path';
 import loadConfig from '../config';
 
 describe('loadConfig', () => {
-  test('website with valid siteConfig', async () => {
+  it('website with valid siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -21,7 +21,7 @@ describe('loadConfig', () => {
     expect(config).not.toEqual({});
   });
 
-  test('website with valid config creator function', async () => {
+  it('website with valid config creator function', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -33,7 +33,7 @@ describe('loadConfig', () => {
     expect(config).not.toEqual({});
   });
 
-  test('website with valid async config', async () => {
+  it('website with valid async config', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -45,7 +45,7 @@ describe('loadConfig', () => {
     expect(config).not.toEqual({});
   });
 
-  test('website with valid async config creator function', async () => {
+  it('website with valid async config creator function', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -57,7 +57,7 @@ describe('loadConfig', () => {
     expect(config).not.toEqual({});
   });
 
-  test('website with incomplete siteConfig', async () => {
+  it('website with incomplete siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -67,7 +67,7 @@ describe('loadConfig', () => {
     await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('website with useless field (wrong field) in siteConfig', async () => {
+  it('website with useless field (wrong field) in siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',
@@ -77,7 +77,7 @@ describe('loadConfig', () => {
     await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('website with no siteConfig', async () => {
+  it('website with no siteConfig', async () => {
     const siteDir = path.join(
       __dirname,
       '__fixtures__',

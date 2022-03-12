@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`toRedirectFilesMetadata should create appropriate metadata for empty baseUrl: fileContent baseUrl=empty 1`] = `
+exports[`toRedirectFilesMetadata creates appropriate metadata for empty baseUrl: fileContent baseUrl=empty 1`] = `
 Array [
   "<!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadata for root baseUrl: fileContent baseUrl=/ 1`] = `
+exports[`toRedirectFilesMetadata creates appropriate metadata for root baseUrl: fileContent baseUrl=/ 1`] = `
 Array [
   "<!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadata trailingSlash=false: fileContent 1`] = `
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=false: fileContent 1`] = `
 Array [
   "<!DOCTYPE html>
 <html>
@@ -70,7 +70,7 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadata trailingSlash=true: fileContent 1`] = `
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=true: fileContent 1`] = `
 Array [
   "<!DOCTYPE html>
 <html>
@@ -108,7 +108,7 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadata trailingSlash=undefined: fileContent 1`] = `
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=undefined: fileContent 1`] = `
 Array [
   "<!DOCTYPE html>
 <html>

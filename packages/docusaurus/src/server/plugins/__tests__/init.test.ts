@@ -29,7 +29,7 @@ describe('initPlugins', () => {
     return {siteDir, context, plugins};
   }
 
-  test('plugins gets parsed correctly and loads in correct order', async () => {
+  it('plugins gets parsed correctly and loads in correct order', async () => {
     const {context, plugins} = await loadSite();
     expect(context.siteConfig.plugins?.length).toBe(4);
     expect(plugins.length).toBe(8);
@@ -45,7 +45,7 @@ describe('initPlugins', () => {
     expect(context.siteConfig.themeConfig).toEqual({a: 1});
   });
 
-  test('plugins with bad values throw user-friendly error message', async () => {
+  it('plugins with bad values throw user-friendly error message', async () => {
     await expect(() =>
       loadSite({
         customConfigFilePath: 'badPlugins.docusaurus.config.js',
@@ -55,7 +55,7 @@ describe('initPlugins', () => {
 });
 
 describe('sortConfig', () => {
-  test('should sort route config correctly', () => {
+  it('sorts route config correctly', () => {
     const routes: RouteConfig[] = [
       {
         path: '/',
@@ -97,7 +97,7 @@ describe('sortConfig', () => {
     expect(routes).toMatchSnapshot();
   });
 
-  test('should sort route config given a baseURL', () => {
+  it('sorts route config given a baseURL', () => {
     const baseURL = '/latest';
     const routes: RouteConfig[] = [
       {

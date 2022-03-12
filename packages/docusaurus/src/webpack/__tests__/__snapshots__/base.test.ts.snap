@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`base webpack config should create webpack aliases 1`] = `
+exports[`base webpack config creates webpack aliases 1`] = `
 Object {
   "@docusaurus/BrowserOnly": "../../../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../../../client/exports/ComponentCreator.tsx",
@@ -47,7 +47,7 @@ Object {
 }
 `;
 
-exports[`getDocusaurusAliases() return appropriate webpack aliases 1`] = `
+exports[`getDocusaurusAliases() returns appropriate webpack aliases 1`] = `
 Object {
   "@docusaurus/BrowserOnly": "../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",

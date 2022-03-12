@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getLoadedContentTranslationFiles should return translation files matching snapshot 1`] = `
+exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
 Array [
   Object {
     "content": Object {
@@ -80,7 +80,7 @@ Array [
 ]
 `;
 
-exports[`translateLoadedContent should return translated loaded content matching snapshot 1`] = `
+exports[`translateLoadedContent returns translated loaded content 1`] = `
 Object {
   "loadedVersions": Array [
     Object {

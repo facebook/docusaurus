@@ -8,13 +8,13 @@
 import {uniq, duplicates} from '../jsUtils';
 
 describe('duplicates', () => {
-  test('gets duplicate values', () => {
+  it('gets duplicate values', () => {
     expect(duplicates(['a', 'b', 'c', 'd'])).toEqual([]);
     expect(duplicates(['a', 'b', 'b', 'b'])).toEqual(['b', 'b']);
     expect(duplicates(['c', 'b', 'b', 'c'])).toEqual(['b', 'c']);
     expect(duplicates([{a: 1}, {a: 1}, {a: 1}])).toEqual([]);
   });
-  test('accepts custom comparator', () => {
+  it('accepts custom comparator', () => {
     expect(duplicates([{a: 1}, {a: 1}, {a: 1}], (a, b) => a.a === b.a)).toEqual(
       [{a: 1}, {a: 1}],
     );
@@ -28,7 +28,7 @@ describe('duplicates', () => {
 });
 
 describe('uniq', () => {
-  test('remove duplicate primitives', () => {
+  it('remove duplicate primitives', () => {
     expect(uniq(['A', 'B', 'C', 'B', 'A', 'D'])).toEqual(['A', 'B', 'C', 'D']);
     expect(uniq([3, 3, 5, 1, 6, 3, 5])).toEqual([3, 5, 1, 6]);
     expect(uniq([null, undefined, 3, null, 4, 3])).toEqual([
@@ -39,7 +39,7 @@ describe('uniq', () => {
     ]);
   });
 
-  test('remove duplicate objects/arrays by identity', () => {
+  it('remove duplicate objects/arrays by identity', () => {
     const obj1 = {};
     const obj2 = {};
     const obj3 = {};

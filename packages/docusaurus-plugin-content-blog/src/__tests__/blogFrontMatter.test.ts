@@ -24,13 +24,13 @@ function testField(params: {
   ][];
 }) {
   describe(`"${params.fieldName}" field`, () => {
-    test('accept valid values', () => {
+    it('accept valid values', () => {
       params.validFrontMatters.forEach((frontMatter) => {
         expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
       });
     });
 
-    test('convert valid values', () => {
+    it('convert valid values', () => {
       params.convertibleFrontMatter?.forEach(
         ([convertibleFrontMatter, convertedFrontMatter]) => {
           expect(validateBlogPostFrontMatter(convertibleFrontMatter)).toEqual(
@@ -40,7 +40,7 @@ function testField(params: {
       );
     });
 
-    test('throw error for values', () => {
+    it('throw error for values', () => {
       params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
         try {
           validateBlogPostFrontMatter(frontMatter);
@@ -64,12 +64,12 @@ function testField(params: {
 }
 
 describe('validateBlogPostFrontMatter', () => {
-  test('accept empty object', () => {
+  it('accept empty object', () => {
     const frontMatter = {};
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('accept unknown field', () => {
+  it('accept unknown field', () => {
     const frontMatter = {abc: '1'};
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
@@ -106,7 +106,7 @@ describe('validateBlogPostFrontMatter id', () => {
 });
 
 describe('validateBlogPostFrontMatter handles legacy/new author front matter', () => {
-  test('allow legacy author front matter', () => {
+  it('allow legacy author front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       author: 'Sebastien',
       author_url: 'https://sebastienlorber.com',
@@ -116,7 +116,7 @@ describe('validateBlogPostFrontMatter handles legacy/new author front matter', (
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('allow new authors front matter', () => {
+  it('allow new authors front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       authors: [
         'slorber',

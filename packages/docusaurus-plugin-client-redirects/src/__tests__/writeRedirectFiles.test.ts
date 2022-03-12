@@ -17,7 +17,7 @@ import writeRedirectFiles, {
 // - https://github.com/facebook/docusaurus/issues/3886
 // - https://github.com/facebook/docusaurus/issues/3925
 describe('createToUrl', () => {
-  test('should create appropriate redirect urls', async () => {
+  it('creates appropriate redirect urls', async () => {
     expect(createToUrl('/', '/docs/something/else')).toEqual(
       '/docs/something/else',
     );
@@ -29,7 +29,7 @@ describe('createToUrl', () => {
     );
   });
 
-  test('should create appropriate redirect urls with baseUrl', async () => {
+  it('creates appropriate redirect urls with baseUrl', async () => {
     expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
       '/baseUrl/docs/something/else',
     );
@@ -43,7 +43,7 @@ describe('createToUrl', () => {
 });
 
 describe('toRedirectFilesMetadata', () => {
-  test('should create appropriate metadata trailingSlash=undefined', async () => {
+  it('creates appropriate metadata trailingSlash=undefined', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -70,7 +70,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadata trailingSlash=true', async () => {
+  it('creates appropriate metadata trailingSlash=true', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -97,7 +97,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadata trailingSlash=false', async () => {
+  it('creates appropriate metadata trailingSlash=false', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -127,7 +127,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadata for root baseUrl', async () => {
+  it('creates appropriate metadata for root baseUrl', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '/',
@@ -142,7 +142,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadata for empty baseUrl', async () => {
+  it('creates appropriate metadata for empty baseUrl', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '',
@@ -159,7 +159,7 @@ describe('toRedirectFilesMetadata', () => {
 });
 
 describe('writeRedirectFiles', () => {
-  test('write the files', async () => {
+  it('write the files', async () => {
     const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
@@ -184,7 +184,7 @@ describe('writeRedirectFiles', () => {
     ).resolves.toEqual('content 2');
   });
 
-  test('avoid overwriting existing files', async () => {
+  it('avoid overwriting existing files', async () => {
     const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [

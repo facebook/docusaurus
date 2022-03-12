@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`inline code should be escaped 1`] = `
+exports[`toc remark plugin escapes inline code 1`] = `
 "export const toc = [
 	{
 		value: '<code>&lt;Head /&gt;</code>',
@@ -48,7 +48,120 @@ exports[`inline code should be escaped 1`] = `
 "
 `;
 
-exports[`non text phrasing content 1`] = `
+exports[`toc remark plugin exports even with existing name 1`] = `
+"export const toc = [
+	{
+		value: 'Thanos',
+		id: 'thanos',
+		level: 2
+	},
+	{
+		value: 'Tony Stark',
+		id: 'tony-stark',
+		level: 2
+	},
+	{
+		value: 'Avengers',
+		id: 'avengers',
+		level: 3
+	}
+];
+
+## Thanos
+
+## Tony Stark
+
+### Avengers
+"
+`;
+
+exports[`toc remark plugin exports with custom name 1`] = `
+"export const customName = [
+	{
+		value: 'Endi',
+		id: 'endi',
+		level: 3
+	},
+	{
+		value: 'Endi',
+		id: 'endi-1',
+		level: 2
+	},
+	{
+		value: 'Yangshun',
+		id: 'yangshun',
+		level: 3
+	},
+	{
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		level: 2
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
+"
+`;
+
+exports[`toc remark plugin handles empty headings 1`] = `
+"export const toc = [];
+
+# Ignore this
+
+## 
+
+## ![](an-image.svg)
+"
+`;
+
+exports[`toc remark plugin inserts below imports 1`] = `
+"import something from 'something';
+
+import somethingElse from 'something-else';
+
+export const toc = [
+	{
+		value: 'Title',
+		id: 'title',
+		level: 2
+	},
+	{
+		value: 'Test',
+		id: 'test',
+		level: 2
+	},
+	{
+		value: 'Again',
+		id: 'again',
+		level: 3
+	}
+];
+
+## Title
+
+## Test
+
+### Again
+
+Content.
+"
+`;
+
+exports[`toc remark plugin works on non text phrasing content 1`] = `
 "export const toc = [
 	{
 		value: '<em>Emphasis</em>',
@@ -86,5 +199,47 @@ exports[`non text phrasing content 1`] = `
 ## <i>HTML</i>
 
 ## \`inline.code()\`
+"
+`;
+
+exports[`toc remark plugin works on text content 1`] = `
+"export const toc = [
+	{
+		value: 'Endi',
+		id: 'endi',
+		level: 3
+	},
+	{
+		value: 'Endi',
+		id: 'endi-1',
+		level: 2
+	},
+	{
+		value: 'Yangshun',
+		id: 'yangshun',
+		level: 3
+	},
+	{
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		level: 2
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
 "
 `;

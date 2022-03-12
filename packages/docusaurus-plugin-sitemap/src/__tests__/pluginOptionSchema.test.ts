@@ -19,21 +19,21 @@ function normalizePluginOptions(options) {
 }
 
 describe('normalizeSitemapPluginOptions', () => {
-  test('should return default values for empty user options', async () => {
-    const {value} = await PluginOptionSchema.validate({});
+  it('returns default values for empty user options', () => {
+    const {value} = PluginOptionSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
   });
 
-  test('should accept correctly defined user options', async () => {
+  it('accepts correctly defined user options', () => {
     const userOptions = {
       changefreq: 'yearly',
       priority: 0.9,
     };
-    const {value} = await PluginOptionSchema.validate(userOptions);
+    const {value} = PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
   });
 
-  test('should reject out-of-range priority inputs', () => {
+  it('rejects out-of-range priority inputs', () => {
     expect(() => {
       normalizePluginOptions({
         priority: 2,
@@ -43,7 +43,7 @@ describe('normalizeSitemapPluginOptions', () => {
     );
   });
 
-  test('should reject bad changefreq inputs', () => {
+  it('rejects bad changefreq inputs', () => {
     expect(() => {
       normalizePluginOptions({
         changefreq: 'annually',

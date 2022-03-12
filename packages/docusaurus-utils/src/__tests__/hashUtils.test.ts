@@ -8,7 +8,7 @@
 import {simpleHash, docuHash} from '../hashUtils';
 
 describe('hashUtils', () => {
-  test('simpleHash', () => {
+  it('simpleHash', () => {
     const asserts: Record<string, string> = {
       '': 'd41',
       '/foo-bar': '096',
@@ -29,7 +29,7 @@ describe('hashUtils', () => {
 });
 
 describe('docuHash', () => {
-  test('docuHash works', () => {
+  it('docuHash works', () => {
     const asserts: Record<string, string> = {
       '': '-d41',
       '/': 'index',

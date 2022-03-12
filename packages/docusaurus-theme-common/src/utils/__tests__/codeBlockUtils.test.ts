@@ -12,45 +12,45 @@ import {
 } from '../codeBlockUtils';
 
 describe('parseCodeBlockTitle', () => {
-  test('should parse double quote delimited title', () => {
+  it('parses double quote delimited title', () => {
     expect(parseCodeBlockTitle(`title="index.js"`)).toEqual(`index.js`);
   });
 
-  test('should parse single quote delimited title', () => {
+  it('parses single quote delimited title', () => {
     expect(parseCodeBlockTitle(`title='index.js'`)).toEqual(`index.js`);
   });
 
-  test('should not parse mismatched quote delimiters', () => {
+  it('does not parse mismatched quote delimiters', () => {
     expect(parseCodeBlockTitle(`title="index.js'`)).toEqual(``);
   });
 
-  test('should parse undefined metastring', () => {
+  it('parses undefined metastring', () => {
     expect(parseCodeBlockTitle(undefined)).toEqual(``);
   });
 
-  test('should parse metastring with no title specified', () => {
+  it('parses metastring with no title specified', () => {
     expect(parseCodeBlockTitle(`{1,2-3}`)).toEqual(``);
   });
 
-  test('should parse with multiple metadata title first', () => {
+  it('parses with multiple metadata title first', () => {
     expect(parseCodeBlockTitle(`title="index.js" label="JavaScript"`)).toEqual(
       `index.js`,
     );
   });
 
-  test('should parse with multiple metadata title last', () => {
+  it('parses with multiple metadata title last', () => {
     expect(parseCodeBlockTitle(`label="JavaScript" title="index.js"`)).toEqual(
       `index.js`,
     );
   });
 
-  test('should parse double quotes when delimited by single quotes', () => {
+  it('parses double quotes when delimited by single quotes', () => {
     expect(parseCodeBlockTitle(`title='console.log("Hello, World!")'`)).toEqual(
       `console.log("Hello, World!")`,
     );
   });
 
-  test('should parse single quotes when delimited by double quotes', () => {
+  it('parses single quotes when delimited by double quotes', () => {
     expect(parseCodeBlockTitle(`title="console.log('Hello, World!')"`)).toEqual(
       `console.log('Hello, World!')`,
     );
@@ -58,7 +58,7 @@ describe('parseCodeBlockTitle', () => {
 });
 
 describe('parseLanguage', () => {
-  test('behaves correctly', () => {
+  it('works', () => {
     expect(parseLanguage('language-foo xxx yyy')).toEqual('foo');
     expect(parseLanguage('xxxxx language-foo yyy')).toEqual('foo');
     expect(parseLanguage('xx-language-foo yyyy')).toBeUndefined();
@@ -67,16 +67,8 @@ describe('parseLanguage', () => {
 });
 
 describe('parseLines', () => {
-  test('does not parse content with metastring', () => {
-    expect(parseLines('aaaaa\nbbbbb', '{1}', 'js')).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+  it('does not parse content with metastring', () => {
+    expect(parseLines('aaaaa\nbbbbb', '{1}', 'js')).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -85,33 +77,16 @@ bbbbb`,
         '{1}',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `aaaaa
 bbbbb`,
         '{1}',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
-  test('does not parse content with no language', () => {
+  it('does not parse content with no language', () => {
     expect(
       parseLines(
         `// highlight-next-line
@@ -120,16 +95,9 @@ bbbbb`,
         '',
         undefined,
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
   });
-  test('removes lines correctly', () => {
+  it('removes lines correctly', () => {
     expect(
       parseLines(
         `// highlight-next-line
@@ -138,15 +106,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-start
@@ -156,15 +116,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbb",
-        "highlightLines": Array [
-          0,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-start
@@ -177,21 +129,9 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaaa
-      bbbbbbb
-      bbbbb",
-        "highlightLines": Array [
-          0,
-          2,
-          0,
-          1,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
-  test('respects language', () => {
+  it('respects language', () => {
     expect(
       parseLines(
         `# highlight-next-line
@@ -200,14 +140,7 @@ bbbbb`,
         '',
         'js',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "# highlight-next-line
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `/* highlight-next-line */
@@ -216,14 +149,7 @@ bbbbb`,
         '',
         'py',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "/* highlight-next-line */
-      aaaaa
-      bbbbb",
-        "highlightLines": Array [],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -237,20 +163,7 @@ dddd`,
         '',
         'py',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "// highlight-next-line
-      aaaa
-      /* highlight-next-line */
-      bbbbb
-      ccccc
-      <!-- highlight-next-line -->
-      dddd",
-        "highlightLines": Array [
-          4,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line
@@ -264,19 +177,6 @@ dddd`,
         '',
         '',
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "code": "aaaa
-      bbbbb
-      ccccc
-      dddd",
-        "highlightLines": Array [
-          0,
-          1,
-          2,
-          3,
-        ],
-      }
-    `);
+    ).toMatchSnapshot();
   });
 });

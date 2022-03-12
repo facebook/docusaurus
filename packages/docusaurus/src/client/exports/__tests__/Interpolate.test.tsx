@@ -9,12 +9,12 @@ import React from 'react';
 import {interpolate} from '../Interpolate';
 
 describe('Interpolate', () => {
-  test('without placeholders', () => {
+  it('without placeholders', () => {
     const text = 'Hello how are you?';
     expect(interpolate(text)).toEqual(text);
   });
 
-  test('placeholders with string values', () => {
+  it('placeholders with string values', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: 'Sébastien', day: 'today'};
     expect(interpolate(text, values)).toMatchInlineSnapshot(
@@ -22,7 +22,7 @@ describe('Interpolate', () => {
     );
   });
 
-  test('placeholders with string values 2', () => {
+  it('placeholders with string values 2', () => {
     const text = '{number} {string} {object} {array}';
     const values = {
       number: 42,
@@ -36,7 +36,7 @@ describe('Interpolate', () => {
     );
   });
 
-  test('placeholders with falsy values', () => {
+  it('placeholders with falsy values', () => {
     const text = '{number} {string} {boolean}';
     const values = {
       number: 0,
@@ -47,7 +47,7 @@ describe('Interpolate', () => {
     expect(interpolate(text, values)).toMatchInlineSnapshot(`"0  false"`);
   });
 
-  test('placeholders with string values mismatch', () => {
+  it('placeholders with string values mismatch', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {unprovidedValue}?';
     const values = {name: 'Sébastien', extraValue: 'today'};
@@ -56,26 +56,26 @@ describe('Interpolate', () => {
     );
   });
 
-  test('placeholders with values not provided', () => {
+  it('placeholders with values not provided', () => {
     // Should we emit warnings in such case?
     const text = 'Hello {name} how are you {day}?';
     expect(interpolate(text)).toEqual(text);
     expect(interpolate(text, {})).toEqual(text);
   });
 
-  test('placeholders with JSX values', () => {
+  it('placeholders with JSX values', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: <b>Sébastien</b>, day: <span>today</span>};
     expect(interpolate(text, values)).toMatchSnapshot();
   });
 
-  test('placeholders with mixed vales', () => {
+  it('placeholders with mixed vales', () => {
     const text = 'Hello {name} how are you {day}?';
     const values = {name: 'Sébastien', day: <span>today</span>};
     expect(interpolate(text, values)).toMatchSnapshot();
   });
 
-  test('acceptance test', () => {
+  it('acceptance test', () => {
     const text = 'Hello {name} how are you {day}? Another {unprovidedValue}!';
     const values = {
       name: 'Sébastien',

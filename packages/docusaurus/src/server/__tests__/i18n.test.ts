@@ -30,7 +30,7 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 describe('defaultLocaleConfig', () => {
   const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
 
-  test('returns correct labels', () => {
+  it('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
       label: canComputeLabel ? 'Français' : 'fr',
       direction: 'ltr',
@@ -85,7 +85,7 @@ describe('loadI18n', () => {
     consoleSpy.mockClear();
   });
 
-  test('should load I18n for default config', async () => {
+  it('loads I18n for default config', async () => {
     await expect(loadI18nTest(DEFAULT_I18N_CONFIG)).resolves.toEqual({
       defaultLocale: 'en',
       locales: ['en'],
@@ -94,7 +94,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-lang config', async () => {
+  it('loads I18n for multi-lang config', async () => {
     await expect(
       loadI18nTest({
         defaultLocale: 'fr',
@@ -109,7 +109,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-locale config with specified locale', async () => {
+  it('loads I18n for multi-locale config with specified locale', async () => {
     await expect(
       loadI18nTest(
         {
@@ -127,7 +127,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should load I18n for multi-locale config with some xcustom locale configs', async () => {
+  it('loads I18n for multi-locale config with some xcustom locale configs', async () => {
     await expect(
       loadI18nTest(
         {
@@ -152,7 +152,7 @@ describe('loadI18n', () => {
     });
   });
 
-  test('should warn when trying to load undeclared locale', async () => {
+  it('warns when trying to load undeclared locale', async () => {
     await loadI18nTest(
       {
         defaultLocale: 'fr',
@@ -168,7 +168,7 @@ describe('loadI18n', () => {
 });
 
 describe('localizePath', () => {
-  test('should localize url path with current locale', () => {
+  it('localizes url path with current locale', () => {
     expect(
       localizePath({
         pathType: 'url',
@@ -184,7 +184,7 @@ describe('localizePath', () => {
     ).toEqual('/baseUrl/fr/');
   });
 
-  test('should localize fs path with current locale', () => {
+  it('localizes fs path with current locale', () => {
     expect(
       localizePath({
         pathType: 'fs',
@@ -200,7 +200,7 @@ describe('localizePath', () => {
     ).toEqual(`${path.sep}baseFsPath${path.sep}fr`);
   });
 
-  test('should localize path for default locale, if requested', () => {
+  it('localizes path for default locale, if requested', () => {
     expect(
       localizePath({
         pathType: 'url',
@@ -216,7 +216,7 @@ describe('localizePath', () => {
     ).toEqual('/baseUrl/en/');
   });
 
-  test('should not localize path for default locale by default', () => {
+  it('does not localize path for default locale by default', () => {
     expect(
       localizePath({
         pathType: 'url',
@@ -232,7 +232,7 @@ describe('localizePath', () => {
     ).toEqual('/baseUrl/');
   });
 
-  test('should localize path for non-default locale by default', () => {
+  it('localizes path for non-default locale by default', () => {
     expect(
       localizePath({
         pathType: 'url',

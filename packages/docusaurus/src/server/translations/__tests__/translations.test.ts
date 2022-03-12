@@ -52,7 +52,7 @@ async function createTmpTranslationFile(
 }
 
 describe('ensureTranslationFileContent', () => {
-  test('should pass valid translation file content', () => {
+  it('passes valid translation file content', () => {
     ensureTranslationFileContent({});
     ensureTranslationFileContent({key1: {message: ''}});
     ensureTranslationFileContent({key1: {message: 'abc'}});
@@ -63,7 +63,7 @@ describe('ensureTranslationFileContent', () => {
     });
   });
 
-  test('should fail for invalid translation file content', () => {
+  it('fails for invalid translation file content', () => {
     expect(() =>
       ensureTranslationFileContent(null),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -101,7 +101,7 @@ describe('ensureTranslationFileContent', () => {
 });
 
 describe('writeTranslationFileContent', () => {
-  test('should create new translation file', async () => {
+  it('creates new translation file', async () => {
     const {filePath, readFile} = await createTmpTranslationFile(null);
 
     await writeTranslationFileContent({
@@ -120,7 +120,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should create new translation file with prefix', async () => {
+  it('creates new translation file with prefix', async () => {
     const {filePath, readFile} = await createTmpTranslationFile(null);
 
     await writeTranslationFileContent({
@@ -142,7 +142,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should append missing translations', async () => {
+  it('appends missing translations', async () => {
     const {filePath, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
       key2: {message: 'key2 message'},
@@ -167,7 +167,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should append missing translations with prefix', async () => {
+  it('appends missing translations with prefix', async () => {
     const {filePath, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
@@ -189,7 +189,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should override missing translations', async () => {
+  it('overrides missing translations', async () => {
     const {filePath, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
@@ -211,7 +211,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should override missing translations with prefix', async () => {
+  it('overrides missing translations with prefix', async () => {
     const {filePath, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message'},
     });
@@ -234,7 +234,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should always override message description', async () => {
+  it('always overrides message description', async () => {
     const {filePath, readFile} = await createTmpTranslationFile({
       key1: {message: 'key1 message', description: 'key1 desc'},
       key2: {message: 'key2 message', description: 'key2 desc'},
@@ -257,7 +257,7 @@ describe('writeTranslationFileContent', () => {
     });
   });
 
-  test('should throw for invalid content', async () => {
+  it('throws for invalid content', async () => {
     const {filePath} = await createTmpTranslationFile(
       // @ts-expect-error: bad content on purpose
       {bad: 'content'},
@@ -277,7 +277,7 @@ describe('writeTranslationFileContent', () => {
 });
 
 describe('writePluginTranslations', () => {
-  test('should write plugin translations', async () => {
+  it('writes plugin translations', async () => {
     const siteDir = await createTmpSiteDir();
 
     const filePath = path.join(
@@ -315,7 +315,7 @@ describe('writePluginTranslations', () => {
     });
   });
 
-  test('should write plugin translations consecutively with different options', async () => {
+  it('writes plugin translations consecutively with different options', async () => {
     const siteDir = await createTmpSiteDir();
 
     const filePath = path.join(
@@ -396,7 +396,7 @@ describe('writePluginTranslations', () => {
 });
 
 describe('localizePluginTranslationFile', () => {
-  test('not localize if localized file does not exist', async () => {
+  it('does not localize if localized file does not exist', async () => {
     const siteDir = await createTmpSiteDir();
 
     const translationFile: TranslationFile = {
@@ -422,7 +422,7 @@ describe('localizePluginTranslationFile', () => {
     expect(localizedTranslationFile).toEqual(translationFile);
   });
 
-  test('not localize if localized file does not exist 2', async () => {
+  it('does not localize if localized file does not exist 2', async () => {
     const siteDir = await createTmpSiteDir();
 
     await writeTranslationFileContent({
@@ -481,21 +481,21 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
     return {getDefaultCodeTranslationMessages: fn} as InitializedPlugin;
   }
 
-  test('for empty plugins', async () => {
+  it('works for empty plugins', async () => {
     const plugins: InitializedPlugin[] = [];
     await expect(
       getPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
-  test('for 1 plugin without lifecycle', async () => {
+  it('works for 1 plugin without lifecycle', async () => {
     const plugins: InitializedPlugin[] = [createTestPlugin(undefined)];
     await expect(
       getPluginsDefaultCodeTranslationMessages(plugins),
     ).resolves.toEqual({});
   });
 
-  test('for 1 plugin with lifecycle', async () => {
+  it('works for 1 plugin with lifecycle', async () => {
     const plugins: InitializedPlugin[] = [
       createTestPlugin(async () => ({
         a: '1',
@@ -510,7 +510,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
     });
   });
 
-  test('for 2 plugins with lifecycles', async () => {
+  it('works for 2 plugins with lifecycles', async () => {
     const plugins: InitializedPlugin[] = [
       createTestPlugin(async () => ({
         a: '1',
@@ -531,7 +531,7 @@ describe('getPluginsDefaultCodeTranslationMessages', () => {
     });
   });
 
-  test('for realistic use-case', async () => {
+  it('works for realistic use-case', async () => {
     const plugins: InitializedPlugin[] = [
       createTestPlugin(undefined),
       createTestPlugin(async () => ({
@@ -566,7 +566,7 @@ describe('applyDefaultCodeTranslations', () => {
     consoleSpy.mockClear();
   });
 
-  test('for no code and message', () => {
+  it('works for no code and message', () => {
     expect(
       applyDefaultCodeTranslations({
         extractedCodeTranslations: {},
@@ -576,7 +576,7 @@ describe('applyDefaultCodeTranslations', () => {
     expect(consoleSpy).toHaveBeenCalledTimes(0);
   });
 
-  test('for code and message', () => {
+  it('works for code and message', () => {
     expect(
       applyDefaultCodeTranslations({
         extractedCodeTranslations: {
@@ -598,7 +598,7 @@ describe('applyDefaultCodeTranslations', () => {
     expect(consoleSpy).toHaveBeenCalledTimes(0);
   });
 
-  test('for code and message mismatch', () => {
+  it('works for code and message mismatch', () => {
     expect(
       applyDefaultCodeTranslations({
         extractedCodeTranslations: {
@@ -621,7 +621,7 @@ describe('applyDefaultCodeTranslations', () => {
     expect(consoleSpy.mock.calls[0][0]).toMatch(/unknownId/);
   });
 
-  test('for realistic scenario', () => {
+  it('works for realistic scenario', () => {
     expect(
       applyDefaultCodeTranslations({
         extractedCodeTranslations: {

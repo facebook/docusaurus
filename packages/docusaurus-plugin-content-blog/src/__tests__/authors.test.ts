@@ -14,7 +14,7 @@ import {
 import path from 'path';
 
 describe('getBlogPostAuthors', () => {
-  test('can read no authors', () => {
+  it('can read no authors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {},
@@ -31,7 +31,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([]);
   });
 
-  test('can read author from legacy front matter', () => {
+  it('can read author from legacy front matter', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -79,7 +79,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors string', () => {
+  it('can read authors string', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -90,7 +90,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
   });
 
-  test('can read authors string[]', () => {
+  it('can read authors string[]', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -107,7 +107,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors Author', () => {
+  it('can read authors Author', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -118,7 +118,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
   });
 
-  test('can read authors Author[]', () => {
+  it('can read authors Author[]', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -135,7 +135,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors complex (string | Author)[] setup with keys and local overrides', () => {
+  it('can read authors complex (string | Author)[] setup with keys and local overrides', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -166,7 +166,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('throw when using author key with no authorsMap', () => {
+  it('throw when using author key with no authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -180,7 +180,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using author key with empty authorsMap', () => {
+  it('throw when using author key with empty authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -194,7 +194,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using bad author key in string', () => {
+  it('throw when using bad author key in string', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -213,7 +213,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using bad author key in string[]', () => {
+  it('throw when using bad author key in string[]', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -232,7 +232,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using bad author key in Author[].key', () => {
+  it('throw when using bad author key in Author[].key', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -251,7 +251,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when mixing legacy/new authors front matter', () => {
+  it('throw when mixing legacy/new authors front matter', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -287,7 +287,7 @@ describe('getAuthorsMap', () => {
     contentPath: fixturesDir,
   };
 
-  test('getAuthorsMap can read yml file', async () => {
+  it('getAuthorsMap can read yml file', async () => {
     await expect(
       getAuthorsMap({
         contentPaths,
@@ -296,7 +296,7 @@ describe('getAuthorsMap', () => {
     ).resolves.toBeDefined();
   });
 
-  test('getAuthorsMap can read json file', async () => {
+  it('getAuthorsMap can read json file', async () => {
     await expect(
       getAuthorsMap({
         contentPaths,
@@ -305,7 +305,7 @@ describe('getAuthorsMap', () => {
     ).resolves.toBeDefined();
   });
 
-  test('getAuthorsMap can return undefined if yaml file not found', async () => {
+  it('getAuthorsMap can return undefined if yaml file not found', async () => {
     await expect(
       getAuthorsMap({
         contentPaths,
@@ -316,7 +316,7 @@ describe('getAuthorsMap', () => {
 });
 
 describe('validateAuthorsMap', () => {
-  test('accept valid authors map', () => {
+  it('accept valid authors map', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         name: 'Sébastien Lorber',
@@ -338,7 +338,7 @@ describe('validateAuthorsMap', () => {
     expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 
-  test('rename snake case image_url to camelCase imageURL', () => {
+  it('rename snake case image_url to camelCase imageURL', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         name: 'Sébastien Lorber',
@@ -353,7 +353,7 @@ describe('validateAuthorsMap', () => {
     });
   });
 
-  test('accept author with only image', () => {
+  it('accept author with only image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         imageURL: 'https://github.com/slorber.png',
@@ -363,7 +363,7 @@ describe('validateAuthorsMap', () => {
     expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 
-  test('reject author without name or image', () => {
+  it('reject author without name or image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         title: 'foo',
@@ -376,7 +376,7 @@ describe('validateAuthorsMap', () => {
     );
   });
 
-  test('reject undefined author', () => {
+  it('reject undefined author', () => {
     expect(() =>
       validateAuthorsMap({
         slorber: undefined,
@@ -384,7 +384,7 @@ describe('validateAuthorsMap', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber\\" is required"`);
   });
 
-  test('reject null author', () => {
+  it('reject null author', () => {
     expect(() =>
       validateAuthorsMap({
         slorber: null,
@@ -394,7 +394,7 @@ describe('validateAuthorsMap', () => {
     );
   });
 
-  test('reject array author', () => {
+  it('reject array author', () => {
     expect(() =>
       validateAuthorsMap({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -402,14 +402,14 @@ describe('validateAuthorsMap', () => {
     );
   });
 
-  test('reject array content', () => {
+  it('reject array content', () => {
     expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
       // TODO improve this error message
       `"\\"value\\" must be of type object"`,
     );
   });
 
-  test('reject flat author', () => {
+  it('reject flat author', () => {
     expect(() =>
       validateAuthorsMap({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -418,7 +418,7 @@ describe('validateAuthorsMap', () => {
     );
   });
 
-  test('reject non-map author', () => {
+  it('reject non-map author', () => {
     const authorsMap: AuthorsMap = {
       // @ts-expect-error: for tests
       slorber: [],

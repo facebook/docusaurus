@@ -22,7 +22,7 @@ describe('getDataFilePath', () => {
   const contentPathEmpty = path.join(fixturesDir, 'contentPathEmpty');
   const contentPathNestedYml = path.join(fixturesDir, 'contentPathNestedYml');
 
-  test('getDataFilePath returns localized Yml path in priority', async () => {
+  it('getDataFilePath returns localized Yml path in priority', async () => {
     await expect(
       getDataFilePath({
         filePath: 'authors.yml',
@@ -43,7 +43,7 @@ describe('getDataFilePath', () => {
     ).resolves.toEqual(path.join(contentPathYml2, 'authors.yml'));
   });
 
-  test('getDataFilePath returns localized Json path in priority', async () => {
+  it('getDataFilePath returns localized Json path in priority', async () => {
     await expect(
       getDataFilePath({
         filePath: 'authors.json',
@@ -64,7 +64,7 @@ describe('getDataFilePath', () => {
     ).resolves.toEqual(path.join(contentPathJson2, 'authors.json'));
   });
 
-  test('getDataFilePath returns unlocalized Yml path as fallback', async () => {
+  it('getDataFilePath returns unlocalized Yml path as fallback', async () => {
     await expect(
       getDataFilePath({
         filePath: 'authors.yml',
@@ -76,7 +76,7 @@ describe('getDataFilePath', () => {
     ).resolves.toEqual(path.join(contentPathYml2, 'authors.yml'));
   });
 
-  test('getDataFilePath returns unlocalized Json path as fallback', async () => {
+  it('getDataFilePath returns unlocalized Json path as fallback', async () => {
     await expect(
       getDataFilePath({
         filePath: 'authors.json',
@@ -88,7 +88,7 @@ describe('getDataFilePath', () => {
     ).resolves.toEqual(path.join(contentPathJson1, 'authors.json'));
   });
 
-  test('getDataFilePath can return undefined (file not found)', async () => {
+  it('getDataFilePath can return undefined (file not found)', async () => {
     await expect(
       getDataFilePath({
         filePath: 'authors.json',
@@ -109,7 +109,7 @@ describe('getDataFilePath', () => {
     ).resolves.toBeUndefined();
   });
 
-  test('getDataFilePath can return nested path', async () => {
+  it('getDataFilePath can return nested path', async () => {
     await expect(
       getDataFilePath({
         filePath: 'sub/folder/authors.yml',
@@ -143,25 +143,25 @@ describe('getDataFileData', () => {
     );
   }
 
-  test('returns undefined for nonexistent file', async () => {
+  it('returns undefined for nonexistent file', async () => {
     await expect(readDataFile('nonexistent.yml')).resolves.toBeUndefined();
   });
 
-  test('read valid yml author file', async () => {
+  it('read valid yml author file', async () => {
     await expect(readDataFile('valid.yml')).resolves.toEqual({a: 1});
   });
 
-  test('read valid json author file', async () => {
+  it('read valid json author file', async () => {
     await expect(readDataFile('valid.json')).resolves.toEqual({a: 1});
   });
 
-  test('fail to read invalid yml', async () => {
+  it('fail to read invalid yml', async () => {
     await expect(
       readDataFile('bad.yml'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`"Nope"`);
   });
 
-  test('fail to read invalid json', async () => {
+  it('fail to read invalid json', async () => {
     await expect(
       readDataFile('bad.json'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`"Nope"`);
@@ -169,7 +169,7 @@ describe('getDataFileData', () => {
 });
 
 describe('findFolderContainingFile', () => {
-  test('find appropriate folder', async () => {
+  it('find appropriate folder', async () => {
     await expect(
       findFolderContainingFile(
         ['/abcdef', '/gehij', __dirname, '/klmn'],
@@ -178,7 +178,7 @@ describe('findFolderContainingFile', () => {
     ).resolves.toEqual(__dirname);
   });
 
-  test('return undefined if no folder contain such file', async () => {
+  it('return undefined if no folder contain such file', async () => {
     await expect(
       findFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
     ).resolves.toBeUndefined();
@@ -186,7 +186,7 @@ describe('findFolderContainingFile', () => {
 });
 
 describe('getFolderContainingFile', () => {
-  test('get appropriate folder', async () => {
+  it('get appropriate folder', async () => {
     await expect(
       getFolderContainingFile(
         ['/abcdef', '/gehij', __dirname, '/klmn'],
@@ -195,7 +195,7 @@ describe('getFolderContainingFile', () => {
     ).resolves.toEqual(__dirname);
   });
 
-  test('throw if no folder contain such file', async () => {
+  it('throw if no folder contain such file', async () => {
     await expect(
       getFolderContainingFile(
         ['/abcdef', '/gehij', '/klmn'],

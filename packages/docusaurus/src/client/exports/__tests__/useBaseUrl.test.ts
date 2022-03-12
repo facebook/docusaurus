@@ -16,7 +16,7 @@ const mockedContext = useDocusaurusContext as jest.Mock;
 const forcePrepend = {forcePrependBaseUrl: true};
 
 describe('useBaseUrl', () => {
-  test('empty base URL', () => {
+  it('empty base URL', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/',
@@ -44,7 +44,7 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('#hello')).toEqual('#hello');
   });
 
-  test('non-empty base URL', () => {
+  it('non-empty base URL', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/docusaurus/',
@@ -78,7 +78,7 @@ describe('useBaseUrl', () => {
 });
 
 describe('useBaseUrlUtils().withBaseUrl()', () => {
-  test('empty base URL', () => {
+  it('empty base URL', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/',
@@ -107,7 +107,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('#hello')).toEqual('#hello');
   });
 
-  test('non-empty base URL', () => {
+  it('non-empty base URL', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/docusaurus/',

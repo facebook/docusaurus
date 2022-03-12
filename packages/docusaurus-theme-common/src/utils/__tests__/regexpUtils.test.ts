@@ -8,7 +8,7 @@
 import {isRegexpStringMatch} from '../regexpUtils';
 
 describe('isRegexpStringMatch', () => {
-  test('behaves correctly', () => {
+  it('works', () => {
     expect(isRegexpStringMatch(undefined, 'foo')).toEqual(false);
     expect(isRegexpStringMatch('bar', undefined)).toEqual(false);
     expect(isRegexpStringMatch('foo', 'bar')).toEqual(false);

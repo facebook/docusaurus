@@ -1,26 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sidebar site with wrong sidebar content 1`] = `
-"Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
-These sidebar document ids do not exist:
-- goku
-
-Available document ids are:
-- doc with space
-- foo/bar
-- foo/baz
-- headingAsTitle
-- hello
-- ipsum
-- lorem
-- rootAbsoluteSlug
-- rootRelativeSlug
-- rootResolvedSlug
-- rootTryToEscapeSlug
-- slugs/absoluteSlug
-- slugs/relativeSlug
-- slugs/resolvedSlug
-- slugs/tryToEscapeSlug"
+exports[`sidebar site with undefined sidebar 1`] = `
+Object {
+  "defaultSidebar": Array [
+    Object {
+      "id": "hello-1",
+      "type": "doc",
+    },
+    Object {
+      "id": "hello-2",
+      "label": "Hello 2 From Doc",
+      "type": "doc",
+    },
+  ],
+}
 `;
 
 exports[`simple website content 1`] = `
@@ -1244,6 +1237,15 @@ Array [
       },
     ],
   },
+]
+`;
+
+exports[`simple website getPathToWatch 1`] = `
+Array [
+  "sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
+  "docs/**/*.{md,mdx}",
+  "docs/**/_category_.{json,yml,yaml}",
 ]
 `;
 
@@ -2508,6 +2510,19 @@ Array [
       },
     ],
   },
+]
+`;
+
+exports[`versioned website (community) getPathToWatch 1`] = `
+Array [
+  "community_sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
+  "community/**/*.{md,mdx}",
+  "community/**/_category_.{json,yml,yaml}",
+  "community_versioned_sidebars/version-1.0.0-sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
+  "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
+  "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
 ]
 `;
 
@@ -3884,4 +3899,25 @@ Object {
     },
   ],
 }
+`;
+
+exports[`versioned website getPathToWatch 1`] = `
+Array [
+  "sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
+  "docs/**/*.{md,mdx}",
+  "docs/**/_category_.{json,yml,yaml}",
+  "versioned_sidebars/version-1.0.1-sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
+  "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+  "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
+  "versioned_sidebars/version-1.0.0-sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
+  "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+  "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
+  "versioned_sidebars/version-withSlugs-sidebars.json",
+  "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
+  "versioned_docs/version-withSlugs/**/*.{md,mdx}",
+  "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
+]
 `;

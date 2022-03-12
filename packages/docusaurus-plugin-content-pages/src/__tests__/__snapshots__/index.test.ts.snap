@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`docusaurus-plugin-content-pages loads simple pages 1`] = `
+Array [
+  Object {
+    "permalink": "/",
+    "source": "@site/src/pages/index.js",
+    "type": "jsx",
+  },
+  Object {
+    "permalink": "/typescript",
+    "source": "@site/src/pages/typescript.tsx",
+    "type": "jsx",
+  },
+  Object {
+    "description": "Markdown index page",
+    "frontMatter": Object {},
+    "permalink": "/hello/",
+    "source": "@site/src/pages/hello/index.md",
+    "title": "Index",
+    "type": "mdx",
+  },
+  Object {
+    "description": "my mdx page",
+    "frontMatter": Object {
+      "description": "my mdx page",
+      "title": "mdx page",
+    },
+    "permalink": "/hello/mdxPage",
+    "source": "@site/src/pages/hello/mdxPage.mdx",
+    "title": "mdx page",
+    "type": "mdx",
+  },
+  Object {
+    "permalink": "/hello/translatedJs",
+    "source": "@site/src/pages/hello/translatedJs.js",
+    "type": "jsx",
+  },
+  Object {
+    "description": "translated markdown page",
+    "frontMatter": Object {},
+    "permalink": "/hello/translatedMd",
+    "source": "@site/src/pages/hello/translatedMd.md",
+    "title": undefined,
+    "type": "mdx",
+  },
+  Object {
+    "permalink": "/hello/world",
+    "source": "@site/src/pages/hello/world.js",
+    "type": "jsx",
+  },
+]
+`;
+
+exports[`docusaurus-plugin-content-pages loads simple pages with french translations 1`] = `
+Array [
+  Object {
+    "permalink": "/",
+    "source": "@site/src/pages/index.js",
+    "type": "jsx",
+  },
+  Object {
+    "permalink": "/typescript",
+    "source": "@site/src/pages/typescript.tsx",
+    "type": "jsx",
+  },
+  Object {
+    "description": "Markdown index page",
+    "frontMatter": Object {},
+    "permalink": "/hello/",
+    "source": "@site/src/pages/hello/index.md",
+    "title": "Index",
+    "type": "mdx",
+  },
+  Object {
+    "description": "my mdx page",
+    "frontMatter": Object {
+      "description": "my mdx page",
+      "title": "mdx page",
+    },
+    "permalink": "/hello/mdxPage",
+    "source": "@site/src/pages/hello/mdxPage.mdx",
+    "title": "mdx page",
+    "type": "mdx",
+  },
+  Object {
+    "permalink": "/hello/translatedJs",
+    "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedJs.js",
+    "type": "jsx",
+  },
+  Object {
+    "description": "translated markdown page (fr)",
+    "frontMatter": Object {},
+    "permalink": "/hello/translatedMd",
+    "source": "@site/i18n/fr/docusaurus-plugin-content-pages/hello/translatedMd.md",
+    "title": undefined,
+    "type": "mdx",
+  },
+  Object {
+    "permalink": "/hello/world",
+    "source": "@site/src/pages/hello/world.js",
+    "type": "jsx",
+  },
+]
+`;

@@ -13,7 +13,7 @@ describe('listTagsByLetters', () => {
   type Tag = Param[number];
   type Result = ReturnType<typeof listTagsByLetters>;
 
-  test('Should create letters list', () => {
+  it('creates letters list', () => {
     const tag1: Tag = {
       name: 'tag1',
       permalink: '/tag1',

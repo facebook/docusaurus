@@ -19,7 +19,7 @@ import type {
 } from '@docusaurus/types';
 
 describe('customize JS loader', () => {
-  test('getCustomizableJSLoader defaults to babel loader', () => {
+  it('getCustomizableJSLoader defaults to babel loader', () => {
     expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
@@ -28,7 +28,7 @@ describe('customize JS loader', () => {
     );
   });
 
-  test('getCustomizableJSLoader accepts loaders with preset', () => {
+  it('getCustomizableJSLoader accepts loaders with preset', () => {
     expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
@@ -37,7 +37,7 @@ describe('customize JS loader', () => {
     );
   });
 
-  test('getCustomizableJSLoader allows customization', () => {
+  it('getCustomizableJSLoader allows customization', () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
@@ -53,7 +53,7 @@ describe('customize JS loader', () => {
 });
 
 describe('extending generated webpack config', () => {
-  test('direct mutation on generated webpack config object', async () => {
+  it('direct mutation on generated webpack config object', async () => {
     // fake generated webpack config
     let config: Configuration = {
       output: {
@@ -90,7 +90,7 @@ describe('extending generated webpack config', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('webpack-merge with user webpack config object', async () => {
+  it('webpack-merge with user webpack config object', async () => {
     let config: Configuration = {
       output: {
         path: __dirname,
@@ -120,7 +120,7 @@ describe('extending generated webpack config', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('webpack-merge with custom strategy', async () => {
+  it('webpack-merge with custom strategy', async () => {
     const config: Configuration = {
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}],
@@ -178,7 +178,7 @@ describe('extending generated webpack config', () => {
 });
 
 describe('extending PostCSS', () => {
-  test('user plugin should be appended in PostCSS loader', () => {
+  it('user plugin should be appended in PostCSS loader', () => {
     let webpackConfig: Configuration = {
       output: {
         path: __dirname,

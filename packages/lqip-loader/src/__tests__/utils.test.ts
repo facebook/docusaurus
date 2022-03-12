@@ -12,7 +12,7 @@ import type {Palette} from 'node-vibrant/lib/color';
 import {toPalette, toBase64} from '../utils';
 
 describe('toBase64', () => {
-  test('should return a properly formatted Base64 image string', () => {
+  it('returns a properly formatted Base64 image string', () => {
     const mockedMimeType = 'image/jpeg';
     const mockedBase64Data = Buffer.from('hello world');
     expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(
@@ -35,11 +35,11 @@ describe('toPalette', () => {
     });
   });
 
-  it('should return 6 hex colours sorted by popularity', () => {
+  it('returns 6 hex colours sorted by popularity', () => {
     expect(toPalette(correctTestSwatch)).toHaveLength(6);
   });
 
-  it('should return 5 hex colours with no errors if a palette was incomplete', () => {
+  it('returns 5 hex colours with no errors if a palette was incomplete', () => {
     expect(toPalette(testSwatchWithNull)).toHaveLength(5);
   });
 });

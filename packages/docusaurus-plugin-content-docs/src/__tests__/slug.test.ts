@@ -8,7 +8,7 @@
 import getSlug from '../slug';
 
 describe('getSlug', () => {
-  test('should default to dirname/id', () => {
+  it('defaults to dirname/id', () => {
     expect(
       getSlug({
         baseID: 'doc',
@@ -25,7 +25,7 @@ describe('getSlug', () => {
     ).toEqual('/dir/subdir/doc');
   });
 
-  test('should handle conventional doc indexes', () => {
+  it('handles conventional doc indexes', () => {
     expect(
       getSlug({
         baseID: 'doc',
@@ -70,7 +70,7 @@ describe('getSlug', () => {
     ).toEqual('/dir/subdir/');
   });
 
-  test('should ignore conventional doc index when explicit slug front matter is provided', () => {
+  it('ignores conventional doc index when explicit slug front matter is provided', () => {
     expect(
       getSlug({
         baseID: 'doc',
@@ -81,7 +81,7 @@ describe('getSlug', () => {
     ).toEqual('/my/frontMatterSlug');
   });
 
-  test('can strip dir number prefixes', () => {
+  it('can strip dir number prefixes', () => {
     expect(
       getSlug({
         baseID: 'doc',
@@ -101,7 +101,7 @@ describe('getSlug', () => {
   });
 
   // See https://github.com/facebook/docusaurus/issues/3223
-  test('should handle special chars in doc path', () => {
+  it('handles special chars in doc path', () => {
     expect(
       getSlug({
         baseID: 'my dôc',
@@ -111,7 +111,7 @@ describe('getSlug', () => {
     ).toEqual('/dir with spâce/hey $hello/my dôc');
   });
 
-  test('should handle current dir', () => {
+  it('handles current dir', () => {
     expect(
       getSlug({baseID: 'doc', source: '@site/docs/doc.md', sourceDirName: '.'}),
     ).toEqual('/doc');
@@ -120,7 +120,7 @@ describe('getSlug', () => {
     ).toEqual('/doc');
   });
 
-  test('should resolve absolute slug front matter', () => {
+  it('resolves absolute slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',
@@ -147,7 +147,7 @@ describe('getSlug', () => {
     ).toEqual('/abc/def');
   });
 
-  test('should resolve relative slug front matter', () => {
+  it('resolves relative slug front matter', () => {
     expect(
       getSlug({
         baseID: 'any',

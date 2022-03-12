@@ -9,7 +9,7 @@ import {jest} from '@jest/globals';
 import normalizeLocation from '../normalizeLocation';
 
 describe('normalizeLocation', () => {
-  test('rewrite locations with index.html', () => {
+  it('rewrite locations with index.html', () => {
     expect(
       normalizeLocation({
         pathname: '/docs/introduction/index.html',
@@ -35,7 +35,7 @@ describe('normalizeLocation', () => {
     });
   });
 
-  test('untouched pathnames', () => {
+  it('untouched pathnames', () => {
     const replaceMock = jest.spyOn(String.prototype, 'replace');
 
     expect(

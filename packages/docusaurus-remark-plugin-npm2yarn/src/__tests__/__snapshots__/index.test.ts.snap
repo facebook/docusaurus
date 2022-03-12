@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`npm2yarn plugin test: already imported tabs components above are not re-imported 1`] = `
+exports[`npm2yarn plugin does not re-import tabs components when already imported above 1`] = `
 "import Tabs from '@theme/Tabs';
 
 import TabItem from '@theme/TabItem';
@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 "
 `;
 
-exports[`npm2yarn plugin test: already imported tabs components below are not re-imported 1`] = `
+exports[`npm2yarn plugin tdoes not re-import tabs components when already imported below 1`] = `
 "<Tabs>
 <TabItem value=\\"npm\\">
 
@@ -48,7 +48,7 @@ import TabItem from '@theme/TabItem';
 "
 `;
 
-exports[`npm2yarn plugin test: installation file 1`] = `
+exports[`npm2yarn plugin works on installation file 1`] = `
 "import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -71,22 +71,7 @@ import TabItem from '@theme/TabItem';
 "
 `;
 
-exports[`npm2yarn plugin test: language was not set 1`] = `
-"\`\`\`npm2yarn
-npm install --save docusaurus-plugin-name
-\`\`\`
-
-\`\`\`bash
-npm install --save docusaurus-plugin-name
-\`\`\`
-
-\`\`\`shell
-npm install --save docusaurus-plugin-name
-\`\`\`
-"
-`;
-
-exports[`npm2yarn plugin test: plugin file 1`] = `
+exports[`npm2yarn plugin works on plugin file 1`] = `
 "import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -110,5 +95,20 @@ yarn add docusaurus-plugin-name
 
 </TabItem>
 </Tabs>
+"
+`;
+
+exports[`npm2yarn plugin works when language is not set 1`] = `
+"\`\`\`npm2yarn
+npm install --save docusaurus-plugin-name
+\`\`\`
+
+\`\`\`bash
+npm install --save docusaurus-plugin-name
+\`\`\`
+
+\`\`\`shell
+npm install --save docusaurus-plugin-name
+\`\`\`
 "
 `;

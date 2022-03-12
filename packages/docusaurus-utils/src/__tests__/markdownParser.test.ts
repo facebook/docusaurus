@@ -14,7 +14,7 @@ import {
 import dedent from 'dedent';
 
 describe('createExcerpt', () => {
-  test('should create excerpt for text-only content', () => {
+  it('creates excerpt for text-only content', () => {
     expect(
       createExcerpt(dedent`
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.
@@ -26,7 +26,7 @@ describe('createExcerpt', () => {
     );
   });
 
-  test('should create excerpt for regular content with regular title', () => {
+  it('creates excerpt for regular content with regular title', () => {
     expect(
       createExcerpt(dedent`
 
@@ -43,7 +43,7 @@ describe('createExcerpt', () => {
     );
   });
 
-  test('should create excerpt for regular content with alternate title', () => {
+  it('creates excerpt for regular content with alternate title', () => {
     expect(
       createExcerpt(dedent`
 
@@ -61,7 +61,7 @@ describe('createExcerpt', () => {
     );
   });
 
-  test('should create excerpt for content with h2 heading', () => {
+  it('creates excerpt for content with h2 heading', () => {
     expect(
       createExcerpt(dedent`
           ## Lorem ipsum dolor sit amet
@@ -71,7 +71,7 @@ describe('createExcerpt', () => {
     ).toEqual('Lorem ipsum dolor sit amet');
   });
 
-  test('should create excerpt for content beginning with blockquote', () => {
+  it('creates excerpt for content beginning with blockquote', () => {
     expect(
       createExcerpt(dedent`
           > Lorem ipsum dolor sit amet
@@ -81,7 +81,7 @@ describe('createExcerpt', () => {
     ).toEqual('Lorem ipsum dolor sit amet');
   });
 
-  test('should create excerpt for content beginning with image (eg. blog post)', () => {
+  it('creates excerpt for content beginning with image (eg. blog post)', () => {
     expect(
       createExcerpt(dedent`
           ![Lorem ipsum](/img/lorem-ipsum.svg)
@@ -89,7 +89,7 @@ describe('createExcerpt', () => {
     ).toEqual('Lorem ipsum');
   });
 
-  test('should create excerpt for content beginning with admonitions', () => {
+  it('creates excerpt for content beginning with admonitions', () => {
     expect(
       createExcerpt(dedent`
           import Component from '@site/src/components/Component'
@@ -105,7 +105,7 @@ describe('createExcerpt', () => {
     ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 
-  test('should create excerpt for content with imports/exports declarations and Markdown markup, as well as Emoji', () => {
+  it('creates excerpt for content with imports/exports declarations and Markdown markup, as well as Emoji', () => {
     expect(
       createExcerpt(dedent`
           import Component from '@site/src/components/Component';
@@ -125,7 +125,7 @@ describe('createExcerpt', () => {
     );
   });
 
-  test('should create excerpt for heading specified with anchor-id syntax', () => {
+  it('creates excerpt for heading specified with anchor-id syntax', () => {
     expect(
       createExcerpt(dedent`
           ## Markdown title {#my-anchor-id}
@@ -133,7 +133,7 @@ describe('createExcerpt', () => {
     ).toEqual('Markdown title');
   });
 
-  test('should create excerpt for content with various code blocks', () => {
+  it('creates excerpt for content with various code blocks', () => {
     expect(
       createExcerpt(dedent`
           \`\`\`jsx
@@ -148,7 +148,7 @@ describe('createExcerpt', () => {
 });
 
 describe('parseMarkdownContentTitle', () => {
-  test('Should parse markdown h1 title at the top', () => {
+  it('parses markdown h1 title at the top', () => {
     const markdown = dedent`
 
           # Markdown Title
@@ -162,7 +162,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  test('Should parse markdown h1 title at the top and remove it', () => {
+  it('parses markdown h1 title at the top and remove it', () => {
     const markdown = dedent`
 
           # Markdown Title
@@ -178,7 +178,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  test('Should parse markdown h1 title at the top and unwrap inline code block', () => {
+  it('parses markdown h1 title at the top and unwrap inline code block', () => {
     const markdown = dedent`
 
           # \`Markdown Title\`
@@ -192,7 +192,7 @@ describe('parseMarkdownContentTitle', () => {
     });
   });
 
-  test('Should parse markdown h1 title and trim content', () => {
+  it('parses markdown h1 title and trim content', () => {
     const markdown = `
 
 # Markdown Title
@@ -209,7 +209,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse not parse markdown h1 title and trim content', () => {
+  it('parses not parse markdown h1 title and trim content', () => {
     const markdown = `
 
 Lorem Ipsum
@@ -222,7 +222,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title with fixed anchor-id syntax', () => {
+  it('parses markdown h1 title with fixed anchor-id syntax', () => {
     const markdown = dedent`
 
           # Markdown Title {#my-anchor-id}
@@ -236,7 +236,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title at the top (atx style with closing #)', () => {
+  it('parses markdown h1 title at the top (atx style with closing #)', () => {
     const markdown = dedent`
 
           # Markdown Title #
@@ -250,7 +250,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title at the top  followed by h2 title', () => {
+  it('parses markdown h1 title at the top  followed by h2 title', () => {
     const markdown = dedent`
 
           # Markdown Title
@@ -266,7 +266,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse only first h1 title', () => {
+  it('parses only first h1 title', () => {
     const markdown = dedent`
 
           # Markdown Title
@@ -282,7 +282,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should not parse title that is not at the top', () => {
+  it('does not parse title that is not at the top', () => {
     const markdown = dedent`
 
           Lorem Ipsum
@@ -298,7 +298,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 alternate title', () => {
+  it('parses markdown h1 alternate title', () => {
     const markdown = dedent`
 
           Markdown Title
@@ -313,7 +313,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 alternate title and remove it', () => {
+  it('parses markdown h1 alternate title and remove it', () => {
     const markdown = dedent`
 
           Markdown Title
@@ -330,7 +330,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title placed after import declarations', () => {
+  it('parses markdown h1 title placed after import declarations', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
 
@@ -351,7 +351,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title placed after various import declarations', () => {
+  it('parses markdown h1 title placed after various import declarations', () => {
     const markdown = `
 import DefaultComponent from '@site/src/components/Component1';
 import DefaultComponent2 from '../relative/path/Component2';
@@ -379,7 +379,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title placed after various import declarations and remove it', () => {
+  it('parses markdown h1 title placed after various import declarations and remove it', () => {
     const markdown = `
 import DefaultComponent from '@site/src/components/Component1';
 import DefaultComponent2 from '../relative/path/Component2';
@@ -409,7 +409,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 alternate title placed after import declarations', () => {
+  it('parses markdown h1 alternate title placed after import declarations', () => {
     const markdown = dedent`
 
           import Component from '@site/src/components/Component';
@@ -428,7 +428,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 alternate title placed after import declarations and remove it', () => {
+  it('parses markdown h1 alternate title placed after import declarations and remove it', () => {
     const markdown = dedent`
 
           import Component from '@site/src/components/Component';
@@ -449,7 +449,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse title-only', () => {
+  it('parses title-only', () => {
     const markdown = '# Document With Only A Title';
     expect(parseMarkdownContentTitle(markdown)).toEqual({
       content: markdown,
@@ -457,7 +457,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should not parse markdown h1 title in the middle of a doc', () => {
+  it('does not parse markdown h1 title in the middle of a doc', () => {
     const markdown = dedent`
 
           Lorem Ipsum
@@ -473,7 +473,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should not parse markdown h1 alternate title in the middle of the doc', () => {
+  it('does not parse markdown h1 alternate title in the middle of the doc', () => {
     const markdown = dedent`
 
           Lorem Ipsum
@@ -490,7 +490,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title placed after multiple import declarations', () => {
+  it('parses markdown h1 title placed after multiple import declarations', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
           import Component2 from '@site/src/components/Component2';
@@ -520,7 +520,7 @@ Lorem Ipsum
     });
   });
 
-  test('Should parse markdown h1 title placed after multiple import declarations and remove it', () => {
+  it('parses markdown h1 title placed after multiple import declarations and remove it', () => {
     const markdown = dedent`
           import Component1 from '@site/src/components/Component1';
           import Component2 from '@site/src/components/Component2';
@@ -554,7 +554,7 @@ Lorem Ipsum
 });
 
 describe('parseMarkdownString', () => {
-  test('parse markdown with front matter', () => {
+  it('parse markdown with front matter', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -563,38 +563,20 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "Some text",
-        "contentTitle": undefined,
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should parse first heading as contentTitle', () => {
+  it('parses first heading as contentTitle', () => {
     expect(
       parseMarkdownString(dedent`
         # Markdown Title
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      Some text",
-        "contentTitle": "Markdown Title",
-        "excerpt": "Some text",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should warn about duplicate titles (front matter + markdown)', () => {
+  it('warns about duplicate titles (front matter + markdown)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -605,21 +587,10 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      Some text",
-        "contentTitle": "Markdown Title",
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should warn about duplicate titles (front matter + markdown alternate)', () => {
+  it('warns about duplicate titles (front matter + markdown alternate)', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -631,22 +602,10 @@ describe('parseMarkdownString', () => {
 
         Some text
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "Markdown Title alternate
-      ================
-
-      Some text",
-        "contentTitle": "Markdown Title alternate",
-        "excerpt": "Some text",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should not warn for duplicate title if markdown title is not at the top', () => {
+  it('does not warn for duplicate title if markdown title is not at the top', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -657,21 +616,10 @@ describe('parseMarkdownString', () => {
 
         # Markdown Title
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "foo
-
-      # Markdown Title",
-        "contentTitle": undefined,
-        "excerpt": "foo",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should delete only first heading', () => {
+  it('deletes only first heading', () => {
     expect(
       parseMarkdownString(dedent`
         # Markdown Title
@@ -682,23 +630,10 @@ describe('parseMarkdownString', () => {
 
         ### Markdown Title h3
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# Markdown Title
-
-      test test test # test bar
-
-      # Markdown Title 2
-
-      ### Markdown Title h3",
-        "contentTitle": "Markdown Title",
-        "excerpt": "test test test # test bar",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should parse front-matter and ignore h2', () => {
+  it('parses front-matter and ignore h2', () => {
     expect(
       parseMarkdownString(
         dedent`
@@ -708,66 +643,33 @@ describe('parseMarkdownString', () => {
           ## test
           `,
       ),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "## test",
-        "contentTitle": undefined,
-        "excerpt": "test",
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should read front matter only', () => {
+  it('reads front matter only', () => {
     expect(
       parseMarkdownString(dedent`
         ---
         title: test
         ---
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "",
-        "contentTitle": undefined,
-        "excerpt": undefined,
-        "frontMatter": Object {
-          "title": "test",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should parse title only', () => {
-    expect(parseMarkdownString('# test')).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {},
-      }
-    `);
+  it('parses title only', () => {
+    expect(parseMarkdownString('# test')).toMatchSnapshot();
   });
 
-  test('should parse title only alternate', () => {
+  it('parses title only alternate', () => {
     expect(
       parseMarkdownString(dedent`
         test
         ===
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "test
-      ===",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should warn about duplicate titles', () => {
+  it('warns about duplicate titles', () => {
     expect(
       parseMarkdownString(dedent`
         ---
@@ -775,36 +677,19 @@ describe('parseMarkdownString', () => {
         ---
         # test
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test",
-        "contentTitle": "test",
-        "excerpt": undefined,
-        "frontMatter": Object {
-          "title": "Frontmatter title",
-        },
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should ignore markdown title if its not a first text', () => {
+  it('ignores markdown title if its not a first text', () => {
     expect(
       parseMarkdownString(dedent`
         foo
         # test
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "foo
-      # test",
-        "contentTitle": undefined,
-        "excerpt": "foo",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should delete only first heading 2', () => {
+  it('deletes only first heading 2', () => {
     expect(
       parseMarkdownString(dedent`
         # test
@@ -815,23 +700,10 @@ describe('parseMarkdownString', () => {
         ### test
         test3
         `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "# test
-
-      test test test test test test
-      test test test # test bar
-      # test2
-      ### test
-      test3",
-        "contentTitle": "test",
-        "excerpt": "test test test test test test",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('should handle code blocks', () => {
+  it('handles code blocks', () => {
     expect(
       parseMarkdownString(dedent`
         \`\`\`js
@@ -840,18 +712,7 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`js
-      code
-      \`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseMarkdownString(dedent`
         \`\`\`\`js
@@ -864,22 +725,7 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`\`js
-      Foo
-      \`\`\`diff
-      code
-      \`\`\`
-      Bar
-      \`\`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
     expect(
       parseMarkdownString(dedent`
         \`\`\`\`js
@@ -890,23 +736,10 @@ describe('parseMarkdownString', () => {
 
         Content
       `),
-    ).toMatchInlineSnapshot(`
-      Object {
-        "content": "\`\`\`\`js
-      Foo
-      \`\`\`diff
-      code
-      \`\`\`\`
-
-      Content",
-        "contentTitle": undefined,
-        "excerpt": "Content",
-        "frontMatter": Object {},
-      }
-    `);
+    ).toMatchSnapshot();
   });
 
-  test('throws for invalid front matter', () => {
+  it('throws for invalid front matter', () => {
     expect(() =>
       parseMarkdownString(dedent`
       ---
@@ -922,35 +755,35 @@ describe('parseMarkdownString', () => {
 });
 
 describe('parseMarkdownHeadingId', () => {
-  test('can parse simple heading without id', () => {
+  it('can parse simple heading without id', () => {
     expect(parseMarkdownHeadingId('## Some heading')).toEqual({
       text: '## Some heading',
       id: undefined,
     });
   });
 
-  test('can parse simple heading with id', () => {
+  it('can parse simple heading with id', () => {
     expect(parseMarkdownHeadingId('## Some heading {#custom-_id}')).toEqual({
       text: '## Some heading',
       id: 'custom-_id',
     });
   });
 
-  test('can parse heading not ending with the id', () => {
+  it('can parse heading not ending with the id', () => {
     expect(parseMarkdownHeadingId('## {#custom-_id} Some heading')).toEqual({
       text: '## {#custom-_id} Some heading',
       id: undefined,
     });
   });
 
-  test('can parse heading with multiple id', () => {
+  it('can parse heading with multiple id', () => {
     expect(parseMarkdownHeadingId('## Some heading {#id1} {#id2}')).toEqual({
       text: '## Some heading {#id1}',
       id: 'id2',
     });
   });
 
-  test('can parse heading with link and id', () => {
+  it('can parse heading with link and id', () => {
     expect(
       parseMarkdownHeadingId(
         '## Some heading [facebook](https://facebook.com) {#id}',
@@ -961,7 +794,7 @@ describe('parseMarkdownHeadingId', () => {
     });
   });
 
-  test('can parse heading with only id', () => {
+  it('can parse heading with only id', () => {
     expect(parseMarkdownHeadingId('## {#id}')).toEqual({
       text: '##',
       id: 'id',

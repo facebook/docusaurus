@@ -24,7 +24,7 @@ function createTestPluginContext(
 }
 
 describe('collectRedirects', () => {
-  test('should collect no redirect for undefined config', () => {
+  it('collects no redirect for undefined config', () => {
     expect(
       collectRedirects(
         createTestPluginContext(undefined, ['/', '/path']),
@@ -33,13 +33,13 @@ describe('collectRedirects', () => {
     ).toEqual([]);
   });
 
-  test('should collect no redirect for empty config', () => {
+  it('collects no redirect for empty config', () => {
     expect(collectRedirects(createTestPluginContext({}), undefined)).toEqual(
       [],
     );
   });
 
-  test('should collect redirects from html/exe extension', () => {
+  it('collects redirects from html/exe extension', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -62,7 +62,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should collect redirects to html/exe extension', () => {
+  it('collects redirects to html/exe extension', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -81,7 +81,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should collect redirects from plugin option redirects', () => {
+  it('collects redirects from plugin option redirects', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -117,7 +117,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should collect redirects from plugin option redirects with trailingSlash=true', () => {
+  it('collects redirects from plugin option redirects with trailingSlash=true', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -153,7 +153,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should collect redirects from plugin option redirects with trailingSlash=false', () => {
+  it('collects redirects from plugin option redirects with trailingSlash=false', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -189,7 +189,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should throw if plugin option redirects contain invalid to paths', () => {
+  it('throw if plugin option redirects contain invalid to paths', () => {
     expect(() =>
       collectRedirects(
         createTestPluginContext(
@@ -216,7 +216,7 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
-  test('should collect redirects with custom redirect creator', () => {
+  it('collects redirects with custom redirect creator', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -260,7 +260,7 @@ describe('collectRedirects', () => {
     ]);
   });
 
-  test('should allow returning string / undefined', () => {
+  it('allows returning string / undefined', () => {
     expect(
       collectRedirects(
         createTestPluginContext(
@@ -279,7 +279,7 @@ describe('collectRedirects', () => {
     ).toEqual([{from: '/foo', to: '/'}]);
   });
 
-  test('should throw if redirect creator creates invalid redirects', () => {
+  it('throws if redirect creator creates invalid redirects', () => {
     expect(() =>
       collectRedirects(
         createTestPluginContext(
@@ -302,7 +302,7 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
-  test('should throw if redirect creator creates array of array redirect', () => {
+  it('throws if redirect creator creates array of array redirect', () => {
     expect(() =>
       collectRedirects(
         createTestPluginContext(
@@ -321,7 +321,7 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
-  test('should filter unwanted redirects', () => {
+  it('filters unwanted redirects', () => {
     expect(
       collectRedirects(
         createTestPluginContext(

@@ -25,31 +25,31 @@ const processFixture = async (name: string, options?: {sync?: boolean}) => {
 };
 
 describe('npm2yarn plugin', () => {
-  test('test: installation file', async () => {
+  it('works on installation file', async () => {
     const result = await processFixture('installation');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: plugin file', async () => {
+  it('works on plugin file', async () => {
     const result = await processFixture('plugin');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: language was not set', async () => {
+  it('works when language is not set', async () => {
     const result = await processFixture('syntax-not-properly-set');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: already imported tabs components above are not re-imported', async () => {
+  it('does not re-import tabs components when already imported above', async () => {
     const result = await processFixture('import-tabs-above');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: already imported tabs components below are not re-imported', async () => {
+  it('tdoes not re-import tabs components when already imported below', async () => {
     const result = await processFixture('import-tabs-below');
 
     expect(result).toMatchSnapshot();

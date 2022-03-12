@@ -41,11 +41,13 @@ const routes: RouteConfig[] = [
   },
 ];
 
-test('handleDuplicateRoutes', () => {
-  expect(() => {
-    handleDuplicateRoutes(routes, 'throw');
-  }).toThrowErrorMatchingSnapshot();
-  const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
-  handleDuplicateRoutes(routes, 'ignore');
-  expect(consoleMock).toBeCalledTimes(0);
+describe('handleDuplicateRoutes', () => {
+  it('works', () => {
+    expect(() => {
+      handleDuplicateRoutes(routes, 'throw');
+    }).toThrowErrorMatchingSnapshot();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+    handleDuplicateRoutes(routes, 'ignore');
+    expect(consoleMock).toBeCalledTimes(0);
+  });
 });

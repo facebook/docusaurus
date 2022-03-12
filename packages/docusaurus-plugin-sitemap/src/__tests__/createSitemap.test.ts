@@ -10,7 +10,7 @@ import type {DocusaurusConfig} from '@docusaurus/types';
 import {EnumChangefreq} from 'sitemap';
 
 describe('createSitemap', () => {
-  test('simple site', async () => {
+  it('simple site', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -26,14 +26,14 @@ describe('createSitemap', () => {
     );
   });
 
-  test('empty site', () =>
+  it('empty site', () =>
     expect(async () => {
       await createSitemap({} as DocusaurusConfig, [], {});
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
 
-  test('exclusion of 404 page', async () => {
+  it('exclusion of 404 page', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -47,7 +47,7 @@ describe('createSitemap', () => {
     expect(sitemap).not.toContain('404');
   });
 
-  test('keep trailing slash unchanged', async () => {
+  it('keep trailing slash unchanged', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -66,7 +66,7 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 
-  test('add trailing slash', async () => {
+  it('add trailing slash', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -85,7 +85,7 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 
-  test('remove trailing slash', async () => {
+  it('remove trailing slash', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',

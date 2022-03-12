@@ -17,37 +17,29 @@ import {
 import _ from 'lodash';
 
 describe('removeSuffix', () => {
-  test('should no-op 1', () => {
+  it("is no-op when suffix doesn't exist", () => {
     expect(removeSuffix('abcdef', 'ijk')).toEqual('abcdef');
-  });
-  test('should no-op 2', () => {
     expect(removeSuffix('abcdef', 'abc')).toEqual('abcdef');
-  });
-  test('should no-op 3', () => {
     expect(removeSuffix('abcdef', '')).toEqual('abcdef');
   });
-  test('should remove suffix', () => {
+  it('removes suffix', () => {
     expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
   });
 });
 
 describe('removePrefix', () => {
-  test('should no-op 1', () => {
+  it("is no-op when prefix doesn't exist", () => {
     expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
-  });
-  test('should no-op 2', () => {
     expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
-  });
-  test('should no-op 3', () => {
     expect(removePrefix('abcdef', '')).toEqual('abcdef');
   });
-  test('should remove prefix', () => {
+  it('removes prefix', () => {
     expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
   });
 });
 
 describe('getElementsAround', () => {
-  test('can return elements around', () => {
+  it('returns elements around', () => {
     expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
       previous: undefined,
       next: 'b',
@@ -66,7 +58,7 @@ describe('getElementsAround', () => {
     });
   });
 
-  test('throws if bad index is provided', () => {
+  it('throws if bad index is provided', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -87,7 +79,7 @@ describe('mapAsyncSequential', () => {
     });
   }
 
-  test('map sequentially', async () => {
+  it('maps sequentially', async () => {
     const itemToTimeout: Record<string, number> = {
       '1': 200,
       '2': 600,
@@ -132,7 +124,7 @@ describe('findAsyncSequential', () => {
     });
   }
 
-  test('find sequentially', async () => {
+  it('finds sequentially', async () => {
     const items = ['1', '2', '3'];
 
     const findFn = jest.fn(async (item: string) => {
@@ -155,7 +147,7 @@ describe('findAsyncSequential', () => {
 });
 
 describe('reportMessage', () => {
-  test('all severities', () => {
+  it('works with all severities', () => {
     const consoleLog = jest.spyOn(console, 'info').mockImplementation(() => {});
     const consoleWarn = jest
       .spyOn(console, 'warn')

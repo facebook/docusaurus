@@ -13,7 +13,7 @@ import pluginHeadTags from './__fixtures__/plugin-headTags';
 import pluginPostBodyTags from './__fixtures__/plugin-postBodyTags';
 
 describe('loadHtmlTags', () => {
-  test('empty plugin', () => {
+  it('empty plugin', () => {
     const htmlTags = loadHtmlTags([pluginEmpty()]);
     expect(htmlTags).toMatchInlineSnapshot(`
       Object {
@@ -24,7 +24,7 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject headTags', () => {
+  it('only inject headTags', () => {
     const htmlTags = loadHtmlTags([pluginHeadTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
       Object {
@@ -36,7 +36,7 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject preBodyTags', () => {
+  it('only inject preBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPreBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
       Object {
@@ -47,7 +47,7 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject postBodyTags', () => {
+  it('only inject postBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPostBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
       Object {
@@ -58,7 +58,7 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('multiple plugins that inject different part of html tags', () => {
+  it('multiple plugins that inject different part of html tags', () => {
     const htmlTags = loadHtmlTags([
       pluginHeadTags(),
       pluginPostBodyTags(),
@@ -74,7 +74,7 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('multiple plugins that might/might not inject html tags', () => {
+  it('multiple plugins that might/might not inject html tags', () => {
     const htmlTags = loadHtmlTags([
       pluginEmpty(),
       pluginHeadTags(),

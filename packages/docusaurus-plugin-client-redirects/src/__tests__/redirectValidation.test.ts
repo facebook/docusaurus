@@ -8,7 +8,7 @@
 import {validateRedirect} from '../redirectValidation';
 
 describe('validateRedirect', () => {
-  test('validate good redirects without throwing', () => {
+  it('validate good redirects without throwing', () => {
     expect(() => {
       validateRedirect({
         from: '/fromSomePath',
@@ -29,7 +29,7 @@ describe('validateRedirect', () => {
     }).not.toThrow();
   });
 
-  test('throw for bad redirects', () => {
+  it('throw for bad redirects', () => {
     expect(() =>
       validateRedirect({
         from: 'https://fb.com/fromSomePath',

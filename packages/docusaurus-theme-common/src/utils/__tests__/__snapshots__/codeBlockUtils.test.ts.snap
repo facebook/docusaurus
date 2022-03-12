@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseLines does not parse content with metastring 1`] = `
+Object {
+  "code": "aaaaa
+bbbbb",
+  "highlightLines": Array [
+    0,
+  ],
+}
+`;
+
+exports[`parseLines does not parse content with metastring 2`] = `
+Object {
+  "code": "// highlight-next-line
+aaaaa
+bbbbb",
+  "highlightLines": Array [
+    0,
+  ],
+}
+`;
+
+exports[`parseLines does not parse content with metastring 3`] = `
+Object {
+  "code": "aaaaa
+bbbbb",
+  "highlightLines": Array [
+    0,
+  ],
+}
+`;
+
+exports[`parseLines does not parse content with no language 1`] = `
+Object {
+  "code": "// highlight-next-line
+aaaaa
+bbbbb",
+  "highlightLines": Array [],
+}
+`;
+
+exports[`parseLines removes lines correctly 1`] = `
+Object {
+  "code": "aaaaa
+bbbbb",
+  "highlightLines": Array [
+    0,
+  ],
+}
+`;
+
+exports[`parseLines removes lines correctly 2`] = `
+Object {
+  "code": "aaaaa
+bbbbb",
+  "highlightLines": Array [
+    0,
+  ],
+}
+`;
+
+exports[`parseLines removes lines correctly 3`] = `
+Object {
+  "code": "aaaaa
+bbbbbbb
+bbbbb",
+  "highlightLines": Array [
+    0,
+    2,
+    0,
+    1,
+  ],
+}
+`;
+
+exports[`parseLines respects language 1`] = `
+Object {
+  "code": "# highlight-next-line
+aaaaa
+bbbbb",
+  "highlightLines": Array [],
+}
+`;
+
+exports[`parseLines respects language 2`] = `
+Object {
+  "code": "/* highlight-next-line */
+aaaaa
+bbbbb",
+  "highlightLines": Array [],
+}
+`;
+
+exports[`parseLines respects language 3`] = `
+Object {
+  "code": "// highlight-next-line
+aaaa
+/* highlight-next-line */
+bbbbb
+ccccc
+<!-- highlight-next-line -->
+dddd",
+  "highlightLines": Array [
+    4,
+  ],
+}
+`;
+
+exports[`parseLines respects language 4`] = `
+Object {
+  "code": "aaaa
+bbbbb
+ccccc
+dddd",
+  "highlightLines": Array [
+    0,
+    1,
+    2,
+    3,
+  ],
+}
+`;

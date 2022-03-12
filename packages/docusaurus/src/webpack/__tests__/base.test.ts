@@ -20,7 +20,7 @@ import _ from 'lodash';
 import type {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
-  test('always transpile client dir files', () => {
+  it('always transpiles client dir files', () => {
     const clientFiles = [
       'App.js',
       'clientEntry.js',
@@ -32,7 +32,7 @@ describe('babel transpilation exclude logic', () => {
     });
   });
 
-  test('always transpile non node_module files', () => {
+  it('always transpiles non node_module files', () => {
     const moduleFiles = [
       '/pages/user/App.jsx',
       '/website/src/components/foo.js',
@@ -43,7 +43,7 @@ describe('babel transpilation exclude logic', () => {
     });
   });
 
-  test('transpile docusaurus npm packages even in node_modules', () => {
+  it('transpiles docusaurus npm packages even in node_modules', () => {
     const moduleFiles = [
       '/website/node_modules/docusaurus-theme-search/theme/Navbar/index.js',
       'node_modules/@docusaurus/theme-classic/theme/Layout.js',
@@ -54,7 +54,7 @@ describe('babel transpilation exclude logic', () => {
     });
   });
 
-  test('does not transpile node_modules', () => {
+  it('does not transpile node_modules', () => {
     const moduleFiles = [
       'node_modules/react-toggle.js',
       '/website/node_modules/react-trend/index.js',
@@ -69,7 +69,7 @@ describe('babel transpilation exclude logic', () => {
 });
 
 describe('getDocusaurusAliases()', () => {
-  test('return appropriate webpack aliases', async () => {
+  it('returns appropriate webpack aliases', async () => {
     // using relative paths makes tests work everywhere
     const relativeDocusaurusAliases = _.mapValues(
       await getDocusaurusAliases(),
@@ -121,7 +121,7 @@ describe('base webpack config', () => {
     jest.restoreAllMocks();
   });
 
-  test('should create webpack aliases', async () => {
+  it('creates webpack aliases', async () => {
     // @ts-expect-error: Docusaurus webpack alias is always an object
     const aliases: ThemeAliases =
       (await createBaseConfig(props, true)).resolve?.alias ?? {};
@@ -132,7 +132,7 @@ describe('base webpack config', () => {
     expect(relativeAliases).toMatchSnapshot();
   });
 
-  test('should use svg rule', async () => {
+  it('uses svg rule', async () => {
     const fileLoaderUtils = utils.getFileLoaderUtils();
     const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
     jest

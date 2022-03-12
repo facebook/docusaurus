@@ -21,12 +21,14 @@ function testField(params: {
     ErrorMessage: string,
   ][];
 }) {
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] accept valid values`, () => {
     params.validFrontMatters.forEach((frontMatter) => {
       expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
     });
   });
 
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] convert valid values`, () => {
     params.convertibleFrontMatter?.forEach(
       ([convertibleFrontMatter, convertedFrontMatter]) => {
@@ -37,6 +39,7 @@ function testField(params: {
     );
   });
 
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] throw error for values`, () => {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
@@ -59,13 +62,13 @@ function testField(params: {
   });
 }
 
-describe('validateDocFrontMatter', () => {
-  test('accept empty object', () => {
+describe('doc front matter schema', () => {
+  it('accepts empty object', () => {
     const frontMatter: DocFrontMatter = {};
     expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('accept unknown field', () => {
+  it('accepts unknown field', () => {
     const frontMatter = {abc: '1'};
     expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
   });
@@ -277,7 +280,7 @@ describe('validateDocFrontMatter tags', () => {
   });
 });
 
-describe('validateDocFrontMatter toc_min_heading_level', () => {
+describe('toc_min_heading_level', () => {
   testField({
     prefix: 'toc_min_heading_level',
     validFrontMatters: [
@@ -313,7 +316,7 @@ describe('validateDocFrontMatter toc_min_heading_level', () => {
   });
 });
 
-describe('validateDocFrontMatter toc_max_heading_level', () => {
+describe('toc_max_heading_level', () => {
   testField({
     prefix: 'toc_max_heading_level',
     validFrontMatters: [
@@ -349,7 +352,7 @@ describe('validateDocFrontMatter toc_max_heading_level', () => {
   });
 });
 
-describe('validateDocFrontMatter toc min/max consistency', () => {
+describe('toc min/max consistency', () => {
   testField({
     prefix: 'toc min/max',
     validFrontMatters: [

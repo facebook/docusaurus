@@ -10,7 +10,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useFilteredAndTreeifiedTOC} from '../tocUtils';
 
 describe('useFilteredAndTreeifiedTOC', () => {
-  test('filter a toc with all heading levels', () => {
+  it('filters a toc with all heading levels', () => {
     const toc: TOCItem[] = [
       {
         id: 'alpha',
@@ -137,7 +137,7 @@ describe('useFilteredAndTreeifiedTOC', () => {
   // It's not 100% clear exactly how the TOC should behave under weird heading
   // levels provided by the user. Adding a test so that behavior stays the same
   // over time
-  test('filter invalid heading levels (but possible) TOC', () => {
+  it('filters invalid heading levels (but possible) TOC', () => {
     const toc: TOCItem[] = [
       {
         id: 'charlie',

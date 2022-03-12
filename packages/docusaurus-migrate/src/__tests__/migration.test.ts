@@ -12,10 +12,10 @@ import fs from 'fs-extra';
 import {posixPath} from '@docusaurus/utils';
 
 async function testMigration(siteDir: string, newDir: string) {
-  const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation();
-  const mkdirpMock = jest.spyOn(fs, 'mkdirp').mockImplementation();
-  const mkdirsMock = jest.spyOn(fs, 'mkdirs').mockImplementation();
-  const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+  const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+  const mkdirpMock = jest.spyOn(fs, 'mkdirp').mockImplementation(() => {});
+  const mkdirsMock = jest.spyOn(fs, 'mkdirs').mockImplementation(() => {});
+  const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
   await migrateDocusaurusProject(siteDir, newDir, true, true);
   expect(
     writeMock.mock.calls.sort((a, b) =>
@@ -45,18 +45,18 @@ async function testMigration(siteDir: string, newDir: string) {
 
 describe('migration test', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__');
-  test('simple website', async () => {
+  it('simple website', async () => {
     const siteDir = path.join(fixtureDir, 'simple_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_simple_site');
     await testMigration(siteDir, newDir);
   });
-  test('complex website', async () => {
+  it('complex website', async () => {
     const siteDir = path.join(fixtureDir, 'complex_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_complex_site');
     await testMigration(siteDir, newDir);
   });
 
-  test('missing versions', async () => {
+  it('missing versions', async () => {
     const siteDir = path.join(fixtureDir, 'missing_version_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_missing_version_site');
     await testMigration(siteDir, newDir);

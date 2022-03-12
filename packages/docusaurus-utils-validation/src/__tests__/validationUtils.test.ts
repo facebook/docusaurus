@@ -11,7 +11,7 @@ import {JoiFrontMatter} from '../JoiFrontMatter';
 import {validateFrontMatter} from '../validationUtils';
 
 describe('validateFrontMatter', () => {
-  test('should accept good values', () => {
+  it('accepts good values', () => {
     const schema = Joi.object<{test: string}>({
       test: Joi.string(),
     });
@@ -21,7 +21,7 @@ describe('validateFrontMatter', () => {
     expect(validateFrontMatter(frontMatter, schema)).toEqual(frontMatter);
   });
 
-  test('should reject bad values', () => {
+  it('rejects bad values', () => {
     const consoleError = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
@@ -39,7 +39,7 @@ describe('validateFrontMatter', () => {
     );
   });
 
-  test('should not convert simple values', () => {
+  it('does not convert simple values', () => {
     const schema = Joi.object({
       test: JoiFrontMatter.string(),
     });
@@ -53,7 +53,7 @@ describe('validateFrontMatter', () => {
   // Fix Yaml trying to convert strings to numbers automatically
   // We only want to deal with a single type in the final front matter
   // (not string | number)
-  test('should convert number values to string when string schema', () => {
+  it('converts number values to string when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),
     });
@@ -66,7 +66,7 @@ describe('validateFrontMatter', () => {
   // Helps to fix Yaml trying to convert strings to dates automatically
   // We only want to deal with a single type in the final front matter
   // (not string | Date)
-  test('should convert date values when string schema', () => {
+  it('converts date values when string schema', () => {
     const schema = Joi.object<{test: string}>({
       test: JoiFrontMatter.string(),
     });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`handleDuplicateRoutes 1`] = `
+exports[`handleDuplicateRoutes works 1`] = `
 "Duplicate routes found!
 - Attempting to create page at /search, but a page already exists at this route.
 - Attempting to create page at /sameDoc, but a page already exists at this route.
