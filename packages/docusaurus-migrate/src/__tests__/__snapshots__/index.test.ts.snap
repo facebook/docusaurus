@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`migration test complex website: copy 1`] = `
+exports[`migration CLI migrates complex website: copy 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/blog",
@@ -17,7 +17,7 @@ Array [
 ]
 `;
 
-exports[`migration test complex website: mkdirp 1`] = `
+exports[`migration CLI migrates complex website: mkdirp 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages",
@@ -25,9 +25,9 @@ Array [
 ]
 `;
 
-exports[`migration test complex website: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates complex website: mkdirs 1`] = `Array []`;
 
-exports[`migration test complex website: write 1`] = `
+exports[`migration CLI migrates complex website: write 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/docusaurus.config.js",
@@ -183,7 +183,7 @@ Array [
 ]
 `;
 
-exports[`migration test missing versions: copy 1`] = `
+exports[`migration CLI migrates missing versions: copy 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
@@ -200,7 +200,7 @@ Array [
 ]
 `;
 
-exports[`migration test missing versions: mkdirp 1`] = `
+exports[`migration CLI migrates missing versions: mkdirp 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages",
@@ -208,9 +208,9 @@ Array [
 ]
 `;
 
-exports[`migration test missing versions: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates missing versions: mkdirs 1`] = `Array []`;
 
-exports[`migration test missing versions: write 1`] = `
+exports[`migration CLI migrates missing versions: write 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/docusaurus.config.js",
@@ -366,7 +366,7 @@ Array [
 ]
 `;
 
-exports[`migration test simple website: copy 1`] = `
+exports[`migration CLI migrates simple website: copy 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/pages/en",
@@ -379,7 +379,7 @@ Array [
 ]
 `;
 
-exports[`migration test simple website: mkdirp 1`] = `
+exports[`migration CLI migrates simple website: mkdirp 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages",
@@ -387,9 +387,9 @@ Array [
 ]
 `;
 
-exports[`migration test simple website: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates simple website: mkdirs 1`] = `Array []`;
 
-exports[`migration test simple website: write 1`] = `
+exports[`migration CLI migrates simple website: write 1`] = `
 Array [
   Array [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/docusaurus.config.js",

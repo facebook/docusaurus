@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`report broken markdown links 1`] = `
+exports[`linkify reports broken markdown links 1`] = `
 "---
 title: This post links to another one!
 ---
@@ -15,7 +15,7 @@ title: This post links to another one!
 "
 `;
 
-exports[`transform to correct link 1`] = `
+exports[`linkify transforms to correct link 1`] = `
 "---
 title: This post links to another one!
 ---

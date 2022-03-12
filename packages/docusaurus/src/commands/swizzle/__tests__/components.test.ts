@@ -13,7 +13,7 @@ import {Components} from './testUtils';
 const FixtureThemePath = path.join(__dirname, '__fixtures__/theme');
 
 describe('readComponentNames', () => {
-  test('read theme', async () => {
+  it('read theme', async () => {
     await expect(readComponentNames(FixtureThemePath)).resolves.toEqual([
       Components.ComponentInFolder,
       Components.ComponentInSubFolder,
@@ -45,7 +45,7 @@ describe('getThemeComponents', () => {
     },
   };
 
-  test('read name', async () => {
+  it('read name', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -54,7 +54,7 @@ describe('getThemeComponents', () => {
     expect(themeComponents.themeName).toEqual(themeName);
   });
 
-  test('read all', async () => {
+  it('read all', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -69,7 +69,7 @@ describe('getThemeComponents', () => {
     ]);
   });
 
-  test('getConfig', async () => {
+  it('getConfig', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -112,24 +112,24 @@ describe('getThemeComponents', () => {
     );
   });
 
-  test('getDescription', async () => {
+  it('getDescription', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
       swizzleConfig,
     });
-    expect(
-      themeComponents.getDescription(Components.ComponentInFolder),
-    ).toEqual('ComponentInFolder description');
+    expect(themeComponents.getDescription(Components.ComponentInFolder)).toBe(
+      'ComponentInFolder description',
+    );
     expect(
       themeComponents.getDescription(Components.ComponentInSubFolder),
-    ).toEqual('N/A');
-    expect(
-      themeComponents.getDescription(Components.FirstLevelComponent),
-    ).toEqual('N/A');
+    ).toBe('N/A');
+    expect(themeComponents.getDescription(Components.FirstLevelComponent)).toBe(
+      'N/A',
+    );
   });
 
-  test('getActionStatus', async () => {
+  it('getActionStatus', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -137,27 +137,27 @@ describe('getThemeComponents', () => {
     });
     expect(
       themeComponents.getActionStatus(Components.ComponentInFolder, 'wrap'),
-    ).toEqual('safe');
+    ).toBe('safe');
     expect(
       themeComponents.getActionStatus(Components.ComponentInFolder, 'eject'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
 
     expect(
       themeComponents.getActionStatus(Components.ComponentInSubFolder, 'wrap'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
     expect(
       themeComponents.getActionStatus(Components.ComponentInSubFolder, 'eject'),
-    ).toEqual('safe');
+    ).toBe('safe');
 
     expect(
       themeComponents.getActionStatus(Components.FirstLevelComponent, 'wrap'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
     expect(
       themeComponents.getActionStatus(Components.FirstLevelComponent, 'eject'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
   });
 
-  test('isSafeAction', async () => {
+  it('isSafeAction', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
@@ -165,40 +165,40 @@ describe('getThemeComponents', () => {
     });
     expect(
       themeComponents.isSafeAction(Components.ComponentInFolder, 'wrap'),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       themeComponents.isSafeAction(Components.ComponentInFolder, 'eject'),
-    ).toEqual(false);
+    ).toBe(false);
 
     expect(
       themeComponents.isSafeAction(Components.ComponentInSubFolder, 'wrap'),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       themeComponents.isSafeAction(Components.ComponentInSubFolder, 'eject'),
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
       themeComponents.isSafeAction(Components.FirstLevelComponent, 'wrap'),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       themeComponents.isSafeAction(Components.FirstLevelComponent, 'eject'),
-    ).toEqual(false);
+    ).toBe(false);
   });
 
-  test('hasAnySafeAction', async () => {
+  it('hasAnySafeAction', async () => {
     const themeComponents = await getThemeComponents({
       themeName,
       themePath,
       swizzleConfig,
     });
-    expect(
-      themeComponents.hasAnySafeAction(Components.ComponentInFolder),
-    ).toEqual(true);
+    expect(themeComponents.hasAnySafeAction(Components.ComponentInFolder)).toBe(
+      true,
+    );
     expect(
       themeComponents.hasAnySafeAction(Components.ComponentInSubFolder),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       themeComponents.hasAnySafeAction(Components.FirstLevelComponent),
-    ).toEqual(false);
+    ).toBe(false);
   });
 });

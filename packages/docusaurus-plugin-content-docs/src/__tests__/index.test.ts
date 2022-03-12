@@ -113,7 +113,7 @@ Entries created:
 };
 
 describe('sidebar', () => {
-  test('site with wrong sidebar content', async () => {
+  it('site with wrong sidebar content', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext(siteDir);
     const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
@@ -126,7 +126,7 @@ describe('sidebar', () => {
     await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('site with wrong sidebar file path', async () => {
+  it('site with wrong sidebar file path', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
 
@@ -147,7 +147,7 @@ describe('sidebar', () => {
           `);
   });
 
-  test('site with undefined sidebar', async () => {
+  it('site with undefined sidebar', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
@@ -159,24 +159,10 @@ describe('sidebar', () => {
     const result = await plugin.loadContent!();
 
     expect(result.loadedVersions).toHaveLength(1);
-    expect(result.loadedVersions[0].sidebars).toMatchInlineSnapshot(`
-          Object {
-            "defaultSidebar": Array [
-              Object {
-                "id": "hello-1",
-                "type": "doc",
-              },
-              Object {
-                "id": "hello-2",
-                "label": "Hello 2 From Doc",
-                "type": "doc",
-              },
-            ],
-          }
-      `);
+    expect(result.loadedVersions[0].sidebars).toMatchSnapshot();
   });
 
-  test('site with disabled sidebar', async () => {
+  it('site with disabled sidebar', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-doc-label');
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
@@ -195,7 +181,7 @@ describe('sidebar', () => {
 describe('empty/no docs website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
 
-  test('no files in docs folder', async () => {
+  it('no files in docs folder', async () => {
     const context = await loadContext(siteDir);
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = await pluginContentDocs(
@@ -209,21 +195,17 @@ describe('empty/no docs website', () => {
     );
   });
 
-  test('docs folder does not exist', async () => {
+  it('docs folder does not exist', async () => {
     const context = await loadContext(siteDir);
     await expect(
       pluginContentDocs(
         context,
         normalizePluginOptions(OptionsSchema, {
-          path: `path/doesnt/exist`,
+          path: `path/does/not/exist`,
         }),
       ),
-    ).rejects.toThrowError(
-      `The docs folder does not exist for version "current". A docs folder is expected to be found at ${
-        process.platform === 'win32'
-          ? 'path\\doesnt\\exist'
-          : 'path/doesnt/exist'
-      }.`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The docs folder does not exist for version \\"current\\". A docs folder is expected to be found at path/does/not/exist."`,
     );
   });
 });
@@ -245,11 +227,11 @@ describe('simple website', () => {
     return {siteDir, context, sidebarPath, plugin, pluginContentDir};
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -265,36 +247,28 @@ describe('simple website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
 
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
-    expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
-        "docs/**/*.{md,mdx}",
-        "docs/**/_category_.{json,yml,yaml}",
-      ]
-    `);
-    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
-    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
-    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toEqual(true);
-    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
-    expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
+    expect(matchPattern).toMatchSnapshot();
+    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+    expect(isMatch('docs/headingAsTitle.md', matchPattern)).toBe(true);
+    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+    expect(isMatch('versioned_docs/hello.md', matchPattern)).toBe(false);
+    expect(isMatch('hello.md', matchPattern)).toBe(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
   });
 
-  test('configureWebpack', async () => {
+  it('configureWebpack', async () => {
     const {plugin} = await loadSite();
 
     const content = await plugin.loadContent?.();
@@ -316,10 +290,10 @@ describe('simple website', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(1);
+    expect(content.loadedVersions).toHaveLength(1);
     const [currentVersion] = content.loadedVersions;
 
     expect(findDocById(currentVersion, 'foo/baz')).toMatchSnapshot();
@@ -370,11 +344,11 @@ describe('versioned website', () => {
     };
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, routeBasePath, sidebarPath, plugin} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -390,69 +364,50 @@ describe('versioned website', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
-        "docs/**/*.{md,mdx}",
-        "docs/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-1.0.1-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-1.0.1/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.1/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.1/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-1.0.0/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.0/**/*.{md,mdx}",
-        "versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
-        "versioned_sidebars/version-withSlugs-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs/version-withSlugs/**/*.{md,mdx}",
-        "versioned_docs/version-withSlugs/**/*.{md,mdx}",
-        "versioned_docs/version-withSlugs/**/_category_.{json,yml,yaml}",
-      ]
-    `);
-    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
-    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
-    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
-    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
-    expect(
-      isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern),
-    ).toEqual(true);
+    expect(matchPattern).toMatchSnapshot();
+    expect(isMatch('docs/hello.md', matchPattern)).toBe(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toBe(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toBe(true);
+    expect(isMatch('sidebars.json', matchPattern)).toBe(true);
+    expect(isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern)).toBe(
+      true,
+    );
     expect(
       isMatch('versioned_docs/version-1.0.0/foo/bar.md', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
 
     // Non existing version
     expect(
       isMatch('versioned_docs/version-2.0.0/foo/bar.md', matchPattern),
-    ).toEqual(false);
-    expect(
-      isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
+    expect(isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern)).toBe(
+      false,
+    );
     expect(
       isMatch('versioned_sidebars/version-2.0.0-sidebars.json', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
 
-    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
-    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
-    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
-    expect(isMatch('hello.md', matchPattern)).toEqual(false);
-    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('docs/hello.js', matchPattern)).toBe(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toBe(false);
+    expect(isMatch('docs/mdx', matchPattern)).toBe(false);
+    expect(isMatch('hello.md', matchPattern)).toBe(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toBe(false);
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(4);
+    expect(content.loadedVersions).toHaveLength(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
       content.loadedVersions;
 
@@ -519,12 +474,12 @@ describe('versioned website (community)', () => {
     };
   }
 
-  test('extendCli - docsVersion', async () => {
+  it('extendCli - docsVersion', async () => {
     const {siteDir, routeBasePath, sidebarPath, pluginId, plugin} =
       await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
-      .mockImplementation();
+      .mockImplementation(async () => {});
     const cli = new commander.Command();
     // @ts-expect-error: in actual usage, we pass the static commander instead
     // of the new command
@@ -540,51 +495,40 @@ describe('versioned website (community)', () => {
     mock.mockRestore();
   });
 
-  test('getPathToWatch', async () => {
+  it('getPathToWatch', async () => {
     const {siteDir, plugin} = await loadSite();
     const pathToWatch = plugin.getPathsToWatch!();
     const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
-    expect(matchPattern).toMatchInlineSnapshot(`
-      Array [
-        "community_sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
-        "community/**/*.{md,mdx}",
-        "community/**/_category_.{json,yml,yaml}",
-        "community_versioned_sidebars/version-1.0.0-sidebars.json",
-        "i18n/en/docusaurus-plugin-content-docs-community/version-1.0.0/**/*.{md,mdx}",
-        "community_versioned_docs/version-1.0.0/**/*.{md,mdx}",
-        "community_versioned_docs/version-1.0.0/**/_category_.{json,yml,yaml}",
-      ]
-    `);
-    expect(isMatch('community/team.md', matchPattern)).toEqual(true);
+    expect(matchPattern).toMatchSnapshot();
+    expect(isMatch('community/team.md', matchPattern)).toBe(true);
     expect(
       isMatch('community_versioned_docs/version-1.0.0/team.md', matchPattern),
-    ).toEqual(true);
+    ).toBe(true);
 
     // Non existing version
     expect(
       isMatch('community_versioned_docs/version-2.0.0/team.md', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isMatch(
         'community_versioned_sidebars/version-2.0.0-sidebars.json',
         matchPattern,
       ),
-    ).toEqual(false);
+    ).toBe(false);
 
-    expect(isMatch('community/team.js', matchPattern)).toEqual(false);
+    expect(isMatch('community/team.js', matchPattern)).toBe(false);
     expect(
       isMatch('community_versioned_docs/version-1.0.0/team.js', matchPattern),
-    ).toEqual(false);
+    ).toBe(false);
   });
 
-  test('content', async () => {
+  it('content', async () => {
     const {plugin, pluginContentDir} = await loadSite();
     const content = await plugin.loadContent!();
-    expect(content.loadedVersions.length).toEqual(2);
+    expect(content.loadedVersions).toHaveLength(2);
     const [currentVersion, version100] = content.loadedVersions;
 
     expect(getDocById(currentVersion, 'team')).toMatchSnapshot();
@@ -625,7 +569,7 @@ describe('site with doc label', () => {
     return {content};
   }
 
-  test('label in sidebar.json is used', async () => {
+  it('label in sidebar.json is used', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
@@ -633,7 +577,7 @@ describe('site with doc label', () => {
     expect(sidebarProps.docs[0].label).toBe('Hello One');
   });
 
-  test('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
+  it('sidebar_label in doc has higher precedence over label in sidebar.json', async () => {
     const {content} = await loadSite();
     const loadedVersion = content.loadedVersions[0];
     const sidebarProps = toSidebarsProp(loadedVersion);
@@ -662,14 +606,14 @@ describe('site with full autogenerated sidebar', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is fully autogenerated', async () => {
+  it('sidebar is fully autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('docs in fully generated sidebar have correct metadata', async () => {
+  it('docs in fully generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -720,14 +664,14 @@ describe('site with partial autogenerated sidebars', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is partially autogenerated', async () => {
+  it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('docs in partially generated sidebar have correct metadata', async () => {
+  it('docs in partially generated sidebar have correct metadata', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -773,7 +717,7 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
     return {content, siteDir};
   }
 
-  test('sidebar is partially autogenerated', async () => {
+  it('sidebar is partially autogenerated', async () => {
     const {content} = await loadSite();
     const version = content.loadedVersions[0];
 
@@ -800,7 +744,7 @@ describe('site with custom sidebar items generator', () => {
     return {content, siteDir};
   }
 
-  test('sidebarItemsGenerator is called with appropriate data', async () => {
+  it('sidebarItemsGenerator is called with appropriate data', async () => {
     const customSidebarItemsGeneratorMock = jest.fn(
       async (_arg: SidebarItemsGeneratorOptionArgs) => [],
     );
@@ -830,7 +774,7 @@ describe('site with custom sidebar items generator', () => {
     );
   });
 
-  test('sidebar is autogenerated according to a custom sidebarItemsGenerator', async () => {
+  it('sidebar is autogenerated according to a custom sidebarItemsGenerator', async () => {
     const customSidebarItemsGenerator: SidebarItemsGeneratorOption =
       async () => [
         {type: 'doc', id: 'API/api-overview'},
@@ -843,7 +787,7 @@ describe('site with custom sidebar items generator', () => {
     expect(version.sidebars).toMatchSnapshot();
   });
 
-  test('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
+  it('sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator', async () => {
     function reverseSidebarItems(items: SidebarItem[]): SidebarItem[] {
       const result: SidebarItem[] = items.map((item) => {
         if (item.type === 'category') {

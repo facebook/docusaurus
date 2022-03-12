@@ -6,11 +6,11 @@
  */
 
 module.exports = {
-  title: 'Sakura',
+  title: 'Site',
   tagline: 'This is not an ordinary site',
   organizationName: 'endiliey',
-  projectName: 'sakura',
-  baseUrl: '/sakura/',
+  projectName: 'site',
+  baseUrl: '/site/',
   url: 'https://docusaurus.io',
   favicon: 'img/docusaurus.ico',
   plugins: [

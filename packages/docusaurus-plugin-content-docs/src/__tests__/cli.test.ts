@@ -33,7 +33,7 @@ describe('docsVersion', () => {
     sidebarCollapsible: true,
   };
 
-  test('no version tag provided', async () => {
+  it('no version tag provided', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         null,
@@ -66,7 +66,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not have slash', async () => {
+  it('version tag should not have slash', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         'foo/bar',
@@ -89,7 +89,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not be too long', async () => {
+  it('version tag should not be too long', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         'a'.repeat(255),
@@ -102,7 +102,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not be a dot or two dots', async () => {
+  it('version tag should not be a dot or two dots', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '..',
@@ -125,7 +125,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should be a valid pathname', async () => {
+  it('version tag should be a valid pathname', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '<foo|bar>',
@@ -158,7 +158,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag already exist', async () => {
+  it('version tag already exist', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '1.0.0',
@@ -171,7 +171,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('no docs file to version', async () => {
+  it('no docs file to version', async () => {
     const emptySiteDir = path.join(fixtureDir, 'empty-site');
     await expect(() =>
       cliDocsVersionCommand(
@@ -185,8 +185,8 @@ describe('docsVersion', () => {
     );
   });
 
-  test('first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+  it('first time versioning', async () => {
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
     const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
@@ -200,7 +200,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
@@ -240,8 +240,8 @@ describe('docsVersion', () => {
     consoleMock.mockRestore();
   });
 
-  test('not the first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+  it('not the first time versioning', async () => {
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
     const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
@@ -255,7 +255,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
@@ -295,10 +295,10 @@ describe('docsVersion', () => {
     consoleMock.mockRestore();
   });
 
-  test('second docs instance versioning', async () => {
+  it('second docs instance versioning', async () => {
     const pluginId = 'community';
 
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
     const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
@@ -312,7 +312,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       path: 'community',

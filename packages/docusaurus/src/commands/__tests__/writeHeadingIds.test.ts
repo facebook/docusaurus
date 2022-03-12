@@ -8,61 +8,62 @@
 import {transformMarkdownContent} from '../writeHeadingIds';
 
 describe('transformMarkdownContent', () => {
-  test('works for simple level-2 heading', () => {
-    expect(transformMarkdownContent('## ABC')).toEqual('## ABC {#abc}');
+  it('works for simple level-2 heading', () => {
+    expect(transformMarkdownContent('## ABC')).toBe('## ABC {#abc}');
   });
 
-  test('works for simple level-3 heading', () => {
-    expect(transformMarkdownContent('### ABC')).toEqual('### ABC {#abc}');
+  it('works for simple level-3 heading', () => {
+    expect(transformMarkdownContent('### ABC')).toBe('### ABC {#abc}');
   });
 
-  test('works for simple level-4 heading', () => {
-    expect(transformMarkdownContent('#### ABC')).toEqual('#### ABC {#abc}');
+  it('works for simple level-4 heading', () => {
+    expect(transformMarkdownContent('#### ABC')).toBe('#### ABC {#abc}');
   });
 
-  test('unwraps markdown links', () => {
+  it('unwraps markdown links', () => {
     const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
-    expect(transformMarkdownContent(input)).toEqual(
+    expect(transformMarkdownContent(input)).toBe(
       `${input} {#hello-facebook-crowdin}`,
     );
   });
 
-  test('can slugify complex headings', () => {
+  it('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
-    expect(transformMarkdownContent(input)).toEqual(
+    expect(transformMarkdownContent(input)).toBe(
+      // cSpell:ignore ébastien
       `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });
 
-  test('does not duplicate duplicate id', () => {
-    expect(transformMarkdownContent('## hello world {#hello-world}')).toEqual(
+  it('does not duplicate duplicate id', () => {
+    expect(transformMarkdownContent('## hello world {#hello-world}')).toBe(
       '## hello world {#hello-world}',
     );
   });
 
-  test('respects existing heading', () => {
-    expect(transformMarkdownContent('## New heading {#old-heading}')).toEqual(
+  it('respects existing heading', () => {
+    expect(transformMarkdownContent('## New heading {#old-heading}')).toBe(
       '## New heading {#old-heading}',
     );
   });
 
-  test('overwrites heading ID when asked to', () => {
+  it('overwrites heading ID when asked to', () => {
     expect(
       transformMarkdownContent('## New heading {#old-heading}', {
         overwrite: true,
       }),
-    ).toEqual('## New heading {#new-heading}');
+    ).toBe('## New heading {#new-heading}');
   });
 
-  test('maintains casing when asked to', () => {
+  it('maintains casing when asked to', () => {
     expect(
       transformMarkdownContent('## getDataFromAPI()', {
         maintainCase: true,
       }),
-    ).toEqual('## getDataFromAPI() {#getDataFromAPI}');
+    ).toBe('## getDataFromAPI() {#getDataFromAPI}');
   });
 
-  test('transform the headings', () => {
+  it('transform the headings', () => {
     const input = `
 
 # Ignored title

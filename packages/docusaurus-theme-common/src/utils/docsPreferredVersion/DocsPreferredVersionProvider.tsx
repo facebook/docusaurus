@@ -92,13 +92,13 @@ function useVersionPersistence(): DocsVersionPersistence {
   return useThemeConfig().docs.versionPersistence;
 }
 
-// Value that  will be accessible through context: [state,api]
+// Value that will be accessible through context: [state,api]
 function useContextValue() {
   const allDocsData = useAllDocsData();
   const versionPersistence = useVersionPersistence();
   const pluginIds = useMemo(() => Object.keys(allDocsData), [allDocsData]);
 
-  // Initial state is empty, as  we can't read browser storage in node/SSR
+  // Initial state is empty, as we can't read browser storage in node/SSR
   const [state, setState] = useState(() => getInitialState(pluginIds));
 
   // On mount, we set the state read from browser storage

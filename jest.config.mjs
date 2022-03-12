@@ -36,18 +36,18 @@ export default {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpe?g|png|svg)$': '<rootDir>/jest/emptyModule.js',
 
-    // TODO we need to allow Jest to resolve core Webpack aliases automatically
+    // Using src instead of lib, so we always get fresh source
     '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
-      '@docusaurus/core/lib/client/exports/$1',
+      '@docusaurus/core/src/client/exports/$1',
     // Maybe point to a fixture?
     '@generated/.*': '<rootDir>/jest/emptyModule.js',
     // TODO use "projects" + multiple configs if we work on another theme?
     '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
     '@site/(.*)': 'website/$1',
 
-    // TODO why Jest can't figure node package entry points?
+    // Using src instead of lib, so we always get fresh source
     '@docusaurus/plugin-content-docs/client':
-      '@docusaurus/plugin-content-docs/lib/client/index.js',
+      '@docusaurus/plugin-content-docs/src/client/index.ts',
   },
   globals: {
     window: {

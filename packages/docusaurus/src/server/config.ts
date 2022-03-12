@@ -24,7 +24,7 @@ export default async function loadConfig(
     | (() => Promise<Partial<DocusaurusConfig>>);
 
   const loadedConfig =
-    importedConfig instanceof Function
+    typeof importedConfig === 'function'
       ? await importedConfig()
       : await importedConfig;
 

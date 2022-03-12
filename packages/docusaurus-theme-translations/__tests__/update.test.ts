@@ -14,29 +14,27 @@ import _ from 'lodash';
 // Seems the 5s default timeout fails sometimes
 jest.setTimeout(15000);
 
-describe('theme-translations package', () => {
-  test(`to have base messages files contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-translations update" to keep base messages files up-to-date.`, async () => {
+describe('theme translations', () => {
+  it('has base messages files contain EXACTLY all the translations extracted from the theme. Please run "yarn workspace @docusaurus/theme-translations update" to keep base messages files up-to-date', async () => {
     const baseMessagesDirPath = path.join(__dirname, '../locales/base');
     const baseMessages = Object.fromEntries(
-      (
-        await Promise.all(
-          (
-            await fs.readdir(baseMessagesDirPath)
-          ).map(async (baseMessagesFile) =>
-            Object.entries(
-              JSON.parse(
-                (
-                  await fs.readFile(
-                    path.join(baseMessagesDirPath, baseMessagesFile),
-                  )
-                ).toString(),
-              ) as Record<string, string>,
-            ),
+      await Promise.all(
+        (
+          await fs.readdir(baseMessagesDirPath)
+        ).map(async (baseMessagesFile) =>
+          Object.entries(
+            JSON.parse(
+              (
+                await fs.readFile(
+                  path.join(baseMessagesDirPath, baseMessagesFile),
+                )
+              ).toString(),
+            ) as Record<string, string>,
           ),
-        )
-      )
-        .flat()
-        .filter(([key]) => !key.endsWith('___DESCRIPTION')),
+        ),
+      ).then((translations) =>
+        translations.flat().filter(([key]) => !key.endsWith('___DESCRIPTION')),
+      ),
     );
     const codeMessages = _.mapValues(
       await extractThemeCodeMessages(),

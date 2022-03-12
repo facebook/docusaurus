@@ -142,20 +142,20 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getLoadedContentTranslationFiles', () => {
-  test('should return translation files matching snapshot', async () => {
+  it('returns translation files', async () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });
 
 describe('translateLoadedContent', () => {
-  test('should not translate anything if translation files are untranslated', () => {
+  it('does not translate anything if translation files are untranslated', () => {
     const translationFiles = getSampleTranslationFiles();
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),
     ).toEqual(SampleLoadedContent);
   });
 
-  test('should return translated loaded content matching snapshot', () => {
+  it('returns translated loaded content', () => {
     const translationFiles = getSampleTranslationFilesTranslated();
     expect(
       translateLoadedContent(SampleLoadedContent, translationFiles),

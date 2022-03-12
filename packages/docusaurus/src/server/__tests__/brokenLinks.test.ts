@@ -58,6 +58,7 @@ describe('handleBrokenLinks', () => {
       // bad - non-existent file with spaces in name
       './some%20other%20non-existent%20doc1',
       // evil - trying to use ../../ but '/' won't get decoded
+      // cSpell:ignore Fout
       './break%2F..%2F..%2Fout2',
     ],
     '/docs/goodDoc': [
@@ -104,7 +105,7 @@ describe('handleBrokenLinks', () => {
 
   const outDir = path.resolve(__dirname, '__fixtures__/brokenLinks/outDir');
 
-  test('do not report anything for correct paths', async () => {
+  it('do not report anything for correct paths', async () => {
     const consoleMock = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
@@ -143,7 +144,7 @@ describe('handleBrokenLinks', () => {
     expect(consoleMock).toBeCalledTimes(0);
   });
 
-  test('reports all broken links', async () => {
+  it('reports all broken links', async () => {
     await expect(() =>
       handleBrokenLinks({
         allCollectedLinks,
@@ -155,7 +156,7 @@ describe('handleBrokenLinks', () => {
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('no-op for ignore', async () => {
+  it('no-op for ignore', async () => {
     // In any case, _.mapValues will always be called, unless handleBrokenLinks
     // has already bailed
     const lodashMock = jest.spyOn(_, 'mapValues');
@@ -170,7 +171,7 @@ describe('handleBrokenLinks', () => {
     lodashMock.mockRestore();
   });
 
-  test('reports frequent broken links', async () => {
+  it('reports frequent broken links', async () => {
     Object.values(allCollectedLinks).forEach((links) =>
       links.push(
         '/frequent',

@@ -64,6 +64,7 @@
     "@babel/core": "^7.17.5",
     "@babel/preset-typescript": "^7.16.7",
     "@crowdin/cli": "^3.7.8",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.179",

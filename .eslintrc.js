@@ -205,9 +205,30 @@ module.exports = {
     'import/order': OFF,
     'import/prefer-default-export': OFF,
 
-    'jest/prefer-expect-resolves': WARNING,
+    'jest/consistent-test-it': WARNING,
     'jest/expect-expect': OFF,
-    'jest/valid-title': OFF,
+    'jest/no-large-snapshots': [
+      WARNING,
+      {maxSize: Infinity, inlineMaxSize: 10},
+    ],
+    'jest/no-test-return-statement': ERROR,
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
+    'jest/prefer-spy-on': WARNING,
+    'jest/prefer-to-be': WARNING,
+    'jest/prefer-to-have-length': WARNING,
+    'jest/require-top-level-describe': ERROR,
+    'jest/valid-title': [
+      ERROR,
+      {
+        mustNotMatch: {
+          it: [
+            '^should|\\.$',
+            'Titles should not begin with "should" or end with a full-stop',
+          ],
+        },
+      },
+    ],
 
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,

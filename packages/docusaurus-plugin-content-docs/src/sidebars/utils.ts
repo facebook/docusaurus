@@ -139,6 +139,11 @@ export type SidebarsUtils = {
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
   ) => SidebarNavigation;
+  /**
+   * This function may return undefined. This is usually a user mistake, because
+   * it means this sidebar will never be displayed; however, we can still use
+   * `displayed_sidebar` to make it displayed. Pretty weird but valid use-case
+   */
   getFirstLink: (sidebarId: string) =>
     | {
         type: 'doc';
@@ -147,7 +152,7 @@ export type SidebarsUtils = {
       }
     | {
         type: 'generated-index';
-        slug: string;
+        permalink: string;
         label: string;
       }
     | undefined;
@@ -295,7 +300,7 @@ Available document ids are:
       }
     | {
         type: 'generated-index';
-        slug: string;
+        permalink: string;
         label: string;
       }
     | undefined {
@@ -316,7 +321,7 @@ Available document ids are:
         } else if (item.link?.type === 'generated-index') {
           return {
             type: 'generated-index',
-            slug: item.link.slug,
+            permalink: item.link.permalink,
             label: item.label,
           };
         }

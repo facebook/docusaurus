@@ -11,7 +11,7 @@ import loadPresets from '../index';
 import type {LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {
-  test('no presets', async () => {
+  it('no presets', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -27,7 +27,7 @@ describe('loadPresets', () => {
     `);
   });
 
-  test('string form', async () => {
+  it('string form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -35,24 +35,10 @@ describe('loadPresets', () => {
       },
     } as LoadContext;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('string form composite', async () => {
+  it('string form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -63,32 +49,10 @@ describe('loadPresets', () => {
       },
     } as LoadContext;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form', async () => {
+  it('array form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -96,24 +60,10 @@ describe('loadPresets', () => {
       },
     } as Partial<LoadContext>;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form with options', async () => {
+  it('array form with options', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -126,26 +76,10 @@ describe('loadPresets', () => {
       },
     } as Partial<LoadContext>;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form composite', async () => {
+  it('array form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -162,36 +96,10 @@ describe('loadPresets', () => {
       },
     } as Partial<LoadContext>;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('mixed form', async () => {
+  it('mixed form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -205,34 +113,10 @@ describe('loadPresets', () => {
       },
     } as LoadContext;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('mixed form with themes', async () => {
+  it('mixed form with themes', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
@@ -247,39 +131,6 @@ describe('loadPresets', () => {
       },
     } as LoadContext;
     const presets = await loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-test",
-            undefined,
-          ],
-        ],
-        "themes": Array [
-          Array [
-            "@docusaurus/theme-classic",
-            undefined,
-          ],
-        ],
-      }
-    `);
+    expect(presets).toMatchSnapshot();
   });
 });

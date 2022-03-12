@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`initPlugins plugins with bad values throw user-friendly error message 1`] = `
+exports[`initPlugins throws user-friendly error message for plugins with bad values 1`] = `
 " => Bad Docusaurus plugin value as path [plugins,0].
 Example valid plugin config:
 {
@@ -28,7 +28,7 @@ Example valid plugin config:
 "
 `;
 
-exports[`sortConfig should sort route config correctly 1`] = `
+exports[`sortConfig sorts route config correctly 1`] = `
 Array [
   Object {
     "component": "",
@@ -83,7 +83,7 @@ Array [
 ]
 `;
 
-exports[`sortConfig should sort route config given a baseURL 1`] = `
+exports[`sortConfig sorts route config given a baseURL 1`] = `
 Array [
   Object {
     "component": "",

@@ -176,7 +176,7 @@ describe('simple site', () => {
       context,
       options,
     });
-    expect(versionsMetadata.length).toEqual(1);
+    expect(versionsMetadata).toHaveLength(1);
     const [currentVersion] = versionsMetadata;
 
     const defaultTestUtils = createTestUtils({
@@ -195,7 +195,7 @@ describe('simple site', () => {
     };
   }
 
-  test('readVersionDocs', async () => {
+  it('readVersionDocs', async () => {
     const {options, currentVersion} = await loadSite();
     const docs = await readVersionDocs(currentVersion, options);
     expect(docs.map((doc) => doc.source).sort()).toEqual(
@@ -219,7 +219,7 @@ describe('simple site', () => {
     );
   });
 
-  test('normal docs', async () => {
+  it('normal docs', async () => {
     const {defaultTestUtils} = await loadSite();
     await defaultTestUtils.testMeta(path.join('foo', 'bar.md'), {
       version: 'current',
@@ -268,7 +268,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with editUrl', async () => {
+  it('docs with editUrl', async () => {
     const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
@@ -317,7 +317,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with custom editUrl & unrelated frontMatter', async () => {
+  it('docs with custom editUrl & unrelated frontMatter', async () => {
     const {defaultTestUtils} = await loadSite();
 
     await defaultTestUtils.testMeta('lorem.md', {
@@ -338,7 +338,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with function editUrl', async () => {
+  it('docs with function editUrl', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
     const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
@@ -399,7 +399,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with last update time and author', async () => {
+  it('docs with last update time and author', async () => {
     const {siteDir, context, options, currentVersion} = await loadSite({
       options: {
         showLastUpdateAuthor: true,
@@ -435,7 +435,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with slugs', async () => {
+  it('docs with slugs', async () => {
     const {defaultTestUtils} = await loadSite();
 
     await defaultTestUtils.testSlug(
@@ -473,7 +473,7 @@ describe('simple site', () => {
     );
   });
 
-  test('docs with invalid id', async () => {
+  it('docs with invalid id', async () => {
     const {defaultTestUtils} = await loadSite();
     await expect(async () =>
       defaultTestUtils.processDocFile(
@@ -489,7 +489,7 @@ describe('simple site', () => {
     );
   });
 
-  test('custom pagination', async () => {
+  it('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
     await expect(
@@ -497,19 +497,19 @@ describe('simple site', () => {
     ).resolves.toMatchSnapshot();
   });
 
-  test('bad pagination', async () => {
+  it('bad pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
     const docs = await readVersionDocs(versionsMetadata[0], options);
     docs.push(
       createFakeDocFile({
-        source: 'hehe',
+        source: 'bad',
         frontMatter: {pagination_prev: 'nonexistent'},
       }),
     );
     await expect(
       defaultTestUtils.generateNavigation(docs),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
+      `"Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
 });
@@ -533,7 +533,7 @@ describe('versioned site', () => {
       context,
       options,
     });
-    expect(versionsMetadata.length).toEqual(4);
+    expect(versionsMetadata).toHaveLength(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
       versionsMetadata;
 
@@ -577,7 +577,7 @@ describe('versioned site', () => {
     };
   }
 
-  test('next docs', async () => {
+  it('next docs', async () => {
     const {currentVersionTestUtils} = await loadSite();
 
     await currentVersionTestUtils.testMeta(path.join('foo', 'bar.md'), {
@@ -631,7 +631,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('versioned docs', async () => {
+  it('versioned docs', async () => {
     const {version101TestUtils, version100TestUtils} = await loadSite();
 
     await version100TestUtils.testMeta(path.join('foo', 'bar.md'), {
@@ -690,7 +690,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('next doc slugs', async () => {
+  it('next doc slugs', async () => {
     const {currentVersionTestUtils} = await loadSite();
 
     await currentVersionTestUtils.testSlug(
@@ -711,7 +711,7 @@ describe('versioned site', () => {
     );
   });
 
-  test('versioned doc slugs', async () => {
+  it('versioned doc slugs', async () => {
     const {versionWithSlugsTestUtils} = await loadSite();
 
     await versionWithSlugsTestUtils.testSlug(
@@ -749,7 +749,7 @@ describe('versioned site', () => {
     );
   });
 
-  test('doc with editUrl function', async () => {
+  it('doc with editUrl function', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
     const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
@@ -795,7 +795,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated doc with editUrl', async () => {
+  it('translated doc with editUrl', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
@@ -830,7 +830,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated en doc with editUrl and editCurrentVersion=true', async () => {
+  it('translated en doc with editUrl and editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
@@ -865,7 +865,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
+  it('translated fr doc with editUrl and editLocalizedFiles=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
@@ -901,7 +901,7 @@ describe('versioned site', () => {
     });
   });
 
-  test('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
+  it('translated fr doc with editUrl and editLocalizedFiles=true + editCurrentVersion=true', async () => {
     const {siteDir, context, options, version100} = await loadSite({
       options: {
         editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
@@ -940,127 +940,127 @@ describe('versioned site', () => {
 });
 
 describe('isConventionalDocIndex', () => {
-  test('supports readme', () => {
+  it('supports readme', () => {
     expect(
       isCategoryIndex({
         fileName: 'readme',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'readme',
         directories: ['doesNotMatter'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'README',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'ReAdMe',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
-  test('supports index', () => {
+  it('supports index', () => {
     expect(
       isCategoryIndex({
         fileName: 'index',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'index',
         directories: ['doesNotMatter'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'INDEX',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'InDeX',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
-  test('supports <categoryName>/<categoryName>.md', () => {
+  it('supports <categoryName>/<categoryName>.md', () => {
     expect(
       isCategoryIndex({
         fileName: 'someCategory',
         directories: ['someCategory', 'doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'someCategory',
         directories: ['someCategory'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'someCategory',
         directories: ['someCategory'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'SOME_CATEGORY',
         directories: ['some_category'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'some_category',
         directories: ['some_category'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
-  test('reject other cases', () => {
+  it('reject other cases', () => {
     expect(
       isCategoryIndex({
         fileName: 'some_Category',
         directories: ['someCategory'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isCategoryIndex({
         fileName: 'read_me',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isCategoryIndex({
         fileName: 'the index',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
   });
 });

@@ -74,9 +74,9 @@ function ensureValidVersionString(version: unknown): asserts version is string {
 function ensureValidVersionArray(
   versionArray: unknown,
 ): asserts versionArray is string[] {
-  if (!(versionArray instanceof Array)) {
+  if (!Array.isArray(versionArray)) {
     throw new Error(
-      `The versions file should contain an array of versions! Found content: ${JSON.stringify(
+      `The versions file should contain an array of version names! Found content: ${JSON.stringify(
         versionArray,
       )}`,
     );

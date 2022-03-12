@@ -18,7 +18,7 @@ import {
 } from '../urlUtils';
 
 describe('normalizeUrl', () => {
-  test('should normalize urls correctly', () => {
+  it('normalizes urls correctly', () => {
     const asserts = [
       {
         input: ['/', ''],
@@ -143,99 +143,108 @@ describe('normalizeUrl', () => {
 });
 
 describe('getEditUrl', () => {
-  test('returns right path', () => {
+  it('returns right path', () => {
     expect(
       getEditUrl('foo/bar.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/bar.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/bar.md');
     expect(
       getEditUrl('foo/你好.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/你好.md');
   });
-  test('always returns valid URL', () => {
+  it('always returns valid URL', () => {
     expect(
       getEditUrl('foo\\你好.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/你好.md');
   });
-  test('returns undefined for undefined', () => {
+  it('returns undefined for undefined', () => {
     expect(getEditUrl('foo/bar.md')).toBeUndefined();
   });
 });
 
-test('fileToPath', () => {
-  const asserts: Record<string, string> = {
-    'index.md': '/',
-    'hello/index.md': '/hello/',
-    'foo.md': '/foo',
-    'foo/bar.md': '/foo/bar',
-    'index.js': '/',
-    'hello/index.js': '/hello/',
-    'foo.js': '/foo',
-    'foo/bar.js': '/foo/bar',
-  };
-  Object.keys(asserts).forEach((file) => {
-    expect(fileToPath(file)).toBe(asserts[file]);
+describe('fileToPath', () => {
+  it('works', () => {
+    const asserts: Record<string, string> = {
+      'index.md': '/',
+      'hello/index.md': '/hello/',
+      'foo.md': '/foo',
+      'foo/bar.md': '/foo/bar',
+      'index.js': '/',
+      'hello/index.js': '/hello/',
+      'foo.js': '/foo',
+      'foo/bar.js': '/foo/bar',
+    };
+    Object.keys(asserts).forEach((file) => {
+      expect(fileToPath(file)).toBe(asserts[file]);
+    });
   });
 });
 
-test('isValidPathname', () => {
-  expect(isValidPathname('/')).toBe(true);
-  expect(isValidPathname('/hey')).toBe(true);
-  expect(isValidPathname('/hey/ho')).toBe(true);
-  expect(isValidPathname('/hey/ho/')).toBe(true);
-  expect(isValidPathname('/hey/h%C3%B4/')).toBe(true);
-  expect(isValidPathname('/hey///ho///')).toBe(true); // Unexpected but valid
-  expect(isValidPathname('/hey/héllô you')).toBe(true);
+describe('isValidPathname', () => {
+  it('works', () => {
+    expect(isValidPathname('/')).toBe(true);
+    expect(isValidPathname('/hey')).toBe(true);
+    expect(isValidPathname('/hey/ho')).toBe(true);
+    expect(isValidPathname('/hey/ho/')).toBe(true);
+    expect(isValidPathname('/hey/h%C3%B4/')).toBe(true);
+    expect(isValidPathname('/hey///ho///')).toBe(true); // Unexpected but valid
+    expect(isValidPathname('/hey/héllô you')).toBe(true);
 
-  expect(isValidPathname('')).toBe(false);
-  expect(isValidPathname('hey')).toBe(false);
-  expect(isValidPathname('/hey?qs=ho')).toBe(false);
-  expect(isValidPathname('https://fb.com/hey')).toBe(false);
-  expect(isValidPathname('//hey')).toBe(false);
-  expect(isValidPathname('////')).toBe(false);
+    expect(isValidPathname('')).toBe(false);
+    expect(isValidPathname('hey')).toBe(false);
+    expect(isValidPathname('/hey?qs=ho')).toBe(false);
+    expect(isValidPathname('https://fb.com/hey')).toBe(false);
+    expect(isValidPathname('//hey')).toBe(false);
+    expect(isValidPathname('////')).toBe(false);
+  });
 });
 
 describe('addTrailingSlash', () => {
-  test('should no-op', () => {
-    expect(addTrailingSlash('/abcd/')).toEqual('/abcd/');
+  it('is no-op for path with trailing slash', () => {
+    expect(addTrailingSlash('/abcd/')).toBe('/abcd/');
   });
-  test('should add /', () => {
-    expect(addTrailingSlash('/abcd')).toEqual('/abcd/');
+  it('adds / for path without trailing slash', () => {
+    expect(addTrailingSlash('/abcd')).toBe('/abcd/');
   });
 });
 
 describe('addLeadingSlash', () => {
-  test('should no-op', () => {
-    expect(addLeadingSlash('/abc')).toEqual('/abc');
+  it('is no-op for path with leading slash', () => {
+    expect(addLeadingSlash('/abc')).toBe('/abc');
   });
-  test('should add /', () => {
-    expect(addLeadingSlash('abc')).toEqual('/abc');
+  it('adds / for path without leading slash', () => {
+    expect(addLeadingSlash('abc')).toBe('/abc');
   });
 });
 
 describe('removeTrailingSlash', () => {
-  test('should no-op', () => {
-    expect(removeTrailingSlash('/abcd')).toEqual('/abcd');
+  it('is no-op for path without trailing slash', () => {
+    expect(removeTrailingSlash('/abcd')).toBe('/abcd');
   });
-  test('should remove /', () => {
-    expect(removeTrailingSlash('/abcd/')).toEqual('/abcd');
+  it('removes / for path with trailing slash', () => {
+    expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
   });
 });
 
-test('resolvePathname', () => {
-  // These tests are directly copied from https://github.com/mjackson/resolve-pathname/blob/master/modules/__tests__/resolvePathname-test.js
-  // Maybe we want to wrap that logic in the future?
-  expect(resolvePathname('c')).toEqual('c');
-  expect(resolvePathname('c', 'a/b')).toEqual('a/c');
-  expect(resolvePathname('/c', '/a/b')).toEqual('/c');
-  expect(resolvePathname('', '/a/b')).toEqual('/a/b');
-  expect(resolvePathname('../c', '/a/b')).toEqual('/c');
-  expect(resolvePathname('c', '/a/b')).toEqual('/a/c');
-  expect(resolvePathname('c', '/a/')).toEqual('/a/c');
-  expect(resolvePathname('..', '/a/b')).toEqual('/');
+describe('resolvePathname', () => {
+  it('works', () => {
+    // These tests are directly copied from https://github.com/mjackson/resolve-pathname/blob/master/modules/__tests__/resolvePathname-test.js
+    // Maybe we want to wrap that logic in the future?
+    expect(resolvePathname('c')).toBe('c');
+    expect(resolvePathname('c', 'a/b')).toBe('a/c');
+    expect(resolvePathname('/c', '/a/b')).toBe('/c');
+    expect(resolvePathname('', '/a/b')).toBe('/a/b');
+    expect(resolvePathname('../c', '/a/b')).toBe('/c');
+    expect(resolvePathname('c', '/a/b')).toBe('/a/c');
+    expect(resolvePathname('c', '/a/')).toBe('/a/c');
+    expect(resolvePathname('..', '/a/b')).toBe('/');
+  });
 });
 
-test('encodePath', () => {
-  expect(encodePath('a/foo/')).toEqual('a/foo/');
-  expect(encodePath('a/<foo>/')).toEqual('a/%3Cfoo%3E/');
-  expect(encodePath('a/你好/')).toEqual('a/%E4%BD%A0%E5%A5%BD/');
+describe('encodePath', () => {
+  it('works', () => {
+    expect(encodePath('a/foo/')).toBe('a/foo/');
+    // cSpell:ignore cfoo
+    expect(encodePath('a/<foo>/')).toBe('a/%3Cfoo%3E/');
+    expect(encodePath('a/你好/')).toBe('a/%E4%BD%A0%E5%A5%BD/');
+  });
 });

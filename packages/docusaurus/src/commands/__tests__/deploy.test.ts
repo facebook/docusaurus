@@ -8,24 +8,24 @@
 import {buildSshUrl, buildHttpsUrl, hasSSHProtocol} from '../deploy';
 
 describe('remoteBranchUrl', () => {
-  test('should build a normal ssh url', () => {
+  it('builds a normal ssh url', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus');
-    expect(url).toEqual('git@github.com:facebook/docusaurus.git');
+    expect(url).toBe('git@github.com:facebook/docusaurus.git');
   });
-  test('should build a ssh url with port', () => {
+  it('builds a ssh url with port', () => {
     const url = buildSshUrl('github.com', 'facebook', 'docusaurus', '422');
-    expect(url).toEqual('ssh://git@github.com:422/facebook/docusaurus.git');
+    expect(url).toBe('ssh://git@github.com:422/facebook/docusaurus.git');
   });
-  test('should build a normal http url', () => {
+  it('builds a normal http url', () => {
     const url = buildHttpsUrl(
       'user:pass',
       'github.com',
       'facebook',
       'docusaurus',
     );
-    expect(url).toEqual('https://user:pass@github.com/facebook/docusaurus.git');
+    expect(url).toBe('https://user:pass@github.com/facebook/docusaurus.git');
   });
-  test('should build a normal http url with port', () => {
+  it('builds a normal http url with port', () => {
     const url = buildHttpsUrl(
       'user:pass',
       'github.com',
@@ -33,30 +33,30 @@ describe('remoteBranchUrl', () => {
       'docusaurus',
       '5433',
     );
-    expect(url).toEqual(
+    expect(url).toBe(
       'https://user:pass@github.com:5433/facebook/docusaurus.git',
     );
   });
 });
 
 describe('hasSSHProtocol', () => {
-  test('should recognize explicit SSH protocol', () => {
+  it('recognizes explicit SSH protocol', () => {
     const url = 'ssh://git@github.com:422/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(true);
+    expect(hasSSHProtocol(url)).toBe(true);
   });
 
-  test('should recognize implied SSH protocol', () => {
+  it('recognizes implied SSH protocol', () => {
     const url = 'git@github.com:facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(true);
+    expect(hasSSHProtocol(url)).toBe(true);
   });
 
-  test('should not recognize HTTPS with credentials', () => {
+  it('does not recognize HTTPS with credentials', () => {
     const url = 'https://user:pass@github.com/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(false);
+    expect(hasSSHProtocol(url)).toBe(false);
   });
 
-  test('should not recognize plain HTTPS URL', () => {
+  it('does not recognize plain HTTPS URL', () => {
     const url = 'https://github.com:5433/facebook/docusaurus.git';
-    expect(hasSSHProtocol(url)).toEqual(false);
+    expect(hasSSHProtocol(url)).toBe(false);
   });
 });

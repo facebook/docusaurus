@@ -23,7 +23,7 @@ function testValidateThemeConfig(themeConfig: Record<string, unknown>) {
 }
 
 describe('validateThemeConfig', () => {
-  test('minimal config', () => {
+  it('minimal config', () => {
     const algolia = {
       indexName: 'index',
       apiKey: 'apiKey',
@@ -37,7 +37,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('unknown attributes', () => {
+  it('unknown attributes', () => {
     const algolia = {
       indexName: 'index',
       apiKey: 'apiKey',
@@ -52,7 +52,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('undefined config', () => {
+  it('undefined config', () => {
     const algolia = undefined;
     expect(() =>
       testValidateThemeConfig({algolia}),
@@ -61,7 +61,7 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('undefined config 2', () => {
+  it('undefined config 2', () => {
     expect(() =>
       testValidateThemeConfig({}),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -69,7 +69,7 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('missing indexName config', () => {
+  it('missing indexName config', () => {
     const algolia = {apiKey: 'apiKey', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
@@ -78,14 +78,14 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('missing apiKey config', () => {
+  it('missing apiKey config', () => {
     const algolia = {indexName: 'indexName', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"algolia.apiKey\\" is required"`);
   });
 
-  test('missing appId config', () => {
+  it('missing appId config', () => {
     const algolia = {indexName: 'indexName', apiKey: 'apiKey'};
     expect(() =>
       testValidateThemeConfig({algolia}),
@@ -94,7 +94,7 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('contextualSearch config', () => {
+  it('contextualSearch config', () => {
     const algolia = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
@@ -109,7 +109,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('externalUrlRegex config', () => {
+  it('externalUrlRegex config', () => {
     const algolia = {
       appId: 'BH4D9OD16A',
       indexName: 'index',
@@ -124,7 +124,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('searchParameters.facetFilters search config', () => {
+  it('searchParameters.facetFilters search config', () => {
     const algolia = {
       appId: 'BH4D9OD16A',
       indexName: 'index',

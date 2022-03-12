@@ -40,7 +40,7 @@ describe('eject', () => {
     };
   }
 
-  test(`eject ${Components.FirstLevelComponent}`, async () => {
+  it(`eject ${Components.FirstLevelComponent}`, async () => {
     const result = await testEject('eject', Components.FirstLevelComponent);
     expect(result.createdFiles).toEqual([
       'FirstLevelComponent.css',
@@ -53,7 +53,7 @@ describe('eject', () => {
     `);
   });
 
-  test(`eject ${Components.ComponentInSubFolder}`, async () => {
+  it(`eject ${Components.ComponentInSubFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInSubFolder);
     expect(result.createdFiles).toEqual([
       'ComponentInFolder/ComponentInSubFolder/index.css',
@@ -72,7 +72,7 @@ describe('eject', () => {
     `);
   });
 
-  test(`eject ${Components.ComponentInFolder}`, async () => {
+  it(`eject ${Components.ComponentInFolder}`, async () => {
     const result = await testEject('eject', Components.ComponentInFolder);
     expect(result.createdFiles).toEqual([
       // TODO do we really want to copy those Sibling components?
@@ -124,29 +124,17 @@ describe('wrap', () => {
       });
     }
 
-    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+    it(`wrap ${Components.FirstLevelComponent}`, async () => {
       const result = await doWrap(Components.FirstLevelComponent);
       expect(result.createdFiles).toEqual(['FirstLevelComponent.js']);
       expect(result.tree).toMatchInlineSnapshot(`
               "theme
               └── FirstLevelComponent.js"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React from 'react';
-              import FirstLevelComponent from '@theme-original/FirstLevelComponent';
-
-              export default function FirstLevelComponentWrapper(props) {
-                return (
-                  <>
-                    <FirstLevelComponent {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
 
-    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+    it(`wrap ${Components.ComponentInSubFolder}`, async () => {
       const result = await doWrap(Components.ComponentInSubFolder);
       expect(result.createdFiles).toEqual([
         'ComponentInFolder/ComponentInSubFolder/index.js',
@@ -157,22 +145,10 @@ describe('wrap', () => {
                   └── ComponentInSubFolder
                       └── index.js"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React from 'react';
-              import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
-
-              export default function ComponentInSubFolderWrapper(props) {
-                return (
-                  <>
-                    <ComponentInSubFolder {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
 
-    test(`wrap ${Components.ComponentInFolder}`, async () => {
+    it(`wrap ${Components.ComponentInFolder}`, async () => {
       const result = await doWrap(Components.ComponentInFolder);
       expect(result.createdFiles).toEqual(['ComponentInFolder/index.js']);
       expect(result.tree).toMatchInlineSnapshot(`
@@ -180,19 +156,7 @@ describe('wrap', () => {
               └── ComponentInFolder
                   └── index.js"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React from 'react';
-              import ComponentInFolder from '@theme-original/ComponentInFolder';
-
-              export default function ComponentInFolderWrapper(props) {
-                return (
-                  <>
-                    <ComponentInFolder {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
   });
 
@@ -203,32 +167,17 @@ describe('wrap', () => {
       });
     }
 
-    test(`wrap ${Components.FirstLevelComponent}`, async () => {
+    it(`wrap ${Components.FirstLevelComponent}`, async () => {
       const result = await doWrap(Components.FirstLevelComponent);
       expect(result.createdFiles).toEqual(['FirstLevelComponent.tsx']);
       expect(result.tree).toMatchInlineSnapshot(`
               "theme
               └── FirstLevelComponent.tsx"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React, {ComponentProps} from 'react';
-              import type FirstLevelComponentType from '@theme/FirstLevelComponent';
-              import FirstLevelComponent from '@theme-original/FirstLevelComponent';
-
-              type Props = ComponentProps<typeof FirstLevelComponentType>
-
-              export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
-                return (
-                  <>
-                    <FirstLevelComponent {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
 
-    test(`wrap ${Components.ComponentInSubFolder}`, async () => {
+    it(`wrap ${Components.ComponentInSubFolder}`, async () => {
       const result = await doWrap(Components.ComponentInSubFolder);
       expect(result.createdFiles).toEqual([
         'ComponentInFolder/ComponentInSubFolder/index.tsx',
@@ -239,25 +188,10 @@ describe('wrap', () => {
                   └── ComponentInSubFolder
                       └── index.tsx"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React, {ComponentProps} from 'react';
-              import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
-              import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
-
-              type Props = ComponentProps<typeof ComponentInSubFolderType>
-
-              export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
-                return (
-                  <>
-                    <ComponentInSubFolder {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
 
-    test(`wrap ${Components.ComponentInFolder}`, async () => {
+    it(`wrap ${Components.ComponentInFolder}`, async () => {
       const result = await doWrap(Components.ComponentInFolder);
       expect(result.createdFiles).toEqual(['ComponentInFolder/index.tsx']);
       expect(result.tree).toMatchInlineSnapshot(`
@@ -265,22 +199,7 @@ describe('wrap', () => {
               └── ComponentInFolder
                   └── index.tsx"
           `);
-      await expect(result.firstFileContent()).resolves.toMatchInlineSnapshot(`
-              "import React, {ComponentProps} from 'react';
-              import type ComponentInFolderType from '@theme/ComponentInFolder';
-              import ComponentInFolder from '@theme-original/ComponentInFolder';
-
-              type Props = ComponentProps<typeof ComponentInFolderType>
-
-              export default function ComponentInFolderWrapper(props: Props): JSX.Element {
-                return (
-                  <>
-                    <ComponentInFolder {...props} />
-                  </>
-                );
-              }
-              "
-            `);
+      await expect(result.firstFileContent()).resolves.toMatchSnapshot();
     });
   });
 });

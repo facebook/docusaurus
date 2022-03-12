@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import GeneratedRoutes, {type Route} from '@generated/routes';
+import generatedRoutes from '@generated/routes';
 import {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {Route} from '@docusaurus/types';
 
 // Note that all sites don't always have a homepage in practice
 // See https://github.com/facebook/docusaurus/pull/6517#issuecomment-1048709116
@@ -48,7 +49,7 @@ export function useHomePageRoute(): Route | undefined {
   return useMemo(
     () =>
       findHomePageRoute({
-        routes: GeneratedRoutes,
+        routes: generatedRoutes,
         baseUrl,
       }),
     [baseUrl],

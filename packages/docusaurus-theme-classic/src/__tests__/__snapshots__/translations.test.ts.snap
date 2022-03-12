@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getTranslationFiles should return translation files matching snapshot 1`] = `
+exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
 Array [
   Object {
     "content": Object {
@@ -55,7 +55,7 @@ Array [
 ]
 `;
 
-exports[`getTranslationFiles should return translation files matching snapshot 2`] = `
+exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
 Array [
   Object {
     "content": Object {
@@ -98,7 +98,7 @@ Array [
 ]
 `;
 
-exports[`translateThemeConfig should return translated themeConfig matching snapshot 1`] = `
+exports[`translateThemeConfig returns translated themeConfig 1`] = `
 Object {
   "announcementBar": Object {},
   "colorMode": Object {},

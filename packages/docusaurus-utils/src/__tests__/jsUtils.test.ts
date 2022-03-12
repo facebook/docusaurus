@@ -17,37 +17,29 @@ import {
 import _ from 'lodash';
 
 describe('removeSuffix', () => {
-  test('should no-op 1', () => {
-    expect(removeSuffix('abcdef', 'ijk')).toEqual('abcdef');
+  it("is no-op when suffix doesn't exist", () => {
+    expect(removeSuffix('abcdef', 'ijk')).toBe('abcdef');
+    expect(removeSuffix('abcdef', 'abc')).toBe('abcdef');
+    expect(removeSuffix('abcdef', '')).toBe('abcdef');
   });
-  test('should no-op 2', () => {
-    expect(removeSuffix('abcdef', 'abc')).toEqual('abcdef');
-  });
-  test('should no-op 3', () => {
-    expect(removeSuffix('abcdef', '')).toEqual('abcdef');
-  });
-  test('should remove suffix', () => {
-    expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
+  it('removes suffix', () => {
+    expect(removeSuffix('abcdef', 'ef')).toBe('abcd');
   });
 });
 
 describe('removePrefix', () => {
-  test('should no-op 1', () => {
-    expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
+  it("is no-op when prefix doesn't exist", () => {
+    expect(removePrefix('abcdef', 'ijk')).toBe('abcdef');
+    expect(removePrefix('abcdef', 'def')).toBe('abcdef');
+    expect(removePrefix('abcdef', '')).toBe('abcdef');
   });
-  test('should no-op 2', () => {
-    expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
-  });
-  test('should no-op 3', () => {
-    expect(removePrefix('abcdef', '')).toEqual('abcdef');
-  });
-  test('should remove prefix', () => {
-    expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
+  it('removes prefix', () => {
+    expect(removePrefix('prefix', 'pre')).toBe('fix');
   });
 });
 
 describe('getElementsAround', () => {
-  test('can return elements around', () => {
+  it('returns elements around', () => {
     expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
       previous: undefined,
       next: 'b',
@@ -66,7 +58,7 @@ describe('getElementsAround', () => {
     });
   });
 
-  test('throws if bad index is provided', () => {
+  it('throws if bad index is provided', () => {
     expect(() =>
       getElementsAround(['a', 'b', 'c', 'd'], -1),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -87,7 +79,7 @@ describe('mapAsyncSequential', () => {
     });
   }
 
-  test('map sequentially', async () => {
+  it('maps sequentially', async () => {
     const itemToTimeout: Record<string, number> = {
       '1': 200,
       '2': 600,
@@ -132,7 +124,7 @@ describe('findAsyncSequential', () => {
     });
   }
 
-  test('find sequentially', async () => {
+  it('finds sequentially', async () => {
     const items = ['1', '2', '3'];
 
     const findFn = jest.fn(async (item: string) => {
@@ -141,7 +133,7 @@ describe('findAsyncSequential', () => {
     });
 
     const timeBefore = Date.now();
-    await expect(findAsyncSequential(items, findFn)).resolves.toEqual('2');
+    await expect(findAsyncSequential(items, findFn)).resolves.toBe('2');
     const timeAfter = Date.now();
 
     expect(findFn).toHaveBeenCalledTimes(2);
@@ -155,7 +147,7 @@ describe('findAsyncSequential', () => {
 });
 
 describe('reportMessage', () => {
-  test('all severities', () => {
+  it('works with all severities', () => {
     const consoleLog = jest.spyOn(console, 'info').mockImplementation(() => {});
     const consoleWarn = jest
       .spyOn(console, 'warn')

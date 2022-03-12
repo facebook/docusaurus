@@ -12,6 +12,7 @@ import {
   getCustomizableJSLoader,
   applyConfigureWebpack,
   applyConfigurePostCss,
+  getHttpsConfig,
 } from '../utils';
 import type {
   ConfigureWebpackFn,
@@ -19,7 +20,7 @@ import type {
 } from '@docusaurus/types';
 
 describe('customize JS loader', () => {
-  test('getCustomizableJSLoader defaults to babel loader', () => {
+  it('getCustomizableJSLoader defaults to babel loader', () => {
     expect(getCustomizableJSLoader()({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
@@ -28,7 +29,7 @@ describe('customize JS loader', () => {
     );
   });
 
-  test('getCustomizableJSLoader accepts loaders with preset', () => {
+  it('getCustomizableJSLoader accepts loaders with preset', () => {
     expect(getCustomizableJSLoader('babel')({isServer: true}).loader).toBe(
       require.resolve('babel-loader'),
     );
@@ -37,7 +38,7 @@ describe('customize JS loader', () => {
     );
   });
 
-  test('getCustomizableJSLoader allows customization', () => {
+  it('getCustomizableJSLoader allows customization', () => {
     const customJSLoader = (isServer: boolean): RuleSetRule => ({
       loader: 'my-fast-js-loader',
       options: String(isServer),
@@ -53,7 +54,7 @@ describe('customize JS loader', () => {
 });
 
 describe('extending generated webpack config', () => {
-  test('direct mutation on generated webpack config object', async () => {
+  it('direct mutation on generated webpack config object', async () => {
     // fake generated webpack config
     let config: Configuration = {
       output: {
@@ -90,7 +91,7 @@ describe('extending generated webpack config', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('webpack-merge with user webpack config object', async () => {
+  it('webpack-merge with user webpack config object', async () => {
     let config: Configuration = {
       output: {
         path: __dirname,
@@ -120,7 +121,7 @@ describe('extending generated webpack config', () => {
     expect(errors).toBeUndefined();
   });
 
-  test('webpack-merge with custom strategy', async () => {
+  it('webpack-merge with custom strategy', async () => {
     const config: Configuration = {
       module: {
         rules: [{use: 'xxx'}, {use: 'yyy'}],
@@ -178,7 +179,7 @@ describe('extending generated webpack config', () => {
 });
 
 describe('extending PostCSS', () => {
-  test('user plugin should be appended in PostCSS loader', () => {
+  it('user plugin should be appended in PostCSS loader', () => {
     let webpackConfig: Configuration = {
       output: {
         path: __dirname,
@@ -268,7 +269,7 @@ describe('extending PostCSS', () => {
 
     // @ts-expect-error: relax type
     const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
-    expect(postCssLoader1.loader).toEqual('postcss-loader-1');
+    expect(postCssLoader1.loader).toBe('postcss-loader-1');
 
     const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
       (p: unknown) => p[0],
@@ -283,7 +284,7 @@ describe('extending PostCSS', () => {
 
     // @ts-expect-error: relax type
     const postCssLoader2 = webpackConfig.module?.rules[1].use[0];
-    expect(postCssLoader2.loader).toEqual('postcss-loader-2');
+    expect(postCssLoader2.loader).toBe('postcss-loader-2');
 
     const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
       (p: unknown) => p[0],
@@ -295,5 +296,67 @@ describe('extending PostCSS', () => {
       'postcss-plugin-1',
       'postcss-plugin-3',
     ]);
+  });
+});
+
+describe('getHttpsConfig', () => {
+  const originalEnv = process.env;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = {...originalEnv};
+  });
+
+  afterAll(() => {
+    process.env = originalEnv;
+  });
+
+  it('returns true for HTTPS not env', async () => {
+    await expect(getHttpsConfig()).resolves.toBe(false);
+  });
+
+  it('returns true for HTTPS in env', async () => {
+    process.env.HTTPS = 'true';
+    await expect(getHttpsConfig()).resolves.toBe(true);
+  });
+
+  it('returns custom certs if they are in env', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/host.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it("throws if file doesn't exist", async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(
+      __dirname,
+      '__fixtures__/nonexistent.crt',
+    );
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"You specified SSL_CRT_FILE in your env, but the file \\"<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt\\" can't be found."`,
+    );
+  });
+
+  it('throws for invalid key', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/host.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/invalid.key');
+    await expect(getHttpsConfig()).rejects.toThrowError(
+      /The certificate key .*[/\\]__fixtures__[/\\]invalid\.key is invalid/,
+    );
+  });
+
+  it('throws for invalid cert', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/invalid.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).rejects.toThrowError(
+      /The certificate .*[/\\]__fixtures__[/\\]invalid\.crt is invalid/,
+    );
   });
 });
