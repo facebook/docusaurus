@@ -12,6 +12,7 @@ import {
   getCustomizableJSLoader,
   applyConfigureWebpack,
   applyConfigurePostCss,
+  getHttpsConfig,
 } from '../utils';
 import type {
   ConfigureWebpackFn,
@@ -295,5 +296,67 @@ describe('extending PostCSS', () => {
       'postcss-plugin-1',
       'postcss-plugin-3',
     ]);
+  });
+});
+
+describe('getHttpsConfig', () => {
+  const originalEnv = process.env;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = {...originalEnv};
+  });
+
+  afterAll(() => {
+    process.env = originalEnv;
+  });
+
+  it('returns true for HTTPS not env', async () => {
+    await expect(getHttpsConfig()).resolves.toBe(false);
+  });
+
+  it('returns true for HTTPS in env', async () => {
+    process.env.HTTPS = 'true';
+    await expect(getHttpsConfig()).resolves.toBe(true);
+  });
+
+  it('returns custom certs if they are in env', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/host.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).resolves.toEqual({
+      key: expect.any(Buffer),
+      cert: expect.any(Buffer),
+    });
+  });
+
+  it("throws if file doesn't exist", async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(
+      __dirname,
+      '__fixtures__/nonexistent.crt',
+    );
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"You specified SSL_CRT_FILE in your env, but the file \\"<PROJECT_ROOT>/packages/docusaurus/src/webpack/__tests__/__fixtures__/nonexistent.crt\\" can't be found."`,
+    );
+  });
+
+  it('throws for invalid key', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/host.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/invalid.key');
+    await expect(getHttpsConfig()).rejects.toThrowError(
+      /The certificate key .*[/\\]__fixtures__[/\\]invalid\.key is invalid/,
+    );
+  });
+
+  it('throws for invalid cert', async () => {
+    process.env.HTTPS = 'true';
+    process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/invalid.crt');
+    process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
+    await expect(getHttpsConfig()).rejects.toThrowError(
+      /The certificate .*[/\\]__fixtures__[/\\]invalid\.crt is invalid/,
+    );
   });
 });

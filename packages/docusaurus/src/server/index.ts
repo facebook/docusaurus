@@ -464,7 +464,7 @@ ${Object.entries(registry)
   return props;
 }
 
-// We want all @docusaurus/* packages  to have the exact same version!
+// We want all @docusaurus/* packages to have the exact same version!
 // See https://github.com/facebook/docusaurus/issues/3371
 // See https://github.com/facebook/docusaurus/pull/3386
 function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {

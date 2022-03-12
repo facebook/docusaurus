@@ -111,6 +111,27 @@ describe('getSlug', () => {
     ).toBe('/dir with spâce/hey $hello/my dôc');
   });
 
+  it('throws for invalid routes', () => {
+    expect(() =>
+      getSlug({
+        baseID: 'my dôc',
+        source: '@site/docs/dir with spâce/hey $hello/doc.md',
+        sourceDirName: '/dir with spâce/hey $hello',
+        frontMatterSlug: '//',
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "We couldn't compute a valid slug for document with ID \\"my dôc\\" in \\"/dir with spâce/hey $hello\\" directory.
+      The slug we computed looks invalid: //.
+      Maybe your slug front matter is incorrect or there are special characters in the file path?
+      By using front matter to set a custom slug, you should be able to fix this error:
+
+      ---
+      slug: /my/customDocPath
+      ---
+      "
+    `);
+  });
+
   it('handles current dir', () => {
     expect(
       getSlug({baseID: 'doc', source: '@site/docs/doc.md', sourceDirName: '.'}),

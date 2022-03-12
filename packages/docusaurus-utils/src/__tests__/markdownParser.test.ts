@@ -250,7 +250,7 @@ Lorem Ipsum
     });
   });
 
-  it('parses markdown h1 title at the top  followed by h2 title', () => {
+  it('parses markdown h1 title at the top followed by h2 title', () => {
     const markdown = dedent`
 
           # Markdown Title

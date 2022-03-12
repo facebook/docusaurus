@@ -218,7 +218,7 @@ export default function SearchPage(): JSX.Element {
   algoliaHelper.on(
     'result',
     ({results: {query, hits, page, nbHits, nbPages}}) => {
-      if (query === '' || !(hits instanceof Array)) {
+      if (query === '' || !Array.isArray(hits)) {
         searchResultStateDispatcher({type: 'reset'});
         return;
       }

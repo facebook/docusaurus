@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toGlobalDataVersion generates the right docs, sidebars, and metadata 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "id": "main",
+      "path": "/current/main",
+      "sidebar": "tutorial",
+    },
+    Object {
+      "id": "doc",
+      "path": "/current/doc",
+      "sidebar": "tutorial",
+    },
+    Object {
+      "id": "/current/generated",
+      "path": "/current/generated",
+      "sidebar": "tutorial",
+    },
+  ],
+  "isLast": true,
+  "label": "Label",
+  "mainDocId": "main",
+  "name": "current",
+  "path": "/current",
+  "sidebars": Object {
+    "another": Object {
+      "link": Object {
+        "label": "Generated",
+        "path": "/current/generated",
+      },
+    },
+    "links": Object {},
+    "tutorial": Object {
+      "link": Object {
+        "label": "main",
+        "path": "/current/main",
+      },
+    },
+  },
+}
+`;

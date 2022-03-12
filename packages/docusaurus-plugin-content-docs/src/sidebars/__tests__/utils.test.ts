@@ -111,7 +111,7 @@ describe('createSidebarsUtils', () => {
       link: {
         type: 'generated-index',
         slug: '/s4-category-slug',
-        permalink: '/s4-category-permalink',
+        permalink: '/s4-category-slug',
       },
       items: [
         {type: 'doc', id: 'doc8'},
@@ -291,7 +291,7 @@ describe('createSidebarsUtils', () => {
     });
     expect(getFirstLink('sidebar4')).toEqual({
       type: 'generated-index',
-      slug: '/s4-category-slug',
+      permalink: '/s4-category-slug',
       label: 'S4 Category',
     });
   });
