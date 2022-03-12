@@ -131,9 +131,9 @@ describe('DefaultSidebarItemsGenerator', () => {
           label: 'SubGuides (metadata file label)',
           link: {
             type: 'generated-index',
-            slug: 'subguides-generated-index-slug',
-            title: 'subguides-title',
-            description: 'subguides-description',
+            slug: 'subGuides-generated-index-slug',
+            title: 'subGuides-title',
+            description: 'subGuides-description',
           },
         },
       },

@@ -43,7 +43,7 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('sidebars shorthand and longform lead to exact same sidebar', async () => {
+  it('sidebars shorthand and longhand lead to exact same sidebar', async () => {
     const sidebarPath1 = path.join(fixtureDir, 'sidebars-category.js');
     const sidebarPath2 = path.join(
       fixtureDir,
@@ -81,8 +81,8 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('unexisting path', async () => {
-    await expect(loadSidebars('badpath', params)).resolves.toEqual(
+  it('nonexistent path', async () => {
+    await expect(loadSidebars('bad/path', params)).resolves.toEqual(
       DisabledSidebars,
     );
   });

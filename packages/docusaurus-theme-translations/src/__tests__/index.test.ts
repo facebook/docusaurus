@@ -67,7 +67,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     );
   });
 
-  it('for unexisting locale', async () => {
+  it('for nonexistent locale', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'es',

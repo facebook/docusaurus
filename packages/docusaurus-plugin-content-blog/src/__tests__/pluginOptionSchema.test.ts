@@ -63,7 +63,7 @@ describe('blog plugin options schema', () => {
     expect(error).toMatchSnapshot();
   });
 
-  it('throws Error in case of invalid feedtype', () => {
+  it('throws Error in case of invalid feed type', () => {
     const {error} = PluginOptionSchema.validate({
       feedOptions: {
         type: 'none',

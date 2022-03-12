@@ -34,7 +34,7 @@ describe('removePrefix', () => {
     expect(removePrefix('abcdef', '')).toBe('abcdef');
   });
   it('removes prefix', () => {
-    expect(removePrefix('abcdef', 'ab')).toBe('cdef');
+    expect(removePrefix('prefix', 'pre')).toBe('fix');
   });
 });
 

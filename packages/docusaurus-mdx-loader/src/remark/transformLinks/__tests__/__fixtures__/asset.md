@@ -40,4 +40,4 @@
 
 [json](./data.json)
 
-[static json](/staticjson.json)
+[static json](/static-json.json)

@@ -24,7 +24,7 @@ describe('listTagsByLetters', () => {
       permalink: '/tag2',
       count: 11,
     };
-    const tagzxy: Tag = {
+    const tagZxy: Tag = {
       name: 'zxy',
       permalink: '/zxy',
       count: 987,
@@ -34,34 +34,34 @@ describe('listTagsByLetters', () => {
       permalink: '/abc',
       count: 123,
     };
-    const tagdef: Tag = {
+    const tagDef: Tag = {
       name: 'def',
       permalink: '/def',
       count: 1,
     };
-    const tagaaa: Tag = {
+    const tagAaa: Tag = {
       name: 'aaa',
       permalink: '/aaa',
       count: 10,
     };
 
     const expectedResult: Result = [
-      {letter: 'A', tags: [tagaaa, tagAbc]},
-      {letter: 'D', tags: [tagdef]},
+      {letter: 'A', tags: [tagAaa, tagAbc]},
+      {letter: 'D', tags: [tagDef]},
       {letter: 'T', tags: [tag1, tag2]},
-      {letter: 'Z', tags: [tagzxy]},
+      {letter: 'Z', tags: [tagZxy]},
     ];
 
     // Input order shouldn't matter, output is always consistently sorted
     expect(
-      listTagsByLetters([tag1, tag2, tagzxy, tagAbc, tagdef, tagaaa]),
+      listTagsByLetters([tag1, tag2, tagZxy, tagAbc, tagDef, tagAaa]),
     ).toEqual(expectedResult);
     expect(
-      listTagsByLetters([tagzxy, tagdef, tagaaa, tag2, tagAbc, tag1]),
+      listTagsByLetters([tagZxy, tagDef, tagAaa, tag2, tagAbc, tag1]),
     ).toEqual(expectedResult);
     expect(
       listTagsByLetters(
-        _.shuffle([tagzxy, tagdef, tagaaa, tag2, tagAbc, tag1]),
+        _.shuffle([tagZxy, tagDef, tagAaa, tag2, tagAbc, tag1]),
       ),
     ).toEqual(expectedResult);
   });

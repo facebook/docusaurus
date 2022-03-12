@@ -13,7 +13,7 @@ function testField(params: {
   prefix: string;
   validFrontMatters: DocFrontMatter[];
   convertibleFrontMatter?: [
-    ConvertableFrontMatter: Record<string, unknown>,
+    ConvertibleFrontMatter: Record<string, unknown>,
     ConvertedFrontMatter: DocFrontMatter,
   ][];
   invalidFrontMatters?: [

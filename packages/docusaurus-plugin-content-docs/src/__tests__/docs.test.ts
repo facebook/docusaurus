@@ -502,14 +502,14 @@ describe('simple site', () => {
     const docs = await readVersionDocs(versionsMetadata[0], options);
     docs.push(
       createFakeDocFile({
-        source: 'hehe',
+        source: 'bad',
         frontMatter: {pagination_prev: 'nonexistent'},
       }),
     );
     await expect(
       defaultTestUtils.generateNavigation(docs),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Error when loading hehe in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
+      `"Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
     );
   });
 });

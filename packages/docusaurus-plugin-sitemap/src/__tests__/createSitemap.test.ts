@@ -38,7 +38,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/404.html', '/mypage'],
+      ['/', '/404.html', '/my-page'],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,

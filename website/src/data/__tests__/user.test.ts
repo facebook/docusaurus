@@ -70,6 +70,7 @@ describe('users data', () => {
         }),
       }).unknown(false),
     );
+    // cSpell:ignore opensource
     if (user.tags.includes('opensource') && user.source === null) {
       throw new Error(
         "You can't add the 'opensource' tag to a site that does not have a link to source code. Please add your source code, or remove this tag.",

@@ -19,7 +19,7 @@ Object {
 exports[`sidebar site with wrong sidebar content 1`] = `
 "Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
 These sidebar document ids do not exist:
-- goku
+- nonExistent
 
 Available document ids are:
 - doc with space

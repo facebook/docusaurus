@@ -108,9 +108,9 @@ describe('htmlTagObjectToString', () => {
 
   it('invalid html tag object', () => {
     expect(() =>
-      htmlTagObjectToString('fooofofoofo'),
+      htmlTagObjectToString('foo'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"fooofofoofo\\" is not a valid HTML tag object."`,
+      `"\\"foo\\" is not a valid HTML tag object."`,
     );
 
     expect(() =>

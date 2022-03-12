@@ -3,7 +3,7 @@
 exports[`parseLines does not parse content with metastring 1`] = `
 Object {
   "code": "aaaaa
-bbbbb",
+nnnnn",
   "highlightLines": Array [
     0,
   ],

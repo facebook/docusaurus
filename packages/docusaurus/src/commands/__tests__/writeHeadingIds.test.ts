@@ -30,6 +30,7 @@ describe('transformMarkdownContent', () => {
   it('can slugify complex headings', () => {
     const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
     expect(transformMarkdownContent(input)).toBe(
+      // cSpell:ignore ébastien
       `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
     );
   });

@@ -243,6 +243,7 @@ describe('resolvePathname', () => {
 describe('encodePath', () => {
   it('works', () => {
     expect(encodePath('a/foo/')).toBe('a/foo/');
+    // cSpell:ignore cfoo
     expect(encodePath('a/<foo>/')).toBe('a/%3Cfoo%3E/');
     expect(encodePath('a/你好/')).toBe('a/%E4%BD%A0%E5%A5%BD/');
   });

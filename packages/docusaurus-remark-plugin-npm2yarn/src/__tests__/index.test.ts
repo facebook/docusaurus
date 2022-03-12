@@ -49,7 +49,7 @@ describe('npm2yarn plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('tdoes not re-import tabs components when already imported below', async () => {
+  it('does not re-import tabs components when already imported below', async () => {
     const result = await processFixture('import-tabs-below');
 
     expect(result).toMatchSnapshot();

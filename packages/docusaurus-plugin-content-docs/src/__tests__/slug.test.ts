@@ -167,11 +167,11 @@ describe('getSlug', () => {
     expect(
       getSlug({
         baseID: 'any',
-        source: '@site/docs/unslashedDir/doc.md',
-        sourceDirName: 'unslashedDir',
+        source: '@site/docs/nonSlashedDir/doc.md',
+        sourceDirName: 'nonSlashedDir',
         frontMatterSlug: 'abc/def',
       }),
-    ).toBe('/unslashedDir/abc/def');
+    ).toBe('/nonSlashedDir/abc/def');
     expect(
       getSlug({
         baseID: 'any',
@@ -207,7 +207,7 @@ describe('getSlug', () => {
     expect(
       getSlug({
         baseID: 'any',
-        source: '@site/docs/dir/subdirdoc.md',
+        source: '@site/docs/dir/subdirDoc.md',
         sourceDirName: '/dir/subdir',
         frontMatterSlug: '../../../../../abc/../def',
       }),

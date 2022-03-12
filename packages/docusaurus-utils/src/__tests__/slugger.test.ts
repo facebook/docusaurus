@@ -10,6 +10,7 @@ import {createSlugger} from '../slugger';
 describe('createSlugger', () => {
   it('can create unique slugs', () => {
     const slugger = createSlugger();
+    // cSpell:ignore somevalue
     expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue');
     expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue-1');
     expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue-2');

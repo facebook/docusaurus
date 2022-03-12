@@ -172,7 +172,7 @@ describe('findFolderContainingFile', () => {
   it('find appropriate folder', async () => {
     await expect(
       findFolderContainingFile(
-        ['/abcdef', '/gehij', __dirname, '/klmn'],
+        ['/foo', '/baz', __dirname, '/bar'],
         'dataFileUtils.test.ts',
       ),
     ).resolves.toEqual(__dirname);
@@ -180,7 +180,7 @@ describe('findFolderContainingFile', () => {
 
   it('return undefined if no folder contain such file', async () => {
     await expect(
-      findFolderContainingFile(['/abcdef', '/gehij', '/klmn'], 'index.test.ts'),
+      findFolderContainingFile(['/foo', '/bar', '/baz'], 'index.test.ts'),
     ).resolves.toBeUndefined();
   });
 });
@@ -189,7 +189,7 @@ describe('getFolderContainingFile', () => {
   it('get appropriate folder', async () => {
     await expect(
       getFolderContainingFile(
-        ['/abcdef', '/gehij', __dirname, '/klmn'],
+        ['/foo', '/baz', __dirname, '/bar'],
         'dataFileUtils.test.ts',
       ),
     ).resolves.toEqual(__dirname);
@@ -198,14 +198,14 @@ describe('getFolderContainingFile', () => {
   it('throw if no folder contain such file', async () => {
     await expect(
       getFolderContainingFile(
-        ['/abcdef', '/gehij', '/klmn'],
+        ['/foo', '/bar', '/baz'],
         'dataFileUtils.test.ts',
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
             "File \\"dataFileUtils.test.ts\\" does not exist in any of these folders:
-            - /abcdef
-            - /gehij
-            - /klmn]"
+            - /foo
+            - /bar
+            - /baz"
           `);
   });
 });

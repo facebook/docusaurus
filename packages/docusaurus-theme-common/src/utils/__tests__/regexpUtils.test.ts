@@ -13,9 +13,10 @@ describe('isRegexpStringMatch', () => {
     expect(isRegexpStringMatch('bar', undefined)).toBe(false);
     expect(isRegexpStringMatch('foo', 'bar')).toBe(false);
     expect(isRegexpStringMatch('foo', 'foo')).toBe(true);
+    // cSpell:ignore fooooooooooo
     expect(isRegexpStringMatch('fooooooooooo', 'foo')).toBe(false);
-    expect(isRegexpStringMatch('foo', 'fooooooo')).toBe(true);
-    expect(isRegexpStringMatch('f.*o', 'fggo')).toBe(true);
+    expect(isRegexpStringMatch('foo', 'fooooooooooo')).toBe(true);
+    expect(isRegexpStringMatch('f.*o', 'fooooooooooo')).toBe(true);
     expect(isRegexpStringMatch('FOO', 'foo')).toBe(true);
   });
 });

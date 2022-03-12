@@ -86,7 +86,7 @@ describe('normalizeConfig', () => {
   it('throws error for baseUrl without trailing `/`', () => {
     expect(() => {
       normalizeConfig({
-        baseUrl: 'noslash',
+        baseUrl: 'noSlash',
       });
     }).toThrowErrorMatchingSnapshot();
   });

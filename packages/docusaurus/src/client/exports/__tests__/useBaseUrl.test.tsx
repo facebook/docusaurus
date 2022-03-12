@@ -34,18 +34,18 @@ describe('useBaseUrl', () => {
     expect(mockUseBaseUrl('/hello')).toBe('/hello');
     expect(mockUseBaseUrl('hello/')).toBe('/hello/');
     expect(mockUseBaseUrl('/hello/')).toBe('/hello/');
-    expect(mockUseBaseUrl('hello/byebye')).toBe('/hello/byebye');
-    expect(mockUseBaseUrl('/hello/byebye')).toBe('/hello/byebye');
-    expect(mockUseBaseUrl('hello/byebye/')).toBe('/hello/byebye/');
-    expect(mockUseBaseUrl('/hello/byebye/')).toBe('/hello/byebye/');
+    expect(mockUseBaseUrl('hello/foo')).toBe('/hello/foo');
+    expect(mockUseBaseUrl('/hello/foo')).toBe('/hello/foo');
+    expect(mockUseBaseUrl('hello/foo/')).toBe('/hello/foo/');
+    expect(mockUseBaseUrl('/hello/foo/')).toBe('/hello/foo/');
     expect(mockUseBaseUrl('https://github.com')).toBe('https://github.com');
     expect(mockUseBaseUrl('//reactjs.org')).toBe('//reactjs.org');
     expect(mockUseBaseUrl('//reactjs.org', forcePrepend)).toBe('//reactjs.org');
     expect(mockUseBaseUrl('https://site.com', forcePrepend)).toBe(
       'https://site.com',
     );
-    expect(mockUseBaseUrl('/hello/byebye', {absolute: true})).toBe(
-      'https://docusaurus.io/hello/byebye',
+    expect(mockUseBaseUrl('/hello/foo', {absolute: true})).toBe(
+      'https://docusaurus.io/hello/foo',
     );
     expect(mockUseBaseUrl('#hello')).toBe('#hello');
   });
@@ -63,10 +63,10 @@ describe('useBaseUrl', () => {
     expect(mockUseBaseUrl('/hello')).toBe('/docusaurus/hello');
     expect(mockUseBaseUrl('hello/')).toBe('/docusaurus/hello/');
     expect(mockUseBaseUrl('/hello/')).toBe('/docusaurus/hello/');
-    expect(mockUseBaseUrl('hello/byebye')).toBe('/docusaurus/hello/byebye');
-    expect(mockUseBaseUrl('/hello/byebye')).toBe('/docusaurus/hello/byebye');
-    expect(mockUseBaseUrl('hello/byebye/')).toBe('/docusaurus/hello/byebye/');
-    expect(mockUseBaseUrl('/hello/byebye/')).toBe('/docusaurus/hello/byebye/');
+    expect(mockUseBaseUrl('hello/foo')).toBe('/docusaurus/hello/foo');
+    expect(mockUseBaseUrl('/hello/foo')).toBe('/docusaurus/hello/foo');
+    expect(mockUseBaseUrl('hello/foo/')).toBe('/docusaurus/hello/foo/');
+    expect(mockUseBaseUrl('/hello/foo/')).toBe('/docusaurus/hello/foo/');
     expect(mockUseBaseUrl('https://github.com')).toBe('https://github.com');
     expect(mockUseBaseUrl('//reactjs.org')).toBe('//reactjs.org');
     expect(mockUseBaseUrl('//reactjs.org', forcePrepend)).toBe('//reactjs.org');
@@ -74,8 +74,8 @@ describe('useBaseUrl', () => {
     expect(mockUseBaseUrl('https://site.com', forcePrepend)).toBe(
       'https://site.com',
     );
-    expect(mockUseBaseUrl('/hello/byebye', {absolute: true})).toBe(
-      'https://docusaurus.io/docusaurus/hello/byebye',
+    expect(mockUseBaseUrl('/hello/foo', {absolute: true})).toBe(
+      'https://docusaurus.io/docusaurus/hello/foo',
     );
     expect(mockUseBaseUrl('/docusaurus/')).toBe('/docusaurus/');
     expect(mockUseBaseUrl('/docusaurus/hello')).toBe('/docusaurus/hello');
@@ -102,18 +102,18 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('/hello')).toBe('/hello');
     expect(withBaseUrl('hello/')).toBe('/hello/');
     expect(withBaseUrl('/hello/')).toBe('/hello/');
-    expect(withBaseUrl('hello/byebye')).toBe('/hello/byebye');
-    expect(withBaseUrl('/hello/byebye')).toBe('/hello/byebye');
-    expect(withBaseUrl('hello/byebye/')).toBe('/hello/byebye/');
-    expect(withBaseUrl('/hello/byebye/')).toBe('/hello/byebye/');
+    expect(withBaseUrl('hello/foo')).toBe('/hello/foo');
+    expect(withBaseUrl('/hello/foo')).toBe('/hello/foo');
+    expect(withBaseUrl('hello/foo/')).toBe('/hello/foo/');
+    expect(withBaseUrl('/hello/foo/')).toBe('/hello/foo/');
     expect(withBaseUrl('https://github.com')).toBe('https://github.com');
     expect(withBaseUrl('//reactjs.org')).toBe('//reactjs.org');
     expect(withBaseUrl('//reactjs.org', forcePrepend)).toBe('//reactjs.org');
     expect(withBaseUrl('https://site.com', forcePrepend)).toBe(
       'https://site.com',
     );
-    expect(withBaseUrl('/hello/byebye', {absolute: true})).toBe(
-      'https://docusaurus.io/hello/byebye',
+    expect(withBaseUrl('/hello/foo', {absolute: true})).toBe(
+      'https://docusaurus.io/hello/foo',
     );
     expect(withBaseUrl('#hello')).toBe('#hello');
   });
@@ -130,18 +130,18 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('/hello')).toBe('/docusaurus/hello');
     expect(withBaseUrl('hello/')).toBe('/docusaurus/hello/');
     expect(withBaseUrl('/hello/')).toBe('/docusaurus/hello/');
-    expect(withBaseUrl('hello/byebye')).toBe('/docusaurus/hello/byebye');
-    expect(withBaseUrl('/hello/byebye')).toBe('/docusaurus/hello/byebye');
-    expect(withBaseUrl('hello/byebye/')).toBe('/docusaurus/hello/byebye/');
-    expect(withBaseUrl('/hello/byebye/')).toBe('/docusaurus/hello/byebye/');
+    expect(withBaseUrl('hello/foo')).toBe('/docusaurus/hello/foo');
+    expect(withBaseUrl('/hello/foo')).toBe('/docusaurus/hello/foo');
+    expect(withBaseUrl('hello/foo/')).toBe('/docusaurus/hello/foo/');
+    expect(withBaseUrl('/hello/foo/')).toBe('/docusaurus/hello/foo/');
     expect(withBaseUrl('https://github.com')).toBe('https://github.com');
     expect(withBaseUrl('//reactjs.org')).toBe('//reactjs.org');
     expect(withBaseUrl('//reactjs.org', forcePrepend)).toBe('//reactjs.org');
     expect(withBaseUrl('https://site.com', forcePrepend)).toBe(
       'https://site.com',
     );
-    expect(withBaseUrl('/hello/byebye', {absolute: true})).toBe(
-      'https://docusaurus.io/docusaurus/hello/byebye',
+    expect(withBaseUrl('/hello/foo', {absolute: true})).toBe(
+      'https://docusaurus.io/docusaurus/hello/foo',
     );
     expect(withBaseUrl('/docusaurus/')).toBe('/docusaurus/');
     expect(withBaseUrl('/docusaurus/hello')).toBe('/docusaurus/hello');

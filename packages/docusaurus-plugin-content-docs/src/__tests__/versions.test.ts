@@ -290,7 +290,7 @@ describe('versioned site, pluginId=default', () => {
       versionClassName: 'docs-version-1.0.0',
     };
 
-    const vwithSlugs: VersionMetadata = {
+    const vWithSlugs: VersionMetadata = {
       contentPath: path.join(
         versionedSiteDir,
         'versioned_docs/version-withSlugs',
@@ -321,12 +321,12 @@ describe('versioned site, pluginId=default', () => {
       vCurrent,
       v101,
       v100,
-      vwithSlugs,
+      vWithSlugs,
     };
   }
 
   it('readVersionsMetadata versioned site', async () => {
-    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vWithSlugs} =
       await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -334,11 +334,11 @@ describe('versioned site, pluginId=default', () => {
       context: defaultContext,
     });
 
-    expect(versionsMetadata).toEqual([vCurrent, v101, v100, vwithSlugs]);
+    expect(versionsMetadata).toEqual([vCurrent, v101, v100, vWithSlugs]);
   });
 
   it('readVersionsMetadata versioned site with includeCurrentVersion=false', async () => {
-    const {defaultOptions, defaultContext, v101, v100, vwithSlugs} =
+    const {defaultOptions, defaultContext, v101, v100, vWithSlugs} =
       await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -350,12 +350,12 @@ describe('versioned site, pluginId=default', () => {
       // vCurrent removed
       v101,
       v100,
-      vwithSlugs,
+      vWithSlugs,
     ]);
   });
 
   it('readVersionsMetadata versioned site with version options', async () => {
-    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vWithSlugs} =
       await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -404,12 +404,12 @@ describe('versioned site, pluginId=default', () => {
         versionPath: '/docs',
         versionBanner: 'unreleased',
       },
-      vwithSlugs,
+      vWithSlugs,
     ]);
   });
 
   it('readVersionsMetadata versioned site with editUrl', async () => {
-    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vWithSlugs} =
       await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -443,7 +443,7 @@ describe('versioned site, pluginId=default', () => {
           'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
       },
       {
-        ...vwithSlugs,
+        ...vWithSlugs,
         versionEditUrl:
           'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
         versionEditUrlLocalized:
@@ -453,7 +453,7 @@ describe('versioned site, pluginId=default', () => {
   });
 
   it('readVersionsMetadata versioned site with editUrl and editCurrentVersion=true', async () => {
-    const {defaultOptions, defaultContext, vCurrent, v101, v100, vwithSlugs} =
+    const {defaultOptions, defaultContext, vCurrent, v101, v100, vWithSlugs} =
       await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
@@ -488,7 +488,7 @@ describe('versioned site, pluginId=default', () => {
           'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
       },
       {
-        ...vwithSlugs,
+        ...vWithSlugs,
         versionEditUrl:
           'https://github.com/facebook/docusaurus/edit/main/website/docs',
         versionEditUrlLocalized:
@@ -498,18 +498,18 @@ describe('versioned site, pluginId=default', () => {
   });
 
   it('readVersionsMetadata versioned site with onlyIncludeVersions option', async () => {
-    const {defaultOptions, defaultContext, v101, vwithSlugs} = await loadSite();
+    const {defaultOptions, defaultContext, v101, vWithSlugs} = await loadSite();
 
     const versionsMetadata = await readVersionsMetadata({
       options: {
         ...defaultOptions,
         // Order reversed on purpose: should not have any impact
-        onlyIncludeVersions: [vwithSlugs.versionName, v101.versionName],
+        onlyIncludeVersions: [vWithSlugs.versionName, v101.versionName],
       },
       context: defaultContext,
     });
 
-    expect(versionsMetadata).toEqual([v101, vwithSlugs]);
+    expect(versionsMetadata).toEqual([v101, vWithSlugs]);
   });
 
   it('readVersionsMetadata versioned site with disableVersioning', async () => {

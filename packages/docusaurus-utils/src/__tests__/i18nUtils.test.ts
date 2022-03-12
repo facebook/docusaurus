@@ -83,7 +83,7 @@ describe('getPluginI18nPath', () => {
       }).replace(__dirname, ''),
     ).toMatchInlineSnapshot(`"/i18n/zh-Hans/plugin-content-docs/foo"`);
   });
-  it('gets correct path when no subpaths', () => {
+  it('gets correct path when no sub-paths', () => {
     expect(
       getPluginI18nPath({
         siteDir: __dirname,
