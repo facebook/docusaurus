@@ -347,7 +347,7 @@ describe('getHttpsConfig', () => {
     process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/host.crt');
     process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/invalid.key');
     await expect(getHttpsConfig()).rejects.toThrowError(
-      /The certificate key .*\/__fixtures__\/invalid\.key is invalid/,
+      /The certificate key .*[/\\]__fixtures__[/\\]invalid\.key is invalid/,
     );
   });
 
@@ -356,7 +356,7 @@ describe('getHttpsConfig', () => {
     process.env.SSL_CRT_FILE = path.join(__dirname, '__fixtures__/invalid.crt');
     process.env.SSL_KEY_FILE = path.join(__dirname, '__fixtures__/host.key');
     await expect(getHttpsConfig()).rejects.toThrowError(
-      /The certificate .*\/__fixtures__\/invalid\.crt is invalid/,
+      /The certificate .*[/\\]__fixtures__[/\\]invalid\.crt is invalid/,
     );
   });
 });
