@@ -49,9 +49,9 @@ Array [
         ],
         "label": "SubGuides (metadata file label)",
         "link": Object {
-          "description": "subguides-description",
-          "slug": "subguides-generated-index-slug",
-          "title": "subguides-title",
+          "description": "subGuides-description",
+          "slug": "subGuides-generated-index-slug",
+          "title": "subGuides-title",
           "type": "generated-index",
         },
         "type": "category",

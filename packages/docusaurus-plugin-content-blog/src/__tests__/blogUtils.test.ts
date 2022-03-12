@@ -74,16 +74,16 @@ const transform = async (
 describe('truncate', () => {
   it('truncates texts', () => {
     expect(
-      truncate('aaa\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
+      truncate('aaa\n<!-- truncate -->\nbbb\n ccc', /<!-- truncate -->/),
     ).toBe('aaa\n');
-    expect(truncate('\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/)).toBe(
-      '\n',
-    );
+    expect(
+      truncate('\n<!-- truncate -->\nbbb\n ccc', /<!-- truncate -->/),
+    ).toBe('\n');
   });
 
   it('leaves texts without markers', () => {
-    expect(truncate('aaa\nbbb\nccc', /<!-- truncate -->/)).toBe(
-      'aaa\nbbb\nccc',
+    expect(truncate('aaa\nbbb\n ccc', /<!-- truncate -->/)).toBe(
+      'aaa\nbbb\n ccc',
     );
     expect(truncate('', /<!-- truncate -->/)).toBe('');
   });
@@ -165,12 +165,12 @@ describe('parseBlogFileName', () => {
   it('parses nested folder tree respecting date convention', () => {
     expect(
       parseBlogFileName(
-        '2021/05/12/announcing-docusaurus-two-beta/subfolder/subfile.md',
+        '2021/05/12/announcing-docusaurus-two-beta/subfolder/file.md',
       ),
     ).toEqual({
       date: new Date('2021-05-12Z'),
-      text: 'announcing-docusaurus-two-beta/subfolder/subfile',
-      slug: '/2021/05/12/announcing-docusaurus-two-beta/subfolder/subfile',
+      text: 'announcing-docusaurus-two-beta/subfolder/file',
+      slug: '/2021/05/12/announcing-docusaurus-two-beta/subfolder/file',
     });
   });
 

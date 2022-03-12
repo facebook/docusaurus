@@ -28,51 +28,51 @@ function loadI18nTest(i18nConfig: I18nConfig, locale?: string) {
 }
 
 describe('defaultLocaleConfig', () => {
-  const canComputeLabel = typeof Intl.DisplayNames !== 'undefined';
-
   it('returns correct labels', () => {
     expect(getDefaultLocaleConfig('fr')).toEqual({
-      label: canComputeLabel ? 'Français' : 'fr',
+      label: 'Français',
       direction: 'ltr',
       htmlLang: 'fr',
     });
     expect(getDefaultLocaleConfig('fr-FR')).toEqual({
-      label: canComputeLabel ? 'Français (France)' : 'fr-FR',
+      label: 'Français (France)',
       direction: 'ltr',
       htmlLang: 'fr-FR',
     });
     expect(getDefaultLocaleConfig('en')).toEqual({
-      label: canComputeLabel ? 'English' : 'en',
+      label: 'English',
       direction: 'ltr',
       htmlLang: 'en',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
-      label: canComputeLabel ? 'American English' : 'en-US',
+      label: 'American English',
       direction: 'ltr',
       htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('zh')).toEqual({
-      label: canComputeLabel ? '中文' : 'zh',
+      label: '中文',
       direction: 'ltr',
       htmlLang: 'zh',
     });
     expect(getDefaultLocaleConfig('zh-CN')).toEqual({
-      label: canComputeLabel ? '中文（中国）' : 'zh-CN',
+      label: '中文（中国）',
       direction: 'ltr',
       htmlLang: 'zh-CN',
     });
     expect(getDefaultLocaleConfig('en-US')).toEqual({
-      label: canComputeLabel ? 'American English' : 'en-US',
+      label: 'American English',
       direction: 'ltr',
       htmlLang: 'en-US',
     });
     expect(getDefaultLocaleConfig('fa')).toEqual({
-      label: canComputeLabel ? 'فارسی' : 'fa',
+      // cSpell:ignore فارسی
+      label: 'فارسی',
       direction: 'rtl',
       htmlLang: 'fa',
     });
     expect(getDefaultLocaleConfig('fa-IR')).toEqual({
-      label: canComputeLabel ? 'فارسی (ایران)' : 'fa-IR',
+      // cSpell:ignore ایران فارسیا
+      label: 'فارسی (ایران)',
       direction: 'rtl',
       htmlLang: 'fa-IR',
     });
@@ -127,7 +127,7 @@ describe('loadI18n', () => {
     });
   });
 
-  it('loads I18n for multi-locale config with some xcustom locale configs', async () => {
+  it('loads I18n for multi-locale config with some custom locale configs', async () => {
     await expect(
       loadI18nTest(
         {

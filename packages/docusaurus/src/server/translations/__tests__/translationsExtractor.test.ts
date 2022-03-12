@@ -621,7 +621,7 @@ export default function MyComponent() {
     );
 
     // This one should not be found! On purpose!
-    const plugin1File3 = path.join(plugin1Dir, 'unscannedFolder', 'file3.jsx');
+    const plugin1File3 = path.join(plugin1Dir, 'ignoredFolder', 'file3.jsx');
     await fs.outputFile(
       plugin1File3,
       `

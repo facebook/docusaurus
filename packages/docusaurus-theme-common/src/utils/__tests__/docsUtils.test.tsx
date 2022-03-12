@@ -270,7 +270,7 @@ describe('isActiveSidebarItem', () => {
       label: 'Label',
     };
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
+    expect(isActiveSidebarItem(item, '/nonexistentPath')).toBe(false);
 
     expect(isActiveSidebarItem(item, '/itemPath')).toBe(true);
 
@@ -286,7 +286,7 @@ describe('isActiveSidebarItem', () => {
       href: '/itemPath',
     });
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
+    expect(isActiveSidebarItem(item, '/nonexistentPath')).toBe(false);
 
     expect(isActiveSidebarItem(item, '/itemPath')).toBe(true);
 
@@ -319,7 +319,7 @@ describe('isActiveSidebarItem', () => {
       ],
     });
 
-    expect(isActiveSidebarItem(item, '/unexistingPath')).toBe(false);
+    expect(isActiveSidebarItem(item, '/nonexistentPath')).toBe(false);
 
     expect(isActiveSidebarItem(item, '/category-path')).toBe(true);
     expect(isActiveSidebarItem(item, '/sub-link-path')).toBe(true);

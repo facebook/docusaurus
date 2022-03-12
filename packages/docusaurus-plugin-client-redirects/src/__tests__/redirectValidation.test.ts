@@ -60,7 +60,7 @@ describe('validateRedirect', () => {
 
     expect(() =>
       validateRedirect({
-        from: ['heyho'] as unknown as string,
+        from: ['hey'] as unknown as string,
         to: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();

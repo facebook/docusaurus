@@ -199,7 +199,9 @@ describe('headings remark plugin', () => {
     const expected = u('root', [
       heading('I ♥ unicode', 'i--unicode'),
       heading('Dash-dash', 'dash-dash'),
+      // cSpell:ignore endash
       heading('en–dash', 'endash'),
+      // cSpell:ignore emdash
       heading('em–dash', 'emdash'),
       heading('😄 unicode emoji', '-unicode-emoji'),
       heading('😄-😄 unicode emoji', '--unicode-emoji'),
@@ -214,6 +216,7 @@ describe('headings remark plugin', () => {
       heading(':ok_hand: Single', 'ok_hand-single'),
       heading(
         ':ok_hand::hatched_chick: Two in a row with no spaces',
+        // cSpell:ignore handhatched
         'ok_handhatched_chick-two-in-a-row-with-no-spaces',
       ),
       heading(
@@ -251,11 +254,11 @@ describe('headings remark plugin', () => {
 
 ## Heading Two {#custom-heading-two}
 
-# With *Bold* {#custom-withbold}
+# With *Bold* {#custom-with-bold}
 
-# With *Bold* hello{#custom-withbold-hello}
+# With *Bold* hello{#custom-with-bold-hello}
 
-# With *Bold* hello2 {#custom-withbold-hello2}
+# With *Bold* hello2 {#custom-with-bold-hello2}
 
 # Snake-cased ID {#this_is_custom_id}
 
@@ -281,15 +284,15 @@ describe('headings remark plugin', () => {
         text: 'Heading Two',
       },
       {
-        id: 'custom-withbold',
+        id: 'custom-with-bold',
         text: 'With Bold',
       },
       {
-        id: 'custom-withbold-hello',
+        id: 'custom-with-bold-hello',
         text: 'With Bold hello',
       },
       {
-        id: 'custom-withbold-hello2',
+        id: 'custom-with-bold-hello2',
         text: 'With Bold hello2',
       },
       {

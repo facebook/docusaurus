@@ -83,7 +83,7 @@ export async function getFolderContainingFile(
     throw new Error(
       `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
         '\n- ',
-      )}]`,
+      )}`,
     );
   }
   return maybeFolderPath;

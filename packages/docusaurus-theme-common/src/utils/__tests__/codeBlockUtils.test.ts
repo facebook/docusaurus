@@ -68,7 +68,7 @@ describe('parseLanguage', () => {
 
 describe('parseLines', () => {
   it('does not parse content with metastring', () => {
-    expect(parseLines('aaaaa\nbbbbb', '{1}', 'js')).toMatchSnapshot();
+    expect(parseLines('aaaaa\nnnnnn', '{1}', 'js')).toMatchSnapshot();
     expect(
       parseLines(
         `// highlight-next-line

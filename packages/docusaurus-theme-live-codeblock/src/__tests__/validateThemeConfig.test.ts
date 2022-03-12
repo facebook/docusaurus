@@ -31,7 +31,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  it('unexist config', () => {
+  it('nonexistent config', () => {
     expect(testValidateThemeConfig({})).toEqual({
       liveCodeBlock: {
         ...DEFAULT_CONFIG,

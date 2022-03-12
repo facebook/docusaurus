@@ -226,7 +226,7 @@ describe('collectRedirects', () => {
               `${removeTrailingSlash(routePath)}/some/other/path/suffix2`,
             ],
           },
-          ['/', '/testpath', '/otherPath.html'],
+          ['/', '/testPath', '/otherPath.html'],
         ),
         undefined,
       ),
@@ -241,12 +241,12 @@ describe('collectRedirects', () => {
       },
 
       {
-        from: '/testpath/some/path/suffix1',
-        to: '/testpath',
+        from: '/testPath/some/path/suffix1',
+        to: '/testPath',
       },
       {
-        from: '/testpath/some/other/path/suffix2',
-        to: '/testpath',
+        from: '/testPath/some/other/path/suffix2',
+        to: '/testPath',
       },
 
       {
@@ -272,7 +272,7 @@ describe('collectRedirects', () => {
               return undefined;
             },
           },
-          ['/', '/testpath', '/otherPath.html'],
+          ['/', '/testPath', '/otherPath.html'],
         ),
         undefined,
       ),

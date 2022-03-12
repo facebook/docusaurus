@@ -201,15 +201,11 @@ describe('empty/no docs website', () => {
       pluginContentDocs(
         context,
         normalizePluginOptions(OptionsSchema, {
-          path: `path/doesnt/exist`,
+          path: `path/does/not/exist`,
         }),
       ),
-    ).rejects.toThrowError(
-      `The docs folder does not exist for version "current". A docs folder is expected to be found at ${
-        process.platform === 'win32'
-          ? 'path\\doesnt\\exist'
-          : 'path/doesnt/exist'
-      }.`,
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The docs folder does not exist for version \\"current\\". A docs folder is expected to be found at path/does/not/exist."`,
     );
   });
 });

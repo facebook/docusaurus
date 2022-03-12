@@ -58,6 +58,7 @@ describe('handleBrokenLinks', () => {
       // bad - non-existent file with spaces in name
       './some%20other%20non-existent%20doc1',
       // evil - trying to use ../../ but '/' won't get decoded
+      // cSpell:ignore Fout
       './break%2F..%2F..%2Fout2',
     ],
     '/docs/goodDoc': [

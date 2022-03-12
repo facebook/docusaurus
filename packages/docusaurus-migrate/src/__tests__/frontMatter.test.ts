@@ -13,6 +13,7 @@ describe('shouldQuotifyFrontMatter', () => {
     expect(
       shouldQuotifyFrontMatter([
         'title',
+        // cSpell:ignore sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ
         "Some title front matter with allowed special chars like sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+-_?'`&#()[]§%€$",
       ]),
     ).toBe(false);

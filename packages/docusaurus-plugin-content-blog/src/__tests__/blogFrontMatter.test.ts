@@ -15,7 +15,7 @@ function testField(params: {
   fieldName: keyof BlogPostFrontMatter;
   validFrontMatters: BlogPostFrontMatter[];
   convertibleFrontMatter?: [
-    ConvertableFrontMatter: Record<string, unknown>,
+    ConvertibleFrontMatter: Record<string, unknown>,
     ConvertedFrontMatter: BlogPostFrontMatter,
   ][];
   invalidFrontMatters?: [

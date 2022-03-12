@@ -38,7 +38,7 @@ describe('themeConfig', () => {
         additionalLanguages: ['kotlin', 'java'],
       },
       announcementBar: {
-        id: 'supportus',
+        id: 'supports',
         content: 'pls support',
         backgroundColor: '#fff',
         textColor: '#000',
@@ -206,7 +206,7 @@ describe('themeConfig', () => {
           {
             type: 'joke',
             position: 'left',
-            label: 'haha',
+            label: 'hahaha',
           },
         ],
       },

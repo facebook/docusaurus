@@ -60,7 +60,7 @@ describe('babel transpilation exclude logic', () => {
       '/website/node_modules/react-trend/index.js',
       '/docusaurus/website/node_modules/react-super.js',
       '/docusaurus/website/node_modules/@docusaurus/core/node_modules/core-js/modules/_descriptors.js',
-      'node_modules/docusaurus-theme-classic/node_modules/react-daypicker/index.js',
+      'node_modules/docusaurus-theme-classic/node_modules/react-slick/index.js',
     ];
     moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toBe(true);
