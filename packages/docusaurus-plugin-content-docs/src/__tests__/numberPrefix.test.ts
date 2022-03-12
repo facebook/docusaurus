@@ -70,45 +70,37 @@ describe('stripNumberPrefix', () => {
   }
 
   it('strips number prefix if present', () => {
-    expect(stripNumberPrefixDefault('1-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 - My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      -    My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('999      -        My Doc')).toEqual(
+    expect(stripNumberPrefixDefault('1-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 - My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      -    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      -        My Doc')).toBe('My Doc');
+    //
+    expect(stripNumberPrefixDefault('1---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 --- My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      ---    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      ---        My Doc')).toBe(
       'My Doc',
     );
     //
-    expect(stripNumberPrefixDefault('1---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 --- My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      ---    My Doc')).toEqual(
-      'My Doc',
-    );
-    expect(stripNumberPrefixDefault('999      ---        My Doc')).toEqual(
-      'My Doc',
-    );
-    //
-    expect(stripNumberPrefixDefault('1___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 ___ My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      ___    My Doc')).toEqual(
-      'My Doc',
-    );
-    expect(stripNumberPrefixDefault('999      ___        My Doc')).toEqual(
+    expect(stripNumberPrefixDefault('1___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 ___ My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      ___    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      ___        My Doc')).toBe(
       'My Doc',
     );
     //
-    expect(stripNumberPrefixDefault('1.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 . My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      .    My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('999      .       My Doc')).toEqual(
-      'My Doc',
-    );
+    expect(stripNumberPrefixDefault('1.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 . My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      .    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      .       My Doc')).toBe('My Doc');
   });
 
   it('does not strip number prefix if pattern does not match', () => {
@@ -125,7 +117,7 @@ describe('stripPathNumberPrefix', () => {
         '0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3',
         DefaultNumberPrefixParser,
       ),
-    ).toEqual('MyRootFolder0/MySubFolder1/MyDeepFolder2/MyDoc3');
+    ).toBe('MyRootFolder0/MySubFolder1/MyDeepFolder2/MyDoc3');
   });
 
   it('strips number prefixes in paths with custom parser', () => {
@@ -138,7 +130,7 @@ describe('stripPathNumberPrefix', () => {
 
     expect(
       stripPathNumberPrefixes('aaaa/bbbb/cccc', stripPathNumberPrefixCustom),
-    ).toEqual('aaa/bbb/ccc');
+    ).toBe('aaa/bbb/ccc');
   });
 
   it('does not strip number prefixes in paths with disabled parser', () => {
@@ -147,7 +139,7 @@ describe('stripPathNumberPrefix', () => {
         '0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3',
         DisabledNumberPrefixParser,
       ),
-    ).toEqual('0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3');
+    ).toBe('0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3');
   });
 });
 

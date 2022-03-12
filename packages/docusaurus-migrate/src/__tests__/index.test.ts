@@ -43,20 +43,21 @@ async function testMigration(siteDir: string, newDir: string) {
   copyMock.mockRestore();
 }
 
-describe('migration test', () => {
+describe('migration CLI', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__');
-  it('simple website', async () => {
+  it('migrates simple website', async () => {
     const siteDir = path.join(fixtureDir, 'simple_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_simple_site');
     await testMigration(siteDir, newDir);
   });
-  it('complex website', async () => {
+
+  it('migrates complex website', async () => {
     const siteDir = path.join(fixtureDir, 'complex_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_complex_site');
     await testMigration(siteDir, newDir);
   });
 
-  it('missing versions', async () => {
+  it('migrates missing versions', async () => {
     const siteDir = path.join(fixtureDir, 'missing_version_website', 'website');
     const newDir = path.join(fixtureDir, 'migrated_missing_version_site');
     await testMigration(siteDir, newDir);

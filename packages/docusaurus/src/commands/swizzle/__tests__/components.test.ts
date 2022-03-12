@@ -118,15 +118,15 @@ describe('getThemeComponents', () => {
       themePath,
       swizzleConfig,
     });
-    expect(
-      themeComponents.getDescription(Components.ComponentInFolder),
-    ).toEqual('ComponentInFolder description');
+    expect(themeComponents.getDescription(Components.ComponentInFolder)).toBe(
+      'ComponentInFolder description',
+    );
     expect(
       themeComponents.getDescription(Components.ComponentInSubFolder),
-    ).toEqual('N/A');
-    expect(
-      themeComponents.getDescription(Components.FirstLevelComponent),
-    ).toEqual('N/A');
+    ).toBe('N/A');
+    expect(themeComponents.getDescription(Components.FirstLevelComponent)).toBe(
+      'N/A',
+    );
   });
 
   it('getActionStatus', async () => {
@@ -137,24 +137,24 @@ describe('getThemeComponents', () => {
     });
     expect(
       themeComponents.getActionStatus(Components.ComponentInFolder, 'wrap'),
-    ).toEqual('safe');
+    ).toBe('safe');
     expect(
       themeComponents.getActionStatus(Components.ComponentInFolder, 'eject'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
 
     expect(
       themeComponents.getActionStatus(Components.ComponentInSubFolder, 'wrap'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
     expect(
       themeComponents.getActionStatus(Components.ComponentInSubFolder, 'eject'),
-    ).toEqual('safe');
+    ).toBe('safe');
 
     expect(
       themeComponents.getActionStatus(Components.FirstLevelComponent, 'wrap'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
     expect(
       themeComponents.getActionStatus(Components.FirstLevelComponent, 'eject'),
-    ).toEqual('unsafe');
+    ).toBe('unsafe');
   });
 
   it('isSafeAction', async () => {
@@ -165,24 +165,24 @@ describe('getThemeComponents', () => {
     });
     expect(
       themeComponents.isSafeAction(Components.ComponentInFolder, 'wrap'),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       themeComponents.isSafeAction(Components.ComponentInFolder, 'eject'),
-    ).toEqual(false);
+    ).toBe(false);
 
     expect(
       themeComponents.isSafeAction(Components.ComponentInSubFolder, 'wrap'),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       themeComponents.isSafeAction(Components.ComponentInSubFolder, 'eject'),
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
       themeComponents.isSafeAction(Components.FirstLevelComponent, 'wrap'),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       themeComponents.isSafeAction(Components.FirstLevelComponent, 'eject'),
-    ).toEqual(false);
+    ).toBe(false);
   });
 
   it('hasAnySafeAction', async () => {
@@ -191,14 +191,14 @@ describe('getThemeComponents', () => {
       themePath,
       swizzleConfig,
     });
-    expect(
-      themeComponents.hasAnySafeAction(Components.ComponentInFolder),
-    ).toEqual(true);
+    expect(themeComponents.hasAnySafeAction(Components.ComponentInFolder)).toBe(
+      true,
+    );
     expect(
       themeComponents.hasAnySafeAction(Components.ComponentInSubFolder),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       themeComponents.hasAnySafeAction(Components.FirstLevelComponent),
-    ).toEqual(false);
+    ).toBe(false);
   });
 });

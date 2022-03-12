@@ -268,7 +268,7 @@ describe('extending PostCSS', () => {
 
     // @ts-expect-error: relax type
     const postCssLoader1 = webpackConfig.module?.rules[0].use[2];
-    expect(postCssLoader1.loader).toEqual('postcss-loader-1');
+    expect(postCssLoader1.loader).toBe('postcss-loader-1');
 
     const pluginNames1 = postCssLoader1.options.postcssOptions.plugins.map(
       (p: unknown) => p[0],
@@ -283,7 +283,7 @@ describe('extending PostCSS', () => {
 
     // @ts-expect-error: relax type
     const postCssLoader2 = webpackConfig.module?.rules[1].use[0];
-    expect(postCssLoader2.loader).toEqual('postcss-loader-2');
+    expect(postCssLoader2.loader).toBe('postcss-loader-2');
 
     const pluginNames2 = postCssLoader2.options.postcssOptions.plugins.map(
       (p: unknown) => p[0],

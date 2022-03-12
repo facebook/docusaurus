@@ -341,7 +341,7 @@ describe('blog plugin', () => {
       (v) => v.metadata.title === 'Happy 1st Birthday Slash! (translated)',
     )!;
 
-    expect(localizedBlogPost.metadata.editUrl).toEqual(
+    expect(localizedBlogPost.metadata.editUrl).toBe(
       `${BaseEditUrl}/i18n/en/docusaurus-plugin-content-blog/2018-12-14-Happy-First-Birthday-Slash.md`,
     );
   });
@@ -478,7 +478,7 @@ describe('blog plugin', () => {
       postsPerPage: 2,
     });
 
-    expect(Object.keys(blogTags).length).toEqual(2);
+    expect(Object.keys(blogTags)).toHaveLength(2);
     expect(blogTags).toMatchSnapshot();
   });
 

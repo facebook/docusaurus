@@ -13,45 +13,45 @@ import {
 
 describe('parseCodeBlockTitle', () => {
   it('parses double quote delimited title', () => {
-    expect(parseCodeBlockTitle(`title="index.js"`)).toEqual(`index.js`);
+    expect(parseCodeBlockTitle(`title="index.js"`)).toBe(`index.js`);
   });
 
   it('parses single quote delimited title', () => {
-    expect(parseCodeBlockTitle(`title='index.js'`)).toEqual(`index.js`);
+    expect(parseCodeBlockTitle(`title='index.js'`)).toBe(`index.js`);
   });
 
   it('does not parse mismatched quote delimiters', () => {
-    expect(parseCodeBlockTitle(`title="index.js'`)).toEqual(``);
+    expect(parseCodeBlockTitle(`title="index.js'`)).toBe(``);
   });
 
   it('parses undefined metastring', () => {
-    expect(parseCodeBlockTitle(undefined)).toEqual(``);
+    expect(parseCodeBlockTitle(undefined)).toBe(``);
   });
 
   it('parses metastring with no title specified', () => {
-    expect(parseCodeBlockTitle(`{1,2-3}`)).toEqual(``);
+    expect(parseCodeBlockTitle(`{1,2-3}`)).toBe(``);
   });
 
   it('parses with multiple metadata title first', () => {
-    expect(parseCodeBlockTitle(`title="index.js" label="JavaScript"`)).toEqual(
+    expect(parseCodeBlockTitle(`title="index.js" label="JavaScript"`)).toBe(
       `index.js`,
     );
   });
 
   it('parses with multiple metadata title last', () => {
-    expect(parseCodeBlockTitle(`label="JavaScript" title="index.js"`)).toEqual(
+    expect(parseCodeBlockTitle(`label="JavaScript" title="index.js"`)).toBe(
       `index.js`,
     );
   });
 
   it('parses double quotes when delimited by single quotes', () => {
-    expect(parseCodeBlockTitle(`title='console.log("Hello, World!")'`)).toEqual(
+    expect(parseCodeBlockTitle(`title='console.log("Hello, World!")'`)).toBe(
       `console.log("Hello, World!")`,
     );
   });
 
   it('parses single quotes when delimited by double quotes', () => {
-    expect(parseCodeBlockTitle(`title="console.log('Hello, World!')"`)).toEqual(
+    expect(parseCodeBlockTitle(`title="console.log('Hello, World!')"`)).toBe(
       `console.log('Hello, World!')`,
     );
   });
@@ -59,8 +59,8 @@ describe('parseCodeBlockTitle', () => {
 
 describe('parseLanguage', () => {
   it('works', () => {
-    expect(parseLanguage('language-foo xxx yyy')).toEqual('foo');
-    expect(parseLanguage('xxxxx language-foo yyy')).toEqual('foo');
+    expect(parseLanguage('language-foo xxx yyy')).toBe('foo');
+    expect(parseLanguage('xxxxx language-foo yyy')).toBe('foo');
     expect(parseLanguage('xx-language-foo yyyy')).toBeUndefined();
     expect(parseLanguage('xxx yyy zzz')).toBeUndefined();
   });

@@ -146,15 +146,15 @@ describe('getEditUrl', () => {
   it('returns right path', () => {
     expect(
       getEditUrl('foo/bar.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/bar.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/bar.md');
     expect(
       getEditUrl('foo/你好.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/你好.md');
   });
   it('always returns valid URL', () => {
     expect(
       getEditUrl('foo\\你好.md', 'https://github.com/facebook/docusaurus'),
-    ).toEqual('https://github.com/facebook/docusaurus/foo/你好.md');
+    ).toBe('https://github.com/facebook/docusaurus/foo/你好.md');
   });
   it('returns undefined for undefined', () => {
     expect(getEditUrl('foo/bar.md')).toBeUndefined();
@@ -200,28 +200,28 @@ describe('isValidPathname', () => {
 
 describe('addTrailingSlash', () => {
   it('is no-op for path with trailing slash', () => {
-    expect(addTrailingSlash('/abcd/')).toEqual('/abcd/');
+    expect(addTrailingSlash('/abcd/')).toBe('/abcd/');
   });
   it('adds / for path without trailing slash', () => {
-    expect(addTrailingSlash('/abcd')).toEqual('/abcd/');
+    expect(addTrailingSlash('/abcd')).toBe('/abcd/');
   });
 });
 
 describe('addLeadingSlash', () => {
   it('is no-op for path with leading slash', () => {
-    expect(addLeadingSlash('/abc')).toEqual('/abc');
+    expect(addLeadingSlash('/abc')).toBe('/abc');
   });
   it('adds / for path without leading slash', () => {
-    expect(addLeadingSlash('abc')).toEqual('/abc');
+    expect(addLeadingSlash('abc')).toBe('/abc');
   });
 });
 
 describe('removeTrailingSlash', () => {
   it('is no-op for path without trailing slash', () => {
-    expect(removeTrailingSlash('/abcd')).toEqual('/abcd');
+    expect(removeTrailingSlash('/abcd')).toBe('/abcd');
   });
   it('removes / for path with trailing slash', () => {
-    expect(removeTrailingSlash('/abcd/')).toEqual('/abcd');
+    expect(removeTrailingSlash('/abcd/')).toBe('/abcd');
   });
 });
 
@@ -229,21 +229,21 @@ describe('resolvePathname', () => {
   it('works', () => {
     // These tests are directly copied from https://github.com/mjackson/resolve-pathname/blob/master/modules/__tests__/resolvePathname-test.js
     // Maybe we want to wrap that logic in the future?
-    expect(resolvePathname('c')).toEqual('c');
-    expect(resolvePathname('c', 'a/b')).toEqual('a/c');
-    expect(resolvePathname('/c', '/a/b')).toEqual('/c');
-    expect(resolvePathname('', '/a/b')).toEqual('/a/b');
-    expect(resolvePathname('../c', '/a/b')).toEqual('/c');
-    expect(resolvePathname('c', '/a/b')).toEqual('/a/c');
-    expect(resolvePathname('c', '/a/')).toEqual('/a/c');
-    expect(resolvePathname('..', '/a/b')).toEqual('/');
+    expect(resolvePathname('c')).toBe('c');
+    expect(resolvePathname('c', 'a/b')).toBe('a/c');
+    expect(resolvePathname('/c', '/a/b')).toBe('/c');
+    expect(resolvePathname('', '/a/b')).toBe('/a/b');
+    expect(resolvePathname('../c', '/a/b')).toBe('/c');
+    expect(resolvePathname('c', '/a/b')).toBe('/a/c');
+    expect(resolvePathname('c', '/a/')).toBe('/a/c');
+    expect(resolvePathname('..', '/a/b')).toBe('/');
   });
 });
 
 describe('encodePath', () => {
   it('works', () => {
-    expect(encodePath('a/foo/')).toEqual('a/foo/');
-    expect(encodePath('a/<foo>/')).toEqual('a/%3Cfoo%3E/');
-    expect(encodePath('a/你好/')).toEqual('a/%E4%BD%A0%E5%A5%BD/');
+    expect(encodePath('a/foo/')).toBe('a/foo/');
+    expect(encodePath('a/<foo>/')).toBe('a/%3Cfoo%3E/');
+    expect(encodePath('a/你好/')).toBe('a/%E4%BD%A0%E5%A5%BD/');
   });
 });

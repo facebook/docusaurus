@@ -348,9 +348,7 @@ describe('writePluginTranslations', () => {
       });
     }
 
-    await expect(readTranslationFileContent(filePath)).resolves.toEqual(
-      undefined,
-    );
+    await expect(readTranslationFileContent(filePath)).resolves.toBeUndefined();
 
     await doWritePluginTranslations({
       key1: {message: 'key1 message', description: 'key1 desc'},

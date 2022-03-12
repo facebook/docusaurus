@@ -67,28 +67,28 @@ describe('readOutputHTMLFile', () => {
         path.join(__dirname, '__fixtures__/build-snap'),
         undefined,
       ).then(String),
-    ).resolves.toEqual('file\n');
+    ).resolves.toBe('file\n');
     await expect(
       readOutputHTMLFile(
         '/folder',
         path.join(__dirname, '__fixtures__/build-snap'),
         undefined,
       ).then(String),
-    ).resolves.toEqual('folder\n');
+    ).resolves.toBe('folder\n');
     await expect(
       readOutputHTMLFile(
         '/file/',
         path.join(__dirname, '__fixtures__/build-snap'),
         undefined,
       ).then(String),
-    ).resolves.toEqual('file\n');
+    ).resolves.toBe('file\n');
     await expect(
       readOutputHTMLFile(
         '/folder/',
         path.join(__dirname, '__fixtures__/build-snap'),
         undefined,
       ).then(String),
-    ).resolves.toEqual('folder\n');
+    ).resolves.toBe('folder\n');
   });
   it('trailing slash true', async () => {
     await expect(
@@ -97,14 +97,14 @@ describe('readOutputHTMLFile', () => {
         path.join(__dirname, '__fixtures__/build-snap'),
         true,
       ).then(String),
-    ).resolves.toEqual('folder\n');
+    ).resolves.toBe('folder\n');
     await expect(
       readOutputHTMLFile(
         '/folder/',
         path.join(__dirname, '__fixtures__/build-snap'),
         true,
       ).then(String),
-    ).resolves.toEqual('folder\n');
+    ).resolves.toBe('folder\n');
   });
   it('trailing slash false', async () => {
     await expect(
@@ -113,14 +113,14 @@ describe('readOutputHTMLFile', () => {
         path.join(__dirname, '__fixtures__/build-snap'),
         false,
       ).then(String),
-    ).resolves.toEqual('file\n');
+    ).resolves.toBe('file\n');
     await expect(
       readOutputHTMLFile(
         '/file/',
         path.join(__dirname, '__fixtures__/build-snap'),
         false,
       ).then(String),
-    ).resolves.toEqual('file\n');
+    ).resolves.toBe('file\n');
   });
 });
 

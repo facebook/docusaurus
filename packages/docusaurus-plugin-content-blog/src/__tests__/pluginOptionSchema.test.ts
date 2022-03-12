@@ -15,7 +15,7 @@ describe('blog plugin options schema', () => {
   it('normalizes options', () => {
     const {value, error} = PluginOptionSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts correctly defined user options', () => {
@@ -32,7 +32,7 @@ describe('blog plugin options schema', () => {
       ...userOptions,
       feedOptions: {type: ['rss'], title: 'myTitle', copyright: ''},
     });
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts valid user options', async () => {
@@ -49,7 +49,7 @@ describe('blog plugin options schema', () => {
     };
     const {value, error} = PluginOptionSchema.validate(userOptions);
     expect(value).toEqual(userOptions);
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('throws Error in case of invalid options', () => {
@@ -91,7 +91,7 @@ describe('blog plugin options schema', () => {
       ...DEFAULT_OPTIONS,
       feedOptions: {type: null},
     });
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('contains array with rss + atom for missing feed type', () => {
@@ -117,14 +117,14 @@ describe('blog sidebar', () => {
     const userOptions = {blogSidebarCount: 0};
     const {value, error} = PluginOptionSchema.validate(userOptions);
     expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('accepts "ALL" sidebar count', () => {
     const userOptions = {blogSidebarCount: 'ALL'};
     const {value, error} = PluginOptionSchema.validate(userOptions);
     expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('rejects "abcdef" sidebar count', () => {
@@ -139,7 +139,7 @@ describe('blog sidebar', () => {
     const userOptions = {blogSidebarTitle: 'all posts'};
     const {value, error} = PluginOptionSchema.validate(userOptions);
     expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
-    expect(error).toBe(undefined);
+    expect(error).toBeUndefined();
   });
 
   it('rejects 42 sidebar title', () => {

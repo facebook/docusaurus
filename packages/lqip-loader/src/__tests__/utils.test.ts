@@ -15,7 +15,7 @@ describe('toBase64', () => {
   it('returns a properly formatted Base64 image string', () => {
     const mockedMimeType = 'image/jpeg';
     const mockedBase64Data = Buffer.from('hello world');
-    expect(toBase64(mockedMimeType, mockedBase64Data)).toEqual(
+    expect(toBase64(mockedMimeType, mockedBase64Data)).toBe(
       'data:image/jpeg;base64,aGVsbG8gd29ybGQ=',
     );
   });

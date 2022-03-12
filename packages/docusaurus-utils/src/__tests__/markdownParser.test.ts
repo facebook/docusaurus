@@ -21,7 +21,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual(
+    ).toBe(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -36,7 +36,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual(
+    ).toBe(
       // h1 title is skipped on purpose, because we don't want the page to have
       // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
@@ -54,7 +54,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual(
+    ).toBe(
       // h1 title is skipped on purpose, because we don't want the page to have
       // SEO metadata title === description
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
@@ -68,7 +68,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual('Lorem ipsum dolor sit amet');
+    ).toBe('Lorem ipsum dolor sit amet');
   });
 
   it('creates excerpt for content beginning with blockquote', () => {
@@ -78,7 +78,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual('Lorem ipsum dolor sit amet');
+    ).toBe('Lorem ipsum dolor sit amet');
   });
 
   it('creates excerpt for content beginning with image (eg. blog post)', () => {
@@ -86,7 +86,7 @@ describe('createExcerpt', () => {
       createExcerpt(dedent`
           ![Lorem ipsum](/img/lorem-ipsum.svg)
         `),
-    ).toEqual('Lorem ipsum');
+    ).toBe('Lorem ipsum');
   });
 
   it('creates excerpt for content beginning with admonitions', () => {
@@ -102,7 +102,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+    ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 
   it('creates excerpt for content with imports/exports declarations and Markdown markup, as well as Emoji', () => {
@@ -120,7 +120,7 @@ describe('createExcerpt', () => {
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `),
-    ).toEqual(
+    ).toBe(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
     );
   });
@@ -130,7 +130,7 @@ describe('createExcerpt', () => {
       createExcerpt(dedent`
           ## Markdown title {#my-anchor-id}
         `),
-    ).toEqual('Markdown title');
+    ).toBe('Markdown title');
   });
 
   it('creates excerpt for content with various code blocks', () => {
@@ -143,7 +143,7 @@ describe('createExcerpt', () => {
 
           Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
         `),
-    ).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+    ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
   });
 });
 

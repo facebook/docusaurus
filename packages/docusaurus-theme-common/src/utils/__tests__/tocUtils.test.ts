@@ -7,47 +7,50 @@
 
 import type {TOCItem} from '@docusaurus/types';
 import {renderHook} from '@testing-library/react-hooks';
-import {useFilteredAndTreeifiedTOC} from '../tocUtils';
+import {useFilteredAndTreeifiedTOC, useTreeifiedTOC} from '../tocUtils';
+
+const mockTOC: TOCItem[] = [
+  {
+    id: 'bravo',
+    level: 2,
+    value: 'Bravo',
+  },
+  {
+    id: 'charlie',
+    level: 3,
+    value: 'Charlie',
+  },
+  {
+    id: 'delta',
+    level: 4,
+    value: 'Delta',
+  },
+  {
+    id: 'echo',
+    level: 5,
+    value: 'Echo',
+  },
+  {
+    id: 'foxtrot',
+    level: 6,
+    value: 'Foxtrot',
+  },
+];
+
+describe('useTreeifiedTOC', () => {
+  it('treeifies TOC without filtering', () => {
+    expect(
+      renderHook(() => useTreeifiedTOC(mockTOC)).result.current,
+    ).toMatchSnapshot();
+  });
+});
 
 describe('useFilteredAndTreeifiedTOC', () => {
   it('filters a toc with all heading levels', () => {
-    const toc: TOCItem[] = [
-      {
-        id: 'alpha',
-        level: 1,
-        value: 'alpha',
-      },
-      {
-        id: 'bravo',
-        level: 2,
-        value: 'Bravo',
-      },
-      {
-        id: 'charlie',
-        level: 3,
-        value: 'Charlie',
-      },
-      {
-        id: 'delta',
-        level: 4,
-        value: 'Delta',
-      },
-      {
-        id: 'echo',
-        level: 5,
-        value: 'Echo',
-      },
-      {
-        id: 'foxtrot',
-        level: 6,
-        value: 'Foxtrot',
-      },
-    ];
-
     expect(
       renderHook(() =>
         useFilteredAndTreeifiedTOC({
-          toc,
+          toc: mockTOC,
           minHeadingLevel: 2,
           maxHeadingLevel: 2,
         }),
@@ -64,7 +67,7 @@ describe('useFilteredAndTreeifiedTOC', () => {
     expect(
       renderHook(() =>
         useFilteredAndTreeifiedTOC({
-          toc,
+          toc: mockTOC,
           minHeadingLevel: 3,
           maxHeadingLevel: 3,
         }),
@@ -81,7 +84,7 @@ describe('useFilteredAndTreeifiedTOC', () => {
     expect(
       renderHook(() =>
         useFilteredAndTreeifiedTOC({
-          toc,
+          toc: mockTOC,
           minHeadingLevel: 2,
           maxHeadingLevel: 3,
         }),
@@ -105,7 +108,7 @@ describe('useFilteredAndTreeifiedTOC', () => {
     expect(
       renderHook(() =>
         useFilteredAndTreeifiedTOC({
-          toc,
+          toc: mockTOC,
           minHeadingLevel: 2,
           maxHeadingLevel: 4,
         }),

@@ -75,17 +75,17 @@ describe('truncate', () => {
   it('truncates texts', () => {
     expect(
       truncate('aaa\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
-    ).toEqual('aaa\n');
-    expect(
-      truncate('\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/),
-    ).toEqual('\n');
+    ).toBe('aaa\n');
+    expect(truncate('\n<!-- truncate -->\nbbb\nccc', /<!-- truncate -->/)).toBe(
+      '\n',
+    );
   });
 
   it('leaves texts without markers', () => {
-    expect(truncate('aaa\nbbb\nccc', /<!-- truncate -->/)).toEqual(
+    expect(truncate('aaa\nbbb\nccc', /<!-- truncate -->/)).toBe(
       'aaa\nbbb\nccc',
     );
-    expect(truncate('', /<!-- truncate -->/)).toEqual('');
+    expect(truncate('', /<!-- truncate -->/)).toBe('');
   });
 });
 

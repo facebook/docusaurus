@@ -181,7 +181,7 @@ describe('localizePath', () => {
         },
         options: {localizePath: true},
       }),
-    ).toEqual('/baseUrl/fr/');
+    ).toBe('/baseUrl/fr/');
   });
 
   it('localizes fs path with current locale', () => {
@@ -197,7 +197,7 @@ describe('localizePath', () => {
         },
         options: {localizePath: true},
       }),
-    ).toEqual(`${path.sep}baseFsPath${path.sep}fr`);
+    ).toBe(`${path.sep}baseFsPath${path.sep}fr`);
   });
 
   it('localizes path for default locale, if requested', () => {
@@ -213,7 +213,7 @@ describe('localizePath', () => {
         },
         options: {localizePath: true},
       }),
-    ).toEqual('/baseUrl/en/');
+    ).toBe('/baseUrl/en/');
   });
 
   it('does not localize path for default locale by default', () => {
@@ -229,7 +229,7 @@ describe('localizePath', () => {
         },
         // options: {localizePath: true},
       }),
-    ).toEqual('/baseUrl/');
+    ).toBe('/baseUrl/');
   });
 
   it('localizes path for non-default locale by default', () => {
@@ -245,6 +245,6 @@ describe('localizePath', () => {
         },
         // options: {localizePath: true},
       }),
-    ).toEqual('/baseUrl/');
+    ).toBe('/baseUrl/');
   });
 });

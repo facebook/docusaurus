@@ -123,9 +123,9 @@ describe('toMessageRelativeFilePath', () => {
     jest
       .spyOn(process, 'cwd')
       .mockImplementationOnce(() => path.join(__dirname, '..'));
-    expect(
-      toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js')),
-    ).toEqual('__tests__/foo/bar.js');
+    expect(toMessageRelativeFilePath(path.join(__dirname, 'foo/bar.js'))).toBe(
+      '__tests__/foo/bar.js',
+    );
   });
 });
 

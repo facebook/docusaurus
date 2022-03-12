@@ -10,18 +10,18 @@ import {createSlugger} from '../slugger';
 describe('createSlugger', () => {
   it('can create unique slugs', () => {
     const slugger = createSlugger();
-    expect(slugger.slug('Some$/vaLue$!^')).toEqual('somevalue');
-    expect(slugger.slug('Some$/vaLue$!^')).toEqual('somevalue-1');
-    expect(slugger.slug('Some$/vaLue$!^')).toEqual('somevalue-2');
-    expect(slugger.slug('Some$/vaLue$!^-1')).toEqual('somevalue-1-1');
+    expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue');
+    expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue-1');
+    expect(slugger.slug('Some$/vaLue$!^')).toBe('somevalue-2');
+    expect(slugger.slug('Some$/vaLue$!^-1')).toBe('somevalue-1-1');
   });
 
   it('can create unique slugs respecting case', () => {
     const slugger = createSlugger();
     const opt = {maintainCase: true};
-    expect(slugger.slug('Some$/vaLue$!^', opt)).toEqual('SomevaLue');
-    expect(slugger.slug('Some$/vaLue$!^', opt)).toEqual('SomevaLue-1');
-    expect(slugger.slug('Some$/vaLue$!^', opt)).toEqual('SomevaLue-2');
-    expect(slugger.slug('Some$/vaLue$!^-1', opt)).toEqual('SomevaLue-1-1');
+    expect(slugger.slug('Some$/vaLue$!^', opt)).toBe('SomevaLue');
+    expect(slugger.slug('Some$/vaLue$!^', opt)).toBe('SomevaLue-1');
+    expect(slugger.slug('Some$/vaLue$!^', opt)).toBe('SomevaLue-2');
+    expect(slugger.slug('Some$/vaLue$!^-1', opt)).toBe('SomevaLue-1-1');
   });
 });

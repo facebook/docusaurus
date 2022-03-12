@@ -35,14 +35,8 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  import type {RouteConfig} from 'react-router-config';
+  import type {Route} from '@docusaurus/types';
 
-  export type Route = {
-    readonly path: string;
-    readonly component: RouteConfig['component'];
-    readonly exact?: boolean;
-    readonly routes?: Route[];
-  };
   const routes: Route[];
   export default routes;
 }

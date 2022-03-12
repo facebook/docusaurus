@@ -16,6 +16,29 @@ Object {
 }
 `;
 
+exports[`sidebar site with wrong sidebar content 1`] = `
+"Invalid sidebar file at \\"packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/simple-site/wrong-sidebars.json\\".
+These sidebar document ids do not exist:
+- goku
+
+Available document ids are:
+- doc with space
+- foo/bar
+- foo/baz
+- headingAsTitle
+- hello
+- ipsum
+- lorem
+- rootAbsoluteSlug
+- rootRelativeSlug
+- rootResolvedSlug
+- rootTryToEscapeSlug
+- slugs/absoluteSlug
+- slugs/relativeSlug
+- slugs/resolvedSlug
+- slugs/tryToEscapeSlug"
+`;
+
 exports[`simple website content 1`] = `
 Object {
   "description": "Images",

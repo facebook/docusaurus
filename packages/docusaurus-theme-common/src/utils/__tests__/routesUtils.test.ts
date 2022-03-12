@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type Route} from '@generated/routes';
+import type {Route} from '@docusaurus/types';
 import {findHomePageRoute} from '../routesUtils';
 
 describe('findHomePageRoute', () => {
@@ -15,7 +15,7 @@ describe('findHomePageRoute', () => {
   };
 
   it('returns undefined for no routes', () => {
-    expect(findHomePageRoute({baseUrl: '/', routes: []})).toEqual(undefined);
+    expect(findHomePageRoute({baseUrl: '/', routes: []})).toBeUndefined();
   });
 
   it('returns undefined for no homepage', () => {
@@ -37,7 +37,7 @@ describe('findHomePageRoute', () => {
           },
         ],
       }),
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   it('finds top-level homepage', () => {

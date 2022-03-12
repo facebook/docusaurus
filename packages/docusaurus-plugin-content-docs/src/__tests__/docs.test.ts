@@ -176,7 +176,7 @@ describe('simple site', () => {
       context,
       options,
     });
-    expect(versionsMetadata.length).toEqual(1);
+    expect(versionsMetadata).toHaveLength(1);
     const [currentVersion] = versionsMetadata;
 
     const defaultTestUtils = createTestUtils({
@@ -533,7 +533,7 @@ describe('versioned site', () => {
       context,
       options,
     });
-    expect(versionsMetadata.length).toEqual(4);
+    expect(versionsMetadata).toHaveLength(4);
     const [currentVersion, version101, version100, versionWithSlugs] =
       versionsMetadata;
 
@@ -947,28 +947,28 @@ describe('isConventionalDocIndex', () => {
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'readme',
         directories: ['doesNotMatter'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'README',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'ReAdMe',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('supports index', () => {
@@ -978,28 +978,28 @@ describe('isConventionalDocIndex', () => {
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'index',
         directories: ['doesNotMatter'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'INDEX',
         directories: ['doesNotMatter'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'InDeX',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('supports <categoryName>/<categoryName>.md', () => {
@@ -1009,35 +1009,35 @@ describe('isConventionalDocIndex', () => {
         directories: ['someCategory', 'doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'someCategory',
         directories: ['someCategory'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'someCategory',
         directories: ['someCategory'],
         extension: '.mdx',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'SOME_CATEGORY',
         directories: ['some_category'],
         extension: '.md',
       }),
-    ).toEqual(true);
+    ).toBe(true);
     expect(
       isCategoryIndex({
         fileName: 'some_category',
         directories: ['some_category'],
         extension: '',
       }),
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('reject other cases', () => {
@@ -1047,20 +1047,20 @@ describe('isConventionalDocIndex', () => {
         directories: ['someCategory'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isCategoryIndex({
         fileName: 'read_me',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
     expect(
       isCategoryIndex({
         fileName: 'the index',
         directories: ['doesNotMatter'],
         extension: '',
       }),
-    ).toEqual(false);
+    ).toBe(false);
   });
 });
