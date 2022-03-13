@@ -66,7 +66,7 @@ export function hasSSHProtocol(sourceRepoUrl: string): boolean {
     return false;
   } catch {
     // Fails when there isn't a protocol
-    return /^(?:[\w-]+@)?[\w.-]+:[\w./_-]+/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
+    return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
   }
 }
 

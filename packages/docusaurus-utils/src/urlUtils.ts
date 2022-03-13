@@ -58,7 +58,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i > 0) {
         // Removing the starting slashes for each component but the first.
         component = component.replace(
-          /^[/]+/,
+          /^\/+/,
           // Special case where the first element of rawUrls is empty
           // ["", "/hello"] => /hello
           component[0] === '/' && !hasStartingSlash ? '/' : '',
@@ -68,7 +68,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       hasEndingSlash = component[component.length - 1] === '/';
       // Removing the ending slashes for each component but the last. For the
       // last component we will combine multiple slashes to a single one.
-      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
+      component = component.replace(/\/+$/, i < urls.length - 1 ? '' : '/');
     }
 
     hasStartingSlash = true;

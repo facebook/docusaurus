@@ -8,25 +8,17 @@
 import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
 
 // Best-effort to avoid parsing some patterns as number prefix
-const IgnoredPrefixPatterns = (() => {
-  // ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
-  const DateLikePrefixRegex =
-    /^(?:\d{2}|\d{4})[-_.]\d{2}(?:[-_.](?:\d{2}|\d{4}))?.*$/;
-
-  // ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
-  // note: we could try to parse float numbers in filenames but that is
-  // probably not worth it as a version such as "8.0" can be interpreted as both
-  // a version and a float. User can configure her own NumberPrefixParser if
-  // she wants 8.0 to be interpreted as a float
-  const VersionLikePrefixRegex = /^\d+[-_.]\d+.*$/;
-
-  return new RegExp(
-    `${DateLikePrefixRegex.source}|${VersionLikePrefixRegex.source}`,
-  );
-})();
+// ignore common date-like patterns: https://github.com/facebook/docusaurus/issues/4640
+// ignore common versioning patterns: https://github.com/facebook/docusaurus/issues/4653
+// Both of them would look like 7.0-foo or 2021-11-foo
+// note: we could try to parse float numbers in filenames but that is
+// probably not worth it as a version such as "8.0" can be interpreted as both
+// a version and a float. User can configure her own NumberPrefixParser if
+// she wants 8.0 to be interpreted as a float
+const IgnoredPrefixPatterns = /^\d+[-_.]\d+/;
 
 const NumberPrefixRegex =
-  /^(?<numberPrefix>\d+)(?<separator>\s*[-_.]+\s*)(?<suffix>.*)$/;
+  /^(?<numberPrefix>\d+)\s*[-_.]+\s*(?<suffix>[^-_.\s].*)$/;
 
 // 0-myDoc => {filename: myDoc, numberPrefix: 0}
 // 003 - myDoc => {filename: myDoc, numberPrefix: 3}

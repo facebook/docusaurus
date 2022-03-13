@@ -134,12 +134,12 @@ describe('loadSidebars', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" is not allowed"`);
     expect(consoleWarnMock).toBeCalledWith(
       expect.stringMatching(
-        /.*\[WARNING].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
+        /.*\[WARNING\].* There are more than one category metadata files for .*foo.*: foo\/_category_.json, foo\/_category_.yml. The behavior is undetermined./,
       ),
     );
     expect(consoleErrorMock).toBeCalledWith(
       expect.stringMatching(
-        /.*\[ERROR].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
+        /.*\[ERROR\].* The docs sidebar category metadata file .*foo\/_category_.json.* looks invalid!/,
       ),
     );
   });
