@@ -9,82 +9,57 @@
 // Forked from https://github.com/tribou/jest-serializer-path/blob/master/lib/index.js
 // Added some project-specific handlers
 
-const _ = require('lodash');
-const {escapePath} = require('@docusaurus/utils');
-const {version} = require('@docusaurus/core/package.json');
-const os = require('os');
-const path = require('path');
-const fs = require('fs');
+import _ from 'lodash';
+import {escapePath} from '@docusaurus/utils';
+import {version} from '@docusaurus/core/package.json';
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
 
-module.exports = {
-  print(val, serialize) {
-    let normalizedValue = val;
+export function print(
+  val: unknown,
+  serialize: (val: unknown) => string,
+): string {
+  if (val instanceof Error) {
+    const message = normalizePaths(val.message);
+    const error = new Error(message);
+    const allKeys = [
+      ...Object.getOwnPropertyNames(error),
+      ...Object.keys(val),
+    ] as (keyof Error)[];
+    allKeys.forEach((key) => {
+      error[key] = normalizePaths(val[key]) as never;
+    });
+    return serialize(error);
+  } else if (val && typeof val === 'object') {
+    const normalizedValue = _.cloneDeep(val) as Record<string, unknown>;
 
-    if (_.isError(normalizedValue)) {
-      const message = normalizePaths(normalizedValue.message);
-      const error = new Error(message);
-
-      // Clone hidden props
-      const ownProps = Object.getOwnPropertyNames(error);
-      // eslint-disable-next-line no-restricted-syntax
-      for (const index in ownProps) {
-        if (Object.prototype.hasOwnProperty.call(ownProps, index)) {
-          const key = ownProps[index];
-
-          error[key] = normalizePaths(normalizedValue[key]);
-        }
-      }
-
-      // Clone normal props
-      // eslint-disable-next-line no-restricted-syntax
-      for (const index in normalizedValue) {
-        if (Object.prototype.hasOwnProperty.call(normalizedValue, index)) {
-          error[index] = normalizePaths(normalizedValue[index]);
-        }
-      }
-
-      normalizedValue = error;
-    } else if (typeof normalizedValue === 'object') {
-      normalizedValue = _.cloneDeep(normalizedValue);
-
-      Object.keys(normalizedValue).forEach((key) => {
-        normalizedValue[key] = normalizePaths(normalizedValue[key]);
-      });
-    } else {
-      normalizedValue = normalizePaths(normalizedValue);
-    }
-
+    Object.keys(normalizedValue).forEach((key) => {
+      normalizedValue[key] = normalizePaths(normalizedValue[key]);
+    });
     return serialize(normalizedValue);
-  },
-  test(val) {
-    let has = false;
+  }
+  return serialize(normalizePaths(val));
+}
 
-    if (val && typeof val === 'object') {
-      // val.message is non-enumerable in an error
-      if (val.message && shouldUpdate(val.message)) {
-        has = true;
-      }
-
-      Object.keys(val).forEach((key) => {
-        if (shouldUpdate(val[key])) {
-          has = true;
-        }
-      });
-    } else if (shouldUpdate(val)) {
-      has = true;
-    }
-
-    return has;
-  },
-  normalizePaths,
-  getRealPath,
-};
+export function test(val: unknown): boolean {
+  return (
+    (typeof val === 'object' &&
+      val &&
+      Object.keys(val).some((key) =>
+        shouldUpdate((val as Record<string, unknown>)[key]),
+      )) ||
+    // val.message is non-enumerable in an error
+    (val instanceof Error && shouldUpdate(val.message)) ||
+    shouldUpdate(val)
+  );
+}
 
 /**
  * Normalize paths across platforms.
  * Filters must be ran on all platforms to guard against false positives
  */
-function normalizePaths(value) {
+function normalizePaths<T>(value: T): T {
   if (typeof value !== 'string') {
     return value;
   }
@@ -101,7 +76,7 @@ function normalizePaths(value) {
   const homeRealRelativeToTempReal = path.relative(tempDirReal, homeDirReal);
   const homeRealRelativeToTemp = path.relative(tempDir, homeDirReal);
 
-  const runner = [
+  const runner: ((val: string) => string)[] = [
     // Replace process.cwd with <PROJECT_ROOT>
     (val) => val.split(cwdReal).join('<PROJECT_ROOT>'),
     (val) => val.split(cwd).join('<PROJECT_ROOT>'),
@@ -149,28 +124,23 @@ function normalizePaths(value) {
     (val) => val.replace(/\\(?!")/g, '/'),
   ];
 
-  let result = value;
+  let result = value as string;
   runner.forEach((current) => {
     result = current(result);
   });
 
-  return result;
+  return result as T & string;
 }
 
-function shouldUpdate(value) {
-  if (typeof value !== 'string') {
-    return false;
-  }
-
+function shouldUpdate(value: unknown) {
   // return true if value is different from normalized value
-  return normalizePaths(value) !== value;
+  return typeof value === 'string' && normalizePaths(value) !== value;
 }
 
-function getRealPath(pathname) {
+function getRealPath(pathname: string) {
   try {
     // eslint-disable-next-line no-restricted-properties
     const realPath = fs.realpathSync(pathname);
-
     return realPath;
   } catch (error) {
     return pathname;
