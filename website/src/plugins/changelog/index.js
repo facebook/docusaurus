@@ -37,7 +37,7 @@ function processSection(section) {
     .trim()
     .replace('running_woman', 'running');
 
-  let authors = content.match(/## Committers: \d+.*/ms);
+  let authors = content.match(/## Committers: \d.*/s);
   if (authors) {
     authors = authors[0]
       .match(/- .*/g)
@@ -105,7 +105,7 @@ async function ChangelogPlugin(context, options) {
     async loadContent() {
       const fileContent = await fs.readFile(changelogPath, 'utf-8');
       const sections = fileContent
-        .split(/(?=\n## )/ms)
+        .split(/(?=\n## )/)
         .map(processSection)
         .filter(Boolean);
       await Promise.all(

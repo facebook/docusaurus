@@ -30,6 +30,7 @@ module.exports = {
     'plugin:jest/recommended',
     'airbnb',
     'plugin:@typescript-eslint/recommended',
+    'plugin:regexp/recommended',
     'prettier',
   ],
   settings: {
@@ -40,7 +41,7 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint'],
+  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
   rules: {
     'array-callback-return': WARNING,
     camelcase: WARNING,

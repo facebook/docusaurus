@@ -8,7 +8,7 @@
 import rangeParser from 'parse-numeric-range';
 
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
-const highlightLinesRangeRegex = /{(?<range>[\d,-]+)}/;
+const highlightLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
 
 const commentTypes = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
 type CommentType = typeof commentTypes[number];

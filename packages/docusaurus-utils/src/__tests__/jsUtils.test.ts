@@ -169,14 +169,16 @@ describe('reportMessage', () => {
       `"Unexpected \\"reportingSeverity\\" value: foo."`,
     );
     expect(consoleLog).toBeCalledTimes(1);
-    expect(consoleLog).toBeCalledWith(expect.stringMatching(/.*\[INFO].* hey/));
+    expect(consoleLog).toBeCalledWith(
+      expect.stringMatching(/.*\[INFO\].* hey/),
+    );
     expect(consoleWarn).toBeCalledTimes(1);
     expect(consoleWarn).toBeCalledWith(
-      expect.stringMatching(/.*\[WARNING].* hey/),
+      expect.stringMatching(/.*\[WARNING\].* hey/),
     );
     expect(consoleError).toBeCalledTimes(1);
     expect(consoleError).toBeCalledWith(
-      expect.stringMatching(/.*\[ERROR].* hey/),
+      expect.stringMatching(/.*\[ERROR\].* hey/),
     );
   });
 });

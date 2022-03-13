@@ -6559,6 +6559,11 @@ comment-json@^4.2.2:
     has-own-prop "^2.0.0"
     repeat-string "^1.6.1"
 
+comment-parser@^1.1.2:
+  version "1.3.0"
+  resolved "https://registry.npmmirror.com/comment-parser/-/comment-parser-1.3.0.tgz#68beb7dbe0849295309b376406730cd16c719c44"
+  integrity sha512-hRpmWIKgzd81vn0ydoWoyPoALEOnF4wt8yKD35Ib1D6XC2siLiYaiqfGkYrunuKdsXGwpBpHU3+9r+RVw2NZfA==
+
 common-path-prefix@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/common-path-prefix/-/common-path-prefix-3.0.0.tgz#7d007a7e07c58c4b4d5f433131a19141b29f11e0"
@@ -8452,6 +8457,20 @@ eslint-plugin-react@^7.29.3:
     semver "^6.3.0"
     string.prototype.matchall "^4.0.6"
 
+eslint-plugin-regexp@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmmirror.com/eslint-plugin-regexp/-/eslint-plugin-regexp-1.5.1.tgz#982ea8936283035897d6bb1ba32c0ea5d9a4dee0"
+  integrity sha512-5v0rQIi54m2KycQHqmOAHrZhvI56GHmI2acr6zEffAqfeifTtobAEapv9Uf4o8//lGvwVkHKyjLoSbBNEFcfOA==
+  dependencies:
+    comment-parser "^1.1.2"
+    eslint-utils "^3.0.0"
+    grapheme-splitter "^1.0.4"
+    jsdoctypeparser "^9.0.0"
+    refa "^0.9.0"
+    regexp-ast-analysis "^0.3.0"
+    regexpp "^3.2.0"
+    scslre "^0.1.6"
+
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
@@ -9888,6 +9907,11 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.
   version "4.2.9"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.9.tgz#041b05df45755e587a24942279b9d113146e1c96"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
+
+grapheme-splitter@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
+  integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
 graphql@16.0.0:
   version "16.0.0"
@@ -11868,6 +11892,11 @@ jscodeshift@^0.13.0:
     recast "^0.20.4"
     temp "^0.8.4"
     write-file-atomic "^2.3.0"
+
+jsdoctypeparser@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.npmmirror.com/jsdoctypeparser/-/jsdoctypeparser-9.0.0.tgz#8c97e2fb69315eb274b0f01377eaa5c940bd7b26"
+  integrity sha512-jrTA2jJIL6/DAEILBEh2/w9QxCuwmvNXIry39Ay/HVfhE3o2yVV0U44blYkqdHA/OKloJEqvJy0xU+GSdE2SIw==
 
 jsdom@^16.6.0:
   version "16.7.0"
@@ -16204,6 +16233,13 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+refa@^0.9.0:
+  version "0.9.1"
+  resolved "https://registry.npmmirror.com/refa/-/refa-0.9.1.tgz#12731fce378d235731b1f73182b20083c8a75ca8"
+  integrity sha512-egU8LgFq2VXlAfUi8Jcbr5X38wEOadMFf8tCbshgcpVCYlE7k84pJOSlnvXF+muDB4igkdVMq7Z/kiNPqDT9TA==
+  dependencies:
+    regexpp "^3.2.0"
+
 regenerate-unicode-properties@^10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-10.0.1.tgz#7f442732aa7934a3740c779bb9b3340dccc1fb56"
@@ -16242,6 +16278,22 @@ regex-not@^1.0.0, regex-not@^1.0.2:
   dependencies:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
+
+regexp-ast-analysis@^0.2.3:
+  version "0.2.4"
+  resolved "https://registry.npmmirror.com/regexp-ast-analysis/-/regexp-ast-analysis-0.2.4.tgz#a497a7c8bfbba51438693821e4b0e3ed43e20f1b"
+  integrity sha512-8L7kOZQaKPxKKAwGuUZxTQtlO3WZ+tiXy4s6G6PKL6trbOXcZoumwC3AOHHFtI/xoSbNxt7jgLvCnP1UADLWqg==
+  dependencies:
+    refa "^0.9.0"
+    regexpp "^3.2.0"
+
+regexp-ast-analysis@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmmirror.com/regexp-ast-analysis/-/regexp-ast-analysis-0.3.0.tgz#386f177dfe5abc5ac58b51eb5962beac64e898ce"
+  integrity sha512-11PlbBSUxwWpdj6BdZUKfhDdV9g+cveqHB+BqBQDBD7ZermDBVgtyowUaXTvT0dO3tZYo2bDIr/GoED6X1aYSA==
+  dependencies:
+    refa "^0.9.0"
+    regexpp "^3.2.0"
 
 regexp.prototype.flags@^1.2.0, regexp.prototype.flags@^1.3.1:
   version "1.4.1"
@@ -16867,6 +16919,15 @@ screenfull@^5.1.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-5.2.0.tgz#6533d524d30621fc1283b9692146f3f13a93d1ba"
   integrity sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==
+
+scslre@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.npmmirror.com/scslre/-/scslre-0.1.6.tgz#71a2832e4bf3a9254973a04fbed90aec94f75757"
+  integrity sha512-JORxVRlQTfjvlOAaiQKebgFElyAm5/W8b50lgaZ0OkEnKnagJW2ufDh3xRfU75UD9z3FGIu1gL1IyR3Poa6Qmw==
+  dependencies:
+    refa "^0.9.0"
+    regexp-ast-analysis "^0.2.3"
+    regexpp "^3.2.0"
 
 section-matter@^1.0.0:
   version "1.0.0"

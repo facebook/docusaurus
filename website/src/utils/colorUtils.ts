@@ -100,7 +100,7 @@ export function updateDOMColors(
   isDarkTheme: boolean,
 ): void {
   const styleSheet = Array.from(document.styleSheets).find((item) =>
-    item.href?.match(/styles(?:\.[0-9a-f]+)?\.css/),
+    item.href?.match(/styles(?:\.[\da-f]+)?\.css/),
   )!;
   const rules = Array.from(styleSheet.cssRules) as CSSStyleRule[];
   // The rule that looks the most like definition for custom theme colors

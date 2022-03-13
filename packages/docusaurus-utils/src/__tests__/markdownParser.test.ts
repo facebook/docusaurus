@@ -404,7 +404,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.trim().replace('# Markdown Title', ''),
+      content: markdown.trim().replace('# Markdown Title\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
@@ -444,7 +444,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.replace('Markdown Title\n==============\n\n', ''),
+      content: markdown.replace('Markdown Title\n==============\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
@@ -547,7 +547,7 @@ Lorem Ipsum
     expect(
       parseMarkdownContentTitle(markdown, {removeContentTitle: true}),
     ).toEqual({
-      content: markdown.replace('# Markdown Title', ''),
+      content: markdown.replace('# Markdown Title\n', ''),
       contentTitle: 'Markdown Title',
     });
   });
