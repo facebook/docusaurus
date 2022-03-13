@@ -25,13 +25,14 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
-  testURL: 'http://localhost/',
+  testURL: 'https://docusaurus.io/',
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  errorOnDeprecated: true,
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
     '^.+\\.(css|jpe?g|png|svg)$': '<rootDir>/jest/emptyModule.js',
@@ -49,10 +50,8 @@ export default {
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/src/client/index.ts',
   },
-  globals: {
-    window: {
-      location: {href: 'https://docusaurus.io'},
-    },
-  },
   snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.js'],
+  snapshotFormat: {
+    printBasicPrototype: false,
+  },
 };

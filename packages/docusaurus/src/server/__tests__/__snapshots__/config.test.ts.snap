@@ -12,15 +12,15 @@ See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
 `;
 
 exports[`loadConfig website with valid async config 1`] = `
-Object {
+{
   "baseUrl": "/",
   "baseUrlIssueBanner": true,
-  "clientModules": Array [],
-  "customFields": Object {},
-  "i18n": Object {
+  "clientModules": [],
+  "customFields": {},
+  "i18n": {
     "defaultLocale": "en",
-    "localeConfigs": Object {},
-    "locales": Array [
+    "localeConfigs": {},
+    "locales": [
       "en",
     ],
   },
@@ -29,17 +29,17 @@ Object {
   "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
-  "plugins": Array [],
-  "presets": Array [],
+  "plugins": [],
+  "presets": [],
   "projectName": "hello",
-  "scripts": Array [],
-  "staticDirectories": Array [
+  "scripts": [],
+  "staticDirectories": [
     "static",
   ],
-  "stylesheets": Array [],
+  "stylesheets": [],
   "tagline": "Hello World",
-  "themeConfig": Object {},
-  "themes": Array [],
+  "themeConfig": {},
+  "themes": [],
   "title": "Hello",
   "titleDelimiter": "|",
   "url": "https://docusaurus.io",
@@ -47,15 +47,15 @@ Object {
 `;
 
 exports[`loadConfig website with valid async config creator function 1`] = `
-Object {
+{
   "baseUrl": "/",
   "baseUrlIssueBanner": true,
-  "clientModules": Array [],
-  "customFields": Object {},
-  "i18n": Object {
+  "clientModules": [],
+  "customFields": {},
+  "i18n": {
     "defaultLocale": "en",
-    "localeConfigs": Object {},
-    "locales": Array [
+    "localeConfigs": {},
+    "locales": [
       "en",
     ],
   },
@@ -64,17 +64,17 @@ Object {
   "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
-  "plugins": Array [],
-  "presets": Array [],
+  "plugins": [],
+  "presets": [],
   "projectName": "hello",
-  "scripts": Array [],
-  "staticDirectories": Array [
+  "scripts": [],
+  "staticDirectories": [
     "static",
   ],
-  "stylesheets": Array [],
+  "stylesheets": [],
   "tagline": "Hello World",
-  "themeConfig": Object {},
-  "themes": Array [],
+  "themeConfig": {},
+  "themes": [],
   "title": "Hello",
   "titleDelimiter": "|",
   "url": "https://docusaurus.io",
@@ -82,15 +82,15 @@ Object {
 `;
 
 exports[`loadConfig website with valid config creator function 1`] = `
-Object {
+{
   "baseUrl": "/",
   "baseUrlIssueBanner": true,
-  "clientModules": Array [],
-  "customFields": Object {},
-  "i18n": Object {
+  "clientModules": [],
+  "customFields": {},
+  "i18n": {
     "defaultLocale": "en",
-    "localeConfigs": Object {},
-    "locales": Array [
+    "localeConfigs": {},
+    "locales": [
       "en",
     ],
   },
@@ -99,17 +99,17 @@ Object {
   "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
-  "plugins": Array [],
-  "presets": Array [],
+  "plugins": [],
+  "presets": [],
   "projectName": "hello",
-  "scripts": Array [],
-  "staticDirectories": Array [
+  "scripts": [],
+  "staticDirectories": [
     "static",
   ],
-  "stylesheets": Array [],
+  "stylesheets": [],
   "tagline": "Hello World",
-  "themeConfig": Object {},
-  "themes": Array [],
+  "themeConfig": {},
+  "themes": [],
   "title": "Hello",
   "titleDelimiter": "|",
   "url": "https://docusaurus.io",
@@ -117,16 +117,16 @@ Object {
 `;
 
 exports[`loadConfig website with valid siteConfig 1`] = `
-Object {
+{
   "baseUrl": "/",
   "baseUrlIssueBanner": true,
-  "clientModules": Array [],
-  "customFields": Object {},
+  "clientModules": [],
+  "customFields": {},
   "favicon": "img/docusaurus.ico",
-  "i18n": Object {
+  "i18n": {
     "defaultLocale": "en",
-    "localeConfigs": Object {},
-    "locales": Array [
+    "localeConfigs": {},
+    "locales": [
       "en",
     ],
   },
@@ -135,25 +135,25 @@ Object {
   "onBrokenMarkdownLinks": "warn",
   "onDuplicateRoutes": "warn",
   "organizationName": "endiliey",
-  "plugins": Array [
-    Array [
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
-      Object {
+      {
         "path": "../docs",
       },
     ],
     "@docusaurus/plugin-content-pages",
   ],
-  "presets": Array [],
+  "presets": [],
   "projectName": "hello",
-  "scripts": Array [],
-  "staticDirectories": Array [
+  "scripts": [],
+  "staticDirectories": [
     "static",
   ],
-  "stylesheets": Array [],
+  "stylesheets": [],
   "tagline": "Hello World",
-  "themeConfig": Object {},
-  "themes": Array [],
+  "themeConfig": {},
+  "themes": [],
   "title": "Hello",
   "titleDelimiter": "|",
   "url": "https://docusaurus.io",

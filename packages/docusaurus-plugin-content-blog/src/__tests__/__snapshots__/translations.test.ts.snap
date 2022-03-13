@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getContentTranslationFiles returns translation files matching snapshot 1`] = `
-Array [
-  Object {
-    "content": Object {
-      "description": Object {
+[
+  {
+    "content": {
+      "description": {
         "description": "The description for the blog used in SEO",
         "message": "Someone's random blog",
       },
-      "sidebar.title": Object {
+      "sidebar.title": {
         "description": "The label for the left sidebar",
         "message": "All my posts",
       },
-      "title": Object {
+      "title": {
         "description": "The title for the blog used in SEO",
         "message": "My blog",
       },
@@ -23,13 +23,13 @@ Array [
 `;
 
 exports[`translateContent falls back when translation is incomplete 1`] = `
-Object {
-  "blogListPaginated": Array [
-    Object {
-      "items": Array [
+{
+  "blogListPaginated": [
+    {
+      "items": [
         "hello",
       ],
-      "metadata": Object {
+      "metadata": {
         "blogDescription": "Someone's random blog",
         "blogTitle": "My blog",
         "nextPage": null,
@@ -42,35 +42,35 @@ Object {
       },
     },
   ],
-  "blogPosts": Array [
-    Object {
+  "blogPosts": [
+    {
       "id": "hello",
-      "metadata": Object {
+      "metadata": {
         "date": 2021-07-19T00:00:00.000Z,
         "description": "/blog/2021/06/19/hello",
         "formattedDate": "June 19, 2021",
         "permalink": "/blog/2021/06/19/hello",
         "source": "/blog/2021/06/19/hello",
-        "tags": Array [],
+        "tags": [],
         "title": "Hello",
         "truncated": true,
       },
     },
   ],
   "blogSidebarTitle": "All my posts",
-  "blogTags": Object {},
+  "blogTags": {},
   "blogTagsListPath": "/tags",
 }
 `;
 
 exports[`translateContent returns translated loaded 1`] = `
-Object {
-  "blogListPaginated": Array [
-    Object {
-      "items": Array [
+{
+  "blogListPaginated": [
+    {
+      "items": [
         "hello",
       ],
-      "metadata": Object {
+      "metadata": {
         "blogDescription": "Someone's random blog (translated)",
         "blogTitle": "My blog (translated)",
         "nextPage": null,
@@ -83,23 +83,23 @@ Object {
       },
     },
   ],
-  "blogPosts": Array [
-    Object {
+  "blogPosts": [
+    {
       "id": "hello",
-      "metadata": Object {
+      "metadata": {
         "date": 2021-07-19T00:00:00.000Z,
         "description": "/blog/2021/06/19/hello",
         "formattedDate": "June 19, 2021",
         "permalink": "/blog/2021/06/19/hello",
         "source": "/blog/2021/06/19/hello",
-        "tags": Array [],
+        "tags": [],
         "title": "Hello",
         "truncated": true,
       },
     },
   ],
   "blogSidebarTitle": "All my posts (translated)",
-  "blogTags": Object {},
+  "blogTags": {},
   "blogTagsListPath": "/tags",
 }
 `;

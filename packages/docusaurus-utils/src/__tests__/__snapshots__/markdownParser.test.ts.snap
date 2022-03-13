@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parseMarkdownString deletes only first heading 1`] = `
-Object {
+{
   "content": "# Markdown Title
 
 test test test # test bar
@@ -11,12 +11,12 @@ test test test # test bar
 ### Markdown Title h3",
   "contentTitle": "Markdown Title",
   "excerpt": "test test test # test bar",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString deletes only first heading 2 1`] = `
-Object {
+{
   "content": "# test
 
 test test test test test test
@@ -26,25 +26,25 @@ test test test # test bar
 test3",
   "contentTitle": "test",
   "excerpt": "test test test test test test",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString does not warn for duplicate title if markdown title is not at the top 1`] = `
-Object {
+{
   "content": "foo
 
 # Markdown Title",
   "contentTitle": undefined,
   "excerpt": "foo",
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }
 `;
 
 exports[`parseMarkdownString handles code blocks 1`] = `
-Object {
+{
   "content": "\`\`\`js
 code
 \`\`\`
@@ -52,12 +52,12 @@ code
 Content",
   "contentTitle": undefined,
   "excerpt": "Content",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString handles code blocks 2`] = `
-Object {
+{
   "content": "\`\`\`\`js
 Foo
 \`\`\`diff
@@ -69,12 +69,12 @@ Bar
 Content",
   "contentTitle": undefined,
   "excerpt": "Content",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString handles code blocks 3`] = `
-Object {
+{
   "content": "\`\`\`\`js
 Foo
 \`\`\`diff
@@ -84,116 +84,116 @@ code
 Content",
   "contentTitle": undefined,
   "excerpt": "Content",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString ignores markdown title if its not a first text 1`] = `
-Object {
+{
   "content": "foo
 # test",
   "contentTitle": undefined,
   "excerpt": "foo",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString parse markdown with front matter 1`] = `
-Object {
+{
   "content": "Some text",
   "contentTitle": undefined,
   "excerpt": "Some text",
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }
 `;
 
 exports[`parseMarkdownString parses first heading as contentTitle 1`] = `
-Object {
+{
   "content": "# Markdown Title
 
 Some text",
   "contentTitle": "Markdown Title",
   "excerpt": "Some text",
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString parses front-matter and ignore h2 1`] = `
-Object {
+{
   "content": "## test",
   "contentTitle": undefined,
   "excerpt": "test",
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }
 `;
 
 exports[`parseMarkdownString parses title only 1`] = `
-Object {
+{
   "content": "# test",
   "contentTitle": "test",
   "excerpt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString parses title only alternate 1`] = `
-Object {
+{
   "content": "test
 ===",
   "contentTitle": "test",
   "excerpt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
 }
 `;
 
 exports[`parseMarkdownString reads front matter only 1`] = `
-Object {
+{
   "content": "",
   "contentTitle": undefined,
   "excerpt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "test",
   },
 }
 `;
 
 exports[`parseMarkdownString warns about duplicate titles (front matter + markdown alternate) 1`] = `
-Object {
+{
   "content": "Markdown Title alternate
 ================
 
 Some text",
   "contentTitle": "Markdown Title alternate",
   "excerpt": "Some text",
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }
 `;
 
 exports[`parseMarkdownString warns about duplicate titles (front matter + markdown) 1`] = `
-Object {
+{
   "content": "# Markdown Title
 
 Some text",
   "contentTitle": "Markdown Title",
   "excerpt": "Some text",
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }
 `;
 
 exports[`parseMarkdownString warns about duplicate titles 1`] = `
-Object {
+{
   "content": "# test",
   "contentTitle": "test",
   "excerpt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Frontmatter title",
   },
 }

@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`replaceMarkdownLinks does basic replace 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [
-    Object {
-      "contentPaths": Object {
+{
+  "brokenMarkdownLinks": [
+    {
+      "contentPaths": {
         "contentPath": "docs",
         "contentPathLocalized": "i18n/docs-localized",
       },
@@ -27,18 +27,18 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks ignores links in HTML comments 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [
-    Object {
-      "contentPaths": Object {
+{
+  "brokenMarkdownLinks": [
+    {
+      "contentPaths": {
         "contentPath": "docs",
         "contentPathLocalized": "i18n/docs-localized",
       },
       "filePath": "docs/intro.md",
       "link": "./foo.md",
     },
-    Object {
-      "contentPaths": Object {
+    {
+      "contentPaths": {
         "contentPath": "docs",
         "contentPathLocalized": "i18n/docs-localized",
       },
@@ -56,8 +56,8 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks ignores links in fenced blocks 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [],
+{
+  "brokenMarkdownLinks": [],
   "newContent": "
 \`\`\`
 [foo](foo.md)
@@ -81,10 +81,10 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks ignores links in inline code 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [
-    Object {
-      "contentPaths": Object {
+{
+  "brokenMarkdownLinks": [
+    {
+      "contentPaths": {
         "contentPath": "docs",
         "contentPathLocalized": "i18n/docs-localized",
       },
@@ -99,8 +99,8 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks replaces links with same title as URL 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [],
+{
+  "brokenMarkdownLinks": [],
   "newContent": "
 [/docs/foo](foo.md)
 [/docs/foo](./foo.md)
@@ -111,8 +111,8 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks replaces multiple links on same line 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [],
+{
+  "brokenMarkdownLinks": [],
   "newContent": "
 [a](/docs/a), [a](/docs/a), [b](/docs/b), [c](/docs/c)
 ",
@@ -120,8 +120,8 @@ Object {
 `;
 
 exports[`replaceMarkdownLinks replaces reference style Markdown links 1`] = `
-Object {
-  "brokenMarkdownLinks": Array [],
+{
+  "brokenMarkdownLinks": [],
   "newContent": "
 The following operations are defined for [URI]s:
 

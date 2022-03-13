@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`blog plugin works on blog tags without pagination 1`] = `
-Object {
-  "/blog/tags/tag-1": Object {
-    "items": Array [
+{
+  "/blog/tags/tag-1": {
+    "items": [
       "/simple/slug/another",
       "/another/tags",
       "/another/tags2",
     ],
     "name": "tag1",
-    "pages": Array [
-      Object {
-        "items": Array [
+    "pages": [
+      {
+        "items": [
           "/simple/slug/another",
           "/another/tags",
           "/another/tags2",
         ],
-        "metadata": Object {
+        "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
           "nextPage": null,
@@ -31,19 +31,19 @@ Object {
     ],
     "permalink": "/blog/tags/tag-1",
   },
-  "/blog/tags/tag-2": Object {
-    "items": Array [
+  "/blog/tags/tag-2": {
+    "items": [
       "/another/tags",
       "/another/tags2",
     ],
     "name": "tag2",
-    "pages": Array [
-      Object {
-        "items": Array [
+    "pages": [
+      {
+        "items": [
           "/another/tags",
           "/another/tags2",
         ],
-        "metadata": Object {
+        "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
           "nextPage": null,
@@ -62,21 +62,21 @@ Object {
 `;
 
 exports[`blog plugin works with blog tags 1`] = `
-Object {
-  "/blog/tags/tag-1": Object {
-    "items": Array [
+{
+  "/blog/tags/tag-1": {
+    "items": [
       "/simple/slug/another",
       "/another/tags",
       "/another/tags2",
     ],
     "name": "tag1",
-    "pages": Array [
-      Object {
-        "items": Array [
+    "pages": [
+      {
+        "items": [
           "/simple/slug/another",
           "/another/tags",
         ],
-        "metadata": Object {
+        "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
           "nextPage": "/blog/tags/tag-1/page/2",
@@ -88,11 +88,11 @@ Object {
           "totalPages": 2,
         },
       },
-      Object {
-        "items": Array [
+      {
+        "items": [
           "/another/tags2",
         ],
-        "metadata": Object {
+        "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
           "nextPage": null,
@@ -107,19 +107,19 @@ Object {
     ],
     "permalink": "/blog/tags/tag-1",
   },
-  "/blog/tags/tag-2": Object {
-    "items": Array [
+  "/blog/tags/tag-2": {
+    "items": [
       "/another/tags",
       "/another/tags2",
     ],
     "name": "tag2",
-    "pages": Array [
-      Object {
-        "items": Array [
+    "pages": [
+      {
+        "items": [
           "/another/tags",
           "/another/tags2",
         ],
-        "metadata": Object {
+        "metadata": {
           "blogDescription": "Blog",
           "blogTitle": "Blog",
           "nextPage": null,
