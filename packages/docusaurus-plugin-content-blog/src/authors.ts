@@ -17,20 +17,31 @@ import type {
 
 export type AuthorsMap = Record<string, Author>;
 
-const AuthorsMapSchema = Joi.object<AuthorsMap>().pattern(
-  Joi.string(),
-  Joi.object({
-    name: Joi.string(),
-    url: URISchema,
-    imageURL: URISchema,
-    title: Joi.string(),
-    email: Joi.string(),
-  })
-    .rename('image_url', 'imageURL')
-    .or('name', 'imageURL')
-    .unknown()
-    .required(),
-);
+const AuthorsMapSchema = Joi.object<AuthorsMap>()
+  .pattern(
+    Joi.string(),
+    Joi.object({
+      name: Joi.string(),
+      url: URISchema,
+      imageURL: URISchema,
+      title: Joi.string(),
+      email: Joi.string(),
+    })
+      .rename('image_url', 'imageURL')
+      .or('name', 'imageURL')
+      .unknown()
+      .required()
+      .messages({
+        'object.base':
+          '{#label} should be an author object containing properties like name, title, and imageURL.',
+        'any.required':
+          '{#label} cannot be undefined. It should be an author object containing properties like name, title, and imageURL.',
+      }),
+  )
+  .messages({
+    'object.base':
+      "The authors map file should contain an object where each entry contains an author key and the corresponding author's data.",
+  });
 
 export function validateAuthorsMap(content: unknown): AuthorsMap {
   return Joi.attempt(content, AuthorsMapSchema);
