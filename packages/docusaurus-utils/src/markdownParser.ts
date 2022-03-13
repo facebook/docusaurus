@@ -136,7 +136,7 @@ export function parseMarkdownContentTitle(
   // `import` nodes, as broken syntax can't render anyways. That means any block
   // that has `import` at the very beginning and surrounded by empty lines.
   const contentWithoutImport = content
-    .replace(/^import\s(?:.|\n(?!\n))*\n\n/gm, '')
+    .replace(/^(?:import\s(?:.|\n(?!\n))*\n{2,})*/, '')
     .trim();
 
   const regularTitleMatch = /^#[ \t]+(?<title>[^ \t].*)(?:\n|$)/.exec(
