@@ -1,121 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loadPresets array form 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;
 
 exports[`loadPresets array form composite 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
-      Object {
+      {
         "path": "../",
       },
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-pages",
-      Object {
+      {
         "path": "../",
       },
     ],
-    Array [
+    [
       "@docusaurus/plugin-sitemap",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;
 
 exports[`loadPresets array form with options 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
-      Object {
+      {
         "path": "../",
       },
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;
 
 exports[`loadPresets mixed form 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
-      Object {
+      {
         "path": "../",
       },
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-pages",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-sitemap",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;
 
 exports[`loadPresets mixed form with themes 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
-      Object {
+      {
         "path": "../",
       },
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-pages",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-sitemap",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-test",
       undefined,
     ],
   ],
-  "themes": Array [
-    Array [
+  "themes": [
+    [
       "@docusaurus/theme-classic",
       undefined,
     ],
@@ -124,41 +124,41 @@ Object {
 `;
 
 exports[`loadPresets string form 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;
 
 exports[`loadPresets string form composite 1`] = `
-Object {
-  "plugins": Array [
-    Array [
+{
+  "plugins": [
+    [
       "@docusaurus/plugin-content-docs",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-content-pages",
       undefined,
     ],
-    Array [
+    [
       "@docusaurus/plugin-sitemap",
       undefined,
     ],
   ],
-  "themes": Array [],
+  "themes": [],
 }
 `;

@@ -29,52 +29,52 @@ Example valid plugin config:
 `;
 
 exports[`sortConfig sorts route config correctly 1`] = `
-Array [
-  Object {
+[
+  {
     "component": "",
     "path": "/community",
   },
-  Object {
+  {
     "component": "",
     "path": "/some-page",
   },
-  Object {
+  {
     "component": "",
     "path": "/docs",
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "",
         "path": "/docs/someDoc",
       },
-      Object {
+      {
         "component": "",
         "path": "/docs/someOtherDoc",
       },
     ],
   },
-  Object {
+  {
     "component": "",
     "path": "/",
   },
-  Object {
+  {
     "component": "",
     "path": "/",
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "",
         "path": "/someDoc",
       },
-      Object {
+      {
         "component": "",
         "path": "/someOtherDoc",
       },
     ],
   },
-  Object {
+  {
     "component": "",
     "path": "/",
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "",
         "path": "/subroute",
       },
@@ -84,42 +84,42 @@ Array [
 `;
 
 exports[`sortConfig sorts route config given a baseURL 1`] = `
-Array [
-  Object {
+[
+  {
     "component": "",
     "path": "/latest/community",
   },
-  Object {
+  {
     "component": "",
     "path": "/latest/example",
   },
-  Object {
+  {
     "component": "",
     "path": "/latest/some-page",
   },
-  Object {
+  {
     "component": "",
     "path": "/latest/docs",
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "",
         "path": "/latest/docs/someDoc",
       },
-      Object {
+      {
         "component": "",
         "path": "/latest/docs/someOtherDoc",
       },
     ],
   },
-  Object {
+  {
     "component": "",
     "path": "/latest",
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "",
         "path": "/latest/someDoc",
       },
-      Object {
+      {
         "component": "",
         "path": "/latest/someOtherDoc",
       },

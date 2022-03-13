@@ -25,12 +25,12 @@ describe('DocusaurusContextProvider', () => {
   const value = result.current;
   it('returns right value', () => {
     expect(value).toMatchInlineSnapshot(`
-      Object {
-        "codeTranslations": Object {},
-        "globalData": Object {},
-        "i18n": Object {},
-        "siteConfig": Object {},
-        "siteMetadata": Object {},
+      {
+        "codeTranslations": {},
+        "globalData": {},
+        "i18n": {},
+        "siteConfig": {},
+        "siteMetadata": {},
       }
     `);
   });

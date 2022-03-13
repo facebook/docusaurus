@@ -3,14 +3,29 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @jest-environment jsdom
  */
 
+// Jest doesn't allow pragma below other comments. https://github.com/facebook/jest/issues/12573
+// eslint-disable-next-line header/header
 import React from 'react';
 import renderer from 'react-test-renderer';
 import BrowserOnly from '../BrowserOnly';
 import {Context} from '../browserContext';
 
 describe('<BrowserOnly>', () => {
+  const originalEnv = process.env;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = {...originalEnv};
+  });
+
+  afterAll(() => {
+    process.env = originalEnv;
+  });
+
   it('rejects react element children', () => {
     process.env.NODE_ENV = 'development';
     expect(() =>
@@ -58,7 +73,7 @@ describe('<BrowserOnly>', () => {
         .toJSON(),
     ).toMatchInlineSnapshot(`
       <span>
-        https://docusaurus.io
+        https://docusaurus.io/
       </span>
     `);
   });

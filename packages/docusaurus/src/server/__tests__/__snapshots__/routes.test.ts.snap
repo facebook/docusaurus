@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loadRoutes loads flat route config 1`] = `
-Object {
-  "registry": Object {
-    "component---theme-blog-list-pagea-6-a-7ba": Object {
+{
+  "registry": {
+    "component---theme-blog-list-pagea-6-a-7ba": {
       "loader": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ '@theme/BlogListPage')",
       "modulePath": "@theme/BlogListPage",
     },
-    "content---blog-0-b-4-09e": Object {
+    "content---blog-0-b-4-09e": {
       "loader": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true')",
       "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
     },
-    "content---blog-7-b-8-fd9": Object {
+    "content---blog-7-b-8-fd9": {
       "loader": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md')",
       "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
     },
-    "metadata---blog-0-b-6-74c": Object {
+    "metadata---blog-0-b-6-74c": {
       "loader": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ 'blog-2018-12-14-happy-first-birthday-slash-d2c.json')",
       "modulePath": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
     },
   },
-  "routesChunkNames": Object {
-    "/blog-94e": Object {
+  "routesChunkNames": {
+    "/blog-94e": {
       "component": "component---theme-blog-list-pagea-6-a-7ba",
-      "items": Array [
-        Object {
+      "items": [
+        {
           "content": "content---blog-0-b-4-09e",
           "metadata": "metadata---blog-0-b-6-74c",
         },
-        Object {
+        {
           "content": "content---blog-7-b-8-fd9",
           "metadata": null,
         },
@@ -51,7 +51,7 @@ export default [
   }
 ];
 ",
-  "routesPaths": Array [
+  "routesPaths": [
     "/404.html",
     "/blog",
   ],
@@ -59,48 +59,48 @@ export default [
 `;
 
 exports[`loadRoutes loads nested route config 1`] = `
-Object {
-  "registry": Object {
-    "component---theme-doc-item-178-a40": Object {
+{
+  "registry": {
+    "component---theme-doc-item-178-a40": {
       "loader": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ '@theme/DocItem')",
       "modulePath": "@theme/DocItem",
     },
-    "component---theme-doc-page-1-be-9be": Object {
+    "component---theme-doc-page-1-be-9be": {
       "loader": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ '@theme/DocPage')",
       "modulePath": "@theme/DocPage",
     },
-    "content---docs-foo-baz-8-ce-61e": Object {
+    "content---docs-foo-baz-8-ce-61e": {
       "loader": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ 'docs/foo/baz.md')",
       "modulePath": "docs/foo/baz.md",
     },
-    "content---docs-helloaff-811": Object {
+    "content---docs-helloaff-811": {
       "loader": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ 'docs/hello.md')",
       "modulePath": "docs/hello.md",
     },
-    "docsMetadata---docs-routef-34-881": Object {
+    "docsMetadata---docs-routef-34-881": {
       "loader": "() => import(/* webpackChunkName: 'docsMetadata---docs-routef-34-881' */ 'docs-b5f.json')",
       "modulePath": "docs-b5f.json",
     },
-    "metadata---docs-foo-baz-2-cf-fa7": Object {
+    "metadata---docs-foo-baz-2-cf-fa7": {
       "loader": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ 'docs-foo-baz-dd9.json')",
       "modulePath": "docs-foo-baz-dd9.json",
     },
-    "metadata---docs-hello-956-741": Object {
+    "metadata---docs-hello-956-741": {
       "loader": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ 'docs-hello-da2.json')",
       "modulePath": "docs-hello-da2.json",
     },
   },
-  "routesChunkNames": Object {
-    "/docs/hello-44b": Object {
+  "routesChunkNames": {
+    "/docs/hello-44b": {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-63b": Object {
+    "/docs:route-63b": {
       "component": "component---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-ac2": Object {
+    "docs/foo/baz-ac2": {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
@@ -134,7 +134,7 @@ export default [
   }
 ];
 ",
-  "routesPaths": Array [
+  "routesPaths": [
     "/404.html",
     "/docs/hello",
     "docs/foo/baz",
@@ -143,15 +143,15 @@ export default [
 `;
 
 exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
-Object {
-  "registry": Object {
-    "component---hello-world-jse-0-f-b6c": Object {
+{
+  "registry": {
+    "component---hello-world-jse-0-f-b6c": {
       "loader": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ 'hello/world.js')",
       "modulePath": "hello/world.js",
     },
   },
-  "routesChunkNames": Object {
-    "-b2a": Object {
+  "routesChunkNames": {
+    "-b2a": {
       "component": "component---hello-world-jse-0-f-b6c",
     },
   },
@@ -170,7 +170,7 @@ export default [
   }
 ];
 ",
-  "routesPaths": Array [
+  "routesPaths": [
     "/404.html",
     "",
   ],

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`sidebar site with undefined sidebar 1`] = `
-Object {
-  "defaultSidebar": Array [
-    Object {
+{
+  "defaultSidebar": [
+    {
       "id": "hello-1",
       "type": "doc",
     },
-    Object {
+    {
       "id": "hello-2",
       "label": "Hello 2 From Doc",
       "type": "doc",
@@ -40,18 +40,18 @@ Available document ids are:
 `;
 
 exports[`simple website content 1`] = `
-Object {
+{
   "description": "Images",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "baz",
     "pagination_label": "baz pagination_label",
     "slug": "bazSlug.html",
-    "tags": Array [
+    "tags": [
       "tag 1",
       "tag-1",
-      Object {
+      {
         "label": "tag 2",
         "permalink": "tag2-custom-permalink",
       },
@@ -61,12 +61,12 @@ Object {
   "id": "foo/baz",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/category/slugs",
     "title": "Slugs",
   },
   "permalink": "/docs/foo/bazSlug.html",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/foo/bar",
     "title": "Bar",
   },
@@ -75,12 +75,12 @@ Object {
   "slug": "/foo/bazSlug.html",
   "source": "@site/docs/foo/baz.md",
   "sourceDirName": "foo",
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "label": "tag 1",
       "permalink": "/docs/tags/tag-1",
     },
-    Object {
+    {
       "label": "tag 2",
       "permalink": "/docs/tags/tag2-custom-permalink",
     },
@@ -92,15 +92,15 @@ Object {
 `;
 
 exports[`simple website content 2`] = `
-Object {
+{
   "description": "Hi, Endilie here :)",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "hello",
     "sidebar_label": "Hello sidebar_label",
     "slug": "/",
-    "tags": Array [
+    "tags": [
       "tag-1",
       "tag 3",
     ],
@@ -111,7 +111,7 @@ Object {
   "lastUpdatedBy": undefined,
   "next": undefined,
   "permalink": "/docs/",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/headingAsTitle",
     "title": "My heading as title",
   },
@@ -120,12 +120,12 @@ Object {
   "slug": "/",
   "source": "@site/docs/hello.md",
   "sourceDirName": ".",
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "label": "tag-1",
       "permalink": "/docs/tags/tag-1",
     },
-    Object {
+    {
       "label": "tag 3",
       "permalink": "/docs/tags/tag-3",
     },
@@ -137,11 +137,11 @@ Object {
 `;
 
 exports[`simple website content 3`] = `
-Object {
+{
   "description": "This is custom description",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "description": "This is custom description",
     "id": "bar",
     "pagination_next": null,
@@ -159,7 +159,7 @@ Object {
   "slug": "/foo/bar",
   "source": "@site/docs/foo/bar.md",
   "sourceDirName": "foo",
-  "tags": Array [],
+  "tags": [],
   "title": "Bar",
   "unversionedId": "foo/bar",
   "version": "current",
@@ -167,21 +167,21 @@ Object {
 `;
 
 exports[`simple website content 4`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "foo/bar",
               "type": "doc",
             },
-            Object {
+            {
               "id": "foo/baz",
               "type": "doc",
             },
@@ -190,45 +190,45 @@ Object {
           "link": undefined,
           "type": "category",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "rootAbsoluteSlug",
               "type": "doc",
             },
-            Object {
+            {
               "id": "rootRelativeSlug",
               "type": "doc",
             },
-            Object {
+            {
               "id": "rootResolvedSlug",
               "type": "doc",
             },
-            Object {
+            {
               "id": "rootTryToEscapeSlug",
               "type": "doc",
             },
           ],
           "label": "Slugs",
-          "link": Object {
+          "link": {
             "permalink": "/docs/category/slugs",
             "slug": "/category/slugs",
             "type": "generated-index",
           },
           "type": "category",
         },
-        Object {
+        {
           "id": "headingAsTitle",
           "type": "doc",
         },
-        Object {
+        {
           "href": "https://github.com",
           "label": "Github",
           "type": "link",
         },
-        Object {
+        {
           "id": "hello",
           "type": "ref",
         },
@@ -237,11 +237,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "hello",
           "type": "doc",
         },
@@ -255,90 +255,90 @@ Object {
 `;
 
 exports[`simple website content 5`] = `
-Object {
-  "pluginName": Object {
-    "pluginId": Object {
+{
+  "pluginName": {
+    "pluginId": {
       "breadcrumbs": true,
       "path": "/docs",
-      "versions": Array [
-        Object {
-          "docs": Array [
-            Object {
+      "versions": [
+        {
+          "docs": [
+            {
               "id": "doc with space",
               "path": "/docs/doc with space",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "foo/baz",
               "path": "/docs/foo/bazSlug.html",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "headingAsTitle",
               "path": "/docs/headingAsTitle",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "hello",
               "path": "/docs/",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "ipsum",
               "path": "/docs/ipsum",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "lorem",
               "path": "/docs/lorem",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "slugs/absoluteSlug",
               "path": "/docs/absoluteSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/relativeSlug",
               "path": "/docs/slugs/relativeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/resolvedSlug",
               "path": "/docs/slugs/hey/resolvedSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "/category/slugs",
               "path": "/docs/category/slugs",
               "sidebar": "docs",
@@ -349,9 +349,9 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
-          "sidebars": Object {
-            "docs": Object {
-              "link": Object {
+          "sidebars": {
+            "docs": {
+              "link": {
                 "label": "foo/bar",
                 "path": "/docs/foo/bar",
               },
@@ -365,7 +365,7 @@ Object {
 `;
 
 exports[`simple website content: data 1`] = `
-Object {
+{
   "category-docs-docs-category-slugs-0fe.json": "{
   \\"title\\": \\"Slugs\\",
   \\"slug\\": \\"/category/slugs\\",
@@ -969,90 +969,90 @@ Object {
 `;
 
 exports[`simple website content: global data 1`] = `
-Object {
-  "pluginName": Object {
-    "pluginId": Object {
+{
+  "pluginName": {
+    "pluginId": {
       "breadcrumbs": true,
       "path": "/docs",
-      "versions": Array [
-        Object {
-          "docs": Array [
-            Object {
+      "versions": [
+        {
+          "docs": [
+            {
               "id": "doc with space",
               "path": "/docs/doc with space",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "foo/baz",
               "path": "/docs/foo/bazSlug.html",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "headingAsTitle",
               "path": "/docs/headingAsTitle",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "hello",
               "path": "/docs/",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "ipsum",
               "path": "/docs/ipsum",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "lorem",
               "path": "/docs/lorem",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "rootAbsoluteSlug",
               "path": "/docs/rootAbsoluteSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootRelativeSlug",
               "path": "/docs/rootRelativeSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootResolvedSlug",
               "path": "/docs/hey/rootResolvedSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/rootTryToEscapeSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "slugs/absoluteSlug",
               "path": "/docs/absoluteSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/relativeSlug",
               "path": "/docs/slugs/relativeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/resolvedSlug",
               "path": "/docs/slugs/hey/resolvedSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/tryToEscapeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "/category/slugs",
               "path": "/docs/category/slugs",
               "sidebar": "docs",
@@ -1063,9 +1063,9 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs",
-          "sidebars": Object {
-            "docs": Object {
-              "link": Object {
+          "sidebars": {
+            "docs": {
+              "link": {
                 "label": "foo/bar",
                 "path": "/docs/foo/bar",
               },
@@ -1079,181 +1079,181 @@ Object {
 `;
 
 exports[`simple website content: route config 1`] = `
-Array [
-  Object {
+[
+  {
     "component": "@theme/DocTagsListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tags": "~docs/tags-list-current-prop-15a.json",
     },
     "path": "/docs/tags",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-tags-tag-1-b3f.json",
     },
     "path": "/docs/tags/tag-1",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-tags-tag-3-ab5.json",
     },
     "path": "/docs/tags/tag-3",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-tags-tag-2-custom-permalink-825.json",
     },
     "path": "/docs/tags/tag2-custom-permalink",
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
     "path": "/docs",
     "priority": -1,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
         "path": "/docs/absoluteSlug",
       },
-      Object {
+      {
         "component": "@theme/DocCategoryGeneratedIndexPage",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "categoryGeneratedIndex": "~docs/category-docs-docs-category-slugs-0fe.json",
         },
         "path": "/docs/category/slugs",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/doc with space.md",
         },
         "path": "/docs/doc with space",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/headingAsTitle.md",
         },
         "path": "/docs/headingAsTitle",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/rootResolvedSlug.md",
         },
         "path": "/docs/hey/rootResolvedSlug",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/ipsum.md",
         },
         "path": "/docs/ipsum",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/lorem.md",
         },
         "path": "/docs/lorem",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/rootAbsoluteSlug.md",
         },
         "path": "/docs/rootAbsoluteSlug",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/rootRelativeSlug.md",
         },
         "path": "/docs/rootRelativeSlug",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/rootTryToEscapeSlug.md",
         },
         "path": "/docs/rootTryToEscapeSlug",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/resolvedSlug.md",
         },
         "path": "/docs/slugs/hey/resolvedSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/slugs/relativeSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/tryToEscapeSlug.md",
         },
         "path": "/docs/tryToEscapeSlug",
@@ -1264,7 +1264,7 @@ Array [
 `;
 
 exports[`simple website getPathToWatch 1`] = `
-Array [
+[
   "sidebars.json",
   "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
   "docs/**/*.{md,mdx}",
@@ -1273,13 +1273,13 @@ Array [
 `;
 
 exports[`site with custom sidebar items generator sidebar is autogenerated according to a custom sidebarItemsGenerator 1`] = `
-Object {
-  "defaultSidebar": Array [
-    Object {
+{
+  "defaultSidebar": [
+    {
       "id": "API/api-overview",
       "type": "doc",
     },
-    Object {
+    {
       "id": "API/api-end",
       "type": "doc",
     },
@@ -1288,25 +1288,25 @@ Object {
 `;
 
 exports[`site with custom sidebar items generator sidebarItemsGenerator can wrap/enhance/sort/reverse the default sidebar generator 1`] = `
-Object {
-  "defaultSidebar": Array [
-    Object {
+{
+  "defaultSidebar": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "API/api-end",
           "type": "doc",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "API/Extension APIs/Theme API",
               "type": "doc",
             },
-            Object {
+            {
               "id": "API/Extension APIs/Plugin API",
               "type": "doc",
             },
@@ -1315,15 +1315,15 @@ Object {
           "link": undefined,
           "type": "category",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "API/Core APIs/Server API",
               "type": "doc",
             },
-            Object {
+            {
               "id": "API/Core APIs/Client API",
               "type": "doc",
             },
@@ -1332,7 +1332,7 @@ Object {
           "link": undefined,
           "type": "category",
         },
-        Object {
+        {
           "id": "API/api-overview",
           "type": "doc",
         },
@@ -1341,31 +1341,31 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "Guides/guide5",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide4",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide3",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide2.5",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide2",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide1",
           "type": "doc",
         },
@@ -1374,11 +1374,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "id": "installation",
       "type": "doc",
     },
-    Object {
+    {
       "id": "getting-started",
       "type": "doc",
     },
@@ -1387,70 +1387,70 @@ Object {
 `;
 
 exports[`site with custom sidebar items generator sidebarItemsGenerator is called with appropriate data 1`] = `
-Object {
-  "categoriesMetadata": Object {
-    "3-API": Object {
+{
+  "categoriesMetadata": {
+    "3-API": {
       "label": "API (label from _category_.json)",
     },
-    "3-API/02_Extension APIs": Object {
+    "3-API/02_Extension APIs": {
       "label": "Extension APIs (label from _category_.yml)",
     },
-    "Guides": Object {
+    "Guides": {
       "position": 2,
     },
   },
   "defaultSidebarItemsGenerator": [Function],
-  "docs": Array [
-    Object {
-      "frontMatter": Object {},
+  "docs": [
+    {
+      "frontMatter": {},
       "id": "API/Core APIs/Client API",
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
       "sourceDirName": "3-API/01_Core APIs",
       "unversionedId": "API/Core APIs/Client API",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "API/Core APIs/Server API",
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
       "sourceDirName": "3-API/01_Core APIs",
       "unversionedId": "API/Core APIs/Server API",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "API/Extension APIs/Plugin API",
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
       "sourceDirName": "3-API/02_Extension APIs",
       "unversionedId": "API/Extension APIs/Plugin API",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "API/Extension APIs/Theme API",
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
       "sourceDirName": "3-API/02_Extension APIs",
       "unversionedId": "API/Extension APIs/Theme API",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "API/api-end",
       "sidebarPosition": 3,
       "source": "@site/docs/3-API/03_api-end.md",
       "sourceDirName": "3-API",
       "unversionedId": "API/api-end",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "API/api-overview",
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/00_api-overview.md",
       "sourceDirName": "3-API",
       "unversionedId": "API/api-overview",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide1",
         "sidebar_position": 1,
       },
@@ -1460,8 +1460,8 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide1",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide2",
       },
       "id": "Guides/guide2",
@@ -1470,8 +1470,8 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide2",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide2.5",
         "sidebar_position": 2.5,
       },
@@ -1481,8 +1481,8 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide2.5",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide3",
         "sidebar_position": 3,
       },
@@ -1492,8 +1492,8 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide3",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide4",
       },
       "id": "Guides/guide4",
@@ -1502,8 +1502,8 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide4",
     },
-    Object {
-      "frontMatter": Object {
+    {
+      "frontMatter": {
         "id": "guide5",
       },
       "id": "Guides/guide5",
@@ -1512,16 +1512,16 @@ Object {
       "sourceDirName": "Guides",
       "unversionedId": "Guides/guide5",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "getting-started",
       "sidebarPosition": 0,
       "source": "@site/docs/0-getting-started.md",
       "sourceDirName": ".",
       "unversionedId": "getting-started",
     },
-    Object {
-      "frontMatter": Object {},
+    {
+      "frontMatter": {},
       "id": "installation",
       "sidebarPosition": 1,
       "source": "@site/docs/1-installation.md",
@@ -1530,16 +1530,16 @@ Object {
     },
   ],
   "isCategoryIndex": [Function],
-  "item": Object {
+  "item": {
     "dirName": ".",
     "type": "autogenerated",
   },
   "numberPrefixParser": [Function],
-  "options": Object {
+  "options": {
     "sidebarCollapsed": true,
     "sidebarCollapsible": true,
   },
-  "version": Object {
+  "version": {
     "contentPath": "docs",
     "versionName": "current",
   },
@@ -1547,15 +1547,15 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 1`] = `
-Object {
+{
   "description": "Getting started text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "getting-started",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/installation",
     "title": "Installation",
   },
@@ -1566,7 +1566,7 @@ Object {
   "slug": "/getting-started",
   "source": "@site/docs/0-getting-started.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "Getting Started",
   "unversionedId": "getting-started",
   "version": "current",
@@ -1574,20 +1574,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 2`] = `
-Object {
+{
   "description": "Installation text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "installation",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide1",
     "title": "Guide 1",
   },
   "permalink": "/docs/installation",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/getting-started",
     "title": "Getting Started",
   },
@@ -1596,7 +1596,7 @@ Object {
   "slug": "/installation",
   "source": "@site/docs/1-installation.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "Installation",
   "unversionedId": "installation",
   "version": "current",
@@ -1604,23 +1604,23 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 3`] = `
-Object {
+{
   "description": "Guide 1 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide1",
     "sidebar_position": 1,
   },
   "id": "Guides/guide1",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide2",
     "title": "Guide 2",
   },
   "permalink": "/docs/Guides/guide1",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/installation",
     "title": "Installation",
   },
@@ -1629,7 +1629,7 @@ Object {
   "slug": "/Guides/guide1",
   "source": "@site/docs/Guides/z-guide1.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 1",
   "unversionedId": "Guides/guide1",
   "version": "current",
@@ -1637,22 +1637,22 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 4`] = `
-Object {
+{
   "description": "Guide 2 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide2",
   },
   "id": "Guides/guide2",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide2.5",
     "title": "Guide 2.5",
   },
   "permalink": "/docs/Guides/guide2",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide1",
     "title": "Guide 1",
   },
@@ -1661,7 +1661,7 @@ Object {
   "slug": "/Guides/guide2",
   "source": "@site/docs/Guides/02-guide2.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 2",
   "unversionedId": "Guides/guide2",
   "version": "current",
@@ -1669,23 +1669,23 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 5`] = `
-Object {
+{
   "description": "Guide 2.5 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide2.5",
     "sidebar_position": 2.5,
   },
   "id": "Guides/guide2.5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide3",
     "title": "Guide 3",
   },
   "permalink": "/docs/Guides/guide2.5",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide2",
     "title": "Guide 2",
   },
@@ -1694,7 +1694,7 @@ Object {
   "slug": "/Guides/guide2.5",
   "source": "@site/docs/Guides/0-guide2.5.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 2.5",
   "unversionedId": "Guides/guide2.5",
   "version": "current",
@@ -1702,23 +1702,23 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 6`] = `
-Object {
+{
   "description": "Guide 3 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide3",
     "sidebar_position": 3,
   },
   "id": "Guides/guide3",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide4",
     "title": "Guide 4",
   },
   "permalink": "/docs/Guides/guide3",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide2.5",
     "title": "Guide 2.5",
   },
@@ -1727,7 +1727,7 @@ Object {
   "slug": "/Guides/guide3",
   "source": "@site/docs/Guides/guide3.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 3",
   "unversionedId": "Guides/guide3",
   "version": "current",
@@ -1735,22 +1735,22 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 7`] = `
-Object {
+{
   "description": "Guide 4 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide4",
   },
   "id": "Guides/guide4",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/Guides/guide5",
     "title": "Guide 5",
   },
   "permalink": "/docs/Guides/guide4",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide3",
     "title": "Guide 3",
   },
@@ -1759,7 +1759,7 @@ Object {
   "slug": "/Guides/guide4",
   "source": "@site/docs/Guides/a-guide4.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 4",
   "unversionedId": "Guides/guide4",
   "version": "current",
@@ -1767,22 +1767,22 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 8`] = `
-Object {
+{
   "description": "Guide 5 text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "id": "guide5",
   },
   "id": "Guides/guide5",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
   },
   "permalink": "/docs/Guides/guide5",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide4",
     "title": "Guide 4",
   },
@@ -1791,7 +1791,7 @@ Object {
   "slug": "/Guides/guide5",
   "source": "@site/docs/Guides/b-guide5.md",
   "sourceDirName": "Guides",
-  "tags": Array [],
+  "tags": [],
   "title": "Guide 5",
   "unversionedId": "Guides/guide5",
   "version": "current",
@@ -1799,20 +1799,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 9`] = `
-Object {
+{
   "description": "API Overview text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Core APIs/Client API",
     "title": "Client API",
   },
   "permalink": "/docs/API/api-overview",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/Guides/guide5",
     "title": "Guide 5",
   },
@@ -1821,7 +1821,7 @@ Object {
   "slug": "/API/api-overview",
   "source": "@site/docs/3-API/00_api-overview.md",
   "sourceDirName": "3-API",
-  "tags": Array [],
+  "tags": [],
   "title": "API Overview",
   "unversionedId": "API/api-overview",
   "version": "current",
@@ -1829,20 +1829,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 10`] = `
-Object {
+{
   "description": "Client API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Core APIs/Client API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Core APIs/Server API",
     "title": "Server API",
   },
   "permalink": "/docs/API/Core APIs/Client API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
   },
@@ -1851,7 +1851,7 @@ Object {
   "slug": "/API/Core APIs/Client API",
   "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
   "sourceDirName": "3-API/01_Core APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Client API",
   "unversionedId": "API/Core APIs/Client API",
   "version": "current",
@@ -1859,20 +1859,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 11`] = `
-Object {
+{
   "description": "Server API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Core APIs/Server API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
   },
   "permalink": "/docs/API/Core APIs/Server API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/Core APIs/Client API",
     "title": "Client API",
   },
@@ -1881,7 +1881,7 @@ Object {
   "slug": "/API/Core APIs/Server API",
   "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
   "sourceDirName": "3-API/01_Core APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Server API",
   "unversionedId": "API/Core APIs/Server API",
   "version": "current",
@@ -1889,20 +1889,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 12`] = `
-Object {
+{
   "description": "Plugin API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Extension APIs/Theme API",
     "title": "Theme API",
   },
   "permalink": "/docs/API/Extension APIs/Plugin API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/Core APIs/Server API",
     "title": "Server API",
   },
@@ -1911,7 +1911,7 @@ Object {
   "slug": "/API/Extension APIs/Plugin API",
   "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
   "sourceDirName": "3-API/02_Extension APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Plugin API",
   "unversionedId": "API/Extension APIs/Plugin API",
   "version": "current",
@@ -1919,20 +1919,20 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 13`] = `
-Object {
+{
   "description": "Theme API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/api-end",
     "title": "API End",
   },
   "permalink": "/docs/API/Extension APIs/Theme API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
   },
@@ -1941,7 +1941,7 @@ Object {
   "slug": "/API/Extension APIs/Theme API",
   "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
   "sourceDirName": "3-API/02_Extension APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Theme API",
   "unversionedId": "API/Extension APIs/Theme API",
   "version": "current",
@@ -1949,17 +1949,17 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 14`] = `
-Object {
+{
   "description": "API End text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
   "permalink": "/docs/API/api-end",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/Extension APIs/Theme API",
     "title": "Theme API",
   },
@@ -1968,7 +1968,7 @@ Object {
   "slug": "/API/api-end",
   "source": "@site/docs/3-API/03_api-end.md",
   "sourceDirName": "3-API",
-  "tags": Array [],
+  "tags": [],
   "title": "API End",
   "unversionedId": "API/api-end",
   "version": "current",
@@ -1976,41 +1976,41 @@ Object {
 `;
 
 exports[`site with full autogenerated sidebar sidebar is fully autogenerated 1`] = `
-Object {
-  "defaultSidebar": Array [
-    Object {
+{
+  "defaultSidebar": [
+    {
       "id": "getting-started",
       "type": "doc",
     },
-    Object {
+    {
       "id": "installation",
       "type": "doc",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "Guides/guide1",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide2",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide2.5",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide3",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide4",
           "type": "doc",
         },
-        Object {
+        {
           "id": "Guides/guide5",
           "type": "doc",
         },
@@ -2019,23 +2019,23 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "API/api-overview",
           "type": "doc",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "API/Core APIs/Client API",
               "type": "doc",
             },
-            Object {
+            {
               "id": "API/Core APIs/Server API",
               "type": "doc",
             },
@@ -2044,15 +2044,15 @@ Object {
           "link": undefined,
           "type": "category",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "API/Extension APIs/Plugin API",
               "type": "doc",
             },
-            Object {
+            {
               "id": "API/Extension APIs/Theme API",
               "type": "doc",
             },
@@ -2061,7 +2061,7 @@ Object {
           "link": undefined,
           "type": "category",
         },
-        Object {
+        {
           "id": "API/api-end",
           "type": "doc",
         },
@@ -2075,25 +2075,25 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars 2 (fix #4638) sidebar is partially autogenerated 1`] = `
-Object {
-  "someSidebar": Array [
-    Object {
+{
+  "someSidebar": [
+    {
       "id": "API/api-end",
       "type": "doc",
     },
-    Object {
+    {
       "id": "API/api-overview",
       "type": "doc",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "API/Core APIs/Client API",
           "type": "doc",
         },
-        Object {
+        {
           "id": "API/Core APIs/Server API",
           "type": "doc",
         },
@@ -2102,15 +2102,15 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "API/Extension APIs/Plugin API",
           "type": "doc",
         },
-        Object {
+        {
           "id": "API/Extension APIs/Theme API",
           "type": "doc",
         },
@@ -2119,7 +2119,7 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "id": "API/api-end",
       "type": "doc",
     },
@@ -2128,15 +2128,15 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 1`] = `
-Object {
+{
   "description": "API End text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/api-end",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
   },
@@ -2147,7 +2147,7 @@ Object {
   "slug": "/API/api-end",
   "source": "@site/docs/3-API/03_api-end.md",
   "sourceDirName": "3-API",
-  "tags": Array [],
+  "tags": [],
   "title": "API End",
   "unversionedId": "API/api-end",
   "version": "current",
@@ -2155,20 +2155,20 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 2`] = `
-Object {
+{
   "description": "API Overview text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/api-overview",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
   },
   "permalink": "/docs/API/api-overview",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/api-end",
     "title": "API End",
   },
@@ -2177,7 +2177,7 @@ Object {
   "slug": "/API/api-overview",
   "source": "@site/docs/3-API/00_api-overview.md",
   "sourceDirName": "3-API",
-  "tags": Array [],
+  "tags": [],
   "title": "API Overview",
   "unversionedId": "API/api-overview",
   "version": "current",
@@ -2185,20 +2185,20 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 3`] = `
-Object {
+{
   "description": "Plugin API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/API/Extension APIs/Theme API",
     "title": "Theme API",
   },
   "permalink": "/docs/API/Extension APIs/Plugin API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/api-overview",
     "title": "API Overview",
   },
@@ -2207,7 +2207,7 @@ Object {
   "slug": "/API/Extension APIs/Plugin API",
   "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
   "sourceDirName": "3-API/02_Extension APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Plugin API",
   "unversionedId": "API/Extension APIs/Plugin API",
   "version": "current",
@@ -2215,17 +2215,17 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 4`] = `
-Object {
+{
   "description": "Theme API text",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
   "permalink": "/docs/API/Extension APIs/Theme API",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/API/Extension APIs/Plugin API",
     "title": "Plugin API",
   },
@@ -2234,7 +2234,7 @@ Object {
   "slug": "/API/Extension APIs/Theme API",
   "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
   "sourceDirName": "3-API/02_Extension APIs",
-  "tags": Array [],
+  "tags": [],
   "title": "Theme API",
   "unversionedId": "API/Extension APIs/Theme API",
   "version": "current",
@@ -2242,25 +2242,25 @@ Object {
 `;
 
 exports[`site with partial autogenerated sidebars sidebar is partially autogenerated 1`] = `
-Object {
-  "someSidebar": Array [
-    Object {
+{
+  "someSidebar": [
+    {
       "id": "API/api-end",
       "type": "doc",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "API/api-overview",
           "type": "doc",
         },
-        Object {
+        {
           "id": "API/Extension APIs/Plugin API",
           "type": "doc",
         },
-        Object {
+        {
           "id": "API/Extension APIs/Theme API",
           "type": "doc",
         },
@@ -2274,11 +2274,11 @@ Object {
 `;
 
 exports[`versioned website (community) content 1`] = `
-Object {
+{
   "description": "Team current version (translated)",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "title": "Team title translated",
   },
   "id": "team",
@@ -2292,7 +2292,7 @@ Object {
   "slug": "/team",
   "source": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "Team title translated",
   "unversionedId": "team",
   "version": "current",
@@ -2300,11 +2300,11 @@ Object {
 `;
 
 exports[`versioned website (community) content 2`] = `
-Object {
+{
   "description": "Team 1.0.0",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "version-1.0.0/team",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
@@ -2316,7 +2316,7 @@ Object {
   "slug": "/team",
   "source": "@site/community_versioned_docs/version-1.0.0/team.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "team",
   "unversionedId": "team",
   "version": "1.0.0",
@@ -2324,9 +2324,9 @@ Object {
 `;
 
 exports[`versioned website (community) content: 100 version sidebars 1`] = `
-Object {
-  "version-1.0.0/community": Array [
-    Object {
+{
+  "version-1.0.0/community": [
+    {
       "id": "version-1.0.0/team",
       "type": "doc",
     },
@@ -2335,9 +2335,9 @@ Object {
 `;
 
 exports[`versioned website (community) content: current version sidebars 1`] = `
-Object {
-  "community": Array [
-    Object {
+{
+  "community": [
+    {
       "id": "team",
       "type": "doc",
     },
@@ -2346,7 +2346,7 @@ Object {
 `;
 
 exports[`versioned website (community) content: data 1`] = `
-Object {
+{
   "site-community-versioned-docs-version-1-0-0-team-md-359.json": "{
   \\"unversionedId\\": \\"team\\",
   \\"id\\": \\"version-1.0.0/team\\",
@@ -2435,15 +2435,15 @@ Object {
 `;
 
 exports[`versioned website (community) content: global data 1`] = `
-Object {
-  "pluginName": Object {
-    "pluginId": Object {
+{
+  "pluginName": {
+    "pluginId": {
       "breadcrumbs": true,
       "path": "/community",
-      "versions": Array [
-        Object {
-          "docs": Array [
-            Object {
+      "versions": [
+        {
+          "docs": [
+            {
               "id": "team",
               "path": "/community/next/team",
               "sidebar": "community",
@@ -2454,18 +2454,18 @@ Object {
           "mainDocId": "team",
           "name": "current",
           "path": "/community/next",
-          "sidebars": Object {
-            "community": Object {
-              "link": Object {
+          "sidebars": {
+            "community": {
+              "link": {
                 "label": "team",
                 "path": "/community/next/team",
               },
             },
           },
         },
-        Object {
-          "docs": Array [
-            Object {
+        {
+          "docs": [
+            {
               "id": "team",
               "path": "/community/team",
               "sidebar": "version-1.0.0/community",
@@ -2476,9 +2476,9 @@ Object {
           "mainDocId": "team",
           "name": "1.0.0",
           "path": "/community",
-          "sidebars": Object {
-            "version-1.0.0/community": Object {
-              "link": Object {
+          "sidebars": {
+            "version-1.0.0/community": {
+              "link": {
                 "label": "version-1.0.0/team",
                 "path": "/community/team",
               },
@@ -2492,20 +2492,20 @@ Object {
 `;
 
 exports[`versioned website (community) content: route config 1`] = `
-Array [
-  Object {
+[
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
     "path": "/community/next",
     "priority": undefined,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/i18n/en/docusaurus-plugin-content-docs-community/current/team.md",
         },
         "path": "/community/next/team",
@@ -2513,19 +2513,19 @@ Array [
       },
     ],
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
     "path": "/community",
     "priority": -1,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/community_versioned_docs/version-1.0.0/team.md",
         },
         "path": "/community/team",
@@ -2537,7 +2537,7 @@ Array [
 `;
 
 exports[`versioned website (community) getPathToWatch 1`] = `
-Array [
+[
   "community_sidebars.json",
   "i18n/en/docusaurus-plugin-content-docs-community/current/**/*.{md,mdx}",
   "community/**/*.{md,mdx}",
@@ -2550,16 +2550,16 @@ Array [
 `;
 
 exports[`versioned website content 1`] = `
-Object {
+{
   "description": "This is next version of bar.",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "slug": "barSlug",
-    "tags": Array [
+    "tags": [
       "barTag 1",
       "barTag-2",
-      Object {
+      {
         "label": "barTag 3",
         "permalink": "barTag-3-permalink",
       },
@@ -2568,7 +2568,7 @@ Object {
   "id": "foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/next/",
     "title": "hello",
   },
@@ -2579,16 +2579,16 @@ Object {
   "slug": "/foo/barSlug",
   "source": "@site/docs/foo/bar.md",
   "sourceDirName": "foo",
-  "tags": Array [
-    Object {
+  "tags": [
+    {
       "label": "barTag 1",
       "permalink": "/docs/next/tags/bar-tag-1",
     },
-    Object {
+    {
       "label": "barTag-2",
       "permalink": "/docs/next/tags/bar-tag-2",
     },
-    Object {
+    {
       "label": "barTag 3",
       "permalink": "/docs/next/tags/barTag-3-permalink",
     },
@@ -2600,15 +2600,15 @@ Object {
 `;
 
 exports[`versioned website content 2`] = `
-Object {
+{
   "description": "Bar 1.0.1 !",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "version-1.0.1/foo/bar",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/",
     "title": "hello",
   },
@@ -2619,7 +2619,7 @@ Object {
   "slug": "/foo/bar",
   "source": "@site/versioned_docs/version-1.0.1/foo/bar.md",
   "sourceDirName": "foo",
-  "tags": Array [],
+  "tags": [],
   "title": "bar",
   "unversionedId": "foo/bar",
   "version": "1.0.1",
@@ -2627,11 +2627,11 @@ Object {
 `;
 
 exports[`versioned website content 3`] = `
-Object {
+{
   "description": "Hello next !",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "slug": "/",
   },
   "id": "hello",
@@ -2639,7 +2639,7 @@ Object {
   "lastUpdatedBy": undefined,
   "next": undefined,
   "permalink": "/docs/next/",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/next/foo/barSlug",
     "title": "bar",
   },
@@ -2648,7 +2648,7 @@ Object {
   "slug": "/",
   "source": "@site/docs/hello.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "hello",
   "unversionedId": "hello",
   "version": "current",
@@ -2656,11 +2656,11 @@ Object {
 `;
 
 exports[`versioned website content 4`] = `
-Object {
+{
   "description": "Hello 1.0.1 !",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {
+  "frontMatter": {
     "slug": "/",
   },
   "id": "version-1.0.1/hello",
@@ -2668,7 +2668,7 @@ Object {
   "lastUpdatedBy": undefined,
   "next": undefined,
   "permalink": "/docs/",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/foo/bar",
     "title": "bar",
   },
@@ -2677,7 +2677,7 @@ Object {
   "slug": "/",
   "source": "@site/versioned_docs/version-1.0.1/hello.md",
   "sourceDirName": ".",
-  "tags": Array [],
+  "tags": [],
   "title": "hello",
   "unversionedId": "hello",
   "version": "1.0.1",
@@ -2685,20 +2685,20 @@ Object {
 `;
 
 exports[`versioned website content 5`] = `
-Object {
+{
   "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
-  "frontMatter": Object {},
+  "frontMatter": {},
   "id": "version-1.0.0/foo/baz",
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
-  "next": Object {
+  "next": {
     "permalink": "/docs/1.0.0/",
     "title": "hello",
   },
   "permalink": "/docs/1.0.0/foo/baz",
-  "previous": Object {
+  "previous": {
     "permalink": "/docs/1.0.0/foo/barSlug",
     "title": "bar",
   },
@@ -2707,7 +2707,7 @@ Object {
   "slug": "/foo/baz",
   "source": "@site/versioned_docs/version-1.0.0/foo/baz.md",
   "sourceDirName": "foo",
-  "tags": Array [],
+  "tags": [],
   "title": "baz",
   "unversionedId": "foo/baz",
   "version": "1.0.0",
@@ -2715,17 +2715,17 @@ Object {
 `;
 
 exports[`versioned website content: 100 version sidebars 1`] = `
-Object {
-  "version-1.0.0/docs": Array [
-    Object {
+{
+  "version-1.0.0/docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "version-1.0.0/foo/bar",
           "type": "doc",
         },
-        Object {
+        {
           "id": "version-1.0.0/foo/baz",
           "type": "doc",
         },
@@ -2734,11 +2734,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "version-1.0.0/hello",
           "type": "doc",
         },
@@ -2752,13 +2752,13 @@ Object {
 `;
 
 exports[`versioned website content: 101 version sidebars 1`] = `
-Object {
-  "VersionedSideBarNameDoesNotMatter/docs": Array [
-    Object {
+{
+  "VersionedSideBarNameDoesNotMatter/docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "foo/bar",
           "type": "doc",
         },
@@ -2767,11 +2767,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "version-1.0.1/hello",
           "type": "doc",
         },
@@ -2785,13 +2785,13 @@ Object {
 `;
 
 exports[`versioned website content: current version sidebars 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "foo/bar",
           "type": "doc",
         },
@@ -2800,11 +2800,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "hello",
           "type": "doc",
         },
@@ -2818,7 +2818,7 @@ Object {
 `;
 
 exports[`versioned website content: data 1`] = `
-Object {
+{
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
   \\"id\\": \\"foo/bar\\",
@@ -3488,40 +3488,40 @@ Object {
 `;
 
 exports[`versioned website content: global data 1`] = `
-Object {
-  "pluginName": Object {
-    "pluginId": Object {
+{
+  "pluginName": {
+    "pluginId": {
       "breadcrumbs": true,
       "path": "/docs",
-      "versions": Array [
-        Object {
-          "docs": Array [
-            Object {
+      "versions": [
+        {
+          "docs": [
+            {
               "id": "foo/bar",
               "path": "/docs/next/foo/barSlug",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "hello",
               "path": "/docs/next/",
               "sidebar": "docs",
             },
-            Object {
+            {
               "id": "slugs/absoluteSlug",
               "path": "/docs/next/absoluteSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/relativeSlug",
               "path": "/docs/next/slugs/relativeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/resolvedSlug",
               "path": "/docs/next/slugs/hey/resolvedSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/next/tryToEscapeSlug",
               "sidebar": undefined,
@@ -3532,23 +3532,23 @@ Object {
           "mainDocId": "hello",
           "name": "current",
           "path": "/docs/next",
-          "sidebars": Object {
-            "docs": Object {
-              "link": Object {
+          "sidebars": {
+            "docs": {
+              "link": {
                 "label": "foo/bar",
                 "path": "/docs/next/foo/barSlug",
               },
             },
           },
         },
-        Object {
-          "docs": Array [
-            Object {
+        {
+          "docs": [
+            {
               "id": "foo/bar",
               "path": "/docs/foo/bar",
               "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
             },
-            Object {
+            {
               "id": "hello",
               "path": "/docs/",
               "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
@@ -3559,28 +3559,28 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.1",
           "path": "/docs",
-          "sidebars": Object {
-            "VersionedSideBarNameDoesNotMatter/docs": Object {
-              "link": Object {
+          "sidebars": {
+            "VersionedSideBarNameDoesNotMatter/docs": {
+              "link": {
                 "label": "foo/bar",
                 "path": "/docs/foo/bar",
               },
             },
           },
         },
-        Object {
-          "docs": Array [
-            Object {
+        {
+          "docs": [
+            {
               "id": "foo/bar",
               "path": "/docs/1.0.0/foo/barSlug",
               "sidebar": "version-1.0.0/docs",
             },
-            Object {
+            {
               "id": "foo/baz",
               "path": "/docs/1.0.0/foo/baz",
               "sidebar": "version-1.0.0/docs",
             },
-            Object {
+            {
               "id": "hello",
               "path": "/docs/1.0.0/",
               "sidebar": "version-1.0.0/docs",
@@ -3591,53 +3591,53 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
-          "sidebars": Object {
-            "version-1.0.0/docs": Object {
-              "link": Object {
+          "sidebars": {
+            "version-1.0.0/docs": {
+              "link": {
                 "label": "version-1.0.0/foo/bar",
                 "path": "/docs/1.0.0/foo/barSlug",
               },
             },
           },
         },
-        Object {
-          "docs": Array [
-            Object {
+        {
+          "docs": [
+            {
               "id": "rootAbsoluteSlug",
               "path": "/docs/withSlugs/rootAbsoluteSlug",
               "sidebar": "version-1.0.1/docs",
             },
-            Object {
+            {
               "id": "rootRelativeSlug",
               "path": "/docs/withSlugs/rootRelativeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "rootResolvedSlug",
               "path": "/docs/withSlugs/hey/rootResolvedSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "rootTryToEscapeSlug",
               "path": "/docs/withSlugs/rootTryToEscapeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/absoluteSlug",
               "path": "/docs/withSlugs/absoluteSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/relativeSlug",
               "path": "/docs/withSlugs/slugs/relativeSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/resolvedSlug",
               "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
               "sidebar": undefined,
             },
-            Object {
+            {
               "id": "slugs/tryToEscapeSlug",
               "path": "/docs/withSlugs/tryToEscapeSlug",
               "sidebar": undefined,
@@ -3648,9 +3648,9 @@ Object {
           "mainDocId": "rootAbsoluteSlug",
           "name": "withSlugs",
           "path": "/docs/withSlugs",
-          "sidebars": Object {
-            "version-1.0.1/docs": Object {
-              "link": Object {
+          "sidebars": {
+            "version-1.0.1/docs": {
+              "link": {
                 "label": "version-withSlugs/rootAbsoluteSlug",
                 "path": "/docs/withSlugs/rootAbsoluteSlug",
               },
@@ -3664,70 +3664,70 @@ Object {
 `;
 
 exports[`versioned website content: route config 1`] = `
-Array [
-  Object {
+[
+  {
     "component": "@theme/DocTagsListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tags": "~docs/tags-list-current-prop-15a.json",
     },
     "path": "/docs/next/tags",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-next-tags-bar-tag-1-a8f.json",
     },
     "path": "/docs/next/tags/bar-tag-1",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-next-tags-bar-tag-2-216.json",
     },
     "path": "/docs/next/tags/bar-tag-2",
   },
-  Object {
+  {
     "component": "@theme/DocTagDocListPage",
     "exact": true,
-    "modules": Object {
+    "modules": {
       "tag": "~docs/tag-docs-next-tags-bar-tag-3-permalink-94a.json",
     },
     "path": "/docs/next/tags/barTag-3-permalink",
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-1-0-0-metadata-prop-608.json",
     },
     "path": "/docs/1.0.0",
     "priority": undefined,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/i18n/en/docusaurus-plugin-content-docs/version-1.0.0/hello.md",
         },
         "path": "/docs/1.0.0/",
         "sidebar": "version-1.0.0/docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
         "sidebar": "version-1.0.0/docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
@@ -3735,165 +3735,165 @@ Array [
       },
     ],
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-current-metadata-prop-751.json",
     },
     "path": "/docs/next",
     "priority": undefined,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/next/",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/absoluteSlug.md",
         },
         "path": "/docs/next/absoluteSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
         "sidebar": "docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/resolvedSlug.md",
         },
         "path": "/docs/next/slugs/hey/resolvedSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/relativeSlug.md",
         },
         "path": "/docs/next/slugs/relativeSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/docs/slugs/tryToEscapeSlug.md",
         },
         "path": "/docs/next/tryToEscapeSlug",
       },
     ],
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-with-slugs-metadata-prop-2bf.json",
     },
     "path": "/docs/withSlugs",
     "priority": undefined,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/slugs/absoluteSlug.md",
         },
         "path": "/docs/withSlugs/absoluteSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/rootResolvedSlug.md",
         },
         "path": "/docs/withSlugs/hey/rootResolvedSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/rootAbsoluteSlug.md",
         },
         "path": "/docs/withSlugs/rootAbsoluteSlug",
         "sidebar": "version-1.0.1/docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/rootRelativeSlug.md",
         },
         "path": "/docs/withSlugs/rootRelativeSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/rootTryToEscapeSlug.md",
         },
         "path": "/docs/withSlugs/rootTryToEscapeSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/slugs/resolvedSlug.md",
         },
         "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/slugs/relativeSlug.md",
         },
         "path": "/docs/withSlugs/slugs/relativeSlug",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-withSlugs/slugs/tryToEscapeSlug.md",
         },
         "path": "/docs/withSlugs/tryToEscapeSlug",
       },
     ],
   },
-  Object {
+  {
     "component": "@theme/DocPage",
     "exact": false,
-    "modules": Object {
+    "modules": {
       "versionMetadata": "~docs/version-1-0-1-metadata-prop-e87.json",
     },
     "path": "/docs",
     "priority": -1,
-    "routes": Array [
-      Object {
+    "routes": [
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
         },
         "path": "/docs/",
         "sidebar": "VersionedSideBarNameDoesNotMatter/docs",
       },
-      Object {
+      {
         "component": "@theme/DocItem",
         "exact": true,
-        "modules": Object {
+        "modules": {
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
@@ -3905,13 +3905,13 @@ Array [
 `;
 
 exports[`versioned website content: withSlugs version sidebars 1`] = `
-Object {
-  "version-1.0.1/docs": Array [
-    Object {
+{
+  "version-1.0.1/docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "version-withSlugs/rootAbsoluteSlug",
           "type": "doc",
         },
@@ -3925,7 +3925,7 @@ Object {
 `;
 
 exports[`versioned website getPathToWatch 1`] = `
-Array [
+[
   "sidebars.json",
   "i18n/en/docusaurus-plugin-content-docs/current/**/*.{md,mdx}",
   "docs/**/*.{md,mdx}",

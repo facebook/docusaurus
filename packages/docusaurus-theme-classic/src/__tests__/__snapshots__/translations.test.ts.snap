@@ -1,51 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getTranslationFiles returns translation files matching snapshot 1`] = `
-Array [
-  Object {
-    "content": Object {
-      "item.label.Dropdown": Object {
+[
+  {
+    "content": {
+      "item.label.Dropdown": {
         "description": "Navbar item with label Dropdown",
         "message": "Dropdown",
       },
-      "item.label.Dropdown item 1": Object {
+      "item.label.Dropdown item 1": {
         "description": "Navbar item with label Dropdown item 1",
         "message": "Dropdown item 1",
       },
-      "item.label.Dropdown item 2": Object {
+      "item.label.Dropdown item 2": {
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
       },
-      "title": Object {
+      "title": {
         "description": "The title in the navbar",
         "message": "navbar title",
       },
     },
     "path": "navbar",
   },
-  Object {
-    "content": Object {
-      "copyright": Object {
+  {
+    "content": {
+      "copyright": {
         "description": "The footer copyright",
         "message": "Copyright FB",
       },
-      "link.item.label.Link 1": Object {
+      "link.item.label.Link 1": {
         "description": "The label of footer link with label=Link 1 linking to https://facebook.com",
         "message": "Link 1",
       },
-      "link.item.label.Link 2": Object {
+      "link.item.label.Link 2": {
         "description": "The label of footer link with label=Link 2 linking to https://facebook.com",
         "message": "Link 2",
       },
-      "link.item.label.Link 3": Object {
+      "link.item.label.Link 3": {
         "description": "The label of footer link with label=Link 3 linking to https://facebook.com",
         "message": "Link 3",
       },
-      "link.title.Footer link column 1": Object {
+      "link.title.Footer link column 1": {
         "description": "The title of the footer links column with title=Footer link column 1 in the footer",
         "message": "Footer link column 1",
       },
-      "link.title.Footer link column 2": Object {
+      "link.title.Footer link column 2": {
         "description": "The title of the footer links column with title=Footer link column 2 in the footer",
         "message": "Footer link column 2",
       },
@@ -56,39 +56,39 @@ Array [
 `;
 
 exports[`getTranslationFiles returns translation files matching snapshot 2`] = `
-Array [
-  Object {
-    "content": Object {
-      "item.label.Dropdown": Object {
+[
+  {
+    "content": {
+      "item.label.Dropdown": {
         "description": "Navbar item with label Dropdown",
         "message": "Dropdown",
       },
-      "item.label.Dropdown item 1": Object {
+      "item.label.Dropdown item 1": {
         "description": "Navbar item with label Dropdown item 1",
         "message": "Dropdown item 1",
       },
-      "item.label.Dropdown item 2": Object {
+      "item.label.Dropdown item 2": {
         "description": "Navbar item with label Dropdown item 2",
         "message": "Dropdown item 2",
       },
-      "title": Object {
+      "title": {
         "description": "The title in the navbar",
         "message": "navbar title",
       },
     },
     "path": "navbar",
   },
-  Object {
-    "content": Object {
-      "copyright": Object {
+  {
+    "content": {
+      "copyright": {
         "description": "The footer copyright",
         "message": "Copyright FB",
       },
-      "link.item.label.Link 1": Object {
+      "link.item.label.Link 1": {
         "description": "The label of footer link with label=Link 1 linking to https://facebook.com",
         "message": "Link 1",
       },
-      "link.item.label.Link 2": Object {
+      "link.item.label.Link 2": {
         "description": "The label of footer link with label=Link 2 linking to https://facebook.com",
         "message": "Link 2",
       },
@@ -99,31 +99,31 @@ Array [
 `;
 
 exports[`translateThemeConfig returns translated themeConfig 1`] = `
-Object {
-  "announcementBar": Object {},
-  "colorMode": Object {},
-  "docs": Object {
+{
+  "announcementBar": {},
+  "colorMode": {},
+  "docs": {
     "versionPersistence": "none",
   },
-  "footer": Object {
+  "footer": {
     "copyright": "Copyright FB (translated)",
-    "links": Array [
-      Object {
-        "items": Array [
-          Object {
+    "links": [
+      {
+        "items": [
+          {
             "label": "Link 1 (translated)",
             "to": "https://facebook.com",
           },
-          Object {
+          {
             "label": "Link 2 (translated)",
             "to": "https://facebook.com",
           },
         ],
         "title": "Footer link column 1 (translated)",
       },
-      Object {
-        "items": Array [
-          Object {
+      {
+        "items": [
+          {
             "label": "Link 3 (translated)",
             "to": "https://facebook.com",
           },
@@ -134,17 +134,17 @@ Object {
     "style": "light",
   },
   "hideableSidebar": true,
-  "navbar": Object {
+  "navbar": {
     "hideOnScroll": false,
-    "items": Array [
-      Object {
-        "items": Array [
-          Object {
-            "items": Array [],
+    "items": [
+      {
+        "items": [
+          {
+            "items": [],
             "label": "Dropdown item 1 (translated)",
           },
-          Object {
-            "items": Array [],
+          {
+            "items": [],
             "label": "Dropdown item 2 (translated)",
           },
         ],
@@ -154,6 +154,6 @@ Object {
     "style": "dark",
     "title": "navbar title (translated)",
   },
-  "prism": Object {},
+  "prism": {},
 }
 `;

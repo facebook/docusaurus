@@ -20,9 +20,9 @@ describe('loadPresets', () => {
     } as LoadContext;
     const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [],
-        "themes": Array [],
+      {
+        "plugins": [],
+        "themes": [],
       }
     `);
   });

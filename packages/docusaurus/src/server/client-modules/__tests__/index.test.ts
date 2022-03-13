@@ -14,13 +14,13 @@ import pluginHelloWorld from './__fixtures__/plugin-hello-world';
 describe('loadClientModules', () => {
   it('empty', () => {
     const clientModules = loadClientModules([pluginEmpty()]);
-    expect(clientModules).toMatchInlineSnapshot(`Array []`);
+    expect(clientModules).toMatchInlineSnapshot(`[]`);
   });
 
   it('non-empty', () => {
     const clientModules = loadClientModules([pluginFooBar()]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
+      [
         "foo",
         "bar",
       ]
@@ -33,7 +33,7 @@ describe('loadClientModules', () => {
       pluginHelloWorld(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
+      [
         "foo",
         "bar",
         "hello",
@@ -48,7 +48,7 @@ describe('loadClientModules', () => {
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
+      [
         "hello",
         "world",
         "foo",
@@ -64,7 +64,7 @@ describe('loadClientModules', () => {
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
+      [
         "hello",
         "world",
         "foo",
@@ -80,7 +80,7 @@ describe('loadClientModules', () => {
       pluginEmpty(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
+      [
         "hello",
         "world",
         "foo",
