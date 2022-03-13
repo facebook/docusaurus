@@ -132,17 +132,17 @@ export function parseMarkdownContentTitle(
   const removeContentTitleOption = options?.removeContentTitle ?? false;
 
   const content = contentUntrimmed.trim();
-  // We only need to detect valid import statements, as broken ones can't render
-  // anyways. Anything that (1) has `import` at the line's very beginning and
-  // (2) no empty lines in between will be treated as an import block.
+  // We only need to detect import statements that will be parsed by MDX as
+  // `import` nodes, as broken syntax can't render anyways. That means any block
+  // that has `import` at the very beginning and surrounded by empty lines.
   const contentWithoutImport = content
     .replace(/^import\s(?:.|\n(?!\n))*\n\n/gm, '')
     .trim();
 
-  const regularTitleMatch = /^#[ \t]+(?<title>[^ \t].*)(?:\n+|$)/.exec(
+  const regularTitleMatch = /^#[ \t]+(?<title>[^ \t].*)(?:\n|$)/.exec(
     contentWithoutImport,
   );
-  const alternateTitleMatch = /^(?<title>[^\n]*)\n=+(?:\n+|$)/.exec(
+  const alternateTitleMatch = /^(?<title>.*)\n=+(?:\n|$)/.exec(
     contentWithoutImport,
   );
 
