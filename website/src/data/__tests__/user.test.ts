@@ -57,10 +57,13 @@ describe('users data', () => {
           .message('')
           .required(),
         // The preview should be jest/emptyModule
-        preview: Joi.object({}).unknown(false).required().messages({
-          'object.base':
-            'The image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs. It must be imported with require().',
-        }),
+        preview: Joi.object({default: Joi.any()})
+          .unknown(false)
+          .required()
+          .messages({
+            'object.base':
+              'The image should be hosted on Docusaurus site, and not use remote HTTP or HTTPS URLs. It must be imported with require().',
+          }),
         tags: Joi.array()
           .items(...TagList)
           .required(),
