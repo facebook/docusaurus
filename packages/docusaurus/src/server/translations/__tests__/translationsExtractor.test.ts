@@ -232,6 +232,7 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
   return (
     <div>
       <input text={translate({id: 'codeId',message: 'code message',description: 'code description'}) as string}/>
+      <input text={translate({message: 'code message 2',description: 'code description 2'}) as string}/>
     </div>
   );
 }
@@ -247,6 +248,10 @@ export default function MyComponent<T>(props: ComponentProps<T>) {
       sourceCodeFilePath,
       translations: {
         codeId: {message: 'code message', description: 'code description'},
+        'code message 2': {
+          message: 'code message 2',
+          description: 'code description 2',
+        },
       },
       warnings: [],
     });
@@ -636,6 +641,26 @@ export default function MyComponent() {
 }
 `,
     );
+
+    const plugin1File4 = path.join(plugin1Dir, 'src/theme/file4.jsx');
+    // Contains some invalid translations...
+    await fs.outputFile(
+      plugin1File4,
+      `
+import {translate} from '@docusaurus/Translate';
+
+export default function MyComponent() {
+  return (
+    <div>
+      <input text={translate({id: index})}/>
+    </div>
+  );
+}
+`,
+    );
+    const consoleWarnMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
     const plugin1 = createTestPlugin(plugin1Dir);
 
     const plugin2Dir = await createTmpDir();
@@ -664,7 +689,11 @@ export default function MyComponent(props: Props) {
     );
     const plugin2 = createTestPlugin(plugin2Dir);
 
-    const plugins = [plugin1, plugin2];
+    const plugins = [
+      plugin1,
+      plugin2,
+      {name: 'dummy', options: {}, version: {type: 'synthetic'}} as const,
+    ];
     const translations = await extractSiteSourceCodeTranslations(
       siteDir,
       plugins,
@@ -692,5 +721,8 @@ export default function MyComponent(props: Props) {
         message: 'plugin2 message 2',
       },
     });
+    expect(consoleWarnMock.mock.calls[0][0]).toMatch(
+      /.*\[WARNING\].* Translation extraction warnings for file .*src.theme.file4\.jsx.*\n.*- translate\(\) first arg should be a statically evaluable object\./,
+    );
   });
 });

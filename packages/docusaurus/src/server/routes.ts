@@ -30,7 +30,7 @@ function indent(str: string) {
   return `${spaces}${str.replace(/\n/g, `\n${spaces}`)}`;
 }
 
-const createRouteCodeString = ({
+function createRouteCodeString({
   routePath,
   routeHash,
   exact,
@@ -42,7 +42,7 @@ const createRouteCodeString = ({
   exact?: boolean;
   subroutesCodeStrings?: string[];
   props: {[propName: string]: unknown};
-}) => {
+}) {
   const parts = [
     `path: '${routePath}'`,
     `component: ComponentCreator('${routePath}','${routeHash}')`,
@@ -61,17 +61,30 @@ ${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    // Figure out how to "unquote" JS attributes that don't need to be quoted
-    // Is this lib reliable? https://github.com/armanozak/should-quote
-    const shouldQuote = true; // TODO
-    const key = shouldQuote ? `'${propName}'` : propName;
+    // Inspired by https://github.com/armanozak/should-quote/blob/main/packages/should-quote/src/lib/should-quote.ts
+    const shouldQuote = ((key: string) => {
+      // Pre-sanitation to prevent injection
+      if (/[.,;:}/\s]/.test(key)) {
+        return true;
+      }
+      try {
+        // If this key can be used in an expression like ({a:0}).a
+        // eslint-disable-next-line no-eval
+        eval(`({${key}:0}).${key}`);
+        return false;
+      } catch {
+        return true;
+      }
+    })(propName);
+    // Escape quotes as well
+    const key = shouldQuote ? JSON.stringify(propName) : propName;
     parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 
   return `{
 ${indent(parts.join(',\n'))}
 }`;
-};
+}
 
 const NotFoundRouteCode = `{
   path: '*',

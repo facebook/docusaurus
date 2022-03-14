@@ -31,7 +31,7 @@ describe('loadPresets', () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
-        presets: [path.join(__dirname, '__fixtures__/preset-bar.js')],
+        presets: [path.join(__dirname, '__fixtures__/preset-plugins.js')],
       },
     } as LoadContext;
     const presets = await loadPresets(context);
@@ -43,8 +43,8 @@ describe('loadPresets', () => {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
-          path.join(__dirname, '__fixtures__/preset-bar.js'),
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
+          path.join(__dirname, '__fixtures__/preset-plugins.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
         ],
       },
     } as LoadContext;
@@ -56,7 +56,7 @@ describe('loadPresets', () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
-        presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
+        presets: [[path.join(__dirname, '__fixtures__/preset-plugins.js')]],
       },
     } as Partial<LoadContext>;
     const presets = await loadPresets(context);
@@ -69,7 +69,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
         ],
@@ -85,12 +85,12 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
           [
-            path.join(__dirname, '__fixtures__/preset-foo.js'),
-            {pages: {path: '../'}},
+            path.join(__dirname, '__fixtures__/preset-themes.js'),
+            {algolia: {trackingID: 'foo'}},
           ],
         ],
       },
@@ -105,10 +105,10 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
         ],
       },
     } as LoadContext;
@@ -122,11 +122,11 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
-          path.join(__dirname, '__fixtures__/preset-qux.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
+          path.join(__dirname, '__fixtures__/preset-mixed.js'),
         ],
       },
     } as LoadContext;

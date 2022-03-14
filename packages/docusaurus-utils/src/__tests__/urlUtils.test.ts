@@ -15,11 +15,18 @@ import {
   removeTrailingSlash,
   resolvePathname,
   encodePath,
+  buildSshUrl,
+  buildHttpsUrl,
+  hasSSHProtocol,
 } from '../urlUtils';
 
 describe('normalizeUrl', () => {
   it('normalizes urls correctly', () => {
     const asserts = [
+      {
+        input: [],
+        output: '',
+      },
       {
         input: ['/', ''],
         output: '/',
@@ -246,5 +253,62 @@ describe('encodePath', () => {
     // cSpell:ignore cfoo
     expect(encodePath('a/<foo>/')).toBe('a/%3Cfoo%3E/');
     expect(encodePath('a/你好/')).toBe('a/%E4%BD%A0%E5%A5%BD/');
+  });
+});
+
+describe('buildSshUrl', () => {
+  it('builds a normal ssh url', () => {
+    const url = buildSshUrl('github.com', 'facebook', 'docusaurus');
+    expect(url).toBe('git@github.com:facebook/docusaurus.git');
+  });
+  it('builds a ssh url with port', () => {
+    const url = buildSshUrl('github.com', 'facebook', 'docusaurus', '422');
+    expect(url).toBe('ssh://git@github.com:422/facebook/docusaurus.git');
+  });
+});
+
+describe('buildHttpsUrl', () => {
+  it('builds a normal http url', () => {
+    const url = buildHttpsUrl(
+      'user:pass',
+      'github.com',
+      'facebook',
+      'docusaurus',
+    );
+    expect(url).toBe('https://user:pass@github.com/facebook/docusaurus.git');
+  });
+  it('builds a normal http url with port', () => {
+    const url = buildHttpsUrl(
+      'user:pass',
+      'github.com',
+      'facebook',
+      'docusaurus',
+      '5433',
+    );
+    expect(url).toBe(
+      'https://user:pass@github.com:5433/facebook/docusaurus.git',
+    );
+  });
+});
+
+describe('hasSSHProtocol', () => {
+  it('recognizes explicit SSH protocol', () => {
+    const url = 'ssh://git@github.com:422/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toBe(true);
+  });
+
+  it('recognizes implied SSH protocol', () => {
+    const url = 'git@github.com:facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toBe(true);
+  });
+
+  it('does not recognize HTTPS with credentials', () => {
+    const url = 'https://user:pass@github.com/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toBe(false);
+  });
+
+  it('does not recognize plain HTTPS URL', () => {
+    const url = 'https://github.com:5433/facebook/docusaurus.git';
+    expect(hasSSHProtocol(url)).toBe(false);
   });
 });

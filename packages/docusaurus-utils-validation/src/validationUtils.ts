@@ -44,7 +44,7 @@ export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
   themeConfig: Partial<T>,
 ): T {
-  // A theme should only validate his "slice" of the full themeConfig,
+  // A theme should only validate its "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
   // otherwise one theme would fail validating the data of another theme
   const finalSchema = schema.unknown();

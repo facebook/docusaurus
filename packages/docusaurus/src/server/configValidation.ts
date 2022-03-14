@@ -56,7 +56,7 @@ export const DEFAULT_CONFIG: Pick<
   staticDirectories: [STATIC_DIR_NAME],
 };
 
-function createPluginSchema(theme: boolean = false) {
+function createPluginSchema(theme: boolean) {
   return (
     Joi.alternatives()
       .try(

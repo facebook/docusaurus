@@ -29,18 +29,19 @@ exports[`loadPresets array form composite 1`] = `
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
+  ],
+  "themes": [
     [
-      "@docusaurus/plugin-content-pages",
-      {
-        "path": "../",
-      },
-    ],
-    [
-      "@docusaurus/plugin-sitemap",
+      "@docusaurus/theme-live-codeblock",
       undefined,
     ],
+    [
+      "@docusaurus/theme-algolia",
+      {
+        "trackingID": "foo",
+      },
+    ],
   ],
-  "themes": [],
 }
 `;
 
@@ -75,16 +76,17 @@ exports[`loadPresets mixed form 1`] = `
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
+  ],
+  "themes": [
     [
-      "@docusaurus/plugin-content-pages",
+      "@docusaurus/theme-live-codeblock",
       undefined,
     ],
     [
-      "@docusaurus/plugin-sitemap",
+      "@docusaurus/theme-algolia",
       undefined,
     ],
   ],
-  "themes": [],
 }
 `;
 
@@ -102,19 +104,19 @@ exports[`loadPresets mixed form with themes 1`] = `
       undefined,
     ],
     [
-      "@docusaurus/plugin-content-pages",
-      undefined,
-    ],
-    [
-      "@docusaurus/plugin-sitemap",
-      undefined,
-    ],
-    [
       "@docusaurus/plugin-test",
       undefined,
     ],
   ],
   "themes": [
+    [
+      "@docusaurus/theme-live-codeblock",
+      undefined,
+    ],
+    [
+      "@docusaurus/theme-algolia",
+      undefined,
+    ],
     [
       "@docusaurus/theme-classic",
       undefined,
@@ -150,15 +152,16 @@ exports[`loadPresets string form composite 1`] = `
       "@docusaurus/plugin-content-blog",
       undefined,
     ],
+  ],
+  "themes": [
     [
-      "@docusaurus/plugin-content-pages",
+      "@docusaurus/theme-live-codeblock",
       undefined,
     ],
     [
-      "@docusaurus/plugin-sitemap",
+      "@docusaurus/theme-algolia",
       undefined,
     ],
   ],
-  "themes": [],
 }
 `;

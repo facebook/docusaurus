@@ -8,7 +8,107 @@
 import {jest} from '@jest/globals';
 import Joi from '../Joi';
 import {JoiFrontMatter} from '../JoiFrontMatter';
-import {validateFrontMatter} from '../validationUtils';
+import {
+  normalizePluginOptions,
+  normalizeThemeConfig,
+  validateFrontMatter,
+} from '../validationUtils';
+
+describe('normalizePluginOptions', () => {
+  it('always adds an "id" field', () => {
+    const options = {id: 'a'};
+    expect(
+      normalizePluginOptions(
+        // "Malicious" schema that tries to forbid "id"
+        Joi.object({id: Joi.any().forbidden()}),
+        options,
+      ),
+    ).toEqual(options);
+  });
+
+  it('normalizes plugin options', () => {
+    const options = {};
+    expect(
+      normalizePluginOptions(
+        Joi.object({foo: Joi.string().default('a')}),
+        options,
+      ),
+    ).toEqual({foo: 'a', id: 'default'});
+  });
+
+  it('throws for invalid options', () => {
+    const options = {foo: 1};
+    expect(() =>
+      normalizePluginOptions(Joi.object({foo: Joi.string()}), options),
+    ).toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" must be a string"`);
+  });
+
+  it('warns', () => {
+    const options = {foo: 'a'};
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    expect(
+      normalizePluginOptions(
+        Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
+          deprecated: '{#label} deprecated',
+        }),
+        options,
+      ),
+    ).toEqual({foo: 'a', id: 'default'});
+    expect(consoleMock).toBeCalledWith(
+      expect.stringMatching(/"foo" deprecated/),
+    );
+  });
+});
+
+describe('normalizeThemeConfig', () => {
+  it('always allows unknown attributes', () => {
+    const themeConfig = {foo: 'a', bar: 1};
+    expect(
+      normalizeThemeConfig(
+        // "Malicious" schema that tries to forbid extra properties
+        Joi.object({foo: Joi.string()}).unknown(false),
+        themeConfig,
+      ),
+    ).toEqual(themeConfig);
+  });
+
+  it('normalizes theme config', () => {
+    const themeConfig = {bar: 1};
+    expect(
+      normalizeThemeConfig(
+        Joi.object({foo: Joi.string().default('a')}),
+        themeConfig,
+      ),
+    ).toEqual({bar: 1, foo: 'a'});
+  });
+
+  it('throws for invalid options', () => {
+    const themeConfig = {foo: 1, bar: 1};
+    expect(() =>
+      normalizeThemeConfig(Joi.object({foo: Joi.string()}), themeConfig),
+    ).toThrowErrorMatchingInlineSnapshot(`"\\"foo\\" must be a string"`);
+  });
+
+  it('warns', () => {
+    const themeConfig = {foo: 'a', bar: 1};
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    expect(
+      normalizeThemeConfig(
+        Joi.object({foo: Joi.string().warning('deprecated', {})}).messages({
+          deprecated: '{#label} deprecated',
+        }),
+        themeConfig,
+      ),
+    ).toEqual(themeConfig);
+    expect(consoleMock).toBeCalledWith(
+      expect.stringMatching(/"foo" deprecated/),
+    );
+  });
+});
 
 describe('validateFrontMatter', () => {
   it('accepts good values', () => {

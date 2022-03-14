@@ -35,6 +35,11 @@ describe('loadRoutes', () => {
             metadata: 'docs-foo-baz-dd9.json',
           },
           sidebar: 'secondary',
+          'key:a': 'containing colon',
+          "key'b": 'containing quote',
+          'key"c': 'containing double quote',
+          'key,d': 'containing comma',
+          字段: 'containing unicode',
         },
       ],
     };
@@ -62,6 +67,13 @@ describe('loadRoutes', () => {
           },
           {
             content: 'blog/2018-12-14-Happy-First-Birthday-Slash.md',
+            metadata: null,
+          },
+          {
+            content: {
+              __import: true,
+              path: 'blog/2018-12-14-Happy-First-Birthday-Slash.md',
+            },
             metadata: null,
           },
         ],

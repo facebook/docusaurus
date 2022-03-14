@@ -10,7 +10,7 @@ import path from 'path';
 import {THEME_PATH} from '@docusaurus/utils';
 import themeAlias, {sortAliases} from './alias';
 
-const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
+const ThemeFallbackDir = path.join(__dirname, '../../client/theme-fallback');
 
 export async function loadThemeAliases(
   themePaths: string[],

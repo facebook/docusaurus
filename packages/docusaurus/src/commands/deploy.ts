@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
+import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext} from '../server';
 import build from './build';
 import type {BuildCLIOptions} from '@docusaurus/types';
@@ -30,43 +31,6 @@ function shellExecLog(cmd: string) {
   } catch (err) {
     logger.error`code=${obfuscateGitPass(cmd)}`;
     throw err;
-  }
-}
-
-export function buildSshUrl(
-  githubHost: string,
-  organizationName: string,
-  projectName: string,
-  githubPort?: string,
-): string {
-  if (githubPort) {
-    return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
-  }
-  return `git@${githubHost}:${organizationName}/${projectName}.git`;
-}
-
-export function buildHttpsUrl(
-  gitCredentials: string,
-  githubHost: string,
-  organizationName: string,
-  projectName: string,
-  githubPort?: string,
-): string {
-  if (githubPort) {
-    return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
-  }
-  return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
-}
-
-export function hasSSHProtocol(sourceRepoUrl: string): boolean {
-  try {
-    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
-      return true;
-    }
-    return false;
-  } catch {
-    // Fails when there isn't a protocol
-    return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
   }
 }
 

@@ -7,6 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
+import {createSlugger, type Slugger} from './slugger';
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
@@ -204,4 +205,73 @@ export function parseMarkdownString(
 This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw err;
   }
+}
+
+function unwrapMarkdownLinks(line: string): string {
+  return line.replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
+}
+
+function addHeadingId(
+  line: string,
+  slugger: Slugger,
+  maintainCase: boolean,
+): string {
+  let headingLevel = 0;
+  while (line.charAt(headingLevel) === '#') {
+    headingLevel += 1;
+  }
+
+  const headingText = line.slice(headingLevel).trimEnd();
+  const headingHashes = line.slice(0, headingLevel);
+  const slug = slugger.slug(unwrapMarkdownLinks(headingText).trim(), {
+    maintainCase,
+  });
+
+  return `${headingHashes}${headingText} {#${slug}}`;
+}
+
+export type WriteHeadingIDOptions = {
+  maintainCase?: boolean;
+  overwrite?: boolean;
+};
+
+export function writeMarkdownHeadingId(
+  content: string,
+  options: WriteHeadingIDOptions = {maintainCase: false, overwrite: false},
+): string {
+  const {maintainCase = false, overwrite = false} = options;
+  const lines = content.split('\n');
+  const slugger = createSlugger();
+
+  // If we can't overwrite existing slugs, make sure other headings don't
+  // generate colliding slugs by first marking these slugs as occupied
+  if (!overwrite) {
+    lines.forEach((line) => {
+      const parsedHeading = parseMarkdownHeadingId(line);
+      if (parsedHeading.id) {
+        slugger.slug(parsedHeading.id);
+      }
+    });
+  }
+
+  let inCode = false;
+  return lines
+    .map((line) => {
+      if (line.startsWith('```')) {
+        inCode = !inCode;
+        return line;
+      }
+      // Ignore h1 headings, as we don't create anchor links for those
+      if (inCode || !line.startsWith('##')) {
+        return line;
+      }
+      const parsedHeading = parseMarkdownHeadingId(line);
+
+      // Do not process if id is already there
+      if (parsedHeading.id && !overwrite) {
+        return line;
+      }
+      return addHeadingId(parsedHeading.text, slugger, maintainCase);
+    })
+    .join('\n');
 }

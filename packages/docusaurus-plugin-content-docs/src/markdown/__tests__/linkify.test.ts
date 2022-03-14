@@ -193,4 +193,14 @@ describe('linkify', () => {
     expect(transformedContent).not.toContain('](../doc2.md)');
     expect(content).not.toEqual(transformedContent);
   });
+
+  // See comment in linkify.ts
+  it('throws for file outside version', async () => {
+    const doc1 = path.join(__dirname, '__fixtures__/outside/doc1.md');
+    await expect(() =>
+      transform(doc1),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected error: Markdown file at \\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/markdown/__tests__/__fixtures__/outside/doc1.md\\" does not belong to any docs version!"`,
+    );
+  });
 });

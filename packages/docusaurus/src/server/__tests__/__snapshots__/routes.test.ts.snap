@@ -21,12 +21,16 @@ exports[`loadRoutes loads flat route config 1`] = `
     },
   },
   "routesChunkNames": {
-    "/blog-94e": {
+    "/blog-1e7": {
       "component": "component---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
           "content": "content---blog-0-b-4-09e",
           "metadata": "metadata---blog-0-b-6-74c",
+        },
+        {
+          "content": "content---blog-7-b-8-fd9",
+          "metadata": null,
         },
         {
           "content": "content---blog-7-b-8-fd9",
@@ -42,7 +46,7 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/blog',
-    component: ComponentCreator('/blog','94e'),
+    component: ComponentCreator('/blog','1e7'),
     exact: true
   },
   {
@@ -96,11 +100,11 @@ exports[`loadRoutes loads nested route config 1`] = `
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-63b": {
+    "/docs:route-52d": {
       "component": "component---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-ac2": {
+    "docs/foo/baz-070": {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
@@ -113,18 +117,23 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route','63b'),
+    component: ComponentCreator('/docs:route','52d'),
     routes: [
       {
         path: '/docs/hello',
         component: ComponentCreator('/docs/hello','44b'),
         exact: true,
-        'sidebar': \\"main\\"
+        sidebar: \\"main\\"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz','ac2'),
-        'sidebar': \\"secondary\\"
+        component: ComponentCreator('docs/foo/baz','070'),
+        sidebar: \\"secondary\\",
+        \\"key:a\\": \\"containing colon\\",
+        \\"key'b\\": \\"containing quote\\",
+        \\"key\\\\\\"c\\": \\"containing double quote\\",
+        \\"key,d\\": \\"containing comma\\",
+        字段: \\"containing unicode\\"
       }
     ]
   },
