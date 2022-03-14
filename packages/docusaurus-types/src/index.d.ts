@@ -288,7 +288,7 @@ export interface Plugin<Content = unknown> {
 }
 
 export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
-  readonly options: PluginOptions;
+  readonly options: Required<PluginOptions>;
   readonly version: DocusaurusPluginVersionInformation;
 };
 

@@ -15,6 +15,10 @@ function getVersion(filePath: string, options: DocsMarkdownOption) {
       filePath.startsWith(docsDirPath),
     ),
   );
+  // At this point, this should never happen, because the MDX loaders' paths are
+  // literally using the version content paths; but if we allow sourcing content
+  // from outside the docs directory (through the `include` option, for example;
+  // is there a compelling use-case?), this would actually be testable
   if (!versionFound) {
     throw new Error(
       `Unexpected error: Markdown file at "${filePath}" does not belong to any docs version!`,

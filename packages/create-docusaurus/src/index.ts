@@ -37,10 +37,7 @@ async function findPackageManagerFromLockFile(): Promise<
   SupportedPackageManager | undefined
 > {
   for (const packageManager of PackageManagersList) {
-    const lockFilePath = path.resolve(
-      process.cwd(),
-      SupportedPackageManagers[packageManager],
-    );
+    const lockFilePath = path.resolve(SupportedPackageManagers[packageManager]);
     if (await fs.pathExists(lockFilePath)) {
       return packageManager;
     }
@@ -152,7 +149,7 @@ async function copyTemplate(
   template: string,
   dest: string,
 ) {
-  await fs.copy(path.resolve(templatesDir, 'shared'), dest);
+  await fs.copy(path.join(templatesDir, 'shared'), dest);
 
   // TypeScript variants will copy duplicate resources like CSS & config from
   // base template
@@ -211,7 +208,7 @@ export default async function init(
   const templates = await readTemplates(templatesDir);
   const hasTS = (templateName: string) =>
     fs.pathExists(
-      path.resolve(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
+      path.join(templatesDir, `${templateName}${TypeScriptTemplateSuffix}`),
     );
   let name = siteName;
 
@@ -297,7 +294,7 @@ export default async function init(
       name: 'templateDir',
       validate: async (dir?: string) => {
         if (dir) {
-          const fullDir = path.resolve(process.cwd(), dir);
+          const fullDir = path.resolve(dir);
           if (await fs.pathExists(fullDir)) {
             return true;
           }
@@ -351,8 +348,8 @@ export default async function init(
       logger.error`Copying Docusaurus template name=${template} failed!`;
       throw err;
     }
-  } else if (await fs.pathExists(path.resolve(process.cwd(), template))) {
-    const templateDir = path.resolve(process.cwd(), template);
+  } else if (await fs.pathExists(path.resolve(template))) {
+    const templateDir = path.resolve(template);
     try {
       await fs.copy(templateDir, dest);
     } catch (err) {

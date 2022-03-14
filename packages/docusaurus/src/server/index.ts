@@ -57,12 +57,10 @@ export async function loadSiteConfig({
   siteDir: string;
   customConfigFilePath?: string;
 }): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
-  const siteConfigPathUnresolved =
-    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME;
-
-  const siteConfigPath = path.isAbsolute(siteConfigPathUnresolved)
-    ? siteConfigPathUnresolved
-    : path.resolve(siteDir, siteConfigPathUnresolved);
+  const siteConfigPath = path.resolve(
+    siteDir,
+    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME,
+  );
 
   const siteConfig = await loadConfig(siteConfigPath);
   return {siteConfig, siteConfigPath};
@@ -73,9 +71,7 @@ export async function loadContext(
   options: LoadContextOptions = {},
 ): Promise<LoadContext> {
   const {customOutDir, locale, customConfigFilePath} = options;
-  const generatedFilesDir = path.isAbsolute(GENERATED_FILES_DIR_NAME)
-    ? GENERATED_FILES_DIR_NAME
-    : path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
+  const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
   const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
     siteDir,
@@ -83,9 +79,10 @@ export async function loadContext(
   });
   const {ssrTemplate} = initialSiteConfig;
 
-  const baseOutDir = customOutDir
-    ? path.resolve(customOutDir)
-    : path.resolve(siteDir, DEFAULT_BUILD_DIR_NAME);
+  const baseOutDir = path.resolve(
+    siteDir,
+    customOutDir ?? DEFAULT_BUILD_DIR_NAME,
+  );
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
@@ -191,7 +188,9 @@ function createBootstrapPlugin({
   return {
     name: 'docusaurus-bootstrap-plugin',
     content: null,
-    options: {},
+    options: {
+      id: 'default',
+    },
     version: {type: 'synthetic'},
     getClientModules() {
       return siteConfigClientModules;
@@ -241,7 +240,9 @@ function createMDXFallbackPlugin({
   return {
     name: 'docusaurus-mdx-fallback-plugin',
     content: null,
-    options: {},
+    options: {
+      id: 'default',
+    },
     version: {type: 'synthetic'},
     configureWebpack(config, isServer, {getJSLoader}) {
       // We need the mdx fallback loader to exclude files that were already

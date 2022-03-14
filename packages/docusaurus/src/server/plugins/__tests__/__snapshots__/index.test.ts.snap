@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadPlugins loads plugins 1`] = `
+{
+  "globalData": {
+    "test1": {
+      "default": {
+        "content": "a",
+        "prop": "a",
+      },
+    },
+  },
+  "plugins": [
+    {
+      "content": "a",
+      "contentLoaded": [Function],
+      "loadContent": [Function],
+      "name": "test1",
+      "options": {
+        "id": "default",
+      },
+      "prop": "a",
+      "version": {
+        "type": "local",
+      },
+    },
+    {
+      "configureWebpack": [Function],
+      "content": undefined,
+      "name": "test2",
+      "options": {
+        "id": "default",
+      },
+      "version": {
+        "type": "local",
+      },
+    },
+  ],
+  "pluginsRouteConfigs": [],
+  "themeConfigTranslated": {},
+}
+`;
+
+exports[`sortConfig sorts route config correctly 1`] = `
+[
+  {
+    "component": "",
+    "path": "/community",
+  },
+  {
+    "component": "",
+    "path": "/some-page",
+  },
+  {
+    "component": "",
+    "path": "/docs",
+    "routes": [
+      {
+        "component": "",
+        "path": "/docs/someDoc",
+      },
+      {
+        "component": "",
+        "path": "/docs/someOtherDoc",
+      },
+    ],
+  },
+  {
+    "component": "",
+    "path": "/",
+  },
+  {
+    "component": "",
+    "path": "/",
+    "routes": [
+      {
+        "component": "",
+        "path": "/someDoc",
+      },
+      {
+        "component": "",
+        "path": "/someOtherDoc",
+      },
+    ],
+  },
+  {
+    "component": "",
+    "path": "/",
+    "routes": [
+      {
+        "component": "",
+        "path": "/subroute",
+      },
+    ],
+  },
+]
+`;
+
+exports[`sortConfig sorts route config given a baseURL 1`] = `
+[
+  {
+    "component": "",
+    "path": "/latest/community",
+  },
+  {
+    "component": "",
+    "path": "/latest/example",
+  },
+  {
+    "component": "",
+    "path": "/latest/some-page",
+  },
+  {
+    "component": "",
+    "path": "/latest/docs",
+    "routes": [
+      {
+        "component": "",
+        "path": "/latest/docs/someDoc",
+      },
+      {
+        "component": "",
+        "path": "/latest/docs/someOtherDoc",
+      },
+    ],
+  },
+  {
+    "component": "",
+    "path": "/latest/",
+  },
+  {
+    "component": "",
+    "path": "/latest/",
+    "routes": [
+      {
+        "component": "",
+        "path": "/latest/someDoc",
+      },
+      {
+        "component": "",
+        "path": "/latest/someOtherDoc",
+      },
+    ],
+  },
+]
+`;

@@ -45,6 +45,9 @@ export {
   addLeadingSlash,
   addTrailingSlash,
   removeTrailingSlash,
+  hasSSHProtocol,
+  buildHttpsUrl,
+  buildSshUrl,
 } from './urlUtils';
 export {
   type Tag,
@@ -60,7 +63,9 @@ export {
   parseFrontMatter,
   parseMarkdownContentTitle,
   parseMarkdownString,
-} from './markdownParser';
+  writeMarkdownHeadingId,
+  type WriteHeadingIDOptions,
+} from './markdownUtils';
 export {
   type ContentPaths,
   type BrokenMarkdownLink,

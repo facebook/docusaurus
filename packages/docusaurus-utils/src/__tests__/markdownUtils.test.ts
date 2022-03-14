@@ -10,7 +10,8 @@ import {
   parseMarkdownContentTitle,
   parseMarkdownString,
   parseMarkdownHeadingId,
-} from '../markdownParser';
+  writeMarkdownHeadingId,
+} from '../markdownUtils';
 import dedent from 'dedent';
 
 describe('createExcerpt', () => {
@@ -799,5 +800,110 @@ describe('parseMarkdownHeadingId', () => {
       text: '##',
       id: 'id',
     });
+  });
+});
+
+describe('writeMarkdownHeadingId', () => {
+  it('works for simple level-2 heading', () => {
+    expect(writeMarkdownHeadingId('## ABC')).toBe('## ABC {#abc}');
+  });
+
+  it('works for simple level-3 heading', () => {
+    expect(writeMarkdownHeadingId('### ABC')).toBe('### ABC {#abc}');
+  });
+
+  it('works for simple level-4 heading', () => {
+    expect(writeMarkdownHeadingId('#### ABC')).toBe('#### ABC {#abc}');
+  });
+
+  it('unwraps markdown links', () => {
+    const input = `## hello [facebook](https://facebook.com) [crowdin](https://crowdin.com/translate/docusaurus-v2/126/en-fr?filter=basic&value=0)`;
+    expect(writeMarkdownHeadingId(input)).toBe(
+      `${input} {#hello-facebook-crowdin}`,
+    );
+  });
+
+  it('can slugify complex headings', () => {
+    const input = '## abc [Hello] How are you %Sébastien_-_$)( ## -56756';
+    expect(writeMarkdownHeadingId(input)).toBe(
+      // cSpell:ignore ébastien
+      `${input} {#abc-hello-how-are-you-sébastien_-_---56756}`,
+    );
+  });
+
+  it('does not duplicate duplicate id', () => {
+    expect(writeMarkdownHeadingId('## hello world {#hello-world}')).toBe(
+      '## hello world {#hello-world}',
+    );
+  });
+
+  it('respects existing heading', () => {
+    expect(writeMarkdownHeadingId('## New heading {#old-heading}')).toBe(
+      '## New heading {#old-heading}',
+    );
+  });
+
+  it('overwrites heading ID when asked to', () => {
+    expect(
+      writeMarkdownHeadingId('## New heading {#old-heading}', {
+        overwrite: true,
+      }),
+    ).toBe('## New heading {#new-heading}');
+  });
+
+  it('maintains casing when asked to', () => {
+    expect(
+      writeMarkdownHeadingId('## getDataFromAPI()', {
+        maintainCase: true,
+      }),
+    ).toBe('## getDataFromAPI() {#getDataFromAPI}');
+  });
+
+  it('transform the headings', () => {
+    const input = `
+
+# Ignored title
+
+## abc
+
+### Hello world
+
+\`\`\`
+# Heading in code block
+\`\`\`
+
+## Hello world
+
+    \`\`\`
+    # Heading in escaped code block
+    \`\`\`
+
+### abc {#abc}
+
+    `;
+
+    const expected = `
+
+# Ignored title
+
+## abc {#abc-1}
+
+### Hello world {#hello-world}
+
+\`\`\`
+# Heading in code block
+\`\`\`
+
+## Hello world {#hello-world-1}
+
+    \`\`\`
+    # Heading in escaped code block
+    \`\`\`
+
+### abc {#abc}
+
+    `;
+
+    expect(writeMarkdownHeadingId(input)).toEqual(expected);
   });
 });

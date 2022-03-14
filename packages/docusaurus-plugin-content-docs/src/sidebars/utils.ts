@@ -376,18 +376,13 @@ export function toNavigationLink(
     return undefined;
   }
 
-  if (navigationItem.type === 'doc') {
-    return toDocNavigationLink(getDocById(navigationItem.id));
-  } else if (navigationItem.type === 'category') {
-    if (navigationItem.link.type === 'doc') {
-      return toDocNavigationLink(getDocById(navigationItem.link.id));
-    } else if (navigationItem.link.type === 'generated-index') {
-      return {
-        title: navigationItem.label,
-        permalink: navigationItem.link.permalink,
-      };
-    }
-    throw new Error('unexpected category link type');
+  if (navigationItem.type === 'category') {
+    return navigationItem.link.type === 'doc'
+      ? toDocNavigationLink(getDocById(navigationItem.link.id))
+      : {
+          title: navigationItem.label,
+          permalink: navigationItem.link.permalink,
+        };
   }
-  throw new Error('unexpected navigation item');
+  return toDocNavigationLink(getDocById(navigationItem.id));
 }

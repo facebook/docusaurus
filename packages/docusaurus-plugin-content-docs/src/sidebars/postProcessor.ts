@@ -58,22 +58,17 @@ function postProcessSidebarItem(
           `Sidebar category ${item.label} has neither any subitem nor a link. This makes this item not able to link to anything.`,
         );
       }
-      switch (category.link.type) {
-        case 'doc':
-          return {
+      return category.link.type === 'doc'
+        ? {
             type: 'doc',
             label: category.label,
             id: category.link.id,
-          };
-        case 'generated-index':
-          return {
+          }
+        : {
             type: 'link',
             label: category.label,
             href: category.link.permalink,
           };
-        default:
-          throw new Error('Unexpected sidebar category link type');
-      }
     }
     // A non-collapsible category can't be collapsed!
     if (category.collapsible === false) {

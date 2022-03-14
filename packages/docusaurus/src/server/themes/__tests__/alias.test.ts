@@ -7,7 +7,51 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import themeAlias from '../alias';
+import themeAlias, {sortAliases} from '../alias';
+
+describe('sortAliases', () => {
+  // https://github.com/facebook/docusaurus/issues/6878
+  // Not sure if the risk actually happens, but still made tests to ensure that
+  // behavior is consistent
+  it('sorts reliably', () => {
+    expect(
+      Object.values(
+        sortAliases({
+          '@a/b': 'b',
+          '@a/b/c': 'c',
+          '@a/b/c/d': 'd',
+        }),
+      ),
+    ).toEqual(['d', 'c', 'b']);
+    expect(
+      Object.values(
+        sortAliases({
+          '@a/b': 'b',
+          '@a/b/c/d': 'd',
+          '@a/b/c': 'c',
+        }),
+      ),
+    ).toEqual(['d', 'c', 'b']);
+    expect(
+      Object.values(
+        sortAliases({
+          '@a/b/c/d': 'd',
+          '@a/b/c': 'c',
+          '@a/b': 'b',
+        }),
+      ),
+    ).toEqual(['d', 'c', 'b']);
+    expect(
+      Object.values(
+        sortAliases({
+          '@a/b/c': 'c',
+          '@a/b': 'b',
+          '@a/b/c/d': 'd',
+        }),
+      ),
+    ).toEqual(['d', 'c', 'b']);
+  });
+});
 
 describe('themeAlias', () => {
   it('valid themePath 1 with components', async () => {

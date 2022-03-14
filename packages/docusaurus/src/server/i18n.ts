@@ -30,7 +30,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
 
 export async function loadI18n(
   config: DocusaurusConfig,
-  options: {locale?: string} = {},
+  options: {locale?: string},
 ): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
@@ -88,9 +88,5 @@ export function localizePath({
     return path.join(originalPath, i18n.currentLocale);
   }
   // Url paths; add a trailing slash so it's a valid base URL
-  if (pathType === 'url') {
-    return normalizeUrl([originalPath, i18n.currentLocale, '/']);
-  }
-  // should never happen
-  throw new Error(`Unhandled path type "${pathType}".`);
+  return normalizeUrl([originalPath, i18n.currentLocale, '/']);
 }
