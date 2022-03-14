@@ -1,6 +1,6 @@
 {
   "theme.SearchBar.label": "Поиск",
-  "theme.SearchBar.seeAll": "See all {count} results",
+  "theme.SearchBar.seeAll": "Посмотреть все результаты ({count})",
   "theme.SearchPage.algoliaLabel": "Поиск от Algolia",
   "theme.SearchPage.documentsFound.plurals": "{count} документ|{count} документа|{count} документов",
   "theme.SearchPage.emptyResultsTitle": "Поиск по сайту",
