@@ -72,7 +72,9 @@ export function paginateBlogPosts({
   const pages: BlogPaginated[] = [];
 
   function permalink(page: number) {
-    return page > 0 ? `${basePageUrl}/page/${page + 1}` : basePageUrl;
+    return page > 0
+      ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+      : basePageUrl;
   }
 
   for (let page = 0; page < numberOfPages; page += 1) {
