@@ -19,11 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/logger": "2.0.0-beta.17",
-    "@svgr/webpack": "^6.0.0",
+    "@svgr/webpack": "^6.2.1",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.1",
     "github-slugger": "^1.4.0",
-    "globby": "^11.0.4",
+    "globby": "^11.1.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",

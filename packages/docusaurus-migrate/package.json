@@ -26,23 +26,23 @@
     "@docusaurus/logger": "2.0.0-beta.17",
     "@docusaurus/utils": "2.0.0-beta.17",
     "@mapbox/hast-util-to-jsx": "^2.0.0",
-    "color": "^4.0.1",
+    "color": "^4.2.1",
     "commander": "^5.1.0",
     "fs-extra": "^10.0.1",
     "hast-util-to-string": "^1.0.4",
     "html-tags": "^3.1.0",
     "import-fresh": "^3.3.0",
-    "jscodeshift": "^0.13.0",
+    "jscodeshift": "^0.13.1",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
-    "semver": "^7.3.4",
+    "semver": "^7.3.5",
     "tslib": "^2.3.1",
     "unified": "^9.2.1",
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
     "@types/color": "^3.0.3",
-    "@types/jscodeshift": "^0.11.2"
+    "@types/jscodeshift": "^0.11.3"
   }
 }

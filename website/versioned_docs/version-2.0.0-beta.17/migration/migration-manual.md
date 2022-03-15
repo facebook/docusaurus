@@ -72,8 +72,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "@docusaurus/core": "^2.0.0-beta.0",
     "@docusaurus/preset-classic": "^2.0.0-beta.0",
     "clsx": "^1.1.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "browserslist": {
     "production": [">0.5%", "not dead", "not op_mini all"],
