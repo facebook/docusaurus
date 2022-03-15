@@ -11,6 +11,7 @@ import {
   parseBlogFileName,
   linkify,
   getSourceToPermalink,
+  paginateBlogPosts,
   type LinkifyParams,
 } from '../blogUtils';
 import fs from 'fs-extra';
@@ -20,56 +21,6 @@ import type {
   BlogContentPaths,
   BlogPost,
 } from '../types';
-
-const siteDir = path.join(__dirname, '__fixtures__', 'website');
-const contentPaths: BlogContentPaths = {
-  contentPath: path.join(siteDir, 'blog-with-ref'),
-  contentPathLocalized: path.join(siteDir, 'blog-with-ref-localized'),
-};
-const pluginDir = 'blog-with-ref';
-const blogPosts: BlogPost[] = [
-  {
-    id: 'Happy 1st Birthday Slash!',
-    metadata: {
-      permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
-      source: path.posix.join(
-        '@site',
-        pluginDir,
-        '2018-12-14-Happy-First-Birthday-Slash.md',
-      ),
-      title: 'Happy 1st Birthday Slash!',
-      description: `pattern name`,
-      date: new Date('2018-12-14'),
-      tags: [],
-      prevItem: {
-        permalink: '/blog/2019/01/01/date-matter',
-        title: 'date-matter',
-      },
-      truncated: false,
-    },
-  },
-];
-
-const transform = async (
-  filePath: string,
-  options?: Partial<LinkifyParams>,
-) => {
-  const fileContent = await fs.readFile(filePath, 'utf-8');
-  const transformedContent = linkify({
-    filePath,
-    fileString: fileContent,
-    siteDir,
-    contentPaths,
-    sourceToPermalink: getSourceToPermalink(blogPosts),
-    onBrokenMarkdownLink: (brokenMarkdownLink) => {
-      throw new Error(
-        `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
-      );
-    },
-    ...options,
-  });
-  return [fileContent, transformedContent];
-};
 
 describe('truncate', () => {
   it('truncates texts', () => {
@@ -86,6 +37,45 @@ describe('truncate', () => {
       'aaa\nbbb\n ccc',
     );
     expect(truncate('', /<!-- truncate -->/)).toBe('');
+  });
+});
+
+describe('paginateBlogPosts', () => {
+  it('generates right pages', () => {
+    const blogPosts = [
+      {id: 'post1', metadata: {}, content: 'Foo 1'},
+      {id: 'post2', metadata: {}, content: 'Foo 2'},
+      {id: 'post3', metadata: {}, content: 'Foo 3'},
+      {id: 'post4', metadata: {}, content: 'Foo 4'},
+      {id: 'post5', metadata: {}, content: 'Foo 5'},
+    ] as BlogPost[];
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/blog',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        postsPerPageOption: 2,
+      }),
+    ).toMatchSnapshot();
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        postsPerPageOption: 2,
+      }),
+    ).toMatchSnapshot();
+    expect(
+      paginateBlogPosts({
+        blogPosts,
+        basePageUrl: '/',
+        blogTitle: 'Blog Title',
+        blogDescription: 'Blog Description',
+        postsPerPageOption: 10,
+      }),
+    ).toMatchSnapshot();
   });
 });
 
@@ -198,6 +188,54 @@ describe('parseBlogFileName', () => {
 });
 
 describe('linkify', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const contentPaths: BlogContentPaths = {
+    contentPath: path.join(siteDir, 'blog-with-ref'),
+    contentPathLocalized: path.join(siteDir, 'blog-with-ref-localized'),
+  };
+  const pluginDir = 'blog-with-ref';
+
+  const blogPosts: BlogPost[] = [
+    {
+      id: 'Happy 1st Birthday Slash!',
+      metadata: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        source: path.posix.join(
+          '@site',
+          pluginDir,
+          '2018-12-14-Happy-First-Birthday-Slash.md',
+        ),
+        title: 'Happy 1st Birthday Slash!',
+        description: `pattern name`,
+        date: new Date('2018-12-14'),
+        tags: [],
+        prevItem: {
+          permalink: '/blog/2019/01/01/date-matter',
+          title: 'date-matter',
+        },
+        truncated: false,
+      },
+    },
+  ];
+
+  async function transform(filePath: string, options?: Partial<LinkifyParams>) {
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const transformedContent = linkify({
+      filePath,
+      fileString: fileContent,
+      siteDir,
+      contentPaths,
+      sourceToPermalink: getSourceToPermalink(blogPosts),
+      onBrokenMarkdownLink: (brokenMarkdownLink) => {
+        throw new Error(
+          `Broken markdown link found: ${JSON.stringify(brokenMarkdownLink)}`,
+        );
+      },
+      ...options,
+    });
+    return [fileContent, transformedContent];
+  }
+
   it('transforms to correct link', async () => {
     const post = path.join(contentPaths.contentPath, 'post.md');
     const [content, transformedContent] = await transform(post);
