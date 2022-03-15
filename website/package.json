@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
-    "@crowdin/crowdin-api-client": "^1.14.1",
+    "@crowdin/crowdin-api-client": "^1.15.0",
     "@docusaurus/core": "2.0.0-beta.17",
     "@docusaurus/logger": "2.0.0-beta.17",
     "@docusaurus/plugin-client-redirects": "2.0.0-beta.17",
@@ -48,11 +48,11 @@
     "@docusaurus/theme-live-codeblock": "2.0.0-beta.17",
     "@docusaurus/utils": "2.0.0-beta.17",
     "@docusaurus/utils-common": "2.0.0-beta.17",
-    "@popperjs/core": "^2.11.2",
+    "@popperjs/core": "^2.11.4",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
     "esbuild-loader": "2.18.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -78,7 +78,7 @@
     ]
   },
   "devDependencies": {
-    "@tsconfig/docusaurus": "^1.0.4",
+    "@tsconfig/docusaurus": "^1.0.5",
     "@types/jest": "^27.4.1",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2"
