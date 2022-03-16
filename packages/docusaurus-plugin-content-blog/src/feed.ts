@@ -29,11 +29,13 @@ async function generateBlogFeed({
   options,
   siteConfig,
   outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
+  locale: string;
 }): Promise<Feed | null> {
   if (!blogPosts.length) {
     return null;
@@ -47,11 +49,11 @@ async function generateBlogFeed({
 
   const feed = new Feed({
     id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
+    title: feedOptions.title ?? `${title} Blog`,
     updated,
-    language: feedOptions.language,
+    language: feedOptions.language ?? locale,
     link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
+    description: feedOptions.description ?? `${siteConfig.title} Blog`,
     favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
     copyright: feedOptions.copyright,
   });
@@ -140,17 +142,20 @@ export async function createBlogFeedFiles({
   options,
   siteConfig,
   outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
+  locale: string;
 }): Promise<void> {
   const feed = await generateBlogFeed({
     blogPosts,
     options,
     siteConfig,
     outDir,
+    locale,
   });
 
   const feedTypes = options.feedOptions.type;

@@ -70,8 +70,8 @@ export type TaggedItemGroup<Item> = {
  * override the other
  */
 export function groupTaggedItems<Item>(
-  items: Item[],
-  getItemTags: (item: Item) => Tag[],
+  items: readonly Item[],
+  getItemTags: (item: Item) => readonly Tag[],
 ): Record<string, TaggedItemGroup<Item>> {
   const result: Record<string, TaggedItemGroup<Item>> = {};
 

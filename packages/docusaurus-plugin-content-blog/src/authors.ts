@@ -70,7 +70,7 @@ type AuthorsParam = {
 // We may want to deprecate those in favor of using only frontMatter.authors
 function getFrontMatterAuthorLegacy(
   frontMatter: BlogPostFrontMatter,
-): BlogPostFrontMatterAuthor | undefined {
+): Author | undefined {
   const name = frontMatter.author;
   const title = frontMatter.author_title ?? frontMatter.authorTitle;
   const url = frontMatter.author_url ?? frontMatter.authorURL;
@@ -92,7 +92,7 @@ function normalizeFrontMatterAuthors(
   frontMatterAuthors: BlogPostFrontMatterAuthors = [],
 ): BlogPostFrontMatterAuthor[] {
   function normalizeAuthor(
-    authorInput: string | BlogPostFrontMatterAuthor,
+    authorInput: string | Author,
   ): BlogPostFrontMatterAuthor {
     if (typeof authorInput === 'string') {
       // Technically, we could allow users to provide an author's name here, but
