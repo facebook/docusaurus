@@ -9,7 +9,6 @@ import type {LoadContext, Plugin, Props} from '@docusaurus/types';
 import type {PluginContext, RedirectMetadata} from './types';
 import type {PluginOptions} from '@docusaurus/plugin-client-redirects';
 
-import normalizePluginOptions from './normalizePluginOptions';
 import collectRedirects from './collectRedirects';
 import writeRedirectFiles, {
   toRedirectFilesMetadata,
@@ -19,11 +18,9 @@ import {removePrefix, addLeadingSlash} from '@docusaurus/utils';
 
 export default function pluginClientRedirectsPages(
   context: LoadContext,
-  opts: PluginOptions,
+  options: PluginOptions,
 ): Plugin<unknown> {
   const {trailingSlash} = context.siteConfig;
-
-  const options = normalizePluginOptions(opts);
 
   return {
     name: 'docusaurus-plugin-client-redirects',
@@ -53,3 +50,5 @@ export default function pluginClientRedirectsPages(
     },
   };
 }
+
+export {validateOptions} from './options';

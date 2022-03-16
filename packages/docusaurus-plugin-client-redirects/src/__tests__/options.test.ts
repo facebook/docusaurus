@@ -5,32 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import normalizePluginOptions, {
-  DefaultPluginOptions,
-} from '../normalizePluginOptions';
-import type {CreateRedirectsFnOption} from '@docusaurus/plugin-client-redirects';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import type {
+  CreateRedirectsFnOption,
+  Options,
+} from '@docusaurus/plugin-client-redirects';
+
+function testValidate(options: Options) {
+  return validateOptions({validate: normalizePluginOptions, options});
+}
 
 describe('normalizePluginOptions', () => {
   it('returns default options for undefined user options', () => {
-    expect(normalizePluginOptions()).toEqual(DefaultPluginOptions);
+    expect(testValidate(undefined)).toEqual(DEFAULT_OPTIONS);
   });
 
   it('returns default options for empty user options', () => {
-    expect(normalizePluginOptions()).toEqual(DefaultPluginOptions);
+    expect(testValidate(undefined)).toEqual(DEFAULT_OPTIONS);
   });
 
   it('overrides one default options with valid user options', () => {
     expect(
-      normalizePluginOptions({
+      testValidate({
         toExtensions: ['html'],
       }),
-    ).toEqual({...DefaultPluginOptions, toExtensions: ['html']});
+    ).toEqual({...DEFAULT_OPTIONS, id: 'default', toExtensions: ['html']});
   });
 
   it('overrides all default options with valid user options', () => {
     const createRedirects: CreateRedirectsFnOption = (_routePath: string) => [];
     expect(
-      normalizePluginOptions({
+      testValidate({
         fromExtensions: ['exe', 'zip'],
         toExtensions: ['html'],
         createRedirects,
@@ -47,7 +53,7 @@ describe('normalizePluginOptions', () => {
 
   it('rejects bad fromExtensions user inputs', () => {
     expect(() =>
-      normalizePluginOptions({
+      testValidate({
         fromExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
@@ -55,7 +61,7 @@ describe('normalizePluginOptions', () => {
 
   it('rejects bad toExtensions user inputs', () => {
     expect(() =>
-      normalizePluginOptions({
+      testValidate({
         toExtensions: [null, undefined, 123, true] as unknown as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
@@ -63,7 +69,7 @@ describe('normalizePluginOptions', () => {
 
   it('rejects bad createRedirects user inputs', () => {
     expect(() =>
-      normalizePluginOptions({
+      testValidate({
         createRedirects: ['bad', 'value'] as unknown as CreateRedirectsFnOption,
       }),
     ).toThrowErrorMatchingSnapshot();
