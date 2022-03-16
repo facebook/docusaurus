@@ -34,7 +34,7 @@ export type NormalizedPluginConfig = {
     module: ImportedPluginModule;
   };
   /**
-   * Different from pluginModule.path, this one is always ab absolute path used
+   * Different from pluginModule.path, this one is always an absolute path used
    * to resolve relative paths returned from lifecycles
    */
   path: string;
