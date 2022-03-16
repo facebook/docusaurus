@@ -49,6 +49,7 @@ async function testGenerateFeeds(
     options,
     siteConfig: context.siteConfig,
     outDir: context.outDir,
+    locale: 'en',
   });
 }
 

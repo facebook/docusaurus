@@ -41,11 +41,7 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogSidebar' {
-  export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = {
-    title: string;
-    items: BlogSidebarItem[];
-  };
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -106,7 +102,7 @@ declare module '@theme/BlogPostPaginator' {
 declare module '@theme/BlogLayout' {
   import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
-  import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props extends LayoutProps {
     readonly sidebar?: BlogSidebar;
