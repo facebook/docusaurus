@@ -7,8 +7,9 @@
 
 import type {PluginContext} from '../types';
 import collectRedirects from '../collectRedirects';
-import normalizePluginOptions from '../normalizePluginOptions';
+import {validateOptions} from '../options';
 import {removeTrailingSlash} from '@docusaurus/utils';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import type {Options} from '@docusaurus/plugin-client-redirects';
 
 function createTestPluginContext(
@@ -19,7 +20,7 @@ function createTestPluginContext(
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
     relativeRoutesPaths,
-    options: normalizePluginOptions(options),
+    options: validateOptions({validate: normalizePluginOptions, options}),
   };
 }
 
