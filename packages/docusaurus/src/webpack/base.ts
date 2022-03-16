@@ -114,7 +114,7 @@ export async function createBaseConfig(
       buildDependencies: {
         config: [
           __filename,
-          require.resolve(isServer ? './server.js' : './client.js'),
+          path.join(__dirname, isServer ? 'server.js' : 'client.js'),
           // Docusaurus config changes can affect MDX/JSX compilation, so we'd
           // rather evict the cache.
           // See https://github.com/questdb/questdb.io/issues/493

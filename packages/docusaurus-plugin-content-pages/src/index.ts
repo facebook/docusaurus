@@ -226,7 +226,7 @@ export default async function pluginContentPages(
                   },
                 },
                 {
-                  loader: require.resolve('./markdownLoader.js'),
+                  loader: path.join(__dirname, './markdownLoader.js'),
                   options: {
                     // siteDir,
                     // contentPath,

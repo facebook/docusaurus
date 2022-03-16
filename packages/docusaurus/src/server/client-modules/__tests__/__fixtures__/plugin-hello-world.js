@@ -8,6 +8,7 @@
 module.exports = function() {
   return {
     plugin: 'plugin-hello-world',
+    path: __dirname,
     getClientModules() {
       return ['hello', 'world'];
     },

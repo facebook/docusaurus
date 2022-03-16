@@ -48,7 +48,7 @@ export default async function createServerConfig({
   const serverConfig = merge(config, {
     target: `node${NODE_MAJOR_VERSION}.${NODE_MINOR_VERSION}`,
     entry: {
-      main: require.resolve('../client/serverEntry.js'),
+      main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
       filename: 'server.bundle.js',
