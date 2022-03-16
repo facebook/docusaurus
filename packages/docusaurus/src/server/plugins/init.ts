@@ -37,7 +37,7 @@ export type NormalizedPluginConfig = {
    * Different from pluginModule.path, this one is always an absolute path used
    * to resolve relative paths returned from lifecycles
    */
-  path: string;
+  entryPath: string;
 };
 
 async function normalizePluginConfig(
@@ -57,7 +57,7 @@ async function normalizePluginConfig(
         path: pluginModuleImport,
         module: pluginModule,
       },
-      path: pluginPath,
+      entryPath: pluginPath,
     };
   }
 
@@ -66,7 +66,7 @@ async function normalizePluginConfig(
     return {
       plugin: pluginConfig,
       options: {},
-      path: configPath,
+      entryPath: configPath,
     };
   }
 
@@ -84,7 +84,7 @@ async function normalizePluginConfig(
         path: pluginModuleImport,
         module: pluginModule,
       },
-      path: pluginPath,
+      entryPath: pluginPath,
     };
   }
   // plugins: [
@@ -93,7 +93,7 @@ async function normalizePluginConfig(
   return {
     plugin: pluginConfig[0],
     options: pluginConfig[1],
-    path: configPath,
+    entryPath: configPath,
   };
 }
 
@@ -217,7 +217,7 @@ export default async function initPlugins({
       ...pluginInstance,
       options: pluginOptions,
       version: pluginVersion,
-      path: path.dirname(normalizedPluginConfig.path),
+      path: path.dirname(normalizedPluginConfig.entryPath),
     };
   }
 
