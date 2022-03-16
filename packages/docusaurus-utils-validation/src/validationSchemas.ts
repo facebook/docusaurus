@@ -11,7 +11,7 @@ import type {Tag} from '@docusaurus/utils';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()
-  .regex(/^[a-zA-Z0-9_-]+$/)
+  .regex(/^[\w-]+$/)
   .message(
     'Illegal plugin ID value "{#value}": it should only contain alphanumerics, underscores, and dashes.',
   )

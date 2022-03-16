@@ -64,10 +64,10 @@ export default function pluginPWA(
     name: 'docusaurus-plugin-pwa',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getClientModules() {
@@ -138,7 +138,7 @@ export default function pluginPWA(
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig: Configuration = {
-        entry: path.resolve(__dirname, 'sw.js'),
+        entry: require.resolve('./sw.js'),
         output: {
           path: outDir,
           filename: 'sw.js',

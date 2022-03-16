@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
@@ -32,7 +31,7 @@ export default function pluginGoogleGtag(
     },
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './gtag')] : [];
+      return isProd ? ['./gtag'] : [];
     },
 
     injectHtmlTags() {

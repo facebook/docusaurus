@@ -7,6 +7,7 @@
 
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
+import {createSlugger, type Slugger} from './slugger';
 
 // Input: ## Some heading {#some-heading}
 // Output: {text: "## Some heading", id: "some-heading"}
@@ -14,11 +15,11 @@ export function parseMarkdownHeadingId(heading: string): {
   text: string;
   id?: string;
 } {
-  const customHeadingIdRegex = /^(?<text>.*?)\s*\{#(?<id>[\w-]+)\}$/;
+  const customHeadingIdRegex = /\s*\{#(?<id>[\w-]+)\}$/;
   const matches = customHeadingIdRegex.exec(heading);
   if (matches) {
     return {
-      text: matches.groups!.text!,
+      text: heading.replace(matches[0]!, ''),
       id: matches.groups!.id!,
     };
   }
@@ -69,9 +70,9 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
       // Remove Title headers
-      .replace(/^#\s*[^#]*\s*#?/gm, '')
+      .replace(/^#[^#]+#?/gm, '')
       // Remove Markdown + ATX-style headers
-      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*(?:#{1,6})?/gm, '$1')
+      .replace(/^#{1,6}\s*(?<text>[^#]*)\s*#{0,6}/gm, '$1')
       // Remove emphasis.
       .replace(/(?<opening>[*_]{1,3})(?<text>.*?)\1/g, '$2')
       // Remove strikethroughs.
@@ -79,7 +80,7 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove images.
       .replace(/!\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove footnotes.
-      .replace(/\[\^.+?\](?:: .*?$)?/g, '')
+      .replace(/\[\^.+?\](?:: .*$)?/g, '')
       // Remove inline links.
       .replace(/\[(?<alt>.*?)\][[(].*?[\])]/g, '$1')
       // Remove inline code.
@@ -91,7 +92,7 @@ export function createExcerpt(fileString: string): string | undefined {
       // Remove Emoji names within colons include preceding whitespace.
       .replace(/\s?:(?:::|[^:\n])+:/g, '')
       // Remove custom Markdown heading id.
-      .replace(/{#*[\w-]+}/, '')
+      .replace(/\{#*[\w-]+\}/, '')
       .trim();
 
     if (cleanedLine) {
@@ -132,35 +133,42 @@ export function parseMarkdownContentTitle(
   const removeContentTitleOption = options?.removeContentTitle ?? false;
 
   const content = contentUntrimmed.trim();
+  // We only need to detect import statements that will be parsed by MDX as
+  // `import` nodes, as broken syntax can't render anyways. That means any block
+  // that has `import` at the very beginning and surrounded by empty lines.
+  const contentWithoutImport = content
+    .replace(/^(?:import\s(?:.|\n(?!\n))*\n{2,})*/, '')
+    .trim();
 
-  const IMPORT_STATEMENT =
-    /import\s+(?:[\w*{}\s\n,]+from\s+)?["'\s][@\w/_.-]+["'\s];?|\n/.source;
-  const REGULAR_TITLE =
-    /(?<pattern>#\s*(?<title>[^#\n{]*)+[ \t]*(?<suffix>(?:{#*[\w-]+})|#)?\n*?)/
-      .source;
-  const ALTERNATE_TITLE = /(?<pattern>\s*(?<title>[^\n]*)\s*\n[=]+)/.source;
-
-  const regularTitleMatch = new RegExp(
-    `^(?:${IMPORT_STATEMENT})*?${REGULAR_TITLE}`,
-    'g',
-  ).exec(content);
-  const alternateTitleMatch = new RegExp(
-    `^(?:${IMPORT_STATEMENT})*?${ALTERNATE_TITLE}`,
-    'g',
-  ).exec(content);
+  const regularTitleMatch = /^#[ \t]+(?<title>[^ \t].*)(?:\n|$)/.exec(
+    contentWithoutImport,
+  );
+  const alternateTitleMatch = /^(?<title>.*)\n=+(?:\n|$)/.exec(
+    contentWithoutImport,
+  );
 
   const titleMatch = regularTitleMatch ?? alternateTitleMatch;
-  const {pattern, title} = titleMatch?.groups ?? {};
-
-  if (!pattern || !title) {
+  if (!titleMatch) {
     return {content, contentTitle: undefined};
   }
   const newContent = removeContentTitleOption
-    ? content.replace(pattern, '')
+    ? content.replace(titleMatch[0]!, '')
     : content;
+  if (regularTitleMatch) {
+    return {
+      content: newContent.trim(),
+      contentTitle: toTextContentTitle(
+        regularTitleMatch
+          .groups!.title!.trim()
+          .replace(/\s*(?:\{#*[\w-]+\}|#+)$/, ''),
+      ).trim(),
+    };
+  }
   return {
     content: newContent.trim(),
-    contentTitle: toTextContentTitle(title.trim()).trim(),
+    contentTitle: toTextContentTitle(
+      alternateTitleMatch!.groups!.title!.trim().replace(/\s*=+$/, ''),
+    ).trim(),
   };
 }
 
@@ -197,4 +205,73 @@ export function parseMarkdownString(
 This can happen if you use special characters in front matter values (try using double quotes around that value).`);
     throw err;
   }
+}
+
+function unwrapMarkdownLinks(line: string): string {
+  return line.replace(/\[(?<alt>[^\]]+)\]\([^)]+\)/g, (match, p1) => p1);
+}
+
+function addHeadingId(
+  line: string,
+  slugger: Slugger,
+  maintainCase: boolean,
+): string {
+  let headingLevel = 0;
+  while (line.charAt(headingLevel) === '#') {
+    headingLevel += 1;
+  }
+
+  const headingText = line.slice(headingLevel).trimEnd();
+  const headingHashes = line.slice(0, headingLevel);
+  const slug = slugger.slug(unwrapMarkdownLinks(headingText).trim(), {
+    maintainCase,
+  });
+
+  return `${headingHashes}${headingText} {#${slug}}`;
+}
+
+export type WriteHeadingIDOptions = {
+  maintainCase?: boolean;
+  overwrite?: boolean;
+};
+
+export function writeMarkdownHeadingId(
+  content: string,
+  options: WriteHeadingIDOptions = {maintainCase: false, overwrite: false},
+): string {
+  const {maintainCase = false, overwrite = false} = options;
+  const lines = content.split('\n');
+  const slugger = createSlugger();
+
+  // If we can't overwrite existing slugs, make sure other headings don't
+  // generate colliding slugs by first marking these slugs as occupied
+  if (!overwrite) {
+    lines.forEach((line) => {
+      const parsedHeading = parseMarkdownHeadingId(line);
+      if (parsedHeading.id) {
+        slugger.slug(parsedHeading.id);
+      }
+    });
+  }
+
+  let inCode = false;
+  return lines
+    .map((line) => {
+      if (line.startsWith('```')) {
+        inCode = !inCode;
+        return line;
+      }
+      // Ignore h1 headings, as we don't create anchor links for those
+      if (inCode || !line.startsWith('##')) {
+        return line;
+      }
+      const parsedHeading = parseMarkdownHeadingId(line);
+
+      // Do not process if id is already there
+      if (parsedHeading.id && !overwrite) {
+        return line;
+      }
+      return addHeadingId(parsedHeading.text, slugger, maintainCase);
+    })
+    .join('\n');
 }

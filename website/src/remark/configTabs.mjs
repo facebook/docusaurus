@@ -30,7 +30,7 @@ export default function plugin() {
         const {
           groups: {presetOptionName, presetOptionText},
         } = presetMeta.match(
-          /\/\/(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
+          /\/\/(?<presetOptionText>.*?): (?<presetOptionName>[A-Z]+)/i,
         ) ?? {
           groups: {
             presetOptionName: '[translation failure]',
@@ -40,7 +40,7 @@ export default function plugin() {
         const {
           groups: {pluginName, pluginText},
         } = pluginMeta.match(
-          /\/\/(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
+          /\/\/(?<pluginText>.*?): (?<pluginName>[A-Z@/-]+)/i,
         ) ?? {
           groups: {
             pluginName: '[translation failure]',

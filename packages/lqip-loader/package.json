@@ -21,13 +21,13 @@
     "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
     "node-vibrant": "^3.1.6",
-    "sharp": "^0.30.2",
+    "sharp": "^0.30.3",
     "tslib": "^2.3.1"
   },
   "engines": {
     "node": ">=14"
   },
   "devDependencies": {
-    "@types/sharp": "^0.29.2"
+    "@types/sharp": "^0.30.0"
   }
 }

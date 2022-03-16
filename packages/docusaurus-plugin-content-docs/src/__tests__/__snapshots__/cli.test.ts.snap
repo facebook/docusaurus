@@ -1,43 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`docsVersion first time versioning 1`] = `
-Object {
-  "docs": Object {
-    "Guides": Array [
+{
+  "docs": {
+    "Guides": [
       "hello",
     ],
-    "Test": Array [
-      Object {
-        "items": Array [
+    "Test": [
+      {
+        "items": [
           "foo/bar",
           "foo/baz",
         ],
         "label": "foo",
         "type": "category",
       },
-      Object {
-        "items": Array [
+      {
+        "items": [
           "rootAbsoluteSlug",
           "rootRelativeSlug",
           "rootResolvedSlug",
           "rootTryToEscapeSlug",
         ],
         "label": "Slugs",
-        "link": Object {
+        "link": {
           "type": "generated-index",
         },
         "type": "category",
       },
-      Object {
+      {
         "id": "headingAsTitle",
         "type": "doc",
       },
-      Object {
+      {
         "href": "https://github.com",
         "label": "Github",
         "type": "link",
       },
-      Object {
+      {
         "id": "hello",
         "type": "ref",
       },
@@ -47,12 +47,12 @@ Object {
 `;
 
 exports[`docsVersion not the first time versioning 1`] = `
-Object {
-  "docs": Object {
-    "Guides": Array [
+{
+  "docs": {
+    "Guides": [
       "hello",
     ],
-    "Test": Array [
+    "Test": [
       "foo/bar",
     ],
   },
@@ -60,8 +60,8 @@ Object {
 `;
 
 exports[`docsVersion second docs instance versioning 1`] = `
-Object {
-  "community": Array [
+{
+  "community": [
     "team",
   ],
 }

@@ -16,7 +16,7 @@ describe('loadHtmlTags', () => {
   it('empty plugin', () => {
     const htmlTags = loadHtmlTags([pluginEmpty()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "",
         "preBodyTags": "",
@@ -27,7 +27,7 @@ describe('loadHtmlTags', () => {
   it('only inject headTags', () => {
     const htmlTags = loadHtmlTags([pluginHeadTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "",
@@ -39,7 +39,7 @@ describe('loadHtmlTags', () => {
   it('only inject preBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPreBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "",
         "preBodyTags": "<script type=\\"text/javascript\\">window.foo = null;</script>",
@@ -50,7 +50,7 @@ describe('loadHtmlTags', () => {
   it('only inject postBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPostBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "<div>Test content</div>",
         "preBodyTags": "",
@@ -65,7 +65,7 @@ describe('loadHtmlTags', () => {
       pluginPreBodyTags(),
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "<div>Test content</div>",
@@ -81,7 +81,7 @@ describe('loadHtmlTags', () => {
       pluginPostBodyTags(),
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "<div>Test content</div>",

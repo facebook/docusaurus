@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import type {
@@ -125,7 +125,7 @@ export async function loadPlugins({
     .groupBy((item) => item.name)
     .mapValues((nameItems) =>
       _.chain(nameItems)
-        .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
+        .groupBy((item) => item.options.id)
         .mapValues((idItems) => idItems[0]!.content)
         .value(),
     )
@@ -143,7 +143,7 @@ export async function loadPlugins({
           return;
         }
 
-        const pluginId = plugin.options.id ?? DEFAULT_PLUGIN_ID;
+        const pluginId = plugin.options.id;
 
         // plugins data files are namespaced by pluginName/pluginId
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);

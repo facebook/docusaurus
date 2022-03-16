@@ -381,7 +381,9 @@ describe('validateAuthorsMap', () => {
       validateAuthorsMap({
         slorber: undefined,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"slorber\\" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
+    );
   });
 
   it('reject null author', () => {
@@ -390,7 +392,7 @@ describe('validateAuthorsMap', () => {
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -398,14 +400,13 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
   it('reject array content', () => {
     expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
-      // TODO improve this error message
-      `"\\"value\\" must be of type object"`,
+      `"The authors map file should contain an object where each entry contains an author key and the corresponding author's data."`,
     );
   });
 
@@ -413,8 +414,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      // TODO improve this error message
-      `"\\"name\\" must be of type object"`,
+      `"\\"name\\" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
@@ -426,7 +426,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `"\\"slorber\\" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 });

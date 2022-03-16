@@ -38,7 +38,7 @@ const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
   )
   .required();
 
-export function ensureTranslationFileContent(
+function ensureTranslationFileContent(
   content: unknown,
 ): asserts content is TranslationFileContent {
   Joi.attempt(content, TranslationFileContentSchema, {
@@ -48,7 +48,7 @@ export function ensureTranslationFileContent(
   });
 }
 
-export async function readTranslationFileContent(
+async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
@@ -97,7 +97,7 @@ function mergeTranslationFileContent({
   return result;
 }
 
-export async function writeTranslationFileContent({
+async function writeTranslationFileContent({
   filePath,
   content: newContent,
   options = {},
@@ -139,7 +139,7 @@ Maybe you should remove them? ${unknownKeys}`;
 }
 
 // should we make this configurable?
-export function getTranslationsDirPath(context: TranslationContext): string {
+function getTranslationsDirPath(context: TranslationContext): string {
   return path.resolve(path.join(context.siteDir, `i18n`));
 }
 export function getTranslationsLocaleDirPath(
@@ -148,9 +148,7 @@ export function getTranslationsLocaleDirPath(
   return path.join(getTranslationsDirPath(context), context.locale);
 }
 
-export function getCodeTranslationsFilePath(
-  context: TranslationContext,
-): string {
+function getCodeTranslationsFilePath(context: TranslationContext): string {
   return path.join(getTranslationsLocaleDirPath(context), 'code.json');
 }
 

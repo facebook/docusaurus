@@ -14,15 +14,15 @@ import pluginHelloWorld from './__fixtures__/plugin-hello-world';
 describe('loadClientModules', () => {
   it('empty', () => {
     const clientModules = loadClientModules([pluginEmpty()]);
-    expect(clientModules).toMatchInlineSnapshot(`Array []`);
+    expect(clientModules).toMatchInlineSnapshot(`[]`);
   });
 
   it('non-empty', () => {
     const clientModules = loadClientModules([pluginFooBar()]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -33,11 +33,11 @@ describe('loadClientModules', () => {
       pluginHelloWorld(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "foo",
-        "bar",
-        "hello",
-        "world",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
       ]
     `);
   });
@@ -48,11 +48,11 @@ describe('loadClientModules', () => {
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -64,11 +64,11 @@ describe('loadClientModules', () => {
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -80,11 +80,11 @@ describe('loadClientModules', () => {
       pluginEmpty(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });

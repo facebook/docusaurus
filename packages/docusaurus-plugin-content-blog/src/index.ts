@@ -26,13 +26,9 @@ import type {
   BlogTag,
   BlogTags,
   BlogContent,
-  BlogItemsToMetadata,
-  TagsModule,
   BlogPaginated,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
-  MetaData,
-  TagModule,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
@@ -52,7 +48,9 @@ import {createBlogFeedFiles} from './feed';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
+  BlogPostMetadata,
   Assets,
+  TagModule,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -214,7 +212,7 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: BlogItemsToMetadata = {};
+      const blogItemsToMetadata: Record<string, BlogPostMetadata> = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
@@ -325,11 +323,10 @@ export default async function pluginContentBlog(
         return;
       }
 
-      const tagsModule: TagsModule = Object.fromEntries(
-        Object.entries(blogTags).map(([tagKey, tag]) => {
+      const tagsModule: Record<string, TagModule> = Object.fromEntries(
+        Object.entries(blogTags).map(([, tag]) => {
           const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
-            slug: tagKey,
             name: tag.name,
             count: tag.items.length,
             permalink: tag.permalink,
@@ -479,7 +476,7 @@ export default async function pluginContentBlog(
                       metadata,
                     }: {
                       frontMatter: BlogPostFrontMatter;
-                      metadata: MetaData;
+                      metadata: BlogPostMetadata;
                     }): Assets => ({
                       image: frontMatter.image,
                       authorsImageUrls: metadata.authors.map(
@@ -512,6 +509,7 @@ export default async function pluginContentBlog(
         options,
         outDir,
         siteConfig,
+        locale: currentLocale,
       });
     },
 

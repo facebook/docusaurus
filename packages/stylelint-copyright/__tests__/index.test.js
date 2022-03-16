@@ -40,7 +40,7 @@ function testStylelintRule(config, tests) {
             }
             const fixedOutput = await stylelint.lint({...options, fix: true});
             const fixedCode = getOutputCss(fixedOutput);
-            expect(fixedCode).toBe(testCase.fixed);
+            expect(fixedCode).toBe(testCase.code);
           });
         });
       });
@@ -113,22 +113,63 @@ testStylelintRule(
   },
   {
     ruleName,
-    fix: false,
+    fix: true,
     accept: [
       {
         code: `
 /**
  * Copyright
  */
+.foo {}`,
+      },
+      {
+        code: `/**
+ * Copyright
+ */
 
- .foo {}`,
+.foo {}`,
+      },
+      {
+        code: `/**
+ * Copyright
+ */
+.foo {}`,
       },
     ],
     reject: [
       {
+        code: `.foo {}`,
+        fixed: `/**
+ * Copyright
+ */
+.foo {}`,
+        message: messages.rejected,
+        line: 1,
+        column: 1,
+      },
+      {
         code: `
-    /**
-* copyright
+.foo {}`,
+        fixed: `/**
+ * Copyright
+ */
+.foo {}`,
+        message: messages.rejected,
+        line: 1,
+        column: 1,
+      },
+      {
+        code: `/**
+* Copyright
+*/
+
+.foo {}`,
+        fixed: `/**
+ * Copyright
+ */
+
+/**
+* Copyright
 */
 
 .foo {}`,
@@ -137,18 +178,37 @@ testStylelintRule(
         column: 1,
       },
       {
-        code: `
+        code: `/**
+ * Copyleft
+ */
+
+.foo {}`,
+        fixed: `/**
+ * Copyright
+ */
+
 /**
  * Copyleft
  */
 
- .foo {}`,
+.foo {}`,
         message: messages.rejected,
         line: 1,
         column: 1,
       },
       {
-        code: `
+        code: `/**
+ * Copyleft
+ */
+
+/**
+ * Copyright
+ */
+ .foo {}`,
+        fixed: `/**
+ * Copyright
+ */
+
 /**
  * Copyleft
  */

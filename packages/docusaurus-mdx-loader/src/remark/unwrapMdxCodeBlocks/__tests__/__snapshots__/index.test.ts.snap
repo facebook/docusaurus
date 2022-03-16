@@ -96,19 +96,19 @@ cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
 `;
 
 exports[`unwrapMdxCodeBlocks remark plugin unwraps the mdx code blocks AST 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "children": Array [
-        Object {
+{
+  "children": [
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 32,
               "line": 1,
               "offset": 31,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 3,
               "line": 1,
               "offset": 2,
@@ -120,13 +120,13 @@ Object {
       ],
       "depth": 1,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 32,
           "line": 1,
           "offset": 31,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 1,
           "offset": 0,
@@ -134,17 +134,17 @@ Object {
       },
       "type": "heading",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 23,
               "line": 3,
               "offset": 55,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 4,
               "line": 3,
               "offset": 36,
@@ -156,13 +156,13 @@ Object {
       ],
       "depth": 2,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 23,
           "line": 3,
           "offset": 55,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 3,
           "offset": 33,
@@ -170,17 +170,17 @@ Object {
       },
       "type": "heading",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 5,
               "line": 5,
               "offset": 61,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 1,
               "line": 5,
               "offset": 57,
@@ -191,13 +191,13 @@ Object {
         },
       ],
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 5,
           "line": 5,
           "offset": 61,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 5,
           "offset": 57,
@@ -205,19 +205,19 @@ Object {
       },
       "type": "paragraph",
     },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
+    {
+      "children": [
+        {
+          "children": [
+            {
               "position": Position {
-                "end": Object {
+                "end": {
                   "column": 6,
                   "line": 7,
                   "offset": 68,
                 },
-                "indent": Array [],
-                "start": Object {
+                "indent": [],
+                "start": {
                   "column": 2,
                   "line": 7,
                   "offset": 64,
@@ -228,13 +228,13 @@ Object {
             },
           ],
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 29,
               "line": 7,
               "offset": 91,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 1,
               "line": 7,
               "offset": 63,
@@ -246,13 +246,13 @@ Object {
         },
       ],
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 29,
           "line": 7,
           "offset": 91,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 7,
           "offset": 63,
@@ -260,19 +260,19 @@ Object {
       },
       "type": "paragraph",
     },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
+    {
+      "children": [
+        {
+          "children": [
+            {
               "position": Position {
-                "end": Object {
+                "end": {
                   "column": 7,
                   "line": 9,
                   "offset": 99,
                 },
-                "indent": Array [],
-                "start": Object {
+                "indent": [],
+                "start": {
                   "column": 3,
                   "line": 9,
                   "offset": 95,
@@ -283,13 +283,13 @@ Object {
             },
           ],
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 9,
               "line": 9,
               "offset": 101,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 1,
               "line": 9,
               "offset": 93,
@@ -299,13 +299,13 @@ Object {
         },
       ],
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 9,
           "line": 9,
           "offset": 101,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 9,
           "offset": 93,
@@ -313,18 +313,18 @@ Object {
       },
       "type": "paragraph",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "alt": "image",
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 43,
               "line": 11,
               "offset": 145,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 1,
               "line": 11,
               "offset": 103,
@@ -336,13 +336,13 @@ Object {
         },
       ],
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 43,
           "line": 11,
           "offset": 145,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 11,
           "offset": 103,
@@ -350,17 +350,17 @@ Object {
       },
       "type": "paragraph",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 18,
               "line": 13,
               "offset": 164,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 4,
               "line": 13,
               "offset": 150,
@@ -372,13 +372,13 @@ Object {
       ],
       "depth": 2,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 18,
           "line": 13,
           "offset": 164,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 13,
           "offset": 147,
@@ -386,15 +386,15 @@ Object {
       },
       "type": "heading",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 23,
           "line": 15,
           "offset": 188,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 15,
           "offset": 166,
@@ -403,18 +403,18 @@ Object {
       "type": "import",
       "value": "import XYZ from 'xyz';",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 7,
           "line": 19,
           "offset": 287,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 17,
           "offset": 190,
@@ -425,17 +425,17 @@ Object {
   <span>Test</span>
 </XYZ>",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 29,
               "line": 21,
               "offset": 317,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 4,
               "line": 21,
               "offset": 292,
@@ -447,13 +447,13 @@ Object {
       ],
       "depth": 2,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 29,
           "line": 21,
           "offset": 317,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 21,
           "offset": 289,
@@ -461,16 +461,16 @@ Object {
       },
       "type": "heading",
     },
-    Object {
+    {
       "lang": "mdx-code-block",
       "meta": null,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 4,
           "line": 29,
           "offset": 442,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
           1,
@@ -478,7 +478,7 @@ Object {
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 23,
           "offset": 319,
@@ -491,17 +491,17 @@ Object {
   <div>Sebastien Lorber</div>
 </Avatar>",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 44,
               "line": 31,
               "offset": 487,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 4,
               "line": 31,
               "offset": 447,
@@ -513,13 +513,13 @@ Object {
       ],
       "depth": 2,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 44,
           "line": 31,
           "offset": 487,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 31,
           "offset": 444,
@@ -527,14 +527,14 @@ Object {
       },
       "type": "heading",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 25,
           "line": 40,
           "offset": 688,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
           1,
@@ -543,7 +543,7 @@ Object {
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 33,
           "offset": 489,
@@ -559,20 +559,20 @@ Object {
 ]}>
   <TabItem value=\\"bash\\">",
     },
-    Object {
+    {
       "lang": "bash",
       "meta": null,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 4,
           "line": 44,
           "offset": 740,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 42,
           "offset": 690,
@@ -581,17 +581,17 @@ Object {
       "type": "code",
       "value": "GIT_USER=<GITHUB_USERNAME> yarn deploy",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 28,
           "line": 47,
           "offset": 782,
         },
-        "indent": Array [
+        "indent": [
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 46,
           "offset": 742,
@@ -601,20 +601,20 @@ Object {
       "value": "  </TabItem>
   <TabItem value=\\"windows\\">",
     },
-    Object {
+    {
       "lang": null,
       "meta": null,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 8,
           "line": 51,
           "offset": 865,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 49,
           "offset": 784,
@@ -625,17 +625,17 @@ Object {
 cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
 \`\`\`",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 31,
           "line": 54,
           "offset": 910,
         },
-        "indent": Array [
+        "indent": [
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 53,
           "offset": 867,
@@ -645,20 +645,20 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       "value": "  </TabItem>
   <TabItem value=\\"powershell\\">",
     },
-    Object {
+    {
       "lang": "powershell",
       "meta": null,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 4,
           "line": 58,
           "offset": 986,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 56,
           "offset": 912,
@@ -667,17 +667,17 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       "type": "code",
       "value": "cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'",
     },
-    Object {
+    {
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 8,
           "line": 61,
           "offset": 1008,
         },
-        "indent": Array [
+        "indent": [
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 60,
           "offset": 988,
@@ -687,17 +687,17 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       "value": "  </TabItem>
 </Tabs>",
     },
-    Object {
-      "children": Array [
-        Object {
+    {
+      "children": [
+        {
           "position": Position {
-            "end": Object {
+            "end": {
               "column": 55,
               "line": 63,
               "offset": 1064,
             },
-            "indent": Array [],
-            "start": Object {
+            "indent": [],
+            "start": {
               "column": 4,
               "line": 63,
               "offset": 1013,
@@ -709,13 +709,13 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       ],
       "depth": 2,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 55,
           "line": 63,
           "offset": 1064,
         },
-        "indent": Array [],
-        "start": Object {
+        "indent": [],
+        "start": {
           "column": 1,
           "line": 63,
           "offset": 1010,
@@ -723,16 +723,16 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
       },
       "type": "heading",
     },
-    Object {
+    {
       "lang": "mdx-code-block",
       "meta": null,
       "position": Position {
-        "end": Object {
+        "end": {
           "column": 5,
           "line": 95,
           "offset": 1585,
         },
-        "indent": Array [
+        "indent": [
           1,
           1,
           1,
@@ -764,7 +764,7 @@ cmd /C \\"set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy\\"
           1,
           1,
         ],
-        "start": Object {
+        "start": {
           "column": 1,
           "line": 65,
           "offset": 1066,
@@ -802,13 +802,13 @@ cmd /C 'set \\"GIT_USER=<GITHUB_USERNAME>\\" && yarn deploy'
 </Tabs>",
     },
   ],
-  "position": Object {
-    "end": Object {
+  "position": {
+    "end": {
       "column": 1,
       "line": 96,
       "offset": 1586,
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,

@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.17.3",
+    "@babel/parser": "^7.17.7",
     "@babel/traverse": "^7.17.3",
     "@docusaurus/logger": "2.0.0-beta.17",
     "@docusaurus/utils": "2.0.0-beta.17",
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.17",
     "@types/escape-html": "^1.0.1",
-    "@types/mdast": "^3.0.7",
+    "@types/mdast": "^3.0.10",
     "@types/stringify-object": "^3.3.1",
     "@types/unist": "^2.0.6",
     "remark": "^12.0.0",

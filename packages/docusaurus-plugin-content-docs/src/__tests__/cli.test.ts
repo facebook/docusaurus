@@ -231,7 +231,7 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[docs\].*: version .*1\.0\.0.* created!.*/,
+        /.*\[SUCCESS\].*\[docs\].*: version .*1\.0\.0.* created!.*/,
       ),
     );
 
@@ -286,7 +286,7 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[docs\].*: version .*2\.0\.0.* created!.*/,
+        /.*\[SUCCESS\].*\[docs\].*: version .*2\.0\.0.* created!.*/,
       ),
     );
 
@@ -339,7 +339,7 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[community\].*: version .*2.0.0.* created!.*/,
+        /.*\[SUCCESS\].*\[community\].*: version .*2.0.0.* created!.*/,
       ),
     );
 

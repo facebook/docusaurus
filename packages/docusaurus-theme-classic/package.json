@@ -36,10 +36,10 @@
     "infima": "0.2.0-alpha.37",
     "lodash": "^4.17.21",
     "postcss": "^8.4.8",
-    "prism-react-renderer": "^1.2.1",
+    "prism-react-renderer": "^1.3.1",
     "prismjs": "^1.27.0",
     "react-router-dom": "^5.2.0",
-    "rtlcss": "^3.3.0"
+    "rtlcss": "^3.5.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.0.0-beta.17",

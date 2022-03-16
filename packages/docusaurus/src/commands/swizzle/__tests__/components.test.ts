@@ -77,8 +77,8 @@ describe('getThemeComponents', () => {
     });
     expect(themeComponents.getConfig(Components.ComponentInFolder))
       .toMatchInlineSnapshot(`
-      Object {
-        "actions": Object {
+      {
+        "actions": {
           "eject": "unsafe",
           "wrap": "safe",
         },
@@ -87,8 +87,8 @@ describe('getThemeComponents', () => {
     `);
     expect(themeComponents.getConfig(Components.ComponentInSubFolder))
       .toMatchInlineSnapshot(`
-      Object {
-        "actions": Object {
+      {
+        "actions": {
           "eject": "safe",
           "wrap": "unsafe",
         },
@@ -96,8 +96,8 @@ describe('getThemeComponents', () => {
     `);
     expect(themeComponents.getConfig(Components.FirstLevelComponent))
       .toMatchInlineSnapshot(`
-      Object {
-        "actions": Object {
+      {
+        "actions": {
           "eject": "unsafe",
           "wrap": "unsafe",
         },

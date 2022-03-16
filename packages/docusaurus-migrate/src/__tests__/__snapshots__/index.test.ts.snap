@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`migration CLI migrates complex website: copy 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/blog",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/blog",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/pages/en",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/complex_website/website/static",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/static",
   ],
@@ -18,18 +18,18 @@ Array [
 `;
 
 exports[`migration CLI migrates complex website: mkdirp 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/pages",
   ],
 ]
 `;
 
-exports[`migration CLI migrates complex website: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates complex website: mkdirs 1`] = `[]`;
 
 exports[`migration CLI migrates complex website: write 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/docusaurus.config.js",
     "module.exports={
   \\"title\\": \\"Docusaurus\\",
@@ -138,7 +138,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/package.json",
     "{
   \\"name\\": \\"docusaurus-1-website\\",
@@ -167,7 +167,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_complex_site/src/css/customTheme.css",
     ":root{
   --ifm-color-primary-lightest: #3CAD6E;
@@ -184,16 +184,16 @@ Array [
 `;
 
 exports[`migration CLI migrates missing versions: copy 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/blog",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/blog",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/pages/en",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/missing_version_website/website/static",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/static",
   ],
@@ -201,18 +201,18 @@ Array [
 `;
 
 exports[`migration CLI migrates missing versions: mkdirp 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/pages",
   ],
 ]
 `;
 
-exports[`migration CLI migrates missing versions: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates missing versions: mkdirs 1`] = `[]`;
 
 exports[`migration CLI migrates missing versions: write 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/docusaurus.config.js",
     "module.exports={
   \\"title\\": \\"Docusaurus\\",
@@ -321,7 +321,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/package.json",
     "{
   \\"name\\": \\"docusaurus-1-website\\",
@@ -350,7 +350,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_missing_version_site/src/css/customTheme.css",
     ":root{
   --ifm-color-primary-lightest: #3CAD6E;
@@ -367,12 +367,12 @@ Array [
 `;
 
 exports[`migration CLI migrates simple website: copy 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/pages/en",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/website/static",
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/static",
   ],
@@ -380,18 +380,18 @@ Array [
 `;
 
 exports[`migration CLI migrates simple website: mkdirp 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/pages",
   ],
 ]
 `;
 
-exports[`migration CLI migrates simple website: mkdirs 1`] = `Array []`;
+exports[`migration CLI migrates simple website: mkdirs 1`] = `[]`;
 
 exports[`migration CLI migrates simple website: write 1`] = `
-Array [
-  Array [
+[
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/docusaurus.config.js",
     "module.exports={
   \\"title\\": \\"Docusaurus\\",
@@ -501,7 +501,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/package.json",
     "{
   \\"name\\": \\"docusaurus-1-website\\",
@@ -530,7 +530,7 @@ Array [
   }
 }",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/migrated_simple_site/src/css/customTheme.css",
     ":root{
   --ifm-color-primary-lightest: #3CAD6E;
@@ -543,7 +543,7 @@ Array [
 }
 ",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-commands.md",
     "---
 id: commands
@@ -552,7 +552,7 @@ title: CLI Commands
 ## Doc
 ",
   ],
-  Array [
+  [
     "<PROJECT_ROOT>/packages/docusaurus-migrate/src/__tests__/__fixtures__/simple_website/docs/api-doc-markdown.md",
     "---
 id: doc-markdown

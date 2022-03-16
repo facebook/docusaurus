@@ -25,22 +25,23 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
-  testURL: 'http://localhost/',
+  testURL: 'https://docusaurus.io/',
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  errorOnDeprecated: true,
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
-    '^.+\\.(css|jpe?g|png|svg)$': '<rootDir>/jest/emptyModule.js',
+    '^.+\\.(css|jpe?g|png|svg|webp)$': '<rootDir>/jest/emptyModule.ts',
 
     // Using src instead of lib, so we always get fresh source
     '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
       '@docusaurus/core/src/client/exports/$1',
     // Maybe point to a fixture?
-    '@generated/.*': '<rootDir>/jest/emptyModule.js',
+    '@generated/.*': '<rootDir>/jest/emptyModule.ts',
     // TODO use "projects" + multiple configs if we work on another theme?
     '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
     '@site/(.*)': 'website/$1',
@@ -49,10 +50,8 @@ export default {
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/src/client/index.ts',
   },
-  globals: {
-    window: {
-      location: {href: 'https://docusaurus.io'},
-    },
+  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.ts'],
+  snapshotFormat: {
+    printBasicPrototype: false,
   },
-  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.js'],
 };

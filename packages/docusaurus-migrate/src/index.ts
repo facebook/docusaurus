@@ -451,7 +451,7 @@ async function handleVersioning(context: MigrationContext) {
       path.join(newDir, 'versions.json'),
     );
     const versions = loadedVersions.reverse();
-    const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
+    const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'gim');
     await migrateVersionedSidebar(context, versions, versionRegex);
     await fs.mkdirp(path.join(newDir, 'versioned_docs'));
     await migrateVersionedDocs(context, versions, versionRegex);

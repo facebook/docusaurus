@@ -123,7 +123,7 @@ export default async function start(
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.resolve(
+        template: path.join(
           __dirname,
           '../webpack/templates/index.html.template.ejs',
         ),

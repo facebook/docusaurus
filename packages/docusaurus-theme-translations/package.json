@@ -14,9 +14,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "update": "node ./update.js"
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json --watch",
+    "update": "node ./update.mjs"
   },
   "dependencies": {
     "fs-extra": "^10.0.1",
