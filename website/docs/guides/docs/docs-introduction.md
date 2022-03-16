@@ -37,16 +37,38 @@ id: part1
 Lorem ipsum
 ```
 
-If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+### Customize the last part of the document URL {#slugs}
+
+Use the `slug` variable to change a document's URL.
+
+:::note
+
+The default `slug` value is the `id` value.
+
+:::
+
+For example, suppose your site structure looks like this:
+
+```bash
+website # Root directory of your site
+└── docs
+   └── guide
+      └── hello.md
+```
+
+By default `hello.md` will be available at `/docs/guide/hello`. The
+code below makes it available at `/docs/bonjour`.
 
 ```md
 ---
-id: part1
-slug: part1.html
+slug: /bonjour
 ---
 
 Lorem ipsum
 ```
+
+See [Docs-only mode](#docs-only-mode) if you're trying to remove the
+`/docs` part from the URL.
 
 :::note
 
