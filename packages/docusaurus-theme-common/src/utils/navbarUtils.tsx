@@ -23,10 +23,9 @@ const DefaultNavItemPosition = 'right';
 
 // If split links by left/right
 // if position is unspecified, fallback to right
-export function splitNavbarItems<
-  // TODO BAD, temporary type hack
-  T extends {position?: 'left' | 'right'},
->(items: T[]): [leftItems: T[], rightItems: T[]] {
+export function splitNavbarItems<T extends {position?: 'left' | 'right'}>(
+  items: T[],
+): [leftItems: T[], rightItems: T[]] {
   function isLeft(item: T): boolean {
     return (item.position ?? DefaultNavItemPosition) === 'left';
   }
@@ -104,9 +103,9 @@ function NavbarMobileSidebarProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
+  const value = useNavbarMobileSidebarContextValue();
   return (
-    <NavbarMobileSidebarContext.Provider
-      value={useNavbarMobileSidebarContextValue()}>
+    <NavbarMobileSidebarContext.Provider value={value}>
       {children}
     </NavbarMobileSidebarContext.Provider>
   );
