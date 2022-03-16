@@ -416,14 +416,20 @@ declare module '@docusaurus/plugin-content-blog' {
    */
   export type UserFeedOptions = Overwrite<
     Partial<FeedOptions>,
-    {type?: FeedOptions['type'] | 'all' | FeedType}
+    {
+      /** Type of feed to be generated. Use `null` to disable generation. */
+      type?: FeedOptions['type'] | 'all' | FeedType;
+    }
   >;
   /**
    * Options as provided in the user config (before normalization)
    */
   export type Options = Overwrite<
     Partial<PluginOptions>,
-    {feedOptions?: UserFeedOptions}
+    {
+      /** Blog feed. */
+      feedOptions?: UserFeedOptions;
+    }
   >;
 
   export type TagModule = {
@@ -437,10 +443,9 @@ declare module '@docusaurus/plugin-content-blog' {
     allTagsPath: string;
   };
 
-  export type BlogSidebarItem = {title: string; permalink: string};
   export type BlogSidebar = {
     title: string;
-    items: BlogSidebarItem[];
+    items: {title: string; permalink: string}[];
   };
 }
 
