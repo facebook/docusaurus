@@ -364,8 +364,11 @@ declare module '@theme/Layout' {
 
   export interface Props {
     readonly children?: ReactNode;
-    readonly title?: string;
     readonly noFooter?: boolean;
+
+    // TODO remove
+    /*
+    readonly title?: string;
     readonly description?: string;
     readonly image?: string;
     readonly keywords?: string | string[];
@@ -376,17 +379,11 @@ declare module '@theme/Layout' {
       readonly version?: string;
       readonly tag?: string;
     };
+
+     */
   }
 
   export default function Layout(props: Props): JSX.Element;
-}
-
-declare module '@theme/LayoutHead' {
-  import type {Props as LayoutProps} from '@theme/Layout';
-
-  export interface Props extends Omit<LayoutProps, 'children'> {}
-
-  export default function LayoutHead(props: Props): JSX.Element;
 }
 
 declare module '@theme/LayoutProviders' {
@@ -867,18 +864,4 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
-}
-
-declare module '@theme/Seo' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly title?: string;
-    readonly description?: string;
-    readonly keywords?: readonly string[] | string;
-    readonly image?: string;
-    readonly children?: ReactNode;
-  }
-
-  export default function Seo(props: Props): JSX.Element;
 }

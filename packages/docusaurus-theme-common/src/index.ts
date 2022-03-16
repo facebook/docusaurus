@@ -136,6 +136,8 @@ export {
   TabGroupChoiceProvider,
 } from './utils/tabGroupChoiceUtils';
 
+export {PageMetadata} from './utils/metadataUtils';
+
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   default as useKeyboardNavigation,

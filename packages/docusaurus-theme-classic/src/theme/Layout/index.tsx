@@ -13,33 +13,25 @@ import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 import LayoutProviders from '@theme/LayoutProviders';
-import LayoutHead from '@theme/LayoutHead';
 import type {Props} from '@theme/Layout';
 import {ThemeClassNames, useKeyboardNavigation} from '@docusaurus/theme-common';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
 
 export default function Layout(props: Props): JSX.Element {
-  const {children, noFooter, wrapperClassName, pageClassName} = props;
+  const {children, noFooter} = props;
 
   useKeyboardNavigation();
 
   return (
     <LayoutProviders>
-      <LayoutHead {...props} />
-
       <SkipToContent />
 
       <AnnouncementBar />
 
       <Navbar />
 
-      <div
-        className={clsx(
-          ThemeClassNames.wrapper.main,
-          wrapperClassName,
-          pageClassName,
-        )}>
+      <div className={clsx(ThemeClassNames.wrapper.main)}>
         <ErrorBoundary fallback={ErrorPageContent}>{children}</ErrorBoundary>
       </div>
 

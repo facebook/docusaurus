@@ -21,6 +21,7 @@ import {translate} from '@docusaurus/Translate';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import {
+  PageMetadata,
   ThemeClassNames,
   docVersionSearchTag,
   DocsSidebarProvider,
@@ -28,6 +29,7 @@ import {
   DocsVersionProvider,
 } from '@docusaurus/theme-common';
 import Head from '@docusaurus/Head';
+import SearchMetadata from '@theme/SearchMetadata';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -55,87 +57,95 @@ function DocPageContent({
   }, [hiddenSidebar]);
 
   return (
-    <Layout
-      wrapperClassName={ThemeClassNames.wrapper.docsPages}
-      pageClassName={ThemeClassNames.page.docsDocPage}
-      searchMetadata={{
-        version,
-        tag: docVersionSearchTag(pluginId, version),
-      }}>
-      <div className={styles.docPage}>
-        <BackToTopButton />
+    <>
+      <PageMetadata
+        htmlClassNames={[
+          ThemeClassNames.wrapper.docsPages,
+          ThemeClassNames.page.docsDocPage,
+        ]}
+      />
+      <SearchMetadata
+        version={version}
+        tag={docVersionSearchTag(pluginId, version)}
+      />
+      <Layout>
+        <div className={styles.docPage}>
+          <BackToTopButton />
 
-        {sidebar && (
-          <aside
+          {sidebar && (
+            <aside
+              className={clsx(
+                ThemeClassNames.docs.docSidebarContainer,
+                styles.docSidebarContainer,
+                hiddenSidebarContainer && styles.docSidebarContainerHidden,
+              )}
+              onTransitionEnd={(e) => {
+                if (
+                  !e.currentTarget.classList.contains(
+                    styles.docSidebarContainer!,
+                  )
+                ) {
+                  return;
+                }
+
+                if (hiddenSidebarContainer) {
+                  setHiddenSidebar(true);
+                }
+              }}>
+              <DocSidebar
+                key={
+                  // Reset sidebar state on sidebar changes
+                  // See https://github.com/facebook/docusaurus/issues/3414
+                  sidebarName
+                }
+                sidebar={sidebar}
+                path={currentDocRoute.path}
+                onCollapse={toggleSidebar}
+                isHidden={hiddenSidebar}
+              />
+
+              {hiddenSidebar && (
+                <div
+                  className={styles.collapsedDocSidebar}
+                  title={translate({
+                    id: 'theme.docs.sidebar.expandButtonTitle',
+                    message: 'Expand sidebar',
+                    description:
+                      'The ARIA label and title attribute for expand button of doc sidebar',
+                  })}
+                  aria-label={translate({
+                    id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                    message: 'Expand sidebar',
+                    description:
+                      'The ARIA label and title attribute for expand button of doc sidebar',
+                  })}
+                  tabIndex={0}
+                  role="button"
+                  onKeyDown={toggleSidebar}
+                  onClick={toggleSidebar}>
+                  <IconArrow className={styles.expandSidebarButtonIcon} />
+                </div>
+              )}
+            </aside>
+          )}
+          <main
             className={clsx(
-              ThemeClassNames.docs.docSidebarContainer,
-              styles.docSidebarContainer,
-              hiddenSidebarContainer && styles.docSidebarContainerHidden,
-            )}
-            onTransitionEnd={(e) => {
-              if (
-                !e.currentTarget.classList.contains(styles.docSidebarContainer!)
-              ) {
-                return;
-              }
-
-              if (hiddenSidebarContainer) {
-                setHiddenSidebar(true);
-              }
-            }}>
-            <DocSidebar
-              key={
-                // Reset sidebar state on sidebar changes
-                // See https://github.com/facebook/docusaurus/issues/3414
-                sidebarName
-              }
-              sidebar={sidebar}
-              path={currentDocRoute.path}
-              onCollapse={toggleSidebar}
-              isHidden={hiddenSidebar}
-            />
-
-            {hiddenSidebar && (
-              <div
-                className={styles.collapsedDocSidebar}
-                title={translate({
-                  id: 'theme.docs.sidebar.expandButtonTitle',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                aria-label={translate({
-                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                tabIndex={0}
-                role="button"
-                onKeyDown={toggleSidebar}
-                onClick={toggleSidebar}>
-                <IconArrow className={styles.expandSidebarButtonIcon} />
-              </div>
-            )}
-          </aside>
-        )}
-        <main
-          className={clsx(
-            styles.docMainContainer,
-            (hiddenSidebarContainer || !sidebar) &&
-              styles.docMainContainerEnhanced,
-          )}>
-          <div
-            className={clsx(
-              'container padding-top--md padding-bottom--lg',
-              styles.docItemWrapper,
-              hiddenSidebarContainer && styles.docItemWrapperEnhanced,
+              styles.docMainContainer,
+              (hiddenSidebarContainer || !sidebar) &&
+                styles.docMainContainerEnhanced,
             )}>
-            {children}
-          </div>
-        </main>
-      </div>
-    </Layout>
+            <div
+              className={clsx(
+                'container padding-top--md padding-bottom--lg',
+                styles.docItemWrapper,
+                hiddenSidebarContainer && styles.docItemWrapperEnhanced,
+              )}>
+              {children}
+            </div>
+          </main>
+        </div>
+      </Layout>
+    </>
   );
 }
 

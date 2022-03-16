@@ -5,20 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
-import {useTitleFormatter} from '@docusaurus/theme-common';
+
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {useTitleFormatter} from './generalUtils';
 
-import type {Props} from '@theme/Seo';
+interface PageMetadataProps {
+  readonly title?: string;
+  readonly description?: string;
+  readonly keywords?: readonly string[] | string;
+  readonly image?: string;
+  readonly htmlClassNames?: string[];
+  readonly children?: ReactNode;
+}
 
-export default function Seo({
+// Helper component to manipulate page metadata and override site defaults
+export function PageMetadata({
   title,
   description,
   keywords,
   image,
+  htmlClassNames,
   children,
-}: Props): JSX.Element {
+}: PageMetadataProps): JSX.Element {
   const pageTitle = useTitleFormatter(title);
   const {withBaseUrl} = useBaseUrlUtils();
   const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
@@ -42,6 +52,8 @@ export default function Seo({
 
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
+
+      {htmlClassNames && <html className={htmlClassNames.join(' ')} />}
 
       {children}
     </Head>
