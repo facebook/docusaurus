@@ -8,7 +8,6 @@
 import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
-import path from 'path';
 import {createRequire} from 'module';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
@@ -112,11 +111,11 @@ export default function docusaurusThemeClassic(
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, '../lib-next/theme');
+      return '../lib-next/theme';
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
@@ -137,8 +136,8 @@ export default function docusaurusThemeClassic(
     getClientModules() {
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
-        path.resolve(__dirname, './prism-include-languages'),
-        path.resolve(__dirname, './admonitions.css'),
+        './prism-include-languages',
+        './admonitions.css',
       ];
 
       if (customCss) {

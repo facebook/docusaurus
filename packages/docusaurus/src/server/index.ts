@@ -176,8 +176,10 @@ export async function loadPluginConfigs(
 // - Resolve aliased theme components
 // - Inject scripts/stylesheets
 function createBootstrapPlugin({
+  siteDir,
   siteConfig,
 }: {
+  siteDir: string;
   siteConfig: DocusaurusConfig;
 }): LoadedPlugin {
   const {
@@ -192,6 +194,7 @@ function createBootstrapPlugin({
       id: 'default',
     },
     version: {type: 'synthetic'},
+    path: siteDir,
     getClientModules() {
       return siteConfigClientModules;
     },
@@ -244,6 +247,8 @@ function createMDXFallbackPlugin({
       id: 'default',
     },
     version: {type: 'synthetic'},
+    // Synthetic, the path doesn't matter much
+    path: '.',
     configureWebpack(config, isServer, {getJSLoader}) {
       // We need the mdx fallback loader to exclude files that were already
       // processed by content plugins mdx loaders. This works, but a bit
@@ -336,7 +341,7 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 `,
   );
 
-  plugins.push(createBootstrapPlugin({siteConfig}));
+  plugins.push(createBootstrapPlugin({siteDir, siteConfig}));
   plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
 
   // Load client modules.

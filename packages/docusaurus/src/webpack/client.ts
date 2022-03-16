@@ -6,7 +6,6 @@
  */
 
 import logger from '@docusaurus/logger';
-import path from 'path';
 import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
@@ -26,7 +25,7 @@ export default async function createClientConfig(
     // useless, disabled on purpose (errors on existing sites with no
     // browserslist config)
     // target: 'browserslist',
-    entry: path.resolve(__dirname, '../client/clientEntry.js'),
+    entry: require.resolve('../client/clientEntry.js'),
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985

@@ -489,7 +489,7 @@ export default async function pluginContentBlog(
                   },
                 },
                 {
-                  loader: path.resolve(__dirname, './markdownLoader.js'),
+                  loader: require.resolve('./markdownLoader.js'),
                   options: markdownLoaderOptions,
                 },
               ].filter(Boolean),

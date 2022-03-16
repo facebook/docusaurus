@@ -6,6 +6,7 @@
  */
 
 import logger from '@docusaurus/logger';
+import path from 'path';
 import leven from 'leven';
 import _ from 'lodash';
 import {askThemeName} from './prompts';
@@ -132,8 +133,16 @@ export function getThemePath({
 }): string {
   const pluginInstance = getPluginByThemeName(plugins, themeName);
   const themePath = typescript
-    ? pluginInstance.instance.getTypeScriptThemePath?.()
-    : pluginInstance.instance.getThemePath?.();
+    ? pluginInstance.instance.getTypeScriptThemePath &&
+      path.resolve(
+        pluginInstance.instance.path,
+        pluginInstance.instance.getTypeScriptThemePath(),
+      )
+    : pluginInstance.instance.getThemePath &&
+      path.resolve(
+        pluginInstance.instance.path,
+        pluginInstance.instance.getThemePath(),
+      );
   if (!themePath) {
     logger.warn(
       typescript

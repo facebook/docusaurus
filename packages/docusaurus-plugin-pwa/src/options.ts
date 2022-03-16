@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   ThemeConfig,
@@ -24,7 +23,7 @@ const DEFAULT_OPTIONS = {
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: undefined,
-  swRegister: path.join(__dirname, 'registerSw.js'),
+  swRegister: './registerSw.js',
   reloadPopup: '@theme/PwaReloadPopup',
 };
 
