@@ -373,7 +373,7 @@ export default async function pluginContentDocs(
               },
             },
             {
-              loader: path.join(__dirname, './markdown/index.js'),
+              loader: path.resolve(__dirname, './markdown/index.js'),
               options: docsMarkdownOptions,
             },
           ].filter(Boolean),
