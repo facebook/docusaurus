@@ -205,7 +205,7 @@ const config = {
           'queryString',
         ],
         // swRegister: false,
-        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        swCustom: require.resolve('./src/sw.js'),
         pwaHead: [
           {
             tagName: 'link',

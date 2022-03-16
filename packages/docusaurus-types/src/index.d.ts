@@ -290,6 +290,10 @@ export interface Plugin<Content = unknown> {
 export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly options: Required<PluginOptions>;
   readonly version: DocusaurusPluginVersionInformation;
+  /**
+   * The absolute path to the folder containing the entry point file.
+   */
+  readonly path: string;
 };
 
 export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {

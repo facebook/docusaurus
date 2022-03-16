@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
@@ -28,7 +27,7 @@ export default function pluginGoogleAnalytics(
     name: 'docusaurus-plugin-google-analytics',
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './analytics')] : [];
+      return isProd ? ['./analytics'] : [];
     },
 
     injectHtmlTags() {

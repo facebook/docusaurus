@@ -24,10 +24,10 @@ export default function pluginDebug({
     name: 'docusaurus-plugin-debug',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     async contentLoaded({actions: {createData, addRoute}, allContent}) {

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createRequire} from 'module';
 import {loadContext, loadPluginConfigs} from '../../server';
 import initPlugins, {normalizePluginConfigs} from '../../server/plugins/init';
 import type {InitializedPlugin} from '@docusaurus/types';
@@ -15,7 +14,6 @@ export async function initSwizzleContext(
   siteDir: string,
 ): Promise<SwizzleContext> {
   const context = await loadContext(siteDir);
-  const pluginRequire = createRequire(context.siteConfigPath);
 
   const pluginConfigs = await loadPluginConfigs(context);
   const plugins: InitializedPlugin[] = await initPlugins({
@@ -25,7 +23,7 @@ export async function initSwizzleContext(
 
   const pluginsNormalized = await normalizePluginConfigs(
     pluginConfigs,
-    pluginRequire,
+    context.siteConfigPath,
   );
 
   return {

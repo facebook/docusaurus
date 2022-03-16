@@ -15,8 +15,6 @@ import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Joi} from '@docusaurus/utils-validation';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 
-import path from 'path';
-
 export default function pluginIdealImage(
   context: LoadContext,
   options: PluginOptions,
@@ -29,11 +27,11 @@ export default function pluginIdealImage(
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getDefaultCodeTranslationMessages() {

@@ -21,8 +21,8 @@ describe('loadClientModules', () => {
     const clientModules = loadClientModules([pluginFooBar()]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
-        "foo",
-        "bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -34,10 +34,10 @@ describe('loadClientModules', () => {
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
-        "foo",
-        "bar",
-        "hello",
-        "world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
       ]
     `);
   });
@@ -49,10 +49,10 @@ describe('loadClientModules', () => {
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -65,10 +65,10 @@ describe('loadClientModules', () => {
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
@@ -81,10 +81,10 @@ describe('loadClientModules', () => {
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
       [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });

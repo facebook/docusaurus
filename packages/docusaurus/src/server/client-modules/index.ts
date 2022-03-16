@@ -5,10 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Plugin} from '@docusaurus/types';
+import path from 'path';
+import type {LoadedPlugin} from '@docusaurus/types';
 
 export default function loadClientModules(
-  plugins: Plugin<unknown>[],
+  plugins: LoadedPlugin<unknown>[],
 ): string[] {
-  return plugins.flatMap((plugin) => plugin.getClientModules?.() ?? []);
+  return plugins.flatMap(
+    (plugin) =>
+      plugin.getClientModules?.().map((p) => path.resolve(plugin.path, p)) ??
+      [],
+  );
 }

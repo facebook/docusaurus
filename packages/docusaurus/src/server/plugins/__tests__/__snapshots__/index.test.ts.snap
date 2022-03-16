@@ -19,6 +19,7 @@ exports[`loadPlugins loads plugins 1`] = `
       "options": {
         "id": "default",
       },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
       "prop": "a",
       "version": {
         "type": "local",
@@ -31,6 +32,7 @@ exports[`loadPlugins loads plugins 1`] = `
       "options": {
         "id": "default",
       },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
       "version": {
         "type": "local",
       },

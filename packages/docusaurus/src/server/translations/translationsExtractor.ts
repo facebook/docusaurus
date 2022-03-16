@@ -56,7 +56,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
     codePaths.push(themePath);
   }
 
-  return codePaths;
+  return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
 export async function globSourceCodeFilePaths(

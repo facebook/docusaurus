@@ -146,7 +146,7 @@ async function ChangelogPlugin(context, options) {
       return config;
     },
     getThemePath() {
-      return path.join(__dirname, './theme');
+      return './theme';
     },
     getPathsToWatch() {
       // Don't watch the generated dir
