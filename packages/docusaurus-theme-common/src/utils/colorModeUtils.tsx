@@ -34,7 +34,7 @@ const themes = {
   dark: 'dark',
 } as const;
 
-type Themes = typeof themes[keyof typeof themes];
+export type Themes = typeof themes[keyof typeof themes];
 
 // Ensure to always return a valid theme even if input is invalid
 const coerceToTheme = (theme?: string | null): Themes =>

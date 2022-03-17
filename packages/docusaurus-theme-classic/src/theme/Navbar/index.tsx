@@ -26,6 +26,8 @@ import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 import IconClose from '@theme/IconClose';
 
+import type {Themes} from '@docusaurus/theme-common';
+
 import styles from './styles.module.css';
 
 // retrocompatible with v1
@@ -90,10 +92,14 @@ function useColorModeToggle() {
   } = useThemeConfig();
   const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
   const toggle = useCallback(
-    (darkModeEnabled) => (darkModeEnabled ? setDarkTheme() : setLightTheme()),
+    (colorMode) => (colorMode === 'dark' ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
-  return {isDarkTheme, toggle, disabled: disableSwitch};
+  return {
+    theme: (isDarkTheme ? 'dark' : 'light') as Themes,
+    toggle,
+    disabled: disableSwitch,
+  };
 }
 
 function useSecondaryMenu({
@@ -173,7 +179,7 @@ function NavbarMobileSidebar({
         {!colorModeToggle.disabled && (
           <ColorModeToggle
             className={styles.navbarSidebarToggle}
-            darkModeEnabled={colorModeToggle.isDarkTheme}
+            colorMode={colorModeToggle.theme}
             onChange={colorModeToggle.toggle}
           />
         )}
@@ -279,7 +285,7 @@ export default function Navbar(): JSX.Element {
           {!colorModeToggle.disabled && (
             <ColorModeToggle
               className={styles.toggle}
-              darkModeEnabled={colorModeToggle.isDarkTheme}
+              colorMode={colorModeToggle.theme}
               onChange={colorModeToggle.toggle}
             />
           )}

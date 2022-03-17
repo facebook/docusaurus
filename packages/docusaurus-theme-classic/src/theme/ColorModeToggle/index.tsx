@@ -17,17 +17,15 @@ import styles from './styles.module.css';
 
 function ColorModeToggle({
   className,
-  darkModeEnabled: defaultDarkModeEnabled,
+  colorMode: defaultColorMode,
   onChange,
 }: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const [darkModeEnabled, setDarkModeEnabled] = useState(
-    defaultDarkModeEnabled,
-  );
+  const [colorMode, setColorMode] = useState(defaultColorMode);
 
   useEffect(() => {
-    setDarkModeEnabled(defaultDarkModeEnabled);
-  }, [defaultDarkModeEnabled]);
+    setColorMode(defaultColorMode);
+  }, [defaultColorMode]);
 
   const title = translate(
     {
@@ -36,7 +34,7 @@ function ColorModeToggle({
       description: 'The ARIA label for the navbar color mode toggle',
     },
     {
-      mode: darkModeEnabled
+      mode: colorMode
         ? translate({
             message: 'dark mode',
             id: 'theme.colorToggle.ariaLabel.mode.dark',
@@ -60,8 +58,9 @@ function ColorModeToggle({
         )}
         type="button"
         onClick={() => {
-          setDarkModeEnabled(!darkModeEnabled);
-          onChange(!darkModeEnabled);
+          const newColorMode = colorMode === 'dark' ? 'light' : 'dark';
+          setColorMode(newColorMode);
+          onChange(newColorMode);
         }}
         disabled={!isBrowser}
         title={title}
