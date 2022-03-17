@@ -13,6 +13,7 @@ import {
   DocsPreferredVersionContextProvider,
   MobileSecondaryMenuProvider,
   ScrollControllerProvider,
+  PluginHtmlClassNameProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
 
@@ -24,7 +25,9 @@ export default function LayoutProviders({children}: Props): JSX.Element {
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
               <MobileSecondaryMenuProvider>
-                {children}
+                <PluginHtmlClassNameProvider>
+                  {children}
+                </PluginHtmlClassNameProvider>
               </MobileSecondaryMenuProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>
