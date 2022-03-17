@@ -365,22 +365,11 @@ declare module '@theme/Layout' {
   export interface Props {
     readonly children?: ReactNode;
     readonly noFooter?: boolean;
+    readonly wrapperClassName?: string;
 
-    // TODO remove
-    /*
+    // Not really layout-related, but kept for convenience/retro-compatibility
     readonly title?: string;
     readonly description?: string;
-    readonly image?: string;
-    readonly keywords?: string | string[];
-    readonly permalink?: string;
-    readonly wrapperClassName?: string;
-    readonly pageClassName?: string;
-    readonly searchMetadata?: {
-      readonly version?: string;
-      readonly tag?: string;
-    };
-
-     */
   }
 
   export default function Layout(props: Props): JSX.Element;
