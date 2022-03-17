@@ -71,7 +71,7 @@ export default function pluginPWA(
     },
 
     getClientModules() {
-      return isProd ? [swRegister] : [];
+      return isProd && swRegister ? [swRegister] : [];
     },
 
     getDefaultCodeTranslationMessages() {

@@ -7,10 +7,7 @@
 
 import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
-import type {
-  CreateRedirectsFnOption,
-  Options,
-} from '@docusaurus/plugin-client-redirects';
+import type {Options} from '@docusaurus/plugin-client-redirects';
 
 function testValidate(options: Options) {
   return validateOptions({validate: normalizePluginOptions, options});
@@ -34,7 +31,9 @@ describe('normalizePluginOptions', () => {
   });
 
   it('overrides all default options with valid user options', () => {
-    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => [];
+    const createRedirects: Options['createRedirects'] = (
+      _routePath: string,
+    ) => [];
     expect(
       testValidate({
         fromExtensions: ['exe', 'zip'],
@@ -54,7 +53,8 @@ describe('normalizePluginOptions', () => {
   it('rejects bad fromExtensions user inputs', () => {
     expect(() =>
       testValidate({
-        fromExtensions: [null, undefined, 123, true] as unknown as string[],
+        // @ts-expect-error: for test
+        fromExtensions: [null, undefined, 123, true],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -62,7 +62,8 @@ describe('normalizePluginOptions', () => {
   it('rejects bad toExtensions user inputs', () => {
     expect(() =>
       testValidate({
-        toExtensions: [null, undefined, 123, true] as unknown as string[],
+        // @ts-expect-error: for test
+        toExtensions: [null, undefined, 123, true],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -70,7 +71,8 @@ describe('normalizePluginOptions', () => {
   it('rejects bad createRedirects user inputs', () => {
     expect(() =>
       testValidate({
-        createRedirects: ['bad', 'value'] as unknown as CreateRedirectsFnOption,
+        // @ts-expect-error: for test
+        createRedirects: ['bad', 'value'],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
