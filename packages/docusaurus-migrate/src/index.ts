@@ -31,7 +31,7 @@ async function walk(dir: string): Promise<string[]> {
   for (const file of list) {
     const fullPath = `${dir}/${file}`;
     const stat = await fs.stat(fullPath);
-    if (stat && stat.isDirectory()) {
+    if (stat.isDirectory()) {
       results.push(...(await walk(fullPath)));
     } else {
       results.push(fullPath);

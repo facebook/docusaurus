@@ -199,12 +199,10 @@ function getBreadcrumbs({
   function extract(items: PropSidebar) {
     for (const item of items) {
       if (
-        item.type === 'category' &&
-        (isSamePath(item.href, pathname) || extract(item.items))
+        (item.type === 'category' &&
+          (isSamePath(item.href, pathname) || extract(item.items))) ||
+        (item.type === 'link' && isSamePath(item.href, pathname))
       ) {
-        breadcrumbs.push(item);
-        return true;
-      } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
         breadcrumbs.push(item);
         return true;
       }

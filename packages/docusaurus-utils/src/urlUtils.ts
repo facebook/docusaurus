@@ -50,7 +50,6 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i === urls.length - 1 && hasEndingSlash) {
         resultArray.push('/');
       }
-      // eslint-disable-next-line no-continue
       continue;
     }
 
