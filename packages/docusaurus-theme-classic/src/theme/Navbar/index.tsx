@@ -90,7 +90,7 @@ function useColorModeToggle() {
   } = useThemeConfig();
   const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
   const toggle = useCallback(
-    (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
+    (darkModeEnabled) => (darkModeEnabled ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
   return {isDarkTheme, toggle, disabled: disableSwitch};
@@ -173,7 +173,7 @@ function NavbarMobileSidebar({
         {!colorModeToggle.disabled && (
           <ColorModeToggle
             className={styles.navbarSidebarToggle}
-            checked={colorModeToggle.isDarkTheme}
+            darkModeEnabled={colorModeToggle.isDarkTheme}
             onChange={colorModeToggle.toggle}
           />
         )}
@@ -279,7 +279,7 @@ export default function Navbar(): JSX.Element {
           {!colorModeToggle.disabled && (
             <ColorModeToggle
               className={styles.toggle}
-              checked={colorModeToggle.isDarkTheme}
+              darkModeEnabled={colorModeToggle.isDarkTheme}
               onChange={colorModeToggle.toggle}
             />
           )}
