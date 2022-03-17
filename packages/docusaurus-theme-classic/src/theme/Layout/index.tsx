@@ -18,6 +18,33 @@ import type {Props} from '@theme/Layout';
 import {ThemeClassNames, useKeyboardNavigation} from '@docusaurus/theme-common';
 import ErrorPageContent from '@theme/ErrorPageContent';
 import './styles.css';
+import useRouteContext from '@docusaurus/useRouteContext';
+import Head from '@docusaurus/Head';
+
+function pluginNameToClassName(pluginName: string) {
+  return `plugin-${pluginName.replace(
+    new RegExp(
+      [
+        'docusaurus-plugin-content-',
+        'docusaurus-plugin-',
+        'docusaurus-theme-',
+      ].join('|'),
+      'gi',
+    ),
+    '',
+  )}`;
+}
+
+function PluginHtmlClassName() {
+  const routeContext = useRouteContext();
+  const nameClass = pluginNameToClassName(routeContext.plugin.name);
+  const idClass = `plugin-id-${routeContext.plugin.id}`;
+  return (
+    <Head>
+      <html className={clsx(nameClass, idClass)} />
+    </Head>
+  );
+}
 
 export default function Layout(props: Props): JSX.Element {
   const {children, noFooter, wrapperClassName, pageClassName} = props;
@@ -27,6 +54,8 @@ export default function Layout(props: Props): JSX.Element {
   return (
     <LayoutProviders>
       <LayoutHead {...props} />
+
+      <PluginHtmlClassName />
 
       <SkipToContent />
 
