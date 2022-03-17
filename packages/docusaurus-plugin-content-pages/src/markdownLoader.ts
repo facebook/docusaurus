@@ -18,5 +18,5 @@ export default function markdownLoader(
   // TODO provide additional md processing here? like interlinking pages?
   // fileString = linkify(fileString)
 
-  return callback && callback(null, fileString);
+  return callback?.(null, fileString);
 }

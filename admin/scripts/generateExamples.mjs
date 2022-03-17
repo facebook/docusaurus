@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-
 import fs from 'fs-extra';
 import shell from 'shelljs';
 

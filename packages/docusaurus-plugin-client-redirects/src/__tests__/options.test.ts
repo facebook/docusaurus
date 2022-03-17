@@ -31,9 +31,7 @@ describe('normalizePluginOptions', () => {
   });
 
   it('overrides all default options with valid user options', () => {
-    const createRedirects: Options['createRedirects'] = (
-      _routePath: string,
-    ) => [];
+    const createRedirects: Options['createRedirects'] = () => [];
     expect(
       testValidate({
         fromExtensions: ['exe', 'zip'],

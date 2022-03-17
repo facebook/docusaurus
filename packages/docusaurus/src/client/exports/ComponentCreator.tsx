@@ -52,8 +52,7 @@ export default function ComponentCreator(
     if (chunkRegistry) {
       // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
-      optsModules.push(chunkRegistry[1]);
-      optsWebpack.push(chunkRegistry[2]);
+      optsModules.push(chunkRegistry[1], chunkRegistry[2]);
     }
   });
 
@@ -75,7 +74,7 @@ export default function ComponentCreator(
         const nonDefaultKeys = Object.keys(loaded[key]).filter(
           (k) => k !== 'default',
         );
-        if (nonDefaultKeys && nonDefaultKeys.length) {
+        if (nonDefaultKeys?.length) {
           nonDefaultKeys.forEach((nonDefaultKey) => {
             val[keyPath[keyPath.length - 1]!][nonDefaultKey] =
               loaded[key][nonDefaultKey];

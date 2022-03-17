@@ -277,7 +277,7 @@ function createMDXFallbackPlugin({
                       path.resolve(siteDir, dir),
                     ),
                     siteDir,
-                    isMDXPartial: (_filename: string) => true, // External mdx files are always meant to be imported as partials
+                    isMDXPartial: () => true, // External mdx files are always meant to be imported as partials
                     isMDXPartialFrontMatterWarningDisabled: true, // External mdx files might have front matter, let's just disable the warning
                     remarkPlugins: [admonitions],
                   },

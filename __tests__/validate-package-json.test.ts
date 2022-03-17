@@ -10,8 +10,19 @@ import fs from 'fs-extra';
 
 type PackageJsonFile = {
   file: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any;
+  content: {
+    name?: string;
+    private?: boolean;
+    version?: string;
+    repository?: {
+      type?: string;
+      url?: string;
+      directory?: string;
+    };
+    publishConfig?: {
+      access?: string;
+    };
+  };
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {

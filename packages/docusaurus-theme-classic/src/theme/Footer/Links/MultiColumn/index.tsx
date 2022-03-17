@@ -18,9 +18,7 @@ function ColumnLinkItem({item}: {item: ColumnItemType}) {
       className="footer__item"
       // Developer provided the HTML, so assume it's safe.
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: item.html,
-      }}
+      dangerouslySetInnerHTML={{__html: item.html}}
     />
   ) : (
     <li key={item.href || item.to} className="footer__item">

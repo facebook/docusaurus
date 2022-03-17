@@ -234,9 +234,7 @@ function DocSidebarItemHtml({
       )}
       key={index}
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: value,
-      }}
+      dangerouslySetInnerHTML={{__html: value}}
     />
   );
 }
