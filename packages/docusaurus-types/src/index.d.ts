@@ -12,6 +12,7 @@ import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
 import type {Overwrite, DeepPartial} from 'utility-types';
 import type {Location} from 'history';
+import type Loadable from 'react-loadable';
 
 export type ReportingSeverity = 'ignore' | 'log' | 'warn' | 'error' | 'throw';
 
@@ -378,8 +379,7 @@ export interface RouteConfig {
 
 export type Route = {
   readonly path: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly component: any;
+  readonly component: ReturnType<typeof Loadable>;
   readonly exact?: boolean;
   readonly routes?: Route[];
 };

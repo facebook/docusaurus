@@ -119,28 +119,18 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-type LoadedRoutes = {
-  registry: {
-    [chunkName: string]: ChunkRegistry;
-  };
-  routesConfig: string;
-  routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  };
-  routesPaths: string[];
-};
-
 export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-): Promise<LoadedRoutes> {
-  const registry: {
-    [chunkName: string]: ChunkRegistry;
-  } = {};
+): Promise<{
+  registry: {[chunkName: string]: ChunkRegistry};
+  routesConfig: string;
+  routesChunkNames: {[routePath: string]: ChunkNames};
+  routesPaths: string[];
+}> {
+  const registry: {[chunkName: string]: ChunkRegistry} = {};
   const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
-  const routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  } = {};
+  const routesChunkNames: {[routePath: string]: ChunkNames} = {};
 
   // This is the higher level overview of route code generation.
   function generateRouteCode(routeConfig: RouteConfig): string {
@@ -254,10 +244,7 @@ function genRouteChunkNames(
       modulePath,
     )}')`;
 
-    registry[chunkName] = {
-      loader,
-      modulePath,
-    };
+    registry[chunkName] = {loader, modulePath};
     return chunkName;
   }
 
