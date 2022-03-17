@@ -24,7 +24,7 @@ function BreadcrumbsItemLink({
   children: ReactNode;
   href?: string;
 }): JSX.Element {
-  const className = clsx('breadcrumbs__link', styles.breadcrumbsItemLink);
+  const className = 'breadcrumbs__link';
   return href ? (
     <Link className={className} href={href} itemProp="item">
       <span itemProp="name">{children}</span>
@@ -98,7 +98,8 @@ export default function DocBreadcrumbs(): JSX.Element | null {
             key={idx}
             active={idx === breadcrumbs.length - 1}
             index={idx}>
-            <BreadcrumbsItemLink href={item.href}>
+            <BreadcrumbsItemLink
+              href={idx < breadcrumbs.length - 1 ? item.href : undefined}>
               {item.label}
             </BreadcrumbsItemLink>
           </BreadcrumbsItem>
