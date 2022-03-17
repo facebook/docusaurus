@@ -34,20 +34,20 @@ const themes = {
   dark: 'dark',
 } as const;
 
-export type Themes = typeof themes[keyof typeof themes];
+export type Theme = typeof themes[keyof typeof themes];
 
 // Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme?: string | null): Themes =>
+const coerceToTheme = (theme?: string | null): Theme =>
   theme === themes.dark ? themes.dark : themes.light;
 
-const getInitialTheme = (defaultMode: Themes | undefined): Themes => {
+const getInitialTheme = (defaultMode: Theme | undefined): Theme => {
   if (!ExecutionEnvironment.canUseDOM) {
     return coerceToTheme(defaultMode);
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme: Themes) => {
+const storeTheme = (newTheme: Theme) => {
   ThemeStorage.set(coerceToTheme(newTheme));
 };
 

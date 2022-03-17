@@ -26,7 +26,7 @@ import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 import IconClose from '@theme/IconClose';
 
-import type {Themes} from '@docusaurus/theme-common';
+import type {Theme} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -96,7 +96,7 @@ function useColorModeToggle() {
     [setLightTheme, setDarkTheme],
   );
   return {
-    theme: (isDarkTheme ? 'dark' : 'light') as Themes,
+    theme: (isDarkTheme ? 'dark' : 'light') as Theme,
     toggle,
     disabled: disableSwitch,
   };
@@ -179,7 +179,7 @@ function NavbarMobileSidebar({
         {!colorModeToggle.disabled && (
           <ColorModeToggle
             className={styles.navbarSidebarToggle}
-            colorMode={colorModeToggle.theme}
+            theme={colorModeToggle.theme}
             onChange={colorModeToggle.toggle}
           />
         )}
@@ -285,7 +285,7 @@ export default function Navbar(): JSX.Element {
           {!colorModeToggle.disabled && (
             <ColorModeToggle
               className={styles.toggle}
-              colorMode={colorModeToggle.theme}
+              theme={colorModeToggle.theme}
               onChange={colorModeToggle.toggle}
             />
           )}

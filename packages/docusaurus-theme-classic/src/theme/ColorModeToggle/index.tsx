@@ -17,15 +17,15 @@ import styles from './styles.module.css';
 
 function ColorModeToggle({
   className,
-  colorMode: defaultColorMode,
+  theme: defaultTheme,
   onChange,
 }: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const [colorMode, setColorMode] = useState(defaultColorMode);
+  const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
-    setColorMode(defaultColorMode);
-  }, [defaultColorMode]);
+    setTheme(defaultTheme);
+  }, [defaultTheme]);
 
   const title = translate(
     {
@@ -34,17 +34,18 @@ function ColorModeToggle({
       description: 'The ARIA label for the navbar color mode toggle',
     },
     {
-      mode: colorMode
-        ? translate({
-            message: 'dark mode',
-            id: 'theme.colorToggle.ariaLabel.mode.dark',
-            description: 'The name for the dark color mode',
-          })
-        : translate({
-            message: 'light mode',
-            id: 'theme.colorToggle.ariaLabel.mode.light',
-            description: 'The name for the light color mode',
-          }),
+      mode:
+        theme === 'dark'
+          ? translate({
+              message: 'dark mode',
+              id: 'theme.colorToggle.ariaLabel.mode.dark',
+              description: 'The name for the dark color mode',
+            })
+          : translate({
+              message: 'light mode',
+              id: 'theme.colorToggle.ariaLabel.mode.light',
+              description: 'The name for the light color mode',
+            }),
     },
   );
 
@@ -58,9 +59,9 @@ function ColorModeToggle({
         )}
         type="button"
         onClick={() => {
-          const newColorMode = colorMode === 'dark' ? 'light' : 'dark';
-          setColorMode(newColorMode);
-          onChange(newColorMode);
+          const newTheme = theme === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+          onChange(newTheme);
         }}
         disabled={!isBrowser}
         title={title}

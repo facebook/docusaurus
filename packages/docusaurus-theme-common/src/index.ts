@@ -130,7 +130,7 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 
 export {useHomePageRoute} from './utils/routesUtils';
 
-export type {Themes} from './utils/colorModeUtils';
+export type {Theme} from './utils/colorModeUtils';
 export {useColorMode, ColorModeProvider} from './utils/colorModeUtils';
 export {
   useTabGroupChoice,
