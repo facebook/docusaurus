@@ -341,8 +341,10 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 `,
   );
 
-  plugins.push(createBootstrapPlugin({siteDir, siteConfig}));
-  plugins.push(createMDXFallbackPlugin({siteDir, siteConfig}));
+  plugins.push(
+    createBootstrapPlugin({siteDir, siteConfig}),
+    createMDXFallbackPlugin({siteDir, siteConfig}),
+  );
 
   // Load client modules.
   const clientModules = loadClientModules(plugins);
