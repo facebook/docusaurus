@@ -850,7 +850,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {TagsListItem} from '@docusaurus/theme-common';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}
