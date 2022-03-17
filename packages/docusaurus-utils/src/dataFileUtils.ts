@@ -49,7 +49,6 @@ export async function getDataFileData<T>(
     const unsafeContent = Yaml.load(contentString);
     return validate(unsafeContent);
   } catch (err) {
-    // TODO replace later by error cause, see https://v8.dev/features/error-cause
     logger.error`The ${params.fileType} file at path=${filePath} looks invalid.`;
     throw err;
   }

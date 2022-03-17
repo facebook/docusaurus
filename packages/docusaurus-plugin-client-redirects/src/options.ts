@@ -41,7 +41,7 @@ const UserOptionsSchema = Joi.object<PluginOptions>({
   redirects: Joi.array()
     .items(RedirectPluginOptionValidation)
     .default(DEFAULT_OPTIONS.redirects),
-  createRedirects: Joi.function().arity(1),
+  createRedirects: Joi.function().maxArity(1),
 }).default(DEFAULT_OPTIONS);
 
 export function validateOptions({

@@ -190,8 +190,10 @@ async function filterExistingFileLinks({
     // -> /outDir/javadoc/index.html
     const filePathsToTry: string[] = [baseFilePath];
     if (!path.extname(baseFilePath)) {
-      filePathsToTry.push(`${baseFilePath}.html`);
-      filePathsToTry.push(path.join(baseFilePath, 'index.html'));
+      filePathsToTry.push(
+        `${baseFilePath}.html`,
+        path.join(baseFilePath, 'index.html'),
+      );
     }
 
     for (const file of filePathsToTry) {

@@ -38,7 +38,6 @@ export function createExcerpt(fileString: string): string | undefined {
   let inCode = false;
   let lastCodeFence = '';
 
-  /* eslint-disable no-continue */
   for (const fileLine of fileLines) {
     // Skip empty line.
     if (!fileLine.trim()) {

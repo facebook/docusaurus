@@ -72,8 +72,7 @@ export default async function beforeCli() {
    * @param {import('update-notifier').UpdateInfo} update
    */
   function ignoreUpdate(update) {
-    const isCanaryRelease =
-      update && update.current && update.current.startsWith('0.0.0');
+    const isCanaryRelease = update?.current?.startsWith('0.0.0');
     return isCanaryRelease;
   }
 

@@ -14,7 +14,11 @@ export const translateTagsPageTitle = (): string =>
     description: 'The title of the tag list page',
   });
 
-type TagsListItem = Readonly<{name: string; permalink: string; count: number}>; // TODO remove duplicated type :s
+export type TagsListItem = Readonly<{
+  name: string;
+  permalink: string;
+  count: number;
+}>;
 
 export type TagLetterEntry = Readonly<{letter: string; tags: TagsListItem[]}>;
 

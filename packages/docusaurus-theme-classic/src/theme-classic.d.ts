@@ -833,11 +833,8 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  export type TagsListItem = Readonly<{
-    name: string;
-    permalink: string;
-    count: number;
-  }>;
+  import type {TagsListItem} from '@docusaurus/theme-common';
+
   export interface Props {
     readonly tags: readonly TagsListItem[];
   }
@@ -853,7 +850,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {TagsListItem} from '@docusaurus/theme-common';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

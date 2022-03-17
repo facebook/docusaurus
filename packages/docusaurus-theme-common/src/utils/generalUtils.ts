@@ -10,7 +10,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 export function useTitleFormatter(title?: string | undefined): string {
   const {siteConfig} = useDocusaurusContext();
   const {title: siteTitle, titleDelimiter} = siteConfig;
-  return title && title.trim().length
+  return title?.trim().length
     ? `${title.trim()} ${titleDelimiter} ${siteTitle}`
     : siteTitle;
 }

@@ -308,10 +308,9 @@ ${sourceWarningPart(path.node)}`);
               ),
           )
           .pop();
-        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXText = singleChildren?.isJSXText();
         const isJSXExpressionContainer =
-          singleChildren &&
-          singleChildren.isJSXExpressionContainer() &&
+          singleChildren?.isJSXExpressionContainer() &&
           (singleChildren.get('expression') as NodePath).evaluate().confident;
 
         if (isJSXText || isJSXExpressionContainer) {

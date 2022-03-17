@@ -10,7 +10,6 @@
 // update script has ts-check anyways) (b) the test coverage isn't destroyed by
 // the untested update.mjs file (c) we can ergonomically import the util
 // functions in the Jest test without using `await import`
-/* eslint-disable import/no-extraneous-dependencies */
 
 import path from 'path';
 import fs from 'fs-extra';

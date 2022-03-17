@@ -62,6 +62,7 @@ module.exports = {
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
+    'no-continue': OFF,
     'no-control-regex': WARNING,
     'no-else-return': [WARNING, {allowElseIf: true}],
     'no-empty': [WARNING, {allowEmptyCatch: true}],
@@ -275,6 +276,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-inferrable-types': OFF,
+    '@typescript-eslint/no-namespace': [WARNING, {allowDeclarations: true}],
     'no-use-before-define': OFF,
     '@typescript-eslint/no-use-before-define': [
       ERROR,
@@ -286,14 +288,11 @@ module.exports = {
     'no-shadow': OFF,
     '@typescript-eslint/no-shadow': ERROR,
     'no-unused-vars': OFF,
-    '@typescript-eslint/no-unused-vars': [
-      ERROR,
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        ignoreRestSiblings: true,
-      },
-    ],
+    // We don't provide any escape hatches for this rule. Rest siblings and
+    // function placeholder params are always ignored, and any other unused
+    // locals must be justified with a disable comment.
+    '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
+    '@typescript-eslint/prefer-optional-chain': ERROR,
   },
   overrides: [
     {
@@ -340,7 +339,17 @@ module.exports = {
       },
     },
     {
-      files: ['*.test.ts', '*.test.tsx'],
+      // Internal files where extraneous deps don't matter much at long as
+      // they run
+      files: [
+        '*.test.ts',
+        '*.test.tsx',
+        'admin/**',
+        'jest/**',
+        'website/**',
+        'packages/docusaurus-theme-translations/update.mjs',
+        'packages/docusaurus-theme-translations/src/utils.ts',
+      ],
       rules: {
         'import/no-extraneous-dependencies': OFF,
       },
