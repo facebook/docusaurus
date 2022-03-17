@@ -10,18 +10,23 @@ export type RedirectOption = {
   from: string | string[];
 };
 
-// For a given existing route path,
-// return all the paths from which we should redirect from
-export type CreateRedirectsFnOption = (
-  path: string,
-) => string[] | string | null | undefined;
-
 export type PluginOptions = {
+  /** Plugin ID. */
   id: string;
+  /** The extensions to be removed from the route after redirecting. */
   fromExtensions: string[];
+  /** The extensions to be appended to the route after redirecting. */
   toExtensions: string[];
+  /** The list of redirect rules, each one with multiple `from`s → one `to`. */
   redirects: RedirectOption[];
-  createRedirects?: CreateRedirectsFnOption;
+  /**
+   * A callback to create a redirect rule.
+   * @returns All the paths from which we should redirect to `path`
+   */
+  createRedirects?: (
+    /** An existing Docusaurus route path */
+    path: string,
+  ) => string[] | string | null | undefined;
 };
 
 export type Options = Partial<PluginOptions>;
