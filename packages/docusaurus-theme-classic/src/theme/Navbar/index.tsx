@@ -88,12 +88,12 @@ function useColorModeToggle() {
   const {
     colorMode: {disableSwitch},
   } = useThemeConfig();
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
-  const toggle = useCallback(
-    (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
-    [setLightTheme, setDarkTheme],
-  );
-  return {isDarkTheme, toggle, disabled: disableSwitch};
+  const {colorMode, setColorMode} = useColorMode();
+  return {
+    value: colorMode,
+    onChange: setColorMode,
+    disabled: disableSwitch,
+  };
 }
 
 function useSecondaryMenu({
@@ -173,8 +173,8 @@ function NavbarMobileSidebar({
         {!colorModeToggle.disabled && (
           <ColorModeToggle
             className={styles.navbarSidebarToggle}
-            checked={colorModeToggle.isDarkTheme}
-            onChange={colorModeToggle.toggle}
+            value={colorModeToggle.value}
+            onChange={colorModeToggle.onChange}
           />
         )}
         <button
@@ -279,8 +279,8 @@ export default function Navbar(): JSX.Element {
           {!colorModeToggle.disabled && (
             <ColorModeToggle
               className={styles.toggle}
-              checked={colorModeToggle.isDarkTheme}
-              onChange={colorModeToggle.toggle}
+              value={colorModeToggle.value}
+              onChange={colorModeToggle.onChange}
             />
           )}
           {!hasSearchNavbarItem && <SearchBar />}

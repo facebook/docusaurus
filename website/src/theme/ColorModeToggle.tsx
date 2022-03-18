@@ -28,9 +28,9 @@ export default function ColorModeToggle(props: Props): JSX.Element {
   return (
     <OriginalToggle
       {...props}
-      onChange={(e) => {
-        props.onChange(e);
-        const isDarkMode = e.target.checked;
+      onChange={(colorMode) => {
+        props.onChange(colorMode);
+        const isDarkMode = colorMode === 'dark';
         const storage = isDarkMode ? darkStorage : lightStorage;
         const colorState: ColorState = JSON.parse(storage.get() ?? 'null') ?? {
           baseColor: isDarkMode ? DARK_PRIMARY_COLOR : LIGHT_PRIMARY_COLOR,

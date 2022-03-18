@@ -746,12 +746,16 @@ declare module '@theme/TOCCollapsible' {
 }
 
 declare module '@theme/ColorModeToggle' {
-  import type {SyntheticEvent} from 'react';
+  import type {ColorMode} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly className?: string;
-    readonly checked: boolean;
-    readonly onChange: (e: SyntheticEvent) => void;
+    readonly value: ColorMode;
+    /**
+     * The parameter represents the "to-be" value. For example, if currently in
+     * dark mode, clicking the button should call `onChange("light")`
+     */
+    readonly onChange: (colorMode: ColorMode) => void;
   }
 
   export default function Toggle(props: Props): JSX.Element;
