@@ -5,10 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable max-classes-per-file */
+
 import path from 'path';
 import shell from 'shelljs';
 
 export class GitNotFoundError extends Error {}
+
+export class FileNotTrackedError extends Error {}
 
 export const getFileCommitDate = (
   file: string,
@@ -38,6 +42,18 @@ export const getFileCommitDate = (
 
   const fileBasename = path.basename(file);
   const fileDirname = path.dirname(file);
+
+  if (
+    shell.exec(`git ls-files --error-unmatch -- "${fileBasename}"`, {
+      // cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
+      cwd: fileDirname,
+      silent: true,
+    }).code !== 0
+  ) {
+    throw new FileNotTrackedError(
+      `Failed to retrieve git history for "${file}" because the file is not tracked by git.`,
+    );
+  }
 
   let formatArg = '--format=%ct';
   if (includeAuthor) {

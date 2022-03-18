@@ -33,5 +33,6 @@
     "versioned_docs",
     "*.min.*"
   ],
-  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"]
+  "ignoreRegExpList": ["Email", "Urls", "#[\\w-]*"],
+  "words": ["dbaeumer", "devcontainers", "esbenp", "orta", "unmatch"]
 }

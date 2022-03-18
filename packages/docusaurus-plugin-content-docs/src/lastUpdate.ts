@@ -6,11 +6,16 @@
  */
 
 import logger from '@docusaurus/logger';
-import {getFileCommitDate, GitNotFoundError} from '@docusaurus/utils';
+import {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from '@docusaurus/utils';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
 let showedGitRequirementError = false;
+let showedFileNotTrackedError = false;
 
 export async function getFileLastUpdate(
   filePath?: string,
@@ -31,8 +36,16 @@ export async function getFileLastUpdate(
     if (err instanceof GitNotFoundError && !showedGitRequirementError) {
       logger.warn('Sorry, the docs plugin last update options require Git.');
       showedGitRequirementError = true;
+    } else if (
+      err instanceof FileNotTrackedError &&
+      !showedFileNotTrackedError
+    ) {
+      logger.warn(
+        'Cannot infer the update date for some files, as they are not tracked by git.',
+      );
+      showedFileNotTrackedError = true;
     } else {
-      logger.error(err);
+      logger.warn(err);
     }
     return null;
   }

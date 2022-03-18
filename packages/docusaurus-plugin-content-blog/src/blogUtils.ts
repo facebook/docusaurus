@@ -247,7 +247,7 @@ async function processBlogSourceFile(
       });
       return result.date;
     } catch (err) {
-      logger.error(err);
+      logger.warn(err);
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
   }

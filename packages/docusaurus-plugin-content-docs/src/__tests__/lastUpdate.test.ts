@@ -47,7 +47,7 @@ describe('getFileLastUpdate', () => {
 
   it('non-existing file', async () => {
     const consoleMock = jest
-      .spyOn(console, 'error')
+      .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
