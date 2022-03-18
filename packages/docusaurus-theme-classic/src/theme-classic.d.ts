@@ -466,7 +466,7 @@ declare module '@theme/Navbar/Content' {
 
 declare module '@theme/Navbar/Layout' {
   export interface Props {
-    children: React.ReactNode;
+    readonly children: React.ReactNode;
   }
 
   export default function NavbarLayout(props: Props): JSX.Element;
