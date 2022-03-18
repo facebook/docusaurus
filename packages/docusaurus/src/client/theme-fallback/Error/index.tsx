@@ -9,6 +9,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import type {Props} from '@theme/Error';
+import Head from '@docusaurus/Head';
 
 function ErrorDisplay({error, tryAgain}: Props): JSX.Element {
   return (
@@ -40,7 +41,10 @@ export default function Error({error, tryAgain}: Props): JSX.Element {
       // Note: we display the original error here, not the error that we
       // captured in this extra error boundary
       fallback={() => <ErrorDisplay error={error} tryAgain={tryAgain} />}>
-      <Layout title="Page Error">
+      <Head>
+        <title>Page Error</title>
+      </Head>
+      <Layout>
         <ErrorDisplay error={error} tryAgain={tryAgain} />
       </Layout>
     </ErrorBoundary>

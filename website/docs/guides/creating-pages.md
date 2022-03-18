@@ -35,9 +35,9 @@ Create a file `/src/pages/helloReact.js`:
 import React from 'react';
 import Layout from '@theme/Layout';
 
-function Hello() {
+export default function Hello() {
   return (
-    <Layout title="Hello">
+    <Layout title="Hello" description="Hello React Page">
       <div
         style={{
           display: 'flex',
@@ -53,8 +53,6 @@ function Hello() {
     </Layout>
   );
 }
-
-export default Hello;
 ```
 
 Once you save the file, the development server will automatically reload the changes. Now open `http://localhost:3000/helloReact` and you will see the new page you just created.

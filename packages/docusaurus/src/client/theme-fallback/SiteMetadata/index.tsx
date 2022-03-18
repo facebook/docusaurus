@@ -5,9 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import type {Props} from '@theme/Layout';
-
-export default function Layout({children}: Props): JSX.Element {
-  return <>{children}</>;
+// To be implemented by the theme with <Head>
+export default function SiteMetadata(): JSX.Element | null {
+  return null;
 }

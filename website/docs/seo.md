@@ -42,22 +42,6 @@ Similar to [global metadata](#global-metadata), Docusaurus also allows for the a
 Some content...
 ```
 
-```jsx title="my-react-page.jsx"
-import React from 'react';
-import Head from '@docusaurus/Head';
-
-export default function page() {
-  return (
-    <Layout title="Page" description="A React page demo">
-      <Head>
-        <meta property="og:image" content="image.png" />
-      </Head>
-      {/* ... */}
-    </Layout>
-  );
-}
-```
-
 Docusaurus automatically adds `description`, `title`, canonical URL links, and other useful metadata to each Markdown page. They are configurable through front matter:
 
 ```md
@@ -74,6 +58,31 @@ When creating your React page, adding these fields in `Layout` would also improv
 :::tip
 
 Prefer to use front matter for fields like `description` and `keywords`: Docusaurus will automatically apply this to both `description` and `og:description`, while you would have to manually declare two metadata tags when using the `<head>` tag.
+
+:::
+
+For JSX pages, you can use the Docusaurus [`<Head>`](docusaurus-core.md#head) component.
+
+```jsx title="my-react-page.jsx"
+import React from 'react';
+import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
+
+export default function page() {
+  return (
+    <Layout title="Page" description="A React page demo">
+      <Head>
+        <meta property="og:image" content="image.png" />
+      </Head>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
+:::tip
+
+For convenience, the default theme `<Layout>` component accept `title` and `description` as props.
 
 :::
 

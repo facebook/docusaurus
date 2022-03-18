@@ -92,8 +92,6 @@ declare module '@theme/Layout' {
 
   export interface Props {
     readonly children?: ReactNode;
-    readonly title?: string;
-    readonly description?: string;
   }
   export default function Layout(props: Props): JSX.Element;
 }
@@ -115,6 +113,10 @@ declare module '@theme/Root' {
     readonly children: ReactNode;
   }
   export default function Root({children}: Props): JSX.Element;
+}
+
+declare module '@theme/SiteMetadata' {
+  export default function SiteMetadata(): JSX.Element;
 }
 
 declare module '@docusaurus/constants' {

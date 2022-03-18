@@ -10,10 +10,6 @@
   --doc-sidebar-hidden-width: 30px;
 }
 
-:global(.docs-wrapper) {
-  display: flex;
-}
-
 .docPage,
 .docMainContainer {
   display: flex;

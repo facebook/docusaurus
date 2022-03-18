@@ -12,8 +12,15 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import type {Props} from '@theme/BlogTagsPostsPage';
 import Translate, {translate} from '@docusaurus/Translate';
-import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+  usePluralForm,
+} from '@docusaurus/theme-common';
 import BlogListPaginator from '@theme/BlogListPaginator';
+import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -47,38 +54,38 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
   );
 
   return (
-    <BlogLayout
-      title={title}
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogTagPostListPage}
-      searchMetadata={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'blog_tags_posts',
-      }}
-      sidebar={sidebar}>
-      <header className="margin-bottom--xl">
-        <h1>{title}</h1>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogTagPostListPage,
+      )}>
+      <PageMetadata title={title} />
+      <SearchMetadata tag="blog_tags_posts" />
+      <BlogLayout sidebar={sidebar}>
+        <header className="margin-bottom--xl">
+          <h1>{title}</h1>
 
-        <Link href={allTagsPath}>
-          <Translate
-            id="theme.tags.tagsPageLink"
-            description="The label of the link targeting the tag list page">
-            View All Tags
-          </Translate>
-        </Link>
-      </header>
+          <Link href={allTagsPath}>
+            <Translate
+              id="theme.tags.tagsPageLink"
+              description="The label of the link targeting the tag list page">
+              View All Tags
+            </Translate>
+          </Link>
+        </header>
 
-      {items.map(({content: BlogPostContent}) => (
-        <BlogPostItem
-          key={BlogPostContent.metadata.permalink}
-          frontMatter={BlogPostContent.frontMatter}
-          assets={BlogPostContent.assets}
-          metadata={BlogPostContent.metadata}
-          truncated>
-          <BlogPostContent />
-        </BlogPostItem>
-      ))}
-      <BlogListPaginator metadata={listMetadata} />
-    </BlogLayout>
+        {items.map(({content: BlogPostContent}) => (
+          <BlogPostItem
+            key={BlogPostContent.metadata.permalink}
+            frontMatter={BlogPostContent.frontMatter}
+            assets={BlogPostContent.assets}
+            metadata={BlogPostContent.metadata}
+            truncated>
+            <BlogPostContent />
+          </BlogPostItem>
+        ))}
+        <BlogListPaginator metadata={listMetadata} />
+      </BlogLayout>
+    </HtmlClassNameProvider>
   );
 }

@@ -9,19 +9,18 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import type {Props} from '@theme/Layout';
 import SearchMetadata from '@theme/SearchMetadata';
-import Seo from '@theme/Seo';
 import {
+  PageMetadata,
   DEFAULT_SEARCH_TAG,
-  useTitleFormatter,
   useAlternatePageUtils,
   useThemeConfig,
   keyboardFocusedClassName,
 } from '@docusaurus/theme-common';
 import {useLocation} from '@docusaurus/router';
 
-// Useful for SEO
+// TODO move to SiteMetadataDefaults or theme-common ?
+// Useful for i18n/SEO
 // See https://developers.google.com/search/docs/advanced/crawling/localized-versions
 // See https://github.com/facebook/docusaurus/issues/3317
 function AlternateLangHeaders(): JSX.Element {
@@ -66,6 +65,7 @@ function useDefaultCanonicalUrl() {
   return siteUrl + useBaseUrl(pathname);
 }
 
+// TODO move to SiteMetadataDefaults or theme-common ?
 function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
   const {
     siteConfig: {url: siteUrl},
@@ -83,45 +83,31 @@ function CanonicalUrlHeaders({permalink}: {permalink?: string}) {
   );
 }
 
-export default function LayoutHead(props: Props): JSX.Element {
+export default function SiteMetadata(): JSX.Element {
   const {
-    siteConfig: {favicon},
-    i18n: {currentLocale, localeConfigs},
+    i18n: {currentLocale},
   } = useDocusaurusContext();
+
+  // TODO maybe move these 2 themeConfig to siteConfig?
+  // These seems useful for other themes as well
   const {metadata, image: defaultImage} = useThemeConfig();
-  const {title, description, image, keywords, searchMetadata} = props;
-  const faviconUrl = useBaseUrl(favicon);
-  const pageTitle = useTitleFormatter(title);
-  const {htmlLang, direction: htmlDir} = localeConfigs[currentLocale]!;
 
   return (
     <>
       <Head>
-        <html lang={htmlLang} dir={htmlDir} />
-        {favicon && <link rel="icon" href={faviconUrl} />}
-        <title>{pageTitle}</title>
-        <meta property="og:title" content={pageTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         {/* The keyboard focus class name need to be applied when SSR so links
         are outlined when JS is disabled */}
         <body className={keyboardFocusedClassName} />
       </Head>
 
-      {/* image can override the default image */}
-      {defaultImage && <Seo image={defaultImage} />}
-      {image && <Seo image={image} />}
-
-      <Seo description={description} keywords={keywords} />
+      {defaultImage && <PageMetadata image={defaultImage} />}
 
       <CanonicalUrlHeaders />
 
       <AlternateLangHeaders />
 
-      <SearchMetadata
-        tag={DEFAULT_SEARCH_TAG}
-        locale={currentLocale}
-        {...searchMetadata}
-      />
+      <SearchMetadata tag={DEFAULT_SEARCH_TAG} locale={currentLocale} />
 
       <Head
       // it's important to have an additional <Head> element here,

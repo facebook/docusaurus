@@ -10,6 +10,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import type {ArchiveBlogPost, Props} from '@theme/BlogArchivePage';
 import {translate} from '@docusaurus/Translate';
+import {PageMetadata} from '@docusaurus/theme-common';
 
 type YearProp = {
   year: string;
@@ -75,14 +76,17 @@ export default function BlogArchive({archive}: Props): JSX.Element {
   });
   const years = listPostsByYears(archive.blogPosts);
   return (
-    <Layout title={title} description={description}>
-      <header className="hero hero--primary">
-        <div className="container">
-          <h1 className="hero__title">{title}</h1>
-          <p className="hero__subtitle">{description}</p>
-        </div>
-      </header>
-      <main>{years.length > 0 && <YearsSection years={years} />}</main>
-    </Layout>
+    <>
+      <PageMetadata title={title} description={description} />
+      <Layout>
+        <header className="hero hero--primary">
+          <div className="container">
+            <h1 className="hero__title">{title}</h1>
+            <p className="hero__subtitle">{description}</p>
+          </div>
+        </header>
+        <main>{years.length > 0 && <YearsSection years={years} />}</main>
+      </Layout>
+    </>
   );
 }
