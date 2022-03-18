@@ -377,14 +377,23 @@ export interface RouteConfig {
   [propName: string]: unknown;
 }
 
-export interface RouteContext<Data = unknown> {
-  data: Data; // plugin-specific contextual data
+export interface RouteContext<Data = object | undefined> {
+  /**
+   * Plugin-specific context data.
+   */
+  data: Data;
 }
 
-// Top-level plugin routes automatically add some context data to the route
-// This permits to know which plugin is handling the current route
-export interface PluginRouteContext<Data = unknown> extends RouteContext<Data> {
-  plugin: {id: string; name: string};
+/**
+ * Top-level plugin routes automatically add some context data to the route.
+ * This permits us to know which plugin is handling the current route.
+ */
+export interface PluginRouteContext<Data = object | undefined>
+  extends RouteContext<Data> {
+  plugin: {
+    id: string;
+    name: string;
+  };
 }
 
 export type Route = {

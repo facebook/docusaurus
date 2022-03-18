@@ -26,14 +26,11 @@ function mergeContexts({
       throw new Error(
         'Unexpected: Docusaurus parent route context has no plugin attribute',
       );
-    } else {
-      return value;
     }
+    return value;
   }
 
-  // See TS issue https://stackoverflow.com/a/51193091/82609
-  // eslint-disable-next-line prefer-object-spread
-  const data = Object.assign({}, parent.data, value?.data);
+  const data = {...parent.data, ...value?.data};
 
   return {
     // nested routes are not supposed to override plugin attribute

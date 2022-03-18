@@ -12,7 +12,7 @@ import useRouteContext from '@docusaurus/useRouteContext';
 
 const HtmlClassNameContext = React.createContext<string | undefined>(undefined);
 
-// This annoying wrapper is necessary because Helmet does not "merge" classes
+// This wrapper is necessary because Helmet does not "merge" classes
 // See https://github.com/staylor/react-helmet-async/issues/161
 export function HtmlClassNameProvider({
   className: classNameProp,
@@ -35,19 +35,16 @@ export function HtmlClassNameProvider({
 
 function pluginNameToClassName(pluginName: string) {
   return `plugin-${pluginName.replace(
-    new RegExp(
-      [
-        'docusaurus-plugin-content-',
-        'docusaurus-plugin-',
-        'docusaurus-theme-',
-      ].join('|'),
-      'gi',
-    ),
+    /docusaurus-(?:plugin|theme)-(?:content-)?/gi,
     '',
   )}`;
 }
 
-export function PluginHtmlClassNameProvider({children}: {children: ReactNode}) {
+export function PluginHtmlClassNameProvider({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
   const routeContext = useRouteContext();
   const nameClass = pluginNameToClassName(routeContext.plugin.name);
   const idClass = `plugin-id-${routeContext.plugin.id}`;
