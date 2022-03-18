@@ -129,10 +129,10 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 export {useHomePageRoute} from './utils/routesUtils';
 
 export {
+  PageMetadata,
   HtmlClassNameProvider,
   PluginHtmlClassNameProvider,
-} from './utils/metadataUtilsTemp';
-export {PageMetadata} from './utils/metadataUtils';
+} from './utils/metadataUtils';
 
 export {
   useColorMode,
