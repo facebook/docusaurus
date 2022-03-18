@@ -30,6 +30,7 @@ function mergeContexts({
     return value;
   }
 
+  // TODO deep merge this
   const data = {...parent.data, ...value?.data};
 
   return {

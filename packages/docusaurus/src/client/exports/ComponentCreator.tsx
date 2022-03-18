@@ -23,7 +23,16 @@ export default function ComponentCreator(
   if (path === '*') {
     return Loadable({
       loading: Loading,
-      loader: () => import('@theme/NotFound'),
+      loader: async () => {
+        const NotFound = (await import('@theme/NotFound')).default;
+        return (props) => (
+          // Is there a better API for this?
+          <RouteContextProvider
+            value={{plugin: {name: 'native', id: 'default'}}}>
+            <NotFound {...(props as never)} />
+          </RouteContextProvider>
+        );
+      },
     });
   }
 

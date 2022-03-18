@@ -381,7 +381,7 @@ export interface RouteContext {
   /**
    * Plugin-specific context data.
    */
-  data: object | undefined;
+  data?: object | undefined;
 }
 
 /**
