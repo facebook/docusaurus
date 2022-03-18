@@ -162,12 +162,7 @@ export function ColorModeProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const {colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme} =
-    useColorModeContextValue();
-  const contextValue = useMemo(
-    () => ({colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme}),
-    [colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme],
-  );
+  const contextValue = useColorModeContextValue();
   return (
     <ColorModeContext.Provider value={contextValue}>
       {children}
