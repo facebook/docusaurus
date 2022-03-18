@@ -460,6 +460,64 @@ declare module '@theme/Navbar' {
   export default function Navbar(): JSX.Element;
 }
 
+declare module '@theme/Navbar/ColorModeToggle' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NavbarColorModeToggle(
+    props: Props,
+  ): JSX.Element | null;
+}
+
+declare module '@theme/Navbar/Logo' {
+  export default function NavbarLogo(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Content' {
+  export default function NavbarContent(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Layout' {
+  export interface Props {
+    children: React.ReactNode;
+  }
+
+  export default function NavbarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar' {
+  export default function NavbarMobileSidebar(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Layout' {
+  import type {ReactNode} from 'react';
+
+  interface Props {
+    header: ReactNode;
+    primaryMenu: ReactNode;
+    secondaryMenu: ReactNode;
+  }
+
+  export default function NavbarMobileSidebarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Toggle' {
+  export default function NavbarMobileSidebarToggle(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/PrimaryMenu' {
+  export default function NavbarMobileSidebarPrimaryMenu(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/SecondaryMenu' {
+  export default function NavbarMobileSidebarSecondaryMenu(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Header' {
+  export default function NavbarMobileSidebarHeader(): JSX.Element;
+}
+
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
   import type {Props as NavbarNavLinkProps} from '@theme/NavbarItem/NavbarNavLink';
 
@@ -758,7 +816,7 @@ declare module '@theme/ColorModeToggle' {
     readonly onChange: (colorMode: ColorMode) => void;
   }
 
-  export default function Toggle(props: Props): JSX.Element;
+  export default function ColorModeToggle(props: Props): JSX.Element;
 }
 
 declare module '@theme/Logo' {

@@ -8,7 +8,7 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear && rimraf changelog",
+    "clear": "docusaurus clear && rimraf changelog && rimraf _dogfooding/_swizzle_theme_tests",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
     "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",

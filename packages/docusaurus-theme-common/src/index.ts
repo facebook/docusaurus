@@ -72,13 +72,6 @@ export {
 export {default as Details, type DetailsProps} from './components/Details';
 
 export {
-  MobileSecondaryMenuProvider,
-  MobileSecondaryMenuFiller,
-  useMobileSecondaryMenuRenderer,
-} from './utils/mobileSecondaryMenu';
-export type {MobileSecondaryMenuComponent} from './utils/mobileSecondaryMenu';
-
-export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
 } from './utils/docsPreferredVersion/useDocsPreferredVersion';
@@ -150,6 +143,17 @@ export {
   useTabGroupChoice,
   TabGroupChoiceProvider,
 } from './utils/tabGroupChoiceUtils';
+
+export {
+  splitNavbarItems,
+  NavbarProvider,
+  useNavbarMobileSidebar,
+} from './utils/navbarUtils';
+export {
+  useNavbarSecondaryMenu,
+  NavbarSecondaryMenuFiller,
+} from './utils/navbarSecondaryMenuUtils';
+export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
 
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
 export {
