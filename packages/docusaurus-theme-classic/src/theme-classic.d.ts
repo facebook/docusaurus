@@ -804,12 +804,16 @@ declare module '@theme/TOCCollapsible' {
 }
 
 declare module '@theme/ColorModeToggle' {
-  import type {SyntheticEvent} from 'react';
+  import type {ColorMode} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly className?: string;
-    readonly checked: boolean;
-    readonly onChange: (e: SyntheticEvent) => void;
+    readonly value: ColorMode;
+    /**
+     * The parameter represents the "to-be" value. For example, if currently in
+     * dark mode, clicking the button should call `onChange("light")`
+     */
+    readonly onChange: (colorMode: ColorMode) => void;
   }
 
   export default function ColorModeToggle(props: Props): JSX.Element;
@@ -891,11 +895,8 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  export type TagsListItem = Readonly<{
-    name: string;
-    permalink: string;
-    count: number;
-  }>;
+  import type {TagsListItem} from '@docusaurus/theme-common';
+
   export interface Props {
     readonly tags: readonly TagsListItem[];
   }
@@ -911,7 +912,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {TagsListItem} from '@docusaurus/theme-common';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

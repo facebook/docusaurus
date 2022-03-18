@@ -154,7 +154,9 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
-      // escape hatch in case broken links check is annoying for a specific link
+      /**
+       * escape hatch in case broken links check is annoying for a specific link
+       */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
   export default function Link(props: Props): JSX.Element;
@@ -242,6 +244,12 @@ declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 
   export default function useDocusaurusContext(): DocusaurusContext;
+}
+
+declare module '@docusaurus/useRouteContext' {
+  import type {PluginRouteContext} from '@docusaurus/types';
+
+  export default function useRouteContext(): PluginRouteContext;
 }
 
 declare module '@docusaurus/useIsBrowser' {

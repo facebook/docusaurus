@@ -6,21 +6,6 @@
  */
 
 .breadcrumbsContainer {
-  margin-bottom: 0.4rem;
-}
-
-.breadcrumbsItemLink {
-  --ifm-breadcrumb-size-multiplier: 0.7 !important;
-  margin-bottom: 0.4rem;
-  background: var(--ifm-color-gray-100);
-}
-
-html[data-theme='dark'] .breadcrumbsItemLink {
-  background-color: var(--ifm-color-gray-900);
-}
-
-@media (min-width: 997px) {
-  .breadcrumbsItemLink {
-    --ifm-breadcrumb-size-multiplier: 0.8;
-  }
+  --ifm-breadcrumb-size-multiplier: 0.8;
+  margin-bottom: 0.8rem;
 }

@@ -120,7 +120,6 @@ for (const componentName of componentNames) {
     logger.warn(
       `${componentName} is marked as forbidden for action ${action} => skipping`,
     );
-    // eslint-disable-next-line no-continue
     continue;
   }
 

@@ -124,7 +124,7 @@ function DropdownNavbarItemDesktop({
 function DropdownNavbarItemMobile({
   items,
   className,
-  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   const localPathname = useLocalPathname();

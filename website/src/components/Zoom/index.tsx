@@ -15,11 +15,13 @@ export default function Zoom({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  const {isDarkTheme} = useColorMode();
+  const {colorMode} = useColorMode();
   return (
     <BasicZoom
       overlayBgColorEnd={
-        isDarkTheme ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)'
+        colorMode === 'dark'
+          ? 'rgba(0, 0, 0, 0.95)'
+          : 'rgba(255, 255, 255, 0.95)'
       }>
       {children}
     </BasicZoom>

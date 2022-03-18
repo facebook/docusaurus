@@ -8,10 +8,8 @@
 import {useEffect, useRef} from 'react';
 import {useThemeConfig} from './useThemeConfig';
 
-/*
-TODO make the hardcoded theme-classic classnames configurable
-(or add them to ThemeClassNames?)
- */
+// TODO make the hardcoded theme-classic classnames configurable (or add them
+// to ThemeClassNames?)
 
 // If the anchor has no height and is just a "marker" in the dom; we'll use the
 // parent (normally the link text) rect boundaries instead

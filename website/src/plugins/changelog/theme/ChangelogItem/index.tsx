@@ -7,7 +7,6 @@
 
 import React from 'react';
 import clsx from 'clsx';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {MDXProvider} from '@mdx-js/react';
 import Link from '@docusaurus/Link';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';

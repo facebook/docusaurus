@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-
 import sharp from 'sharp';
 import fs from 'fs-extra';
 import path from 'path';
