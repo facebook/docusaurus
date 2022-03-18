@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {docuHash, generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import type {
@@ -18,6 +18,7 @@ import type {
   ThemeConfig,
   LoadedPlugin,
   InitializedPlugin,
+  PluginRouteContext,
 } from '@docusaurus/types';
 import initPlugins from './init';
 import logger from '@docusaurus/logger';
@@ -149,17 +150,6 @@ export async function loadPlugins({
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
         const dataDir = path.join(dataDirRoot, pluginId);
 
-        const addRoute: PluginContentLoadedActions['addRoute'] = (
-          initialRouteConfig,
-        ) => {
-          // Trailing slash behavior is handled in a generic way for all plugins
-          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
-            trailingSlash: context.siteConfig.trailingSlash,
-            baseUrl: context.siteConfig.baseUrl,
-          });
-          pluginsRouteConfigs.push(finalRouteConfig);
-        };
-
         const createData: PluginContentLoadedActions['createData'] = async (
           name,
           data,
@@ -168,6 +158,34 @@ export async function loadPlugins({
           await fs.ensureDir(path.dirname(modulePath));
           await generate(dataDir, name, data);
           return modulePath;
+        };
+
+        // TODO this would be better to do all that in the codegen phase
+        // TODO handle context for nested routes
+        const pluginRouteContext: PluginRouteContext = {
+          plugin: {name: plugin.name, id: pluginId},
+          data: undefined, // TODO allow plugins to provide context data
+        };
+        const pluginRouteContextModulePath = await createData(
+          `${docuHash('pluginRouteContextModule')}.json`,
+          JSON.stringify(pluginRouteContext, null, 2),
+        );
+
+        const addRoute: PluginContentLoadedActions['addRoute'] = (
+          initialRouteConfig,
+        ) => {
+          // Trailing slash behavior is handled in a generic way for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
+            trailingSlash: context.siteConfig.trailingSlash,
+            baseUrl: context.siteConfig.baseUrl,
+          });
+          pluginsRouteConfigs.push({
+            ...finalRouteConfig,
+            modules: {
+              ...finalRouteConfig.modules,
+              __routeContextModule: pluginRouteContextModulePath,
+            },
+          });
         };
 
         // the plugins global data are namespaced to avoid data conflicts:

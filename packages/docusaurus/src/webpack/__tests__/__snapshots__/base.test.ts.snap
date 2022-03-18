@@ -21,6 +21,7 @@ exports[`base webpack config creates webpack aliases 1`] = `
   "@docusaurus/useDocusaurusContext": "../../../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../../../client/exports/useIsBrowser.ts",
+  "@docusaurus/useRouteContext": "../../../../client/exports/useRouteContext.tsx",
   "@generated": "../../../../../../..",
   "@site": "",
   "@theme-init/PluginThemeComponentEnhanced": "pluginThemeFolder/PluginThemeComponentEnhanced.js",
@@ -68,5 +69,6 @@ exports[`getDocusaurusAliases() returns appropriate webpack aliases 1`] = `
   "@docusaurus/useDocusaurusContext": "../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../client/exports/useIsBrowser.ts",
+  "@docusaurus/useRouteContext": "../../client/exports/useRouteContext.tsx",
 }
 `;

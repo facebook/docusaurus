@@ -17,7 +17,11 @@ import TOC from '@theme/TOC';
 import TOCCollapsible from '@theme/TOCCollapsible';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import {ThemeClassNames, useWindowSize} from '@docusaurus/theme-common';
+import {
+  HtmlClassNameProvider,
+  ThemeClassNames,
+  useWindowSize,
+} from '@docusaurus/theme-common';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import MDXContent from '@theme/MDXContent';
 
@@ -49,7 +53,7 @@ export default function DocItem(props: Props): JSX.Element {
     canRenderTOC && (windowSize === 'desktop' || windowSize === 'ssr');
 
   return (
-    <>
+    <HtmlClassNameProvider className={`docs-doc-id-${metadata.unversionedId}`}>
       <Seo {...{title, description, keywords, image}} />
 
       <div className="row">
@@ -107,6 +111,6 @@ export default function DocItem(props: Props): JSX.Element {
           </div>
         )}
       </div>
-    </>
+    </HtmlClassNameProvider>
   );
 }
