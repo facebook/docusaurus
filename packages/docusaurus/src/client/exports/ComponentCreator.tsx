@@ -11,6 +11,7 @@ import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
+import {RouteContextProvider} from '../routeContext';
 
 type OptsLoader = Record<string, typeof registry[keyof typeof registry][0]>;
 
@@ -22,7 +23,16 @@ export default function ComponentCreator(
   if (path === '*') {
     return Loadable({
       loading: Loading,
-      loader: () => import('@theme/NotFound'),
+      loader: async () => {
+        const NotFound = (await import('@theme/NotFound')).default;
+        return (props) => (
+          // Is there a better API for this?
+          <RouteContextProvider
+            value={{plugin: {name: 'native', id: 'default'}}}>
+            <NotFound {...(props as never)} />
+          </RouteContextProvider>
+        );
+      },
     });
   }
 
@@ -84,7 +94,18 @@ export default function ComponentCreator(
 
       const Component = loadedModules.component;
       delete loadedModules.component;
-      return <Component {...loadedModules} {...props} />;
+
+      /* eslint-disable no-underscore-dangle */
+      const routeContextModule = loadedModules.__routeContextModule;
+      delete loadedModules.__routeContextModule;
+      /* eslint-enable no-underscore-dangle */
+
+      // Is there any way to put this RouteContextProvider upper in the tree?
+      return (
+        <RouteContextProvider value={routeContextModule}>
+          <Component {...loadedModules} {...props} />;
+        </RouteContextProvider>
+      );
     },
   });
 }

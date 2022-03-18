@@ -246,6 +246,12 @@ declare module '@docusaurus/useDocusaurusContext' {
   export default function useDocusaurusContext(): DocusaurusContext;
 }
 
+declare module '@docusaurus/useRouteContext' {
+  import type {PluginRouteContext} from '@docusaurus/types';
+
+  export default function useRouteContext(): PluginRouteContext;
+}
+
 declare module '@docusaurus/useIsBrowser' {
   export default function useIsBrowser(): boolean;
 }

@@ -20,14 +20,15 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
+
 import {
+  HtmlClassNameProvider,
   ThemeClassNames,
   docVersionSearchTag,
   DocsSidebarProvider,
   useDocsSidebar,
   DocsVersionProvider,
 } from '@docusaurus/theme-common';
-import Head from '@docusaurus/Head';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -160,11 +161,7 @@ export default function DocPage(props: Props): JSX.Element {
     : null;
 
   return (
-    <>
-      <Head>
-        {/* TODO we should add a core addRoute({htmlClassName}) action */}
-        <html className={versionMetadata.className} />
-      </Head>
+    <HtmlClassNameProvider className={versionMetadata.className}>
       <DocsVersionProvider version={versionMetadata}>
         <DocsSidebarProvider sidebar={sidebar ?? null}>
           <DocPageContent
@@ -175,6 +172,6 @@ export default function DocPage(props: Props): JSX.Element {
           </DocPageContent>
         </DocsSidebarProvider>
       </DocsVersionProvider>
-    </>
+    </HtmlClassNameProvider>
   );
 }

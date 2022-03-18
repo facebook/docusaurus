@@ -191,6 +191,7 @@ declare module '@theme/DocItem' {
   };
 
   export type Metadata = {
+    readonly unversionedId?: string;
     readonly description?: string;
     readonly title?: string;
     readonly permalink?: string;
