@@ -52,7 +52,7 @@
     "lint:spelling": "cspell \"**\" --no-progress",
     "lint:style": "stylelint \"**/*.css\"",
     "lerna": "lerna",
-    "test": "cross-env TZ=UTC jest",
+    "test": "jest",
     "test:build:website": "./admin/scripts/test-release.sh",
     "watch": "yarn lerna run --parallel watch",
     "clear": "(yarn workspace website clear || echo 'Failure while running docusaurus clear') && yarn lerna exec --ignore docusaurus yarn rimraf lib lib-next",
