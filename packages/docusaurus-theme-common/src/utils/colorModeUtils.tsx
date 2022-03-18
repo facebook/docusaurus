@@ -93,9 +93,7 @@ function useColorModeContextValue(): ColorModeContextValue {
       }
     };
     window.addEventListener('storage', onChange);
-    return () => {
-      window.removeEventListener('storage', onChange);
-    };
+    return () => window.removeEventListener('storage', onChange);
   }, [disableSwitch, setColorMode]);
 
   // PCS is coerced to light mode when printing, which causes the color mode to
@@ -117,28 +115,42 @@ function useColorModeContextValue(): ColorModeContextValue {
       setColorMode(matches ? ColorModes.dark : ColorModes.light);
     };
     mql.addListener(onChange);
-    return () => {
-      mql.removeListener(onChange);
-    };
+    return () => mql.removeListener(onChange);
   }, [setColorMode, disableSwitch, respectPrefersColorScheme]);
 
-  const setLightTheme = useCallback(() => {
-    setColorMode(ColorModes.light);
-    storeColorMode(ColorModes.light);
-  }, [setColorMode]);
-
-  const setDarkTheme = useCallback(() => {
-    setColorMode(ColorModes.dark);
-    storeColorMode(ColorModes.dark);
-  }, [setColorMode]);
-
-  return {
-    colorMode,
-    setColorMode,
-    isDarkTheme: colorMode === ColorModes.dark,
-    setLightTheme,
-    setDarkTheme,
-  };
+  return useMemo(
+    () => ({
+      colorMode,
+      setColorMode,
+      get isDarkTheme() {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(
+            '`useColorMode().isDarkTheme` is deprecated. Please use `useColorMode().colorMode === "dark"` instead.',
+          );
+        }
+        return colorMode === ColorModes.dark;
+      },
+      setLightTheme() {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(
+            '`useColorMode().setLightTheme` is deprecated. Please use `useColorMode().setColorMode("light")` instead.',
+          );
+        }
+        setColorMode(ColorModes.light);
+        storeColorMode(ColorModes.light);
+      },
+      setDarkTheme() {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(
+            '`useColorMode().setDarkTheme` is deprecated. Please use `useColorMode().setColorMode("dark")` instead.',
+          );
+        }
+        setColorMode(ColorModes.dark);
+        storeColorMode(ColorModes.dark);
+      },
+    }),
+    [colorMode, setColorMode],
+  );
 }
 
 const ColorModeContext = React.createContext<ColorModeContextValue | undefined>(
