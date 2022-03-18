@@ -17,7 +17,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
-  PageMetadata,
+  HtmlClassNameProvider,
   useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
@@ -520,9 +520,8 @@ function SearchPageContent(): JSX.Element {
 
 export default function SearchPage(): JSX.Element {
   return (
-    <>
-      <PageMetadata htmlClassNames={['search-page-wrapper']} />
+    <HtmlClassNameProvider className="search-page-wrapper">
       <SearchPageContent />
-    </>
+    </HtmlClassNameProvider>
   );
 }
