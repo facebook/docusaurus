@@ -140,7 +140,11 @@ export {
   PluginHtmlClassNameProvider,
 } from './utils/metadataUtilsTemp';
 
-export {useColorMode, ColorModeProvider, type ColorMode} from './utils/colorModeUtils';
+export {
+  useColorMode,
+  ColorModeProvider,
+  type ColorMode,
+} from './utils/colorModeUtils';
 
 export {
   useTabGroupChoice,
