@@ -135,7 +135,8 @@ export {isRegexpStringMatch} from './utils/regexpUtils';
 
 export {useHomePageRoute} from './utils/routesUtils';
 
-export type {Theme} from './utils/colorModeUtils';
+export type {ColorMode} from './utils/colorModeUtils';
+
 export {
   HtmlClassNameProvider,
   PluginHtmlClassNameProvider,

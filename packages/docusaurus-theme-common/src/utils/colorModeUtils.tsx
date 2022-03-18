@@ -21,67 +21,72 @@ import {createStorageSlot} from './storageUtils';
 import {useThemeConfig} from './useThemeConfig';
 
 type ColorModeContextValue = {
+  readonly colorMode: ColorMode;
+  readonly setColorMode: (colorMode: ColorMode) => void;
+
+  // TODO legacy APIs kept for retro-compatibility: deprecate them
   readonly isDarkTheme: boolean;
   readonly setLightTheme: () => void;
   readonly setDarkTheme: () => void;
 };
 
-const ThemeStorageKey = 'theme';
-const ThemeStorage = createStorageSlot(ThemeStorageKey);
+const ColorModeStorageKey = 'theme';
+const ColorModeStorage = createStorageSlot(ColorModeStorageKey);
 
-const themes = {
+const ColorModes = {
   light: 'light',
   dark: 'dark',
 } as const;
 
-export type Theme = typeof themes[keyof typeof themes];
+export type ColorMode = typeof ColorModes[keyof typeof ColorModes];
 
-// Ensure to always return a valid theme even if input is invalid
-const coerceToTheme = (theme?: string | null): Theme =>
-  theme === themes.dark ? themes.dark : themes.light;
+// Ensure to always return a valid colorMode even if input is invalid
+const coerceToColorMode = (colorMode?: string | null): ColorMode =>
+  colorMode === ColorModes.dark ? ColorModes.dark : ColorModes.light;
 
-const getInitialTheme = (defaultMode: Theme | undefined): Theme => {
+const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode => {
   if (!ExecutionEnvironment.canUseDOM) {
-    return coerceToTheme(defaultMode);
+    return coerceToColorMode(defaultMode);
   }
-  return coerceToTheme(document.documentElement.getAttribute('data-theme'));
+  return coerceToColorMode(document.documentElement.getAttribute('data-theme'));
 };
 
-const storeTheme = (newTheme: Theme) => {
-  ThemeStorage.set(coerceToTheme(newTheme));
+const storeColorMode = (newColorMode: ColorMode) => {
+  ColorModeStorage.set(coerceToColorMode(newColorMode));
 };
 
 function useColorModeContextValue(): ColorModeContextValue {
   const {
     colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
-  const [theme, setTheme] = useState(getInitialTheme(defaultMode));
+  const [colorMode, setColorModeState] = useState(
+    getInitialColorMode(defaultMode),
+  );
 
-  const setLightTheme = useCallback(() => {
-    setTheme(themes.light);
-    storeTheme(themes.light);
-  }, []);
-  const setDarkTheme = useCallback(() => {
-    setTheme(themes.dark);
-    storeTheme(themes.dark);
+  const setColorMode = useCallback((newColorMode: ColorMode) => {
+    setColorModeState(newColorMode);
+    storeColorMode(newColorMode);
   }, []);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', coerceToTheme(theme));
-  }, [theme]);
+    document.documentElement.setAttribute(
+      'data-theme',
+      coerceToColorMode(colorMode),
+    );
+  }, [colorMode]);
 
   useEffect(() => {
     if (disableSwitch) {
       return undefined;
     }
     const onChange = (e: StorageEvent) => {
-      if (e.key !== ThemeStorageKey) {
+      if (e.key !== ColorModeStorageKey) {
         return;
       }
       try {
-        const storedTheme = ThemeStorage.get();
-        if (storedTheme !== null) {
-          setTheme(coerceToTheme(storedTheme));
+        const storedColorMode = ColorModeStorage.get();
+        if (storedColorMode !== null) {
+          setColorMode(coerceToColorMode(storedColorMode));
         }
       } catch (err) {
         console.error(err);
@@ -91,7 +96,7 @@ function useColorModeContextValue(): ColorModeContextValue {
     return () => {
       window.removeEventListener('storage', onChange);
     };
-  }, [disableSwitch, setTheme]);
+  }, [disableSwitch, setColorMode]);
 
   // PCS is coerced to light mode when printing, which causes the color mode to
   // be reset to dark when exiting print mode, disregarding user settings. When
@@ -109,16 +114,28 @@ function useColorModeContextValue(): ColorModeContextValue {
         previousMediaIsPrint.current = window.matchMedia('print').matches;
         return;
       }
-      setTheme(matches ? themes.dark : themes.light);
+      setColorMode(matches ? ColorModes.dark : ColorModes.light);
     };
     mql.addListener(onChange);
     return () => {
       mql.removeListener(onChange);
     };
-  }, [disableSwitch, respectPrefersColorScheme]);
+  }, [setColorMode, disableSwitch, respectPrefersColorScheme]);
+
+  const setLightTheme = useCallback(() => {
+    setColorMode(ColorModes.light);
+    storeColorMode(ColorModes.light);
+  }, [setColorMode]);
+
+  const setDarkTheme = useCallback(() => {
+    setColorMode(ColorModes.dark);
+    storeColorMode(ColorModes.dark);
+  }, [setColorMode]);
 
   return {
-    isDarkTheme: theme === themes.dark,
+    colorMode,
+    setColorMode,
+    isDarkTheme: colorMode === ColorModes.dark,
     setLightTheme,
     setDarkTheme,
   };
@@ -133,10 +150,11 @@ export function ColorModeProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorModeContextValue();
+  const {colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme} =
+    useColorModeContextValue();
   const contextValue = useMemo(
-    () => ({isDarkTheme, setLightTheme, setDarkTheme}),
-    [isDarkTheme, setLightTheme, setDarkTheme],
+    () => ({colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme}),
+    [colorMode, setColorMode, isDarkTheme, setLightTheme, setDarkTheme],
   );
   return (
     <ColorModeContext.Provider value={contextValue}>

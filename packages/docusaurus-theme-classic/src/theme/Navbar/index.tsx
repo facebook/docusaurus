@@ -26,8 +26,6 @@ import Logo from '@theme/Logo';
 import IconMenu from '@theme/IconMenu';
 import IconClose from '@theme/IconClose';
 
-import type {Theme} from '@docusaurus/theme-common';
-
 import styles from './styles.module.css';
 
 // retrocompatible with v1
@@ -90,14 +88,10 @@ function useColorModeToggle() {
   const {
     colorMode: {disableSwitch},
   } = useThemeConfig();
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
-  const toggle = useCallback(
-    (colorMode) => (colorMode === 'dark' ? setDarkTheme() : setLightTheme()),
-    [setLightTheme, setDarkTheme],
-  );
+  const {colorMode, setColorMode} = useColorMode();
   return {
-    theme: (isDarkTheme ? 'dark' : 'light') as Theme,
-    toggle,
+    value: colorMode,
+    onChange: setColorMode,
     disabled: disableSwitch,
   };
 }
@@ -179,8 +173,8 @@ function NavbarMobileSidebar({
         {!colorModeToggle.disabled && (
           <ColorModeToggle
             className={styles.navbarSidebarToggle}
-            theme={colorModeToggle.theme}
-            onChange={colorModeToggle.toggle}
+            value={colorModeToggle.value}
+            onChange={colorModeToggle.onChange}
           />
         )}
         <button
@@ -285,8 +279,8 @@ export default function Navbar(): JSX.Element {
           {!colorModeToggle.disabled && (
             <ColorModeToggle
               className={styles.toggle}
-              theme={colorModeToggle.theme}
-              onChange={colorModeToggle.toggle}
+              value={colorModeToggle.value}
+              onChange={colorModeToggle.onChange}
             />
           )}
           {!hasSearchNavbarItem && <SearchBar />}

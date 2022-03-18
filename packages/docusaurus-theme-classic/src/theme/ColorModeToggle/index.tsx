@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import type {Props} from '@theme/ColorModeToggle';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import {translate} from '@docusaurus/Translate';
@@ -17,15 +17,10 @@ import styles from './styles.module.css';
 
 function ColorModeToggle({
   className,
-  theme: defaultTheme,
-  onChange,
+  value: colorMode,
+  onChange: setColorMode,
 }: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const [theme, setTheme] = useState(defaultTheme);
-
-  useEffect(() => {
-    setTheme(defaultTheme);
-  }, [defaultTheme]);
 
   const title = translate(
     {
@@ -35,7 +30,7 @@ function ColorModeToggle({
     },
     {
       mode:
-        theme === 'dark'
+        colorMode === 'dark'
           ? translate({
               message: 'dark mode',
               id: 'theme.colorToggle.ariaLabel.mode.dark',
@@ -59,9 +54,7 @@ function ColorModeToggle({
         )}
         type="button"
         onClick={() => {
-          const newTheme = theme === 'dark' ? 'light' : 'dark';
-          setTheme(newTheme);
-          onChange(newTheme);
+          setColorMode(colorMode === 'dark' ? 'light' : 'dark');
         }}
         disabled={!isBrowser}
         title={title}

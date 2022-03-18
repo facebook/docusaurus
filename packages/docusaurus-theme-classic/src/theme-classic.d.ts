@@ -746,12 +746,12 @@ declare module '@theme/TOCCollapsible' {
 }
 
 declare module '@theme/ColorModeToggle' {
-  import type {Theme} from '@docusaurus/theme-common';
+  import type {ColorMode} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly className?: string;
-    readonly theme: Theme;
-    readonly onChange: (theme: Theme) => void;
+    readonly value: ColorMode;
+    readonly onChange: (colorMode: ColorMode) => void;
   }
 
   export default function Toggle(props: Props): JSX.Element;
