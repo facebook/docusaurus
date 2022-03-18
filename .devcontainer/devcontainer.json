@@ -1,6 +1,5 @@
 {
-  "name": "Docusaurus Dev Container",
-  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:14-buster",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-20.04",
   "settings": {
     "[typescript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -22,5 +21,12 @@
     "streetsidesoftware.code-spell-checker"
   ],
   "forwardPorts": [3000],
-  "postCreateCommand": "yarn install"
+  "containerUser": "vscode",
+  "postCreateCommand": "yarn install",
+  "features": {
+    "node": {
+      "version": "14"
+    },
+    "github-cli": "latest"
+  }
 }
