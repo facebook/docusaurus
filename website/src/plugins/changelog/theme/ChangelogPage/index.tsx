@@ -10,9 +10,14 @@ import BlogLayout from '@theme/BlogLayout';
 import ChangelogItem from '@theme/ChangelogItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
-import {PageMetadata, ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
 import TOC from '@theme/TOC';
 import Link from '@docusaurus/Link';
+import clsx from 'clsx';
 
 function ChangelogPageMetadata(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
@@ -26,11 +31,7 @@ function ChangelogPageMetadata(props: Props): JSX.Element {
       title={title}
       description={description}
       keywords={keywords}
-      image={image}
-      htmlClassNames={[
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogPostPage,
-      ]}>
+      image={image}>
       <meta property="og:type" content="article" />
       <meta property="article:published_time" content={date} />
 
@@ -108,9 +109,13 @@ function ChangelogPageContent(props: Props): JSX.Element {
 // blog.
 export default function ChangelogPage(props: Props): JSX.Element {
   return (
-    <>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogPostPage,
+      )}>
       <ChangelogPageMetadata {...props} />
       <ChangelogPageContent {...props} />
-    </>
+    </HtmlClassNameProvider>
   );
 }
