@@ -901,9 +901,9 @@ import {useColorMode} from '@docusaurus/theme-common';
 
 const Example = () => {
   // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
+  const {colorMode, setColorMode} = useColorMode();
 
-  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
 };
 ```
 

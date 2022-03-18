@@ -745,9 +745,7 @@ describe('site with custom sidebar items generator', () => {
   }
 
   it('sidebarItemsGenerator is called with appropriate data', async () => {
-    const customSidebarItemsGeneratorMock = jest.fn(
-      async (_arg: SidebarItemsGeneratorOptionArgs) => [],
-    );
+    const customSidebarItemsGeneratorMock = jest.fn(async () => []);
     const {siteDir} = await loadSite(customSidebarItemsGeneratorMock);
 
     const generatorArg: SidebarItemsGeneratorOptionArgs =

@@ -13,7 +13,6 @@ import path from 'path';
 import imageSize from 'image-size';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       toHaveGoodDimensions: () => R;

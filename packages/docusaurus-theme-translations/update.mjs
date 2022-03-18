@@ -6,7 +6,6 @@
  */
 
 // @ts-check
-/* eslint-disable import/no-extraneous-dependencies */
 
 import logger from '@docusaurus/logger';
 import path from 'path';

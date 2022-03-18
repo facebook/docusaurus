@@ -18,6 +18,7 @@ import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import {
   PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   useWindowSize,
 } from '@docusaurus/theme-common';
@@ -118,10 +119,11 @@ function DocItemContent(props: Props): JSX.Element {
 }
 
 export default function DocItem(props: Props): JSX.Element {
+  const docHtmlClassName = `docs-doc-id-${props.content.metadata.unversionedId}`;
   return (
-    <>
+    <HtmlClassNameProvider className={docHtmlClassName}>
       <DocItemMetadata {...props} />
       <DocItemContent {...props} />
-    </>
+    </HtmlClassNameProvider>
   );
 }

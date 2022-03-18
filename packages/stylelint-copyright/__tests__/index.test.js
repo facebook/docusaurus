@@ -23,7 +23,7 @@ function testStylelintRule(config, tests) {
     const checkTestCaseContent = (testCase) =>
       testCase.description || testCase.code || 'no description';
 
-    if (tests.accept && tests.accept.length) {
+    if (tests.accept?.length) {
       describe('accept cases', () => {
         tests.accept.forEach((testCase) => {
           it(`${checkTestCaseContent(testCase)}`, async () => {
@@ -46,7 +46,7 @@ function testStylelintRule(config, tests) {
       });
     }
 
-    if (tests.reject && tests.reject.length) {
+    if (tests.reject?.length) {
       describe('reject cases', () => {
         tests.reject.forEach((testCase) => {
           it(`${checkTestCaseContent(testCase)}`, async () => {

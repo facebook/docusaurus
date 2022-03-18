@@ -19,7 +19,7 @@ import type {
 import {PluginOptionSchema} from './pluginOptionSchema';
 
 export default function pluginSitemap(
-  _context: LoadContext,
+  context: LoadContext,
   options: Options,
 ): Plugin<void> {
   return {

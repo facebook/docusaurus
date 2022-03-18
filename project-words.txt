@@ -40,6 +40,7 @@ chedeau
 cheng
 clément
 clsx
+codegen
 codeql
 codesandbox
 codespaces
@@ -97,6 +98,7 @@ globby
 goss
 goyal
 gtag
+hardcoding
 hahaha
 héctor
 héllô
