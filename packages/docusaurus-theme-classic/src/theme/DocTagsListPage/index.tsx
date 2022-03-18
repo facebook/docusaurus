@@ -10,24 +10,24 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import {
   PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/DocTagsListPage';
 import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
 export default function DocTagsListPage({tags}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
-    <>
-      <PageMetadata
-        title={title}
-        htmlClassNames={[
-          ThemeClassNames.wrapper.docsPages,
-          ThemeClassNames.page.docsTagsListPage,
-        ]}
-      />
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.docsPages,
+        ThemeClassNames.page.docsTagsListPage,
+      )}>
+      <PageMetadata title={title} />
       <SearchMetadata tag="doc_tags_list" />
       <Layout>
         <div className="container margin-vert--lg">
@@ -39,6 +39,6 @@ export default function DocTagsListPage({tags}: Props): JSX.Element {
           </div>
         </div>
       </Layout>
-    </>
+    </HtmlClassNameProvider>
   );
 }

@@ -14,11 +14,13 @@ import type {Props} from '@theme/BlogTagsPostsPage';
 import Translate, {translate} from '@docusaurus/Translate';
 import {
   PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
 // Very simple pluralization: probably good enough for now
 function useBlogPostsPlural() {
@@ -52,14 +54,12 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
   );
 
   return (
-    <>
-      <PageMetadata
-        title={title}
-        htmlClassNames={[
-          ThemeClassNames.wrapper.blogPages,
-          ThemeClassNames.page.blogTagPostListPage,
-        ]}
-      />
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogTagPostListPage,
+      )}>
+      <PageMetadata title={title} />
       <SearchMetadata tag="blog_tags_posts" />
       <BlogLayout sidebar={sidebar}>
         <header className="margin-bottom--xl">
@@ -86,6 +86,6 @@ export default function BlogTagsPostsPage(props: Props): JSX.Element {
         ))}
         <BlogListPaginator metadata={listMetadata} />
       </BlogLayout>
-    </>
+    </HtmlClassNameProvider>
   );
 }

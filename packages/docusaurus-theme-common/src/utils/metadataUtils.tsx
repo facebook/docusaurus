@@ -17,7 +17,6 @@ interface PageMetadataProps {
   readonly description?: string;
   readonly keywords?: readonly string[] | string;
   readonly image?: string;
-  readonly htmlClassNames?: string[];
   readonly children?: ReactNode;
 }
 
@@ -27,7 +26,6 @@ export function PageMetadata({
   description,
   keywords,
   image,
-  htmlClassNames,
   children,
 }: PageMetadataProps): JSX.Element {
   const pageTitle = useTitleFormatter(title);
@@ -53,8 +51,6 @@ export function PageMetadata({
 
       {pageImage && <meta property="og:image" content={pageImage} />}
       {pageImage && <meta name="twitter:image" content={pageImage} />}
-
-      {htmlClassNames && <html className={htmlClassNames.join(' ')} />}
 
       {children}
     </Head>

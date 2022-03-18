@@ -10,8 +10,13 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 import type {Props} from '@theme/BlogPostPage';
-import {PageMetadata, ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
 import TOC from '@theme/TOC';
+import clsx from 'clsx';
 
 function BlogPostPageMetadata(props: Props): JSX.Element {
   const {content: BlogPostContents} = props;
@@ -24,11 +29,7 @@ function BlogPostPageMetadata(props: Props): JSX.Element {
       title={title}
       description={description}
       keywords={keywords}
-      image={image}
-      htmlClassNames={[
-        ThemeClassNames.wrapper.blogPages,
-        ThemeClassNames.page.blogPostPage,
-      ]}>
+      image={image}>
       <meta property="og:type" content="article" />
       <meta property="article:published_time" content={date} />
       {/* TODO double check those article meta array syntaxes, see https://ogp.me/#array */}
@@ -91,9 +92,13 @@ function BlogPostPageContent(props: Props): JSX.Element {
 
 export default function BlogPostPage(props: Props): JSX.Element {
   return (
-    <>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogPostPage,
+      )}>
       <BlogPostPageMetadata {...props} />
       <BlogPostPageContent {...props} />
-    </>
+    </HtmlClassNameProvider>
   );
 }

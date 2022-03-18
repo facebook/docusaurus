@@ -22,7 +22,6 @@ import clsx from 'clsx';
 import styles from './styles.module.css';
 
 import {
-  PageMetadata,
   HtmlClassNameProvider,
   ThemeClassNames,
   docVersionSearchTag,
@@ -59,12 +58,6 @@ function DocPageContent({
 
   return (
     <>
-      <PageMetadata
-        htmlClassNames={[
-          ThemeClassNames.wrapper.docsPages,
-          ThemeClassNames.page.docsDocPage,
-        ]}
-      />
       <SearchMetadata
         version={version}
         tag={docVersionSearchTag(pluginId, version)}
@@ -171,7 +164,12 @@ export default function DocPage(props: Props): JSX.Element {
     : null;
 
   return (
-    <HtmlClassNameProvider className={versionMetadata.className}>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.docsPages,
+        ThemeClassNames.page.docsDocPage,
+        versionMetadata.className,
+      )}>
       <DocsVersionProvider version={versionMetadata}>
         <DocsSidebarProvider sidebar={sidebar ?? null}>
           <DocPageContent

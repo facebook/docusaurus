@@ -11,7 +11,11 @@ import Layout from '@theme/Layout';
 import MDXContent from '@theme/MDXContent';
 import type {Props} from '@theme/MDXPage';
 import TOC from '@theme/TOC';
-import {PageMetadata, ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 
@@ -24,15 +28,12 @@ export default function MDXPage(props: Props): JSX.Element {
     frontMatter;
 
   return (
-    <>
-      <PageMetadata
-        title={title}
-        description={description}
-        htmlClassNames={[
-          wrapperClassName ?? ThemeClassNames.wrapper.mdxPages,
-          ThemeClassNames.page.mdxPage,
-        ]}
-      />
+    <HtmlClassNameProvider
+      className={clsx(
+        wrapperClassName ?? ThemeClassNames.wrapper.mdxPages,
+        ThemeClassNames.page.mdxPage,
+      )}>
+      <PageMetadata title={title} description={description} />
       <Layout>
         <main className="container container--fluid margin-vert--lg">
           <div className={clsx('row', styles.mdxPageWrapper)}>
@@ -53,6 +54,6 @@ export default function MDXPage(props: Props): JSX.Element {
           </div>
         </main>
       </Layout>
-    </>
+    </HtmlClassNameProvider>
   );
 }

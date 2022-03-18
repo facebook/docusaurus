@@ -11,6 +11,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {
   PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
@@ -18,6 +19,7 @@ import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocTagDocListPage';
 import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -60,14 +62,12 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
   );
 
   return (
-    <>
-      <PageMetadata
-        title={title}
-        htmlClassNames={[
-          ThemeClassNames.wrapper.docsPages,
-          ThemeClassNames.page.docsTagDocListPage,
-        ]}
-      />
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.docsPages,
+        ThemeClassNames.page.docsTagDocListPage,
+      )}>
+      <PageMetadata title={title} />
       <SearchMetadata tag="doc_tag_doc_list" />
       <Layout>
         <div className="container margin-vert--lg">
@@ -92,6 +92,6 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
           </div>
         </div>
       </Layout>
-    </>
+    </HtmlClassNameProvider>
   );
 }

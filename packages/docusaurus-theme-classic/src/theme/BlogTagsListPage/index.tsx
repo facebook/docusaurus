@@ -12,28 +12,28 @@ import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
 import {
   PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
 import SearchMetadata from '../SearchMetadata';
+import clsx from 'clsx';
 
 export default function BlogTagsListPage(props: Props): JSX.Element {
   const {tags, sidebar} = props;
   const title = translateTagsPageTitle();
   return (
-    <>
-      <PageMetadata
-        title={title}
-        htmlClassNames={[
-          ThemeClassNames.wrapper.blogPages,
-          ThemeClassNames.page.blogTagsListPage,
-        ]}
-      />
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogTagsListPage,
+      )}>
+      <PageMetadata title={title} />
       <SearchMetadata tag="blog_tags_list" />
       <BlogLayout sidebar={sidebar}>
         <h1>{title}</h1>
         <TagsListByLetter tags={Object.values(tags)} />
       </BlogLayout>
-    </>
+    </HtmlClassNameProvider>
   );
 }
