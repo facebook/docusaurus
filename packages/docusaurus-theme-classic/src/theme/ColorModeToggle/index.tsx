@@ -15,11 +15,7 @@ import IconDarkMode from '@theme/IconDarkMode';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-function ColorModeToggle({
-  className,
-  value: colorMode,
-  onChange: setColorMode,
-}: Props): JSX.Element {
+function ColorModeToggle({className, value, onChange}: Props): JSX.Element {
   const isBrowser = useIsBrowser();
 
   const title = translate(
@@ -30,7 +26,7 @@ function ColorModeToggle({
     },
     {
       mode:
-        colorMode === 'dark'
+        value === 'dark'
           ? translate({
               message: 'dark mode',
               id: 'theme.colorToggle.ariaLabel.mode.dark',
@@ -53,9 +49,7 @@ function ColorModeToggle({
           !isBrowser && styles.toggleButtonDisabled,
         )}
         type="button"
-        onClick={() => {
-          setColorMode(colorMode === 'dark' ? 'light' : 'dark');
-        }}
+        onClick={() => onChange(value === 'dark' ? 'light' : 'dark')}
         disabled={!isBrowser}
         title={title}
         aria-label={title}>

@@ -751,6 +751,10 @@ declare module '@theme/ColorModeToggle' {
   export interface Props {
     readonly className?: string;
     readonly value: ColorMode;
+    /**
+     * The parameter represents the "to-be" value. For example, if currently in
+     * dark mode, clicking the button should call `onChange("light")`
+     */
     readonly onChange: (colorMode: ColorMode) => void;
   }
 
