@@ -140,7 +140,7 @@ export function NavbarSecondaryMenuFiller<
 }
 
 function renderElement(state: State): JSX.Element | undefined {
-  if (state.content && state.content.component) {
+  if (state.content?.component) {
     const Comp = state.content.component;
     return <Comp {...state.content.props} />;
   }

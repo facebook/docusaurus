@@ -7,13 +7,7 @@
 
 import React, {type ComponentProps} from 'react';
 import {useNavbarSecondaryMenu, useThemeConfig} from '@docusaurus/theme-common';
-import type {Props as NavbarItemConfig} from '@theme/NavbarItem';
 import Translate from '@docusaurus/Translate';
-
-function useIsPrimaryMenuEmpty() {
-  // TODO temporary casting until ThemeConfig type is improved
-  return (useThemeConfig().navbar.items as NavbarItemConfig[]).length === 0;
-}
 
 function SecondaryMenuBackButton(props: ComponentProps<'button'>) {
   return (
@@ -30,7 +24,7 @@ function SecondaryMenuBackButton(props: ComponentProps<'button'>) {
 // The secondary menu slides from the right and shows contextual information
 // such as the docs sidebar
 export default function NavbarMobileSidebarSecondaryMenu(): JSX.Element | null {
-  const isPrimaryMenuEmpty = useIsPrimaryMenuEmpty();
+  const isPrimaryMenuEmpty = useThemeConfig().navbar.items.length === 0;
   const secondaryMenu = useNavbarSecondaryMenu();
   return (
     <>
