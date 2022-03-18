@@ -320,7 +320,10 @@ const config = {
           remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./_dogfooding/dogfooding.css'),
+          ],
         },
         gtag: !isDeployPreview
           ? {
