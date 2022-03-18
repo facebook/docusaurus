@@ -35,7 +35,10 @@ function wcagContrast(foreground: string, background: string) {
 }
 
 export default function ColorGenerator(): JSX.Element {
-  const {isDarkTheme, setDarkTheme, setLightTheme} = useColorMode();
+  const {colorMode, setColorMode} = useColorMode();
+
+  const isDarkTheme = colorMode === 'dark';
+
   const DEFAULT_PRIMARY_COLOR = isDarkTheme
     ? DARK_PRIMARY_COLOR
     : LIGHT_PRIMARY_COLOR;
@@ -131,13 +134,7 @@ export default function ColorGenerator(): JSX.Element {
         <button
           type="button"
           className="clean-btn button button--primary margin-left--md"
-          onClick={() => {
-            if (isDarkTheme) {
-              setLightTheme();
-            } else {
-              setDarkTheme();
-            }
-          }}>
+          onClick={() => setColorMode(isDarkTheme ? 'light' : 'dark')}>
           <Translate
             id="colorGenerator.inputs.modeToggle.label"
             values={{
