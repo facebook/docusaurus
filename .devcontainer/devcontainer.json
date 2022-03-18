@@ -23,6 +23,7 @@
   "forwardPorts": [3000],
   "containerUser": "vscode",
   "postCreateCommand": "yarn install",
+  "waitFor": "postCreateCommand", // otherwise automated jest tests fail
   "features": {
     "node": {
       "version": "14"
