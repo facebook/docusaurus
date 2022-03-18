@@ -15,7 +15,7 @@ function mergeContexts({
   value,
 }: {
   parent: PluginRouteContext | null;
-  value: PluginRouteContext | RouteContext | null;
+  value: RouteContext | null;
 }): PluginRouteContext {
   if (!parent) {
     if (!value) {
