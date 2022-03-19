@@ -779,6 +779,15 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
+    title: 'SeaORM - 🐚 An async & dynamic ORM for Rust',
+    description:
+      'SeaORM is a relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
+    preview: require('./showcase/SeaORM.png'),
+    website: 'https://www.sea-ql.org/SeaORM/',
+    source: 'https://github.com/SeaQL/seaql.github.io',
+    tags: ['opensource', 'versioning'],
+  },
+  {
     title: 'Ionic',
     description:
       'Ionic is an open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
