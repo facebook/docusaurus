@@ -49,9 +49,9 @@
     "@docusaurus/utils": "2.0.0-beta.17",
     "@docusaurus/utils-common": "2.0.0-beta.17",
     "@popperjs/core": "^2.11.4",
+    "@swc/core": "^1.2.158",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
-    "esbuild-loader": "2.18.0",
     "fs-extra": "^10.0.1",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
@@ -61,6 +61,7 @@
     "react-popper": "^2.2.5",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
+    "swc-loader": "^0.1.15",
     "unist-util-visit": "^2.0.2",
     "workbox-routing": "^6.5.1",
     "workbox-strategies": "^6.5.1"

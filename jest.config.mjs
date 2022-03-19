@@ -30,7 +30,7 @@ export default {
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest',
+    '^.+\\.[jt]sx?$': '@swc/jest',
   },
   errorOnDeprecated: true,
   moduleNameMapper: {
