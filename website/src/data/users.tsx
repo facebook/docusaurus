@@ -780,14 +780,12 @@ const Users: User[] = [
   },
   {
     title: 'SeaORM - 🐚 An async & dynamic ORM for Rust',
-    description: 'SeaORM is a relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
+    description:
+      'SeaORM is a relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
     preview: require('./showcase/SeaORM.png'),
     website: 'https://www.sea-ql.org/SeaORM/',
     source: 'https://github.com/SeaQL/seaql.github.io',
-    tags: [
-      'opensource',
-      'versioning',
-    ],
+    tags: ['opensource', 'versioning'],
   },
   {
     title: 'Ionic',
