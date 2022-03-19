@@ -94,10 +94,18 @@ const config = {
   },
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('esbuild-loader'),
+      loader: require.resolve('swc-loader'),
       options: {
-        loader: 'tsx',
-        target: isServer ? 'node12' : 'es2017',
+        jsc: {
+          "parser": {
+            "syntax": "typescript",
+            "tsx": true
+          },
+          target: 'es2017',
+        },
+        module: {
+          type: isServer ? 'commonjs' : 'es6',
+        }
       },
     }),
   },

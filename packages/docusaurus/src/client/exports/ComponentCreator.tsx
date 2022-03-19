@@ -62,7 +62,8 @@ export default function ComponentCreator(
     if (chunkRegistry) {
       // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
-      optsModules.push(chunkRegistry[1], chunkRegistry[2]);
+      optsModules.push(chunkRegistry[1]);
+      optsWebpack.push(chunkRegistry[2]);
     }
   });
 
@@ -81,11 +82,13 @@ export default function ComponentCreator(
             `The page component at ${path} doesn't have a default export. This makes it impossible to render anything. Consider default-exporting a React component.`,
           );
         }
-        Object.keys(loaded[key])
-          .filter((k) => k !== 'default')
-          .forEach((nonDefaultKey) => {
-            newComp[nonDefaultKey] = loaded[key][nonDefaultKey];
-          });
+        if (typeof newComp === 'object' || typeof newComp === 'function') {
+          Object.keys(loaded[key])
+            .filter((k) => k !== 'default')
+            .forEach((nonDefaultKey) => {
+              newComp[nonDefaultKey] = loaded[key][nonDefaultKey];
+            });
+        }
         let val = loadedModules;
         const keyPath = key.split('.');
         keyPath.slice(0, -1).forEach((k) => {
