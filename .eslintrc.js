@@ -49,6 +49,7 @@ module.exports = {
     curly: [WARNING, 'all'],
     'global-require': WARNING,
     'lines-between-class-members': OFF,
+    'max-classes-per-file': OFF,
     'max-len': [
       WARNING,
       {
