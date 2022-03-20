@@ -122,6 +122,15 @@ function DocSidebarItemCategory({
     },
   });
 
+  // todo: this hook should not be there at all, when re-rendering
+  // (= clearing filter input), the `collapsed` state is not calculated
+  // correctly (if input of `item.collapsed` is `true`, it is `false` here)
+  useEffect(() => {
+    if (filterTerm === '' && !isActive && item.collapsible) {
+      setCollapsed(item.collapsed);
+    }
+  }, [filterTerm, isActive, item.collapsible, setCollapsed, item.collapsed]);
+
   useAutoExpandActiveCategory({isActive, collapsed, setCollapsed});
   const {expandedItem, setExpandedItem} = useDocSidebarItemsExpandedState();
   function updateCollapsed(toCollapsed: boolean = !collapsed) {
@@ -134,7 +143,8 @@ function DocSidebarItemCategory({
       collapsible &&
       expandedItem &&
       expandedItem !== index &&
-      autoCollapseSidebarCategories
+      autoCollapseSidebarCategories &&
+      !filterTerm
     ) {
       setCollapsed(true);
     }
@@ -144,6 +154,7 @@ function DocSidebarItemCategory({
     index,
     setCollapsed,
     autoCollapseSidebarCategories,
+    filterTerm,
   ]);
 
   return (
