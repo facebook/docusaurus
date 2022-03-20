@@ -17,6 +17,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
+  HtmlClassNameProvider,
   useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
@@ -149,7 +150,7 @@ type ResultDispatcher =
   | {type: 'update'; value: ResultDispatcherState}
   | {type: 'advance'; value?: undefined};
 
-export default function SearchPage(): JSX.Element {
+function SearchPageContent(): JSX.Element {
   const {
     siteConfig: {themeConfig},
     i18n: {currentLocale},
@@ -356,7 +357,7 @@ export default function SearchPage(): JSX.Element {
   }, [makeSearch, searchResultState.lastPage]);
 
   return (
-    <Layout wrapperClassName="search-page-wrapper">
+    <Layout>
       <Head>
         <title>{useTitleFormatter(getTitle())}</title>
         {/*
@@ -514,5 +515,13 @@ export default function SearchPage(): JSX.Element {
         )}
       </div>
     </Layout>
+  );
+}
+
+export default function SearchPage(): JSX.Element {
+  return (
+    <HtmlClassNameProvider className="search-page-wrapper">
+      <SearchPageContent />
+    </HtmlClassNameProvider>
   );
 }

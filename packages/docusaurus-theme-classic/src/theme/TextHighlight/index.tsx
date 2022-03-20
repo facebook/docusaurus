@@ -15,10 +15,10 @@ function TextHighlight({text, highlight}: Props): JSX.Element {
     return <>{text}</>;
   }
 
-  const highlightedText = text.replace(
+  const highlightedText = text?.replace(
     new RegExp(highlight, 'gi'),
     (match) => `<mark>${match}</mark>`,
-  );
+  ) as string;
 
   return (
     <span

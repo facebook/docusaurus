@@ -9,6 +9,53 @@ import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import clsx from 'clsx';
 import useRouteContext from '@docusaurus/useRouteContext';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import {useTitleFormatter} from './generalUtils';
+
+interface PageMetadataProps {
+  readonly title?: string;
+  readonly description?: string;
+  readonly keywords?: readonly string[] | string;
+  readonly image?: string;
+  readonly children?: ReactNode;
+}
+
+// Helper component to manipulate page metadata and override site defaults
+export function PageMetadata({
+  title,
+  description,
+  keywords,
+  image,
+  children,
+}: PageMetadataProps): JSX.Element {
+  const pageTitle = useTitleFormatter(title);
+  const {withBaseUrl} = useBaseUrlUtils();
+  const pageImage = image ? withBaseUrl(image, {absolute: true}) : undefined;
+
+  return (
+    <Head>
+      {title && <title>{pageTitle}</title>}
+      {title && <meta property="og:title" content={pageTitle} />}
+
+      {description && <meta name="description" content={description} />}
+      {description && <meta property="og:description" content={description} />}
+
+      {keywords && (
+        <meta
+          name="keywords"
+          content={
+            (Array.isArray(keywords) ? keywords.join(',') : keywords) as string
+          }
+        />
+      )}
+
+      {pageImage && <meta property="og:image" content={pageImage} />}
+      {pageImage && <meta name="twitter:image" content={pageImage} />}
+
+      {children}
+    </Head>
+  );
+}
 
 const HtmlClassNameContext = React.createContext<string | undefined>(undefined);
 

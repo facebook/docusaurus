@@ -94,10 +94,18 @@ const config = {
   },
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('esbuild-loader'),
+      loader: require.resolve('swc-loader'),
       options: {
-        loader: 'tsx',
-        target: isServer ? 'node12' : 'es2017',
+        jsc: {
+          "parser": {
+            "syntax": "typescript",
+            "tsx": true
+          },
+          target: 'es2017',
+        },
+        module: {
+          type: isServer ? 'commonjs' : 'es6',
+        }
       },
     }),
   },
@@ -320,7 +328,10 @@ const config = {
           remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./_dogfooding/dogfooding.css'),
+          ],
         },
         gtag: !isDeployPreview
           ? {

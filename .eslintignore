@@ -16,6 +16,6 @@ packages/stylelint-copyright/lib/
 copyUntypedFiles.mjs
 
 packages/create-docusaurus/lib/*
-packages/create-docusaurus/templates/facebook/.eslintrc.js
+packages/create-docusaurus/templates/facebook
 
 website/_dogfooding/_swizzle_theme_tests
