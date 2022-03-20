@@ -336,9 +336,9 @@ const TWEETS: TweetItem[] = [
     content: (
       <>
         The new website has landed 🚀 powered by <b>@docusaurus</b> v2 and made
-        by @_semoal kudos to him 👏 #verdaccio #nodejs awesome contribution
-        ❤️‍🔥 (video made with react remotion @JNYBGR ) all Open Source and
-        hosted on @Netlify https://verdaccio.org
+        by @_semoal kudos to him 👏 #verdaccio #nodejs awesome contribution ❤️‍🔥
+        (video made with react remotion @JNYBGR ) all Open Source and hosted on
+        @Netlify https://verdaccio.org
       </>
     ),
     showOnHomepage: false,
