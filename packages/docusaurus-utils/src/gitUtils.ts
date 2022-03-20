@@ -75,7 +75,7 @@ export const getFileCommitDate = (
 
   if (!output) {
     throw new FileNotTrackedError(
-      `Failed to retrieve the git history for file "${file}" probably because the file is not tracked by git.`,
+      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
     );
   }
 
