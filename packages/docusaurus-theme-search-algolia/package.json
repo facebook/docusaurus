@@ -34,7 +34,7 @@
     "@docusaurus/utils": "2.0.0-beta.17",
     "@docusaurus/utils-validation": "2.0.0-beta.17",
     "algoliasearch": "^4.13.0",
-    "algoliasearch-helper": "^3.7.0",
+    "algoliasearch-helper": "^3.7.3",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
     "fs-extra": "^10.0.1",

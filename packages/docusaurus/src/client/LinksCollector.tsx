@@ -35,7 +35,7 @@ const Context = React.createContext<LinksCollector>({
 
 export const useLinksCollector = (): LinksCollector => useContext(Context);
 
-export function ProvideLinksCollector({
+export function LinksCollectorProvider({
   children,
   linksCollector,
 }: {
