@@ -8,6 +8,15 @@
 import React, {type ReactNode, useState, useCallback} from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
+import {
+  DocsFilterProvider,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+  docVersionSearchTag,
+  DocsSidebarProvider,
+  useDocsSidebar,
+  DocsVersionProvider,
+} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import NotFound from '@theme/NotFound';
@@ -20,15 +29,6 @@ import {translate} from '@docusaurus/Translate';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
-
-import {
-  HtmlClassNameProvider,
-  ThemeClassNames,
-  docVersionSearchTag,
-  DocsSidebarProvider,
-  useDocsSidebar,
-  DocsVersionProvider,
-} from '@docusaurus/theme-common';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
@@ -164,12 +164,14 @@ export default function DocPage(props: Props): JSX.Element {
     <HtmlClassNameProvider className={versionMetadata.className}>
       <DocsVersionProvider version={versionMetadata}>
         <DocsSidebarProvider sidebar={sidebar ?? null}>
-          <DocPageContent
-            currentDocRoute={currentDocRoute}
-            versionMetadata={versionMetadata}
-            sidebarName={sidebarName}>
-            {renderRoutes(docRoutes, {versionMetadata})}
-          </DocPageContent>
+          <DocsFilterProvider>
+            <DocPageContent
+              currentDocRoute={currentDocRoute}
+              versionMetadata={versionMetadata}
+              sidebarName={sidebarName}>
+              {renderRoutes(docRoutes, {versionMetadata})}
+            </DocPageContent>
+          </DocsFilterProvider>
         </DocsSidebarProvider>
       </DocsVersionProvider>
     </HtmlClassNameProvider>

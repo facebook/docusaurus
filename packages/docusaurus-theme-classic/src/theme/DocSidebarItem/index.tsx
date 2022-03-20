@@ -17,11 +17,13 @@ import {
   useThemeConfig,
   useDocSidebarItemsExpandedState,
   isSamePath,
+  useDocsFilter,
 } from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {translate} from '@docusaurus/Translate';
 import IconExternalLink from '@theme/IconExternalLink';
+import TextHighlight from '@theme/TextHighlight';
 
 import DocSidebarItems from '@theme/DocSidebarItems';
 import type {Props} from '@theme/DocSidebarItem';
@@ -104,6 +106,7 @@ function DocSidebarItemCategory({
 }: Props & {item: PropSidebarItemCategory}) {
   const {items, label, collapsible, className, href} = item;
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
+  const {filterTerm} = useDocsFilter();
 
   const isActive = isActiveSidebarItem(item, activePath);
   const isCurrentPage = isSamePath(href, activePath);
@@ -182,7 +185,7 @@ function DocSidebarItemCategory({
           aria-expanded={collapsible ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          {label}
+          <TextHighlight text={label} highlight={filterTerm} />
         </Link>
         {href && collapsible && (
           <button
@@ -249,6 +252,7 @@ function DocSidebarItemLink({
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label, className} = item;
   const isActive = isActiveSidebarItem(item, activePath);
+  const {filterTerm} = useDocsFilter();
   return (
     <li
       className={clsx(
@@ -269,7 +273,7 @@ function DocSidebarItemLink({
         })}
         {...props}>
         <span>
-          {label}
+          <TextHighlight text={label} highlight={filterTerm} />
           {!isInternalUrl(href) && <IconExternalLink />}
         </span>
       </Link>

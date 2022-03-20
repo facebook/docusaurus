@@ -155,6 +155,12 @@ export {
 } from './utils/navbarSecondaryMenuUtils';
 export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
 
+export {
+  DocsFilterProvider,
+  useDocsFilter,
+  filterDocsSidebar,
+} from './utils/docsFilterUtils';
+
 export {default as useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   default as useKeyboardNavigation,
