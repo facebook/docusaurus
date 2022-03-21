@@ -33,10 +33,7 @@ stdout: ${res.stdout}`);
         `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
         {
           cwd: this.dir,
-          env: {
-            GIT_COMMITTER_DATE: `${date}T00:00:00Z`,
-            GIT_COMMITTER_NAME: author,
-          },
+          env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`},
           silent: true,
         },
       );
