@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import logger from '@docusaurus/logger';
 import Vibrant from 'node-vibrant';
 import path from 'path';
 import sharp from 'sharp';
@@ -21,32 +22,31 @@ const SUPPORTED_MIMES: Record<string, string> = {
   png: 'image/png',
 };
 
-async function base64(file: string): Promise<string> {
-  let extension = path.extname(file) || '';
+export async function base64(file: string): Promise<string> {
+  let extension = path.extname(file);
   extension = extension.split('.').pop()!;
+  const mime = SUPPORTED_MIMES[extension];
 
-  if (!SUPPORTED_MIMES[extension]) {
+  if (!mime) {
     throw new Error(ERROR_EXT);
   }
 
-  const data = await sharp(file).resize(10).toBuffer();
-  if (data) {
-    return toBase64(SUPPORTED_MIMES[extension], data);
+  try {
+    const data = await sharp(file).resize(10).toBuffer();
+    return toBase64(mime, data);
+  } catch (err) {
+    logger.error`Generation of base64 failed for image path=${file}.`;
+    throw err;
   }
-  throw new Error('Unhandled promise rejection in base64 promise');
 }
 
-async function palette(file: string): Promise<string[]> {
+export async function palette(file: string): Promise<string[]> {
   const vibrant = new Vibrant(file, {});
-  const pal = await vibrant.getPalette();
-  if (pal) {
+  try {
+    const pal = await vibrant.getPalette();
     return toPalette(pal);
+  } catch (err) {
+    logger.error`Generation of color palette failed for image path=${file}.`;
+    throw err;
   }
-  throw new Error(`Unhandled promise rejection in colorPalette ${pal}`);
 }
-
-process.on('unhandledRejection', (up) => {
-  throw up;
-});
-
-export {base64, palette};

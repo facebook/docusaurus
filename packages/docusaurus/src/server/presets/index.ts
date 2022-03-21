@@ -7,60 +7,54 @@
 
 import {createRequire} from 'module';
 import importFresh from 'import-fresh';
-import {
+import type {
   LoadContext,
   PluginConfig,
-  Preset,
-  PresetConfig,
+  ImportedPresetModule,
 } from '@docusaurus/types';
+import {resolveModuleName} from '../moduleShorthand';
 
-export default function loadPresets(context: LoadContext): {
+export default async function loadPresets(context: LoadContext): Promise<{
   plugins: PluginConfig[];
   themes: PluginConfig[];
-} {
-  // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
-  // declares the dependency on these plugins.
-  const pluginRequire = createRequire(context.siteConfigPath);
+}> {
+  // We need to resolve presets from the perspective of the siteDir, since the
+  // siteDir's package.json declares the dependency on these presets.
+  const presetRequire = createRequire(context.siteConfigPath);
 
-  const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
-  const unflatPlugins: PluginConfig[][] = [];
-  const unflatThemes: PluginConfig[][] = [];
+  const {presets} = context.siteConfig;
+  const plugins: PluginConfig[] = [];
+  const themes: PluginConfig[] = [];
 
   presets.forEach((presetItem) => {
-    let presetModuleImport;
+    let presetModuleImport: string;
     let presetOptions = {};
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
-    } else if (Array.isArray(presetItem)) {
-      [presetModuleImport, presetOptions = {}] = presetItem;
     } else {
-      throw new Error('Invalid presets format detected in config.');
+      [presetModuleImport, presetOptions] = presetItem;
     }
+    const presetName = resolveModuleName(
+      presetModuleImport,
+      presetRequire,
+      'preset',
+    );
 
-    type PresetInitializeFunction = (
-      context: LoadContext,
-      presetOptions: Record<string, unknown>,
-    ) => Preset;
-    const presetModule = importFresh<
-      PresetInitializeFunction & {
-        default?: PresetInitializeFunction;
-      }
-    >(pluginRequire.resolve(presetModuleImport));
-    const preset: Preset = (presetModule.default || presetModule)(
+    const presetModule = importFresh<ImportedPresetModule>(
+      presetRequire.resolve(presetName),
+    );
+    const preset = (presetModule.default ?? presetModule)(
       context,
       presetOptions,
     );
 
     if (preset.plugins) {
-      unflatPlugins.push(preset.plugins);
+      plugins.push(...preset.plugins.filter(Boolean));
     }
     if (preset.themes) {
-      unflatThemes.push(preset.themes);
+      themes.push(...preset.themes.filter(Boolean));
     }
   });
 
-  return {
-    plugins: ([] as PluginConfig[]).concat(...unflatPlugins).filter(Boolean),
-    themes: ([] as PluginConfig[]).concat(...unflatThemes).filter(Boolean),
-  };
+  return {plugins, themes};
 }

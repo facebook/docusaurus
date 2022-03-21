@@ -6,14 +6,14 @@
  */
 
 import {validateDocFrontMatter} from '../docFrontMatter';
-import {DocFrontMatter} from '../types';
+import type {DocFrontMatter} from '../types';
 import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
   prefix: string;
   validFrontMatters: DocFrontMatter[];
   convertibleFrontMatter?: [
-    ConvertableFrontMatter: Record<string, unknown>,
+    ConvertibleFrontMatter: Record<string, unknown>,
     ConvertedFrontMatter: DocFrontMatter,
   ][];
   invalidFrontMatters?: [
@@ -21,12 +21,14 @@ function testField(params: {
     ErrorMessage: string,
   ][];
 }) {
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] accept valid values`, () => {
     params.validFrontMatters.forEach((frontMatter) => {
       expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
     });
   });
 
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] convert valid values`, () => {
     params.convertibleFrontMatter?.forEach(
       ([convertibleFrontMatter, convertedFrontMatter]) => {
@@ -37,33 +39,36 @@ function testField(params: {
     );
   });
 
+  // eslint-disable-next-line jest/require-top-level-describe
   test(`[${params.prefix}] throw error for values`, () => {
     params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
       try {
         validateDocFrontMatter(frontMatter);
+        // eslint-disable-next-line jest/no-jasmine-globals
         fail(
           new Error(
-            `Doc frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+            `Doc front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
               frontMatter,
               null,
               2,
             )}`,
           ),
         );
-      } catch (e) {
-        expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+      } catch (err) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(err.message).toMatch(new RegExp(escapeStringRegexp(message)));
       }
     });
   });
 }
 
-describe('validateDocFrontMatter', () => {
-  test('accept empty object', () => {
+describe('doc front matter schema', () => {
+  it('accepts empty object', () => {
     const frontMatter: DocFrontMatter = {};
     expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('accept unknown field', () => {
+  it('accepts unknown field', () => {
     const frontMatter = {abc: '1'};
     expect(validateDocFrontMatter(frontMatter)).toEqual(frontMatter);
   });
@@ -208,6 +213,19 @@ describe('validateDocFrontMatter sidebar_position', () => {
   });
 });
 
+describe('validateDocFrontMatter sidebar_custom_props', () => {
+  testField({
+    prefix: 'sidebar_custom_props',
+    validFrontMatters: [
+      {sidebar_custom_props: {}},
+      {sidebar_custom_props: {prop: 'custom', number: 1, boolean: true}},
+    ],
+    invalidFrontMatters: [
+      [{sidebar_custom_props: ''}, 'must be of type object'],
+    ],
+  });
+});
+
 describe('validateDocFrontMatter custom_edit_url', () => {
   testField({
     prefix: 'custom_edit_url',
@@ -262,7 +280,7 @@ describe('validateDocFrontMatter tags', () => {
   });
 });
 
-describe('validateDocFrontMatter toc_min_heading_level', () => {
+describe('toc_min_heading_level', () => {
   testField({
     prefix: 'toc_min_heading_level',
     validFrontMatters: [
@@ -298,7 +316,7 @@ describe('validateDocFrontMatter toc_min_heading_level', () => {
   });
 });
 
-describe('validateDocFrontMatter toc_max_heading_level', () => {
+describe('toc_max_heading_level', () => {
   testField({
     prefix: 'toc_max_heading_level',
     validFrontMatters: [
@@ -334,7 +352,7 @@ describe('validateDocFrontMatter toc_max_heading_level', () => {
   });
 });
 
-describe('validateDocFrontMatter toc min/max consistency', () => {
+describe('toc min/max consistency', () => {
   testField({
     prefix: 'toc min/max',
     validFrontMatters: [

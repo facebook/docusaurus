@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {SidebarOptions} from '../types';
-import {
+import type {
   NormalizedSidebarItem,
   NormalizedSidebar,
   NormalizedSidebars,
@@ -15,18 +14,17 @@ import {
   SidebarItemConfig,
   SidebarConfig,
   SidebarsConfig,
-  isCategoriesShorthand,
+  NormalizedSidebarItemCategory,
 } from './types';
-import {mapValues} from 'lodash';
+import {isCategoriesShorthand} from './utils';
+import _ from 'lodash';
+import logger from '@docusaurus/logger';
 
 function normalizeCategoriesShorthand(
   sidebar: SidebarCategoriesShorthand,
-  options: SidebarOptions,
 ): SidebarItemCategoryConfig[] {
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
-    collapsed: options.sidebarCollapsed,
-    collapsible: options.sidebarCollapsible,
     label,
     items,
   }));
@@ -36,53 +34,52 @@ function normalizeCategoriesShorthand(
  * Normalizes recursively item and all its children. Ensures that at the end
  * each item will be an object with the corresponding type.
  */
-function normalizeItem(
+export function normalizeItem(
   item: SidebarItemConfig,
-  options: SidebarOptions,
 ): NormalizedSidebarItem[] {
   if (typeof item === 'string') {
-    return [
-      {
-        type: 'doc',
-        id: item,
-      },
-    ];
+    return [{type: 'doc', id: item}];
   }
   if (isCategoriesShorthand(item)) {
-    return normalizeCategoriesShorthand(item, options).flatMap((subitem) =>
-      normalizeItem(subitem, options),
-    );
+    // This will never throw anyways
+    return normalizeSidebar(item, 'sidebar items slice');
   }
-  return item.type === 'category'
-    ? [
-        {
-          ...item,
-          items: item.items.flatMap((subItem) =>
-            normalizeItem(subItem, options),
-          ),
-          collapsible: item.collapsible ?? options.sidebarCollapsible,
-          collapsed: item.collapsed ?? options.sidebarCollapsed,
-        },
-      ]
-    : [item];
+  if (item.type === 'category') {
+    const normalizedCategory: NormalizedSidebarItemCategory = {
+      ...item,
+      items: normalizeSidebar(
+        item.items,
+        logger.interpolate`code=${'items'} of the category name=${item.label}`,
+      ),
+    };
+    return [normalizedCategory];
+  }
+  return [item];
 }
 
 function normalizeSidebar(
   sidebar: SidebarConfig,
-  options: SidebarOptions,
+  place: string,
 ): NormalizedSidebar {
+  if (!Array.isArray(sidebar) && !isCategoriesShorthand(sidebar)) {
+    throw new Error(
+      logger.interpolate`Invalid sidebar items collection code=${JSON.stringify(
+        sidebar,
+      )} in ${place}: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a code=${'type'} property). See path=${'https://docusaurus.io/docs/sidebar/items'} for all valid syntaxes.`,
+    );
+  }
+
   const normalizedSidebar = Array.isArray(sidebar)
     ? sidebar
-    : normalizeCategoriesShorthand(sidebar, options);
+    : normalizeCategoriesShorthand(sidebar);
 
-  return normalizedSidebar.flatMap((subitem) =>
-    normalizeItem(subitem, options),
-  );
+  return normalizedSidebar.flatMap((subItem) => normalizeItem(subItem));
 }
 
 export function normalizeSidebars(
   sidebars: SidebarsConfig,
-  options: SidebarOptions,
 ): NormalizedSidebars {
-  return mapValues(sidebars, (subitem) => normalizeSidebar(subitem, options));
+  return _.mapValues(sidebars, (sidebar, id) =>
+    normalizeSidebar(sidebar, logger.interpolate`sidebar name=${id}`),
+  );
 }

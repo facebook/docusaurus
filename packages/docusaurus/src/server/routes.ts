@@ -10,10 +10,10 @@ import {
   normalizeUrl,
   removeSuffix,
   simpleHash,
+  escapePath,
 } from '@docusaurus/utils';
-import {has, isPlainObject, isString} from 'lodash';
 import {stringify} from 'querystring';
-import {
+import type {
   ChunkRegistry,
   Module,
   RouteConfig,
@@ -27,10 +27,10 @@ type RegistryMap = {
 
 function indent(str: string) {
   const spaces = '  ';
-  return `${spaces}${str.replace(/(\n)/g, `\n${spaces}`)}`;
+  return `${spaces}${str.replace(/\n/g, `\n${spaces}`)}`;
 }
 
-const createRouteCodeString = ({
+function createRouteCodeString({
   routePath,
   routeHash,
   exact,
@@ -42,7 +42,7 @@ const createRouteCodeString = ({
   exact?: boolean;
   subroutesCodeStrings?: string[];
   props: {[propName: string]: unknown};
-}) => {
+}) {
   const parts = [
     `path: '${routePath}'`,
     `component: ComponentCreator('${routePath}','${routeHash}')`,
@@ -61,17 +61,30 @@ ${indent(removeSuffix(subroutesCodeStrings.join(',\n'), ',\n'))}
   }
 
   Object.entries(props).forEach(([propName, propValue]) => {
-    // Figure out how to "unquote" JS attributes that don't need to be quoted
-    // Is this lib reliable? https://github.com/armanozak/should-quote
-    const shouldQuote = true; // TODO
-    const key = shouldQuote ? `'${propName}'` : propName;
+    // Inspired by https://github.com/armanozak/should-quote/blob/main/packages/should-quote/src/lib/should-quote.ts
+    const shouldQuote = ((key: string) => {
+      // Pre-sanitation to prevent injection
+      if (/[.,;:}/\s]/.test(key)) {
+        return true;
+      }
+      try {
+        // If this key can be used in an expression like ({a:0}).a
+        // eslint-disable-next-line no-eval
+        eval(`({${key}:0}).${key}`);
+        return false;
+      } catch {
+        return true;
+      }
+    })(propName);
+    // Escape quotes as well
+    const key = shouldQuote ? JSON.stringify(propName) : propName;
     parts.push(`${key}: ${JSON.stringify(propValue)}`);
   });
 
   return `{
 ${indent(parts.join(',\n'))}
 }`;
-};
+}
 
 const NotFoundRouteCode = `{
   path: '*',
@@ -84,10 +97,15 @@ const RoutesImportsCode = [
 ].join('\n');
 
 function isModule(value: unknown): value is Module {
-  if (isString(value)) {
+  if (typeof value === 'string') {
     return true;
   }
-  if (isPlainObject(value) && has(value, '__import') && has(value, 'path')) {
+  if (
+    typeof value === 'object' &&
+    // eslint-disable-next-line no-underscore-dangle
+    (value as Record<string, unknown>)?.__import &&
+    (value as Record<string, unknown>)?.path
+  ) {
     return true;
   }
   return false;
@@ -101,28 +119,18 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-type LoadedRoutes = {
-  registry: {
-    [chunkName: string]: ChunkRegistry;
-  };
-  routesConfig: string;
-  routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  };
-  routesPaths: string[];
-};
-
 export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-): Promise<LoadedRoutes> {
-  const registry: {
-    [chunkName: string]: ChunkRegistry;
-  } = {};
+): Promise<{
+  registry: {[chunkName: string]: ChunkRegistry};
+  routesConfig: string;
+  routesChunkNames: {[routePath: string]: ChunkNames};
+  routesPaths: string[];
+}> {
+  const registry: {[chunkName: string]: ChunkRegistry} = {};
   const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
-  const routesChunkNames: {
-    [routePath: string]: ChunkNames;
-  } = {};
+  const routesChunkNames: {[routePath: string]: ChunkNames} = {};
 
   // This is the higher level overview of route code generation.
   function generateRouteCode(routeConfig: RouteConfig): string {
@@ -136,17 +144,17 @@ export default async function loadRoutes(
       ...props
     } = routeConfig;
 
-    if (!isString(routePath) || !component) {
+    if (typeof routePath !== 'string' || !component) {
       throw new Error(
-        `Invalid route config: path must be a string and component is required.\n${JSON.stringify(
-          routeConfig,
-        )}`,
+        `Invalid route config: path must be a string and component is required.
+${JSON.stringify(routeConfig)}`,
       );
     }
 
     // Collect all page paths for injecting it later in the plugin lifecycle
     // This is useful for plugins like sitemaps, redirects etc...
-    // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
+    // If a route has subroutes, it is not necessarily a valid page path (more
+    // likely to be a wrapper)
     if (!subroutes) {
       routesPaths.push(routePath);
     }
@@ -232,21 +240,17 @@ function genRouteChunkNames(
   if (isModule(value)) {
     const modulePath = getModulePath(value);
     const chunkName = genChunkName(modulePath, prefix, name);
-    // We need to JSON.stringify so that if its on windows, backslashes are escaped.
-    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
       modulePath,
-    )})`;
+    )}')`;
 
-    registry[chunkName] = {
-      loader,
-      modulePath,
-    };
+    registry[chunkName] = {loader, modulePath};
     return chunkName;
   }
 
   const newValue: ChunkNames = {};
-  Object.keys(value).forEach((key) => {
-    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+  Object.entries(value).forEach(([key, v]) => {
+    newValue[key] = genRouteChunkNames(registry, v, key, name);
   });
   return newValue;
 }

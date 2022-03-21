@@ -30,7 +30,7 @@ function addBaseUrl(
   }
 
   if (forcePrependBaseUrl) {
-    return baseUrl + url;
+    return baseUrl + url.replace(/^\//, '');
   }
 
   // We should avoid adding the baseurl twice if it's already there
@@ -42,12 +42,11 @@ function addBaseUrl(
 }
 
 export function useBaseUrlUtils(): BaseUrlUtils {
-  const {siteConfig: {baseUrl = '/', url: siteUrl} = {}} =
-    useDocusaurusContext();
+  const {
+    siteConfig: {baseUrl, url: siteUrl},
+  } = useDocusaurusContext();
   return {
-    withBaseUrl: (url, options) => {
-      return addBaseUrl(siteUrl, baseUrl, url, options);
-    },
+    withBaseUrl: (url, options) => addBaseUrl(siteUrl, baseUrl, url, options),
   };
 }
 

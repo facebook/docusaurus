@@ -8,8 +8,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl, Globby} from '@docusaurus/utils';
-import {ThemeAliases} from '@docusaurus/types';
-import {sortBy} from 'lodash';
+import type {ThemeAliases} from '@docusaurus/types';
+import _ from 'lodash';
 
 // Order of Webpack aliases is important because one alias can shadow another
 // This ensure @theme/NavbarItem alias is after @theme/NavbarItem/LocaleDropdown
@@ -17,24 +17,24 @@ import {sortBy} from 'lodash';
 // See https://github.com/facebook/docusaurus/issues/5382
 export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   // Alphabetical order by default
-  const entries = sortBy(Object.entries(aliases), ([alias]) => alias);
+  const entries = _.sortBy(Object.entries(aliases), ([alias]) => alias);
   // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
-  entries.sort(([alias1], [alias2]) => {
-    return alias1.includes(`${alias2}/`) ? -1 : 0;
-  });
+  entries.sort(([alias1], [alias2]) =>
+    // eslint-disable-next-line no-nested-ternary
+    alias1.includes(`${alias2}/`) ? -1 : alias2.includes(`${alias1}/`) ? 1 : 0,
+  );
   return Object.fromEntries(entries);
 }
 
-// TODO make async
-export default function themeAlias(
+export default async function themeAlias(
   themePath: string,
   addOriginalAlias: boolean,
-): ThemeAliases {
-  if (!fs.pathExistsSync(themePath)) {
+): Promise<ThemeAliases> {
+  if (!(await fs.pathExists(themePath))) {
     return {};
   }
 
-  const themeComponentFiles = Globby.sync(['**/*.{js,jsx,ts,tsx}'], {
+  const themeComponentFiles = await Globby(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 

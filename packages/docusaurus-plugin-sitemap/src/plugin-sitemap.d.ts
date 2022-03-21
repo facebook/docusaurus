@@ -5,4 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export type Options = Partial<import('./types').PluginOptions>;
+import type {EnumChangefreq} from 'sitemap';
+
+export type Options = {
+  /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
+  changefreq?: EnumChangefreq;
+  /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
+  priority?: number;
+};

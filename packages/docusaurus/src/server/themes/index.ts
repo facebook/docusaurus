@@ -5,42 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
+import type {ThemeAliases, LoadedPlugin} from '@docusaurus/types';
 import path from 'path';
-import {THEME_PATH} from '../../constants';
+import {THEME_PATH} from '@docusaurus/utils';
 import themeAlias, {sortAliases} from './alias';
 
-const ThemeFallbackDir = path.resolve(__dirname, '../../client/theme-fallback');
+const ThemeFallbackDir = path.join(__dirname, '../../client/theme-fallback');
 
-function buildThemeAliases(
-  themeAliases: ThemeAliases,
-  aliases: ThemeAliases = {},
-): ThemeAliases {
-  Object.keys(themeAliases).forEach((aliasKey) => {
-    if (aliasKey in aliases) {
-      const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
-      aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
-    }
-    aliases[aliasKey] = themeAliases[aliasKey];
-  });
-  return aliases;
-}
-
-export function loadThemeAliases(
+export async function loadThemeAliases(
   themePaths: string[],
-  userThemePaths: string[] = [],
-): ThemeAliases {
-  let aliases = {}; // TODO refactor, inelegant side-effect
+  userThemePaths: string[],
+): Promise<ThemeAliases> {
+  const aliases: ThemeAliases = {};
 
-  themePaths.forEach((themePath) => {
-    const themeAliases = themeAlias(themePath, true);
-    aliases = {...aliases, ...buildThemeAliases(themeAliases, aliases)};
-  });
+  for (const themePath of themePaths) {
+    const themeAliases = await themeAlias(themePath, true);
+    Object.entries(themeAliases).forEach(([aliasKey, alias]) => {
+      // If this alias shadows a previous one, use @theme-init to preserve the
+      // initial one. @theme-init is only applied once: to the initial theme
+      // that provided this component
+      if (aliasKey in aliases) {
+        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+        const initAlias = `@theme-init/${componentName}`;
+        if (!(initAlias in aliases)) {
+          aliases[initAlias] = aliases[aliasKey]!;
+        }
+      }
+      aliases[aliasKey] = alias;
+    });
+  }
 
-  userThemePaths.forEach((themePath) => {
-    const userThemeAliases = themeAlias(themePath, false);
-    aliases = {...aliases, ...buildThemeAliases(userThemeAliases, aliases)};
-  });
+  for (const themePath of userThemePaths) {
+    const userThemeAliases = await themeAlias(themePath, false);
+    Object.assign(aliases, userThemeAliases);
+  }
 
   return sortAliases(aliases);
 }
@@ -51,9 +49,12 @@ export function loadPluginsThemeAliases({
 }: {
   siteDir: string;
   plugins: LoadedPlugin[];
-}): ThemeAliases {
+}): Promise<ThemeAliases> {
   const pluginThemes: string[] = plugins
-    .map((plugin) => (plugin.getThemePath ? plugin.getThemePath() : undefined))
+    .map(
+      (plugin) =>
+        plugin.getThemePath && path.resolve(plugin.path, plugin.getThemePath()),
+    )
     .filter((x): x is string => Boolean(x));
   const userTheme = path.resolve(siteDir, THEME_PATH);
   return loadThemeAliases([ThemeFallbackDir, ...pluginThemes], [userTheme]);

@@ -13,23 +13,31 @@ import {BrowserContextProvider} from './exports/browserContext';
 import {DocusaurusContextProvider} from './exports/docusaurusContext';
 import PendingNavigation from './PendingNavigation';
 import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
+import SiteMetadata from '@theme/SiteMetadata';
 
 import './client-lifecycles-dispatcher';
 
-function App(): JSX.Element {
+// TODO, quick fix for CSS insertion order
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
+import Error from '@theme/Error';
+
+export default function App(): JSX.Element {
   return (
-    <DocusaurusContextProvider>
-      <BrowserContextProvider>
-        <Root>
-          <BaseUrlIssueBanner />
-          <PendingNavigation routes={routes} delay={1000}>
-            {renderRoutes(routes)}
-          </PendingNavigation>
-        </Root>
-      </BrowserContextProvider>
-    </DocusaurusContextProvider>
+    <ErrorBoundary fallback={Error}>
+      <DocusaurusContextProvider>
+        <BrowserContextProvider>
+          <Root>
+            <SiteMetadataDefaults />
+            <SiteMetadata />
+            <BaseUrlIssueBanner />
+            <PendingNavigation routes={routes} delay={1000}>
+              {renderRoutes(routes)}
+            </PendingNavigation>
+          </Root>
+        </BrowserContextProvider>
+      </DocusaurusContextProvider>
+    </ErrorBoundary>
   );
 }
-
-export default App;

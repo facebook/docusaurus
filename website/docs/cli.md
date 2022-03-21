@@ -25,12 +25,6 @@ Once your website is bootstrapped, the website source will contain the Docusauru
 }
 ```
 
-## Index {#index}
-
-import TOCInline from "@theme/TOCInline"
-
-<TOCInline toc={toc[1].children}/>
-
 ## Docusaurus CLI commands {#docusaurus-cli-commands}
 
 Below is a list of Docusaurus CLI commands and their usages:
@@ -45,7 +39,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | --- | --- | --- |
 | `--port` | `3000` | Specifies the port of the dev server. |
 | `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
-| `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
+| `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as a fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 | `--poll [optionalIntervalMs]` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
@@ -53,6 +47,16 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 :::important
 
 Please note that some functionality (for example, anchor links) will not work in development. The functionality will work as expected in production.
+
+:::
+
+:::info Development over network
+
+When forwarding port 3000 from a remote server or VM (e.g. GitHub Codespaces), you can run the dev server on `0.0.0.0` to make it listen on the local IP.
+
+```bash npm2yarn
+npm run start -- --host 0.0.0.0
+```
 
 :::
 
@@ -66,7 +70,7 @@ There are multiple ways to obtain a certificate. We will use [mkcert](https://gi
 
 3. Start the app with Docusaurus HTTPS env variables:
 
-```shell
+```bash
 HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem yarn start
 ```
 
@@ -91,54 +95,36 @@ For advanced minification of CSS bundle, we use the [advanced cssnano preset](ht
 
 :::
 
-### `docusaurus swizzle [siteDir]` {#docusaurus-swizzle-sitedir}
+### `docusaurus swizzle [themeName] [componentName] [siteDir]` {#docusaurus-swizzle}
 
-```mdx-code-block
-import SwizzleWarning from "./_partials/swizzleWarning.mdx"
-
-<SwizzleWarning/>
-```
-
-Change any Docusaurus theme components to your liking with `npm run swizzle`.
+[Swizzle](./swizzling.md) a theme component to customize it.
 
 ```bash npm2yarn
 npm run swizzle [themeName] [componentName] [siteDir]
 
 # Example (leaving out the siteDir to indicate this directory)
-npm run swizzle @docusaurus/theme-classic DocSidebar
+npm run swizzle @docusaurus/theme-classic Footer -- --eject
 ```
 
-Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
+The swizzle CLI is interactive and will guide you through the whole [swizzle process](./swizzling.md).
 
-`npm run swizzle` without `themeName` lists all the themes available for swizzling; similarly, `npm run swizzle <themeName>` without `componentName` lists all the components available for swizzling.
+#### Options {#options-swizzle}
 
-#### Options {#options-2}
-
-| Name               | Description                            |
-| ------------------ | -------------------------------------- |
-| `themeName`        | The name of the theme you are using.   |
-| `swizzleComponent` | The name of the component to swizzle.  |
-| `--danger`         | Allow swizzling of unstable components |
-| `--typescript`     | Swizzle TypeScript components          |
-
-An example to use `--danger` flag let's consider the below code:
-
-```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Logo -- --danger
-```
+| Name            | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `themeName`     | The name of the theme to swizzle from.               |
+| `componentName` | The name of the theme component to swizzle.          |
+| `--list`        | Display components available for swizzling           |
+| `--eject`       | [Eject](./swizzling.md#ejecting) the theme component |
+| `--wrap`        | [Wrap](./swizzling.md#wrapping) the theme component  |
+| `--danger`      | Allow immediate swizzling of unsafe components       |
+| `--typescript`  | Swizzle the TypeScript variant component             |
 
 :::caution
 
-Unstable Components: components that have a higher risk of breaking changes due to internal refactorings.
+Unsafe components have a higher risk of breaking changes due to internal refactorings.
 
 :::
-
-To unswizzle a component, simply delete the files of the swizzled component.
-
-<!--
-TODO a separate section for swizzle tutorial.
-To learn more about swizzling, check [here](#).
--->
 
 ### `docusaurus deploy [siteDir]` {#docusaurus-deploy-sitedir}
 
@@ -149,7 +135,7 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | Name | Default | Description |
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
-| `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
+| `--skip-build` | `false` | Deploy website without building it. This may be useful when using a custom deploy script. |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
 
 ### `docusaurus serve [siteDir]` {#docusaurus-serve-sitedir}
@@ -181,7 +167,7 @@ By default, the files are written in `website/i18n/<defaultLocale>/...`.
 | `--locale` | `<defaultLocale>` | Define which locale folder you want to write translations the JSON files in |
 | `--override` | `false` | Override existing translation messages |
 | `--config` | `undefined` | Path to docusaurus config file, default to `[siteDir]/docusaurus.config.js` |
-| `--messagePrefix` | `''` | Allows to add a prefix to each translation message, to help you highlight untranslated strings |
+| `--messagePrefix` | `''` | Allows adding a prefix to each translation message, to help you highlight untranslated strings |
 
 ### `docusaurus write-heading-ids [siteDir] [files]` {#docusaurus-write-heading-ids-sitedir}
 

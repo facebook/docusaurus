@@ -4,9 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import {useCallback} from 'react';
 import {useDocsPreferredVersionContext} from './DocsPreferredVersionProvider';
-import {useAllDocsData, useDocsData, GlobalVersion} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  useDocsData,
+  type GlobalVersion,
+} from '@docusaurus/plugin-content-docs/client';
 
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
 
@@ -20,7 +25,7 @@ export function useDocsPreferredVersion(
   const docsData = useDocsData(pluginId);
   const [state, api] = useDocsPreferredVersionContext();
 
-  const {preferredVersionName} = state[pluginId];
+  const {preferredVersionName} = state[pluginId]!;
 
   const preferredVersion = preferredVersionName
     ? docsData.versions.find((version) => version.name === preferredVersionName)
@@ -44,8 +49,8 @@ export function useDocsPreferredVersionByPluginId(): Record<
   const [state] = useDocsPreferredVersionContext();
 
   function getPluginIdPreferredVersion(pluginId: string) {
-    const docsData = allDocsData[pluginId];
-    const {preferredVersionName} = state[pluginId];
+    const docsData = allDocsData[pluginId]!;
+    const {preferredVersionName} = state[pluginId]!;
 
     return preferredVersionName
       ? docsData.versions.find(

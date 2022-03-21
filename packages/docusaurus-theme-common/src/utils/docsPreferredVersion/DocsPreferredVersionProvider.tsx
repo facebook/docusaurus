@@ -4,18 +4,22 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import React, {
-  createContext,
-  ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
+  type ReactNode,
 } from 'react';
-import {useThemeConfig, DocsVersionPersistence} from '../useThemeConfig';
+import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
+import {ReactContextError} from '../reactUtils';
 
-import {useAllDocsData, GlobalPluginData} from '@theme/hooks/useDocs';
+import {
+  useAllDocsData,
+  type GlobalPluginData,
+} from '@docusaurus/plugin-content-docs/client';
 
 import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
 
@@ -34,7 +38,7 @@ type DocsPreferredVersionState = Record<
   DocsPreferredVersionPluginState
 >;
 
-// Initial state is always null as we can't read localstorage from node SSR
+// Initial state is always null as we can't read local storage from node SSR
 function getInitialState(pluginIds: string[]): DocsPreferredVersionState {
   const initialState: DocsPreferredVersionState = {};
   pluginIds.forEach((pluginId) => {
@@ -66,16 +70,15 @@ function readStorageState({
       pluginId,
       versionPersistence,
     );
-    const pluginData = allDocsData[pluginId];
+    const pluginData = allDocsData[pluginId]!;
     const versionExists = pluginData.versions.some(
       (version) => version.name === preferredVersionNameUnsafe,
     );
     if (versionExists) {
       return {preferredVersionName: preferredVersionNameUnsafe};
-    } else {
-      DocsPreferredVersionStorage.clear(pluginId, versionPersistence);
-      return {preferredVersionName: null};
     }
+    DocsPreferredVersionStorage.clear(pluginId, versionPersistence);
+    return {preferredVersionName: null};
   }
 
   const initialState: DocsPreferredVersionState = {};
@@ -89,13 +92,13 @@ function useVersionPersistence(): DocsVersionPersistence {
   return useThemeConfig().docs.versionPersistence;
 }
 
-// Value that  will be accessible through context: [state,api]
+// Value that will be accessible through context: [state,api]
 function useContextValue() {
   const allDocsData = useAllDocsData();
   const versionPersistence = useVersionPersistence();
   const pluginIds = useMemo(() => Object.keys(allDocsData), [allDocsData]);
 
-  // Initial state is empty, as  we can't read browser storage in node/SSR
+  // Initial state is empty, as we can't read browser storage in node/SSR
   const [state, setState] = useState(() => getInitialState(pluginIds));
 
   // On mount, we set the state read from browser storage
@@ -127,12 +130,14 @@ function useContextValue() {
 
 type DocsPreferredVersionContextValue = ReturnType<typeof useContextValue>;
 
-const Context = createContext<DocsPreferredVersionContextValue | null>(null);
+const Context = React.createContext<DocsPreferredVersionContextValue | null>(
+  null,
+);
 
 export function DocsPreferredVersionContextProvider({
   children,
 }: {
-  children: ReactNode;
+  children: JSX.Element;
 }): JSX.Element {
   if (isDocsPluginEnabled) {
     return (
@@ -140,9 +145,8 @@ export function DocsPreferredVersionContextProvider({
         {children}
       </DocsPreferredVersionContextProviderUnsafe>
     );
-  } else {
-    return <>{children}</>;
   }
+  return children;
 }
 
 function DocsPreferredVersionContextProviderUnsafe({
@@ -157,9 +161,7 @@ function DocsPreferredVersionContextProviderUnsafe({
 export function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
   const value = useContext(Context);
   if (!value) {
-    throw new Error(
-      'Can\'t find docs preferred context, maybe you forgot to use the "DocsPreferredVersionContextProvider"?',
-    );
+    throw new ReactContextError('DocsPreferredVersionContextProvider');
   }
   return value;
 }

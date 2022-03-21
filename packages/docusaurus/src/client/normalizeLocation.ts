@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Location} from '@docusaurus/history';
+import type {Location} from 'history';
 
 // Memoize previously normalized pathnames.
 const pathnames: Record<string, string> = {};
 
-function normalizeLocation<T extends Location>(location: T): T {
+export default function normalizeLocation<T extends Location>(location: T): T {
   if (pathnames[location.pathname]) {
     return {
       ...location,
@@ -18,12 +18,8 @@ function normalizeLocation<T extends Location>(location: T): T {
     };
   }
 
-  let pathname = location.pathname || '/';
-  pathname = pathname.trim().replace(/\/index\.html$/, '');
-
-  if (pathname === '') {
-    pathname = '/';
-  }
+  const pathname =
+    location.pathname.trim().replace(/\/index\.html$/, '') || '/';
 
   pathnames[location.pathname] = pathname;
 
@@ -32,5 +28,3 @@ function normalizeLocation<T extends Location>(location: T): T {
     pathname,
   };
 }
-
-export default normalizeLocation;

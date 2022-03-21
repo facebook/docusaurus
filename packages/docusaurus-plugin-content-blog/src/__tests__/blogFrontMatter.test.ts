@@ -5,11 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  BlogPostFrontMatter,
-  validateBlogPostFrontMatter,
-} from '../blogFrontMatter';
+import {validateBlogPostFrontMatter} from '../blogFrontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
+import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 
 // TODO this abstraction reduce verbosity but it makes it harder to debug
 // It would be preferable to just expose helper methods
@@ -17,7 +15,7 @@ function testField(params: {
   fieldName: keyof BlogPostFrontMatter;
   validFrontMatters: BlogPostFrontMatter[];
   convertibleFrontMatter?: [
-    ConvertableFrontMatter: Record<string, unknown>,
+    ConvertibleFrontMatter: Record<string, unknown>,
     ConvertedFrontMatter: BlogPostFrontMatter,
   ][];
   invalidFrontMatters?: [
@@ -26,13 +24,13 @@ function testField(params: {
   ][];
 }) {
   describe(`"${params.fieldName}" field`, () => {
-    test('accept valid values', () => {
+    it('accept valid values', () => {
       params.validFrontMatters.forEach((frontMatter) => {
         expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
       });
     });
 
-    test('convert valid values', () => {
+    it('convert valid values', () => {
       params.convertibleFrontMatter?.forEach(
         ([convertibleFrontMatter, convertedFrontMatter]) => {
           expect(validateBlogPostFrontMatter(convertibleFrontMatter)).toEqual(
@@ -42,21 +40,23 @@ function testField(params: {
       );
     });
 
-    test('throw error for values', () => {
+    it('throw error for values', () => {
       params.invalidFrontMatters?.forEach(([frontMatter, message]) => {
         try {
           validateBlogPostFrontMatter(frontMatter);
+          // eslint-disable-next-line jest/no-jasmine-globals
           fail(
             new Error(
-              `Blog frontmatter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
+              `Blog front matter is expected to be rejected, but was accepted successfully:\n ${JSON.stringify(
                 frontMatter,
                 null,
                 2,
               )}`,
             ),
           );
-        } catch (e) {
-          expect(e.message).toMatch(new RegExp(escapeStringRegexp(message)));
+        } catch (err) {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(err.message).toMatch(new RegExp(escapeStringRegexp(message)));
         }
       });
     });
@@ -64,12 +64,12 @@ function testField(params: {
 }
 
 describe('validateBlogPostFrontMatter', () => {
-  test('accept empty object', () => {
+  it('accept empty object', () => {
     const frontMatter = {};
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('accept unknown field', () => {
+  it('accept unknown field', () => {
     const frontMatter = {abc: '1'};
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
@@ -105,8 +105,8 @@ describe('validateBlogPostFrontMatter id', () => {
   });
 });
 
-describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', () => {
-  test('allow legacy author frontmatter', () => {
+describe('validateBlogPostFrontMatter handles legacy/new author front matter', () => {
+  it('allow legacy author front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       author: 'Sebastien',
       author_url: 'https://sebastienlorber.com',
@@ -116,7 +116,7 @@ describe('validateBlogPostFrontMatter handles legacy/new author frontmatter', ()
     expect(validateBlogPostFrontMatter(frontMatter)).toEqual(frontMatter);
   });
 
-  test('allow new authors frontmatter', () => {
+  it('allow new authors front matter', () => {
     const frontMatter: BlogPostFrontMatter = {
       authors: [
         'slorber',

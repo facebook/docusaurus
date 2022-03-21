@@ -18,7 +18,7 @@
 }
 
 .featureImage {
-  max-width: 60%;
+  width: auto;
   max-height: 128px;
   margin: 0 auto;
 }
@@ -39,11 +39,23 @@
 .announcementDark {
   background-color: #20232a;
   color: #fff;
+  /* Reapply the primary color, because it has been locally overridden as
+   * the dark theme color */
+  --ifm-link-color: var(--ifm-color-primary);
 }
 
 .announcementInner {
   margin: 0 auto;
   max-width: 768px;
+}
+
+.banner {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 20px;
+  max-width: 768px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .hero {
@@ -67,7 +79,7 @@
   color: var(--ifm-color-primary);
 }
 
-@keyframes jackInTheBox {
+@keyframes jack-in-the-box {
   from {
     opacity: 0;
     transform: scale(0.1) rotate(30deg);
@@ -90,7 +102,7 @@
 
 .heroLogo {
   animation-duration: 2s;
-  animation-name: jackInTheBox;
+  animation-name: jack-in-the-box;
   float: right;
   margin-top: 20px;
   padding: 0 20px 20px;
@@ -102,6 +114,11 @@
   flex-wrap: wrap;
   align-items: center;
   margin-top: 24px;
+}
+
+.indexCtas a,
+.indexCtas a:hover {
+  color: black;
 }
 
 .indexCtas a:last-of-type {
@@ -152,4 +169,22 @@
   .indexCtasGitHubButton {
     display: none;
   }
+}
+
+.tweetsSection {
+  margin-top: -2rem;
+}
+
+.tweetsSection > :global(.col) {
+  padding-top: 2rem;
+  margin-top: -2rem;
+}
+
+.tweetsSection > :global(.col) > * {
+  margin-top: 2rem;
+}
+
+/* Used to test CSS insertion order */
+.test-marker-site-index-page {
+  content: 'site-index-page';
 }

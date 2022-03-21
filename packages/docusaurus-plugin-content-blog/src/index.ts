@@ -16,49 +16,47 @@ import {
   posixPath,
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
-} from '@docusaurus/utils';
-import {
-  STATIC_DIR_NAME,
+  getContentPathList,
+  getDataFilePath,
   DEFAULT_PLUGIN_ID,
-} from '@docusaurus/core/lib/constants';
+} from '@docusaurus/utils';
 import {translateContent, getTranslationFiles} from './translations';
 
-import {
-  PluginOptions,
+import type {
+  BlogTag,
   BlogTags,
   BlogContent,
-  BlogItemsToMetadata,
-  TagsModule,
   BlogPaginated,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
-  MetaData,
-  Assets,
 } from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
-import {
+import type {
   LoadContext,
-  ConfigureWebpackUtils,
-  Props,
   Plugin,
   HtmlTags,
   OptionValidationContext,
   ValidationResult,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
 import {
   generateBlogPosts,
-  getContentPathList,
   getSourceToPermalink,
   getBlogTags,
+  paginateBlogPosts,
 } from './blogUtils';
-import {BlogPostFrontMatter} from './blogFrontMatter';
 import {createBlogFeedFiles} from './feed';
+import type {
+  PluginOptions,
+  BlogPostFrontMatter,
+  BlogPostMetadata,
+  Assets,
+  TagModule,
+} from '@docusaurus/plugin-content-blog';
 
-export default function pluginContentBlog(
+export default async function pluginContentBlog(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<BlogContent> {
+): Promise<Plugin<BlogContent>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -92,24 +90,23 @@ export default function pluginContentBlog(
   const aliasedSource = (source: string) =>
     `~blog/${posixPath(path.relative(pluginDataDirRoot, source))}`;
 
+  const authorsMapFilePath = await getDataFilePath({
+    filePath: options.authorsMapPath,
+    contentPaths,
+  });
+
   return {
     name: 'docusaurus-plugin-content-blog',
 
     getPathsToWatch() {
-      const {include, authorsMapPath} = options;
+      const {include} = options;
       const contentMarkdownGlobs = getContentPathList(contentPaths).flatMap(
         (contentPath) => include.map((pattern) => `${contentPath}/${pattern}`),
       );
 
-      // TODO: we should read this path in plugin! but plugins do not support async init for now :'(
-      // const authorsMapFilePath = await getAuthorsMapFilePath({authorsMapPath,contentPaths,});
-      // simplified impl, better than nothing for now:
-      const authorsMapFilePath = path.join(
-        contentPaths.contentPath,
-        authorsMapPath,
-      );
-
-      return [authorsMapFilePath, ...contentMarkdownGlobs];
+      return [authorsMapFilePath, ...contentMarkdownGlobs].filter(
+        Boolean,
+      ) as string[];
     },
 
     async getTranslationFiles() {
@@ -136,6 +133,7 @@ export default function pluginContentBlog(
           blogListPaginated: [],
           blogTags: {},
           blogTagsListPath: null,
+          blogTagsPaginated: [],
         };
       }
 
@@ -159,45 +157,22 @@ export default function pluginContentBlog(
         }
       });
 
-      // Blog pagination routes.
-      // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
-      const totalCount = blogPosts.length;
-      const postsPerPage =
-        postsPerPageOption === 'ALL' ? totalCount : postsPerPageOption;
-      const numberOfPages = Math.ceil(totalCount / postsPerPage);
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
 
-      const blogListPaginated: BlogPaginated[] = [];
+      const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
+        blogPosts,
+        blogTitle,
+        blogDescription,
+        postsPerPageOption,
+        basePageUrl: baseBlogUrl,
+      });
 
-      function blogPaginationPermalink(page: number) {
-        return page > 0
-          ? normalizeUrl([baseBlogUrl, `page/${page + 1}`])
-          : baseBlogUrl;
-      }
-
-      for (let page = 0; page < numberOfPages; page += 1) {
-        blogListPaginated.push({
-          metadata: {
-            permalink: blogPaginationPermalink(page),
-            page: page + 1,
-            postsPerPage,
-            totalPages: numberOfPages,
-            totalCount,
-            previousPage: page !== 0 ? blogPaginationPermalink(page - 1) : null,
-            nextPage:
-              page < numberOfPages - 1
-                ? blogPaginationPermalink(page + 1)
-                : null,
-            blogDescription,
-            blogTitle,
-          },
-          items: blogPosts
-            .slice(page * postsPerPage, (page + 1) * postsPerPage)
-            .map((item) => item.id),
-        });
-      }
-
-      const blogTags: BlogTags = getBlogTags(blogPosts);
+      const blogTags: BlogTags = getBlogTags({
+        blogPosts,
+        postsPerPageOption,
+        blogDescription,
+        blogTitle,
+      });
 
       const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
@@ -223,6 +198,7 @@ export default function pluginContentBlog(
         blogPostComponent,
         blogTagsListComponent,
         blogTagsPostsComponent,
+        blogArchiveComponent,
         routeBasePath,
         archiveBasePath,
       } = options;
@@ -236,32 +212,33 @@ export default function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: BlogItemsToMetadata = {};
+      const blogItemsToMetadata: Record<string, BlogPostMetadata> = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      const archiveUrl = normalizeUrl([
-        baseUrl,
-        routeBasePath,
-        archiveBasePath,
-      ]);
-
-      // creates a blog archive route
-      const archiveProp = await createData(
-        `${docuHash(archiveUrl)}.json`,
-        JSON.stringify({blogPosts}, null, 2),
-      );
-      addRoute({
-        path: archiveUrl,
-        component: '@theme/BlogArchivePage',
-        exact: true,
-        modules: {
-          archive: aliasedSource(archiveProp),
-        },
-      });
+      if (archiveBasePath && blogPosts.length) {
+        const archiveUrl = normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          archiveBasePath,
+        ]);
+        // creates a blog archive route
+        const archiveProp = await createData(
+          `${docuHash(archiveUrl)}.json`,
+          JSON.stringify({blogPosts}, null, 2),
+        );
+        addRoute({
+          path: archiveUrl,
+          component: blogArchiveComponent,
+          exact: true,
+          modules: {
+            archive: aliasedSource(archiveProp),
+          },
+        });
+      }
 
       // This prop is useful to provide the blog list sidebar
       const sidebarProp = await createData(
@@ -322,18 +299,19 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
-                // To tell routes.js this is an import and not a nested object to recurse.
-                return {
+              items: items.map((postID) =>
+                // To tell routes.js this is an import and not a nested object
+                // to recurse.
+                ({
                   content: {
                     __import: true,
-                    path: blogItemsToMetadata[postID].source,
+                    path: blogItemsToMetadata[postID]!.source,
                     query: {
                       truncated: true,
                     },
                   },
-                };
-              }),
+                }),
+              ),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -345,49 +323,59 @@ export default function pluginContentBlog(
         return;
       }
 
-      const tagsModule: TagsModule = {};
-
-      await Promise.all(
-        Object.keys(blogTags).map(async (tag) => {
-          const {name, items, permalink} = blogTags[tag];
-
-          // Refactor all this, see docs implementation
-          tagsModule[tag] = {
+      const tagsModule: Record<string, TagModule> = Object.fromEntries(
+        Object.entries(blogTags).map(([, tag]) => {
+          const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
-            slug: tag,
-            name,
-            count: items.length,
-            permalink,
+            name: tag.name,
+            count: tag.items.length,
+            permalink: tag.permalink,
           };
-
-          const tagsMetadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(tagsModule[tag], null, 2),
-          );
-
-          addRoute({
-            path: permalink,
-            component: blogTagsPostsComponent,
-            exact: true,
-            modules: {
-              sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) => {
-                const metadata = blogItemsToMetadata[postID];
-                return {
-                  content: {
-                    __import: true,
-                    path: metadata.source,
-                    query: {
-                      truncated: true,
-                    },
-                  },
-                };
-              }),
-              metadata: aliasedSource(tagsMetadataPath),
-            },
-          });
+          return [tag.name, tagModule];
         }),
       );
+
+      async function createTagRoutes(tag: BlogTag): Promise<void> {
+        await Promise.all(
+          tag.pages.map(async (blogPaginated) => {
+            const {metadata, items} = blogPaginated;
+            const tagsMetadataPath = await createData(
+              `${docuHash(metadata.permalink)}.json`,
+              JSON.stringify(tagsModule[tag.name], null, 2),
+            );
+
+            const listMetadataPath = await createData(
+              `${docuHash(metadata.permalink)}-list.json`,
+              JSON.stringify(metadata, null, 2),
+            );
+
+            addRoute({
+              path: metadata.permalink,
+              component: blogTagsPostsComponent,
+              exact: true,
+              modules: {
+                sidebar: aliasedSource(sidebarProp),
+                items: items.map((postID) => {
+                  const blogPostMetadata = blogItemsToMetadata[postID]!;
+                  return {
+                    content: {
+                      __import: true,
+                      path: blogPostMetadata.source,
+                      query: {
+                        truncated: true,
+                      },
+                    },
+                  };
+                }),
+                metadata: aliasedSource(tagsMetadataPath),
+                listMetadata: aliasedSource(listMetadataPath),
+              },
+            });
+          }),
+        );
+      }
+
+      await Promise.all(Object.values(blogTags).map(createTagRoutes));
 
       // Only create /tags page if there are tags.
       if (Object.keys(blogTags).length > 0) {
@@ -412,12 +400,7 @@ export default function pluginContentBlog(
       return translateContent(content, translationFiles);
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-      content,
-    ) {
+    configureWebpack(_config, isServer, {getJSLoader}, content) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -452,7 +435,7 @@ export default function pluginContentBlog(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
@@ -465,7 +448,10 @@ export default function pluginContentBlog(
                     rehypePlugins,
                     beforeDefaultRemarkPlugins,
                     beforeDefaultRehypePlugins,
-                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
+                    staticDirs: siteConfig.staticDirectories.map((dir) =>
+                      path.resolve(siteDir, dir),
+                    ),
+                    siteDir,
                     isMDXPartial: createAbsoluteFilePathMatcher(
                       options.exclude,
                       contentDirs,
@@ -483,21 +469,20 @@ export default function pluginContentBlog(
                     // Blog posts title are rendered separately
                     removeContentTitle: true,
 
-                    // Assets allow to convert some relative images paths to require() calls
+                    // Assets allow to convert some relative images paths to
+                    // require() calls
                     createAssets: ({
                       frontMatter,
                       metadata,
                     }: {
                       frontMatter: BlogPostFrontMatter;
-                      metadata: MetaData;
-                    }): Assets => {
-                      return {
-                        image: frontMatter.image,
-                        authorsImageUrls: metadata.authors.map(
-                          (author) => author.imageURL,
-                        ),
-                      };
-                    },
+                      metadata: BlogPostMetadata;
+                    }): Assets => ({
+                      image: frontMatter.image,
+                      authorsImageUrls: metadata.authors.map(
+                        (author) => author.imageURL,
+                      ),
+                    }),
                   },
                 },
                 {
@@ -511,14 +496,11 @@ export default function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild({outDir, content}) {
       if (!options.feedOptions.type) {
         return;
       }
-
-      // TODO: we shouldn't need to re-read the posts here!
-      // postBuild should receive loadedContent
-      const blogPosts = await generateBlogPosts(contentPaths, context, options);
+      const {blogPosts} = content;
       if (!blogPosts.length) {
         return;
       }
@@ -527,6 +509,7 @@ export default function pluginContentBlog(
         options,
         outDir,
         siteConfig,
+        locale: currentLocale,
       });
     },
 
@@ -552,17 +535,20 @@ export default function pluginContentBlog(
           path: 'atom.xml',
           title: `${feedTitle} Atom Feed`,
         },
+        json: {
+          type: 'application/json',
+          path: 'feed.json',
+          title: `${feedTitle} JSON Feed`,
+        },
       };
       const headTags: HtmlTags = [];
 
       feedTypes.forEach((feedType) => {
-        const feedConfig = feedsConfig[feedType] || {};
-
-        if (!feedsConfig) {
-          return;
-        }
-
-        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
+        const {
+          type,
+          path: feedConfigPath,
+          title: feedConfigTitle,
+        } = feedsConfig[feedType];
 
         headTags.push({
           tagName: 'link',

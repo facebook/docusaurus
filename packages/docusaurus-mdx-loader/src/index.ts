@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {readFile} from 'fs-extra';
+import fs from 'fs-extra';
 import mdx from '@mdx-js/mdx';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
   parseFrontMatter,
   parseMarkdownContentTitle,
   escapePath,
+  getFileLoaderUtils,
 } from '@docusaurus/utils';
 import stringifyObject from 'stringify-object';
 import headings from './remark/headings';
@@ -20,7 +21,6 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import {getFileLoaderUtils} from '@docusaurus/core/lib/webpack/utils';
 import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 
@@ -36,7 +36,8 @@ const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
 };
 
 type Options = RemarkAndRehypePluginOptions & {
-  staticDir?: string;
+  staticDirs: string[];
+  siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
   isMDXPartialFrontMatterWarningDisabled?: boolean;
   removeContentTitle?: boolean;
@@ -48,24 +49,29 @@ type Options = RemarkAndRehypePluginOptions & {
   filepath: string;
 };
 
-// When this throws, it generally means that there's no metadata file associated with this MDX document
-// It can happen when using MDX partials (usually starting with _)
-// That's why it's important to provide the "isMDXPartial" function in config
+/**
+ * When this throws, it generally means that there's no metadata file associated
+ * with this MDX document. It can happen when using MDX partials (usually
+ * starting with _). That's why it's important to provide the `isMDXPartial`
+ * function in config
+ */
 async function readMetadataPath(metadataPath: string) {
   try {
-    return await readFile(metadataPath, 'utf8');
-  } catch (e) {
-    throw new Error(
-      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-    );
+    return await fs.readFile(metadataPath, 'utf8');
+  } catch (err) {
+    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
+    throw err;
   }
 }
 
-// Converts assets an object with Webpack require calls code
-// This is useful for mdx files to reference co-located assets using relative paths
-// Those assets should enter the Webpack assets pipeline and be hashed
-// For now, we only handle that for images and paths starting with ./
-// {image: "./myImage.png"} => {image: require("./myImage.png")}
+/**
+ * Converts assets an object with Webpack require calls code.
+ * This is useful for mdx files to reference co-located assets using relative
+ * paths. Those assets should enter the Webpack assets pipeline and be hashed.
+ * For now, we only handle that for images and paths starting with `./`:
+ *
+ * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
+ */
 function createAssetsExportCode(assets: Record<string, unknown>) {
   if (Object.keys(assets).length === 0) {
     return 'undefined';
@@ -108,7 +114,7 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions() ?? {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -121,21 +127,33 @@ export default async function mdxLoader(
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
+      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [transformImage, {staticDir: reqOptions.staticDir, filePath}],
-      [transformLinks, {staticDir: reqOptions.staticDir, filePath}],
-      ...(reqOptions.remarkPlugins || []),
+      [
+        transformImage,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
+      [
+        transformLinks,
+        {
+          staticDirs: reqOptions.staticDirs,
+          siteDir: reqOptions.siteDir,
+        },
+      ],
+      ...(reqOptions.remarkPlugins ?? []),
     ],
     rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
+      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
+      ...(reqOptions.rehypePlugins ?? []),
     ],
     filepath: filePath,
   };
 
-  let result;
+  let result: string;
   try {
     result = await mdx(content, options);
   } catch (err) {
@@ -143,8 +161,8 @@ export default async function mdxLoader(
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or frontmatter
-  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+  // Partial are not expected to have associated metadata files or front matter
+  const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
@@ -155,9 +173,8 @@ ${JSON.stringify(frontMatter, null, 2)}`;
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
-      } else {
-        console.warn(chalk.yellow(errorMessage));
       }
+      logger.warn(errorMessage);
     }
   }
 

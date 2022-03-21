@@ -5,36 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// too dynamic
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import clientModules from '@generated/client-modules';
+import type {ClientModule} from '@docusaurus/types';
 
-interface Dispatchers {
-  onRouteUpdate: (...args: any) => void;
-  onRouteUpdateDelayed: (...args: any) => void;
-}
-
-function dispatchLifecycleAction(
-  lifecycleAction: keyof Dispatchers,
-  ...args: any[]
+function dispatchLifecycleAction<K extends keyof ClientModule>(
+  lifecycleAction: K,
+  args: Parameters<NonNullable<ClientModule[K]>>,
 ) {
   clientModules.forEach((clientModule) => {
-    const lifecycleFunction =
-      clientModule?.default?.[lifecycleAction] ?? clientModule[lifecycleAction];
+    const lifecycleFunction = (clientModule?.default?.[lifecycleAction] ??
+      clientModule[lifecycleAction]) as
+      | ((...a: Parameters<NonNullable<ClientModule[K]>>) => void)
+      | undefined;
 
-    if (lifecycleFunction) {
-      lifecycleFunction(...args);
-    }
+    lifecycleFunction?.(...args);
   });
 }
 
-const clientLifecyclesDispatchers: Dispatchers = {
+const clientLifecyclesDispatchers: Required<ClientModule> = {
   onRouteUpdate(...args) {
-    dispatchLifecycleAction('onRouteUpdate', ...args);
+    dispatchLifecycleAction('onRouteUpdate', args);
   },
   onRouteUpdateDelayed(...args) {
-    dispatchLifecycleAction('onRouteUpdateDelayed', ...args);
+    dispatchLifecycleAction('onRouteUpdateDelayed', args);
   },
 };
 

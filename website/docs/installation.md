@@ -3,6 +3,11 @@ id: installation
 title: Installation
 ---
 
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
 Docusaurus is essentially a set of npm [packages](https://github.com/facebook/docusaurus/tree/main/packages).
 
 :::tip
@@ -15,8 +20,8 @@ Use **[docusaurus.new](https://docusaurus.new)** to test Docusaurus immediately 
 
 ## Requirements {#requirements}
 
-- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
-- [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn --version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
+- [Node.js](https://nodejs.org/en/download/) version >= 14 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed.
+  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
 
 ## Scaffold project website {#scaffold-project-website}
 
@@ -32,19 +37,11 @@ Example:
 npx create-docusaurus@latest website classic
 ```
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+If you do not specify `name` or `template`, it will prompt you for them.
 
-**[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
+We recommend the `classic` template so that you can get started quickly, and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-```bash
-npx create-docusaurus@latest my-website facebook
-```
-
-If you want to skip installing dependencies, use the `--skip-install` option, like the following:
-
-```bash
-npx create-docusaurus@latest my-website classic --skip-install
-```
+The `template` also accepts a git repo URL or a local file path, with the latter evaluated relative to the current working directory. The repo/folder content will be copied to the site directory. If it's a git repository, you can also specify a cloning strategy.
 
 You can also use the template's TypeScript variant by passing the `--typescript` flag.
 
@@ -52,11 +49,63 @@ You can also use the template's TypeScript variant by passing the `--typescript`
 npx create-docusaurus@latest my-website classic --typescript
 ```
 
+:::info FB-Only
+
+If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
+
+```bash
+npx create-docusaurus@latest my-website facebook
+```
+
+:::
+
+<details>
+  <summary>Alternative installation commands</summary>
+
+You can also initialize a new project using your preferred project manager:
+
+````mdx-code-block
+<Tabs>
+<TabItem value="npm">
+
+```bash
+npm init docusaurus
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn create docusaurus
+```
+
+</TabItem>
+<TabItem value="pnpm">
+
+```bash
+pnpm create docusaurus
+```
+
+</TabItem>
+</Tabs>
+````
+
+</details>
+
+Docusaurus makes best efforts to select a package manager to install dependencies for you, based on the command you are using and the project you are in. You can override this behavior by using `--package-manager [npm/yarn/pnpm]`.
+
+```bash
+# Use Yarn to install dependencies even when the command is npx
+npx create-docusaurus@latest my-website classic --package-manager yarn
+```
+
+Run `npx create-docusaurus@latest --help` for more information about all available flags.
+
 ## Project structure {#project-structure}
 
 Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
 
-```sh
+```bash
 my-website
 ├── blog
 │   ├── 2019-05-28-hola.md
@@ -84,14 +133,36 @@ my-website
 
 ### Project structure rundown {#project-structure-rundown}
 
-- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.mdx)
-- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. More details can be found in the [docs guide](./guides/docs/docs-markdown-features.mdx)
-- `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files in here but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
-  - `/src/pages` - Any files within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
+- `/blog/` - Contains the blog Markdown files. You can delete the directory if you've disabled the blog plugin, or you can change its name after setting the `path` option. More details can be found in the [blog guide](blog.mdx)
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. You can delete the directory if you've disabled the docs plugin, or you can change its name after setting the `path` option. More details can be found in the [docs guide](./guides/docs/docs-markdown-features.mdx)
+- `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files here, but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
+  - `/src/pages` - Any JSX/TSX/MDX file within this directory will be converted into a website page. More details can be found in the [pages guide](guides/creating-pages.md)
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory
 - `/docusaurus.config.js` - A config file containing the site configuration. This is the equivalent of `siteConfig.js` in Docusaurus v1
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them
 - `/sidebar.js` - Used by the documentation to specify the order of documents in the sidebar
+
+### Monorepos {#monorepos}
+
+If you are using Docusaurus for documentation of an existing project, a monorepo may be the solution for you. Monorepos allow you to share dependencies between similar projects. For example, your website may use your local packages to showcase the latest features, instead of depending on a released version; your contributors can also conveniently update the docs as they implement features. An example monorepo folder structure is below:
+
+```bash
+my-monorepo
+├── package-a # Another package, your actual project
+│   ├── src
+│   └── package.json # Package A's dependencies
+├── website   # Docusaurus root
+│   ├── docs
+│   ├── src
+│   └── package.json # Docusaurus' dependencies
+├── package.json # Monorepo's shared dependencies
+```
+
+In this case, you should run `npx create-docusaurus` within the `./my-monorepo` folder.
+
+If you're using a hosting provider such as Netlify or Vercel, you will need to change the `Base directory` of the site to where your Docusaurus root is. In this case, that would be `./website`. Read more about configuring ignore commands in the [deployment docs](./deployment.mdx#deploying-to-netlify).
+
+Read more about monorepos in the [Yarn documentation](https://yarnpkg.com/features/workspaces) (Yarn is not the only way to set up a monorepo, but it's a common solution), or checkout [Docusaurus](https://github.com/facebook/docusaurus) and [Jest](https://github.com/facebook/jest) for some real-world examples.
 
 ## Running the development server {#running-the-development-server}
 
@@ -120,19 +191,9 @@ and contents will be generated within the `/build` directory, which can be copie
 
 There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
 
-:::important
+import UpgradeGuide from '@site/src/components/UpgradeGuide';
 
-Please update to the latest Docusaurus 2 version shown at the top of the page, not what is shown below.
-
-:::
-
-```json title="package.json"
-"dependencies": {
-  "@docusaurus/core": "^2.0.0-beta.0",
-  "@docusaurus/preset-classic": "^2.0.0-beta.0",
-  // ...
-}
-```
+<UpgradeGuide />
 
 Then, in the directory containing `package.json`, run your package manager's install command:
 
@@ -162,4 +223,4 @@ Use new unreleased features of Docusaurus with the [`@canary` npm dist tag](/com
 
 ## Problems? {#problems}
 
-Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus) or [Twitter](https://twitter.com/docusaurus).
+Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus), our [Discord server](https://discordapp.com/invite/docusaurus), or [Twitter](https://twitter.com/docusaurus).

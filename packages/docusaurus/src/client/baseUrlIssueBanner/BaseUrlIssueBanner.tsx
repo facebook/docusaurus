@@ -72,6 +72,12 @@ function insertBanner() {
 `;
 }
 
+declare global {
+  interface Window {
+    __DOCUSAURUS_INSERT_BASEURL_BANNER: boolean;
+  }
+}
+
 function BaseUrlIssueBannerEnabled() {
   const {
     siteConfig: {baseUrl},
@@ -80,8 +86,7 @@ function BaseUrlIssueBannerEnabled() {
   // useLayoutEffect fires before DOMContentLoaded.
   // It gives the opportunity to avoid inserting the banner in the first place
   useLayoutEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any)[InsertBannerWindowAttribute] = false;
+    window[InsertBannerWindowAttribute] = false;
   }, []);
 
   return (
@@ -96,11 +101,14 @@ function BaseUrlIssueBannerEnabled() {
   );
 }
 
-// We want to help the users with a bad baseUrl configuration (very common error)
-// Help message is inlined, and hidden if JS or CSS is able to load
-// Note: it might create false positives (ie network failures): not a big deal
-// Note: we only inline this for the homepage to avoid polluting all the site's pages
-// See https://github.com/facebook/docusaurus/pull/3621
+/**
+ * We want to help the users with a bad baseUrl configuration (very common
+ * error) Help message is inlined, and hidden if JS or CSS is able to load
+ * Note: it might create false positives (ie network failures): not a big deal
+ * Note: we only inline this for the homepage to avoid polluting all the site's
+ * pages
+ * @see https://github.com/facebook/docusaurus/pull/3621
+ */
 export default function BaseUrlIssueBanner(): JSX.Element | null {
   const {
     siteConfig: {baseUrl, baseUrlIssueBanner},

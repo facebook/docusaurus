@@ -5,18 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ComponentProps, isValidElement, ReactElement} from 'react';
+import React, {
+  isValidElement,
+  type ComponentProps,
+  type ReactElement,
+} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import CodeBlock, {Props} from '@theme/CodeBlock';
+import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
 import Details from '@theme/Details';
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
 import './styles.css';
 
-// MDX elements are wrapped through the MDX pragma
-// In some cases (notably usage with Head/Helmet) we need to unwrap those elements.
+// MDX elements are wrapped through the MDX pragma. In some cases (notably usage
+// with Head/Helmet) we need to unwrap those elements.
 function unwrapMDXElement(element: ReactElement) {
   if (element?.props?.mdxType && element?.props?.originalType) {
     const {mdxType, originalType, ...newProps} = element.props;
@@ -33,40 +37,40 @@ const MDXComponents: MDXComponentsObject = {
     return <Head {...props}>{unwrappedChildren}</Head>;
   },
   code: (props) => {
-    const {children} = props;
-
-    // For retrocompatibility purposes (pretty rare use case)
-    // See https://github.com/facebook/docusaurus/pull/1584
-    if (isValidElement(children)) {
-      return children;
-    }
-
-    return !children.includes('\n') ? (
-      <code {...props} />
-    ) : (
-      <CodeBlock {...props} />
+    const inlineElements = [
+      'a',
+      'b',
+      'big',
+      'i',
+      'span',
+      'em',
+      'strong',
+      'sup',
+      'sub',
+      'small',
+    ];
+    const shouldBeInline = React.Children.toArray(props.children).every(
+      (el) =>
+        (typeof el === 'string' && !el.includes('\n')) ||
+        (isValidElement(el) && inlineElements.includes(el.props.mdxType)),
     );
+
+    return shouldBeInline ? <code {...props} /> : <CodeBlock {...props} />;
   },
   a: (props) => <Link {...props} />,
-  pre: (props) => {
-    const {children} = props;
-
-    // See comment for `code` above
-    if (isValidElement(children) && isValidElement(children?.props?.children)) {
-      return children.props.children;
-    }
-
-    return (
-      <CodeBlock
-        {...((isValidElement(children)
-          ? children?.props
-          : {...props}) as Props)}
-      />
-    );
-  },
+  pre: (props) => (
+    <CodeBlock
+      // If this pre is created by a ``` fenced codeblock, unwrap the children
+      {...(isValidElement(props.children) &&
+      props.children.props.originalType === 'code'
+        ? props.children?.props
+        : {...props})}
+    />
+  ),
   details: (props): JSX.Element => {
     const items = React.Children.toArray(props.children) as ReactElement[];
-    // Split summary item from the rest to pass it as a separate prop to the Detais theme component
+    // Split summary item from the rest to pass it as a separate prop to the
+    // Details theme component
     const summary: ReactElement<ComponentProps<'summary'>> = items.find(
       (item) => item?.props?.mdxType === 'summary',
     )!;
@@ -78,12 +82,12 @@ const MDXComponents: MDXComponentsObject = {
       </Details>
     );
   },
-  h1: Heading('h1'),
-  h2: Heading('h2'),
-  h3: Heading('h3'),
-  h4: Heading('h4'),
-  h5: Heading('h5'),
-  h6: Heading('h6'),
+  h1: (props) => <Heading as="h1" {...props} />,
+  h2: (props) => <Heading as="h2" {...props} />,
+  h3: (props) => <Heading as="h3" {...props} />,
+  h4: (props) => <Heading as="h4" {...props} />,
+  h5: (props) => <Heading as="h5" {...props} />,
+  h6: (props) => <Heading as="h6" {...props} />,
 };
 
 export default MDXComponents;

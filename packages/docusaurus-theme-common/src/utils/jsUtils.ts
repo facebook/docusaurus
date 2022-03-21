@@ -10,8 +10,11 @@
 /**
  * Gets the duplicate values in an array.
  * @param arr The array.
- * @param comparator Compares two values and returns `true` if they are equal (duplicated).
- * @returns Value of the elements `v` that have a preceding element `u` where `comparator(u, v) === true`. Values within the returned array are not guaranteed to be unique.
+ * @param comparator Compares two values and returns `true` if they are equal
+ * (duplicated).
+ * @returns Value of the elements `v` that have a preceding element `u` where
+ * `comparator(u, v) === true`. Values within the returned array are not
+ * guaranteed to be unique.
  */
 export function duplicates<T>(
   arr: readonly T[],
@@ -20,4 +23,14 @@ export function duplicates<T>(
   return arr.filter(
     (v, vIndex) => arr.findIndex((u) => comparator(u, v)) !== vIndex,
   );
+}
+
+/**
+ * Remove duplicate array items (similar to _.uniq)
+ * @param arr The array.
+ * @returns An array with duplicate elements removed by reference comparison.
+ */
+export function uniq<T>(arr: T[]): T[] {
+  // Note: had problems with [...new Set()]: https://github.com/facebook/docusaurus/issues/4972#issuecomment-863895061
+  return Array.from(new Set(arr));
 }

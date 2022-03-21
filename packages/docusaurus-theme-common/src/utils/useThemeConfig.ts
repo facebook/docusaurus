@@ -4,10 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {PrismTheme} from 'prism-react-renderer';
-import {CSSProperties} from 'react';
-import {DeepPartial} from 'utility-types';
+import type {PrismTheme} from 'prism-react-renderer';
+import type {DeepPartial} from 'utility-types';
 
 export type DocsVersionPersistence = 'localStorage' | 'none';
 
@@ -42,12 +42,6 @@ export type ColorModeConfig = {
   defaultMode: 'light' | 'dark';
   disableSwitch: boolean;
   respectPrefersColorScheme: boolean;
-  switchConfig: {
-    darkIcon: string;
-    darkIconStyle: CSSProperties;
-    lightIcon: string;
-    lightIconStyle: CSSProperties;
-  };
 };
 
 export type AnnouncementBarConfig = {
@@ -62,7 +56,7 @@ export type PrismConfig = {
   theme?: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
-  additionalLanguages?: string[];
+  additionalLanguages: string[];
 };
 
 export type FooterLinkItem = {
@@ -71,24 +65,35 @@ export type FooterLinkItem = {
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
+} & Record<string, unknown>;
+
+export type FooterLogo = {
+  alt?: string;
+  src: string;
+  srcDark?: string;
+  width?: string | number;
+  height?: string | number;
+  href?: string;
 };
-export type FooterLinks = {
-  title?: string;
-  items: FooterLinkItem[];
-};
-export type Footer = {
+
+export type FooterBase = {
   style: 'light' | 'dark';
-  logo?: {
-    alt?: string;
-    src?: string;
-    srcDark?: string;
-    width?: string | number;
-    height?: string | number;
-    href?: string;
-  };
+  logo?: FooterLogo;
   copyright?: string;
-  links: FooterLinks[];
 };
+
+export type MultiColumnFooter = FooterBase & {
+  links: Array<{
+    title: string | null;
+    items: FooterLinkItem[];
+  }>;
+};
+
+export type SimpleFooter = FooterBase & {
+  links: FooterLinkItem[];
+};
+
+export type Footer = MultiColumnFooter | SimpleFooter;
 
 export type TableOfContents = {
   minHeadingLevel: number;
@@ -112,8 +117,9 @@ export type ThemeConfig = {
   prism: PrismConfig;
   footer?: Footer;
   hideableSidebar: boolean;
+  autoCollapseSidebarCategories: boolean;
   image?: string;
-  metadatas: Array<Record<string, string>>;
+  metadata: Array<Record<string, string>>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };

@@ -39,7 +39,7 @@ At Facebook, Docusaurus allows us to quickly get different projects up and runni
 
 ## Getting Up and Running
 
-![Slash Up and Running](/img/slash-upandrunning.png)
+![Slash Up and Running](/img/slash-up-and-running.png)
 
 At its core, we wanted sites running Docusaurus to be simple to use. With one [installation](https://v1.docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://v1.docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
 
@@ -51,8 +51,8 @@ root-of-repo
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
-│   ├── exampledoc4.md
-│   └── exampledoc5.md
+│   ├── example-doc4.md
+│   └── example-doc5.md
 ├── website
 │   ├── blog-examples-from-docusaurus
 │   │   ├── 2016-03-11-blog-post.md

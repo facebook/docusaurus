@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 
 import styles from './styles.module.css';
 
@@ -15,7 +15,11 @@ interface Props {
   url: string;
 }
 
-function BrowserWindow({children, minHeight, url}: Props) {
+export default function BrowserWindow({
+  children,
+  minHeight,
+  url = 'http://localhost:3000',
+}: Props): JSX.Element {
   return (
     <div className={styles.browserWindow} style={{minHeight}}>
       <div className={styles.browserWindowHeader}>
@@ -38,5 +42,3 @@ function BrowserWindow({children, minHeight, url}: Props) {
     </div>
   );
 }
-
-export default BrowserWindow;

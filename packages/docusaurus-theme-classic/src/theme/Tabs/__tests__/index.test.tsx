@@ -9,11 +9,13 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Tabs from '../index';
 import TabItem from '../../TabItem';
-import UserPreferencesProvider from '@theme/UserPreferencesProvider';
-import {ScrollControllerProvider} from '@docusaurus/theme-common';
+import {
+  TabGroupChoiceProvider,
+  ScrollControllerProvider,
+} from '@docusaurus/theme-common';
 
 describe('Tabs', () => {
-  test('Should reject bad Tabs child', () => {
+  it('rejects bad Tabs child', () => {
     expect(() => {
       renderer.create(
         <Tabs>
@@ -25,7 +27,7 @@ describe('Tabs', () => {
       `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique \\"value\\" prop."`,
     );
   });
-  test('Should reject bad Tabs defaultValue', () => {
+  it('rejects bad Tabs defaultValue', () => {
     expect(() => {
       renderer.create(
         <Tabs defaultValue="bad">
@@ -37,7 +39,7 @@ describe('Tabs', () => {
       `"Docusaurus error: The <Tabs> has a defaultValue \\"bad\\" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
     );
   });
-  test('Should reject duplicate values', () => {
+  it('rejects duplicate values', () => {
     expect(() => {
       renderer.create(
         <Tabs>
@@ -53,11 +55,11 @@ describe('Tabs', () => {
       `"Docusaurus error: Duplicate values \\"v1, v2\\" found in <Tabs>. Every value needs to be unique."`,
     );
   });
-  test('Should accept valid Tabs config', () => {
+  it('accepts valid Tabs config', () => {
     expect(() => {
       renderer.create(
         <ScrollControllerProvider>
-          <UserPreferencesProvider>
+          <TabGroupChoiceProvider>
             <Tabs>
               <TabItem value="v1">Tab 1</TabItem>
               <TabItem value="v2">Tab 2</TabItem>
@@ -102,26 +104,28 @@ describe('Tabs', () => {
                 Tab 2
               </TabItem>
             </Tabs>
-          </UserPreferencesProvider>
+          </TabGroupChoiceProvider>
         </ScrollControllerProvider>,
       );
     }).not.toThrow(); // TODO Better Jest infrastructure to mock the Layout
   });
   // https://github.com/facebook/docusaurus/issues/5729
-  test('Should accept dynamic Tabs with number values', () => {
+  it('accepts dynamic Tabs with number values', () => {
     expect(() => {
       const tabs = ['Apple', 'Banana', 'Carrot'];
       renderer.create(
         <ScrollControllerProvider>
-          <UserPreferencesProvider>
+          <TabGroupChoiceProvider>
             <Tabs
               values={tabs.map((t, idx) => ({label: t, value: idx}))}
               defaultValue={0}>
               {tabs.map((t, idx) => (
-                <TabItem value={idx}>{t}</TabItem>
+                <TabItem key={idx} value={idx}>
+                  {t}
+                </TabItem>
               ))}
             </Tabs>
-          </UserPreferencesProvider>
+          </TabGroupChoiceProvider>
         </ScrollControllerProvider>,
       );
     }).not.toThrow();

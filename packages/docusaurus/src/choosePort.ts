@@ -13,7 +13,7 @@
 import {execSync} from 'child_process';
 import detect from 'detect-port';
 import isRoot from 'is-root';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
@@ -38,7 +38,7 @@ function clearConsole(): void {
 function getProcessIdOnPort(port: number): string {
   return execSync(`lsof -i:${port} -P -t -sTCP:LISTEN`, execOptions)
     .toString()
-    .split('\n')[0]
+    .split('\n')[0]!
     .trim();
 }
 
@@ -68,13 +68,8 @@ function getProcessForPort(port: number): string | null {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
     const command = getProcessCommand(processId);
-    return (
-      chalk.cyan(command) +
-      chalk.grey(` (pid ${processId})\n`) +
-      chalk.blue('  in ') +
-      chalk.cyan(directory)
-    );
-  } catch (e) {
+    return logger.interpolate`code=${command} subdue=${`(pid ${processId})`} in path=${directory}`;
+  } catch {
     return null;
   }
 }
@@ -87,48 +82,34 @@ export default async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
-  return detect({port: defaultPort, hostname: host}).then(
-    (port) =>
-      new Promise((resolve) => {
-        if (port === defaultPort) {
-          return resolve(port);
-        }
-        const message =
-          process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
-            ? `Admin permissions are required to run a server on a port below 1024.`
-            : `Something is already running on port ${defaultPort}.`;
-        if (isInteractive) {
-          clearConsole();
-          const existingProcess = getProcessForPort(defaultPort);
-          const question: prompts.PromptObject = {
-            type: 'confirm',
-            name: 'shouldChangePort',
-            message: `${chalk.yellow(
-              `${message}${
-                existingProcess ? ` Probably:\n  ${existingProcess}` : ''
-              }`,
-            )}\n\nWould you like to run the app on another port instead?`,
-            initial: true,
-          };
-          prompts(question).then((answer) => {
-            if (answer.shouldChangePort === true) {
-              resolve(port);
-            } else {
-              resolve(null);
-            }
-          });
-        } else {
-          console.log(chalk.red(message));
-          resolve(null);
-        }
-        return null;
-      }),
-    (err) => {
-      throw new Error(
-        `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
-          `Network error message: "${err.message}".` || err
-        }\n`,
-      );
-    },
-  );
+  try {
+    const port = await detect({port: defaultPort, hostname: host});
+    if (port === defaultPort) {
+      return port;
+    }
+    const message =
+      process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
+        ? `Admin permissions are required to run a server on a port below 1024.`
+        : `Something is already running on port ${defaultPort}.`;
+    if (!isInteractive) {
+      logger.error(message);
+      return null;
+    }
+    clearConsole();
+    const existingProcess = getProcessForPort(defaultPort);
+    const {shouldChangePort} = await prompts({
+      type: 'confirm',
+      name: 'shouldChangePort',
+      message: logger.yellow(`${logger.bold('[WARNING]')} ${message}${
+        existingProcess ? ` Probably:\n  ${existingProcess}` : ''
+      }
+
+Would you like to run the app on another port instead?`),
+      initial: true,
+    });
+    return shouldChangePort ? port : null;
+  } catch (err) {
+    logger.error`Could not find an open port at ${host}.`;
+    throw err;
+  }
 }

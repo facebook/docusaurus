@@ -1,52 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getLoadedContentTranslationFiles should return translation files matching snapshot 1`] = `
-Array [
-  Object {
-    "content": Object {
-      "sidebar.docs.category.Getting started": Object {
+exports[`getLoadedContentTranslationFiles returns translation files 1`] = `
+[
+  {
+    "content": {
+      "sidebar.docs.category.Getting started": {
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
       },
-      "sidebar.docs.link.Link label": Object {
+      "sidebar.docs.category.Getting started.link.generated-index.description": {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
+      },
+      "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "version.label": Object {
+      "version.label": {
         "description": "The label for version current",
         "message": "current label",
       },
     },
     "path": "current",
   },
-  Object {
-    "content": Object {
-      "sidebar.docs.category.Getting started": Object {
+  {
+    "content": {
+      "sidebar.docs.category.Getting started": {
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
       },
-      "sidebar.docs.link.Link label": Object {
+      "sidebar.docs.category.Getting started.link.generated-index.description": {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
+      },
+      "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "version.label": Object {
+      "version.label": {
         "description": "The label for version 2.0.0",
         "message": "2.0.0 label",
       },
     },
     "path": "version-2.0.0",
   },
-  Object {
-    "content": Object {
-      "sidebar.docs.category.Getting started": Object {
+  {
+    "content": {
+      "sidebar.docs.category.Getting started": {
         "description": "The label for category Getting started in sidebar docs",
         "message": "Getting started",
       },
-      "sidebar.docs.link.Link label": Object {
+      "sidebar.docs.category.Getting started.link.generated-index.description": {
+        "description": "The generated-index page description for category Getting started in sidebar docs",
+        "message": "Getting started index description",
+      },
+      "sidebar.docs.category.Getting started.link.generated-index.title": {
+        "description": "The generated-index page title for category Getting started in sidebar docs",
+        "message": "Getting started index title",
+      },
+      "sidebar.docs.link.Link label": {
         "description": "The label for link Link label in sidebar docs, linking to https://facebook.com",
         "message": "Link label",
       },
-      "version.label": Object {
+      "version.label": {
         "description": "The label for version 1.0.0",
         "message": "1.0.0 label",
       },
@@ -56,18 +80,17 @@ Array [
 ]
 `;
 
-exports[`translateLoadedContent should return translated loaded content matching snapshot 1`] = `
-Object {
-  "loadedVersions": Array [
-    Object {
+exports[`translateLoadedContent returns translated loaded content 1`] = `
+{
+  "loadedVersions": [
+    {
       "contentPath": "any",
       "contentPathLocalized": "any",
-      "docs": Array [
-        Object {
+      "docs": [
+        {
           "description": "doc1 description",
           "editUrl": "any",
           "id": "doc1",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -80,11 +103,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc2 description",
           "editUrl": "any",
           "id": "doc2",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -97,11 +119,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc3 description",
           "editUrl": "any",
           "id": "doc3",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -114,11 +135,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc4 description",
           "editUrl": "any",
           "id": "doc4",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -131,11 +151,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc5 description",
           "editUrl": "any",
           "id": "doc5",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -153,43 +172,50 @@ Object {
       "mainDocId": "",
       "routePriority": undefined,
       "sidebarFilePath": "any",
-      "sidebars": Object {
-        "docs": Array [
-          Object {
+      "sidebars": {
+        "docs": [
+          {
             "collapsed": false,
-            "items": Array [
-              Object {
+            "items": [
+              {
                 "id": "doc1",
                 "type": "doc",
               },
-              Object {
+              {
                 "id": "doc2",
                 "type": "doc",
               },
-              Object {
+              {
                 "href": "https://facebook.com",
                 "label": "Link label (translated)",
                 "type": "link",
               },
-              Object {
+              {
                 "id": "doc1",
                 "type": "ref",
               },
             ],
             "label": "Getting started (translated)",
+            "link": {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
-          Object {
+          {
             "id": "doc3",
             "type": "doc",
           },
         ],
-        "otherSidebar": Array [
-          Object {
+        "otherSidebar": [
+          {
             "id": "doc4",
             "type": "doc",
           },
-          Object {
+          {
             "id": "doc5",
             "type": "doc",
           },
@@ -199,15 +225,14 @@ Object {
       "versionName": "current",
       "versionPath": "/docs/",
     },
-    Object {
+    {
       "contentPath": "any",
       "contentPathLocalized": "any",
-      "docs": Array [
-        Object {
+      "docs": [
+        {
           "description": "doc1 description",
           "editUrl": "any",
           "id": "doc1",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -220,11 +245,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc2 description",
           "editUrl": "any",
           "id": "doc2",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -237,11 +261,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc3 description",
           "editUrl": "any",
           "id": "doc3",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -254,11 +277,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc4 description",
           "editUrl": "any",
           "id": "doc4",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -271,11 +293,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc5 description",
           "editUrl": "any",
           "id": "doc5",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -293,43 +314,50 @@ Object {
       "mainDocId": "",
       "routePriority": undefined,
       "sidebarFilePath": "any",
-      "sidebars": Object {
-        "docs": Array [
-          Object {
+      "sidebars": {
+        "docs": [
+          {
             "collapsed": false,
-            "items": Array [
-              Object {
+            "items": [
+              {
                 "id": "doc1",
                 "type": "doc",
               },
-              Object {
+              {
                 "id": "doc2",
                 "type": "doc",
               },
-              Object {
+              {
                 "href": "https://facebook.com",
                 "label": "Link label (translated)",
                 "type": "link",
               },
-              Object {
+              {
                 "id": "doc1",
                 "type": "ref",
               },
             ],
             "label": "Getting started (translated)",
+            "link": {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
-          Object {
+          {
             "id": "doc3",
             "type": "doc",
           },
         ],
-        "otherSidebar": Array [
-          Object {
+        "otherSidebar": [
+          {
             "id": "doc4",
             "type": "doc",
           },
-          Object {
+          {
             "id": "doc5",
             "type": "doc",
           },
@@ -339,15 +367,14 @@ Object {
       "versionName": "2.0.0",
       "versionPath": "/docs/",
     },
-    Object {
+    {
       "contentPath": "any",
       "contentPathLocalized": "any",
-      "docs": Array [
-        Object {
+      "docs": [
+        {
           "description": "doc1 description",
           "editUrl": "any",
           "id": "doc1",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -360,11 +387,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc2 description",
           "editUrl": "any",
           "id": "doc2",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -377,11 +403,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc3 description",
           "editUrl": "any",
           "id": "doc3",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -394,11 +419,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc4 description",
           "editUrl": "any",
           "id": "doc4",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -411,11 +435,10 @@ Object {
           "unversionedId": "any",
           "version": "any",
         },
-        Object {
+        {
           "description": "doc5 description",
           "editUrl": "any",
           "id": "doc5",
-          "isDocsHomePage": false,
           "lastUpdatedAt": 0,
           "lastUpdatedBy": "any",
           "next": undefined,
@@ -433,43 +456,50 @@ Object {
       "mainDocId": "",
       "routePriority": undefined,
       "sidebarFilePath": "any",
-      "sidebars": Object {
-        "docs": Array [
-          Object {
+      "sidebars": {
+        "docs": [
+          {
             "collapsed": false,
-            "items": Array [
-              Object {
+            "items": [
+              {
                 "id": "doc1",
                 "type": "doc",
               },
-              Object {
+              {
                 "id": "doc2",
                 "type": "doc",
               },
-              Object {
+              {
                 "href": "https://facebook.com",
                 "label": "Link label (translated)",
                 "type": "link",
               },
-              Object {
+              {
                 "id": "doc1",
                 "type": "ref",
               },
             ],
             "label": "Getting started (translated)",
+            "link": {
+              "description": "Getting started index description (translated)",
+              "permalink": "/docs/category/getting-started-index-slug",
+              "slug": "/category/getting-started-index-slug",
+              "title": "Getting started index title (translated)",
+              "type": "generated-index",
+            },
             "type": "category",
           },
-          Object {
+          {
             "id": "doc3",
             "type": "doc",
           },
         ],
-        "otherSidebar": Array [
-          Object {
+        "otherSidebar": [
+          {
             "id": "doc4",
             "type": "doc",
           },
-          Object {
+          {
             "id": "doc5",
             "type": "doc",
           },

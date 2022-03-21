@@ -22,29 +22,45 @@ For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/he
 ```bash
 website # Root directory of your site
 └── docs
-   ├── greeting.md
+   ├── greeting.md
    └── guide
       └── hello.md
 ```
 
-However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by the user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
-```yml
+```md
 ---
 id: part1
 ---
+
 Lorem ipsum
 ```
 
-If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+### Customizing doc URLs {#customizing-doc-urls}
 
-```yml
+By default, a document's URL location is its file path relative to the `docs` folder. Use the `slug` front matter to change a document's URL.
+
+For example, suppose your site structure looks like this:
+
+```bash
+website # Root directory of your site
+└── docs
+    └── guide
+        └── hello.md
+```
+
+By default `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
+
+```md
 ---
-id: part1
-slug: part1.html
+slug: /bonjour
 ---
+
 Lorem ipsum
 ```
+
+`slug` will be appended to the doc plugin's `routeBasePath`, which is `/docs` by default. See [Docs-only mode](#docs-only-mode) for how to remove the `/docs` part from the URL.
 
 :::note
 
@@ -57,27 +73,102 @@ It is possible to use:
 
 ## Home page docs {#home-page-docs}
 
-If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug frontmatter:
+If you want a document to be available at the root, and have a path like `https://docusaurus.io/docs/`, you can use the slug front matter:
 
-```yml
+```md
 ---
 id: my-home-doc
 slug: /
 ---
+
 Lorem ipsum
 ```
 
 ## Docs-only mode {#docs-only-mode}
 
-If you only want the documentation feature, you can run your Docusaurus 2 site without a landing page and display your documentation page as the index page instead.
+A freshly initialized Docusaurus site has the following structure:
 
-To enable docs-only mode, set the docs plugin `routeBasePath: '/'`, and use the frontmatter `slug: /` on the document that should be the index page ([more info](#home-page-docs)).
+```
+example.com/                                -> generated from `src/pages/index.js`
+
+example.com/docs/intro                      -> generated from `docs/intro.md`
+example.com/docs/tutorial-basics/...        -> generated from `docs/tutorial-basics/...`
+...
+
+example.com/blog/2021/08/26/welcome         -> generated from `blog/2021-08-26-welcome/index.md`
+example.com/blog/2021/08/01/mdx-blog-post   -> generated from `blog/2021-08-01-mdx-blog-post.mdx`
+...
+```
+
+All docs will be served under the subroute `docs/`. But what if **your site only has docs**, or you want to prioritize your docs by putting them at the root?
+
+Assume that you have the following in your configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    '@docusaurus/preset-classic',
+    {
+      docs: {
+        /* docs plugin options */
+      },
+      blog: {
+        /* blog plugin options */
+      },
+      // ...
+    },
+  ],
+};
+```
+
+To enter docs-only mode, change it to like this:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    '@docusaurus/preset-classic',
+    {
+      docs: {
+        // highlight-next-line
+        routeBasePath: '/', // Serve the docs at the site's root
+        /* other docs plugin options */
+      },
+      // highlight-next-line
+      blog: false, // Optional: disable the blog plugin
+      // ...
+    },
+  ],
+};
+```
+
+Note that you **don't necessarily have to give up on using the blog** or other plugins; all that `routeBasePath: '/'` does is that instead of serving the docs through `https://example.com/docs/some-doc`, they are now at the site root: `https://example.com/some-doc`. The blog, if enabled, can still be accessed through the `blog/` subroute.
+
+Don't forget to put some page at the root (`https://example.com/`) through adding the front matter:
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+This page will be the home page when users visit https://example.com/.
+```
 
 :::caution
 
-You should delete the existing homepage at `./src/pages/index.js`, or else there will be two files mapping to the same route!
+If you added `slug: /` to a doc to make it the homepage, you should delete the existing homepage at `./src/pages/index.js`, or else there will be two files mapping to the same route!
 
 :::
+
+Now, the site's structure will be like the following:
+
+```
+example.com/                       -> generated from `docs/intro.md`
+example.com/tutorial-basics/...    -> generated from `docs/tutorial-basics/...`
+...
+```
 
 :::tip
 

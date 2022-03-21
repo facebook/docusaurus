@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {ReactNode} from 'react';
+import React, {type ReactNode} from 'react';
 import Translate from '@docusaurus/Translate';
 import Link from '@docusaurus/Link';
 
@@ -41,7 +41,7 @@ function TeamProfileCard({
           <div className="avatar avatar--vertical">
             <img
               className="avatar__photo avatar__photo--xl"
-              src={githubUrl + '.png'}
+              src={`${githubUrl}.png`}
               alt={`${name}'s avatar`}
             />
             <div className="avatar__intro">
@@ -71,11 +71,11 @@ function TeamProfileCard({
 
 function TeamProfileCardCol(props: ProfileProps) {
   return (
-    <TeamProfileCard {...props} className={'col col--6 margin-bottom--lg'} />
+    <TeamProfileCard {...props} className="col col--6 margin-bottom--lg" />
   );
 }
 
-export function ActiveTeamRow() {
+export function ActiveTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -125,15 +125,15 @@ export function ActiveTeamRow() {
         twitterUrl="https://twitter.com/yangshunz">
         <Translate id="team.profile.Yangshun Tay.body">
           Full Front End Stack developer who likes working on the Jamstack.
-          Working on Docusaurus made him Facebook's unofficial part-time Open
-          Source webmaster, which is an awesome role to be in.
+          Working on Docusaurus made him Facebook&apos;s unofficial part-time
+          Open Source webmaster, which is an awesome role to be in.
         </Translate>
       </TeamProfileCardCol>
     </div>
   );
 }
 
-export function HonoraryAlumniTeamRow() {
+export function HonoraryAlumniTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
@@ -157,67 +157,117 @@ export function HonoraryAlumniTeamRow() {
   );
 }
 
-export function StudentFellowsTeamRow() {
+export function StudentFellowsTeamRow(): JSX.Element {
   return (
     <div className="row">
       <TeamProfileCardCol
         name="Anshul Goyal"
         githubUrl="https://github.com/anshulrgoyal"
         twitterUrl="https://twitter.com/ar_goyal">
-        Fullstack developer who loves to code and try new technologies. In his
-        free time, he contributes to open source, writes blog posts on his{' '}
-        <a href="https://anshulgoyal.dev/" target="_blank">
-          website
-        </a>{' '}
-        and watches Anime.
+        <Translate
+          id="team.profile.Anshul Goyal.body"
+          values={{
+            websiteLink: (
+              <Link href="https://anshulgoyal.dev/">
+                <Translate id="team.profile.Anshul Goyal.body.websiteLink.label">
+                  website
+                </Translate>
+              </Link>
+            ),
+          }}>
+          {
+            'Fullstack developer who loves to code and try new technologies. In his free time, he contributes to open source, writes blog posts on his {websiteLink} and watches Anime.'
+          }
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Drew Alexander"
         githubUrl="https://github.com/drewbi">
-        Developer and Creative, trying to gain the skills to build whatever he
-        can think of.
+        <Translate id="team.profile.Drew Alexander.body">
+          Developer and Creative, trying to gain the skills to build whatever he
+          can think of.
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Fanny Vieira"
         githubUrl="https://github.com/fanny"
         twitterUrl="https://twitter.com/fannyvieiira">
-        Fanny got started with web development in high school, building a
-        project for the school kitchen. In her free time she loves contributing
-        to Open Source, occasionally writing on{' '}
-        <a href="https://dev.to/fannyvieira" target="_blank">
-          her blog
-        </a>{' '}
-        about her experiences, cooking, and creating{' '}
-        <a href="https://open.spotify.com/user/anotherfanny" target="_blank">
-          Spotify playlists
-        </a>
-        .
+        <Translate
+          id="team.profile.Fanny Vieira.body"
+          values={{
+            blogLink: (
+              <Link href="https://dev.to/fannyvieira">
+                <Translate id="team.profile.Fanny Vieira.body.blogLink.label">
+                  her blog
+                </Translate>
+              </Link>
+            ),
+            spotifyLink: (
+              <Link href="https://open.spotify.com/user/anotherfanny">
+                <Translate id="team.profile.Fanny Vieira.body.spotifyLink.label">
+                  Spotify playlists
+                </Translate>
+              </Link>
+            ),
+          }}>
+          {
+            'Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on {blogLink} about her experiences, cooking, and creating {spotifyLink}.'
+          }
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Sam Zhou"
         githubUrl="https://github.com/SamChou19815"
         twitterUrl="https://twitter.com/SamChou19815">
-        Sam started programming in 2011 and built his{' '}
-        <a href="https://developersam.com">website</a> in 2015. He is interested
-        in programming languages, dev infra and web development, and has built
-        his own{' '}
-        <a href="https://samlang.developersam.com/">programming language</a> and{' '}
-        <a href="https://github.com/SamChou19815/mini-react">mini React</a>.
+        <Translate
+          id="team.profile.Sam Zhou.body"
+          values={{
+            websiteLink: (
+              <Link href="https://developersam.com">
+                <Translate id="team.profile.Anshul Goyal.body.websiteLink.label">
+                  website
+                </Translate>
+              </Link>
+            ),
+            samLangLink: (
+              <Link href="https://samlang.developersam.com/">
+                <Translate id="team.profile.Sam Zhou.body.samLangLink.label">
+                  programming language
+                </Translate>
+              </Link>
+            ),
+            miniReactLink: (
+              <Link href="https://github.com/SamChou19815/mini-react">
+                <Translate id="team.profile.Sam Zhou.body.miniReactLink.label">
+                  mini React
+                </Translate>
+              </Link>
+            ),
+          }}>
+          {
+            'Sam started programming in 2011 and built his {websiteLink} in 2015. He is interested in programming languages, dev infra and web development, and has built his own {samLangLink} and {miniReactLink}.'
+          }
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Tan Teik Jun"
         githubUrl="https://github.com/teikjun"
         twitterUrl="https://twitter.com/teik_jun">
-        Open-source enthusiast who aims to become as awesome as the other humans
-        on this page. Working on Docusaurus brought him closer to his goal. 🌱
+        <Translate id="team.profile.Tan Teik Jun.body">
+          Open-source enthusiast who aims to become as awesome as the other
+          humans on this page. Working on Docusaurus brought him closer to his
+          goal. 🌱
+        </Translate>
       </TeamProfileCardCol>
       <TeamProfileCardCol
         name="Nisarag Bhatt"
         githubUrl="https://github.com/FocalChord"
         twitterUrl="https://twitter.com/focalchord_">
-        Fullstack web developer who loves learning new technologies and applying
-        them! Loves contributing to open source as well as writing content
-        articles and tutorials.
+        <Translate id="team.profile.Nisarag Bhatt.body">
+          Fullstack web developer who loves learning new technologies and
+          applying them! Loves contributing to open source as well as writing
+          content articles and tutorials.
+        </Translate>
       </TeamProfileCardCol>
     </div>
   );

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import {docuHash, normalizeUrl, posixPath} from '@docusaurus/utils';
 import path from 'path';
 
@@ -24,7 +24,10 @@ export default function pluginDebug({
     name: 'docusaurus-plugin-debug',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      return '../src/theme';
     },
 
     async contentLoaded({actions: {createData, addRoute}, allContent}) {

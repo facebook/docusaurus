@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -16,33 +17,33 @@ import writeRedirectFiles, {
 // - https://github.com/facebook/docusaurus/issues/3886
 // - https://github.com/facebook/docusaurus/issues/3925
 describe('createToUrl', () => {
-  test('should create appropriate redirect urls', async () => {
-    expect(createToUrl('/', '/docs/something/else')).toEqual(
+  it('creates appropriate redirect urls', async () => {
+    expect(createToUrl('/', '/docs/something/else')).toBe(
       '/docs/something/else',
     );
-    expect(createToUrl('/', '/docs/something/else/')).toEqual(
+    expect(createToUrl('/', '/docs/something/else/')).toBe(
       '/docs/something/else/',
     );
-    expect(createToUrl('/', 'docs/something/else')).toEqual(
+    expect(createToUrl('/', 'docs/something/else')).toBe(
       '/docs/something/else',
     );
   });
 
-  test('should create appropriate redirect urls with baseUrl', async () => {
-    expect(createToUrl('/baseUrl/', '/docs/something/else')).toEqual(
+  it('creates appropriate redirect urls with baseUrl', async () => {
+    expect(createToUrl('/baseUrl/', '/docs/something/else')).toBe(
       '/baseUrl/docs/something/else',
     );
-    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toEqual(
+    expect(createToUrl('/baseUrl/', '/docs/something/else/')).toBe(
       '/baseUrl/docs/something/else/',
     );
-    expect(createToUrl('/baseUrl/', 'docs/something/else')).toEqual(
+    expect(createToUrl('/baseUrl/', 'docs/something/else')).toBe(
       '/baseUrl/docs/something/else',
     );
   });
 });
 
 describe('toRedirectFilesMetadata', () => {
-  test('should create appropriate metadatas trailingSlash=undefined', async () => {
+  it('creates appropriate metadata trailingSlash=undefined', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -69,7 +70,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadatas trailingSlash=true', async () => {
+  it('creates appropriate metadata trailingSlash=true', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -96,7 +97,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadatas trailingSlash=false', async () => {
+  it('creates appropriate metadata trailingSlash=false', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: 'https://docusaurus.io',
@@ -113,7 +114,9 @@ describe('toRedirectFilesMetadata', () => {
     );
 
     expect(redirectFiles.map((f) => f.fileAbsolutePath)).toEqual([
-      // path.join(pluginContext.outDir, '/abc.html/index.html'), // Can't be used because /abc.html already exists, and file/folder can't share same name on Unix!
+      // Can't be used because /abc.html already exists, and file/folder can't
+      // share same name on Unix!
+      // path.join(pluginContext.outDir, '/abc.html/index.html'),
       path.join(pluginContext.outDir, '/abc.html.html'), // Weird but on purpose!
       path.join(pluginContext.outDir, '/def/index.html'),
       path.join(pluginContext.outDir, '/xyz/index.html'),
@@ -124,7 +127,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadatas for root baseUrl', async () => {
+  it('creates appropriate metadata for root baseUrl', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '/',
@@ -139,7 +142,7 @@ describe('toRedirectFilesMetadata', () => {
     );
   });
 
-  test('should create appropriate metadatas for empty baseUrl', async () => {
+  it('creates appropriate metadata for empty baseUrl', async () => {
     const pluginContext = {
       outDir: '/tmp/someFixedOutDir',
       baseUrl: '',
@@ -156,7 +159,7 @@ describe('toRedirectFilesMetadata', () => {
 });
 
 describe('writeRedirectFiles', () => {
-  test('write the files', async () => {
+  it('write the files', async () => {
     const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
@@ -174,14 +177,14 @@ describe('writeRedirectFiles', () => {
 
     await expect(
       fs.readFile(filesMetadata[0].fileAbsolutePath, 'utf8'),
-    ).resolves.toEqual('content 1');
+    ).resolves.toBe('content 1');
 
     await expect(
       fs.readFile(filesMetadata[1].fileAbsolutePath, 'utf8'),
-    ).resolves.toEqual('content 2');
+    ).resolves.toBe('content 2');
   });
 
-  test('avoid overwriting existing files', async () => {
+  it('avoid overwriting existing files', async () => {
     const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
@@ -191,8 +194,7 @@ describe('writeRedirectFiles', () => {
       },
     ];
 
-    await fs.ensureDir(path.dirname(filesMetadata[0].fileAbsolutePath));
-    await fs.writeFile(
+    await fs.outputFile(
       filesMetadata[0].fileAbsolutePath,
       'file already exists!',
     );

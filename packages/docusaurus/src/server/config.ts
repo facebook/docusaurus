@@ -7,14 +7,26 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import {DocusaurusConfig} from '@docusaurus/types';
+import type {DocusaurusConfig} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
 
-export default function loadConfig(configPath: string): DocusaurusConfig {
-  if (!fs.existsSync(configPath)) {
+export default async function loadConfig(
+  configPath: string,
+): Promise<DocusaurusConfig> {
+  if (!(await fs.pathExists(configPath))) {
     throw new Error(`Config file at "${configPath}" not found.`);
   }
 
-  const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
+  const importedConfig = importFresh(configPath) as
+    | Partial<DocusaurusConfig>
+    | Promise<Partial<DocusaurusConfig>>
+    | (() => Partial<DocusaurusConfig>)
+    | (() => Promise<Partial<DocusaurusConfig>>);
+
+  const loadedConfig =
+    typeof importedConfig === 'function'
+      ? await importedConfig()
+      : await importedConfig;
+
   return validateConfig(loadedConfig);
 }

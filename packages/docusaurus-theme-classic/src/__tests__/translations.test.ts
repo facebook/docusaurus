@@ -6,7 +6,7 @@
  */
 
 import {getTranslationFiles, translateThemeConfig} from '../translations';
-import {ThemeConfig} from '@docusaurus/theme-common';
+import type {ThemeConfig} from '@docusaurus/theme-common';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 const ThemeConfigSample: ThemeConfig = {
@@ -50,14 +50,26 @@ const ThemeConfigSample: ThemeConfig = {
   },
 };
 
-function getSampleTranslationFiles() {
+const ThemeConfigSampleSimpleFooter: ThemeConfig = {
+  ...ThemeConfigSample,
+  footer: {
+    copyright: 'Copyright FB',
+    style: 'light',
+    links: [
+      {label: 'Link 1', to: 'https://facebook.com'},
+      {label: 'Link 2', to: 'https://facebook.com'},
+    ],
+  },
+};
+
+function getSampleTranslationFiles(themeConfig: ThemeConfig) {
   return getTranslationFiles({
-    themeConfig: ThemeConfigSample,
+    themeConfig,
   });
 }
 
-function getSampleTranslationFilesTranslated() {
-  const translationFiles = getSampleTranslationFiles();
+function getSampleTranslationFilesTranslated(themeConfig: ThemeConfig) {
+  const translationFiles = getSampleTranslationFiles(themeConfig);
   return translationFiles.map((translationFile) =>
     updateTranslationFileMessages(
       translationFile,
@@ -67,28 +79,30 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getTranslationFiles', () => {
-  test('should return translation files matching snapshot', () => {
-    expect(getSampleTranslationFiles()).toMatchSnapshot();
+  it('returns translation files matching snapshot', () => {
+    expect(getSampleTranslationFiles(ThemeConfigSample)).toMatchSnapshot();
+    expect(
+      getSampleTranslationFiles(ThemeConfigSampleSimpleFooter),
+    ).toMatchSnapshot();
   });
 });
 
 describe('translateThemeConfig', () => {
-  test('should not translate anything if translation files are untranslated', () => {
-    const translationFiles = getSampleTranslationFiles();
+  it('does not translate anything if translation files are untranslated', () => {
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
-        translationFiles,
+        translationFiles: getSampleTranslationFiles(ThemeConfigSample),
       }),
     ).toEqual(ThemeConfigSample);
   });
 
-  test('should return translated themeConfig matching snapshot', () => {
-    const translationFiles = getSampleTranslationFilesTranslated();
+  it('returns translated themeConfig', () => {
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
-        translationFiles,
+        translationFiles:
+          getSampleTranslationFilesTranslated(ThemeConfigSample),
       }),
     ).toMatchSnapshot();
   });
@@ -96,21 +110,24 @@ describe('translateThemeConfig', () => {
 
 describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
   function verifyIsomorphism(themeConfig: ThemeConfig) {
-    const translationFiles = getTranslationFiles({themeConfig});
     const translatedThemeConfig = translateThemeConfig({
       themeConfig,
-      translationFiles,
+      translationFiles: getTranslationFiles({themeConfig}),
     });
     expect(translatedThemeConfig).toEqual(themeConfig);
   }
 
-  test('should be verified for main sample', () => {
+  it('is verified for sample', () => {
     verifyIsomorphism(ThemeConfigSample);
+  });
+
+  it('is verified for sample with simple footer', () => {
+    verifyIsomorphism(ThemeConfigSampleSimpleFooter);
   });
 
   // undefined footer should not make the translation code crash
   // See https://github.com/facebook/docusaurus/issues/3936
-  test('should be verified for sample without footer', () => {
+  it('is verified for sample without footer', () => {
     verifyIsomorphism({...ThemeConfigSample, footer: undefined});
   });
 });

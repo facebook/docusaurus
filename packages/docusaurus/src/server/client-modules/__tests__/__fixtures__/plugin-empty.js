@@ -8,5 +8,6 @@
 module.exports = function() {
   return {
     name: 'plugin-empty',
+    path: __dirname,
   };
 };

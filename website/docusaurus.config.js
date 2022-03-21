@@ -9,9 +9,17 @@
 const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
-const katex = require('rehype-katex');
 const VersionsArchived = require('./versionsArchived.json');
-const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
+const {
+  dogfoodingPluginInstances,
+  dogfoodingThemeInstances,
+} = require('./_dogfooding/dogfooding.config');
+const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
+
+const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
+  0,
+  5,
+);
 
 // This probably only makes sense for the beta phase, temporary
 function getNextBetaVersionName() {
@@ -36,7 +44,7 @@ const allDocHomesPaths = [
 const isDev = process.env.NODE_ENV === 'development';
 
 const isDeployPreview =
-  process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
+  !!process.env.NETLIFY && process.env.CONTEXT === 'deploy-preview';
 
 // Used to debug production build issues faster
 const isBuildFast = !!process.env.BUILD_FAST;
@@ -68,14 +76,13 @@ const config = {
   trailingSlash: isDeployPreview,
   stylesheets: [
     {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
-      integrity:
-        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
-      crossorigin: 'anonymous',
+      href: '/katex/katex.min.css',
+      type: 'text/css',
     },
   ],
   i18n: {
     defaultLocale: 'en',
+    // eslint-disable-next-line no-nested-ternary
     locales: isDeployPreview
       ? // Deploy preview: keep it fast!
         ['en']
@@ -87,11 +94,18 @@ const config = {
   },
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('esbuild-loader'),
+      loader: require.resolve('swc-loader'),
       options: {
-        loader: 'tsx',
-        format: isServer ? 'cjs' : undefined,
-        target: isServer ? 'node12' : 'es2017',
+        jsc: {
+          "parser": {
+            "syntax": "typescript",
+            "tsx": true
+          },
+          target: 'es2017',
+        },
+        module: {
+          type: isServer ? 'commonjs' : 'es6',
+        }
       },
     }),
   },
@@ -102,12 +116,37 @@ const config = {
     description:
       'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   },
-  clientModules: [require.resolve('./_dogfooding/clientModuleExample.ts')],
-  themes: ['@docusaurus/theme-live-codeblock'],
+  staticDirectories: [
+    'static',
+    path.join(__dirname, '_dogfooding/_asset-tests'),
+  ],
+  themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
-    require('./src/featureRequests/FeatureRequestsPlugin'),
     [
-      '@docusaurus/plugin-content-docs',
+      require.resolve('./src/plugins/changelog/index.js'),
+      {
+        blogTitle: 'Docusaurus changelog',
+        blogDescription:
+          'Keep yourself up-to-date about new features in every release',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'Changelog',
+        routeBasePath: '/changelog',
+        showReadingTime: false,
+        postsPerPage: 20,
+        archiveBasePath: null,
+        authorsMapPath: 'authors.json',
+        feedOptions: {
+          type: 'all',
+          title: 'Docusaurus changelog',
+          description:
+            'Keep yourself up-to-date about new features in every release',
+          copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+          language: 'en',
+        },
+      },
+    ],
+    [
+      'content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       ({
         id: 'community',
@@ -126,16 +165,17 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-client-redirects',
+      'client-redirects',
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
         fromExtensions: ['html'],
-        createRedirects: function (path) {
+        createRedirects(routePath) {
           // redirect to /docs from /docs/introduction,
           // as introduction has been made the home doc
-          if (allDocHomesPaths.includes(path)) {
-            return [`${path}/introduction`];
+          if (allDocHomesPaths.includes(routePath)) {
+            return [`${routePath}/introduction`];
           }
+          return [];
         },
         redirects: [
           {
@@ -154,16 +194,17 @@ const config = {
       }),
     ],
     [
-      '@docusaurus/plugin-ideal-image',
+      'ideal-image',
       {
         quality: 70,
         max: 1030, // max resized image's size.
         min: 640, // min resized image's size. if original is lower, use that size.
         steps: 2, // the max number of images generated between min and max (inclusive)
+        // disableInDev: false,
       },
     ],
     [
-      '@docusaurus/plugin-pwa',
+      'pwa',
       {
         debug: isDeployPreview,
         offlineModeActivationStrategies: [
@@ -172,7 +213,7 @@ const config = {
           'queryString',
         ],
         // swRegister: false,
-        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        swCustom: require.resolve('./src/sw.js'),
         pwaHead: [
           {
             tagName: 'link',
@@ -227,7 +268,7 @@ const config = {
   ],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         debug: true, // force debug plugin usage
@@ -248,18 +289,18 @@ const config = {
           },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          remarkPlugins: [
-            math,
-            [require('@docusaurus/remark-plugin-npm2yarn'), {sync: true}],
-          ],
-          rehypePlugins: [katex],
+          remarkPlugins: [math, [npm2yarn, {sync: true}]],
+          rehypePlugins: [],
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev ? 'current' : undefined,
-          onlyIncludeVersions: isBuildFast
-            ? ['current']
-            : !isVersioningDisabled && (isDev || isDeployPreview)
-            ? ['current', ...versions.slice(0, 2)]
-            : undefined,
+          lastVersion: isDev || isDeployPreview ? 'current' : undefined,
+          onlyIncludeVersions: (() => {
+            if (isBuildFast) {
+              return ['current'];
+            } else if (!isVersioningDisabled && (isDev || isDeployPreview)) {
+              return ['current', ...versions.slice(0, 2)];
+            }
+            return undefined;
+          })(),
           versions: {
             current: {
               label: `${getNextBetaVersionName()} 🚧`,
@@ -284,11 +325,19 @@ const config = {
           blogSidebarTitle: 'All our posts',
         },
         pages: {
-          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
+          remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./_dogfooding/dogfooding.css'),
+          ],
         },
+        gtag: !isDeployPreview
+          ? {
+              trackingID: 'UA-141789564-1',
+            }
+          : undefined,
       }),
     ],
   ],
@@ -300,6 +349,7 @@ const config = {
         playgroundPosition: 'bottom',
       },
       hideableSidebar: true,
+      autoCollapseSidebarCategories: true,
       colorMode: {
         defaultMode: 'light',
         disableSwitch: false,
@@ -310,22 +360,18 @@ const config = {
         content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus" >Twitter</a> ${TwitterSvg}`,
       },
       prism: {
-        theme: require('prism-react-renderer/themes/github'),
-        darkTheme: require('prism-react-renderer/themes/dracula'),
-        additionalLanguages: ['java'],
+        // We need to load markdown again so that YAML is loaded before MD
+        // and the YAML front matter is highlighted correctly.
+        // TODO after we have forked prism-react-renderer, we should tweak the
+        // import order and fix it there
+        additionalLanguages: ['java', 'markdown', 'latex'],
       },
       image: 'img/docusaurus-soc.png',
-      // metadatas: [{name: 'twitter:card', content: 'summary'}],
-      gtag: !isDeployPreview
-        ? {
-            trackingID: 'UA-141789564-1',
-          }
-        : undefined,
+      // metadata: [{name: 'twitter:card', content: 'summary'}],
       algolia: {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
-        contextualSearch: true,
       },
       navbar: {
         hideOnScroll: true,
@@ -345,9 +391,9 @@ const config = {
             label: 'Docs',
           },
           {
-            type: 'doc',
+            type: 'docSidebar',
             position: 'left',
-            docId: 'cli',
+            sidebarId: 'api',
             label: 'API',
           },
           {to: 'blog', label: 'Blog', position: 'left'},
@@ -364,7 +410,7 @@ const config = {
             position: 'right',
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
-              ...Object.entries(VersionsArchived).map(
+              ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
                   label: versionName,
                   href: versionUrl,
@@ -447,6 +493,10 @@ const config = {
                 to: 'blog',
               },
               {
+                label: 'Changelog',
+                to: '/changelog',
+              },
+              {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
               },
@@ -457,7 +507,7 @@ const config = {
               {
                 html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
                 </a>
               `,
               },
@@ -465,7 +515,8 @@ const config = {
           },
           {
             title: 'Legal',
-            // Please do not remove the privacy and terms, it's a legal requirement.
+            // Please don't remove the privacy and terms, it's a legal
+            // requirement.
             items: [
               {
                 label: 'Privacy',
@@ -498,4 +549,24 @@ const config = {
     }),
 };
 
-module.exports = config;
+async function createConfig() {
+  const FeatureRequestsPlugin = (
+    await import('./src/plugins/featureRequests/FeatureRequestsPlugin.mjs')
+  ).default;
+  const configTabs = (await import('./src/remark/configTabs.mjs')).default;
+  const lightTheme = (await import('./src/utils/prismLight.mjs')).default;
+  const darkTheme = (await import('./src/utils/prismDark.mjs')).default;
+  const katex = (await import('rehype-katex')).default;
+  config.plugins?.push(FeatureRequestsPlugin);
+  // @ts-expect-error: we know it exists, right
+  config.presets[0][1].docs.remarkPlugins.push(configTabs);
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.theme = lightTheme;
+  // @ts-expect-error: we know it exists, right
+  config.themeConfig.prism.darkTheme = darkTheme;
+  // @ts-expect-error: we know it exists, right
+  config.presets[0][1].docs.rehypePlugins.push(katex);
+  return config;
+}
+
+module.exports = createConfig;

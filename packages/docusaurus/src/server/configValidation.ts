@@ -5,15 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME} from '../constants';
-import {
-  Joi,
-  logValidationBugReportHint,
-  isValidationDisabledEscapeHatch,
-  URISchema,
-  printWarning,
-} from '@docusaurus/utils-validation';
+import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
+import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
+import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -32,11 +26,16 @@ export const DEFAULT_CONFIG: Pick<
   | 'plugins'
   | 'themes'
   | 'presets'
+  | 'stylesheets'
+  | 'scripts'
+  | 'clientModules'
   | 'customFields'
   | 'themeConfig'
   | 'titleDelimiter'
   | 'noIndex'
+  | 'tagline'
   | 'baseUrlIssueBanner'
+  | 'staticDirectories'
 > = {
   i18n: DEFAULT_I18N_CONFIG,
   onBrokenLinks: 'throw',
@@ -45,30 +44,47 @@ export const DEFAULT_CONFIG: Pick<
   plugins: [],
   themes: [],
   presets: [],
+  stylesheets: [],
+  scripts: [],
+  clientModules: [],
   customFields: {},
   themeConfig: {},
   titleDelimiter: '|',
   noIndex: false,
+  tagline: '',
   baseUrlIssueBanner: true,
+  staticDirectories: [STATIC_DIR_NAME],
 };
 
-const PluginSchema = Joi.alternatives()
-  .try(
-    Joi.function(),
-    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
-    Joi.string(),
-    Joi.array()
-      .ordered(Joi.string().required(), Joi.object().required())
-      .length(2),
-    Joi.bool().equal(false), // In case of conditional adding of plugins.
-  )
-  // TODO isn't there a simpler way to customize the default Joi error message???
-  // Not sure why Joi makes it complicated to add a custom error message...
-  // See https://stackoverflow.com/a/54657686/82609
-  .error((errors) => {
-    errors.forEach((error) => {
-      error.message = ` => Bad Docusaurus plugin value as path [${error.path}].
-Example valid plugin config:
+function createPluginSchema(theme: boolean) {
+  return (
+    Joi.alternatives()
+      .try(
+        Joi.function(),
+        Joi.array()
+          .ordered(Joi.function().required(), Joi.object().required())
+          .length(2),
+        Joi.string(),
+        Joi.array()
+          .ordered(Joi.string().required(), Joi.object().required())
+          .length(2),
+        Joi.bool().equal(false), // In case of conditional adding of plugins.
+      )
+      // @ts-expect-error: bad lib def, doesn't recognize an array of reports
+      .error((errors) => {
+        errors.forEach((error) => {
+          const validConfigExample = theme
+            ? `Example valid theme config:
+{
+  themes: [
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};`
+            : `Example valid plugin config:
 {
   plugins: [
     ["@docusaurus/plugin-content-docs",options],
@@ -77,16 +93,22 @@ Example valid plugin config:
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
-};
-`;
-    });
-    return errors as any;
-  });
+};`;
 
-const ThemeSchema = Joi.alternatives().try(
-  Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
-);
+          error.message = ` => Bad Docusaurus ${
+            theme ? 'theme' : 'plugin'
+          } value as path [${error.path}].
+${validConfigExample}
+`;
+        });
+        return errors;
+      })
+  );
+}
+
+const PluginSchema = createPluginSchema(false);
+
+const ThemeSchema = createPluginSchema(true);
 
 const PresetSchema = Joi.alternatives().try(
   Joi.string(),
@@ -95,6 +117,7 @@ const PresetSchema = Joi.alternatives().try(
 
 const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
+  htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
 });
 
@@ -108,7 +131,7 @@ const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
   .optional()
   .default(DEFAULT_I18N_CONFIG);
 
-const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
+const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
   try {
     const {pathname} = new URL(value);
     if (pathname !== '/') {
@@ -116,7 +139,7 @@ const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
         warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
       });
     }
-  } catch (e) {}
+  } catch {}
   return value;
 }, 'siteUrlCustomValidation');
 
@@ -124,7 +147,7 @@ const SiteUrlSchema = URISchema.required().custom(function (value, helpers) {
 export const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
-    .regex(new RegExp('/$', 'm'))
+    .regex(/\/$/m)
     .message('{{#label}} must be a string with a trailing slash.'),
   baseUrlIssueBanner: Joi.boolean().default(DEFAULT_CONFIG.baseUrlIssueBanner),
   favicon: Joi.string().optional(),
@@ -142,6 +165,9 @@ export const ConfigSchema = Joi.object({
     .equal('ignore', 'log', 'warn', 'error', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
   organizationName: Joi.string().allow(''),
+  staticDirectories: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.staticDirectories),
   projectName: Joi.string().allow(''),
   deploymentBranch: Joi.string().optional(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
@@ -150,26 +176,32 @@ export const ConfigSchema = Joi.object({
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
-  scripts: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      src: Joi.string().required(),
-      async: Joi.bool(),
-      defer: Joi.bool(),
-    })
-      // See https://github.com/facebook/docusaurus/issues/3378
-      .unknown(),
-  ),
+  scripts: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        src: Joi.string().required(),
+        async: Joi.bool(),
+        defer: Joi.bool(),
+      })
+        // See https://github.com/facebook/docusaurus/issues/3378
+        .unknown(),
+    )
+    .default(DEFAULT_CONFIG.scripts),
   ssrTemplate: Joi.string(),
-  stylesheets: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      href: Joi.string().required(),
-      type: Joi.string(),
-    }).unknown(),
-  ),
-  clientModules: Joi.array().items(Joi.string()),
-  tagline: Joi.string().allow(''),
+  stylesheets: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        href: Joi.string().required(),
+        type: Joi.string(),
+      }).unknown(),
+    )
+    .default(DEFAULT_CONFIG.stylesheets),
+  clientModules: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.clientModules),
+  tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
   webpack: Joi.object({
@@ -193,12 +225,6 @@ export function validateConfig(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      console.error(error);
-      return config as DocusaurusConfig;
-    }
-
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

@@ -4,9 +4,12 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - website/**
 
 jobs:
-  build:
+  windows-test:
+    name: Windows Tests
     timeout-minutes: 30
     runs-on: windows-latest
     strategy:
@@ -15,16 +18,26 @@ jobs:
     steps:
       - name: Support longpaths
         run: git config --system core.longpaths true
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       - name: Installation
         run: yarn || yarn || yarn # 3 attempts to avoid timeout errors...
       - name: Docusaurus Jest Tests
         run: yarn test
+      - name: Create a deep path
+        # https://github.com/facebook/docusaurus/pull/4899
+        # https://github.com/facebook/docusaurus/issues/5793
+        run: |
+          mkdir -p "website/_dogfooding/_pages tests/deep-file-path-test/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar/foo/bar"
+          cd "$_"
+          echo "# hello" > test-file.md
+      # Lightweight version of tests-swizzle.yml workflow, but for Windows
+      - name: Swizzle Wrap TS
+        run: yarn workspace website test:swizzle:wrap:ts
       - name: Docusaurus Build
-        run: yarn build:website --locale en
-        env:
-          CI: true
+        run: yarn build:website:fast
+      - name: TypeCheck website
+        run: yarn workspace website typecheck

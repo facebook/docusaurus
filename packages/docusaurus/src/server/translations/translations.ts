@@ -4,10 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues, difference} from 'lodash';
-import {
+import _ from 'lodash';
+import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
@@ -15,7 +16,7 @@ import {
 } from '@docusaurus/types';
 import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
-import chalk from 'chalk';
+import logger from '@docusaurus/logger';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -37,7 +38,7 @@ const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
   )
   .required();
 
-export function ensureTranslationFileContent(
+function ensureTranslationFileContent(
   content: unknown,
 ): asserts content is TranslationFileContent {
   Joi.attempt(content, TranslationFileContentSchema, {
@@ -47,7 +48,7 @@ export function ensureTranslationFileContent(
   });
 }
 
-export async function readTranslationFileContent(
+async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
@@ -55,10 +56,9 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-    } catch (e) {
-      throw new Error(
-        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
-      );
+    } catch (err) {
+      logger.error`Invalid translation file at path=${filePath}.`;
+      throw err;
     }
   }
   return undefined;
@@ -74,7 +74,7 @@ function mergeTranslationFileContent({
   options: WriteTranslationsOptions;
 }): TranslationFileContent {
   // Apply messagePrefix to all messages
-  const newContentTransformed = mapValues(newContent, (value) => ({
+  const newContentTransformed = _.mapValues(newContent, (value) => ({
     ...value,
     message: `${options.messagePrefix ?? ''}${value.message}`,
   }));
@@ -85,7 +85,7 @@ function mergeTranslationFileContent({
   Object.entries(newContentTransformed).forEach(
     ([key, {message, description}]) => {
       result[key] = {
-        // If the messages already exist, we don't override them (unless requested)
+        // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,
@@ -97,7 +97,7 @@ function mergeTranslationFileContent({
   return result;
 }
 
-export async function writeTranslationFileContent({
+async function writeTranslationFileContent({
   filePath,
   content: newContent,
   options = {},
@@ -109,16 +109,13 @@ export async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = difference(
+  const unknownKeys = _.difference(
     Object.keys(existingContent ?? {}),
     Object.keys(newContent),
   );
   if (unknownKeys.length > 0) {
-    console.warn(
-      chalk.yellow(`Some translation keys looks unknown to us in file ${filePath}
-Maybe you should remove them?
-- ${unknownKeys.join('\n- ')}`),
-    );
+    logger.warn`Some translation keys looks unknown to us in file path=${filePath}.
+Maybe you should remove them? ${unknownKeys}`;
   }
 
   const mergedContent = mergeTranslationFileContent({
@@ -129,23 +126,20 @@ Maybe you should remove them?
 
   // Avoid creating empty translation files
   if (Object.keys(mergedContent).length > 0) {
-    console.log(
-      `${Object.keys(mergedContent)
-        .length.toString()
-        .padStart(
-          3,
-          ' ',
-        )} translations will be written at "${toMessageRelativeFilePath(
-        filePath,
-      )}".`,
+    logger.info`number=${
+      Object.keys(mergedContent).length
+    } translations will be written at path=${toMessageRelativeFilePath(
+      filePath,
+    )}.`;
+    await fs.outputFile(
+      filePath,
+      `${JSON.stringify(mergedContent, null, 2)}\n`,
     );
-    await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, JSON.stringify(mergedContent, null, 2));
   }
 }
 
 // should we make this configurable?
-export function getTranslationsDirPath(context: TranslationContext): string {
+function getTranslationsDirPath(context: TranslationContext): string {
   return path.resolve(path.join(context.siteDir, `i18n`));
 }
 export function getTranslationsLocaleDirPath(
@@ -154,9 +148,7 @@ export function getTranslationsLocaleDirPath(
   return path.join(getTranslationsDirPath(context), context.locale);
 }
 
-export function getCodeTranslationsFilePath(
-  context: TranslationContext,
-): string {
+function getCodeTranslationsFilePath(context: TranslationContext): string {
   return path.join(getTranslationsLocaleDirPath(context), 'code.json');
 }
 
@@ -259,9 +251,8 @@ export async function localizePluginTranslationFile({
         ...localizedContent,
       },
     };
-  } else {
-    return translationFile;
   }
+  return translationFile;
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(
@@ -271,9 +262,10 @@ export async function getPluginsDefaultCodeTranslationMessages(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
 
-  return pluginsMessages.reduce((allMessages, pluginMessages) => {
-    return {...allMessages, ...pluginMessages};
-  }, {});
+  return pluginsMessages.reduce(
+    (allMessages, pluginMessages) => ({...allMessages, ...pluginMessages}),
+    {},
+  );
 }
 
 export function applyDefaultCodeTranslations({
@@ -283,26 +275,20 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations: Record<string, TranslationMessage>;
   defaultCodeMessages: Record<string, string>;
 }): Record<string, TranslationMessage> {
-  const unusedDefaultCodeMessages = difference(
+  const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),
   );
   if (unusedDefaultCodeMessages.length > 0) {
-    console.warn(
-      chalk.yellow(`Unused default message codes found.
-Please report this Docusaurus issue.
-- ${unusedDefaultCodeMessages.join('\n- ')}
-`),
-    );
+    logger.warn`Unused default message codes found.
+Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
-  return mapValues(
+  return _.mapValues(
     extractedCodeTranslations,
-    (messageTranslation, messageId) => {
-      return {
-        ...messageTranslation,
-        message: defaultCodeMessages[messageId] ?? messageTranslation.message,
-      };
-    },
+    (messageTranslation, messageId) => ({
+      ...messageTranslation,
+      message: defaultCodeMessages[messageId] ?? messageTranslation.message,
+    }),
   );
 }

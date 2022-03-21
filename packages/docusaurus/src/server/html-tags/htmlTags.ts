@@ -5,18 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isPlainObject} from 'lodash';
-import {HtmlTagObject} from '@docusaurus/types';
+import type {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 import escapeHTML from 'escape-html';
 
 function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
-  if (!isPlainObject(val)) {
+  if (typeof val !== 'object' || !val) {
     throw new Error(`"${val}" is not a valid HTML tag object.`);
   }
-  // @ts-expect-error: If tagName doesn't exist, it will throw.
-  if (typeof val.tagName !== 'string') {
+  if (typeof (val as HtmlTagObject).tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
         val,
@@ -35,7 +33,7 @@ export default function htmlTagObjectToString(tagDefinition: unknown): string {
     );
   }
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
-  const tagAttributes = tagDefinition.attributes || {};
+  const tagAttributes = tagDefinition.attributes ?? {};
   const attributes = Object.keys(tagAttributes)
     .filter((attributeName) => tagAttributes[attributeName] !== false)
     .map((attributeName) => {

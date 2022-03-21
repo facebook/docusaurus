@@ -9,12 +9,11 @@
   margin-bottom: var(--ifm-leading);
   border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
-  overflow: hidden;
 }
 
 .codeBlockContent {
   position: relative;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
 }
 
@@ -23,16 +22,28 @@
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
 }
 
 .codeBlock {
   margin: 0;
   padding: 0;
-  border-radius: 0;
+  border-radius: var(--ifm-global-radius);
+}
+
+.codeBlockTitle + .codeBlockContent .codeBlock {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.codeBlockStandalone {
+  padding: 0;
+  border-radius: var(--ifm-global-radius);
 }
 
 .copyButton {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgb(0 0 0 / 30%);
   border-radius: var(--ifm-global-radius);
   color: var(--ifm-color-white);
   opacity: 0;
@@ -44,15 +55,15 @@
   transition: opacity 200ms ease-in-out;
 }
 
-.codeBlockTitle:hover + .codeBlockContent .copyButton,
+.copyButton:focus,
 .codeBlockContent:hover > .copyButton,
-.copyButton:focus {
+.codeBlockTitle:hover + .codeBlockContent .copyButton {
   opacity: 1;
 }
 
 .codeBlockLines {
   font: inherit;
-  /*rtl:ignore*/
+  /* rtl:ignore */
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);

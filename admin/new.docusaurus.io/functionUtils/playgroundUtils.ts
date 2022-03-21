@@ -5,12 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {HandlerEvent, HandlerResponse} from '@netlify/functions';
+import type {HandlerEvent, HandlerResponse} from '@netlify/functions';
 
 const CookieName = 'DocusaurusPlaygroundName';
 
 const PlaygroundConfigs = {
-  codesandbox: 'https://codesandbox.io/s/docusaurus',
+  // Do not use this one, see
+  // https://github.com/codesandbox/codesandbox-client/issues/5683#issuecomment-1023252459
+  // codesandbox: 'https://codesandbox.io/s/docusaurus',
+  codesandbox:
+    'https://codesandbox.io/s/github/facebook/docusaurus/tree/main/examples/classic',
 
   // stackblitz: 'https://stackblitz.com/fork/docusaurus', // not updated
   // stackblitz: 'https://stackblitz.com/github/facebook/docusaurus/tree/main/examples/classic', // slow to load
@@ -52,7 +56,7 @@ export function createPlaygroundResponse(
 // Inspired by https://stackoverflow.com/a/3409200/82609
 function parseCookieString(cookieString: string): Record<string, string> {
   const result: Record<string, string> = {};
-  cookieString.split(';').forEach(function (cookie) {
+  cookieString.split(';').forEach((cookie) => {
     const [name, value] = cookie.split('=');
     result[name.trim()] = decodeURI(value);
   });
@@ -67,14 +71,11 @@ export function readPlaygroundName(
     : {};
   const playgroundName: string | undefined = parsedCookie[CookieName];
 
-  if (playgroundName) {
-    if (isValidPlaygroundName(playgroundName)) {
-      return playgroundName;
-    } else {
-      console.error(
-        `playgroundName found in cookie was invalid: ${playgroundName}`,
-      );
-    }
+  if (!isValidPlaygroundName(playgroundName)) {
+    console.error(
+      `playgroundName found in cookie was invalid: ${playgroundName}`,
+    );
+    return undefined;
   }
-  return undefined;
+  return playgroundName;
 }

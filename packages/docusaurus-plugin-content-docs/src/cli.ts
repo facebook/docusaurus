@@ -12,79 +12,56 @@ import {
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import type {PathOptions, SidebarOptions} from './types';
-import {transformSidebarItems} from './sidebars/utils';
-import type {SidebarItem, NormalizedSidebars, Sidebar} from './sidebars/types';
-import {loadUnprocessedSidebars, resolveSidebarPathOption} from './sidebars';
-import {DEFAULT_PLUGIN_ID} from '@docusaurus/core/lib/constants';
+import type {
+  PathOptions,
+  SidebarOptions,
+} from '@docusaurus/plugin-content-docs';
+import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import logger from '@docusaurus/logger';
 
-function createVersionedSidebarFile({
+async function createVersionedSidebarFile({
   siteDir,
   pluginId,
   sidebarPath,
   version,
-  options,
 }: {
   siteDir: string;
   pluginId: string;
   sidebarPath: string | false | undefined;
   version: string;
-  options: SidebarOptions;
 }) {
   // Load current sidebar and create a new versioned sidebars file (if needed).
-  const loadedSidebars = loadUnprocessedSidebars(sidebarPath, options);
+  // Note: we don't need the sidebars file to be normalized: it's ok to let
+  // plugin option changes to impact older, versioned sidebars
+  // We don't validate here, assuming the user has already built the version
+  const sidebars = await loadSidebarsFileUnsafe(sidebarPath);
 
-  // Do not create a useless versioned sidebars file if sidebars file is empty or sidebars are disabled/false)
-  const shouldCreateVersionedSidebarFile =
-    Object.keys(loadedSidebars).length > 0;
+  // Do not create a useless versioned sidebars file if sidebars file is empty
+  // or sidebars are disabled/false)
+  const shouldCreateVersionedSidebarFile = Object.keys(sidebars).length > 0;
 
   if (shouldCreateVersionedSidebarFile) {
-    // TODO @slorber: this "version prefix" in versioned sidebars looks like a bad idea to me
-    // TODO try to get rid of it
-    // Transform id in original sidebar to versioned id.
-    const prependVersion = (item: SidebarItem): SidebarItem => {
-      if (item.type === 'ref' || item.type === 'doc') {
-        return {
-          type: item.type,
-          id: `version-${version}/${item.id}`,
-        };
-      }
-      return item;
-    };
-
-    const versionedSidebar = Object.entries(loadedSidebars).reduce(
-      (acc: NormalizedSidebars, [sidebarId, sidebar]) => {
-        const versionedId = `version-${version}/${sidebarId}`;
-        acc[versionedId] = transformSidebarItems(
-          sidebar as Sidebar,
-          prependVersion,
-        );
-        return acc;
-      },
-      {},
-    );
-
     const versionedSidebarsDir = getVersionedSidebarsDirPath(siteDir, pluginId);
     const newSidebarFile = path.join(
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
+    await fs.outputFile(
       newSidebarFile,
-      `${JSON.stringify(versionedSidebar, null, 2)}\n`,
+      `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
     );
   }
 }
 
 // Tests depend on non-default export for mocking.
-export function cliDocsVersionCommand(
+export async function cliDocsVersionCommand(
   version: string | null | undefined,
   siteDir: string,
   pluginId: string,
   options: PathOptions & SidebarOptions,
-): void {
+): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
   const pluginIdLogPrefix =
@@ -111,7 +88,7 @@ export function cliDocsVersionCommand(
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
   // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
+  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
     );
@@ -126,8 +103,8 @@ export function cliDocsVersionCommand(
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
+  if (await fs.pathExists(versionsJSONFile)) {
+    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
   }
 
   // Check if version already exists.
@@ -142,26 +119,30 @@ export function cliDocsVersionCommand(
   // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
 
-  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
+  if (
+    (await fs.pathExists(docsDir)) &&
+    (await fs.readdir(docsDir)).length > 0
+  ) {
     const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
-    fs.copySync(docsDir, newVersionDir);
+    await fs.copy(docsDir, newVersionDir);
   } else {
     throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
   }
 
-  createVersionedSidebarFile({
+  await createVersionedSidebarFile({
     siteDir,
     pluginId,
     version,
     sidebarPath: resolveSidebarPathOption(siteDir, sidebarPath),
-    options,
   });
 
   // Update versions.json file.
   versions.unshift(version);
-  fs.ensureDirSync(path.dirname(versionsJSONFile));
-  fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
+  await fs.outputFile(
+    versionsJSONFile,
+    `${JSON.stringify(versions, null, 2)}\n`,
+  );
 
-  console.log(`${pluginIdLogPrefix}: version ${version} created!`);
+  logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

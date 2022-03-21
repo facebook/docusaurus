@@ -6,7 +6,7 @@
  */
 
 import {createHash} from 'crypto';
-import {kebabCase} from 'lodash';
+import _ from 'lodash';
 import {shortName, isNameTooLong} from './pathUtils';
 
 export function md5Hash(str: string): string {
@@ -29,9 +29,9 @@ export function docuHash(str: string): string {
     return 'index';
   }
   const shortHash = simpleHash(str, 3);
-  const parsedPath = `${kebabCase(str)}-${shortHash}`;
+  const parsedPath = `${_.kebabCase(str)}-${shortHash}`;
   if (isNameTooLong(parsedPath)) {
-    return `${shortName(kebabCase(str))}-${shortHash}`;
+    return `${shortName(_.kebabCase(str))}-${shortHash}`;
   }
   return parsedPath;
 }

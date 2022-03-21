@@ -6,7 +6,7 @@
  */
 
 import htmlTagObjectToString from './htmlTags';
-import {
+import type {
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,
@@ -17,7 +17,7 @@ function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
 }
 
-export function createHtmlTagsString(tags: HtmlTags): string {
+function createHtmlTagsString(tags: HtmlTags): string {
   return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
@@ -28,7 +28,7 @@ export function loadHtmlTags(plugins: LoadedPlugin[]): InjectedHtmlTags {
         return acc;
       }
       const {headTags, preBodyTags, postBodyTags} =
-        plugin.injectHtmlTags({content: plugin.content}) || {};
+        plugin.injectHtmlTags({content: plugin.content}) ?? {};
       return {
         headTags: headTags
           ? `${acc.headTags}\n${createHtmlTagsString(headTags)}`

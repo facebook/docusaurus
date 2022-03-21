@@ -6,25 +6,25 @@
  */
 
 import path from 'path';
-import {Configuration} from 'webpack';
+import type {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
-import {Props} from '@docusaurus/types';
+import type {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
-import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '../constants';
+import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
 
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import StaticSiteGeneratorPlugin from '@slorber/static-site-generator-webpack-plugin';
 
-export default function createServerConfig({
+export default async function createServerConfig({
   props,
   onLinksCollected = () => {},
 }: {
   props: Props;
   onLinksCollected?: (staticPagePath: string, links: string[]) => void;
-}): Configuration {
+}): Promise<Configuration> {
   const {
     baseUrl,
     routesPaths,
@@ -35,7 +35,7 @@ export default function createServerConfig({
     ssrTemplate,
     siteConfig: {noIndex, trailingSlash},
   } = props;
-  const config = createBaseConfig(props, true);
+  const config = await createBaseConfig(props, true);
 
   const routesLocation: Record<string, string> = {};
   // Array of paths to be rendered. Relative to output directory
@@ -79,9 +79,10 @@ export default function createServerConfig({
         paths: ssgPaths,
         preferFoldersOutput: trailingSlash,
 
-        // When using "new URL('file.js', import.meta.url)", Webpack will emit __filename, and this plugin will throw
-        // not sure the __filename value has any importance for this plugin, just using an empty string to avoid the error
-        // See https://github.com/facebook/docusaurus/issues/4922
+        // When using "new URL('file.js', import.meta.url)", Webpack will emit
+        // __filename, and this plugin will throw. not sure the __filename value
+        // has any importance for this plugin, just using an empty string to
+        // avoid the error. See https://github.com/facebook/docusaurus/issues/4922
         globals: {__filename: ''},
       }),
 

@@ -6,12 +6,17 @@
  */
 
 /**
- * This PostCSS plugin will remove duplicate/same custom properties (which are actually overridden ones) **only** from `:root` selector.
+ * This PostCSS plugin will remove duplicate/same custom properties (which are
+ * actually overridden ones) **only** from `:root` selector.
  *
- * Depending on the presence of an `!important` rule in value of custom property, the following actions will happens:
+ * Depending on the presence of an `!important` rule in value of custom
+ * property, the following actions will happen:
  *
- * - If the same custom properties do **not** have an `!important` rule, then all of them will be removed except for the last one (which will actually be applied).
- * - If the same custom properties have at least one `!important` rule, then only those properties that do not have this rule will be removed.
+ * - If the same custom properties do **not** have an `!important` rule, then
+ * all of them will be removed except for the last one (which will actually be
+ * applied).
+ * - If the same custom properties have at least one `!important` rule, then
+ * only those properties that do not have this rule will be removed.
  * @returns {import('postcss').Plugin}
  */
 module.exports = function creator() {
@@ -22,8 +27,9 @@ module.exports = function creator() {
         return;
       }
 
-      const sameProperties =
-        decl.parent.nodes.filter((n) => n.prop === decl.prop) || [];
+      const sameProperties = decl.parent.nodes.filter(
+        (n) => n.prop === decl.prop,
+      );
       const hasImportantProperties = sameProperties.some((p) =>
         Object.prototype.hasOwnProperty.call(p, 'important'),
       );

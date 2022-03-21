@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas for empty baseUrl: fileContent baseUrl=empty 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata for empty baseUrl: fileContent baseUrl=empty 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
@@ -16,8 +16,8 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas for root baseUrl: fileContent baseUrl=/ 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata for root baseUrl: fileContent baseUrl=/ 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
@@ -32,8 +32,8 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=false: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=false: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
@@ -70,8 +70,8 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=true: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=true: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>
@@ -108,8 +108,8 @@ Array [
 ]
 `;
 
-exports[`toRedirectFilesMetadata should create appropriate metadatas trailingSlash=undefined: fileContent 1`] = `
-Array [
+exports[`toRedirectFilesMetadata creates appropriate metadata trailingSlash=undefined: fileContent 1`] = `
+[
   "<!DOCTYPE html>
 <html>
   <head>

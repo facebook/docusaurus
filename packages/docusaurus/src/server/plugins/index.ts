@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {generate} from '@docusaurus/utils';
+import {docuHash, generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import path from 'path';
-import {
+import type {
   LoadContext,
   PluginConfig,
   PluginContentLoadedActions,
@@ -18,11 +18,11 @@ import {
   ThemeConfig,
   LoadedPlugin,
   InitializedPlugin,
+  PluginRouteContext,
 } from '@docusaurus/types';
 import initPlugins from './init';
-import chalk from 'chalk';
-import {DEFAULT_PLUGIN_ID} from '../../constants';
-import {chain} from 'lodash';
+import logger from '@docusaurus/logger';
+import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
 import applyRouteTrailingSlash from './applyRouteTrailingSlash';
 
@@ -79,18 +79,18 @@ export async function loadPlugins({
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitializedPlugin[] = initPlugins({
+  const plugins: InitializedPlugin[] = await initPlugins({
     pluginConfigs,
     context,
   });
 
   // 2. Plugin Lifecycle - loadContent.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
-      const content = plugin.loadContent ? await plugin.loadContent() : null;
+      const content = await plugin.loadContent?.();
       return {...plugin, content};
     }),
   );
@@ -122,14 +122,14 @@ export async function loadPlugins({
       }),
     );
 
-  const allContent: AllContent = chain(loadedPlugins)
+  const allContent: AllContent = _.chain(loadedPlugins)
     .groupBy((item) => item.name)
-    .mapValues((nameItems) => {
-      return chain(nameItems)
-        .groupBy((item) => item.options.id ?? DEFAULT_PLUGIN_ID)
-        .mapValues((idItems) => idItems[0].content)
-        .value();
-    })
+    .mapValues((nameItems) =>
+      _.chain(nameItems)
+        .groupBy((item) => item.options.id)
+        .mapValues((idItems) => idItems[0]!.content)
+        .value(),
+    )
     .value();
 
   // 3. Plugin Lifecycle - contentLoaded.
@@ -144,22 +144,11 @@ export async function loadPlugins({
           return;
         }
 
-        const pluginId = plugin.options.id ?? DEFAULT_PLUGIN_ID;
+        const pluginId = plugin.options.id;
 
         // plugins data files are namespaced by pluginName/pluginId
         const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
         const dataDir = path.join(dataDirRoot, pluginId);
-
-        const addRoute: PluginContentLoadedActions['addRoute'] = (
-          initialRouteConfig,
-        ) => {
-          // Trailing slash behavior is handled in a generic way for all plugins
-          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
-            trailingSlash: context.siteConfig.trailingSlash,
-            baseUrl: context.siteConfig.baseUrl,
-          });
-          pluginsRouteConfigs.push(finalRouteConfig);
-        };
 
         const createData: PluginContentLoadedActions['createData'] = async (
           name,
@@ -171,6 +160,34 @@ export async function loadPlugins({
           return modulePath;
         };
 
+        // TODO this would be better to do all that in the codegen phase
+        // TODO handle context for nested routes
+        const pluginRouteContext: PluginRouteContext = {
+          plugin: {name: plugin.name, id: pluginId},
+          data: undefined, // TODO allow plugins to provide context data
+        };
+        const pluginRouteContextModulePath = await createData(
+          `${docuHash('pluginRouteContextModule')}.json`,
+          JSON.stringify(pluginRouteContext, null, 2),
+        );
+
+        const addRoute: PluginContentLoadedActions['addRoute'] = (
+          initialRouteConfig,
+        ) => {
+          // Trailing slash behavior is handled in a generic way for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
+            trailingSlash: context.siteConfig.trailingSlash,
+            baseUrl: context.siteConfig.baseUrl,
+          });
+          pluginsRouteConfigs.push({
+            ...finalRouteConfig,
+            modules: {
+              ...finalRouteConfig.modules,
+              __routeContextModule: pluginRouteContextModulePath,
+            },
+          });
+        };
+
         // the plugins global data are namespaced to avoid data conflicts:
         // - by plugin name
         // - by plugin id (allow using multiple instances of the same plugin)
@@ -178,7 +195,7 @@ export async function loadPlugins({
           data,
         ) => {
           globalData[plugin.name] = globalData[plugin.name] ?? {};
-          globalData[plugin.name][pluginId] = data;
+          globalData[plugin.name]![pluginId] = data;
         };
 
         const actions: PluginContentLoadedActions = {
@@ -200,25 +217,21 @@ export async function loadPlugins({
   );
 
   // 4. Plugin Lifecycle - routesLoaded.
-  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
-  // We could change this in future if there are plugins which need to
-  // run in certain order or depend on others for data.
+  // Currently plugins run lifecycle methods in parallel and are not
+  // order-dependent. We could change this in future if there are plugins which
+  // need to run in certain order or depend on others for data.
   await Promise.all(
     contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
-        return null;
+        return;
       }
 
       // TODO remove this deprecated lifecycle soon
       // deprecated since alpha-60
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
-      console.error(
-        chalk.red(
-          'Plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please report here: https://github.com/facebook/docusaurus/issues/3918',
-        ),
-      );
+      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: path=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
-      return plugin.routesLoaded(pluginsRouteConfigs);
+      await plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

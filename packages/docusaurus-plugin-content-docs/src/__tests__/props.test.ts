@@ -14,7 +14,7 @@ describe('toTagDocListProp', () => {
 
   const allTagsPath = '/all/tags';
 
-  test('should work', () => {
+  it('works', () => {
     const tag: Tag = {
       name: 'tag1',
       permalink: '/tag1',

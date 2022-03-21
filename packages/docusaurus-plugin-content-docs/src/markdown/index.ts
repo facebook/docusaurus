@@ -6,7 +6,7 @@
  */
 
 import {linkify} from './linkify';
-import {DocsMarkdownOption} from '../types';
+import type {DocsMarkdownOption} from '../types';
 import type {LoaderContext} from 'webpack';
 
 export default function markdownLoader(
@@ -16,7 +16,5 @@ export default function markdownLoader(
   const fileString = source;
   const callback = this.async();
   const options = this.getOptions();
-  return (
-    callback && callback(null, linkify(fileString, this.resourcePath, options))
-  );
+  return callback?.(null, linkify(fileString, this.resourcePath, options));
 }

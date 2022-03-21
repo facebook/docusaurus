@@ -4,12 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {
-  getAllDuplicateRoutes,
-  getDuplicateRoutesMessage,
-  handleDuplicateRoutes,
-} from '../duplicateRoutes';
-import {RouteConfig} from '@docusaurus/types';
+
+import {jest} from '@jest/globals';
+import {handleDuplicateRoutes} from '../duplicateRoutes';
+import type {RouteConfig} from '@docusaurus/types';
 
 const routes: RouteConfig[] = [
   {
@@ -29,26 +27,27 @@ const routes: RouteConfig[] = [
       {path: '/uniqueDoc', component: ''},
     ],
   },
+  {
+    path: '/',
+    component: '',
+  },
+  {
+    path: '/',
+    component: '',
+  },
+  {
+    path: '/',
+    component: '',
+  },
 ];
 
-describe('duplicateRoutes', () => {
-  test('getDuplicateRoutesMessage', () => {
-    const message = getDuplicateRoutesMessage([
-      '/',
-      '/',
-      '/blog',
-      '/doc/search',
-    ]);
-    expect(message).toMatchSnapshot();
-  });
-
-  test('getAllDuplicateRoutes', () => {
-    expect(getAllDuplicateRoutes(routes)).toEqual(['/search', '/sameDoc']);
-  });
-
-  test('handleDuplicateRoutes', () => {
+describe('handleDuplicateRoutes', () => {
+  it('works', () => {
     expect(() => {
       handleDuplicateRoutes(routes, 'throw');
     }).toThrowErrorMatchingSnapshot();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+    handleDuplicateRoutes(routes, 'ignore');
+    expect(consoleMock).toBeCalledTimes(0);
   });
 });

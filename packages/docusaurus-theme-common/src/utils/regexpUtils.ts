@@ -6,7 +6,7 @@
  */
 
 /**
- * Utility to convert an optional string into a Regex case sensitive and global
+ * Converts an optional string into a Regex case insensitive and global
  */
 export function isRegexpStringMatch(
   regexAsString?: string,

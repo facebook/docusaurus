@@ -10,10 +10,6 @@
   --doc-sidebar-hidden-width: 30px;
 }
 
-:global(.docs-wrapper) {
-  display: flex;
-}
-
 .docPage,
 .docMainContainer {
   display: flex;
@@ -68,12 +64,13 @@
   .expandSidebarButtonIcon {
     transform: rotate(0);
   }
-  html[dir='rtl'] .expandSidebarButtonIcon {
+
+  [dir='rtl'] .expandSidebarButtonIcon {
     transform: rotate(180deg);
   }
 
-  html[data-theme='dark'] .collapsedDocSidebar:hover,
-  html[data-theme='dark'] .collapsedDocSidebar:focus {
+  [data-theme='dark'] .collapsedDocSidebar:hover,
+  [data-theme='dark'] .collapsedDocSidebar:focus {
     background-color: var(--collapse-button-bg-color-dark);
   }
 

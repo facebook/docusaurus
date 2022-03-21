@@ -8,276 +8,129 @@
 import path from 'path';
 
 import loadPresets from '../index';
-import {LoadContext} from '@docusaurus/types';
+import type {LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {
-  test('no presets', () => {
-    const context = {
-      siteConfigPath: __dirname,
-      siteConfig: {},
-    } as LoadContext;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [],
-        "themes": Array [],
-      }
-    `);
-  });
-
-  test('string form', () => {
+  it('no presets', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
-        presets: [path.join(__dirname, '__fixtures__/preset-bar.js')],
+        presets: [],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
+    const presets = await loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
+      {
+        "plugins": [],
+        "themes": [],
       }
     `);
   });
 
-  test('string form composite', () => {
+  it('string form', async () => {
+    const context = {
+      siteConfigPath: __dirname,
+      siteConfig: {
+        presets: [path.join(__dirname, '__fixtures__/preset-plugins.js')],
+      },
+    } as LoadContext;
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
+  });
+
+  it('string form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
-          path.join(__dirname, '__fixtures__/preset-bar.js'),
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
+          path.join(__dirname, '__fixtures__/preset-plugins.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form', () => {
+  it('array form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
-        presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
+        presets: [[path.join(__dirname, '__fixtures__/preset-plugins.js')]],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form with options', () => {
+  it('array form with options', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
         ],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('array form composite', () => {
+  it('array form composite', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
           [
-            path.join(__dirname, '__fixtures__/preset-foo.js'),
-            {pages: {path: '../'}},
+            path.join(__dirname, '__fixtures__/preset-themes.js'),
+            {algolia: {trackingID: 'foo'}},
           ],
         ],
       },
     } as Partial<LoadContext>;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('mixed form', () => {
+  it('mixed form', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-        ],
-        "themes": Array [],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 
-  test('mixed form with themes', () => {
+  it('mixed form with themes', async () => {
     const context = {
       siteConfigPath: __dirname,
       siteConfig: {
         presets: [
           [
-            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            path.join(__dirname, '__fixtures__/preset-plugins.js'),
             {docs: {path: '../'}},
           ],
-          path.join(__dirname, '__fixtures__/preset-foo.js'),
-          path.join(__dirname, '__fixtures__/preset-qux.js'),
+          path.join(__dirname, '__fixtures__/preset-themes.js'),
+          path.join(__dirname, '__fixtures__/preset-mixed.js'),
         ],
       },
     } as LoadContext;
-    const presets = loadPresets(context);
-    expect(presets).toMatchInlineSnapshot(`
-      Object {
-        "plugins": Array [
-          Array [
-            "@docusaurus/plugin-content-docs",
-            Object {
-              "path": "../",
-            },
-          ],
-          Array [
-            "@docusaurus/plugin-content-blog",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-content-pages",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-sitemap",
-            undefined,
-          ],
-          Array [
-            "@docusaurus/plugin-test",
-            undefined,
-          ],
-        ],
-        "themes": Array [
-          Array [
-            "@docusaurus/theme-classic",
-            undefined,
-          ],
-        ],
-      }
-    `);
+    const presets = await loadPresets(context);
+    expect(presets).toMatchSnapshot();
   });
 });

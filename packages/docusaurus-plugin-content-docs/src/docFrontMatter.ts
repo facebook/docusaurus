@@ -6,16 +6,16 @@
  */
 
 import {
-  JoiFrontMatter as Joi, // Custom instance for frontmatter
+  JoiFrontMatter as Joi, // Custom instance for front matter
   URISchema,
   FrontMatterTagsSchema,
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-import {DocFrontMatter} from './types';
+import type {DocFrontMatter} from './types';
 
 // NOTE: we don't add any default value on purpose here
-// We don't want default values to magically appear in doc metadatas and props
+// We don't want default values to magically appear in doc metadata and props
 // While the user did not provide those values explicitly
 // We use default values in code instead
 const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
@@ -25,11 +25,13 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   hide_table_of_contents: Joi.boolean(),
   keywords: Joi.array().items(Joi.string().required()),
   image: URISchema,
-  description: Joi.string().allow(''), // see  https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
+  description: Joi.string().allow(''), // see https://github.com/facebook/docusaurus/issues/4591#issuecomment-822372398
   slug: Joi.string(),
   sidebar_label: Joi.string(),
   sidebar_position: Joi.number(),
   sidebar_class_name: Joi.string(),
+  sidebar_custom_props: Joi.object().unknown(),
+  displayed_sidebar: Joi.string().allow(null),
   tags: FrontMatterTagsSchema,
   pagination_label: Joi.string(),
   custom_edit_url: URISchema.allow('', null),
