@@ -12,14 +12,12 @@ import {
   GitNotFoundError,
 } from '@docusaurus/utils';
 
-type FileLastUpdateData = {timestamp?: number; author?: string};
-
 let showedGitRequirementError = false;
 let showedFileNotTrackedError = false;
 
 export async function getFileLastUpdate(
   filePath?: string,
-): Promise<FileLastUpdateData | null> {
+): Promise<{timestamp: number; author: string} | null> {
   if (!filePath) {
     return null;
   }
