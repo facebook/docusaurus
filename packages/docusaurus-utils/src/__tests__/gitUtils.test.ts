@@ -17,11 +17,16 @@ function createTempRepo() {
   const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-test-repo'));
   class Git {
     constructor(private dir: string) {
-      shell.exec('git init', {cwd: dir, silent: true});
+      const res = shell.exec('git init', {cwd: dir, silent: true});
+      if (res.code !== 0) {
+        throw new Error(`git init exited with code ${res.code}.
+stderr: ${res.stderr}
+stdout: ${res.stdout}`);
+      }
     }
     commit(msg: string, date: string, author: string) {
-      shell.exec('git add .', {cwd: this.dir, silent: true});
-      shell.exec(
+      const addRes = shell.exec('git add .', {cwd: this.dir, silent: true});
+      const commitRes = shell.exec(
         `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
         {
           cwd: this.dir,
@@ -29,6 +34,16 @@ function createTempRepo() {
           silent: true,
         },
       );
+      if (addRes.code !== 0) {
+        throw new Error(`git add exited with code ${addRes.code}.
+stderr: ${addRes.stderr}
+stdout: ${addRes.stdout}`);
+      }
+      if (commitRes.code !== 0) {
+        throw new Error(`git commit exited with code ${commitRes.code}.
+stderr: ${commitRes.stderr}
+stdout: ${commitRes.stdout}`);
+      }
     }
   }
   const git = new Git(repoDir);
