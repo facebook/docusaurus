@@ -827,9 +827,9 @@ const Users: User[] = [
       'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
     preview: require('./showcase/k3ai.png'),
     website: 'https://k3ai.in/',
-    source: 'https://github.com/k3ai/k3ai.github.io/tree/main',
-    tags: ['favorite', 'opensource'],
-  }
+    source: 'https://github.com/k3ai/k3ai.github.io',
+    tags: ['opensource', 'product'],
+  },
   {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
@@ -846,14 +846,6 @@ const Users: User[] = [
     website: 'https://khyron-realm.com',
     source: 'https://github.com/khyron-realm/khyron-realm-website',
     tags: ['opensource'],
-  },
-    {
-    title: 'K3ai',
-    description: 'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
-    preview: require('./showcase/k3ai.png'),
-    website: 'https://k3ai.in/',
-    source: 'https://github.com/k3ai/k3ai',
-    tags: ['favorite','opensource','product'],
   },
   {
     title: 'Kosko',
