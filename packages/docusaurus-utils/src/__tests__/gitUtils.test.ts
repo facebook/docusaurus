@@ -23,6 +23,12 @@ function createTempRepo() {
 stderr: ${res.stderr}
 stdout: ${res.stdout}`);
       }
+      // Doesn't matter currently
+      shell.exec('git config user.email "test@jc-verse.com"', {
+        cwd: dir,
+        silent: true,
+      });
+      shell.exec('git config user.name "Test"', {cwd: dir, silent: true});
     }
     commit(msg: string, date: string, author: string) {
       const addRes = shell.exec('git add .', {cwd: this.dir, silent: true});
@@ -30,10 +36,7 @@ stdout: ${res.stdout}`);
         `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
         {
           cwd: this.dir,
-          env: {
-            GIT_COMMITTER_DATE: `${date}T00:00:00Z`,
-            GIT_COMMITTER_NAME: author,
-          },
+          env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`},
           silent: true,
         },
       );
