@@ -53,6 +53,8 @@ export function getFileCommitDate(
     );
   }
 
+  // Commit time and author name; not using author time so that amended commits
+  // can have their dates updated
   let formatArg = '--format=%ct';
   if (includeAuthor) {
     formatArg += ',%an';
