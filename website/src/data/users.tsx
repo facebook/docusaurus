@@ -1106,7 +1106,7 @@ const Users: User[] = [
       'Free and Open source PDF generator library fully written in TypeScript coming with a React based UI template editor',
     preview: require('./showcase/pdfme.png'),
     website: 'https://pdfme.com/',
-    source: 'https://github.com/pdfme/pdfme',
+    source: 'https://github.com/pdfme/pdfme/tree/main/website',
     tags: ['opensource', 'design', 'product'],
   },
   {
