@@ -822,6 +822,15 @@ const Users: User[] = [
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
   {
+    title: 'K3ai',
+    description:
+      'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
+    preview: require('./showcase/k3ai.png'),
+    website: 'https://k3ai.in/',
+    source: 'https://github.com/k3ai/k3ai.github.io',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
