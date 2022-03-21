@@ -7,6 +7,8 @@
 
 import {fileURLToPath} from 'url';
 
+process.env.TZ = 'UTC';
+
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',

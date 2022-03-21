@@ -10,6 +10,8 @@ import shell from 'shelljs';
 
 export class GitNotFoundError extends Error {}
 
+export class FileNotTrackedError extends Error {}
+
 export const getFileCommitDate = (
   file: string,
   {
@@ -70,6 +72,13 @@ export const getFileCommitDate = (
   }
 
   const output = result.stdout.trim();
+
+  if (!output) {
+    throw new FileNotTrackedError(
+      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
+    );
+  }
+
   const match = output.match(regex);
 
   if (

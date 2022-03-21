@@ -53,11 +53,13 @@ customizability
 daishi
 datagit
 datas
+dbaeumer
 décembre
 dedup
 deduplicated
 déja
 deps
+devcontainers
 devspace
 devto
 dmitry
@@ -78,6 +80,7 @@ endilie
 endiliey
 entrypoints
 errnametoolong
+esbenp
 esbuild
 eslintcache
 evaluable
@@ -98,8 +101,8 @@ globby
 goss
 goyal
 gtag
-hardcoding
 hahaha
+hardcoding
 héctor
 héllô
 heuristical
@@ -184,6 +187,7 @@ opensearch
 opensearchdescription
 optimizt
 optind
+orta
 overrideable
 pageview
 palenight
@@ -296,6 +300,7 @@ typesense
 unflat
 unist
 unlocalized
+unmatch
 unnormalized
 unoptimized
 unprefixed

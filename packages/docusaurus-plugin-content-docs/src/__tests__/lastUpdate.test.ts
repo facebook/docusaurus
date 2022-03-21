@@ -47,7 +47,7 @@ describe('getFileLastUpdate', () => {
 
   it('non-existing file', async () => {
     const consoleMock = jest
-      .spyOn(console, 'error')
+      .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
@@ -65,10 +65,17 @@ describe('getFileLastUpdate', () => {
     consoleMock.mockRestore();
   });
 
-  it('temporary created file that has no git timestamp', async () => {
+  it('temporary created file that is not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
     const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
     await fs.unlink(tempFilePath);
   });
 
