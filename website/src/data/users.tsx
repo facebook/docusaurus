@@ -1101,6 +1101,15 @@ const Users: User[] = [
     tags: ['opensource', 'versioning'],
   },
   {
+    title: 'pdfme',
+    description:
+      'Free and Open source PDF generator library fully written in TypeScript coming with a React based UI template editor',
+    preview: require('./showcase/pdfme.png'),
+    website: 'https://pdfme.com/',
+    source: 'https://github.com/pdfme/pdfme/tree/main/website',
+    tags: ['opensource', 'design', 'product'],
+  },
+  {
     title: 'Pearl UI',
     description:
       'A design-system-driven UI framework that helps developer build beautiful and accessible mobile apps right out of the box',
