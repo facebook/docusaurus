@@ -24,8 +24,11 @@ stderr: ${res.stderr}
 stdout: ${res.stdout}`);
       }
       // Doesn't matter currently
-      shell.exec('git config user.email "test@jc-verse.com"');
-      shell.exec('git config user.name "Test"');
+      shell.exec('git config user.email "test@jc-verse.com"', {
+        cwd: dir,
+        silent: true,
+      });
+      shell.exec('git config user.name "Test"', {cwd: dir, silent: true});
     }
     commit(msg: string, date: string, author: string) {
       const addRes = shell.exec('git add .', {cwd: this.dir, silent: true});
