@@ -219,7 +219,7 @@ export default async function pluginContentBlog(
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      if (archiveBasePath) {
+      if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
