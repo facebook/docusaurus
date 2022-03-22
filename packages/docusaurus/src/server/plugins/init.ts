@@ -179,7 +179,7 @@ export default async function initPlugins({
 
   function doValidatePluginOptions(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ) {
+  ): Required<PluginOptions> {
     const validateOptions = getOptionValidationFunction(normalizedPluginConfig);
     if (validateOptions) {
       return validateOptions({

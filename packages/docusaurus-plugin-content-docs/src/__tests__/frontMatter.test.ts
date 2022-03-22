@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateDocFrontMatter} from '../docFrontMatter';
+import {validateDocFrontMatter} from '../frontMatter';
 import type {DocFrontMatter} from '../types';
 import escapeStringRegexp from 'escape-string-regexp';
 

@@ -30,14 +30,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
 } from './types';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
   getSourceToPermalink,
@@ -572,10 +565,4 @@ export default async function pluginContentBlog(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

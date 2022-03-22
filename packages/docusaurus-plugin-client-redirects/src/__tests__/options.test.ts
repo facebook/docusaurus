@@ -15,11 +15,14 @@ function testValidate(options: Options) {
 
 describe('normalizePluginOptions', () => {
   it('returns default options for undefined user options', () => {
-    expect(testValidate(undefined)).toEqual(DEFAULT_OPTIONS);
+    expect(testValidate(undefined)).toEqual({
+      ...DEFAULT_OPTIONS,
+      id: 'default',
+    });
   });
 
   it('returns default options for empty user options', () => {
-    expect(testValidate(undefined)).toEqual(DEFAULT_OPTIONS);
+    expect(testValidate({})).toEqual({...DEFAULT_OPTIONS, id: 'default'});
   });
 
   it('overrides one default options with valid user options', () => {

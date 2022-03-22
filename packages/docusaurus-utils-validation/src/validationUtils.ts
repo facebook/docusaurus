@@ -20,7 +20,8 @@ export function printWarning(warning?: Joi.ValidationError): void {
 
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
-  options: Partial<T>,
+  // This allows us to automatically normalize undefined to {id: 'default'}
+  options: Partial<T> = {},
 ): T {
   // All plugins can be provided an "id" option (multi-instance support)
   // we add schema validation automatically

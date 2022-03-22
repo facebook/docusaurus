@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin, Props} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {PluginContext, RedirectMetadata} from './types';
 import type {PluginOptions} from '@docusaurus/plugin-client-redirects';
 
@@ -24,7 +24,7 @@ export default function pluginClientRedirectsPages(
 
   return {
     name: 'docusaurus-plugin-client-redirects',
-    async postBuild(props: Props) {
+    async postBuild(props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map(
           (path) => `${addLeadingSlash(removePrefix(path, props.baseUrl))}`,

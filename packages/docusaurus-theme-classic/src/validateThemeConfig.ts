@@ -6,7 +6,10 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+import type {
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -373,9 +376,6 @@ export const ThemeConfigSchema = Joi.object({
 export function validateThemeConfig({
   validate,
   themeConfig,
-}: {
-  validate: Validate<ThemeConfig>;
-  themeConfig: ThemeConfig;
-}): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(ThemeConfigSchema, themeConfig);
 }
