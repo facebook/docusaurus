@@ -184,12 +184,8 @@ export function applyConfigureWebpack(
     getJSLoader: getCustomizableJSLoader(jsLoader),
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(
-      config,
-      isServer,
-      utils,
-      content,
-    );
+    const {mergeStrategy, ...res} =
+      configureWebpack(config, isServer, utils, content) ?? {};
     if (res && typeof res === 'object') {
       const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
