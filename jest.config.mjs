@@ -40,8 +40,10 @@ export default {
     '^.+\\.(css|jpe?g|png|svg|webp)$': '<rootDir>/jest/emptyModule.ts',
 
     // Using src instead of lib, so we always get fresh source
-    '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
+    '@docusaurus/(BrowserOnly|ComponentCreator|constants|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
       '@docusaurus/core/src/client/exports/$1',
+
+    // TODO create dedicated testing utility for mocking contexts
     // Maybe point to a fixture?
     '@generated/.*': '<rootDir>/jest/emptyModule.ts',
     // TODO use "projects" + multiple configs if we work on another theme?

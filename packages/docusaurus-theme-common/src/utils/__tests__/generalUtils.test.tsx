@@ -8,7 +8,7 @@
 import React from 'react';
 import {useTitleFormatter} from '../generalUtils';
 import {renderHook} from '@testing-library/react-hooks';
-import {Context} from '@docusaurus/docusaurusContext';
+import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';
 
 describe('useTitleFormatter', () => {
