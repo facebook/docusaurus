@@ -12,7 +12,7 @@
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks/server';
 import {BrowserContextProvider} from '../browserContext';
-import useIsBrowser from '../useIsBrowser';
+import useIsBrowser from '../exports/useIsBrowser';
 
 describe('BrowserContextProvider', () => {
   const {result, hydrate} = renderHook(() => useIsBrowser(), {

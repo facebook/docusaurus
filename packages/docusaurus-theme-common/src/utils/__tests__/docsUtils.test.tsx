@@ -20,7 +20,7 @@ import {
   useSidebarBreadcrumbs,
 } from '../docsUtils';
 import {StaticRouter} from 'react-router-dom';
-import {Context} from '@docusaurus/docusaurusContext';
+import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import type {
   PropSidebar,
   PropSidebarItem,

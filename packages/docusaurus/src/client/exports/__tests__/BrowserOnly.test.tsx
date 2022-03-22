@@ -12,7 +12,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import BrowserOnly from '../BrowserOnly';
-import {Context} from '../browserContext';
+import {Context} from '../../browserContext';
 
 describe('<BrowserOnly>', () => {
   const originalEnv = process.env;

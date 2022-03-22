@@ -8,7 +8,7 @@
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
 import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
-import {Context} from '../docusaurusContext';
+import {Context} from '../../docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';
 import type {BaseUrlOptions} from '@docusaurus/useBaseUrl';
 

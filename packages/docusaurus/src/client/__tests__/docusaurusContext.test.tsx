@@ -12,7 +12,7 @@
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks/server';
 import {DocusaurusContextProvider} from '../docusaurusContext';
-import useDocusaurusContext from '../useDocusaurusContext';
+import useDocusaurusContext from '../exports/useDocusaurusContext';
 
 // This test currently isn't quite useful because the @generated aliases point
 // to the empty modules. Maybe we can point that to fixtures in the future.
