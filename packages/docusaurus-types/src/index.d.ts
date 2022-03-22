@@ -259,13 +259,9 @@ export interface Plugin<Content = unknown> {
     isServer: boolean,
     utils: ConfigureWebpackUtils,
     content: Content,
-  ) =>
-    | (WebpackConfiguration & {
-        mergeStrategy?: ConfigureWebpackFnMergeStrategy;
-      })
-    | undefined
-    // Not returning anything; not recommended, but should be acknowledged
-    | void;
+  ) => WebpackConfiguration & {
+    mergeStrategy?: ConfigureWebpackFnMergeStrategy;
+  };
   configurePostCss?: (options: PostCssOptions) => PostCssOptions;
   getThemePath?: () => string;
   getTypeScriptThemePath?: () => string;
