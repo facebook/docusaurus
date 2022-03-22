@@ -18,9 +18,7 @@ export default function DocCardList({
   return (
     <div className="row">
       {items.map((item, index) => (
-        <article key={index} className="col col--6">
-          <DocCard item={item} />
-        </article>
+        <DocCard key={index} item={item} />
       ))}
     </div>
   );

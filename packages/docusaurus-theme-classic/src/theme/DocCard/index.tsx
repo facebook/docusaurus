@@ -22,20 +22,19 @@ function CardContainer({
   href,
   children,
 }: {
-  href?: string;
+  href: string;
   children: ReactNode;
 }): JSX.Element {
   const className = clsx(
     'card margin-bottom--lg padding--lg',
     styles.cardContainer,
-    href && styles.cardContainerLink,
   );
-  return href ? (
-    <Link href={href} className={className}>
-      {children}
-    </Link>
-  ) : (
-    <div className={className}>{children}</div>
+  return (
+    <article className="col col--6">
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    </article>
   );
 }
 
@@ -49,7 +48,11 @@ function CardLayout({
   icon: ReactNode;
   title: string;
   description?: string;
-}): JSX.Element {
+}): JSX.Element | null {
+  if (!href) {
+    return null;
+  }
+
   return (
     <CardContainer href={href}>
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
