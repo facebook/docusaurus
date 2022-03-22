@@ -25,10 +25,12 @@ function AnchorHeading({as: As, id, ...props}: Props) {
   return (
     <As
       {...props}
-      className={clsx('anchor', {
-        [styles.anchorWithHideOnScrollNavbar]: hideOnScroll,
-        [styles.anchorWithStickyNavbar]: !hideOnScroll,
-      })}
+      className={clsx(
+        'anchor',
+        hideOnScroll
+          ? styles.anchorWithHideOnScrollNavbar
+          : styles.anchorWithStickyNavbar,
+      )}
       id={id}>
       {props.children}
       <a

@@ -166,10 +166,6 @@ div[class^='announcementBar_'] {
   font-weight: bold;
 }
 
-.red > a {
-  color: red;
-}
-
 .screen-reader-only {
   border: 0;
   clip: rect(0 0 0 0);

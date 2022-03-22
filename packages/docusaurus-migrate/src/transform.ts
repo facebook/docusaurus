@@ -33,6 +33,9 @@ const property = (key: string, value: ArrowFunctionExpression) =>
 
 const processCallExpression = (node: ASTPath<VariableDeclarator>) => {
   const args = (node?.value?.init as CallExpression)?.arguments[0];
+  if (!args) {
+    return;
+  }
   if (args.type === 'Literal') {
     if (
       typeof args.value === 'string' &&
@@ -71,6 +74,9 @@ const processMemberExpression = (node: ASTPath<VariableDeclarator>) => {
     return;
   }
   const args = object.arguments[0];
+  if (!args) {
+    return;
+  }
   if (args.type === 'Literal') {
     if (args.value === '../../core/CompLibrary.js') {
       const newDeclarator = jscodeshift.variableDeclarator(
@@ -117,7 +123,7 @@ export default function transformer(file: string): string {
     }
   });
   if (r[r.length - 1]) {
-    jscodeshift(r[r.length - 1].parent).insertAfter(
+    jscodeshift(r[r.length - 1]!.parent).insertAfter(
       jscodeshift.importDeclaration(
         [jscodeshift.importDefaultSpecifier(jscodeshift.identifier('Layout'))],
         jscodeshift.literal('@theme/Layout'),

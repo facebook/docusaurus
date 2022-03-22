@@ -5,69 +5,104 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type Route} from '@generated/routes';
+import type {Route} from '@docusaurus/types';
 import {findHomePageRoute} from '../routesUtils';
 
-describe('routesUtils findHomePageRoute', () => {
+describe('findHomePageRoute', () => {
   const homePage: Route = {
     path: '/',
     exact: true,
   };
 
-  test('should return undefined for no routes', () => {
-    expect(findHomePageRoute([])).toEqual(undefined);
+  it('returns undefined for no routes', () => {
+    expect(findHomePageRoute({baseUrl: '/', routes: []})).toBeUndefined();
   });
 
-  test('should return undefined for no homepage', () => {
+  it('returns undefined for no homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {path: '/b', exact: false},
-        {path: '/c', exact: undefined},
-        {
-          path: '/d',
-          exact: false,
-          routes: [
-            {path: '/d/1', exact: true},
-            {path: '/d/2', exact: false},
-            {path: '/d/3', exact: undefined},
-          ],
-        },
-      ]),
-    ).toEqual(undefined);
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {path: '/b', exact: false},
+          {path: '/c', exact: undefined},
+          {
+            path: '/d',
+            exact: false,
+            routes: [
+              {path: '/d/1', exact: true},
+              {path: '/d/2', exact: false},
+              {path: '/d/3', exact: undefined},
+            ],
+          },
+        ],
+      }),
+    ).toBeUndefined();
   });
 
-  test('should find top-level homepage', () => {
+  it('finds top-level homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {path: '/b', exact: false},
-        {path: '/c', exact: undefined},
-        {...homePage, exact: false},
-        homePage,
-        {...homePage, exact: undefined},
-      ]),
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {path: '/b', exact: false},
+          {path: '/c', exact: undefined},
+          {...homePage, exact: false},
+          homePage,
+          {...homePage, exact: undefined},
+        ],
+      }),
     ).toEqual(homePage);
   });
 
-  test('should find nested homepage', () => {
+  it('finds nested homepage', () => {
     expect(
-      findHomePageRoute([
-        {path: '/a', exact: true},
-        {
-          path: '/',
-          exact: false,
-          routes: [
-            {path: '/b', exact: true},
-            {
-              path: '/',
-              exact: false,
-              routes: [{path: '/c', exact: true}, homePage],
-            },
-          ],
-        },
-        {path: '/d', exact: true},
-      ]),
+      findHomePageRoute({
+        baseUrl: '/',
+        routes: [
+          {path: '/a', exact: true},
+          {
+            path: '/',
+            exact: false,
+            routes: [
+              {path: '/b', exact: true},
+              {
+                path: '/',
+                exact: undefined,
+                routes: [{path: '/c', exact: true}, homePage],
+              },
+            ],
+          },
+          {path: '/d', exact: true},
+        ],
+      }),
     ).toEqual(homePage);
+  });
+
+  it('finds nested homepage with baseUrl', () => {
+    const baseUrl = '/baseUrl/';
+    const baseUrlHomePage = {...homePage, path: baseUrl};
+    expect(
+      findHomePageRoute({
+        baseUrl,
+        routes: [
+          {path: `${baseUrl}a`, exact: true},
+          {
+            path: baseUrl,
+            exact: false,
+            routes: [
+              {path: `${baseUrl}b`, exact: true},
+              {
+                path: baseUrl,
+                exact: false,
+                routes: [{path: `${baseUrl}c`, exact: true}, baseUrlHomePage],
+              },
+            ],
+          },
+          {path: `${baseUrl}d`, exact: true},
+        ],
+      }),
+    ).toEqual(baseUrlHomePage);
   });
 });

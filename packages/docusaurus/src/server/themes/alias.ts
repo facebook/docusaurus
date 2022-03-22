@@ -20,7 +20,8 @@ export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   const entries = _.sortBy(Object.entries(aliases), ([alias]) => alias);
   // @theme/NavbarItem should be after @theme/NavbarItem/LocaleDropdown
   entries.sort(([alias1], [alias2]) =>
-    alias1.includes(`${alias2}/`) ? -1 : 0,
+    // eslint-disable-next-line no-nested-ternary
+    alias1.includes(`${alias2}/`) ? -1 : alias2.includes(`${alias1}/`) ? 1 : 0,
   );
   return Object.fromEntries(entries);
 }

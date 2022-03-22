@@ -7,6 +7,8 @@
 
 import {fileURLToPath} from 'url';
 
+process.env.TZ = 'UTC';
+
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
@@ -25,34 +27,33 @@ const ignorePatterns = [
 export default {
   rootDir: fileURLToPath(new URL('.', import.meta.url)),
   verbose: true,
-  testURL: 'http://localhost/',
+  testURL: 'https://docusaurus.io/',
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest',
+    '^.+\\.[jt]sx?$': '@swc/jest',
   },
+  errorOnDeprecated: true,
   moduleNameMapper: {
     // Jest can't resolve CSS or asset imports
-    '^.+\\.(css|jpg|jpeg|png|svg)$': '<rootDir>/jest/emptyModule.js',
+    '^.+\\.(css|jpe?g|png|svg|webp)$': '<rootDir>/jest/emptyModule.ts',
 
-    // TODO we need to allow Jest to resolve core Webpack aliases automatically
+    // Using src instead of lib, so we always get fresh source
     '@docusaurus/(browserContext|BrowserOnly|ComponentCreator|constants|docusaurusContext|ExecutionEnvironment|Head|Interpolate|isInternalUrl|Link|Noop|renderRoutes|router|Translate|use.*)':
-      '@docusaurus/core/lib/client/exports/$1',
+      '@docusaurus/core/src/client/exports/$1',
     // Maybe point to a fixture?
-    '@generated/.*': '<rootDir>/jest/emptyModule.js',
+    '@generated/.*': '<rootDir>/jest/emptyModule.ts',
     // TODO use "projects" + multiple configs if we work on another theme?
     '@theme/(.*)': '@docusaurus/theme-classic/src/theme/$1',
     '@site/(.*)': 'website/$1',
 
-    // TODO why Jest can't figure node package entry points?
+    // Using src instead of lib, so we always get fresh source
     '@docusaurus/plugin-content-docs/client':
-      '@docusaurus/plugin-content-docs/lib/client/index.js',
+      '@docusaurus/plugin-content-docs/src/client/index.ts',
   },
-  globals: {
-    window: {
-      location: {href: 'https://docusaurus.io'},
-    },
+  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.ts'],
+  snapshotFormat: {
+    printBasicPrototype: false,
   },
-  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.js'],
 };

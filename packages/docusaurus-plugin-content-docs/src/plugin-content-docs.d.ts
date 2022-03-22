@@ -18,8 +18,14 @@ declare module '@docusaurus/plugin-content-docs' {
   };
 
   export type CategoryIndexMatcherParam = {
+    /** The file name, without extension */
     fileName: string;
+    /**
+     * The list of directories, from lowest level to highest.
+     * If there's no dir name, directories is ['.']
+     */
     directories: string[];
+    /** The extension, with a leading dot */
     extension: string;
   };
   export type CategoryIndexMatcher = (
@@ -185,6 +191,7 @@ declare module '@theme/DocItem' {
   };
 
   export type Metadata = {
+    readonly unversionedId?: string;
     readonly description?: string;
     readonly title?: string;
     readonly permalink?: string;

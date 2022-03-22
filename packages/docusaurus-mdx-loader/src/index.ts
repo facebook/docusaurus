@@ -114,7 +114,7 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions() ?? {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -127,7 +127,7 @@ export default async function mdxLoader(
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
+      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...DEFAULT_OPTIONS.remarkPlugins,
       [
         transformImage,
@@ -143,12 +143,12 @@ export default async function mdxLoader(
           siteDir: reqOptions.siteDir,
         },
       ],
-      ...(reqOptions.remarkPlugins || []),
+      ...(reqOptions.remarkPlugins ?? []),
     ],
     rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
+      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
+      ...(reqOptions.rehypePlugins ?? []),
     ],
     filepath: filePath,
   };
@@ -162,7 +162,7 @@ export default async function mdxLoader(
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+  const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.

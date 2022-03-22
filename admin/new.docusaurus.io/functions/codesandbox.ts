@@ -9,6 +9,6 @@ import type {Handler} from '@netlify/functions';
 
 import {createPlaygroundResponse} from '../functionUtils/playgroundUtils';
 
-export const handler: Handler = async function handler(_event, _context) {
+export const handler: Handler = async function handler() {
   return createPlaygroundResponse('codesandbox');
 };

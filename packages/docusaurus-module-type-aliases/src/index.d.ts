@@ -35,14 +35,8 @@ declare module '@generated/registry' {
 }
 
 declare module '@generated/routes' {
-  import type {RouteConfig} from 'react-router-config';
+  import type {Route} from '@docusaurus/types';
 
-  export type Route = {
-    readonly path: string;
-    readonly component: RouteConfig['component'];
-    readonly exact?: boolean;
-    readonly routes?: Route[];
-  };
   const routes: Route[];
   export default routes;
 }
@@ -98,8 +92,6 @@ declare module '@theme/Layout' {
 
   export interface Props {
     readonly children?: ReactNode;
-    readonly title?: string;
-    readonly description?: string;
   }
   export default function Layout(props: Props): JSX.Element;
 }
@@ -121,6 +113,10 @@ declare module '@theme/Root' {
     readonly children: ReactNode;
   }
   export default function Root({children}: Props): JSX.Element;
+}
+
+declare module '@theme/SiteMetadata' {
+  export default function SiteMetadata(): JSX.Element;
 }
 
 declare module '@docusaurus/constants' {
@@ -160,7 +156,9 @@ declare module '@docusaurus/Link' {
       readonly href?: string;
       readonly autoAddBaseUrl?: boolean;
 
-      // escape hatch in case broken links check is annoying for a specific link
+      /**
+       * escape hatch in case broken links check is annoying for a specific link
+       */
       readonly 'data-noBrokenLinkCheck'?: boolean;
     };
   export default function Link(props: Props): JSX.Element;
@@ -248,6 +246,12 @@ declare module '@docusaurus/useDocusaurusContext' {
   import type {DocusaurusContext} from '@docusaurus/types';
 
   export default function useDocusaurusContext(): DocusaurusContext;
+}
+
+declare module '@docusaurus/useRouteContext' {
+  import type {PluginRouteContext} from '@docusaurus/types';
+
+  export default function useRouteContext(): PluginRouteContext;
 }
 
 declare module '@docusaurus/useIsBrowser' {

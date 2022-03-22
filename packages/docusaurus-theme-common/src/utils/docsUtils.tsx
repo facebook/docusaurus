@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {createContext, type ReactNode, useContext} from 'react';
+import React, {type ReactNode, useContext} from 'react';
 import {
   useActivePlugin,
   useAllDocsData,
@@ -19,6 +19,7 @@ import type {
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
 import {isSamePath} from './pathUtils';
+import {ReactContextError} from './reactUtils';
 import {useLocation} from '@docusaurus/router';
 
 // TODO not ideal, see also "useDocs"
@@ -28,7 +29,7 @@ export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContextValue: unique symbol = Symbol('EmptyContext');
 
-const DocsVersionContext = createContext<
+const DocsVersionContext = React.createContext<
   PropVersionMetadata | typeof EmptyContextValue
 >(EmptyContextValue);
 
@@ -49,7 +50,7 @@ export function DocsVersionProvider({
 export function useDocsVersion(): PropVersionMetadata {
   const version = useContext(DocsVersionContext);
   if (version === EmptyContextValue) {
-    throw new Error('This hook requires usage of <DocsVersionProvider>');
+    throw new ReactContextError('DocsVersionProvider');
   }
   return version;
 }
@@ -68,7 +69,7 @@ export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   return doc;
 }
 
-const DocsSidebarContext = createContext<
+const DocsSidebarContext = React.createContext<
   PropSidebar | null | typeof EmptyContextValue
 >(EmptyContextValue);
 
@@ -89,7 +90,7 @@ export function DocsSidebarProvider({
 export function useDocsSidebar(): PropSidebar | null {
   const sidebar = useContext(DocsSidebarContext);
   if (sidebar === EmptyContextValue) {
-    throw new Error('This hook requires usage of <DocsSidebarProvider>');
+    throw new ReactContextError('DocsSidebarProvider');
   }
   return sidebar;
 }
@@ -186,7 +187,7 @@ export function isActiveSidebarItem(
   return false;
 }
 
-export function getBreadcrumbs({
+function getBreadcrumbs({
   sidebar,
   pathname,
 }: {
@@ -198,12 +199,10 @@ export function getBreadcrumbs({
   function extract(items: PropSidebar) {
     for (const item of items) {
       if (
-        item.type === 'category' &&
-        (isSamePath(item.href, pathname) || extract(item.items))
+        (item.type === 'category' &&
+          (isSamePath(item.href, pathname) || extract(item.items))) ||
+        (item.type === 'link' && isSamePath(item.href, pathname))
       ) {
-        breadcrumbs.push(item);
-        return true;
-      } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
         breadcrumbs.push(item);
         return true;
       }

@@ -47,8 +47,7 @@ async function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    await fs.ensureDir(path.dirname(newSidebarFile));
-    await fs.writeFile(
+    await fs.outputFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -89,7 +88,7 @@ export async function cliDocsVersionCommand(
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
   // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
+  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
     );
@@ -140,8 +139,7 @@ export async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  await fs.ensureDir(path.dirname(versionsJSONFile));
-  await fs.writeFile(
+  await fs.outputFile(
     versionsJSONFile,
     `${JSON.stringify(versions, null, 2)}\n`,
   );

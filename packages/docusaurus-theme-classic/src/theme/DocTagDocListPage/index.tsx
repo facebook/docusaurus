@@ -9,10 +9,17 @@ import React from 'react';
 
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-import {ThemeClassNames, usePluralForm} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+  usePluralForm,
+} from '@docusaurus/theme-common';
 import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocTagDocListPage';
+import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
 // Very simple pluralization: probably good enough for now
 function useNDocsTaggedPlural() {
@@ -55,35 +62,36 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
   );
 
   return (
-    <Layout
-      title={title}
-      wrapperClassName={ThemeClassNames.wrapper.docsPages}
-      pageClassName={ThemeClassNames.page.docsTagDocListPage}
-      searchMetadata={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'doc_tag_doc_list',
-      }}>
-      <div className="container margin-vert--lg">
-        <div className="row">
-          <main className="col col--8 col--offset-2">
-            <header className="margin-bottom--xl">
-              <h1>{title}</h1>
-              <Link href={tag.allTagsPath}>
-                <Translate
-                  id="theme.tags.tagsPageLink"
-                  description="The label of the link targeting the tag list page">
-                  View All Tags
-                </Translate>
-              </Link>
-            </header>
-            <section className="margin-vert--lg">
-              {tag.docs.map((doc) => (
-                <DocItem key={doc.id} doc={doc} />
-              ))}
-            </section>
-          </main>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.docsPages,
+        ThemeClassNames.page.docsTagDocListPage,
+      )}>
+      <PageMetadata title={title} />
+      <SearchMetadata tag="doc_tag_doc_list" />
+      <Layout>
+        <div className="container margin-vert--lg">
+          <div className="row">
+            <main className="col col--8 col--offset-2">
+              <header className="margin-bottom--xl">
+                <h1>{title}</h1>
+                <Link href={tag.allTagsPath}>
+                  <Translate
+                    id="theme.tags.tagsPageLink"
+                    description="The label of the link targeting the tag list page">
+                    View All Tags
+                  </Translate>
+                </Link>
+              </header>
+              <section className="margin-vert--lg">
+                {tag.docs.map((doc) => (
+                  <DocItem key={doc.id} doc={doc} />
+                ))}
+              </section>
+            </main>
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </HtmlClassNameProvider>
   );
 }

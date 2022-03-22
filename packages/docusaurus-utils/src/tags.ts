@@ -70,8 +70,8 @@ export type TaggedItemGroup<Item> = {
  * override the other
  */
 export function groupTaggedItems<Item>(
-  items: Item[],
-  getItemTags: (item: Item) => Tag[],
+  items: readonly Item[],
+  getItemTags: (item: Item) => readonly Tag[],
 ): Record<string, TaggedItemGroup<Item>> {
   const result: Record<string, TaggedItemGroup<Item>> = {};
 
@@ -80,13 +80,13 @@ export function groupTaggedItems<Item>(
     // TODO: it's not really clear what should be the behavior if 2 items have
     // the same tag but the permalink is different for each
     // For now, the first tag found wins
-    result[tag.permalink] = result[tag.permalink] ?? {
+    result[tag.permalink] ??= {
       tag,
       items: [],
     };
 
     // Add item to group
-    result[tag.permalink].items.push(item);
+    result[tag.permalink]!.items.push(item);
   }
 
   items.forEach((item) => {

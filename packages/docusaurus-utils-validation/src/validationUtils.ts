@@ -37,14 +37,14 @@ export function normalizePluginOptions<T extends {id?: string}>(
     throw error;
   }
 
-  return value!; // TODO remove this ! in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value;
 }
 
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
   themeConfig: Partial<T>,
 ): T {
-  // A theme should only validate his "slice" of the full themeConfig,
+  // A theme should only validate its "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
   // otherwise one theme would fail validating the data of another theme
   const finalSchema = schema.unknown();
@@ -58,7 +58,7 @@ export function normalizeThemeConfig<T>(
   if (error) {
     throw error;
   }
-  return value!; // TODO remove this ! in TS 4.6
+  return value;
 }
 
 export function validateFrontMatter<T>(
@@ -86,5 +86,5 @@ ${errorDetails.map(({message}) => message)}
     throw error;
   }
 
-  return value!; // TODO remove this ! in TS 4.6
+  return value;
 }

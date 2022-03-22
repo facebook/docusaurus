@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.0-beta.16",
+  "version": "2.0.0-beta.17",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -8,7 +8,7 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
+    "clear": "docusaurus clear && rimraf changelog && rimraf _dogfooding/_swizzle_theme_tests",
     "serve": "docusaurus serve",
     "test:css-order": "node testCSSOrder.mjs",
     "test:swizzle:eject:js": "cross-env SWIZZLE_ACTION='eject' SWIZZLE_TYPESCRIPT='false' node _dogfooding/testSwizzleThemeClassic.mjs",
@@ -35,24 +35,24 @@
   },
   "dependencies": {
     "@crowdin/cli": "^3.7.8",
-    "@crowdin/crowdin-api-client": "^1.14.0",
-    "@docusaurus/core": "2.0.0-beta.16",
-    "@docusaurus/logger": "2.0.0-beta.16",
-    "@docusaurus/plugin-client-redirects": "2.0.0-beta.16",
-    "@docusaurus/plugin-ideal-image": "2.0.0-beta.16",
-    "@docusaurus/plugin-pwa": "2.0.0-beta.16",
-    "@docusaurus/preset-classic": "2.0.0-beta.16",
-    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.16",
-    "@docusaurus/theme-classic": "2.0.0-beta.16",
-    "@docusaurus/theme-common": "2.0.0-beta.16",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.16",
-    "@docusaurus/utils": "2.0.0-beta.16",
-    "@docusaurus/utils-common": "2.0.0-beta.16",
-    "@popperjs/core": "^2.11.2",
+    "@crowdin/crowdin-api-client": "^1.15.0",
+    "@docusaurus/core": "2.0.0-beta.17",
+    "@docusaurus/logger": "2.0.0-beta.17",
+    "@docusaurus/plugin-client-redirects": "2.0.0-beta.17",
+    "@docusaurus/plugin-ideal-image": "2.0.0-beta.17",
+    "@docusaurus/plugin-pwa": "2.0.0-beta.17",
+    "@docusaurus/preset-classic": "2.0.0-beta.17",
+    "@docusaurus/remark-plugin-npm2yarn": "2.0.0-beta.17",
+    "@docusaurus/theme-classic": "2.0.0-beta.17",
+    "@docusaurus/theme-common": "2.0.0-beta.17",
+    "@docusaurus/theme-live-codeblock": "2.0.0-beta.17",
+    "@docusaurus/utils": "2.0.0-beta.17",
+    "@docusaurus/utils-common": "2.0.0-beta.17",
+    "@popperjs/core": "^2.11.4",
+    "@swc/core": "^1.2.159",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
-    "esbuild-loader": "2.18.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
@@ -61,9 +61,10 @@
     "react-popper": "^2.2.5",
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
+    "swc-loader": "^0.1.15",
     "unist-util-visit": "^2.0.2",
-    "workbox-routing": "^6.5.0",
-    "workbox-strategies": "^6.5.0"
+    "workbox-routing": "^6.5.1",
+    "workbox-strategies": "^6.5.1"
   },
   "browserslist": {
     "production": [
@@ -78,8 +79,9 @@
     ]
   },
   "devDependencies": {
-    "@tsconfig/docusaurus": "^1.0.4",
+    "@tsconfig/docusaurus": "^1.0.5",
     "@types/jest": "^27.4.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "rimraf": "^3.0.2"
   }
 }

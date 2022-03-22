@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
 import type {
@@ -32,7 +33,7 @@ describe('docsVersion', () => {
     sidebarCollapsible: true,
   };
 
-  test('no version tag provided', async () => {
+  it('no version tag provided', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         null,
@@ -65,7 +66,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not have slash', async () => {
+  it('version tag should not have slash', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         'foo/bar',
@@ -88,7 +89,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not be too long', async () => {
+  it('version tag should not be too long', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         'a'.repeat(255),
@@ -101,7 +102,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should not be a dot or two dots', async () => {
+  it('version tag should not be a dot or two dots', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '..',
@@ -124,7 +125,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag should be a valid pathname', async () => {
+  it('version tag should be a valid pathname', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '<foo|bar>',
@@ -157,7 +158,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('version tag already exist', async () => {
+  it('version tag already exist', async () => {
     await expect(() =>
       cliDocsVersionCommand(
         '1.0.0',
@@ -170,7 +171,7 @@ describe('docsVersion', () => {
     );
   });
 
-  test('no docs file to version', async () => {
+  it('no docs file to version', async () => {
     const emptySiteDir = path.join(fixtureDir, 'empty-site');
     await expect(() =>
       cliDocsVersionCommand(
@@ -184,10 +185,9 @@ describe('docsVersion', () => {
     );
   });
 
-  test('first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFile');
+  it('first time versioning', async () => {
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
+    const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
@@ -200,7 +200,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
@@ -231,20 +231,18 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[docs\].*: version .*1\.0\.0.* created!.*/,
+        /.*\[SUCCESS\].*\[docs\].*: version .*1\.0\.0.* created!.*/,
       ),
     );
 
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
-    ensureMock.mockRestore();
   });
 
-  test('not the first time versioning', async () => {
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFile');
+  it('not the first time versioning', async () => {
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
+    const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
@@ -257,7 +255,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
@@ -288,22 +286,20 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[docs\].*: version .*2\.0\.0.* created!.*/,
+        /.*\[SUCCESS\].*\[docs\].*: version .*2\.0\.0.* created!.*/,
       ),
     );
 
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
-    ensureMock.mockRestore();
   });
 
-  test('second docs instance versioning', async () => {
+  it('second docs instance versioning', async () => {
     const pluginId = 'community';
 
-    const copyMock = jest.spyOn(fs, 'copy').mockImplementation();
-    const ensureMock = jest.spyOn(fs, 'ensureDir').mockImplementation();
-    const writeMock = jest.spyOn(fs, 'writeFile');
+    const copyMock = jest.spyOn(fs, 'copy').mockImplementation(() => {});
+    const writeMock = jest.spyOn(fs, 'outputFile');
     let versionedSidebar;
     let versionedSidebarPath;
     writeMock.mockImplementationOnce((filepath, content) => {
@@ -316,7 +312,7 @@ describe('docsVersion', () => {
       versionsPath = filepath;
       versions = JSON.parse(content as string);
     });
-    const consoleMock = jest.spyOn(console, 'log').mockImplementation();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       path: 'community',
@@ -343,13 +339,12 @@ describe('docsVersion', () => {
     expect(versions).toEqual(['2.0.0', '1.0.0']);
     expect(consoleMock).toHaveBeenCalledWith(
       expect.stringMatching(
-        /.*\[SUCCESS\].* .*\[community\].*: version .*2.0.0.* created!.*/,
+        /.*\[SUCCESS\].*\[community\].*: version .*2.0.0.* created!.*/,
       ),
     );
 
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
-    ensureMock.mockRestore();
   });
 });

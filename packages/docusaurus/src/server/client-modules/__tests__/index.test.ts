@@ -12,79 +12,79 @@ import pluginFooBar from './__fixtures__/plugin-foo-bar';
 import pluginHelloWorld from './__fixtures__/plugin-hello-world';
 
 describe('loadClientModules', () => {
-  test('empty', () => {
+  it('empty', () => {
     const clientModules = loadClientModules([pluginEmpty()]);
-    expect(clientModules).toMatchInlineSnapshot(`Array []`);
+    expect(clientModules).toMatchInlineSnapshot(`[]`);
   });
 
-  test('non-empty', () => {
+  it('non-empty', () => {
     const clientModules = loadClientModules([pluginFooBar()]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
 
-  test('multiple non-empty', () => {
+  it('multiple non-empty', () => {
     const clientModules = loadClientModules([
       pluginFooBar(),
       pluginHelloWorld(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "foo",
-        "bar",
-        "hello",
-        "world",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
       ]
     `);
   });
 
-  test('multiple non-empty different order', () => {
+  it('multiple non-empty different order', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
 
-  test('empty and non-empty', () => {
+  it('empty and non-empty', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginEmpty(),
       pluginFooBar(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });
 
-  test('empty and non-empty different order', () => {
+  it('empty and non-empty different order', () => {
     const clientModules = loadClientModules([
       pluginHelloWorld(),
       pluginFooBar(),
       pluginEmpty(),
     ]);
     expect(clientModules).toMatchInlineSnapshot(`
-      Array [
-        "hello",
-        "world",
-        "foo",
-        "bar",
+      [
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/hello",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/world",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/foo",
+        "<PROJECT_ROOT>/packages/docusaurus/src/server/client-modules/__tests__/__fixtures__/bar",
       ]
     `);
   });

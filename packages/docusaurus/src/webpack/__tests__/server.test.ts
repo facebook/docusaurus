@@ -5,25 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate} from 'webpack';
+import {jest} from '@jest/globals';
+import webpack from 'webpack';
 
 import createServerConfig from '../server';
 import loadSetup from '../../server/__tests__/testUtils';
 
 describe('webpack production config', () => {
-  test('simple', async () => {
-    console.log = jest.fn();
+  it('simple', async () => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
     const props = await loadSetup('simple');
     const config = await createServerConfig({props});
-    const errors = validate(config);
+    const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 
-  test('custom', async () => {
-    console.log = jest.fn();
+  it('custom', async () => {
+    jest.spyOn(console, 'log').mockImplementation(() => {});
     const props = await loadSetup('custom');
     const config = await createServerConfig({props});
-    const errors = validate(config);
+    const errors = webpack.validate(config);
     expect(errors).toBeUndefined();
   });
 });

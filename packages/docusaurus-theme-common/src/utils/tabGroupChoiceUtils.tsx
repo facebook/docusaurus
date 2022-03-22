@@ -9,12 +9,12 @@ import React, {
   useState,
   useCallback,
   useEffect,
-  createContext,
   useMemo,
   useContext,
   type ReactNode,
 } from 'react';
 import {createStorageSlot, listStorageKeys} from './storageUtils';
+import {ReactContextError} from './reactUtils';
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
@@ -23,7 +23,7 @@ type TabGroupChoiceContextValue = {
   readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
 };
 
-const TabGroupChoiceContext = createContext<
+const TabGroupChoiceContext = React.createContext<
   TabGroupChoiceContextValue | undefined
 >(undefined);
 
@@ -82,9 +82,7 @@ export function TabGroupChoiceProvider({
 export function useTabGroupChoice(): TabGroupChoiceContextValue {
   const context = useContext(TabGroupChoiceContext);
   if (context == null) {
-    throw new Error(
-      '"useUserPreferencesContext" is used outside of "Layout" component.',
-    );
+    throw new ReactContextError('TabGroupChoiceProvider');
   }
   return context;
 }

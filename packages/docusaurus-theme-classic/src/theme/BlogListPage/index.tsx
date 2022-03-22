@@ -12,28 +12,34 @@ import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
+import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
-export default function BlogListPage(props: Props): JSX.Element {
-  const {metadata, items, sidebar} = props;
+function BlogListPageMetadata(props: Props): JSX.Element {
+  const {metadata} = props;
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
   const {blogDescription, blogTitle, permalink} = metadata;
   const isBlogOnlyMode = permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : blogTitle;
-
   return (
-    <BlogLayout
-      title={title}
-      description={blogDescription}
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogListPage}
-      searchMetadata={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'blog_posts_list',
-      }}
-      sidebar={sidebar}>
+    <>
+      <PageMetadata title={title} description={blogDescription} />
+      <SearchMetadata tag="blog_posts_list" />
+    </>
+  );
+}
+
+function BlogListPageContent(props: Props): JSX.Element {
+  const {metadata, items, sidebar} = props;
+  return (
+    <BlogLayout sidebar={sidebar}>
       {items.map(({content: BlogPostContent}) => (
         <BlogPostItem
           key={BlogPostContent.metadata.permalink}
@@ -46,5 +52,18 @@ export default function BlogListPage(props: Props): JSX.Element {
       ))}
       <BlogListPaginator metadata={metadata} />
     </BlogLayout>
+  );
+}
+
+export default function BlogListPage(props: Props): JSX.Element {
+  return (
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogListPage,
+      )}>
+      <BlogListPageMetadata {...props} />
+      <BlogListPageContent {...props} />
+    </HtmlClassNameProvider>
   );
 }

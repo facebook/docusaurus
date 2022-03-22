@@ -28,7 +28,7 @@ export default function LocaleDropdownNavbarItem({
   const alternatePageUtils = useAlternatePageUtils();
 
   function getLocaleLabel(locale: string) {
-    return localeConfigs[locale].label;
+    return localeConfigs[locale]!.label;
   }
 
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {

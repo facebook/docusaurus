@@ -9,7 +9,7 @@ import loadRoutes from '../routes';
 import type {RouteConfig} from '@docusaurus/types';
 
 describe('loadRoutes', () => {
-  test('nested route config', async () => {
+  it('loads nested route config', async () => {
     const nestedRouteConfig: RouteConfig = {
       component: '@theme/DocPage',
       path: '/docs:route',
@@ -35,14 +35,20 @@ describe('loadRoutes', () => {
             metadata: 'docs-foo-baz-dd9.json',
           },
           sidebar: 'secondary',
+          'key:a': 'containing colon',
+          "key'b": 'containing quote',
+          'key"c': 'containing double quote',
+          'key,d': 'containing comma',
+          字段: 'containing unicode',
         },
       ],
     };
-    const result = await loadRoutes([nestedRouteConfig], '/');
-    expect(result).toMatchSnapshot();
+    await expect(
+      loadRoutes([nestedRouteConfig], '/'),
+    ).resolves.toMatchSnapshot();
   });
 
-  test('flat route config', async () => {
+  it('loads flat route config', async () => {
     const flatRouteConfig: RouteConfig = {
       path: '/blog',
       component: '@theme/BlogListPage',
@@ -63,42 +69,47 @@ describe('loadRoutes', () => {
             content: 'blog/2018-12-14-Happy-First-Birthday-Slash.md',
             metadata: null,
           },
+          {
+            content: {
+              __import: true,
+              path: 'blog/2018-12-14-Happy-First-Birthday-Slash.md',
+            },
+            metadata: null,
+          },
         ],
       },
     };
-    const result = await loadRoutes([flatRouteConfig], '/');
-    expect(result).toMatchSnapshot();
+    await expect(loadRoutes([flatRouteConfig], '/')).resolves.toMatchSnapshot();
   });
 
-  test('invalid route config', async () => {
+  it('rejects invalid route config', async () => {
     const routeConfigWithoutPath = {
       component: 'hello/world.js',
     } as RouteConfig;
 
     await expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
-      .toMatchInlineSnapshot(`
-      [Error: Invalid route config: path must be a string and component is required.
-      {"component":"hello/world.js"}]
-    `);
+      .toThrowErrorMatchingInlineSnapshot(`
+            "Invalid route config: path must be a string and component is required.
+            {\\"component\\":\\"hello/world.js\\"}"
+          `);
 
     const routeConfigWithoutComponent = {
       path: '/hello/world',
     } as RouteConfig;
 
     await expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
-      .toMatchInlineSnapshot(`
-      [Error: Invalid route config: path must be a string and component is required.
-      {"path":"/hello/world"}]
-    `);
+      .toThrowErrorMatchingInlineSnapshot(`
+            "Invalid route config: path must be a string and component is required.
+            {\\"path\\":\\"/hello/world\\"}"
+          `);
   });
 
-  test('route config with empty (but valid) path string', async () => {
+  it('loads route config with empty (but valid) path string', async () => {
     const routeConfig = {
       path: '',
       component: 'hello/world.js',
     } as RouteConfig;
 
-    const result = await loadRoutes([routeConfig], '/');
-    expect(result).toMatchSnapshot();
+    await expect(loadRoutes([routeConfig], '/')).resolves.toMatchSnapshot();
   });
 });

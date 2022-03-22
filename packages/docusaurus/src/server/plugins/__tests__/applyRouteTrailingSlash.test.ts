@@ -27,7 +27,7 @@ function params(
 }
 
 describe('applyRouteTrailingSlash', () => {
-  test('apply to empty', () => {
+  it('apply to empty', () => {
     expect(applyRouteTrailingSlash(route(''), params(true))).toEqual(
       route('/'),
     );
@@ -39,7 +39,7 @@ describe('applyRouteTrailingSlash', () => {
     );
   });
 
-  test('apply to /', () => {
+  it('apply to /', () => {
     expect(applyRouteTrailingSlash(route('/'), params(true))).toEqual(
       route('/'),
     );
@@ -51,7 +51,7 @@ describe('applyRouteTrailingSlash', () => {
     );
   });
 
-  test('apply to /abc', () => {
+  it('apply to /abc', () => {
     expect(applyRouteTrailingSlash(route('/abc'), params(true))).toEqual(
       route('/abc/'),
     );
@@ -63,7 +63,7 @@ describe('applyRouteTrailingSlash', () => {
     );
   });
 
-  test('apply to /abc/', () => {
+  it('apply to /abc/', () => {
     expect(applyRouteTrailingSlash(route('/abc/'), params(true))).toEqual(
       route('/abc/'),
     );
@@ -75,7 +75,7 @@ describe('applyRouteTrailingSlash', () => {
     );
   });
 
-  test('apply to /abc?search#anchor', () => {
+  it('apply to /abc?search#anchor', () => {
     expect(
       applyRouteTrailingSlash(route('/abc?search#anchor'), params(true)),
     ).toEqual(route('/abc/?search#anchor'));
@@ -87,7 +87,7 @@ describe('applyRouteTrailingSlash', () => {
     ).toEqual(route('/abc?search#anchor'));
   });
 
-  test('apply to /abc/?search#anchor', () => {
+  it('apply to /abc/?search#anchor', () => {
     expect(
       applyRouteTrailingSlash(route('/abc/?search#anchor'), params(true)),
     ).toEqual(route('/abc/?search#anchor'));
@@ -99,7 +99,7 @@ describe('applyRouteTrailingSlash', () => {
     ).toEqual(route('/abc/?search#anchor'));
   });
 
-  test('not apply to /abc/?search#anchor when baseUrl=/abc/', () => {
+  it('not apply to /abc/?search#anchor when baseUrl=/abc/', () => {
     const baseUrl = '/abc/';
     expect(
       applyRouteTrailingSlash(
@@ -121,7 +121,7 @@ describe('applyRouteTrailingSlash', () => {
     ).toEqual(route('/abc/?search#anchor'));
   });
 
-  test('apply to subroutes', () => {
+  it('apply to subroutes', () => {
     expect(
       applyRouteTrailingSlash(
         route('/abc', ['/abc/1', '/abc/2']),
@@ -142,7 +142,7 @@ describe('applyRouteTrailingSlash', () => {
     ).toEqual(route('/abc', ['/abc/1', '/abc/2']));
   });
 
-  test('apply for complex case', () => {
+  it('apply for complex case', () => {
     expect(
       applyRouteTrailingSlash(
         route('/abc?search#anchor', ['/abc/1?search', '/abc/2#anchor']),
@@ -153,7 +153,7 @@ describe('applyRouteTrailingSlash', () => {
     );
   });
 
-  test('apply for complex case with baseUrl', () => {
+  it('apply for complex case with baseUrl', () => {
     const baseUrl = '/abc/';
     expect(
       applyRouteTrailingSlash(

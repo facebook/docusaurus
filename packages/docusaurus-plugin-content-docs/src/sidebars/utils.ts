@@ -139,6 +139,11 @@ export type SidebarsUtils = {
   getCategoryGeneratedIndexNavigation: (
     categoryGeneratedIndexPermalink: string,
   ) => SidebarNavigation;
+  /**
+   * This function may return undefined. This is usually a user mistake, because
+   * it means this sidebar will never be displayed; however, we can still use
+   * `displayed_sidebar` to make it displayed. Pretty weird but valid use-case
+   */
   getFirstLink: (sidebarId: string) =>
     | {
         type: 'doc';
@@ -147,7 +152,7 @@ export type SidebarsUtils = {
       }
     | {
         type: 'generated-index';
-        slug: string;
+        permalink: string;
         label: string;
       }
     | undefined;
@@ -201,12 +206,12 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     if (!sidebarName) {
       return emptySidebarNavigation();
     }
-    if (!sidebarNameToNavigationItems[sidebarName]) {
+    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    if (!navigationItems) {
       throw new Error(
         `Doc with ID ${docId} wants to display sidebar ${sidebarName} but a sidebar with this name doesn't exist`,
       );
     }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
     const currentItemIndex = navigationItems.findIndex((item) => {
       if (item.type === 'doc') {
         return item.id === docId;
@@ -258,12 +263,8 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     const sidebarName = Object.entries(sidebarNameToNavigationItems).find(
       ([, navigationItems]) =>
         navigationItems.find(isCurrentCategoryGeneratedIndexItem),
-    )?.[0];
-
-    if (!sidebarName) {
-      return emptySidebarNavigation();
-    }
-    const navigationItems = sidebarNameToNavigationItems[sidebarName];
+    )![0];
+    const navigationItems = sidebarNameToNavigationItems[sidebarName]!;
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,
     );
@@ -299,7 +300,7 @@ Available document ids are:
       }
     | {
         type: 'generated-index';
-        slug: string;
+        permalink: string;
         label: string;
       }
     | undefined {
@@ -320,7 +321,7 @@ Available document ids are:
         } else if (item.link?.type === 'generated-index') {
           return {
             type: 'generated-index',
-            slug: item.link.slug,
+            permalink: item.link.permalink,
             label: item.label,
           };
         }
@@ -341,7 +342,7 @@ Available document ids are:
     getCategoryGeneratedIndexList,
     getCategoryGeneratedIndexNavigation,
     checkSidebarsDocIds,
-    getFirstLink: (id) => getFirstLink(sidebars[id]),
+    getFirstLink: (id) => getFirstLink(sidebars[id]!),
   };
 }
 
@@ -375,18 +376,13 @@ export function toNavigationLink(
     return undefined;
   }
 
-  if (navigationItem.type === 'doc') {
-    return toDocNavigationLink(getDocById(navigationItem.id));
-  } else if (navigationItem.type === 'category') {
-    if (navigationItem.link.type === 'doc') {
-      return toDocNavigationLink(getDocById(navigationItem.link.id));
-    } else if (navigationItem.link.type === 'generated-index') {
-      return {
-        title: navigationItem.label,
-        permalink: navigationItem.link.permalink,
-      };
-    }
-    throw new Error('unexpected category link type');
+  if (navigationItem.type === 'category') {
+    return navigationItem.link.type === 'doc'
+      ? toDocNavigationLink(getDocById(navigationItem.link.id))
+      : {
+          title: navigationItem.label,
+          permalink: navigationItem.link.permalink,
+        };
   }
-  throw new Error('unexpected navigation item');
+  return toDocNavigationLink(getDocById(navigationItem.id));
 }

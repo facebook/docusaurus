@@ -21,7 +21,7 @@ import preload from './preload';
 import App from './App';
 import {
   createStatefulLinksCollector,
-  ProvideLinksCollector,
+  LinksCollectorProvider,
 } from './LinksCollector';
 import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
@@ -75,7 +75,7 @@ async function doRender(locals: Locals & {path: string}) {
     ssrTemplate,
     noIndex,
   } = locals;
-  const location = routesLocation[locals.path];
+  const location = routesLocation[locals.path]!;
   await preload(routes, location);
   const modules = new Set<string>();
   const context = {};
@@ -86,9 +86,9 @@ async function doRender(locals: Locals & {path: string}) {
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
         <StaticRouter location={location} context={context}>
-          <ProvideLinksCollector linksCollector={linksCollector}>
+          <LinksCollectorProvider linksCollector={linksCollector}>
             <App />
-          </ProvideLinksCollector>
+          </LinksCollectorProvider>
         </StaticRouter>
       </HelmetProvider>
     </Loadable.Capture>,
@@ -116,14 +116,14 @@ async function doRender(locals: Locals & {path: string}) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map((b) => b.file);
-  const scripts = (bundles.js || []).map((b) => b.file);
+  const stylesheets = (bundles.css ?? []).map((b) => b.file);
+  const scripts = (bundles.js ?? []).map((b) => b.file);
 
   const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
-    htmlAttributes: htmlAttributes || '',
-    bodyAttributes: bodyAttributes || '',
+    htmlAttributes,
+    bodyAttributes,
     headTags,
     preBodyTags,
     postBodyTags,

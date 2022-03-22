@@ -17,162 +17,162 @@ function params(
 }
 
 describe('applyTrailingSlash', () => {
-  test('should apply to empty', () => {
-    expect(applyTrailingSlash('', params(true))).toEqual('/');
-    expect(applyTrailingSlash('', params(false))).toEqual('');
-    expect(applyTrailingSlash('', params(undefined))).toEqual('');
+  it('applies to empty', () => {
+    expect(applyTrailingSlash('', params(true))).toBe('/');
+    expect(applyTrailingSlash('', params(false))).toBe('');
+    expect(applyTrailingSlash('', params(undefined))).toBe('');
   });
 
-  test('should not apply to /', () => {
-    expect(applyTrailingSlash('/', params(true))).toEqual('/');
-    expect(applyTrailingSlash('/', params(false))).toEqual('/');
-    expect(applyTrailingSlash('/', params(undefined))).toEqual('/');
+  it('does not apply to /', () => {
+    expect(applyTrailingSlash('/', params(true))).toBe('/');
+    expect(applyTrailingSlash('/', params(false))).toBe('/');
+    expect(applyTrailingSlash('/', params(undefined))).toBe('/');
 
-    expect(applyTrailingSlash('/?query#anchor', params(true))).toEqual(
+    expect(applyTrailingSlash('/?query#anchor', params(true))).toBe(
       '/?query#anchor',
     );
-    expect(applyTrailingSlash('/?query#anchor', params(false))).toEqual(
+    expect(applyTrailingSlash('/?query#anchor', params(false))).toBe(
       '/?query#anchor',
     );
-    expect(applyTrailingSlash('/?query#anchor', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/?query#anchor', params(undefined))).toBe(
       '/?query#anchor',
     );
   });
 
-  test('should not apply to /baseUrl/', () => {
+  it('does not apply to /baseUrl/', () => {
     const baseUrl = '/baseUrl/';
-    expect(applyTrailingSlash('/baseUrl/', params(true, baseUrl))).toEqual(
+    expect(applyTrailingSlash('/baseUrl/', params(true, baseUrl))).toBe(
       '/baseUrl/',
     );
-    expect(applyTrailingSlash('/baseUrl/', params(false, baseUrl))).toEqual(
+    expect(applyTrailingSlash('/baseUrl/', params(false, baseUrl))).toBe(
       '/baseUrl/',
     );
-    expect(applyTrailingSlash('/baseUrl/', params(undefined, baseUrl))).toEqual(
+    expect(applyTrailingSlash('/baseUrl/', params(undefined, baseUrl))).toBe(
       '/baseUrl/',
     );
 
     expect(
       applyTrailingSlash('/baseUrl/?query#anchor', params(true, baseUrl)),
-    ).toEqual('/baseUrl/?query#anchor');
+    ).toBe('/baseUrl/?query#anchor');
     expect(
       applyTrailingSlash('/baseUrl/?query#anchor', params(false, baseUrl)),
-    ).toEqual('/baseUrl/?query#anchor');
+    ).toBe('/baseUrl/?query#anchor');
     expect(
       applyTrailingSlash('/baseUrl/?query#anchor', params(undefined, baseUrl)),
-    ).toEqual('/baseUrl/?query#anchor');
+    ).toBe('/baseUrl/?query#anchor');
   });
 
-  test('should not apply to #anchor links', () => {
-    expect(applyTrailingSlash('#', params(true))).toEqual('#');
-    expect(applyTrailingSlash('#', params(false))).toEqual('#');
-    expect(applyTrailingSlash('#', params(undefined))).toEqual('#');
-    expect(applyTrailingSlash('#anchor', params(true))).toEqual('#anchor');
-    expect(applyTrailingSlash('#anchor', params(false))).toEqual('#anchor');
-    expect(applyTrailingSlash('#anchor', params(undefined))).toEqual('#anchor');
+  it('does not apply to #anchor links', () => {
+    expect(applyTrailingSlash('#', params(true))).toBe('#');
+    expect(applyTrailingSlash('#', params(false))).toBe('#');
+    expect(applyTrailingSlash('#', params(undefined))).toBe('#');
+    expect(applyTrailingSlash('#anchor', params(true))).toBe('#anchor');
+    expect(applyTrailingSlash('#anchor', params(false))).toBe('#anchor');
+    expect(applyTrailingSlash('#anchor', params(undefined))).toBe('#anchor');
   });
 
-  test('should apply to simple paths', () => {
-    expect(applyTrailingSlash('abc', params(true))).toEqual('abc/');
-    expect(applyTrailingSlash('abc', params(false))).toEqual('abc');
-    expect(applyTrailingSlash('abc', params(undefined))).toEqual('abc');
-    expect(applyTrailingSlash('abc/', params(true))).toEqual('abc/');
-    expect(applyTrailingSlash('abc/', params(false))).toEqual('abc');
-    expect(applyTrailingSlash('abc/', params(undefined))).toEqual('abc/');
-    expect(applyTrailingSlash('/abc', params(true))).toEqual('/abc/');
-    expect(applyTrailingSlash('/abc', params(false))).toEqual('/abc');
-    expect(applyTrailingSlash('/abc', params(undefined))).toEqual('/abc');
-    expect(applyTrailingSlash('/abc/', params(true))).toEqual('/abc/');
-    expect(applyTrailingSlash('/abc/', params(false))).toEqual('/abc');
-    expect(applyTrailingSlash('/abc/', params(undefined))).toEqual('/abc/');
+  it('applies to simple paths', () => {
+    expect(applyTrailingSlash('abc', params(true))).toBe('abc/');
+    expect(applyTrailingSlash('abc', params(false))).toBe('abc');
+    expect(applyTrailingSlash('abc', params(undefined))).toBe('abc');
+    expect(applyTrailingSlash('abc/', params(true))).toBe('abc/');
+    expect(applyTrailingSlash('abc/', params(false))).toBe('abc');
+    expect(applyTrailingSlash('abc/', params(undefined))).toBe('abc/');
+    expect(applyTrailingSlash('/abc', params(true))).toBe('/abc/');
+    expect(applyTrailingSlash('/abc', params(false))).toBe('/abc');
+    expect(applyTrailingSlash('/abc', params(undefined))).toBe('/abc');
+    expect(applyTrailingSlash('/abc/', params(true))).toBe('/abc/');
+    expect(applyTrailingSlash('/abc/', params(false))).toBe('/abc');
+    expect(applyTrailingSlash('/abc/', params(undefined))).toBe('/abc/');
   });
 
-  test('should apply to path with #anchor', () => {
-    expect(applyTrailingSlash('/abc#anchor', params(true))).toEqual(
+  it('applies to path with #anchor', () => {
+    expect(applyTrailingSlash('/abc#anchor', params(true))).toBe(
       '/abc/#anchor',
     );
-    expect(applyTrailingSlash('/abc#anchor', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc#anchor', params(false))).toBe(
       '/abc#anchor',
     );
-    expect(applyTrailingSlash('/abc#anchor', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/abc#anchor', params(undefined))).toBe(
       '/abc#anchor',
     );
-    expect(applyTrailingSlash('/abc/#anchor', params(true))).toEqual(
+    expect(applyTrailingSlash('/abc/#anchor', params(true))).toBe(
       '/abc/#anchor',
     );
-    expect(applyTrailingSlash('/abc/#anchor', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc/#anchor', params(false))).toBe(
       '/abc#anchor',
     );
-    expect(applyTrailingSlash('/abc/#anchor', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/abc/#anchor', params(undefined))).toBe(
       '/abc/#anchor',
     );
   });
 
-  test('should apply to path with ?search', () => {
-    expect(applyTrailingSlash('/abc?search', params(true))).toEqual(
+  it('applies to path with ?search', () => {
+    expect(applyTrailingSlash('/abc?search', params(true))).toBe(
       '/abc/?search',
     );
-    expect(applyTrailingSlash('/abc?search', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc?search', params(false))).toBe(
       '/abc?search',
     );
-    expect(applyTrailingSlash('/abc?search', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/abc?search', params(undefined))).toBe(
       '/abc?search',
     );
-    expect(applyTrailingSlash('/abc/?search', params(true))).toEqual(
+    expect(applyTrailingSlash('/abc/?search', params(true))).toBe(
       '/abc/?search',
     );
-    expect(applyTrailingSlash('/abc/?search', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc/?search', params(false))).toBe(
       '/abc?search',
     );
-    expect(applyTrailingSlash('/abc/?search', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/abc/?search', params(undefined))).toBe(
       '/abc/?search',
     );
   });
 
-  test('should apply to path with ?search#anchor', () => {
-    expect(applyTrailingSlash('/abc?search#anchor', params(true))).toEqual(
+  it('applies to path with ?search#anchor', () => {
+    expect(applyTrailingSlash('/abc?search#anchor', params(true))).toBe(
       '/abc/?search#anchor',
     );
-    expect(applyTrailingSlash('/abc?search#anchor', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc?search#anchor', params(false))).toBe(
       '/abc?search#anchor',
     );
-    expect(applyTrailingSlash('/abc?search#anchor', params(undefined))).toEqual(
+    expect(applyTrailingSlash('/abc?search#anchor', params(undefined))).toBe(
       '/abc?search#anchor',
     );
-    expect(applyTrailingSlash('/abc/?search#anchor', params(true))).toEqual(
+    expect(applyTrailingSlash('/abc/?search#anchor', params(true))).toBe(
       '/abc/?search#anchor',
     );
-    expect(applyTrailingSlash('/abc/?search#anchor', params(false))).toEqual(
+    expect(applyTrailingSlash('/abc/?search#anchor', params(false))).toBe(
       '/abc?search#anchor',
     );
-    expect(
-      applyTrailingSlash('/abc/?search#anchor', params(undefined)),
-    ).toEqual('/abc/?search#anchor');
+    expect(applyTrailingSlash('/abc/?search#anchor', params(undefined))).toBe(
+      '/abc/?search#anchor',
+    );
   });
 
-  test('should apply to fully qualified urls', () => {
+  it('applies to fully qualified urls', () => {
     expect(
       applyTrailingSlash('https://xyz.com/abc?search#anchor', params(true)),
-    ).toEqual('https://xyz.com/abc/?search#anchor');
+    ).toBe('https://xyz.com/abc/?search#anchor');
     expect(
       applyTrailingSlash('https://xyz.com/abc?search#anchor', params(false)),
-    ).toEqual('https://xyz.com/abc?search#anchor');
+    ).toBe('https://xyz.com/abc?search#anchor');
     expect(
       applyTrailingSlash(
         'https://xyz.com/abc?search#anchor',
         params(undefined),
       ),
-    ).toEqual('https://xyz.com/abc?search#anchor');
+    ).toBe('https://xyz.com/abc?search#anchor');
     expect(
       applyTrailingSlash('https://xyz.com/abc/?search#anchor', params(true)),
-    ).toEqual('https://xyz.com/abc/?search#anchor');
+    ).toBe('https://xyz.com/abc/?search#anchor');
     expect(
       applyTrailingSlash('https://xyz.com/abc/?search#anchor', params(false)),
-    ).toEqual('https://xyz.com/abc?search#anchor');
+    ).toBe('https://xyz.com/abc?search#anchor');
     expect(
       applyTrailingSlash(
         'https://xyz.com/abc/?search#anchor',
         params(undefined),
       ),
-    ).toEqual('https://xyz.com/abc/?search#anchor');
+    ).toBe('https://xyz.com/abc/?search#anchor');
   });
 });

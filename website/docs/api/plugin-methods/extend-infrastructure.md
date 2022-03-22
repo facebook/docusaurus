@@ -61,7 +61,7 @@ module.exports = function (context, options) {
 
 ## `getThemePath()` {#getThemePath}
 
-Returns the path to the directory where the theme components can be found. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
+Returns the path to the directory where the theme components can be found. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components. Relative paths are resolved against the folder containing the entry point.
 
 For example, your `getThemePath` can be:
 
@@ -73,7 +73,7 @@ module.exports = function (context, options) {
     name: 'my-theme',
     // highlight-start
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return './theme';
     },
     // highlight-end
   };
@@ -103,11 +103,11 @@ module.exports = function (context, options) {
     // highlight-start
     getThemePath() {
       // Where compiled JavaScript output lives
-      return path.join(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
     getTypeScriptThemePath() {
       // Where TypeScript source code lives
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
     // highlight-end
   };

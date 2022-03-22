@@ -6,10 +6,10 @@
  */
 
 import React, {
-  type ComponentProps,
-  type ReactElement,
   useRef,
   useState,
+  type ComponentProps,
+  type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
@@ -58,7 +58,7 @@ export default function Details({
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
-        {[styles.isBrowser]: isBrowser},
+        isBrowser && styles.isBrowser,
         props.className,
       )}
       onMouseDown={(e) => {

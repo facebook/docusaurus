@@ -21,9 +21,9 @@ jobs:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -59,9 +59,9 @@ jobs:
           - variant: -st
             nodeLinker: pnp
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
@@ -72,9 +72,6 @@ jobs:
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           yarn set version berry
-          # https://github.com/facebook/docusaurus/pull/6350#issuecomment-1013214763
-          # Remove this after Yarn 3.2
-          yarn set version canary
 
           yarn config set nodeLinker ${{ matrix.nodeLinker }}
           yarn config set npmRegistryServer http://localhost:4873
@@ -107,9 +104,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
@@ -136,9 +133,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn

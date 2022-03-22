@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  matchRoutes,
-  type RouteConfig as RRRouteConfig,
-} from 'react-router-config';
+import {matchRoutes} from 'react-router-config';
 import fs from 'fs-extra';
 import _ from 'lodash';
 import type {RouteConfig, ReportingSeverity} from '@docusaurus/types';
@@ -21,11 +18,7 @@ import {
 import {getAllFinalRoutes} from './utils';
 import path from 'path';
 import combinePromises from 'combine-promises';
-
-function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
-  // @ts-expect-error: types incompatible???
-  return routes as RRRouteConfig[];
-}
+import logger from '@docusaurus/logger';
 
 type BrokenLink = {
   link: string;
@@ -34,7 +27,7 @@ type BrokenLink = {
 
 // matchRoutes does not support qs/anchors, so we remove it!
 function onlyPathname(link: string) {
-  return link.split('#')[0].split('?')[0];
+  return link.split('#')[0]!.split('?')[0]!;
 }
 
 function getPageBrokenLinks({
@@ -46,10 +39,9 @@ function getPageBrokenLinks({
   pageLinks: string[];
   routes: RouteConfig[];
 }): BrokenLink[] {
-  // ReactRouter is able to support links like ./../somePath
-  // but matchRoutes does not do this resolving internally
-  // we must resolve the links before using matchRoutes
-  // resolvePathname is used internally by ReactRouter
+  // ReactRouter is able to support links like ./../somePath but `matchRoutes`
+  // does not do this resolution internally. We must resolve the links before
+  // using `matchRoutes`. `resolvePathname` is used internally by React Router
   function resolveLink(link: string) {
     const resolvedLink = resolvePathname(onlyPathname(link), pagePath);
     return {link, resolvedLink};
@@ -57,7 +49,10 @@ function getPageBrokenLinks({
 
   function isBrokenLink(link: string) {
     const matchedRoutes = [link, decodeURI(link)]
-      .map((l) => matchRoutes(toReactRouterRoutes(routes), l))
+      // @ts-expect-error: React router types RouteConfig with an actual React
+      // component, but we load route components with string paths.
+      // We don't actually access component here, so it's fine.
+      .map((l) => matchRoutes(routes, l))
       .reduce((prev, cur) => prev.concat(cur));
     return matchedRoutes.length === 0;
   }
@@ -68,15 +63,15 @@ function getPageBrokenLinks({
 /**
  * The route defs can be recursive, and have a parent match-all route. We don't
  * want to match broken links like /docs/brokenLink against /docs/*. For this
- * reason, we only consider the "final routes", that do not have subroutes.
- * We also need to remove the match all 404 route
+ * reason, we only consider the "final routes" that do not have subroutes.
+ * We also need to remove the match-all 404 route
  */
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
   return getAllFinalRoutes(routesWithout404);
 }
 
-export function getAllBrokenLinks({
+function getAllBrokenLinks({
   allCollectedLinks,
   routes,
 }: {
@@ -93,7 +88,7 @@ export function getAllBrokenLinks({
   return _.pickBy(allBrokenLinks, (brokenLinks) => brokenLinks.length > 0);
 }
 
-export function getBrokenLinksErrorMessage(
+function getBrokenLinksErrorMessage(
   allBrokenLinks: Record<string, BrokenLink[]>,
 ): string | undefined {
   if (Object.keys(allBrokenLinks).length === 0) {
@@ -111,9 +106,11 @@ export function getBrokenLinksErrorMessage(
     pagePath: string,
     brokenLinks: BrokenLink[],
   ): string {
-    return `\n- On source page path = ${pagePath}:\n   -> linking to ${brokenLinks
-      .map(brokenLinkMessage)
-      .join('\n   -> linking to ')}`;
+    return `
+- On source page path = ${pagePath}:
+   -> linking to ${brokenLinks
+     .map(brokenLinkMessage)
+     .join('\n   -> linking to ')}`;
   }
 
   /**
@@ -141,22 +138,26 @@ export function getBrokenLinksErrorMessage(
       return '';
     }
 
-    return `\n\nIt looks like some of the broken links we found appear in many pages of your site.\nMaybe those broken links appear on all pages through your site layout?\nWe recommend that you check your theme configuration for such links (particularly, theme navbar and footer).\nFrequent broken links are linking to:\n- ${frequentLinks.join(
-      `\n- `,
-    )}\n`;
+    return logger.interpolate`
+
+It looks like some of the broken links we found appear in many pages of your site.
+Maybe those broken links appear on all pages through your site layout?
+We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
+Frequent broken links are linking to:${frequentLinks}`;
   }
 
-  return (
-    `Docusaurus found broken links!\n\nPlease check the pages of your site in the list below, and make sure you don't reference any path that does not exist.\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}` +
-    `\n\nExhaustive list of all broken links found:\n${Object.entries(
-      allBrokenLinks,
-    )
-      .map(([pagePath, brokenLinks]) =>
-        pageBrokenLinksMessage(pagePath, brokenLinks),
-      )
-      .join('\n')}
-`
-  );
+  return `Docusaurus found broken links!
+
+Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
+Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration, and let the build pass.${getLayoutBrokenLinksHelpMessage()}
+
+Exhaustive list of all broken links found:
+${Object.entries(allBrokenLinks)
+  .map(([pagePath, brokenLinks]) =>
+    pageBrokenLinksMessage(pagePath, brokenLinks),
+  )
+  .join('\n')}
+`;
 }
 
 async function isExistingFile(filePath: string) {
@@ -169,7 +170,7 @@ async function isExistingFile(filePath: string) {
 
 // If a file actually exist on the file system, we know the link is valid
 // even if docusaurus does not know about this file, so we don't report it
-export async function filterExistingFileLinks({
+async function filterExistingFileLinks({
   baseUrl,
   outDir,
   allCollectedLinks,
@@ -180,9 +181,8 @@ export async function filterExistingFileLinks({
 }): Promise<Record<string, string[]>> {
   async function linkFileExists(link: string) {
     // /baseUrl/javadoc/ -> /outDir/javadoc
-    const baseFilePath = removeSuffix(
-      `${outDir}/${removePrefix(link, baseUrl)}`,
-      '/',
+    const baseFilePath = onlyPathname(
+      removeSuffix(`${outDir}/${removePrefix(link, baseUrl)}`, '/'),
     );
 
     // -> /outDir/javadoc
@@ -190,8 +190,10 @@ export async function filterExistingFileLinks({
     // -> /outDir/javadoc/index.html
     const filePathsToTry: string[] = [baseFilePath];
     if (!path.extname(baseFilePath)) {
-      filePathsToTry.push(`${baseFilePath}.html`);
-      filePathsToTry.push(path.join(baseFilePath, 'index.html'));
+      filePathsToTry.push(
+        `${baseFilePath}.html`,
+        path.join(baseFilePath, 'index.html'),
+      );
     }
 
     for (const file of filePathsToTry) {

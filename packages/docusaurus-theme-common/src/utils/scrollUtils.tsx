@@ -6,16 +6,15 @@
  */
 
 import React, {
-  createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
+  type ReactNode,
 } from 'react';
-import {useDynamicCallback} from './reactUtils';
+import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
@@ -57,7 +56,7 @@ function useScrollControllerContextValue(): ScrollController {
   );
 }
 
-const ScrollMonitorContext = createContext<ScrollController | undefined>(
+const ScrollMonitorContext = React.createContext<ScrollController | undefined>(
   undefined,
 );
 
@@ -76,9 +75,7 @@ export function ScrollControllerProvider({
 export function useScrollController(): ScrollController {
   const context = useContext(ScrollMonitorContext);
   if (context == null) {
-    throw new Error(
-      '"useScrollController" is used but no context provider was found in the React tree.',
-    );
+    throw new ReactContextError('ScrollControllerProvider');
   }
   return context;
 }

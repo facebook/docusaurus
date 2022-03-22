@@ -121,7 +121,10 @@ async function getImageAbsolutePath(
     return imageFilePath;
   }
   // relative paths are resolved against the source file's folder
-  const imageFilePath = path.join(path.dirname(filePath), imagePath);
+  const imageFilePath = path.join(
+    path.dirname(filePath),
+    decodeURIComponent(imagePath),
+  );
   await ensureImageFileExist(imageFilePath, filePath);
   return imageFilePath;
 }

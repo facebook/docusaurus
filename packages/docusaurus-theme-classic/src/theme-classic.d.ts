@@ -41,11 +41,7 @@ declare module '@theme/BlogListPaginator' {
 }
 
 declare module '@theme/BlogSidebar' {
-  export type BlogSidebarItem = {title: string; permalink: string};
-  export type BlogSidebar = {
-    title: string;
-    items: BlogSidebarItem[];
-  };
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
@@ -106,7 +102,7 @@ declare module '@theme/BlogPostPaginator' {
 declare module '@theme/BlogLayout' {
   import type {ReactNode} from 'react';
   import type {Props as LayoutProps} from '@theme/Layout';
-  import type {BlogSidebar} from '@theme/BlogSidebar';
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props extends LayoutProps {
     readonly sidebar?: BlogSidebar;
@@ -180,6 +176,42 @@ declare module '@theme/DocSidebar' {
   export default function DocSidebar(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocSidebar/Mobile' {
+  import type {Props as DocSidebarProps} from '@theme/DocSidebar';
+
+  export interface Props extends DocSidebarProps {}
+
+  export default function DocSidebarMobile(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop' {
+  import type {Props as DocSidebarProps} from '@theme/DocSidebar';
+
+  export interface Props extends DocSidebarProps {}
+
+  export default function DocSidebarDesktop(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop/Content' {
+  import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    readonly className?: string;
+    readonly path: string;
+    readonly sidebar: readonly PropSidebarItem[];
+  }
+
+  export default function Content(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebar/Desktop/CollapseButton' {
+  export interface Props {
+    onClick: React.MouseEventHandler;
+  }
+
+  export default function CollapseButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocSidebarItem' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
@@ -244,6 +276,77 @@ declare module '@theme/Footer' {
   export default function Footer(): JSX.Element | null;
 }
 
+declare module '@theme/Footer/Logo' {
+  import type {FooterLogo} from '@docusaurus/theme-common';
+
+  export interface Props {
+    logo: FooterLogo;
+  }
+
+  export default function FooterLogo(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Copyright' {
+  export interface Props {
+    copyright: string;
+  }
+
+  export default function FooterCopyright(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/LinkItem' {
+  import type {FooterLinkItem} from '@docusaurus/theme-common';
+
+  export interface Props {
+    item: FooterLinkItem;
+  }
+
+  export default function FooterLinkItem(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    style: 'light' | 'dark';
+    links: ReactNode;
+    logo: ReactNode;
+    copyright: ReactNode;
+  }
+
+  export default function FooterLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links' {
+  import type {Footer} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: Footer['links'];
+  }
+
+  export default function FooterLinks(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links/MultiColumn' {
+  import type {MultiColumnFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    columns: MultiColumnFooter['links'];
+  }
+
+  export default function FooterLinksMultiColumn(props: Props): JSX.Element;
+}
+
+declare module '@theme/Footer/Links/Simple' {
+  import type {SimpleFooter} from '@docusaurus/theme-common';
+
+  export interface Props {
+    links: SimpleFooter['links'];
+  }
+
+  export default function FooterLinksSimple(props: Props): JSX.Element;
+}
+
 declare module '@theme/Heading' {
   import type {ComponentProps} from 'react';
 
@@ -261,29 +364,15 @@ declare module '@theme/Layout' {
 
   export interface Props {
     readonly children?: ReactNode;
-    readonly title?: string;
     readonly noFooter?: boolean;
-    readonly description?: string;
-    readonly image?: string;
-    readonly keywords?: string | string[];
-    readonly permalink?: string;
     readonly wrapperClassName?: string;
-    readonly pageClassName?: string;
-    readonly searchMetadata?: {
-      readonly version?: string;
-      readonly tag?: string;
-    };
+
+    // Not really layout-related, but kept for convenience/retro-compatibility
+    readonly title?: string;
+    readonly description?: string;
   }
 
   export default function Layout(props: Props): JSX.Element;
-}
-
-declare module '@theme/LayoutHead' {
-  import type {Props as LayoutProps} from '@theme/Layout';
-
-  export interface Props extends Omit<LayoutProps, 'children'> {}
-
-  export default function LayoutHead(props: Props): JSX.Element;
 }
 
 declare module '@theme/LayoutProviders' {
@@ -343,8 +432,76 @@ declare module '@theme/MDXComponents' {
   export default MDXComponents;
 }
 
+declare module '@theme/MDXContent' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    readonly children: ReactNode;
+  }
+
+  export default function MDXContent(props: Props): JSX.Element;
+}
+
 declare module '@theme/Navbar' {
   export default function Navbar(): JSX.Element;
+}
+
+declare module '@theme/Navbar/ColorModeToggle' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function NavbarColorModeToggle(
+    props: Props,
+  ): JSX.Element | null;
+}
+
+declare module '@theme/Navbar/Logo' {
+  export default function NavbarLogo(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Content' {
+  export default function NavbarContent(): JSX.Element;
+}
+
+declare module '@theme/Navbar/Layout' {
+  export interface Props {
+    readonly children: React.ReactNode;
+  }
+
+  export default function NavbarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar' {
+  export default function NavbarMobileSidebar(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Layout' {
+  import type {ReactNode} from 'react';
+
+  interface Props {
+    header: ReactNode;
+    primaryMenu: ReactNode;
+    secondaryMenu: ReactNode;
+  }
+
+  export default function NavbarMobileSidebarLayout(props: Props): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Toggle' {
+  export default function NavbarMobileSidebarToggle(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/PrimaryMenu' {
+  export default function NavbarMobileSidebarPrimaryMenu(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/SecondaryMenu' {
+  export default function NavbarMobileSidebarSecondaryMenu(): JSX.Element;
+}
+
+declare module '@theme/Navbar/MobileSidebar/Header' {
+  export default function NavbarMobileSidebarHeader(): JSX.Element;
 }
 
 declare module '@theme/NavbarItem/DefaultNavbarItem' {
@@ -632,16 +789,20 @@ declare module '@theme/TOCCollapsible' {
   export default function TOCCollapsible(props: Props): JSX.Element;
 }
 
-declare module '@theme/Toggle' {
-  import type {SyntheticEvent} from 'react';
+declare module '@theme/ColorModeToggle' {
+  import type {ColorMode} from '@docusaurus/theme-common';
 
   export interface Props {
     readonly className?: string;
-    readonly checked: boolean;
-    readonly onChange: (e: SyntheticEvent) => void;
+    readonly value: ColorMode;
+    /**
+     * The parameter represents the "to-be" value. For example, if currently in
+     * dark mode, clicking the button should call `onChange("light")`
+     */
+    readonly onChange: (colorMode: ColorMode) => void;
   }
 
-  export default function Toggle(props: Props): JSX.Element;
+  export default function ColorModeToggle(props: Props): JSX.Element;
 }
 
 declare module '@theme/Logo' {
@@ -663,12 +824,28 @@ declare module '@theme/IconArrow' {
   export default function IconArrow(props: Props): JSX.Element;
 }
 
+declare module '@theme/IconDarkMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconDarkMode(props: Props): JSX.Element;
+}
+
 declare module '@theme/IconEdit' {
   import type {ComponentProps} from 'react';
 
   export interface Props extends ComponentProps<'svg'> {}
 
   export default function IconEdit(props: Props): JSX.Element;
+}
+
+declare module '@theme/IconLightMode' {
+  import type {ComponentProps} from 'react';
+
+  export interface Props extends ComponentProps<'svg'> {}
+
+  export default function IconLightMode(props: Props): JSX.Element;
 }
 
 declare module '@theme/IconMenu' {
@@ -704,11 +881,8 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  export type TagsListItem = Readonly<{
-    name: string;
-    permalink: string;
-    count: number;
-  }>;
+  import type {TagsListItem} from '@docusaurus/theme-common';
+
   export interface Props {
     readonly tags: readonly TagsListItem[];
   }
@@ -724,7 +898,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@theme/TagsListByLetter';
+  import type {TagsListItem} from '@docusaurus/theme-common';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}
@@ -738,18 +912,4 @@ declare module '@theme/prism-include-languages' {
   export default function prismIncludeLanguages(
     PrismObject: typeof PrismNamespace,
   ): void;
-}
-
-declare module '@theme/Seo' {
-  import type {ReactNode} from 'react';
-
-  export interface Props {
-    readonly title?: string;
-    readonly description?: string;
-    readonly keywords?: readonly string[] | string;
-    readonly image?: string;
-    readonly children?: ReactNode;
-  }
-
-  export default function Seo(props: Props): JSX.Element;
 }

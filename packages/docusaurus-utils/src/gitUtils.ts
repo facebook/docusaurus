@@ -10,7 +10,24 @@ import shell from 'shelljs';
 
 export class GitNotFoundError extends Error {}
 
-export const getFileCommitDate = (
+export class FileNotTrackedError extends Error {}
+
+export function getFileCommitDate(
+  file: string,
+  args: {age?: 'oldest' | 'newest'; includeAuthor?: false},
+): {
+  date: Date;
+  timestamp: number;
+};
+export function getFileCommitDate(
+  file: string,
+  args: {age?: 'oldest' | 'newest'; includeAuthor: true},
+): {
+  date: Date;
+  timestamp: number;
+  author: string;
+};
+export function getFileCommitDate(
   file: string,
   {
     age = 'oldest',
@@ -23,7 +40,7 @@ export const getFileCommitDate = (
   date: Date;
   timestamp: number;
   author?: string;
-} => {
+} {
   if (!shell.which('git')) {
     throw new GitNotFoundError(
       `Failed to retrieve git history for "${file}" because git is not installed.`,
@@ -36,9 +53,8 @@ export const getFileCommitDate = (
     );
   }
 
-  const fileBasename = path.basename(file);
-  const fileDirname = path.dirname(file);
-
+  // Commit time and author name; not using author time so that amended commits
+  // can have their dates updated
   let formatArg = '--format=%ct';
   if (includeAuthor) {
     formatArg += ',%an';
@@ -52,10 +68,10 @@ export const getFileCommitDate = (
   }
 
   const result = shell.exec(
-    `git log ${extraArgs} ${formatArg} -- "${fileBasename}"`,
+    `git log ${extraArgs} ${formatArg} -- "${path.basename(file)}"`,
     {
       // cwd is important, see: https://github.com/facebook/docusaurus/pull/5048
-      cwd: fileDirname,
+      cwd: path.dirname(file),
       silent: true,
     },
   );
@@ -70,24 +86,26 @@ export const getFileCommitDate = (
   }
 
   const output = result.stdout.trim();
+
+  if (!output) {
+    throw new FileNotTrackedError(
+      `Failed to retrieve the git history for file "${file}" because the file is not tracked by git.`,
+    );
+  }
+
   const match = output.match(regex);
 
-  if (
-    !match ||
-    !match.groups ||
-    !match.groups.timestamp ||
-    (includeAuthor && !match.groups.author)
-  ) {
+  if (!match) {
     throw new Error(
       `Failed to retrieve the git history for file "${file}" with unexpected output: ${output}`,
     );
   }
 
-  const timestamp = Number(match.groups.timestamp);
+  const timestamp = Number(match.groups!.timestamp);
   const date = new Date(timestamp * 1000);
 
   if (includeAuthor) {
-    return {date, timestamp, author: match.groups.author};
+    return {date, timestamp, author: match.groups!.author!};
   }
   return {date, timestamp};
-};
+}

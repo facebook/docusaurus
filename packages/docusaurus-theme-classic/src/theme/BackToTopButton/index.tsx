@@ -132,9 +132,7 @@ export default function BackToTopButton(): JSX.Element {
         'clean-btn',
         ThemeClassNames.common.backToTopButton,
         styles.backToTopButton,
-        {
-          [styles.backToTopButtonShow]: show,
-        },
+        show && styles.backToTopButtonShow,
       )}
       type="button"
       onClick={() => smoothScrollTop()}

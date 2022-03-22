@@ -37,16 +37,30 @@ id: part1
 Lorem ipsum
 ```
 
-If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+### Customizing doc URLs {#customizing-doc-urls}
+
+By default, a document's URL location is its file path relative to the `docs` folder. Use the `slug` front matter to change a document's URL.
+
+For example, suppose your site structure looks like this:
+
+```bash
+website # Root directory of your site
+└── docs
+    └── guide
+        └── hello.md
+```
+
+By default `hello.md` will be available at `/docs/guide/hello`. You can change its URL location to `/docs/bonjour`:
 
 ```md
 ---
-id: part1
-slug: part1.html
+slug: /bonjour
 ---
 
 Lorem ipsum
 ```
+
+`slug` will be appended to the doc plugin's `routeBasePath`, which is `/docs` by default. See [Docs-only mode](#docs-only-mode) for how to remove the `/docs` part from the URL.
 
 :::note
 

@@ -5,126 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
-import clsx from 'clsx';
-import {
-  useThemeConfig,
-  useAnnouncementBar,
-  MobileSecondaryMenuFiller,
-  type MobileSecondaryMenuComponent,
-  ThemeClassNames,
-  useScrollPosition,
-  useWindowSize,
-} from '@docusaurus/theme-common';
-import Logo from '@theme/Logo';
-import IconArrow from '@theme/IconArrow';
-import {translate} from '@docusaurus/Translate';
-import DocSidebarItems from '@theme/DocSidebarItems';
+import React from 'react';
+import {useWindowSize} from '@docusaurus/theme-common';
 import type {Props} from '@theme/DocSidebar';
-
-import styles from './styles.module.css';
-
-function useShowAnnouncementBar() {
-  const {isActive} = useAnnouncementBar();
-  const [showAnnouncementBar, setShowAnnouncementBar] = useState(isActive);
-
-  useScrollPosition(
-    ({scrollY}) => {
-      if (isActive) {
-        setShowAnnouncementBar(scrollY === 0);
-      }
-    },
-    [isActive],
-  );
-  return isActive && showAnnouncementBar;
-}
-
-function HideableSidebarButton({onClick}: {onClick: React.MouseEventHandler}) {
-  return (
-    <button
-      type="button"
-      title={translate({
-        id: 'theme.docs.sidebar.collapseButtonTitle',
-        message: 'Collapse sidebar',
-        description: 'The title attribute for collapse button of doc sidebar',
-      })}
-      aria-label={translate({
-        id: 'theme.docs.sidebar.collapseButtonAriaLabel',
-        message: 'Collapse sidebar',
-        description: 'The title attribute for collapse button of doc sidebar',
-      })}
-      className={clsx(
-        'button button--secondary button--outline',
-        styles.collapseSidebarButton,
-      )}
-      onClick={onClick}>
-      <IconArrow className={styles.collapseSidebarButtonIcon} />
-    </button>
-  );
-}
-
-function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
-  const showAnnouncementBar = useShowAnnouncementBar();
-  const {
-    navbar: {hideOnScroll},
-    hideableSidebar,
-  } = useThemeConfig();
-
-  return (
-    <div
-      className={clsx(styles.sidebar, {
-        [styles.sidebarWithHideableNavbar]: hideOnScroll,
-        [styles.sidebarHidden]: isHidden,
-      })}>
-      {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      <nav
-        className={clsx('menu thin-scrollbar', styles.menu, {
-          [styles.menuWithAnnouncementBar]: showAnnouncementBar,
-        })}>
-        <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-          <DocSidebarItems items={sidebar} activePath={path} level={1} />
-        </ul>
-      </nav>
-      {hideableSidebar && <HideableSidebarButton onClick={onCollapse} />}
-    </div>
-  );
-}
-
-// eslint-disable-next-line react/function-component-definition
-const DocSidebarMobileSecondaryMenu: MobileSecondaryMenuComponent<Props> = ({
-  toggleSidebar,
-  sidebar,
-  path,
-}) => (
-  <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
-    <DocSidebarItems
-      items={sidebar}
-      activePath={path}
-      onItemClick={(item) => {
-        // Mobile sidebar should only be closed if the category has a link
-        if (item.type === 'category' && item.href) {
-          toggleSidebar();
-        }
-        if (item.type === 'link') {
-          toggleSidebar();
-        }
-      }}
-      level={1}
-    />
-  </ul>
-);
-
-function DocSidebarMobile(props: Props) {
-  return (
-    <MobileSecondaryMenuFiller
-      component={DocSidebarMobileSecondaryMenu}
-      props={props}
-    />
-  );
-}
-
-const DocSidebarDesktopMemo = React.memo(DocSidebarDesktop);
-const DocSidebarMobileMemo = React.memo(DocSidebarMobile);
+import DocSidebarDesktop from '@theme/DocSidebar/Desktop';
+import DocSidebarMobile from '@theme/DocSidebar/Mobile';
 
 export default function DocSidebar(props: Props): JSX.Element {
   const windowSize = useWindowSize();
@@ -138,8 +23,8 @@ export default function DocSidebar(props: Props): JSX.Element {
 
   return (
     <>
-      {shouldRenderSidebarDesktop && <DocSidebarDesktopMemo {...props} />}
-      {shouldRenderSidebarMobile && <DocSidebarMobileMemo {...props} />}
+      {shouldRenderSidebarDesktop && <DocSidebarDesktop {...props} />}
+      {shouldRenderSidebarMobile && <DocSidebarMobile {...props} />}
     </>
   );
 }

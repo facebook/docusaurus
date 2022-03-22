@@ -6,6 +6,7 @@
  */
 
 import {createRequire} from 'module';
+import path from 'path';
 import importFresh from 'import-fresh';
 import type {
   DocusaurusPluginVersionInformation,
@@ -32,12 +33,18 @@ export type NormalizedPluginConfig = {
     path: string;
     module: ImportedPluginModule;
   };
+  /**
+   * Different from pluginModule.path, this one is always an absolute path used
+   * to resolve relative paths returned from lifecycles
+   */
+  entryPath: string;
 };
 
 async function normalizePluginConfig(
   pluginConfig: PluginConfig,
-  pluginRequire: NodeRequire,
+  configPath: string,
 ): Promise<NormalizedPluginConfig> {
+  const pluginRequire = createRequire(configPath);
   // plugins: ['./plugin']
   if (typeof pluginConfig === 'string') {
     const pluginModuleImport = pluginConfig;
@@ -50,6 +57,7 @@ async function normalizePluginConfig(
         path: pluginModuleImport,
         module: pluginModule,
       },
+      entryPath: pluginPath,
     };
   }
 
@@ -58,51 +66,44 @@ async function normalizePluginConfig(
     return {
       plugin: pluginConfig,
       options: {},
+      entryPath: configPath,
     };
   }
 
-  if (Array.isArray(pluginConfig)) {
-    // plugins: [
-    //   ['./plugin',options],
-    // ]
-    if (typeof pluginConfig[0] === 'string') {
-      const pluginModuleImport = pluginConfig[0];
-      const pluginPath = pluginRequire.resolve(pluginModuleImport);
-      const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-      return {
-        plugin: pluginModule?.default ?? pluginModule,
-        options: pluginConfig[1] ?? {},
-        pluginModule: {
-          path: pluginModuleImport,
-          module: pluginModule,
-        },
-      };
-    }
-    // plugins: [
-    //   [function plugin() { },options],
-    // ]
-    if (typeof pluginConfig[0] === 'function') {
-      return {
-        plugin: pluginConfig[0],
-        options: pluginConfig[1] ?? {},
-      };
-    }
+  // plugins: [
+  //   ['./plugin',options],
+  // ]
+  if (typeof pluginConfig[0] === 'string') {
+    const pluginModuleImport = pluginConfig[0];
+    const pluginPath = pluginRequire.resolve(pluginModuleImport);
+    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
+    return {
+      plugin: pluginModule?.default ?? pluginModule,
+      options: pluginConfig[1],
+      pluginModule: {
+        path: pluginModuleImport,
+        module: pluginModule,
+      },
+      entryPath: pluginPath,
+    };
   }
-
-  throw new Error(
-    `Unexpected: can't load plugin for following plugin config.\n${JSON.stringify(
-      pluginConfig,
-    )}`,
-  );
+  // plugins: [
+  //   [function plugin() { },options],
+  // ]
+  return {
+    plugin: pluginConfig[0],
+    options: pluginConfig[1],
+    entryPath: configPath,
+  };
 }
 
 export async function normalizePluginConfigs(
   pluginConfigs: PluginConfig[],
-  pluginRequire: NodeRequire,
+  configPath: string,
 ): Promise<NormalizedPluginConfig[]> {
   return Promise.all(
     pluginConfigs.map((pluginConfig) =>
-      normalizePluginConfig(pluginConfig, pluginRequire),
+      normalizePluginConfig(pluginConfig, configPath),
     ),
   );
 }
@@ -145,7 +146,7 @@ export default async function initPlugins({
   const pluginRequire = createRequire(context.siteConfigPath);
   const pluginConfigsNormalized = await normalizePluginConfigs(
     pluginConfigs,
-    pluginRequire,
+    context.siteConfigPath,
   );
 
   async function doGetPluginVersion(
@@ -216,19 +217,13 @@ export default async function initPlugins({
       ...pluginInstance,
       options: pluginOptions,
       version: pluginVersion,
+      path: path.dirname(normalizedPluginConfig.entryPath),
     };
   }
 
-  const plugins: InitializedPlugin[] = (
-    await Promise.all(
-      pluginConfigsNormalized.map((pluginConfig) => {
-        if (!pluginConfig) {
-          return null;
-        }
-        return initializePlugin(pluginConfig);
-      }),
-    )
-  ).filter(<T>(item: T): item is Exclude<T, null> => Boolean(item));
+  const plugins: InitializedPlugin[] = await Promise.all(
+    pluginConfigsNormalized.map(initializePlugin),
+  );
 
   ensureUniquePluginInstanceIds(plugins);
 

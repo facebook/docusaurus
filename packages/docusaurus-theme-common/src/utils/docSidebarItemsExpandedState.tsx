@@ -6,6 +6,7 @@
  */
 
 import React, {type ReactNode, useMemo, useState, useContext} from 'react';
+import {ReactContextError} from './reactUtils';
 
 const EmptyContext: unique symbol = Symbol('EmptyContext');
 const Context = React.createContext<
@@ -33,9 +34,7 @@ export function DocSidebarItemsExpandedStateProvider({
 export function useDocSidebarItemsExpandedState(): DocSidebarItemsExpandedState {
   const contextValue = useContext(Context);
   if (contextValue === EmptyContext) {
-    throw new Error(
-      'This hook requires usage of <DocSidebarItemsExpandedStateProvider>',
-    );
+    throw new ReactContextError('DocSidebarItemsExpandedStateProvider');
   }
   return contextValue;
 }

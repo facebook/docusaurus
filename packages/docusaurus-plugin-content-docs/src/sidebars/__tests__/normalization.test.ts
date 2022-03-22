@@ -8,7 +8,7 @@
 import {normalizeSidebars} from '../normalization';
 
 describe('normalization', () => {
-  test('normalizes shorthands', () => {
+  it('normalizes shorthands', () => {
     expect(
       normalizeSidebars({
         sidebar: {
@@ -37,7 +37,7 @@ describe('normalization', () => {
       }),
     ).toMatchSnapshot();
   });
-  test('rejects some invalid cases', () => {
+  it('rejects some invalid cases', () => {
     expect(() =>
       normalizeSidebars({
         sidebar: {
@@ -83,6 +83,7 @@ describe('normalization', () => {
         sidebar: 'item',
       }),
     ).toThrowErrorMatchingInlineSnapshot(
+      // cSpell:ignore msidebar
       `"Invalid sidebar items collection [36m\`\\"item\\"\`[39m in sidebar [34m[1msidebar[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
     );
   });

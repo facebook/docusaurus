@@ -15,10 +15,17 @@ export function normalizeUrl(rawUrls: string[]): string {
   let hasStartingSlash = false;
   let hasEndingSlash = false;
 
+  const isNonEmptyArray = (arr: string[]): arr is [string, ...string[]] =>
+    arr.length > 0;
+
+  if (!isNonEmptyArray(urls)) {
+    return '';
+  }
+
   // If the first part is a plain protocol, we combine it with the next part.
   if (urls[0].match(/^[^/:]+:\/*$/) && urls.length > 1) {
-    const first = urls.shift();
-    if (first!.startsWith('file:') && urls[0].startsWith('/')) {
+    const first = urls.shift()!;
+    if (first.startsWith('file:') && urls[0].startsWith('/')) {
       // Force a double slash here, else we lose the information that the next
       // segment is an absolute path
       urls[0] = `${first}//${urls[0]}`;
@@ -43,7 +50,6 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i === urls.length - 1 && hasEndingSlash) {
         resultArray.push('/');
       }
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -51,7 +57,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       if (i > 0) {
         // Removing the starting slashes for each component but the first.
         component = component.replace(
-          /^[/]+/,
+          /^\/+/,
           // Special case where the first element of rawUrls is empty
           // ["", "/hello"] => /hello
           component[0] === '/' && !hasStartingSlash ? '/' : '',
@@ -61,7 +67,7 @@ export function normalizeUrl(rawUrls: string[]): string {
       hasEndingSlash = component[component.length - 1] === '/';
       // Removing the ending slashes for each component but the last. For the
       // last component we will combine multiple slashes to a single one.
-      component = component.replace(/[/]+$/, i < urls.length - 1 ? '' : '/');
+      component = component.replace(/\/+$/, i < urls.length - 1 ? '' : '/');
     }
 
     hasStartingSlash = true;
@@ -146,4 +152,41 @@ export function addTrailingSlash(str: string): string {
 }
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
+}
+
+export function buildSshUrl(
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `git@${githubHost}:${organizationName}/${projectName}.git`;
+}
+
+export function buildHttpsUrl(
+  gitCredentials: string,
+  githubHost: string,
+  organizationName: string,
+  projectName: string,
+  githubPort?: string,
+): string {
+  if (githubPort) {
+    return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
+  }
+  return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
+}
+
+export function hasSSHProtocol(sourceRepoUrl: string): boolean {
+  try {
+    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
+      return true;
+    }
+    return false;
+  } catch {
+    // Fails when there isn't a protocol
+    return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
+  }
 }

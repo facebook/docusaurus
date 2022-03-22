@@ -21,7 +21,11 @@ export {
   WEBPACK_URL_LOADER_LIMIT,
 } from './constants';
 export {generate, genChunkName, readOutputHTMLFile} from './emitUtils';
-export {getFileCommitDate, GitNotFoundError} from './gitUtils';
+export {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from './gitUtils';
 export {
   mergeTranslations,
   updateTranslationFileMessages,
@@ -45,6 +49,9 @@ export {
   addLeadingSlash,
   addTrailingSlash,
   removeTrailingSlash,
+  hasSSHProtocol,
+  buildHttpsUrl,
+  buildSshUrl,
 } from './urlUtils';
 export {
   type Tag,
@@ -60,7 +67,9 @@ export {
   parseFrontMatter,
   parseMarkdownContentTitle,
   parseMarkdownString,
-} from './markdownParser';
+  writeMarkdownHeadingId,
+  type WriteHeadingIDOptions,
+} from './markdownUtils';
 export {
   type ContentPaths,
   type BrokenMarkdownLink,

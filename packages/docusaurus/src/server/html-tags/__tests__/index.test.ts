@@ -13,10 +13,10 @@ import pluginHeadTags from './__fixtures__/plugin-headTags';
 import pluginPostBodyTags from './__fixtures__/plugin-postBodyTags';
 
 describe('loadHtmlTags', () => {
-  test('empty plugin', () => {
+  it('empty plugin', () => {
     const htmlTags = loadHtmlTags([pluginEmpty()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "",
         "preBodyTags": "",
@@ -24,10 +24,10 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject headTags', () => {
+  it('only inject headTags', () => {
     const htmlTags = loadHtmlTags([pluginHeadTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "",
@@ -36,10 +36,10 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject preBodyTags', () => {
+  it('only inject preBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPreBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "",
         "preBodyTags": "<script type=\\"text/javascript\\">window.foo = null;</script>",
@@ -47,10 +47,10 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('only inject postBodyTags', () => {
+  it('only inject postBodyTags', () => {
     const htmlTags = loadHtmlTags([pluginPostBodyTags()]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "",
         "postBodyTags": "<div>Test content</div>",
         "preBodyTags": "",
@@ -58,14 +58,14 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('multiple plugins that inject different part of html tags', () => {
+  it('multiple plugins that inject different part of html tags', () => {
     const htmlTags = loadHtmlTags([
       pluginHeadTags(),
       pluginPostBodyTags(),
       pluginPreBodyTags(),
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "<div>Test content</div>",
@@ -74,14 +74,14 @@ describe('loadHtmlTags', () => {
     `);
   });
 
-  test('multiple plugins that might/might not inject html tags', () => {
+  it('multiple plugins that might/might not inject html tags', () => {
     const htmlTags = loadHtmlTags([
       pluginEmpty(),
       pluginHeadTags(),
       pluginPostBodyTags(),
     ]);
     expect(htmlTags).toMatchInlineSnapshot(`
-      Object {
+      {
         "headTags": "<link rel=\\"preconnect\\" href=\\"www.google-analytics.com\\">
       <meta name=\\"generator\\" content=\\"docusaurus\\">",
         "postBodyTags": "<div>Test content</div>",

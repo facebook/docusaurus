@@ -21,8 +21,8 @@ function interpolate(
 ): string {
   let res = '';
   values.forEach((value, idx) => {
-    const flag = msgs[idx].match(/[a-z]+=$/);
-    res += msgs[idx].replace(/[a-z]+=$/, '');
+    const flag = msgs[idx]!.match(/[a-z]+=$/);
+    res += msgs[idx]!.replace(/[a-z]+=$/, '');
     const format = (() => {
       if (!flag) {
         return (a: string | number) => a;

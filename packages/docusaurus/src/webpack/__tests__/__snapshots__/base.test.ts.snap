@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`base webpack config should create webpack aliases 1`] = `
-Object {
+exports[`base webpack config creates webpack aliases 1`] = `
+{
   "@docusaurus/BrowserOnly": "../../../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../../../client/exports/ComponentCreator.tsx",
   "@docusaurus/ErrorBoundary": "../../../../client/exports/ErrorBoundary.tsx",
@@ -21,6 +21,7 @@ Object {
   "@docusaurus/useDocusaurusContext": "../../../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../../../client/exports/useIsBrowser.ts",
+  "@docusaurus/useRouteContext": "../../../../client/exports/useRouteContext.tsx",
   "@generated": "../../../../../../..",
   "@site": "",
   "@theme-init/PluginThemeComponentEnhanced": "pluginThemeFolder/PluginThemeComponentEnhanced.js",
@@ -32,6 +33,7 @@ Object {
   "@theme-original/PluginThemeComponentEnhanced": "secondPluginThemeFolder/PluginThemeComponentEnhanced.js",
   "@theme-original/PluginThemeComponentOverriddenByUser": "pluginThemeFolder/PluginThemeComponentOverriddenByUser.js",
   "@theme-original/Root": "../../../../client/theme-fallback/Root/index.tsx",
+  "@theme-original/SiteMetadata": "../../../../client/theme-fallback/SiteMetadata/index.tsx",
   "@theme-original/subfolder/PluginThemeComponent2": "pluginThemeFolder/subfolder/PluginThemeComponent2.js",
   "@theme/Error": "../../../../client/theme-fallback/Error/index.tsx",
   "@theme/Layout": "../../../../client/theme-fallback/Layout/index.tsx",
@@ -41,14 +43,15 @@ Object {
   "@theme/PluginThemeComponentEnhanced": "src/theme/PluginThemeComponentEnhanced.js",
   "@theme/PluginThemeComponentOverriddenByUser": "src/theme/PluginThemeComponentOverriddenByUser.js",
   "@theme/Root": "../../../../client/theme-fallback/Root/index.tsx",
+  "@theme/SiteMetadata": "../../../../client/theme-fallback/SiteMetadata/index.tsx",
   "@theme/UserThemeComponent1": "src/theme/UserThemeComponent1.js",
   "@theme/subfolder/PluginThemeComponent2": "pluginThemeFolder/subfolder/PluginThemeComponent2.js",
   "@theme/subfolder/UserThemeComponent2": "src/theme/subfolder/UserThemeComponent2.js",
 }
 `;
 
-exports[`getDocusaurusAliases() return appropriate webpack aliases 1`] = `
-Object {
+exports[`getDocusaurusAliases() returns appropriate webpack aliases 1`] = `
+{
   "@docusaurus/BrowserOnly": "../../client/exports/BrowserOnly.tsx",
   "@docusaurus/ComponentCreator": "../../client/exports/ComponentCreator.tsx",
   "@docusaurus/ErrorBoundary": "../../client/exports/ErrorBoundary.tsx",
@@ -68,5 +71,6 @@ Object {
   "@docusaurus/useDocusaurusContext": "../../client/exports/useDocusaurusContext.ts",
   "@docusaurus/useGlobalData": "../../client/exports/useGlobalData.ts",
   "@docusaurus/useIsBrowser": "../../client/exports/useIsBrowser.ts",
+  "@docusaurus/useRouteContext": "../../client/exports/useRouteContext.tsx",
 }
 `;

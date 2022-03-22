@@ -6,15 +6,15 @@
  */
 
 import React, {
-  createContext,
-  type ReactNode,
   useContext,
   useEffect,
   useMemo,
   useState,
+  type ReactNode,
 } from 'react';
 import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
 import {isDocsPluginEnabled} from '../docsUtils';
+import {ReactContextError} from '../reactUtils';
 
 import {
   useAllDocsData,
@@ -70,7 +70,7 @@ function readStorageState({
       pluginId,
       versionPersistence,
     );
-    const pluginData = allDocsData[pluginId];
+    const pluginData = allDocsData[pluginId]!;
     const versionExists = pluginData.versions.some(
       (version) => version.name === preferredVersionNameUnsafe,
     );
@@ -92,13 +92,13 @@ function useVersionPersistence(): DocsVersionPersistence {
   return useThemeConfig().docs.versionPersistence;
 }
 
-// Value that  will be accessible through context: [state,api]
+// Value that will be accessible through context: [state,api]
 function useContextValue() {
   const allDocsData = useAllDocsData();
   const versionPersistence = useVersionPersistence();
   const pluginIds = useMemo(() => Object.keys(allDocsData), [allDocsData]);
 
-  // Initial state is empty, as  we can't read browser storage in node/SSR
+  // Initial state is empty, as we can't read browser storage in node/SSR
   const [state, setState] = useState(() => getInitialState(pluginIds));
 
   // On mount, we set the state read from browser storage
@@ -130,7 +130,9 @@ function useContextValue() {
 
 type DocsPreferredVersionContextValue = ReturnType<typeof useContextValue>;
 
-const Context = createContext<DocsPreferredVersionContextValue | null>(null);
+const Context = React.createContext<DocsPreferredVersionContextValue | null>(
+  null,
+);
 
 export function DocsPreferredVersionContextProvider({
   children,
@@ -159,9 +161,7 @@ function DocsPreferredVersionContextProviderUnsafe({
 export function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
   const value = useContext(Context);
   if (!value) {
-    throw new Error(
-      'Can\'t find docs preferred context, maybe you forgot to use the "DocsPreferredVersionContextProvider"?',
-    );
+    throw new ReactContextError('DocsPreferredVersionContextProvider');
   }
   return value;
 }

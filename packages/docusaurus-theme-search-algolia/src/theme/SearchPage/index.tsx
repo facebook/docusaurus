@@ -17,6 +17,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
+  HtmlClassNameProvider,
   useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
@@ -58,7 +59,7 @@ function useDocsSearchVersionsHelpers() {
       Object.entries(allDocsData).reduce(
         (acc, [pluginId, pluginData]) => ({
           ...acc,
-          [pluginId]: pluginData.versions[0].name,
+          [pluginId]: pluginData.versions[0]!.name,
         }),
         {},
       ),
@@ -149,7 +150,7 @@ type ResultDispatcher =
   | {type: 'update'; value: ResultDispatcherState}
   | {type: 'advance'; value?: undefined};
 
-export default function SearchPage(): JSX.Element {
+function SearchPageContent(): JSX.Element {
   const {
     siteConfig: {themeConfig},
     i18n: {currentLocale},
@@ -218,7 +219,7 @@ export default function SearchPage(): JSX.Element {
   algoliaHelper.on(
     'result',
     ({results: {query, hits, page, nbHits, nbPages}}) => {
-      if (query === '' || !(hits instanceof Array)) {
+      if (query === '' || !Array.isArray(hits)) {
         searchResultStateDispatcher({type: 'reset'});
         return;
       }
@@ -277,7 +278,7 @@ export default function SearchPage(): JSX.Element {
           const {
             isIntersecting,
             boundingClientRect: {y: currentY},
-          } = entries[0];
+          } = entries[0]!;
 
           if (isIntersecting && prevY.current > currentY) {
             searchResultStateDispatcher({type: 'advance'});
@@ -356,7 +357,7 @@ export default function SearchPage(): JSX.Element {
   }, [makeSearch, searchResultState.lastPage]);
 
   return (
-    <Layout wrapperClassName="search-page-wrapper">
+    <Layout>
       <Head>
         <title>{useTitleFormatter(getTitle())}</title>
         {/*
@@ -514,5 +515,13 @@ export default function SearchPage(): JSX.Element {
         )}
       </div>
     </Layout>
+  );
+}
+
+export default function SearchPage(): JSX.Element {
+  return (
+    <HtmlClassNameProvider className="search-page-wrapper">
+      <SearchPageContent />
+    </HtmlClassNameProvider>
   );
 }

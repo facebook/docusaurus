@@ -75,7 +75,7 @@ export default async function start(
         logger.error(err.stack);
       });
   }, 500);
-  const {siteConfig, plugins = []} = props;
+  const {siteConfig, plugins} = props;
 
   const normalizeToSiteDir = (filepath: string) => {
     if (filepath && path.isAbsolute(filepath)) {
@@ -84,12 +84,9 @@ export default async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths = ([] as string[])
-    .concat(
-      ...plugins
-        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
-        .filter(Boolean),
-    )
+  const pluginPaths = plugins
+    .flatMap((plugin) => plugin.getPathsToWatch?.() ?? [])
+    .filter(Boolean)
     .map(normalizeToSiteDir);
 
   const pathsToWatch = [
@@ -126,7 +123,7 @@ export default async function start(
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        template: path.resolve(
+        template: path.join(
           __dirname,
           '../webpack/templates/index.html.template.ejs',
         ),
@@ -146,12 +143,12 @@ export default async function start(
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      config = applyConfigurePostCss(configurePostCss, config);
+      config = applyConfigurePostCss(configurePostCss.bind(plugin), config);
     }
 
     if (configureWebpack) {
       config = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         config,
         false,
         props.siteConfig.webpack?.jsLoader,

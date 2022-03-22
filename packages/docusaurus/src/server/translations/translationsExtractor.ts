@@ -56,7 +56,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
     codePaths.push(themePath);
   }
 
-  return codePaths;
+  return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
 export async function globSourceCodeFilePaths(
@@ -308,10 +308,9 @@ ${sourceWarningPart(path.node)}`);
               ),
           )
           .pop();
-        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXText = singleChildren?.isJSXText();
         const isJSXExpressionContainer =
-          singleChildren &&
-          singleChildren.isJSXExpressionContainer() &&
+          singleChildren?.isJSXExpressionContainer() &&
           (singleChildren.get('expression') as NodePath).evaluate().confident;
 
         if (isJSXText || isJSXExpressionContainer) {
@@ -340,7 +339,7 @@ ${sourceWarningPart(path.node)}`,
 
         const args = path.get('arguments');
         if (args.length === 1 || args.length === 2) {
-          const firstArgPath = args[0];
+          const firstArgPath = args[0]!;
 
           // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();

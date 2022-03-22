@@ -63,12 +63,11 @@ export default function getSlug({
   function ensureValidSlug(slug: string): string {
     if (!isValidPathname(slug)) {
       throw new Error(
-        `We couldn't compute a valid slug for document with id "${baseID}" in "${sourceDirName}" directory.
+        `We couldn't compute a valid slug for document with ID "${baseID}" in "${sourceDirName}" directory.
 The slug we computed looks invalid: ${slug}.
-Maybe your slug front matter is incorrect or you use weird chars in the file path?
-By using the slug front matter, you should be able to fix this error, by using the slug of your choice:
+Maybe your slug front matter is incorrect or there are special characters in the file path?
+By using front matter to set a custom slug, you should be able to fix this error:
 
-Example =>
 ---
 slug: /my/customDocPath
 ---

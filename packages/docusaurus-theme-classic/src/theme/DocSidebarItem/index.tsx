@@ -179,6 +179,7 @@ function DocSidebarItemCategory({
                 }
           }
           aria-current={isCurrentPage ? 'page' : undefined}
+          aria-expanded={collapsible ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
           {label}
@@ -233,9 +234,7 @@ function DocSidebarItemHtml({
       )}
       key={index}
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: value,
-      }}
+      dangerouslySetInnerHTML={{__html: value}}
     />
   );
 }
@@ -269,14 +268,10 @@ function DocSidebarItemLink({
           onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
-        {isInternalUrl(href) ? (
-          label
-        ) : (
-          <span>
-            {label}
-            <IconExternalLink />
-          </span>
-        )}
+        <span>
+          {label}
+          {!isInternalUrl(href) && <IconExternalLink />}
+        </span>
       </Link>
     </li>
   );

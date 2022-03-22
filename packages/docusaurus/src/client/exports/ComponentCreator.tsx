@@ -11,6 +11,7 @@ import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
+import {RouteContextProvider} from '../routeContext';
 
 type OptsLoader = Record<string, typeof registry[keyof typeof registry][0]>;
 
@@ -22,12 +23,21 @@ export default function ComponentCreator(
   if (path === '*') {
     return Loadable({
       loading: Loading,
-      loader: () => import('@theme/NotFound'),
+      loader: async () => {
+        const NotFound = (await import('@theme/NotFound')).default;
+        return (props) => (
+          // Is there a better API for this?
+          <RouteContextProvider
+            value={{plugin: {name: 'native', id: 'default'}}}>
+            <NotFound {...(props as never)} />
+          </RouteContextProvider>
+        );
+      },
     });
   }
 
   const chunkNamesKey = `${path}-${hash}`;
-  const chunkNames = routesChunkNames[chunkNamesKey];
+  const chunkNames = routesChunkNames[chunkNamesKey]!;
   const optsModules: string[] = [];
   const optsWebpack: string[] = [];
   const optsLoader: OptsLoader = {};
@@ -47,8 +57,8 @@ export default function ComponentCreator(
     ]
   */
   const flatChunkNames = flat(chunkNames);
-  Object.keys(flatChunkNames).forEach((key) => {
-    const chunkRegistry = registry[flatChunkNames[key]];
+  Object.entries(flatChunkNames).forEach(([key, chunkName]) => {
+    const chunkRegistry = registry[chunkName];
     if (chunkRegistry) {
       // eslint-disable-next-line prefer-destructuring
       optsLoader[key] = chunkRegistry[0];
@@ -66,26 +76,41 @@ export default function ComponentCreator(
       // Clone the original object since we don't want to alter the original.
       const loadedModules = JSON.parse(JSON.stringify(chunkNames));
       Object.keys(loaded).forEach((key) => {
+        const newComp = loaded[key].default;
+        if (!newComp) {
+          throw new Error(
+            `The page component at ${path} doesn't have a default export. This makes it impossible to render anything. Consider default-exporting a React component.`,
+          );
+        }
+        if (typeof newComp === 'object' || typeof newComp === 'function') {
+          Object.keys(loaded[key])
+            .filter((k) => k !== 'default')
+            .forEach((nonDefaultKey) => {
+              newComp[nonDefaultKey] = loaded[key][nonDefaultKey];
+            });
+        }
         let val = loadedModules;
         const keyPath = key.split('.');
-        for (let i = 0; i < keyPath.length - 1; i += 1) {
-          val = val[keyPath[i]];
-        }
-        val[keyPath[keyPath.length - 1]] = loaded[key].default;
-        const nonDefaultKeys = Object.keys(loaded[key]).filter(
-          (k) => k !== 'default',
-        );
-        if (nonDefaultKeys && nonDefaultKeys.length) {
-          nonDefaultKeys.forEach((nonDefaultKey) => {
-            val[keyPath[keyPath.length - 1]][nonDefaultKey] =
-              loaded[key][nonDefaultKey];
-          });
-        }
+        keyPath.slice(0, -1).forEach((k) => {
+          val = val[k];
+        });
+        val[keyPath[keyPath.length - 1]!] = newComp;
       });
 
       const Component = loadedModules.component;
       delete loadedModules.component;
-      return <Component {...loadedModules} {...props} />;
+
+      /* eslint-disable no-underscore-dangle */
+      const routeContextModule = loadedModules.__routeContextModule;
+      delete loadedModules.__routeContextModule;
+      /* eslint-enable no-underscore-dangle */
+
+      // Is there any way to put this RouteContextProvider upper in the tree?
+      return (
+        <RouteContextProvider value={routeContextModule}>
+          <Component {...loadedModules} {...props} />
+        </RouteContextProvider>
+      );
     },
   });
 }

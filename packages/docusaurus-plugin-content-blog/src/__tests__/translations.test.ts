@@ -45,8 +45,8 @@ const sampleBlogContent: BlogContent = {
         postsPerPage: 10,
         totalPages: 1,
         totalCount: 1,
-        previousPage: null,
-        nextPage: null,
+        previousPage: undefined,
+        nextPage: undefined,
         blogTitle: sampleBlogOptions.blogTitle,
         blogDescription: sampleBlogOptions.blogDescription,
       },
@@ -71,20 +71,26 @@ function getSampleTranslationFilesTranslated() {
 }
 
 describe('getContentTranslationFiles', () => {
-  test('should return translation files matching snapshot', async () => {
+  it('returns translation files matching snapshot', async () => {
     expect(getSampleTranslationFiles()).toMatchSnapshot();
   });
 });
 
 describe('translateContent', () => {
-  test('should not translate anything if translation files are untranslated', () => {
+  it('falls back when translation is incomplete', () => {
+    expect(
+      translateContent(sampleBlogContent, [{path: 'foo', content: {}}]),
+    ).toMatchSnapshot();
+  });
+
+  it('does not translate anything if translation files are untranslated', () => {
     const translationFiles = getSampleTranslationFiles();
     expect(translateContent(sampleBlogContent, translationFiles)).toEqual(
       sampleBlogContent,
     );
   });
 
-  test('should return translated loaded content matching snapshot', () => {
+  it('returns translated loaded', () => {
     const translationFiles = getSampleTranslationFilesTranslated();
     expect(
       translateContent(sampleBlogContent, translationFiles),

@@ -118,26 +118,24 @@ function getSidebarTranslationFileContent(
         },
       ]);
 
-      if (category.link) {
-        if (category.link.type === 'generated-index') {
-          if (category.link.title) {
-            entries.push([
-              `sidebar.${sidebarName}.category.${category.label}.link.generated-index.title`,
-              {
-                message: category.link.title,
-                description: `The generated-index page title for category ${category.label} in sidebar ${sidebarName}`,
-              },
-            ]);
-          }
-          if (category.link.description) {
-            entries.push([
-              `sidebar.${sidebarName}.category.${category.label}.link.generated-index.description`,
-              {
-                message: category.link.description,
-                description: `The generated-index page description for category ${category.label} in sidebar ${sidebarName}`,
-              },
-            ]);
-          }
+      if (category.link?.type === 'generated-index') {
+        if (category.link.title) {
+          entries.push([
+            `sidebar.${sidebarName}.category.${category.label}.link.generated-index.title`,
+            {
+              message: category.link.title,
+              description: `The generated-index page title for category ${category.label} in sidebar ${sidebarName}`,
+            },
+          ]);
+        }
+        if (category.link.description) {
+          entries.push([
+            `sidebar.${sidebarName}.category.${category.label}.link.generated-index.description`,
+            {
+              message: category.link.description,
+              description: `The generated-index page description for category ${category.label} in sidebar ${sidebarName}`,
+            },
+          ]);
         }
       }
 
@@ -274,10 +272,11 @@ function translateVersion(
   translationFiles: Record<string, TranslationFile>,
 ): LoadedVersion {
   const versionTranslations =
-    translationFiles[getVersionFileName(version.versionName)].content;
+    translationFiles[getVersionFileName(version.versionName)]!.content;
   return {
     ...version,
-    versionLabel: versionTranslations['version.label']?.message,
+    versionLabel:
+      versionTranslations['version.label']?.message ?? version.versionLabel,
     sidebars: translateSidebars(version, versionTranslations),
     // docs: translateDocs(version.docs, versionTranslations),
   };

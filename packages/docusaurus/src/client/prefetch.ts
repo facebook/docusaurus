@@ -37,9 +37,9 @@ function linkPrefetchStrategy(url: string) {
     link.onerror = reject;
 
     const parentElement =
-      document.getElementsByTagName('head')[0] ||
-      document.getElementsByName('script')[0].parentNode;
-    parentElement.appendChild(link);
+      document.getElementsByTagName('head')[0] ??
+      document.getElementsByName('script')[0]?.parentNode;
+    parentElement?.appendChild(link);
   });
 }
 

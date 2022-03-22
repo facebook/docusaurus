@@ -9,14 +9,14 @@ import type {SwizzleConfig} from '@docusaurus/types';
 import {normalizeSwizzleConfig} from '../config';
 
 describe('normalizeSwizzleConfig', () => {
-  test(`validate no components config`, async () => {
+  it(`validate no components config`, async () => {
     const config: SwizzleConfig = {
       components: {},
     };
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  test(`validate complete config`, async () => {
+  it(`validate complete config`, async () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -38,7 +38,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(normalizeSwizzleConfig(config)).toEqual(config);
   });
 
-  test(`normalize partial config`, async () => {
+  it(`normalize partial config`, async () => {
     const config: SwizzleConfig = {
       components: {
         SomeComponent: {
@@ -56,28 +56,10 @@ describe('normalizeSwizzleConfig', () => {
         },
       },
     };
-    expect(normalizeSwizzleConfig(config)).toMatchInlineSnapshot(`
-      Object {
-        "components": Object {
-          "Other/Component": Object {
-            "actions": Object {
-              "eject": "unsafe",
-              "wrap": "forbidden",
-            },
-          },
-          "SomeComponent": Object {
-            "actions": Object {
-              "eject": "safe",
-              "wrap": "unsafe",
-            },
-            "description": "SomeComponent description",
-          },
-        },
-      }
-    `);
+    expect(normalizeSwizzleConfig(config)).toMatchSnapshot();
   });
 
-  test(`reject missing components`, async () => {
+  it(`reject missing components`, async () => {
     // @ts-expect-error: incomplete actions map
     const config: SwizzleConfig = {};
 
@@ -88,7 +70,7 @@ describe('normalizeSwizzleConfig', () => {
     );
   });
 
-  test(`reject invalid action name`, async () => {
+  it(`reject invalid action name`, async () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {
@@ -109,7 +91,7 @@ describe('normalizeSwizzleConfig', () => {
     );
   });
 
-  test(`reject invalid action status`, async () => {
+  it(`reject invalid action status`, async () => {
     const config: SwizzleConfig = {
       components: {
         MyComponent: {

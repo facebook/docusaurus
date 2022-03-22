@@ -15,7 +15,6 @@ export const DEFAULT_OPTIONS: Required<Options> = {
 };
 
 export const PluginOptionSchema = Joi.object({
-  // TODO temporary (@alpha-71)
   cacheTime: Joi.forbidden().messages({
     'any.unknown':
       'Option `cacheTime` in sitemap config is deprecated. Please remove it.',

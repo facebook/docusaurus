@@ -8,6 +8,7 @@
 module.exports = function() {
   return {
     name: 'plugin-foo-bar',
+    path: __dirname,
     getClientModules() {
       return ['foo', 'bar'];
     },

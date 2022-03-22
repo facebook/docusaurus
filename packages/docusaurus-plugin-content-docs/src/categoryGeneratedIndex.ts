@@ -21,10 +21,6 @@ function getCategoryGeneratedIndexMetadata({
 }): CategoryGeneratedIndexMetadata {
   const {sidebarName, previous, next} =
     sidebarsUtils.getCategoryGeneratedIndexNavigation(category.link.permalink);
-  if (!sidebarName) {
-    throw new Error('unexpected');
-  }
-
   return {
     title: category.link.title ?? category.label,
     description: category.link.description,
@@ -32,7 +28,7 @@ function getCategoryGeneratedIndexMetadata({
     keywords: category.link.keywords,
     slug: category.link.slug,
     permalink: category.link.permalink,
-    sidebar: sidebarName,
+    sidebar: sidebarName!,
     previous: toNavigationLink(previous, docsById),
     next: toNavigationLink(next, docsById),
   };

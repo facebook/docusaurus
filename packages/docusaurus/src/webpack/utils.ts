@@ -236,15 +236,20 @@ export function applyConfigurePostCss(
   return config;
 }
 
+declare global {
+  interface Error {
+    /** @see https://webpack.js.org/api/node/#error-handling */
+    details: unknown;
+  }
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
         logger.error(err.stack || err);
-        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
-          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
           logger.error(err.details);
         }
         reject(err);

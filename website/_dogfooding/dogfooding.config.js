@@ -6,7 +6,6 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingThemeInstances = [
@@ -14,8 +13,7 @@ const dogfoodingThemeInstances = [
   function swizzleThemeTests() {
     return {
       name: 'swizzle-theme-tests',
-      getThemePath: () =>
-        path.join(__dirname, '_swizzle_theme_tests/src/theme'),
+      getThemePath: () => './_swizzle_theme_tests/src/theme',
     };
   },
 ];
