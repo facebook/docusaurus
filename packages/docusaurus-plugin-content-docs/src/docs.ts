@@ -34,7 +34,7 @@ import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
 import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
-import {validateDocFrontMatter} from './docFrontMatter';
+import {validateDocFrontMatter} from './frontMatter';
 import type {SidebarsUtils} from './sidebars/utils';
 import {toDocNavigationLink, toNavigationLink} from './sidebars/utils';
 import type {

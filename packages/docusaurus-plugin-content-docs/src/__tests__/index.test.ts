@@ -20,7 +20,7 @@ import {posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
 
 import * as cliDocs from '../cli';
-import {OptionsSchema} from '../options';
+import {validateOptions} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import type {LoadedVersion} from '../types';
 import type {
@@ -119,8 +119,11 @@ describe('sidebar', () => {
     const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        sidebarPath,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          sidebarPath,
+        },
       }),
     );
     await expect(plugin.loadContent!()).rejects.toThrowErrorMatchingSnapshot();
@@ -133,8 +136,11 @@ describe('sidebar', () => {
     await expect(async () => {
       const plugin = await pluginContentDocs(
         context,
-        normalizePluginOptions(OptionsSchema, {
-          sidebarPath: 'wrong-path-sidebar.json',
+        validateOptions({
+          validate: normalizePluginOptions,
+          options: {
+            sidebarPath: 'wrong-path-sidebar.json',
+          },
         }),
       );
       await plugin.loadContent!();
@@ -152,8 +158,11 @@ describe('sidebar', () => {
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        sidebarPath: undefined,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          sidebarPath: undefined,
+        },
       }),
     );
     const result = await plugin.loadContent!();
@@ -167,8 +176,11 @@ describe('sidebar', () => {
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        sidebarPath: false,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          sidebarPath: false,
+        },
       }),
     );
     const result = await plugin.loadContent!();
@@ -186,7 +198,7 @@ describe('empty/no docs website', () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {}),
+      validateOptions({validate: normalizePluginOptions, options: {}}),
     );
     await expect(
       plugin.loadContent!(),
@@ -200,8 +212,11 @@ describe('empty/no docs website', () => {
     await expect(
       pluginContentDocs(
         context,
-        normalizePluginOptions(OptionsSchema, {
-          path: `path/does/not/exist`,
+        validateOptions({
+          validate: normalizePluginOptions,
+          options: {
+            path: 'path/does/not/exist',
+          },
         }),
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
@@ -217,9 +232,12 @@ describe('simple website', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
-        sidebarPath,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+          sidebarPath,
+        },
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -328,9 +346,12 @@ describe('versioned website', () => {
     const routeBasePath = 'docs';
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        routeBasePath,
-        sidebarPath,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          routeBasePath,
+          sidebarPath,
+        },
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -455,11 +476,14 @@ describe('versioned website (community)', () => {
     const pluginId = 'community';
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        id: 'community',
-        path: 'community',
-        routeBasePath,
-        sidebarPath,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          id: 'community',
+          path: 'community',
+          routeBasePath,
+          sidebarPath,
+        },
       }),
     );
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -558,9 +582,12 @@ describe('site with doc label', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
-        sidebarPath,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+          sidebarPath,
+        },
       }),
     );
 
@@ -596,8 +623,11 @@ describe('site with full autogenerated sidebar', () => {
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+        },
       }),
     );
 
@@ -648,14 +678,17 @@ describe('site with partial autogenerated sidebars', () => {
     const context = await loadContext(siteDir, {});
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
-        sidebarPath: path.join(
-          __dirname,
-          '__fixtures__',
-          'site-with-autogenerated-sidebar',
-          'partialAutogeneratedSidebars.js',
-        ),
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+          sidebarPath: path.join(
+            __dirname,
+            '__fixtures__',
+            'site-with-autogenerated-sidebar',
+            'partialAutogeneratedSidebars.js',
+          ),
+        },
       }),
     );
 
@@ -701,14 +734,17 @@ describe('site with partial autogenerated sidebars 2 (fix #4638)', () => {
     const context = await loadContext(siteDir, {});
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
-        sidebarPath: path.join(
-          __dirname,
-          '__fixtures__',
-          'site-with-autogenerated-sidebar',
-          'partialAutogeneratedSidebars2.js',
-        ),
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+          sidebarPath: path.join(
+            __dirname,
+            '__fixtures__',
+            'site-with-autogenerated-sidebar',
+            'partialAutogeneratedSidebars2.js',
+          ),
+        },
       }),
     );
 
@@ -735,9 +771,12 @@ describe('site with custom sidebar items generator', () => {
     const context = await loadContext(siteDir);
     const plugin = await pluginContentDocs(
       context,
-      normalizePluginOptions(OptionsSchema, {
-        path: 'docs',
-        sidebarItemsGenerator,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'docs',
+          sidebarItemsGenerator,
+        },
       }),
     );
     const content = (await plugin.loadContent?.())!;

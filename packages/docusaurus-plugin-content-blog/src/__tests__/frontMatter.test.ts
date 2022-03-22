@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validateBlogPostFrontMatter} from '../blogFrontMatter';
+import {validateBlogPostFrontMatter} from '../frontMatter';
 import escapeStringRegexp from 'escape-string-regexp';
 import type {BlogPostFrontMatter} from '@docusaurus/plugin-content-blog';
 

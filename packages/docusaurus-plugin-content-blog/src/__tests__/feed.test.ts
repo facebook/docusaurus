@@ -11,7 +11,7 @@ import fs from 'fs-extra';
 import {createBlogFeedFiles} from '../feed';
 import type {LoadContext, I18n} from '@docusaurus/types';
 import type {BlogContentPaths} from '../types';
-import {DEFAULT_OPTIONS} from '../pluginOptionSchema';
+import {DEFAULT_OPTIONS} from '../options';
 import {generateBlogPosts} from '../blogUtils';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 

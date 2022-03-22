@@ -13,7 +13,8 @@ import {
   URISchema,
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions} from '@docusaurus/plugin-content-blog';
+import type {PluginOptions, Options} from '@docusaurus/plugin-content-blog';
+import type {OptionValidationContext} from '@docusaurus/types';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   feedOptions: {type: ['rss', 'atom'], copyright: ''},
@@ -46,7 +47,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   sortPosts: 'descending',
 };
 
-export const PluginOptionSchema = Joi.object<PluginOptions>({
+const PluginOptionSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   archiveBasePath: Joi.string()
     .default(DEFAULT_OPTIONS.archiveBasePath)
@@ -125,4 +126,15 @@ export const PluginOptionSchema = Joi.object<PluginOptions>({
   sortPosts: Joi.string()
     .valid('descending', 'ascending')
     .default(DEFAULT_OPTIONS.sortPosts),
-});
+}).default(DEFAULT_OPTIONS);
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
+  const validatedOptions = validate(
+    PluginOptionSchema,
+    options,
+  ) as PluginOptions;
+  return validatedOptions;
+}

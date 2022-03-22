@@ -8,13 +8,14 @@
 import {Joi} from '@docusaurus/utils-validation';
 import {EnumChangefreq} from 'sitemap';
 import type {Options} from '@docusaurus/plugin-sitemap';
+import type {OptionValidationContext} from '@docusaurus/types';
 
-export const DEFAULT_OPTIONS: Required<Options> = {
+export const DEFAULT_OPTIONS: Options = {
   changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
 };
 
-export const PluginOptionSchema = Joi.object({
+const PluginOptionSchema = Joi.object({
   cacheTime: Joi.forbidden().messages({
     'any.unknown':
       'Option `cacheTime` in sitemap config is deprecated. Please remove it.',
@@ -28,3 +29,11 @@ export const PluginOptionSchema = Joi.object({
       'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',
   }),
 });
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<Options, Options>): Options {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
+}

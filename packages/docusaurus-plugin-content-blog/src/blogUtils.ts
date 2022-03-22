@@ -31,7 +31,7 @@ import {
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
-import {validateBlogPostFrontMatter} from './blogFrontMatter';
+import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
 import type {

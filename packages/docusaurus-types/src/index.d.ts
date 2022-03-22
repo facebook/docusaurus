@@ -320,7 +320,7 @@ export type PluginModule = {
   <Options, Content>(context: LoadContext, options: Options):
     | Plugin<Content>
     | Promise<Plugin<Content>>;
-  validateOptions?: <T>(data: OptionValidationContext<T>) => T;
+  validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
   getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
@@ -436,22 +436,20 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export type ValidationResult<T> = T;
-
 export type ValidationSchema<T> = Joi.ObjectSchema<T>;
 
-export type Validate<T> = (
-  validationSchema: ValidationSchema<T>,
-  options: Partial<T>,
-) => ValidationResult<T>;
+export type Validate<T, U> = (
+  validationSchema: ValidationSchema<U>,
+  options: T,
+) => U;
 
-export interface OptionValidationContext<T> {
-  validate: Validate<T>;
-  options: Partial<T>;
-}
+export type OptionValidationContext<T, U> = {
+  validate: Validate<T, U>;
+  options: T;
+};
 
 export interface ThemeConfigValidationContext<T> {
-  validate: Validate<T>;
+  validate: Validate<T, T>;
   themeConfig: Partial<T>;
 }
 

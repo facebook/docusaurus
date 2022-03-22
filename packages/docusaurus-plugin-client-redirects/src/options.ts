@@ -7,12 +7,10 @@
 
 import type {
   PluginOptions,
+  Options,
   RedirectOption,
 } from '@docusaurus/plugin-client-redirects';
-import type {
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import type {OptionValidationContext} from '@docusaurus/types';
 import {Joi, PathnameSchema} from '@docusaurus/utils-validation';
 
 export const DEFAULT_OPTIONS: Partial<PluginOptions> = {
@@ -47,6 +45,6 @@ const UserOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options: userOptions,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   return validate(UserOptionsSchema, userOptions);
 }

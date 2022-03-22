@@ -9,7 +9,6 @@ import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
-  ValidationResult,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Joi} from '@docusaurus/utils-validation';
@@ -79,7 +78,7 @@ export default function pluginIdealImage(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
   const pluginOptionsSchema = Joi.object({
     disableInDev: Joi.boolean().default(true),
   }).unknown();

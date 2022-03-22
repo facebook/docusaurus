@@ -5,31 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
-import type {PluginOptions} from '@docusaurus/plugin-content-pages';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
+import type {Options} from '@docusaurus/plugin-content-pages';
 
-function normalizePluginOptions(
-  options: Partial<PluginOptions>,
-): PluginOptions {
-  const {value, error} = PluginOptionSchema.validate(options, {
-    convert: false,
-  });
-  if (error) {
-    throw error;
-  } else {
-    return value;
-  }
+function testValidate(options: Options) {
+  return validateOptions({validate: normalizePluginOptions, options});
 }
+
+const defaultOptions = {
+  ...DEFAULT_OPTIONS,
+  id: 'default',
+};
 
 describe('normalizePagesPluginOptions', () => {
   it('returns default options for undefined user options', () => {
-    const value = normalizePluginOptions({});
-    expect(value).toEqual(DEFAULT_OPTIONS);
+    expect(testValidate({})).toEqual(defaultOptions);
   });
 
   it('fills in default options for partially defined user options', () => {
-    const value = normalizePluginOptions({path: 'src/pages'});
-    expect(value).toEqual(DEFAULT_OPTIONS);
+    expect(testValidate({path: 'src/foo'})).toEqual({
+      ...defaultOptions,
+      path: 'src/foo',
+    });
   });
 
   it('accepts correctly defined user options', () => {
@@ -39,13 +37,15 @@ describe('normalizePagesPluginOptions', () => {
       include: ['**/*.{js,jsx,ts,tsx}'],
       exclude: ['**/$*/'],
     };
-    const value = normalizePluginOptions(userOptions);
-    expect(value).toEqual({...DEFAULT_OPTIONS, ...userOptions});
+    expect(testValidate(userOptions)).toEqual({
+      ...defaultOptions,
+      ...userOptions,
+    });
   });
 
   it('rejects bad path inputs', () => {
     expect(() => {
-      normalizePluginOptions({
+      testValidate({
         // @ts-expect-error: bad attribute
         path: 42,
       });
