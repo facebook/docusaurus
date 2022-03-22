@@ -9,14 +9,10 @@ import {useState, useCallback, useRef} from 'react';
 import {useLocationChange} from '../utils/useLocationChange';
 import {useScrollPosition} from '../utils/scrollUtils';
 
-type UseHideableNavbarReturns = {
+export function useHideableNavbar(hideOnScroll: boolean): {
   readonly navbarRef: (node: HTMLElement | null) => void;
   readonly isNavbarVisible: boolean;
-};
-
-export default function useHideableNavbar(
-  hideOnScroll: boolean,
-): UseHideableNavbarReturns {
+} {
   const [isNavbarVisible, setIsNavbarVisible] = useState(hideOnScroll);
   const isFocusedAnchor = useRef(false);
   const navbarHeight = useRef(0);

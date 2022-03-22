@@ -11,13 +11,11 @@ import {useCallback, useEffect, useState} from 'react';
 
 const SEARCH_PARAM_QUERY = 'q';
 
-interface UseSearchPageReturn {
+export function useSearchPage(): {
   searchQuery: string;
   setSearchQuery: (newSearchQuery: string) => void;
   generateSearchPageLink: (targetSearchQuery: string) => string;
-}
-
-export default function useSearchPage(): UseSearchPageReturn {
+} {
   const history = useHistory();
   const {
     siteConfig: {baseUrl},

@@ -50,17 +50,17 @@ function createLocalePluralForms(locale: string): LocalePluralForms {
 }
 
 /**
- * Poor man's PluralSelector implementation, using an english fallback. We want
- * a lightweight, future-proof and good-enough solution. We don't want a perfect
- * and heavy solution.
+ * Poor man's `PluralSelector` implementation, using an English fallback. We
+ * want a lightweight, future-proof and good-enough solution. We don't want a
+ * perfect and heavy solution.
  *
  * Docusaurus classic theme has only 2 deeply nested labels requiring complex
- * plural rules. We don't want to use Intl + PluralRules polyfills + full ICU
- * syntax (react-intl) just for that.
+ * plural rules. We don't want to use `Intl` + `PluralRules` polyfills + full
+ * ICU syntax (react-intl) just for that.
  *
  * Notes:
- * - 2021: 92+% Browsers support Intl.PluralRules, and support will increase in
- * the future
+ * - 2021: 92+% Browsers support `Intl.PluralRules`, and support will increase
+ * in the future
  * - NodeJS >= 13 has full ICU support by default
  * - In case of "mismatch" between SSR and Browser ICU support, React keeps
  * working!

@@ -12,9 +12,7 @@ import {Context} from '../routeContext';
 export default function useRouteContext(): PluginRouteContext {
   const context = React.useContext(Context);
   if (!context) {
-    throw new Error(
-      'Unexpected: no Docusaurus parent/current route context found',
-    );
+    throw new Error('Unexpected: no Docusaurus route context found');
   }
   return context;
 }

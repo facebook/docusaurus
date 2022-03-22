@@ -9,7 +9,7 @@ import {
   useAllDocsData,
   useActivePluginAndVersion,
 } from '@docusaurus/plugin-content-docs/client';
-import {useDocsPreferredVersionByPluginId} from './docsPreferredVersion/useDocsPreferredVersion';
+import {useDocsPreferredVersionByPluginId} from '../contexts/docsPreferredVersion';
 import {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './searchUtils';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 

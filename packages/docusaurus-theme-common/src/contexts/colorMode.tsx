@@ -14,11 +14,11 @@ import React, {
   useRef,
   type ReactNode,
 } from 'react';
-import {ReactContextError} from './reactUtils';
+import {ReactContextError} from '../utils/reactUtils';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import {createStorageSlot} from './storageUtils';
-import {useThemeConfig} from './useThemeConfig';
+import {createStorageSlot} from '../utils/storageUtils';
+import {useThemeConfig} from '../utils/useThemeConfig';
 
 type ColorModeContextValue = {
   readonly colorMode: ColorMode;
@@ -171,9 +171,7 @@ export function ColorModeProvider({
 }
 
 export function useColorMode(): ColorModeContextValue {
-  const context = useContext<ColorModeContextValue | undefined>(
-    ColorModeContext,
-  );
+  const context = useContext(ColorModeContext);
   if (context == null) {
     throw new ReactContextError(
       'ColorModeProvider',

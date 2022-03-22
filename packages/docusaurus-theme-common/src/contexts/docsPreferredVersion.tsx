@@ -10,18 +10,47 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  useCallback,
   type ReactNode,
 } from 'react';
-import {useThemeConfig, type DocsVersionPersistence} from '../useThemeConfig';
-import {isDocsPluginEnabled} from '../docsUtils';
-import {ReactContextError} from '../reactUtils';
+import {
+  useThemeConfig,
+  type DocsVersionPersistence,
+} from '../utils/useThemeConfig';
+import {isDocsPluginEnabled} from '../utils/docsUtils';
+import {ReactContextError} from '../utils/reactUtils';
+import {createStorageSlot} from '../utils/storageUtils';
 
 import {
   useAllDocsData,
+  useDocsData,
   type GlobalPluginData,
+  type GlobalVersion,
 } from '@docusaurus/plugin-content-docs/client';
 
-import DocsPreferredVersionStorage from './DocsPreferredVersionStorage';
+import {DEFAULT_PLUGIN_ID} from '@docusaurus/constants';
+
+const storageKey = (pluginId: string) => `docs-preferred-version-${pluginId}`;
+
+const DocsPreferredVersionStorage = {
+  save: (
+    pluginId: string,
+    persistence: DocsVersionPersistence,
+    versionName: string,
+  ): void => {
+    createStorageSlot(storageKey(pluginId), {persistence}).set(versionName);
+  },
+
+  read: (
+    pluginId: string,
+    persistence: DocsVersionPersistence,
+  ): string | null =>
+    createStorageSlot(storageKey(pluginId), {persistence}).get(),
+
+  clear: (pluginId: string, persistence: DocsVersionPersistence): void => {
+    createStorageSlot(storageKey(pluginId), {persistence}).del();
+  },
+};
 
 type DocsPreferredVersionName = string | null;
 
@@ -158,10 +187,64 @@ function DocsPreferredVersionContextProviderUnsafe({
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
 
-export function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
+function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
   const value = useContext(Context);
   if (!value) {
     throw new ReactContextError('DocsPreferredVersionContextProvider');
   }
   return value;
+}
+
+// Note, the preferredVersion attribute will always be null before mount
+export function useDocsPreferredVersion(
+  pluginId: string | undefined = DEFAULT_PLUGIN_ID,
+): {
+  preferredVersion: GlobalVersion | null | undefined;
+  savePreferredVersionName: (versionName: string) => void;
+} {
+  const docsData = useDocsData(pluginId);
+  const [state, api] = useDocsPreferredVersionContext();
+
+  const {preferredVersionName} = state[pluginId]!;
+
+  const preferredVersion = preferredVersionName
+    ? docsData.versions.find((version) => version.name === preferredVersionName)
+    : null;
+
+  const savePreferredVersionName = useCallback(
+    (versionName: string) => {
+      api.savePreferredVersion(pluginId, versionName);
+    },
+    [api, pluginId],
+  );
+
+  return {preferredVersion, savePreferredVersionName} as const;
+}
+
+export function useDocsPreferredVersionByPluginId(): Record<
+  string,
+  GlobalVersion | null | undefined
+> {
+  const allDocsData = useAllDocsData();
+  const [state] = useDocsPreferredVersionContext();
+
+  function getPluginIdPreferredVersion(pluginId: string) {
+    const docsData = allDocsData[pluginId]!;
+    const {preferredVersionName} = state[pluginId]!;
+
+    return preferredVersionName
+      ? docsData.versions.find(
+          (version) => version.name === preferredVersionName,
+        )
+      : null;
+  }
+
+  const pluginIds = Object.keys(allDocsData);
+
+  const result: Record<string, GlobalVersion | null | undefined> = {};
+  pluginIds.forEach((pluginId) => {
+    result[pluginId] = getPluginIdPreferredVersion(pluginId);
+  });
+
+  return result;
 }

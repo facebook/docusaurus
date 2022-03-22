@@ -14,9 +14,9 @@ import React, {
   type ReactNode,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import {createStorageSlot} from './storageUtils';
-import {ReactContextError} from './reactUtils';
-import {useThemeConfig} from './useThemeConfig';
+import {createStorageSlot} from '../utils/storageUtils';
+import {ReactContextError} from '../utils/reactUtils';
+import {useThemeConfig} from '../utils/useThemeConfig';
 
 export const AnnouncementBarDismissStorageKey =
   'docusaurus.announcement.dismiss';

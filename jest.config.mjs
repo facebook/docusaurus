@@ -14,13 +14,16 @@ const ignorePatterns = [
   '__fixtures__',
   '/testUtils.ts',
   '/packages/docusaurus/lib',
+  '/packages/docusaurus-logger/lib',
   '/packages/docusaurus-utils/lib',
+  '/packages/docusaurus-utils-common/lib',
   '/packages/docusaurus-utils-validation/lib',
   '/packages/docusaurus-plugin-content-blog/lib',
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
   '/packages/docusaurus-theme-classic/lib',
   '/packages/docusaurus-theme-classic/lib-next',
+  '/packages/docusaurus-theme-common/lib',
   '/packages/docusaurus-migrate/lib',
 ];
 
@@ -30,7 +33,11 @@ export default {
   testURL: 'https://docusaurus.io/',
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
-  coveragePathIgnorePatterns: ignorePatterns,
+  coveragePathIgnorePatterns: [
+    ...ignorePatterns,
+    // We also ignore all package entry points
+    '/packages/docusaurus-utils/src/index.ts',
+  ],
   transform: {
     '^.+\\.[jt]sx?$': '@swc/jest',
   },
@@ -54,7 +61,10 @@ export default {
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/src/client/index.ts',
   },
-  snapshotSerializers: ['<rootDir>/jest/snapshotPathNormalizer.ts'],
+  snapshotSerializers: [
+    '<rootDir>/jest/snapshotPathNormalizer.ts',
+    'jest-serializer-react-helmet-async',
+  ],
   snapshotFormat: {
     printBasicPrototype: false,
   },

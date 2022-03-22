@@ -22,7 +22,7 @@ export {
 export {
   DocSidebarItemsExpandedStateProvider,
   useDocSidebarItemsExpandedState,
-} from './utils/docSidebarItemsExpandedState';
+} from './contexts/docSidebarItemsExpandedState';
 
 export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
@@ -60,8 +60,6 @@ export {usePluralForm} from './utils/usePluralForm';
 
 export {useLocationChange} from './utils/useLocationChange';
 
-export {usePrevious} from './utils/usePrevious';
-
 export {
   useCollapsible,
   Collapsible,
@@ -69,23 +67,22 @@ export {
   type UseCollapsibleReturns,
 } from './components/Collapsible';
 
-export {default as Details, type DetailsProps} from './components/Details';
+export {Details, type DetailsProps} from './components/Details';
 
 export {
   useDocsPreferredVersion,
   useDocsPreferredVersionByPluginId,
-} from './utils/docsPreferredVersion/useDocsPreferredVersion';
+  DocsPreferredVersionContextProvider,
+} from './contexts/docsPreferredVersion';
 
 export {duplicates, uniq} from './utils/jsUtils';
-
-export {DocsPreferredVersionContextProvider} from './utils/docsPreferredVersion/DocsPreferredVersionProvider';
 
 export {ThemeClassNames} from './utils/ThemeClassNames';
 
 export {
   AnnouncementBarProvider,
   useAnnouncementBar,
-} from './utils/announcementBarUtils';
+} from './contexts/announcementBar';
 
 export {useLocalPathname} from './utils/useLocalPathname';
 
@@ -99,9 +96,9 @@ export {
 export {useHistoryPopHandler} from './utils/historyUtils';
 
 export {
-  default as useTOCHighlight,
+  useTOCHighlight,
   type TOCHighlightConfig,
-} from './utils/useTOCHighlight';
+} from './hooks/useTOCHighlight';
 
 export {
   useFilteredAndTreeifiedTOC,
@@ -121,6 +118,7 @@ export {
 export {
   useIsomorphicLayoutEffect,
   useDynamicCallback,
+  usePrevious,
   ReactContextError,
 } from './utils/reactUtils';
 
@@ -138,30 +136,28 @@ export {
   useColorMode,
   ColorModeProvider,
   type ColorMode,
-} from './utils/colorModeUtils';
+} from './contexts/colorMode';
+
+export {splitNavbarItems, NavbarProvider} from './utils/navbarUtils';
 
 export {
   useTabGroupChoice,
   TabGroupChoiceProvider,
-} from './utils/tabGroupChoiceUtils';
+} from './contexts/tabGroupChoice';
 
-export {
-  splitNavbarItems,
-  NavbarProvider,
-  useNavbarMobileSidebar,
-} from './utils/navbarUtils';
+export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {
   useNavbarSecondaryMenu,
   NavbarSecondaryMenuFiller,
-} from './utils/navbarSecondaryMenuUtils';
-export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenuUtils';
+} from './utils/navbarSecondaryMenu';
+export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenu';
 
-export {default as useHideableNavbar} from './hooks/useHideableNavbar';
+export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
-  default as useKeyboardNavigation,
+  useKeyboardNavigation,
   keyboardFocusedClassName,
 } from './hooks/useKeyboardNavigation';
-export {default as usePrismTheme} from './hooks/usePrismTheme';
-export {default as useLockBodyScroll} from './hooks/useLockBodyScroll';
-export {default as useWindowSize} from './hooks/useWindowSize';
-export {default as useSearchPage} from './hooks/useSearchPage';
+export {usePrismTheme} from './hooks/usePrismTheme';
+export {useLockBodyScroll} from './hooks/useLockBodyScroll';
+export {useWindowSize} from './hooks/useWindowSize';
+export {useSearchPage} from './hooks/useSearchPage';
