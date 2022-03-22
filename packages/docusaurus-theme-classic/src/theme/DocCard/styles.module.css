@@ -13,13 +13,12 @@
   box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
   border: 1px solid var(--ifm-color-emphasis-200);
   transition: all var(--ifm-transition-fast) ease;
-  transition-property: border, box-shadow, transform;
+  transition-property: border, box-shadow;
 }
 
 .cardContainer:hover {
   border-color: var(--ifm-color-primary-light);
   box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
-  transform: translateY(-3px);
 }
 
 .cardTitle {
