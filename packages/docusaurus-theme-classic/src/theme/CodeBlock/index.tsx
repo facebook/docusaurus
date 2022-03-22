@@ -9,7 +9,7 @@ import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
-import Translate, {translate} from '@docusaurus/Translate';
+import {translate} from '@docusaurus/Translate';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -120,12 +120,13 @@ export default function CodeBlock({
               {codeBlockTitle}
             </div>
           )}
-          <div className={clsx(styles.codeBlockContent, language)}>
+          <div
+            className={clsx(styles.codeBlockContent, language)}
+            style={style}>
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-              style={style}>
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0]!.content === '\n') {
@@ -157,21 +158,27 @@ export default function CodeBlock({
                 message: 'Copy code to clipboard',
                 description: 'The ARIA label for copy code blocks button',
               })}
-              className={clsx(styles.copyButton, 'clean-btn')}
-              onClick={handleCopyCode}>
-              {showCopied ? (
-                <Translate
-                  id="theme.CodeBlock.copied"
-                  description="The copied button label on code blocks">
-                  Copied
-                </Translate>
-              ) : (
-                <Translate
-                  id="theme.CodeBlock.copy"
-                  description="The copy button label on code blocks">
-                  Copy
-                </Translate>
+              className={clsx(
+                styles.copyButton,
+                'clean-btn',
+                showCopied && styles.copyButtonCopied,
               )}
+              onClick={handleCopyCode}>
+              <span className={styles.copyButtonIcons}>
+                <svg
+                  className={styles.copyButtonIcon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true">
+                  <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                </svg>
+
+                <svg
+                  className={styles.copyButtonSuccessIcon}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true">
+                  <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+                </svg>
+              </span>
             </button>
           </div>
         </div>

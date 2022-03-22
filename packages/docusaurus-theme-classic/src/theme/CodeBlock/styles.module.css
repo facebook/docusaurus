@@ -30,6 +30,7 @@
   margin: 0;
   padding: 0;
   border-radius: var(--ifm-global-radius);
+  background-color: inherit;
 }
 
 .codeBlockTitle + .codeBlockContent .codeBlock {
@@ -43,22 +44,59 @@
 }
 
 .copyButton {
-  background: rgb(0 0 0 / 30%);
+  display: flex;
+  background: inherit;
+  border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
-  color: var(--ifm-color-white);
-  opacity: 0;
-  user-select: none;
-  padding: 0.4rem 0.5rem;
+  padding: 0.4rem;
   position: absolute;
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
   transition: opacity 200ms ease-in-out;
+  opacity: 0.4;
 }
 
 .copyButton:focus,
 .codeBlockContent:hover > .copyButton,
 .codeBlockTitle:hover + .codeBlockContent .copyButton {
   opacity: 1;
+}
+
+.copyButtonIcons {
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.copyButtonIcon,
+.copyButtonSuccessIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: currentColor;
+  opacity: inherit;
+  width: inherit;
+  height: inherit;
+  transition: all 0.3s ease;
+}
+
+.copyButtonSuccessIcon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.33);
+  opacity: 0;
+  color: #00d600;
+}
+
+.copyButtonCopied .copyButtonIcon {
+  transform: scale(0.33);
+  opacity: 0;
+}
+
+.copyButtonCopied .copyButtonSuccessIcon {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition-delay: 0.15s;
 }
 
 .codeBlockLines {
