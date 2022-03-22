@@ -320,7 +320,7 @@ export type PluginModule = {
   <Options, Content>(context: LoadContext, options: Options):
     | Plugin<Content>
     | Promise<Plugin<Content>>;
-  validateOptions?: <T>(data: OptionValidationContext<T>) => T;
+  validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
   getSwizzleComponentList?: () => string[] | undefined; // TODO deprecate this one later
