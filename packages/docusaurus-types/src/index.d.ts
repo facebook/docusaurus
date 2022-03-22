@@ -449,7 +449,7 @@ export type OptionValidationContext<T, U> = {
 };
 
 export interface ThemeConfigValidationContext<T> {
-  validate: Validate<T>;
+  validate: Validate<T, T>;
   themeConfig: Partial<T>;
 }
 
