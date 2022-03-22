@@ -13,8 +13,8 @@ import React, {
   useContext,
   type ReactNode,
 } from 'react';
-import {createStorageSlot, listStorageKeys} from './storageUtils';
-import {ReactContextError} from './reactUtils';
+import {createStorageSlot, listStorageKeys} from '../utils/storageUtils';
+import {ReactContextError} from '../utils/reactUtils';
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 

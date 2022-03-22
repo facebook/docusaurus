@@ -14,9 +14,8 @@ import React, {
   type ReactNode,
   type ComponentType,
 } from 'react';
-import {ReactContextError} from './reactUtils';
-import {usePrevious} from './usePrevious';
-import {useNavbarMobileSidebar} from './navbarUtils';
+import {ReactContextError, usePrevious} from './reactUtils';
+import {useNavbarMobileSidebar} from '../contexts/navbarMobileSidebar';
 
 /*
 The idea behind all this is that a specific component must be able to fill a

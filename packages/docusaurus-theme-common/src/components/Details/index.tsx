@@ -34,7 +34,7 @@ export type DetailsProps = {
   summary?: ReactElement;
 } & ComponentProps<'details'>;
 
-export default function Details({
+export function Details({
   summary,
   children,
   ...props

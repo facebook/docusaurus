@@ -8,9 +8,11 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 
-// Get the pathname of current route, without the optional site baseUrl
-// - /docs/myDoc => /docs/myDoc
-// - /baseUrl/docs/myDoc => /docs/myDoc
+/**
+ * Get the pathname of current route, without the optional site baseUrl
+ * - /docs/myDoc => /docs/myDoc
+ * - /baseUrl/docs/myDoc => /docs/myDoc
+ */
 export function useLocalPathname(): string {
   const {
     siteConfig: {baseUrl},

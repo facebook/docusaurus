@@ -41,7 +41,7 @@ const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
 // This hook returns an enum value on purpose!
 // We don't want it to return the actual width value, for resize perf reasons
 // We only want to re-render once a breakpoint is crossed
-export default function useWindowSize(): WindowSize {
+export function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';

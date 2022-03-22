@@ -10,8 +10,11 @@ import {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Route} from '@docusaurus/types';
 
-// Note that all sites don't always have a homepage in practice
-// See https://github.com/facebook/docusaurus/pull/6517#issuecomment-1048709116
+/**
+ * Note that sites don't always have a homepage in practice, so we can't assume
+ * that linking to '/' is always safe.
+ * @see https://github.com/facebook/docusaurus/pull/6517#issuecomment-1048709116
+ */
 export function findHomePageRoute({
   baseUrl,
   routes: initialRoutes,

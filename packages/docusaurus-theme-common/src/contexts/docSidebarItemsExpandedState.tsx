@@ -6,7 +6,7 @@
  */
 
 import React, {type ReactNode, useMemo, useState, useContext} from 'react';
-import {ReactContextError} from './reactUtils';
+import {ReactContextError} from '../utils/reactUtils';
 
 const EmptyContext: unique symbol = Symbol('EmptyContext');
 const Context = React.createContext<

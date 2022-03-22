@@ -6,6 +6,7 @@
  */
 
 import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
  * This hook is like useLayoutEffect, but without the SSR warning
@@ -14,12 +15,13 @@ import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
  * It is useful when you need to update a ref as soon as possible after a React
  * render (before `useEffect`)
  */
-export const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+export const useIsomorphicLayoutEffect = ExecutionEnvironment.canUseDOM
+  ? useLayoutEffect
+  : useEffect;
 
 /**
  * Permits to transform an unstable callback (like an arrow function provided as
- * props) to a "stable" callback that is safe to use in a useEffect dependency
+ * props) to a "stable" callback that is safe to use in a `useEffect` dependency
  * array. Useful to avoid React stale closure problems + avoid useless effect
  * re-executions
  *
@@ -40,6 +42,16 @@ export function useDynamicCallback<T extends (...args: never[]) => unknown>(
   // @ts-expect-error: TS is right that this callback may be a supertype of T,
   // but good enough for our use
   return useCallback<T>((...args) => ref.current(...args), []);
+}
+
+export function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>();
+
+  useIsomorphicLayoutEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
 }
 
 export class ReactContextError extends Error {

@@ -11669,6 +11669,11 @@ jest-runtime@^27.5.1:
     slash "^3.0.0"
     strip-bom "^4.0.0"
 
+jest-serializer-react-helmet-async@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/jest-serializer-react-helmet-async/-/jest-serializer-react-helmet-async-1.0.21.tgz#bf2aee7522909bc4c933a0911db236b92db4685c"
+  integrity sha512-oJARA6ACc3QNR4s/EUjecLQclGf2+vMO0azoiEBwjJrsDHGHkMHcM935+r7aGkmteY1awdoyQ78ZGDiC7dwtsw==
+
 jest-serializer@^27.5.1:
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/jest-serializer/-/jest-serializer-27.5.1.tgz#81438410a30ea66fd57ff730835123dea1fb1f64"

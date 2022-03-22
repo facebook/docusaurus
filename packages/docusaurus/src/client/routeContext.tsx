@@ -19,12 +19,10 @@ function mergeContexts({
 }): PluginRouteContext {
   if (!parent) {
     if (!value) {
-      throw new Error(
-        'Unexpected: no Docusaurus parent/current route context found',
-      );
+      throw new Error('Unexpected: no Docusaurus route context found');
     } else if (!('plugin' in value)) {
       throw new Error(
-        'Unexpected: Docusaurus parent route context has no plugin attribute',
+        'Unexpected: Docusaurus topmost route context has no `plugin` attribute',
       );
     }
     return value;
@@ -45,7 +43,8 @@ export function RouteContextProvider({
   value,
 }: {
   children: ReactNode;
-  value: PluginRouteContext | null;
+  // Only topmost route has the `plugin` attribute
+  value: PluginRouteContext | RouteContext | null;
 }): JSX.Element {
   const parent = React.useContext(Context);
 

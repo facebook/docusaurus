@@ -6,7 +6,7 @@
  */
 
 import {useEffect, useRef} from 'react';
-import {useThemeConfig} from './useThemeConfig';
+import {useThemeConfig} from '../utils/useThemeConfig';
 
 // TODO make the hardcoded theme-classic classnames configurable (or add them
 // to ThemeClassNames?)
@@ -120,9 +120,7 @@ export type TOCHighlightConfig = {
   maxHeadingLevel: number;
 };
 
-export default function useTOCHighlight(
-  config: TOCHighlightConfig | undefined,
-): void {
+export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 
   const anchorTopOffsetRef = useAnchorTopOffsetRef();
