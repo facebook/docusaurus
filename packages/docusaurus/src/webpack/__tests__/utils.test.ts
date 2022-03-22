@@ -74,7 +74,7 @@ describe('extending generated webpack config', () => {
           filename: 'new.bundle.js',
         };
       }
-      return {};
+      // Implicitly returning undefined to test null-safety
     };
 
     config = applyConfigureWebpack(configureWebpack, config, false, undefined, {

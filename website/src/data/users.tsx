@@ -822,6 +822,15 @@ const Users: User[] = [
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
   },
   {
+    title: 'K3ai',
+    description:
+      'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
+    preview: require('./showcase/k3ai.png'),
+    website: 'https://k3ai.in/',
+    source: 'https://github.com/k3ai/k3ai.github.io',
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'KaustubhK24',
     description: 'KaustubhK24 blog + Portfolio website',
     preview: require('./showcase/kaustubhk24.png'),
@@ -1099,6 +1108,15 @@ const Users: User[] = [
     website: 'https://pcapplusplus.github.io/',
     source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'pdfme',
+    description:
+      'Free and Open source PDF generator library fully written in TypeScript coming with a React based UI template editor',
+    preview: require('./showcase/pdfme.png'),
+    website: 'https://pdfme.com/',
+    source: 'https://github.com/pdfme/pdfme/tree/main/website',
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'Pearl UI',
