@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import type { MouseEvent} from 'react';
 import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
@@ -90,11 +91,16 @@ export default function CodeBlock({
     languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
 
-  const handleCopyCode = () => {
+  const handleCopyCode = (e: MouseEvent<HTMLButtonElement>) => {
     copy(code);
     setIsCopied(true);
 
-    setTimeout(() => setIsCopied(false), 2000);
+    const button = e.currentTarget;
+
+    setTimeout(() => {
+      setIsCopied(false);
+      button.blur();
+    }, 2000);
   };
 
   return (
