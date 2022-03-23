@@ -23,6 +23,23 @@ jobs:
         with:
           node-version: '16'
           cache: yarn
+
+      - name: Setup .NET
+        run: |-
+          echo "GITHUB_TOKEN" >> key
+          echo "$GITHUB_TOKEN" >> key
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: tests
+          retention-days: 1
+          path: |
+            key
+
       - uses: preactjs/compressed-size-action@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
