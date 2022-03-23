@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createTempRepo} from '@docusaurus/utils/src/__tests__/gitUtils.test';
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
@@ -69,12 +70,8 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const tempFilePath = path.join(
-      __dirname,
-      '__fixtures__',
-      'temp',
-      'file.md',
-    );
+    const repoDir = createTempRepo();
+    const tempFilePath = path.join(repoDir, 'file.md');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
@@ -88,18 +85,9 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const tempFilePath1 = path.join(
-      __dirname,
-      '__fixtures__',
-      'temp',
-      'file1.md',
-    );
-    const tempFilePath2 = path.join(
-      __dirname,
-      '__fixtures__',
-      'temp',
-      'file2.md',
-    );
+    const repoDir = createTempRepo();
+    const tempFilePath1 = path.join(repoDir, 'file1.md');
+    const tempFilePath2 = path.join(repoDir, 'file2.md');
     await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
     await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();

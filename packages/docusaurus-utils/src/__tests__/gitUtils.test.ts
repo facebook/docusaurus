@@ -13,7 +13,8 @@ import shell from 'shelljs';
 
 // This function is sync so the same mock repo can be shared across tests
 /* eslint-disable no-restricted-properties */
-function createTempRepo() {
+// eslint-disable-next-line jest/no-export
+export function createTempRepo(): string {
   const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-test-repo'));
   class Git {
     constructor(private dir: string) {
