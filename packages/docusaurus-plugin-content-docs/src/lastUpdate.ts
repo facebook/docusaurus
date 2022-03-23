@@ -31,17 +31,18 @@ export async function getFileLastUpdate(
     });
     return {timestamp: result.timestamp, author: result.author};
   } catch (err) {
-    if (err instanceof GitNotFoundError && !showedGitRequirementError) {
-      logger.warn('Sorry, the docs plugin last update options require Git.');
-      showedGitRequirementError = true;
-    } else if (
-      err instanceof FileNotTrackedError &&
-      !showedFileNotTrackedError
-    ) {
-      logger.warn(
-        'Cannot infer the update date for some files, as they are not tracked by git.',
-      );
-      showedFileNotTrackedError = true;
+    if (err instanceof GitNotFoundError) {
+      if (!showedGitRequirementError) {
+        logger.warn('Sorry, the docs plugin last update options require Git.');
+        showedGitRequirementError = true;
+      }
+    } else if (err instanceof FileNotTrackedError) {
+      if (!showedFileNotTrackedError) {
+        logger.warn(
+          'Cannot infer the update date for some files, as they are not tracked by git.',
+        );
+        showedFileNotTrackedError = true;
+      }
     } else {
       logger.warn(err);
     }

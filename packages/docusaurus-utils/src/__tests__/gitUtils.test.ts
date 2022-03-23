@@ -8,51 +8,12 @@
 import {FileNotTrackedError, getFileCommitDate} from '../gitUtils';
 import fs from 'fs-extra';
 import path from 'path';
-import os from 'os';
-import shell from 'shelljs';
+import {createTempRepo} from '@testing-utils/git';
 
-// This function is sync so the same mock repo can be shared across tests
 /* eslint-disable no-restricted-properties */
-function createTempRepo() {
-  const repoDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-test-repo'));
-  class Git {
-    constructor(private dir: string) {
-      const res = shell.exec('git init', {cwd: dir, silent: true});
-      if (res.code !== 0) {
-        throw new Error(`git init exited with code ${res.code}.
-stderr: ${res.stderr}
-stdout: ${res.stdout}`);
-      }
-      // Doesn't matter currently
-      shell.exec('git config user.email "test@jc-verse.com"', {
-        cwd: dir,
-        silent: true,
-      });
-      shell.exec('git config user.name "Test"', {cwd: dir, silent: true});
-    }
-    commit(msg: string, date: string, author: string) {
-      const addRes = shell.exec('git add .', {cwd: this.dir, silent: true});
-      const commitRes = shell.exec(
-        `git commit -m "${msg}" --date "${date}T00:00:00Z" --author "${author}"`,
-        {
-          cwd: this.dir,
-          env: {GIT_COMMITTER_DATE: `${date}T00:00:00Z`},
-          silent: true,
-        },
-      );
-      if (addRes.code !== 0) {
-        throw new Error(`git add exited with code ${addRes.code}.
-stderr: ${addRes.stderr}
-stdout: ${addRes.stdout}`);
-      }
-      if (commitRes.code !== 0) {
-        throw new Error(`git commit exited with code ${commitRes.code}.
-stderr: ${commitRes.stderr}
-stdout: ${commitRes.stdout}`);
-      }
-    }
-  }
-  const git = new Git(repoDir);
+function initializeTempRepo() {
+  const {repoDir, git} = createTempRepo();
+
   fs.writeFileSync(path.join(repoDir, 'test.txt'), 'Some content');
   git.commit(
     'Create test.txt',
@@ -79,11 +40,12 @@ stdout: ${commitRes.stdout}`);
     'Josh-Cena <josh-cena@jc-verse.com>',
   );
   fs.writeFileSync(path.join(repoDir, 'untracked.txt'), "I'm untracked");
+
   return repoDir;
 }
 
 describe('getFileCommitDate', () => {
-  const repoDir = createTempRepo();
+  const repoDir = initializeTempRepo();
   it('returns earliest commit date', async () => {
     expect(getFileCommitDate(path.join(repoDir, 'test.txt'), {})).toEqual({
       date: new Date('2020-06-19'),
