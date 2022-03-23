@@ -3461,15 +3461,14 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@slorber/static-site-generator-webpack-plugin@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@slorber/static-site-generator-webpack-plugin/-/static-site-generator-webpack-plugin-4.0.1.tgz#0c8852146441aaa683693deaa5aee2f991d94841"
-  integrity sha512-PSv4RIVO1Y3kvHxjvqeVisk3E9XFoO04uwYBDWe217MFqKspplYswTuKLiJu0aLORQWzuQjfVsSlLPojwfYsLw==
+"@slorber/static-site-generator-webpack-plugin@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@slorber/static-site-generator-webpack-plugin/-/static-site-generator-webpack-plugin-4.0.2.tgz#13b48c80df797e041c4d5c09fbca6b54266a082b"
+  integrity sha512-qHmW0eeHqVp7Sa4uk8rRHmG4iJVoq7RS0cxs+eUl9kituDarlM2XWjDdoKEYucEaXXLkTES+PRSR2oPwxtSEtw==
   dependencies:
     bluebird "^3.7.1"
     cheerio "^0.22.0"
-    eval "^0.1.4"
-    url "^0.11.0"
+    eval "^0.1.7"
     webpack-sources "^1.4.3"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
@@ -8580,11 +8579,12 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
-eval@^0.1.4:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/eval/-/eval-0.1.6.tgz#9620d7d8c85515e97e6b47c5814f46ae381cb3cc"
-  integrity sha512-o0XUw+5OGkXw4pJZzQoXUk+H87DHuC+7ZE//oSrRGtatTmr12oTnLfg6QOq9DyTt0c/p4TwzgmkKrBzWTSizyQ==
+eval@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/eval/-/eval-0.1.7.tgz#106f75f9d6feb10a68adeaf97a43a582c58e0b2f"
+  integrity sha512-ju9MU0XxhlibL4H5Ln8jCPJONGOS7unrBY+x1ICub09Ohg0tWTcBVkqgbJpRmczNobY8RxqCdar7hkdg5msVCA==
   dependencies:
+    "@types/node" "*"
     require-like ">= 0.1.1"
 
 eventemitter3@^4.0.0, eventemitter3@^4.0.4:
