@@ -56,13 +56,13 @@
   opacity: 0;
 }
 
+.copyButton:focus-visible,
 .copyButton:hover,
-.copyButton:focus {
+.codeBlockContainer:hover .copyButtonCopied {
   opacity: 1 !important;
 }
 
-.codeBlockContent:hover > .copyButton,
-.codeBlockTitle:hover + .codeBlockContent .copyButton {
+.codeBlockContainer:hover .copyButton:not(.copyButtonCopied) {
   opacity: 0.4;
 }
 
