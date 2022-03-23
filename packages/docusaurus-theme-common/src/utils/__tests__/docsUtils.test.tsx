@@ -10,15 +10,13 @@ import {renderHook} from '@testing-library/react-hooks';
 import {
   findFirstCategoryLink,
   isActiveSidebarItem,
-  DocsVersionProvider,
-  useDocsVersion,
   useDocById,
-  useDocsSidebar,
-  DocsSidebarProvider,
   findSidebarCategory,
   useCurrentSidebarCategory,
   useSidebarBreadcrumbs,
 } from '../docsUtils';
+import {DocsSidebarProvider} from '../../contexts/docsSidebar';
+import {DocsVersionProvider} from '../../contexts/docsVersion';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import type {
@@ -67,46 +65,6 @@ function testVersion(data?: Partial<PropVersionMetadata>): PropVersionMetadata {
     ...data,
   };
 }
-
-describe('useDocsVersion', () => {
-  it('throws if context provider is missing', () => {
-    expect(
-      () => renderHook(() => useDocsVersion()).result.current,
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsVersion is called outside the <DocsVersionProvider>. "`,
-    );
-  });
-
-  it('reads value from context provider', () => {
-    const version = testVersion();
-    const {result} = renderHook(() => useDocsVersion(), {
-      wrapper: ({children}) => (
-        <DocsVersionProvider version={version}>{children}</DocsVersionProvider>
-      ),
-    });
-    expect(result.current).toBe(version);
-  });
-});
-
-describe('useDocsSidebar', () => {
-  it('throws if context provider is missing', () => {
-    expect(
-      () => renderHook(() => useDocsSidebar()).result.current,
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Hook useDocsSidebar is called outside the <DocsSidebarProvider>. "`,
-    );
-  });
-
-  it('reads value from context provider', () => {
-    const sidebar: PropSidebar = [];
-    const {result} = renderHook(() => useDocsSidebar(), {
-      wrapper: ({children}) => (
-        <DocsSidebarProvider sidebar={sidebar}>{children}</DocsSidebarProvider>
-      ),
-    });
-    expect(result.current).toBe(sidebar);
-  });
-});
 
 describe('useDocById', () => {
   const version = testVersion({
@@ -506,11 +464,11 @@ describe('useCurrentSidebarCategory', () => {
     const mockUseCurrentSidebarCategory = createUseCurrentSidebarCategoryMock([
       category,
     ]);
-    expect(() => mockUseCurrentSidebarCategory('/cat'))
-      .toThrowErrorMatchingInlineSnapshot(`
-      "Unexpected: sidebar category could not be found for pathname='/cat'.
-      Hook useCurrentSidebarCategory() should only be used on Category pages"
-    `);
+    expect(() =>
+      mockUseCurrentSidebarCategory('/cat'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"/cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages."`,
+    );
   });
 
   it('throws when sidebar is missing', () => {

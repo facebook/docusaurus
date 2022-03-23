@@ -47,6 +47,7 @@ export function PageMetadata({
         <meta
           name="keywords"
           content={
+            // https://github.com/microsoft/TypeScript/issues/17002
             (Array.isArray(keywords) ? keywords.join(',') : keywords) as string
           }
         />

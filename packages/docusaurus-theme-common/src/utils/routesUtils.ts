@@ -69,11 +69,7 @@ export function findHomePageRoute({
 export function useHomePageRoute(): Route | undefined {
   const {baseUrl} = useDocusaurusContext().siteConfig;
   return useMemo(
-    () =>
-      findHomePageRoute({
-        routes: generatedRoutes,
-        baseUrl,
-      }),
+    () => findHomePageRoute({routes: generatedRoutes, baseUrl}),
     [baseUrl],
   );
 }

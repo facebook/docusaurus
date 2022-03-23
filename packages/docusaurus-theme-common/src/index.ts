@@ -30,15 +30,17 @@ export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
 
-export {useContextualSearchFilters} from './utils/useContextualSearchFilters';
-
 export {
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+export {
+  docVersionSearchTag,
+  DEFAULT_SEARCH_TAG,
+  useContextualSearchFilters,
+} from './utils/searchUtils';
 
 export {
   isDocsPluginEnabled,
