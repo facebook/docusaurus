@@ -4,7 +4,6 @@
   "description": "Stylelint plugin to check CSS files for a copyright header.",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/docusaurus.git",
