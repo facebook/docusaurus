@@ -31,7 +31,7 @@ export default function CodeBlock({
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
-  const [showCopied, setShowCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
@@ -92,9 +92,9 @@ export default function CodeBlock({
 
   const handleCopyCode = () => {
     copy(code);
-    setShowCopied(true);
+    setIsCopied(true);
 
-    setTimeout(() => setShowCopied(false), 2000);
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
   return (
@@ -170,17 +170,18 @@ export default function CodeBlock({
 
               // @todo: not sure about this
               title={
-                !showCopied &&
-                translate({
-                  id: 'theme.CodeBlock.copy',
-                  message: 'Copy',
-                  description: 'The copy button label on code blocks',
-                })
+                !isCopied
+                  ? translate({
+                      id: 'theme.CodeBlock.copy',
+                      message: 'Copy',
+                      description: 'The copy button label on code blocks',
+                    })
+                  : ''
               }
               className={clsx(
                 styles.copyButton,
                 'clean-btn',
-                showCopied && styles.copyButtonCopied,
+                isCopied && styles.copyButtonCopied,
               )}
               onClick={handleCopyCode}>
               <span className={styles.copyButtonIcons}>
@@ -200,7 +201,7 @@ export default function CodeBlock({
               </span>
               {/* @todo: add similar class to Infima */}
               <span className="screen-reader-only" aria-live="polite">
-                {showCopied ? (
+                {isCopied ? (
                   <Translate
                     id="theme.CodeBlock.copied"
                     description="The copied button label on code blocks">
