@@ -7,6 +7,10 @@
 
 import type {MultiColumnFooter, SimpleFooter} from './useThemeConfig';
 
+/**
+ * A rough duck-typing about whether the `footer.links` is intended to be multi-
+ * column.
+ */
 export function isMultiColumnFooterLinks(
   links: MultiColumnFooter['links'] | SimpleFooter['links'],
 ): links is MultiColumnFooter['links'] {

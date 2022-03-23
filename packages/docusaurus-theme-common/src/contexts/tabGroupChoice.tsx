@@ -18,16 +18,16 @@ import {ReactContextError} from '../utils/reactUtils';
 
 const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
-type TabGroupChoiceContextValue = {
+type ContextValue = {
+  /** A map from `groupId` to the `value` of the saved choice. */
   readonly tabGroupChoices: {readonly [groupId: string]: string};
+  /** Set the new choice value of a group. */
   readonly setTabGroupChoices: (groupId: string, newChoice: string) => void;
 };
 
-const TabGroupChoiceContext = React.createContext<
-  TabGroupChoiceContextValue | undefined
->(undefined);
+const Context = React.createContext<ContextValue | undefined>(undefined);
 
-function useTabGroupChoiceContextValue(): TabGroupChoiceContextValue {
+function useContextValue(): ContextValue {
   const [tabGroupChoices, setChoices] = useState<{
     readonly [groupId: string]: string;
   }>({});
@@ -50,13 +50,18 @@ function useTabGroupChoiceContextValue(): TabGroupChoiceContextValue {
     }
   }, []);
 
-  return {
-    tabGroupChoices,
-    setTabGroupChoices: (groupId: string, newChoice: string) => {
+  const setTabGroupChoices = useCallback(
+    (groupId: string, newChoice: string) => {
       setChoices((oldChoices) => ({...oldChoices, [groupId]: newChoice}));
       setChoiceSyncWithLocalStorage(groupId, newChoice);
     },
-  };
+    [setChoiceSyncWithLocalStorage],
+  );
+
+  return useMemo(
+    () => ({tabGroupChoices, setTabGroupChoices}),
+    [tabGroupChoices, setTabGroupChoices],
+  );
 }
 
 export function TabGroupChoiceProvider({
@@ -64,23 +69,12 @@ export function TabGroupChoiceProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoiceContextValue();
-  const contextValue = useMemo(
-    () => ({
-      tabGroupChoices,
-      setTabGroupChoices,
-    }),
-    [tabGroupChoices, setTabGroupChoices],
-  );
-  return (
-    <TabGroupChoiceContext.Provider value={contextValue}>
-      {children}
-    </TabGroupChoiceContext.Provider>
-  );
+  const value = useContextValue();
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
-export function useTabGroupChoice(): TabGroupChoiceContextValue {
-  const context = useContext(TabGroupChoiceContext);
+export function useTabGroupChoice(): ContextValue {
+  const context = useContext(Context);
   if (context == null) {
     throw new ReactContextError('TabGroupChoiceProvider');
   }

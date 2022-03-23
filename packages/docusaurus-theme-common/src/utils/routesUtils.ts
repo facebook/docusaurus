@@ -5,10 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import generatedRoutes from '@generated/routes';
 import {useMemo} from 'react';
+import generatedRoutes from '@generated/routes';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Route} from '@docusaurus/types';
+
+/**
+ * Compare the 2 paths, case insensitive and ignoring trailing slash
+ */
+export function isSamePath(
+  path1: string | undefined,
+  path2: string | undefined,
+): boolean {
+  const normalize = (pathname: string | undefined) =>
+    (!pathname || pathname?.endsWith('/')
+      ? pathname
+      : `${pathname}/`
+    )?.toLowerCase();
+  return normalize(path1) === normalize(path2);
+}
 
 /**
  * Note that sites don't always have a homepage in practice, so we can't assume
@@ -47,14 +62,14 @@ export function findHomePageRoute({
   return doFindHomePageRoute(initialRoutes);
 }
 
+/**
+ * Fetches the route that points to "/". Use this instead of the naive "/",
+ * because the homepage may not exist.
+ */
 export function useHomePageRoute(): Route | undefined {
   const {baseUrl} = useDocusaurusContext().siteConfig;
   return useMemo(
-    () =>
-      findHomePageRoute({
-        routes: generatedRoutes,
-        baseUrl,
-      }),
+    () => findHomePageRoute({routes: generatedRoutes, baseUrl}),
     [baseUrl],
   );
 }

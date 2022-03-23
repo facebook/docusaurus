@@ -5,57 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useContext} from 'react';
 import {
-  useActivePlugin,
   useAllDocsData,
+  useActivePlugin,
 } from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
-  PropVersionMetadata,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
-import {isSamePath} from './pathUtils';
-import {ReactContextError} from './reactUtils';
+import {useDocsVersion} from '../contexts/docsVersion';
+import {useDocsSidebar} from '../contexts/docsSidebar';
+import {isSamePath} from './routesUtils';
 import {useLocation} from '@docusaurus/router';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid context value (a doc with no sidebar)
-// Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
-const EmptyContextValue: unique symbol = Symbol('EmptyContext');
-
-const DocsVersionContext = React.createContext<
-  PropVersionMetadata | typeof EmptyContextValue
->(EmptyContextValue);
-
-export function DocsVersionProvider({
-  children,
-  version,
-}: {
-  children: ReactNode;
-  version: PropVersionMetadata | typeof EmptyContextValue;
-}): JSX.Element {
-  return (
-    <DocsVersionContext.Provider value={version}>
-      {children}
-    </DocsVersionContext.Provider>
-  );
-}
-
-export function useDocsVersion(): PropVersionMetadata {
-  const version = useContext(DocsVersionContext);
-  if (version === EmptyContextValue) {
-    throw new ReactContextError('DocsVersionProvider');
-  }
-  return version;
-}
-
+/**
+ * A null-safe way to access a doc's data by ID in the active version.
+ */
 export function useDocById(id: string): PropVersionDoc;
+/**
+ * A null-safe way to access a doc's data by ID in the active version.
+ */
 export function useDocById(id: string | undefined): PropVersionDoc | undefined;
 export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   const version = useDocsVersion();
@@ -69,34 +44,9 @@ export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   return doc;
 }
 
-const DocsSidebarContext = React.createContext<
-  PropSidebar | null | typeof EmptyContextValue
->(EmptyContextValue);
-
-export function DocsSidebarProvider({
-  children,
-  sidebar,
-}: {
-  children: ReactNode;
-  sidebar: PropSidebar | null;
-}): JSX.Element {
-  return (
-    <DocsSidebarContext.Provider value={sidebar}>
-      {children}
-    </DocsSidebarContext.Provider>
-  );
-}
-
-export function useDocsSidebar(): PropSidebar | null {
-  const sidebar = useContext(DocsSidebarContext);
-  if (sidebar === EmptyContextValue) {
-    throw new ReactContextError('DocsSidebarProvider');
-  }
-  return sidebar;
-}
-
-// Use the components props and the sidebar in context
-// to get back the related sidebar category that we want to render
+/**
+ * Pure function, similar to `Array#find`, but works on the sidebar tree.
+ */
 export function findSidebarCategory(
   sidebar: PropSidebar,
   predicate: (category: PropSidebarItemCategory) => boolean,
@@ -115,7 +65,10 @@ export function findSidebarCategory(
   return undefined;
 }
 
-// If a category card has no link => link to the first subItem having a link
+/**
+ * Best effort to assign a link to a sidebar category. If the category doesn't
+ * have a link itself, we link to the first sub item with a link.
+ */
 export function findFirstCategoryLink(
   item: PropSidebarItemCategory,
 ): string | undefined {
@@ -142,6 +95,10 @@ export function findFirstCategoryLink(
   return undefined;
 }
 
+/**
+ * Gets the category associated with the current location. Should only be used
+ * on category index pages.
+ */
 export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   const {pathname} = useLocation();
   const sidebar = useDocsSidebar();
@@ -153,47 +110,53 @@ export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   );
   if (!category) {
     throw new Error(
-      `Unexpected: sidebar category could not be found for pathname='${pathname}'.
-Hook useCurrentSidebarCategory() should only be used on Category pages`,
+      `${pathname} is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.`,
     );
   }
   return category;
 }
 
-function containsActiveSidebarItem(
+const isActive = (testedPath: string | undefined, activePath: string) =>
+  typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
+const containsActiveSidebarItem = (
   items: PropSidebarItem[],
   activePath: string,
-): boolean {
-  return items.some((subItem) => isActiveSidebarItem(subItem, activePath));
-}
+) => items.some((subItem) => isActiveSidebarItem(subItem, activePath));
 
+/**
+ * Checks if a sidebar item should be active, based on the active path.
+ */
 export function isActiveSidebarItem(
   item: PropSidebarItem,
   activePath: string,
 ): boolean {
-  const isActive = (testedPath: string | undefined) =>
-    typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
-
   if (item.type === 'link') {
-    return isActive(item.href);
+    return isActive(item.href, activePath);
   }
 
   if (item.type === 'category') {
     return (
-      isActive(item.href) || containsActiveSidebarItem(item.items, activePath)
+      isActive(item.href, activePath) ||
+      containsActiveSidebarItem(item.items, activePath)
     );
   }
 
   return false;
 }
 
-function getBreadcrumbs({
-  sidebar,
-  pathname,
-}: {
-  sidebar: PropSidebar;
-  pathname: string;
-}): PropSidebarBreadcrumbsItem[] {
+/**
+ * Gets the breadcrumbs of the current doc page, based on its sidebar location.
+ * Returns `null` if there's no sidebar or breadcrumbs are disabled.
+ */
+export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
+  const sidebar = useDocsSidebar();
+  const {pathname} = useLocation();
+  const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
+
+  if (breadcrumbsOption === false || !sidebar) {
+    return null;
+  }
+
   const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
 
   function extract(items: PropSidebar) {
@@ -214,16 +177,4 @@ function getBreadcrumbs({
   extract(sidebar);
 
   return breadcrumbs.reverse();
-}
-
-export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
-  const sidebar = useDocsSidebar();
-  const {pathname} = useLocation();
-  const breadcrumbsOption = useActivePlugin()?.pluginData.breadcrumbs;
-
-  if (breadcrumbsOption === false || !sidebar) {
-    return null;
-  }
-
-  return getBreadcrumbs({sidebar, pathname});
 }

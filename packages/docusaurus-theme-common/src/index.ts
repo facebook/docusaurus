@@ -23,12 +23,12 @@ export {
   DocSidebarItemsExpandedStateProvider,
   useDocSidebarItemsExpandedState,
 } from './contexts/docSidebarItemsExpandedState';
+export {DocsVersionProvider, useDocsVersion} from './contexts/docsVersion';
+export {DocsSidebarProvider, useDocsSidebar} from './contexts/docsSidebar';
 
 export {createStorageSlot, listStorageKeys} from './utils/storageUtils';
 
 export {useAlternatePageUtils} from './utils/useAlternatePageUtils';
-
-export {useContextualSearchFilters} from './utils/useContextualSearchFilters';
 
 export {
   parseCodeBlockTitle,
@@ -36,15 +36,15 @@ export {
   parseLines,
 } from './utils/codeBlockUtils';
 
-export {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './utils/searchUtils';
+export {
+  docVersionSearchTag,
+  DEFAULT_SEARCH_TAG,
+  useContextualSearchFilters,
+} from './utils/searchUtils';
 
 export {
   isDocsPluginEnabled,
-  DocsVersionProvider,
-  useDocsVersion,
   useDocById,
-  DocsSidebarProvider,
-  useDocsSidebar,
   findSidebarCategory,
   findFirstCategoryLink,
   useCurrentSidebarCategory,
@@ -52,20 +52,13 @@ export {
   useSidebarBreadcrumbs,
 } from './utils/docsUtils';
 
-export {isSamePath} from './utils/pathUtils';
-
 export {useTitleFormatter} from './utils/generalUtils';
 
 export {usePluralForm} from './utils/usePluralForm';
 
 export {useLocationChange} from './utils/useLocationChange';
 
-export {
-  useCollapsible,
-  Collapsible,
-  type UseCollapsibleConfig,
-  type UseCollapsibleReturns,
-} from './components/Collapsible';
+export {useCollapsible, Collapsible} from './components/Collapsible';
 
 export {Details, type DetailsProps} from './components/Details';
 
@@ -124,7 +117,7 @@ export {
 
 export {isRegexpStringMatch} from './utils/regexpUtils';
 
-export {useHomePageRoute} from './utils/routesUtils';
+export {useHomePageRoute, isSamePath} from './utils/routesUtils';
 
 export {
   PageMetadata,
@@ -149,8 +142,8 @@ export {useNavbarMobileSidebar} from './contexts/navbarMobileSidebar';
 export {
   useNavbarSecondaryMenu,
   NavbarSecondaryMenuFiller,
-} from './utils/navbarSecondaryMenu';
-export type {NavbarSecondaryMenuComponent} from './utils/navbarSecondaryMenu';
+  type NavbarSecondaryMenuComponent,
+} from './contexts/navbarSecondaryMenu';
 
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {

@@ -17,25 +17,12 @@ import React, {
 import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-/**
- * We need a way to update the scroll position while ignoring scroll events
- * without affecting Navbar/BackToTop visibility
- *
- * This API permits to temporarily disable/ignore scroll events
- * Motivated by https://github.com/facebook/docusaurus/pull/5618
- */
 type ScrollController = {
-  /**
-   * A boolean ref tracking whether scroll events are enabled
-   */
+  /** A boolean ref tracking whether scroll events are enabled. */
   scrollEventsEnabledRef: React.MutableRefObject<boolean>;
-  /**
-   * Enables scroll events in `useScrollPosition`
-   */
+  /** Enable scroll events in `useScrollPosition`. */
   enableScrollEvents: () => void;
-  /**
-   * Disables scroll events in `useScrollPosition`
-   */
+  /** Disable scroll events in `useScrollPosition`. */
   disableScrollEvents: () => void;
 };
 
@@ -65,13 +52,21 @@ export function ScrollControllerProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
+  const value = useScrollControllerContextValue();
   return (
-    <ScrollMonitorContext.Provider value={useScrollControllerContextValue()}>
+    <ScrollMonitorContext.Provider value={value}>
       {children}
     </ScrollMonitorContext.Provider>
   );
 }
 
+/**
+ * We need a way to update the scroll position while ignoring scroll events
+ * so as not to toggle Navbar/BackToTop visibility.
+ *
+ * This API permits to temporarily disable/ignore scroll events. Motivated by
+ * https://github.com/facebook/docusaurus/pull/5618
+ */
 export function useScrollController(): ScrollController {
   const context = useContext(ScrollMonitorContext);
   if (context == null) {
@@ -79,6 +74,8 @@ export function useScrollController(): ScrollController {
   }
   return context;
 }
+
+type ScrollPosition = {scrollX: number; scrollY: number};
 
 const getScrollPosition = (): ScrollPosition | null =>
   ExecutionEnvironment.canUseDOM
@@ -88,8 +85,14 @@ const getScrollPosition = (): ScrollPosition | null =>
       }
     : null;
 
-type ScrollPosition = {scrollX: number; scrollY: number};
-
+/**
+ * This hook fires an effect when the scroll position changes. The effect will
+ * be provided with the before/after scroll positions. Note that the effect may
+ * not be always run: if scrolling is disabled through `useScrollController`, it
+ * will be a no-op.
+ *
+ * @see {@link useScrollController}
+ */
 export function useScrollPosition(
   effect: (
     position: ScrollPosition,
@@ -124,22 +127,16 @@ export function useScrollPosition(
     window.addEventListener('scroll', handleScroll, opts);
 
     return () => window.removeEventListener('scroll', handleScroll, opts);
-  }, [
-    dynamicEffect,
-    scrollEventsEnabledRef,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    ...deps,
-  ]);
+  }, [dynamicEffect, scrollEventsEnabledRef, ...deps]);
 }
 
 type UseScrollPositionSaver = {
-  /**
-   * Measure the top of an element, and store the details
-   */
+  /** Measure the top of an element, and store the details. */
   save: (elem: HTMLElement) => void;
   /**
    * Restore the page position to keep the stored element's position from
-   * the top of the viewport, and remove the stored details
+   * the top of the viewport, and remove the stored details.
    */
   restore: () => {restored: boolean};
 };
@@ -177,21 +174,24 @@ function useScrollPositionSaver(): UseScrollPositionSaver {
   return useMemo(() => ({save, restore}), [restore, save]);
 }
 
-type UseScrollPositionBlockerReturn = {
-  blockElementScrollPositionUntilNextRender: (el: HTMLElement) => void;
-};
-
 /**
- * This hook permits to "block" the scroll position of a dom element
+ * This hook permits to "block" the scroll position of a DOM element.
  * The idea is that we should be able to update DOM content above this element
- * but the screen position of this element should not change
+ * but the screen position of this element should not change.
  *
- * Feature motivated by the Tabs groups:
- * clicking on a tab may affect tabs of the same group upper in the tree
- * Yet to avoid a bad UX, the clicked tab must remain under the user mouse!
- * See GIF here: https://github.com/facebook/docusaurus/pull/5618
+ * Feature motivated by the Tabs groups: clicking on a tab may affect tabs of
+ * the same group upper in the tree, yet to avoid a bad UX, the clicked tab must
+ * remain under the user mouse.
+ *
+ * @see https://github.com/facebook/docusaurus/pull/5618
  */
-export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
+export function useScrollPositionBlocker(): {
+  /**
+   * Takes an element, and keeps its screen position no matter what's getting
+   * rendered above it, until the next render.
+   */
+  blockElementScrollPositionUntilNextRender: (el: HTMLElement) => void;
+} {
   const scrollController = useScrollController();
   const scrollPositionSaver = useScrollPositionSaver();
 
@@ -207,9 +207,9 @@ export function useScrollPositionBlocker(): UseScrollPositionBlockerReturn {
         const {restored} = scrollPositionSaver.restore();
         nextLayoutEffectCallbackRef.current = undefined;
 
-        // Restoring the former scroll position will trigger a scroll event
-        // We need to wait for next scroll event to happen
-        // before enabling again the scrollController events
+        // Restoring the former scroll position will trigger a scroll event. We
+        // need to wait for next scroll event to happen before enabling the
+        // scrollController events again.
         if (restored) {
           const handleScrollRestoreEvent = () => {
             scrollController.enableScrollEvents();

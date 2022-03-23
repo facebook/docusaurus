@@ -5,44 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
 import {useHistory} from '@docusaurus/router';
+import {useDynamicCallback} from './reactUtils';
 import type {Location, Action} from 'history';
 
 type HistoryBlockHandler = (location: Location, action: Action) => void | false;
 
 /**
  * Permits to register a handler that will be called on history actions (pop,
- * push, replace) If the handler returns false, the navigation transition will
- * be blocked/cancelled
+ * push, replace). If the handler returns `false`, the navigation transition
+ * will be blocked/cancelled.
  */
-export function useHistoryActionHandler(handler: HistoryBlockHandler): void {
+function useHistoryActionHandler(handler: HistoryBlockHandler): void {
   const {block} = useHistory();
-
-  // Avoid stale closure issues without triggering useless re-renders
-  const lastHandlerRef = useRef(handler);
-  useEffect(() => {
-    lastHandlerRef.current = handler;
-  }, [handler]);
-
+  const stableHandler = useDynamicCallback(handler);
   useEffect(
-    () =>
-      // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
-      block((location, action) => lastHandlerRef.current(location, action)),
-    [block, lastHandlerRef],
+    // See https://github.com/remix-run/history/blob/main/docs/blocking-transitions.md
+    () => block((location, action) => stableHandler(location, action)),
+    [block, stableHandler],
   );
 }
 
 /**
  * Permits to register a handler that will be called on history pop navigation
- * (backward/forward) If the handler returns false, the backward/forward
+ * (backward/forward). If the handler returns `false`, the backward/forward
  * transition will be blocked. Unfortunately there's no good way to detect the
  * "direction" (backward/forward) of the POP event.
  */
 export function useHistoryPopHandler(handler: HistoryBlockHandler): void {
   useHistoryActionHandler((location, action) => {
     if (action === 'POP') {
-      // Eventually block navigation if handler returns false
+      // Maybe block navigation if handler returns false
       return handler(location, action);
     }
     // Don't block other navigation actions

@@ -9,8 +9,14 @@ import {useState, useCallback, useRef} from 'react';
 import {useLocationChange} from '../utils/useLocationChange';
 import {useScrollPosition} from '../utils/scrollUtils';
 
+/**
+ * Wires the imperative logic of a hideable navbar.
+ * @param hideOnScroll If `false`, this hook is basically a no-op.
+ */
 export function useHideableNavbar(hideOnScroll: boolean): {
+  /** A ref to the navbar component. Plug this into the actual element. */
   readonly navbarRef: (node: HTMLElement | null) => void;
+  /** If `false`, the navbar component should not be rendered. */
   readonly isNavbarVisible: boolean;
 } {
   const [isNavbarVisible, setIsNavbarVisible] = useState(hideOnScroll);
@@ -29,7 +35,8 @@ export function useHideableNavbar(hideOnScroll: boolean): {
 
     const scrollTop = currentPosition.scrollY;
 
-    // It needed for mostly to handle rubber band scrolling
+    // Needed mostly for handling rubber band scrolling.
+    // See https://github.com/facebook/docusaurus/pull/5721
     if (scrollTop < navbarHeight.current) {
       setIsNavbarVisible(true);
       return;
@@ -66,8 +73,5 @@ export function useHideableNavbar(hideOnScroll: boolean): {
     setIsNavbarVisible(true);
   });
 
-  return {
-    navbarRef,
-    isNavbarVisible,
-  };
+  return {navbarRef, isNavbarVisible};
 }

@@ -127,6 +127,9 @@ export type ThemeConfig = {
 // User-provided theme config, unnormalized
 export type UserThemeConfig = DeepPartial<ThemeConfig>;
 
+/**
+ * A convenient/more semantic way to get theme config from context.
+ */
 export function useThemeConfig(): ThemeConfig {
   return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
 }
