@@ -202,7 +202,13 @@ module.exports = {
     'import/no-unresolved': [
       ERROR,
       {
-        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          '^@testing-utils',
+        ],
       },
     ],
     'import/order': OFF,

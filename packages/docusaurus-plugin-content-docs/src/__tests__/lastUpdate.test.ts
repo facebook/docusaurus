@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createTempRepo} from '@docusaurus/utils/src/__tests__/gitUtils.test';
+import {createTempRepo} from '@testing-utils/git';
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
@@ -70,7 +70,7 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const repoDir = createTempRepo();
+    const {repoDir} = createTempRepo();
     const tempFilePath = path.join(repoDir, 'file.md');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
@@ -85,7 +85,7 @@ describe('getFileLastUpdate', () => {
     const consoleMock = jest
       .spyOn(console, 'warn')
       .mockImplementation(() => {});
-    const repoDir = createTempRepo();
+    const {repoDir} = createTempRepo();
     const tempFilePath1 = path.join(repoDir, 'file1.md');
     const tempFilePath2 = path.join(repoDir, 'file2.md');
     await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');

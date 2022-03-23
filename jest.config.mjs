@@ -60,6 +60,8 @@ export default {
     // Using src instead of lib, so we always get fresh source
     '@docusaurus/plugin-content-docs/client':
       '@docusaurus/plugin-content-docs/src/client/index.ts',
+
+    '@testing-utils/(.*)': '<rootDir>/jest/utils/$1.ts',
   },
   snapshotSerializers: [
     '<rootDir>/jest/snapshotPathNormalizer.ts',
