@@ -9,7 +9,7 @@ import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import copy from 'copy-text-to-clipboard';
-import Translate, {translate} from '@docusaurus/Translate';
+import {translate} from '@docusaurus/Translate';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -153,30 +153,18 @@ export default function CodeBlock({
 
             <button
               type="button"
-              // @todo: this needs more tests
-              // aria-label={
-              //   showCopied
-              //     ? translate({
-              //         id: 'theme.CodeBlock.copied',
-              //         message: 'Copied',
-              //         description: 'The copied button label on code blocks',
-              //       })
-              //     : translate({
-              //         id: 'theme.CodeBlock.copyButtonAriaLabel',
-              //         message: 'Copy code to clipboard',
-              //         description: 'The ARIA label for copy code blocks button',
-              //       })
-              // }
-
-              // @todo: not sure about this
-              title={
-                !isCopied
+              aria-label={
+                isCopied
                   ? translate({
-                      id: 'theme.CodeBlock.copy',
-                      message: 'Copy',
-                      description: 'The copy button label on code blocks',
+                      id: 'theme.CodeBlock.copied',
+                      message: 'Copied',
+                      description: 'The copied button label on code blocks',
                     })
-                  : ''
+                  : translate({
+                      id: 'theme.CodeBlock.copyButtonAriaLabel',
+                      message: 'Copy code to clipboard',
+                      description: 'The ARIA label for copy code blocks button',
+                    })
               }
               className={clsx(
                 styles.copyButton,
@@ -198,22 +186,6 @@ export default function CodeBlock({
                   aria-hidden="true">
                   <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
                 </svg>
-              </span>
-              {/* @todo: add similar class to Infima */}
-              <span className="screen-reader-only" aria-live="polite">
-                {isCopied ? (
-                  <Translate
-                    id="theme.CodeBlock.copied"
-                    description="The copied button label on code blocks">
-                    Copied
-                  </Translate>
-                ) : (
-                  <Translate
-                    id="theme.CodeBlock.copyButtonAriaLabel"
-                    description="The copied button label on code blocks">
-                    Copy code to clipboard
-                  </Translate>
-                )}
               </span>
             </button>
           </div>
