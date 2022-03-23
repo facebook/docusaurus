@@ -20,7 +20,10 @@ interface PageMetadataProps {
   readonly children?: ReactNode;
 }
 
-// Helper component to manipulate page metadata and override site defaults
+/**
+ * Helper component to manipulate page metadata and override site defaults.
+ * Works in the same way as Helmet.
+ */
 export function PageMetadata({
   title,
   description,
@@ -59,8 +62,12 @@ export function PageMetadata({
 
 const HtmlClassNameContext = React.createContext<string | undefined>(undefined);
 
-// This wrapper is necessary because Helmet does not "merge" classes
-// See https://github.com/staylor/react-helmet-async/issues/161
+/**
+ * Every layer of this provider will append a class name to the HTML element.
+ * There's no consumer for this hook: it's side-effect-only. This wrapper is
+ * necessary because Helmet does not "merge" classes.
+ * @see https://github.com/staylor/react-helmet-async/issues/161
+ */
 export function HtmlClassNameProvider({
   className: classNameProp,
   children,
@@ -87,6 +94,10 @@ function pluginNameToClassName(pluginName: string) {
   )}`;
 }
 
+/**
+ * A very thin wrapper around `HtmlClassNameProvider` that adds the plugin ID +
+ * name to the HTML class name.
+ */
 export function PluginHtmlClassNameProvider({
   children,
 }: {

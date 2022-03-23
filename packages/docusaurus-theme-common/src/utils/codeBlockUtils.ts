@@ -10,37 +10,16 @@ import rangeParser from 'parse-numeric-range';
 const codeBlockTitleRegex = /title=(?<quote>["'])(?<title>.*?)\1/;
 const highlightLinesRangeRegex = /\{(?<range>[\d,-]+)\}/;
 
-const commentTypes = ['js', 'jsBlock', 'jsx', 'python', 'html'] as const;
-type CommentType = typeof commentTypes[number];
-
-type CommentPattern = {
-  start: string;
-  end: string;
-};
-
 // Supported types of highlight comments
-const commentPatterns: Record<CommentType, CommentPattern> = {
-  js: {
-    start: '\\/\\/',
-    end: '',
-  },
-  jsBlock: {
-    start: '\\/\\*',
-    end: '\\*\\/',
-  },
-  jsx: {
-    start: '\\{\\s*\\/\\*',
-    end: '\\*\\/\\s*\\}',
-  },
-  python: {
-    start: '#',
-    end: '',
-  },
-  html: {
-    start: '<!--',
-    end: '-->',
-  },
+const commentPatterns = {
+  js: {start: '\\/\\/', end: ''},
+  jsBlock: {start: '\\/\\*', end: '\\*\\/'},
+  jsx: {start: '\\{\\s*\\/\\*', end: '\\*\\/\\s*\\}'},
+  python: {start: '#', end: ''},
+  html: {start: '<!--', end: '-->'},
 };
+
+type CommentType = keyof typeof commentPatterns;
 
 const magicCommentDirectives = [
   'highlight-next-line',
@@ -48,9 +27,7 @@ const magicCommentDirectives = [
   'highlight-end',
 ];
 
-const getMagicCommentDirectiveRegex = (
-  languages: readonly CommentType[] = commentTypes,
-) => {
+function getCommentPattern(languages: CommentType[]) {
   // to be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map((lang) => {
@@ -60,38 +37,45 @@ const getMagicCommentDirectiveRegex = (
     .join('|');
   // white space is allowed, but otherwise it should be on it's own line
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
-};
+}
 
-// select comment styles based on language
-const magicCommentDirectiveRegex = (lang: string) => {
+/**
+ * Select comment styles based on language
+ */
+function getAllMagicCommentDirectiveStyles(lang: string) {
   switch (lang) {
     case 'js':
     case 'javascript':
     case 'ts':
     case 'typescript':
-      return getMagicCommentDirectiveRegex(['js', 'jsBlock']);
+      return getCommentPattern(['js', 'jsBlock']);
 
     case 'jsx':
     case 'tsx':
-      return getMagicCommentDirectiveRegex(['js', 'jsBlock', 'jsx']);
+      return getCommentPattern(['js', 'jsBlock', 'jsx']);
 
     case 'html':
-      return getMagicCommentDirectiveRegex(['js', 'jsBlock', 'html']);
+      return getCommentPattern(['js', 'jsBlock', 'html']);
 
     case 'python':
     case 'py':
-      return getMagicCommentDirectiveRegex(['python']);
+      return getCommentPattern(['python']);
 
     default:
       // all comment types
-      return getMagicCommentDirectiveRegex();
+      return getCommentPattern(Object.keys(commentPatterns) as CommentType[]);
   }
-};
+}
 
 export function parseCodeBlockTitle(metastring?: string): string {
   return metastring?.match(codeBlockTitleRegex)?.groups!.title ?? '';
 }
 
+/**
+ * Gets the language name from the class name (set by MDX).
+ * e.g. `"language-javascript"` => `"javascript"`.
+ * Returns undefined if there is no language class name.
+ */
 export function parseLanguage(className: string): string | undefined {
   const languageClassName = className
     .split(' ')
@@ -100,15 +84,33 @@ export function parseLanguage(className: string): string | undefined {
 }
 
 /**
- * @param metastring The highlight range declared here starts at 1
- * @returns Note: all line numbers start at 0, not 1
+ * Parses the code content, strips away any magic comments, and returns the
+ * clean content and the highlighted lines marked by the comments or metastring.
+ *
+ * If the metastring contains highlight range, the `content` will be returned
+ * as-is without any parsing.
+ *
+ * @param content The raw code with magic comments. Trailing newline will be
+ * trimmed upfront.
+ * @param metastring The full metastring, as received from MDX. Highlight range
+ * declared here starts at 1.
+ * @param language Language of the code block, used to determine which kinds of
+ * magic comment styles to enable.
  */
 export function parseLines(
   content: string,
   metastring?: string,
   language?: string,
 ): {
+  /**
+   * The highlighted lines, 0-indexed. e.g. `[0, 1, 4]` means the 1st, 2nd, and
+   * 5th lines are highlighted.
+   */
   highlightLines: number[];
+  /**
+   * The clean code without any magic comments (only if highlight range isn't
+   * present in the metastring).
+   */
   code: string;
 } {
   let code = content.replace(/\n$/, '');
@@ -124,7 +126,7 @@ export function parseLines(
   if (language === undefined) {
     return {highlightLines: [], code};
   }
-  const directiveRegex = magicCommentDirectiveRegex(language);
+  const directiveRegex = getAllMagicCommentDirectiveStyles(language);
   // go through line by line
   const lines = code.split('\n');
   let highlightBlockStart: number;

@@ -26,10 +26,13 @@ function getTagLetter(tag: string): string {
   return tag[0]!.toUpperCase();
 }
 
+/**
+ * Takes a list of tags (as provided by the content plugins), and groups them by
+ * their initials.
+ */
 export function listTagsByLetters(
   tags: readonly TagsListItem[],
 ): TagLetterEntry[] {
-  // Group by letters
   const groups: Record<string, TagsListItem[]> = {};
   Object.values(tags).forEach((tag) => {
     const letter = getTagLetter(tag.name);

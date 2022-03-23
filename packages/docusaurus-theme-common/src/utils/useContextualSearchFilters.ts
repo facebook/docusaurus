@@ -13,14 +13,17 @@ import {useDocsPreferredVersionByPluginId} from '../contexts/docsPreferredVersio
 import {docVersionSearchTag, DEFAULT_SEARCH_TAG} from './searchUtils';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-export type useContextualSearchFiltersReturns = {
+/**
+ * Gets the relevant context information for contextual search.
+ *
+ * The value is generic and not coupled to Algolia/DocSearch, since we may want
+ * to support multiple search engines, or allowing users to use their own search
+ * engine solution.
+ */
+export function useContextualSearchFilters(): {
   locale: string;
   tags: string[];
-};
-
-// We may want to support multiple search engines, don't couple that to
-// Algolia/DocSearch. Maybe users want to use their own search engine solution
-export function useContextualSearchFilters(): useContextualSearchFiltersReturns {
+} {
   const {i18n} = useDocusaurusContext();
   const allDocsData = useAllDocsData();
   const activePluginAndVersion = useActivePluginAndVersion();

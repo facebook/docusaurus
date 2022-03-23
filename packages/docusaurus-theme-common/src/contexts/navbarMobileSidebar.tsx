@@ -6,11 +6,11 @@
  */
 
 import React, {
-  type ReactNode,
   useCallback,
   useEffect,
   useState,
   useMemo,
+  type ReactNode,
 } from 'react';
 import {useWindowSize} from '../hooks/useWindowSize';
 import {useHistoryPopHandler} from '../utils/historyUtils';
@@ -18,31 +18,38 @@ import {useActivePlugin} from '@docusaurus/plugin-content-docs/client';
 import {useThemeConfig} from '../utils/useThemeConfig';
 import {ReactContextError} from '../utils/reactUtils';
 
-type NavbarMobileSidebarContextValue = {
+type ContextValue = {
+  /**
+   * Mobile sidebar should be disabled in case it's empty, i.e. no secondary
+   * menu + no navbar items). If disabled, the toggle button should not be
+   * displayed at all.
+   */
   disabled: boolean;
+  /**
+   * Signals whether the actual sidebar should be displayed (contrary to
+   * `disabled` which is about the toggle button). Sidebar should not visible
+   * until user interaction to avoid SSR rendering.
+   */
   shouldRender: boolean;
-  toggle: () => void;
+  /** The displayed state. Can be toggled with the `toggle` callback. */
   shown: boolean;
+  /** Toggle the `shown` attribute. */
+  toggle: () => void;
 };
 
-const Context = React.createContext<
-  NavbarMobileSidebarContextValue | undefined
->(undefined);
+const Context = React.createContext<ContextValue | undefined>(undefined);
 
-// Mobile sidebar can be disabled in case it would lead to an empty sidebar
-// In this case it's not useful to display a navbar sidebar toggle button
-function useNavbarMobileSidebarDisabled() {
+function useIsNavbarMobileSidebarDisabled() {
   const activeDocPlugin = useActivePlugin();
   const {items} = useThemeConfig().navbar;
   return items.length === 0 && !activeDocPlugin;
 }
 
-function useNavbarMobileSidebarContextValue(): NavbarMobileSidebarContextValue {
-  const disabled = useNavbarMobileSidebarDisabled();
+function useContextValue(): ContextValue {
+  const disabled = useIsNavbarMobileSidebarDisabled();
   const windowSize = useWindowSize();
 
-  // Mobile sidebar not visible until user interaction: can avoid SSR rendering
-  const shouldRender = !disabled && windowSize === 'mobile'; // || windowSize === 'ssr';
+  const shouldRender = !disabled && windowSize === 'mobile';
 
   const [shown, setShown] = useState(false);
 
@@ -68,14 +75,8 @@ function useNavbarMobileSidebarContextValue(): NavbarMobileSidebarContextValue {
     }
   }, [windowSize]);
 
-  // Return stable context value
   return useMemo(
-    () => ({
-      disabled,
-      shouldRender,
-      toggle,
-      shown,
-    }),
+    () => ({disabled, shouldRender, toggle, shown}),
     [disabled, shouldRender, toggle, shown],
   );
 }
@@ -85,13 +86,13 @@ export function NavbarMobileSidebarProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const value = useNavbarMobileSidebarContextValue();
+  const value = useContextValue();
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
-export function useNavbarMobileSidebar(): NavbarMobileSidebarContextValue {
+export function useNavbarMobileSidebar(): ContextValue {
   const context = React.useContext(Context);
-  if (context == null) {
+  if (context === undefined) {
     throw new ReactContextError('NavbarMobileSidebarProvider');
   }
   return context;

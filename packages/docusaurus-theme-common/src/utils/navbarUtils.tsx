@@ -7,7 +7,7 @@
 
 import React, {type ReactNode} from 'react';
 import {NavbarMobileSidebarProvider} from '../contexts/navbarMobileSidebar';
-import {NavbarSecondaryMenuProvider} from './navbarSecondaryMenu';
+import {NavbarSecondaryMenuProvider} from '../contexts/navbarSecondaryMenu';
 
 const DefaultNavItemPosition = 'right';
 

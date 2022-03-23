@@ -8,15 +8,30 @@
 import React, {type ReactNode, useMemo, useState, useContext} from 'react';
 import {ReactContextError} from '../utils/reactUtils';
 
-const EmptyContext: unique symbol = Symbol('EmptyContext');
-const Context = React.createContext<
-  DocSidebarItemsExpandedState | typeof EmptyContext
->(EmptyContext);
-type DocSidebarItemsExpandedState = {
+type ContextValue = {
+  /**
+   * The item that the user last opened, `null` when there's none open. On
+   * initial render, it will always be `null`, which doesn't necessarily mean
+   * there's no category open (can have 0, 1, or many being initially open).
+   */
   expandedItem: number | null;
+  /**
+   * Set the currently expanded item, when the user opens one. Set the value to
+   * `null` when the user closes an open category.
+   */
   setExpandedItem: (a: number | null) => void;
 };
 
+const EmptyContext: unique symbol = Symbol('EmptyContext');
+const Context = React.createContext<ContextValue | typeof EmptyContext>(
+  EmptyContext,
+);
+
+/**
+ * Should be used to wrap one sidebar category level. This provider syncs the
+ * expanded states of all sibling categories, and categories can choose to
+ * collapse itself if another one is expanded.
+ */
 export function DocSidebarItemsExpandedStateProvider({
   children,
 }: {
@@ -31,10 +46,10 @@ export function DocSidebarItemsExpandedStateProvider({
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 }
 
-export function useDocSidebarItemsExpandedState(): DocSidebarItemsExpandedState {
-  const contextValue = useContext(Context);
-  if (contextValue === EmptyContext) {
+export function useDocSidebarItemsExpandedState(): ContextValue {
+  const value = useContext(Context);
+  if (value === EmptyContext) {
     throw new ReactContextError('DocSidebarItemsExpandedStateProvider');
   }
-  return contextValue;
+  return value;
 }

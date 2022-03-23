@@ -7,6 +7,7 @@
 
 export const DEFAULT_SEARCH_TAG = 'default';
 
+/** The search tag to append as each doc's metadata. */
 export function docVersionSearchTag(
   pluginId: string,
   versionName: string,

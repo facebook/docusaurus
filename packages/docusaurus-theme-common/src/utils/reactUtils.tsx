@@ -9,11 +9,12 @@ import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 /**
- * This hook is like useLayoutEffect, but without the SSR warning
- * It seems hacky but it's used in many React libs (Redux, Formik...)
+ * This hook is like `useLayoutEffect`, but without the SSR warning.
+ * It seems hacky but it's used in many React libs (Redux, Formik...).
  * Also mentioned here: https://github.com/facebook/react/issues/16956
+ *
  * It is useful when you need to update a ref as soon as possible after a React
- * render (before `useEffect`)
+ * render (before `useEffect`).
  */
 export const useIsomorphicLayoutEffect = ExecutionEnvironment.canUseDOM
   ? useLayoutEffect
@@ -23,10 +24,11 @@ export const useIsomorphicLayoutEffect = ExecutionEnvironment.canUseDOM
  * Permits to transform an unstable callback (like an arrow function provided as
  * props) to a "stable" callback that is safe to use in a `useEffect` dependency
  * array. Useful to avoid React stale closure problems + avoid useless effect
- * re-executions
+ * re-executions.
  *
  * Workaround until the React team recommends a good solution, see
  * https://github.com/facebook/react/issues/16956
+ *
  * This generally works but has some potential drawbacks, such as
  * https://github.com/facebook/react/issues/16956#issuecomment-536636418
  */
@@ -44,6 +46,9 @@ export function useDynamicCallback<T extends (...args: never[]) => unknown>(
   return useCallback<T>((...args) => ref.current(...args), []);
 }
 
+/**
+ * Gets `value` from the last render.
+ */
 export function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T>();
 
@@ -54,6 +59,11 @@ export function usePrevious<T>(value: T): T | undefined {
   return ref.current;
 }
 
+/**
+ * This error is thrown when a context is consumed outside its provider. Allows
+ * reusing a generic error message format and reduces bundle size. The hook's
+ * name will be extracted from its stack, so only the provider's name is needed.
+ */
 export class ReactContextError extends Error {
   constructor(providerName: string, additionalInfo?: string) {
     super();

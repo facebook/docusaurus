@@ -11,9 +11,22 @@ import {useCallback, useEffect, useState} from 'react';
 
 const SEARCH_PARAM_QUERY = 'q';
 
+/** Some utility functions around search queries. */
 export function useSearchPage(): {
+  /**
+   * Works hand-in-hand with `setSearchQuery`; whatever the user has inputted
+   * into the search box.
+   */
   searchQuery: string;
+  /**
+   * Set a new search query. In addition to updating `searchQuery`, this handle
+   * also mutates the location and appends the query.
+   */
   setSearchQuery: (newSearchQuery: string) => void;
+  /**
+   * Given a query, this handle generates the corresponding search page link,
+   * with base URL prepended.
+   */
   generateSearchPageLink: (targetSearchQuery: string) => string;
 } {
   const history = useHistory();
@@ -52,7 +65,9 @@ export function useSearchPage(): {
   const generateSearchPageLink = useCallback(
     (targetSearchQuery: string) =>
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      `${baseUrl}search?q=${encodeURIComponent(targetSearchQuery)}`,
+      `${baseUrl}search?${SEARCH_PARAM_QUERY}=${encodeURIComponent(
+        targetSearchQuery,
+      )}`,
     [baseUrl],
   );
 

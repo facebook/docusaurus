@@ -11,8 +11,10 @@ import {useThemeConfig} from '../utils/useThemeConfig';
 // TODO make the hardcoded theme-classic classnames configurable (or add them
 // to ThemeClassNames?)
 
-// If the anchor has no height and is just a "marker" in the dom; we'll use the
-// parent (normally the link text) rect boundaries instead
+/**
+ * If the anchor has no height and is just a "marker" in the DOM; we'll use the
+ * parent (normally the link text) rect boundaries instead
+ */
 function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
   const rect = element.getBoundingClientRect();
   const hasNoHeight = rect.top === rect.bottom;
@@ -24,7 +26,7 @@ function getVisibleBoundingClientRect(element: HTMLElement): DOMRect {
 
 /**
  * Considering we divide viewport into 2 zones of each 50vh, this returns true
- * if an element is in the first zone (ie, appear in viewport, near the top)
+ * if an element is in the first zone (i.e., appear in viewport, near the top)
  */
 function isInViewportTopHalf(boundingRect: DOMRect) {
   return boundingRect.top > 0 && boundingRect.bottom < window.innerHeight / 2;
@@ -114,12 +116,23 @@ function useAnchorTopOffsetRef() {
 }
 
 export type TOCHighlightConfig = {
+  /** A class name that all TOC links share. */
   linkClassName: string;
+  /** The class name applied to the active (highlighted) link. */
   linkActiveClassName: string;
+  /**
+   * The minimum heading level that the TOC includes. Only headings that are in
+   * this range will be eligible as "active heading".
+   */
   minHeadingLevel: number;
+  /** @see {@link TOCHighlightConfig.minHeadingLevel} */
   maxHeadingLevel: number;
 };
 
+/**
+ * Side-effect that applies the active class name to the TOC heading that the
+ * user is currently viewing. Disabled when `config` is undefined.
+ */
 export function useTOCHighlight(config: TOCHighlightConfig | undefined): void {
   const lastActiveLinkRef = useRef<HTMLAnchorElement | undefined>(undefined);
 

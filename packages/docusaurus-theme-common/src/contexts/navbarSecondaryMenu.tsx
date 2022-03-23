@@ -14,19 +14,8 @@ import React, {
   type ReactNode,
   type ComponentType,
 } from 'react';
-import {ReactContextError, usePrevious} from './reactUtils';
-import {useNavbarMobileSidebar} from '../contexts/navbarMobileSidebar';
-
-/*
-The idea behind all this is that a specific component must be able to fill a
-placeholder in the generic layout. The doc page should be able to fill the
-secondary menu of the main mobile navbar. This permits to reduce coupling
-between the main layout and the specific page.
-
-This kind of feature is often called portal/teleport/gateway... various
-unmaintained React libs exist. Most up-to-date one: https://github.com/gregberge/react-teleporter
-Not sure any of those is safe regarding concurrent mode.
- */
+import {ReactContextError, usePrevious} from '../utils/reactUtils';
+import {useNavbarMobileSidebar} from './navbarMobileSidebar';
 
 export type NavbarSecondaryMenuComponent<Props> = ComponentType<Props>;
 
@@ -34,7 +23,7 @@ type State = {
   shown: boolean;
   content:
     | {
-        component: ComponentType<object>;
+        component: NavbarSecondaryMenuComponent<object>;
         props: object;
       }
     | {component: null; props: null};
@@ -45,7 +34,14 @@ const InitialState: State = {
   content: {component: null, props: null},
 };
 
-function useContextValue() {
+type ContextValue = [
+  state: State,
+  setState: React.Dispatch<React.SetStateAction<State>>,
+];
+
+const Context = React.createContext<ContextValue | null>(null);
+
+function useContextValue(): ContextValue {
   const mobileSidebar = useNavbarMobileSidebar();
 
   const [state, setState] = useState<State>(InitialState);
@@ -76,21 +72,16 @@ function useContextValue() {
     }
   }, [mobileSidebar.shown, hasContent]);
 
-  return [state, setState] as const;
+  return [state, setState];
 }
-
-type ContextValue = ReturnType<typeof useContextValue>;
-
-const Context = React.createContext<ContextValue | null>(null);
 
 export function NavbarSecondaryMenuProvider({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element {
-  return (
-    <Context.Provider value={useContextValue()}>{children}</Context.Provider>
-  );
+  const value = useContextValue();
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
 function useNavbarSecondaryMenuContext(): ContextValue {
@@ -101,7 +92,7 @@ function useNavbarSecondaryMenuContext(): ContextValue {
   return value;
 }
 
-function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
+function useShallowMemoizedObject<O>(obj: O) {
   return useMemo(
     () => obj,
     // Is this safe?
@@ -110,15 +101,22 @@ function useShallowMemoizedObject<O extends Record<string, unknown>>(obj: O) {
   );
 }
 
-// Fill the secondary menu placeholder with some real content
-export function NavbarSecondaryMenuFiller<
-  Props extends Record<string, unknown>,
->({
+/**
+ * This component renders nothing by itself, but it fills the placeholder in the
+ * generic secondary menu layout. This reduces coupling between the main layout
+ * and the specific page.
+ *
+ * This kind of feature is often called portal/teleport/gateway/outlet...
+ * Various unmaintained React libs exist. Most up-to-date one:
+ * https://github.com/gregberge/react-teleporter
+ * Not sure any of those is safe regarding concurrent mode.
+ */
+export function NavbarSecondaryMenuFiller<P extends object>({
   component,
   props,
 }: {
-  component: NavbarSecondaryMenuComponent<Props>;
-  props: Props;
+  component: NavbarSecondaryMenuComponent<P>;
+  props: P;
 }): JSX.Element | null {
   const [, setState] = useNavbarSecondaryMenuContext();
 
@@ -146,9 +144,16 @@ function renderElement(state: State): JSX.Element | undefined {
   return undefined;
 }
 
+/** Wires the logic for rendering the mobile navbar secondary menu. */
 export function useNavbarSecondaryMenu(): {
+  /** Whether secondary menu is displayed. */
   shown: boolean;
+  /**
+   * Hide the secondary menu; fired either when hiding the entire sidebar, or
+   * when going back to the primary menu.
+   */
   hide: () => void;
+  /** The content returned from the current secondary menu filler. */
   content: JSX.Element | undefined;
 } {
   const [state, setState] = useNavbarSecondaryMenuContext();
@@ -159,11 +164,7 @@ export function useNavbarSecondaryMenu(): {
   );
 
   return useMemo(
-    () => ({
-      shown: state.shown,
-      hide,
-      content: renderElement(state),
-    }),
+    () => ({shown: state.shown, hide, content: renderElement(state)}),
     [hide, state],
   );
 }

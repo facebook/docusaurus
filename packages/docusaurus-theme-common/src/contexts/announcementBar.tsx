@@ -32,12 +32,18 @@ const isDismissedInStorage = () =>
 const setDismissedInStorage = (bool: boolean) =>
   AnnouncementBarDismissStorage.set(String(bool));
 
-type AnnouncementBarAPI = {
+type ContextValue = {
+  /** Whether the announcement bar should be displayed. */
   readonly isActive: boolean;
+  /**
+   * Callback fired when the user closes the announcement. Will be saved.
+   */
   readonly close: () => void;
 };
 
-const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
+const Context = React.createContext<ContextValue | null>(null);
+
+function useContextValue(): ContextValue {
   const {announcementBar} = useThemeConfig();
   const isBrowser = useIsBrowser();
 
@@ -93,27 +99,19 @@ const useAnnouncementBarContextValue = (): AnnouncementBarAPI => {
     }),
     [announcementBar, isClosed, handleClose],
   );
-};
-
-const AnnouncementBarContext = React.createContext<AnnouncementBarAPI | null>(
-  null,
-);
+}
 
 export function AnnouncementBarProvider({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const value = useAnnouncementBarContextValue();
-  return (
-    <AnnouncementBarContext.Provider value={value}>
-      {children}
-    </AnnouncementBarContext.Provider>
-  );
+  const value = useContextValue();
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
-export function useAnnouncementBar(): AnnouncementBarAPI {
-  const api = useContext(AnnouncementBarContext);
+export function useAnnouncementBar(): ContextValue {
+  const api = useContext(Context);
   if (!api) {
     throw new ReactContextError('AnnouncementBarProvider');
   }

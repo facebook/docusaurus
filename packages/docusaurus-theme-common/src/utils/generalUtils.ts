@@ -7,6 +7,9 @@
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
+/**
+ * Formats the page's title based on relevant site config and other contexts.
+ */
 export function useTitleFormatter(title?: string | undefined): string {
   const {siteConfig} = useDocusaurusContext();
   const {title: siteTitle, titleDelimiter} = siteConfig;

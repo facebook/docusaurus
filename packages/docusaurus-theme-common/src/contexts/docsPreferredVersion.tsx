@@ -54,32 +54,29 @@ const DocsPreferredVersionStorage = {
 
 type DocsPreferredVersionName = string | null;
 
-// State for a single docs plugin instance
+/** State for a single docs plugin instance */
 type DocsPreferredVersionPluginState = {
   preferredVersionName: DocsPreferredVersionName;
 };
 
-// We need to store in state/storage globally
-// one preferred version per docs plugin instance
-// pluginId => pluginState
-type DocsPreferredVersionState = Record<
-  string,
-  DocsPreferredVersionPluginState
->;
+/**
+ * We need to store the state in storage globally, with one preferred version
+ * per docs plugin instance.
+ */
+type DocsPreferredVersionState = {
+  [pluginId: string]: DocsPreferredVersionPluginState;
+};
 
-// Initial state is always null as we can't read local storage from node SSR
-function getInitialState(pluginIds: string[]): DocsPreferredVersionState {
-  const initialState: DocsPreferredVersionState = {};
-  pluginIds.forEach((pluginId) => {
-    initialState[pluginId] = {
-      preferredVersionName: null,
-    };
-  });
-  return initialState;
-}
+/**
+ * Initial state is always null as we can't read local storage from node SSR
+ */
+const getInitialState = (pluginIds: string[]): DocsPreferredVersionState =>
+  Object.fromEntries(pluginIds.map((id) => [id, {preferredVersionName: null}]));
 
-// Read storage for all docs plugins
-// Assign to each doc plugin a preferred version (if found)
+/**
+ * Read storage for all docs plugins, assigning each doc plugin a preferred
+ * version (if found)
+ */
 function readStorageState({
   pluginIds,
   versionPersistence,
@@ -89,9 +86,11 @@ function readStorageState({
   versionPersistence: DocsVersionPersistence;
   allDocsData: Record<string, GlobalPluginData>;
 }): DocsPreferredVersionState {
-  // The storage value we read might be stale,
-  // and belong to a version that does not exist in the site anymore
-  // In such case, we remove the storage value to avoid downstream errors
+  /**
+   * The storage value we read might be stale, and belong to a version that does
+   * not exist in the site anymore. In such case, we remove the storage value to
+   * avoid downstream errors.
+   */
   function restorePluginState(
     pluginId: string,
   ): DocsPreferredVersionPluginState {
@@ -109,20 +108,25 @@ function readStorageState({
     DocsPreferredVersionStorage.clear(pluginId, versionPersistence);
     return {preferredVersionName: null};
   }
-
-  const initialState: DocsPreferredVersionState = {};
-  pluginIds.forEach((pluginId) => {
-    initialState[pluginId] = restorePluginState(pluginId);
-  });
-  return initialState;
+  return Object.fromEntries(
+    pluginIds.map((id) => [id, restorePluginState(id)]),
+  );
 }
 
 function useVersionPersistence(): DocsVersionPersistence {
   return useThemeConfig().docs.versionPersistence;
 }
 
-// Value that will be accessible through context: [state,api]
-function useContextValue() {
+type ContextValue = [
+  state: DocsPreferredVersionState,
+  api: {
+    savePreferredVersion: (pluginId: string, versionName: string) => void;
+  },
+];
+
+const Context = React.createContext<ContextValue | null>(null);
+
+function useContextValue(): ContextValue {
   const allDocsData = useAllDocsData();
   const versionPersistence = useVersionPersistence();
   const pluginIds = useMemo(() => Object.keys(allDocsData), [allDocsData]);
@@ -154,15 +158,22 @@ function useContextValue() {
     };
   }, [versionPersistence]);
 
-  return [state, api] as const;
+  return [state, api];
 }
 
-type DocsPreferredVersionContextValue = ReturnType<typeof useContextValue>;
+function DocsPreferredVersionContextProviderUnsafe({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
+  const value = useContextValue();
+  return <Context.Provider value={value}>{children}</Context.Provider>;
+}
 
-const Context = React.createContext<DocsPreferredVersionContextValue | null>(
-  null,
-);
-
+/**
+ * This is a maybe-layer. If the docs plugin is not enabled, this provider is a
+ * simple pass-through.
+ */
 export function DocsPreferredVersionContextProvider({
   children,
 }: {
@@ -178,16 +189,7 @@ export function DocsPreferredVersionContextProvider({
   return children;
 }
 
-function DocsPreferredVersionContextProviderUnsafe({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element {
-  const contextValue = useContextValue();
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
-}
-
-function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
+function useDocsPreferredVersionContext(): ContextValue {
   const value = useContext(Context);
   if (!value) {
     throw new ReactContextError('DocsPreferredVersionContextProvider');
@@ -195,11 +197,14 @@ function useDocsPreferredVersionContext(): DocsPreferredVersionContextValue {
   return value;
 }
 
-// Note, the preferredVersion attribute will always be null before mount
+/**
+ * Returns a read-write interface to a plugin's preferred version.
+ * Note, the `preferredVersion` attribute will always be `null` before mount.
+ */
 export function useDocsPreferredVersion(
   pluginId: string | undefined = DEFAULT_PLUGIN_ID,
 ): {
-  preferredVersion: GlobalVersion | null | undefined;
+  preferredVersion: GlobalVersion | null;
   savePreferredVersionName: (versionName: string) => void;
 } {
   const docsData = useDocsData(pluginId);
@@ -207,9 +212,10 @@ export function useDocsPreferredVersion(
 
   const {preferredVersionName} = state[pluginId]!;
 
-  const preferredVersion = preferredVersionName
-    ? docsData.versions.find((version) => version.name === preferredVersionName)
-    : null;
+  const preferredVersion =
+    docsData.versions.find(
+      (version) => version.name === preferredVersionName,
+    ) ?? null;
 
   const savePreferredVersionName = useCallback(
     (versionName: string) => {
@@ -218,12 +224,12 @@ export function useDocsPreferredVersion(
     [api, pluginId],
   );
 
-  return {preferredVersion, savePreferredVersionName} as const;
+  return {preferredVersion, savePreferredVersionName};
 }
 
 export function useDocsPreferredVersionByPluginId(): Record<
   string,
-  GlobalVersion | null | undefined
+  GlobalVersion | null
 > {
   const allDocsData = useAllDocsData();
   const [state] = useDocsPreferredVersionContext();
@@ -232,19 +238,14 @@ export function useDocsPreferredVersionByPluginId(): Record<
     const docsData = allDocsData[pluginId]!;
     const {preferredVersionName} = state[pluginId]!;
 
-    return preferredVersionName
-      ? docsData.versions.find(
-          (version) => version.name === preferredVersionName,
-        )
-      : null;
+    return (
+      docsData.versions.find(
+        (version) => version.name === preferredVersionName,
+      ) ?? null
+    );
   }
-
   const pluginIds = Object.keys(allDocsData);
-
-  const result: Record<string, GlobalVersion | null | undefined> = {};
-  pluginIds.forEach((pluginId) => {
-    result[pluginId] = getPluginIdPreferredVersion(pluginId);
-  });
-
-  return result;
+  return Object.fromEntries(
+    pluginIds.map((id) => [id, getPluginIdPreferredVersion(id)]),
+  );
 }

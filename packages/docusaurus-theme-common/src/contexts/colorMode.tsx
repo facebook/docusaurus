@@ -20,8 +20,10 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {createStorageSlot} from '../utils/storageUtils';
 import {useThemeConfig} from '../utils/useThemeConfig';
 
-type ColorModeContextValue = {
+type ContextValue = {
+  /** Current color mode. */
   readonly colorMode: ColorMode;
+  /** Set new color mode. */
   readonly setColorMode: (colorMode: ColorMode) => void;
 
   // TODO legacy APIs kept for retro-compatibility: deprecate them
@@ -29,6 +31,8 @@ type ColorModeContextValue = {
   readonly setLightTheme: () => void;
   readonly setDarkTheme: () => void;
 };
+
+const Context = React.createContext<ContextValue | undefined>(undefined);
 
 const ColorModeStorageKey = 'theme';
 const ColorModeStorage = createStorageSlot(ColorModeStorageKey);
@@ -44,18 +48,16 @@ export type ColorMode = typeof ColorModes[keyof typeof ColorModes];
 const coerceToColorMode = (colorMode?: string | null): ColorMode =>
   colorMode === ColorModes.dark ? ColorModes.dark : ColorModes.light;
 
-const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode => {
-  if (!ExecutionEnvironment.canUseDOM) {
-    return coerceToColorMode(defaultMode);
-  }
-  return coerceToColorMode(document.documentElement.getAttribute('data-theme'));
-};
+const getInitialColorMode = (defaultMode: ColorMode | undefined): ColorMode =>
+  ExecutionEnvironment.canUseDOM
+    ? coerceToColorMode(document.documentElement.getAttribute('data-theme'))
+    : coerceToColorMode(defaultMode);
 
 const storeColorMode = (newColorMode: ColorMode) => {
   ColorModeStorage.set(coerceToColorMode(newColorMode));
 };
 
-function useColorModeContextValue(): ColorModeContextValue {
+function useContextValue(): ContextValue {
   const {
     colorMode: {defaultMode, disableSwitch, respectPrefersColorScheme},
   } = useThemeConfig();
@@ -153,25 +155,17 @@ function useColorModeContextValue(): ColorModeContextValue {
   );
 }
 
-const ColorModeContext = React.createContext<ColorModeContextValue | undefined>(
-  undefined,
-);
-
 export function ColorModeProvider({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const contextValue = useColorModeContextValue();
-  return (
-    <ColorModeContext.Provider value={contextValue}>
-      {children}
-    </ColorModeContext.Provider>
-  );
+  const value = useContextValue();
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
-export function useColorMode(): ColorModeContextValue {
-  const context = useContext(ColorModeContext);
+export function useColorMode(): ContextValue {
+  const context = useContext(Context);
   if (context == null) {
     throw new ReactContextError(
       'ColorModeProvider',
