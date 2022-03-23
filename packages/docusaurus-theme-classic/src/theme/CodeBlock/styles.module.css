@@ -53,13 +53,17 @@
   right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
   transition: opacity 200ms ease-in-out;
-  opacity: 0.4;
+  opacity: 0;
 }
 
-.copyButton:focus,
+.copyButton:hover,
+.copyButton:focus {
+  opacity: 1 !important;
+}
+
 .codeBlockContent:hover > .copyButton,
 .codeBlockTitle:hover + .codeBlockContent .copyButton {
-  opacity: 1;
+  opacity: 0.4;
 }
 
 .copyButtonIcons {
