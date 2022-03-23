@@ -5,13 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@media (max-width: 996px) {
-  .searchBox {
-    position: absolute;
-    right: var(--ifm-navbar-padding-horizontal);
-  }
-}
-
 @media (min-width: 997px) {
   .searchBox {
     padding: var(--ifm-navbar-item-padding-vertical)
