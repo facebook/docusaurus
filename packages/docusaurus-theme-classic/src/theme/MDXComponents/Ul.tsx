@@ -19,6 +19,9 @@ export default function MDXUl(props: Props): JSX.Element {
       {...props}
       className={clsx(
         props.className,
+
+        // This class is set globally by GitHub/MDX
+        // See https://github.com/syntax-tree/mdast-util-to-hast/issues/28
         props.className?.includes('contains-task-list') &&
           containsClassListLocalClass,
       )}
