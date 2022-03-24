@@ -7,11 +7,12 @@
 
 import type {EnumChangefreq} from 'sitemap';
 
-export type Options = {
-  id?: string;
+export type PluginOptions = {
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
   changefreq?: EnumChangefreq;
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
   priority?: number;
-  ignorePatterns?: string[];
+  ignorePatterns: string[];
 };
+
+export type Options = Partial<PluginOptions>;

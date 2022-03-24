@@ -6,7 +6,7 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 import {createMatcher} from '@docusaurus/utils';
@@ -14,7 +14,7 @@ import {createMatcher} from '@docusaurus/utils';
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
-  options: Options,
+  options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
@@ -22,11 +22,7 @@ export default async function createSitemap(
   }
   const {changefreq, priority, ignorePatterns} = options;
 
-  const ignoreMatcher =
-    ignorePatterns!.length > 0
-      ? createMatcher(ignorePatterns!)
-      : // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        (str: string) => false;
+  const ignoreMatcher = createMatcher(ignorePatterns);
 
   const sitemapStream = new SitemapStream({hostname});
 

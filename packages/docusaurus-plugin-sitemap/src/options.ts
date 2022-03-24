@@ -7,10 +7,10 @@
 
 import {Joi} from '@docusaurus/utils-validation';
 import {EnumChangefreq} from 'sitemap';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import type {Options, PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {OptionValidationContext} from '@docusaurus/types';
 
-export const DEFAULT_OPTIONS: Options = {
+export const DEFAULT_OPTIONS: PluginOptions = {
   changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
   ignorePatterns: [],
@@ -37,7 +37,7 @@ const PluginOptionSchema = Joi.object({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<Options, Options>): Options {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 }
