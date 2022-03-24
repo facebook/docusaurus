@@ -10,9 +10,11 @@ import type {Props} from '@theme/MDXComponents/Img';
 import styles from './Img.module.css';
 import clsx from 'clsx';
 
+function transformImgClassName(className?: string): string {
+  return clsx(className, styles.img);
+}
+
 export default function MDXImg(props: Props): JSX.Element {
-  return (
-    // eslint-disable-next-line jsx-a11y/alt-text
-    <img {...props} className={clsx(props.className, styles.img)} />
-  );
+  // eslint-disable-next-line jsx-a11y/alt-text
+  return <img {...props} className={transformImgClassName(props.className)} />;
 }
