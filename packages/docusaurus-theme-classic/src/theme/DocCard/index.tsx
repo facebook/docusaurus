@@ -30,11 +30,9 @@ function CardContainer({
     styles.cardContainer,
   );
   return (
-    <article className="col col--6">
-      <Link href={href} className={className}>
-        {children}
-      </Link>
-    </article>
+    <Link href={href} className={className}>
+      {children}
+    </Link>
   );
 }
 
@@ -44,15 +42,11 @@ function CardLayout({
   title,
   description,
 }: {
-  href?: string;
+  href: string;
   icon: ReactNode;
   title: string;
   description?: string;
-}): JSX.Element | null {
-  if (!href) {
-    return null;
-  }
-
+}): JSX.Element {
   return (
     <CardContainer href={href}>
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
@@ -67,9 +61,13 @@ function CardLayout({
   );
 }
 
-function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
+function CardCategory({
+  item,
+}: {
+  item: PropSidebarItemCategory;
+}): JSX.Element | null {
   const href = findFirstCategoryLink(item);
-  return (
+  return href ? (
     <CardLayout
       href={href}
       icon="🗃️"
@@ -84,7 +82,7 @@ function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
         {count: item.items.length},
       )}
     />
-  );
+  ) : null;
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {

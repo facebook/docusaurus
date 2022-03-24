@@ -15,10 +15,21 @@ export default function DocCardList({
 }: {
   items: PropSidebarItem[];
 }): JSX.Element {
+  const filteredItems = items.filter((item) => {
+    if (item.type === 'category') {
+      return item.items.some((child) =>
+        ['link', 'category'].includes(child.type),
+      );
+    }
+    return true;
+  });
+
   return (
     <div className="row">
-      {items.map((item, index) => (
-        <DocCard key={index} item={item} />
+      {filteredItems.map((item, index) => (
+        <article key={index} className="col col--6">
+          <DocCard key={index} item={item} />
+        </article>
       ))}
     </div>
   );
