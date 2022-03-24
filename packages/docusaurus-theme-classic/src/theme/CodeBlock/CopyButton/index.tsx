@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useCallback, useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
 import copy from 'copy-text-to-clipboard';
 import {translate} from '@docusaurus/Translate';
@@ -15,14 +15,16 @@ import styles from './styles.module.css';
 
 export default function CopyButton({code}: Props): JSX.Element {
   const [isCopied, setIsCopied] = useState(false);
-  const handleCopyCode = () => {
+  const copyTimeout = useRef<number | undefined>(undefined);
+  const handleCopyCode = useCallback(() => {
     copy(code);
     setIsCopied(true);
-
-    setTimeout(() => {
+    copyTimeout.current = window.setTimeout(() => {
       setIsCopied(false);
-    }, 2000);
-  };
+    }, 1000);
+  }, [code]);
+
+  useEffect(() => () => window.clearTimeout(copyTimeout.current), []);
 
   return (
     <button
