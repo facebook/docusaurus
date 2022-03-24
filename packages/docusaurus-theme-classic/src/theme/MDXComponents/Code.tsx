@@ -6,7 +6,7 @@
  */
 
 import type {ComponentProps} from 'react';
-import React, { isValidElement} from 'react';
+import React, {isValidElement} from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import type {Props} from '@theme/MDXComponents/Code';
 
