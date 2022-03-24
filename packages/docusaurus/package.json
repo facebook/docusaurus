@@ -48,7 +48,7 @@
     "@docusaurus/utils": "2.0.0-beta.17",
     "@docusaurus/utils-common": "2.0.0-beta.17",
     "@docusaurus/utils-validation": "2.0.0-beta.17",
-    "@slorber/static-site-generator-webpack-plugin": "^4.0.1",
+    "@slorber/static-site-generator-webpack-plugin": "^4.0.4",
     "@svgr/webpack": "^6.2.1",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.3",
