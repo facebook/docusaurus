@@ -46,6 +46,10 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   testOK([() => {}]);
   testOK([[() => {}, {attr: 'val'}]]);
   testOK([[() => {}, {attr: 'val'}], () => {}, [() => {}, {attr: 'val'}]]);
+  // cSpell:ignore remarkjs
+  // official `remarkjs/remark-frontmatter` plugin accepts string options
+  testOK([[() => {}, 'string-option']]);
+  testOK([[() => {}, true]]);
 
   testFail(null);
   testFail(false);
@@ -55,7 +59,6 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   testFail([3]);
   testFail([[]]);
   testFail([[() => {}, undefined]]);
-  testFail([[() => {}, true]]);
 }
 
 describe('validation schemas', () => {

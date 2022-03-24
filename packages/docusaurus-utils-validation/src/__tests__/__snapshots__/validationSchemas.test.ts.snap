@@ -32,8 +32,6 @@ exports[`validation schemas rehypePluginsSchema: for value=[[]] 1`] = `"\\"[0]\\
 
 exports[`validation schemas rehypePluginsSchema: for value=[[null,null]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
-exports[`validation schemas rehypePluginsSchema: for value=[[null,true]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
-
 exports[`validation schemas rehypePluginsSchema: for value=[3] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
 exports[`validation schemas rehypePluginsSchema: for value=[false] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
@@ -49,8 +47,6 @@ exports[`validation schemas rehypePluginsSchema: for value=null 1`] = `"\\"value
 exports[`validation schemas remarkPluginsSchema: for value=[[]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
 exports[`validation schemas remarkPluginsSchema: for value=[[null,null]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
-
-exports[`validation schemas remarkPluginsSchema: for value=[[null,true]] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
 exports[`validation schemas remarkPluginsSchema: for value=[3] 1`] = `"\\"[0]\\" does not match any of the allowed types"`;
 
