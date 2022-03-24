@@ -43,7 +43,7 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    path.join(
+    path.posix.join(
       OUTPUT_STATIC_ASSETS_DIR_NAME,
       folder,
       '[name]-[contenthash].[ext]',

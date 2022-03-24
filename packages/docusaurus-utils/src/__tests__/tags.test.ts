@@ -15,7 +15,9 @@ describe('normalizeFrontMatterTags', () => {
       label: 'tag',
       permalink: `${tagsPath}/tag`,
     };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes complex string tag', () => {
@@ -25,7 +27,9 @@ describe('normalizeFrontMatterTags', () => {
       label: 'some more Complex_tag',
       permalink: `${tagsPath}/some-more-complex-tag`,
     };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes simple object tag', () => {
@@ -35,7 +39,9 @@ describe('normalizeFrontMatterTags', () => {
       label: 'tag',
       permalink: `${tagsPath}/tagPermalink`,
     };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes complex string tag with object tag', () => {
@@ -48,7 +54,9 @@ describe('normalizeFrontMatterTags', () => {
       label: 'tag complex Label',
       permalink: `${tagsPath}/MoreComplex/Permalink`,
     };
-    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   type Input = Parameters<typeof normalizeFrontMatterTags>[1];
@@ -73,6 +81,10 @@ describe('normalizeFrontMatterTags', () => {
       },
     ];
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
+  });
+
+  it('succeeds for empty list', () => {
+    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
   });
 
   it('normalizes complex mixed list', () => {
