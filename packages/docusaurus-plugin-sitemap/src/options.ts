@@ -13,6 +13,7 @@ import type {OptionValidationContext} from '@docusaurus/types';
 export const DEFAULT_OPTIONS: Options = {
   changefreq: EnumChangefreq.WEEKLY,
   priority: 0.5,
+  ignorePatterns: [],
 };
 
 const PluginOptionSchema = Joi.object({
@@ -24,6 +25,9 @@ const PluginOptionSchema = Joi.object({
     .valid(...Object.values(EnumChangefreq))
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
+  ignorePatterns: Joi.array()
+    .items(Joi.object().instance(RegExp))
+    .default(DEFAULT_OPTIONS.ignorePatterns),
   trailingSlash: Joi.forbidden().messages({
     'any.unknown':
       'Please use the new Docusaurus global trailingSlash config instead, and the sitemaps plugin will use it.',

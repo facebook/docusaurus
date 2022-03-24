@@ -13,4 +13,5 @@ export type Options = {
   changefreq?: EnumChangefreq;
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
   priority?: number;
+  ignorePatterns?: RegExp[];
 };

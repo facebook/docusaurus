@@ -19,12 +19,17 @@ export default async function createSitemap(
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {changefreq, priority} = options;
+  const {changefreq, priority, ignorePatterns} = options;
 
   const sitemapStream = new SitemapStream({hostname});
 
   routesPaths
-    .filter((route) => !route.endsWith('404.html'))
+    .filter(
+      (route) =>
+        !route.endsWith('404.html') &&
+        (!ignorePatterns ||
+          !ignorePatterns.some((pattern) => pattern.test(route))),
+    )
     .forEach((routePath) =>
       sitemapStream.write({
         url: applyTrailingSlash(routePath, {
