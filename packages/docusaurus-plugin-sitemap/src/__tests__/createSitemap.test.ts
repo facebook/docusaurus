@@ -19,6 +19,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
     expect(sitemap).toContain(
@@ -42,6 +43,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
     expect(sitemap).not.toContain('404');
@@ -52,11 +54,11 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/search', '/tags'],
+      ['/', '/search/', '/tags/'],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        ignorePatterns: [/^\/search/, /^\/tags/],
+        ignorePatterns: ['/search/**', '/tags/**'],
       },
     );
     expect(sitemap).not.toContain('/search');
@@ -73,6 +75,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 
@@ -92,6 +95,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 
@@ -111,6 +115,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 

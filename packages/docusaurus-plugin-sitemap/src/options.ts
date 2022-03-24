@@ -26,7 +26,7 @@ const PluginOptionSchema = Joi.object({
     .default(DEFAULT_OPTIONS.changefreq),
   priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
   ignorePatterns: Joi.array()
-    .items(Joi.object().instance(RegExp))
+    .items(Joi.string())
     .default(DEFAULT_OPTIONS.ignorePatterns),
   trailingSlash: Joi.forbidden().messages({
     'any.unknown':
