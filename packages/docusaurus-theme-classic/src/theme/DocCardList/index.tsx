@@ -27,7 +27,7 @@ export default function DocCardList({
   return (
     <div className="row">
       {filteredItems.map((item, index) => (
-        <article key={index} className="col col--6">
+        <article key={index} className="col col--6 margin-bottom--lg">
           <DocCard key={index} item={item} />
         </article>
       ))}

@@ -25,10 +25,7 @@ function CardContainer({
   href: string;
   children: ReactNode;
 }): JSX.Element {
-  const className = clsx(
-    'card margin-bottom--lg padding--lg',
-    styles.cardContainer,
-  );
+  const className = clsx('card padding--lg', styles.cardContainer);
   return (
     <Link href={href} className={className}>
       {children}
@@ -52,11 +49,13 @@ function CardLayout({
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
         {icon} {title}
       </h2>
-      <div
-        className={clsx('text--truncate', styles.cardDescription)}
-        title={description}>
-        {description}
-      </div>
+      {description && (
+        <div
+          className={clsx('text--truncate', styles.cardDescription)}
+          title={description}>
+          {description}
+        </div>
+      )}
     </CardContainer>
   );
 }
