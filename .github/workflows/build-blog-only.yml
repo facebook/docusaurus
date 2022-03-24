@@ -7,14 +7,17 @@ on:
     paths:
       - packages/docusaurus/**
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build Blog-only
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3
+      - uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3
         with:
           node-version: '16'
           cache: yarn
