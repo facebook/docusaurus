@@ -126,6 +126,14 @@ declare module '@theme/CodeBlock' {
   export default function CodeBlock(props: Props): JSX.Element;
 }
 
+declare module '@theme/CodeBlock/CopyButton' {
+  export interface Props {
+    readonly code: string;
+  }
+
+  export default function CopyButton(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocCard' {
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 
@@ -890,7 +898,8 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink: string}>;
+  import type {Tag} from '@docusaurus/utils';
+
   export interface Props {
     readonly tags: readonly Tag[];
   }

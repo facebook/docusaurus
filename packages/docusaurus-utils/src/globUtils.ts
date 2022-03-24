@@ -10,24 +10,31 @@
 import Micromatch from 'micromatch'; // Note: Micromatch is used by Globby
 import path from 'path';
 
+/** A re-export of the globby instance. */
 export {default as Globby} from 'globby';
 
-// The default patterns we ignore when globbing
-// using _ prefix for exclusion by convention
+/**
+ * The default glob patterns we ignore when sourcing content.
+ * - Ignore files and folders starting with `_` recursively
+ * - Ignore tests
+ */
 export const GlobExcludeDefault = [
-  // Ignore files starting with _
   '**/_*.{js,jsx,ts,tsx,md,mdx}',
-
-  // Ignore folders starting with _ (including folder content)
   '**/_*/**',
-
-  // Ignore tests
   '**/*.test.{js,jsx,ts,tsx}',
   '**/__tests__/**',
 ];
 
 type Matcher = (str: string) => boolean;
 
+/**
+ * A very thin wrapper around `Micromatch.makeRe`.
+ *
+ * @see {@link createAbsoluteFilePathMatcher}
+ * @param patterns A list of glob patterns.
+ * @returns A matcher handle that tells if a file path is matched by any of the
+ * patterns.
+ */
 export function createMatcher(patterns: string[]): Matcher {
   const regexp = new RegExp(
     patterns.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
@@ -35,10 +42,19 @@ export function createMatcher(patterns: string[]): Matcher {
   return (str) => regexp.test(str);
 }
 
-// We use match patterns like '**/_*/**',
-// This function permits to help to:
-// Match /user/sebastien/website/docs/_partials/xyz.md
-// Ignore /user/_sebastien/website/docs/partials/xyz.md
+/**
+ * We use match patterns like `"** /_* /**"` (ignore the spaces), where `"_*"`
+ * should only be matched within a subfolder. This function would:
+ * - Match `/user/sebastien/website/docs/_partials/xyz.md`
+ * - Ignore `/user/_sebastien/website/docs/partials/xyz.md`
+ *
+ * @param patterns A list of glob patterns.
+ * @param rootFolders A list of root folders to resolve the glob from.
+ * @returns A matcher handle that tells if a file path is matched by any of the
+ * patterns, resolved from the first root folder that contains the path.
+ * @throws Throws when the returned matcher receives a path that doesn't belong
+ * to any of the `rootFolders`.
+ */
 export function createAbsoluteFilePathMatcher(
   patterns: string[],
   rootFolders: string[],
@@ -51,8 +67,8 @@ export function createAbsoluteFilePathMatcher(
     );
     if (!rootFolder) {
       throw new Error(
-        `createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=${absoluteFilePath} was not contained in any of the root folders ${JSON.stringify(
-          rootFolders,
+        `createAbsoluteFilePathMatcher unexpected error, absoluteFilePath=${absoluteFilePath} was not contained in any of the root folders: ${rootFolders.join(
+          ', ',
         )}`,
       );
     }

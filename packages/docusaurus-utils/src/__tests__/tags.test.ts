@@ -5,62 +5,60 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  normalizeFrontMatterTag,
-  normalizeFrontMatterTags,
-  groupTaggedItems,
-  type Tag,
-} from '../tags';
+import {normalizeFrontMatterTags, groupTaggedItems, type Tag} from '../tags';
 
-describe('normalizeFrontMatterTag', () => {
-  type Input = Parameters<typeof normalizeFrontMatterTag>[1];
-  type Output = ReturnType<typeof normalizeFrontMatterTag>;
-
+describe('normalizeFrontMatterTags', () => {
   it('normalizes simple string tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = 'tag';
-    const expectedOutput: Output = {
+    const input = 'tag';
+    const expectedOutput = {
       label: 'tag',
       permalink: `${tagsPath}/tag`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes complex string tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = 'some more Complex_tag';
-    const expectedOutput: Output = {
+    const input = 'some more Complex_tag';
+    const expectedOutput = {
       label: 'some more Complex_tag',
       permalink: `${tagsPath}/some-more-complex-tag`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes simple object tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = {label: 'tag', permalink: 'tagPermalink'};
-    const expectedOutput: Output = {
+    const input = {label: 'tag', permalink: 'tagPermalink'};
+    const expectedOutput = {
       label: 'tag',
       permalink: `${tagsPath}/tagPermalink`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
   it('normalizes complex string tag with object tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = {
+    const input = {
       label: 'tag complex Label',
       permalink: '/MoreComplex/Permalink',
     };
-    const expectedOutput: Output = {
+    const expectedOutput = {
       label: 'tag complex Label',
       permalink: `${tagsPath}/MoreComplex/Permalink`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
-});
 
-describe('normalizeFrontMatterTags', () => {
   type Input = Parameters<typeof normalizeFrontMatterTags>[1];
   type Output = ReturnType<typeof normalizeFrontMatterTags>;
 

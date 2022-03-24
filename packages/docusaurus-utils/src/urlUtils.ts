@@ -8,6 +8,18 @@
 import {removeSuffix} from './jsUtils';
 import resolvePathnameUnsafe from 'resolve-pathname';
 
+/**
+ * Much like `path.join`, but much better. Takes an array of URL segments, and
+ * joins them into a reasonable URL.
+ *
+ * - `["file:", "/home", "/user/", "website"]` => `file:///home/user/website`
+ * - `["file://", "home", "/user/", "website"]` => `file://home/user/website` (relative!)
+ * - Remove trailing slash before parameters or hash.
+ * - Replace `?` in query parameters with `&`.
+ * - Dedupe forward slashes in the entire path, avoiding protocol slashes.
+ *
+ * @throws {TypeError} If any of the URL segment is not a string, this throws.
+ */
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = [...rawUrls];
   const resultArray = [];
@@ -75,8 +87,8 @@ export function normalizeUrl(rawUrls: string[]): string {
   }
 
   let str = resultArray.join('/');
-  // Each input component is now separated by a single slash
-  // except the possible first plain protocol part.
+  // Each input component is now separated by a single slash except the possible
+  // first plain protocol part.
 
   // Remove trailing slash before parameters or hash.
   str = str.replace(/\/(?<search>\?|&|#[^!])/g, '$1');
@@ -94,6 +106,11 @@ export function normalizeUrl(rawUrls: string[]): string {
   return str;
 }
 
+/**
+ * Takes a file's path, relative to its content folder, and computes its edit
+ * URL. If `editUrl` is `undefined`, this returns `undefined`, as is the case
+ * when the user doesn't want an edit URL in her config.
+ */
 export function getEditUrl(
   fileRelativePath: string,
   editUrl?: string,
@@ -105,8 +122,8 @@ export function getEditUrl(
 }
 
 /**
- * Convert filepath to url path.
- * Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
+ * Converts file path to a reasonable URL path, e.g. `'index.md'` -> `'/'`,
+ * `'foo/bar.js'` -> `'/foo/bar'`
  */
 export function fileToPath(file: string): string {
   const indexRE = /(?<dirname>^|.*\/)index\.(?:mdx?|jsx?|tsx?)$/i;
@@ -118,6 +135,13 @@ export function fileToPath(file: string): string {
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
+/**
+ * Similar to `encodeURI`, but uses `encodeURIComponent` and assumes there's no
+ * query.
+ *
+ * `encodeURI("/question?/answer")` => `"/question?/answer#section"`;
+ * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23foo"`
+ */
 export function encodePath(userPath: string): string {
   return userPath
     .split('/')
@@ -125,6 +149,10 @@ export function encodePath(userPath: string): string {
     .join('/');
 }
 
+/**
+ * Whether `str` is a valid pathname. It must be absolute, and not contain
+ * special characters.
+ */
 export function isValidPathname(str: string): boolean {
   if (!str.startsWith('/')) {
     return false;
@@ -138,22 +166,31 @@ export function isValidPathname(str: string): boolean {
   }
 }
 
-// resolve pathname and fail fast if resolution fails
+/**
+ * Resolve pathnames and fail-fast if resolution fails. Uses standard URL
+ * semantics (provided by `resolve-pathname` which is used internally by React
+ * router)
+ */
 export function resolvePathname(to: string, from?: string): string {
   return resolvePathnameUnsafe(to, from);
 }
+/** Appends a leading slash to `str`, if one doesn't exist. */
 export function addLeadingSlash(str: string): string {
   return str.startsWith('/') ? str : `/${str}`;
 }
 
 // TODO deduplicate: also present in @docusaurus/utils-common
+/** Appends a trailing slash to `str`, if one doesn't exist. */
 export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
+
+/** Removes the trailing slash from `str`. */
 export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
 
+/** Constructs an SSH URL that can be used to push to GitHub. */
 export function buildSshUrl(
   githubHost: string,
   organizationName: string,
@@ -166,6 +203,7 @@ export function buildSshUrl(
   return `git@${githubHost}:${organizationName}/${projectName}.git`;
 }
 
+/** Constructs an HTTP URL that can be used to push to GitHub. */
 export function buildHttpsUrl(
   gitCredentials: string,
   githubHost: string,
@@ -179,6 +217,11 @@ export function buildHttpsUrl(
   return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
 }
 
+/**
+ * Whether the current URL is an SSH protocol. In addition to looking for
+ * `ssh:`, it will also allow protocol-less URLs like
+ * `git@github.com:facebook/docusaurus.git`.
+ */
 export function hasSSHProtocol(sourceRepoUrl: string): boolean {
   try {
     if (new URL(sourceRepoUrl).protocol === 'ssh:') {
@@ -187,6 +230,6 @@ export function hasSSHProtocol(sourceRepoUrl: string): boolean {
     return false;
   } catch {
     // Fails when there isn't a protocol
-    return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
+    return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl);
   }
 }
