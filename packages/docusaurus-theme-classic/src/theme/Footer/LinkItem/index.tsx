@@ -29,10 +29,8 @@ export default function FooterLinkItem({item}: Props): JSX.Element {
             to: toUrl,
           })}
       {...props}>
-      <span>
-        {label}
-        {href && !isInternalUrl(href) && <IconExternalLink />}
-      </span>
+      {label}
+      {href && !isInternalUrl(href) && <IconExternalLink />}
     </Link>
   );
 }
