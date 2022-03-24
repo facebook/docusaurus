@@ -5,6 +5,17 @@ description: Docusaurus was designed from the ground up to be easily installed a
 slug: /
 ---
 
+- [x] I'm using the latest version of Docusaurus.
+- [x] I have tried the `npm run clear` or `yarn clear` command.
+- [x] I have tried `rm -rf node_modules yarn.lock package-lock.json` and re-installing packages.
+- [x] I have tried creating a repro with https://new.docusaurus.io.
+- [x] I have read the console error message carefully (if applicable).
+
+Hey
+
+- x
+- y
+
 ⚡️ Docusaurus will help you ship a **beautiful documentation site in no time**.
 
 💸 Building a custom tech stack is expensive. Instead, **focus on your content** and just write Markdown files.

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-ul.contains-task-list {
+.contains-task-list {
   padding-left: 0;
   list-style: none;
 }

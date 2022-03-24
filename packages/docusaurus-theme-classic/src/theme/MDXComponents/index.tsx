@@ -16,8 +16,6 @@ import MDXUl from '@theme/MDXComponents/Ul';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
-import './styles.css';
-
 const MDXComponents: MDXComponentsObject = {
   head: MDXHead,
   code: MDXCode,
