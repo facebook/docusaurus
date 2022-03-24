@@ -20,7 +20,7 @@ import type {
 } from './types';
 
 import _ from 'lodash';
-import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
+import {toMessageRelativeFilePath} from '@docusaurus/utils';
 import type {DocMetadataBase, DocNavLink} from '../types';
 
 export function isCategoriesShorthand(
@@ -225,11 +225,11 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       return {sidebarName, next: undefined, previous: undefined};
     }
 
-    const {previous, next} = getElementsAround(
-      navigationItems,
-      currentItemIndex,
-    );
-    return {sidebarName, previous, next};
+    return {
+      sidebarName,
+      previous: navigationItems[currentItemIndex - 1],
+      next: navigationItems[currentItemIndex + 1],
+    };
   }
 
   function getCategoryGeneratedIndexList(): SidebarItemCategoryWithGeneratedIndex[] {
@@ -268,11 +268,11 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,
     );
-    const {previous, next} = getElementsAround(
-      navigationItems,
-      currentItemIndex,
-    );
-    return {sidebarName, previous, next};
+    return {
+      sidebarName,
+      previous: navigationItems[currentItemIndex - 1],
+      next: navigationItems[currentItemIndex + 1],
+    };
   }
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {

@@ -898,7 +898,8 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  export type Tag = Readonly<{label: string; permalink: string}>;
+  import type {Tag} from '@docusaurus/utils';
+
   export interface Props {
     readonly tags: readonly Tag[];
   }

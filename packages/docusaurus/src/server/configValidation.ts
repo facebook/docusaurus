@@ -6,7 +6,10 @@
  */
 
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
+import {
+  DEFAULT_CONFIG_FILE_NAME,
+  DEFAULT_STATIC_DIR_NAME,
+} from '@docusaurus/utils';
 import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 
 const DEFAULT_I18N_LOCALE = 'en';
@@ -53,7 +56,7 @@ export const DEFAULT_CONFIG: Pick<
   noIndex: false,
   tagline: '',
   baseUrlIssueBanner: true,
-  staticDirectories: [STATIC_DIR_NAME],
+  staticDirectories: [DEFAULT_STATIC_DIR_NAME],
 };
 
 function createPluginSchema(theme: boolean) {

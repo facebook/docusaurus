@@ -256,9 +256,13 @@ sebastienlorber
 sensical
 serializers
 setaf
+setext
 sida
 simen
 slorber
+sluggified
+sluggifies
+sluggify
 spâce
 stackblitz
 stackblitzrc

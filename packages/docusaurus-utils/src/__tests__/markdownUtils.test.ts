@@ -113,9 +113,13 @@ describe('createExcerpt', () => {
           import Component from '@site/src/components/Component'
           import './styles.css';
 
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> }
+          export function ItemCol(props) {
+            return <Item {...props} className={'col col--6 margin-bottom--lg'}/>
+          }
 
-          export function ItemCol(props) { return <Item {...props} className={'col col--6 margin-bottom--lg'}/> };
+          export function ItemCol(props) {
+            return <Item {...props} className={'col col--6 margin-bottom--lg'}/>
+          };
 
           Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^note], ~~molestie~~ et sagittis ut, varius ac justo :wink:.
 
@@ -141,6 +145,18 @@ describe('createExcerpt', () => {
           import React from 'react';
           import Layout from '@theme/Layout';
           \`\`\`
+
+          Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
+        `),
+    ).toBe('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+  });
+
+  it('creates excerpt after multi-line imports', () => {
+    expect(
+      createExcerpt(dedent`
+          import React, {
+            type ReactNode,
+          } from 'react';
 
           Lorem \`ipsum\` dolor sit amet, consectetur \`adipiscing elit\`.
         `),

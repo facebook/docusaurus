@@ -13,15 +13,25 @@ import type {ContentPaths} from './markdownLinks';
 import logger from '@docusaurus/logger';
 
 type DataFileParams = {
+  /** Path to the potential data file, relative to `contentPaths` */
   filePath: string;
+  /**
+   * Includes the base path and localized path, both of which are eligible for
+   * sourcing data files. Both paths should be absolute.
+   */
   contentPaths: ContentPaths;
 };
 
+/**
+ * Looks for a data file in the potential content paths; loads a localized data
+ * file in priority.
+ *
+ * @returns An absolute path to the data file, or `undefined` if there isn't one.
+ */
 export async function getDataFilePath({
   filePath,
   contentPaths,
 }: DataFileParams): Promise<string | undefined> {
-  // Loads a localized data file in priority
   const contentPath = await findFolderContainingFile(
     getContentPathList(contentPaths),
     filePath,
@@ -33,11 +43,17 @@ export async function getDataFilePath({
 }
 
 /**
- * Looks up for a data file in the content paths, returns the normalized object.
- * Throws when validation fails; returns undefined when file not found
+ * Looks up for a data file in the content paths, returns the object validated
+ * and normalized according to the `validate` callback.
+ *
+ * @returns `undefined` when file not found
+ * @throws Throws when validation fails, displaying a helpful context message.
  */
 export async function getDataFileData<T>(
-  params: DataFileParams & {fileType: string},
+  params: DataFileParams & {
+    /** Used for the "The X file looks invalid" message. */
+    fileType: string;
+  },
   validate: (content: unknown) => T,
 ): Promise<T | undefined> {
   const filePath = await getDataFilePath(params);
@@ -54,12 +70,21 @@ export async function getDataFileData<T>(
   }
 }
 
-// Order matters: we look in priority in localized folder
+/**
+ * Takes the `contentPaths` data structure and returns an ordered path list
+ * indicating their priorities. For all data, we look in the localized folder
+ * in priority.
+ */
 export function getContentPathList(contentPaths: ContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
 }
 
-// return the first folder path in which the file exists in
+/**
+ * @param folderPaths a list of absolute paths.
+ * @param relativeFilePath file path relative to each `folderPaths`.
+ * @returns the first folder path in which the file exists, or `undefined` if
+ * none is found.
+ */
 export async function findFolderContainingFile(
   folderPaths: string[],
   relativeFilePath: string,
@@ -69,6 +94,16 @@ export async function findFolderContainingFile(
   );
 }
 
+/**
+ * Fail-fast alternative to `findFolderContainingFile`.
+ *
+ * @param folderPaths a list of absolute paths.
+ * @param relativeFilePath file path relative to each `folderPaths`.
+ * @returns the first folder path in which the file exists.
+ * @throws Throws if no file can be found. You should use this method only when
+ * you actually know the file exists (e.g. when the `relativeFilePath` is read
+ * with a glob and you are just trying to localize it)
+ */
 export async function getFolderContainingFile(
   folderPaths: string[],
   relativeFilePath: string,
@@ -77,12 +112,10 @@ export async function getFolderContainingFile(
     folderPaths,
     relativeFilePath,
   );
-  // should never happen, as the source was read from the FS anyway...
   if (!maybeFolderPath) {
     throw new Error(
-      `File "${relativeFilePath}" does not exist in any of these folders:\n- ${folderPaths.join(
-        '\n- ',
-      )}`,
+      `File "${relativeFilePath}" does not exist in any of these folders:
+- ${folderPaths.join('\n- ')}`,
     );
   }
   return maybeFolderPath;

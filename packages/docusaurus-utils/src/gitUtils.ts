@@ -8,23 +8,67 @@
 import path from 'path';
 import shell from 'shelljs';
 
+/** Custom error thrown when git is not found in `PATH`. */
 export class GitNotFoundError extends Error {}
 
+/** Custom error thrown when the current file is not tracked by git. */
 export class FileNotTrackedError extends Error {}
 
+/**
+ * Fetches the git history of a file and returns a relevant commit date.
+ * It gets the commit date instead of author date so that amended commits
+ * can have their dates updated.
+ *
+ * @throws {GitNotFoundError} If git is not found in `PATH`.
+ * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws Also throws when `git log` exited with non-zero, or when it outputs
+ * unexpected text.
+ */
 export function getFileCommitDate(
+  /** Absolute path to the file. */
   file: string,
-  args: {age?: 'oldest' | 'newest'; includeAuthor?: false},
+  args: {
+    /**
+     * `"oldest"` is the commit that added the file, following renames;
+     * `"newest"` is the last commit that edited the file.
+     */
+    age?: 'oldest' | 'newest';
+    /** Use `includeAuthor: true` to get the author information as well. */
+    includeAuthor?: false;
+  },
 ): {
+  /** Relevant commit date. */
   date: Date;
+  /** Timestamp in **seconds**, as returned from git. */
   timestamp: number;
 };
+/**
+ * Fetches the git history of a file and returns a relevant commit date.
+ * It gets the commit date instead of author date so that amended commits
+ * can have their dates updated.
+ *
+ * @throws {GitNotFoundError} If git is not found in `PATH`.
+ * @throws {FileNotTrackedError} If the current file is not tracked by git.
+ * @throws Also throws when `git log` exited with non-zero, or when it outputs
+ * unexpected text.
+ */
 export function getFileCommitDate(
+  /** Absolute path to the file. */
   file: string,
-  args: {age?: 'oldest' | 'newest'; includeAuthor: true},
+  args: {
+    /**
+     * `"oldest"` is the commit that added the file, following renames;
+     * `"newest"` is the last commit that edited the file.
+     */
+    age?: 'oldest' | 'newest';
+    includeAuthor: true;
+  },
 ): {
+  /** Relevant commit date. */
   date: Date;
+  /** Timestamp in **seconds**, as returned from git. */
   timestamp: number;
+  /** The author's name, as returned from git. */
   author: string;
 };
 export function getFileCommitDate(
@@ -53,8 +97,6 @@ export function getFileCommitDate(
     );
   }
 
-  // Commit time and author name; not using author time so that amended commits
-  // can have their dates updated
   let formatArg = '--format=%ct';
   if (includeAuthor) {
     formatArg += ',%an';
