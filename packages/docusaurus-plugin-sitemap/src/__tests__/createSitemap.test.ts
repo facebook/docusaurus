@@ -49,19 +49,25 @@ describe('createSitemap', () => {
     expect(sitemap).not.toContain('404');
   });
 
-  it('exclusion of ignored paths', async () => {
+  it('excludes patterns configured to be ignored', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/search/', '/tags/'],
+      ['/', '/search/', '/tags/', '/search/foo', '/tags/foo/bar'],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
-        ignorePatterns: ['/search/**', '/tags/**'],
+        ignorePatterns: [
+          // Shallow ignore
+          '/search/',
+          // Deep ignore
+          '/tags/**',
+        ],
       },
     );
-    expect(sitemap).not.toContain('/search');
+    expect(sitemap).not.toContain('/search/</loc>');
+    expect(sitemap).toContain('/search/foo');
     expect(sitemap).not.toContain('/tags');
   });
 
