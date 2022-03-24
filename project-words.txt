@@ -152,6 +152,7 @@ mathjax
 mdast
 mdxast
 mdxhast
+MDXA
 metadatum
 metastring
 middlewares
