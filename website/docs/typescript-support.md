@@ -115,7 +115,7 @@ By default, the Docusaurus TypeScript config does not type-check JavaScript file
 The `// @ts-check` comment ensures the config file is properly type-checked when running:
 
 ```bash npm2yarn
-npm run tsc
+npx tsc
 ```
 
 :::
