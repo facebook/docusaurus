@@ -7,7 +7,6 @@
 
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
-  border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
 }
 
@@ -15,6 +14,7 @@
   position: relative;
   /* rtl:ignore */
   direction: ltr;
+  border-radius: var(--ifm-global-radius);
 }
 
 .codeBlockTitle {
@@ -29,7 +29,6 @@
 .codeBlock {
   margin: 0;
   padding: 0;
-  border-radius: var(--ifm-global-radius);
   background-color: inherit;
 }
 
@@ -40,7 +39,6 @@
 
 .codeBlockStandalone {
   padding: 0;
-  border-radius: var(--ifm-global-radius);
 }
 
 .codeBlockLines {
