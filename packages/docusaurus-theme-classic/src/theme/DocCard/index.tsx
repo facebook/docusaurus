@@ -50,11 +50,11 @@ function CardLayout({
         {icon} {title}
       </h2>
       {description && (
-        <div
+        <p
           className={clsx('text--truncate', styles.cardDescription)}
           title={description}>
           {description}
-        </div>
+        </p>
       )}
     </CardContainer>
   );
