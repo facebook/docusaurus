@@ -14,7 +14,12 @@ import type {
   TranslationMessage,
   InitializedPlugin,
 } from '@docusaurus/types';
-import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
+import {
+  getPluginI18nPath,
+  toMessageRelativeFilePath,
+  I18N_DIR_NAME,
+  CODE_TRANSLATIONS_FILE_NAME,
+} from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
 
@@ -140,7 +145,7 @@ Maybe you should remove them? ${unknownKeys}`;
 
 // should we make this configurable?
 function getTranslationsDirPath(context: TranslationContext): string {
-  return path.resolve(path.join(context.siteDir, `i18n`));
+  return path.resolve(path.join(context.siteDir, I18N_DIR_NAME));
 }
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
@@ -149,7 +154,10 @@ export function getTranslationsLocaleDirPath(
 }
 
 function getCodeTranslationsFilePath(context: TranslationContext): string {
-  return path.join(getTranslationsLocaleDirPath(context), 'code.json');
+  return path.join(
+    getTranslationsLocaleDirPath(context),
+    CODE_TRANSLATIONS_FILE_NAME,
+  );
 }
 
 export async function readCodeTranslationFileContent(

@@ -8,16 +8,21 @@
 import path from 'path';
 import _ from 'lodash';
 import type {TranslationFileContent, TranslationFile} from '@docusaurus/types';
-import {DEFAULT_PLUGIN_ID} from './constants';
+import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
 
+/**
+ * Takes a list of translation file contents, and shallow-merges them into one.
+ */
 export function mergeTranslations(
   contents: TranslationFileContent[],
 ): TranslationFileContent {
   return contents.reduce((acc, content) => ({...acc, ...content}), {});
 }
 
-// Useful to update all the messages of a translation file
-// Used in tests to simulate translations
+/**
+ * Useful to update all the messages of a translation file. Used in tests to
+ * simulate translations.
+ */
 export function updateTranslationFileMessages(
   translationFile: TranslationFile,
   updateMessage: (message: string) => string,
@@ -31,6 +36,10 @@ export function updateTranslationFileMessages(
   };
 }
 
+/**
+ * Takes everything needed and constructs a plugin i18n path. Plugins should
+ * expect everything it needs for translations to be found under this path.
+ */
 export function getPluginI18nPath({
   siteDir,
   locale,
@@ -46,7 +55,7 @@ export function getPluginI18nPath({
 }): string {
   return path.join(
     siteDir,
-    'i18n',
+    I18N_DIR_NAME,
     // namespace first by locale: convenient to work in a single folder for a
     // translator
     locale,

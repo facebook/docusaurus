@@ -7,8 +7,10 @@
 
 import type Joi from './Joi';
 import logger from '@docusaurus/logger';
+import Yaml from 'js-yaml';
 import {PluginIdSchema} from './validationSchemas';
 
+/** Print warnings returned from Joi validation. */
 export function printWarning(warning?: Joi.ValidationError): void {
   if (warning) {
     const warningMessages = warning.details
@@ -18,9 +20,14 @@ export function printWarning(warning?: Joi.ValidationError): void {
   }
 }
 
+/**
+ * The callback that should be used to validate plugin options. Handles plugin
+ * IDs on a generic level: no matter what the schema declares, this callback
+ * would require a string ID or default to "default".
+ */
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
-  // This allows us to automatically normalize undefined to {id: 'default'}
+  // This allows us to automatically normalize undefined to { id: "default" }
   options: Partial<T> = {},
 ): T {
   // All plugins can be provided an "id" option (multi-instance support)
@@ -41,6 +48,10 @@ export function normalizePluginOptions<T extends {id?: string}>(
   return value;
 }
 
+/**
+ * The callback that should be used to validate theme config. No matter what the
+ * schema declares, this callback would allow unknown attributes.
+ */
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
   themeConfig: Partial<T>,
@@ -62,6 +73,9 @@ export function normalizeThemeConfig<T>(
   return value;
 }
 
+/**
+ * Validate front matter with better error message
+ */
 export function validateFrontMatter<T>(
   frontMatter: Record<string, unknown>,
   schema: Joi.ObjectSchema<T>,
@@ -75,13 +89,13 @@ export function validateFrontMatter<T>(
   printWarning(warning);
 
   if (error) {
-    const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
 
     logger.error`The following front matter:
-${logger.yellow(frontMatterString)}
-contains invalid values for field(s): ${logger.yellow(invalidFields)}.
+---
+${Yaml.dump(frontMatter)}---
+contains invalid values for field(s): code=${invalidFields}.
 ${errorDetails.map(({message}) => message)}
 `;
     throw error;

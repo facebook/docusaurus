@@ -7,12 +7,25 @@
 
 import logger from '@docusaurus/logger';
 import matter from 'gray-matter';
-import {createSlugger, type Slugger} from './slugger';
+import {createSlugger, type Slugger, type SluggerOptions} from './slugger';
 
-// Input: ## Some heading {#some-heading}
-// Output: {text: "## Some heading", id: "some-heading"}
+// Some utilities for parsing Markdown content. These things are only used on
+// server-side when we infer metadata like `title` and `description` from the
+// content. Most parsing is still done in MDX through the mdx-loader.
+
+/**
+ * Parses custom ID from a heading. The ID must be composed of letters,
+ * underscores, and dashes only.
+ *
+ * @param heading e.g. `## Some heading {#some-heading}` where the last
+ * character must be `}` for the ID to be recognized
+ */
 export function parseMarkdownHeadingId(heading: string): {
+  /**
+   * The heading content sans the ID part, right-trimmed. e.g. `## Some heading`
+   */
   text: string;
+  /** The heading ID. e.g. `some-heading` */
   id?: string;
 } {
   const customHeadingIdRegex = /\s*\{#(?<id>[\w-]+)\}$/;
@@ -26,26 +39,40 @@ export function parseMarkdownHeadingId(heading: string): {
   return {text: heading, id: undefined};
 }
 
-// Hacky way of stripping out import statements from the excerpt
 // TODO: Find a better way to do so, possibly by compiling the Markdown content,
 // stripping out HTML tags and obtaining the first line.
+/**
+ * Creates an excerpt of a Markdown file. This function will:
+ *
+ * - Ignore h1 headings (setext or atx)
+ * - Ignore import/export
+ * - Ignore code blocks
+ *
+ * And for the first contentful line, it will strip away most Markdown
+ * syntax, including HTML tags, emphasis, links (keeping the text), etc.
+ */
 export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileString
-    .trimLeft()
+    .trimStart()
     // Remove Markdown alternate title
     .replace(/^[^\n]*\n[=]+/g, '')
     .split('\n');
   let inCode = false;
+  let inImport = false;
   let lastCodeFence = '';
 
   for (const fileLine of fileLines) {
+    if (fileLine === '' && inImport) {
+      inImport = false;
+    }
     // Skip empty line.
     if (!fileLine.trim()) {
       continue;
     }
 
     // Skip import/export declaration.
-    if (/^(?:import|export)\s.*/.test(fileLine)) {
+    if ((/^(?:import|export)\s.*/.test(fileLine) || inImport) && !inCode) {
+      inImport = true;
       continue;
     }
 
@@ -102,8 +129,22 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
+/**
+ * Takes a raw Markdown file content, and parses the front matter using
+ * gray-matter. Worth noting that gray-matter accepts TOML and other markup
+ * languages as well.
+ *
+ * @throws Throws when gray-matter throws. e.g.:
+ * ```md
+ * ---
+ * foo: : bar
+ * ---
+ * ```
+ */
 export function parseFrontMatter(markdownFileContent: string): {
+  /** Front matter as parsed by gray-matter. */
   frontMatter: Record<string, unknown>;
+  /** The remaining content, trimmed. */
   content: string;
 } {
   const {data, content} = matter(markdownFileContent);
@@ -113,11 +154,6 @@ export function parseFrontMatter(markdownFileContent: string): {
   };
 }
 
-/**
- * Try to convert markdown heading to text. Does not need to be perfect, it is
- * only used as a fallback when frontMatter.title is not provided. For now, we
- * just unwrap possible inline code blocks (# `config.js`)
- */
 function toTextContentTitle(contentTitle: string): string {
   if (contentTitle.startsWith('`') && contentTitle.endsWith('`')) {
     return contentTitle.substring(1, contentTitle.length - 1);
@@ -125,10 +161,36 @@ function toTextContentTitle(contentTitle: string): string {
   return contentTitle;
 }
 
+type ParseMarkdownContentTitleOptions = {
+  /**
+   * If `true`, the matching title will be removed from the returned content.
+   * We can promise that at least one empty line will be left between the
+   * content before and after, but you shouldn't make too much assumption
+   * about what's left.
+   */
+  removeContentTitle?: boolean;
+};
+
+/**
+ * Takes the raw Markdown content, without front matter, and tries to find an h1
+ * title (setext or atx) to be used as metadata.
+ *
+ * It only searches until the first contentful paragraph, ignoring import/export
+ * declarations.
+ *
+ * It will try to convert markdown to reasonable text, but won't be best effort,
+ * since it's only used as a fallback when `frontMatter.title` is not provided.
+ * For now, we just unwrap inline code (``# `config.js` `` => `config.js`).
+ */
 export function parseMarkdownContentTitle(
   contentUntrimmed: string,
-  options?: {removeContentTitle?: boolean},
-): {content: string; contentTitle: string | undefined} {
+  options?: ParseMarkdownContentTitleOptions,
+): {
+  /** The content, optionally without the content title. */
+  content: string;
+  /** The title, trimmed and without the `#`. */
+  contentTitle: string | undefined;
+} {
   const removeContentTitleOption = options?.removeContentTitle ?? false;
 
   const content = contentUntrimmed.trim();
@@ -171,17 +233,28 @@ export function parseMarkdownContentTitle(
   };
 }
 
-type ParsedMarkdown = {
-  frontMatter: Record<string, unknown>;
-  content: string;
-  contentTitle: string | undefined;
-  excerpt: string | undefined;
-};
-
+/**
+ * Makes a full-round parse.
+ *
+ * @throws Throws when `parseFrontMatter` throws, usually because of invalid
+ * syntax.
+ */
 export function parseMarkdownString(
   markdownFileContent: string,
-  options?: {removeContentTitle?: boolean},
-): ParsedMarkdown {
+  options?: ParseMarkdownContentTitleOptions,
+): {
+  /** @see {@link parseFrontMatter} */
+  frontMatter: Record<string, unknown>;
+  /** @see {@link parseMarkdownContentTitle} */
+  contentTitle: string | undefined;
+  /** @see {@link createExcerpt} */
+  excerpt: string | undefined;
+  /**
+   * Content without front matter and (optionally) without title, depending on
+   * the `removeContentTitle` option.
+   */
+  content: string;
+} {
   try {
     const {frontMatter, content: contentWithoutFrontMatter} =
       parseFrontMatter(markdownFileContent);
@@ -229,11 +302,16 @@ function addHeadingId(
   return `${headingHashes}${headingText} {#${slug}}`;
 }
 
-export type WriteHeadingIDOptions = {
-  maintainCase?: boolean;
+export type WriteHeadingIDOptions = SluggerOptions & {
+  /** Overwrite existing heading IDs. */
   overwrite?: boolean;
 };
 
+/**
+ * Takes Markdown content, returns new content with heading IDs written.
+ * Respects existing IDs (unless `overwrite=true`) and never generates colliding
+ * IDs (through the slugger).
+ */
 export function writeMarkdownHeadingId(
   content: string,
   options: WriteHeadingIDOptions = {maintainCase: false, overwrite: false},

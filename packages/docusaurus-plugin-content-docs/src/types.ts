@@ -8,11 +8,12 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {Sidebars} from './sidebars/types';
-import type {Tag, FrontMatterTag} from '@docusaurus/utils';
 import type {
-  BrokenMarkdownLink as IBrokenMarkdownLink,
+  Tag,
+  FrontMatterTag,
+  BrokenMarkdownLink,
   ContentPaths,
-} from '@docusaurus/utils/lib/markdownLinks';
+} from '@docusaurus/utils';
 import type {VersionBanner} from '@docusaurus/plugin-content-docs';
 
 export type DocFile = {
@@ -133,11 +134,11 @@ export type LoadedContent = {
   loadedVersions: LoadedVersion[];
 };
 
-export type BrokenMarkdownLink = IBrokenMarkdownLink<VersionMetadata>;
+export type DocBrokenMarkdownLink = BrokenMarkdownLink<VersionMetadata>;
 
 export type DocsMarkdownOption = {
   versionsMetadata: VersionMetadata[];
   siteDir: string;
   sourceToPermalink: SourceToPermalink;
-  onBrokenMarkdownLink: (brokenMarkdownLink: BrokenMarkdownLink) => void;
+  onBrokenMarkdownLink: (brokenMarkdownLink: DocBrokenMarkdownLink) => void;
 };
