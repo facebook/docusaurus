@@ -14,7 +14,7 @@ import IconExternalLink from '@theme/IconExternalLink';
 
 import type {Props} from '@theme/DocSidebarItem/Link';
 
-import styles from './styles.module.css';
+import styles from './Link.module.css';
 
 export default function DocSidebarItemLink({
   item,
