@@ -89,6 +89,7 @@ type SidebarGenerator = (generatorArgs: {
   version: {contentPath: string; versionName: string}; // the current version
   docs: Array<{
     id: string;
+    title: string;
     frontMatter: DocFrontMatter & Record<string, unknown>;
     source: string;
     sourceDirName: string;

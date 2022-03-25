@@ -323,7 +323,7 @@ sidebar_class_name: green
 This is the easy tutorial!
 ```
 
-**For categories**: add a `_category_.json` or `_category_.yml` file in the respective folder. You can specify any category metadata and also the `position` metadata.
+**For categories**: add a `_category_.json` or `_category_.yml` file in the respective folder. You can specify any category metadata and also the `position` metadata. `label`, `className`, `position`, and `customProps` will default to the respective values of the category's linked doc, if there is one.
 
 <Tabs>
 <TabItem value="JSON">

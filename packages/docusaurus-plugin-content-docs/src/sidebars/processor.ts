@@ -31,6 +31,7 @@ function toSidebarItemsGeneratorDoc(
   return _.pick(doc, [
     'id',
     'unversionedId',
+    'title',
     'frontMatter',
     'source',
     'sourceDirName',
