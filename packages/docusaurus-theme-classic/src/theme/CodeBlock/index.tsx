@@ -13,6 +13,7 @@ import {
   parseCodeBlockTitle,
   parseLanguage,
   parseLines,
+  containsLineNumbers,
   ThemeClassNames,
   usePrismTheme,
 } from '@docusaurus/theme-common';
@@ -26,6 +27,7 @@ export default function CodeBlock({
   className: blockClassName = '',
   metastring,
   title,
+  showLineNumbers,
   language: languageProp,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
@@ -87,6 +89,8 @@ export default function CodeBlock({
   const language =
     languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
+  const shouldShowLineNumbers =
+    showLineNumbers || containsLineNumbers(metastring);
 
   return (
     <Highlight
@@ -118,13 +122,21 @@ export default function CodeBlock({
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
               className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
-              <code className={styles.codeBlockLines}>
+              <code
+                className={clsx(
+                  styles.codeBlockLines,
+                  shouldShowLineNumbers && styles.codeBlockLinesWithNumbering,
+                )}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0]!.content === '\n') {
                     line[0]!.content = '';
                   }
 
-                  const lineProps = getLineProps({line, key: i});
+                  const lineProps = getLineProps({
+                    line,
+                    key: i,
+                    ...(shouldShowLineNumbers && {className: styles.codeLine}),
+                  });
 
                   if (highlightLines.includes(i)) {
                     lineProps.className += ' docusaurus-highlight-code-line';
@@ -132,6 +144,9 @@ export default function CodeBlock({
 
                   return (
                     <span key={i} {...lineProps}>
+                      {shouldShowLineNumbers && (
+                        <span className={styles.codeLineNumber} />
+                      )}
                       {line.map((token, key) => (
                         <span key={key} {...getTokenProps({token, key})} />
                       ))}

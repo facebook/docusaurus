@@ -121,6 +121,7 @@ declare module '@theme/CodeBlock' {
     readonly metastring?: string;
     readonly title?: string;
     readonly language?: string;
+    readonly showLineNumbers?: boolean;
   }
 
   export default function CodeBlock(props: Props): JSX.Element;

@@ -32,6 +32,28 @@ function HelloCodeTitle(props) {
 
 </BrowserWindow>
 
+## Code line numbering
+
+You can enable line numbering for your code block by using `showLineNumbers` key within the language meta string (don't forget to add space directly before the key).
+
+````md
+```jsx showLineNumbers
+function PageLayout(props) {
+  return <Layout title="Awesome Docusaurus page" description="Just one more awesome page on my Docusaurus site">;
+}
+```
+````
+
+<BrowserWindow>
+
+```jsx showLineNumbers
+function PageLayout(props) {
+  return <Layout title="Awesome Docusaurus page" description="Just one more awesome page on my Docusaurus site">;
+}
+```
+
+</BrowserWindow>
+
 ## Syntax highlighting {#syntax-highlighting}
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
@@ -590,7 +612,10 @@ export default function MyReactPage() {
   return (
     <div>
       {/* highlight-start */}
-      <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+      <CodeBlock
+        language="jsx"
+        title="/src/components/HelloCodeTitle.js"
+        showLineNumbers>
         {`function HelloCodeTitle(props) {
   return <h1>Hello, {props.name}</h1>;
 }`}
@@ -602,15 +627,18 @@ export default function MyReactPage() {
 ```
 
 <BrowserWindow>
-  <CodeBlock language="jsx" title="/src/components/HelloCodeTitle.js">
+  <CodeBlock
+    language="jsx"
+    title="/src/components/HelloCodeTitle.js"
+    showLineNumbers>
     {`function HelloCodeTitle(props) {
   return <h1>Hello, {props.name}</h1>;
 }`}
   </CodeBlock>
 </BrowserWindow>
 
-The props accepted are `language` and `title`, in the same way as you write Markdown code blocks.
+The props accepted are `language`, `title` and `showLineNumbers`, in the same way as you write Markdown code blocks.
 
-Although discouraged, you can also pass in a `metastring` prop like `metastring='{1-2} title="/src/components/HelloCodeTitle.js"'`, which is how Markdown code blocks are handled under the hood. However, we recommend you [use comments for highlighting lines](#highlighting-with-comments).
+Although discouraged, you can also pass in a `metastring` prop like `metastring='{1-2} title="/src/components/HelloCodeTitle.js" showLineNumbers'`, which is how Markdown code blocks are handled under the hood. However, we recommend you [use comments for highlighting lines](#highlighting-with-comments).
 
 As [previously stated](#using-jsx-markup), syntax highlighting is only applied when the children is a simple string.

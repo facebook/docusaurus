@@ -30,7 +30,7 @@
   margin: 0;
   padding: 0;
   border-radius: var(--ifm-global-radius);
-  background-color: inherit;
+  --ifm-pre-background: inherit;
 }
 
 .codeBlockTitle + .codeBlockContent .codeBlock {
@@ -45,14 +45,40 @@
 
 .codeBlockLines {
   font: inherit;
+  background: var(--ifm-pre-background);
   /* rtl:ignore */
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
 }
 
+.codeBlockLinesWithNumbering {
+  padding-left: 0;
+}
+
 @media print {
   .codeBlockLines {
     white-space: pre-wrap;
   }
+}
+
+.codeLine {
+  counter-increment: line-count;
+}
+
+.codeLineNumber {
+  display: inline-block;
+  position: sticky;
+  left: 0;
+  padding: 0 var(--ifm-pre-padding);
+  background: var(--ifm-pre-background);
+}
+
+.codeLineNumber::before {
+  content: counter(line-count);
+  opacity: 0.4;
+}
+
+:global(.docusaurus-highlight-code-line) .codeLineNumber::before {
+  opacity: 0.8;
 }
