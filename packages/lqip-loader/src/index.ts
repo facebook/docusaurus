@@ -22,13 +22,6 @@ export default async function lqipLoader(
   }
   const callback = this.async();
   const imgPath = this.resourcePath;
-
-  const config = this.getOptions() ?? {};
-  config.base64 = 'base64' in config ? config.base64 : true;
-  // color palette generation is set to false by default
-  // since it is little bit slower than base64 generation
-  config.palette = 'palette' in config ? config.palette : false;
-
   let content = contentBuffer.toString('utf8');
   const contentIsUrlExport =
     /^(?:export default|module.exports =) "data:.*base64,.*/.test(content);
@@ -53,24 +46,11 @@ export default async function lqipLoader(
     )!.groups!.source!;
   }
 
-  const outputPromises: [Promise<string> | null, Promise<string[]> | null] = [
-    config.base64 === true ? lqip.base64(imgPath) : null,
-    config.palette === true ? lqip.palette(imgPath) : null,
-  ];
-
   try {
-    const data = await Promise.all(outputPromises);
-    if (data) {
-      const [preSrc, palette] = data;
-      const finalObject = JSON.stringify({src: 'STUB', preSrc, palette});
-      const result = `module.exports = ${finalObject.replace(
-        '"STUB"',
-        source,
-      )};`;
-      callback(null, result);
-    } else {
-      callback(new Error('ERROR'), undefined);
-    }
+    const preSrc = await lqip.base64(imgPath);
+    const finalObject = JSON.stringify({src: 'STUB', preSrc});
+    const result = `module.exports = ${finalObject.replace('"STUB"', source)};`;
+    callback(null, result);
   } catch (err) {
     console.error(err);
     callback(new Error('ERROR'), undefined);

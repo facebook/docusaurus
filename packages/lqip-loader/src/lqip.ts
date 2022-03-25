@@ -6,10 +6,8 @@
  */
 
 import logger from '@docusaurus/logger';
-import Vibrant from 'node-vibrant';
 import path from 'path';
 import sharp from 'sharp';
-import {toPalette, toBase64} from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {version} = require('../package.json');
@@ -21,6 +19,13 @@ const SUPPORTED_MIMES: Record<string, string> = {
   jpg: 'image/jpeg',
   png: 'image/png',
 };
+
+/**
+ * it returns a Base64 image string with required formatting
+ * to work on the web (<img src=".." /> or in CSS url('..'))
+ */
+const toBase64 = (extMimeType: string, data: Buffer): string =>
+  `data:${extMimeType};base64,${data.toString('base64')}`;
 
 export async function base64(file: string): Promise<string> {
   let extension = path.extname(file);
@@ -36,17 +41,6 @@ export async function base64(file: string): Promise<string> {
     return toBase64(mime, data);
   } catch (err) {
     logger.error`Generation of base64 failed for image path=${file}.`;
-    throw err;
-  }
-}
-
-export async function palette(file: string): Promise<string[]> {
-  const vibrant = new Vibrant(file, {});
-  try {
-    const pal = await vibrant.getPalette();
-    return toPalette(pal);
-  } catch (err) {
-    logger.error`Generation of color palette failed for image path=${file}.`;
     throw err;
   }
 }
