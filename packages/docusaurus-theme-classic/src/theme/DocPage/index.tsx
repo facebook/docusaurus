@@ -190,7 +190,12 @@ function DocPageContent({
   );
 }
 
-export default function DocPage(props: Props): JSX.Element {
+function extractDocRouteMetadata(props: Props): null | {
+  currentDocRoute: DocumentRoute;
+  currentDocRouteElement: JSX.Element;
+  sidebarName: string | undefined;
+  sidebar: PropSidebar | undefined;
+} {
   const {
     route: {routes: docRoutes},
     versionMetadata,
@@ -200,7 +205,7 @@ export default function DocPage(props: Props): JSX.Element {
     matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
-    return <NotFound />;
+    return null;
   }
 
   // For now, the sidebarName is added as route config: not ideal!
@@ -208,14 +213,34 @@ export default function DocPage(props: Props): JSX.Element {
 
   const sidebar = sidebarName
     ? versionMetadata.docsSidebars[sidebarName]
-    : null;
+    : undefined;
 
+  const currentDocRouteElement = renderRoutes(props.route.routes, {
+    versionMetadata,
+  });
+
+  return {
+    currentDocRoute,
+    currentDocRouteElement,
+    sidebarName,
+    sidebar,
+  };
+}
+
+export default function DocPage(props: Props): JSX.Element {
+  const {versionMetadata} = props;
+  const currentDocRouteMetadata = extractDocRouteMetadata(props);
+  if (!currentDocRouteMetadata) {
+    return <NotFound />;
+  }
+  const {currentDocRoute, currentDocRouteElement, sidebar, sidebarName} =
+    currentDocRouteMetadata;
   return (
     <HtmlClassNameProvider
       className={clsx(
         ThemeClassNames.wrapper.docsPages,
         ThemeClassNames.page.docsDocPage,
-        versionMetadata.className,
+        props.versionMetadata.className,
       )}>
       <DocsVersionProvider version={versionMetadata}>
         <DocsSidebarProvider sidebar={sidebar ?? null}>
@@ -223,7 +248,7 @@ export default function DocPage(props: Props): JSX.Element {
             currentDocRoute={currentDocRoute}
             versionMetadata={versionMetadata}
             sidebarName={sidebarName}>
-            {renderRoutes(docRoutes, {versionMetadata})}
+            {currentDocRouteElement}
           </DocPageContent>
         </DocsSidebarProvider>
       </DocsVersionProvider>
