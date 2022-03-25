@@ -1407,6 +1407,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
       "sourceDirName": "3-API/01_Core APIs",
+      "title": "Client API",
       "unversionedId": "API/Core APIs/Client API",
     },
     {
@@ -1415,6 +1416,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
       "sourceDirName": "3-API/01_Core APIs",
+      "title": "Server API",
       "unversionedId": "API/Core APIs/Server API",
     },
     {
@@ -1423,6 +1425,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
       "sourceDirName": "3-API/02_Extension APIs",
+      "title": "Plugin API",
       "unversionedId": "API/Extension APIs/Plugin API",
     },
     {
@@ -1431,6 +1434,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
       "sourceDirName": "3-API/02_Extension APIs",
+      "title": "Theme API",
       "unversionedId": "API/Extension APIs/Theme API",
     },
     {
@@ -1439,6 +1443,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 3,
       "source": "@site/docs/3-API/03_api-end.md",
       "sourceDirName": "3-API",
+      "title": "API End",
       "unversionedId": "API/api-end",
     },
     {
@@ -1447,6 +1452,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/00_api-overview.md",
       "sourceDirName": "3-API",
+      "title": "API Overview",
       "unversionedId": "API/api-overview",
     },
     {
@@ -1458,6 +1464,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 1,
       "source": "@site/docs/Guides/z-guide1.md",
       "sourceDirName": "Guides",
+      "title": "Guide 1",
       "unversionedId": "Guides/guide1",
     },
     {
@@ -1468,6 +1475,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 2,
       "source": "@site/docs/Guides/02-guide2.md",
       "sourceDirName": "Guides",
+      "title": "Guide 2",
       "unversionedId": "Guides/guide2",
     },
     {
@@ -1479,6 +1487,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 2.5,
       "source": "@site/docs/Guides/0-guide2.5.md",
       "sourceDirName": "Guides",
+      "title": "Guide 2.5",
       "unversionedId": "Guides/guide2.5",
     },
     {
@@ -1490,6 +1499,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 3,
       "source": "@site/docs/Guides/guide3.md",
       "sourceDirName": "Guides",
+      "title": "Guide 3",
       "unversionedId": "Guides/guide3",
     },
     {
@@ -1500,6 +1510,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/a-guide4.md",
       "sourceDirName": "Guides",
+      "title": "Guide 4",
       "unversionedId": "Guides/guide4",
     },
     {
@@ -1510,6 +1521,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/b-guide5.md",
       "sourceDirName": "Guides",
+      "title": "Guide 5",
       "unversionedId": "Guides/guide5",
     },
     {
@@ -1518,6 +1530,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 0,
       "source": "@site/docs/0-getting-started.md",
       "sourceDirName": ".",
+      "title": "Getting Started",
       "unversionedId": "getting-started",
     },
     {
@@ -1526,6 +1539,7 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
       "sidebarPosition": 1,
       "source": "@site/docs/1-installation.md",
       "sourceDirName": ".",
+      "title": "Installation",
       "unversionedId": "installation",
     },
   ],

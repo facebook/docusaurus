@@ -231,6 +231,7 @@ export type SidebarItemsGeneratorDoc = Pick<
   DocMetadataBase,
   | 'id'
   | 'unversionedId'
+  | 'title'
   | 'frontMatter'
   | 'source'
   | 'sourceDirName'
