@@ -105,7 +105,7 @@ export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   if (!sidebar) {
     throw new Error('Unexpected: cant find current sidebar in context');
   }
-  const category = findSidebarCategory(sidebar, (item) =>
+  const category = findSidebarCategory(sidebar.items, (item) =>
     isSamePath(item.href, pathname),
   );
   if (!category) {
@@ -174,7 +174,7 @@ export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
     return false;
   }
 
-  extract(sidebar);
+  extract(sidebar.items);
 
   return breadcrumbs.reverse();
 }

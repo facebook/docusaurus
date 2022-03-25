@@ -13,19 +13,24 @@ import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 describe('useDocsSidebar', () => {
   it('throws if context provider is missing', () => {
     expect(
-      () => renderHook(() => useDocsSidebar()).result.current,
+      () => renderHook(() => useDocsSidebar()).result.current?.items,
     ).toThrowErrorMatchingInlineSnapshot(
       `"Hook useDocsSidebar is called outside the <DocsSidebarProvider>. "`,
     );
   });
 
   it('reads value from context provider', () => {
-    const sidebar: PropSidebar = [];
+    const name = 'mySidebarName';
+    const items: PropSidebar = [];
     const {result} = renderHook(() => useDocsSidebar(), {
       wrapper: ({children}) => (
-        <DocsSidebarProvider sidebar={sidebar}>{children}</DocsSidebarProvider>
+        <DocsSidebarProvider name={name} items={items}>
+          {children}
+        </DocsSidebarProvider>
       ),
     });
-    expect(result.current).toBe(sidebar);
+    expect(result.current).toBeDefined();
+    expect(result.current!.name).toBe(name);
+    expect(result.current!.items).toBe(items);
   });
 });
