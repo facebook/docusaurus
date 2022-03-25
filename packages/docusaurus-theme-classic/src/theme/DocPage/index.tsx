@@ -7,7 +7,10 @@
 
 import React, {type ReactNode, useState, useCallback} from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {PropVersionMetadata} from '@docusaurus/plugin-content-docs';
+import type {
+  PropSidebar,
+  PropVersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import NotFound from '@theme/NotFound';
@@ -38,6 +41,117 @@ type DocPageContentProps = {
   readonly sidebarName: string | undefined;
 };
 
+function SidebarExpandButton({toggleSidebar}: {toggleSidebar: () => void}) {
+  return (
+    <div
+      className={styles.collapsedDocSidebar}
+      title={translate({
+        id: 'theme.docs.sidebar.expandButtonTitle',
+        message: 'Expand sidebar',
+        description:
+          'The ARIA label and title attribute for expand button of doc sidebar',
+      })}
+      aria-label={translate({
+        id: 'theme.docs.sidebar.expandButtonAriaLabel',
+        message: 'Expand sidebar',
+        description:
+          'The ARIA label and title attribute for expand button of doc sidebar',
+      })}
+      tabIndex={0}
+      role="button"
+      onKeyDown={toggleSidebar}
+      onClick={toggleSidebar}>
+      <IconArrow className={styles.expandSidebarButtonIcon} />
+    </div>
+  );
+}
+
+type DocPageAsideProps = Pick<
+  DocPageContentProps,
+  'currentDocRoute' | 'sidebarName'
+> & {
+  hiddenSidebarContainer: boolean;
+  setHiddenSidebarContainer: React.Dispatch<React.SetStateAction<boolean>>;
+  sidebar: PropSidebar;
+};
+
+function DocPageAside({
+  hiddenSidebarContainer,
+  setHiddenSidebarContainer,
+  currentDocRoute,
+  sidebarName,
+  sidebar,
+}: DocPageAsideProps): JSX.Element {
+  const [hiddenSidebar, setHiddenSidebar] = useState(false);
+  const toggleSidebar = useCallback(() => {
+    if (hiddenSidebar) {
+      setHiddenSidebar(false);
+    }
+    setHiddenSidebarContainer((value) => !value);
+  }, [setHiddenSidebarContainer, hiddenSidebar]);
+
+  return (
+    <aside
+      className={clsx(
+        ThemeClassNames.docs.docSidebarContainer,
+        styles.docSidebarContainer,
+        hiddenSidebarContainer && styles.docSidebarContainerHidden,
+      )}
+      onTransitionEnd={(e) => {
+        if (!e.currentTarget.classList.contains(styles.docSidebarContainer!)) {
+          return;
+        }
+
+        if (hiddenSidebarContainer) {
+          setHiddenSidebar(true);
+        }
+      }}>
+      <DocSidebar
+        key={
+          // Reset sidebar state on sidebar changes
+          // See https://github.com/facebook/docusaurus/issues/3414
+          sidebarName
+        }
+        sidebar={sidebar}
+        path={currentDocRoute.path}
+        onCollapse={toggleSidebar}
+        isHidden={hiddenSidebar}
+      />
+
+      {hiddenSidebar && <SidebarExpandButton toggleSidebar={toggleSidebar} />}
+    </aside>
+  );
+}
+
+type DocPageMainProps = {
+  sidebar: PropSidebar | null;
+  hiddenSidebarContainer: boolean;
+  children: ReactNode;
+};
+
+function DocPageMain({
+  hiddenSidebarContainer,
+  sidebar,
+  children,
+}: DocPageMainProps) {
+  return (
+    <main
+      className={clsx(
+        styles.docMainContainer,
+        (hiddenSidebarContainer || !sidebar) && styles.docMainContainerEnhanced,
+      )}>
+      <div
+        className={clsx(
+          'container padding-top--md padding-bottom--lg',
+          styles.docItemWrapper,
+          hiddenSidebarContainer && styles.docItemWrapperEnhanced,
+        )}>
+        {children}
+      </div>
+    </main>
+  );
+}
+
 function DocPageContent({
   currentDocRoute,
   versionMetadata,
@@ -47,15 +161,6 @@ function DocPageContent({
   const sidebar = useDocsSidebar();
   const {pluginId, version} = versionMetadata;
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
-  const [hiddenSidebar, setHiddenSidebar] = useState(false);
-  const toggleSidebar = useCallback(() => {
-    if (hiddenSidebar) {
-      setHiddenSidebar(false);
-    }
-
-    setHiddenSidebarContainer((value) => !value);
-  }, [hiddenSidebar]);
-
   return (
     <>
       <SearchMetadata
@@ -65,78 +170,20 @@ function DocPageContent({
       <Layout>
         <div className={styles.docPage}>
           <BackToTopButton />
-
           {sidebar && (
-            <aside
-              className={clsx(
-                ThemeClassNames.docs.docSidebarContainer,
-                styles.docSidebarContainer,
-                hiddenSidebarContainer && styles.docSidebarContainerHidden,
-              )}
-              onTransitionEnd={(e) => {
-                if (
-                  !e.currentTarget.classList.contains(
-                    styles.docSidebarContainer!,
-                  )
-                ) {
-                  return;
-                }
-
-                if (hiddenSidebarContainer) {
-                  setHiddenSidebar(true);
-                }
-              }}>
-              <DocSidebar
-                key={
-                  // Reset sidebar state on sidebar changes
-                  // See https://github.com/facebook/docusaurus/issues/3414
-                  sidebarName
-                }
-                sidebar={sidebar}
-                path={currentDocRoute.path}
-                onCollapse={toggleSidebar}
-                isHidden={hiddenSidebar}
-              />
-
-              {hiddenSidebar && (
-                <div
-                  className={styles.collapsedDocSidebar}
-                  title={translate({
-                    id: 'theme.docs.sidebar.expandButtonTitle',
-                    message: 'Expand sidebar',
-                    description:
-                      'The ARIA label and title attribute for expand button of doc sidebar',
-                  })}
-                  aria-label={translate({
-                    id: 'theme.docs.sidebar.expandButtonAriaLabel',
-                    message: 'Expand sidebar',
-                    description:
-                      'The ARIA label and title attribute for expand button of doc sidebar',
-                  })}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={toggleSidebar}
-                  onClick={toggleSidebar}>
-                  <IconArrow className={styles.expandSidebarButtonIcon} />
-                </div>
-              )}
-            </aside>
+            <DocPageAside
+              currentDocRoute={currentDocRoute}
+              sidebarName={sidebarName}
+              sidebar={sidebar}
+              hiddenSidebarContainer={hiddenSidebarContainer}
+              setHiddenSidebarContainer={setHiddenSidebarContainer}
+            />
           )}
-          <main
-            className={clsx(
-              styles.docMainContainer,
-              (hiddenSidebarContainer || !sidebar) &&
-                styles.docMainContainerEnhanced,
-            )}>
-            <div
-              className={clsx(
-                'container padding-top--md padding-bottom--lg',
-                styles.docItemWrapper,
-                hiddenSidebarContainer && styles.docItemWrapperEnhanced,
-              )}>
-              {children}
-            </div>
-          </main>
+          <DocPageMain
+            sidebar={sidebar}
+            hiddenSidebarContainer={hiddenSidebarContainer}>
+            {children}
+          </DocPageMain>
         </div>
       </Layout>
     </>
