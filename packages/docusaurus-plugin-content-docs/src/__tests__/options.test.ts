@@ -150,9 +150,11 @@ describe('normalizeDocsPluginOptions', () => {
       testValidate({
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"remarkPlugins[0]\\" does not match any of the allowed types"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "\\"remarkPlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
+      - A simple module, like \`require(\\"remark-math\\")\`"
+    `);
   });
 
   it('rejects invalid rehype plugin options', () => {
@@ -166,9 +168,11 @@ describe('normalizeDocsPluginOptions', () => {
           ],
         ],
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"rehypePlugins[0]\\" does not match any of the allowed types"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "\\"rehypePlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
+      - A simple module, like \`require(\\"remark-math\\")\`"
+    `);
   });
 
   it('rejects bad path inputs', () => {
