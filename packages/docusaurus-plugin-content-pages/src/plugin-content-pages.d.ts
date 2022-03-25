@@ -15,7 +15,7 @@ declare module '@docusaurus/plugin-content-pages' {
     include: string[];
     exclude: string[];
     mdxPageComponent: string;
-    admonitions: Record<string, unknown>;
+    admonitions: {[key: string]: unknown};
   };
 
   export type Options = Partial<PluginOptions>;
@@ -39,7 +39,7 @@ declare module '@docusaurus/plugin-content-pages' {
     type: 'mdx';
     permalink: string;
     source: string;
-    frontMatter: FrontMatter & Record<string, unknown>;
+    frontMatter: FrontMatter & {[key: string]: unknown};
     title?: string;
     description?: string;
   };

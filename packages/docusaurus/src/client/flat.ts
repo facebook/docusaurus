@@ -10,9 +10,11 @@ import type {RouteChunksTree} from '@docusaurus/types';
 const isTree = (x: string | RouteChunksTree): x is RouteChunksTree =>
   typeof x === 'object' && !!x && Object.keys(x).length > 0;
 
-export default function flat(target: RouteChunksTree): Record<string, string> {
+export default function flat(target: RouteChunksTree): {
+  [keyPath: string]: string;
+} {
   const delimiter = '.';
-  const output: Record<string, string> = {};
+  const output: {[keyPath: string]: string} = {};
 
   function step(object: RouteChunksTree, prefix?: string | number) {
     Object.entries(object).forEach(([key, value]) => {

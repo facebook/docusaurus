@@ -103,8 +103,8 @@ function isModule(value: unknown): value is Module {
   if (
     typeof value === 'object' &&
     // eslint-disable-next-line no-underscore-dangle
-    (value as Record<string, unknown>)?.__import &&
-    (value as Record<string, unknown>)?.path
+    (value as {[key: string]: unknown})?.__import &&
+    (value as {[key: string]: unknown})?.path
   ) {
     return true;
   }

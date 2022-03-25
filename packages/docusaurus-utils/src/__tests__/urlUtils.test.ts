@@ -170,7 +170,7 @@ describe('getEditUrl', () => {
 
 describe('fileToPath', () => {
   it('works', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       'index.md': '/',
       'hello/index.md': '/hello/',
       'foo.md': '/foo',

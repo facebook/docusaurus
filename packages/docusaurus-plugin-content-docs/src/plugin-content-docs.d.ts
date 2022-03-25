@@ -68,7 +68,7 @@ declare module '@docusaurus/plugin-content-docs' {
   };
   export type VersionsOptions = {
     lastVersion?: string;
-    versions: Record<string, VersionOptions>;
+    versions: {[versionName: string]: VersionOptions};
     onlyIncludeVersions?: string[];
   };
   export type SidebarOptions = {
@@ -89,7 +89,7 @@ declare module '@docusaurus/plugin-content-docs' {
       docTagDocListComponent: string;
       docTagsListComponent: string;
       docCategoryGeneratedIndexComponent: string;
-      admonitions: Record<string, unknown>;
+      admonitions: {[key: string]: unknown};
       disableVersioning: boolean;
       includeCurrentVersion: boolean;
       sidebarItemsGenerator: import('./sidebars/types').SidebarItemsGeneratorOption;
@@ -282,7 +282,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   export type ActiveDocContext = {
     activeVersion?: GlobalVersion;
     activeDoc?: GlobalDoc;
-    alternateDocVersions: Record<string, GlobalDoc>;
+    alternateDocVersions: {[versionName: string]: GlobalDoc};
   };
   export type GlobalDoc = {
     id: string;
@@ -297,7 +297,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
     path: string;
     mainDocId: string; // home doc (if docs homepage configured), or first doc
     docs: GlobalDoc[];
-    sidebars?: Record<string, GlobalSidebar>;
+    sidebars?: {[sidebarId: string]: GlobalSidebar};
   };
 
   export type GlobalSidebarLink = {
@@ -322,7 +322,7 @@ declare module '@docusaurus/plugin-content-docs/client' {
   };
   export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
 
-  export const useAllDocsData: () => Record<string, GlobalPluginData>;
+  export const useAllDocsData: () => {[pluginId: string]: GlobalPluginData};
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (
     options?: GetActivePluginOptions,

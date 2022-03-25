@@ -232,7 +232,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /**
      * Front matter, as-is.
      */
-    readonly frontMatter: BlogPostFrontMatter & Record<string, unknown>;
+    readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
     /**
      * Tags, normalized.
      */
@@ -301,7 +301,7 @@ declare module '@docusaurus/plugin-content-blog' {
     /** Markdown content. */
     content: string;
     /** Front matter. */
-    frontMatter?: BlogPostFrontMatter & Record<string, unknown>;
+    frontMatter?: BlogPostFrontMatter & {[key: string]: unknown};
     /** Options accepted by ngryman/reading-time. */
     options?: ReadingTimeOptions;
   }) => number;
@@ -402,7 +402,7 @@ declare module '@docusaurus/plugin-content-blog' {
      * unlocalized file. Ignored when `editUrl` is a function.
      */
     editLocalizedFiles?: boolean;
-    admonitions: Record<string, unknown>;
+    admonitions: {[key: string]: unknown};
     /** Path to the authors map file, relative to the blog content directory. */
     authorsMapPath: string;
     /** A callback to customize the reading time number displayed. */
@@ -545,7 +545,7 @@ declare module '@theme/BlogTagsListPage' {
     /** Blog sidebar. */
     readonly sidebar: BlogSidebar;
     /** A map from tag names to the full tag module. */
-    readonly tags: Readonly<Record<string, TagModule>>;
+    readonly tags: Readonly<{[tagName: string]: TagModule}>;
   }
 
   export default function BlogTagsListPage(props: Props): JSX.Element;

@@ -54,15 +54,16 @@ function useDocsSearchVersionsHelpers() {
 
   // State of the version select menus / algolia facet filters
   // docsPluginId -> versionName map
-  const [searchVersions, setSearchVersions] = useState<Record<string, string>>(
-    () =>
-      Object.entries(allDocsData).reduce(
-        (acc, [pluginId, pluginData]) => ({
-          ...acc,
-          [pluginId]: pluginData.versions[0]!.name,
-        }),
-        {},
-      ),
+  const [searchVersions, setSearchVersions] = useState<{
+    [pluginId: string]: string;
+  }>(() =>
+    Object.entries(allDocsData).reduce(
+      (acc, [pluginId, pluginData]) => ({
+        ...acc,
+        [pluginId]: pluginData.versions[0]!.name,
+      }),
+      {},
+    ),
   );
 
   // Set the value of a single select menu

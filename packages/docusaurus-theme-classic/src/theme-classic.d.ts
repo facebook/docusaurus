@@ -507,7 +507,7 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
-  } & Record<string, ComponentType<unknown>>;
+  } & {[tagName: string]: ComponentType<unknown>};
 
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
@@ -768,7 +768,7 @@ declare module '@theme/TabItem' {
     readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
-    readonly attributes?: Record<string, unknown>;
+    readonly attributes?: {[key: string]: unknown};
   }
 
   export default function TabItem(props: Props): JSX.Element;
@@ -786,7 +786,7 @@ declare module '@theme/Tabs' {
     readonly values?: readonly {
       value: string;
       label?: string;
-      attributes?: Record<string, unknown>;
+      attributes?: {[key: string]: unknown};
     }[];
     readonly groupId?: string;
     readonly className?: string;

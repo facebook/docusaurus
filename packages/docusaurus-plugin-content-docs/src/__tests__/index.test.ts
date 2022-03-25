@@ -52,7 +52,7 @@ Available ids are:\n- ${version.docs.map((d) => d.unversionedId).join('\n- ')}`,
 
 const createFakeActions = (contentDir: string) => {
   const routeConfigs: RouteConfig[] = [];
-  const dataContainer: Record<string, unknown> = {};
+  const dataContainer: {[key: string]: unknown} = {};
   const globalDataContainer: {pluginName?: {pluginId: unknown}} = {};
 
   const actions = {

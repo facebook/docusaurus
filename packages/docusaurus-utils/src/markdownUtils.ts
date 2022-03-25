@@ -143,7 +143,7 @@ export function createExcerpt(fileString: string): string | undefined {
  */
 export function parseFrontMatter(markdownFileContent: string): {
   /** Front matter as parsed by gray-matter. */
-  frontMatter: Record<string, unknown>;
+  frontMatter: {[key: string]: unknown};
   /** The remaining content, trimmed. */
   content: string;
 } {
@@ -244,7 +244,7 @@ export function parseMarkdownString(
   options?: ParseMarkdownContentTitleOptions,
 ): {
   /** @see {@link parseFrontMatter} */
-  frontMatter: Record<string, unknown>;
+  frontMatter: {[key: string]: unknown};
   /** @see {@link parseMarkdownContentTitle} */
   contentTitle: string | undefined;
   /** @see {@link createExcerpt} */

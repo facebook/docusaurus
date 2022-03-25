@@ -33,11 +33,11 @@ function getTagLetter(tag: string): string {
 export function listTagsByLetters(
   tags: readonly TagsListItem[],
 ): TagLetterEntry[] {
-  const groups: Record<string, TagsListItem[]> = {};
+  const groups: {[initial: string]: TagsListItem[]} = {};
   Object.values(tags).forEach((tag) => {
-    const letter = getTagLetter(tag.name);
-    groups[letter] ??= [];
-    groups[letter]!.push(tag);
+    const initial = getTagLetter(tag.name);
+    groups[initial] ??= [];
+    groups[initial]!.push(tag);
   });
 
   return (

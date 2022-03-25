@@ -40,7 +40,7 @@ function toGlobalDataGeneratedIndex(
 function toGlobalSidebars(
   sidebars: Sidebars,
   version: LoadedVersion,
-): Record<string, GlobalSidebar> {
+): {[sidebarId: string]: GlobalSidebar} {
   const {getFirstLink} = createSidebarsUtils(sidebars);
   return _.mapValues(sidebars, (sidebar, sidebarId) => {
     const firstLink = getFirstLink(sidebarId);

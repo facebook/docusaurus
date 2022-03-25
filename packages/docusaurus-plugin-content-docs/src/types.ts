@@ -59,7 +59,7 @@ export type DocFrontMatter = {
   sidebar_label?: string;
   sidebar_position?: number;
   sidebar_class_name?: string;
-  sidebar_custom_props?: Record<string, unknown>;
+  sidebar_custom_props?: {[key: string]: unknown};
   displayed_sidebar?: string | null;
   pagination_label?: string;
   custom_edit_url?: string | null;
@@ -83,7 +83,7 @@ export type DocMetadataBase = LastUpdateData & {
   sidebarPosition?: number;
   editUrl?: string | null;
   tags: Tag[];
-  frontMatter: DocFrontMatter & Record<string, unknown>;
+  frontMatter: DocFrontMatter & {[key: string]: unknown};
 };
 
 export type DocNavLink = {

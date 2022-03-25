@@ -13,7 +13,7 @@ const getCompiledRedirectPageTemplate = _.memoize(() =>
   eta.compile(redirectPageTemplate.trim()),
 );
 
-function renderRedirectPageTemplate(data: Record<string, unknown>) {
+function renderRedirectPageTemplate(data: {toUrl: string}) {
   const compiled = getCompiledRedirectPageTemplate();
   return compiled(data, eta.defaultConfig);
 }

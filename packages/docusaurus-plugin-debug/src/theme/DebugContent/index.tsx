@@ -31,7 +31,7 @@ function PluginContent({
   pluginContent,
 }: {
   pluginName: string;
-  pluginContent: Record<string, unknown>;
+  pluginContent: {[pluginId: string]: unknown};
 }) {
   return (
     <section style={{marginBottom: 60}}>

@@ -56,7 +56,6 @@ import type {
   PropTagsListPage,
   PluginOptions,
 } from '@docusaurus/plugin-content-docs';
-import type {GlobalPluginData} from '@docusaurus/plugin-content-docs/client';
 import {createSidebarsUtils} from './sidebars/utils';
 import {getCategoryGeneratedIndexMetadataList} from './categoryGeneratedIndex';
 
@@ -293,7 +292,7 @@ export default async function pluginContentDocs(
       // TODO tags should be a sub route of the version route
       await Promise.all(loadedVersions.map(createVersionTagsRoutes));
 
-      setGlobalData<GlobalPluginData>({
+      setGlobalData({
         path: normalizeUrl([baseUrl, options.routeBasePath]),
         versions: loadedVersions.map(toGlobalDataVersion),
         breadcrumbs,

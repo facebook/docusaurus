@@ -15,7 +15,7 @@ declare module '@docusaurus/theme-search-algolia' {
       appId: string;
       apiKey: string;
       indexName: string;
-      searchParameters: Record<string, unknown>;
+      searchParameters: {[key: string]: unknown};
       searchPagePath: string | false | null;
     };
   };

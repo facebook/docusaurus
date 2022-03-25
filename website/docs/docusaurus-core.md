@@ -335,7 +335,7 @@ You can even omit the children prop and specify a translation string in your `co
 React hook to access Docusaurus Context. The context contains the `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.md) and some additional site metadata.
 
 ```ts
-type DocusaurusPluginVersionInformation =
+type PluginVersionInformation =
   | {readonly type: 'package'; readonly version?: string}
   | {readonly type: 'project'}
   | {readonly type: 'local'}
@@ -344,7 +344,7 @@ type DocusaurusPluginVersionInformation =
 interface DocusaurusSiteMetadata {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
-  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+  readonly pluginVersions: Record<string, PluginVersionInformation>;
 }
 
 interface I18nLocaleConfig {

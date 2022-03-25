@@ -424,7 +424,7 @@ export function getDocIds(doc: DocMetadataBase): [string, string] {
 // to "id")
 export function createDocsByIdIndex<
   Doc extends {id: string; unversionedId: string},
->(docs: Doc[]): Record<string, Doc> {
+>(docs: Doc[]): {[docId: string]: Doc} {
   return Object.fromEntries(
     docs.flatMap((doc) => [
       [doc.unversionedId, doc],

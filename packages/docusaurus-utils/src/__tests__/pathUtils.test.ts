@@ -131,7 +131,7 @@ describe('toMessageRelativeFilePath', () => {
 
 describe('escapePath', () => {
   it('works', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       'c:/aaaa\\bbbb': 'c:/aaaa\\\\bbbb',
       'c:\\aaaa\\bbbb\\★': 'c:\\\\aaaa\\\\bbbb\\\\★',
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\\\\\?\\\\c:\\\\aaaa\\\\bbbb',
@@ -148,7 +148,7 @@ describe('escapePath', () => {
 
 describe('posixPath', () => {
   it('works', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
       'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
@@ -165,7 +165,7 @@ describe('posixPath', () => {
 
 describe('aliasedSitePath', () => {
   it('works', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       'user/website/docs/asd.md': '@site/docs/asd.md',
       'user/website/versioned_docs/foo/bar.md':
         '@site/versioned_docs/foo/bar.md',

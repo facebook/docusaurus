@@ -44,11 +44,13 @@ export function excludeJS(modulePath: string): boolean {
   );
 }
 
-export async function getDocusaurusAliases(): Promise<Record<string, string>> {
+export async function getDocusaurusAliases(): Promise<{
+  [aliasName: string]: string;
+}> {
   const dirPath = path.resolve(__dirname, '../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: Record<string, string> = {};
+  const aliases: {[key: string]: string} = {};
 
   (await fs.readdir(dirPath))
     .filter((fileName) => extensions.includes(path.extname(fileName)))

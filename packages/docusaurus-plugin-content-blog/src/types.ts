@@ -50,6 +50,6 @@ export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  sourceToPermalink: Record<string, string>;
+  sourceToPermalink: {[aliasedPath: string]: string};
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };
