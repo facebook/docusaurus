@@ -161,23 +161,3 @@ exports[`normalizeConfig throws error for unknown field 1`] = `
 If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
 See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
 `;
-
-exports[`normalizeConfig throws error if css doesn't have href 1`] = `
-"\\"stylesheets[1]\\" does not match any of the allowed types
-"
-`;
-
-exports[`normalizeConfig throws error if presets is not array 1`] = `
-"\\"presets\\" must be an array
-"
-`;
-
-exports[`normalizeConfig throws error if scripts doesn't have src 1`] = `
-"\\"scripts[1]\\" does not match any of the allowed types
-"
-`;
-
-exports[`normalizeConfig throws error if themes is not array 1`] = `
-"\\"themes\\" must be an array
-"
-`;
