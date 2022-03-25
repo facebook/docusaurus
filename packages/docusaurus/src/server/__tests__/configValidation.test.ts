@@ -224,7 +224,10 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         themes: {},
       });
-    }).toThrowErrorMatchingSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "\\"themes\\" must be an array
+      "
+    `);
   });
 
   it('throws error if presets is not array', () => {
@@ -232,7 +235,23 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         presets: {},
       });
-    }).toThrowErrorMatchingSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "\\"presets\\" must be an array
+      "
+    `);
+  });
+
+  it('throws error if presets looks invalid', () => {
+    expect(() => {
+      normalizeConfig({
+        presets: [() => {}],
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "\\"presets[0]\\" does not look like a valid preset config. A preset config entry should be one of:
+      - A tuple of [presetName, options], like \`[\\"classic\\", { blog: false }]\`, or
+      - A simple string, like \`\\"classic\\"\`
+      "
+    `);
   });
 
   it("throws error if scripts doesn't have src", () => {
@@ -240,7 +259,10 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         scripts: ['https://some.com', {}],
       });
-    }).toThrowErrorMatchingSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "\\"scripts[1]\\" is invalid. A script must be a plain string (the src), or an object with at least a \\"src\\" property.
+      "
+    `);
   });
 
   it("throws error if css doesn't have href", () => {
@@ -248,7 +270,10 @@ describe('normalizeConfig', () => {
       normalizeConfig({
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
-    }).toThrowErrorMatchingSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "\\"stylesheets[1]\\" is invalid. A stylesheet must be a plain string (the href), or an object with at least a \\"href\\" property.
+      "
+    `);
   });
 
   it('throws error for required fields', () => {
