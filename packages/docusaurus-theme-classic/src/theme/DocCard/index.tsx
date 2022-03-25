@@ -25,9 +25,8 @@ function CardContainer({
   href: string;
   children: ReactNode;
 }): JSX.Element {
-  const className = clsx('card padding--lg', styles.cardContainer);
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={clsx('card padding--lg', styles.cardContainer)}>
       {children}
     </Link>
   );
