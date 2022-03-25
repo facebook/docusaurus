@@ -74,7 +74,7 @@ export type User = {
 // Available tags to assign to your site
 // Please choose all tags that you think might apply.
 // We'll remove inappropriate tags, but it's less likely that we add tags.
-export const Tags: Record<TagType, Tag> = {
+export const Tags: {[type in TagType]: Tag} = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
     label: 'Favorite',

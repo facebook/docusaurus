@@ -74,8 +74,8 @@ const BlogFrontMatterSchema = Joi.object<BlogPostFrontMatter>({
     '{#label} blog frontMatter field is deprecated. Please use {#alternative} instead.',
 });
 
-export function validateBlogPostFrontMatter(
-  frontMatter: Record<string, unknown>,
-): BlogPostFrontMatter {
+export function validateBlogPostFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): BlogPostFrontMatter {
   return validateFrontMatter(frontMatter, BlogFrontMatterSchema);
 }

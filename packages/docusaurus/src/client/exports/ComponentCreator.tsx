@@ -13,8 +13,6 @@ import registry from '@generated/registry';
 import flat from '../flat';
 import {RouteContextProvider} from '../routeContext';
 
-type OptsLoader = Record<string, typeof registry[keyof typeof registry][0]>;
-
 export default function ComponentCreator(
   path: string,
   hash: string,
@@ -40,7 +38,8 @@ export default function ComponentCreator(
   const chunkNames = routesChunkNames[chunkNamesKey]!;
   const optsModules: string[] = [];
   const optsWebpack: string[] = [];
-  const optsLoader: OptsLoader = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const optsLoader: {[key: string]: () => Promise<any>} = {};
 
   /* Prepare opts data that react-loadable needs
   https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded

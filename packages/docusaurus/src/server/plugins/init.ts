@@ -9,7 +9,7 @@ import {createRequire} from 'module';
 import path from 'path';
 import importFresh from 'import-fresh';
 import type {
-  DocusaurusPluginVersionInformation,
+  PluginVersionInformation,
   ImportedPluginModule,
   LoadContext,
   PluginModule,
@@ -151,7 +151,7 @@ export default async function initPlugins({
 
   async function doGetPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
-  ): Promise<DocusaurusPluginVersionInformation> {
+  ): Promise<PluginVersionInformation> {
     // get plugin version
     if (normalizedPluginConfig.pluginModule?.path) {
       const pluginPath = pluginRequire.resolve(
@@ -198,8 +198,9 @@ export default async function initPlugins({
   async function initializePlugin(
     normalizedPluginConfig: NormalizedPluginConfig,
   ): Promise<InitializedPlugin> {
-    const pluginVersion: DocusaurusPluginVersionInformation =
-      await doGetPluginVersion(normalizedPluginConfig);
+    const pluginVersion: PluginVersionInformation = await doGetPluginVersion(
+      normalizedPluginConfig,
+    );
     const pluginOptions = doValidatePluginOptions(normalizedPluginConfig);
 
     // Side-effect: merge the normalized theme config in the original one

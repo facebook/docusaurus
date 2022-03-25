@@ -43,7 +43,7 @@ const createFakeDocFile = ({
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontMatter?: Record<string, string>;
+  frontMatter?: {[key: string]: string};
   markdown?: string;
 }): DocFile => {
   const content = `---

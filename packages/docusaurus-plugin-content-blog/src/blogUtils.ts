@@ -43,9 +43,9 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-export function getSourceToPermalink(
-  blogPosts: BlogPost[],
-): Record<string, string> {
+export function getSourceToPermalink(blogPosts: BlogPost[]): {
+  [aliasedPath: string]: string;
+} {
   return Object.fromEntries(
     blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );

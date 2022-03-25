@@ -265,7 +265,7 @@ export async function localizePluginTranslationFile({
 
 export async function getPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
-): Promise<Record<string, string>> {
+): Promise<{[msgId: string]: string}> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
@@ -280,9 +280,9 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations,
   defaultCodeMessages,
 }: {
-  extractedCodeTranslations: Record<string, TranslationMessage>;
-  defaultCodeMessages: Record<string, string>;
-}): Record<string, TranslationMessage> {
+  extractedCodeTranslations: {[msgId: string]: TranslationMessage};
+  defaultCodeMessages: {[msgId: string]: string};
+}): {[msgId: string]: TranslationMessage} {
   const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),

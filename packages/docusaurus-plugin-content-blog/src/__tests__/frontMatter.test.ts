@@ -15,11 +15,11 @@ function testField(params: {
   fieldName: keyof BlogPostFrontMatter;
   validFrontMatters: BlogPostFrontMatter[];
   convertibleFrontMatter?: [
-    ConvertibleFrontMatter: Record<string, unknown>,
+    ConvertibleFrontMatter: {[key: string]: unknown},
     ConvertedFrontMatter: BlogPostFrontMatter,
   ][];
   invalidFrontMatters?: [
-    InvalidFrontMatter: Record<string, unknown>,
+    InvalidFrontMatter: {[key: string]: unknown},
     ErrorMessage: string,
   ][];
 }) {

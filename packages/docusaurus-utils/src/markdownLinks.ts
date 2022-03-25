@@ -69,7 +69,7 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   /**
    * A map from source paths to their URLs. Source paths are `@site` aliased.
    */
-  sourceToPermalink: Record<string, string>;
+  sourceToPermalink: {[aliasedPath: string]: string};
 }): {
   /**
    * The content with all Markdown file references replaced with their URLs.

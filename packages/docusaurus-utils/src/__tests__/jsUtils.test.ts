@@ -45,15 +45,15 @@ describe('mapAsyncSequential', () => {
   }
 
   it('maps sequentially', async () => {
-    const itemToTimeout: Record<string, number> = {
+    const itemToTimeout: {[key: string]: number} = {
       '1': 200,
       '2': 600,
       '3': 400,
     };
     const items = Object.keys(itemToTimeout);
 
-    const itemMapStartsAt: Record<string, number> = {};
-    const itemMapEndsAt: Record<string, number> = {};
+    const itemMapStartsAt: {[key: string]: number} = {};
+    const itemMapEndsAt: {[key: string]: number} = {};
 
     const timeBefore = Date.now();
     await expect(

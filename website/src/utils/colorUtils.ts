@@ -19,15 +19,14 @@ export type ColorState = {
   shades: Shades;
 };
 
-export type Shades = Record<
-  string,
-  {
+export type Shades = {
+  [cssVar: string]: {
     adjustment: number;
     adjustmentInput: string;
     displayOrder: number;
     codeOrder: number;
-  }
->;
+  };
+};
 export const COLOR_SHADES: Shades = {
   '--ifm-color-primary': {
     adjustment: 0,

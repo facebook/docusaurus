@@ -91,7 +91,7 @@ export type Config = Overwrite<
  * package.json.
  * - `type: 'synthetic'`, docusaurus generated internal plugin.
  */
-export type DocusaurusPluginVersionInformation =
+export type PluginVersionInformation =
   | {
       readonly type: 'package';
       readonly name?: string;
@@ -104,7 +104,7 @@ export type DocusaurusPluginVersionInformation =
 export interface DocusaurusSiteMetadata {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
-  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+  readonly pluginVersions: {[pluginName: string]: PluginVersionInformation};
 }
 
 // Inspired by Chrome JSON, because it's a widely supported i18n format
@@ -114,7 +114,7 @@ export interface DocusaurusSiteMetadata {
 // https://docs.transifex.com/formats/chrome-json
 // https://help.phrase.com/help/chrome-json-messages
 export type TranslationMessage = {message: string; description?: string};
-export type TranslationFileContent = Record<string, TranslationMessage>;
+export type TranslationFileContent = {[key: string]: TranslationMessage};
 export type TranslationFile = {path: string; content: TranslationFileContent};
 export type TranslationFiles = TranslationFile[];
 
@@ -127,22 +127,24 @@ export type I18nLocaleConfig = {
 export type I18nConfig = {
   defaultLocale: string;
   locales: [string, ...string[]];
-  localeConfigs: Record<string, Partial<I18nLocaleConfig>>;
+  localeConfigs: {[locale: string]: Partial<I18nLocaleConfig>};
 };
 
 export type I18n = {
   defaultLocale: string;
   locales: [string, ...string[]];
   currentLocale: string;
-  localeConfigs: Record<string, I18nLocaleConfig>;
+  localeConfigs: {[locale: string]: I18nLocaleConfig};
 };
+
+export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
 export interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
   siteMetadata: DocusaurusSiteMetadata;
-  globalData: Record<string, unknown>;
+  globalData: GlobalData;
   i18n: I18n;
-  codeTranslations: Record<string, string>;
+  codeTranslations: {[msgId: string]: string};
 
   // Don't put mutable values here, to avoid triggering re-renders
   // We could reconsider that choice if context selectors are implemented
@@ -162,7 +164,7 @@ export type ImportedPresetModule = PresetModule & {
   default?: PresetModule;
 };
 
-export type PresetConfig = string | [string, Record<string, unknown>];
+export type PresetConfig = string | [string, {[key: string]: unknown}];
 
 export type HostPortCLIOptions = {
   host?: string;
@@ -207,7 +209,7 @@ export interface LoadContext {
   baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
   i18n: I18n;
   ssrTemplate: string;
-  codeTranslations: Record<string, string>;
+  codeTranslations: {[msgId: string]: string};
 }
 
 export interface InjectedHtmlTags {
@@ -228,7 +230,7 @@ export interface Props extends LoadContext, InjectedHtmlTags {
 export interface PluginContentLoadedActions {
   addRoute: (config: RouteConfig) => void;
   createData: (name: string, data: string) => Promise<string>;
-  setGlobalData: <T = unknown>(data: T) => void;
+  setGlobalData: (data: unknown) => void;
 }
 
 export type AllContent = {
@@ -238,7 +240,7 @@ export type AllContent = {
 };
 
 // TODO improve type (not exposed by postcss-loader)
-export type PostCssOptions = Record<string, unknown> & {plugins: unknown[]};
+export type PostCssOptions = {[key: string]: unknown} & {plugins: unknown[]};
 
 export interface Plugin<Content = unknown> {
   name: string;
@@ -290,7 +292,7 @@ export interface Plugin<Content = unknown> {
 
 export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly options: Required<PluginOptions>;
-  readonly version: DocusaurusPluginVersionInformation;
+  readonly version: PluginVersionInformation;
   /**
    * The absolute path to the folder containing the entry point file.
    */
@@ -305,12 +307,12 @@ export type SwizzleAction = 'eject' | 'wrap';
 export type SwizzleActionStatus = 'safe' | 'unsafe' | 'forbidden';
 
 export type SwizzleComponentConfig = {
-  actions: Record<SwizzleAction, SwizzleActionStatus>;
+  actions: {[action in SwizzleAction]: SwizzleActionStatus};
   description?: string;
 };
 
 export type SwizzleConfig = {
-  components: Record<string, SwizzleComponentConfig>;
+  components: {[componentName: string]: SwizzleComponentConfig};
   // Other settings could be added here,
   // For example: the ability to declare the config as exhaustive
   // so that we can emit errors
@@ -332,13 +334,12 @@ export type ImportedPluginModule = PluginModule & {
 };
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
-export type ConfigureWebpackFnMergeStrategy = Record<
-  string,
-  CustomizeRuleString
->;
+export type ConfigureWebpackFnMergeStrategy = {
+  [key: string]: CustomizeRuleString;
+};
 export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
 
-export type PluginOptions = {id?: string} & Record<string, unknown>;
+export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
 export type PluginConfig =
   | string
@@ -416,7 +417,7 @@ export interface ConfigureWebpackUtils {
   ) => RuleSetRule[];
   getJSLoader: (options: {
     isServer: boolean;
-    babelOptions?: Record<string, unknown>;
+    babelOptions?: {[key: string]: unknown};
   }) => RuleSetRule;
 }
 
@@ -425,7 +426,7 @@ interface HtmlTagObject {
    * Attributes of the html tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
    */
-  attributes?: Partial<Record<string, string | boolean>>;
+  attributes?: Partial<{[key: string]: string | boolean}>;
   /**
    * The tag name e.g. `div`, `script`, `link`, `meta`
    */

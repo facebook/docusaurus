@@ -205,7 +205,7 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: Record<string, BlogPostMetadata> = {};
+      const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
@@ -316,7 +316,7 @@ export default async function pluginContentBlog(
         return;
       }
 
-      const tagsModule: Record<string, TagModule> = Object.fromEntries(
+      const tagsModule: {[tagName: string]: TagModule} = Object.fromEntries(
         Object.entries(blogTags).map(([, tag]) => {
           const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,

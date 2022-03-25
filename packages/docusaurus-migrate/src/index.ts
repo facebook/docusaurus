@@ -67,7 +67,7 @@ ${
 type MigrationContext = {
   siteDir: string;
   newDir: string;
-  deps: Record<string, string>;
+  deps: {[key: string]: string};
   shouldMigrateMdFiles: boolean;
   shouldMigratePages: boolean;
   v1Config: VersionOneConfig;
@@ -83,7 +83,7 @@ export async function migrateDocusaurusProject(
   async function createMigrationContext(): Promise<MigrationContext> {
     const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
-    const deps: Record<string, string> = {
+    const deps = {
       '@docusaurus/core': DOCUSAURUS_VERSION,
       '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
       clsx: '^1.1.1',
@@ -206,7 +206,7 @@ export function createConfigFile({
   'v1Config' | 'siteDir' | 'newDir'
 >): VersionTwoConfig {
   const siteConfig = v1Config;
-  const customConfigFields: Record<string, unknown> = {};
+  const customConfigFields: {[key: string]: unknown} = {};
   // add fields that are unknown to v2 to customConfigFields
   Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
@@ -564,7 +564,7 @@ async function migrateVersionedSidebar(
               };
             });
             return acc;
-          }, {} as Record<string, Array<string | Record<string, unknown>>>);
+          }, {} as {[key: string]: Array<string | {[key: string]: unknown}>});
           return topLevel;
         },
         {},
@@ -702,9 +702,9 @@ async function migrateLatestDocs(context: MigrationContext) {
 async function migratePackageFile(context: MigrationContext): Promise<void> {
   const {deps, siteDir, newDir} = context;
   const packageFile = importFresh(`${siteDir}/package.json`) as {
-    scripts?: Record<string, string>;
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
+    scripts?: {[key: string]: string};
+    dependencies?: {[key: string]: string};
+    devDependencies?: {[key: string]: string};
     [otherKey: string]: unknown;
   };
   packageFile.scripts = {

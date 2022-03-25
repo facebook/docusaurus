@@ -44,13 +44,14 @@ declare module '@generated/routes' {
 declare module '@generated/routesChunkNames' {
   import type {RouteChunksTree} from '@docusaurus/types';
 
-  const routesChunkNames: Record<string, RouteChunksTree>;
+  const routesChunkNames: {[route: string]: RouteChunksTree};
   export = routesChunkNames;
 }
 
 declare module '@generated/globalData' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const globalData: Record<string, any>;
+  import type {GlobalData} from '@docusaurus/types';
+
+  const globalData: GlobalData;
   export = globalData;
 }
 
@@ -59,20 +60,19 @@ declare module '@generated/i18n' {
     defaultLocale: string;
     locales: [string, ...string[]];
     currentLocale: string;
-    localeConfigs: Record<
-      string,
-      {
+    localeConfigs: {
+      [localeName: string]: {
         label: string;
         direction: string;
         htmlLang: string;
-      }
-    >;
+      };
+    };
   };
   export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
-  const codeTranslations: Record<string, string>;
+  const codeTranslations: {[msgId: string]: string};
   export = codeTranslations;
 }
 
@@ -172,10 +172,9 @@ declare module '@docusaurus/Interpolate' {
       ? Key | ExtractInterpolatePlaceholders<Rest>
       : never;
 
-  export type InterpolateValues<
-    Str extends string,
-    Value extends ReactNode,
-  > = Record<ExtractInterpolatePlaceholders<Str>, Value>;
+  export type InterpolateValues<Str extends string, Value extends ReactNode> = {
+    [key in ExtractInterpolatePlaceholders<Str>]: Value;
+  };
 
   // If all the values are plain strings, interpolate returns a simple string
   export function interpolate<Str extends string>(
@@ -320,17 +319,18 @@ declare module '@docusaurus/renderRoutes' {
 }
 
 declare module '@docusaurus/useGlobalData' {
-  export function useAllPluginInstancesData<T = unknown>(
-    pluginName: string,
-  ): Record<string, T>;
+  import type {GlobalData} from '@docusaurus/types';
 
-  export function usePluginData<T = unknown>(
+  export function useAllPluginInstancesData(
+    pluginName: string,
+  ): GlobalData[string];
+
+  export function usePluginData(
     pluginName: string,
     pluginId?: string,
-  ): T;
+  ): GlobalData[string][string];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export default function useGlobalData(): Record<string, any>;
+  export default function useGlobalData(): GlobalData;
 }
 
 declare module '*.svg' {

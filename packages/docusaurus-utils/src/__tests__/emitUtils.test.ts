@@ -12,7 +12,7 @@ import fs from 'fs-extra';
 
 describe('genChunkName', () => {
   it('works', () => {
-    const firstAssert: Record<string, string> = {
+    const firstAssert: {[key: string]: string} = {
       '/docs/adding-blog': 'docs-adding-blog-062',
       '/docs/versioning': 'docs-versioning-8a8',
       '/': 'index',
@@ -34,7 +34,7 @@ describe('genChunkName', () => {
   });
 
   it('emits different chunk names for different paths even with same preferred name', () => {
-    const secondAssert: Record<string, string> = {
+    const secondAssert: {[key: string]: string} = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
@@ -44,7 +44,7 @@ describe('genChunkName', () => {
   });
 
   it('only generates short unique IDs', () => {
-    const thirdAssert: Record<string, string> = {
+    const thirdAssert: {[key: string]: string} = {
       a: '0cc175b9',
       b: '92eb5ffe',
       c: '4a8a08f0',

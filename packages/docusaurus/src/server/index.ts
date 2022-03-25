@@ -404,7 +404,7 @@ ${Object.entries(registry)
     JSON.stringify(i18n, null, 2),
   );
 
-  const codeTranslationsWithFallbacks: Record<string, string> = {
+  const codeTranslationsWithFallbacks: {[msgId: string]: string} = {
     ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
     ...codeTranslations,
   };

@@ -20,8 +20,8 @@ const PageFrontMatterSchema = Joi.object<FrontMatter>({
   ...FrontMatterTOCHeadingLevels,
 });
 
-export function validatePageFrontMatter(
-  frontMatter: Record<string, unknown>,
-): FrontMatter {
+export function validatePageFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): FrontMatter {
   return validateFrontMatter(frontMatter, PageFrontMatterSchema);
 }

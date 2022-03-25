@@ -14,7 +14,7 @@ const {version} = require('../package.json');
 
 const ERROR_EXT = `Error: Input file is missing or uses unsupported image format, lqip v${version}`;
 
-const SUPPORTED_MIMES: Record<string, string> = {
+const SUPPORTED_MIMES: {[ext: string]: string} = {
   jpeg: 'image/jpeg',
   jpg: 'image/jpeg',
   png: 'image/png',

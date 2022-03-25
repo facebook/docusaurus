@@ -14,6 +14,7 @@ import type {
   PluginContentLoadedActions,
   RouteConfig,
   AllContent,
+  GlobalData,
   TranslationFiles,
   ThemeConfig,
   LoadedPlugin,
@@ -75,7 +76,7 @@ export async function loadPlugins({
 }): Promise<{
   plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
-  globalData: unknown;
+  globalData: GlobalData;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
@@ -135,7 +136,7 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
-  const globalData: Record<string, Record<string, unknown>> = {};
+  const globalData: GlobalData = {};
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(

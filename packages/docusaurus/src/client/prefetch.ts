@@ -65,7 +65,7 @@ const supportedPrefetchStrategy = support('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: Record<string, boolean> = {};
+const preFetched: {[url: string]: boolean} = {};
 
 export default function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {

@@ -37,7 +37,7 @@ function useContextValue(): ContextValue {
 
   useEffect(() => {
     try {
-      const localStorageChoices: Record<string, string> = {};
+      const localStorageChoices: {[groupId: string]: string} = {};
       listStorageKeys().forEach((storageKey) => {
         if (storageKey.startsWith(TAB_CHOICE_PREFIX)) {
           const groupId = storageKey.substring(TAB_CHOICE_PREFIX.length);

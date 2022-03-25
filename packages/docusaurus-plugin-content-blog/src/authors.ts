@@ -15,7 +15,7 @@ import type {
   BlogPostFrontMatterAuthors,
 } from '@docusaurus/plugin-content-blog';
 
-export type AuthorsMap = Record<string, Author>;
+export type AuthorsMap = {[authorKey: string]: Author};
 
 const AuthorsMapSchema = Joi.object<AuthorsMap>()
   .pattern(

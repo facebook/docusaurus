@@ -31,7 +31,7 @@ export function print(
     });
     return serialize(error);
   } else if (val && typeof val === 'object') {
-    const normalizedValue = _.cloneDeep(val) as Record<string, unknown>;
+    const normalizedValue = _.cloneDeep(val) as {[key: string]: unknown};
 
     Object.keys(normalizedValue).forEach((key) => {
       normalizedValue[key] = normalizePaths(normalizedValue[key]);
@@ -46,7 +46,7 @@ export function test(val: unknown): boolean {
     (typeof val === 'object' &&
       val &&
       Object.keys(val).some((key) =>
-        shouldUpdate((val as Record<string, unknown>)[key]),
+        shouldUpdate((val as {[key: string]: unknown})[key]),
       )) ||
     // val.message is non-enumerable in an error
     (val instanceof Error && shouldUpdate(val.message)) ||

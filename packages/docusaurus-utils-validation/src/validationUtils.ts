@@ -77,7 +77,7 @@ export function normalizeThemeConfig<T>(
  * Validate front matter with better error message
  */
 export function validateFrontMatter<T>(
-  frontMatter: Record<string, unknown>,
+  frontMatter: {[key: string]: unknown},
   schema: Joi.ObjectSchema<T>,
 ): T {
   const {value, error, warning} = schema.validate(frontMatter, {

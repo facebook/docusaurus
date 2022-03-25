@@ -146,7 +146,7 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: Record<string, string[]> = {};
+  const allCollectedLinks: {[location: string]: string[]} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,
