@@ -250,6 +250,7 @@ function DocSidebarItemLink({
 }: Props & {item: PropSidebarItemLink}) {
   const {href, label, className} = item;
   const isActive = isActiveSidebarItem(item, activePath);
+  const isInternalLink = isInternalUrl(href);
   return (
     <li
       className={clsx(
@@ -260,17 +261,21 @@ function DocSidebarItemLink({
       )}
       key={label}>
       <Link
-        className={clsx('menu__link', {
-          'menu__link--active': isActive,
-        })}
+        className={clsx(
+          'menu__link',
+          !isInternalLink && styles.menuExternalLink,
+          {
+            'menu__link--active': isActive,
+          },
+        )}
         aria-current={isActive ? 'page' : undefined}
         to={href}
-        {...(isInternalUrl(href) && {
+        {...(isInternalLink && {
           onClick: onItemClick ? () => onItemClick(item) : undefined,
         })}
         {...props}>
         {label}
-        {!isInternalUrl(href) && <IconExternalLink />}
+        {!isInternalLink && <IconExternalLink />}
       </Link>
     </li>
   );
