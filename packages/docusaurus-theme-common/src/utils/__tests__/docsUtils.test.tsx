@@ -307,7 +307,7 @@ describe('useSidebarBreadcrumbs', () => {
                   },
                 },
               }}>
-              <DocsSidebarProvider sidebar={sidebar}>
+              <DocsSidebarProvider name="sidebarName" items={sidebar}>
                 {children}
               </DocsSidebarProvider>
             </Context.Provider>
@@ -430,7 +430,7 @@ describe('useCurrentSidebarCategory', () => {
     (sidebar?: PropSidebar) => (location: string) =>
       renderHook(() => useCurrentSidebarCategory(), {
         wrapper: ({children}) => (
-          <DocsSidebarProvider sidebar={sidebar}>
+          <DocsSidebarProvider name="sidebarName" items={sidebar}>
             <StaticRouter location={location}>{children}</StaticRouter>
           </DocsSidebarProvider>
         ),
