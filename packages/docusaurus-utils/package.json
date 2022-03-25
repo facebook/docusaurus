@@ -27,7 +27,7 @@
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "micromatch": "^4.0.4",
+    "micromatch": "^4.0.5",
     "resolve-pathname": "^3.0.0",
     "shelljs": "^0.8.5",
     "tslib": "^2.3.1",
