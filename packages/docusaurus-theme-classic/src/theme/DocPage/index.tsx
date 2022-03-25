@@ -7,10 +7,7 @@
 
 import React, {type ReactNode, useState, useCallback} from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
-import type {
-  PropSidebar,
-  PropVersionMetadata,
-} from '@docusaurus/plugin-content-docs';
+import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import NotFound from '@theme/NotFound';
@@ -36,7 +33,6 @@ import SearchMetadata from '@theme/SearchMetadata';
 
 type DocPageContentProps = {
   readonly currentDocRoute: DocumentRoute;
-  readonly versionMetadata: PropVersionMetadata;
   readonly children: ReactNode;
   readonly sidebarName: string | undefined;
 };
@@ -152,41 +148,34 @@ function DocPageMain({
   );
 }
 
-function DocPageContent({
+function DocPageLayout({
   currentDocRoute,
-  versionMetadata,
   children,
   sidebarName,
 }: DocPageContentProps): JSX.Element {
   const sidebar = useDocsSidebar();
-  const {pluginId, version} = versionMetadata;
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   return (
-    <>
-      <SearchMetadata
-        version={version}
-        tag={docVersionSearchTag(pluginId, version)}
-      />
-      <Layout>
-        <div className={styles.docPage}>
-          <BackToTopButton />
-          {sidebar && (
-            <DocPageAside
-              currentDocRoute={currentDocRoute}
-              sidebarName={sidebarName}
-              sidebar={sidebar}
-              hiddenSidebarContainer={hiddenSidebarContainer}
-              setHiddenSidebarContainer={setHiddenSidebarContainer}
-            />
-          )}
-          <DocPageMain
+    <Layout>
+      <BackToTopButton />
+
+      <div className={styles.docPage}>
+        {sidebar && (
+          <DocPageAside
+            currentDocRoute={currentDocRoute}
+            sidebarName={sidebarName}
             sidebar={sidebar}
-            hiddenSidebarContainer={hiddenSidebarContainer}>
-            {children}
-          </DocPageMain>
-        </div>
-      </Layout>
-    </>
+            hiddenSidebarContainer={hiddenSidebarContainer}
+            setHiddenSidebarContainer={setHiddenSidebarContainer}
+          />
+        )}
+        <DocPageMain
+          sidebar={sidebar}
+          hiddenSidebarContainer={hiddenSidebarContainer}>
+          {children}
+        </DocPageMain>
+      </div>
+    </Layout>
   );
 }
 
@@ -236,22 +225,30 @@ export default function DocPage(props: Props): JSX.Element {
   const {currentDocRoute, currentDocRouteElement, sidebar, sidebarName} =
     currentDocRouteMetadata;
   return (
-    <HtmlClassNameProvider
-      className={clsx(
-        ThemeClassNames.wrapper.docsPages,
-        ThemeClassNames.page.docsDocPage,
-        props.versionMetadata.className,
-      )}>
-      <DocsVersionProvider version={versionMetadata}>
-        <DocsSidebarProvider sidebar={sidebar ?? null}>
-          <DocPageContent
-            currentDocRoute={currentDocRoute}
-            versionMetadata={versionMetadata}
-            sidebarName={sidebarName}>
-            {currentDocRouteElement}
-          </DocPageContent>
-        </DocsSidebarProvider>
-      </DocsVersionProvider>
-    </HtmlClassNameProvider>
+    <>
+      <SearchMetadata
+        version={versionMetadata.version}
+        tag={docVersionSearchTag(
+          versionMetadata.pluginId,
+          versionMetadata.version,
+        )}
+      />
+      <HtmlClassNameProvider
+        className={clsx(
+          ThemeClassNames.wrapper.docsPages,
+          ThemeClassNames.page.docsDocPage,
+          props.versionMetadata.className,
+        )}>
+        <DocsVersionProvider version={versionMetadata}>
+          <DocsSidebarProvider sidebar={sidebar ?? null}>
+            <DocPageLayout
+              currentDocRoute={currentDocRoute}
+              sidebarName={sidebarName}>
+              {currentDocRouteElement}
+            </DocPageLayout>
+          </DocsSidebarProvider>
+        </DocsVersionProvider>
+      </HtmlClassNameProvider>
+    </>
   );
 }
