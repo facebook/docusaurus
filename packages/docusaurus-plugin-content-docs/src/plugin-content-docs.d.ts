@@ -273,6 +273,16 @@ declare module '@theme/DocPage' {
   export default function DocPage(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocPage/Layout' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    children: ReactNode;
+  }
+
+  export default function DocPageLayout(props: Props): JSX.Element;
+}
+
 // TODO until TS supports exports field... hope it's in 4.6
 declare module '@docusaurus/plugin-content-docs/client' {
   export type ActivePlugin = {
