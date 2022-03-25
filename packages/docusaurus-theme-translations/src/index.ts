@@ -39,7 +39,7 @@ export async function readDefaultCodeTranslationMessages({
   dirPath?: string;
   locale: string;
   name: string;
-}): Promise<Record<string, string>> {
+}): Promise<{[msgId: string]: string}> {
   const localesToTry = codeTranslationLocalesToTry(locale);
 
   // Return the content of the first file that match

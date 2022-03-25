@@ -18,12 +18,12 @@ import prompts from 'prompts';
 
 const isInteractive = process.stdout.isTTY;
 
-const execOptions: Record<string, unknown> = {
-  encoding: 'utf8',
+const execOptions = {
+  encoding: 'utf8' as const,
   stdio: [
-    'pipe', // stdin (default)
-    'pipe', // stdout (default)
-    'ignore', // stderr
+    'pipe' as const, // stdin (default)
+    'pipe' as const, // stdout (default)
+    'ignore' as const, // stderr
   ],
 };
 
@@ -37,19 +37,18 @@ function clearConsole(): void {
 // Gets process id of what is on port
 function getProcessIdOnPort(port: number): string {
   return execSync(`lsof -i:${port} -P -t -sTCP:LISTEN`, execOptions)
-    .toString()
     .split('\n')[0]!
     .trim();
 }
 
 // Gets process command
 function getProcessCommand(processId: string): string {
-  const command: Buffer = execSync(
+  const command = execSync(
     `ps -o command -p ${processId} | sed -n 2p`,
     execOptions,
   );
 
-  return command.toString().replace(/\n$/, '');
+  return command.replace(/\n$/, '');
 }
 
 // Gets directory of a process from its process id
@@ -57,9 +56,7 @@ function getDirectoryOfProcessById(processId: string): string {
   return execSync(
     `lsof -p ${processId} | awk '$4=="cwd" {for (i=9; i<=NF; i++) printf "%s ", $i}'`,
     execOptions,
-  )
-    .toString()
-    .trim();
+  ).trim();
 }
 
 // Gets process on port

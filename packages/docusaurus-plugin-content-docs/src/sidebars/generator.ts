@@ -158,9 +158,6 @@ Available doc IDs:
     ): WithPosition<NormalizedSidebarItemCategory> {
       const categoryMetadata =
         categoriesMetadata[posixPath(path.join(autogenDir, fullPath))];
-      const className = categoryMetadata?.className;
-      const customProps = categoryMetadata?.customProps;
-      const {filename, numberPrefix} = numberPrefixParser(folderName);
       const allItems = Object.entries(dir).map(([key, content]) =>
         dirToItem(content, key, `${fullPath}/${key}`),
       );
@@ -184,41 +181,65 @@ Available doc IDs:
         });
       }
 
-      function getCategoryLinkedDocId(): string | undefined {
-        const link = categoryMetadata?.link;
-        if (link !== undefined) {
-          if (link && link.type === 'doc') {
-            return findDocByLocalId(link.id)?.id || getDoc(link.id).id;
+      // In addition to the ID, this function also retrieves metadata of the
+      // linked doc that could be used as fallback values for category metadata
+      function getCategoryLinkedDocMetadata():
+        | {
+            id: string;
+            position?: number;
+            label?: string;
+            customProps?: {[key: string]: unknown};
+            className?: string;
           }
+        | undefined {
+        const link = categoryMetadata?.link;
+        if (link !== undefined && link?.type !== 'doc') {
           // If a link is explicitly specified, we won't apply conventions
           return undefined;
         }
-        // Apply default convention to pick index.md, README.md or
-        // <categoryName>.md as the category doc
-        return findConventionalCategoryDocLink()?.id;
+        const id = link
+          ? findDocByLocalId(link.id)?.id ?? getDoc(link.id).id
+          : findConventionalCategoryDocLink()?.id;
+        if (!id) {
+          return undefined;
+        }
+        const doc = getDoc(id);
+        return {
+          id,
+          position: doc.sidebarPosition,
+          label: doc.frontMatter.sidebar_label ?? doc.title,
+          customProps: doc.frontMatter.sidebar_custom_props,
+          className: doc.frontMatter.sidebar_class_name,
+        };
       }
-
-      const categoryLinkedDocId = getCategoryLinkedDocId();
-
+      const categoryLinkedDoc = getCategoryLinkedDocMetadata();
       const link: SidebarItemCategoryLinkConfig | null | undefined =
-        categoryLinkedDocId
+        categoryLinkedDoc
           ? {
               type: 'doc',
-              id: categoryLinkedDocId, // We "remap" a potentially "local id" to a "qualified id"
+              id: categoryLinkedDoc.id, // We "remap" a potentially "local id" to a "qualified id"
             }
           : categoryMetadata?.link;
-
       // If a doc is linked, remove it from the category subItems
       const items = allItems.filter(
-        (item) => !(item.type === 'doc' && item.id === categoryLinkedDocId),
+        (item) => !(item.type === 'doc' && item.id === categoryLinkedDoc?.id),
       );
+
+      const className =
+        categoryMetadata?.className ?? categoryLinkedDoc?.className;
+      const customProps =
+        categoryMetadata?.customProps ?? categoryLinkedDoc?.customProps;
+      const {filename, numberPrefix} = numberPrefixParser(folderName);
 
       return {
         type: 'category',
-        label: categoryMetadata?.label ?? filename,
+        label: categoryMetadata?.label ?? categoryLinkedDoc?.label ?? filename,
         collapsible: categoryMetadata?.collapsible,
         collapsed: categoryMetadata?.collapsed,
-        position: categoryMetadata?.position ?? numberPrefix,
+        position:
+          categoryMetadata?.position ??
+          categoryLinkedDoc?.position ??
+          numberPrefix,
         source: folderName,
         ...(customProps !== undefined && {customProps}),
         ...(className !== undefined && {className}),

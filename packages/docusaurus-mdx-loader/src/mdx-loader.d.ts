@@ -9,7 +9,7 @@ import type {Plugin} from 'unified';
 
 export type RemarkOrRehypePlugin =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [Plugin<any[]>, Record<string, unknown>] | Plugin<any[]>;
+  [Plugin<any[]>, any] | Plugin<any[]>;
 export type RemarkAndRehypePluginOptions = {
   remarkPlugins: RemarkOrRehypePlugin[];
   rehypePlugins: RemarkOrRehypePlugin[];

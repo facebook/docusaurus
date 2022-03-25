@@ -84,7 +84,7 @@ function readStorageState({
 }: {
   pluginIds: string[];
   versionPersistence: DocsVersionPersistence;
-  allDocsData: Record<string, GlobalPluginData>;
+  allDocsData: {[pluginId: string]: GlobalPluginData};
 }): DocsPreferredVersionState {
   /**
    * The storage value we read might be stale, and belong to a version that does
@@ -227,10 +227,9 @@ export function useDocsPreferredVersion(
   return {preferredVersion, savePreferredVersionName};
 }
 
-export function useDocsPreferredVersionByPluginId(): Record<
-  string,
-  GlobalVersion | null
-> {
+export function useDocsPreferredVersionByPluginId(): {
+  [pluginId: string]: GlobalVersion | null;
+} {
   const allDocsData = useAllDocsData();
   const [state] = useDocsPreferredVersionContext();
 

@@ -269,7 +269,7 @@ function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
 }
 function translateVersion(
   version: LoadedVersion,
-  translationFiles: Record<string, TranslationFile>,
+  translationFiles: {[fileName: string]: TranslationFile},
 ): LoadedVersion {
   const versionTranslations =
     translationFiles[getVersionFileName(version.versionName)]!.content;
@@ -289,7 +289,7 @@ function getVersionsTranslationFiles(
 }
 function translateVersions(
   versions: LoadedVersion[],
-  translationFiles: Record<string, TranslationFile>,
+  translationFiles: {[fileName: string]: TranslationFile},
 ): LoadedVersion[] {
   return versions.map((version) => translateVersion(version, translationFiles));
 }
@@ -303,7 +303,7 @@ export function translateLoadedContent(
   loadedContent: LoadedContent,
   translationFiles: TranslationFile[],
 ): LoadedContent {
-  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
+  const translationFilesMap: {[fileName: string]: TranslationFile} = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

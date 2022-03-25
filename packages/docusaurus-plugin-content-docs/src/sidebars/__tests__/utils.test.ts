@@ -680,7 +680,7 @@ describe('toNavigationLink', () => {
     return {...data, frontMatter: {}} as DocMetadataBase;
   }
 
-  const docsById: Record<string, DocMetadataBase> = {
+  const docsById: {[docId: string]: DocMetadataBase} = {
     doc1: testDoc({
       title: 'Doc 1',
       permalink: '/doc1',

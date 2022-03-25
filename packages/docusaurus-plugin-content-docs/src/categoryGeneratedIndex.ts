@@ -17,7 +17,7 @@ function getCategoryGeneratedIndexMetadata({
 }: {
   category: SidebarItemCategoryWithGeneratedIndex;
   sidebarsUtils: SidebarsUtils;
-  docsById: Record<string, DocMetadataBase>;
+  docsById: {[docId: string]: DocMetadataBase};
 }): CategoryGeneratedIndexMetadata {
   const {sidebarName, previous, next} =
     sidebarsUtils.getCategoryGeneratedIndexNavigation(category.link.permalink);

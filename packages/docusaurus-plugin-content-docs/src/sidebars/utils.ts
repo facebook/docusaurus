@@ -107,15 +107,15 @@ export function collectSidebarNavigation(
   });
 }
 
-export function collectSidebarsDocIds(
-  sidebars: Sidebars,
-): Record<string, string[]> {
+export function collectSidebarsDocIds(sidebars: Sidebars): {
+  [sidebarId: string]: string[];
+} {
   return _.mapValues(sidebars, collectSidebarDocIds);
 }
 
-export function collectSidebarsNavigations(
-  sidebars: Sidebars,
-): Record<string, SidebarNavigationItem[]> {
+export function collectSidebarsNavigations(sidebars: Sidebars): {
+  [sidebarId: string]: SidebarNavigationItem[];
+} {
   return _.mapValues(sidebars, collectSidebarNavigation);
 }
 
@@ -360,7 +360,7 @@ export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
 
 export function toNavigationLink(
   navigationItem: SidebarNavigationItem | undefined,
-  docsById: Record<string, DocMetadataBase>,
+  docsById: {[docId: string]: DocMetadataBase},
 ): DocNavLink | undefined {
   function getDocById(docId: string) {
     const doc = docsById[docId];

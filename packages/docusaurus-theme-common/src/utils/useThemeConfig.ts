@@ -17,7 +17,7 @@ export type NavbarItem = {
   items?: NavbarItem[];
   label?: string;
   position?: 'left' | 'right';
-} & Record<string, unknown>;
+} & {[key: string]: unknown};
 
 export type NavbarLogo = {
   src: string;
@@ -65,7 +65,7 @@ export type FooterLinkItem = {
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
-} & Record<string, unknown>;
+} & {[key: string]: unknown};
 
 export type FooterLogo = {
   alt?: string;
@@ -119,7 +119,7 @@ export type ThemeConfig = {
   hideableSidebar: boolean;
   autoCollapseSidebarCategories: boolean;
   image?: string;
-  metadata: Array<Record<string, string>>;
+  metadata: Array<{[key: string]: string}>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };

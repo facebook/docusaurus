@@ -236,6 +236,40 @@ declare module '@theme/DocSidebarItem' {
   export default function DocSidebarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocSidebarItem/Link' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+
+  import type {PropSidebarItemLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemLink;
+  }
+
+  export default function DocSidebarItemLink(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItem/Html' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItemHtml} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemHtml;
+  }
+
+  export default function DocSidebarItemHtml(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItem/Category' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemCategory;
+  }
+
+  export default function DocSidebarItemCategory(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocSidebarItems' {
   import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
@@ -508,7 +542,7 @@ declare module '@theme/MDXComponents' {
     readonly h4: (props: ComponentProps<'h4'>) => JSX.Element;
     readonly h5: (props: ComponentProps<'h5'>) => JSX.Element;
     readonly h6: (props: ComponentProps<'h6'>) => JSX.Element;
-  } & Record<string, ComponentType<unknown>>;
+  } & {[tagName: string]: ComponentType<unknown>};
 
   const MDXComponents: MDXComponentsObject;
   export default MDXComponents;
@@ -769,7 +803,7 @@ declare module '@theme/TabItem' {
     readonly label?: string;
     readonly hidden?: boolean;
     readonly className?: string;
-    readonly attributes?: Record<string, unknown>;
+    readonly attributes?: {[key: string]: unknown};
   }
 
   export default function TabItem(props: Props): JSX.Element;
@@ -787,7 +821,7 @@ declare module '@theme/Tabs' {
     readonly values?: readonly {
       value: string;
       label?: string;
-      attributes?: Record<string, unknown>;
+      attributes?: {[key: string]: unknown};
     }[];
     readonly groupId?: string;
     readonly className?: string;

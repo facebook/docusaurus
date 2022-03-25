@@ -42,7 +42,6 @@ export default function CopyButton({code}: Props): JSX.Element {
               description: 'The ARIA label for copy code blocks button',
             })
       }
-      // @todo: check it again later
       title={translate({
         id: 'theme.CodeBlock.copy',
         message: 'Copy',

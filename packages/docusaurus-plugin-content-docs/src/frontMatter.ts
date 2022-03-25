@@ -41,8 +41,8 @@ const DocFrontMatterSchema = Joi.object<DocFrontMatter>({
   ...FrontMatterTOCHeadingLevels,
 }).unknown();
 
-export function validateDocFrontMatter(
-  frontMatter: Record<string, unknown>,
-): DocFrontMatter {
+export function validateDocFrontMatter(frontMatter: {
+  [key: string]: unknown;
+}): DocFrontMatter {
   return validateFrontMatter(frontMatter, DocFrontMatterSchema);
 }

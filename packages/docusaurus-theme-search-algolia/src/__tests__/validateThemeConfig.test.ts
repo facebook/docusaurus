@@ -8,8 +8,8 @@
 import type {Joi} from '@docusaurus/utils-validation';
 import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 
-function testValidateThemeConfig(themeConfig: Record<string, unknown>) {
-  function validate(schema: Joi.Schema, cfg: Record<string, unknown>) {
+function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
+  function validate(schema: Joi.Schema, cfg: {[key: string]: unknown}) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });
