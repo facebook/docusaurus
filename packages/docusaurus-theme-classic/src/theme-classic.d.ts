@@ -235,6 +235,40 @@ declare module '@theme/DocSidebarItem' {
   export default function DocSidebarItem(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocSidebarItem/Link' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+
+  import type {PropSidebarItemLink} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemLink;
+  }
+
+  export default function DocSidebarItemLink(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItem/Html' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItemHtml} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemHtml;
+  }
+
+  export default function DocSidebarItemHtml(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocSidebarItem/Category' {
+  import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
+  import type {PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
+
+  export interface Props extends DocSidebarItemProps {
+    item: PropSidebarItemCategory;
+  }
+
+  export default function DocSidebarItemCategory(props: Props): JSX.Element;
+}
+
 declare module '@theme/DocSidebarItems' {
   import type {Props as DocSidebarItemProps} from '@theme/DocSidebarItem';
   import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
