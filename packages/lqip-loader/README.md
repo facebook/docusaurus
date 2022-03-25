@@ -67,8 +67,6 @@ img {
 
 More history about the issue can be [found here](https://bugs.chromium.org/p/chromium/issues/detail?id=771110#c3) and [here](https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/6L_3ZZeuA0M).
 
-Alternatively, you can fill the container with a really cheap colour or gradient from the amazing palette we provide.
-
 ## Credits
 
 This package has been imported from [`@endiliey/lqip-loader`](https://github.com/endiliey/lqip-loader) which was a fork of the original [`lqip-loader`](https://github.com/zouhir/lqip-loader) created exclusively for Docusaurus.
