@@ -113,7 +113,8 @@ function DropdownNavbarItemDesktop({
                   const targetItem =
                     nextNavbarItem instanceof HTMLAnchorElement
                       ? nextNavbarItem
-                      : // Next item is another dropdown
+                      : // Next item is another dropdown; focus on the inner
+                        // anchor element instead so there's outline
                         nextNavbarItem.querySelector('a');
                   (targetItem as HTMLElement).focus();
                 }
