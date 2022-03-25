@@ -116,7 +116,7 @@ exports[`DefaultSidebarItemsGenerator generates subfolder sidebar 1`] = `
         "type": "doc",
       },
     ],
-    "label": "subsubsubfolder3 (_category_.json label)",
+    "label": "Subsubsubfolder category label",
     "link": {
       "id": "doc1",
       "type": "doc",

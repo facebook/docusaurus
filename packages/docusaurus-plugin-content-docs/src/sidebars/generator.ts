@@ -188,7 +188,7 @@ Available doc IDs:
             id: string;
             position?: number;
             label?: string;
-            customProps?: { [key: string]: unknown };
+            customProps?: {[key: string]: unknown};
             className?: string;
           }
         | undefined {
