@@ -66,7 +66,13 @@ function CardCategory({
   item: PropSidebarItemCategory;
 }): JSX.Element | null {
   const href = findFirstCategoryLink(item);
-  return href ? (
+
+  // Unexpected: categories that don't have a link have been filtered upfront
+  if (!href) {
+    return null;
+  }
+
+  return (
     <CardLayout
       href={href}
       icon="🗃️"
@@ -81,7 +87,7 @@ function CardCategory({
         {count: item.items.length},
       )}
     />
-  ) : null;
+  );
 }
 
 function CardLink({item}: {item: PropSidebarItemLink}): JSX.Element {
