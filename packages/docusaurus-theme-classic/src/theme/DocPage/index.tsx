@@ -9,7 +9,6 @@ import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 import NotFound from '@theme/NotFound';
-import type {DocumentRoute} from '@theme/DocItem';
 import type {Props} from '@theme/DocPage';
 import DocPageLayout from '@theme/DocPage/Layout';
 import {matchPath} from '@docusaurus/router';
@@ -26,8 +25,7 @@ import {
 import SearchMetadata from '@theme/SearchMetadata';
 
 function extractDocRouteMetadata(props: Props): null | {
-  currentDocRoute: DocumentRoute;
-  currentDocRouteElement: JSX.Element;
+  docElement: JSX.Element;
   sidebarName: string | undefined;
   sidebarItems: PropSidebar | undefined;
 } {
@@ -50,13 +48,12 @@ function extractDocRouteMetadata(props: Props): null | {
     ? versionMetadata.docsSidebars[sidebarName]
     : undefined;
 
-  const currentDocRouteElement = renderRoutes(props.route.routes, {
+  const docElement = renderRoutes(props.route.routes, {
     versionMetadata,
   });
 
   return {
-    currentDocRoute,
-    currentDocRouteElement,
+    docElement,
     sidebarName,
     sidebarItems,
   };
@@ -68,8 +65,7 @@ export default function DocPage(props: Props): JSX.Element {
   if (!currentDocRouteMetadata) {
     return <NotFound />;
   }
-  const {currentDocRouteElement, sidebarName, sidebarItems} =
-    currentDocRouteMetadata;
+  const {docElement, sidebarName, sidebarItems} = currentDocRouteMetadata;
   return (
     <>
       <SearchMetadata
@@ -87,7 +83,7 @@ export default function DocPage(props: Props): JSX.Element {
         )}>
         <DocsVersionProvider version={versionMetadata}>
           <DocsSidebarProvider name={sidebarName} items={sidebarItems}>
-            <DocPageLayout>{currentDocRouteElement}</DocPageLayout>
+            <DocPageLayout>{docElement}</DocPageLayout>
           </DocsSidebarProvider>
         </DocsVersionProvider>
       </HtmlClassNameProvider>

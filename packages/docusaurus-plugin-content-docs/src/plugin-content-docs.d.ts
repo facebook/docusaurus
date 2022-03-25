@@ -283,6 +283,30 @@ declare module '@theme/DocPage/Layout' {
   export default function DocPageLayout(props: Props): JSX.Element;
 }
 
+declare module '@theme/DocPage/Layout/Aside' {
+  import type {Dispatch, SetStateAction} from 'react';
+  import type {PropSidebar} from '@docusaurus/plugin-content-docs';
+
+  export interface Props {
+    sidebar: PropSidebar;
+    hiddenSidebarContainer: boolean;
+    setHiddenSidebarContainer: Dispatch<SetStateAction<boolean>>;
+  }
+
+  export default function DocPageLayoutAside(props: Props): JSX.Element;
+}
+
+declare module '@theme/DocPage/Layout/Main' {
+  import type {ReactNode} from 'react';
+
+  export interface Props {
+    hiddenSidebarContainer: boolean;
+    children: ReactNode;
+  }
+
+  export default function DocPageLayoutMain(props: Props): JSX.Element;
+}
+
 // TODO until TS supports exports field... hope it's in 4.6
 declare module '@docusaurus/plugin-content-docs/client' {
   export type ActivePlugin = {

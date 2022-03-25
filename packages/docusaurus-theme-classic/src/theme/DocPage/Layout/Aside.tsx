@@ -6,14 +6,11 @@
  */
 
 import React, {type ReactNode, useState, useCallback} from 'react';
-import type {PropSidebar} from '@docusaurus/plugin-content-docs';
-import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import IconArrow from '@theme/IconArrow';
-import BackToTopButton from '@theme/BackToTopButton';
 import {translate} from '@docusaurus/Translate';
 import {useLocation} from '@docusaurus/router';
-import type {Props} from '@theme/DocPage/Layout';
+import type {Props} from '@theme/DocPage/Layout/Aside';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -45,12 +42,6 @@ function SidebarExpandButton({toggleSidebar}: {toggleSidebar: () => void}) {
   );
 }
 
-type DocPageAsideProps = {
-  sidebar: PropSidebar;
-  hiddenSidebarContainer: boolean;
-  setHiddenSidebarContainer: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 // Reset sidebar state when sidebar changes
 // Use React key to unmount/remount the children
 // See https://github.com/facebook/docusaurus/issues/3414
@@ -63,11 +54,11 @@ function ResetOnSidebarChange({children}: {children: ReactNode}) {
   );
 }
 
-function DocPageAside({
+export default function DocPageLayoutAside({
   sidebar,
   hiddenSidebarContainer,
   setHiddenSidebarContainer,
-}: DocPageAsideProps): JSX.Element {
+}: Props): JSX.Element {
   const {pathname} = useLocation();
 
   const [hiddenSidebar, setHiddenSidebar] = useState(false);
@@ -105,52 +96,5 @@ function DocPageAside({
 
       {hiddenSidebar && <SidebarExpandButton toggleSidebar={toggleSidebar} />}
     </aside>
-  );
-}
-
-type DocPageMainProps = {
-  hiddenSidebarContainer: boolean;
-  children: ReactNode;
-};
-
-function DocPageMain({hiddenSidebarContainer, children}: DocPageMainProps) {
-  const sidebar = useDocsSidebar();
-  return (
-    <main
-      className={clsx(
-        styles.docMainContainer,
-        (hiddenSidebarContainer || !sidebar) && styles.docMainContainerEnhanced,
-      )}>
-      <div
-        className={clsx(
-          'container padding-top--md padding-bottom--lg',
-          styles.docItemWrapper,
-          hiddenSidebarContainer && styles.docItemWrapperEnhanced,
-        )}>
-        {children}
-      </div>
-    </main>
-  );
-}
-
-export default function DocPageLayout({children}: Props): JSX.Element {
-  const sidebar = useDocsSidebar();
-  const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
-  return (
-    <Layout>
-      <BackToTopButton />
-      <div className={styles.docPage}>
-        {sidebar && (
-          <DocPageAside
-            sidebar={sidebar.items}
-            hiddenSidebarContainer={hiddenSidebarContainer}
-            setHiddenSidebarContainer={setHiddenSidebarContainer}
-          />
-        )}
-        <DocPageMain hiddenSidebarContainer={hiddenSidebarContainer}>
-          {children}
-        </DocPageMain>
-      </div>
-    </Layout>
   );
 }
