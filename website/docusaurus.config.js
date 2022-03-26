@@ -338,6 +338,9 @@ const config = {
               trackingID: 'UA-141789564-1',
             }
           : undefined,
+        sitemap: {
+          ignorePatterns: ['/tests/**'],
+        },
       }),
     ],
   ],
