@@ -40,7 +40,11 @@
 }
 
 @media (max-width: 996px) {
-  .sidebar {
+  .sidebarDesktop {
     display: none;
+  }
+
+  .sidebar {
+    top: 0;
   }
 }
