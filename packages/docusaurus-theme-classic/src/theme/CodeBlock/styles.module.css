@@ -8,13 +8,14 @@
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
   box-shadow: var(--ifm-global-shadow-lw);
+  border-radius: var(--ifm-code-border-radius);
 }
 
 .codeBlockContent {
   position: relative;
   /* rtl:ignore */
   direction: ltr;
-  border-radius: var(--ifm-global-radius);
+  border-radius: inherit;
 }
 
 .codeBlockTitle {
