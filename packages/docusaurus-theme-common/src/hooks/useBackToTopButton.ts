@@ -69,5 +69,5 @@ export function useBackToTopButton({
     }
   });
 
-  return {shown, scrollToTop: () => startScroll(2000)};
+  return {shown, scrollToTop: () => startScroll(0)};
 }
