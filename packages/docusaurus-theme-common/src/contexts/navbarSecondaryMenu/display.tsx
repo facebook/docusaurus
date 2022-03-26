@@ -57,6 +57,7 @@ function useContextValue(): ContextValue {
   return useMemo(() => [shown, setShown], [shown]);
 }
 
+/** @internal */
 export function NavbarSecondaryMenuDisplayProvider({
   children,
 }: {

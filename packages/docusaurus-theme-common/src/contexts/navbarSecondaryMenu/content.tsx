@@ -15,8 +15,16 @@ import React, {
 } from 'react';
 import {ReactContextError} from '../../utils/reactUtils';
 
+// This context represents a "global layout store". A component (usually a
+// layout component) can request filling this store through
+// `NavbarSecondaryMenuFiller`. It doesn't actually control rendering by itself,
+// and this context should be considered internal implementation. The user-
+// facing value comes from `display.tsx`, which takes the `component` and
+// `props` stored here and renders the actual element.
+
 export type NavbarSecondaryMenuComponent<Props> = ComponentType<Props>;
 
+/** @internal */
 export type Content =
   | {
       component: NavbarSecondaryMenuComponent<object>;
@@ -31,6 +39,7 @@ type ContentContextValue = [
 
 const ContentContext = React.createContext<ContentContextValue | null>(null);
 
+/** @internal */
 export function NavbarSecondaryMenuContentProvider({
   children,
 }: {
@@ -43,6 +52,7 @@ export function NavbarSecondaryMenuContentProvider({
   );
 }
 
+/** @internal */
 export function useNavbarSecondaryMenuContent(): Content {
   const value = useContext(ContentContext);
   if (!value) {
