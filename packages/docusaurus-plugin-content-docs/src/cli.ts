@@ -117,7 +117,7 @@ export async function cliDocsVersionCommand(
   const {path: docsPath, sidebarPath} = options;
 
   // Copy docs files.
-  const docsDir = path.join(siteDir, docsPath);
+  const docsDir = path.resolve(siteDir, docsPath);
 
   if (
     (await fs.pathExists(docsDir)) &&
@@ -127,7 +127,7 @@ export async function cliDocsVersionCommand(
     const newVersionDir = path.join(versionedDir, `version-${version}`);
     await fs.copy(docsDir, newVersionDir);
   } else {
-    throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
+    throw new Error(`${pluginIdLogPrefix}: no docs found in ${docsDir}.`);
   }
 
   await createVersionedSidebarFile({

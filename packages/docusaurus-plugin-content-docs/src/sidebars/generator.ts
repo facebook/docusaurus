@@ -14,7 +14,7 @@ import type {
   SidebarItemCategoryLinkConfig,
 } from './types';
 import _ from 'lodash';
-import {addTrailingSlash, posixPath} from '@docusaurus/utils';
+import {addTrailingSlash} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
 import path from 'path';
 import {createDocsByIdIndex, toCategoryIndexMatcherParam} from '../docs';
@@ -157,7 +157,7 @@ Available doc IDs:
       folderName: string,
     ): WithPosition<NormalizedSidebarItemCategory> {
       const categoryMetadata =
-        categoriesMetadata[posixPath(path.join(autogenDir, fullPath))];
+        categoriesMetadata[path.posix.join(autogenDir, fullPath)];
       const allItems = Object.entries(dir).map(([key, content]) =>
         dirToItem(content, key, `${fullPath}/${key}`),
       );
