@@ -12,8 +12,9 @@ describe('formatters', () => {
   it('path', () => {
     // cSpell:ignore mhey
     expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4m\\"hey\\"[24m[39m"`);
-
-    expect(logger.path('https://docusaurus.io/')).toMatchInlineSnapshot(
+  });
+  it('url', () => {
+    expect(logger.url('https://docusaurus.io/')).toMatchInlineSnapshot(
       `"[36m[4mhttps://docusaurus.io/[24m[39m"`,
     );
   });

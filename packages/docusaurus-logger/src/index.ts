@@ -9,10 +9,8 @@ import chalk, {type Chalk} from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path = (msg: unknown): string => {
-  const isUrl = /^https?:\/\//.test(msg as string);
-  return chalk.cyan(chalk.underline(isUrl ? msg : `"${msg}"`));
-};
+const path = (msg: unknown): string => chalk.cyan(chalk.underline(`"${msg}"`));
+const url = (msg: unknown): string => chalk.cyan(chalk.underline(msg));
 const name = (msg: unknown): string => chalk.blue(chalk.bold(msg));
 const code = (msg: unknown): string => chalk.cyan(`\`${msg}\``);
 const subdue: Chalk = chalk.gray;
@@ -33,6 +31,8 @@ function interpolate(
       switch (flag[0]) {
         case 'path=':
           return path;
+        case 'url=':
+          return url;
         case 'number=':
           return num;
         case 'name=':
@@ -134,6 +134,7 @@ const logger = {
   bold: chalk.bold,
   dim: chalk.dim,
   path,
+  url,
   name,
   code,
   subdue,
