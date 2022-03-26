@@ -8,7 +8,7 @@ exports[`loadConfig website with incomplete siteConfig 1`] = `
 exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `
 "These field(s) (\\"useLessField\\",) are not recognized in docusaurus.config.js.
 If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
-See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
+See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
 `;
 
 exports[`loadConfig website with valid async config 1`] = `
