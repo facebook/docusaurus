@@ -81,7 +81,11 @@ export async function eject({
       const fileName = path.basename(sourceFile);
       const targetFile = path.join(toPath, fileName);
       try {
-        await fs.copy(sourceFile, targetFile, {overwrite: true});
+        const fileContents = await fs.readFile(sourceFile, 'utf-8');
+        await fs.outputFile(
+          targetFile,
+          fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
+        );
       } catch (err) {
         throw new Error(
           logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
