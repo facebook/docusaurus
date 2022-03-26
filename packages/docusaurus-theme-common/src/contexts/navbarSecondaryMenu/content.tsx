@@ -77,10 +77,11 @@ export function NavbarSecondaryMenuFiller<P extends object>({
   component: NavbarSecondaryMenuComponent<P>;
   props: P;
 }): JSX.Element | null {
-  const setContent = useContext(ContentContext)?.[1];
-  if (!setContent) {
+  const context = useContext(ContentContext);
+  if (!context) {
     throw new ReactContextError('NavbarSecondaryMenuContentProvider');
   }
+  const [, setContent] = context;
 
   // To avoid useless context re-renders, props are memoized shallowly
   const memoizedProps = useShallowMemoizedObject(props);
