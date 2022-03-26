@@ -318,7 +318,7 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.info`Cloning Git template name=${template}...`;
+    logger.info`Cloning Git template url=${template}...`;
     if (!gitStrategies.includes(gitStrategy)) {
       logger.error`Invalid git strategy: name=${gitStrategy}. Value must be one of ${gitStrategies.join(
         ', ',
