@@ -56,7 +56,10 @@ export default function BlogSidebar(props: Props): JSX.Element | null {
   // Mobile sidebar doesn't need to be server-rendered
   if (windowSize === 'mobile') {
     return (
-      <NavbarSecondaryMenuFiller component={BlogSidebarContent} props={props} />
+      <NavbarSecondaryMenuFiller
+        component={BlogSidebarContent}
+        props={{...props, className: 'margin-left--md'}}
+      />
     );
   }
   return <BlogSidebarContent {...props} className={styles.sidebarDesktop} />;
