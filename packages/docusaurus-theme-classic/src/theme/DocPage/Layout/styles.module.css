@@ -10,10 +10,17 @@
   --doc-sidebar-hidden-width: 30px;
 }
 
+:global(.docs-wrapper) {
+  display: flex;
+}
+
+.docPage {
+  width: 100%;
+}
+
 .docPage,
 .docMainContainer {
   display: flex;
-  width: 100%;
 }
 
 .docSidebarContainer {

@@ -14,13 +14,13 @@ import DocPageLayoutMain from '@theme/DocPage/Layout/Main';
 
 import styles from './styles.module.css';
 
-import {useDocsSidebar} from '@docusaurus/theme-common';
+import {useDocsSidebar, ThemeClassNames} from '@docusaurus/theme-common';
 
 export default function DocPageLayout({children}: Props): JSX.Element {
   const sidebar = useDocsSidebar();
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   return (
-    <Layout>
+    <Layout wrapperClassName={ThemeClassNames.wrapper.docsPages}>
       <BackToTopButton />
       <div className={styles.docPage}>
         {sidebar && (

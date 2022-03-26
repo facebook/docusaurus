@@ -77,7 +77,6 @@ export default function DocPage(props: Props): JSX.Element {
       />
       <HtmlClassNameProvider
         className={clsx(
-          ThemeClassNames.wrapper.docsPages,
           ThemeClassNames.page.docsDocPage,
           props.versionMetadata.className,
         )}>
