@@ -515,6 +515,13 @@ const Users: User[] = [
     tags: ['opensource', 'i18n'],
   },
   {
+    title: 'Easypanel',
+    description: 'Server control panel based on Docker',
+    preview: require('./showcase/easypanel.png'),
+    website: 'https://easypanel.io',
+    tags: ['product'],
+  },
+  {
     title: 'EduLinks',
     description: 'Catalog of free educational resources. STEM, ESL and more.',
     preview: require('./showcase/edulinks.png'),
