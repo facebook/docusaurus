@@ -181,7 +181,7 @@ describe('docsVersion', () => {
         DEFAULT_OPTIONS,
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: there is no docs to version!"`,
+      `"[docs]: no docs found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs."`,
     );
   });
 
