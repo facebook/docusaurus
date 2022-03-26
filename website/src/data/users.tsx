@@ -615,6 +615,14 @@ const Users: User[] = [
     tags: ['opensource', 'design'],
   },
   {
+    title: 'FirelordJS',
+    description: 'Typescript Wrapper for Firestore',
+    preview: require('./showcase/firelordjs.png'),
+    website: 'https://firelordjs.com',
+    source: 'https://github.com/tylim88/FirelordJS',
+    tags: ['opensource'],
+  },
+  {
     title: 'Flagsmith',
     description: 'Open Source Feature Flag and Remote Config Service',
     preview: require('./showcase/flagsmith.png'),
