@@ -84,7 +84,7 @@ export async function eject({
         const fileContents = await fs.readFile(sourceFile, 'utf-8');
         await fs.outputFile(
           targetFile,
-          fileContents.trimStart().replace(/(?<!\n)\/\*[\s\S]+?\*\/\s*/, ''),
+          fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
         );
       } catch (err) {
         throw new Error(
