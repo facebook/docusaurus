@@ -7,7 +7,8 @@
 
 import React, {type ReactNode} from 'react';
 import {NavbarMobileSidebarProvider} from '../contexts/navbarMobileSidebar';
-import {NavbarSecondaryMenuProvider} from '../contexts/navbarSecondaryMenu';
+import {NavbarSecondaryMenuContentProvider} from '../contexts/navbarSecondaryMenu/content';
+import {NavbarSecondaryMenuDisplayProvider} from '../contexts/navbarSecondaryMenu/display';
 
 const DefaultNavItemPosition = 'right';
 
@@ -28,13 +29,17 @@ export function splitNavbarItems<T extends {position?: 'left' | 'right'}>(
 }
 
 /**
- * Composes the `NavbarMobileSidebarProvider` and `NavbarSecondaryMenuProvider`.
- * Because the latter depends on the former, they can't be re-ordered.
+ * Composes multiple navbar state providers that are mutually dependent and
+ * hence can't be re-ordered.
  */
 export function NavbarProvider({children}: {children: ReactNode}): JSX.Element {
   return (
-    <NavbarMobileSidebarProvider>
-      <NavbarSecondaryMenuProvider>{children}</NavbarSecondaryMenuProvider>
-    </NavbarMobileSidebarProvider>
+    <NavbarSecondaryMenuContentProvider>
+      <NavbarMobileSidebarProvider>
+        <NavbarSecondaryMenuDisplayProvider>
+          {children}
+        </NavbarSecondaryMenuDisplayProvider>
+      </NavbarMobileSidebarProvider>
+    </NavbarSecondaryMenuContentProvider>
   );
 }
