@@ -519,6 +519,7 @@ const Users: User[] = [
     description: 'Server control panel based on Docker',
     preview: require('./showcase/easypanel.png'),
     website: 'https://easypanel.io',
+    source: null,
     tags: ['product'],
   },
   {
