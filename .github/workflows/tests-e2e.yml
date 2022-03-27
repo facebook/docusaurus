@@ -21,9 +21,9 @@ jobs:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3 https://api.github.com/repos/actions/checkout/git/tags/b0e28b5ac45a892f91e7d036f8200cf5ed489415
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3 https://api.github.com/repos/actions/setup-node/git/commits/9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -59,9 +59,9 @@ jobs:
           - variant: -st
             nodeLinker: pnp
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3 https://api.github.com/repos/actions/checkout/git/tags/b0e28b5ac45a892f91e7d036f8200cf5ed489415
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3 https://api.github.com/repos/actions/setup-node/git/commits/9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
           node-version: '16'
           cache: yarn
@@ -104,9 +104,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3 https://api.github.com/repos/actions/checkout/git/tags/b0e28b5ac45a892f91e7d036f8200cf5ed489415
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3 https://api.github.com/repos/actions/setup-node/git/commits/9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
           node-version: '16'
           cache: yarn
@@ -133,9 +133,9 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b0e28b5ac45a892f91e7d036f8200cf5ed489415 # v3 https://api.github.com/repos/actions/checkout/git/tags/b0e28b5ac45a892f91e7d036f8200cf5ed489415
       - name: Use Node.js 16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a # v3 https://api.github.com/repos/actions/setup-node/git/commits/9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
           node-version: '16'
           cache: yarn
