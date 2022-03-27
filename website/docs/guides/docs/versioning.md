@@ -110,7 +110,7 @@ When tagging a new version, the document versioning mechanism will:
 docs/new.md
 
 # Edit the corresponding sidebar file.
-sidebar.js
+sidebars.js
 ```
 
 </TabItem>

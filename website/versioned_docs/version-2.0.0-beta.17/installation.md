@@ -144,7 +144,7 @@ my-website
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory
 - `/docusaurus.config.js` - A config file containing the site configuration. This is the equivalent of `siteConfig.js` in Docusaurus v1
 - `/package.json` - A Docusaurus website is a React app. You can install and use any npm packages you like in them
-- `/sidebar.js` - Used by the documentation to specify the order of documents in the sidebar
+- `/sidebars.js` - Used by the documentation to specify the order of documents in the sidebar
 
 ### Monorepos {#monorepos}
 
