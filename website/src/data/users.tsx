@@ -619,7 +619,7 @@ const Users: User[] = [
     description: 'Typescript Wrapper for Firestore',
     preview: require('./showcase/firelordjs.png'),
     website: 'https://firelordjs.com',
-    source: 'https://github.com/tylim88/FirelordJS',
+    source: 'https://github.com/tylim88/FirelordJSDoc',
     tags: ['opensource'],
   },
   {
