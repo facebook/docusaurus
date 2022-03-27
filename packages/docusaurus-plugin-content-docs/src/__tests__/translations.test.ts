@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadedContent, DocMetadata, LoadedVersion} from '../types';
+import type {LoadedContent, LoadedVersion} from '../types';
 import {CURRENT_VERSION_NAME} from '../constants';
 import {
   getLoadedContentTranslationFiles,
   translateLoadedContent,
 } from '../translations';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 import {updateTranslationFileMessages} from '@docusaurus/utils';
 
 function createSampleDoc(doc: Pick<DocMetadata, 'id'>): DocMetadata {
@@ -36,8 +37,8 @@ function createSampleVersion(
   version: Pick<LoadedVersion, 'versionName'>,
 ): LoadedVersion {
   return {
-    versionLabel: `${version.versionName} label`,
-    versionPath: '/docs/',
+    label: `${version.versionName} label`,
+    path: '/docs/',
     mainDocId: '',
     routePriority: undefined,
     sidebarFilePath: 'any',
@@ -45,21 +46,11 @@ function createSampleVersion(
     contentPath: 'any',
     contentPathLocalized: 'any',
     docs: [
-      createSampleDoc({
-        id: 'doc1',
-      }),
-      createSampleDoc({
-        id: 'doc2',
-      }),
-      createSampleDoc({
-        id: 'doc3',
-      }),
-      createSampleDoc({
-        id: 'doc4',
-      }),
-      createSampleDoc({
-        id: 'doc5',
-      }),
+      createSampleDoc({id: 'doc1'}),
+      createSampleDoc({id: 'doc2'}),
+      createSampleDoc({id: 'doc3'}),
+      createSampleDoc({id: 'doc4'}),
+      createSampleDoc({id: 'doc5'}),
     ],
     sidebars: {
       docs: [

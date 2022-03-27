@@ -21,21 +21,21 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {MDXOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
+const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
 
-type Options = RemarkAndRehypePluginOptions & {
+type Options = MDXOptions & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;

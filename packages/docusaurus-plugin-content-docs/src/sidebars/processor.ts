@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {DocMetadataBase, VersionMetadata} from '../types';
+import type {
+  DocMetadataBase,
+  VersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 import type {
   NormalizedSidebarItem,
   NormalizedSidebar,

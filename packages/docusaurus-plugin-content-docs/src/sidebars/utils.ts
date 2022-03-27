@@ -21,7 +21,10 @@ import type {
 
 import _ from 'lodash';
 import {toMessageRelativeFilePath} from '@docusaurus/utils';
-import type {DocMetadataBase, DocNavLink} from '../types';
+import type {
+  DocMetadataBase,
+  PropNavigationLink,
+} from '@docusaurus/plugin-content-docs';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
@@ -346,7 +349,7 @@ Available document ids are:
   };
 }
 
-export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
+export function toDocNavigationLink(doc: DocMetadataBase): PropNavigationLink {
   const {
     title,
     permalink,
@@ -361,7 +364,7 @@ export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
 export function toNavigationLink(
   navigationItem: SidebarNavigationItem | undefined,
   docsById: {[docId: string]: DocMetadataBase},
-): DocNavLink | undefined {
+): PropNavigationLink | undefined {
   function getDocById(docId: string) {
     const doc = docsById[docId];
     if (!doc) {

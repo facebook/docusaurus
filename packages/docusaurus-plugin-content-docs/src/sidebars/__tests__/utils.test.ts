@@ -16,7 +16,10 @@ import {
   toNavigationLink,
 } from '../utils';
 import type {Sidebar, Sidebars} from '../types';
-import type {DocMetadataBase, DocNavLink} from '../../types';
+import type {
+  DocMetadataBase,
+  PropNavigationLink,
+} from '@docusaurus/plugin-content-docs';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [
@@ -618,7 +621,7 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'Doc Title',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
   it('with pagination_label front matter', () => {
@@ -635,7 +638,7 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'pagination_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
   it('with sidebar_label front matter', () => {
@@ -652,7 +655,7 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'sidebar_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
   it('with pagination_label + sidebar_label front matter', () => {
@@ -670,7 +673,7 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'pagination_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 });
 

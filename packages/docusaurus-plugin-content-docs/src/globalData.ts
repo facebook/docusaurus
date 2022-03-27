@@ -8,11 +8,11 @@
 import _ from 'lodash';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
+import type {LoadedVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
-  LoadedVersion,
-} from './types';
+} from '@docusaurus/plugin-content-docs';
 import type {
   GlobalVersion,
   GlobalSidebar,
@@ -65,9 +65,9 @@ function toGlobalSidebars(
 export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
   return {
     name: version.versionName,
-    label: version.versionLabel,
+    label: version.label,
     isLast: version.isLast,
-    path: version.versionPath,
+    path: version.path,
     mainDocId: version.mainDocId,
     docs: version.docs
       .map(toGlobalDataDoc)

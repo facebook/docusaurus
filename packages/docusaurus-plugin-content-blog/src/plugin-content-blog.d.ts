@@ -6,8 +6,8 @@
  */
 
 declare module '@docusaurus/plugin-content-blog' {
-  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag} from '@docusaurus/utils';
+  import type {MDXOptions} from '@docusaurus/mdx-loader';
+  import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {Overwrite} from 'utility-types';
 
   export interface Assets {
@@ -81,10 +81,7 @@ declare module '@docusaurus/plugin-content-blog' {
      * @see {@link BlogPostMetadata.tags}
      */
     tags?: FrontMatterTag[];
-    /**
-     * Custom slug appended after /<baseUrl>/<routeBasePath>/
-     * @see {@link BlogPostMetadata.slug}
-     */
+    /** Custom slug appended after `/<baseUrl>/<routeBasePath>/` */
     slug?: string;
     /**
      * Marks the post as draft and excludes it from the production build.
@@ -130,25 +127,18 @@ declare module '@docusaurus/plugin-content-blog' {
     /** @deprecated v1 legacy */
     authorImageURL?: string;
 
-    /**
-     * @see {@link BlogPostMetadata.image}
-     */
+    /** Used in the head meta. Should use `assets.image` in priority. */
     image?: string;
-    /**
-     * Used in the head meta
-     */
+    /** Used in the head meta. */
     keywords?: string[];
-    /**
-     * Hide the right TOC
-     */
+    /** Hide the right TOC. */
     hide_table_of_contents?: boolean;
     /**
-     * Minimum TOC heading level
+     * Minimum TOC heading level. Must be between 2 and 6 and lower or equal to
+     * the max value.
      */
     toc_min_heading_level?: number;
-    /**
-     * Maximum TOC heading level
-     */
+    /** Maximum TOC heading level. Must be between 2 and 6. */
     toc_max_heading_level?: number;
   };
 
@@ -175,9 +165,7 @@ declare module '@docusaurus/plugin-content-blog' {
     | (string | BlogPostFrontMatterAuthor)[];
 
   export type BlogPostMetadata = {
-    /**
-     * Path to the Markdown source, with `@site` alias.
-     */
+    /** Path to the Markdown source, with `@site` alias. */
     readonly source: string;
     /**
      * Used to generate the page h1 heading, tab title, and pagination title.
@@ -193,9 +181,7 @@ declare module '@docusaurus/plugin-content-blog' {
      * render the date regardless of the existence of `Intl.DateTimeFormat`.
      */
     readonly formattedDate: string;
-    /**
-     * Full link including base URL.
-     */
+    /** Full link including base URL. */
     readonly permalink: string;
     /**
      * Description used in the meta. Could be an empty string (empty content)
@@ -229,17 +215,10 @@ declare module '@docusaurus/plugin-content-blog' {
      * `assets.authorsImageUrls` on client side.
      */
     readonly authors: Author[];
-    /**
-     * Front matter, as-is.
-     */
+    /** Front matter, as-is. */
     readonly frontMatter: BlogPostFrontMatter & {[key: string]: unknown};
-    /**
-     * Tags, normalized.
-     */
-    readonly tags: readonly {
-      readonly label: string;
-      readonly permalink: string;
-    }[];
+    /** Tags, normalized. */
+    readonly tags: Tag[];
   };
   /**
    * @returns The edit URL that's directly plugged into metadata.
@@ -250,17 +229,11 @@ declare module '@docusaurus/plugin-content-blog' {
      * site path. Usually the same as `options.path` but can be localized
      */
     blogDirPath: string;
-    /**
-     * Path to this post file, relative to `blogDirPath`
-     */
+    /** Path to this post file, relative to `blogDirPath`. */
     blogPath: string;
-    /**
-     * @see {@link BlogPostMetadata.permalink}
-     */
+    /** @see {@link BlogPostMetadata.permalink} */
     permalink: string;
-    /**
-     * Locale name.
-     */
+    /** Locale name. */
     locale: string;
   }) => string | undefined;
 
@@ -325,7 +298,7 @@ declare module '@docusaurus/plugin-content-blog' {
   /**
    * Plugin options after normalization.
    */
-  export type PluginOptions = RemarkAndRehypePluginOptions & {
+  export type PluginOptions = MDXOptions & {
     /** Plugin ID. */
     id?: string;
     /**

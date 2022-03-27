@@ -18,16 +18,14 @@ import {
 import {loadSidebars} from '../sidebars';
 import type {Sidebars} from '../sidebars/types';
 import {readVersionsMetadata} from '../versions';
-import type {
-  DocFile,
-  DocMetadataBase,
-  VersionMetadata,
-  DocNavLink,
-} from '../types';
+import type {DocFile} from '../types';
 import type {
   MetadataOptions,
   PluginOptions,
   EditUrlFunction,
+  DocMetadataBase,
+  VersionMetadata,
+  PropNavigationLink,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
@@ -123,7 +121,11 @@ function createTestUtils({
   }
 
   async function generateNavigation(docFiles: DocFile[]): Promise<{
-    pagination: {prev?: DocNavLink; next?: DocNavLink; id: string}[];
+    pagination: {
+      prev?: PropNavigationLink;
+      next?: PropNavigationLink;
+      id: string;
+    }[];
     sidebars: Sidebars;
   }> {
     const rawDocs = docFiles.map((docFile) =>

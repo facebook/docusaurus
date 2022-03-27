@@ -34,7 +34,7 @@ describe('postProcess', () => {
       },
       {
         sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-        version: {versionPath: 'version'},
+        version: {path: 'version'},
       },
     );
 
@@ -53,7 +53,7 @@ describe('postProcess', () => {
         },
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       );
     }).toThrowErrorMatchingInlineSnapshot(
@@ -78,7 +78,7 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: true},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
     ).toMatchSnapshot();
@@ -98,7 +98,7 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: false, sidebarCollapsible: false},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
     ).toMatchSnapshot();
@@ -117,7 +117,7 @@ describe('postProcess', () => {
 
         {
           sidebarOptions: {sidebarCollapsed: true, sidebarCollapsible: false},
-          version: {versionPath: 'version'},
+          version: {path: 'version'},
         },
       ),
     ).toMatchSnapshot();
