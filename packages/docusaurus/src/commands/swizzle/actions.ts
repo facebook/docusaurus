@@ -88,7 +88,7 @@ export async function eject({
         );
       } catch (err) {
         throw new Error(
-          logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
+          logger.interpolate`Could not copy file from path=${sourceFile} to path=${targetFile}`,
         );
       }
       return targetFile;
@@ -126,7 +126,7 @@ export async function wrap({
 import type ${componentName}Type from '@theme/${themeComponentName}';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
-type Props = ComponentProps<typeof ${componentName}Type>
+type Props = ComponentProps<typeof ${componentName}Type>;
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (

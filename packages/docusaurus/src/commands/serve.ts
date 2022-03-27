@@ -69,7 +69,7 @@ export default async function serve(
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at path=${
+  logger.success`Serving path=${cliOptions.dir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);
