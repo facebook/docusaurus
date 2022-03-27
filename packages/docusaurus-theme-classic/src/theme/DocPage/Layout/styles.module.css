@@ -10,7 +10,8 @@
   --doc-sidebar-hidden-width: 30px;
 }
 
-.docPage {
+.docPage,
+.docMainContainer {
   width: 100%;
 }
 
