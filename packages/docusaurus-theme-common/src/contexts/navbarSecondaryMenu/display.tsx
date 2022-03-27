@@ -64,9 +64,7 @@ export function NavbarSecondaryMenuDisplayProvider({
   children: ReactNode;
 }): JSX.Element {
   const value = useContextValue();
-  return (
-    <Context.Provider value={value}>{children}</Context.Provider>
-  );
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
 function renderElement(content: Content): JSX.Element | undefined {
