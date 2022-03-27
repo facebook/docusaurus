@@ -6,9 +6,9 @@
  */
 
 declare module '@docusaurus/plugin-content-pages' {
-  import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+  import type {MDXOptions} from '@docusaurus/mdx-loader';
 
-  export type PluginOptions = RemarkAndRehypePluginOptions & {
+  export type PluginOptions = MDXOptions & {
     id?: string;
     path: string;
     routeBasePath: string;

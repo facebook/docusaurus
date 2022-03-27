@@ -15,9 +15,11 @@ import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,
 } from './numberPrefix';
-import type {DocMetadataBase} from './types';
 import {isCategoryIndex, toCategoryIndexMatcherParam} from './docs';
-import type {NumberPrefixParser} from '@docusaurus/plugin-content-docs';
+import type {
+  NumberPrefixParser,
+  DocMetadataBase,
+} from '@docusaurus/plugin-content-docs';
 
 export default function getSlug({
   baseID,

@@ -12,9 +12,9 @@ import {linkify} from '../linkify';
 import type {
   DocsMarkdownOption,
   SourceToPermalink,
-  VersionMetadata,
   DocBrokenMarkdownLink,
 } from '../../types';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 import {VERSIONED_DOCS_DIR, CURRENT_VERSION_NAME} from '../../constants';
 
 function createFakeVersion({

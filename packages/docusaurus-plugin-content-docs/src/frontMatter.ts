@@ -12,7 +12,7 @@ import {
   FrontMatterTOCHeadingLevels,
   validateFrontMatter,
 } from '@docusaurus/utils-validation';
-import type {DocFrontMatter} from './types';
+import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 
 // NOTE: we don't add any default value on purpose here
 // We don't want default values to magically appear in doc metadata and props

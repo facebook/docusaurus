@@ -18,7 +18,7 @@ import type {
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import {createSlugger} from '@docusaurus/utils';
-import type {VersionMetadata} from '../../types';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
 
