@@ -22,7 +22,7 @@ type ContextValue = [
   setShown: React.Dispatch<React.SetStateAction<boolean>>,
 ];
 
-const ShownContext = React.createContext<ContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
 function useContextValue(): ContextValue {
   const mobileSidebar = useNavbarMobileSidebar();
@@ -65,7 +65,7 @@ export function NavbarSecondaryMenuDisplayProvider({
 }): JSX.Element {
   const value = useContextValue();
   return (
-    <ShownContext.Provider value={value}>{children}</ShownContext.Provider>
+    <Context.Provider value={value}>{children}</Context.Provider>
   );
 }
 
@@ -89,7 +89,7 @@ export function useNavbarSecondaryMenu(): {
   /** The content returned from the current secondary menu filler. */
   content: JSX.Element | undefined;
 } {
-  const value = useContext(ShownContext);
+  const value = useContext(Context);
   if (!value) {
     throw new ReactContextError('NavbarSecondaryMenuDisplayProvider');
   }
