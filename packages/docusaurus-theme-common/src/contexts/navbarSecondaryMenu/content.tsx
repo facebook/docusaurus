@@ -32,12 +32,12 @@ export type Content =
     }
   | {component: null; props: null};
 
-type ContentContextValue = [
+type ContextValue = [
   content: Content,
   setContent: React.Dispatch<React.SetStateAction<Content>>,
 ];
 
-const ContentContext = React.createContext<ContentContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
 /** @internal */
 export function NavbarSecondaryMenuContentProvider({
@@ -48,13 +48,13 @@ export function NavbarSecondaryMenuContentProvider({
   const value = useState({component: null, props: null});
   return (
     // @ts-expect-error: this context is hard to type
-    <ContentContext.Provider value={value}>{children}</ContentContext.Provider>
+    <Context.Provider value={value}>{children}</Context.Provider>
   );
 }
 
 /** @internal */
 export function useNavbarSecondaryMenuContent(): Content {
-  const value = useContext(ContentContext);
+  const value = useContext(Context);
   if (!value) {
     throw new ReactContextError('NavbarSecondaryMenuContentProvider');
   }
@@ -87,7 +87,7 @@ export function NavbarSecondaryMenuFiller<P extends object>({
   component: NavbarSecondaryMenuComponent<P>;
   props: P;
 }): JSX.Element | null {
-  const context = useContext(ContentContext);
+  const context = useContext(Context);
   if (!context) {
     throw new ReactContextError('NavbarSecondaryMenuContentProvider');
   }
