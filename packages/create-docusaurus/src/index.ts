@@ -271,7 +271,7 @@ export default async function init(
         return logger.red('Invalid repository URL');
       },
       message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
-(e.g: path=${'https://github.com/ownerName/repoName.git'})`,
+(e.g: url=${'https://github.com/ownerName/repoName.git'})`,
     });
     ({gitStrategy} = await prompts({
       type: 'select',
@@ -318,7 +318,7 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.info`Cloning Git template path=${template}...`;
+    logger.info`Cloning Git template url=${template}...`;
     if (!gitStrategies.includes(gitStrategy)) {
       logger.error`Invalid git strategy: name=${gitStrategy}. Value must be one of ${gitStrategies.join(
         ', ',
@@ -416,7 +416,7 @@ export default async function init(
   }
 
   const useNpm = pkgManager === 'npm';
-  logger.success`Created path=${cdpath}.`;
+  logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}
