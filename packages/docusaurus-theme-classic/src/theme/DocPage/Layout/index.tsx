@@ -20,7 +20,7 @@ export default function DocPageLayout({children}: Props): JSX.Element {
   const sidebar = useDocsSidebar();
   const [hiddenSidebarContainer, setHiddenSidebarContainer] = useState(false);
   return (
-    <Layout>
+    <Layout wrapperClassName={styles.docsWrapper}>
       <BackToTopButton />
       <div className={styles.docPage}>
         {sidebar && (
