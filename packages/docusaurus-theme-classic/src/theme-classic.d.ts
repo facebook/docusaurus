@@ -5,6 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+
+/// <reference types="@docusaurus/module-type-aliases" />
+/// <reference types="@docusaurus/plugin-content-docs" />
+/// <reference types="@docusaurus/plugin-content-blog" />
+/// <reference types="@docusaurus/plugin-content-pages" />
+
 declare module '@docusaurus/theme-classic' {
   export type Options = {
     customCss?: string | string[];
