@@ -18,9 +18,7 @@ export default async function serve(
   siteDir: string,
   cliOptions: ServeCLIOptions,
 ): Promise<void> {
-  let dir = path.isAbsolute(cliOptions.dir)
-    ? cliOptions.dir
-    : path.join(siteDir, cliOptions.dir);
+  let dir = path.resolve(siteDir, cliOptions.dir);
 
   if (cliOptions.build) {
     dir = await build(
@@ -71,7 +69,7 @@ export default async function serve(
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at path=${
+  logger.success`Serving path=${cliOptions.dir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);

@@ -55,7 +55,7 @@ export default async function render(
 
     if (isNotDefinedErrorRegex.test((err as Error).message)) {
       logger.info`It looks like you are using code that should run on the client-side only.
-To get around it, try using code=${'<BrowserOnly>'} (path=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (path=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
+To get around it, try using code=${'<BrowserOnly>'} (url=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (url=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
 It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
     }
 

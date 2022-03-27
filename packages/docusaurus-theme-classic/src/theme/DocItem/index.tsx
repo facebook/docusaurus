@@ -47,7 +47,7 @@ function DocItemContent(props: Props): JSX.Element {
   const {title} = metadata;
 
   // We only add a title if:
-  // - user asks to hide it with front matter
+  // - user doesn't ask to hide it with front matter
   // - the markdown content does not already contain a top-level h1 heading
   const shouldAddTitle =
     !hideTitle && typeof DocContent.contentTitle === 'undefined';

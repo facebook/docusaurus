@@ -8,7 +8,8 @@ It exports a single object as default export: `logger`. `logger` has the followi
 
 - Some useful colors.
 - Formatters. These functions have the same signature as the formatters of `picocolors`. Note that their implementations are not guaranteed. You should only care about their semantics.
-  - `path`: formats a file path or URL.
+  - `path`: formats a file path.
+  - `url`: formats a URL.
   - `id`: formats an identifier.
   - `code`: formats a code snippet.
   - `subdue`: subdues the text.
@@ -34,6 +35,7 @@ To buy anything, enter code=${'buy x'} where code=${'x'} is the item's name; to 
 An embedded expression is optionally preceded by a flag in the form `%[a-z]+` (a percentage sign followed by a few lowercase letters). If it's not preceded by any flag, it's printed out as-is. Otherwise, it's formatted with one of the formatters:
 
 - `path=`: `path`
+- `url=`: `url`
 - `name=`: `id`
 - `code=`: `code`
 - `subdue=`: `subdue`

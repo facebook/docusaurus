@@ -37,7 +37,7 @@ export async function getDataFilePath({
     filePath,
   );
   if (contentPath) {
-    return path.join(contentPath, filePath);
+    return path.resolve(contentPath, filePath);
   }
   return undefined;
 }

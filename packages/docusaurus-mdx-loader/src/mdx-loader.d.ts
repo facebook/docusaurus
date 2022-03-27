@@ -7,12 +7,12 @@
 
 import type {Plugin} from 'unified';
 
-export type RemarkOrRehypePlugin =
+export type MDXPlugin =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [Plugin<any[]>, any] | Plugin<any[]>;
-export type RemarkAndRehypePluginOptions = {
-  remarkPlugins: RemarkOrRehypePlugin[];
-  rehypePlugins: RemarkOrRehypePlugin[];
-  beforeDefaultRemarkPlugins: RemarkOrRehypePlugin[];
-  beforeDefaultRehypePlugins: RemarkOrRehypePlugin[];
+export type MDXOptions = {
+  remarkPlugins: MDXPlugin[];
+  rehypePlugins: MDXPlugin[];
+  beforeDefaultRemarkPlugins: MDXPlugin[];
+  beforeDefaultRehypePlugins: MDXPlugin[];
 };

@@ -106,6 +106,7 @@ export {
   useScrollController,
   useScrollPosition,
   useScrollPositionBlocker,
+  useSmoothScrollTo,
 } from './utils/scrollUtils';
 
 export {
@@ -145,6 +146,7 @@ export {
   type NavbarSecondaryMenuComponent,
 } from './contexts/navbarSecondaryMenu';
 
+export {useBackToTopButton} from './hooks/useBackToTopButton';
 export {useHideableNavbar} from './hooks/useHideableNavbar';
 export {
   useKeyboardNavigation,

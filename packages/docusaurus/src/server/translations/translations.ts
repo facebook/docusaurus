@@ -145,7 +145,7 @@ Maybe you should remove them? ${unknownKeys}`;
 
 // should we make this configurable?
 function getTranslationsDirPath(context: TranslationContext): string {
-  return path.resolve(path.join(context.siteDir, I18N_DIR_NAME));
+  return path.join(context.siteDir, I18N_DIR_NAME);
 }
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,

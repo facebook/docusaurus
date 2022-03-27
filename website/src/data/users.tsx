@@ -476,6 +476,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Divine Web Service Framework',
+    description: 'A divine collection of awesome web-related Node.js modules',
+    preview: require('./showcase/divine-wsf.png'),
+    website: 'https://divine-software.github.io/WSF/',
+    source: 'https://github.com/Divine-Software/WSF/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Djamaile Rahamat',
     description: 'Djamaile Rahamat Blog on making cool stuff',
     preview: require('./showcase/djamaile.png'),
@@ -513,6 +521,14 @@ const Users: User[] = [
     website: 'https://www.easyjwt.org',
     source: 'https://github.com/authdog/easyjwt/tree/master/docs',
     tags: ['opensource', 'i18n'],
+  },
+  {
+    title: 'Easypanel',
+    description: 'Server control panel based on Docker',
+    preview: require('./showcase/easypanel.png'),
+    website: 'https://easypanel.io',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'EduLinks',
@@ -670,6 +686,14 @@ const Users: User[] = [
     website: 'https://www.froggit.fr/',
     source: 'https://lab.frogg.it/froggit/www/froggit.fr',
     tags: ['opensource', 'product'],
+  },
+  {
+    title: 'Ghostly',
+    description: 'A divine template/print formatter engine',
+    preview: require('./showcase/ghostly.png'),
+    website: 'https://divine-software.github.io/ghostly/',
+    source: 'https://github.com/Divine-Software/ghostly/tree/master/website',
+    tags: ['opensource'],
   },
   {
     title: 'Gladys Assistant',

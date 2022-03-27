@@ -169,7 +169,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         },
       ],
       "isLast": true,
+      "label": "current label (translated)",
       "mainDocId": "",
+      "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": {
@@ -221,9 +223,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
-      "versionLabel": "current label (translated)",
       "versionName": "current",
-      "versionPath": "/docs/",
     },
     {
       "contentPath": "any",
@@ -311,7 +311,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         },
       ],
       "isLast": true,
+      "label": "2.0.0 label (translated)",
       "mainDocId": "",
+      "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": {
@@ -363,9 +365,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
-      "versionLabel": "2.0.0 label (translated)",
       "versionName": "2.0.0",
-      "versionPath": "/docs/",
     },
     {
       "contentPath": "any",
@@ -453,7 +453,9 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
         },
       ],
       "isLast": true,
+      "label": "1.0.0 label (translated)",
       "mainDocId": "",
+      "path": "/docs/",
       "routePriority": undefined,
       "sidebarFilePath": "any",
       "sidebars": {
@@ -505,9 +507,7 @@ exports[`translateLoadedContent returns translated loaded content 1`] = `
           },
         ],
       },
-      "versionLabel": "1.0.0 label (translated)",
       "versionName": "1.0.0",
-      "versionPath": "/docs/",
     },
   ],
 }
