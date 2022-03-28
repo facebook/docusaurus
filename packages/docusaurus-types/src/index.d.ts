@@ -331,7 +331,7 @@ export type NormalizedPluginConfig = {
   entryPath: string;
 };
 
-export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
+export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;
   /**
@@ -340,8 +340,8 @@ export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly path: string;
 };
 
-export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
-  readonly content: Content;
+export type LoadedPlugin = InitializedPlugin & {
+  readonly content: unknown;
 };
 
 export type SwizzleAction = 'eject' | 'wrap';
@@ -360,9 +360,7 @@ export type SwizzleConfig = {
 };
 
 export type PluginModule = {
-  <Options, Content>(context: LoadContext, options: Options):
-    | Plugin<Content>
-    | Promise<Plugin<Content>>;
+  (context: LoadContext, options: unknown): Plugin | Promise<Plugin>;
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
@@ -374,11 +372,11 @@ export type ImportedPluginModule = PluginModule & {
   default?: PluginModule;
 };
 
-export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
+export type ConfigureWebpackFn = Plugin['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = {
   [key: string]: CustomizeRuleString;
 };
-export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
+export type ConfigurePostCssFn = Plugin['configurePostCss'];
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
