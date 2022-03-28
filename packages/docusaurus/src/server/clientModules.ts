@@ -8,9 +8,7 @@
 import path from 'path';
 import type {LoadedPlugin} from '@docusaurus/types';
 
-export default function loadClientModules(
-  plugins: LoadedPlugin<unknown>[],
-): string[] {
+export function loadClientModules(plugins: LoadedPlugin<unknown>[]): string[] {
   return plugins.flatMap(
     (plugin) =>
       plugin.getClientModules?.().map((p) => path.resolve(plugin.path, p)) ??

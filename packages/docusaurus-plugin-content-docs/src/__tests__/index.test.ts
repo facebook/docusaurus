@@ -17,7 +17,7 @@ import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import type {RouteConfig} from '@docusaurus/types';
 import {posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {sortConfig} from '@docusaurus/core/src/server/plugins';
+import {sortConfig} from '@docusaurus/core/src/server/plugins/routeConfig';
 
 import * as cliDocs from '../cli';
 import {validateOptions} from '../options';

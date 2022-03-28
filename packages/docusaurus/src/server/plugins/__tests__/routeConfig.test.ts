@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import applyRouteTrailingSlash from '../applyRouteTrailingSlash';
+import {applyRouteTrailingSlash, sortConfig} from '../routeConfig';
 import type {RouteConfig} from '@docusaurus/types';
 import type {ApplyTrailingSlashParams} from '@docusaurus/utils-common';
 
@@ -161,5 +161,91 @@ describe('applyRouteTrailingSlash', () => {
         params(false, baseUrl),
       ),
     ).toEqual(route('/abc/?search#anchor', ['/abc/1?search', '/abc/2#anchor']));
+  });
+});
+
+describe('sortConfig', () => {
+  it('sorts route config correctly', () => {
+    const routes: RouteConfig[] = [
+      {
+        path: '/',
+        component: '',
+        routes: [
+          {path: '/someDoc', component: ''},
+          {path: '/someOtherDoc', component: ''},
+        ],
+      },
+      {
+        path: '/',
+        component: '',
+      },
+      {
+        path: '/',
+        component: '',
+        routes: [{path: '/subroute', component: ''}],
+      },
+      {
+        path: '/docs',
+        component: '',
+        routes: [
+          {path: '/docs/someDoc', component: ''},
+          {path: '/docs/someOtherDoc', component: ''},
+        ],
+      },
+      {
+        path: '/community',
+        component: '',
+      },
+      {
+        path: '/some-page',
+        component: '',
+      },
+    ];
+
+    sortConfig(routes);
+
+    expect(routes).toMatchSnapshot();
+  });
+
+  it('sorts route config given a baseURL', () => {
+    const baseURL = '/latest/';
+    const routes: RouteConfig[] = [
+      {
+        path: baseURL,
+        component: '',
+        routes: [
+          {path: `${baseURL}someDoc`, component: ''},
+          {path: `${baseURL}someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}example`,
+        component: '',
+      },
+      {
+        path: `${baseURL}docs`,
+        component: '',
+        routes: [
+          {path: `${baseURL}docs/someDoc`, component: ''},
+          {path: `${baseURL}docs/someOtherDoc`, component: ''},
+        ],
+      },
+      {
+        path: `${baseURL}community`,
+        component: '',
+      },
+      {
+        path: `${baseURL}some-page`,
+        component: '',
+      },
+      {
+        path: `${baseURL}`,
+        component: '',
+      },
+    ];
+
+    sortConfig(routes, baseURL);
+
+    expect(routes).toMatchSnapshot();
   });
 });

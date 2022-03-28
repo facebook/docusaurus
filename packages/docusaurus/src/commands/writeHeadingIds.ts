@@ -11,8 +11,8 @@ import {
   writeMarkdownHeadingId,
   type WriteHeadingIDOptions,
 } from '@docusaurus/utils';
-import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
+import {loadContext} from '../server';
+import {initPlugins} from '../server/plugins/init';
 import {safeGlobby} from '../server/utils';
 
 async function transformMarkdownFile(
@@ -36,15 +36,11 @@ async function transformMarkdownFile(
  */
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
   const context = await loadContext(siteDir);
-  const pluginConfigs = await loadPluginConfigs(context);
-  const plugins = await initPlugins({
-    pluginConfigs,
-    context,
-  });
+  const plugins = await initPlugins(context);
   return plugins.flatMap((plugin) => plugin?.getPathsToWatch?.() ?? []);
 }
 
-export default async function writeHeadingIds(
+export async function writeHeadingIds(
   siteDir: string,
   files?: string[],
   options?: WriteHeadingIDOptions,

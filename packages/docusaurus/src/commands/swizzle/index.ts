@@ -86,7 +86,7 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
   return undefined;
 }
 
-export default async function swizzle(
+export async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
   componentNameParam: string | undefined,

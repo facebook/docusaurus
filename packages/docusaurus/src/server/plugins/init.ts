@@ -18,12 +18,13 @@ import type {
   InitializedPlugin,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import {getPluginVersion} from '../versions';
+import {getPluginVersion} from '../siteMetadata';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import {
   normalizePluginOptions,
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
+import {loadPluginConfigs} from './configs';
 
 export type NormalizedPluginConfig = {
   plugin: PluginModule;
@@ -134,16 +135,13 @@ function getThemeValidationFunction(
   return normalizedPluginConfig.plugin.validateThemeConfig;
 }
 
-export default async function initPlugins({
-  pluginConfigs,
-  context,
-}: {
-  pluginConfigs: PluginConfig[];
-  context: LoadContext;
-}): Promise<InitializedPlugin[]> {
+export async function initPlugins(
+  context: LoadContext,
+): Promise<InitializedPlugin[]> {
   // We need to resolve plugins from the perspective of the siteDir, since the
   // siteDir's package.json declares the dependency on these plugins.
   const pluginRequire = createRequire(context.siteConfigPath);
+  const pluginConfigs = await loadPluginConfigs(context);
   const pluginConfigsNormalized = await normalizePluginConfigs(
     pluginConfigs,
     context.siteConfigPath,

@@ -10,7 +10,7 @@ import shell from 'shelljs';
 import logger from '@docusaurus/logger';
 import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext} from '../server';
-import build from './build';
+import {build} from './build';
 import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
@@ -34,7 +34,7 @@ function shellExecLog(cmd: string) {
   }
 }
 
-export default async function deploy(
+export async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {

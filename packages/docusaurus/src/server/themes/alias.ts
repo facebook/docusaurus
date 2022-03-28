@@ -26,7 +26,7 @@ export function sortAliases(aliases: ThemeAliases): ThemeAliases {
   return Object.fromEntries(entries);
 }
 
-export default async function themeAlias(
+export async function themeAlias(
   themePath: string,
   addOriginalAlias: boolean,
 ): Promise<ThemeAliases> {

@@ -5,11 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
-import path from 'path';
-import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
 import logger from '@docusaurus/logger';
+import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
 
 function getDefaultLocaleLabel(locale: string) {
   const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
@@ -63,30 +61,4 @@ Note: Docusaurus only support running one locale at a time.`;
     currentLocale,
     localeConfigs,
   };
-}
-
-export function localizePath({
-  pathType,
-  path: originalPath,
-  i18n,
-  options = {},
-}: {
-  pathType: 'fs' | 'url';
-  path: string;
-  i18n: I18n;
-  options?: {localizePath?: boolean};
-}): string {
-  const shouldLocalizePath: boolean =
-    // By default, we don't localize the path of defaultLocale
-    options.localizePath ?? i18n.currentLocale !== i18n.defaultLocale;
-
-  if (!shouldLocalizePath) {
-    return originalPath;
-  }
-  // FS paths need special care, for Windows support
-  if (pathType === 'fs') {
-    return path.join(originalPath, i18n.currentLocale);
-  }
-  // Url paths; add a trailing slash so it's a valid base URL
-  return normalizeUrl([originalPath, i18n.currentLocale, '/']);
 }

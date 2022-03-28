@@ -7,8 +7,8 @@
 
 import type {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
 import path from 'path';
-import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
+import {loadContext} from '../server';
+import {initPlugins} from '../server/plugins/init';
 
 import {
   writePluginTranslations,
@@ -72,7 +72,7 @@ async function writePluginTranslationFiles({
   }
 }
 
-export default async function writeTranslations(
+export async function writeTranslations(
   siteDir: string,
   options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
 ): Promise<void> {
@@ -80,11 +80,7 @@ export default async function writeTranslations(
     customConfigFilePath: options.config,
     locale: options.locale,
   });
-  const pluginConfigs = await loadPluginConfigs(context);
-  const plugins = await initPlugins({
-    pluginConfigs,
-    context,
-  });
+  const plugins = await initPlugins(context);
 
   const locale = options.locale ?? context.i18n.defaultLocale;
 

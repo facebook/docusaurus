@@ -5,11 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginVersionInformation} from '@docusaurus/types';
+import type {
+  LoadedPlugin,
+  PluginVersionInformation,
+  DocusaurusSiteMetadata,
+} from '@docusaurus/types';
 import fs from 'fs-extra';
 import path from 'path';
+import logger from '@docusaurus/logger';
 
-export async function getPackageJsonVersion(
+async function getPackageJsonVersion(
   packageJsonPath: string,
 ): Promise<string | undefined> {
   if (await fs.pathExists(packageJsonPath)) {
@@ -58,4 +63,53 @@ export async function getPluginVersion(
   // In the case where a plugin is a path where no parent directory contains
   // package.json (e.g. inline plugin), we can only classify it as local.
   return {type: 'local'};
+}
+
+/**
+ * We want all `@docusaurus/*` packages to have the exact same version!
+ * @see https://github.com/facebook/docusaurus/issues/3371
+ * @see https://github.com/facebook/docusaurus/pull/3386
+ */
+function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
+  const {docusaurusVersion} = siteMetadata;
+  Object.entries(siteMetadata.pluginVersions).forEach(
+    ([plugin, versionInfo]) => {
+      if (
+        versionInfo.type === 'package' &&
+        versionInfo.name?.startsWith('@docusaurus/') &&
+        versionInfo.version &&
+        versionInfo.version !== docusaurusVersion
+      ) {
+        // should we throw instead?
+        // It still could work with different versions
+        logger.error`Invalid name=${plugin} version number=${versionInfo.version}.
+All official @docusaurus/* packages should have the exact same version as @docusaurus/core (number=${docusaurusVersion}).
+Maybe you want to check, or regenerate your yarn.lock or package-lock.json file?`;
+      }
+    },
+  );
+}
+
+export async function loadSiteMetadata({
+  plugins,
+  siteDir,
+}: {
+  plugins: LoadedPlugin[];
+  siteDir: string;
+}): Promise<DocusaurusSiteMetadata> {
+  const siteMetadata: DocusaurusSiteMetadata = {
+    docusaurusVersion: (await getPackageJsonVersion(
+      path.join(__dirname, '../../package.json'),
+    ))!,
+    siteVersion: await getPackageJsonVersion(
+      path.join(siteDir, 'package.json'),
+    ),
+    pluginVersions: Object.fromEntries(
+      plugins
+        .filter(({version: {type}}) => type !== 'synthetic')
+        .map(({name, version}) => [name, version]),
+    ),
+  };
+  checkDocusaurusPackagesVersion(siteMetadata);
+  return siteMetadata;
 }

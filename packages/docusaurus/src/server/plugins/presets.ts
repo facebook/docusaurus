@@ -14,7 +14,7 @@ import type {
 } from '@docusaurus/types';
 import {resolveModuleName} from '../moduleShorthand';
 
-export default async function loadPresets(context: LoadContext): Promise<{
+export async function loadPresets(context: LoadContext): Promise<{
   plugins: PluginConfig[];
   themes: PluginConfig[];
 }> {
