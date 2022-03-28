@@ -10,7 +10,7 @@ import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
-import type {Overwrite, DeepPartial} from 'utility-types';
+import type {Overwrite, DeepPartial, DeepRequired} from 'utility-types';
 import type {Location} from 'history';
 import type Loadable from 'react-loadable';
 
@@ -130,12 +130,7 @@ export type I18nConfig = {
   localeConfigs: {[locale: string]: Partial<I18nLocaleConfig>};
 };
 
-export type I18n = {
-  defaultLocale: string;
-  locales: [string, ...string[]];
-  currentLocale: string;
-  localeConfigs: {[locale: string]: I18nLocaleConfig};
-};
+export type I18n = DeepRequired<I18nConfig> & {currentLocale: string};
 
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
