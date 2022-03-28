@@ -7,14 +7,15 @@
 
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
-  border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
+  border-radius: var(--ifm-code-border-radius);
 }
 
 .codeBlockContent {
   position: relative;
   /* rtl:ignore */
   direction: ltr;
+  border-radius: inherit;
 }
 
 .codeBlockTitle {
@@ -22,14 +23,14 @@
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .codeBlock {
   margin: 0;
   padding: 0;
-  border-radius: var(--ifm-global-radius);
+  background-color: inherit;
 }
 
 .codeBlockTitle + .codeBlockContent .codeBlock {
@@ -39,26 +40,6 @@
 
 .codeBlockStandalone {
   padding: 0;
-  border-radius: var(--ifm-global-radius);
-}
-
-.copyButton {
-  background: rgb(0 0 0 / 30%);
-  border-radius: var(--ifm-global-radius);
-  color: var(--ifm-color-white);
-  opacity: 0;
-  user-select: none;
-  padding: 0.4rem 0.5rem;
-  position: absolute;
-  right: calc(var(--ifm-pre-padding) / 2);
-  top: calc(var(--ifm-pre-padding) / 2);
-  transition: opacity 200ms ease-in-out;
-}
-
-.copyButton:focus,
-.codeBlockContent:hover > .copyButton,
-.codeBlockTitle:hover + .codeBlockContent .copyButton {
-  opacity: 1;
 }
 
 .codeBlockLines {

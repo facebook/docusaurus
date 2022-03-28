@@ -130,7 +130,7 @@ function logSourceCodeFileTranslationsWarnings(
 
 type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
-  translations: Record<string, TranslationMessage>;
+  translations: {[msgId: string]: TranslationMessage};
   warnings: string[];
 };
 
@@ -189,7 +189,7 @@ function extractSourceCodeAstTranslations(
 Full code: ${generate(node).code}`;
   }
 
-  const translations: Record<string, TranslationMessage> = {};
+  const translations: {[msgId: string]: TranslationMessage} = {};
   const warnings: string[] = [];
   let translateComponentName: string | undefined;
   let translateFunctionName: string | undefined;

@@ -10,79 +10,39 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {
   LoadContext,
-  PluginConfig,
   PluginContentLoadedActions,
   RouteConfig,
   AllContent,
-  TranslationFiles,
+  GlobalData,
   ThemeConfig,
   LoadedPlugin,
   InitializedPlugin,
   PluginRouteContext,
 } from '@docusaurus/types';
-import initPlugins from './init';
+import {initPlugins} from './init';
+import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import logger from '@docusaurus/logger';
 import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
-import applyRouteTrailingSlash from './applyRouteTrailingSlash';
+import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 
-export function sortConfig(
-  routeConfigs: RouteConfig[],
-  baseUrl: string = '/',
-): void {
-  // Sort the route config. This ensures that route with nested
-  // routes is always placed last.
-  routeConfigs.sort((a, b) => {
-    // Root route should get placed last.
-    if (a.path === baseUrl && b.path !== baseUrl) {
-      return 1;
-    }
-    if (a.path !== baseUrl && b.path === baseUrl) {
-      return -1;
-    }
-
-    if (a.routes && !b.routes) {
-      return 1;
-    }
-    if (!a.routes && b.routes) {
-      return -1;
-    }
-    // Higher priority get placed first.
-    if (a.priority || b.priority) {
-      const priorityA = a.priority || 0;
-      const priorityB = b.priority || 0;
-      const score = priorityB - priorityA;
-
-      if (score !== 0) {
-        return score;
-      }
-    }
-
-    return a.path.localeCompare(b.path);
-  });
-
-  routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
-  });
-}
-
-export async function loadPlugins({
-  pluginConfigs,
-  context,
-}: {
-  pluginConfigs: PluginConfig[];
-  context: LoadContext;
-}): Promise<{
+/**
+ * Initializes the plugins, runs `loadContent`, `translateContent`,
+ * `contentLoaded`, and `translateThemeConfig`.
+ */
+export async function loadPlugins(context: LoadContext): Promise<{
   plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
-  globalData: unknown;
+  globalData: GlobalData;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitializedPlugin[] = await initPlugins({
-    pluginConfigs,
-    context,
-  });
+  const plugins: InitializedPlugin[] = await initPlugins(context);
+
+  plugins.push(
+    createBootstrapPlugin(context),
+    createMDXFallbackPlugin(context),
+  );
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not
@@ -95,32 +55,28 @@ export async function loadPlugins({
     }),
   );
 
-  type ContentLoadedTranslatedPlugin = LoadedPlugin & {
-    translationFiles: TranslationFiles;
-  };
-  const contentLoadedTranslatedPlugins: ContentLoadedTranslatedPlugin[] =
-    await Promise.all(
-      loadedPlugins.map(async (contentLoadedPlugin) => {
-        const translationFiles =
-          (await contentLoadedPlugin?.getTranslationFiles?.({
-            content: contentLoadedPlugin.content,
-          })) ?? [];
-        const localizedTranslationFiles = await Promise.all(
-          translationFiles.map((translationFile) =>
-            localizePluginTranslationFile({
-              locale: context.i18n.currentLocale,
-              siteDir: context.siteDir,
-              translationFile,
-              plugin: contentLoadedPlugin,
-            }),
-          ),
-        );
-        return {
-          ...contentLoadedPlugin,
-          translationFiles: localizedTranslationFiles,
-        };
-      }),
-    );
+  const contentLoadedTranslatedPlugins = await Promise.all(
+    loadedPlugins.map(async (plugin) => {
+      const translationFiles =
+        (await plugin?.getTranslationFiles?.({
+          content: plugin.content,
+        })) ?? [];
+      const localizedTranslationFiles = await Promise.all(
+        translationFiles.map((translationFile) =>
+          localizePluginTranslationFile({
+            locale: context.i18n.currentLocale,
+            siteDir: context.siteDir,
+            translationFile,
+            plugin,
+          }),
+        ),
+      );
+      return {
+        ...plugin,
+        translationFiles: localizedTranslationFiles,
+      };
+    }),
+  );
 
   const allContent: AllContent = _.chain(loadedPlugins)
     .groupBy((item) => item.name)
@@ -135,7 +91,7 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
-  const globalData: Record<string, Record<string, unknown>> = {};
+  const globalData: GlobalData = {};
 
   await Promise.all(
     contentLoadedTranslatedPlugins.map(
@@ -217,9 +173,6 @@ export async function loadPlugins({
   );
 
   // 4. Plugin Lifecycle - routesLoaded.
-  // Currently plugins run lifecycle methods in parallel and are not
-  // order-dependent. We could change this in future if there are plugins which
-  // need to run in certain order or depend on others for data.
   await Promise.all(
     contentLoadedTranslatedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
@@ -229,7 +182,7 @@ export async function loadPlugins({
       // TODO remove this deprecated lifecycle soon
       // deprecated since alpha-60
       // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
-      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: path=${'https://github.com/facebook/docusaurus/issues/3918'}`;
+      logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: url=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
       await plugin.routesLoaded(pluginsRouteConfigs);
     }),
@@ -240,28 +193,24 @@ export async function loadPlugins({
   sortConfig(pluginsRouteConfigs, context.siteConfig.baseUrl);
 
   // Apply each plugin one after the other to translate the theme config
-  function translateThemeConfig(
-    untranslatedThemeConfig: ThemeConfig,
-  ): ThemeConfig {
-    return contentLoadedTranslatedPlugins.reduce(
-      (currentThemeConfig, plugin) => {
-        const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
-          themeConfig: currentThemeConfig,
-          translationFiles: plugin.translationFiles,
-        });
-        return {
-          ...currentThemeConfig,
-          ...translatedThemeConfigSlice,
-        };
-      },
-      untranslatedThemeConfig,
-    );
-  }
+  const themeConfigTranslated = contentLoadedTranslatedPlugins.reduce(
+    (currentThemeConfig, plugin) => {
+      const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
+        themeConfig: currentThemeConfig,
+        translationFiles: plugin.translationFiles,
+      });
+      return {
+        ...currentThemeConfig,
+        ...translatedThemeConfigSlice,
+      };
+    },
+    context.siteConfig.themeConfig,
+  );
 
   return {
     plugins: loadedPlugins,
     pluginsRouteConfigs,
     globalData,
-    themeConfigTranslated: translateThemeConfig(context.siteConfig.themeConfig),
+    themeConfigTranslated,
   };
 }

@@ -136,6 +136,68 @@ export default function getSwizzleConfig(): SwizzleConfig {
         description:
           'The MDX components to use for rendering MDX files. Meant to be ejected.',
       },
+      'MDXComponents/A': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <a> tags and Markdown links in MDX',
+      },
+      'MDXComponents/Code': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <code> tags and Markdown code blocks in MDX',
+      },
+      'MDXComponents/Details': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The component used to render <details> tags in MDX',
+      },
+      'MDXComponents/Head': {
+        actions: {
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'Technical component used to assign metadata (generally for SEO purpose) to the current MDX document',
+      },
+      'MDXComponents/Heading': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render heading tags (<h1>, <h2>...) and Markdown headings in MDX',
+      },
+      'MDXComponents/Img': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <img> tags and Markdown images in MDX',
+      },
+      'MDXComponents/Pre': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The component used to render <pre> tags in MDX',
+      },
+      'MDXComponents/Ul': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <ul> tags and Markdown unordered lists in MDX',
+      },
       MDXContent: {
         actions: {
           eject: 'safe',

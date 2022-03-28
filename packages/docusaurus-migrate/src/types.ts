@@ -33,8 +33,8 @@ export type SidebarEntry =
 
 export type SidebarEntries = {
   [key: string]:
-    | Record<string, unknown>
-    | Array<Record<string, unknown> | string>;
+    | {[key: string]: unknown}
+    | Array<{[key: string]: unknown} | string>;
 };
 
 export interface VersionTwoConfig {
@@ -58,7 +58,7 @@ export interface VersionTwoConfig {
       logo?: {
         src?: string;
       };
-      items: Array<Record<string, unknown> | null>;
+      items: Array<{[key: string]: unknown} | null>;
     };
     image?: string;
     footer: {
@@ -74,7 +74,7 @@ export interface VersionTwoConfig {
         src?: string;
       };
     };
-    algolia?: Record<string, unknown>;
+    algolia?: {[key: string]: unknown};
   };
   customFields: {
     [key: string]: unknown;
@@ -111,16 +111,16 @@ export type VersionOneConfig = {
   copyright?: string;
   editUrl?: string;
   customDocsPath?: string;
-  users?: Array<Record<string, unknown>>;
+  users?: Array<{[key: string]: unknown}>;
   disableHeaderTitle?: string;
   disableTitleTagline?: string;
-  separateCss?: Array<Record<string, unknown>>;
+  separateCss?: Array<{[key: string]: unknown}>;
   footerIcon?: string;
   translationRecruitingLink?: string;
-  algolia?: Record<string, unknown>;
+  algolia?: {[key: string]: unknown};
   gaTrackingId?: string;
   gaGtag?: boolean;
-  highlight?: Record<string, unknown>;
+  highlight?: {[key: string]: unknown};
   markdownPlugins?: Array<() => void>;
   scripts?: Array<{src: string; [key: string]: unknown} | string>;
   stylesheets?: Array<{href: string; [key: string]: unknown} | string>;
@@ -133,5 +133,5 @@ export type VersionOneConfig = {
   ogImage?: string;
   cleanUrl?: boolean;
   scrollToTop?: boolean;
-  scrollToTopOptions?: Record<string, unknown>;
+  scrollToTopOptions?: {[key: string]: unknown};
 };

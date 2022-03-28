@@ -33,6 +33,12 @@ function addBaseUrl(
     return baseUrl + url.replace(/^\//, '');
   }
 
+  // /baseUrl -> /baseUrl/
+  // https://github.com/facebook/docusaurus/issues/6315
+  if (url === baseUrl.replace(/\/$/, '')) {
+    return baseUrl;
+  }
+
   // We should avoid adding the baseurl twice if it's already there
   const shouldAddBaseUrl = !url.startsWith(baseUrl);
 

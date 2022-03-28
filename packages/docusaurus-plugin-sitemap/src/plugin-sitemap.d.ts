@@ -8,6 +8,7 @@
 import type {EnumChangefreq} from 'sitemap';
 
 export type Options = {
+  id?: string;
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */
   changefreq?: EnumChangefreq;
   /** @see https://www.sitemaps.org/protocol.html#xmlTagDefinitions */

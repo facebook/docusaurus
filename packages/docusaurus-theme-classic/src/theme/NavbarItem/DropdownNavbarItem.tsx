@@ -85,6 +85,9 @@ function DropdownNavbarItemDesktop({
         'dropdown--show': showDropdown,
       })}>
       <NavbarNavLink
+        aria-haspopup="true"
+        aria-expanded={showDropdown}
+        role="button"
         href={props.to ? undefined : '#'}
         className={clsx('navbar__link', className)}
         {...props}
@@ -107,7 +110,13 @@ function DropdownNavbarItemDesktop({
                 setShowDropdown(false);
                 const nextNavbarItem = dropdownRef.current!.nextElementSibling;
                 if (nextNavbarItem) {
-                  (nextNavbarItem as HTMLElement).focus();
+                  const targetItem =
+                    nextNavbarItem instanceof HTMLAnchorElement
+                      ? nextNavbarItem
+                      : // Next item is another dropdown; focus on the inner
+                        // anchor element instead so there's outline
+                        nextNavbarItem.querySelector('a');
+                  (targetItem as HTMLElement).focus();
                 }
               }
             }}

@@ -81,10 +81,14 @@ export async function eject({
       const fileName = path.basename(sourceFile);
       const targetFile = path.join(toPath, fileName);
       try {
-        await fs.copy(sourceFile, targetFile, {overwrite: true});
+        const fileContents = await fs.readFile(sourceFile, 'utf-8');
+        await fs.outputFile(
+          targetFile,
+          fileContents.trimStart().replace(/^\/\*.+?\*\/\s*/ms, ''),
+        );
       } catch (err) {
         throw new Error(
-          logger.interpolate`Could not copy file from ${sourceFile} to ${targetFile}`,
+          logger.interpolate`Could not copy file from path=${sourceFile} to path=${targetFile}`,
         );
       }
       return targetFile;
@@ -122,7 +126,7 @@ export async function wrap({
 import type ${componentName}Type from '@theme/${themeComponentName}';
 import ${componentName} from '@theme-${importType}/${themeComponentName}';
 
-type Props = ComponentProps<typeof ${componentName}Type>
+type Props = ComponentProps<typeof ${componentName}Type>;
 
 export default function ${wrapperComponentName}(props: Props): JSX.Element {
   return (

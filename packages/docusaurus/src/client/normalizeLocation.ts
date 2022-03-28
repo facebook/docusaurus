@@ -8,7 +8,7 @@
 import type {Location} from 'history';
 
 // Memoize previously normalized pathnames.
-const pathnames: Record<string, string> = {};
+const pathnames: {[rawPathname: string]: string} = {};
 
 export default function normalizeLocation<T extends Location>(location: T): T {
   if (pathnames[location.pathname]) {

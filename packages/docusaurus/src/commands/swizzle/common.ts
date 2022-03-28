@@ -12,8 +12,8 @@ import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleActionStatus,
+  NormalizedPluginConfig,
 } from '@docusaurus/types';
-import type {NormalizedPluginConfig} from '../../server/plugins/init';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 
@@ -29,10 +29,9 @@ export function actionStatusLabel(status: SwizzleActionStatus): string {
   return _.capitalize(status);
 }
 
-const SwizzleActionStatusColors: Record<
-  SwizzleActionStatus,
-  (str: string) => string
-> = {
+const SwizzleActionStatusColors: {
+  [status in SwizzleActionStatus]: (str: string) => string;
+} = {
   safe: logger.green,
   unsafe: logger.yellow,
   forbidden: logger.red,

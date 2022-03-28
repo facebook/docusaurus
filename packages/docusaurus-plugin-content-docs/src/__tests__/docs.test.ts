@@ -18,16 +18,14 @@ import {
 import {loadSidebars} from '../sidebars';
 import type {Sidebars} from '../sidebars/types';
 import {readVersionsMetadata} from '../versions';
-import type {
-  DocFile,
-  DocMetadataBase,
-  VersionMetadata,
-  DocNavLink,
-} from '../types';
+import type {DocFile} from '../types';
 import type {
   MetadataOptions,
   PluginOptions,
   EditUrlFunction,
+  DocMetadataBase,
+  VersionMetadata,
+  PropNavigationLink,
 } from '@docusaurus/plugin-content-docs';
 import type {LoadContext} from '@docusaurus/types';
 import {DEFAULT_OPTIONS} from '../options';
@@ -43,7 +41,7 @@ const createFakeDocFile = ({
   markdown = 'some markdown content',
 }: {
   source: string;
-  frontMatter?: Record<string, string>;
+  frontMatter?: {[key: string]: string};
   markdown?: string;
 }): DocFile => {
   const content = `---
@@ -123,7 +121,11 @@ function createTestUtils({
   }
 
   async function generateNavigation(docFiles: DocFile[]): Promise<{
-    pagination: {prev?: DocNavLink; next?: DocNavLink; id: string}[];
+    pagination: {
+      prev?: PropNavigationLink;
+      next?: PropNavigationLink;
+      id: string;
+    }[];
     sidebars: Sidebars;
   }> {
     const rawDocs = docFiles.map((docFile) =>
@@ -166,7 +168,7 @@ describe('simple site', () => {
     loadSiteOptions: {options: Partial<PluginOptions>} = {options: {}},
   ) {
     const siteDir = path.join(fixtureDir, 'simple-site');
-    const context = await loadContext(siteDir);
+    const context = await loadContext({siteDir});
     const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
@@ -521,7 +523,8 @@ describe('versioned site', () => {
     },
   ) {
     const siteDir = path.join(fixtureDir, 'versioned-site');
-    const context = await loadContext(siteDir, {
+    const context = await loadContext({
+      siteDir,
       locale: loadSiteOptions.locale,
     });
     const options = {

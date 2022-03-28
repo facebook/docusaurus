@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {
-  BrokenMarkdownLink,
-  ContentPaths,
-} from '@docusaurus/utils/lib/markdownLinks';
+import type {BrokenMarkdownLink, ContentPaths} from '@docusaurus/utils';
 import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
 import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 
@@ -53,6 +50,6 @@ export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  sourceToPermalink: Record<string, string>;
+  sourceToPermalink: {[aliasedPath: string]: string};
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };

@@ -24,6 +24,9 @@ describe('normalizePluginOptions', () => {
         options,
       ),
     ).toEqual(options);
+    expect(
+      normalizePluginOptions(Joi.object({foo: Joi.string()}), undefined),
+    ).toEqual({id: 'default'});
   });
 
   it('normalizes plugin options', () => {

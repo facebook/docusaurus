@@ -6,10 +6,14 @@
  */
 
 import defaultTheme from 'prism-react-renderer/themes/palenight';
-import {useColorMode} from '../utils/colorModeUtils';
+import {useColorMode} from '../contexts/colorMode';
 import {useThemeConfig} from '../utils/useThemeConfig';
 
-export default function usePrismTheme(): typeof defaultTheme {
+/**
+ * Returns a color-mode-dependent Prism theme: whatever the user specified in
+ * the config. Falls back to `palenight`.
+ */
+export function usePrismTheme(): typeof defaultTheme {
   const {prism} = useThemeConfig();
   const {colorMode} = useColorMode();
   const lightModeTheme = prism.theme || defaultTheme;

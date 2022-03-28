@@ -74,7 +74,7 @@ export type User = {
 // Available tags to assign to your site
 // Please choose all tags that you think might apply.
 // We'll remove inappropriate tags, but it's less likely that we add tags.
-export const Tags: Record<TagType, Tag> = {
+export const Tags: {[type in TagType]: Tag} = {
   // DO NOT USE THIS TAG: we choose sites to add to favorites
   favorite: {
     label: 'Favorite',
@@ -476,6 +476,14 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
+    title: 'Divine Web Service Framework',
+    description: 'A divine collection of awesome web-related Node.js modules',
+    preview: require('./showcase/divine-wsf.png'),
+    website: 'https://divine-software.github.io/WSF/',
+    source: 'https://github.com/Divine-Software/WSF/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Djamaile Rahamat',
     description: 'Djamaile Rahamat Blog on making cool stuff',
     preview: require('./showcase/djamaile.png'),
@@ -513,6 +521,14 @@ const Users: User[] = [
     website: 'https://www.easyjwt.org',
     source: 'https://github.com/authdog/easyjwt/tree/master/docs',
     tags: ['opensource', 'i18n'],
+  },
+  {
+    title: 'Easypanel',
+    description: 'Server control panel based on Docker',
+    preview: require('./showcase/easypanel.png'),
+    website: 'https://easypanel.io',
+    source: null,
+    tags: ['product'],
   },
   {
     title: 'EduLinks',
@@ -672,6 +688,14 @@ const Users: User[] = [
     tags: ['opensource', 'product'],
   },
   {
+    title: 'Ghostly',
+    description: 'A divine template/print formatter engine',
+    preview: require('./showcase/ghostly.png'),
+    website: 'https://divine-software.github.io/ghostly/',
+    source: 'https://github.com/Divine-Software/ghostly/tree/master/website',
+    tags: ['opensource'],
+  },
+  {
     title: 'Gladys Assistant',
     description: 'A privacy-first, open-source home assistant',
     preview: require('./showcase/gladys-assistant.png'),
@@ -820,6 +844,15 @@ const Users: User[] = [
     website: 'https://jestjs.io/',
     source: 'https://github.com/facebook/jest/tree/master/website',
     tags: ['favorite', 'opensource', 'design', 'i18n', 'versioning'],
+  },
+  {
+    title: 'K3ai',
+    description:
+      'A lightweight tool to get an AI Infrastructure Stack up in minutes not days.',
+    preview: require('./showcase/k3ai.png'),
+    website: 'https://k3ai.in/',
+    source: 'https://github.com/k3ai/k3ai.github.io',
+    tags: ['opensource', 'product'],
   },
   {
     title: 'KaustubhK24',
@@ -1099,6 +1132,15 @@ const Users: User[] = [
     website: 'https://pcapplusplus.github.io/',
     source: 'https://github.com/PcapPlusPlus/pcapplusplus.github.io',
     tags: ['opensource', 'versioning'],
+  },
+  {
+    title: 'pdfme',
+    description:
+      'Free and Open source PDF generator library fully written in TypeScript coming with a React based UI template editor',
+    preview: require('./showcase/pdfme.png'),
+    website: 'https://pdfme.com/',
+    source: 'https://github.com/pdfme/pdfme/tree/main/website',
+    tags: ['opensource', 'design', 'product'],
   },
   {
     title: 'Pearl UI',

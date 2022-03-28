@@ -9,7 +9,7 @@ import {simpleHash, docuHash} from '../hashUtils';
 
 describe('hashUtils', () => {
   it('simpleHash', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       '': 'd41',
       '/foo-bar': '096',
       '/foo/bar': '1df',
@@ -30,7 +30,7 @@ describe('hashUtils', () => {
 
 describe('docuHash', () => {
   it('docuHash works', () => {
-    const asserts: Record<string, string> = {
+    const asserts: {[key: string]: string} = {
       '': '-d41',
       '/': 'index',
       '/foo-bar': 'foo-bar-096',

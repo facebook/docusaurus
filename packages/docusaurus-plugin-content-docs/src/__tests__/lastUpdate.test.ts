@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {createTempRepo} from '@testing-utils/git';
 import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
@@ -47,7 +48,7 @@ describe('getFileLastUpdate', () => {
 
   it('non-existing file', async () => {
     const consoleMock = jest
-      .spyOn(console, 'error')
+      .spyOn(console, 'warn')
       .mockImplementation(() => {});
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
@@ -65,11 +66,38 @@ describe('getFileLastUpdate', () => {
     consoleMock.mockRestore();
   });
 
-  it('temporary created file that has no git timestamp', async () => {
-    const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
+  it('temporary created file that is not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const {repoDir} = createTempRepo();
+    const tempFilePath = path.join(repoDir, 'file.md');
     await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
     await fs.unlink(tempFilePath);
+  });
+
+  it('multiple files not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const {repoDir} = createTempRepo();
+    const tempFilePath1 = path.join(repoDir, 'file1.md');
+    const tempFilePath2 = path.join(repoDir, 'file2.md');
+    await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
+    await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
+    await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getFileLastUpdate(tempFilePath2)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath1);
+    await fs.unlink(tempFilePath2);
   });
 
   it('git does not exist', async () => {

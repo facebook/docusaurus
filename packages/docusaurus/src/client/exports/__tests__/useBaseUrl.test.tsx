@@ -8,7 +8,7 @@
 import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
 import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
-import {Context} from '../docusaurusContext';
+import {Context} from '../../docusaurusContext';
 import type {DocusaurusContext} from '@docusaurus/types';
 import type {BaseUrlOptions} from '@docusaurus/useBaseUrl';
 
@@ -77,6 +77,7 @@ describe('useBaseUrl', () => {
     expect(mockUseBaseUrl('/hello/foo', {absolute: true})).toBe(
       'https://docusaurus.io/docusaurus/hello/foo',
     );
+    expect(mockUseBaseUrl('/docusaurus')).toBe('/docusaurus/');
     expect(mockUseBaseUrl('/docusaurus/')).toBe('/docusaurus/');
     expect(mockUseBaseUrl('/docusaurus/hello')).toBe('/docusaurus/hello');
     expect(mockUseBaseUrl('#hello')).toBe('#hello');
@@ -143,6 +144,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('/hello/foo', {absolute: true})).toBe(
       'https://docusaurus.io/docusaurus/hello/foo',
     );
+    expect(withBaseUrl('/docusaurus')).toBe('/docusaurus/');
     expect(withBaseUrl('/docusaurus/')).toBe('/docusaurus/');
     expect(withBaseUrl('/docusaurus/hello')).toBe('/docusaurus/hello');
     expect(withBaseUrl('#hello')).toBe('#hello');

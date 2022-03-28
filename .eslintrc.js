@@ -49,6 +49,7 @@ module.exports = {
     curly: [WARNING, 'all'],
     'global-require': WARNING,
     'lines-between-class-members': OFF,
+    'max-classes-per-file': OFF,
     'max-len': [
       WARNING,
       {
@@ -201,7 +202,13 @@ module.exports = {
     'import/no-unresolved': [
       ERROR,
       {
-        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          '^@testing-utils',
+        ],
       },
     ],
     'import/order': OFF,
@@ -261,6 +268,10 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': [
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
+    ],
+    '@typescript-eslint/consistent-indexed-object-style': [
+      WARNING,
+      'index-signature',
     ],
     '@typescript-eslint/consistent-type-imports': [
       WARNING,

@@ -11,8 +11,12 @@ export type StorageType = typeof StorageTypes[number];
 
 const DefaultStorageType: StorageType = 'localStorage';
 
-// Will return null browser storage is unavailable (like running Docusaurus in
-// iframe) See https://github.com/facebook/docusaurus/pull/4501
+/**
+ * Will return `null` if browser storage is unavailable (like running Docusaurus
+ * in an iframe). This should NOT be called in SSR.
+ *
+ * @see https://github.com/facebook/docusaurus/pull/4501
+ */
 function getBrowserStorage(
   storageType: StorageType = DefaultStorageType,
 ): Storage | null {
@@ -32,11 +36,12 @@ function getBrowserStorage(
   }
 }
 
-/**
- * Poor man's memoization to avoid logging multiple times the same warning
- * Sometimes, localStorage/sessionStorage is unavailable due to browser policies
- */
 let hasLoggedBrowserStorageNotAvailableWarning = false;
+/**
+ * Poor man's memoization to avoid logging multiple times the same warning.
+ * Sometimes, `localStorage`/`sessionStorage` is unavailable due to browser
+ * policies.
+ */
 function logOnceBrowserStorageNotAvailableWarning(error: Error) {
   if (!hasLoggedBrowserStorageNotAvailableWarning) {
     console.warn(
@@ -61,7 +66,7 @@ const NoopStorageSlot: StorageSlot = {
   del: () => {},
 };
 
-//  Fail-fast, as storage APIs should not be used during the SSR process
+// Fail-fast, as storage APIs should not be used during the SSR process
 function createServerStorageSlot(key: string): StorageSlot {
   function throwError(): never {
     throw new Error(`Illegal storage API usage for storage key "${key}".
@@ -77,16 +82,19 @@ Please only call storage APIs in effects and event handlers.`);
 }
 
 /**
- * Creates an object for accessing a particular key in localStorage.
- * The API is fail-safe, and usage of browser storage should be considered
+ * Creates an interface to work on a particular key in the storage model.
+ * Note that this function only initializes the interface, but doesn't allocate
+ * anything by itself (i.e. no side-effects).
+ *
+ * The API is fail-safe, since usage of browser storage should be considered
  * unreliable. Local storage might simply be unavailable (iframe + browser
  * security) or operations might fail individually. Please assume that using
- * this API can be a NO-OP. See also https://github.com/facebook/docusaurus/issues/6036
+ * this API can be a no-op. See also https://github.com/facebook/docusaurus/issues/6036
  */
-export const createStorageSlot = (
+export function createStorageSlot(
   key: string,
   options?: {persistence?: StorageType},
-): StorageSlot => {
+): StorageSlot {
   if (typeof window === 'undefined') {
     return createServerStorageSlot(key);
   }
@@ -121,10 +129,10 @@ export const createStorageSlot = (
       }
     },
   };
-};
+}
 
 /**
- * Returns a list of all the keys currently stored in browser storage
+ * Returns a list of all the keys currently stored in browser storage,
  * or an empty list if browser storage can't be accessed.
  */
 export function listStorageKeys(

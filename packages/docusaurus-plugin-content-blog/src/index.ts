@@ -30,14 +30,7 @@ import type {
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
 } from './types';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
   getSourceToPermalink,
@@ -212,14 +205,14 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: Record<string, BlogPostMetadata> = {};
+      const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      if (archiveBasePath) {
+      if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -323,7 +316,7 @@ export default async function pluginContentBlog(
         return;
       }
 
-      const tagsModule: Record<string, TagModule> = Object.fromEntries(
+      const tagsModule: {[tagName: string]: TagModule} = Object.fromEntries(
         Object.entries(blogTags).map(([, tag]) => {
           const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
@@ -572,10 +565,4 @@ export default async function pluginContentBlog(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

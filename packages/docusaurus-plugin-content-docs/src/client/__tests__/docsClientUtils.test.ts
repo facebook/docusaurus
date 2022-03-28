@@ -21,7 +21,7 @@ import _ from 'lodash';
 
 describe('docsClientUtils', () => {
   it('getActivePlugin', () => {
-    const data: Record<string, GlobalPluginData> = {
+    const data: {[key: string]: GlobalPluginData} = {
       pluginIosId: {
         path: '/ios',
         versions: [],

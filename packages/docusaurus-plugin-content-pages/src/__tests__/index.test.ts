@@ -9,17 +9,21 @@ import path from 'path';
 import {loadContext} from '@docusaurus/core/lib/server';
 
 import pluginContentPages from '../index';
-import {PluginOptionSchema} from '../pluginOptionSchema';
+import {validateOptions} from '../options';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 
 describe('docusaurus-plugin-content-pages', () => {
   it('loads simple pages', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext(siteDir);
+    const context = await loadContext({siteDir});
     const plugin = await pluginContentPages(
       context,
-      PluginOptionSchema.validate({
-        path: 'src/pages',
-      }).value,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+        },
+      }),
     );
     const pagesMetadata = await plugin.loadContent!();
 
@@ -28,7 +32,7 @@ describe('docusaurus-plugin-content-pages', () => {
 
   it('loads simple pages with french translations', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const context = await loadContext(siteDir);
+    const context = await loadContext({siteDir});
     const plugin = await pluginContentPages(
       {
         ...context,
@@ -37,9 +41,12 @@ describe('docusaurus-plugin-content-pages', () => {
           currentLocale: 'fr',
         },
       },
-      PluginOptionSchema.validate({
-        path: 'src/pages',
-      }).value,
+      validateOptions({
+        validate: normalizePluginOptions,
+        options: {
+          path: 'src/pages',
+        },
+      }),
     );
     const pagesMetadata = await plugin.loadContent!();
 

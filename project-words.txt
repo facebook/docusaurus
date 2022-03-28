@@ -53,11 +53,13 @@ customizability
 daishi
 datagit
 datas
+dbaeumer
 décembre
 dedup
 deduplicated
 déja
 deps
+devcontainers
 devspace
 devto
 dmitry
@@ -78,6 +80,7 @@ endilie
 endiliey
 entrypoints
 errnametoolong
+esbenp
 esbuild
 eslintcache
 evaluable
@@ -98,8 +101,8 @@ globby
 goss
 goyal
 gtag
-hardcoding
 hahaha
+hardcoding
 héctor
 héllô
 heuristical
@@ -149,6 +152,7 @@ mathjax
 mdast
 mdxast
 mdxhast
+MDXA
 metadatum
 metastring
 middlewares
@@ -184,6 +188,7 @@ opensearch
 opensearchdescription
 optimizt
 optind
+orta
 overrideable
 pageview
 palenight
@@ -252,9 +257,13 @@ sebastienlorber
 sensical
 serializers
 setaf
+setext
 sida
 simen
 slorber
+sluggified
+sluggifies
+sluggify
 spâce
 stackblitz
 stackblitzrc
@@ -296,6 +305,7 @@ typesense
 unflat
 unist
 unlocalized
+unmatch
 unnormalized
 unoptimized
 unprefixed

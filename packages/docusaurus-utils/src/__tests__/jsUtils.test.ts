@@ -9,7 +9,6 @@ import {jest} from '@jest/globals';
 import {
   removeSuffix,
   removePrefix,
-  getElementsAround,
   mapAsyncSequential,
   findAsyncSequential,
   reportMessage,
@@ -38,40 +37,6 @@ describe('removePrefix', () => {
   });
 });
 
-describe('getElementsAround', () => {
-  it('returns elements around', () => {
-    expect(getElementsAround(['a', 'b', 'c', 'd'], 0)).toEqual({
-      previous: undefined,
-      next: 'b',
-    });
-    expect(getElementsAround(['a', 'b', 'c', 'd'], 1)).toEqual({
-      previous: 'a',
-      next: 'c',
-    });
-    expect(getElementsAround(['a', 'b', 'c', 'd'], 2)).toEqual({
-      previous: 'b',
-      next: 'd',
-    });
-    expect(getElementsAround(['a', 'b', 'c', 'd'], 3)).toEqual({
-      previous: 'c',
-      next: undefined,
-    });
-  });
-
-  it('throws if bad index is provided', () => {
-    expect(() =>
-      getElementsAround(['a', 'b', 'c', 'd'], -1),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided -1."`,
-    );
-    expect(() =>
-      getElementsAround(['a', 'b', 'c', 'd'], 4),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Valid \\"aroundIndex\\" for array (of size 4) are between 0 and 3, but you provided 4."`,
-    );
-  });
-});
-
 describe('mapAsyncSequential', () => {
   function sleep(timeout: number): Promise<void> {
     return new Promise((resolve) => {
@@ -80,15 +45,15 @@ describe('mapAsyncSequential', () => {
   }
 
   it('maps sequentially', async () => {
-    const itemToTimeout: Record<string, number> = {
+    const itemToTimeout: {[key: string]: number} = {
       '1': 200,
       '2': 600,
       '3': 400,
     };
     const items = Object.keys(itemToTimeout);
 
-    const itemMapStartsAt: Record<string, number> = {};
-    const itemMapEndsAt: Record<string, number> = {};
+    const itemMapStartsAt: {[key: string]: number} = {};
+    const itemMapEndsAt: {[key: string]: number} = {};
 
     const timeBefore = Date.now();
     await expect(

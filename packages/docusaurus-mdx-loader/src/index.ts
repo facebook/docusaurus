@@ -21,21 +21,21 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {MDXOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
+const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
 
-type Options = RemarkAndRehypePluginOptions & {
+type Options = MDXOptions & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -43,9 +43,9 @@ type Options = RemarkAndRehypePluginOptions & {
   removeContentTitle?: boolean;
   metadataPath?: string | ((filePath: string) => string);
   createAssets?: (metadata: {
-    frontMatter: Record<string, unknown>;
-    metadata: Record<string, unknown>;
-  }) => Record<string, unknown>;
+    frontMatter: {[key: string]: unknown};
+    metadata: {[key: string]: unknown};
+  }) => {[key: string]: unknown};
   filepath: string;
 };
 
@@ -72,7 +72,7 @@ async function readMetadataPath(metadataPath: string) {
  *
  * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
  */
-function createAssetsExportCode(assets: Record<string, unknown>) {
+function createAssetsExportCode(assets: {[key: string]: unknown}) {
   if (Object.keys(assets).length === 0) {
     return 'undefined';
   }

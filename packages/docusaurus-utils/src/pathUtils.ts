@@ -24,7 +24,7 @@ export const isNameTooLong = (str: string): boolean =>
     ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
     : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
 
-export const shortName = (str: string): string => {
+export function shortName(str: string): string {
   if (isMacOs() || isWindows()) {
     const overflowingChars = str.length - MAX_PATH_SEGMENT_CHARS;
     return str.slice(
@@ -41,7 +41,7 @@ export const shortName = (str: string): string => {
       Buffer.byteLength(strBuffer) - overflowingBytes - SPACE_FOR_APPENDING - 1,
     )
     .toString();
-};
+}
 
 /**
  * Convert Windows backslash paths to posix style paths.

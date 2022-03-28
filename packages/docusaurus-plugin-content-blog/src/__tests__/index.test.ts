@@ -9,9 +9,9 @@ import {jest} from '@jest/globals';
 import path from 'path';
 import pluginContentBlog from '../index';
 import type {DocusaurusConfig, LoadContext, I18n} from '@docusaurus/types';
-import {PluginOptionSchema} from '../pluginOptionSchema';
+import {validateOptions} from '../options';
 import type {BlogPost} from '../types';
-import type {Joi} from '@docusaurus/utils-validation';
+import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {posixPath, getFileCommitDate} from '@docusaurus/utils';
 import type {
   PluginOptions,
@@ -47,18 +47,6 @@ function getI18n(locale: string): I18n {
 
 const DefaultI18N: I18n = getI18n('en');
 
-function validateAndNormalize(
-  schema: Joi.ObjectSchema,
-  options: Partial<PluginOptions>,
-) {
-  const {value, error} = schema.validate(options);
-  if (error) {
-    throw error;
-  } else {
-    return value;
-  }
-}
-
 const PluginPath = 'blog';
 
 const BaseEditUrl = 'https://baseEditUrl.com/edit';
@@ -81,11 +69,14 @@ const getPlugin = async (
       generatedFilesDir,
       i18n,
     } as LoadContext,
-    validateAndNormalize(PluginOptionSchema, {
-      path: PluginPath,
-      editUrl: BaseEditUrl,
-      ...pluginOptions,
-    }),
+    validateOptions({
+      validate: normalizePluginOptions,
+      options: {
+        path: PluginPath,
+        editUrl: BaseEditUrl,
+        ...pluginOptions,
+      },
+    }) as PluginOptions,
   );
 };
 

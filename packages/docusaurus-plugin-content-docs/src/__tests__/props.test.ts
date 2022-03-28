@@ -16,7 +16,7 @@ describe('toTagDocListProp', () => {
 
   it('works', () => {
     const tag: Tag = {
-      name: 'tag1',
+      label: 'tag1',
       permalink: '/tag1',
       docIds: ['id1', 'id3'],
     };
@@ -54,7 +54,7 @@ describe('toTagDocListProp', () => {
 
     expect(result).toEqual({
       allTagsPath,
-      name: tag.name,
+      name: tag.label,
       permalink: tag.permalink,
       docs: [doc3, doc1], // docs sorted by title, ignore "id5" absence
     });

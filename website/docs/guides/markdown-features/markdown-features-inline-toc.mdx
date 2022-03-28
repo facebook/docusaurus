@@ -13,10 +13,11 @@ Each Markdown document displays a table of contents on the top-right corner. But
 
 The `toc` variable is available in any MDX document and contains all the headings of an MDX document. By default, only `h2` and `h3` headings are displayed in the TOC. You can change which heading levels are visible by setting `minHeadingLevel` or `maxHeadingLevel` for individual `TOCInline` components.
 
+<!-- prettier-ignore -->
 ```jsx
 import TOCInline from '@theme/TOCInline';
 
-<TOCInline toc={toc} />;
+<TOCInline toc={toc} />
 ```
 
 ```mdx-code-block
@@ -41,6 +42,7 @@ type TOCItem = {
 
 Note that the `toc` global is a flat array, so you can easily cut out unwanted nodes or insert extra nodes, and create a new TOC tree.
 
+<!-- prettier-ignore -->
 ```jsx
 import TOCInline from '@theme/TOCInline';
 
@@ -50,7 +52,7 @@ import TOCInline from '@theme/TOCInline';
   minHeadingLevel={2}
   // Show h4 headings in addition to the default h2 and h3 headings
   maxHeadingLevel={4}
-/>;
+/>
 ```
 
 ```mdx-code-block

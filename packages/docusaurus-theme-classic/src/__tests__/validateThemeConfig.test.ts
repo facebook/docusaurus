@@ -12,14 +12,14 @@ import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
 
-function testValidateThemeConfig(partialThemeConfig: Record<string, unknown>) {
+function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
     ...DEFAULT_CONFIG,
     ...partialThemeConfig,
   });
 }
 
-function testOk(partialThemeConfig: Record<string, unknown>) {
+function testOk(partialThemeConfig: {[key: string]: unknown}) {
   expect(
     testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
   ).toEqual({

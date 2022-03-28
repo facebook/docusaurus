@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import choosePort from '../choosePort';
+import {choosePort} from '../server/choosePort';
 import type {HostPortCLIOptions} from '@docusaurus/types';
 import {DEFAULT_PORT} from '@docusaurus/utils';
 

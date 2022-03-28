@@ -20,8 +20,11 @@ import type {
 } from './types';
 
 import _ from 'lodash';
-import {getElementsAround, toMessageRelativeFilePath} from '@docusaurus/utils';
-import type {DocMetadataBase, DocNavLink} from '../types';
+import {toMessageRelativeFilePath} from '@docusaurus/utils';
+import type {
+  DocMetadataBase,
+  PropNavigationLink,
+} from '@docusaurus/plugin-content-docs';
 
 export function isCategoriesShorthand(
   item: SidebarItemConfig,
@@ -107,15 +110,15 @@ export function collectSidebarNavigation(
   });
 }
 
-export function collectSidebarsDocIds(
-  sidebars: Sidebars,
-): Record<string, string[]> {
+export function collectSidebarsDocIds(sidebars: Sidebars): {
+  [sidebarId: string]: string[];
+} {
   return _.mapValues(sidebars, collectSidebarDocIds);
 }
 
-export function collectSidebarsNavigations(
-  sidebars: Sidebars,
-): Record<string, SidebarNavigationItem[]> {
+export function collectSidebarsNavigations(sidebars: Sidebars): {
+  [sidebarId: string]: SidebarNavigationItem[];
+} {
   return _.mapValues(sidebars, collectSidebarNavigation);
 }
 
@@ -225,11 +228,11 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
       return {sidebarName, next: undefined, previous: undefined};
     }
 
-    const {previous, next} = getElementsAround(
-      navigationItems,
-      currentItemIndex,
-    );
-    return {sidebarName, previous, next};
+    return {
+      sidebarName,
+      previous: navigationItems[currentItemIndex - 1],
+      next: navigationItems[currentItemIndex + 1],
+    };
   }
 
   function getCategoryGeneratedIndexList(): SidebarItemCategoryWithGeneratedIndex[] {
@@ -268,11 +271,11 @@ export function createSidebarsUtils(sidebars: Sidebars): SidebarsUtils {
     const currentItemIndex = navigationItems.findIndex(
       isCurrentCategoryGeneratedIndexItem,
     );
-    const {previous, next} = getElementsAround(
-      navigationItems,
-      currentItemIndex,
-    );
-    return {sidebarName, previous, next};
+    return {
+      sidebarName,
+      previous: navigationItems[currentItemIndex - 1],
+      next: navigationItems[currentItemIndex + 1],
+    };
   }
 
   function checkSidebarsDocIds(validDocIds: string[], sidebarFilePath: string) {
@@ -346,7 +349,7 @@ Available document ids are:
   };
 }
 
-export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
+export function toDocNavigationLink(doc: DocMetadataBase): PropNavigationLink {
   const {
     title,
     permalink,
@@ -360,8 +363,8 @@ export function toDocNavigationLink(doc: DocMetadataBase): DocNavLink {
 
 export function toNavigationLink(
   navigationItem: SidebarNavigationItem | undefined,
-  docsById: Record<string, DocMetadataBase>,
-): DocNavLink | undefined {
+  docsById: {[docId: string]: DocMetadataBase},
+): PropNavigationLink | undefined {
   function getDocById(docId: string) {
     const doc = docsById[docId];
     if (!doc) {

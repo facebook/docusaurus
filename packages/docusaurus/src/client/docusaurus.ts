@@ -12,8 +12,8 @@ import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';
 
-const fetched: Record<string, boolean> = {};
-const loaded: Record<string, boolean> = {};
+const fetched: {[key: string]: boolean} = {};
+const loaded: {[key: string]: boolean} = {};
 
 declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle

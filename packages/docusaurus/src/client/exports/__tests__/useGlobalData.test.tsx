@@ -11,7 +11,7 @@ import useGlobalData, {
   useAllPluginInstancesData,
   usePluginData,
 } from '../useGlobalData';
-import {Context} from '../docusaurusContext';
+import {Context} from '../../docusaurusContext';
 
 describe('useGlobalData', () => {
   it('returns global data from context', () => {

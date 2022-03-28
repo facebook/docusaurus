@@ -234,7 +234,7 @@ describe('DefaultSidebarItemsGenerator', () => {
         },
         'subfolder/subsubfolder/subsubsubfolder3': {
           position: 1,
-          label: 'subsubsubfolder3 (_category_.json label)',
+          // This item's label is defined from the index doc instead
           link: {
             type: 'doc',
             id: 'doc1', // This is a "fully-qualified" ID that can't be found locally
@@ -246,6 +246,7 @@ describe('DefaultSidebarItemsGenerator', () => {
           id: 'doc1',
           source: 'doc1.md',
           sourceDirName: 'subfolder/subsubfolder',
+          title: 'Subsubsubfolder category label',
           sidebarPosition: undefined,
           frontMatter: {},
         },

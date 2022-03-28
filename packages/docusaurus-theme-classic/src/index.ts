@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
 import {createRequire} from 'module';
@@ -169,7 +169,7 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions: PostCssOptions) {
+    configurePostCss(postCssOptions) {
       if (direction === 'rtl') {
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {

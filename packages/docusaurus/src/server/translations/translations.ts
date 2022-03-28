@@ -8,15 +8,20 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
+import {
+  getPluginI18nPath,
+  toMessageRelativeFilePath,
+  I18N_DIR_NAME,
+  CODE_TRANSLATIONS_FILE_NAME,
+} from '@docusaurus/utils';
+import {Joi} from '@docusaurus/utils-validation';
+import logger from '@docusaurus/logger';
 import type {
   TranslationFileContent,
   TranslationFile,
   TranslationMessage,
   InitializedPlugin,
 } from '@docusaurus/types';
-import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
-import {Joi} from '@docusaurus/utils-validation';
-import logger from '@docusaurus/logger';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -139,17 +144,17 @@ Maybe you should remove them? ${unknownKeys}`;
 }
 
 // should we make this configurable?
-function getTranslationsDirPath(context: TranslationContext): string {
-  return path.resolve(path.join(context.siteDir, `i18n`));
-}
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
 ): string {
-  return path.join(getTranslationsDirPath(context), context.locale);
+  return path.join(context.siteDir, I18N_DIR_NAME, context.locale);
 }
 
 function getCodeTranslationsFilePath(context: TranslationContext): string {
-  return path.join(getTranslationsLocaleDirPath(context), 'code.json');
+  return path.join(
+    getTranslationsLocaleDirPath(context),
+    CODE_TRANSLATIONS_FILE_NAME,
+  );
 }
 
 export async function readCodeTranslationFileContent(
@@ -257,7 +262,7 @@ export async function localizePluginTranslationFile({
 
 export async function getPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
-): Promise<Record<string, string>> {
+): Promise<{[msgId: string]: string}> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
@@ -272,9 +277,9 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations,
   defaultCodeMessages,
 }: {
-  extractedCodeTranslations: Record<string, TranslationMessage>;
-  defaultCodeMessages: Record<string, string>;
-}): Record<string, TranslationMessage> {
+  extractedCodeTranslations: {[msgId: string]: TranslationMessage};
+  defaultCodeMessages: {[msgId: string]: string};
+}): {[msgId: string]: TranslationMessage} {
   const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),

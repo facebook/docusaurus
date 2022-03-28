@@ -18,7 +18,7 @@ import type {
 } from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
 import {createSlugger} from '@docusaurus/utils';
-import type {VersionMetadata} from '../../types';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 import {DefaultNumberPrefixParser} from '../../numberPrefix';
 import {isCategoryIndex} from '../../docs';
 
@@ -57,7 +57,7 @@ describe('processSidebars', () => {
 
   async function testProcessSidebars(
     unprocessedSidebars: NormalizedSidebars,
-    categoriesMetadata: Record<string, CategoryMetadataFile> = {},
+    categoriesMetadata: {[filePath: string]: CategoryMetadataFile} = {},
     paramsOverrides: Partial<SidebarProcessorParams> = {},
   ) {
     return processSidebars(unprocessedSidebars, categoriesMetadata, {
@@ -142,7 +142,6 @@ describe('processSidebars', () => {
       },
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
-      options: params.sidebarOptions,
     });
     expect(StaticSidebarItemsGenerator).toHaveBeenCalledWith({
       defaultSidebarItemsGenerator: DefaultSidebarItemsGenerator,
@@ -154,7 +153,6 @@ describe('processSidebars', () => {
       },
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
-      options: params.sidebarOptions,
     });
     expect(StaticSidebarItemsGenerator).toHaveBeenCalledWith({
       defaultSidebarItemsGenerator: DefaultSidebarItemsGenerator,
@@ -166,7 +164,6 @@ describe('processSidebars', () => {
       },
       numberPrefixParser: DefaultNumberPrefixParser,
       isCategoryIndex,
-      options: params.sidebarOptions,
     });
 
     expect(processedSidebar).toEqual({

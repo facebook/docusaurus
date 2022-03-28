@@ -31,7 +31,7 @@ import {
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
-import {validateBlogPostFrontMatter} from './blogFrontMatter';
+import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
 import type {
@@ -43,9 +43,9 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-export function getSourceToPermalink(
-  blogPosts: BlogPost[],
-): Record<string, string> {
+export function getSourceToPermalink(blogPosts: BlogPost[]): {
+  [aliasedPath: string]: string;
+} {
   return Object.fromEntries(
     blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );
@@ -247,7 +247,7 @@ async function processBlogSourceFile(
       });
       return result.date;
     } catch (err) {
-      logger.error(err);
+      logger.warn(err);
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
   }
