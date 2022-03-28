@@ -136,9 +136,19 @@ declare module '@theme/CodeBlock' {
 declare module '@theme/CodeBlock/CopyButton' {
   export interface Props {
     readonly code: string;
+    readonly className?: string;
   }
 
   export default function CopyButton(props: Props): JSX.Element;
+}
+
+declare module '@theme/CodeBlock/WordWrapButton' {
+  export interface Props {
+    readonly codeBlockRef: React.RefObject<HTMLPreElement>;
+    readonly className?: string;
+  }
+
+  export default function WordWrapButton(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocCard' {

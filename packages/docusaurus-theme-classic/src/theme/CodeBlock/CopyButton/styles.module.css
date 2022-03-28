@@ -5,27 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.copyButton {
-  display: flex;
-  background: inherit;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: var(--ifm-global-radius);
-  padding: 0.4rem;
-  position: absolute;
-  right: calc(var(--ifm-pre-padding) / 2);
-  top: calc(var(--ifm-pre-padding) / 2);
-  transition: opacity 200ms ease-in-out;
-  opacity: 0;
-}
-
-.copyButton:focus-visible,
-.copyButton:hover,
 :global(.theme-code-block:hover) .copyButtonCopied {
   opacity: 1 !important;
-}
-
-:global(.theme-code-block:hover) .copyButton:not(.copyButtonCopied) {
-  opacity: 0.4;
 }
 
 .copyButtonIcons {

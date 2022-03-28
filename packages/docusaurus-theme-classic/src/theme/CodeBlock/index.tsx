@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {isValidElement, useEffect, useState} from 'react';
+import React, {isValidElement, useEffect, useState, useRef} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
 import {
@@ -17,6 +17,7 @@ import {
   usePrismTheme,
 } from '@docusaurus/theme-common';
 import CopyButton from '@theme/CodeBlock/CopyButton';
+import WordWrapButton from '@theme/CodeBlock/WordWrapButton';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
@@ -29,6 +30,7 @@ export default function CodeBlock({
   language: languageProp,
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
+  const codeBlockRef = useRef<HTMLPreElement>(null);
 
   const [mounted, setMounted] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
@@ -115,8 +117,9 @@ export default function CodeBlock({
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
-              <code className={styles.codeBlockLines}>
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
+              ref={codeBlockRef}>
+              <code className={clsx(styles.codeBlockLines)}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0]!.content === '\n') {
                     line[0]!.content = '';
@@ -140,7 +143,12 @@ export default function CodeBlock({
               </code>
             </pre>
 
-            <CopyButton code={code} />
+            <WordWrapButton
+              className={styles.codeButton}
+              codeBlockRef={codeBlockRef}
+            />
+
+            <CopyButton className={styles.codeButton} code={code} />
           </div>
         </div>
       )}

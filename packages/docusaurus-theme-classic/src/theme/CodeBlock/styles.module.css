@@ -55,3 +55,29 @@
     white-space: pre-wrap;
   }
 }
+
+.codeButton {
+  --docusaurus-code-button-size: 2rem;
+  position: absolute;
+  right: calc(var(--ifm-pre-padding) / 2);
+  top: calc(var(--ifm-pre-padding) / 2);
+  width: var(--docusaurus-code-button-size);
+  height: var(--docusaurus-code-button-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: inherit;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+}
+
+.codeButton:focus-visible,
+.codeButton:hover {
+  opacity: 1 !important;
+}
+
+:global(.theme-code-block:hover) .codeButton {
+  opacity: 0.4;
+}
