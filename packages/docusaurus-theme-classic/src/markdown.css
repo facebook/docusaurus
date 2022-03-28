@@ -1,0 +1,32 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+@media (max-width: 576px) {
+  .markdown > h1,
+  .markdown h1:first-child {
+    font-size: 2rem;
+  }
+
+  .markdown > h2 {
+    font-size: 1.5rem;
+  }
+
+  .markdown > h3 {
+    font-size: 1.25rem;
+  }
+
+  .markdown > h4 {
+    font-size: 1rem;
+  }
+
+  .markdown > h5 {
+    font-size: 0.875rem;
+  }
+
+  .markdown > h6 {
+    font-size: 0.85rem;
+  }
+}
