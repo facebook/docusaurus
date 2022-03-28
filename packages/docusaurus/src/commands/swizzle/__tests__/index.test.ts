@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import tree from 'tree-node-cli';
-import swizzle from '../index';
+import {swizzle} from '../index';
 import {escapePath, Globby, posixPath} from '@docusaurus/utils';
 
 const FixtureThemeName = 'fixture-theme-name';

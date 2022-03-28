@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import themeAlias, {sortAliases} from '../alias';
+import {themeAlias, sortAliases} from '../alias';
 
 describe('sortAliases', () => {
   // https://github.com/facebook/docusaurus/issues/6878

@@ -10,7 +10,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import type {
   LoadContext,
-  PluginConfig,
   PluginContentLoadedActions,
   RouteConfig,
   AllContent,
@@ -21,69 +20,26 @@ import type {
   InitializedPlugin,
   PluginRouteContext,
 } from '@docusaurus/types';
-import initPlugins from './init';
+import {initPlugins} from './init';
+import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
 import logger from '@docusaurus/logger';
 import _ from 'lodash';
 import {localizePluginTranslationFile} from '../translations/translations';
-import applyRouteTrailingSlash from './applyRouteTrailingSlash';
+import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 
-export function sortConfig(
-  routeConfigs: RouteConfig[],
-  baseUrl: string = '/',
-): void {
-  // Sort the route config. This ensures that route with nested
-  // routes is always placed last.
-  routeConfigs.sort((a, b) => {
-    // Root route should get placed last.
-    if (a.path === baseUrl && b.path !== baseUrl) {
-      return 1;
-    }
-    if (a.path !== baseUrl && b.path === baseUrl) {
-      return -1;
-    }
-
-    if (a.routes && !b.routes) {
-      return 1;
-    }
-    if (!a.routes && b.routes) {
-      return -1;
-    }
-    // Higher priority get placed first.
-    if (a.priority || b.priority) {
-      const priorityA = a.priority || 0;
-      const priorityB = b.priority || 0;
-      const score = priorityB - priorityA;
-
-      if (score !== 0) {
-        return score;
-      }
-    }
-
-    return a.path.localeCompare(b.path);
-  });
-
-  routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
-  });
-}
-
-export async function loadPlugins({
-  pluginConfigs,
-  context,
-}: {
-  pluginConfigs: PluginConfig[];
-  context: LoadContext;
-}): Promise<{
+export async function loadPlugins(context: LoadContext): Promise<{
   plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: GlobalData;
   themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: InitializedPlugin[] = await initPlugins({
-    pluginConfigs,
-    context,
-  });
+  const plugins: InitializedPlugin[] = await initPlugins(context);
+
+  plugins.push(
+    createBootstrapPlugin(context),
+    createMDXFallbackPlugin(context),
+  );
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not

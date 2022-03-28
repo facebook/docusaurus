@@ -32,6 +32,7 @@ export {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
+  localizePath,
 } from './i18nUtils';
 export {
   removeSuffix,

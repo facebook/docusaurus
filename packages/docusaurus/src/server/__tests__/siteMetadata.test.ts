@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {getPluginVersion} from '..';
+import {getPluginVersion} from '../siteMetadata';
 import path from 'path';
 
 describe('getPluginVersion', () => {
   it('detects external packages plugins versions', async () => {
     await expect(
       getPluginVersion(
-        path.join(__dirname, '__fixtures__/dummy-plugin.js'),
+        path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear external.
         path.join(__dirname, '..', '..', '..', '..', '..', '..', 'website'),
       ),
@@ -22,14 +22,14 @@ describe('getPluginVersion', () => {
   it('detects project plugins versions', async () => {
     await expect(
       getPluginVersion(
-        path.join(__dirname, '__fixtures__/dummy-plugin.js'),
+        path.join(__dirname, '__fixtures__/siteMetadata/dummy-plugin.js'),
         // Make the plugin appear project local.
-        path.join(__dirname, '__fixtures__'),
+        path.join(__dirname, '__fixtures__/siteMetadata'),
       ),
     ).resolves.toEqual({type: 'project'});
   });
 
-  it('detect local packages versions', async () => {
+  it('detects local packages versions', async () => {
     await expect(getPluginVersion('/', '/')).resolves.toEqual({type: 'local'});
   });
 });

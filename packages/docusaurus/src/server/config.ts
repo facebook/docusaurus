@@ -10,7 +10,7 @@ import importFresh from 'import-fresh';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import {validateConfig} from './configValidation';
 
-export default async function loadConfig(
+export async function loadConfig(
   configPath: string,
 ): Promise<DocusaurusConfig> {
   if (!(await fs.pathExists(configPath))) {

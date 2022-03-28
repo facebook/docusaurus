@@ -7,8 +7,13 @@
 
 import path from 'path';
 import _ from 'lodash';
-import type {TranslationFileContent, TranslationFile} from '@docusaurus/types';
+import type {
+  TranslationFileContent,
+  TranslationFile,
+  I18n,
+} from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID, I18N_DIR_NAME} from './constants';
+import {normalizeUrl} from './urlUtils';
 
 /**
  * Takes a list of translation file contents, and shallow-merges them into one.
@@ -64,4 +69,47 @@ export function getPluginI18nPath({
     `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
     ...subPaths,
   );
+}
+
+/**
+ * Takes a path and returns a localized a version (which is basically `path +
+ * i18n.currentLocale`).
+ */
+export function localizePath({
+  pathType,
+  path: originalPath,
+  i18n,
+  options = {},
+}: {
+  /**
+   * FS paths will treat Windows specially; URL paths will always have a
+   * trailing slash to make it a valid base URL.
+   */
+  pathType: 'fs' | 'url';
+  /** The path, URL or file path, to be localized. */
+  path: string;
+  /** The current i18n context. */
+  i18n: I18n;
+  options?: {
+    /**
+     * By default, we don't localize the path of defaultLocale. This option
+     * would override that behavior. Setting `false` is useful for `yarn build
+     * -l zh-Hans` to always emit into the root build directory.
+     */
+    localizePath?: boolean;
+  };
+}): string {
+  const shouldLocalizePath: boolean =
+    //
+    options.localizePath ?? i18n.currentLocale !== i18n.defaultLocale;
+
+  if (!shouldLocalizePath) {
+    return originalPath;
+  }
+  // FS paths need special care, for Windows support
+  if (pathType === 'fs') {
+    return path.join(originalPath, i18n.currentLocale);
+  }
+  // Url paths; add a trailing slash so it's a valid base URL
+  return normalizeUrl([originalPath, i18n.currentLocale, '/']);
 }

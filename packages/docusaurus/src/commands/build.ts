@@ -28,7 +28,7 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
 
-export default async function build(
+export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   // When running build, we force terminate the process to prevent async

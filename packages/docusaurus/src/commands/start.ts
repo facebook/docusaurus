@@ -28,7 +28,7 @@ import {
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
-export default async function start(
+export async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {

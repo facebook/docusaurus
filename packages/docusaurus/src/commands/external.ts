@@ -6,16 +6,15 @@
  */
 
 import type {CommanderStatic} from 'commander';
-import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
+import {loadContext} from '../server';
+import {initPlugins} from '../server/plugins/init';
 
-export default async function externalCommand(
+export async function externalCommand(
   cli: CommanderStatic,
   siteDir: string,
 ): Promise<void> {
   const context = await loadContext(siteDir);
-  const pluginConfigs = await loadPluginConfigs(context);
-  const plugins = await initPlugins({pluginConfigs, context});
+  const plugins = await initPlugins(context);
 
   // Plugin Lifecycle - extendCli.
   plugins.forEach((plugin) => {

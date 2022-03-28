@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import {
   mergeTranslations,
   updateTranslationFileMessages,
   getPluginI18nPath,
+  localizePath,
 } from '../i18nUtils';
 
 describe('mergeTranslations', () => {
@@ -91,5 +93,87 @@ describe('getPluginI18nPath', () => {
         pluginName: 'plugin-content-docs',
       }).replace(__dirname, ''),
     ).toMatchInlineSnapshot(`"/i18n/zh-Hans/plugin-content-docs"`);
+  });
+});
+
+describe('localizePath', () => {
+  it('localizes url path with current locale', () => {
+    expect(
+      localizePath({
+        pathType: 'url',
+        path: '/baseUrl',
+        i18n: {
+          defaultLocale: 'en',
+          locales: ['en', 'fr'],
+          currentLocale: 'fr',
+          localeConfigs: {},
+        },
+        options: {localizePath: true},
+      }),
+    ).toBe('/baseUrl/fr/');
+  });
+
+  it('localizes fs path with current locale', () => {
+    expect(
+      localizePath({
+        pathType: 'fs',
+        path: '/baseFsPath',
+        i18n: {
+          defaultLocale: 'en',
+          locales: ['en', 'fr'],
+          currentLocale: 'fr',
+          localeConfigs: {},
+        },
+        options: {localizePath: true},
+      }),
+    ).toBe(`${path.sep}baseFsPath${path.sep}fr`);
+  });
+
+  it('localizes path for default locale, if requested', () => {
+    expect(
+      localizePath({
+        pathType: 'url',
+        path: '/baseUrl/',
+        i18n: {
+          defaultLocale: 'en',
+          locales: ['en', 'fr'],
+          currentLocale: 'en',
+          localeConfigs: {},
+        },
+        options: {localizePath: true},
+      }),
+    ).toBe('/baseUrl/en/');
+  });
+
+  it('does not localize path for default locale by default', () => {
+    expect(
+      localizePath({
+        pathType: 'url',
+        path: '/baseUrl/',
+        i18n: {
+          defaultLocale: 'en',
+          locales: ['en', 'fr'],
+          currentLocale: 'en',
+          localeConfigs: {},
+        },
+        // options: {localizePath: true},
+      }),
+    ).toBe('/baseUrl/');
+  });
+
+  it('localizes path for non-default locale by default', () => {
+    expect(
+      localizePath({
+        pathType: 'url',
+        path: '/baseUrl/',
+        i18n: {
+          defaultLocale: 'en',
+          locales: ['en', 'fr'],
+          currentLocale: 'en',
+          localeConfigs: {},
+        },
+        // options: {localizePath: true},
+      }),
+    ).toBe('/baseUrl/');
   });
 });
