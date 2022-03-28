@@ -11,15 +11,19 @@ import type {
   LoadContext,
   PluginConfig,
   ImportedPresetModule,
+  DocusaurusConfig,
 } from '@docusaurus/types';
-import {resolveModuleName} from '../moduleShorthand';
+import {resolveModuleName} from './moduleShorthand';
 
-export async function loadPresets(context: LoadContext): Promise<{
-  plugins: PluginConfig[];
-  themes: PluginConfig[];
-}> {
-  // We need to resolve presets from the perspective of the siteDir, since the
-  // siteDir's package.json declares the dependency on these presets.
+/**
+ * Calls preset functions, aggregates each of their return values, and returns
+ * the plugin and theme configs.
+ */
+export async function loadPresets(
+  context: LoadContext,
+): Promise<Pick<DocusaurusConfig, 'plugins' | 'themes'>> {
+  // We need to resolve plugins from the perspective of the site config, as if
+  // we are using `require.resolve` on those module names.
   const presetRequire = createRequire(context.siteConfigPath);
 
   const {presets} = context.siteConfig;

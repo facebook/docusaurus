@@ -341,7 +341,7 @@ type PluginVersionInformation =
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};
 
-interface DocusaurusSiteMetadata {
+interface SiteMetadata {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
   readonly pluginVersions: Record<string, PluginVersionInformation>;
@@ -361,7 +361,7 @@ interface I18n {
 
 interface DocusaurusContext {
   siteConfig: DocusaurusConfig;
-  siteMetadata: DocusaurusSiteMetadata;
+  siteMetadata: SiteMetadata;
   globalData: Record<string, unknown>;
   i18n: I18n;
   codeTranslations: Record<string, string>;

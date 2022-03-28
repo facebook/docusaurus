@@ -5,8 +5,51 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadRoutes} from '../routes';
+import {jest} from '@jest/globals';
+import {loadRoutes, handleDuplicateRoutes} from '../routes';
 import type {RouteConfig} from '@docusaurus/types';
+
+describe('handleDuplicateRoutes', () => {
+  const routes: RouteConfig[] = [
+    {
+      path: '/',
+      component: '',
+      routes: [
+        {path: '/search', component: ''},
+        {path: '/sameDoc', component: ''},
+      ],
+    },
+    {
+      path: '/',
+      component: '',
+      routes: [
+        {path: '/search', component: ''},
+        {path: '/sameDoc', component: ''},
+        {path: '/uniqueDoc', component: ''},
+      ],
+    },
+    {
+      path: '/',
+      component: '',
+    },
+    {
+      path: '/',
+      component: '',
+    },
+    {
+      path: '/',
+      component: '',
+    },
+  ];
+  it('works', () => {
+    expect(() => {
+      handleDuplicateRoutes(routes, 'throw');
+    }).toThrowErrorMatchingSnapshot();
+    const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+    handleDuplicateRoutes(routes, 'ignore');
+    expect(consoleMock).toBeCalledTimes(0);
+  });
+});
 
 describe('loadRoutes', () => {
   it('loads nested route config', async () => {
@@ -44,7 +87,7 @@ describe('loadRoutes', () => {
       ],
     };
     await expect(
-      loadRoutes([nestedRouteConfig], '/'),
+      loadRoutes([nestedRouteConfig], '/', 'ignore'),
     ).resolves.toMatchSnapshot();
   });
 
@@ -79,7 +122,9 @@ describe('loadRoutes', () => {
         ],
       },
     };
-    await expect(loadRoutes([flatRouteConfig], '/')).resolves.toMatchSnapshot();
+    await expect(
+      loadRoutes([flatRouteConfig], '/', 'ignore'),
+    ).resolves.toMatchSnapshot();
   });
 
   it('rejects invalid route config', async () => {
@@ -87,7 +132,7 @@ describe('loadRoutes', () => {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    await expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
+    await expect(loadRoutes([routeConfigWithoutPath], '/', 'ignore')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
             "Invalid route config: path must be a string and component is required.
             {\\"component\\":\\"hello/world.js\\"}"
@@ -97,8 +142,8 @@ describe('loadRoutes', () => {
       path: '/hello/world',
     } as RouteConfig;
 
-    await expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
-      .toThrowErrorMatchingInlineSnapshot(`
+    await expect(loadRoutes([routeConfigWithoutComponent], '/', 'ignore'))
+      .rejects.toThrowErrorMatchingInlineSnapshot(`
             "Invalid route config: path must be a string and component is required.
             {\\"path\\":\\"/hello/world\\"}"
           `);
@@ -110,6 +155,8 @@ describe('loadRoutes', () => {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    await expect(loadRoutes([routeConfig], '/')).resolves.toMatchSnapshot();
+    await expect(
+      loadRoutes([routeConfig], '/', 'ignore'),
+    ).resolves.toMatchSnapshot();
   });
 });

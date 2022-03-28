@@ -12,8 +12,8 @@ import type {
   InitializedPlugin,
   SwizzleAction,
   SwizzleActionStatus,
+  NormalizedPluginConfig,
 } from '@docusaurus/types';
-import type {NormalizedPluginConfig} from '../../server/plugins/init';
 
 export const SwizzleActions: SwizzleAction[] = ['wrap', 'eject'];
 

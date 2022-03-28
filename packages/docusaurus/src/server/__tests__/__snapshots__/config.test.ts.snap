@@ -1,161 +1,162 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadConfig website with incomplete siteConfig 1`] = `
-"\\"url\\" is required
-"
-`;
-
-exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `
-"These field(s) (\\"useLessField\\",) are not recognized in docusaurus.config.js.
-If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
-See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
-`;
-
-exports[`loadConfig website with valid async config 1`] = `
+exports[`loadSiteConfig website with valid async config 1`] = `
 {
-  "baseUrl": "/",
-  "baseUrlIssueBanner": true,
-  "clientModules": [],
-  "customFields": {},
-  "i18n": {
-    "defaultLocale": "en",
-    "localeConfigs": {},
-    "locales": [
-      "en",
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "organizationName": "endiliey",
+    "plugins": [],
+    "presets": [],
+    "projectName": "hello",
+    "scripts": [],
+    "staticDirectories": [
+      "static",
     ],
+    "stylesheets": [],
+    "tagline": "Hello World",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Hello",
+    "titleDelimiter": "|",
+    "url": "https://docusaurus.io",
   },
-  "noIndex": false,
-  "onBrokenLinks": "throw",
-  "onBrokenMarkdownLinks": "warn",
-  "onDuplicateRoutes": "warn",
-  "organizationName": "endiliey",
-  "plugins": [],
-  "presets": [],
-  "projectName": "hello",
-  "scripts": [],
-  "staticDirectories": [
-    "static",
-  ],
-  "stylesheets": [],
-  "tagline": "Hello World",
-  "themeConfig": {},
-  "themes": [],
-  "title": "Hello",
-  "titleDelimiter": "|",
-  "url": "https://docusaurus.io",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/configAsync.config.js",
 }
 `;
 
-exports[`loadConfig website with valid async config creator function 1`] = `
+exports[`loadSiteConfig website with valid async config creator function 1`] = `
 {
-  "baseUrl": "/",
-  "baseUrlIssueBanner": true,
-  "clientModules": [],
-  "customFields": {},
-  "i18n": {
-    "defaultLocale": "en",
-    "localeConfigs": {},
-    "locales": [
-      "en",
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "organizationName": "endiliey",
+    "plugins": [],
+    "presets": [],
+    "projectName": "hello",
+    "scripts": [],
+    "staticDirectories": [
+      "static",
     ],
+    "stylesheets": [],
+    "tagline": "Hello World",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Hello",
+    "titleDelimiter": "|",
+    "url": "https://docusaurus.io",
   },
-  "noIndex": false,
-  "onBrokenLinks": "throw",
-  "onBrokenMarkdownLinks": "warn",
-  "onDuplicateRoutes": "warn",
-  "organizationName": "endiliey",
-  "plugins": [],
-  "presets": [],
-  "projectName": "hello",
-  "scripts": [],
-  "staticDirectories": [
-    "static",
-  ],
-  "stylesheets": [],
-  "tagline": "Hello World",
-  "themeConfig": {},
-  "themes": [],
-  "title": "Hello",
-  "titleDelimiter": "|",
-  "url": "https://docusaurus.io",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/createConfigAsync.config.js",
 }
 `;
 
-exports[`loadConfig website with valid config creator function 1`] = `
+exports[`loadSiteConfig website with valid config creator function 1`] = `
 {
-  "baseUrl": "/",
-  "baseUrlIssueBanner": true,
-  "clientModules": [],
-  "customFields": {},
-  "i18n": {
-    "defaultLocale": "en",
-    "localeConfigs": {},
-    "locales": [
-      "en",
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "organizationName": "endiliey",
+    "plugins": [],
+    "presets": [],
+    "projectName": "hello",
+    "scripts": [],
+    "staticDirectories": [
+      "static",
     ],
+    "stylesheets": [],
+    "tagline": "Hello World",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Hello",
+    "titleDelimiter": "|",
+    "url": "https://docusaurus.io",
   },
-  "noIndex": false,
-  "onBrokenLinks": "throw",
-  "onBrokenMarkdownLinks": "warn",
-  "onDuplicateRoutes": "warn",
-  "organizationName": "endiliey",
-  "plugins": [],
-  "presets": [],
-  "projectName": "hello",
-  "scripts": [],
-  "staticDirectories": [
-    "static",
-  ],
-  "stylesheets": [],
-  "tagline": "Hello World",
-  "themeConfig": {},
-  "themes": [],
-  "title": "Hello",
-  "titleDelimiter": "|",
-  "url": "https://docusaurus.io",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/configs/createConfig.config.js",
 }
 `;
 
-exports[`loadConfig website with valid siteConfig 1`] = `
+exports[`loadSiteConfig website with valid siteConfig 1`] = `
 {
-  "baseUrl": "/",
-  "baseUrlIssueBanner": true,
-  "clientModules": [],
-  "customFields": {},
-  "favicon": "img/docusaurus.ico",
-  "i18n": {
-    "defaultLocale": "en",
-    "localeConfigs": {},
-    "locales": [
-      "en",
+  "siteConfig": {
+    "baseUrl": "/",
+    "baseUrlIssueBanner": true,
+    "clientModules": [],
+    "customFields": {},
+    "favicon": "img/docusaurus.ico",
+    "i18n": {
+      "defaultLocale": "en",
+      "localeConfigs": {},
+      "locales": [
+        "en",
+      ],
+    },
+    "noIndex": false,
+    "onBrokenLinks": "throw",
+    "onBrokenMarkdownLinks": "warn",
+    "onDuplicateRoutes": "warn",
+    "organizationName": "endiliey",
+    "plugins": [
+      [
+        "@docusaurus/plugin-content-docs",
+        {
+          "path": "../docs",
+        },
+      ],
+      "@docusaurus/plugin-content-pages",
     ],
+    "presets": [],
+    "projectName": "hello",
+    "scripts": [],
+    "staticDirectories": [
+      "static",
+    ],
+    "stylesheets": [],
+    "tagline": "Hello World",
+    "themeConfig": {},
+    "themes": [],
+    "title": "Hello",
+    "titleDelimiter": "|",
+    "url": "https://docusaurus.io",
   },
-  "noIndex": false,
-  "onBrokenLinks": "throw",
-  "onBrokenMarkdownLinks": "warn",
-  "onDuplicateRoutes": "warn",
-  "organizationName": "endiliey",
-  "plugins": [
-    [
-      "@docusaurus/plugin-content-docs",
-      {
-        "path": "../docs",
-      },
-    ],
-    "@docusaurus/plugin-content-pages",
-  ],
-  "presets": [],
-  "projectName": "hello",
-  "scripts": [],
-  "staticDirectories": [
-    "static",
-  ],
-  "stylesheets": [],
-  "tagline": "Hello World",
-  "themeConfig": {},
-  "themes": [],
-  "title": "Hello",
-  "titleDelimiter": "|",
-  "url": "https://docusaurus.io",
+  "siteConfigPath": "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/simple-site/docusaurus.config.js",
 }
 `;

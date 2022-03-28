@@ -20,9 +20,9 @@ declare module '@generated/docusaurus.config' {
 }
 
 declare module '@generated/site-metadata' {
-  import type {DocusaurusSiteMetadata} from '@docusaurus/types';
+  import type {SiteMetadata} from '@docusaurus/types';
 
-  const siteMetadata: DocusaurusSiteMetadata;
+  const siteMetadata: SiteMetadata;
   export = siteMetadata;
 }
 

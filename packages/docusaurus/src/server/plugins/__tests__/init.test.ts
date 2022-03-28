@@ -11,9 +11,9 @@ import {loadContext, type LoadContextOptions} from '../../index';
 import {initPlugins} from '../init';
 
 describe('initPlugins', () => {
-  async function loadSite(options: LoadContextOptions = {}) {
+  async function loadSite(options: Omit<LoadContextOptions, 'siteDir'> = {}) {
     const siteDir = path.join(__dirname, '__fixtures__', 'site-with-plugin');
-    const context = await loadContext(siteDir, options);
+    const context = await loadContext({...options, siteDir});
     const plugins = await initPlugins(context);
 
     return {siteDir, context, plugins};

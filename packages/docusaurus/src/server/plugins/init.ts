@@ -7,15 +7,13 @@
 
 import {createRequire} from 'module';
 import path from 'path';
-import importFresh from 'import-fresh';
 import type {
   PluginVersionInformation,
-  ImportedPluginModule,
   LoadContext,
   PluginModule,
-  PluginConfig,
   PluginOptions,
   InitializedPlugin,
+  NormalizedPluginConfig,
 } from '@docusaurus/types';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import {getPluginVersion} from '../siteMetadata';
@@ -25,89 +23,6 @@ import {
   normalizeThemeConfig,
 } from '@docusaurus/utils-validation';
 import {loadPluginConfigs} from './configs';
-
-export type NormalizedPluginConfig = {
-  plugin: PluginModule;
-  options: PluginOptions;
-  // Only available when a string is provided in config
-  pluginModule?: {
-    path: string;
-    module: ImportedPluginModule;
-  };
-  /**
-   * Different from pluginModule.path, this one is always an absolute path used
-   * to resolve relative paths returned from lifecycles
-   */
-  entryPath: string;
-};
-
-async function normalizePluginConfig(
-  pluginConfig: PluginConfig,
-  configPath: string,
-): Promise<NormalizedPluginConfig> {
-  const pluginRequire = createRequire(configPath);
-  // plugins: ['./plugin']
-  if (typeof pluginConfig === 'string') {
-    const pluginModuleImport = pluginConfig;
-    const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-    return {
-      plugin: pluginModule?.default ?? pluginModule,
-      options: {},
-      pluginModule: {
-        path: pluginModuleImport,
-        module: pluginModule,
-      },
-      entryPath: pluginPath,
-    };
-  }
-
-  // plugins: [function plugin() { }]
-  if (typeof pluginConfig === 'function') {
-    return {
-      plugin: pluginConfig,
-      options: {},
-      entryPath: configPath,
-    };
-  }
-
-  // plugins: [
-  //   ['./plugin',options],
-  // ]
-  if (typeof pluginConfig[0] === 'string') {
-    const pluginModuleImport = pluginConfig[0];
-    const pluginPath = pluginRequire.resolve(pluginModuleImport);
-    const pluginModule = importFresh<ImportedPluginModule>(pluginPath);
-    return {
-      plugin: pluginModule?.default ?? pluginModule,
-      options: pluginConfig[1],
-      pluginModule: {
-        path: pluginModuleImport,
-        module: pluginModule,
-      },
-      entryPath: pluginPath,
-    };
-  }
-  // plugins: [
-  //   [function plugin() { },options],
-  // ]
-  return {
-    plugin: pluginConfig[0],
-    options: pluginConfig[1],
-    entryPath: configPath,
-  };
-}
-
-export async function normalizePluginConfigs(
-  pluginConfigs: PluginConfig[],
-  configPath: string,
-): Promise<NormalizedPluginConfig[]> {
-  return Promise.all(
-    pluginConfigs.map((pluginConfig) =>
-      normalizePluginConfig(pluginConfig, configPath),
-    ),
-  );
-}
 
 function getOptionValidationFunction(
   normalizedPluginConfig: NormalizedPluginConfig,
@@ -135,17 +50,17 @@ function getThemeValidationFunction(
   return normalizedPluginConfig.plugin.validateThemeConfig;
 }
 
+/**
+ * Runs the plugin constructors and returns their return values. It would load
+ * plugin configs from `plugins`, `themes`, and `presets`.
+ */
 export async function initPlugins(
   context: LoadContext,
 ): Promise<InitializedPlugin[]> {
-  // We need to resolve plugins from the perspective of the siteDir, since the
-  // siteDir's package.json declares the dependency on these plugins.
+  // We need to resolve plugins from the perspective of the site config, as if
+  // we are using `require.resolve` on those module names.
   const pluginRequire = createRequire(context.siteConfigPath);
   const pluginConfigs = await loadPluginConfigs(context);
-  const pluginConfigsNormalized = await normalizePluginConfigs(
-    pluginConfigs,
-    context.siteConfigPath,
-  );
 
   async function doGetPluginVersion(
     normalizedPluginConfig: NormalizedPluginConfig,
@@ -221,7 +136,7 @@ export async function initPlugins(
   }
 
   const plugins: InitializedPlugin[] = await Promise.all(
-    pluginConfigsNormalized.map(initializePlugin),
+    pluginConfigs.map(initializePlugin),
   );
 
   ensureUniquePluginInstanceIds(plugins);

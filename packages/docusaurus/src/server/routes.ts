@@ -11,14 +11,17 @@ import {
   removeSuffix,
   simpleHash,
   escapePath,
+  reportMessage,
 } from '@docusaurus/utils';
 import {stringify} from 'querystring';
+import {getAllFinalRoutes} from './utils';
 import type {
   ChunkRegistry,
   Module,
   RouteConfig,
   RouteModule,
   ChunkNames,
+  ReportingSeverity,
 } from '@docusaurus/types';
 
 type RegistryMap = {
@@ -119,15 +122,107 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: Module,
+  prefix?: string,
+  name?: string,
+): string;
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule,
+  prefix?: string,
+  name?: string,
+): ChunkNames;
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule[],
+  prefix?: string,
+  name?: string,
+): ChunkNames[];
+function genRouteChunkNames(
+  registry: RegistryMap,
+  value: RouteModule | RouteModule[] | Module,
+  prefix?: string,
+  name?: string,
+): ChunkNames | ChunkNames[] | string;
+function genRouteChunkNames(
+  // TODO instead of passing a mutating the registry, return a registry slice?
+  registry: RegistryMap,
+  value: RouteModule | RouteModule[] | Module | null | undefined,
+  prefix?: string,
+  name?: string,
+): null | string | ChunkNames | ChunkNames[] {
+  if (!value) {
+    return null;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((val, index) =>
+      genRouteChunkNames(registry, val, `${index}`, name),
+    );
+  }
+
+  if (isModule(value)) {
+    const modulePath = getModulePath(value);
+    const chunkName = genChunkName(modulePath, prefix, name);
+    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
+      modulePath,
+    )}')`;
+
+    registry[chunkName] = {loader, modulePath};
+    return chunkName;
+  }
+
+  const newValue: ChunkNames = {};
+  Object.entries(value).forEach(([key, v]) => {
+    newValue[key] = genRouteChunkNames(registry, v, key, name);
+  });
+  return newValue;
+}
+
+export function handleDuplicateRoutes(
+  pluginsRouteConfigs: RouteConfig[],
+  onDuplicateRoutes: ReportingSeverity,
+): void {
+  if (onDuplicateRoutes === 'ignore') {
+    return;
+  }
+  const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
+    (routeConfig) => routeConfig.path,
+  );
+  const seenRoutes = new Set<string>();
+  const duplicatePaths = allRoutes.filter((route) => {
+    if (seenRoutes.has(route)) {
+      return true;
+    }
+    seenRoutes.add(route);
+    return false;
+  });
+  if (duplicatePaths.length > 0) {
+    const finalMessage = `Duplicate routes found!
+${duplicatePaths
+  .map(
+    (duplicateRoute) =>
+      `- Attempting to create page at ${duplicateRoute}, but a page already exists at this route.`,
+  )
+  .join('\n')}
+This could lead to non-deterministic routing behavior.`;
+    reportMessage(finalMessage, onDuplicateRoutes);
+  }
+}
+
 export async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
+  onDuplicateRoutes: ReportingSeverity,
 ): Promise<{
   registry: {[chunkName: string]: ChunkRegistry};
   routesConfig: string;
   routesChunkNames: {[routePath: string]: ChunkNames};
   routesPaths: string[];
 }> {
+  handleDuplicateRoutes(pluginsRouteConfigs, onDuplicateRoutes);
   const registry: {[chunkName: string]: ChunkRegistry} = {};
   const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
   const routesChunkNames: {[routePath: string]: ChunkNames} = {};
@@ -193,64 +288,4 @@ ${indent(NotFoundRouteCode)}
     routesChunkNames,
     routesPaths,
   };
-}
-
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: Module,
-  prefix?: string,
-  name?: string,
-): string;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule,
-  prefix?: string,
-  name?: string,
-): ChunkNames;
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule[],
-  prefix?: string,
-  name?: string,
-): ChunkNames[];
-function genRouteChunkNames(
-  registry: RegistryMap,
-  value: RouteModule | RouteModule[] | Module,
-  prefix?: string,
-  name?: string,
-): ChunkNames | ChunkNames[] | string;
-
-function genRouteChunkNames(
-  // TODO instead of passing a mutating the registry, return a registry slice?
-  registry: RegistryMap,
-  value: RouteModule | RouteModule[] | Module | null | undefined,
-  prefix?: string,
-  name?: string,
-): null | string | ChunkNames | ChunkNames[] {
-  if (!value) {
-    return null;
-  }
-
-  if (Array.isArray(value)) {
-    return value.map((val, index) =>
-      genRouteChunkNames(registry, val, `${index}`, name),
-    );
-  }
-
-  if (isModule(value)) {
-    const modulePath = getModulePath(value);
-    const chunkName = genChunkName(modulePath, prefix, name);
-    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
-      modulePath,
-    )}')`;
-
-    registry[chunkName] = {loader, modulePath};
-    return chunkName;
-  }
-
-  const newValue: ChunkNames = {};
-  Object.entries(value).forEach(([key, v]) => {
-    newValue[key] = genRouteChunkNames(registry, v, key, name);
-  });
-  return newValue;
 }

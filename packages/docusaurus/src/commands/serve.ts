@@ -9,7 +9,7 @@ import http from 'http';
 import serveHandler from 'serve-handler';
 import logger from '@docusaurus/logger';
 import path from 'path';
-import {loadSiteConfig} from '../server';
+import {loadSiteConfig} from '../server/config';
 import {build} from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import type {ServeCLIOptions} from '@docusaurus/types';

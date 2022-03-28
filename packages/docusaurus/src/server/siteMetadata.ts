@@ -8,7 +8,7 @@
 import type {
   LoadedPlugin,
   PluginVersionInformation,
-  DocusaurusSiteMetadata,
+  SiteMetadata,
 } from '@docusaurus/types';
 import fs from 'fs-extra';
 import path from 'path';
@@ -61,7 +61,8 @@ export async function getPluginVersion(
     );
   }
   // In the case where a plugin is a path where no parent directory contains
-  // package.json (e.g. inline plugin), we can only classify it as local.
+  // package.json, we can only classify it as local. Could happen if one puts a
+  // script in the parent directory of the site.
   return {type: 'local'};
 }
 
@@ -70,7 +71,7 @@ export async function getPluginVersion(
  * @see https://github.com/facebook/docusaurus/issues/3371
  * @see https://github.com/facebook/docusaurus/pull/3386
  */
-function checkDocusaurusPackagesVersion(siteMetadata: DocusaurusSiteMetadata) {
+function checkDocusaurusPackagesVersion(siteMetadata: SiteMetadata) {
   const {docusaurusVersion} = siteMetadata;
   Object.entries(siteMetadata.pluginVersions).forEach(
     ([plugin, versionInfo]) => {
@@ -96,8 +97,8 @@ export async function loadSiteMetadata({
 }: {
   plugins: LoadedPlugin[];
   siteDir: string;
-}): Promise<DocusaurusSiteMetadata> {
-  const siteMetadata: DocusaurusSiteMetadata = {
+}): Promise<SiteMetadata> {
+  const siteMetadata: SiteMetadata = {
     docusaurusVersion: (await getPackageJsonVersion(
       path.join(__dirname, '../../package.json'),
     ))!,

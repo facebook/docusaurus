@@ -10,7 +10,11 @@ import type {CustomizeRuleString} from 'webpack-merge/dist/types';
 import type {CommanderStatic} from 'commander';
 import type {ParsedUrlQueryInput} from 'querystring';
 import type Joi from 'joi';
-import type {Overwrite, DeepPartial, DeepRequired} from 'utility-types';
+import type {
+  Required as RequireKeys,
+  DeepPartial,
+  DeepRequired,
+} from 'utility-types';
 import type {Location} from 'history';
 import type Loadable from 'react-loadable';
 
@@ -20,16 +24,23 @@ export type ThemeConfig = {
   [key: string]: unknown;
 };
 
-// Docusaurus config, after validation/normalization
-export interface DocusaurusConfig {
+/**
+ * Docusaurus config, after validation/normalization.
+ */
+export type DocusaurusConfig = {
+  /**
+   * Always has both leading and trailing slash (`/base/`). May be localized.
+   */
   baseUrl: string;
   baseUrlIssueBanner: boolean;
   favicon?: string;
   tagline: string;
   title: string;
   url: string;
-  // trailingSlash undefined = legacy retrocompatible behavior
-  // /file => /file/index.html
+  /**
+   * `undefined` = legacy retrocompatible behavior. Usually it means `/file` =>
+   * `/file/index.html`.
+   */
   trailingSlash: boolean | undefined;
   i18n: I18nConfig;
   onBrokenLinks: ReportingSeverity;
@@ -69,19 +80,16 @@ export interface DocusaurusConfig {
   webpack?: {
     jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule);
   };
-}
+};
 
-// Docusaurus config, as provided by the user (partial/unnormalized)
-// This type is used to provide type-safety / IDE auto-complete on the config
-// file. See https://docusaurus.io/docs/typescript-support
-export type Config = Overwrite<
-  Partial<DocusaurusConfig>,
-  {
-    title: Required<DocusaurusConfig['title']>;
-    url: Required<DocusaurusConfig['url']>;
-    baseUrl: Required<DocusaurusConfig['baseUrl']>;
-    i18n?: DeepPartial<DocusaurusConfig['i18n']>;
-  }
+/**
+ * Docusaurus config, as provided by the user (partial/unnormalized). This type
+ * is used to provide type-safety / IDE auto-complete on the config file.
+ * @see https://docusaurus.io/docs/typescript-support
+ */
+export type Config = RequireKeys<
+  DeepPartial<DocusaurusConfig>,
+  'title' | 'url' | 'baseUrl'
 >;
 
 /**
@@ -101,11 +109,11 @@ export type PluginVersionInformation =
   | {readonly type: 'local'}
   | {readonly type: 'synthetic'};
 
-export interface DocusaurusSiteMetadata {
+export type SiteMetadata = {
   readonly docusaurusVersion: string;
   readonly siteVersion?: string;
   readonly pluginVersions: {[pluginName: string]: PluginVersionInformation};
-}
+};
 
 // Inspired by Chrome JSON, because it's a widely supported i18n format
 // https://developer.chrome.com/apps/i18n-messages
@@ -116,7 +124,6 @@ export interface DocusaurusSiteMetadata {
 export type TranslationMessage = {message: string; description?: string};
 export type TranslationFileContent = {[key: string]: TranslationMessage};
 export type TranslationFile = {path: string; content: TranslationFileContent};
-export type TranslationFiles = TranslationFile[];
 
 export type I18nLocaleConfig = {
   label: string;
@@ -134,9 +141,9 @@ export type I18n = DeepRequired<I18nConfig> & {currentLocale: string};
 
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
-export interface DocusaurusContext {
+export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
-  siteMetadata: DocusaurusSiteMetadata;
+  siteMetadata: SiteMetadata;
   globalData: GlobalData;
   i18n: I18n;
   codeTranslations: {[msgId: string]: string};
@@ -144,12 +151,12 @@ export interface DocusaurusContext {
   // Don't put mutable values here, to avoid triggering re-renders
   // We could reconsider that choice if context selectors are implemented
   // isBrowser: boolean; // Not here on purpose!
-}
+};
 
-export interface Preset {
+export type Preset = {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
-}
+};
 
 export type PresetModule = {
   <T>(context: LoadContext, presetOptions: T): Preset;
@@ -195,38 +202,40 @@ export type BuildCLIOptions = BuildOptions & {
   locale?: string;
 };
 
-export interface LoadContext {
+export type LoadContext = {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   siteConfigPath: string;
   outDir: string;
-  baseUrl: string; // TODO to remove: useless, there's already siteConfig.baseUrl!
+  /**
+   * Duplicated from `siteConfig.baseUrl`, but probably worth keeping. We mutate
+   * `siteConfig` to make `baseUrl` there localized  as well, but that's mostly
+   * for client-side. `context.baseUrl` is still more convenient for plugins.
+   */
+  baseUrl: string;
   i18n: I18n;
   ssrTemplate: string;
   codeTranslations: {[msgId: string]: string};
-}
-
-export interface InjectedHtmlTags {
-  headTags: string;
-  preBodyTags: string;
-  postBodyTags: string;
-}
+};
 
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
-export interface Props extends LoadContext, InjectedHtmlTags {
-  readonly siteMetadata: DocusaurusSiteMetadata;
+export type Props = LoadContext & {
+  readonly headTags: string;
+  readonly preBodyTags: string;
+  readonly postBodyTags: string;
+  readonly siteMetadata: SiteMetadata;
   readonly routes: RouteConfig[];
   readonly routesPaths: string[];
   readonly plugins: LoadedPlugin[];
-}
+};
 
-export interface PluginContentLoadedActions {
+export type PluginContentLoadedActions = {
   addRoute: (config: RouteConfig) => void;
   createData: (name: string, data: string) => Promise<string>;
   setGlobalData: (data: unknown) => void;
-}
+};
 
 export type AllContent = {
   [pluginName: string]: {
@@ -237,7 +246,7 @@ export type AllContent = {
 // TODO improve type (not exposed by postcss-loader)
 export type PostCssOptions = {[key: string]: unknown} & {plugins: unknown[]};
 
-export interface Plugin<Content = unknown> {
+export type Plugin<Content = unknown> = {
   name: string;
   loadContent?: () => Promise<Content>;
   contentLoaded?: (args: {
@@ -273,19 +282,56 @@ export interface Plugin<Content = unknown> {
   // TODO before/afterDevServer implementation
 
   // translations
-  getTranslationFiles?: (args: {content: Content}) => Promise<TranslationFiles>;
+  getTranslationFiles?: (args: {
+    content: Content;
+  }) => Promise<TranslationFile[]>;
   getDefaultCodeTranslationMessages?: () => Promise<{[id: string]: string}>;
   translateContent?: (args: {
-    content: Content; // the content loaded by this plugin instance
-    translationFiles: TranslationFiles;
+    /** The content loaded by this plugin instance. */
+    content: Content;
+    translationFiles: TranslationFile[];
   }) => Content;
   translateThemeConfig?: (args: {
     themeConfig: ThemeConfig;
-    translationFiles: TranslationFiles;
+    translationFiles: TranslationFile[];
   }) => ThemeConfig;
-}
+};
 
-export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
+export type NormalizedPluginConfig = {
+  /**
+   * The default export of the plugin module, or alternatively, what's provided
+   * in the config file as inline plugins. Note that if a file is like:
+   *
+   * ```ts
+   * export default plugin() {...}
+   * export validateOptions() {...}
+   * ```
+   *
+   * Then the static methods may not exist here. `pluginModule.module` will
+   * always take priority.
+   */
+  plugin: PluginModule;
+  /** Options as they are provided in the config, not validated yet. */
+  options: PluginOptions;
+  /** Only available when a string is provided in config. */
+  pluginModule?: {
+    /**
+     * Raw module name as provided in the config. Shorthands have been resolved,
+     * so at least it's directly `require.resolve`able.
+     */
+    path: string;
+    /** Whatever gets imported with `require`. */
+    module: ImportedPluginModule;
+  };
+  /**
+   * Different from `pluginModule.path`, this one is always an absolute path,
+   * used to resolve relative paths returned from lifecycles. If it's an inline
+   * plugin, it will be path to the config file.
+   */
+  entryPath: string;
+};
+
+export type InitializedPlugin = Plugin & {
   readonly options: Required<PluginOptions>;
   readonly version: PluginVersionInformation;
   /**
@@ -294,8 +340,8 @@ export type InitializedPlugin<Content = unknown> = Plugin<Content> & {
   readonly path: string;
 };
 
-export type LoadedPlugin<Content = unknown> = InitializedPlugin<Content> & {
-  readonly content: Content;
+export type LoadedPlugin = InitializedPlugin & {
+  readonly content: unknown;
 };
 
 export type SwizzleAction = 'eject' | 'wrap';
@@ -314,9 +360,7 @@ export type SwizzleConfig = {
 };
 
 export type PluginModule = {
-  <Options, Content>(context: LoadContext, options: Options):
-    | Plugin<Content>
-    | Promise<Plugin<Content>>;
+  (context: LoadContext, options: unknown): Plugin | Promise<Plugin>;
   validateOptions?: <T, U>(data: OptionValidationContext<T, U>) => U;
   validateThemeConfig?: <T>(data: ThemeConfigValidationContext<T>) => T;
 
@@ -328,11 +372,11 @@ export type ImportedPluginModule = PluginModule & {
   default?: PluginModule;
 };
 
-export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
+export type ConfigureWebpackFn = Plugin['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = {
   [key: string]: CustomizeRuleString;
 };
-export type ConfigurePostCssFn = Plugin<unknown>['configurePostCss'];
+export type ConfigurePostCssFn = Plugin['configurePostCss'];
 
 export type PluginOptions = {id?: string} & {[key: string]: unknown};
 
@@ -342,10 +386,10 @@ export type PluginConfig =
   | [PluginModule, PluginOptions]
   | PluginModule;
 
-export interface ChunkRegistry {
+export type ChunkRegistry = {
   loader: string;
   modulePath: string;
-}
+};
 
 export type Module =
   | {
@@ -355,15 +399,15 @@ export type Module =
     }
   | string;
 
-export interface RouteModule {
+export type RouteModule = {
   [module: string]: Module | RouteModule | RouteModule[];
-}
+};
 
-export interface ChunkNames {
+export type ChunkNames = {
   [name: string]: string | null | ChunkNames | ChunkNames[];
-}
+};
 
-export interface RouteConfig {
+export type RouteConfig = {
   path: string;
   component: string;
   modules?: RouteModule;
@@ -371,25 +415,25 @@ export interface RouteConfig {
   exact?: boolean;
   priority?: number;
   [propName: string]: unknown;
-}
+};
 
-export interface RouteContext {
+export type RouteContext = {
   /**
    * Plugin-specific context data.
    */
   data?: object | undefined;
-}
+};
 
 /**
  * Top-level plugin routes automatically add some context data to the route.
  * This permits us to know which plugin is handling the current route.
  */
-export interface PluginRouteContext extends RouteContext {
+export type PluginRouteContext = RouteContext & {
   plugin: {
     id: string;
     name: string;
   };
-}
+};
 
 export type Route = {
   readonly path: string;
@@ -398,12 +442,14 @@ export type Route = {
   readonly routes?: Route[];
 };
 
-// Aliases used for Webpack resolution (when using docusaurus swizzle)
-export interface ThemeAliases {
+/**
+ * Aliases used for Webpack resolution (useful for implementing swizzling)
+ */
+export type ThemeAliases = {
   [alias: string]: string;
-}
+};
 
-export interface ConfigureWebpackUtils {
+export type ConfigureWebpackUtils = {
   getStyleLoaders: (
     isServer: boolean,
     cssOptions: {
@@ -414,23 +460,19 @@ export interface ConfigureWebpackUtils {
     isServer: boolean;
     babelOptions?: {[key: string]: unknown};
   }) => RuleSetRule;
-}
+};
 
-interface HtmlTagObject {
+type HtmlTagObject = {
   /**
-   * Attributes of the html tag
-   * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   * Attributes of the html tag.
+   * E.g. `{ disabled: true, value: "demo", rel: "preconnect" }`
    */
   attributes?: Partial<{[key: string]: string | boolean}>;
-  /**
-   * The tag name e.g. `div`, `script`, `link`, `meta`
-   */
+  /** The tag name, e.g. `div`, `script`, `link`, `meta` */
   tagName: string;
-  /**
-   * The inner HTML
-   */
+  /** The inner HTML */
   innerHTML?: string;
-}
+};
 
 export type ValidationSchema<T> = Joi.ObjectSchema<T>;
 
@@ -444,10 +486,10 @@ export type OptionValidationContext<T, U> = {
   options: T;
 };
 
-export interface ThemeConfigValidationContext<T> {
+export type ThemeConfigValidationContext<T> = {
   validate: Validate<T, T>;
   themeConfig: Partial<T>;
-}
+};
 
 export type TOCItem = {
   readonly value: string;
