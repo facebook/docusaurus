@@ -253,6 +253,22 @@ Lorem Ipsum
     });
   });
 
+  it('parses markdown h1 title with CRLF break', () => {
+    const markdown = `# Markdown Title\r\n\r\nLorem Ipsum`;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
+  it('parses markdown h1 setext title with CRLF break', () => {
+    const markdown = `Markdown Title\r\n=====\r\n\r\nLorem Ipsum`;
+    expect(parseMarkdownContentTitle(markdown)).toEqual({
+      content: markdown,
+      contentTitle: 'Markdown Title',
+    });
+  });
+
   it('parses markdown h1 title at the top (atx style with closing #)', () => {
     const markdown = dedent`
 
