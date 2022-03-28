@@ -647,13 +647,11 @@ declare module '@docusaurus/plugin-content-docs/client' {
     sidebars?: {[sidebarId: string]: GlobalSidebar};
   };
 
-  export type GlobalSidebarLink = {
-    label: string;
-    path: string;
-  };
-
   export type GlobalSidebar = {
-    link?: GlobalSidebarLink;
+    link?: {
+      label: string;
+      path: string;
+    };
     // ... we may add other things here later
   };
   export type GlobalPluginData = {

@@ -56,18 +56,9 @@ declare module '@generated/globalData' {
 }
 
 declare module '@generated/i18n' {
-  const i18n: {
-    defaultLocale: string;
-    locales: [string, ...string[]];
-    currentLocale: string;
-    localeConfigs: {
-      [localeName: string]: {
-        label: string;
-        direction: string;
-        htmlLang: string;
-      };
-    };
-  };
+  import type {I18n} from '@docusaurus/types';
+
+  const i18n: I18n;
   export = i18n;
 }
 
