@@ -144,13 +144,10 @@ Maybe you should remove them? ${unknownKeys}`;
 }
 
 // should we make this configurable?
-function getTranslationsDirPath(context: TranslationContext): string {
-  return path.join(context.siteDir, I18N_DIR_NAME);
-}
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
 ): string {
-  return path.join(getTranslationsDirPath(context), context.locale);
+  return path.join(context.siteDir, I18N_DIR_NAME, context.locale);
 }
 
 function getCodeTranslationsFilePath(context: TranslationContext): string {

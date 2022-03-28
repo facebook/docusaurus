@@ -76,7 +76,8 @@ export async function writeTranslations(
   siteDir: string,
   options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
 ): Promise<void> {
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customConfigFilePath: options.config,
     locale: options.locale,
   });

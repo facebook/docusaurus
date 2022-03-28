@@ -61,7 +61,8 @@ export async function build(
       throw err;
     }
   }
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale: cliOptions.locale,
@@ -109,7 +110,8 @@ async function buildLocale({
   process.env.NODE_ENV = 'production';
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  const props: Props = await load(siteDir, {
+  const props: Props = await load({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale,

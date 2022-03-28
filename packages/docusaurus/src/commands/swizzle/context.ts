@@ -6,25 +6,20 @@
  */
 
 import {loadContext} from '../../server';
-import {initPlugins, normalizePluginConfigs} from '../../server/plugins/init';
+import {initPlugins} from '../../server/plugins/init';
 import {loadPluginConfigs} from '../../server/plugins/configs';
 import type {SwizzleContext} from './common';
 
 export async function initSwizzleContext(
   siteDir: string,
 ): Promise<SwizzleContext> {
-  const context = await loadContext(siteDir);
+  const context = await loadContext({siteDir});
   const plugins = await initPlugins(context);
   const pluginConfigs = await loadPluginConfigs(context);
 
-  const pluginsNormalized = await normalizePluginConfigs(
-    pluginConfigs,
-    context.siteConfigPath,
-  );
-
   return {
     plugins: plugins.map((plugin, pluginIndex) => ({
-      plugin: pluginsNormalized[pluginIndex]!,
+      plugin: pluginConfigs[pluginIndex]!,
       instance: plugin,
     })),
   };

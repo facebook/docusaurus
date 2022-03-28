@@ -13,7 +13,7 @@ export async function externalCommand(
   cli: CommanderStatic,
   siteDir: string,
 ): Promise<void> {
-  const context = await loadContext(siteDir);
+  const context = await loadContext({siteDir});
   const plugins = await initPlugins(context);
 
   // Plugin Lifecycle - extendCli.

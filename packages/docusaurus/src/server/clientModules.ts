@@ -8,6 +8,10 @@
 import path from 'path';
 import type {LoadedPlugin} from '@docusaurus/types';
 
+/**
+ * Runs the `getClientModules` lifecycle. The returned file paths are all
+ * absolute.
+ */
 export function loadClientModules(plugins: LoadedPlugin<unknown>[]): string[] {
   return plugins.flatMap(
     (plugin) =>

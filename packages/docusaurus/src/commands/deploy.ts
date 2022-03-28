@@ -38,7 +38,8 @@ export async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir, siteConfig, siteConfigPath} = await loadContext(siteDir, {
+  const {outDir, siteConfig, siteConfigPath} = await loadContext({
+    siteDir,
     customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });

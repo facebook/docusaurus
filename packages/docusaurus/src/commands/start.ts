@@ -37,7 +37,8 @@ export async function start(
   logger.info('Starting the development server...');
 
   function loadSite() {
-    return load(siteDir, {
+    return load({
+      siteDir,
       customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?

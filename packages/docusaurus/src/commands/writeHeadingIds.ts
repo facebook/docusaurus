@@ -35,7 +35,7 @@ async function transformMarkdownFile(
  * transformed
  */
 async function getPathsToWatch(siteDir: string): Promise<string[]> {
-  const context = await loadContext(siteDir);
+  const context = await loadContext({siteDir});
   const plugins = await initPlugins(context);
   return plugins.flatMap((plugin) => plugin?.getPathsToWatch?.() ?? []);
 }

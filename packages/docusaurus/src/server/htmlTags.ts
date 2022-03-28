@@ -10,7 +10,7 @@ import voidHtmlTags from 'html-tags/void';
 import escapeHTML from 'escape-html';
 import _ from 'lodash';
 import type {
-  InjectedHtmlTags,
+  Props,
   HtmlTagObject,
   HtmlTags,
   LoadedPlugin,
@@ -62,7 +62,13 @@ function createHtmlTagsString(tags: HtmlTags | undefined): string {
     .join('\n');
 }
 
-export function loadHtmlTags(plugins: LoadedPlugin[]): InjectedHtmlTags {
+/**
+ * Runs the `injectHtmlTags` lifecycle, and aggregates all plugins' tags into
+ * directly render-able HTML markup.
+ */
+export function loadHtmlTags(
+  plugins: LoadedPlugin[],
+): Pick<Props, 'headTags' | 'preBodyTags' | 'postBodyTags'> {
   const pluginHtmlTags = plugins.map(
     (plugin) => plugin.injectHtmlTags?.({content: plugin.content}) ?? {},
   );

@@ -15,14 +15,13 @@ import {
 } from '@docusaurus/utils';
 import _ from 'lodash';
 import path from 'path';
+import {loadSiteConfig} from './config';
 import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import {loadClientModules} from './clientModules';
-import {loadConfig} from './config';
 import {loadPlugins} from './plugins';
 import {loadRoutes} from './routes';
 import {loadHtmlTags} from './htmlTags';
 import {loadSiteMetadata} from './siteMetadata';
-import {handleDuplicateRoutes} from './duplicateRoutes';
 import {loadI18n} from './i18n';
 import {
   readCodeTranslationFileContent,
@@ -31,45 +30,39 @@ import {
 import type {DocusaurusConfig, LoadContext, Props} from '@docusaurus/types';
 
 export type LoadContextOptions = {
+  /** Usually the CWD; can be overridden with command argument. */
+  siteDir: string;
+  /** Can be customized with `--out-dir` option */
   customOutDir?: string;
+  /** Can be customized with `--config` option */
   customConfigFilePath?: string;
+  /** Default is `i18n.defaultLocale` */
   locale?: string;
-  localizePath?: boolean; // undefined = only non-default locales paths are localized
+  /**
+   * `true` means the paths will have the locale prepended; `false` means they
+   * won't (useful for `yarn build -l zh-Hans` where the output should be
+   * emitted into `build/` instead of `build/zh-Hans/`); `undefined` is like the
+   * "smart" option where only non-default locale paths are localized
+   */
+  localizePath?: boolean;
 };
 
-export async function loadSiteConfig({
-  siteDir,
-  customConfigFilePath,
-}: {
-  siteDir: string;
-  customConfigFilePath?: string;
-}): Promise<{siteConfig: DocusaurusConfig; siteConfigPath: string}> {
-  const siteConfigPath = path.resolve(
-    siteDir,
-    customConfigFilePath ?? DEFAULT_CONFIG_FILE_NAME,
-  );
-
-  const siteConfig = await loadConfig(siteConfigPath);
-  return {siteConfig, siteConfigPath};
-}
-
+/**
+ * Loading context is the very first step in site building. Its options are
+ * directly acquired from CLI options. It mainly loads `siteConfig` and the i18n
+ * context (which includes code translations). The `LoadContext` will be passed
+ * to plugin constructors.
+ */
 export async function loadContext(
-  siteDir: string,
-  options: LoadContextOptions = {},
+  options: LoadContextOptions,
 ): Promise<LoadContext> {
-  const {customOutDir, locale, customConfigFilePath} = options;
+  const {siteDir, customOutDir, locale, customConfigFilePath} = options;
   const generatedFilesDir = path.resolve(siteDir, GENERATED_FILES_DIR_NAME);
 
   const {siteConfig: initialSiteConfig, siteConfigPath} = await loadSiteConfig({
     siteDir,
     customConfigFilePath,
   });
-  const {ssrTemplate} = initialSiteConfig;
-
-  const baseOutDir = path.resolve(
-    siteDir,
-    customOutDir ?? DEFAULT_BUILD_DIR_NAME,
-  );
 
   const i18n = await loadI18n(initialSiteConfig, {locale});
 
@@ -80,7 +73,7 @@ export async function loadContext(
     pathType: 'url',
   });
   const outDir = localizePath({
-    path: baseOutDir,
+    path: path.resolve(siteDir, customOutDir ?? DEFAULT_BUILD_DIR_NAME),
     i18n,
     options,
     pathType: 'fs',
@@ -106,19 +99,22 @@ export async function loadContext(
     siteConfig,
     siteConfigPath,
     outDir,
-    baseUrl, // TODO to remove: useless, there's already siteConfig.baseUrl! (and yes, it's the same value, cf code above)
+    baseUrl,
     i18n,
-    ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
+    ssrTemplate: siteConfig.ssrTemplate ?? ssrDefaultTemplate,
     codeTranslations,
   };
 }
 
-export async function load(
-  siteDir: string,
-  options: LoadContextOptions = {},
-): Promise<Props> {
-  // Context.
-  const context: LoadContext = await loadContext(siteDir, options);
+/**
+ * This is the crux of the Docusaurus server-side. It reads everything it needs—
+ * code translations, config file, plugin modules... Plugins then use their
+ * lifecycles to generate content and other data. It is side-effect-ful because
+ * it generates temp files in the `.docusaurus` folder for the bundler.
+ */
+export async function load(options: LoadContextOptions): Promise<Props> {
+  const {siteDir} = options;
+  const context = await loadContext(options);
   const {
     generatedFilesDir,
     siteConfig,
@@ -127,16 +123,28 @@ export async function load(
     baseUrl,
     i18n,
     ssrTemplate,
-    codeTranslations,
+    codeTranslations: siteCodeTranslations,
   } = context;
-  // Plugins.
   const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
     await loadPlugins(context);
-
   // Side-effect to replace the untranslated themeConfig by the translated one
   context.siteConfig.themeConfig = themeConfigTranslated;
+  const clientModules = loadClientModules(plugins);
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
+  const {registry, routesChunkNames, routesConfig, routesPaths} =
+    await loadRoutes(
+      pluginsRouteConfigs,
+      baseUrl,
+      siteConfig.onDuplicateRoutes,
+    );
+  const codeTranslations: {[msgId: string]: string} = {
+    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
+    ...siteCodeTranslations,
+  };
+  const siteMetadata = await loadSiteMetadata({plugins, siteDir});
 
-  handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
+  // === Side-effects part ===
+
   const genWarning = generate(
     generatedFilesDir,
     'DONT-EDIT-THIS-FOLDER',
@@ -162,8 +170,6 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 `,
   );
 
-  // Load client modules.
-  const clientModules = loadClientModules(plugins);
   const genClientModules = generate(
     generatedFilesDir,
     'client-modules.js',
@@ -176,13 +182,6 @@ ${clientModules
 ];
 `,
   );
-
-  // Load extra head & body html tags.
-  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
-
-  // Routing.
-  const {registry, routesChunkNames, routesConfig, routesPaths} =
-    await loadRoutes(pluginsRouteConfigs, baseUrl);
 
   const genRegistry = generate(
     generatedFilesDir,
@@ -220,19 +219,12 @@ ${Object.entries(registry)
     JSON.stringify(i18n, null, 2),
   );
 
-  const codeTranslationsWithFallbacks: {[msgId: string]: string} = {
-    ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
-    ...codeTranslations,
-  };
-
   const genCodeTranslations = generate(
     generatedFilesDir,
     'codeTranslations.json',
-    JSON.stringify(codeTranslationsWithFallbacks, null, 2),
+    JSON.stringify(codeTranslations, null, 2),
   );
 
-  // Version metadata.
-  const siteMetadata = await loadSiteMetadata({plugins, siteDir});
   const genSiteMetadata = generate(
     generatedFilesDir,
     'site-metadata.json',
@@ -252,7 +244,7 @@ ${Object.entries(registry)
     genCodeTranslations,
   ]);
 
-  const props: Props = {
+  return {
     siteConfig,
     siteConfigPath,
     siteMetadata,
@@ -270,6 +262,4 @@ ${Object.entries(registry)
     ssrTemplate,
     codeTranslations,
   };
-
-  return props;
 }
