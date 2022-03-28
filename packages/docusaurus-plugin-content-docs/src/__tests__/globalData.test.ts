@@ -12,9 +12,9 @@ describe('toGlobalDataVersion', () => {
     expect(
       toGlobalDataVersion({
         versionName: 'current',
-        versionLabel: 'Label',
+        label: 'Label',
         isLast: true,
-        versionPath: '/current',
+        path: '/current',
         mainDocId: 'main',
         docs: [
           {
@@ -86,9 +86,9 @@ describe('toGlobalDataVersion', () => {
             sidebar: 'tutorial',
           },
         ],
-        versionBanner: 'unreleased',
-        versionBadge: true,
-        versionClassName: 'current-cls',
+        banner: 'unreleased',
+        badge: true,
+        className: 'current-cls',
         tagsPath: '/current/tags',
         contentPath: '',
         contentPathLocalized: '',

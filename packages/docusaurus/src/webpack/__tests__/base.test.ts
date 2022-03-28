@@ -8,12 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 
-import {
-  excludeJS,
-  clientDir,
-  getDocusaurusAliases,
-  createBaseConfig,
-} from '../base';
+import {excludeJS, clientDir, createBaseConfig} from '../base';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
 import _ from 'lodash';
@@ -65,17 +60,6 @@ describe('babel transpilation exclude logic', () => {
     moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toBe(true);
     });
-  });
-});
-
-describe('getDocusaurusAliases()', () => {
-  it('returns appropriate webpack aliases', async () => {
-    // using relative paths makes tests work everywhere
-    const relativeDocusaurusAliases = _.mapValues(
-      await getDocusaurusAliases(),
-      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
-    );
-    expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
 });
 

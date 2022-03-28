@@ -9,12 +9,12 @@ import http from 'http';
 import serveHandler from 'serve-handler';
 import logger from '@docusaurus/logger';
 import path from 'path';
-import {loadSiteConfig} from '../server';
-import build from './build';
+import {loadSiteConfig} from '../server/config';
+import {build} from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import type {ServeCLIOptions} from '@docusaurus/types';
 
-export default async function serve(
+export async function serve(
   siteDir: string,
   cliOptions: ServeCLIOptions,
 ): Promise<void> {
@@ -69,7 +69,7 @@ export default async function serve(
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at path=${
+  logger.success`Serving path=${cliOptions.dir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);

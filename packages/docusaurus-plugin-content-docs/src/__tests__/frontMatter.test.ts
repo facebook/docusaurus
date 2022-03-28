@@ -6,7 +6,7 @@
  */
 
 import {validateDocFrontMatter} from '../frontMatter';
-import type {DocFrontMatter} from '../types';
+import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {

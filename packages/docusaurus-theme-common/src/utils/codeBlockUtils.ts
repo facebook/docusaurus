@@ -61,6 +61,10 @@ function getAllMagicCommentDirectiveStyles(lang: string) {
     case 'py':
       return getCommentPattern(['python']);
 
+    case 'markdown':
+    case 'md':
+      return getCommentPattern(['html', 'jsx']);
+
     default:
       // all comment types
       return getCommentPattern(Object.keys(commentPatterns) as CommentType[]);

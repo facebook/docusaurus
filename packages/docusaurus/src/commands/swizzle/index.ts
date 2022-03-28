@@ -86,7 +86,7 @@ If you want to swizzle it, use the code=${'--danger'} flag, or confirm that you 
   return undefined;
 }
 
-export default async function swizzle(
+export async function swizzle(
   siteDir: string,
   themeNameParam: string | undefined,
   componentNameParam: string | undefined,
@@ -133,7 +133,7 @@ export default async function swizzle(
           typescript,
         });
         logger.success`
-Created wrapper of name=${componentName} from name=${themeName} in path=${result.createdFiles}.
+Created wrapper of name=${componentName} from name=${themeName} in path=${result.createdFiles}
 `;
         return result;
       }
@@ -144,7 +144,7 @@ Created wrapper of name=${componentName} from name=${themeName} in path=${result
           componentName,
         });
         logger.success`
-Ejected name=${componentName} from name=${themeName} to path=${result.createdFiles}.
+Ejected name=${componentName} from name=${themeName} to path=${result.createdFiles}
 `;
         return result;
       }

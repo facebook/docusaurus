@@ -275,7 +275,7 @@ exports[`swizzle wrap ComponentInFolder TS: ComponentInFolder/index.tsx 1`] = `
 import type ComponentInFolderType from '@theme/ComponentInFolder';
 import ComponentInFolder from '@theme-original/ComponentInFolder';
 
-type Props = ComponentProps<typeof ComponentInFolderType>
+type Props = ComponentProps<typeof ComponentInFolderType>;
 
 export default function ComponentInFolderWrapper(props: Props): JSX.Element {
   return (
@@ -319,7 +319,7 @@ exports[`swizzle wrap ComponentInFolder/ComponentInSubFolder TS: ComponentInFold
 import type ComponentInSubFolderType from '@theme/ComponentInFolder/ComponentInSubFolder';
 import ComponentInSubFolder from '@theme-original/ComponentInFolder/ComponentInSubFolder';
 
-type Props = ComponentProps<typeof ComponentInSubFolderType>
+type Props = ComponentProps<typeof ComponentInSubFolderType>;
 
 export default function ComponentInSubFolderWrapper(props: Props): JSX.Element {
   return (
@@ -363,7 +363,7 @@ exports[`swizzle wrap ComponentInFolder/Sibling TS: ComponentInFolder/Sibling.ts
 import type SiblingType from '@theme/ComponentInFolder/Sibling';
 import Sibling from '@theme-original/ComponentInFolder/Sibling';
 
-type Props = ComponentProps<typeof SiblingType>
+type Props = ComponentProps<typeof SiblingType>;
 
 export default function SiblingWrapper(props: Props): JSX.Element {
   return (
@@ -405,7 +405,7 @@ exports[`swizzle wrap FirstLevelComponent TS: FirstLevelComponent.tsx 1`] = `
 import type FirstLevelComponentType from '@theme/FirstLevelComponent';
 import FirstLevelComponent from '@theme-original/FirstLevelComponent';
 
-type Props = ComponentProps<typeof FirstLevelComponentType>
+type Props = ComponentProps<typeof FirstLevelComponentType>;
 
 export default function FirstLevelComponentWrapper(props: Props): JSX.Element {
   return (

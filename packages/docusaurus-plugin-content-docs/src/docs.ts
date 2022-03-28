@@ -12,6 +12,7 @@ import {
   aliasedSitePath,
   getEditUrl,
   getFolderContainingFile,
+  getContentPathList,
   normalizeUrl,
   parseMarkdownString,
   posixPath,
@@ -21,18 +22,9 @@ import {
 import type {LoadContext} from '@docusaurus/types';
 
 import {getFileLastUpdate} from './lastUpdate';
-import type {
-  DocFile,
-  DocMetadataBase,
-  DocMetadata,
-  DocNavLink,
-  LastUpdateData,
-  VersionMetadata,
-  LoadedVersion,
-} from './types';
+import type {DocFile, LoadedVersion} from './types';
 import getSlug from './slug';
 import {CURRENT_VERSION_NAME} from './constants';
-import {getDocsDirPaths} from './versions';
 import {stripPathNumberPrefixes} from './numberPrefix';
 import {validateDocFrontMatter} from './frontMatter';
 import type {SidebarsUtils} from './sidebars/utils';
@@ -41,7 +33,11 @@ import type {
   MetadataOptions,
   PluginOptions,
   CategoryIndexMatcher,
-  CategoryIndexMatcherParam,
+  DocMetadataBase,
+  DocMetadata,
+  PropNavigationLink,
+  LastUpdateData,
+  VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 
 type LastUpdateOptions = Pick<
@@ -85,7 +81,7 @@ export async function readDocFile(
   options: LastUpdateOptions,
 ): Promise<DocFile> {
   const contentPath = await getFolderContainingFile(
-    getDocsDirPaths(versionMetadata),
+    getContentPathList(versionMetadata),
     source,
   );
 
@@ -213,7 +209,7 @@ function doProcessDocMetadata({
 
   const description: string = frontMatter.description ?? excerpt ?? '';
 
-  const permalink = normalizeUrl([versionMetadata.versionPath, docSlug]);
+  const permalink = normalizeUrl([versionMetadata.path, docSlug]);
 
   function getDocEditUrl() {
     const relativeFilePath = path.relative(contentPath, filePath);
@@ -232,8 +228,8 @@ function doProcessDocMetadata({
       const isLocalized = contentPath === versionMetadata.contentPathLocalized;
       const baseVersionEditUrl =
         isLocalized && options.editLocalizedFiles
-          ? versionMetadata.versionEditUrlLocalized
-          : versionMetadata.versionEditUrl;
+          ? versionMetadata.editUrlLocalized
+          : versionMetadata.editUrl;
       return getEditUrl(relativeFilePath, baseVersionEditUrl);
     }
     return undefined;
@@ -304,7 +300,7 @@ export function addDocNavigation(
     const toNavigationLinkByDocId = (
       docId: string | null | undefined,
       type: 'prev' | 'next',
-    ): DocNavLink | undefined => {
+    ): PropNavigationLink | undefined => {
       if (!docId) {
         return undefined;
       }
@@ -401,7 +397,7 @@ export function toCategoryIndexMatcherParam({
 }: Pick<
   DocMetadataBase,
   'source' | 'sourceDirName'
->): CategoryIndexMatcherParam {
+>): Parameters<CategoryIndexMatcher>[0] {
   // source + sourceDirName are always posix-style
   return {
     fileName: path.posix.parse(source).name,

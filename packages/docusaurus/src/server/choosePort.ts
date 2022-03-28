@@ -5,18 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/**
- * This feature was heavily inspired by create-react-app and
- * uses many of the same utility functions to implement it.
- */
-
 import {execSync} from 'child_process';
 import detect from 'detect-port';
-import isRoot from 'is-root';
 import logger from '@docusaurus/logger';
 import prompts from 'prompts';
-
-const isInteractive = process.stdout.isTTY;
 
 const execOptions = {
   encoding: 'utf8' as const,
@@ -72,10 +64,11 @@ function getProcessForPort(port: number): string | null {
 }
 
 /**
- * Detects if program is running on port and prompts user
- * to choose another if port is already being used
+ * Detects if program is running on port, and prompts user to choose another if
+ * port is already being used. This feature was heavily inspired by
+ * create-react-app and uses many of the same utility functions to implement it.
  */
-export default async function choosePort(
+export async function choosePort(
   host: string,
   defaultPort: number,
 ): Promise<number | null> {
@@ -84,8 +77,10 @@ export default async function choosePort(
     if (port === defaultPort) {
       return port;
     }
+    const isRoot = process.getuid?.() === 0;
+    const isInteractive = process.stdout.isTTY;
     const message =
-      process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
+      process.platform !== 'win32' && defaultPort < 1024 && !isRoot
         ? `Admin permissions are required to run a server on a port below 1024.`
         : `Something is already running on port ${defaultPort}.`;
     if (!isInteractive) {

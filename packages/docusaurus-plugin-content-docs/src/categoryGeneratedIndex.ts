@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {CategoryGeneratedIndexMetadata, DocMetadataBase} from './types';
+import type {
+  CategoryGeneratedIndexMetadata,
+  DocMetadataBase,
+} from '@docusaurus/plugin-content-docs';
 import type {SidebarItemCategoryWithGeneratedIndex} from './sidebars/types';
 import {type SidebarsUtils, toNavigationLink} from './sidebars/utils';
 import {createDocsByIdIndex} from './docs';
@@ -29,8 +32,10 @@ function getCategoryGeneratedIndexMetadata({
     slug: category.link.slug,
     permalink: category.link.permalink,
     sidebar: sidebarName!,
-    previous: toNavigationLink(previous, docsById),
-    next: toNavigationLink(next, docsById),
+    navigation: {
+      previous: toNavigationLink(previous, docsById),
+      next: toNavigationLink(next, docsById),
+    },
   };
 }
 

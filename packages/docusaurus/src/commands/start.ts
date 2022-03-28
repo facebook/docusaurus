@@ -28,7 +28,7 @@ import {
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import {getTranslationsLocaleDirPath} from '../server/translations/translations';
 
-export default async function start(
+export async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions>,
 ): Promise<void> {
@@ -37,7 +37,8 @@ export default async function start(
   logger.info('Starting the development server...');
 
   function loadSite() {
-    return load(siteDir, {
+    return load({
+      siteDir,
       customConfigFilePath: cliOptions.config,
       locale: cliOptions.locale,
       localizePath: undefined, // should this be configurable?
@@ -60,7 +61,7 @@ export default async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  logger.success`Docusaurus website is running at path=${openUrl}.`;
+  logger.success`Docusaurus website is running at url=${openUrl}.`;
 
   // Reload files processing.
   const reload = _.debounce(() => {
@@ -68,7 +69,7 @@ export default async function start(
       .then(({baseUrl: newBaseUrl}) => {
         const newOpenUrl = normalizeUrl([urls.localUrlForBrowser, newBaseUrl]);
         if (newOpenUrl !== openUrl) {
-          logger.success`Docusaurus website is running at path=${newOpenUrl}.`;
+          logger.success`Docusaurus website is running at url=${newOpenUrl}.`;
         }
       })
       .catch((err) => {

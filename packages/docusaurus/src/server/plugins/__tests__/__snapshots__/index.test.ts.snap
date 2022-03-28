@@ -37,112 +37,33 @@ exports[`loadPlugins loads plugins 1`] = `
         "type": "local",
       },
     },
+    {
+      "content": undefined,
+      "getClientModules": [Function],
+      "injectHtmlTags": [Function],
+      "name": "docusaurus-bootstrap-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
+      "version": {
+        "type": "synthetic",
+      },
+    },
+    {
+      "configureWebpack": [Function],
+      "content": undefined,
+      "name": "docusaurus-mdx-fallback-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": ".",
+      "version": {
+        "type": "synthetic",
+      },
+    },
   ],
   "pluginsRouteConfigs": [],
   "themeConfigTranslated": {},
 }
-`;
-
-exports[`sortConfig sorts route config correctly 1`] = `
-[
-  {
-    "component": "",
-    "path": "/community",
-  },
-  {
-    "component": "",
-    "path": "/some-page",
-  },
-  {
-    "component": "",
-    "path": "/docs",
-    "routes": [
-      {
-        "component": "",
-        "path": "/docs/someDoc",
-      },
-      {
-        "component": "",
-        "path": "/docs/someOtherDoc",
-      },
-    ],
-  },
-  {
-    "component": "",
-    "path": "/",
-  },
-  {
-    "component": "",
-    "path": "/",
-    "routes": [
-      {
-        "component": "",
-        "path": "/someDoc",
-      },
-      {
-        "component": "",
-        "path": "/someOtherDoc",
-      },
-    ],
-  },
-  {
-    "component": "",
-    "path": "/",
-    "routes": [
-      {
-        "component": "",
-        "path": "/subroute",
-      },
-    ],
-  },
-]
-`;
-
-exports[`sortConfig sorts route config given a baseURL 1`] = `
-[
-  {
-    "component": "",
-    "path": "/latest/community",
-  },
-  {
-    "component": "",
-    "path": "/latest/example",
-  },
-  {
-    "component": "",
-    "path": "/latest/some-page",
-  },
-  {
-    "component": "",
-    "path": "/latest/docs",
-    "routes": [
-      {
-        "component": "",
-        "path": "/latest/docs/someDoc",
-      },
-      {
-        "component": "",
-        "path": "/latest/docs/someOtherDoc",
-      },
-    ],
-  },
-  {
-    "component": "",
-    "path": "/latest/",
-  },
-  {
-    "component": "",
-    "path": "/latest/",
-    "routes": [
-      {
-        "component": "",
-        "path": "/latest/someDoc",
-      },
-      {
-        "component": "",
-        "path": "/latest/someOtherDoc",
-      },
-    ],
-  },
-]
 `;
