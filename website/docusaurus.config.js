@@ -122,14 +122,18 @@ const config = {
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
-    [
+    ((process.env.NO_TYPEDOC || process.env.BUILD_FAST) ? undefined : [
       'docusaurus-plugin-typedoc',
       {
-        entryPoints: ['../packages/docusaurus-utils/lib/index.d.ts', '../packages/docusaurus-theme-common/lib/index.d.ts'],
+        entryPoints: [
+          '../packages/docusaurus-utils/lib/index.d.ts',
+          '../packages/docusaurus-theme-common/lib/index.d.ts',
+        ],
+        exclude: ['**/node_modules/**'],
         out: 'api-next',
         readme: 'none',
       },
-    ],
+    ]),
     [
       require.resolve('./src/plugins/changelog/index.js'),
       {
