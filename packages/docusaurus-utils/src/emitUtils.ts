@@ -8,7 +8,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {createHash} from 'crypto';
-import {simpleHash, docuHash} from './hashUtils';
 import {findAsyncSequential} from './jsUtils';
 
 const fileHash = new Map<string, string>();
@@ -18,7 +17,8 @@ const fileHash = new Map<string, string>();
  * differs from cache (for hot reload performance).
  *
  * @param generatedFilesDir Absolute path.
- * @param file Path relative to `generatedFilesDir`.
+ * @param file Path relative to `generatedFilesDir`. File will always be
+ * outputted; no need to ensure directory exists.
  * @param content String content to write.
  * @param skipCache If `true` (defaults as `true` for production), file is
  * force-rewritten, skipping cache.
@@ -29,7 +29,7 @@ export async function generate(
   content: string,
   skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
-  const filepath = path.join(generatedFilesDir, file);
+  const filepath = path.resolve(generatedFilesDir, file);
 
   if (skipCache) {
     await fs.outputFile(filepath, content);
@@ -60,35 +60,6 @@ export async function generate(
     await fs.outputFile(filepath, content);
     fileHash.set(filepath, currentHash);
   }
-}
-
-const chunkNameCache = new Map<string, string>();
-
-/**
- * Generate unique chunk name given a module path.
- */
-export function genChunkName(
-  modulePath: string,
-  prefix?: string,
-  preferredName?: string,
-  shortId: boolean = process.env.NODE_ENV === 'production',
-): string {
-  let chunkName = chunkNameCache.get(modulePath);
-  if (!chunkName) {
-    if (shortId) {
-      chunkName = simpleHash(modulePath, 8);
-    } else {
-      let str = modulePath;
-      if (preferredName) {
-        const shortHash = simpleHash(modulePath, 3);
-        str = `${preferredName}${shortHash}`;
-      }
-      const name = str === '/' ? 'index' : docuHash(str);
-      chunkName = prefix ? `${prefix}---${name}` : name;
-    }
-    chunkNameCache.set(modulePath, chunkName);
-  }
-  return chunkName;
 }
 
 /**

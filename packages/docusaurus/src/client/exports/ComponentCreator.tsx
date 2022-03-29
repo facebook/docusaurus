@@ -34,27 +34,12 @@ export default function ComponentCreator(
     });
   }
 
-  const chunkNamesKey = `${path}-${hash}`;
-  const chunkNames = routesChunkNames[chunkNamesKey]!;
-  const optsModules: string[] = [];
-  const optsWebpack: string[] = [];
+  const chunkNames = routesChunkNames[`${path}-${hash}`]!;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const optsLoader: {[key: string]: () => Promise<any>} = {};
+  const optsModules: string[] = [];
+  const optsWebpack: string[] = [];
 
-  /* Prepare opts data that react-loadable needs
-  https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
-  Example:
-  - optsLoader:
-    {
-      component: () => import('./Pages.js'),
-      content.foo: () => import('./doc1.md'),
-    }
-  - optsModules: ['./Pages.js', './doc1.md']
-  - optsWebpack: [
-      require.resolveWeak('./Pages.js'),
-      require.resolveWeak('./doc1.md'),
-    ]
-  */
   const flatChunkNames = flat(chunkNames);
   Object.entries(flatChunkNames).forEach(([key, chunkName]) => {
     const chunkRegistry = registry[chunkName];

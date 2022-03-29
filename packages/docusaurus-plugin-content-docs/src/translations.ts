@@ -22,7 +22,6 @@ import {
 import type {
   TranslationFileContent,
   TranslationFile,
-  TranslationFiles,
   TranslationMessage,
 } from '@docusaurus/types';
 import {mergeTranslations} from '@docusaurus/utils';
@@ -242,7 +241,7 @@ function translateSidebars(
   );
 }
 
-function getVersionTranslationFiles(version: LoadedVersion): TranslationFiles {
+function getVersionTranslationFiles(version: LoadedVersion): TranslationFile[] {
   const versionTranslations: TranslationFileContent = {
     'version.label': {
       message: version.label,
@@ -283,7 +282,7 @@ function translateVersion(
 
 function getVersionsTranslationFiles(
   versions: LoadedVersion[],
-): TranslationFiles {
+): TranslationFile[] {
   return versions.flatMap(getVersionTranslationFiles);
 }
 function translateVersions(
@@ -295,7 +294,7 @@ function translateVersions(
 
 export function getLoadedContentTranslationFiles(
   loadedContent: LoadedContent,
-): TranslationFiles {
+): TranslationFile[] {
   return getVersionsTranslationFiles(loadedContent.loadedVersions);
 }
 export function translateLoadedContent(

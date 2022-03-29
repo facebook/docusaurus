@@ -14,10 +14,7 @@ import {
   applyConfigurePostCss,
   getHttpsConfig,
 } from '../utils';
-import type {
-  ConfigureWebpackFn,
-  ConfigureWebpackFnMergeStrategy,
-} from '@docusaurus/types';
+import type {Plugin} from '@docusaurus/types';
 
 describe('customize JS loader', () => {
   it('getCustomizableJSLoader defaults to babel loader', () => {
@@ -63,7 +60,7 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const configureWebpack: ConfigureWebpackFn = (
+    const configureWebpack: Plugin['configureWebpack'] = (
       generatedConfig,
       isServer,
     ) => {
@@ -99,7 +96,7 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const configureWebpack: ConfigureWebpackFn = () => ({
+    const configureWebpack: Plugin['configureWebpack'] = () => ({
       entry: 'entry.js',
       output: {
         path: path.join(__dirname, 'dist'),
@@ -128,9 +125,9 @@ describe('extending generated webpack config', () => {
       },
     };
 
-    const createConfigureWebpack: (
-      mergeStrategy?: ConfigureWebpackFnMergeStrategy,
-    ) => ConfigureWebpackFn = (mergeStrategy) => () => ({
+    const createConfigureWebpack: (mergeStrategy?: {
+      [key: string]: 'prepend' | 'append';
+    }) => Plugin['configureWebpack'] = (mergeStrategy) => () => ({
       module: {
         rules: [{use: 'zzz'}],
       },

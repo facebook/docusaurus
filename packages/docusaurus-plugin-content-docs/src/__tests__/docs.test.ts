@@ -168,7 +168,7 @@ describe('simple site', () => {
     loadSiteOptions: {options: Partial<PluginOptions>} = {options: {}},
   ) {
     const siteDir = path.join(fixtureDir, 'simple-site');
-    const context = await loadContext(siteDir);
+    const context = await loadContext({siteDir});
     const options = {
       id: DEFAULT_PLUGIN_ID,
       ...DEFAULT_OPTIONS,
@@ -523,7 +523,8 @@ describe('versioned site', () => {
     },
   ) {
     const siteDir = path.join(fixtureDir, 'versioned-site');
-    const context = await loadContext(siteDir, {
+    const context = await loadContext({
+      siteDir,
       locale: loadSiteOptions.locale,
     });
     const options = {

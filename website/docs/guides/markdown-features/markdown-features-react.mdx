@@ -110,6 +110,8 @@ The `@site` alias points to your website's directory, usually where the `docusau
 While declaring components within Markdown is very convenient for simple cases, it becomes hard to maintain because of limited editor support, risks of parsing errors, and low reusability. Use a separate `.js` file when your component involves complex JS logic:
 
 ```jsx title="src/components/Highlight.js"
+import React from 'react';
+
 export default function Highlight({children, color}) {
   return (
     <span

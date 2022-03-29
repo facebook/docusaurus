@@ -16,7 +16,7 @@ import {
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {loadPluginsThemeAliases} from '../server/themes';
+import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
 const CSS_REGEX = /\.css$/i;
@@ -42,28 +42,6 @@ export function excludeJS(modulePath: string): boolean {
     !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
     !LibrariesToTranspileRegex.test(modulePath)
   );
-}
-
-export async function getDocusaurusAliases(): Promise<{
-  [aliasName: string]: string;
-}> {
-  const dirPath = path.resolve(__dirname, '../client/exports');
-  const extensions = ['.js', '.ts', '.tsx'];
-
-  const aliases: {[key: string]: string} = {};
-
-  (await fs.readdir(dirPath))
-    .filter((fileName) => extensions.includes(path.extname(fileName)))
-    .forEach((fileName) => {
-      const fileNameWithoutExtension = path.basename(
-        fileName,
-        path.extname(fileName),
-      );
-      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
-      aliases[aliasName] = path.resolve(dirPath, fileName);
-    });
-
-  return aliases;
 }
 
 export async function createBaseConfig(
@@ -92,7 +70,7 @@ export async function createBaseConfig(
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
-  const themeAliases = await loadPluginsThemeAliases({siteDir, plugins});
+  const themeAliases = await loadThemeAliases({siteDir, plugins});
 
   return {
     mode,
@@ -156,11 +134,7 @@ export async function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-
-        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
-        // so we use fine-grained aliases instead
-        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
-        ...(await getDocusaurusAliases()),
+        ...(await loadDocusaurusAliases()),
         ...themeAliases,
       },
       // This allows you to set a fallback for where Webpack should look for

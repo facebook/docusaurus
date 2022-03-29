@@ -16,6 +16,7 @@ import React, {
 } from 'react';
 import {useDynamicCallback, ReactContextError} from './reactUtils';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 type ScrollController = {
   /** A boolean ref tracking whether scroll events are enabled. */
@@ -233,14 +234,6 @@ export function useScrollPositionBlocker(): {
   };
 }
 
-// Not all have support for smooth scrolling (particularly Safari mobile iOS)
-// TODO proper detection is currently unreliable!
-// see https://github.com/wessberg/scroll-behavior-polyfill/issues/16
-const SupportsNativeSmoothScrolling = false;
-// const SupportsNativeSmoothScrolling =
-//   ExecutionEnvironment.canUseDOM &&
-//   'scrollBehavior' in document.documentElement.style;
-
 type CancelScrollTop = () => void;
 
 function smoothScrollNative(top: number): CancelScrollTop {
@@ -260,10 +253,7 @@ function smoothScrollPolyfill(top: number): CancelScrollTop {
       (!isUpScroll && currentScroll < top)
     ) {
       raf = requestAnimationFrame(rafRecursion);
-      window.scrollTo(
-        0,
-        Math.floor(Math.abs(currentScroll - top) * 0.85) + top,
-      );
+      window.scrollTo(0, Math.floor((currentScroll - top) * 0.85) + top);
     }
   }
   rafRecursion();
@@ -275,8 +265,9 @@ function smoothScrollPolyfill(top: number): CancelScrollTop {
 
 /**
  * A "smart polyfill" of `window.scrollTo({ top, behavior: "smooth" })`.
- * This currently always uses a polyfilled implementation, because native
- * support detection seems unreliable.
+ * This currently always uses a polyfilled implementation unless
+ * `scroll-behavior: smooth` has been set in CSS, because native support
+ * detection for scroll behavior seems unreliable.
  *
  * This hook does not do anything by itself: it returns a start and a stop
  * handle. You can execute either handle at any time.
@@ -296,12 +287,22 @@ export function useSmoothScrollTo(): {
   cancelScroll: CancelScrollTop;
 } {
   const cancelRef = useRef<CancelScrollTop | null>(null);
+  const isBrowser = useIsBrowser();
+  // Not all have support for smooth scrolling (particularly Safari mobile iOS)
+  // TODO proper detection is currently unreliable!
+  // see https://github.com/wessberg/scroll-behavior-polyfill/issues/16
+  // For now, we only use native scroll behavior if smooth is already set,
+  // because otherwise the polyfill produces a weird UX when both CSS and JS try
+  // to scroll a page, and they cancel each other.
+  const supportsNativeSmoothScrolling =
+    isBrowser &&
+    getComputedStyle(document.documentElement).scrollBehavior === 'smooth';
   return {
     startScroll: (top: number) => {
-      cancelRef.current = SupportsNativeSmoothScrolling
+      cancelRef.current = supportsNativeSmoothScrolling
         ? smoothScrollNative(top)
         : smoothScrollPolyfill(top);
     },
-    cancelScroll: () => cancelRef?.current,
+    cancelScroll: () => cancelRef.current?.(),
   };
 }
