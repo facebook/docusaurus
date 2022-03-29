@@ -151,11 +151,7 @@ const isModule = (value: unknown): value is Module =>
     // eslint-disable-next-line no-underscore-dangle
     !!(value as {[key: string]: unknown})?.__import);
 
-/**
- * Takes a module and returns the string path it represents.
- *
- * @see {Module}
- */
+/** Takes a {@link Module} and returns the string path it represents. */
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
     return target;
@@ -301,6 +297,7 @@ export async function loadRoutes(
 ): Promise<LoadedRoutes> {
   handleDuplicateRoutes(routeConfigs, onDuplicateRoutes);
   const res: LoadedRoutes = {
+    // To be written
     routesConfig: '',
     routesChunkNames: {},
     registry: {},

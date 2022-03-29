@@ -22,9 +22,6 @@ const isTree = (x: Chunk): x is Tree =>
  * ```
  */
 export default function flat(target: ChunkNames): {[keyPath: string]: string} {
-  if (!isTree(target)) {
-    return target;
-  }
   const delimiter = '.';
   const output: {[keyPath: string]: string} = {};
 
