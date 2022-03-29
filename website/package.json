@@ -52,6 +52,7 @@
     "@swc/core": "^1.2.160",
     "clsx": "^1.1.1",
     "color": "^4.2.1",
+    "docusaurus-plugin-typedoc": "^0.17.2",
     "fs-extra": "^10.0.1",
     "netlify-plugin-cache": "^1.0.3",
     "raw-loader": "^4.0.2",
@@ -62,6 +63,8 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "swc-loader": "^0.1.15",
+    "typedoc": "^0.22.13",
+    "typedoc-plugin-markdown": "^3.11.14",
     "unist-util-visit": "^2.0.2",
     "workbox-routing": "^6.5.2",
     "workbox-strategies": "^6.5.2"

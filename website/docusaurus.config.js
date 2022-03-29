@@ -123,6 +123,13 @@ const config = {
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
     [
+      'docusaurus-plugin-typedoc',
+      {
+        entryPoints: ['../packages/docusaurus-utils/lib/index.d.ts'],
+        out: 'typedoc',
+      },
+    ],
+    [
       require.resolve('./src/plugins/changelog/index.js'),
       {
         blogTitle: 'Docusaurus changelog',
