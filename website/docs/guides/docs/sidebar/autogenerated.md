@@ -311,11 +311,11 @@ For handwritten sidebar definitions, you would provide metadata to sidebar items
 
 ```md title="docs/tutorials/tutorial-easy.md"
 ---
-// highlight-start
+# highlight-start
 sidebar_position: 2
 sidebar_label: Easy
 sidebar_class_name: green
-// highlight-end
+# highlight-end
 ---
 
 # Easy Tutorial
