@@ -36,6 +36,6 @@ website/_dogfooding/_swizzle_theme_tests
 website/i18n/**/*
 #!website/i18n/fr
 #!website/i18n/fr/**/*
-website/docs/typedoc
+website/docs/api-next
 
 .netlify
