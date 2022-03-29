@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadPlugins loads plugins 1`] = `
+{
+  "globalData": {
+    "test1": {
+      "default": {
+        "content": "a",
+        "prop": "a",
+      },
+    },
+  },
+  "plugins": [
+    {
+      "content": "a",
+      "contentLoaded": [Function],
+      "loadContent": [Function],
+      "name": "test1",
+      "options": {
+        "id": "default",
+      },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
+      "prop": "a",
+      "version": {
+        "type": "local",
+      },
+    },
+    {
+      "configureWebpack": [Function],
+      "content": undefined,
+      "name": "test2",
+      "options": {
+        "id": "default",
+      },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
+      "version": {
+        "type": "local",
+      },
+    },
+    {
+      "content": undefined,
+      "getClientModules": [Function],
+      "injectHtmlTags": [Function],
+      "name": "docusaurus-bootstrap-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": "<PROJECT_ROOT>/packages/docusaurus/src/server/plugins/__tests__/__fixtures__/site-with-plugin",
+      "version": {
+        "type": "synthetic",
+      },
+    },
+    {
+      "configureWebpack": [Function],
+      "content": undefined,
+      "name": "docusaurus-mdx-fallback-plugin",
+      "options": {
+        "id": "default",
+      },
+      "path": ".",
+      "version": {
+        "type": "synthetic",
+      },
+    },
+  ],
+  "pluginsRouteConfigs": [],
+  "themeConfigTranslated": {},
+}
+`;

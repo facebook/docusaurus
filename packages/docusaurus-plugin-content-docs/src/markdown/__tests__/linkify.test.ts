@@ -5,15 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import fs from 'fs-extra';
 import path from 'path';
 import {linkify} from '../linkify';
 import type {
   DocsMarkdownOption,
   SourceToPermalink,
-  VersionMetadata,
-  BrokenMarkdownLink,
+  DocBrokenMarkdownLink,
 } from '../../types';
+import type {VersionMetadata} from '@docusaurus/plugin-content-docs';
 import {VERSIONED_DOCS_DIR, CURRENT_VERSION_NAME} from '../../constants';
 
 function createFakeVersion({
@@ -89,102 +90,117 @@ function createMarkdownOptions(
   };
 }
 
-const transform = (filepath: string, options?: Partial<DocsMarkdownOption>) => {
+const transform = async (
+  filepath: string,
+  options?: Partial<DocsMarkdownOption>,
+) => {
   const markdownOptions = createMarkdownOptions(options);
-  const content = fs.readFileSync(filepath, 'utf-8');
+  const content = await fs.readFile(filepath, 'utf-8');
   const transformedContent = linkify(content, filepath, markdownOptions);
   return [content, transformedContent];
 };
 
-test('transform nothing', () => {
-  const doc1 = path.join(versionCurrent.contentPath, 'doc1.md');
-  const [content, transformedContent] = transform(doc1);
-  expect(transformedContent).toMatchSnapshot();
-  expect(content).toEqual(transformedContent);
-});
-
-test('transform to correct links', () => {
-  const doc2 = path.join(versionCurrent.contentPath, 'doc2.md');
-  const [content, transformedContent] = transform(doc2);
-  expect(transformedContent).toMatchSnapshot();
-  expect(transformedContent).toContain('](/docs/doc1');
-  expect(transformedContent).toContain('](/docs/doc2');
-  expect(transformedContent).toContain('](/docs/subdir/doc3');
-  expect(transformedContent).toContain('](/fr/doc-localized');
-  expect(transformedContent).not.toContain('](doc1.md)');
-  expect(transformedContent).not.toContain('](./doc2.md)');
-  expect(transformedContent).not.toContain('](subdir/doc3.md)');
-  expect(transformedContent).not.toContain('](/doc-localized');
-  expect(content).not.toEqual(transformedContent);
-});
-
-test('transform relative links', () => {
-  const doc3 = path.join(versionCurrent.contentPath, 'subdir', 'doc3.md');
-
-  const [content, transformedContent] = transform(doc3);
-  expect(transformedContent).toMatchSnapshot();
-  expect(transformedContent).toContain('](/docs/doc2');
-  expect(transformedContent).not.toContain('](../doc2.md)');
-  expect(content).not.toEqual(transformedContent);
-});
-
-test('transforms reference links', () => {
-  const doc4 = path.join(versionCurrent.contentPath, 'doc4.md');
-  const [content, transformedContent] = transform(doc4);
-  expect(transformedContent).toMatchSnapshot();
-  expect(transformedContent).toContain('[doc1]: /docs/doc1');
-  expect(transformedContent).toContain('[doc2]: /docs/doc2');
-  expect(transformedContent).not.toContain('[doc1]: doc1.md');
-  expect(transformedContent).not.toContain('[doc2]: ./doc2.md');
-  expect(content).not.toEqual(transformedContent);
-});
-
-test('report broken markdown links', () => {
-  const doc5 = path.join(versionCurrent.contentPath, 'doc5.md');
-  const onBrokenMarkdownLink = jest.fn();
-  const [content, transformedContent] = transform(doc5, {
-    onBrokenMarkdownLink,
+describe('linkify', () => {
+  it('transforms nothing with no links', async () => {
+    const doc1 = path.join(versionCurrent.contentPath, 'doc1.md');
+    const [content, transformedContent] = await transform(doc1);
+    expect(transformedContent).toMatchSnapshot();
+    expect(content).toEqual(transformedContent);
   });
-  expect(transformedContent).toEqual(content);
-  expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(4);
-  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
-    filePath: doc5,
-    link: 'docNotExist1.md',
-    contentPaths: versionCurrent,
-  } as BrokenMarkdownLink);
-  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
-    filePath: doc5,
-    link: './docNotExist2.mdx',
-    contentPaths: versionCurrent,
-  } as BrokenMarkdownLink);
-  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(3, {
-    filePath: doc5,
-    link: '../docNotExist3.mdx',
-    contentPaths: versionCurrent,
-  } as BrokenMarkdownLink);
-  expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(4, {
-    filePath: doc5,
-    link: './subdir/docNotExist4.md',
-    contentPaths: versionCurrent,
-  } as BrokenMarkdownLink);
-});
 
-test('transforms absolute links in versioned docs', () => {
-  const doc2 = path.join(version100.contentPath, 'doc2.md');
-  const [content, transformedContent] = transform(doc2);
-  expect(transformedContent).toMatchSnapshot();
-  expect(transformedContent).toContain('](/docs/1.0.0/subdir/doc1');
-  expect(transformedContent).toContain('](/docs/1.0.0/doc2#existing-docs');
-  expect(transformedContent).not.toContain('](subdir/doc1.md)');
-  expect(transformedContent).not.toContain('](doc2.md#existing-docs)');
-  expect(content).not.toEqual(transformedContent);
-});
+  it('transforms to correct links', async () => {
+    const doc2 = path.join(versionCurrent.contentPath, 'doc2.md');
+    const [content, transformedContent] = await transform(doc2);
+    expect(transformedContent).toMatchSnapshot();
+    expect(transformedContent).toContain('](/docs/doc1');
+    expect(transformedContent).toContain('](/docs/doc2');
+    expect(transformedContent).toContain('](/docs/subdir/doc3');
+    expect(transformedContent).toContain('](/fr/doc-localized');
+    expect(transformedContent).not.toContain('](doc1.md)');
+    expect(transformedContent).not.toContain('](./doc2.md)');
+    expect(transformedContent).not.toContain('](subdir/doc3.md)');
+    expect(transformedContent).not.toContain('](/doc-localized');
+    expect(content).not.toEqual(transformedContent);
+  });
 
-test('transforms relative links in versioned docs', () => {
-  const doc1 = path.join(version100.contentPath, 'subdir', 'doc1.md');
-  const [content, transformedContent] = transform(doc1);
-  expect(transformedContent).toMatchSnapshot();
-  expect(transformedContent).toContain('](/docs/1.0.0/doc2');
-  expect(transformedContent).not.toContain('](../doc2.md)');
-  expect(content).not.toEqual(transformedContent);
+  it('transforms relative links', async () => {
+    const doc3 = path.join(versionCurrent.contentPath, 'subdir', 'doc3.md');
+
+    const [content, transformedContent] = await transform(doc3);
+    expect(transformedContent).toMatchSnapshot();
+    expect(transformedContent).toContain('](/docs/doc2');
+    expect(transformedContent).not.toContain('](../doc2.md)');
+    expect(content).not.toEqual(transformedContent);
+  });
+
+  it('transforms reference links', async () => {
+    const doc4 = path.join(versionCurrent.contentPath, 'doc4.md');
+    const [content, transformedContent] = await transform(doc4);
+    expect(transformedContent).toMatchSnapshot();
+    expect(transformedContent).toContain('[doc1]: /docs/doc1');
+    expect(transformedContent).toContain('[doc2]: /docs/doc2');
+    expect(transformedContent).not.toContain('[doc1]: doc1.md');
+    expect(transformedContent).not.toContain('[doc2]: ./doc2.md');
+    expect(content).not.toEqual(transformedContent);
+  });
+
+  it('reports broken markdown links', async () => {
+    const doc5 = path.join(versionCurrent.contentPath, 'doc5.md');
+    const onBrokenMarkdownLink = jest.fn();
+    const [content, transformedContent] = await transform(doc5, {
+      onBrokenMarkdownLink,
+    });
+    expect(transformedContent).toEqual(content);
+    expect(onBrokenMarkdownLink).toHaveBeenCalledTimes(4);
+    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(1, {
+      filePath: doc5,
+      link: 'docNotExist1.md',
+      contentPaths: versionCurrent,
+    } as DocBrokenMarkdownLink);
+    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(2, {
+      filePath: doc5,
+      link: './docNotExist2.mdx',
+      contentPaths: versionCurrent,
+    } as DocBrokenMarkdownLink);
+    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(3, {
+      filePath: doc5,
+      link: '../docNotExist3.mdx',
+      contentPaths: versionCurrent,
+    } as DocBrokenMarkdownLink);
+    expect(onBrokenMarkdownLink).toHaveBeenNthCalledWith(4, {
+      filePath: doc5,
+      link: './subdir/docNotExist4.md',
+      contentPaths: versionCurrent,
+    } as DocBrokenMarkdownLink);
+  });
+
+  it('transforms absolute links in versioned docs', async () => {
+    const doc2 = path.join(version100.contentPath, 'doc2.md');
+    const [content, transformedContent] = await transform(doc2);
+    expect(transformedContent).toMatchSnapshot();
+    expect(transformedContent).toContain('](/docs/1.0.0/subdir/doc1');
+    expect(transformedContent).toContain('](/docs/1.0.0/doc2#existing-docs');
+    expect(transformedContent).not.toContain('](subdir/doc1.md)');
+    expect(transformedContent).not.toContain('](doc2.md#existing-docs)');
+    expect(content).not.toEqual(transformedContent);
+  });
+
+  it('transforms relative links in versioned docs', async () => {
+    const doc1 = path.join(version100.contentPath, 'subdir', 'doc1.md');
+    const [content, transformedContent] = await transform(doc1);
+    expect(transformedContent).toMatchSnapshot();
+    expect(transformedContent).toContain('](/docs/1.0.0/doc2');
+    expect(transformedContent).not.toContain('](../doc2.md)');
+    expect(content).not.toEqual(transformedContent);
+  });
+
+  // See comment in linkify.ts
+  it('throws for file outside version', async () => {
+    const doc1 = path.join(__dirname, '__fixtures__/outside/doc1.md');
+    await expect(() =>
+      transform(doc1),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Unexpected error: Markdown file at \\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/markdown/__tests__/__fixtures__/outside/doc1.md\\" does not belong to any docs version!"`,
+    );
+  });
 });

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {LoadContext, Plugin, PostCssOptions} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {ThemeConfig} from '@docusaurus/theme-common';
 import {getTranslationFiles, translateThemeConfig} from './translations';
-import path from 'path';
 import {createRequire} from 'module';
 import type {Plugin as PostCssPlugin} from 'postcss';
 import rtlcss from 'rtlcss';
@@ -97,27 +96,26 @@ export default function docusaurusThemeClassic(
   options: Options,
 ): Plugin<void> {
   const {
-    siteConfig: {themeConfig: roughlyTypedThemeConfig},
     i18n: {currentLocale, localeConfigs},
   } = context;
-  const themeConfig = (roughlyTypedThemeConfig || {}) as ThemeConfig;
+  const themeConfig = context.siteConfig.themeConfig as ThemeConfig;
   const {
     announcementBar,
     colorMode,
-    prism: {additionalLanguages = []} = {},
+    prism: {additionalLanguages},
   } = themeConfig;
-  const {customCss} = options || {};
-  const {direction} = localeConfigs[currentLocale];
+  const {customCss} = options ?? {};
+  const {direction} = localeConfigs[currentLocale]!;
 
   return {
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
-      return path.join(__dirname, '../lib-next/theme');
+      return '../lib-next/theme';
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getTranslationFiles: async () => getTranslationFiles({themeConfig}),
@@ -138,8 +136,8 @@ export default function docusaurusThemeClassic(
     getClientModules() {
       const modules = [
         require.resolve(getInfimaCSSFile(direction)),
-        path.resolve(__dirname, './prism-include-languages'),
-        path.resolve(__dirname, './admonitions.css'),
+        './prism-include-languages',
+        './admonitions.css',
       ];
 
       if (customCss) {
@@ -171,7 +169,7 @@ export default function docusaurusThemeClassic(
       };
     },
 
-    configurePostCss(postCssOptions: PostCssOptions) {
+    configurePostCss(postCssOptions) {
       if (direction === 'rtl') {
         const resolvedInfimaFile = require.resolve(getInfimaCSSFile(direction));
         const plugin: PostCssPlugin = {
@@ -207,21 +205,5 @@ ${announcementBar ? AnnouncementBarInlineJavaScript : ''}
   };
 }
 
-const swizzleAllowedComponents = [
-  'CodeBlock',
-  'DocSidebar',
-  'Footer',
-  'NotFound',
-  'SearchBar',
-  'IconArrow',
-  'IconEdit',
-  'IconMenu',
-  'hooks/useTheme',
-  'prism-include-languages',
-];
-
-export function getSwizzleComponentList(): string[] {
-  return swizzleAllowedComponents;
-}
-
+export {default as getSwizzleConfig} from './getSwizzleConfig';
 export {validateThemeConfig} from './validateThemeConfig';

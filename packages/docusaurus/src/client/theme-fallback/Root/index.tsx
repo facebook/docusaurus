@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {ReactNode} from 'react';
+import React from 'react';
+import type {Props} from '@theme/Root';
 
 // Wrapper at the very top of the app, that is applied constantly
 // and does not depend on current route (unlike the layout)
@@ -14,8 +15,6 @@ import type {ReactNode} from 'react';
 // and these providers won't reset state when we navigate
 //
 // See https://github.com/facebook/docusaurus/issues/3919
-function Root({children}: {children: ReactNode}): ReactNode {
-  return children;
+export default function Root({children}: Props): JSX.Element {
+  return <>{children}</>;
 }
-
-export default Root;

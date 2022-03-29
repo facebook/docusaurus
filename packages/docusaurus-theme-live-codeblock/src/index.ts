@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 
@@ -18,10 +17,10 @@ export default function themeLiveCodeblock(context: LoadContext): Plugin {
     name: 'docusaurus-theme-live-codeblock',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getDefaultCodeTranslationMessages() {
@@ -35,7 +34,7 @@ export default function themeLiveCodeblock(context: LoadContext): Plugin {
       return {
         resolve: {
           alias: {
-            buble: path.resolve(__dirname, './custom-buble.js'),
+            buble: require.resolve('./custom-buble.js'),
           },
         },
       };

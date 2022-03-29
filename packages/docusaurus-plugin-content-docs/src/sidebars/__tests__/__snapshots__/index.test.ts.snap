@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`loadSidebars sidebars link 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "href": "https://github.com",
           "label": "category",
           "type": "link",
@@ -22,17 +22,17 @@ Object {
 `;
 
 exports[`loadSidebars sidebars with category.collapsed property 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "collapsed": false,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "doc1",
               "type": "doc",
             },
@@ -46,15 +46,15 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "collapsed": false,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "id": "doc2",
               "type": "doc",
             },
@@ -73,13 +73,13 @@ Object {
 `;
 
 exports[`loadSidebars sidebars with category.collapsed property at first level 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": false,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "doc1",
           "type": "doc",
         },
@@ -88,11 +88,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": false,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "doc2",
           "type": "doc",
         },
@@ -106,41 +106,41 @@ Object {
 `;
 
 exports[`loadSidebars sidebars with deep level of category 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "a",
           "type": "doc",
         },
-        Object {
+        {
           "collapsed": true,
           "collapsible": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "collapsed": true,
               "collapsible": true,
-              "items": Array [
-                Object {
+              "items": [
+                {
                   "id": "c",
                   "type": "doc",
                 },
-                Object {
+                {
                   "collapsed": true,
                   "collapsible": true,
-                  "items": Array [
-                    Object {
+                  "items": [
+                    {
                       "id": "d",
                       "type": "doc",
                     },
-                    Object {
+                    {
                       "collapsed": true,
                       "collapsible": true,
-                      "items": Array [
-                        Object {
+                      "items": [
+                        {
                           "id": "e",
                           "type": "doc",
                         },
@@ -159,7 +159,7 @@ Object {
               "link": undefined,
               "type": "category",
             },
-            Object {
+            {
               "id": "f",
               "type": "doc",
             },
@@ -178,13 +178,13 @@ Object {
 `;
 
 exports[`loadSidebars sidebars with first level not a category 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "greeting",
           "type": "doc",
         },
@@ -193,7 +193,7 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "id": "api",
       "type": "doc",
     },
@@ -202,26 +202,26 @@ Object {
 `;
 
 exports[`loadSidebars sidebars with known sidebar item type 1`] = `
-Object {
-  "docs": Array [
-    Object {
+{
+  "docs": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "foo/bar",
           "type": "doc",
         },
-        Object {
+        {
           "id": "foo/baz",
           "type": "doc",
         },
-        Object {
+        {
           "href": "https://github.com",
           "label": "Github",
           "type": "link",
         },
-        Object {
+        {
           "id": "hello",
           "type": "ref",
         },
@@ -230,11 +230,11 @@ Object {
       "link": undefined,
       "type": "category",
     },
-    Object {
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "hello",
           "type": "doc",
         },
@@ -248,13 +248,13 @@ Object {
 `;
 
 exports[`loadSidebars undefined path 1`] = `
-Object {
-  "defaultSidebar": Array [
-    Object {
+{
+  "defaultSidebar": [
+    {
       "collapsed": true,
       "collapsible": true,
-      "items": Array [
-        Object {
+      "items": [
+        {
           "id": "bar",
           "type": "doc",
         },

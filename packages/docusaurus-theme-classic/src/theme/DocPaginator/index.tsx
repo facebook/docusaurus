@@ -10,7 +10,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/DocPaginator';
 
-function DocPaginator(props: Props): JSX.Element {
+export default function DocPaginator(props: Props): JSX.Element {
   const {previous, next} = props;
 
   return (
@@ -52,5 +52,3 @@ function DocPaginator(props: Props): JSX.Element {
     </nav>
   );
 }
-
-export default DocPaginator;

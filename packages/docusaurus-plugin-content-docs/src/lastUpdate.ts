@@ -6,15 +6,18 @@
  */
 
 import logger from '@docusaurus/logger';
-import {getFileCommitDate, GitNotFoundError} from '@docusaurus/utils';
-
-type FileLastUpdateData = {timestamp?: number; author?: string};
+import {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from '@docusaurus/utils';
 
 let showedGitRequirementError = false;
+let showedFileNotTrackedError = false;
 
 export async function getFileLastUpdate(
   filePath?: string,
-): Promise<FileLastUpdateData | null> {
+): Promise<{timestamp: number; author: string} | null> {
   if (!filePath) {
     return null;
   }
@@ -27,12 +30,21 @@ export async function getFileLastUpdate(
       includeAuthor: true,
     });
     return {timestamp: result.timestamp, author: result.author};
-  } catch (e) {
-    if (e instanceof GitNotFoundError && !showedGitRequirementError) {
-      logger.warn('Sorry, the docs plugin last update options require Git.');
-      showedGitRequirementError = true;
+  } catch (err) {
+    if (err instanceof GitNotFoundError) {
+      if (!showedGitRequirementError) {
+        logger.warn('Sorry, the docs plugin last update options require Git.');
+        showedGitRequirementError = true;
+      }
+    } else if (err instanceof FileNotTrackedError) {
+      if (!showedFileNotTrackedError) {
+        logger.warn(
+          'Cannot infer the update date for some files, as they are not tracked by git.',
+        );
+        showedFileNotTrackedError = true;
+      }
     } else {
-      logger.error(e);
+      logger.warn(err);
     }
     return null;
   }

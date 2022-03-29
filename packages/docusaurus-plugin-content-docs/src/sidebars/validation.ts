@@ -149,9 +149,9 @@ function validateSidebarItem(
   }
 }
 
-export function validateSidebars(
-  sidebars: Record<string, unknown>,
-): asserts sidebars is NormalizedSidebars {
+export function validateSidebars(sidebars: {
+  [sidebarId: string]: unknown;
+}): asserts sidebars is NormalizedSidebars {
   Object.values(sidebars as NormalizedSidebars).forEach((sidebar) => {
     sidebar.forEach(validateSidebarItem);
   });
@@ -164,6 +164,7 @@ const categoryMetadataFileSchema = Joi.object<CategoryMetadataFile>({
   collapsible: Joi.boolean(),
   className: Joi.string(),
   link: sidebarItemCategoryLinkSchema,
+  customProps: Joi.object().unknown(),
 });
 
 export function validateCategoryMetadataFile(

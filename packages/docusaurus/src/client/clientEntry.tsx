@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {hydrate, render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -30,7 +30,8 @@ if (ExecutionEnvironment.canUseDOM) {
   // first-load experience.
   // For development, there is no existing markup so we had to render it.
   // We also preload async component to avoid first-load loading screen.
-  const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
+  const renderMethod =
+    process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
       <HelmetProvider>

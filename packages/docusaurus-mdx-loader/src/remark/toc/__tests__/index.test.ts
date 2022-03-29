@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {join} from 'path';
+import path from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
 import vfile from 'to-vfile';
@@ -13,8 +13,8 @@ import plugin from '../index';
 import headings from '../../headings/index';
 
 const processFixture = async (name, options?) => {
-  const path = join(__dirname, '__fixtures__', `${name}.md`);
-  const file = await vfile.read(path);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
+  const file = await vfile.read(filePath);
   const result = await remark()
     .use(headings)
     .use(mdx)
@@ -24,203 +24,42 @@ const processFixture = async (name, options?) => {
   return result.toString();
 };
 
-test('non text phrasing content', async () => {
-  const result = await processFixture('non-text-content');
-  expect(result).toMatchSnapshot();
-});
+describe('toc remark plugin', () => {
+  it('works on non text phrasing content', async () => {
+    const result = await processFixture('non-text-content');
+    expect(result).toMatchSnapshot();
+  });
 
-test('inline code should be escaped', async () => {
-  const result = await processFixture('inline-code');
-  expect(result).toMatchSnapshot();
-});
+  it('escapes inline code', async () => {
+    const result = await processFixture('inline-code');
+    expect(result).toMatchSnapshot();
+  });
 
-test('text content', async () => {
-  const result = await processFixture('just-content');
-  expect(result).toMatchInlineSnapshot(`
-    "export const toc = [
-    	{
-    		value: 'Endi',
-    		id: 'endi',
-    		children: [],
-    		level: 3
-    	},
-    	{
-    		value: 'Endi',
-    		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
-    		level: 2
-    	},
-    	{
-    		value: 'I ♥ unicode.',
-    		id: 'i--unicode',
-    		children: [],
-    		level: 2
-    	}
-    ];
+  it('works on text content', async () => {
+    const result = await processFixture('just-content');
+    expect(result).toMatchSnapshot();
+  });
 
-    ### Endi
+  it('exports even with existing name', async () => {
+    const result = await processFixture('name-exist');
+    expect(result).toMatchSnapshot();
+  });
 
-    \`\`\`md
-    ## This is ignored
-    \`\`\`
+  it('exports with custom name', async () => {
+    const options = {
+      name: 'customName',
+    };
+    const result = await processFixture('just-content', options);
+    expect(result).toMatchSnapshot();
+  });
 
-    ## Endi
+  it('inserts below imports', async () => {
+    const result = await processFixture('insert-below-imports');
+    expect(result).toMatchSnapshot();
+  });
 
-    Lorem ipsum
-
-    ### Yangshun
-
-    Some content here
-
-    ## I ♥ unicode.
-    "
-  `);
-});
-
-test('should export even with existing name', async () => {
-  const result = await processFixture('name-exist');
-  expect(result).toMatchInlineSnapshot(`
-    "export const toc = [
-    	{
-    		value: 'Thanos',
-    		id: 'thanos',
-    		children: [],
-    		level: 2
-    	},
-    	{
-    		value: 'Tony Stark',
-    		id: 'tony-stark',
-    		children: [
-    			{
-    				value: 'Avengers',
-    				id: 'avengers',
-    				children: [],
-    				level: 3
-    			}
-    		],
-    		level: 2
-    	}
-    ];
-
-    ## Thanos
-
-    ## Tony Stark
-
-    ### Avengers
-    "
-  `);
-});
-
-test('should export with custom name', async () => {
-  const options = {
-    name: 'customName',
-  };
-  const result = await processFixture('just-content', options);
-  expect(result).toMatchInlineSnapshot(`
-    "export const customName = [
-    	{
-    		value: 'Endi',
-    		id: 'endi',
-    		children: [],
-    		level: 3
-    	},
-    	{
-    		value: 'Endi',
-    		id: 'endi-1',
-    		children: [
-    			{
-    				value: 'Yangshun',
-    				id: 'yangshun',
-    				children: [],
-    				level: 3
-    			}
-    		],
-    		level: 2
-    	},
-    	{
-    		value: 'I ♥ unicode.',
-    		id: 'i--unicode',
-    		children: [],
-    		level: 2
-    	}
-    ];
-
-    ### Endi
-
-    \`\`\`md
-    ## This is ignored
-    \`\`\`
-
-    ## Endi
-
-    Lorem ipsum
-
-    ### Yangshun
-
-    Some content here
-
-    ## I ♥ unicode.
-    "
-  `);
-});
-
-test('should insert below imports', async () => {
-  const result = await processFixture('insert-below-imports');
-  expect(result).toMatchInlineSnapshot(`
-    "import something from 'something';
-
-    import somethingElse from 'something-else';
-
-    export const toc = [
-    	{
-    		value: 'Title',
-    		id: 'title',
-    		children: [],
-    		level: 2
-    	},
-    	{
-    		value: 'Test',
-    		id: 'test',
-    		children: [
-    			{
-    				value: 'Again',
-    				id: 'again',
-    				children: [],
-    				level: 3
-    			}
-    		],
-    		level: 2
-    	}
-    ];
-
-    ## Title
-
-    ## Test
-
-    ### Again
-
-    Content.
-    "
-  `);
-});
-
-test('empty headings', async () => {
-  const result = await processFixture('empty-headings');
-  expect(result).toMatchInlineSnapshot(`
-    "export const toc = [];
-
-    # Ignore this
-
-    ## 
-
-    ## ![](an-image.svg)
-    "
-  `);
+  it('handles empty headings', async () => {
+    const result = await processFixture('empty-headings');
+    expect(result).toMatchSnapshot();
+  });
 });

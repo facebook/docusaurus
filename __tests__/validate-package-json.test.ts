@@ -4,15 +4,25 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable import/no-extraneous-dependencies */
 
 import {Globby} from '@docusaurus/utils';
 import fs from 'fs-extra';
 
 type PackageJsonFile = {
   file: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any;
+  content: {
+    name?: string;
+    private?: boolean;
+    version?: string;
+    repository?: {
+      type?: string;
+      url?: string;
+      directory?: string;
+    };
+    publishConfig?: {
+      access?: string;
+    };
+  };
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
@@ -27,12 +37,12 @@ async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
 }
 
 describe('packages', () => {
-  test('should be found', async () => {
+  it('are found', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
     expect(packageJsonFiles.length).toBeGreaterThan(0);
   });
 
-  test('should contain repository and directory for every package', async () => {
+  it('contain repository and directory', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
@@ -48,11 +58,11 @@ describe('packages', () => {
 
   /*
   If a package starts with @, if won't be published to public npm registry
-  without an additional publishConfig.acces: "public" config
+  without an additional publishConfig.access: "public" config
   This will make you publish an incomplete list of Docusaurus packages
   when trying to release with lerna-publish
    */
-  test('should have publishConfig.access: "public" when name starts with @', async () => {
+  it('have publishConfig.access: "public" when name starts with @', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles

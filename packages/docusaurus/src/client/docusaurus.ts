@@ -12,8 +12,8 @@ import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';
 
-const fetched: Record<string, boolean> = {};
-const loaded: Record<string, boolean> = {};
+const fetched: {[key: string]: boolean} = {};
+const loaded: {[key: string]: boolean} = {};
 
 declare global {
   // eslint-disable-next-line camelcase, no-underscore-dangle
@@ -34,20 +34,16 @@ const canPrefetch = (routePath: string) =>
 const canPreload = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath];
 
-// Remove the last part containing the route hash
-// input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
-// output: /blog/2018/12/14/Happy-First-Birthday-Slash
-const removeRouteNameHash = (str: string) => str.replace(/-[^-]+$/, '');
-
 const getChunkNamesToLoad = (path: string): string[] =>
   Object.entries(routesChunkNames)
     .filter(
-      ([routeNameWithHash]) => removeRouteNameHash(routeNameWithHash) === path,
+      // Remove the last part containing the route hash
+      // input: /blog/2018/12/14/Happy-First-Birthday-Slash-fe9
+      // output: /blog/2018/12/14/Happy-First-Birthday-Slash
+      ([routeNameWithHash]) =>
+        routeNameWithHash.replace(/-[^-]+$/, '') === path,
     )
-    .flatMap(([, routeChunks]) =>
-      // flat() is useful for nested chunk names, it's not like array.flat()
-      Object.values(flat(routeChunks)),
-    );
+    .flatMap(([, routeChunks]) => Object.values(flat(routeChunks)));
 
 const docusaurus = {
   prefetch: (routePath: string): boolean => {

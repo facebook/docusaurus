@@ -9,7 +9,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import type {Props} from '@theme/PaginatorNavLink';
 
-function PaginatorNavLink(props: Props): JSX.Element {
+export default function PaginatorNavLink(props: Props): JSX.Element {
   const {permalink, title, subLabel} = props;
   return (
     <Link className="pagination-nav__link" to={permalink}>
@@ -18,5 +18,3 @@ function PaginatorNavLink(props: Props): JSX.Element {
     </Link>
   );
 }
-
-export default PaginatorNavLink;

@@ -9,27 +9,35 @@ import React from 'react';
 import BlogLayout from '@theme/BlogLayout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import type {Props} from '@theme/BlogListPage';
-import {ThemeClassNames} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  HtmlClassNameProvider,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
 import Link from '@docusaurus/Link';
 import ChangelogItem from '@theme/ChangelogItem';
 
 import styles from './styles.module.css';
+import SearchMetadata from '@theme/SearchMetadata';
+import clsx from 'clsx';
 
-function ChangelogList(props: Props): JSX.Element {
+function ChangelogListMetadata(props: Props): JSX.Element {
+  const {metadata} = props;
+  const {blogTitle, blogDescription} = metadata;
+  return (
+    <>
+      <PageMetadata title={blogTitle} description={blogDescription} />
+      <SearchMetadata tag="blog_posts_list" />
+    </>
+  );
+}
+
+function ChangelogListContent(props: Props): JSX.Element {
   const {metadata, items, sidebar} = props;
-  const {blogDescription, blogTitle} = metadata;
+  const {blogTitle} = metadata;
 
   return (
-    <BlogLayout
-      title={blogTitle}
-      description={blogDescription}
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogListPage}
-      searchMetadata={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'blog_posts_list',
-      }}
-      sidebar={sidebar}>
+    <BlogLayout sidebar={sidebar}>
       <header className="margin-bottom--lg">
         <h1 style={{fontSize: '3rem'}}>{blogTitle}</h1>
         <p>
@@ -89,4 +97,15 @@ function ChangelogList(props: Props): JSX.Element {
   );
 }
 
-export default ChangelogList;
+export default function ChangelogList(props: Props): JSX.Element {
+  return (
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogListPage,
+      )}>
+      <ChangelogListMetadata {...props} />
+      <ChangelogListContent {...props} />
+    </HtmlClassNameProvider>
+  );
+}

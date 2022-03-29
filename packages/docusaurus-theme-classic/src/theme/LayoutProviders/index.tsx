@@ -11,8 +11,9 @@ import {
   TabGroupChoiceProvider,
   AnnouncementBarProvider,
   DocsPreferredVersionContextProvider,
-  MobileSecondaryMenuProvider,
   ScrollControllerProvider,
+  NavbarProvider,
+  PluginHtmlClassNameProvider,
 } from '@docusaurus/theme-common';
 import type {Props} from '@theme/LayoutProviders';
 
@@ -23,9 +24,9 @@ export default function LayoutProviders({children}: Props): JSX.Element {
         <TabGroupChoiceProvider>
           <ScrollControllerProvider>
             <DocsPreferredVersionContextProvider>
-              <MobileSecondaryMenuProvider>
-                {children}
-              </MobileSecondaryMenuProvider>
+              <PluginHtmlClassNameProvider>
+                <NavbarProvider>{children}</NavbarProvider>
+              </PluginHtmlClassNameProvider>
             </DocsPreferredVersionContextProvider>
           </ScrollControllerProvider>
         </TabGroupChoiceProvider>

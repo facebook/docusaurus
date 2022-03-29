@@ -37,9 +37,9 @@ function linkPrefetchStrategy(url: string) {
     link.onerror = reject;
 
     const parentElement =
-      document.getElementsByTagName('head')[0] ||
-      document.getElementsByName('script')[0].parentNode;
-    parentElement.appendChild(link);
+      document.getElementsByTagName('head')[0] ??
+      document.getElementsByName('script')[0]?.parentNode;
+    parentElement?.appendChild(link);
   });
 }
 
@@ -65,9 +65,9 @@ const supportedPrefetchStrategy = support('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: Record<string, boolean> = {};
+const preFetched: {[url: string]: boolean} = {};
 
-function prefetch(url: string): Promise<void> {
+export default function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {
     if (preFetched[url]) {
       resolve();
@@ -82,5 +82,3 @@ function prefetch(url: string): Promise<void> {
       .catch(() => {}); // 404s are logged to the console anyway.
   });
 }
-
-export default prefetch;

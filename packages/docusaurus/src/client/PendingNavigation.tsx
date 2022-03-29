@@ -45,7 +45,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  override shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
     const {routes, delay} = this.props;
 
@@ -69,17 +69,10 @@ class PendingNavigation extends React.Component<Props, State> {
           });
           // Route has loaded, we can reset previousLocation.
           this.previousLocation = null;
-          this.setState(
-            {
-              nextRouteHasLoaded: true,
-            },
-            this.stopProgressBar,
-          );
+          this.setState({nextRouteHasLoaded: true}, this.stopProgressBar);
           const {hash} = nextLocation;
           if (!hash) {
-            document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
-            document.documentElement.style.scrollBehavior = '';
           } else {
             const id = decodeURIComponent(hash.substring(1));
             const element = document.getElementById(id);
@@ -123,7 +116,7 @@ class PendingNavigation extends React.Component<Props, State> {
     nprogress.done();
   }
 
-  render() {
+  override render() {
     const {children, location} = this.props;
     return (
       <Route location={normalizeLocation(location)} render={() => children} />

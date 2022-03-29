@@ -1,7 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Interpolate acceptance test 1`] = `
-Array [
+exports[`<Interpolate> acceptance test 1`] = `
+[
+  "Hello ",
+  "Sébastien",
+  " how are you ",
+  <span>
+    today
+  </span>,
+  "? Another {unprovidedValue}!",
+]
+`;
+
+exports[`interpolate acceptance test 1`] = `
+[
   <React.Fragment>
     Hello 
     Sébastien
@@ -18,8 +30,8 @@ Array [
 ]
 `;
 
-exports[`Interpolate placeholders with JSX values 1`] = `
-Array [
+exports[`interpolate placeholders with JSX values 1`] = `
+[
   <React.Fragment>
     Hello 
     <b>
@@ -38,8 +50,8 @@ Array [
 ]
 `;
 
-exports[`Interpolate placeholders with mixed vales 1`] = `
-Array [
+exports[`interpolate placeholders with mixed vales 1`] = `
+[
   <React.Fragment>
     Hello 
     Sébastien

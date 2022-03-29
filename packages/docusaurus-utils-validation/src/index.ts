@@ -10,8 +10,6 @@ export {default as Joi} from './Joi';
 export {JoiFrontMatter} from './JoiFrontMatter';
 
 export {
-  isValidationDisabledEscapeHatch,
-  logValidationBugReportHint,
   printWarning,
   normalizePluginOptions,
   normalizeThemeConfig,

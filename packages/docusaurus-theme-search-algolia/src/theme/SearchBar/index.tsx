@@ -34,6 +34,7 @@ type DocSearchProps = Omit<
 > & {
   contextualSearch?: string;
   externalUrlRegex?: string;
+  searchPagePath: boolean | string;
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
@@ -256,8 +257,10 @@ function DocSearch({
             navigator={navigator}
             transformItems={transformItems}
             hitComponent={Hit}
-            resultsFooterComponent={resultsFooterComponent}
             transformSearchClient={transformSearchClient}
+            {...(props.searchPagePath && {
+              resultsFooterComponent,
+            })}
             {...props}
             searchParameters={searchParameters}
           />,
@@ -267,9 +270,7 @@ function DocSearch({
   );
 }
 
-function SearchBar(): JSX.Element {
+export default function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }
-
-export default SearchBar;

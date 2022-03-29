@@ -26,9 +26,11 @@ const PlaygroundDocumentationUrl = 'https://docusaurus.io/docs/playground';
 export type PlaygroundName = keyof typeof PlaygroundConfigs;
 
 function isValidPlaygroundName(
-  playgroundName: string,
+  playgroundName: string | undefined,
 ): playgroundName is PlaygroundName {
-  return Object.keys(PlaygroundConfigs).includes(playgroundName);
+  return (
+    !!playgroundName && Object.keys(PlaygroundConfigs).includes(playgroundName)
+  );
 }
 
 export function createPlaygroundDocumentationResponse(): HandlerResponse {
@@ -54,10 +56,10 @@ export function createPlaygroundResponse(
 }
 
 // Inspired by https://stackoverflow.com/a/3409200/82609
-function parseCookieString(cookieString: string): Record<string, string> {
-  const result: Record<string, string> = {};
+function parseCookieString(cookieString: string): {[key: string]: string} {
+  const result: {[key: string]: string} = {};
   cookieString.split(';').forEach((cookie) => {
-    const [name, value] = cookie.split('=');
+    const [name, value] = cookie.split('=') as [string, string];
     result[name.trim()] = decodeURI(value);
   });
   return result;
@@ -66,7 +68,7 @@ function parseCookieString(cookieString: string): Record<string, string> {
 export function readPlaygroundName(
   event: HandlerEvent,
 ): PlaygroundName | undefined {
-  const parsedCookie: Record<string, string> = event.headers.cookie
+  const parsedCookie: {[key: string]: string} = event.headers.cookie
     ? parseCookieString(event.headers.cookie)
     : {};
   const playgroundName: string | undefined = parsedCookie[CookieName];
