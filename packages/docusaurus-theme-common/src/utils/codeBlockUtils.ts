@@ -15,7 +15,7 @@ const commentPatterns = {
   js: {start: '\\/\\/', end: ''},
   jsBlock: {start: '\\/\\*', end: '\\*\\/'},
   jsx: {start: '\\{\\s*\\/\\*', end: '\\*\\/\\s*\\}'},
-  python: {start: '#', end: ''},
+  bash: {start: '#', end: ''},
   html: {start: '<!--', end: '-->'},
 };
 
@@ -59,11 +59,13 @@ function getAllMagicCommentDirectiveStyles(lang: string) {
 
     case 'python':
     case 'py':
-      return getCommentPattern(['python']);
+    case 'bash':
+      return getCommentPattern(['bash']);
 
     case 'markdown':
     case 'md':
-      return getCommentPattern(['html', 'jsx']);
+      // Text uses HTML, front matter uses bash
+      return getCommentPattern(['html', 'jsx', 'bash']);
 
     default:
       // all comment types
