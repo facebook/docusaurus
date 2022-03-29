@@ -794,6 +794,15 @@ const Users: User[] = [
     tags: ['product', 'design'],
   },
   {
+    title: 'inspectIT Ocelot Documentation',
+    description:
+      'inspectIT Ocelot is an Open Source zero-configuration Java agent for collecting your application\'s performance, tracing, and business data.',
+    preview: require('./showcase/inspectIT.png'),
+    website: 'https://inspectit.github.io/inspectit-ocelot/docs/doc1',
+    source: null,
+    tags: ['opensource', 'product'],
+  },
+  {
     title: 'StackQL',
     description:
       'StackQL is a data centric approach to provisioning, querying, and managing cloud infrastructure and SaaS resources across multiple clouds.',
