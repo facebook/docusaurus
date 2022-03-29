@@ -7,6 +7,7 @@
 
 import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
+import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/CodeBlock/WordWrapButton';
 
 import styles from './styles.module.css';
@@ -27,6 +28,12 @@ export default function WordWrapButton({
     const {scrollWidth, clientWidth} = codeBlockRef.current!;
     setIsCodeScrollable(scrollWidth > clientWidth);
   }, [codeBlockRef]);
+  const title = translate({
+    id: 'theme.CodeBlock.wordWrapToggle',
+    message: 'Toggle word wrap',
+    description:
+      'The title attribute for toggle word wrapping button of code block lines',
+  });
 
   useEffect(() => {
     updateCodeIsScrollable();
@@ -53,9 +60,8 @@ export default function WordWrapButton({
         styles.wordWrapButton,
         isEnabled && styles.wordWrapButtonEnabled,
       )}
-      // TODO: add i18n
-      aria-label="Toggle code wrap"
-      title="Toggle code wrap">
+      aria-label={title}
+      title={title}>
       <svg
         className={styles.wordWrapButtonIcon}
         viewBox="0 0 24 24"

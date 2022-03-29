@@ -4,6 +4,7 @@
   "theme.CodeBlock.copied": "Kopiert",
   "theme.CodeBlock.copy": "Kopieren",
   "theme.CodeBlock.copyButtonAriaLabel": "In die Zwischenablage kopieren",
+  "theme.CodeBlock.wordWrapToggle": "Toggle word wrap",
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": "Umschalten der Seitenleiste mit einklappbarer Kategorie '{label}'",
   "theme.ErrorPageContent.title": "Die Seite ist abgestürzt.",
   "theme.ErrorPageContent.tryAgain": "Nochmal versuchen",
