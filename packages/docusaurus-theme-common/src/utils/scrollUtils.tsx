@@ -306,6 +306,6 @@ export function useSmoothScrollTo(): {
         ? smoothScrollNative(top)
         : smoothScrollPolyfill(top);
     },
-    cancelScroll: () => cancelRef?.current,
+    cancelScroll: () => cancelRef.current?.(),
   };
 }
