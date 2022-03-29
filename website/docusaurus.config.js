@@ -125,8 +125,9 @@ const config = {
     [
       'docusaurus-plugin-typedoc',
       {
-        entryPoints: ['../packages/docusaurus-utils/lib/index.d.ts'],
+        entryPoints: ['../packages/docusaurus-utils/lib/index.d.ts', '../packages/docusaurus-theme-common/lib/index.d.ts'],
         out: 'typedoc',
+        readme: 'none',
       },
     ],
     [

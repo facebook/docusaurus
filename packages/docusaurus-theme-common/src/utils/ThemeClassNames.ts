@@ -33,7 +33,7 @@ export const ThemeClassNames = {
   },
 
   /**
-   * Follows the naming convention "theme-{blog,doc,version,page}?-<suffix>"
+   * Follows the naming convention `theme-{blog,doc,version,page}?-[suffix]`
    */
   common: {
     editThisPage: 'theme-edit-this-page',
