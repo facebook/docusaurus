@@ -27,24 +27,26 @@ declare module '@generated/site-metadata' {
 }
 
 declare module '@generated/registry' {
-  const registry: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    readonly [key: string]: [() => Promise<any>, string, string];
-  };
+  import type {Registry} from '@docusaurus/types';
+
+  const registry: Registry;
   export default registry;
 }
 
 declare module '@generated/routes' {
-  import type {Route} from '@docusaurus/types';
+  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
 
-  const routes: Route[];
+  type RouteConfig = RRRouteConfig & {
+    path: string;
+  };
+  const routes: RouteConfig[];
   export default routes;
 }
 
 declare module '@generated/routesChunkNames' {
-  import type {RouteChunksTree} from '@docusaurus/types';
+  import type {RouteChunkNames} from '@docusaurus/types';
 
-  const routesChunkNames: {[route: string]: RouteChunksTree};
+  const routesChunkNames: RouteChunkNames;
   export = routesChunkNames;
 }
 
