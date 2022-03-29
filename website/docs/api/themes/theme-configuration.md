@@ -343,6 +343,9 @@ module.exports = {
               href: 'https://www.facebook.com',
             },
             {
+              html: '<hr/>',
+            },
+            {
               type: 'doc',
               label: 'Social',
               docId: 'social',

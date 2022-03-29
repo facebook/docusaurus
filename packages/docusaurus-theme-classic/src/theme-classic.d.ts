@@ -633,6 +633,7 @@ declare module '@theme/NavbarItem/DefaultNavbarItem' {
     readonly isDropdownItem?: boolean;
     readonly className?: string;
     readonly position?: 'left' | 'right';
+    readonly html?: string;
   };
 
   export interface Props extends DesktopOrMobileNavBarItemProps {

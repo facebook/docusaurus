@@ -33,7 +33,11 @@ function DefaultNavbarItemDesktop({
   );
 
   if (isDropdownItem) {
-    return <li>{element}</li>;
+    return props.html ? (
+      <li dangerouslySetInnerHTML={{__html: props.html}} />
+    ) : (
+      <li>{element}</li>
+    );
   }
 
   return element;
@@ -44,7 +48,12 @@ function DefaultNavbarItemMobile({
   isDropdownItem,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
-  return (
+  return props.html ? (
+    <li
+      className="menu__list-item"
+      dangerouslySetInnerHTML={{__html: props.html}}
+    />
+  ) : (
     <li className="menu__list-item">
       <NavbarNavLink className={clsx('menu__link', className)} {...props} />
     </li>
