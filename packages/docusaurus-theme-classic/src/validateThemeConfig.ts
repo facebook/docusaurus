@@ -66,19 +66,17 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
     'any.unknown': 'Nested dropdowns are not allowed',
   }),
   html: Joi.forbidden().messages({
-    'any.unknown': 'Navbar items with only HTML contents are not allowed',
+    'any.unknown': 'Navbar items with HTML contents are not allowed',
   }),
 })
-  .xor('href', 'to')
+  .xor('href', 'to', 'html')
   .messages({
     'object.xor': 'One and only one between "to" and "href" should be provided',
   });
 
 const DefaultDropdownSubitemSchema = DefaultNavbarItemSchema.append({
   html: Joi.string(),
-})
-  .xor('href', 'to', 'html')
-  .nand('html', 'label');
+}).nand('html', 'label');
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),

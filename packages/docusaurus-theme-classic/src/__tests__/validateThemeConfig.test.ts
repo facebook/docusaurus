@@ -235,7 +235,7 @@ describe('themeConfig', () => {
     expect(() =>
       testValidateThemeConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Navbar items with only HTML contents are not allowed"`,
+      `"Navbar items with HTML contents are not allowed"`,
     );
   });
 
