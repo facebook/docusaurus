@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Route} from '@docusaurus/types';
+import type {RouteConfig} from 'react-router-config';
 import {findHomePageRoute, isSamePath} from '../routesUtils';
 
 describe('isSamePath', () => {
@@ -41,7 +41,7 @@ describe('isSamePath', () => {
 });
 
 describe('findHomePageRoute', () => {
-  const homePage: Route = {
+  const homePage: RouteConfig = {
     path: '/',
     exact: true,
   };

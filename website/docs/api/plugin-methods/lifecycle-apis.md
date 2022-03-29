@@ -46,13 +46,13 @@ Create a route to add to the website.
 interface RouteConfig {
   path: string;
   component: string;
-  modules?: RouteModule;
+  modules?: RouteModules;
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
 }
-interface RouteModule {
-  [module: string]: Module | RouteModule | RouteModule[];
+interface RouteModules {
+  [module: string]: Module | RouteModules | RouteModules[];
 }
 type Module =
   | {
