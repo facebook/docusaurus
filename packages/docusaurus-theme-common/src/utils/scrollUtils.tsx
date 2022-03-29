@@ -253,10 +253,7 @@ function smoothScrollPolyfill(top: number): CancelScrollTop {
       (!isUpScroll && currentScroll < top)
     ) {
       raf = requestAnimationFrame(rafRecursion);
-      window.scrollTo(
-        0,
-        Math.floor(Math.abs(currentScroll - top) * 0.85) + top,
-      );
+      window.scrollTo(0, Math.floor((currentScroll - top) * 0.85) + top);
     }
   }
   rafRecursion();
