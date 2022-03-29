@@ -136,6 +136,12 @@ describe('themeConfig', () => {
               },
             ],
           },
+          // HTML-only
+          {
+            type: 'html',
+            position: 'right',
+            value: '<button>Give feedback</button>',
+          },
           // Dropdown with name
           {
             type: 'dropdown',
@@ -143,7 +149,8 @@ describe('themeConfig', () => {
             position: 'left',
             items: [
               {
-                html: '<b>Supported package managers</b>',
+                type: 'html',
+                value: '<b>Supported package managers</b>',
               },
               {
                 type: 'doc',
@@ -171,7 +178,8 @@ describe('themeConfig', () => {
             ],
             dropdownItemsAfter: [
               {
-                html: '<hr/>',
+                type: 'html',
+                value: '<hr/>',
               },
               {
                 to: '/versions',
@@ -220,23 +228,6 @@ describe('themeConfig', () => {
     expect(() =>
       testValidateThemeConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
-  });
-
-  it('rejects navbar item with HTML-only content', () => {
-    const config = {
-      navbar: {
-        items: [
-          {
-            html: '<span>---</span>',
-          },
-        ],
-      },
-    };
-    expect(() =>
-      testValidateThemeConfig(config),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Navbar items with HTML contents are not allowed"`,
-    );
   });
 
   it('rejects nested dropdowns', () => {

@@ -65,18 +65,11 @@ const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
   items: Joi.forbidden().messages({
     'any.unknown': 'Nested dropdowns are not allowed',
   }),
-  html: Joi.forbidden().messages({
-    'any.unknown': 'Navbar items with HTML contents are not allowed',
-  }),
 })
-  .xor('href', 'to', 'html')
+  .xor('href', 'to')
   .messages({
     'object.xor': 'One and only one between "to" and "href" should be provided',
   });
-
-const DefaultDropdownSubitemSchema = DefaultNavbarItemSchema.append({
-  html: Joi.string(),
-}).nand('html', 'label');
 
 const DocsVersionNavbarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docsVersion').required(),
@@ -94,6 +87,12 @@ const DocSidebarItemSchema = NavbarItemBaseSchema.append({
   type: Joi.string().equal('docSidebar').required(),
   sidebarId: Joi.string().required(),
   docsPluginId: Joi.string(),
+});
+
+const HtmlNavbarItemSchema = Joi.object({
+  className: Joi.string(),
+  type: Joi.string().equal('html').required(),
+  value: Joi.string().required(),
 });
 
 const itemWithType = (type: string | undefined) => {
@@ -126,7 +125,11 @@ const DropdownSubitemSchema = Joi.object({
     },
     {
       is: itemWithType(undefined),
-      then: DefaultDropdownSubitemSchema,
+      then: DefaultNavbarItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
     },
     {
       is: Joi.alternatives().try(
@@ -198,6 +201,10 @@ const NavbarItemSchema = Joi.object({
     {
       is: itemWithType('search'),
       then: SearchItemSchema,
+    },
+    {
+      is: itemWithType('html'),
+      then: HtmlNavbarItemSchema,
     },
     {
       is: itemWithType(undefined),

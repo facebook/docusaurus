@@ -411,10 +411,13 @@ const config = {
             dropdownActiveClassDisabled: true,
             dropdownItemsAfter: [
               {
-                html: '<hr style="margin: 0.3rem 0;">',
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
               },
               {
-                html: '<b style="display: block; font-size: 0.875rem; padding: .2rem .5rem;">Archived versions</b>',
+                type: 'html',
+                className: 'dropdown-archived-versions',
+                value: '<b>Archived versions</b>',
               },
               ...ArchivedVersionsDropdownItems.map(
                 ([versionName, versionUrl]) => ({
@@ -427,7 +430,8 @@ const config = {
                 label: '1.x.x',
               },
               {
-                html: '<hr style="margin: 0.3rem 0;">',
+                type: 'html',
+                value: '<hr class="dropdown-separator">',
               },
               {
                 to: '/versions',
@@ -440,7 +444,8 @@ const config = {
             position: 'right',
             dropdownItemsAfter: [
               {
-                html: '<hr style="margin: 0.3rem 0;">',
+                type: 'html',
+                value: '<hr style="margin: 0.3rem 0;">',
               },
               {
                 href: 'https://github.com/facebook/docusaurus/issues/3526',
