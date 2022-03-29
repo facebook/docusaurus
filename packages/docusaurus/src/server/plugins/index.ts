@@ -6,7 +6,6 @@
  */
 
 import {docuHash, generate} from '@docusaurus/utils';
-import fs from 'fs-extra';
 import path from 'path';
 import type {
   LoadContext,
@@ -28,7 +27,8 @@ import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 
 /**
  * Initializes the plugins, runs `loadContent`, `translateContent`,
- * `contentLoaded`, and `translateThemeConfig`.
+ * `contentLoaded`, and `translateThemeConfig`. Because `contentLoaded` is
+ * side-effect-ful (it generates temp files), so is this function.
  */
 export async function loadPlugins(context: LoadContext): Promise<{
   plugins: LoadedPlugin[];
@@ -99,65 +99,53 @@ export async function loadPlugins(context: LoadContext): Promise<{
         if (!plugin.contentLoaded) {
           return;
         }
-
         const pluginId = plugin.options.id;
-
         // plugins data files are namespaced by pluginName/pluginId
-        const dataDirRoot = path.join(context.generatedFilesDir, plugin.name);
-        const dataDir = path.join(dataDirRoot, pluginId);
-
-        const createData: PluginContentLoadedActions['createData'] = async (
-          name,
-          data,
-        ) => {
-          const modulePath = path.join(dataDir, name);
-          await fs.ensureDir(path.dirname(modulePath));
-          await generate(dataDir, name, data);
-          return modulePath;
-        };
-
+        const dataDir = path.join(
+          context.generatedFilesDir,
+          plugin.name,
+          pluginId,
+        );
         // TODO this would be better to do all that in the codegen phase
         // TODO handle context for nested routes
         const pluginRouteContext: PluginRouteContext = {
           plugin: {name: plugin.name, id: pluginId},
           data: undefined, // TODO allow plugins to provide context data
         };
-        const pluginRouteContextModulePath = await createData(
+        const pluginRouteContextModulePath = path.join(
+          dataDir,
           `${docuHash('pluginRouteContextModule')}.json`,
+        );
+        await generate(
+          '/',
+          pluginRouteContextModulePath,
           JSON.stringify(pluginRouteContext, null, 2),
         );
 
-        const addRoute: PluginContentLoadedActions['addRoute'] = (
-          initialRouteConfig,
-        ) => {
-          // Trailing slash behavior is handled in a generic way for all plugins
-          const finalRouteConfig = applyRouteTrailingSlash(initialRouteConfig, {
-            trailingSlash: context.siteConfig.trailingSlash,
-            baseUrl: context.siteConfig.baseUrl,
-          });
-          pluginsRouteConfigs.push({
-            ...finalRouteConfig,
-            modules: {
-              ...finalRouteConfig.modules,
-              __routeContextModule: pluginRouteContextModulePath,
-            },
-          });
-        };
-
-        // the plugins global data are namespaced to avoid data conflicts:
-        // - by plugin name
-        // - by plugin id (allow using multiple instances of the same plugin)
-        const setGlobalData: PluginContentLoadedActions['setGlobalData'] = (
-          data,
-        ) => {
-          globalData[plugin.name] = globalData[plugin.name] ?? {};
-          globalData[plugin.name]![pluginId] = data;
-        };
-
         const actions: PluginContentLoadedActions = {
-          addRoute,
-          createData,
-          setGlobalData,
+          addRoute(initialRouteConfig) {
+            // Trailing slash behavior is handled generically for all plugins
+            const finalRouteConfig = applyRouteTrailingSlash(
+              initialRouteConfig,
+              context.siteConfig,
+            );
+            pluginsRouteConfigs.push({
+              ...finalRouteConfig,
+              modules: {
+                ...finalRouteConfig.modules,
+                __routeContextModule: pluginRouteContextModulePath,
+              },
+            });
+          },
+          async createData(name, data) {
+            const modulePath = path.join(dataDir, name);
+            await generate(dataDir, name, data);
+            return modulePath;
+          },
+          setGlobalData(data) {
+            globalData[plugin.name] ??= {};
+            globalData[plugin.name]![pluginId] = data;
+          },
         };
 
         const translatedContent =

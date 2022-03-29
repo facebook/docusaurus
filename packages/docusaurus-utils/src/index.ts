@@ -22,7 +22,7 @@ export {
   DEFAULT_PLUGIN_ID,
   WEBPACK_URL_LOADER_LIMIT,
 } from './constants';
-export {generate, genChunkName, readOutputHTMLFile} from './emitUtils';
+export {generate, readOutputHTMLFile} from './emitUtils';
 export {
   getFileCommitDate,
   FileNotTrackedError,

@@ -292,19 +292,15 @@ export default async function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) =>
-                // To tell routes.js this is an import and not a nested object
-                // to recurse.
-                ({
-                  content: {
-                    __import: true,
-                    path: blogItemsToMetadata[postID]!.source,
-                    query: {
-                      truncated: true,
-                    },
+              items: items.map((postID) => ({
+                content: {
+                  __import: true,
+                  path: blogItemsToMetadata[postID]!.source,
+                  query: {
+                    truncated: true,
                   },
-                }),
-              ),
+                },
+              })),
               metadata: aliasedSource(pageMetadataPath),
             },
           });

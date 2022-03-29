@@ -30,7 +30,7 @@ exports[`loadRoutes loads flat route config 1`] = `
     },
   },
   "routesChunkNames": {
-    "/blog-1e7": {
+    "/blog-599": {
       "component": "component---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
@@ -39,29 +39,26 @@ exports[`loadRoutes loads flat route config 1`] = `
         },
         {
           "content": "content---blog-7-b-8-fd9",
-          "metadata": null,
         },
         {
           "content": "content---blog-7-b-8-fd9",
-          "metadata": null,
         },
       ],
     },
   },
-  "routesConfig": "
-import React from 'react';
+  "routesConfig": "import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
     path: '/blog',
-    component: ComponentCreator('/blog','1e7'),
+    component: ComponentCreator('/blog', '599'),
     exact: true
   },
   {
     path: '*',
-    component: ComponentCreator('*')
-  }
+    component: ComponentCreator('*'),
+  },
 ];
 ",
   "routesPaths": [
@@ -119,24 +116,23 @@ exports[`loadRoutes loads nested route config 1`] = `
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
   },
-  "routesConfig": "
-import React from 'react';
+  "routesConfig": "import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route','52d'),
+    component: ComponentCreator('/docs:route', '52d'),
     routes: [
       {
         path: '/docs/hello',
-        component: ComponentCreator('/docs/hello','44b'),
+        component: ComponentCreator('/docs/hello', '44b'),
         exact: true,
         sidebar: \\"main\\"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz','070'),
+        component: ComponentCreator('docs/foo/baz', '070'),
         sidebar: \\"secondary\\",
         \\"key:a\\": \\"containing colon\\",
         \\"key'b\\": \\"containing quote\\",
@@ -148,8 +144,8 @@ export default [
   },
   {
     path: '*',
-    component: ComponentCreator('*')
-  }
+    component: ComponentCreator('*'),
+  },
 ];
 ",
   "routesPaths": [
@@ -173,19 +169,18 @@ exports[`loadRoutes loads route config with empty (but valid) path string 1`] = 
       "component": "component---hello-world-jse-0-f-b6c",
     },
   },
-  "routesConfig": "
-import React from 'react';
+  "routesConfig": "import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
     path: '',
-    component: ComponentCreator('','b2a')
+    component: ComponentCreator('', 'b2a')
   },
   {
     path: '*',
-    component: ComponentCreator('*')
-  }
+    component: ComponentCreator('*'),
+  },
 ];
 ",
   "routesPaths": [
