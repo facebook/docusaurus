@@ -85,6 +85,16 @@ export default function Home() {
 }
 ```
 
+## Protecting your site {#protecting-your-site}
+
+The following are a couple of potential ways to protect sensitive content on a Docusaurus site:
+
+1. Password protection, some static hosts and CDNs offer this service. For example, [Netlify](#deploying-to-netlify) provides a [password based]( https://docs.netlify.com/visitor-access/password-protection/) function for controlling content access.
+
+2. Cookie or OAuth workflow, CDNs with edge serverless functions support this feature set. For example, using [Cloudflare](#deploying-to-cloudflare-pages) workers an authentication workflow like [GitHub Oauth](https://github.com/gr2m/cloudflare-worker-github-oauth-login) can be implemented.
+
+3. A self service option, implementing client-side rendering routes and fetching content from a protected API, [Gatsby.js](https://www.gatsbyjs.com/docs/how-to/routing/client-only-routes-and-user-authentication) is an example of this pattern.
+
 ## Choosing a hosting provider {#choosing-a-hosting-provider}
 
 There are a few common hosting options:
