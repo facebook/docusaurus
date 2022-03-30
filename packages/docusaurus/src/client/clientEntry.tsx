@@ -16,6 +16,8 @@ import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
 
+import {isReactRoot} from './isReactRoot';
+
 declare global {
   interface NodeModule {
     hot?: {accept: () => void};
@@ -30,18 +32,43 @@ if (ExecutionEnvironment.canUseDOM) {
   // first-load experience.
   // For development, there is no existing markup so we had to render it.
   // We also preload async component to avoid first-load loading screen.
-  const renderMethod =
-    process.env.NODE_ENV === 'production' ? ReactDOM.hydrate : ReactDOM.render;
-  preload(routes, window.location.pathname).then(() => {
-    renderMethod(
-      <HelmetProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </HelmetProvider>,
+  if (!isReactRoot()) {
+    // for react <= 17
+    const renderMethod =
+      process.env.NODE_ENV === 'production'
+        ? ReactDOM.hydrate
+        : ReactDOM.render;
+    preload(routes, window.location.pathname).then(() => {
+      renderMethod(
+        <HelmetProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </HelmetProvider>,
+        document.getElementById('__docusaurus'),
+      );
+    });
+  } else {
+    // for react >= 18
+    const ReactDOMClient = require('react-dom/client');
+    const appRoot = ReactDOMClient.createRoot(
       document.getElementById('__docusaurus'),
     );
-  });
+    const appRootforHydrate = ReactDOMClient.hydrateRoot;
+    const renderMethod = (app: React.ReactNode) =>
+      process.env.NODE_ENV === 'production'
+        ? appRootforHydrate(document.getElementById('__docusaurus'), app)
+        : appRoot.render(app);
+    preload(routes, window.location.pathname).then(() => {
+      renderMethod(
+        <HelmetProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </HelmetProvider>,
+      );
+    });
+  }
 
   // Webpack Hot Module Replacement API
   if (module.hot) {
