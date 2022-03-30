@@ -22,15 +22,14 @@ export default function ComponentCreator(
     return Loadable({
       loading: Loading,
       loader: () =>
-        import('@theme/NotFound').then(({default: NotFound}) => ({
-          default: (props) => (
-            <RouteContextProvider
-              // Do we want a better name than native-default?
-              value={{plugin: {name: 'native', id: 'default'}}}>
-              <NotFound {...(props as never)} />
-            </RouteContextProvider>
-          ),
-        })),
+        // @ts-expect-error: check this API; probably bad lib def
+        import('@theme/NotFound').then(({default: NotFound}) => (props) => (
+          <RouteContextProvider
+            // Do we want a better name than native-default?
+            value={{plugin: {name: 'native', id: 'default'}}}>
+            <NotFound {...(props as never)} />
+          </RouteContextProvider>
+        )),
     });
   }
 
