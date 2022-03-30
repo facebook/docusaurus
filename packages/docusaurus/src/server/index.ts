@@ -137,7 +137,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
       baseUrl,
       siteConfig.onDuplicateRoutes,
     );
-  const codeTranslations: {[msgId: string]: string} = {
+  const codeTranslations = {
     ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
     ...siteCodeTranslations,
   };

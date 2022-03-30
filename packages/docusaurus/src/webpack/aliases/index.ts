@@ -126,13 +126,11 @@ export function loadThemeAliases({
  * instead of naively aliasing this to `client/exports`, we use fine-grained
  * aliases instead.
  */
-export async function loadDocusaurusAliases(): Promise<{
-  [aliasName: string]: string;
-}> {
+export async function loadDocusaurusAliases(): Promise<ThemeAliases> {
   const dirPath = path.resolve(__dirname, '../../client/exports');
   const extensions = ['.js', '.ts', '.tsx'];
 
-  const aliases: {[key: string]: string} = {};
+  const aliases: ThemeAliases = {};
 
   (await fs.readdir(dirPath))
     .filter((fileName) => extensions.includes(path.extname(fileName)))

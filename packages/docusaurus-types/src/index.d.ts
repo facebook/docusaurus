@@ -149,7 +149,7 @@ export type SiteMetadata = {
  * @see https://help.phrase.com/help/chrome-json-messages
  */
 export type TranslationMessage = {message: string; description?: string};
-export type TranslationFileContent = {[key: string]: TranslationMessage};
+export type TranslationFileContent = {[msgId: string]: TranslationMessage};
 /**
  * An abstract representation of how a translation file exists on disk. The core
  * would handle the file reading/writing; plugins just need to deal with
@@ -169,12 +169,14 @@ export type I18n = DeepRequired<I18nConfig> & {currentLocale: string};
 
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
+export type CodeTranslations = {[msgId: string]: string};
+
 export type DocusaurusContext = {
   siteConfig: DocusaurusConfig;
   siteMetadata: SiteMetadata;
   globalData: GlobalData;
   i18n: I18n;
-  codeTranslations: {[msgId: string]: string};
+  codeTranslations: CodeTranslations;
 
   // Don't put mutable values here, to avoid triggering re-renders
   // We could reconsider that choice if context selectors are implemented
@@ -226,7 +228,7 @@ export type LoadContext = {
   baseUrl: string;
   i18n: I18n;
   ssrTemplate: string;
-  codeTranslations: {[msgId: string]: string};
+  codeTranslations: CodeTranslations;
 };
 
 export type Props = LoadContext & {
