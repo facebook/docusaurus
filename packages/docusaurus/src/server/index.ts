@@ -125,10 +125,7 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     ssrTemplate,
     codeTranslations: siteCodeTranslations,
   } = context;
-  const {plugins, pluginsRouteConfigs, globalData, themeConfigTranslated} =
-    await loadPlugins(context);
-  // Side-effect to replace the untranslated themeConfig by the translated one
-  context.siteConfig.themeConfig = themeConfigTranslated;
+  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
   const clientModules = loadClientModules(plugins);
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
   const {registry, routesChunkNames, routesConfig, routesPaths} =

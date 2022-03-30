@@ -13,7 +13,6 @@ import type {
   RouteConfig,
   AllContent,
   GlobalData,
-  ThemeConfig,
   LoadedPlugin,
   InitializedPlugin,
   PluginRouteContext,
@@ -28,13 +27,13 @@ import {applyRouteTrailingSlash, sortConfig} from './routeConfig';
 /**
  * Initializes the plugins, runs `loadContent`, `translateContent`,
  * `contentLoaded`, and `translateThemeConfig`. Because `contentLoaded` is
- * side-effect-ful (it generates temp files), so is this function.
+ * side-effect-ful (it generates temp files), so is this function. This function
+ * would also mutate `context.siteConfig.themeConfig` to translate it.
  */
 export async function loadPlugins(context: LoadContext): Promise<{
   plugins: LoadedPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: GlobalData;
-  themeConfigTranslated: ThemeConfig;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
   const plugins: InitializedPlugin[] = await initPlugins(context);
@@ -48,21 +47,15 @@ export async function loadPlugins(context: LoadContext): Promise<{
   // Currently plugins run lifecycle methods in parallel and are not
   // order-dependent. We could change this in future if there are plugins which
   // need to run in certain order or depend on others for data.
+  // This would also translate theme config and content upfront, given the
+  // translation files that the plugin declares.
   const loadedPlugins: LoadedPlugin[] = await Promise.all(
     plugins.map(async (plugin) => {
       const content = await plugin.loadContent?.();
-      return {...plugin, content};
-    }),
-  );
-
-  const contentLoadedTranslatedPlugins = await Promise.all(
-    loadedPlugins.map(async (plugin) => {
-      const translationFiles =
-        (await plugin?.getTranslationFiles?.({
-          content: plugin.content,
-        })) ?? [];
-      const localizedTranslationFiles = await Promise.all(
-        translationFiles.map((translationFile) =>
+      const rawTranslationFiles =
+        (await plugin?.getTranslationFiles?.({content})) ?? [];
+      const translationFiles = await Promise.all(
+        rawTranslationFiles.map((translationFile) =>
           localizePluginTranslationFile({
             locale: context.i18n.currentLocale,
             siteDir: context.siteDir,
@@ -71,10 +64,17 @@ export async function loadPlugins(context: LoadContext): Promise<{
           }),
         ),
       );
-      return {
-        ...plugin,
-        translationFiles: localizedTranslationFiles,
-      };
+      const translatedContent =
+        plugin.translateContent?.({content, translationFiles}) ?? content;
+      const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
+        themeConfig: context.siteConfig.themeConfig,
+        translationFiles,
+      });
+      // Side-effect to merge theme config translations. A plugin should only
+      // translate its own slice of theme config and should make no assumptions
+      // about other plugins' keys, so this is safe to run in parallel.
+      Object.assign(context.siteConfig.themeConfig, translatedThemeConfigSlice);
+      return {...plugin, content: translatedContent};
     }),
   );
 
@@ -90,86 +90,75 @@ export async function loadPlugins(context: LoadContext): Promise<{
 
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
-
   const globalData: GlobalData = {};
 
   await Promise.all(
-    contentLoadedTranslatedPlugins.map(
-      async ({content, translationFiles, ...plugin}) => {
-        if (!plugin.contentLoaded) {
-          return;
-        }
-        const pluginId = plugin.options.id;
-        // plugins data files are namespaced by pluginName/pluginId
-        const dataDir = path.join(
-          context.generatedFilesDir,
-          plugin.name,
-          pluginId,
-        );
-        // TODO this would be better to do all that in the codegen phase
-        // TODO handle context for nested routes
-        const pluginRouteContext: PluginRouteContext = {
-          plugin: {name: plugin.name, id: pluginId},
-          data: undefined, // TODO allow plugins to provide context data
-        };
-        const pluginRouteContextModulePath = path.join(
-          dataDir,
-          `${docuHash('pluginRouteContextModule')}.json`,
-        );
-        await generate(
-          '/',
-          pluginRouteContextModulePath,
-          JSON.stringify(pluginRouteContext, null, 2),
-        );
+    loadedPlugins.map(async ({content, ...plugin}) => {
+      if (!plugin.contentLoaded) {
+        return;
+      }
+      const pluginId = plugin.options.id;
+      // plugins data files are namespaced by pluginName/pluginId
+      const dataDir = path.join(
+        context.generatedFilesDir,
+        plugin.name,
+        pluginId,
+      );
+      // TODO this would be better to do all that in the codegen phase
+      // TODO handle context for nested routes
+      const pluginRouteContext: PluginRouteContext = {
+        plugin: {name: plugin.name, id: pluginId},
+        data: undefined, // TODO allow plugins to provide context data
+      };
+      const pluginRouteContextModulePath = path.join(
+        dataDir,
+        `${docuHash('pluginRouteContextModule')}.json`,
+      );
+      await generate(
+        '/',
+        pluginRouteContextModulePath,
+        JSON.stringify(pluginRouteContext, null, 2),
+      );
 
-        const actions: PluginContentLoadedActions = {
-          addRoute(initialRouteConfig) {
-            // Trailing slash behavior is handled generically for all plugins
-            const finalRouteConfig = applyRouteTrailingSlash(
-              initialRouteConfig,
-              context.siteConfig,
-            );
-            pluginsRouteConfigs.push({
-              ...finalRouteConfig,
-              modules: {
-                ...finalRouteConfig.modules,
-                __routeContextModule: pluginRouteContextModulePath,
-              },
-            });
-          },
-          async createData(name, data) {
-            const modulePath = path.join(dataDir, name);
-            await generate(dataDir, name, data);
-            return modulePath;
-          },
-          setGlobalData(data) {
-            globalData[plugin.name] ??= {};
-            globalData[plugin.name]![pluginId] = data;
-          },
-        };
+      const actions: PluginContentLoadedActions = {
+        addRoute(initialRouteConfig) {
+          // Trailing slash behavior is handled generically for all plugins
+          const finalRouteConfig = applyRouteTrailingSlash(
+            initialRouteConfig,
+            context.siteConfig,
+          );
+          pluginsRouteConfigs.push({
+            ...finalRouteConfig,
+            modules: {
+              ...finalRouteConfig.modules,
+              __routeContextModule: pluginRouteContextModulePath,
+            },
+          });
+        },
+        async createData(name, data) {
+          const modulePath = path.join(dataDir, name);
+          await generate(dataDir, name, data);
+          return modulePath;
+        },
+        setGlobalData(data) {
+          globalData[plugin.name] ??= {};
+          globalData[plugin.name]![pluginId] = data;
+        },
+      };
 
-        const translatedContent =
-          plugin.translateContent?.({content, translationFiles}) ?? content;
-
-        await plugin.contentLoaded({
-          content: translatedContent,
-          actions,
-          allContent,
-        });
-      },
-    ),
+      await plugin.contentLoaded({content, actions, allContent});
+    }),
   );
 
   // 4. Plugin Lifecycle - routesLoaded.
   await Promise.all(
-    contentLoadedTranslatedPlugins.map(async (plugin) => {
+    loadedPlugins.map(async (plugin) => {
       if (!plugin.routesLoaded) {
         return;
       }
 
-      // TODO remove this deprecated lifecycle soon
-      // deprecated since alpha-60
-      // TODO, 1 user reported usage of this lifecycle! https://github.com/facebook/docusaurus/issues/3918
+      // TODO alpha-60: remove this deprecated lifecycle soon
+      // 1 user reported usage of this lifecycle: https://github.com/facebook/docusaurus/issues/3918
       logger.error`Plugin code=${'routesLoaded'} lifecycle is deprecated. If you think we should keep this lifecycle, please report here: url=${'https://github.com/facebook/docusaurus/issues/3918'}`;
 
       await plugin.routesLoaded(pluginsRouteConfigs);
@@ -180,25 +169,5 @@ export async function loadPlugins(context: LoadContext): Promise<{
   // routes are always placed last.
   sortConfig(pluginsRouteConfigs, context.siteConfig.baseUrl);
 
-  // Apply each plugin one after the other to translate the theme config
-  const themeConfigTranslated = contentLoadedTranslatedPlugins.reduce(
-    (currentThemeConfig, plugin) => {
-      const translatedThemeConfigSlice = plugin.translateThemeConfig?.({
-        themeConfig: currentThemeConfig,
-        translationFiles: plugin.translationFiles,
-      });
-      return {
-        ...currentThemeConfig,
-        ...translatedThemeConfigSlice,
-      };
-    },
-    context.siteConfig.themeConfig,
-  );
-
-  return {
-    plugins: loadedPlugins,
-    pluginsRouteConfigs,
-    globalData,
-    themeConfigTranslated,
-  };
+  return {plugins: loadedPlugins, pluginsRouteConfigs, globalData};
 }

@@ -64,6 +64,5 @@ exports[`loadPlugins loads plugins 1`] = `
     },
   ],
   "pluginsRouteConfigs": [],
-  "themeConfigTranslated": {},
 }
 `;
