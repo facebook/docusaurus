@@ -22,7 +22,7 @@ function BlogSidebarContent({
 }: Props & {className?: string}): JSX.Element {
   return (
     <nav
-      className={clsx(styles.sidebar, 'thin-scrollbar', className)}
+      className={clsx('thin-scrollbar', className)}
       aria-label={translate({
         id: 'theme.blog.sidebar.navAriaLabel',
         message: 'Blog recent posts navigation',
@@ -58,7 +58,7 @@ export default function BlogSidebar(props: Props): JSX.Element | null {
     return (
       <NavbarSecondaryMenuFiller
         component={BlogSidebarContent}
-        props={{...props, className: 'margin-left--md'}}
+        props={{...props, className: 'margin-left--md margin-right--md'}}
       />
     );
   }
