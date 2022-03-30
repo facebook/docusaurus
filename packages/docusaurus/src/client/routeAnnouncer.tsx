@@ -32,13 +32,13 @@ export function RouteAnnouncer() {
       if (document.title) {
         setTimeout(() => {
           setRouteAnnouncement(document.title);
-        }, 50);
+        }, 1050);
       } else {
         const pageHeader = document.querySelector('h1');
         const content = pageHeader?.innerText ?? pageHeader?.textContent;
         setTimeout(() => {
           setRouteAnnouncement(content || pathname);
-        }, 50);
+        }, 1050);
       }
     },
     // TODO: switch to pathname + query object of dynamic route requirements
