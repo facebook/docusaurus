@@ -23,6 +23,10 @@ import './client-lifecycles-dispatcher';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
+// Add a route announcer
+import Portal from '@reach/portal';
+import {RouteAnnouncer} from './routeAnnouncer';
+
 export default function App(): JSX.Element {
   return (
     <ErrorBoundary fallback={Error}>
@@ -38,6 +42,9 @@ export default function App(): JSX.Element {
           </Root>
         </BrowserContextProvider>
       </DocusaurusContextProvider>
+      <Portal type="docusaurus-route-announcer">
+        <RouteAnnouncer />
+      </Portal>
     </ErrorBoundary>
   );
 }
