@@ -48,7 +48,6 @@
     "@docusaurus/utils": "2.0.0-beta.18",
     "@docusaurus/utils-common": "2.0.0-beta.18",
     "@docusaurus/utils-validation": "2.0.0-beta.18",
-    "@reach/portal": "^0.16.2",
     "@slorber/static-site-generator-webpack-plugin": "^4.0.4",
     "@svgr/webpack": "^6.2.1",
     "autoprefixer": "^10.4.4",
