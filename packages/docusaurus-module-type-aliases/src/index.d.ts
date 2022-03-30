@@ -92,9 +92,14 @@ declare module '@theme/Layout' {
 }
 
 declare module '@theme/Loading' {
-  import type {LoadingComponentProps} from 'react-loadable';
+  export interface Props {
+    // Type not separately exposed by react-loadable/revised
+    pastDelay: boolean;
+    error?: Error;
+    retry: () => void;
+  }
 
-  export default function Loading(props: LoadingComponentProps): JSX.Element;
+  export default function Loading(props: Props): JSX.Element;
 }
 
 declare module '@theme/NotFound' {

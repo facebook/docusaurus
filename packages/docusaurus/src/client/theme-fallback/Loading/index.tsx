@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import type {LoadingComponentProps} from 'react-loadable';
+import type {Props} from '@theme/Loading';
 
 export default function Loading({
   error,
   retry,
   pastDelay,
-}: LoadingComponentProps): JSX.Element | null {
+}: Props): JSX.Element | null {
   if (error) {
     return (
       <div
