@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// eslint-disable-next-line import/no-named-export
-export const getInfimaActiveClassName = (mobile?: boolean): string =>
+/* eslint-disable import/no-named-export */
+
+export const getInfimaActiveClassName = (
+  mobile?: boolean,
+): `${'menu' | 'navbar'}__link--active` =>
   mobile ? 'menu__link--active' : 'navbar__link--active';
