@@ -16,16 +16,14 @@ import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
+import {Portal} from './exports/Portal';
+import RouteAnnouncer from './RouteAnnouncer';
 
 import './client-lifecycles-dispatcher';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
-
-// Add a route announcer
-import {Portal} from './exports/Portal';
-import {RouteAnnouncer} from './routeAnnouncer';
 
 export default function App(): JSX.Element {
   return (

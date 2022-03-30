@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import {useRef, useState, useEffect, type ReactPortal} from 'react';
 import {createPortal} from 'react-dom';
 
 type PortalProps = {
@@ -16,10 +16,10 @@ type PortalProps = {
 export function Portal({
   children,
   type = 'docusaurus-portal',
-}: PortalProps): React.ReactPortal | null {
-  const portalNode = React.useRef<HTMLElement | null>(null);
-  const [, forceUpdate] = React.useState<{[key: string]: unknown}>();
-  React.useEffect(() => {
+}: PortalProps): ReactPortal | null {
+  const portalNode = useRef<HTMLElement | null>(null);
+  const [, forceUpdate] = useState<unknown>();
+  useEffect(() => {
     portalNode.current = document.createElement(type);
     document.body.appendChild(portalNode.current);
     forceUpdate({});
