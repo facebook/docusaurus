@@ -47,11 +47,31 @@ declare module '@theme/BlogListPaginator' {
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogSidebar' {
+declare module '@theme/BlogSidebar/Desktop' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarDesktop(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar/Mobile' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarMobile(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar?: BlogSidebar;
   }
 
   export default function BlogSidebar(props: Props): JSX.Element;
