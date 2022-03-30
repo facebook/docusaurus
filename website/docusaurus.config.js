@@ -122,7 +122,7 @@ const config = {
   ],
   themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
-    (process.env.NO_TYPEDOC ? false : [
+    (process.env.TYPEDOC && [
       'docusaurus-plugin-typedoc',
       {
         entryPoints: [

@@ -44,6 +44,7 @@ codegen
 codeql
 codesandbox
 codespaces
+contentful
 contravariance
 corejs
 crawlable
@@ -205,6 +206,7 @@ picomatch
 pluggable
 plushie
 pnpm
+posix
 posthog
 preactjs
 precache

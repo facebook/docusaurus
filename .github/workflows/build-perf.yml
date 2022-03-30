@@ -53,6 +53,4 @@ jobs:
       - name: Build (warm cache)
         run: yarn workspace website build --locale en
         timeout-minutes: 2
-        env:
-          NO_TYPEDOC: true
     # TODO post a Github comment with build with perf warnings?
