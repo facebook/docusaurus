@@ -24,7 +24,7 @@ import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
 // Add a route announcer
-import Portal from '@reach/portal';
+import {Portal} from './exports/Portal';
 import {RouteAnnouncer} from './routeAnnouncer';
 
 export default function App(): JSX.Element {
