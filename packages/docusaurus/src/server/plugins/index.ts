@@ -131,7 +131,7 @@ export async function loadPlugins(context: LoadContext): Promise<{
             ...finalRouteConfig,
             modules: {
               ...finalRouteConfig.modules,
-              __routeContextModule: pluginRouteContextModulePath,
+              __context: pluginRouteContextModulePath,
             },
           });
         },

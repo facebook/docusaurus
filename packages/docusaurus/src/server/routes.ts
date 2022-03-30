@@ -151,7 +151,10 @@ const isModule = (value: unknown): value is Module =>
     // eslint-disable-next-line no-underscore-dangle
     !!(value as {[key: string]: unknown})?.__import);
 
-/** Takes a {@link Module} and returns the string path it represents. */
+/**
+ * Takes a {@link Module} (which is nothing more than a path plus some metadata
+ * like query) and returns the string path it represents.
+ */
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
     return target;
@@ -241,7 +244,7 @@ This could lead to non-deterministic routing behavior.`;
 
 /**
  * This is the higher level overview of route code generation. For each route
- * config node, it return the node's serialized form, and mutate `registry`,
+ * config node, it returns the node's serialized form, and mutates `registry`,
  * `routesPaths`, and `routesChunkNames` accordingly.
  */
 function genRouteCode(routeConfig: RouteConfig, res: LoadedRoutes): string {
@@ -268,7 +271,8 @@ ${JSON.stringify(routeConfig)}`,
 
   const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
   res.routesChunkNames[`${routePath}-${routeHash}`] = {
-    ...genChunkNames({component}, 'component', component, res),
+    // Avoid clash with a prop called "component"
+    ...genChunkNames({__comp: component}, 'component', component, res),
     ...genChunkNames(modules, 'module', routePath, res),
   };
 
@@ -297,7 +301,7 @@ export async function loadRoutes(
 ): Promise<LoadedRoutes> {
   handleDuplicateRoutes(routeConfigs, onDuplicateRoutes);
   const res: LoadedRoutes = {
-    // To be written
+    // To be written by `genRouteCode`
     routesConfig: '',
     routesChunkNames: {},
     registry: {},
