@@ -18,7 +18,6 @@ import {
 import type {
   InitializedPlugin,
   TranslationFileContent,
-  TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
@@ -130,7 +129,7 @@ function logSourceCodeFileTranslationsWarnings(
 
 type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
-  translations: {[msgId: string]: TranslationMessage};
+  translations: TranslationFileContent;
   warnings: string[];
 };
 
@@ -189,7 +188,7 @@ function extractSourceCodeAstTranslations(
 Full code: ${generate(node).code}`;
   }
 
-  const translations: {[msgId: string]: TranslationMessage} = {};
+  const translations: TranslationFileContent = {};
   const warnings: string[] = [];
   let translateComponentName: string | undefined;
   let translateFunctionName: string | undefined;

@@ -19,7 +19,7 @@ import logger from '@docusaurus/logger';
 import type {
   TranslationFileContent,
   TranslationFile,
-  TranslationMessage,
+  CodeTranslations,
   InitializedPlugin,
 } from '@docusaurus/types';
 
@@ -262,7 +262,7 @@ export async function localizePluginTranslationFile({
 
 export async function getPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
-): Promise<{[msgId: string]: string}> {
+): Promise<CodeTranslations> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
@@ -277,9 +277,9 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations,
   defaultCodeMessages,
 }: {
-  extractedCodeTranslations: {[msgId: string]: TranslationMessage};
-  defaultCodeMessages: {[msgId: string]: string};
-}): {[msgId: string]: TranslationMessage} {
+  extractedCodeTranslations: TranslationFileContent;
+  defaultCodeMessages: CodeTranslations;
+}): TranslationFileContent {
   const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),

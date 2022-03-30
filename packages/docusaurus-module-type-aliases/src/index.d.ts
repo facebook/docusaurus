@@ -65,7 +65,9 @@ declare module '@generated/i18n' {
 }
 
 declare module '@generated/codeTranslations' {
-  const codeTranslations: {[msgId: string]: string};
+  import type {CodeTranslations} from '@docusaurus/types';
+
+  const codeTranslations: CodeTranslations;
   export = codeTranslations;
 }
 
