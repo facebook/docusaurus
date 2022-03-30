@@ -23,7 +23,7 @@ export default function RouteAnnouncer(): JSX.Element {
   // information can be found here:
   // https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/
   useEffect(() => {
-    // If the path hasn't change, we do nothing.
+    // If the path hasn't changed, we do nothing.
     if (previouslyLoadedPath.current === pathname) {
       return undefined;
     }
@@ -32,8 +32,9 @@ export default function RouteAnnouncer(): JSX.Element {
     const pageHeader = document.querySelector('h1');
     const content = pageHeader?.innerText ?? pageHeader?.textContent;
 
-    // NOTE: when setTimeout isn't used it will keep the previous page's title,
-    // which may be annoying to some screen-reader users (in my testing).
+    // Since the component is rendered lazily with ComponentCreator, the route
+    // transition would not immediately lead to a repaint, and the announcer
+    // would announce the previous page's title instead.
     // Similar issue regarding this is https://github.com/vercel/next.js/issues/32610
     const timeout = window.setTimeout(() => {
       setRouteAnnouncement(document.title ?? content ?? pathname);
