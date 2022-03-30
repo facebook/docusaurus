@@ -642,6 +642,23 @@ trigger:
 
 Now, whenever you push a new tag to GitHub, this trigger will start the drone CI job to publish your website.
 
+## Deploying to mogenius {#deploying-to-mogenius}
+
+[mogenius](https://mogenius.com) is a code-to-cloud platform that offers a fully automated cloud infrastructure. With the unlimited free plan you can run any web app, database or API. mogenius has built-in support for Docusaurus so you can deploy it in minutes without any configuration. Follow these steps to get started.
+
+1. [Sign up](https://studio.mogenius.com/user/registration) for a mogenius account, if you don't have one already.
+2. Create a cloudspace:
+   - In your cloudspace overview click on **Create cloudspace**, assign a name, select the free plan and click **Create**.
+4. Deploy Docusaurus:
+   - From the service list, **select Docusaurus** or use the search bar to find it.
+   - Connect your Github account and create a new repository for your Docusaurus project.
+   - Click **Create Service**.
+5. Your Docusaurus is now being deployed. Once finished, you can clone the git repository and start modifying your project. With every `git push` a new version of your Docusaurus will build automatically.
+6. Your site is now available under a mogenius.io domain that you see at your service page.
+
+For more detailed instructions see our [tutorial on how to deploy Docusaurus](https://docs.mogenius.com/tutorials/how-to-launch-docusaurus-in-the-cloud). 
+To use Docusaurus with your own domain on mogenius read our guide on [how to use your own domain](https://docs.mogenius.com/getting-started/domains#use-your-own-domain).
+
 ## Deploying to Koyeb {#deploying-to-koyeb}
 
 [Koyeb](https://www.koyeb.com) is a developer-friendly serverless platform to deploy apps globally. The platform lets you seamlessly run Docker containers, web apps, and APIs with git-based deployment, native autoscaling, a global edge network, and built-in service mesh and discovery. Check out the [Koyeb's Docusaurus deployment guide](https://www.koyeb.com/tutorials/deploy-docusaurus-on-koyeb) to get started.
