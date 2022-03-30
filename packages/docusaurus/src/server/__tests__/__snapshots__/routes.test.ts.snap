@@ -12,8 +12,8 @@ This could lead to non-deterministic routing behavior."
 exports[`loadRoutes loads flat route config 1`] = `
 {
   "registry": {
-    "component---theme-blog-list-pagea-6-a-7ba": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ '@theme/BlogListPage')",
+    "__comp---theme-blog-list-pagea-6-a-7ba": {
+      "loader": "() => import(/* webpackChunkName: '__comp---theme-blog-list-pagea-6-a-7ba' */ '@theme/BlogListPage')",
       "modulePath": "@theme/BlogListPage",
     },
     "content---blog-0-b-4-09e": {
@@ -31,7 +31,7 @@ exports[`loadRoutes loads flat route config 1`] = `
   },
   "routesChunkNames": {
     "/blog-599": {
-      "component": "component---theme-blog-list-pagea-6-a-7ba",
+      "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
       "items": [
         {
           "content": "content---blog-0-b-4-09e",
@@ -71,12 +71,12 @@ export default [
 exports[`loadRoutes loads nested route config 1`] = `
 {
   "registry": {
-    "component---theme-doc-item-178-a40": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ '@theme/DocItem')",
+    "__comp---theme-doc-item-178-a40": {
+      "loader": "() => import(/* webpackChunkName: '__comp---theme-doc-item-178-a40' */ '@theme/DocItem')",
       "modulePath": "@theme/DocItem",
     },
-    "component---theme-doc-page-1-be-9be": {
-      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ '@theme/DocPage')",
+    "__comp---theme-doc-page-1-be-9be": {
+      "loader": "() => import(/* webpackChunkName: '__comp---theme-doc-page-1-be-9be' */ '@theme/DocPage')",
       "modulePath": "@theme/DocPage",
     },
     "content---docs-foo-baz-8-ce-61e": {
@@ -102,16 +102,16 @@ exports[`loadRoutes loads nested route config 1`] = `
   },
   "routesChunkNames": {
     "/docs/hello-44b": {
-      "component": "component---theme-doc-item-178-a40",
+      "__comp": "__comp---theme-doc-item-178-a40",
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
     "/docs:route-52d": {
-      "component": "component---theme-doc-page-1-be-9be",
+      "__comp": "__comp---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
     "docs/foo/baz-070": {
-      "component": "component---theme-doc-item-178-a40",
+      "__comp": "__comp---theme-doc-item-178-a40",
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
@@ -159,14 +159,14 @@ export default [
 exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
 {
   "registry": {
-    "component---hello-world-jse-0-f-b6c": {
-      "loader": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ 'hello/world.js')",
+    "__comp---hello-world-jse-0-f-b6c": {
+      "loader": "() => import(/* webpackChunkName: '__comp---hello-world-jse-0-f-b6c' */ 'hello/world.js')",
       "modulePath": "hello/world.js",
     },
   },
   "routesChunkNames": {
     "-b2a": {
-      "component": "component---hello-world-jse-0-f-b6c",
+      "__comp": "__comp---hello-world-jse-0-f-b6c",
     },
   },
   "routesConfig": "import React from 'react';
