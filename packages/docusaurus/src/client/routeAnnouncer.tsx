@@ -21,29 +21,23 @@ export function RouteAnnouncer() {
   // inspired by Marcy Sutton’s accessible client routing user testing. More
   // information can be found here:
   // https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/
-  React.useEffect(
-    () => {
-      // If the path hasn't change, we do nothing.
-      if (previouslyLoadedPath.current === pathname) {
-        return;
-      }
-      previouslyLoadedPath.current = pathname;
+  React.useEffect(() => {
+    // If the path hasn't change, we do nothing.
+    if (previouslyLoadedPath.current === pathname) {
+      return;
+    }
+    previouslyLoadedPath.current = pathname;
 
-      if (document.title) {
-        setTimeout(() => {
-          setRouteAnnouncement(document.title);
-        }, 50);
-      } else {
-        const pageHeader = document.querySelector('h1');
-        const content = pageHeader?.innerText ?? pageHeader?.textContent;
-        setTimeout(() => {
-          setRouteAnnouncement(content || pathname);
-        }, 50);
-      }
-    },
-    // TODO: switch to pathname + query object of dynamic route requirements
-    [pathname],
-  );
+    const pageHeader = document.querySelector('h1');
+    const content = pageHeader?.innerText ?? pageHeader?.textContent;
+
+    // NOTE: when setTimeout isn't used it will keep the previous page's title,
+    // which may be annoying to some screen-reader users (in my testing).
+    // Similar issue regarding this is https://github.com/vercel/next.js/issues/32610
+    setTimeout(() => {
+      setRouteAnnouncement(document.title ?? content ?? pathname);
+    }, 50);
+  }, [pathname]);
 
   return (
     <p
