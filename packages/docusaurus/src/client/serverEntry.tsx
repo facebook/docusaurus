@@ -78,14 +78,14 @@ async function doRender(locals: Locals & {path: string}) {
   const location = routesLocation[locals.path]!;
   await preload(routes, location);
   const modules = new Set<string>();
-  const context = {};
+  const routerContext = {};
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <HelmetProvider context={helmetContext}>
-        <StaticRouter location={location} context={context}>
+        <StaticRouter location={location} context={routerContext}>
           <LinksCollectorProvider linksCollector={linksCollector}>
             <App />
           </LinksCollectorProvider>
