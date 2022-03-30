@@ -7,6 +7,8 @@
 
 import React from 'react';
 import type {Props} from '@theme/Root';
+import Portal from '@reach/portal';
+import {RouteAnnouncer} from '../../routeAnnouncer';
 
 // Wrapper at the very top of the app, that is applied constantly
 // and does not depend on current route (unlike the layout)
@@ -16,5 +18,12 @@ import type {Props} from '@theme/Root';
 //
 // See https://github.com/facebook/docusaurus/issues/3919
 export default function Root({children}: Props): JSX.Element {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Portal type="docusaurus-route-announcer">
+        <RouteAnnouncer />
+      </Portal>
+    </>
+  );
 }
