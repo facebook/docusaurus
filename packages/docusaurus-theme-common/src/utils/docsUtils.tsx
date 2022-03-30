@@ -5,9 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {useMemo} from 'react';
 import {
   useAllDocsData,
   useActivePlugin,
+  useActiveDocContext,
+  useLatestVersion,
+  type GlobalVersion,
+  type GlobalSidebar,
+  type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
@@ -16,8 +22,10 @@ import type {
   PropVersionDoc,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
+import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
 import {useDocsVersion} from '../contexts/docsVersion';
 import {useDocsSidebar} from '../contexts/docsSidebar';
+import {uniq} from './jsUtils';
 import {isSamePath} from './routesUtils';
 import {useLocation} from '@docusaurus/router';
 
@@ -177,4 +185,92 @@ export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
   extract(sidebar.items);
 
   return breadcrumbs.reverse();
+}
+
+/**
+ * "Version candidates" are mostly useful for the layout components, which must
+ * be able to work on all pages. For example, if a user has `{ type: "doc",
+ * docId: "intro" }` as a navbar item, which version does that refer to? We
+ * believe that it could refer to at most three version candidates:
+ *
+ * 1. The **active version**, the one that the user is currently browsing. See
+ * {@link useActiveDocContext}.
+ * 2. The **preferred version**, the one that the user last visited. See
+ * {@link useDocsPreferredVersion}.
+ * 3. The **latest version**, the "default". See {@link useLatestVersion}.
+ *
+ * @param docsPluginId The plugin ID to get versions from.
+ * @returns An array of 1~3 versions with priorities defined above, guaranteed
+ * to be unique and non-sparse. Will be memoized, hence stable for deps array.
+ */
+export function useDocsVersionCandidates(
+  docsPluginId?: string,
+): [GlobalVersion, ...GlobalVersion[]] {
+  const {activeVersion} = useActiveDocContext(docsPluginId);
+  const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
+  const latestVersion = useLatestVersion(docsPluginId);
+  return useMemo(
+    () =>
+      uniq(
+        [activeVersion, preferredVersion, latestVersion].filter(Boolean),
+      ) as [GlobalVersion, ...GlobalVersion[]],
+    [activeVersion, preferredVersion, latestVersion],
+  );
+}
+
+/**
+ * The layout components, like navbar items, must be able to work on all pages,
+ * even on non-doc ones. This hook would always return a sidebar to be linked
+ * to. See also {@link useDocsVersionCandidates} for how this selection is done.
+ *
+ * @throws This hook throws if a sidebar with said ID is not found.
+ */
+export function useLayoutDocsSidebar(
+  sidebarId: string,
+  docsPluginId?: string,
+): GlobalSidebar {
+  const versions = useDocsVersionCandidates(docsPluginId);
+  return useMemo(() => {
+    const allSidebars = versions.flatMap((version) =>
+      version.sidebars ? Object.entries(version.sidebars) : [],
+    );
+    const sidebarEntry = allSidebars.find(
+      (sidebar) => sidebar[0] === sidebarId,
+    );
+    if (!sidebarEntry) {
+      throw new Error(
+        `Can't find any sidebar with id "${sidebarId}" in version${
+          versions.length > 1 ? 's' : ''
+        } ${versions.map((version) => version.name).join(', ')}".
+  Available sidebar ids are:
+  - ${Object.keys(allSidebars).join('\n- ')}`,
+      );
+    }
+    return sidebarEntry[1];
+  }, [sidebarId, versions]);
+}
+
+/**
+ * The layout components, like navbar items, must be able to work on all pages,
+ * even on non-doc ones. This hook would always return a doc to be linked
+ * to. See also {@link useDocsVersionCandidates} for how this selection is done.
+ *
+ * @throws This hook throws if a doc with said ID is not found.
+ */
+export function useLayoutDoc(docId: string, docsPluginId?: string): GlobalDoc {
+  const versions = useDocsVersionCandidates(docsPluginId);
+  return useMemo(() => {
+    const allDocs = versions.flatMap((version) => version.docs);
+    const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
+    if (!doc) {
+      throw new Error(
+        `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
+          versions.length > 1 ? 's' : ''
+        } ${versions.map((version) => version.name).join(', ')}".
+Available doc ids are:
+- ${uniq(allDocs.map((versionDoc) => versionDoc.id)).join('\n- ')}`,
+      );
+    }
+    return doc;
+  }, [docId, versions]);
 }

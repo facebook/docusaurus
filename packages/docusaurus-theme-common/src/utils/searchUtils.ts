@@ -35,6 +35,8 @@ export function useContextualSearchFilters(): {locale: string; tags: string[]} {
   const activePluginAndVersion = useActivePluginAndVersion();
   const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();
 
+  // This can't use more specialized hooks because we are mapping over all
+  // plugin instances.
   function getDocPluginTags(pluginId: string) {
     const activeVersion =
       activePluginAndVersion?.activePlugin?.pluginId === pluginId

@@ -50,6 +50,9 @@ export {
   useCurrentSidebarCategory,
   isActiveSidebarItem,
   useSidebarBreadcrumbs,
+  useDocsVersionCandidates,
+  useLayoutDoc,
+  useLayoutDocsSidebar,
 } from './utils/docsUtils';
 
 export {useTitleFormatter} from './utils/generalUtils';

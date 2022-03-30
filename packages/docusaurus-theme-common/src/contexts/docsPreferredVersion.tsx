@@ -198,8 +198,11 @@ function useDocsPreferredVersionContext(): ContextValue {
 }
 
 /**
- * Returns a read-write interface to a plugin's preferred version.
- * Note, the `preferredVersion` attribute will always be `null` before mount.
+ * Returns a read-write interface to a plugin's preferred version. The
+ * "preferred version" is defined as the last version that the user visited.
+ * For example, if a user is using v3, even when v4 is later published, the user
+ * would still be browsing v3 docs when she opens the website next time. Note,
+ * the `preferredVersion` attribute will always be `null` before mount.
  */
 export function useDocsPreferredVersion(
   pluginId: string | undefined = DEFAULT_PLUGIN_ID,

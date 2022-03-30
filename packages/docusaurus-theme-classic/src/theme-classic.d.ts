@@ -780,7 +780,14 @@ declare module '@theme/NavbarItem' {
 }
 
 declare module '@theme/NavbarItem/utils' {
-  export function getInfimaActiveClassName(mobile?: boolean): string;
+  /**
+   * On desktop and mobile, we would apply different class names for dropdown
+   * items.
+   * @see https://github.com/facebook/docusaurus/pull/5431
+   */
+  export function getInfimaActiveClassName(
+    mobile?: boolean,
+  ): `${'menu' | 'navbar'}__link--active`;
 }
 
 declare module '@theme/PaginatorNavLink' {
