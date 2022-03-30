@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {OptionsSchema, DEFAULT_OPTIONS, validateOptions} from '../options';
+import {validateOptions, DEFAULT_OPTIONS} from '../options';
 import {normalizePluginOptions} from '@docusaurus/utils-validation';
 import {DefaultSidebarItemsGenerator} from '../sidebars/generator';
 import {
@@ -13,30 +13,29 @@ import {
   DisabledNumberPrefixParser,
 } from '../numberPrefix';
 import {GlobExcludeDefault} from '@docusaurus/utils';
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {Options} from '@docusaurus/plugin-content-docs';
 
 // the type of remark/rehype plugins is function
 const markdownPluginsFunctionStub = () => {};
 const markdownPluginsObjectStub = {};
 
-function testValidateOptions(options: Partial<PluginOptions>) {
-  return validateOptions({
-    options: {
-      ...DEFAULT_OPTIONS,
-      ...options,
-    },
-    validate: normalizePluginOptions,
-  });
+function testValidate(options: Options) {
+  return validateOptions({validate: normalizePluginOptions, options});
 }
 
+const defaultOptions = {
+  ...DEFAULT_OPTIONS,
+  id: 'default',
+  // The admonitions plugin is automatically added. Not really worth testing
+  remarkPlugins: expect.any(Array),
+};
+
 describe('normalizeDocsPluginOptions', () => {
-  test('should return default options for undefined user options', async () => {
-    const {value, error} = await OptionsSchema.validate({});
-    expect(value).toEqual(DEFAULT_OPTIONS);
-    expect(error).toBe(undefined);
+  it('returns default options for undefined user options', async () => {
+    expect(testValidate({})).toEqual(defaultOptions);
   });
 
-  test('should accept correctly defined user options', async () => {
+  it('accepts correctly defined user options', async () => {
     const userOptions = {
       path: 'my-docs', // Path to data on filesystem, relative to site dir.
       routeBasePath: 'my-docs', // URL Route.
@@ -56,6 +55,7 @@ describe('normalizeDocsPluginOptions', () => {
       rehypePlugins: [markdownPluginsFunctionStub],
       beforeDefaultRehypePlugins: [],
       beforeDefaultRemarkPlugins: [],
+      breadcrumbs: true,
       showLastUpdateTime: true,
       showLastUpdateAuthor: true,
       admonitions: {},
@@ -76,14 +76,15 @@ describe('normalizeDocsPluginOptions', () => {
       sidebarCollapsible: false,
       sidebarCollapsed: false,
     };
-    const {value, error} = await OptionsSchema.validate(userOptions);
-    expect(value).toEqual(userOptions);
-    expect(error).toBe(undefined);
+    expect(testValidate(userOptions)).toEqual({
+      ...defaultOptions,
+      ...userOptions,
+      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
+    });
   });
 
-  test('should accept correctly defined remark and rehype plugin options', async () => {
+  it('accepts correctly defined remark and rehype plugin options', async () => {
     const userOptions = {
-      ...DEFAULT_OPTIONS,
       beforeDefaultRemarkPlugins: [],
       beforeDefaultRehypePlugins: [markdownPluginsFunctionStub],
       remarkPlugins: [[markdownPluginsFunctionStub, {option1: '42'}]],
@@ -92,85 +93,73 @@ describe('normalizeDocsPluginOptions', () => {
         [markdownPluginsFunctionStub, {option1: '42'}],
       ],
     };
-    const {value, error} = await OptionsSchema.validate(userOptions);
-    expect(value).toEqual(userOptions);
-    expect(error).toBe(undefined);
+    expect(testValidate(userOptions)).toEqual({
+      ...defaultOptions,
+      ...userOptions,
+      remarkPlugins: [...userOptions.remarkPlugins, expect.any(Array)],
+    });
   });
 
-  test('should accept admonitions false', async () => {
+  it('accepts admonitions false', async () => {
     const admonitionsFalse = {
-      ...DEFAULT_OPTIONS,
       admonitions: false,
     };
-    const {value, error} = OptionsSchema.validate(admonitionsFalse);
-    expect(value).toEqual(admonitionsFalse);
-    expect(error).toBe(undefined);
+    expect(testValidate(admonitionsFalse)).toEqual({
+      ...defaultOptions,
+      ...admonitionsFalse,
+    });
   });
 
-  test('should accept numberPrefixParser function', () => {
+  it('rejects admonitions true', async () => {
+    const admonitionsTrue = {
+      admonitions: true,
+    };
+    expect(() =>
+      testValidate(admonitionsTrue),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"admonitions\\" contains an invalid value"`,
+    );
+  });
+
+  it('accepts numberPrefixParser function', () => {
     function customNumberPrefixParser() {}
     expect(
-      normalizePluginOptions(OptionsSchema, {
-        ...DEFAULT_OPTIONS,
-        numberPrefixParser: customNumberPrefixParser,
-      }),
+      testValidate({numberPrefixParser: customNumberPrefixParser}),
     ).toEqual({
-      ...DEFAULT_OPTIONS,
-      id: 'default',
+      ...defaultOptions,
       numberPrefixParser: customNumberPrefixParser,
     });
   });
 
-  test('should accept numberPrefixParser false', () => {
-    expect(
-      normalizePluginOptions(OptionsSchema, {
-        ...DEFAULT_OPTIONS,
-        numberPrefixParser: false,
-      }),
-    ).toEqual({
-      ...DEFAULT_OPTIONS,
-      id: 'default',
+  it('accepts numberPrefixParser false', () => {
+    expect(testValidate({numberPrefixParser: false})).toEqual({
+      ...defaultOptions,
       numberPrefixParser: DisabledNumberPrefixParser,
     });
   });
 
-  test('should accept numberPrefixParser true', () => {
-    expect(
-      normalizePluginOptions(OptionsSchema, {
-        ...DEFAULT_OPTIONS,
-        numberPrefixParser: true,
-      }),
-    ).toEqual({
-      ...DEFAULT_OPTIONS,
-      id: 'default',
+  it('accepts numberPrefixParser true', () => {
+    expect(testValidate({numberPrefixParser: true})).toEqual({
+      ...defaultOptions,
       numberPrefixParser: DefaultNumberPrefixParser,
     });
   });
 
-  test('should reject admonitions true', async () => {
-    const admonitionsTrue = {
-      ...DEFAULT_OPTIONS,
-      admonitions: true,
-    };
-    const {error} = OptionsSchema.validate(admonitionsTrue);
-    expect(error).toMatchInlineSnapshot(
-      `[ValidationError: "admonitions" contains an invalid value]`,
-    );
-  });
-
-  test('should reject invalid remark plugin options', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
+  it('rejects invalid remark plugin options', () => {
+    expect(() =>
+      testValidate({
         remarkPlugins: [[{option1: '42'}, markdownPluginsFunctionStub]],
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"\\"remarkPlugins[0]\\" does not match any of the allowed types"`,
-    );
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "\\"remarkPlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
+      - A simple module, like \`require(\\"remark-math\\")\`"
+    `);
   });
 
-  test('should reject invalid rehype plugin options', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
+  it('rejects invalid rehype plugin options', () => {
+    expect(() =>
+      testValidate({
         rehypePlugins: [
           [
             markdownPluginsFunctionStub,
@@ -178,61 +167,53 @@ describe('normalizeDocsPluginOptions', () => {
             markdownPluginsFunctionStub,
           ],
         ],
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"\\"rehypePlugins[0]\\" does not match any of the allowed types"`,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(`
+      "\\"rehypePlugins[0]\\" does not look like a valid MDX plugin config. A plugin config entry should be one of:
+      - A tuple, like \`[require(\\"rehype-katex\\"), { strict: false }]\`, or
+      - A simple module, like \`require(\\"remark-math\\")\`"
+    `);
+  });
+
+  it('rejects bad path inputs', () => {
+    expect(() => testValidate({path: 2})).toThrowErrorMatchingInlineSnapshot(
+      `"\\"path\\" must be a string"`,
     );
   });
 
-  test('should reject bad path inputs', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
-        path: 2,
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
+  it('rejects bad include inputs', () => {
+    expect(() =>
+      testValidate({include: '**/*.{md,mdx}'}),
+    ).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
   });
 
-  test('should reject bad include inputs', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
-        include: '**/*.{md,mdx}',
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
-  });
-
-  test('should reject bad showLastUpdateTime inputs', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
-        showLastUpdateTime: 'true',
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
+  it('rejects bad showLastUpdateTime inputs', () => {
+    expect(() =>
+      testValidate({showLastUpdateTime: 'true'}),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"\\"showLastUpdateTime\\" must be a boolean"`,
     );
   });
 
-  test('should reject bad remarkPlugins input', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
-        remarkPlugins: 'remark-math',
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
+  it('rejects bad remarkPlugins input', () => {
+    expect(() =>
+      testValidate({remarkPlugins: 'remark-math'}),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"\\"remarkPlugins\\" must be an array"`,
     );
   });
 
-  test('should reject bad lastVersion', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
-        lastVersion: false,
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
+  it('rejects bad lastVersion', () => {
+    expect(() =>
+      testValidate({lastVersion: false}),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"\\"lastVersion\\" must be a string"`,
     );
   });
 
-  test('should reject bad versions', () => {
-    expect(() => {
-      normalizePluginOptions(OptionsSchema, {
+  it('rejects bad versions', () => {
+    expect(() =>
+      testValidate({
         versions: {
           current: {
             hey: 3,
@@ -242,35 +223,32 @@ describe('normalizeDocsPluginOptions', () => {
             label: 'world',
           },
         },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
       `"\\"versions.current.hey\\" is not allowed"`,
     );
   });
 
-  test('should handle sidebarCollapsed option inconsistencies', () => {
+  it('handles sidebarCollapsed option inconsistencies', () => {
     expect(
-      testValidateOptions({
-        ...DEFAULT_OPTIONS,
+      testValidate({
         sidebarCollapsible: true,
         sidebarCollapsed: undefined,
       }).sidebarCollapsed,
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
-      testValidateOptions({
-        ...DEFAULT_OPTIONS,
+      testValidate({
         sidebarCollapsible: false,
         sidebarCollapsed: undefined,
       }).sidebarCollapsed,
-    ).toEqual(false);
+    ).toBe(false);
 
     expect(
-      testValidateOptions({
-        ...DEFAULT_OPTIONS,
+      testValidate({
         sidebarCollapsible: false,
         sidebarCollapsed: true,
       }).sidebarCollapsed,
-    ).toEqual(false);
+    ).toBe(false);
   });
 });

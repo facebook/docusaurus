@@ -19,15 +19,14 @@ export type ColorState = {
   shades: Shades;
 };
 
-export type Shades = Record<
-  string,
-  {
+export type Shades = {
+  [cssVar: string]: {
     adjustment: number;
     adjustmentInput: string;
     displayOrder: number;
     codeOrder: number;
-  }
->;
+  };
+};
 export const COLOR_SHADES: Shades = {
   '--ifm-color-primary': {
     adjustment: 0,
@@ -95,14 +94,32 @@ export function getAdjustedColors(shades: Shades, baseColor: string) {
   }));
 }
 
-export function updateDOMColors({
-  shades,
-  baseColor,
-  background,
-}: ColorState): void {
-  const root = document.documentElement;
-  getAdjustedColors(shades, baseColor).forEach((value) => {
-    root.style.setProperty(value.variableName, value.hex);
-  });
-  root.style.setProperty('--ifm-background-color', background);
+export function updateDOMColors(
+  {shades, baseColor, background}: ColorState,
+  isDarkTheme: boolean,
+): void {
+  const styleSheet = Array.from(document.styleSheets).find((item) =>
+    item.href?.match(/styles(?:\.[\da-f]+)?\.css/),
+  )!;
+  const rules = Array.from(styleSheet.cssRules) as CSSStyleRule[];
+  // The rule that looks the most like definition for custom theme colors
+  const ruleToDelete = rules.findIndex(
+    (rule) =>
+      rule.selectorText ===
+        (isDarkTheme ? '[data-theme="dark"]' : '[data-theme="light"]') &&
+      Array.from(rule.style).includes('--ifm-color-primary') &&
+      rule.style.length < 10,
+  );
+  if (ruleToDelete >= 0) {
+    styleSheet.deleteRule(ruleToDelete);
+  }
+  const overrideStyle = `${
+    isDarkTheme ? '[data-theme="dark"]' : '[data-theme="light"]'
+  } {
+  ${getAdjustedColors(shades, baseColor)
+    .map((value) => `  ${value.variableName}: ${value.hex};`)
+    .join('\n')}
+  --ifm-background-color: ${background};
+}`;
+  styleSheet.insertRule(overrideStyle, styleSheet.cssRules.length - 1);
 }

@@ -46,13 +46,13 @@ Create a route to add to the website.
 interface RouteConfig {
   path: string;
   component: string;
-  modules?: RouteModule;
+  modules?: RouteModules;
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
 }
-interface RouteModule {
-  [module: string]: Module | RouteModule | RouteModule[];
+interface RouteModules {
+  [module: string]: Module | RouteModules | RouteModules[];
 }
 type Module =
   | {
@@ -188,13 +188,13 @@ module.exports = function (context, options) {
     name: 'custom-docusaurus-plugin',
     // highlight-start
     configureWebpack(config, isServer, utils) {
-      const {getCacheLoader} = utils;
+      const {getJSLoader} = utils;
       return {
         module: {
           rules: [
             {
               test: /\.foo$/,
-              use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
+              use: [getJSLoader(isServer), 'my-custom-webpack-loader'],
             },
           ],
         },
@@ -232,6 +232,27 @@ module.exports = function (context, options) {
 ```
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
+
+### Configuring dev server {#configuring-dev-server}
+
+The dev server can be configured through returning a `devServer` field.
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        devServer: {
+          open: '/docs', // Opens localhost:3000/docs instead of localhost:3000/
+        },
+        // highlight-end
+      };
+    },
+  };
+};
+```
 
 ## `configurePostCss(options)` {#configurePostCss}
 
@@ -378,7 +399,7 @@ module.exports = function (context, options) {
 
 ## `getClientModules()` {#getClientModules}
 
-Returns an array of paths to the modules that are to be imported into the client bundle. These modules are imported globally before React even renders the initial UI.
+Returns an array of paths to the [client modules](../../advanced/client.md#client-modules) that are to be imported into the client bundle.
 
 As an example, to make your theme load a `customCss` or `customJs` file path from `options` passed in by the user:
 

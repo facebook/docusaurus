@@ -8,7 +8,7 @@
 import React from 'react';
 import type {Props} from '@theme/IconArrow';
 
-function IconArrow(props: Props): JSX.Element {
+export default function IconArrow(props: Props): JSX.Element {
   return (
     <svg width="20" height="20" aria-hidden="true" {...props}>
       <g fill="#7a7a7a">
@@ -18,5 +18,3 @@ function IconArrow(props: Props): JSX.Element {
     </svg>
   );
 }
-
-export default IconArrow;

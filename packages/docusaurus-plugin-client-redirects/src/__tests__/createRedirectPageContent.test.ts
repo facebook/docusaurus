@@ -8,13 +8,13 @@
 import createRedirectPageContent from '../createRedirectPageContent';
 
 describe('createRedirectPageContent', () => {
-  test('should match snapshot', () => {
+  it('works', () => {
     expect(
       createRedirectPageContent({toUrl: 'https://docusaurus.io/'}),
     ).toMatchSnapshot();
   });
 
-  test('should encode uri special chars', () => {
+  it('encodes uri special chars', () => {
     const result = createRedirectPageContent({
       toUrl: 'https://docusaurus.io/gr/σελιδας/',
     });

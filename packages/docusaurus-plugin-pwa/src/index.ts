@@ -37,11 +37,6 @@ function getSWBabelLoader() {
           },
         ],
       ],
-      plugins: [
-        require.resolve('@babel/plugin-proposal-object-rest-spread'),
-        require.resolve('@babel/plugin-proposal-optional-chaining'),
-        require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-      ],
     },
   };
 }
@@ -69,11 +64,14 @@ export default function pluginPWA(
     name: 'docusaurus-plugin-pwa',
 
     getThemePath() {
-      return path.resolve(__dirname, './theme');
+      return '../lib/theme';
+    },
+    getTypeScriptThemePath() {
+      return '../src/theme';
     },
 
     getClientModules() {
-      return isProd ? [swRegister] : [];
+      return isProd && swRegister ? [swRegister] : [];
     },
 
     getDefaultCodeTranslationMessages() {
@@ -140,7 +138,7 @@ export default function pluginPWA(
       const swSourceFileTest = /\.m?js$/;
 
       const swWebpackConfig: Configuration = {
-        entry: path.resolve(__dirname, 'sw.js'),
+        entry: require.resolve('./sw.js'),
         output: {
           path: outDir,
           filename: 'sw.js',
@@ -191,9 +189,8 @@ export default function pluginPWA(
           '**/*.{js,json,css,html}',
           '**/*.{png,jpg,jpeg,gif,svg,ico}',
           '**/*.{woff,woff2,eot,ttf,otf}',
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          ...(injectManifest.globPatterns || []),
+          // @ts-expect-error: internal API?
+          ...(injectManifest.globPatterns ?? []),
         ],
         // those attributes are not overrideable
         swDest,

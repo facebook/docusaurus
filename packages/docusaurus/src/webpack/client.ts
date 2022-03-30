@@ -15,12 +15,12 @@ import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export default function createClientConfig(
+export default async function createClientConfig(
   props: Props,
   minify: boolean = true,
-): Configuration {
+): Promise<Configuration> {
   const isBuilding = process.argv[2] === 'build';
-  const config = createBaseConfig(props, false, minify);
+  const config = await createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
     // useless, disabled on purpose (errors on existing sites with no

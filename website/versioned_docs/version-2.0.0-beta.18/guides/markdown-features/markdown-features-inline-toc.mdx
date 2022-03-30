@@ -1,0 +1,174 @@
+---
+id: inline-toc
+title: Inline TOC
+description: Using inline table-of-contents inside Docusaurus Markdown
+slug: /markdown-features/inline-toc
+---
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+Each Markdown document displays a table of contents on the top-right corner. But it is also possible to display an inline table of contents directly inside a markdown document, thanks to MDX.
+
+## Full table of contents {#full-table-of-contents}
+
+The `toc` variable is available in any MDX document and contains all the headings of an MDX document. By default, only `h2` and `h3` headings are displayed in the TOC. You can change which heading levels are visible by setting `minHeadingLevel` or `maxHeadingLevel` for individual `TOCInline` components.
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />;
+```
+
+```mdx-code-block
+import TOCInline from '@theme/TOCInline';
+
+<BrowserWindow>
+<TOCInline toc={toc} />
+</BrowserWindow>
+```
+
+## Custom table of contents {#custom-table-of-contents}
+
+The `toc` prop is just a list of heading items:
+
+```ts
+type TOCItem = {
+  value: string;
+  id: string;
+  level: number;
+};
+```
+
+Note that the `toc` global is a flat array, so you can easily cut out unwanted nodes or insert extra nodes, and create a new TOC tree.
+
+```jsx
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline
+  // Only show h2 and h4 headings
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  // Show h4 headings in addition to the default h2 and h3 headings
+  maxHeadingLevel={4}
+/>;
+```
+
+```mdx-code-block
+<BrowserWindow>
+<TOCInline
+  toc={toc.filter((node) => node.level === 2 || node.level === 4)}
+  minHeadingLevel={2}
+  maxHeadingLevel={4}
+/>
+</BrowserWindow>
+```
+
+---
+
+:::caution
+
+Below is just some dummy content to have more table of contents items available on the current page.
+
+:::
+
+## Example Section 1 {#example-section-1}
+
+Lorem ipsum
+
+### Example Subsection 1 a {#example-subsection-1-a}
+
+Lorem ipsum
+
+#### Example subsubsection 1 a I
+
+#### Example subsubsection 1 a II
+
+#### Example subsubsection 1 a III
+
+### Example Subsection 1 b {#example-subsection-1-b}
+
+Lorem ipsum
+
+#### Example subsubsection 1 b I
+
+#### Example subsubsection 1 b II
+
+#### Example subsubsection 1 b III
+
+### Example Subsection 1 c {#example-subsection-1-c}
+
+Lorem ipsum
+
+#### Example subsubsection 1 c I
+
+#### Example subsubsection 1 c II
+
+#### Example subsubsection 1 c III
+
+## Example Section 2 {#example-section-2}
+
+Lorem ipsum
+
+### Example Subsection 2 a {#example-subsection-2-a}
+
+Lorem ipsum
+
+#### Example subsubsection 2 a I
+
+#### Example subsubsection 2 a II
+
+#### Example subsubsection 2 a III
+
+### Example Subsection 2 b {#example-subsection-2-b}
+
+Lorem ipsum
+
+#### Example subsubsection 2 b I
+
+#### Example subsubsection 2 b II
+
+#### Example subsubsection 2 b III
+
+### Example Subsection 2 c {#example-subsection-2-c}
+
+Lorem ipsum
+
+#### Example subsubsection 2 c I
+
+#### Example subsubsection 2 c II
+
+#### Example subsubsection 2 c III
+
+## Example Section 3 {#example-section-3}
+
+Lorem ipsum
+
+### Example Subsection 3 a {#example-subsection-3-a}
+
+Lorem ipsum
+
+#### Example subsubsection 3 a I
+
+#### Example subsubsection 3 a II
+
+#### Example subsubsection 3 a III
+
+### Example Subsection 3 b {#example-subsection-3-b}
+
+Lorem ipsum
+
+#### Example subsubsection 3 b I
+
+#### Example subsubsection 3 b II
+
+#### Example subsubsection 3 b III
+
+### Example Subsection 3 c {#example-subsection-3-c}
+
+Lorem ipsum
+
+#### Example subsubsection 3 c I
+
+#### Example subsubsection 3 c II
+
+#### Example subsubsection 3 c III

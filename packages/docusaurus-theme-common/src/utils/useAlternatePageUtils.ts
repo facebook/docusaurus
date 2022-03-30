@@ -8,12 +8,26 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 
-// Permits to obtain the url of the current page in another locale
-// Useful to generate hreflang meta headers etc...
-// See https://developers.google.com/search/docs/advanced/crawling/localized-versions
+/**
+ * Permits to obtain the url of the current page in another locale, useful to
+ * generate hreflang meta headers etc...
+ *
+ * @see https://developers.google.com/search/docs/advanced/crawling/localized-versions
+ */
 export function useAlternatePageUtils(): {
+  /**
+   * Everything (pathname, base URL, etc.) is read from the context. Just tell
+   * it which locale to link to and it will give you the alternate link for the
+   * current page.
+   */
   createUrl: ({
+    /** The locale name to link to. */
     locale,
+    /**
+     * For hreflang SEO headers, we need it to be fully qualified (full
+     * protocol/domain/path...); but for locale dropdowns, using a pathname is
+     * good enough.
+     */
     fullyQualified,
   }: {
     locale: string;
@@ -46,8 +60,6 @@ export function useAlternatePageUtils(): {
     fullyQualified,
   }: {
     locale: string;
-    // For hreflang SEO headers, we need it to be fully qualified (full
-    // protocol/domain/path...) or locale dropdown, using a path is good enough
     fullyQualified: boolean;
   }) {
     return `${fullyQualified ? url : ''}${getLocalizedBaseUrl(

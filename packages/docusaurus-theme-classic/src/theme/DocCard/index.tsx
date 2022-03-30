@@ -22,20 +22,15 @@ function CardContainer({
   href,
   children,
 }: {
-  href?: string;
+  href: string;
   children: ReactNode;
 }): JSX.Element {
-  const className = clsx(
-    'card margin-bottom--lg padding--lg',
-    styles.cardContainer,
-    href && styles.cardContainerLink,
-  );
-  return href ? (
-    <Link href={href} className={className}>
+  return (
+    <Link
+      href={href}
+      className={clsx('card padding--lg', styles.cardContainer)}>
       {children}
     </Link>
-  ) : (
-    <div className={className}>{children}</div>
   );
 }
 
@@ -45,7 +40,7 @@ function CardLayout({
   title,
   description,
 }: {
-  href?: string;
+  href: string;
   icon: ReactNode;
   title: string;
   description?: string;
@@ -55,17 +50,29 @@ function CardLayout({
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
         {icon} {title}
       </h2>
-      <div
-        className={clsx('text--truncate', styles.cardDescription)}
-        title={description}>
-        {description}
-      </div>
+      {description && (
+        <p
+          className={clsx('text--truncate', styles.cardDescription)}
+          title={description}>
+          {description}
+        </p>
+      )}
     </CardContainer>
   );
 }
 
-function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
+function CardCategory({
+  item,
+}: {
+  item: PropSidebarItemCategory;
+}): JSX.Element | null {
   const href = findFirstCategoryLink(item);
+
+  // Unexpected: categories that don't have a link have been filtered upfront
+  if (!href) {
+    return null;
+  }
+
   return (
     <CardLayout
       href={href}

@@ -10,7 +10,10 @@ const path = require('path');
 const versions = require('./versions.json');
 const math = require('remark-math');
 const VersionsArchived = require('./versionsArchived.json');
-const {dogfoodingPluginInstances} = require('./_dogfooding/dogfooding.config');
+const {
+  dogfoodingPluginInstances,
+  dogfoodingThemeInstances,
+} = require('./_dogfooding/dogfooding.config');
 const npm2yarn = require('@docusaurus/remark-plugin-npm2yarn');
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
@@ -91,11 +94,18 @@ const config = {
   },
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('esbuild-loader'),
+      loader: require.resolve('swc-loader'),
       options: {
-        loader: 'tsx',
-        format: isServer ? 'cjs' : undefined,
-        target: isServer ? 'node12' : 'es2017',
+        jsc: {
+          "parser": {
+            "syntax": "typescript",
+            "tsx": true
+          },
+          target: 'es2017',
+        },
+        module: {
+          type: isServer ? 'commonjs' : 'es6',
+        }
       },
     }),
   },
@@ -110,13 +120,14 @@ const config = {
     'static',
     path.join(__dirname, '_dogfooding/_asset-tests'),
   ],
-  themes: ['live-codeblock'],
+  themes: ['live-codeblock', ...dogfoodingThemeInstances],
   plugins: [
     [
       require.resolve('./src/plugins/changelog/index.js'),
       {
         blogTitle: 'Docusaurus changelog',
-        blogDescription: 'Keep yourself up-to-date about new features in every release',
+        blogDescription:
+          'Keep yourself up-to-date about new features in every release',
         blogSidebarCount: 'ALL',
         blogSidebarTitle: 'Changelog',
         routeBasePath: '/changelog',
@@ -127,10 +138,11 @@ const config = {
         feedOptions: {
           type: 'all',
           title: 'Docusaurus changelog',
-          description: 'Keep yourself up-to-date about new features in every release',
+          description:
+            'Keep yourself up-to-date about new features in every release',
           copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           language: 'en',
-        }
+        },
       },
     ],
     [
@@ -201,7 +213,7 @@ const config = {
           'queryString',
         ],
         // swRegister: false,
-        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        swCustom: require.resolve('./src/sw.js'),
         pwaHead: [
           {
             tagName: 'link',
@@ -316,7 +328,10 @@ const config = {
           remarkPlugins: [npm2yarn],
         },
         theme: {
-          customCss: [require.resolve('./src/css/custom.css')],
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./_dogfooding/dogfooding.css'),
+          ],
         },
         gtag: !isDeployPreview
           ? {
@@ -349,7 +364,7 @@ const config = {
         // and the YAML front matter is highlighted correctly.
         // TODO after we have forked prism-react-renderer, we should tweak the
         // import order and fix it there
-        additionalLanguages: ['java', 'markdown'],
+        additionalLanguages: ['java', 'markdown', 'latex'],
       },
       image: 'img/docusaurus-soc.png',
       // metadata: [{name: 'twitter:card', content: 'summary'}],

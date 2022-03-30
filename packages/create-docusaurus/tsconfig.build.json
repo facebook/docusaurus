@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "es2020",
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src/"],
+  "exclude": ["templates/"]
+}

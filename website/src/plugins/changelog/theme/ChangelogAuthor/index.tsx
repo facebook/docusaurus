@@ -11,7 +11,7 @@ import type {Props} from '@theme/BlogPostAuthor';
 
 import styles from './styles.module.css';
 
-function ChangelogAuthor({author}: Props): JSX.Element {
+export default function ChangelogAuthor({author}: Props): JSX.Element {
   const {name, url, imageURL} = author;
   return (
     <div className="avatar margin-bottom--sm">
@@ -33,5 +33,3 @@ function ChangelogAuthor({author}: Props): JSX.Element {
     </div>
   );
 }
-
-export default ChangelogAuthor;

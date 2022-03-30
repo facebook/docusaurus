@@ -9,14 +9,10 @@ import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
-  ValidationResult,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
-import type {Configuration} from 'webpack';
 import {Joi} from '@docusaurus/utils-validation';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-
-import path from 'path';
 
 export default function pluginIdealImage(
   context: LoadContext,
@@ -30,11 +26,11 @@ export default function pluginIdealImage(
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getDefaultCodeTranslationMessages() {
@@ -44,7 +40,7 @@ export default function pluginIdealImage(
       });
     },
 
-    configureWebpack(_config: Configuration, isServer: boolean) {
+    configureWebpack(_config, isServer) {
       const {disableInDev, ...loaderOptions} = options;
       if (disableInDev && process.env.NODE_ENV !== 'production') {
         return {};
@@ -57,7 +53,7 @@ export default function pluginIdealImage(
         module: {
           rules: [
             {
-              test: /\.(?:png|jpe?g|gif)$/i,
+              test: /\.(?:png|jpe?g)$/i,
               use: [
                 require.resolve('@docusaurus/lqip-loader'),
                 {
@@ -82,7 +78,7 @@ export default function pluginIdealImage(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
   const pluginOptionsSchema = Joi.object({
     disableInDev: Joi.boolean().default(true),
   }).unknown();

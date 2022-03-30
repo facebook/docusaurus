@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {readFile} from 'fs-extra';
+import fs from 'fs-extra';
 import mdx from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
@@ -21,21 +21,21 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {MDXOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
+const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
 
-type Options = RemarkAndRehypePluginOptions & {
+type Options = MDXOptions & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -43,9 +43,9 @@ type Options = RemarkAndRehypePluginOptions & {
   removeContentTitle?: boolean;
   metadataPath?: string | ((filePath: string) => string);
   createAssets?: (metadata: {
-    frontMatter: Record<string, unknown>;
-    metadata: Record<string, unknown>;
-  }) => Record<string, unknown>;
+    frontMatter: {[key: string]: unknown};
+    metadata: {[key: string]: unknown};
+  }) => {[key: string]: unknown};
   filepath: string;
 };
 
@@ -57,11 +57,10 @@ type Options = RemarkAndRehypePluginOptions & {
  */
 async function readMetadataPath(metadataPath: string) {
   try {
-    return await readFile(metadataPath, 'utf8');
-  } catch (e) {
-    throw new Error(
-      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-    );
+    return await fs.readFile(metadataPath, 'utf8');
+  } catch (err) {
+    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
+    throw err;
   }
 }
 
@@ -73,7 +72,7 @@ async function readMetadataPath(metadataPath: string) {
  *
  * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
  */
-function createAssetsExportCode(assets: Record<string, unknown>) {
+function createAssetsExportCode(assets: {[key: string]: unknown}) {
   if (Object.keys(assets).length === 0) {
     return 'undefined';
   }
@@ -115,7 +114,7 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions() ?? {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -128,7 +127,7 @@ export default async function mdxLoader(
   const options: Options = {
     ...reqOptions,
     remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
+      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
       ...DEFAULT_OPTIONS.remarkPlugins,
       [
         transformImage,
@@ -144,12 +143,12 @@ export default async function mdxLoader(
           siteDir: reqOptions.siteDir,
         },
       ],
-      ...(reqOptions.remarkPlugins || []),
+      ...(reqOptions.remarkPlugins ?? []),
     ],
     rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
+      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
       ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
+      ...(reqOptions.rehypePlugins ?? []),
     ],
     filepath: filePath,
   };
@@ -163,7 +162,7 @@ export default async function mdxLoader(
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
   // Partial are not expected to have associated metadata files or front matter
-  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+  const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
     const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.

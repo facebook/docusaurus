@@ -6,25 +6,42 @@
  */
 
 import React from 'react';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  useCurrentSidebarCategory,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/DocCategoryGeneratedIndexPage';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';
-import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Heading from '@theme/Heading';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
-export default function DocCategoryGeneratedIndexPage({
+function DocCategoryGeneratedIndexPageMetadata({
+  categoryGeneratedIndex,
+}: Props): JSX.Element {
+  return (
+    <PageMetadata
+      title={categoryGeneratedIndex.title}
+      description={categoryGeneratedIndex.description}
+      keywords={categoryGeneratedIndex.keywords}
+      // TODO `require` this?
+      image={useBaseUrl(categoryGeneratedIndex.image)}
+    />
+  );
+}
+
+function DocCategoryGeneratedIndexPageContent({
   categoryGeneratedIndex,
 }: Props): JSX.Element {
   const category = useCurrentSidebarCategory();
   return (
     <>
-      <Seo
+      <PageMetadata
         title={categoryGeneratedIndex.title}
         description={categoryGeneratedIndex.description}
         keywords={categoryGeneratedIndex.keywords}
@@ -33,6 +50,7 @@ export default function DocCategoryGeneratedIndexPage({
       />
       <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
+        <DocBreadcrumbs />
         <DocVersionBadge />
         <header>
           <Heading as="h1" className={styles.title}>
@@ -52,6 +70,17 @@ export default function DocCategoryGeneratedIndexPage({
           />
         </footer>
       </div>
+    </>
+  );
+}
+
+export default function DocCategoryGeneratedIndexPage(
+  props: Props,
+): JSX.Element {
+  return (
+    <>
+      <DocCategoryGeneratedIndexPageMetadata {...props} />
+      <DocCategoryGeneratedIndexPageContent {...props} />
     </>
   );
 }

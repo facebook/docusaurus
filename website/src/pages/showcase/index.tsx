@@ -325,7 +325,7 @@ function ShowcaseCards() {
   );
 }
 
-function Showcase(): JSX.Element {
+export default function Showcase(): JSX.Element {
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
       <main className="margin-vert--lg">
@@ -336,5 +336,3 @@ function Showcase(): JSX.Element {
     </Layout>
   );
 }
-
-export default Showcase;

@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import type {CodeTranslations} from '@docusaurus/types';
 
 function getDefaultLocalesDirPath(): string {
   return path.join(__dirname, '../locales');
@@ -39,12 +40,11 @@ export async function readDefaultCodeTranslationMessages({
   dirPath?: string;
   locale: string;
   name: string;
-}): Promise<Record<string, string>> {
+}): Promise<CodeTranslations> {
   const localesToTry = codeTranslationLocalesToTry(locale);
 
   // Return the content of the first file that match
   // fr_FR.json => fr.json => nothing
-  // eslint-disable-next-line no-restricted-syntax
   for (const localeToTry of localesToTry) {
     const filePath = path.resolve(dirPath, localeToTry, `${name}.json`);
 

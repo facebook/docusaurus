@@ -21,17 +21,17 @@ import preload from './preload';
 import App from './App';
 import {
   createStatefulLinksCollector,
-  ProvideLinksCollector,
+  LinksCollectorProvider,
 } from './LinksCollector';
 import logger from '@docusaurus/logger';
 // eslint-disable-next-line no-restricted-imports
-import {memoize} from 'lodash';
+import _ from 'lodash';
 import type {Locals} from '@slorber/static-site-generator-webpack-plugin';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require('../../package.json');
 
-const getCompiledSSRTemplate = memoize((template: string) =>
+const getCompiledSSRTemplate = _.memoize((template: string) =>
   eta.compile(template.trim(), {
     rmWhitespace: true,
   }),
@@ -47,22 +47,19 @@ export default async function render(
 ): Promise<string> {
   try {
     return await doRender(locals);
-  } catch (e) {
-    logger.error`Docusaurus Node/SSR could not render static page with path path=${
-      locals.path
-    } because of following error:
-${(e as Error).stack!}`;
+  } catch (err) {
+    logger.error`Docusaurus server-side rendering could not render static page with path path=${locals.path}.`;
 
     const isNotDefinedErrorRegex =
       /(?:window|document|localStorage|navigator|alert|location|buffer|self) is not defined/i;
 
-    if (isNotDefinedErrorRegex.test((e as Error).message)) {
+    if (isNotDefinedErrorRegex.test((err as Error).message)) {
       logger.info`It looks like you are using code that should run on the client-side only.
-To get around it, try using code=${'<BrowserOnly>'} (path=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (path=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
+To get around it, try using code=${'<BrowserOnly>'} (url=${'https://docusaurus.io/docs/docusaurus-core/#browseronly'}) or code=${'ExecutionEnvironment'} (url=${'https://docusaurus.io/docs/docusaurus-core/#executionenvironment'}).
 It might also require to wrap your client code in code=${'useEffect'} hook and/or import a third-party library dynamically (if any).`;
     }
 
-    throw new Error('Server-side rendering fails due to the error above.');
+    throw err;
   }
 }
 
@@ -78,10 +75,10 @@ async function doRender(locals: Locals & {path: string}) {
     ssrTemplate,
     noIndex,
   } = locals;
-  const location = routesLocation[locals.path];
+  const location = routesLocation[locals.path]!;
   await preload(routes, location);
   const modules = new Set<string>();
-  const context = {};
+  const routerContext = {};
   const helmetContext = {};
 
   const linksCollector = createStatefulLinksCollector();
@@ -89,10 +86,10 @@ async function doRender(locals: Locals & {path: string}) {
     <React.StrictMode>
       <Capture report={(moduleName) => modules.add(moduleName)}>
         <HelmetProvider context={helmetContext}>
-          <StaticRouter location={location} context={context}>
-            <ProvideLinksCollector linksCollector={linksCollector}>
+          <StaticRouter location={location} context={routerContext}>
+            <LinksCollectorProvider linksCollector={linksCollector}>
               <App />
-            </ProvideLinksCollector>
+            </LinksCollectorProvider>
           </StaticRouter>
         </HelmetProvider>
       </Capture>
@@ -121,14 +118,14 @@ async function doRender(locals: Locals & {path: string}) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map((b) => b.file);
-  const scripts = (bundles.js || []).map((b) => b.file);
+  const stylesheets = (bundles.css ?? []).map((b) => b.file);
+  const scripts = (bundles.js ?? []).map((b) => b.file);
 
   const renderedHtml = renderSSRTemplate(ssrTemplate, {
     appHtml,
     baseUrl,
-    htmlAttributes: htmlAttributes || '',
-    bodyAttributes: bodyAttributes || '',
+    htmlAttributes,
+    bodyAttributes,
     headTags,
     preBodyTags,
     postBodyTags,
@@ -150,11 +147,8 @@ async function doRender(locals: Locals & {path: string}) {
       useShortDoctype: true,
       minifyJS: true,
     });
-  } catch (e) {
-    logger.error`Minification of page path=${
-      locals.path
-    } failed because of following error:
-${(e as Error).stack!}`;
-    throw e;
+  } catch (err) {
+    logger.error`Minification of page path=${locals.path} failed.`;
+    throw err;
   }
 }

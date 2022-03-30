@@ -21,17 +21,9 @@ import {
   DEFAULT_PLUGIN_ID,
   parseMarkdownString,
 } from '@docusaurus/utils';
-import type {
-  LoadContext,
-  Plugin,
-  OptionValidationContext,
-  ValidationResult,
-  ConfigureWebpackUtils,
-} from '@docusaurus/types';
-import type {Configuration} from 'webpack';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import admonitions from 'remark-admonitions';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import {validatePageFrontMatter} from './pageFrontMatter';
+import {validatePageFrontMatter} from './frontMatter';
 
 import type {LoadedContent, PagesContentPaths} from './types';
 import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
@@ -49,7 +41,7 @@ export default async function pluginContentPages(
 ): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
   const {
@@ -79,7 +71,7 @@ export default async function pluginContentPages(
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );
@@ -178,11 +170,7 @@ export default async function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -247,10 +235,4 @@ export default async function pluginContentPages(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

@@ -35,7 +35,7 @@
   width: 10%;
 }
 
-html[data-theme='light'] {
+[data-theme='light'] {
   --ifm-background-color: #fff;
 }
 
@@ -50,7 +50,7 @@ html[data-theme='light'] {
   user-select: none;
 }
 
-html[data-theme='dark'] .browserWindowAddressBar {
+[data-theme='dark'] .browserWindowAddressBar {
   color: var(--ifm-color-gray-300);
 }
 
