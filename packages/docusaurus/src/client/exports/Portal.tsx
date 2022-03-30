@@ -16,8 +16,7 @@ type PortalProps = {
 export function Portal({
   children,
   type = 'docusaurus-portal',
-}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-PortalProps): any {
+}: PortalProps): React.ReactPortal | null {
   const portalNode = React.useRef<HTMLElement | null>(null);
   const [, forceUpdate] = React.useState<{[key: string]: unknown}>();
   React.useEffect(() => {
