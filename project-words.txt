@@ -150,9 +150,9 @@ marocchino
 massoud
 mathjax
 mdast
+mdxa
 mdxast
 mdxhast
-MDXA
 metadatum
 metastring
 middlewares
@@ -301,6 +301,7 @@ treosh
 triaging
 typecheck
 typechecks
+typedoc
 typesense
 unflat
 unist
