@@ -182,9 +182,9 @@ export default async function mdxLoader(
   // Partial are not expected to have associated metadata files or front matter
   const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
-    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+    const errorMessage = `Docusaurus MDX partial files should not contain front matter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
-File at ${filePath} contains FrontMatter that will be ignored:
+File at ${filePath} contains front matter that will be ignored:
 ${JSON.stringify(frontMatter, null, 2)}`;
 
     if (!options.isMDXPartialFrontMatterWarningDisabled) {

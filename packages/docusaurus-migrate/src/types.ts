@@ -37,7 +37,7 @@ export type SidebarEntries = {
     | Array<{[key: string]: unknown} | string>;
 };
 
-export interface VersionTwoConfig {
+export type VersionTwoConfig = {
   baseUrl: string;
   favicon: string;
   tagline?: string;
@@ -93,7 +93,7 @@ export interface VersionTwoConfig {
         [key: string]: unknown;
       }
   )[];
-}
+};
 
 export type VersionOneConfig = {
   title?: string;

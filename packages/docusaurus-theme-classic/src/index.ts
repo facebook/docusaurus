@@ -118,7 +118,7 @@ export default function docusaurusThemeClassic(
       return '../src/theme';
     },
 
-    getTranslationFiles: async () => getTranslationFiles({themeConfig}),
+    getTranslationFiles: () => getTranslationFiles({themeConfig}),
 
     translateThemeConfig: (params) =>
       translateThemeConfig({

@@ -19,18 +19,18 @@ import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-interface Props extends RouteComponentProps {
+type Props = RouteComponentProps & {
   readonly routes: RouteConfig[];
   readonly delay: number;
   readonly location: Location;
-}
-interface State {
+};
+type State = {
   nextRouteHasLoaded: boolean;
-}
+};
 
 class PendingNavigation extends React.Component<Props, State> {
-  previousLocation: Location | null;
-  progressBarTimeout: NodeJS.Timeout | null;
+  private previousLocation: Location | null;
+  private progressBarTimeout: NodeJS.Timeout | null;
 
   constructor(props: Props) {
     super(props);

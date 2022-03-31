@@ -10,13 +10,13 @@ declare module '@mdx-js/mdx' {
   import type {Processor} from 'unified';
   import type {RemarkOrRehypePlugin} from '@docusaurus/mdx-loader';
 
-  export interface Options {
+  export type Options = {
     filepath?: string;
     skipExport?: boolean;
     wrapExport?: string;
     remarkPlugins?: RemarkOrRehypePlugin[];
     rehypePlugins?: RemarkOrRehypePlugin[];
-  }
+  };
 
   export function sync(content: string, options?: Options): string;
   export function createMdxAstCompiler(options?: Options): Processor;

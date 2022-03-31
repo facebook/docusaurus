@@ -10,7 +10,7 @@ declare module '@docusaurus/plugin-content-blog' {
   import type {FrontMatterTag, Tag} from '@docusaurus/utils';
   import type {Overwrite} from 'utility-types';
 
-  export interface Assets {
+  export type Assets = {
     /**
      * If `metadata.image` is a collocated image path, this entry will be the
      * bundler-generated image path. Otherwise, it's empty, and the image URL
@@ -25,13 +25,9 @@ declare module '@docusaurus/plugin-content-blog' {
      * should be accessed through `authors.imageURL`.
      */
     authorsImageUrls: (string | undefined)[];
-  }
+  };
 
-  /**
-   * Unknown keys are allowed, so that we can pass custom fields to authors,
-   * e.g., `twitter`.
-   */
-  export interface Author extends Record<string, unknown> {
+  export type Author = {
     /**
      * If `name` doesn't exist, an `imageURL` is expected.
      */
@@ -55,7 +51,12 @@ declare module '@docusaurus/plugin-content-blog' {
      * to generate a fallback `mailto:` URL.
      */
     email?: string;
-  }
+    /**
+     * Unknown keys are allowed, so that we can pass custom fields to authors,
+     * e.g., `twitter`.
+     */
+    [key: string]: unknown;
+  };
 
   /**
    * Everything is partial/unnormalized, because front matter is always
@@ -443,8 +444,6 @@ declare module '@theme/BlogPostPage' {
   >;
 
   export type Content = {
-    // TODO remove this. `metadata.frontMatter` is preferred because it can be
-    // accessed in enhanced plugins
     /** Same as `metadata.frontMatter` */
     readonly frontMatter: FrontMatter;
     /**

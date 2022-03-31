@@ -27,9 +27,9 @@ const isImport = (child: Node): child is Literal => child.type === 'import';
 const hasImports = (index: number) => index > -1;
 const isExport = (child: Node): child is Literal => child.type === 'export';
 
-interface PluginOptions {
+type PluginOptions = {
   name?: string;
-}
+};
 
 const isTarget = (child: Literal, name: string) => {
   let found = false;
