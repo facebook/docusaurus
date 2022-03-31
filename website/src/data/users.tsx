@@ -30,7 +30,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
- * If you edit this file through the Github interface, you can:
+ * If you edit this file through the GitHub interface, you can:
  * - Submit first your users.tsx edit PR
  * - This will create a branch on your Docusaurus fork (usually "patch-1")
  * - Go to https://github.com/<username>/docusaurus/tree/<branch>/website/src/data/showcase
@@ -281,7 +281,7 @@ const Users: User[] = [
   {
     title: 'Blog Matheus Brunelli',
     description:
-      'Desenvolvimento de software, carreira, dicas de livros e muito Javascript!',
+      'Desenvolvimento de software, carreira, dicas de livros e muito JavaScript!',
     preview: require('./showcase/blogmatheusbrunelli.png'),
     website: 'https://mrbrunelli.github.io/blog/',
     source: 'https://github.com/mrbrunelli/blog',
@@ -624,7 +624,7 @@ const Users: User[] = [
   },
   {
     title: 'FirelordJS',
-    description: 'Typescript Wrapper for Firestore',
+    description: 'TypeScript Wrapper for Firestore',
     preview: require('./showcase/firelordjs.png'),
     website: 'https://firelordjs.com',
     source: 'https://github.com/tylim88/FirelordJSDoc',
@@ -1008,7 +1008,7 @@ const Users: User[] = [
   {
     title: 'Molecule',
     description:
-      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VSCode.',
+      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VS Code.',
     preview: require('./showcase/molecule-home.png'),
     website: 'https://dtstack.github.io/molecule/',
     source: 'https://github.com/DTStack/molecule/tree/main/website',

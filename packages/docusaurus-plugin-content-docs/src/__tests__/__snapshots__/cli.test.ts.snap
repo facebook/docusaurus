@@ -34,7 +34,7 @@ exports[`docsVersion first time versioning 1`] = `
       },
       {
         "href": "https://github.com",
-        "label": "Github",
+        "label": "GitHub",
         "type": "link",
       },
       {

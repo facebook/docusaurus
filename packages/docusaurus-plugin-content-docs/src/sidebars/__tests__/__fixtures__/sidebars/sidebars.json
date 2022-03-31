@@ -5,7 +5,7 @@
       "foo/baz",
       {
         "type": "link",
-        "label": "Github",
+        "label": "GitHub",
         "href": "https://github.com"
       },
       {

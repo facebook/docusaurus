@@ -7,7 +7,7 @@ Docusaurus is written in TypeScript and provides first-class TypeScript support.
 
 ## Initialization {#initialization}
 
-Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
+Docusaurus supports writing and using TypeScript theme components. If the init template provides a TypeScript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
@@ -104,7 +104,7 @@ module.exports = config;
 
 Type annotations are very useful and help your IDE understand the type of config objects!
 
-The best IDEs (VSCode, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
+The best IDEs (VS Code, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
 
 :::
 
