@@ -55,12 +55,12 @@ function findPackageManagerFromUserAgent():
 
 async function askForPackageManagerChoice(): Promise<SupportedPackageManager> {
   const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
-  const hasPNPM = shell.exec('pnpm --version', {silent: true}).code === 0;
+  const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
 
-  if (!hasYarn && !hasPNPM) {
+  if (!hasYarn && !hasPnpm) {
     return 'npm';
   }
-  const choices = ['npm', hasYarn && 'yarn', hasPNPM && 'pnpm']
+  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm']
     .filter((p): p is string => Boolean(p))
     .map((p) => ({title: p, value: p}));
 
@@ -165,7 +165,7 @@ async function copyTemplate(
   }
 
   await fs.copy(path.resolve(templatesDir, template), dest, {
-    // Symlinks don't exist in published NPM packages anymore, so this is only
+    // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
     filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
   });
@@ -337,7 +337,7 @@ export default async function init(
     // Docusaurus templates.
     if (useTS) {
       if (!(await hasTS(template))) {
-        logger.error`Template name=${template} doesn't provide the Typescript variant.`;
+        logger.error`Template name=${template} doesn't provide the TypeScript variant.`;
         process.exit(1);
       }
       template = `${template}${TypeScriptTemplateSuffix}`;

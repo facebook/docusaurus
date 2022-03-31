@@ -100,7 +100,7 @@ jobs:
         working-directory: ../test-website
 
   npm:
-    name: E2E — NPM
+    name: E2E — npm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +114,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-      - name: Install test-website project with NPM
+      - name: Install test-website project with npm
         run: npm install
         working-directory: ../test-website
         env:
@@ -129,7 +129,7 @@ jobs:
         working-directory: ../test-website
 
   pnpm:
-    name: E2E — PNPM
+    name: E2E — pnpm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -143,7 +143,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-      - name: Install test-website project with PNPM
+      - name: Install test-website project with pnpm
         run: |
           curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
           pnpm install

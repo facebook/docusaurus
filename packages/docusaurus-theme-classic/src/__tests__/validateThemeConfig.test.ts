@@ -145,7 +145,7 @@ describe('themeConfig', () => {
               {
                 type: 'doc',
                 docId: 'npm',
-                label: 'NPM',
+                label: 'npm',
               },
               {
                 to: '/yarn',

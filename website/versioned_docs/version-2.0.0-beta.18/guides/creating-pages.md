@@ -115,7 +115,7 @@ This is merely a recommended directory structure, and you will still need to man
 
 :::
 
-By default, any Markdown or Javascript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
+By default, any Markdown or JavaScript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
 
 ```bash
 my-website

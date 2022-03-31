@@ -218,7 +218,7 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
         },
         {
           "href": "https://github.com",
-          "label": "Github",
+          "label": "GitHub",
           "type": "link",
         },
         {
