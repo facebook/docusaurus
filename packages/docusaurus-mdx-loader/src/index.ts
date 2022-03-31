@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import mdx from '@mdx-js/mdx';
+import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
@@ -23,10 +23,17 @@ import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
 import type {MDXOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
+import type {Processor} from 'unified';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
+
+const pragma = `
+/* @jsxRuntime classic */
+/* @jsx mdx */
+/* @jsxFrag mdx.Fragment */
+`;
 
 const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
@@ -34,6 +41,8 @@ const DEFAULT_OPTIONS: MDXOptions = {
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
+
+const compilerCache = new Map<string | Options, [Processor, Options]>();
 
 type Options = MDXOptions & {
   staticDirs: string[];
@@ -124,38 +133,47 @@ export default async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const options: Options = {
-    ...reqOptions,
-    remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      [
-        transformImage,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
+  if (!compilerCache.has(this.query)) {
+    const options: Options = {
+      ...reqOptions,
+      remarkPlugins: [
+        ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
+        ...DEFAULT_OPTIONS.remarkPlugins,
+        [
+          transformImage,
+          {
+            staticDirs: reqOptions.staticDirs,
+            siteDir: reqOptions.siteDir,
+          },
+        ],
+        [
+          transformLinks,
+          {
+            staticDirs: reqOptions.staticDirs,
+            siteDir: reqOptions.siteDir,
+          },
+        ],
+        ...(reqOptions.remarkPlugins ?? []),
       ],
-      [
-        transformLinks,
-        {
-          staticDirs: reqOptions.staticDirs,
-          siteDir: reqOptions.siteDir,
-        },
+      rehypePlugins: [
+        ...(reqOptions.beforeDefaultRehypePlugins ?? []),
+        ...DEFAULT_OPTIONS.rehypePlugins,
+        ...(reqOptions.rehypePlugins ?? []),
       ],
-      ...(reqOptions.remarkPlugins ?? []),
-    ],
-    rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins ?? []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins ?? []),
-    ],
-    filepath: filePath,
-  };
+    };
+    compilerCache.set(this.query, [createCompiler(options), options]);
+  }
+
+  const [compiler, options] = compilerCache.get(this.query)!;
 
   let result: string;
   try {
-    result = await mdx(content, options);
+    result = await compiler
+      .process({
+        contents: content,
+        path: this.resourcePath,
+      })
+      .then((res) => res.toString());
   } catch (err) {
     return callback(err as Error);
   }
@@ -214,6 +232,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 `;
 
   const code = `
+${pragma}
 import React from 'react';
 import { mdx } from '@mdx-js/react';
 
