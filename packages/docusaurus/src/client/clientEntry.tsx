@@ -24,6 +24,9 @@ declare global {
   }
 }
 
+/* eslint-disable global-require */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
@@ -54,10 +57,10 @@ if (ExecutionEnvironment.canUseDOM) {
     const appRoot = ReactDOMClient.createRoot(
       document.getElementById('__docusaurus'),
     );
-    const appRootforHydrate = ReactDOMClient.hydrateRoot;
+    const appRootForHydrate = ReactDOMClient.hydrateRoot;
     const renderMethod = (app: React.ReactNode) =>
       process.env.NODE_ENV === 'production'
-        ? appRootforHydrate(document.getElementById('__docusaurus'), app)
+        ? appRootForHydrate(document.getElementById('__docusaurus'), app)
         : appRoot.render(app);
     preload(routes, window.location.pathname).then(() => {
       renderMethod(
