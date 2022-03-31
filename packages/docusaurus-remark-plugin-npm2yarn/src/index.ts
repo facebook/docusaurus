@@ -6,7 +6,7 @@
  */
 
 import type {Code, Content, Literal} from 'mdast';
-import type {Plugin, Transformer} from 'unified';
+import type {Plugin} from 'unified';
 import type {Node, Parent} from 'unist';
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
@@ -61,9 +61,9 @@ const nodeForImport: Literal = {
 
 const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
   const {sync = false} = options;
-  let transformed = false;
-  let alreadyImported = false;
-  const transformer: Transformer = (root) => {
+  return (root) => {
+    let transformed = false;
+    let alreadyImported = false;
     visit(root, (node: Node) => {
       if (isImport(node) && node.value.includes('@theme/Tabs')) {
         alreadyImported = true;
@@ -87,7 +87,6 @@ const plugin: Plugin<[PluginOptions?]> = (options = {}) => {
       (root as Parent).children.unshift(nodeForImport);
     }
   };
-  return transformer;
 };
 
 // To continue supporting `require('npm2yarn')` without the `.default` ㄟ(▔,▔)ㄏ

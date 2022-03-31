@@ -168,12 +168,12 @@ export default async function mdxLoader(
 
   let result: string;
   try {
-    result = (
-      await compiler.process({
+    result = await compiler
+      .process({
         contents: content,
         path: this.resourcePath,
       })
-    ).toString();
+      .then((res) => res.toString());
   } catch (err) {
     return callback(err as Error);
   }
