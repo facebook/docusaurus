@@ -16,8 +16,6 @@
     "test": "tsc -p ."
   },
   "dependencies": {
-    "@docusaurus/react-loadable": "5.5.2",
-    "react-loadable": "npm:@docusaurus/react-loadable@5.5.2",
     "commander": "^5.1.0",
     "history": "^4.9.0",
     "joi": "^17.6.0",
