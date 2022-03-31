@@ -21,6 +21,7 @@ export default function NavbarNavLink({
   to,
   href,
   label,
+  html,
   activeClassName = '',
   prependBaseUrlToHref,
   ...props
@@ -54,11 +55,21 @@ export default function NavbarNavLink({
                 }
               : null),
           })}
-      {...props}>
-      {label}
-      {isExternalLink && (
-        <IconExternalLink {...(isDropdownLink && {width: 12, height: 12})} />
-      )}
-    </Link>
+      {...props}
+      {...(html
+        ? {dangerouslySetInnerHTML: {__html: html}}
+        : {
+            children: (
+              <>
+                {label}
+                {isExternalLink && (
+                  <IconExternalLink
+                    {...(isDropdownLink && {width: 12, height: 12})}
+                  />
+                )}
+              </>
+            ),
+          })}
+    />
   );
 }

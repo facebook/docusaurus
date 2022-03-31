@@ -112,10 +112,24 @@ describe('themeConfig', () => {
             docId: 'intro',
             label: 'Introduction',
           },
+          // Doc link with HTML as label
+          {
+            type: 'doc',
+            position: 'left',
+            docId: 'intro',
+            html: '<b>Introduction</b>',
+          },
           // Regular link
           {
             to: '/guide/',
             label: 'Guide',
+            position: 'left',
+            activeBaseRegex: '/guide/',
+          },
+          // Regular link with HTML as label
+          {
+            to: '/guide/',
+            html: '<b>Guide</b>',
             position: 'left',
             activeBaseRegex: '/guide/',
           },
@@ -136,10 +150,10 @@ describe('themeConfig', () => {
               },
             ],
           },
-          // Dropdown with name
+          // Dropdown with label as HTML
           {
             type: 'dropdown',
-            label: 'Tools',
+            label: 'Tools <sup>new</sup>',
             position: 'left',
             items: [
               {
