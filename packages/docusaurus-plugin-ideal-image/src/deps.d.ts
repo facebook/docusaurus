@@ -42,7 +42,7 @@ declare module '@endiliey/react-ideal-image' {
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export type ImageProps = ComponentProps<'img'> & {
+  export interface ImageProps extends ComponentProps<'img'> {
     /**
      * This function decides what icon to show based on the current state of the
      * component.
@@ -112,7 +112,7 @@ declare module '@endiliey/react-ideal-image' {
      * Width of the image in px.
      */
     width: number;
-  };
+  }
 
   export default function IdealImage(props: ImageProps): JSX.Element;
 }
