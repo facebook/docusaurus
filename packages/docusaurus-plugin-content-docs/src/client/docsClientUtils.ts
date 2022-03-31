@@ -23,12 +23,12 @@ import type {
 // ie the docs of that plugin are currently browsed
 // it is useful to support multiple docs plugin instances
 export function getActivePlugin(
-  allPluginDatas: Record<string, GlobalPluginData>,
+  allPluginData: {[pluginId: string]: GlobalPluginData},
   pathname: string,
   options: GetActivePluginOptions = {},
 ): ActivePlugin | undefined {
-  const activeEntry = Object.entries(allPluginDatas)
-    // A quick route sorting: '/android/foo' should match '/android' instead of '/'
+  const activeEntry = Object.entries(allPluginData)
+    // Route sorting: '/android/foo' should match '/android' instead of '/'
     .sort((a, b) => b[1].path.localeCompare(a[1].path))
     .find(
       ([, pluginData]) =>
@@ -46,7 +46,7 @@ export function getActivePlugin(
   if (!activePlugin && options.failfast) {
     throw new Error(
       `Can't find active docs plugin for "${pathname}" pathname, while it was expected to be found. Maybe you tried to use a docs feature that can only be used on a docs-related page? Existing docs plugin paths are: ${Object.values(
-        allPluginDatas,
+        allPluginData,
       )
         .map((plugin) => plugin.path)
         .join(', ')}`,
@@ -67,7 +67,7 @@ export const getActiveVersion = (
 ): GlobalVersion | undefined => {
   const lastVersion = getLatestVersion(data);
   // Last version is a route like /docs/*,
-  // we need to try to match it last or it would match /docs/version-1.0/* as well
+  // we need to match it last or it would match /docs/version-1.0/* as well
   const orderedVersionsMetadata = [
     ...data.versions.filter((version) => version !== lastVersion),
     lastVersion,

@@ -19,3 +19,7 @@ website/docusaurus.config.js
 website/versioned_sidebars/*.json
 
 examples/
+website/static/katex/katex.min.css
+
+website/changelog/_swizzle_theme_tests
+website/_dogfooding/_swizzle_theme_tests

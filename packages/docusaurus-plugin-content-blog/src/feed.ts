@@ -9,11 +9,10 @@ import {Feed, type Author as FeedAuthor, type Item as FeedItem} from 'feed';
 import type {BlogPost} from './types';
 import {
   normalizeUrl,
-  posixPath,
   mapAsyncSequential,
   readOutputHTMLFile,
 } from '@docusaurus/utils';
-import cheerio from 'cheerio';
+import {load as cheerioLoad} from 'cheerio';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import path from 'path';
 import fs from 'fs-extra';
@@ -29,11 +28,13 @@ async function generateBlogFeed({
   options,
   siteConfig,
   outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
+  locale: string;
 }): Promise<Feed | null> {
   if (!blogPosts.length) {
     return null;
@@ -43,23 +44,21 @@ async function generateBlogFeed({
   const {url: siteUrl, baseUrl, title, favicon} = siteConfig;
   const blogBaseUrl = normalizeUrl([siteUrl, baseUrl, routeBasePath]);
 
-  const updated = blogPosts[0] && blogPosts[0].metadata.date;
+  const updated = blogPosts[0]?.metadata.date;
 
   const feed = new Feed({
     id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
+    title: feedOptions.title ?? `${title} Blog`,
     updated,
-    language: feedOptions.language,
+    language: feedOptions.language ?? locale,
     link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
+    description: feedOptions.description ?? `${siteConfig.title} Blog`,
     favicon: favicon ? normalizeUrl([siteUrl, baseUrl, favicon]) : undefined,
     copyright: feedOptions.copyright,
   });
 
   function toFeedAuthor(author: Author): FeedAuthor {
-    // TODO ask author emails?
-    // RSS feed requires email to render authors
-    return {name: author.name, link: author.url};
+    return {name: author.name, link: author.url, email: author.email};
   }
 
   await mapAsyncSequential(blogPosts, async (post) => {
@@ -80,7 +79,7 @@ async function generateBlogFeed({
       outDir,
       siteConfig.trailingSlash,
     );
-    const $ = cheerio.load(content);
+    const $ = cheerioLoad(content);
 
     const feedItem: FeedItem = {
       title: metadataTitle,
@@ -128,10 +127,7 @@ async function createBlogFeedFile({
     }
   })();
   try {
-    await fs.outputFile(
-      posixPath(path.join(generatePath, feedPath)),
-      feedContent,
-    );
+    await fs.outputFile(path.join(generatePath, feedPath), feedContent);
   } catch (err) {
     throw new Error(`Generating ${feedType} feed failed: ${err}.`);
   }
@@ -142,17 +138,20 @@ export async function createBlogFeedFiles({
   options,
   siteConfig,
   outDir,
+  locale,
 }: {
   blogPosts: BlogPost[];
   options: PluginOptions;
   siteConfig: DocusaurusConfig;
   outDir: string;
+  locale: string;
 }): Promise<void> {
   const feed = await generateBlogFeed({
     blogPosts,
     options,
     siteConfig,
     outDir,
+    locale,
   });
 
   const feedTypes = options.feedOptions.type;

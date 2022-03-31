@@ -1,0 +1,114 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import {jest} from '@jest/globals';
+import {readOutputHTMLFile, generate} from '../emitUtils';
+import path from 'path';
+import fs from 'fs-extra';
+
+describe('readOutputHTMLFile', () => {
+  it('trailing slash undefined', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/file',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('folder\n');
+    await expect(
+      readOutputHTMLFile(
+        '/file/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        undefined,
+      ).then(String),
+    ).resolves.toBe('folder\n');
+  });
+  it('trailing slash true', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/folder',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        true,
+      ).then(String),
+    ).resolves.toBe('folder\n');
+    await expect(
+      readOutputHTMLFile(
+        '/folder/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        true,
+      ).then(String),
+    ).resolves.toBe('folder\n');
+  });
+  it('trailing slash false', async () => {
+    await expect(
+      readOutputHTMLFile(
+        '/file',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toBe('file\n');
+    await expect(
+      readOutputHTMLFile(
+        '/file/',
+        path.join(__dirname, '__fixtures__/build-snap'),
+        false,
+      ).then(String),
+    ).resolves.toBe('file\n');
+  });
+});
+
+describe('generate', () => {
+  const writeMock = jest.spyOn(fs, 'outputFile').mockImplementation(() => {});
+  const existsMock = jest.spyOn(fs, 'pathExists');
+  const readMock = jest.spyOn(fs, 'readFile');
+
+  it('works with no file and no cache', async () => {
+    existsMock.mockImplementationOnce(() => false);
+    await generate(__dirname, 'foo', 'bar');
+    expect(writeMock).toHaveBeenNthCalledWith(
+      1,
+      path.join(__dirname, 'foo'),
+      'bar',
+    );
+  });
+
+  it('works with existing cache', async () => {
+    await generate(__dirname, 'foo', 'bar');
+    expect(writeMock).toBeCalledTimes(1);
+  });
+
+  it('works with existing file but no cache', async () => {
+    existsMock.mockImplementationOnce(() => true);
+    // @ts-expect-error: seems the typedef doesn't understand overload
+    readMock.mockImplementationOnce(() => Promise.resolve('bar'));
+    await generate(__dirname, 'baz', 'bar');
+    expect(writeMock).toBeCalledTimes(1);
+  });
+
+  it('works when force skipping cache', async () => {
+    await generate(__dirname, 'foo', 'bar', true);
+    expect(writeMock).toHaveBeenNthCalledWith(
+      2,
+      path.join(__dirname, 'foo'),
+      'bar',
+    );
+  });
+});

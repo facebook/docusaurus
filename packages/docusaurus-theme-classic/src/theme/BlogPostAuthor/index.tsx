@@ -6,44 +6,49 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/Link';
+import Link, {type Props as LinkProps} from '@docusaurus/Link';
 import type {Props} from '@theme/BlogPostAuthor';
 
 import styles from './styles.module.css';
 
-function BlogPostAuthor({author}: Props): JSX.Element {
-  const {name, title, url, imageURL} = author;
+function MaybeLink(props: LinkProps): JSX.Element {
+  if (props.href) {
+    return <Link {...props} />;
+  }
+  return <>{props.children}</>;
+}
+
+export default function BlogPostAuthor({author}: Props): JSX.Element {
+  const {name, title, url, imageURL, email} = author;
+  const link = url || (email && `mailto:${email}`) || undefined;
   return (
     <div className="avatar margin-bottom--sm">
       {imageURL && (
-        <Link className="avatar__photo-link avatar__photo" href={url}>
-          <img className={styles.image} src={imageURL} alt={name} />
-        </Link>
+        <span className="avatar__photo-link avatar__photo">
+          <MaybeLink href={link}>
+            <img className={styles.image} src={imageURL} alt={name} />
+          </MaybeLink>
+        </span>
       )}
 
-      {
-        // Note: only legacy author front matter allow empty name (not frontMatter.authors)
-        name && (
-          <div
-            className="avatar__intro"
-            itemProp="author"
-            itemScope
-            itemType="https://schema.org/Person">
-            <div className="avatar__name">
-              <Link href={url} itemProp="url">
-                <span itemProp="name">{name}</span>
-              </Link>
-            </div>
-            {title && (
-              <small className="avatar__subtitle" itemProp="description">
-                {title}
-              </small>
-            )}
+      {name && (
+        <div
+          className="avatar__intro"
+          itemProp="author"
+          itemScope
+          itemType="https://schema.org/Person">
+          <div className="avatar__name">
+            <MaybeLink href={link} itemProp="url">
+              <span itemProp="name">{name}</span>
+            </MaybeLink>
           </div>
-        )
-      }
+          {title && (
+            <small className="avatar__subtitle" itemProp="description">
+              {title}
+            </small>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
-export default BlogPostAuthor;

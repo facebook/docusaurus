@@ -40,6 +40,7 @@ authors:
     url: https://github.com/anshulrgoyal
   - image_url: https://github.com/italicize.png
     url: https://github.com/italicize
+tags: [paginated-tag]
 ---
 
 # Image-only authors

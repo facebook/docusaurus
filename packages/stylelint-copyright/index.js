@@ -15,7 +15,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
 const plugin = stylelint.createPlugin(
   ruleName,
   (primaryOption, secondaryOption, context) => (root, result) => {
-    const validOptions = stylelint.utils.validateOptions(
+    stylelint.utils.validateOptions(
       result,
       ruleName,
       {
@@ -27,10 +27,6 @@ const plugin = stylelint.createPlugin(
         possible: (v) => typeof v.header === 'string',
       },
     );
-
-    if (!validOptions) {
-      return;
-    }
 
     if (
       root.first &&

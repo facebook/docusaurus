@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
+import React, {isValidElement, type ReactNode} from 'react';
 import type {
   InterpolateProps,
   InterpolateValues,
@@ -18,10 +18,10 @@ We don't ship a markdown parser nor a feature-complete i18n library on purpose.
 More details here: https://github.com/facebook/docusaurus/pull/4295
 */
 
-const ValueRegexp = /{\w+}/g;
+const ValueRegexp = /\{\w+\}/g;
 const ValueFoundMarker = '{}'; // does not care much
 
-// TS function overload: if all the values are plain strings, then interpolate returns a simple string
+// If all the values are plain strings, then interpolate returns a simple string
 export function interpolate<Str extends string>(
   text: Str,
   values?: InterpolateValues<Str, string | number>,
@@ -49,15 +49,14 @@ export function interpolate<Str extends string, Value extends ReactNode>(
     const value = values?.[key];
 
     if (typeof value !== 'undefined') {
-      const element = React.isValidElement(value)
+      const element = isValidElement(value)
         ? value
         : // For non-React elements: basic primitive->string conversion
           String(value);
       elements.push(element);
       return ValueFoundMarker;
-    } else {
-      return match; // no match? add warning?
     }
+    return match; // no match? add warning?
   });
 
   // No interpolation to be done: just return the text
@@ -65,7 +64,7 @@ export function interpolate<Str extends string, Value extends ReactNode>(
     return text;
   }
   // Basic string interpolation: returns interpolated string
-  else if (elements.every((el) => typeof el === 'string')) {
+  if (elements.every((el) => typeof el === 'string')) {
     return processedText
       .split(ValueFoundMarker)
       .reduce<string>(
@@ -75,29 +74,27 @@ export function interpolate<Str extends string, Value extends ReactNode>(
       );
   }
   // JSX interpolation: returns ReactNode
-  else {
-    return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
-      (array, value, index) => [
-        ...array,
-        <React.Fragment key={index}>
-          {value}
-          {elements[index]}
-        </React.Fragment>,
-      ],
-      [],
-    );
-  }
+  return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
+    (array, value, index) => [
+      ...array,
+      <React.Fragment key={index}>
+        {value}
+        {elements[index]}
+      </React.Fragment>,
+    ],
+    [],
+  );
 }
 
 export default function Interpolate<Str extends string>({
   children,
   values,
-}: InterpolateProps<Str>): ReactNode {
+}: InterpolateProps<Str>): JSX.Element {
   if (typeof children !== 'string') {
     console.warn('Illegal <Interpolate> children', children);
     throw new Error(
       'The Docusaurus <Interpolate> component only accept simple string values',
     );
   }
-  return interpolate(children, values);
+  return <>{interpolate(children, values)}</>;
 }

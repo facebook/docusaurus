@@ -9,18 +9,16 @@ import http from 'http';
 import serveHandler from 'serve-handler';
 import logger from '@docusaurus/logger';
 import path from 'path';
-import {loadSiteConfig} from '../server';
-import build from './build';
+import {loadSiteConfig} from '../server/config';
+import {build} from './build';
 import {getCLIOptionHost, getCLIOptionPort} from './commandUtils';
 import type {ServeCLIOptions} from '@docusaurus/types';
 
-export default async function serve(
+export async function serve(
   siteDir: string,
   cliOptions: ServeCLIOptions,
 ): Promise<void> {
-  let dir = path.isAbsolute(cliOptions.dir)
-    ? cliOptions.dir
-    : path.join(siteDir, cliOptions.dir);
+  let dir = path.resolve(siteDir, cliOptions.dir);
 
   if (cliOptions.build) {
     dir = await build(
@@ -59,18 +57,19 @@ export default async function serve(
       return;
     }
 
-    // Remove baseUrl before calling serveHandler
-    // Reason: /baseUrl/ should serve /build/index.html, not /build/baseUrl/index.html (does not exist)
+    // Remove baseUrl before calling serveHandler, because /baseUrl/ should
+    // serve /build/index.html, not /build/baseUrl/index.html (does not exist)
     req.url = req.url?.replace(baseUrl, '/');
 
     serveHandler(req, res, {
       cleanUrls: true,
       public: dir,
       trailingSlash,
+      directoryListing: false,
     });
   });
 
-  logger.success`Serving path=${cliOptions.dir} directory at path=${
+  logger.success`Serving path=${cliOptions.dir} directory at url=${
     servingUrl + baseUrl
   }.`;
   server.listen(port);

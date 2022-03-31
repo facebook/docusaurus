@@ -118,7 +118,7 @@ You should still be on your local branch `<your_username>/<version_to_release>`
 
 Make a commit/push, create a pull request with the changes.
 
-Example PR: [#3114](https://github.com/facebook/docusaurus/pull/5098), using title such as `chore(v2): prepare v2.0.0-beta.0 release`
+Example PR: [#3114](https://github.com/facebook/docusaurus/pull/5098), using title such as `chore: prepare v2.0.0-beta.0 release`
 
 **Don't merge it yet**, but wait for the CI checks to complete.
 
@@ -186,6 +186,8 @@ This command does a few things:
 - Pushes the new release commit on your branch, and add a git tag
 
 You should receive many emails notifying you that a new version of the packages has been published.
+
+If above command fail (network issue or whatever), you can try to recover with `yarn lerna publish from-package`: it will try to publish the packages that are missing on npm.
 
 Now that the release is done, **merge the pull request**.
 

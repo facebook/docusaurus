@@ -69,49 +69,41 @@ describe('stripNumberPrefix', () => {
     return stripNumberPrefix(str, DefaultNumberPrefixParser);
   }
 
-  test('should strip number prefix if present', () => {
-    expect(stripNumberPrefixDefault('1-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001-My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 - My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      -    My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('999      -        My Doc')).toEqual(
+  it('strips number prefix if present', () => {
+    expect(stripNumberPrefixDefault('1-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001-My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 - My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      -    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      -        My Doc')).toBe('My Doc');
+    //
+    expect(stripNumberPrefixDefault('1---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001---My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 --- My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      ---    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      ---        My Doc')).toBe(
       'My Doc',
     );
     //
-    expect(stripNumberPrefixDefault('1---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001---My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 --- My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      ---    My Doc')).toEqual(
-      'My Doc',
-    );
-    expect(stripNumberPrefixDefault('999      ---        My Doc')).toEqual(
-      'My Doc',
-    );
-    //
-    expect(stripNumberPrefixDefault('1___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001___My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 ___ My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      ___    My Doc')).toEqual(
-      'My Doc',
-    );
-    expect(stripNumberPrefixDefault('999      ___        My Doc')).toEqual(
+    expect(stripNumberPrefixDefault('1___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001___My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 ___ My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      ___    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      ___        My Doc')).toBe(
       'My Doc',
     );
     //
-    expect(stripNumberPrefixDefault('1.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('01.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001.My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001 . My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('001      .    My Doc')).toEqual('My Doc');
-    expect(stripNumberPrefixDefault('999      .       My Doc')).toEqual(
-      'My Doc',
-    );
+    expect(stripNumberPrefixDefault('1.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('01.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001.My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001 . My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('001      .    My Doc')).toBe('My Doc');
+    expect(stripNumberPrefixDefault('999      .       My Doc')).toBe('My Doc');
   });
 
-  test('should not strip number prefix if pattern does not match', () => {
+  it('does not strip number prefix if pattern does not match', () => {
     IgnoredNumberPrefixPatterns.forEach((badPattern) => {
       expect(stripNumberPrefixDefault(badPattern)).toEqual(badPattern);
     });
@@ -119,16 +111,16 @@ describe('stripNumberPrefix', () => {
 });
 
 describe('stripPathNumberPrefix', () => {
-  test('should strip number prefixes in paths', () => {
+  it('strips number prefixes in paths', () => {
     expect(
       stripPathNumberPrefixes(
         '0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3',
         DefaultNumberPrefixParser,
       ),
-    ).toEqual('MyRootFolder0/MySubFolder1/MyDeepFolder2/MyDoc3');
+    ).toBe('MyRootFolder0/MySubFolder1/MyDeepFolder2/MyDoc3');
   });
 
-  test('should strip number prefixes in paths with custom parser', () => {
+  it('strips number prefixes in paths with custom parser', () => {
     function stripPathNumberPrefixCustom(str: string) {
       return {
         filename: str.substring(1, str.length),
@@ -138,21 +130,21 @@ describe('stripPathNumberPrefix', () => {
 
     expect(
       stripPathNumberPrefixes('aaaa/bbbb/cccc', stripPathNumberPrefixCustom),
-    ).toEqual('aaa/bbb/ccc');
+    ).toBe('aaa/bbb/ccc');
   });
 
-  test('should strip number prefixes in paths with disabled parser', () => {
+  it('does not strip number prefixes in paths with disabled parser', () => {
     expect(
       stripPathNumberPrefixes(
         '0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3',
         DisabledNumberPrefixParser,
       ),
-    ).toEqual('0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3');
+    ).toBe('0-MyRootFolder0/1 - MySubFolder1/2.  MyDeepFolder2/3 _MyDoc3');
   });
 });
 
 describe('DefaultNumberPrefixParser', () => {
-  test('should extract number prefix if present', () => {
+  it('extracts number prefix if present', () => {
     expect(DefaultNumberPrefixParser('0-My Doc')).toEqual({
       filename: 'My Doc',
       numberPrefix: 0,
@@ -188,7 +180,7 @@ describe('DefaultNumberPrefixParser', () => {
     });
   });
 
-  test('should not extract number prefix if pattern does not match', () => {
+  it('does not extract number prefix if pattern does not match', () => {
     IgnoredNumberPrefixPatterns.forEach((badPattern) => {
       expect(DefaultNumberPrefixParser(badPattern)).toEqual({
         filename: badPattern,

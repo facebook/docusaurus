@@ -8,8 +8,8 @@
 import type {Joi} from '@docusaurus/utils-validation';
 import {validateThemeConfig, DEFAULT_CONFIG} from '../validateThemeConfig';
 
-function testValidateThemeConfig(themeConfig: Record<string, unknown>) {
-  function validate(schema: Joi.Schema, cfg: Record<string, unknown>) {
+function testValidateThemeConfig(themeConfig: {[key: string]: unknown}) {
+  function validate(schema: Joi.Schema, cfg: {[key: string]: unknown}) {
     const {value, error} = schema.validate(cfg, {
       convert: false,
     });
@@ -23,10 +23,11 @@ function testValidateThemeConfig(themeConfig: Record<string, unknown>) {
 }
 
 describe('validateThemeConfig', () => {
-  test('minimal config', () => {
+  it('minimal config', () => {
     const algolia = {
       indexName: 'index',
       apiKey: 'apiKey',
+      appId: 'BH4D9OD16A',
     };
     expect(testValidateThemeConfig({algolia})).toEqual({
       algolia: {
@@ -36,11 +37,12 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('unknown attributes', () => {
+  it('unknown attributes', () => {
     const algolia = {
       indexName: 'index',
       apiKey: 'apiKey',
       unknownKey: 'unknownKey',
+      appId: 'BH4D9OD16A',
     };
     expect(testValidateThemeConfig({algolia})).toEqual({
       algolia: {
@@ -50,7 +52,7 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('undefined config', () => {
+  it('undefined config', () => {
     const algolia = undefined;
     expect(() =>
       testValidateThemeConfig({algolia}),
@@ -59,7 +61,7 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('undefined config 2', () => {
+  it('undefined config 2', () => {
     expect(() =>
       testValidateThemeConfig({}),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -67,15 +69,8 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('empty config', () => {
-    const algolia = {};
-    expect(() =>
-      testValidateThemeConfig({algolia}),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"algolia.apiKey\\" is required"`);
-  });
-
-  test('missing indexName config', () => {
-    const algolia = {apiKey: 'apiKey'};
+  it('missing indexName config', () => {
+    const algolia = {apiKey: 'apiKey', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
     ).toThrowErrorMatchingInlineSnapshot(
@@ -83,15 +78,25 @@ describe('validateThemeConfig', () => {
     );
   });
 
-  test('missing apiKey config', () => {
-    const algolia = {indexName: 'indexName'};
+  it('missing apiKey config', () => {
+    const algolia = {indexName: 'indexName', appId: 'BH4D9OD16A'};
     expect(() =>
       testValidateThemeConfig({algolia}),
     ).toThrowErrorMatchingInlineSnapshot(`"\\"algolia.apiKey\\" is required"`);
   });
 
-  test('contextualSearch config', () => {
+  it('missing appId config', () => {
+    const algolia = {indexName: 'indexName', apiKey: 'apiKey'};
+    expect(() =>
+      testValidateThemeConfig({algolia}),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"algolia.appId\\" is required. If you haven't migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration"`,
+    );
+  });
+
+  it('contextualSearch config', () => {
     const algolia = {
+      appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
       contextualSearch: true,
@@ -104,8 +109,9 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('externalUrlRegex config', () => {
+  it('externalUrlRegex config', () => {
     const algolia = {
+      appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
       externalUrlRegex: 'http://external-domain.com',
@@ -118,8 +124,9 @@ describe('validateThemeConfig', () => {
     });
   });
 
-  test('searchParameters.facetFilters search config', () => {
+  it('searchParameters.facetFilters search config', () => {
     const algolia = {
+      appId: 'BH4D9OD16A',
       indexName: 'index',
       apiKey: 'apiKey',
       searchParameters: {

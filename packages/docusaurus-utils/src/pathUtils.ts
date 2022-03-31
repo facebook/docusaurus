@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
-
 import path from 'path';
 
-// MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars, Others = 255 bytes
+// Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
+// MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars,
+// Others = 255 bytes
 const MAX_PATH_SEGMENT_CHARS = 255;
 const MAX_PATH_SEGMENT_BYTES = 255;
 // Space for appending things to the string like file extensions and so on
@@ -19,12 +19,12 @@ const isMacOs = () => process.platform === 'darwin';
 const isWindows = () => process.platform === 'win32';
 
 export const isNameTooLong = (str: string): boolean =>
-  // This is actually not entirely correct: we can't assume FS from OS. But good enough?
+  // Not entirely correct: we can't assume FS from OS. But good enough?
   isMacOs() || isWindows()
     ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
     : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
 
-export const shortName = (str: string): string => {
+export function shortName(str: string): string {
   if (isMacOs() || isWindows()) {
     const overflowingChars = str.length - MAX_PATH_SEGMENT_CHARS;
     return str.slice(
@@ -41,7 +41,7 @@ export const shortName = (str: string): string => {
       Buffer.byteLength(strBuffer) - overflowingBytes - SPACE_FOR_APPENDING - 1,
     )
     .toString();
-};
+}
 
 /**
  * Convert Windows backslash paths to posix style paths.
@@ -56,7 +56,8 @@ export const shortName = (str: string): string => {
 export function posixPath(str: string): string {
   const isExtendedLengthPath = /^\\\\\?\\/.test(str);
 
-  // Forward slashes are only valid Windows paths when they don't contain non-ascii characters.
+  // Forward slashes are only valid Windows paths when they don't contain non-
+  // ascii characters.
   // eslint-disable-next-line no-control-regex
   const hasNonAscii = /[^\u0000-\u0080]+/.test(str);
 
@@ -66,13 +67,18 @@ export function posixPath(str: string): string {
   return str.replace(/\\/g, '/');
 }
 
-// When you want to display a path in a message/warning/error,
-// it's more convenient to:
-// - make it relative to cwd()
-// - convert to posix (ie not using windows \ path separator)
-// This way, Jest tests can run more reliably on any computer/CI
-// on both Unix/Windows
-// For Windows users this is not perfect (as they see / instead of \) but it's probably good enough
+/**
+ * When you want to display a path in a message/warning/error, it's more
+ * convenient to:
+ *
+ * - make it relative to `cwd()`
+ * - convert to posix (ie not using windows \ path separator)
+ *
+ * This way, Jest tests can run more reliably on any computer/CI on both
+ * Unix/Windows
+ * For Windows users this is not perfect (as they see / instead of \) but it's
+ * probably good enough
+ */
 export function toMessageRelativeFilePath(filePath: string): string {
   return posixPath(path.relative(process.cwd(), filePath));
 }
@@ -92,7 +98,8 @@ export function aliasedSitePath(filePath: string, siteDir: string): string {
 /**
  * When you have a path like C:\X\Y
  * It is not safe to use directly when generating code
- * For example, this would fail due to unescaped \: `<img src={require('${filePath}')} />`
+ * For example, this would fail due to unescaped \:
+ * `<img src={require('${filePath}')} />`
  * But this would work: `<img src={require('${escapePath(filePath)}')} />`
  *
  * posixPath can't be used in all cases, because forward slashes are only valid
@@ -104,4 +111,11 @@ export function escapePath(str: string): string {
 
   // Remove the " around the json string;
   return escaped.substring(1, escaped.length - 1);
+}
+
+export function addTrailingPathSeparator(str: string): string {
+  return str.endsWith(path.sep)
+    ? str
+    : // If this is Windows, we need to change the forward slash to backward
+      `${str.replace(/\/$/, '')}${path.sep}`;
 }

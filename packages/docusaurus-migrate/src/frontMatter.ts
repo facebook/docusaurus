@@ -37,8 +37,8 @@ export default function extractMetadata(content: string): Data {
 
   // New line characters => to handle all operating systems.
   const lines = (both.header ?? '').split(/\r?\n/);
-  for (let i = 0; i < lines.length - 1; i += 1) {
-    const keyValue = lines[i].split(':');
+  lines.slice(0, -1).forEach((line) => {
+    const keyValue = line.split(':') as [string, ...string[]];
     const key = keyValue[0].trim();
     let value = keyValue.slice(1).join(':').trim();
     try {
@@ -47,7 +47,7 @@ export default function extractMetadata(content: string): Data {
       // Ignore the error as it means it's not a JSON value.
     }
     metadata[key] = value;
-  }
+  });
   return {metadata, rawContent: both.content};
 }
 
@@ -59,7 +59,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
   if (key === 'tags') {
     return false;
   }
-  if (String(value).match(/^("|').+("|')$/)) {
+  if (String(value).match(/^(?<quote>["']).+\1$/)) {
     return false;
   }
   // title: !something needs quotes because otherwise it's a YAML tag.
@@ -69,6 +69,7 @@ export function shouldQuotifyFrontMatter([key, value]: [
   // TODO this is not ideal to have to maintain such a list of allowed chars
   // maybe we should quotify if gray-matter throws instead?
   return !String(value).match(
-    /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
+    // cSpell:ignore àáâãäåçèéêëìíîïðòóôõöùúûüýÿ
+    /^[\w .\-àáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+?'`&#()[\]§%€$]+$/,
   );
 }
