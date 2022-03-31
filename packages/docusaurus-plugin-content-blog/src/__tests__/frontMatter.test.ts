@@ -314,7 +314,10 @@ describe('validateBlogPostFrontMatter tags', () => {
       {tags: ['hello', {label: 'tagLabel', permalink: '/tagPermalink'}]},
     ],
     invalidFrontMatters: [
-      [{tags: ''}, '"tags" does not look like a valid FrontMatter Yaml array.'],
+      [
+        {tags: ''},
+        '"tags" does not look like a valid front matter Yaml array.',
+      ],
       [{tags: ['']}, 'not allowed to be empty'],
     ],
     // See https://github.com/facebook/docusaurus/issues/4642

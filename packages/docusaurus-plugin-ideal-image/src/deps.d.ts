@@ -33,16 +33,16 @@ declare module '@endiliey/react-ideal-image' {
     | 'noicon'
     | 'offline';
 
-  export interface SrcType {
+  export type SrcType = {
     width: number;
     src?: string;
     size?: number;
     format?: 'webp' | 'jpeg' | 'png' | 'gif';
-  }
+  };
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 
-  export interface ImageProps extends ComponentProps<'img'> {
+  export type ImageProps = ComponentProps<'img'> & {
     /**
      * This function decides what icon to show based on the current state of the
      * component.
@@ -112,7 +112,7 @@ declare module '@endiliey/react-ideal-image' {
      * Width of the image in px.
      */
     width: number;
-  }
+  };
 
   export default function IdealImage(props: ImageProps): JSX.Element;
 }

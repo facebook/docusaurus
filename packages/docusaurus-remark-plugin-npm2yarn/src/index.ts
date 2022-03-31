@@ -11,9 +11,9 @@ import type {Node, Parent} from 'unist';
 import visit from 'unist-util-visit';
 import npmToYarn from 'npm-to-yarn';
 
-interface PluginOptions {
+type PluginOptions = {
   sync?: boolean;
-}
+};
 
 // E.g. global install: 'npm i' -> 'yarn'
 const convertNpmToYarn = (npmCode: string) => npmToYarn(npmCode, 'yarn');

@@ -86,7 +86,7 @@ export type DocusaurusConfig = {
     | string
     | {
         src: string;
-        [key: string]: unknown;
+        [key: string]: string | boolean | undefined;
       }
   )[];
   clientModules: string[];
@@ -96,7 +96,7 @@ export type DocusaurusConfig = {
     | string
     | {
         href: string;
-        [key: string]: unknown;
+        [key: string]: string | boolean | undefined;
       }
   )[];
   titleDelimiter?: string;
@@ -304,16 +304,16 @@ export type ThemeConfigValidationContext<T> = {
 
 export type Plugin<Content = unknown> = {
   name: string;
-  loadContent?: () => Promise<Content>;
+  loadContent?: () => Promise<Content> | Content;
   contentLoaded?: (args: {
     /** the content loaded by this plugin instance */
     content: Content; //
     /** content loaded by ALL the plugins */
     allContent: AllContent;
     actions: PluginContentLoadedActions;
-  }) => Promise<void>;
+  }) => Promise<void> | void;
   routesLoaded?: (routes: RouteConfig[]) => void; // TODO remove soon, deprecated (alpha-60)
-  postBuild?: (props: Props & {content: Content}) => Promise<void>;
+  postBuild?: (props: Props & {content: Content}) => Promise<void> | void;
   // TODO refactor the configureWebpack API surface: use an object instead of
   // multiple params (requires breaking change)
   configureWebpack?: (
@@ -342,8 +342,10 @@ export type Plugin<Content = unknown> = {
   // translations
   getTranslationFiles?: (args: {
     content: Content;
-  }) => Promise<TranslationFile[]>;
-  getDefaultCodeTranslationMessages?: () => Promise<{[id: string]: string}>;
+  }) => Promise<TranslationFile[]> | TranslationFile[];
+  getDefaultCodeTranslationMessages?: () =>
+    | Promise<{[id: string]: string}>
+    | {[id: string]: string};
   translateContent?: (args: {
     /** The content loaded by this plugin instance. */
     content: Content;

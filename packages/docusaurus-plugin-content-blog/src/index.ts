@@ -102,7 +102,7 @@ export default async function pluginContentBlog(
       ) as string[];
     },
 
-    async getTranslationFiles() {
+    getTranslationFiles() {
       return getTranslationFiles(options);
     },
 

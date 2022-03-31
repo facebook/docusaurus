@@ -9,9 +9,9 @@ import React from 'react';
 
 import type {Props as Tweet} from '../components/Tweet';
 
-export interface TweetItem extends Tweet {
+export type TweetItem = Tweet & {
   showOnHomepage: boolean;
-}
+};
 
 const TWEETS: TweetItem[] = [
   {

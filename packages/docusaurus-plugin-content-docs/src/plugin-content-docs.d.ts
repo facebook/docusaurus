@@ -10,9 +10,9 @@ declare module '@docusaurus/plugin-content-docs' {
   import type {ContentPaths, Tag, FrontMatterTag} from '@docusaurus/utils';
   import type {Required} from 'utility-types';
 
-  export interface Assets {
+  export type Assets = {
     image?: string;
-  }
+  };
 
   /**
    * Custom callback for parsing number prefixes from file/folder names.

@@ -10,10 +10,10 @@ declare module '@philpl/buble' {
   // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
   export * from 'buble';
   export const features: string[];
-  export interface TransformOptions extends OriginalTransformOptions {
+  export type TransformOptions = OriginalTransformOptions & {
     transforms?: OriginalTransformOptions['transforms'] & {
       asyncAwait?: boolean;
       getterSetter?: boolean;
     };
-  }
+  };
 }

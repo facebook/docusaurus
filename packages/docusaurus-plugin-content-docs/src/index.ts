@@ -106,7 +106,7 @@ export default async function pluginContentDocs(
         });
     },
 
-    async getTranslationFiles({content}) {
+    getTranslationFiles({content}) {
       return getLoadedContentTranslationFiles(content);
     },
 
