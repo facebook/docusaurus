@@ -125,7 +125,7 @@ npx tsc
 For themes that support TypeScript theme components, you can add the `--typescript` flag to the end of the `swizzle` command to get TypeScript source code. For example, the following command will generate `index.tsx` and `styles.module.css` into `src/theme/Footer`.
 
 ```bash npm2yarn
-npm run swizzle @docusaurus/theme-classic Footer -- --typescript
+npm run swizzle @docusaurus/theme-classic Footer --typescript
 ```
 
 All official Docusaurus themes support TypeScript theme components, including [`theme-classic`](./api/themes/theme-classic.md), [`theme-live-codeblock`](./api/themes/theme-live-codeblock.md), and [`theme-search-algolia`](./api/themes/theme-search-algolia.md). If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/plugin-methods/extend-infrastructure.md#getTypeScriptThemePath).
