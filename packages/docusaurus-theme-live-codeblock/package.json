@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "src/theme-live-codeblock.d.ts",
   "sideEffects": [
-    "*.css"
+    "lib/theme/Playground/*"
   ],
   "publishConfig": {
     "access": "public"
