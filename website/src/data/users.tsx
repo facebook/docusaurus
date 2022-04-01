@@ -550,6 +550,14 @@ const Users: User[] = [
     tags: ['opensource', 'personal'],
   },
   {
+    title: 'FAST',
+    description: 'The adaptive interface system for modern web experiences.',
+    preview: require('./showcase/fast.png'),
+    website: 'https://www.fast.design/',
+    source: 'https://github.com/microsoft/fast/tree/master/sites/website',
+    tags: ['opensource', 'product', 'design', 'large'],
+  },
+  {
     title: 'FBT',
     description: 'An internationalization framework',
     preview: require('./showcase/fbt.png'),
