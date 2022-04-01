@@ -18,7 +18,6 @@ We don't ship a markdown parser nor a feature-complete i18n library on purpose.
 More details here: https://github.com/facebook/docusaurus/pull/4295
 */
 
-const ValueRegexp = /\{\w+\}/g;
 const ValueFoundMarker = '{}'; // does not care much
 
 // If all the values are plain strings, then interpolate returns a simple string
@@ -39,51 +38,44 @@ export function interpolate<Str extends string, Value extends ReactNode>(
 ): ReactNode {
   const elements: (Value | string)[] = [];
 
-  const processedText = text.replace(ValueRegexp, (match: string) => {
-    // remove {{ and }} around the placeholder
-    const key = match.substring(
-      1,
-      match.length - 1,
-    ) as ExtractInterpolatePlaceholders<Str>;
+  const processedText = text.replace(
+    // eslint-disable-next-line prefer-named-capture-group
+    /\{(\w+)\}/g,
+    (match, key: ExtractInterpolatePlaceholders<Str>) => {
+      const value = values?.[key];
 
-    const value = values?.[key];
-
-    if (typeof value !== 'undefined') {
-      const element = isValidElement(value)
-        ? value
-        : // For non-React elements: basic primitive->string conversion
-          String(value);
-      elements.push(element);
-      return ValueFoundMarker;
-    }
-    return match; // no match? add warning?
-  });
+      if (typeof value !== 'undefined') {
+        const element = isValidElement(value)
+          ? value
+          : // For non-React elements: basic primitive->string conversion
+            String(value);
+        elements.push(element);
+        return ValueFoundMarker;
+      }
+      return match; // no match? add warning?
+    },
+  );
 
   // No interpolation to be done: just return the text
   if (elements.length === 0) {
     return text;
   }
   // Basic string interpolation: returns interpolated string
-  if (elements.every((el) => typeof el === 'string')) {
+  if (elements.every((el): el is string => typeof el === 'string')) {
     return processedText
       .split(ValueFoundMarker)
       .reduce<string>(
-        (str, value, index) =>
-          str.concat(value).concat((elements[index] as string) ?? ''),
+        (str, value, index) => str.concat(value).concat(elements[index] ?? ''),
         '',
       );
   }
   // JSX interpolation: returns ReactNode
-  return processedText.split(ValueFoundMarker).reduce<ReactNode[]>(
-    (array, value, index) => [
-      ...array,
-      <React.Fragment key={index}>
-        {value}
-        {elements[index]}
-      </React.Fragment>,
-    ],
-    [],
-  );
+  return processedText.split(ValueFoundMarker).map((value, index) => (
+    <React.Fragment key={index}>
+      {value}
+      {elements[index]}
+    </React.Fragment>
+  ));
 }
 
 export default function Interpolate<Str extends string>({

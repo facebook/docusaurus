@@ -227,7 +227,6 @@ export type LoadContext = {
    */
   baseUrl: string;
   i18n: I18n;
-  ssrTemplate: string;
   codeTranslations: CodeTranslations;
 };
 

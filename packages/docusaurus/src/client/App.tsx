@@ -12,7 +12,7 @@ import renderRoutes from './exports/renderRoutes';
 import {BrowserContextProvider} from './browserContext';
 import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
-import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';

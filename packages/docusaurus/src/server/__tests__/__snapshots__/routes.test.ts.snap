@@ -12,22 +12,10 @@ This could lead to non-deterministic routing behavior."
 exports[`loadRoutes loads flat route config 1`] = `
 {
   "registry": {
-    "__comp---theme-blog-list-pagea-6-a-7ba": {
-      "loader": "() => import(/* webpackChunkName: '__comp---theme-blog-list-pagea-6-a-7ba' */ '@theme/BlogListPage')",
-      "modulePath": "@theme/BlogListPage",
-    },
-    "content---blog-0-b-4-09e": {
-      "loader": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true')",
-      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
-    },
-    "content---blog-7-b-8-fd9": {
-      "loader": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ 'blog/2018-12-14-Happy-First-Birthday-Slash.md')",
-      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
-    },
-    "metadata---blog-0-b-6-74c": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ 'blog-2018-12-14-happy-first-birthday-slash-d2c.json')",
-      "modulePath": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
-    },
+    "__comp---theme-blog-list-pagea-6-a-7ba": "@theme/BlogListPage",
+    "content---blog-0-b-4-09e": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
+    "content---blog-7-b-8-fd9": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
+    "metadata---blog-0-b-6-74c": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
   },
   "routesChunkNames": {
     "/blog-599": {
@@ -71,34 +59,13 @@ export default [
 exports[`loadRoutes loads nested route config 1`] = `
 {
   "registry": {
-    "__comp---theme-doc-item-178-a40": {
-      "loader": "() => import(/* webpackChunkName: '__comp---theme-doc-item-178-a40' */ '@theme/DocItem')",
-      "modulePath": "@theme/DocItem",
-    },
-    "__comp---theme-doc-page-1-be-9be": {
-      "loader": "() => import(/* webpackChunkName: '__comp---theme-doc-page-1-be-9be' */ '@theme/DocPage')",
-      "modulePath": "@theme/DocPage",
-    },
-    "content---docs-foo-baz-8-ce-61e": {
-      "loader": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ 'docs/foo/baz.md')",
-      "modulePath": "docs/foo/baz.md",
-    },
-    "content---docs-helloaff-811": {
-      "loader": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ 'docs/hello.md')",
-      "modulePath": "docs/hello.md",
-    },
-    "docsMetadata---docs-routef-34-881": {
-      "loader": "() => import(/* webpackChunkName: 'docsMetadata---docs-routef-34-881' */ 'docs-b5f.json')",
-      "modulePath": "docs-b5f.json",
-    },
-    "metadata---docs-foo-baz-2-cf-fa7": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ 'docs-foo-baz-dd9.json')",
-      "modulePath": "docs-foo-baz-dd9.json",
-    },
-    "metadata---docs-hello-956-741": {
-      "loader": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ 'docs-hello-da2.json')",
-      "modulePath": "docs-hello-da2.json",
-    },
+    "__comp---theme-doc-item-178-a40": "@theme/DocItem",
+    "__comp---theme-doc-page-1-be-9be": "@theme/DocPage",
+    "content---docs-foo-baz-8-ce-61e": "docs/foo/baz.md",
+    "content---docs-helloaff-811": "docs/hello.md",
+    "docsMetadata---docs-routef-34-881": "docs-b5f.json",
+    "metadata---docs-foo-baz-2-cf-fa7": "docs-foo-baz-dd9.json",
+    "metadata---docs-hello-956-741": "docs-hello-da2.json",
   },
   "routesChunkNames": {
     "/docs/hello-44b": {
@@ -159,10 +126,7 @@ export default [
 exports[`loadRoutes loads route config with empty (but valid) path string 1`] = `
 {
   "registry": {
-    "__comp---hello-world-jse-0-f-b6c": {
-      "loader": "() => import(/* webpackChunkName: '__comp---hello-world-jse-0-f-b6c' */ 'hello/world.js')",
-      "modulePath": "hello/world.js",
-    },
+    "__comp---hello-world-jse-0-f-b6c": "hello/world.js",
   },
   "routesChunkNames": {
     "-b2a": {
