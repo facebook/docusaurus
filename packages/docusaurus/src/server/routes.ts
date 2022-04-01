@@ -29,9 +29,12 @@ type LoadedRoutes = {
   routesConfig: string;
   /** @see {ChunkNames} */
   routesChunkNames: RouteChunkNames;
-  /** A map from chunk name to module loaders. */
+  /**
+   * A map from chunk name to module paths. Module paths would have backslash
+   * escaped already, so they can be directly printed.
+   */
   registry: {
-    [chunkName: string]: {loader: string; modulePath: string};
+    [chunkName: string]: string;
   };
   /**
    * Collect all page paths for injecting it later in the plugin lifecycle.
@@ -195,12 +198,7 @@ function genChunkNames(
     // This is a leaf node, no need to recurse
     const modulePath = getModulePath(routeModule);
     const chunkName = genChunkName(modulePath, prefix, name);
-    res.registry[chunkName] = {
-      loader: `() => import(/* webpackChunkName: '${chunkName}' */ '${escapePath(
-        modulePath,
-      )}')`,
-      modulePath,
-    };
+    res.registry[chunkName] = escapePath(modulePath);
     return chunkName;
   }
   if (Array.isArray(routeModule)) {
@@ -294,11 +292,11 @@ ${JSON.stringify(routeConfig)}`,
  * chunk names.
  * - `registry`, a mapping from chunk names to options for react-loadable.
  */
-export async function loadRoutes(
+export function loadRoutes(
   routeConfigs: RouteConfig[],
   baseUrl: string,
   onDuplicateRoutes: ReportingSeverity,
-): Promise<LoadedRoutes> {
+): LoadedRoutes {
   handleDuplicateRoutes(routeConfigs, onDuplicateRoutes);
   const res: LoadedRoutes = {
     // To be written by `genRouteCode`
@@ -308,11 +306,16 @@ export async function loadRoutes(
     routesPaths: [normalizeUrl([baseUrl, '404.html'])],
   };
 
+  // `genRouteCode` would mutate `res`
+  const routeConfigSerialized = routeConfigs
+    .map((r) => genRouteCode(r, res))
+    .join(',\n');
+
   res.routesConfig = `import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
-${indent(`${routeConfigs.map((r) => genRouteCode(r, res)).join(',\n')},`)}
+${indent(routeConfigSerialized)},
   {
     path: '*',
     component: ComponentCreator('*'),

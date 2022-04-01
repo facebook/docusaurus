@@ -74,11 +74,11 @@ function insertBanner() {
 
 declare global {
   interface Window {
-    __DOCUSAURUS_INSERT_BASEURL_BANNER: boolean;
+    [InsertBannerWindowAttribute]: boolean;
   }
 }
 
-function BaseUrlIssueBannerEnabled() {
+function BaseUrlIssueBanner() {
   const {
     siteConfig: {baseUrl},
   } = useDocusaurusContext();
@@ -92,6 +92,8 @@ function BaseUrlIssueBannerEnabled() {
   return (
     <>
       {!ExecutionEnvironment.canUseDOM && (
+        // Safe to use `ExecutionEnvironment`, because `Head` is purely
+        // side-effect and doesn't affect hydration
         <Head>
           <script>{createInlineScript(baseUrl)}</script>
         </Head>
@@ -103,22 +105,22 @@ function BaseUrlIssueBannerEnabled() {
 
 /**
  * We want to help the users with a bad baseUrl configuration (very common
- * error) Help message is inlined, and hidden if JS or CSS is able to load
+ * error). Help message is inlined, and hidden if JS or CSS is able to load.
+ *
+ * This component only inserts the base URL banner for the homepage, to avoid
+ * polluting every statically rendered page.
+ *
  * Note: it might create false positives (ie network failures): not a big deal
- * Note: we only inline this for the homepage to avoid polluting all the site's
- * pages
+ *
  * @see https://github.com/facebook/docusaurus/pull/3621
  */
-export default function BaseUrlIssueBanner(): JSX.Element | null {
+export default function MaybeBaseUrlIssueBanner(): JSX.Element | null {
   const {
     siteConfig: {baseUrl, baseUrlIssueBanner},
   } = useDocusaurusContext();
   const {pathname} = useLocation();
-
-  // returns true for the homepage during SRR
+  // returns true for the homepage during SSR
   const isHomePage = pathname === baseUrl;
-
   const enabled = baseUrlIssueBanner && isHomePage;
-
-  return enabled ? <BaseUrlIssueBannerEnabled /> : null;
+  return enabled ? <BaseUrlIssueBanner /> : null;
 }

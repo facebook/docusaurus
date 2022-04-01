@@ -51,9 +51,8 @@ Note: Docusaurus only support running one locale at a time.`;
     };
   }
 
-  const localeConfigs = locales.reduce(
-    (acc, locale) => ({...acc, [locale]: getLocaleConfig(locale)}),
-    {},
+  const localeConfigs = Object.fromEntries(
+    locales.map((locale) => [locale, getLocaleConfig(locale)]),
   );
 
   return {

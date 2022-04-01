@@ -91,7 +91,7 @@ async function createTestSite() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = Globby.sync(siteThemePathPosix)
+    const files = (await Globby(siteThemePathPosix))
       .map((file) => path.posix.relative(siteThemePathPosix, file))
       .sort();
 
