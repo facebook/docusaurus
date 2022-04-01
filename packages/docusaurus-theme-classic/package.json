@@ -4,10 +4,6 @@
   "description": "Classic theme for Docusaurus",
   "main": "lib/index.js",
   "types": "src/theme-classic.d.ts",
-  "sideEffects": [
-    "*.css",
-    "lib/prism-include-languages.js"
-  ],
   "publishConfig": {
     "access": "public"
   },
