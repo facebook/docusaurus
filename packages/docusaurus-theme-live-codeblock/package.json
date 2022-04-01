@@ -4,7 +4,9 @@
   "description": "Docusaurus live code block component.",
   "main": "lib/index.js",
   "types": "src/theme-live-codeblock.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "publishConfig": {
     "access": "public"
   },
