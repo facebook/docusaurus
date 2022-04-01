@@ -62,7 +62,7 @@
     "rehype-katex": "^6.0.2",
     "remark-math": "^3.0.1",
     "swc-loader": "^0.1.15",
-    "unist-util-visit": "^2.0.3",
+    "unist-util-visit": "^3.1.0",
     "workbox-routing": "^6.5.2",
     "workbox-strategies": "^6.5.2"
   },
