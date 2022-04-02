@@ -10,7 +10,7 @@ import {Route, withRouter, type RouteComponentProps} from 'react-router-dom';
 import type {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
-import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
+import clientLifecyclesDispatcher from './clientLifecyclesDispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 import type {Location} from 'history';

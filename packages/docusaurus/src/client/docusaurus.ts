@@ -90,4 +90,5 @@ const docusaurus = {
   },
 };
 
-export default docusaurus;
+// This object is directly mounted onto window, better freeze it
+export default Object.freeze(docusaurus);
