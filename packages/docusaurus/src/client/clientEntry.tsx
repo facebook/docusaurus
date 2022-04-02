@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOMClient from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -24,9 +24,6 @@ declare global {
   }
 }
 
-/* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 // Client-side render (e.g: running in browser) to become single-page
 // application (SPA).
 if (ExecutionEnvironment.canUseDOM) {
@@ -36,7 +33,8 @@ if (ExecutionEnvironment.canUseDOM) {
   // For development, there is no existing markup so we had to render it.
   // We also preload async component to avoid first-load loading screen.
   if (!isReactRoot()) {
-    // for react <= 17
+    // for react <= 17, throw an error with a message to upgrade to 18.x.
+    /*
     const renderMethod =
       process.env.NODE_ENV === 'production'
         ? ReactDOM.hydrate
@@ -51,14 +49,17 @@ if (ExecutionEnvironment.canUseDOM) {
         document.getElementById('__docusaurus'),
       );
     });
+    */
+    throw new Error(
+      'Docusaurus no longer supports React <= 17. Please upgrade to React 18.',
+    );
   } else {
     // for react >= 18
-    const ReactDOMClient = require('react-dom/client');
     const appRoot = ReactDOMClient.createRoot(
       document.getElementById('__docusaurus'),
     );
     const appRootForHydrate = ReactDOMClient.hydrateRoot;
-    const renderMethod = (app: React.ReactNode) =>
+    const renderMethod = (app: React.ReactChild | Iterable<React.ReactNode>) =>
       process.env.NODE_ENV === 'production'
         ? appRootForHydrate(document.getElementById('__docusaurus'), app)
         : appRoot.render(app);
