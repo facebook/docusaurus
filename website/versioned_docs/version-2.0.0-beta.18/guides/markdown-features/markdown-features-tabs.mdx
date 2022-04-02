@@ -142,13 +142,13 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 // highlight-next-line
 <Tabs groupId="operating-systems">
   <TabItem value="win" label="Windows">Use Ctrl + C to copy.</TabItem>
-  <TabItem value="mac" label="MacOS">Use Command + C to copy.</TabItem>
+  <TabItem value="mac" label="macOS">Use Command + C to copy.</TabItem>
 </Tabs>
 
 // highlight-next-line
 <Tabs groupId="operating-systems">
   <TabItem value="win" label="Windows">Use Ctrl + V to paste.</TabItem>
-  <TabItem value="mac" label="MacOS">Use Command + V to paste.</TabItem>
+  <TabItem value="mac" label="macOS">Use Command + V to paste.</TabItem>
 </Tabs>
 ```
 
@@ -156,12 +156,12 @@ You may want choices of the same kind of tabs to sync with each other. For examp
 <BrowserWindow>
   <Tabs groupId="operating-systems">
     <TabItem value="win" label="Windows">Use Ctrl + C to copy.</TabItem>
-    <TabItem value="mac" label="MacOS">Use Command + C to copy.</TabItem>
+    <TabItem value="mac" label="macOS">Use Command + C to copy.</TabItem>
   </Tabs>
 
   <Tabs groupId="operating-systems">
     <TabItem value="win" label="Windows">Use Ctrl + V to paste.</TabItem>
-    <TabItem value="mac" label="MacOS">Use Command + V to paste.</TabItem>
+    <TabItem value="mac" label="macOS">Use Command + V to paste.</TabItem>
   </Tabs>
 </BrowserWindow>
 <br/>
@@ -174,7 +174,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
   <TabItem value="win" label="Windows">
     I am Windows.
   </TabItem>
-  <TabItem value="mac" label="MacOS">
+  <TabItem value="mac" label="macOS">
     I am macOS.
   </TabItem>
   <TabItem value="linux" label="Linux">
@@ -187,7 +187,7 @@ For all tab groups that have the same `groupId`, the possible values do not need
 <BrowserWindow>
   <Tabs groupId="operating-systems">
     <TabItem value="win" label="Windows">I am Windows.</TabItem>
-    <TabItem value="mac" label="MacOS">I am macOS.</TabItem>
+    <TabItem value="mac" label="macOS">I am macOS.</TabItem>
     <TabItem value="linux" label="Linux">I am Linux.</TabItem>
   </Tabs>
 </BrowserWindow>
@@ -201,7 +201,7 @@ Tab choices with different group IDs will not interfere with each other:
 // highlight-next-line
 <Tabs groupId="operating-systems">
   <TabItem value="win" label="Windows">Windows in windows.</TabItem>
-  <TabItem value="mac" label="MacOS">macOS is macOS.</TabItem>
+  <TabItem value="mac" label="macOS">macOS is macOS.</TabItem>
 </Tabs>
 
 // highlight-next-line
@@ -215,7 +215,7 @@ Tab choices with different group IDs will not interfere with each other:
 <BrowserWindow>
   <Tabs groupId="operating-systems">
     <TabItem value="win" label="Windows">Windows in windows.</TabItem>
-    <TabItem value="mac" label="MacOS">macOS is macOS.</TabItem>
+    <TabItem value="mac" label="macOS">macOS is macOS.</TabItem>
   </Tabs>
 
   <Tabs groupId="non-mac-operating-systems">

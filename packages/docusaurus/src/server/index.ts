@@ -16,7 +16,6 @@ import {
 import _ from 'lodash';
 import path from 'path';
 import {loadSiteConfig} from './config';
-import ssrDefaultTemplate from '../webpack/templates/ssr.html.template';
 import {loadClientModules} from './clientModules';
 import {loadPlugins} from './plugins';
 import {loadRoutes} from './routes';
@@ -101,7 +100,6 @@ export async function loadContext(
     outDir,
     baseUrl,
     i18n,
-    ssrTemplate: siteConfig.ssrTemplate ?? ssrDefaultTemplate,
     codeTranslations,
   };
 }
@@ -122,18 +120,16 @@ export async function load(options: LoadContextOptions): Promise<Props> {
     outDir,
     baseUrl,
     i18n,
-    ssrTemplate,
     codeTranslations: siteCodeTranslations,
   } = context;
   const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins(context);
   const clientModules = loadClientModules(plugins);
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
-  const {registry, routesChunkNames, routesConfig, routesPaths} =
-    await loadRoutes(
-      pluginsRouteConfigs,
-      baseUrl,
-      siteConfig.onDuplicateRoutes,
-    );
+  const {registry, routesChunkNames, routesConfig, routesPaths} = loadRoutes(
+    pluginsRouteConfigs,
+    baseUrl,
+    siteConfig.onDuplicateRoutes,
+  );
   const codeTranslations = {
     ...(await getPluginsDefaultCodeTranslationMessages(plugins)),
     ...siteCodeTranslations,
@@ -153,8 +149,6 @@ next build. You can clear all build artifacts (including this folder) with the
 `,
   );
 
-  // Site config must be generated after plugins
-  // We want the generated config to have been normalized by the plugins!
   const genSiteConfig = generate(
     generatedFilesDir,
     DEFAULT_CONFIG_FILE_NAME,
@@ -174,7 +168,7 @@ export default ${JSON.stringify(siteConfig, null, 2)};
 ${clientModules
   // import() is async so we use require() because client modules can have
   // CSS and the order matters for loading CSS.
-  .map((module) => `  require('${escapePath(module)}'),`)
+  .map((clientModule) => `  require('${escapePath(clientModule)}'),`)
   .join('\n')}
 ];
 `,
@@ -187,10 +181,8 @@ ${clientModules
 ${Object.entries(registry)
   .sort((a, b) => a[0].localeCompare(b[0]))
   .map(
-    ([key, chunk]) =>
-      `  '${key}': [${chunk.loader}, '${escapePath(
-        chunk.modulePath,
-      )}', require.resolveWeak('${escapePath(chunk.modulePath)}')],`,
+    ([chunkName, modulePath]) =>
+      `  '${chunkName}': [() => import(/* webpackChunkName: '${chunkName}' */ '${modulePath}'), '${modulePath}', require.resolveWeak('${modulePath}')],`,
   )
   .join('\n')}};
 `,
@@ -256,7 +248,6 @@ ${Object.entries(registry)
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate,
     codeTranslations,
   };
 }

@@ -140,8 +140,9 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
 
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;

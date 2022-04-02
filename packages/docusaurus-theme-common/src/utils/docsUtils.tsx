@@ -220,8 +220,9 @@ export function useDocsVersionCandidates(
 
 /**
  * The layout components, like navbar items, must be able to work on all pages,
- * even on non-doc ones. This hook would always return a sidebar to be linked
- * to. See also {@link useDocsVersionCandidates} for how this selection is done.
+ * even on non-doc ones where there's no version context, so a sidebar ID could
+ * be ambiguous. This hook would always return a sidebar to be linked to. See
+ * also {@link useDocsVersionCandidates} for how this selection is done.
  *
  * @throws This hook throws if a sidebar with said ID is not found.
  */
@@ -252,8 +253,9 @@ export function useLayoutDocsSidebar(
 
 /**
  * The layout components, like navbar items, must be able to work on all pages,
- * even on non-doc ones. This hook would always return a doc to be linked
- * to. See also {@link useDocsVersionCandidates} for how this selection is done.
+ * even on non-doc ones where there's no version context, so a doc ID could be
+ * ambiguous. This hook would always return a doc to be linked to. See also
+ * {@link useDocsVersionCandidates} for how this selection is done.
  *
  * @throws This hook throws if a doc with said ID is not found.
  */

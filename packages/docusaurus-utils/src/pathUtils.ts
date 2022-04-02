@@ -8,7 +8,7 @@
 import path from 'path';
 
 // Based on https://github.com/gatsbyjs/gatsby/pull/21518/files
-// MacOS (APFS) and Windows (NTFS) filename length limit = 255 chars,
+// macOS (APFS) and Windows (NTFS) filename length limit = 255 chars,
 // Others = 255 bytes
 const MAX_PATH_SEGMENT_CHARS = 255;
 const MAX_PATH_SEGMENT_BYTES = 255;
@@ -21,7 +21,7 @@ const isWindows = () => process.platform === 'win32';
 export const isNameTooLong = (str: string): boolean =>
   // Not entirely correct: we can't assume FS from OS. But good enough?
   isMacOs() || isWindows()
-    ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // MacOS (APFS) and Windows (NTFS) filename length limit (255 chars)
+    ? str.length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_CHARS // macOS (APFS) and Windows (NTFS) filename length limit (255 chars)
     : Buffer.from(str).length + SPACE_FOR_APPENDING > MAX_PATH_SEGMENT_BYTES; // Other (255 bytes)
 
 export function shortName(str: string): string {

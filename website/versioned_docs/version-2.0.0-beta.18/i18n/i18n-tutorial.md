@@ -437,7 +437,7 @@ On your [static hosting provider](../deployment.mdx):
 
 :::caution
 
-This strategy is **not possible** with Github Pages, as it is only possible to **have a single deployment**.
+This strategy is **not possible** with GitHub Pages, as it is only possible to **have a single deployment**.
 
 :::
 
