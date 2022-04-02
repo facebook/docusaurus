@@ -20,7 +20,7 @@
     "history": "^4.9.0",
     "joi": "^17.6.0",
     "utility-types": "^3.10.0",
-    "webpack": "^5.70.0",
+    "webpack": "^5.70.1",
     "webpack-merge": "^5.8.0"
   }
 }

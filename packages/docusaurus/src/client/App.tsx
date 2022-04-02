@@ -17,7 +17,7 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
 
-import './client-lifecycles-dispatcher';
+import './clientLifecyclesDispatcher';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
