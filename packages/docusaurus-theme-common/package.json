@@ -5,8 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": [
-    "lib/components/Details/*",
-    "lib/index.js"
+    "lib/components/Details/*"
   ],
   "scripts": {
     "build": "node copyUntypedFiles.mjs && tsc",
