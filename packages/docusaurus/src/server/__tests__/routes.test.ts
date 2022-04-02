@@ -101,7 +101,7 @@ describe('handleDuplicateRoutes', () => {
 });
 
 describe('loadRoutes', () => {
-  it('loads nested route config', async () => {
+  it('loads nested route config', () => {
     const nestedRouteConfig: RouteConfig = {
       component: '@theme/DocPage',
       path: '/docs:route',
@@ -135,12 +135,10 @@ describe('loadRoutes', () => {
         },
       ],
     };
-    await expect(
-      loadRoutes([nestedRouteConfig], '/', 'ignore'),
-    ).resolves.toMatchSnapshot();
+    expect(loadRoutes([nestedRouteConfig], '/', 'ignore')).toMatchSnapshot();
   });
 
-  it('loads flat route config', async () => {
+  it('loads flat route config', () => {
     const flatRouteConfig: RouteConfig = {
       path: '/blog',
       component: '@theme/BlogListPage',
@@ -169,17 +167,15 @@ describe('loadRoutes', () => {
         ],
       },
     };
-    await expect(
-      loadRoutes([flatRouteConfig], '/', 'ignore'),
-    ).resolves.toMatchSnapshot();
+    expect(loadRoutes([flatRouteConfig], '/', 'ignore')).toMatchSnapshot();
   });
 
-  it('rejects invalid route config', async () => {
+  it('rejects invalid route config', () => {
     const routeConfigWithoutPath = {
       component: 'hello/world.js',
     } as RouteConfig;
 
-    await expect(loadRoutes([routeConfigWithoutPath], '/', 'ignore')).rejects
+    expect(() => loadRoutes([routeConfigWithoutPath], '/', 'ignore'))
       .toThrowErrorMatchingInlineSnapshot(`
             "Invalid route config: path must be a string and component is required.
             {\\"component\\":\\"hello/world.js\\"}"
@@ -189,21 +185,19 @@ describe('loadRoutes', () => {
       path: '/hello/world',
     } as RouteConfig;
 
-    await expect(loadRoutes([routeConfigWithoutComponent], '/', 'ignore'))
-      .rejects.toThrowErrorMatchingInlineSnapshot(`
+    expect(() => loadRoutes([routeConfigWithoutComponent], '/', 'ignore'))
+      .toThrowErrorMatchingInlineSnapshot(`
             "Invalid route config: path must be a string and component is required.
             {\\"path\\":\\"/hello/world\\"}"
           `);
   });
 
-  it('loads route config with empty (but valid) path string', async () => {
+  it('loads route config with empty (but valid) path string', () => {
     const routeConfig = {
       path: '',
       component: 'hello/world.js',
     } as RouteConfig;
 
-    await expect(
-      loadRoutes([routeConfig], '/', 'ignore'),
-    ).resolves.toMatchSnapshot();
+    expect(loadRoutes([routeConfig], '/', 'ignore')).toMatchSnapshot();
   });
 });

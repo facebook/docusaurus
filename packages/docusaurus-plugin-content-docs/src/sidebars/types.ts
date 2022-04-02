@@ -254,18 +254,15 @@ export type SidebarItemsGenerator = (
   generatorArgs: SidebarItemsGeneratorArgs,
 ) => Promise<NormalizedSidebar>;
 
-// Also inject the default generator to conveniently wrap/enhance/sort the
-// default sidebar gen logic
-// see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320
-export type SidebarItemsGeneratorOptionArgs = {
-  /**
-   * Useful to re-use/enhance the default sidebar generation logic from
-   * Docusaurus.
-   */
-  defaultSidebarItemsGenerator: SidebarItemsGenerator;
-} & SidebarItemsGeneratorArgs;
 export type SidebarItemsGeneratorOption = (
-  generatorArgs: SidebarItemsGeneratorOptionArgs,
+  generatorArgs: {
+    /**
+     * Useful to re-use/enhance the default sidebar generation logic from
+     * Docusaurus.
+     * @see https://github.com/facebook/docusaurus/issues/4640#issuecomment-822292320
+     */
+    defaultSidebarItemsGenerator: SidebarItemsGenerator;
+  } & SidebarItemsGeneratorArgs,
 ) => Promise<NormalizedSidebarItem[]>;
 
 export type SidebarProcessorParams = {

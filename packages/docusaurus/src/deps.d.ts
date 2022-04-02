@@ -26,9 +26,9 @@ declare module 'react-loadable-ssr-addon-v5-slorber' {
     modulesToBeLoaded: string[],
   ): {js: Asset[]; css: Asset[]};
 
-  interface ReactLoadableSSRAddon {
+  type ReactLoadableSSRAddon = {
     new (props: {filename: string});
-  }
+  };
 
   const plugin: ReactLoadableSSRAddon;
   export default plugin;
@@ -47,7 +47,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
     noIndex: boolean;
   };
 
-  interface StaticSiteGeneratorPlugin {
+  type StaticSiteGeneratorPlugin = {
     new (props: {
       entry: string;
       locals: Locals;
@@ -55,7 +55,7 @@ declare module '@slorber/static-site-generator-webpack-plugin' {
       preferFoldersOutput?: boolean;
       globals: {[key: string]: unknown};
     });
-  }
+  };
 
   const plugin: StaticSiteGeneratorPlugin;
   export default plugin;

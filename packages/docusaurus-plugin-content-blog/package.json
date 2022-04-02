@@ -32,7 +32,7 @@
     "remark-admonitions": "^1.2.1",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0",
-    "webpack": "^5.70.0"
+    "webpack": "^5.70.1"
   },
   "devDependencies": {
     "@docusaurus/types": "2.0.0-beta.18",

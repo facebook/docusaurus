@@ -11,9 +11,9 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import type {Props} from '@docusaurus/ErrorBoundary';
 import DefaultFallback from '@theme/Error';
 
-interface State {
+type State = {
   error: Error | null;
-}
+};
 
 export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {

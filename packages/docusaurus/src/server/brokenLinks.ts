@@ -53,7 +53,7 @@ function getPageBrokenLinks({
       // component, but we load route components with string paths.
       // We don't actually access component here, so it's fine.
       .map((l) => matchRoutes(routes, l))
-      .reduce((prev, cur) => prev.concat(cur));
+      .flat();
     return matchedRoutes.length === 0;
   }
 

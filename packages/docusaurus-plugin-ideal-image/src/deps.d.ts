@@ -33,12 +33,12 @@ declare module '@endiliey/react-ideal-image' {
     | 'noicon'
     | 'offline';
 
-  export interface SrcType {
+  export type SrcType = {
     width: number;
     src?: string;
     size?: number;
     format?: 'webp' | 'jpeg' | 'png' | 'gif';
-  }
+  };
 
   type ThemeKey = 'placeholder' | 'img' | 'icon' | 'noscript';
 

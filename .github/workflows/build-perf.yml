@@ -53,4 +53,4 @@ jobs:
       - name: Build (warm cache)
         run: yarn workspace website build --locale en
         timeout-minutes: 2
-    # TODO post a Github comment with build with perf warnings?
+    # TODO post a GitHub comment with build with perf warnings?

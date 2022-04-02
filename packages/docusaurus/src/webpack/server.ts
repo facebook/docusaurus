@@ -14,6 +14,7 @@ import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 import {NODE_MAJOR_VERSION, NODE_MINOR_VERSION} from '@docusaurus/utils';
+import ssrDefaultTemplate from './templates/ssr.html.template';
 
 // Forked for Docusaurus: https://github.com/slorber/static-site-generator-webpack-plugin
 import StaticSiteGeneratorPlugin from '@slorber/static-site-generator-webpack-plugin';
@@ -32,8 +33,7 @@ export default async function createServerConfig({
     headTags,
     preBodyTags,
     postBodyTags,
-    ssrTemplate,
-    siteConfig: {noIndex, trailingSlash},
+    siteConfig: {noIndex, trailingSlash, ssrTemplate},
   } = props;
   const config = await createBaseConfig(props, true);
 
@@ -73,7 +73,7 @@ export default async function createServerConfig({
           preBodyTags,
           postBodyTags,
           onLinksCollected,
-          ssrTemplate,
+          ssrTemplate: ssrTemplate ?? ssrDefaultTemplate,
           noIndex,
         },
         paths: ssgPaths,

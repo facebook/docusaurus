@@ -11,39 +11,41 @@ import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 
 export type BlogContentPaths = ContentPaths;
 
-export interface BlogContent {
+export type BlogContent = {
   blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
   blogTagsListPath: string | null;
-}
+};
 
-export interface BlogTags {
+export type BlogTags = {
   // TODO, the key is the tag slug/permalink
   // This is due to legacy frontmatter: tags:
   // [{label: "xyz", permalink: "/1"}, {label: "xyz", permalink: "/2"}]
   // Soon we should forbid declaring permalink through frontmatter
   [tagKey: string]: BlogTag;
-}
+};
 
-export interface BlogTag {
+export type BlogTag = {
   name: string;
-  items: string[]; // blog post permalinks
+  /** Blog post permalinks. */
+  items: string[];
   permalink: string;
   pages: BlogPaginated[];
-}
+};
 
-export interface BlogPost {
+export type BlogPost = {
   id: string;
   metadata: BlogPostMetadata;
   content: string;
-}
+};
 
-export interface BlogPaginated {
+export type BlogPaginated = {
   metadata: BlogPaginatedMetadata;
-  items: string[]; // blog post permalinks
-}
+  /** Blog post permalinks. */
+  items: string[];
+};
 
 export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
 export type BlogMarkdownLoaderOptions = {

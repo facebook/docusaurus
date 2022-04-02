@@ -83,7 +83,7 @@ export const FrontMatterTagsSchema = JoiFrontMatter.array()
   .items(FrontMatterTagSchema)
   .messages({
     'array.base':
-      '{{#label}} does not look like a valid FrontMatter Yaml array.',
+      '{{#label}} does not look like a valid front matter Yaml array.',
   });
 
 export const FrontMatterTOCHeadingLevels = {
