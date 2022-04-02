@@ -53,8 +53,8 @@
     "utility-types": "^3.10.0"
   },
   "peerDependencies": {
-    "react": ">= 16.8",
-    "react-dom": ">= 16.8"
+    "react": "18",
+    "react-dom": "18"
   },
   "engines": {
     "node": ">=14"
