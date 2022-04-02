@@ -121,8 +121,8 @@
     "tree-node-cli": "^1.5.2"
   },
   "peerDependencies": {
-    "react": "^16.8.4 || ^17.0.0",
-    "react-dom": "^16.8.4 || ^17.0.0"
+    "react": ">= 16.8",
+    "react-dom": ">= 16.8"
   },
   "engines": {
     "node": ">=14"
