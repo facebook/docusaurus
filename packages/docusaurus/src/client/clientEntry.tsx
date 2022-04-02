@@ -55,13 +55,12 @@ if (ExecutionEnvironment.canUseDOM) {
     );
   } else {
     // for react >= 18
-    const appRoot = ReactDOMClient.createRoot(
-      document.getElementById('__docusaurus'),
-    );
+    const container = document.getElementById('__docusaurus') as Element;
+    const appRoot = ReactDOMClient.createRoot(container);
     const appRootForHydrate = ReactDOMClient.hydrateRoot;
     const renderMethod = (app: React.ReactChild | Iterable<React.ReactNode>) =>
       process.env.NODE_ENV === 'production'
-        ? appRootForHydrate(document.getElementById('__docusaurus'), app)
+        ? appRootForHydrate(container, app)
         : appRoot.render(app);
     preload(routes, window.location.pathname).then(() => {
       renderMethod(
