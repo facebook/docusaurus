@@ -9,16 +9,16 @@ import {
   getVersionsFilePath,
   getVersionedDocsDirPath,
   getVersionedSidebarsDirPath,
+  getDocsDirPathLocalized,
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import type {
-  PathOptions,
-  SidebarOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
+import {CURRENT_VERSION_NAME} from './constants';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import type {LoadContext} from '@docusaurus/types';
 
 async function createVersionedSidebarFile({
   siteDir,
@@ -58,9 +58,8 @@ async function createVersionedSidebarFile({
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
   version: string | null | undefined,
-  siteDir: string,
-  pluginId: string,
-  options: PathOptions & SidebarOptions,
+  {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
+  {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
@@ -114,21 +113,52 @@ export async function cliDocsVersionCommand(
     );
   }
 
-  const {path: docsPath, sidebarPath} = options;
-
-  // Copy docs files.
-  const docsDir = path.resolve(siteDir, docsPath);
-
-  if (
-    (await fs.pathExists(docsDir)) &&
-    (await fs.readdir(docsDir)).length > 0
-  ) {
-    const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
-    const newVersionDir = path.join(versionedDir, `version-${version}`);
-    await fs.copy(docsDir, newVersionDir);
-  } else {
-    throw new Error(`${pluginIdLogPrefix}: no docs found in ${docsDir}.`);
+  if (i18n.locales.length > 1) {
+    logger.info`Versioned docs will be created for the following locales: name=${i18n.locales}`;
   }
+
+  await Promise.all(
+    i18n.locales.map(async (locale) => {
+      // Copy docs files.
+      const docsDir =
+        locale === i18n.defaultLocale
+          ? path.resolve(siteDir, docsPath)
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: CURRENT_VERSION_NAME,
+            });
+
+      if (
+        !(await fs.pathExists(docsDir)) ||
+        (await fs.readdir(docsDir)).length === 0
+      ) {
+        if (locale === i18n.defaultLocale) {
+          throw new Error(
+            logger.interpolate`${pluginIdLogPrefix}: no docs found in path=${docsDir}.`,
+          );
+        } else {
+          logger.warn`${pluginIdLogPrefix}: no docs found in path=${docsDir}. Skipping.`;
+          return;
+        }
+      }
+
+      const newVersionDir =
+        locale === i18n.defaultLocale
+          ? path.join(
+              getVersionedDocsDirPath(siteDir, pluginId),
+              `version-${version}`,
+            )
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: version,
+            });
+      await fs.copy(docsDir, newVersionDir);
+    }),
+  );
 
   await createVersionedSidebarFile({
     siteDir,

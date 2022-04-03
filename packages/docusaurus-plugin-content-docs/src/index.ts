@@ -67,7 +67,7 @@ export default async function pluginContentDocs(
 
   const versionsMetadata = await readVersionsMetadata({context, options});
 
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -97,12 +97,7 @@ export default async function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          });
+          cliDocsVersionCommand(version, options, context);
         });
     },
 
