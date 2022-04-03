@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-
+import {useLocation} from './exports/router';
 import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
 import {BrowserContextProvider} from './browserContext';
@@ -25,6 +25,7 @@ import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
 export default function App(): JSX.Element {
+  const {pathname} = useLocation();
   return (
     <ErrorBoundary fallback={Error}>
       <DocusaurusContextProvider>
@@ -34,7 +35,9 @@ export default function App(): JSX.Element {
             <SiteMetadata />
             <BaseUrlIssueBanner />
             <PendingNavigation routes={routes} delay={1000}>
-              <RouteAnnouncer>{renderRoutes(routes)}</RouteAnnouncer>
+              <RouteAnnouncer location={pathname}>
+                {renderRoutes(routes)}
+              </RouteAnnouncer>
             </PendingNavigation>
           </Root>
         </BrowserContextProvider>

@@ -9,6 +9,9 @@ import React from 'react';
 import {Portal} from './exports/Portal';
 
 type Props = {
+  // Force an update on route transition
+  // eslint-disable-next-line react/no-unused-prop-types
+  location: string;
   children: React.ReactNode;
 };
 
