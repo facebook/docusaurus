@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import ReactDOMClient from 'react-dom/client';
+import React, {type ReactChild} from 'react';
+import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -15,8 +15,6 @@ import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
-
-import {isReactRoot} from './isReactRoot';
 
 declare global {
   interface NodeModule {
@@ -32,46 +30,20 @@ if (ExecutionEnvironment.canUseDOM) {
   // first-load experience.
   // For development, there is no existing markup so we had to render it.
   // We also preload async component to avoid first-load loading screen.
-  if (!isReactRoot()) {
-    // for react <= 17, throw an error with a message to upgrade to 18.x.
-    /*
-    const renderMethod =
-      process.env.NODE_ENV === 'production'
-        ? ReactDOM.hydrate
-        : ReactDOM.render;
-    preload(routes, window.location.pathname).then(() => {
-      renderMethod(
-        <HelmetProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </HelmetProvider>,
-        document.getElementById('__docusaurus'),
-      );
-    });
-    */
-    throw new Error(
-      'Docusaurus no longer supports React <= 17. Please upgrade to React 18.',
+  const container = document.getElementById('__docusaurus')!;
+  const renderMethod = (app: ReactChild) =>
+    process.env.NODE_ENV === 'production'
+      ? ReactDOM.hydrateRoot(container, app)
+      : ReactDOM.createRoot(container).render(app);
+  preload(routes, window.location.pathname).then(() => {
+    renderMethod(
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>,
     );
-  } else {
-    // for react >= 18
-    const container = document.getElementById('__docusaurus') as Element;
-    const appRoot = ReactDOMClient.createRoot(container);
-    const appRootForHydrate = ReactDOMClient.hydrateRoot;
-    const renderMethod = (app: React.ReactChild | Iterable<React.ReactNode>) =>
-      process.env.NODE_ENV === 'production'
-        ? appRootForHydrate(container, app)
-        : appRoot.render(app);
-    preload(routes, window.location.pathname).then(() => {
-      renderMethod(
-        <HelmetProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </HelmetProvider>,
-      );
-    });
-  }
+  });
 
   // Webpack Hot Module Replacement API
   if (module.hot) {

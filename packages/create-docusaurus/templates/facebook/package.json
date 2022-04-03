@@ -22,8 +22,8 @@
     "@docusaurus/preset-classic": "2.0.0-beta.18",
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.1.1",
-    "react": "18",
-    "react-dom": "18"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",

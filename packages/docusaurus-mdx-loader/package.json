@@ -48,8 +48,8 @@
     "unist-util-remove-position": "^3.0.0"
   },
   "peerDependencies": {
-    "react": "18",
-    "react-dom": "18"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "engines": {
     "node": ">=14"

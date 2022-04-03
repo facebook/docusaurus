@@ -39,8 +39,8 @@
   },
   "peerDependencies": {
     "jimp": "*",
-    "react": "18",
-    "react-dom": "18"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "peerDependenciesMeta": {
     "jimp": {

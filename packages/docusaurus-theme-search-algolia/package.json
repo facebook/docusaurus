@@ -46,8 +46,8 @@
     "@docusaurus/module-type-aliases": "2.0.0-beta.18"
   },
   "peerDependencies": {
-    "react": "18",
-    "react-dom": "18"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "engines": {
     "node": ">=14"

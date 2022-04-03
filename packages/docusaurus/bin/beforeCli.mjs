@@ -14,6 +14,7 @@ import path from 'path';
 import updateNotifier from 'update-notifier';
 import boxen from 'boxen';
 import {createRequire} from 'module';
+import ReactDOM from 'react-dom';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const sitePkg = createRequire(path.join(process.cwd(), 'package.json'))(
@@ -25,6 +26,29 @@ const {
   version,
   engines: {node: requiredVersion},
 } = packageJson;
+
+function checkDependencyVersions() {
+  // notify user if node version needs to be updated
+  if (!semver.satisfies(process.version, requiredVersion)) {
+    logger.error('Minimum Node.js version not met :(');
+    logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
+    process.exit(1);
+  }
+
+  // React 18 introduced new render APIs that don't exist in previous versions.
+  const reactDomVersion = ReactDOM.version;
+  const isReactExperimental = /0\.0\.0-experimental/.test(reactDomVersion);
+  const hasReact18 =
+    Boolean(reactDomVersion) &&
+    (semver.gte(reactDomVersion, '18.0.0') ||
+      semver.coerce(reactDomVersion)?.version === '18.0.0');
+
+  if (!(hasReact18 || isReactExperimental)) {
+    logger.error('Running Docusaurus requires React 18.');
+    logger.info`Please make sure that name=${'"react"'} and name=${'"react-dom"'} in your package.json have version 18 or higher. Currently using number=${reactDomVersion}.`;
+    process.exit(1);
+  }
+}
 
 /**
  * Notify user if `@docusaurus` packages are outdated
@@ -124,10 +148,5 @@ export default async function beforeCli() {
     console.log(docusaurusUpdateMessage);
   }
 
-  // notify user if node version needs to be updated
-  if (!semver.satisfies(process.version, requiredVersion)) {
-    logger.error('Minimum Node.js version not met :(');
-    logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
-    process.exit(1);
-  }
+  checkDependencyVersions();
 }
