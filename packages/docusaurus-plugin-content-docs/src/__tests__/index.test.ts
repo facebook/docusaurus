@@ -16,7 +16,7 @@ import pluginContentDocs from '../index';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import type {RouteConfig} from '@docusaurus/types';
-import {posixPath, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
+import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins/routeConfig';
 
 import * as cliDocs from '../cli';
@@ -230,23 +230,21 @@ describe('simple website', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const context = await loadContext({siteDir});
     const sidebarPath = path.join(siteDir, 'sidebars.json');
-    const plugin = await pluginContentDocs(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
-          path: 'docs',
-          sidebarPath,
-        },
-      }),
-    );
+    const options = validateOptions({
+      validate: normalizePluginOptions,
+      options: {
+        path: 'docs',
+        sidebarPath,
+      },
+    });
+    const plugin = await pluginContentDocs(context, options);
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
-    return {siteDir, context, sidebarPath, plugin, pluginContentDir};
+    return {siteDir, context, sidebarPath, plugin, options, pluginContentDir};
   }
 
   it('extendCli - docsVersion', async () => {
-    const {siteDir, sidebarPath, plugin} = await loadSite();
+    const {plugin, options, context} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
@@ -256,12 +254,7 @@ describe('simple website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '1.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, DEFAULT_PLUGIN_ID, {
-      path: 'docs',
-      sidebarPath,
-      sidebarCollapsed: true,
-      sidebarCollapsible: true,
-    });
+    expect(mock).toHaveBeenCalledWith('1.0.0', options, context);
     mock.mockRestore();
   });
 
@@ -344,29 +337,28 @@ describe('versioned website', () => {
     const context = await loadContext({siteDir});
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const routeBasePath = 'docs';
-    const plugin = await pluginContentDocs(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
-          routeBasePath,
-          sidebarPath,
-        },
-      }),
-    );
+    const options = validateOptions({
+      validate: normalizePluginOptions,
+      options: {
+        routeBasePath,
+        sidebarPath,
+      },
+    });
+    const plugin = await pluginContentDocs(context, options);
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
     return {
       siteDir,
       context,
       routeBasePath,
       sidebarPath,
+      options,
       plugin,
       pluginContentDir,
     };
   }
 
   it('extendCli - docsVersion', async () => {
-    const {siteDir, routeBasePath, sidebarPath, plugin} = await loadSite();
+    const {plugin, context, options} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
@@ -376,12 +368,7 @@ describe('versioned website', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', 'docs:version', '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, DEFAULT_PLUGIN_ID, {
-      path: routeBasePath,
-      sidebarPath,
-      sidebarCollapsed: true,
-      sidebarCollapsible: true,
-    });
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context);
     mock.mockRestore();
   });
 
@@ -474,18 +461,16 @@ describe('versioned website (community)', () => {
     const sidebarPath = path.join(siteDir, 'community_sidebars.json');
     const routeBasePath = 'community';
     const pluginId = 'community';
-    const plugin = await pluginContentDocs(
-      context,
-      validateOptions({
-        validate: normalizePluginOptions,
-        options: {
-          id: 'community',
-          path: 'community',
-          routeBasePath,
-          sidebarPath,
-        },
-      }),
-    );
+    const options = validateOptions({
+      validate: normalizePluginOptions,
+      options: {
+        id: 'community',
+        path: 'community',
+        routeBasePath,
+        sidebarPath,
+      },
+    });
+    const plugin = await pluginContentDocs(context, options);
     const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
     return {
       siteDir,
@@ -493,14 +478,14 @@ describe('versioned website (community)', () => {
       routeBasePath,
       sidebarPath,
       pluginId,
+      options,
       plugin,
       pluginContentDir,
     };
   }
 
   it('extendCli - docsVersion', async () => {
-    const {siteDir, routeBasePath, sidebarPath, pluginId, plugin} =
-      await loadSite();
+    const {pluginId, plugin, options, context} = await loadSite();
     const mock = jest
       .spyOn(cliDocs, 'cliDocsVersionCommand')
       .mockImplementation(async () => {});
@@ -510,12 +495,7 @@ describe('versioned website (community)', () => {
     plugin.extendCli!(cli);
     cli.parse(['node', 'test', `docs:version:${pluginId}`, '2.0.0']);
     expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, pluginId, {
-      path: routeBasePath,
-      sidebarPath,
-      sidebarCollapsed: true,
-      sidebarCollapsible: true,
-    });
+    expect(mock).toHaveBeenCalledWith('2.0.0', options, context);
     mock.mockRestore();
   });
 
