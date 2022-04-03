@@ -10,6 +10,7 @@ import {Portal} from './exports/Portal';
 
 type Props = {
   // Force an update on route transition
+  // eslint-disable-next-line react/no-unused-prop-types
   location: string;
   children: React.ReactNode;
 };
@@ -28,14 +29,10 @@ class RouteAnnouncerWrapper extends React.Component<Props, State> {
 
   override componentDidUpdate(): void {
     const {routeAnnouncement} = this.state;
-    const {location} = this.props;
 
     requestAnimationFrame(() => {
       const firstHeading = document.querySelectorAll(`#__docusaurus h1`)[0];
-      const pageName =
-        firstHeading?.textContent ??
-        document.title ??
-        `new page at ${location}`;
+      const pageName = firstHeading?.textContent ?? document.title;
       const newAnnouncement = `Navigated to ${pageName}`;
       const oldAnnouncement = routeAnnouncement;
       if (oldAnnouncement !== newAnnouncement) {
