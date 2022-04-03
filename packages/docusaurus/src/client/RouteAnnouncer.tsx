@@ -40,8 +40,7 @@ class RouteAnnouncerWrapper extends React.Component<Props, State> {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  override render() {
+  override render(): JSX.Element {
     const {children} = this.props;
     const {routeAnnouncement} = this.state;
     return (
