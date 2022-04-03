@@ -17,6 +17,7 @@ import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
 import RouteAnnouncerWrapper from './RouteAnnouncerWrapper';
+import {useLocation} from 'react-router';
 
 import './clientLifecyclesDispatcher';
 
@@ -24,23 +25,28 @@ import './clientLifecyclesDispatcher';
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Error from '@theme/Error';
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 export default function App(): JSX.Element {
+  const {pathname} = useLocation();
   return (
-    <RouteAnnouncerWrapper>
-      <ErrorBoundary fallback={Error}>
-        <DocusaurusContextProvider>
-          <BrowserContextProvider>
-            <Root>
-              <SiteMetadataDefaults />
-              <SiteMetadata />
-              <BaseUrlIssueBanner />
-              <PendingNavigation routes={routes} delay={1000}>
+    <ErrorBoundary fallback={Error}>
+      <DocusaurusContextProvider>
+        <BrowserContextProvider>
+          <Root>
+            <SiteMetadataDefaults />
+            <SiteMetadata />
+            <BaseUrlIssueBanner />
+            <PendingNavigation routes={routes} delay={1000}>
+              {/*
+            // @ts-ignore */}
+              <RouteAnnouncerWrapper location={pathname}>
                 {renderRoutes(routes)}
-              </PendingNavigation>
-            </Root>
-          </BrowserContextProvider>
-        </DocusaurusContextProvider>
-      </ErrorBoundary>
-    </RouteAnnouncerWrapper>
+              </RouteAnnouncerWrapper>
+            </PendingNavigation>
+          </Root>
+        </BrowserContextProvider>
+      </DocusaurusContextProvider>
+    </ErrorBoundary>
   );
 }

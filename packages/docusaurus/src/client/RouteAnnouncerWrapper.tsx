@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 import {Portal} from './exports/Portal';
 import type {RouteComponentProps} from 'react-router-dom';
 
@@ -40,17 +39,16 @@ class RouteAnnouncerWrapper extends React.Component {
         pageName = (pageHeadings[0] as Node).textContent as string;
       }
       const newAnnouncement = `Navigated to ${pageName}`;
-      if (routeAnnouncement) {
-        const oldAnnouncement = routeAnnouncement;
-        if (!Object.is(oldAnnouncement, newAnnouncement)) {
-          this.setState({
-            routeAnnouncement: newAnnouncement,
-          });
-        }
+      const oldAnnouncement = routeAnnouncement;
+      if (!Object.is(oldAnnouncement, newAnnouncement)) {
+        this.setState({
+          routeAnnouncement: newAnnouncement,
+        });
       }
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   override render() {
     const {children} = this.props; // @ts-ignore
     const {routeAnnouncement} = this.state;
@@ -84,4 +82,4 @@ class RouteAnnouncerWrapper extends React.Component {
 }
 
 // @ts-ignore
-export default withRouter(RouteAnnouncerWrapper);
+export default RouteAnnouncerWrapper;
