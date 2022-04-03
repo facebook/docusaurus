@@ -151,13 +151,22 @@ export const Tags: {[type in TagType]: Tag} = {
 // prettier-ignore
 const Users: User[] = [
   {
+    title: 'Raghunath Sawant',
+    description:
+      'QA automation portfolio site',
+    preview: require('./showcase/raghu_Website.png'),
+    website: 'https://raghusawant786.github.io/website/',
+    source: 'https://github.com/raghusawant786/website',
+    tags: [],
+  },
+  {
     title: 'Aide Jeune',
     description:
       'French Discord server that helps young people who have been bullied or feel bad about themselves',
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
     source: null,
-    tags: [],
+    tags: ['personal','opensource'],
   },
   {
     title: 'AgileTs',
