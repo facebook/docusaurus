@@ -16,8 +16,7 @@ import BaseUrlIssueBanner from './BaseUrlIssueBanner';
 import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
 import SiteMetadata from '@theme/SiteMetadata';
-import {Portal} from './exports/Portal';
-import RouteAnnouncer from './RouteAnnouncer';
+import RouteAnnouncerWrapper from './RouteAnnouncerWrapper';
 
 import './clientLifecyclesDispatcher';
 
@@ -27,22 +26,21 @@ import Error from '@theme/Error';
 
 export default function App(): JSX.Element {
   return (
-    <ErrorBoundary fallback={Error}>
-      <DocusaurusContextProvider>
-        <BrowserContextProvider>
-          <Root>
-            <SiteMetadataDefaults />
-            <SiteMetadata />
-            <BaseUrlIssueBanner />
-            <PendingNavigation routes={routes} delay={1000}>
-              {renderRoutes(routes)}
-            </PendingNavigation>
-          </Root>
-        </BrowserContextProvider>
-      </DocusaurusContextProvider>
-      <Portal type="docusaurus-route-announcer">
-        <RouteAnnouncer />
-      </Portal>
-    </ErrorBoundary>
+    <RouteAnnouncerWrapper>
+      <ErrorBoundary fallback={Error}>
+        <DocusaurusContextProvider>
+          <BrowserContextProvider>
+            <Root>
+              <SiteMetadataDefaults />
+              <SiteMetadata />
+              <BaseUrlIssueBanner />
+              <PendingNavigation routes={routes} delay={1000}>
+                {renderRoutes(routes)}
+              </PendingNavigation>
+            </Root>
+          </BrowserContextProvider>
+        </DocusaurusContextProvider>
+      </ErrorBoundary>
+    </RouteAnnouncerWrapper>
   );
 }
