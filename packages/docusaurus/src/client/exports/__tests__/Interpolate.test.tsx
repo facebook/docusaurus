@@ -130,7 +130,7 @@ describe('<Interpolate>', () => {
         </Interpolate>,
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"The Docusaurus <Interpolate> component only accept simple string values"`,
+      `"The Docusaurus <Interpolate> component only accept simple string values. Received: {\\"type\\":\\"span\\",\\"key\\":null,\\"ref\\":null,\\"props\\":{\\"children\\":\\"aaa\\"},\\"_owner\\":null,\\"_store\\":{}}"`,
     );
   });
 });
