@@ -7,40 +7,32 @@
 
 import React from 'react';
 import {Portal} from './exports/Portal';
-import type {RouteComponentProps} from 'react-router-dom';
 
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+type Props = {
+  children: React.ReactNode;
+};
 
-class RouteAnnouncerWrapper extends React.Component {
-  constructor({
-    children,
-    location,
-  }: {
-    children: React.ReactNode;
-  } & RouteComponentProps) {
-    super({children, location});
+type State = {
+  routeAnnouncement: string;
+};
+
+class RouteAnnouncerWrapper extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
       routeAnnouncement: '',
     };
   }
 
   override componentDidUpdate(): void {
-    // @ts-ignore
-    const {pathname} = this.props.location; // @ts-ignore
     const {routeAnnouncement} = this.state;
 
     requestAnimationFrame(() => {
-      let pageName = `new page at ${pathname}`;
-      if (document.title) {
-        pageName = document.title;
-      }
-      const pageHeadings = document.querySelectorAll(`#__docusaurus h1`);
-      if (pageHeadings?.length) {
-        pageName = (pageHeadings[0] as Node).textContent as string;
-      }
+      const firstHeading = document.querySelectorAll(`#__docusaurus h1`)[0];
+      const pageName = firstHeading?.textContent ?? document.title;
       const newAnnouncement = `Navigated to ${pageName}`;
       const oldAnnouncement = routeAnnouncement;
-      if (!Object.is(oldAnnouncement, newAnnouncement)) {
+      if (oldAnnouncement !== newAnnouncement) {
         this.setState({
           routeAnnouncement: newAnnouncement,
         });
@@ -50,7 +42,7 @@ class RouteAnnouncerWrapper extends React.Component {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   override render() {
-    const {children} = this.props; // @ts-ignore
+    const {children} = this.props;
     const {routeAnnouncement} = this.state;
     return (
       <>
@@ -81,5 +73,4 @@ class RouteAnnouncerWrapper extends React.Component {
   }
 }
 
-// @ts-ignore
 export default RouteAnnouncerWrapper;
