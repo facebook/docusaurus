@@ -61,9 +61,9 @@ export default function Interpolate<Str extends string>({
 }: InterpolateProps<Str>): JSX.Element {
   if (typeof children !== 'string') {
     throw new Error(
-      `The Docusaurus <Interpolate> component only accept simple string values. Received: ${JSON.stringify(
-        children,
-      )}`,
+      `The Docusaurus <Interpolate> component only accept simple string values. Received: ${
+        isValidElement(children) ? 'React element' : typeof children
+      }`,
     );
   }
   return <>{interpolate(children, values)}</>;
