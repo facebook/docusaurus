@@ -83,6 +83,12 @@ Some popular languages like Java, C#, or PHP are not enabled by default.
 
 To add syntax highlighting for any of the other [Prism-supported languages](https://prismjs.com/#supported-languages), define it in an array of additional languages.
 
+:::note
+
+Each additional language has to be a valid Prism component name. For example, Prism would map the _language_ `cs` to `csharp`, but only `prism-csharp.js` exists as a _component_, so you need to use `additionalLanguages: ['csharp']`. You can look into `node_modules/prismjs/components` to find all components (languages) available.
+
+:::
+
 For example, if you want to add highlighting for the PowerShell language:
 
 ```js title="docusaurus.config.js"
