@@ -11,7 +11,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import Logo from '@theme/Logo';
 import CollapseButton from '@theme/DocSidebar/Desktop/CollapseButton';
 import Content from '@theme/DocSidebar/Desktop/Content';
-import Filter from '@theme/DocSidebar/Desktop/Filter';
+import Filter from '@theme/DocSidebar/Common/Filter';
 import type {Props} from '@theme/DocSidebar/Desktop';
 
 import styles from './styles.module.css';
@@ -31,7 +31,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}: Props) {
         isHidden && styles.sidebarHidden,
       )}>
       {hideOnScroll && <Logo tabIndex={-1} className={styles.sidebarLogo} />}
-      {filterableSidebar && <Filter />}
+      {filterableSidebar && <Filter className={styles.filter} />}
       <Content path={path} sidebar={sidebar} />
       {hideableSidebar && <CollapseButton onClick={onCollapse} />}
     </div>

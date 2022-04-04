@@ -227,8 +227,12 @@ declare module '@theme/DocSidebar/Desktop/CollapseButton' {
   export default function CollapseButton(props: Props): JSX.Element;
 }
 
-declare module '@theme/DocSidebar/Desktop/Filter' {
-  export default function Filter(): JSX.Element;
+declare module '@theme/DocSidebar/Common/Filter' {
+  export interface Props {
+    readonly className?: string;
+  }
+
+  export default function Filter(props: Props): JSX.Element;
 }
 
 declare module '@theme/DocSidebarItem' {

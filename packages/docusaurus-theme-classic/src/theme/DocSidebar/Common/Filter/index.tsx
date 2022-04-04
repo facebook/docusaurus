@@ -8,14 +8,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import {useDocsFilter} from '@docusaurus/theme-common';
+import type {Props} from '@theme/DocSidebar/Desktop/Filter';
 
 import styles from './styles.module.css';
 
-function Filter(): JSX.Element {
+function Filter({className}: Props): JSX.Element {
   const {setFilterTerm, filterTerm = ''} = useDocsFilter();
 
   return (
-    <div className={styles.filter}>
+    <div className={clsx(styles.filter, className)}>
       <input
         placeholder="Filter by title" // todo: i18n
         type="text"
