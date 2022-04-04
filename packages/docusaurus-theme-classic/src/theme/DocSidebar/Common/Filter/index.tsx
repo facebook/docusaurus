@@ -8,7 +8,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {useDocsFilter} from '@docusaurus/theme-common';
-import type {Props} from '@theme/DocSidebar/Desktop/Filter';
+import type {Props} from '@theme/DocSidebar/Common/Filter';
 
 import styles from './styles.module.css';
 
