@@ -23,6 +23,7 @@ import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 
 import DocSidebarItems from '@theme/DocSidebarItems';
+import TextHighlight from '@theme/TextHighlight';
 import type {Props} from '@theme/DocSidebarItem/Category';
 
 import useIsBrowser from '@docusaurus/useIsBrowser';
@@ -200,7 +201,11 @@ export default function DocSidebarItemCategory({
           aria-expanded={collapsible ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          {label}
+          {filterTerm ? (
+            <TextHighlight text={label} highlight={filterTerm} />
+          ) : (
+            label
+          )}
         </Link>
         {href && collapsible && (
           <CollapseButton
