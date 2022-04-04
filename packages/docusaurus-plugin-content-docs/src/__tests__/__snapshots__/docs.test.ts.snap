@@ -6,15 +6,21 @@ exports[`simple site custom pagination 1`] = `
     {
       "id": "doc with space",
       "next": {
-        "permalink": "/docs/foo/bar",
-        "title": "Bar",
+        "permalink": "/docs/draft",
+        "title": "draft",
       },
       "prev": undefined,
     },
     {
       "id": "draft",
-      "next": undefined,
-      "prev": undefined,
+      "next": {
+        "permalink": "/docs/foo/bar",
+        "title": "Bar",
+      },
+      "prev": {
+        "permalink": "/docs/doc with space",
+        "title": "Hoo hoo, if this path tricks you...",
+      },
     },
     {
       "id": "foo/bar",
@@ -166,6 +172,10 @@ exports[`simple site custom pagination 1`] = `
     "defaultSidebar": [
       {
         "id": "doc with space",
+        "type": "doc",
+      },
+      {
+        "id": "draft",
         "type": "doc",
       },
       {

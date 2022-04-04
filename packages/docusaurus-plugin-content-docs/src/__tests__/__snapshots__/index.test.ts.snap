@@ -43,6 +43,7 @@ Available document ids are:
 exports[`simple website content 1`] = `
 {
   "description": "Images",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -60,7 +61,6 @@ exports[`simple website content 1`] = `
     "title": "baz",
   },
   "id": "foo/baz",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -96,6 +96,7 @@ exports[`simple website content 1`] = `
 exports[`simple website content 2`] = `
 {
   "description": "Hi, Endilie here :)",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -109,7 +110,6 @@ exports[`simple website content 2`] = `
     "title": "Hello, World !",
   },
   "id": "hello",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -142,6 +142,7 @@ exports[`simple website content 2`] = `
 exports[`simple website content 3`] = `
 {
   "description": "This is custom description",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -152,7 +153,6 @@ exports[`simple website content 3`] = `
     "title": "Bar",
   },
   "id": "foo/bar",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -402,7 +402,7 @@ exports[`simple website content: data 1`] = `
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {},
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-draft-md-5b1.json": "{
   \\"unversionedId\\": \\"draft\\",
@@ -418,7 +418,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"draft\\": true
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-foo-bar-md-8c2.json": "{
   \\"unversionedId\\": \\"foo/bar\\",
@@ -438,7 +438,7 @@ exports[`simple website content: data 1`] = `
     \\"pagination_next\\": null,
     \\"pagination_prev\\": null
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\"
 }",
   "site-docs-foo-baz-md-a69.json": "{
@@ -475,7 +475,7 @@ exports[`simple website content: data 1`] = `
       }
     ]
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"Bar\\",
@@ -498,7 +498,7 @@ exports[`simple website content: data 1`] = `
   \\"tags\\": [],
   \\"version\\": \\"current\\",
   \\"frontMatter\\": {},
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"rootTryToEscapeSlug\\",
@@ -539,7 +539,7 @@ exports[`simple website content: data 1`] = `
     ],
     \\"slug\\": \\"/\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"My heading as title\\",
@@ -561,7 +561,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"custom_edit_url\\": null
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-lorem-md-b27.json": "{
   \\"unversionedId\\": \\"lorem\\",
@@ -579,7 +579,7 @@ exports[`simple website content: data 1`] = `
     \\"custom_edit_url\\": \\"https://github.com/customUrl/docs/lorem.md\\",
     \\"unrelated_front_matter\\": \\"won't be part of metadata\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-root-absolute-slug-md-db5.json": "{
   \\"unversionedId\\": \\"rootAbsoluteSlug\\",
@@ -597,7 +597,7 @@ exports[`simple website content: data 1`] = `
     \\"pagination_next\\": \\"headingAsTitle\\",
     \\"pagination_prev\\": \\"foo/baz\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz pagination_label\\",
@@ -624,7 +624,7 @@ exports[`simple website content: data 1`] = `
     \\"pagination_next\\": \\"headingAsTitle\\",
     \\"pagination_prev\\": \\"foo/baz\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz pagination_label\\",
@@ -651,7 +651,7 @@ exports[`simple website content: data 1`] = `
     \\"pagination_next\\": \\"headingAsTitle\\",
     \\"pagination_prev\\": \\"foo/baz\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz pagination_label\\",
@@ -678,7 +678,7 @@ exports[`simple website content: data 1`] = `
     \\"pagination_next\\": \\"headingAsTitle\\",
     \\"pagination_prev\\": \\"foo/baz\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz pagination_label\\",
@@ -703,7 +703,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -719,7 +719,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -735,7 +735,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -751,7 +751,7 @@ exports[`simple website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "tag-docs-tags-tag-1-b3f.json": "{
   \\"name\\": \\"tag 1\\",
@@ -1462,7 +1462,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/Core APIs/Client API",
-      "isDraft": false,
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/01_Core APIs/0 --- Client API.md",
       "sourceDirName": "3-API/01_Core APIs",
@@ -1472,7 +1471,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/Core APIs/Server API",
-      "isDraft": false,
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/01_Core APIs/1 --- Server API.md",
       "sourceDirName": "3-API/01_Core APIs",
@@ -1482,7 +1480,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/Extension APIs/Plugin API",
-      "isDraft": false,
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/02_Extension APIs/0. Plugin API.md",
       "sourceDirName": "3-API/02_Extension APIs",
@@ -1492,7 +1489,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/Extension APIs/Theme API",
-      "isDraft": false,
       "sidebarPosition": 1,
       "source": "@site/docs/3-API/02_Extension APIs/1. Theme API.md",
       "sourceDirName": "3-API/02_Extension APIs",
@@ -1502,7 +1498,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/api-end",
-      "isDraft": false,
       "sidebarPosition": 3,
       "source": "@site/docs/3-API/03_api-end.md",
       "sourceDirName": "3-API",
@@ -1512,7 +1507,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "API/api-overview",
-      "isDraft": false,
       "sidebarPosition": 0,
       "source": "@site/docs/3-API/00_api-overview.md",
       "sourceDirName": "3-API",
@@ -1525,7 +1519,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "sidebar_position": 1,
       },
       "id": "Guides/guide1",
-      "isDraft": false,
       "sidebarPosition": 1,
       "source": "@site/docs/Guides/z-guide1.md",
       "sourceDirName": "Guides",
@@ -1537,7 +1530,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "id": "guide2",
       },
       "id": "Guides/guide2",
-      "isDraft": false,
       "sidebarPosition": 2,
       "source": "@site/docs/Guides/02-guide2.md",
       "sourceDirName": "Guides",
@@ -1550,7 +1542,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "sidebar_position": 2.5,
       },
       "id": "Guides/guide2.5",
-      "isDraft": false,
       "sidebarPosition": 2.5,
       "source": "@site/docs/Guides/0-guide2.5.md",
       "sourceDirName": "Guides",
@@ -1563,7 +1554,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "sidebar_position": 3,
       },
       "id": "Guides/guide3",
-      "isDraft": false,
       "sidebarPosition": 3,
       "source": "@site/docs/Guides/guide3.md",
       "sourceDirName": "Guides",
@@ -1575,7 +1565,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "id": "guide4",
       },
       "id": "Guides/guide4",
-      "isDraft": false,
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/a-guide4.md",
       "sourceDirName": "Guides",
@@ -1587,7 +1576,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
         "id": "guide5",
       },
       "id": "Guides/guide5",
-      "isDraft": false,
       "sidebarPosition": undefined,
       "source": "@site/docs/Guides/b-guide5.md",
       "sourceDirName": "Guides",
@@ -1597,7 +1585,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "getting-started",
-      "isDraft": false,
       "sidebarPosition": 0,
       "source": "@site/docs/0-getting-started.md",
       "sourceDirName": ".",
@@ -1607,7 +1594,6 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
     {
       "frontMatter": {},
       "id": "installation",
-      "isDraft": false,
       "sidebarPosition": 1,
       "source": "@site/docs/1-installation.md",
       "sourceDirName": ".",
@@ -1631,11 +1617,11 @@ exports[`site with custom sidebar items generator sidebarItemsGenerator is calle
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 1`] = `
 {
   "description": "Getting started text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "getting-started",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1659,11 +1645,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 2`] = `
 {
   "description": "Installation text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "installation",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1690,6 +1676,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 3`] = `
 {
   "description": "Guide 1 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -1697,7 +1684,6 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
     "sidebar_position": 1,
   },
   "id": "Guides/guide1",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1724,13 +1710,13 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 4`] = `
 {
   "description": "Guide 2 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide2",
   },
   "id": "Guides/guide2",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1757,6 +1743,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 5`] = `
 {
   "description": "Guide 2.5 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -1764,7 +1751,6 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
     "sidebar_position": 2.5,
   },
   "id": "Guides/guide2.5",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1791,6 +1777,7 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 6`] = `
 {
   "description": "Guide 3 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -1798,7 +1785,6 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
     "sidebar_position": 3,
   },
   "id": "Guides/guide3",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1825,13 +1811,13 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 7`] = `
 {
   "description": "Guide 4 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide4",
   },
   "id": "Guides/guide4",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1858,13 +1844,13 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 8`] = `
 {
   "description": "Guide 5 text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "id": "guide5",
   },
   "id": "Guides/guide5",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1891,11 +1877,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 9`] = `
 {
   "description": "API Overview text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-overview",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1922,11 +1908,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 10`] = `
 {
   "description": "Client API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Core APIs/Client API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1953,11 +1939,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 11`] = `
 {
   "description": "Server API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Core APIs/Server API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -1984,11 +1970,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 12`] = `
 {
   "description": "Plugin API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2015,11 +2001,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 13`] = `
 {
   "description": "Theme API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2046,11 +2032,11 @@ exports[`site with full autogenerated sidebar docs in fully generated sidebar ha
 exports[`site with full autogenerated sidebar docs in fully generated sidebar have correct metadata 14`] = `
 {
   "description": "API End text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-end",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2226,11 +2212,11 @@ exports[`site with partial autogenerated sidebars 2 (fix #4638) sidebar is parti
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 1`] = `
 {
   "description": "API End text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-end",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2254,11 +2240,11 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 2`] = `
 {
   "description": "API Overview text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/api-overview",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2285,11 +2271,11 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 3`] = `
 {
   "description": "Plugin API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Plugin API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2316,11 +2302,11 @@ exports[`site with partial autogenerated sidebars docs in partially generated si
 exports[`site with partial autogenerated sidebars docs in partially generated sidebar have correct metadata 4`] = `
 {
   "description": "Theme API text",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "API/Extension APIs/Theme API",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2376,13 +2362,13 @@ exports[`site with partial autogenerated sidebars sidebar is partially autogener
 exports[`versioned website (community) content 1`] = `
 {
   "description": "Team current version (translated)",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "title": "Team title translated",
   },
   "id": "team",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2403,11 +2389,11 @@ exports[`versioned website (community) content 1`] = `
 exports[`versioned website (community) content 2`] = `
 {
   "description": "Team 1.0.0",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.0/team",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2461,7 +2447,7 @@ exports[`versioned website (community) content: data 1`] = `
   \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {},
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"version-1.0.0/community\\"
 }",
   "site-i-18-n-en-docusaurus-plugin-content-docs-community-current-team-md-7e5.json": "{
@@ -2478,7 +2464,7 @@ exports[`versioned website (community) content: data 1`] = `
   \\"frontMatter\\": {
     \\"title\\": \\"Team title translated\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"community\\"
 }",
   "version-1-0-0-metadata-prop-608.json": "{
@@ -2656,6 +2642,7 @@ exports[`versioned website (community) getPathToWatch 1`] = `
 exports[`versioned website content 1`] = `
 {
   "description": "This is next version of bar.",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
@@ -2670,7 +2657,6 @@ exports[`versioned website content 1`] = `
     ],
   },
   "id": "foo/bar",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2707,11 +2693,11 @@ exports[`versioned website content 1`] = `
 exports[`versioned website content 2`] = `
 {
   "description": "Bar 1.0.1 !",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.1/foo/bar",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2735,13 +2721,13 @@ exports[`versioned website content 2`] = `
 exports[`versioned website content 3`] = `
 {
   "description": "Hello next !",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
   },
   "id": "hello",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2765,13 +2751,13 @@ exports[`versioned website content 3`] = `
 exports[`versioned website content 4`] = `
 {
   "description": "Hello 1.0.1 !",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {
     "slug": "/",
   },
   "id": "version-1.0.1/hello",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": undefined,
@@ -2795,11 +2781,11 @@ exports[`versioned website content 4`] = `
 exports[`versioned website content 5`] = `
 {
   "description": "Baz 1.0.0 ! This will be deleted in next subsequent versions.",
+  "draft": false,
   "editUrl": undefined,
   "formattedLastUpdatedAt": undefined,
   "frontMatter": {},
   "id": "version-1.0.0/foo/baz",
-  "isDraft": false,
   "lastUpdatedAt": undefined,
   "lastUpdatedBy": undefined,
   "next": {
@@ -2963,7 +2949,7 @@ exports[`versioned website content: data 1`] = `
       }
     ]
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"next\\": {
     \\"title\\": \\"hello\\",
@@ -2984,7 +2970,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -3005,7 +2991,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-relative-slug-md-d1c.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -3021,7 +3007,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-resolved-slug-md-02b.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -3037,7 +3023,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-docs-slugs-try-to-escape-slug-md-70d.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -3053,7 +3039,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-i-18-n-en-docusaurus-plugin-content-docs-version-1-0-0-hello-md-fe5.json": "{
   \\"unversionedId\\": \\"hello\\",
@@ -3069,7 +3055,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"previous\\": {
     \\"title\\": \\"baz\\",
@@ -3090,7 +3076,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"barSlug\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"next\\": {
     \\"title\\": \\"baz\\",
@@ -3109,7 +3095,7 @@ exports[`versioned website content: data 1`] = `
   \\"tags\\": [],
   \\"version\\": \\"1.0.0\\",
   \\"frontMatter\\": {},
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"version-1.0.0/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -3132,7 +3118,7 @@ exports[`versioned website content: data 1`] = `
   \\"tags\\": [],
   \\"version\\": \\"1.0.1\\",
   \\"frontMatter\\": {},
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\",
   \\"next\\": {
     \\"title\\": \\"hello\\",
@@ -3153,7 +3139,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"VersionedSideBarNameDoesNotMatter/docs\\",
   \\"previous\\": {
     \\"title\\": \\"bar\\",
@@ -3174,7 +3160,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/rootAbsoluteSlug\\"
   },
-  \\"isDraft\\": false,
+  \\"draft\\": false,
   \\"sidebar\\": \\"version-1.0.1/docs\\"
 }",
   "site-versioned-docs-version-with-slugs-root-relative-slug-md-32a.json": "{
@@ -3191,7 +3177,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"rootRelativeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-root-resolved-slug-md-aee.json": "{
   \\"unversionedId\\": \\"rootResolvedSlug\\",
@@ -3207,7 +3193,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../rootResolvedSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-root-try-to-escape-slug-md-b5d.json": "{
   \\"unversionedId\\": \\"rootTryToEscapeSlug\\",
@@ -3223,7 +3209,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../rootTryToEscapeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-slugs-absolute-slug-md-47a.json": "{
   \\"unversionedId\\": \\"slugs/absoluteSlug\\",
@@ -3239,7 +3225,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"/absoluteSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-slugs-relative-slug-md-a95.json": "{
   \\"unversionedId\\": \\"slugs/relativeSlug\\",
@@ -3255,7 +3241,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"relativeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-slugs-resolved-slug-md-5a1.json": "{
   \\"unversionedId\\": \\"slugs/resolvedSlug\\",
@@ -3271,7 +3257,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"./hey/ho/../resolvedSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "site-versioned-docs-version-with-slugs-slugs-try-to-escape-slug-md-4e1.json": "{
   \\"unversionedId\\": \\"slugs/tryToEscapeSlug\\",
@@ -3287,7 +3273,7 @@ exports[`versioned website content: data 1`] = `
   \\"frontMatter\\": {
     \\"slug\\": \\"../../../../../../../../tryToEscapeSlug\\"
   },
-  \\"isDraft\\": false
+  \\"draft\\": false
 }",
   "tag-docs-next-tags-bar-tag-1-a8f.json": "{
   \\"name\\": \\"barTag 1\\",

@@ -131,7 +131,7 @@ function doProcessDocMetadata({
   } = parseMarkdownString(content);
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
-  const isDraft =
+  const draft =
     (frontMatter.draft && process.env.NODE_ENV === 'production') || false;
 
   const {
@@ -263,7 +263,7 @@ function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
-    isDraft,
+    draft,
   };
 }
 

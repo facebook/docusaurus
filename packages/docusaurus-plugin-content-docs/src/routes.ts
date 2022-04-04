@@ -71,7 +71,7 @@ export async function createDocRoutes({
 }): Promise<RouteConfig[]> {
   return Promise.all(
     docs
-      .filter((metadataItem) => !metadataItem.isDraft)
+      .filter((metadataItem) => !metadataItem.draft)
       .map(async (metadataItem) => {
         await actions.createData(
           // Note that this created data path must be in sync with

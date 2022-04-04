@@ -407,7 +407,7 @@ declare module '@docusaurus/plugin-content-docs' {
     /** Front matter, as-is. */
     frontMatter: DocFrontMatter & {[key: string]: unknown};
     /** Is the doc going to be excluded from production builds? */
-    isDraft: boolean;
+    draft: boolean;
   };
 
   export type DocMetadata = DocMetadataBase &
