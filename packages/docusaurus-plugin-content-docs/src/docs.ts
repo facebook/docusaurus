@@ -120,7 +120,7 @@ function doProcessDocMetadata({
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
-}): DocMetadataBase {
+}): DocMetadataBase | null {
   const {source, content, lastUpdate, contentPath, filePath} = docFile;
   const {siteDir, i18n} = context;
 
@@ -131,8 +131,9 @@ function doProcessDocMetadata({
   } = parseMarkdownString(content);
   const frontMatter = validateDocFrontMatter(unsafeFrontMatter);
 
-  const draft =
-    (frontMatter.draft && process.env.NODE_ENV === 'production') || false;
+  if ((frontMatter.draft && process.env.NODE_ENV === 'production') || false) {
+    return null;
+  }
 
   const {
     custom_edit_url: customEditURL,
@@ -263,7 +264,6 @@ function doProcessDocMetadata({
       : undefined,
     sidebarPosition,
     frontMatter,
-    draft,
   };
 }
 
@@ -272,7 +272,7 @@ export function processDocMetadata(args: {
   versionMetadata: VersionMetadata;
   context: LoadContext;
   options: MetadataOptions;
-}): DocMetadataBase {
+}): DocMetadataBase | null {
   try {
     return doProcessDocMetadata(args);
   } catch (err) {

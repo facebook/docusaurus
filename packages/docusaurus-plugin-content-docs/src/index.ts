@@ -132,7 +132,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
-      ): Promise<DocMetadataBase[]> {
+      ): Promise<(DocMetadataBase | null)[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
@@ -158,9 +158,9 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs: DocMetadataBase[] = await loadVersionDocsBase(
-          versionMetadata,
-        );
+        const docs = (await loadVersionDocsBase(versionMetadata)).filter(
+          Boolean,
+        ) as DocMetadataBase[];
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,

@@ -70,33 +70,31 @@ export async function createDocRoutes({
   docItemComponent: string;
 }): Promise<RouteConfig[]> {
   return Promise.all(
-    docs
-      .filter((metadataItem) => !metadataItem.draft)
-      .map(async (metadataItem) => {
-        await actions.createData(
-          // Note that this created data path must be in sync with
-          // metadataPath provided to mdx-loader.
-          `${docuHash(metadataItem.source)}.json`,
-          JSON.stringify(metadataItem, null, 2),
-        );
+    docs.map(async (metadataItem) => {
+      await actions.createData(
+        // Note that this created data path must be in sync with
+        // metadataPath provided to mdx-loader.
+        `${docuHash(metadataItem.source)}.json`,
+        JSON.stringify(metadataItem, null, 2),
+      );
 
-        const docRoute: RouteConfig = {
-          path: metadataItem.permalink,
-          component: docItemComponent,
-          exact: true,
-          modules: {
-            content: metadataItem.source,
-          },
-          // Because the parent (DocPage) comp need to access it easily
-          // This permits to render the sidebar once without unmount/remount
-          // when navigating (and preserve sidebar state)
-          ...(metadataItem.sidebar && {
-            sidebar: metadataItem.sidebar,
-          }),
-        };
+      const docRoute: RouteConfig = {
+        path: metadataItem.permalink,
+        component: docItemComponent,
+        exact: true,
+        modules: {
+          content: metadataItem.source,
+        },
+        // Because the parent (DocPage) comp need to access it easily
+        // This permits to render the sidebar once without unmount/remount when
+        // navigating (and preserve sidebar state)
+        ...(metadataItem.sidebar && {
+          sidebar: metadataItem.sidebar,
+        }),
+      };
 
-        return docRoute;
-      }),
+      return docRoute;
+    }),
   );
 }
 
