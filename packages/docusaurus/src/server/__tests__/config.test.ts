@@ -9,7 +9,7 @@ import path from 'path';
 import {loadSiteConfig} from '../config';
 
 describe('loadSiteConfig', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'configs');
+  const siteDir = path.join(__dirname, '__fixtures__', 'config');
 
   it('website with valid siteConfig', async () => {
     const config = await loadSiteConfig({
@@ -49,7 +49,8 @@ describe('loadSiteConfig', () => {
   it('website with incomplete siteConfig', async () => {
     await expect(
       loadSiteConfig({
-        siteDir: path.join(__dirname, '__fixtures__', 'bad-site'),
+        siteDir,
+        customConfigFilePath: 'incomplete.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
             "\\"url\\" is required
@@ -60,7 +61,8 @@ describe('loadSiteConfig', () => {
   it('website with useless field (wrong field) in siteConfig', async () => {
     await expect(
       loadSiteConfig({
-        siteDir: path.join(__dirname, '__fixtures__', 'wrong-site'),
+        siteDir,
+        customConfigFilePath: 'wrong.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
             "These field(s) (\\"useLessField\\",) are not recognized in docusaurus.config.js.
@@ -72,10 +74,11 @@ describe('loadSiteConfig', () => {
   it('website with no siteConfig', async () => {
     await expect(
       loadSiteConfig({
-        siteDir: path.join(__dirname, '__fixtures__', 'nonExisting'),
+        siteDir,
+        customConfigFilePath: 'nonExistent.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Config file at \\"<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/nonExisting/docusaurus.config.js\\" not found."`,
+      `"Config file at \\"<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/nonExistent.config.js\\" not found."`,
     );
   });
 });

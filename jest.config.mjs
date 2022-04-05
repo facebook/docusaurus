@@ -25,6 +25,7 @@ const ignorePatterns = [
   '/packages/docusaurus-theme-classic/lib-next',
   '/packages/docusaurus-theme-common/lib',
   '/packages/docusaurus-migrate/lib',
+  '/jest',
 ];
 
 export default {
