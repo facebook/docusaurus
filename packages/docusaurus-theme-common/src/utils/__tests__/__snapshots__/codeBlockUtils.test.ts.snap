@@ -74,7 +74,20 @@ bbbbb",
 }
 `;
 
-exports[`parseLines respects language 1`] = `
+exports[`parseLines respects language: html 1`] = `
+{
+  "code": "aaaa
+{/* highlight-next-line */}
+bbbbb
+dddd",
+  "highlightLines": [
+    0,
+    3,
+  ],
+}
+`;
+
+exports[`parseLines respects language: js 1`] = `
 {
   "code": "# highlight-next-line
 aaaaa
@@ -83,31 +96,47 @@ bbbbb",
 }
 `;
 
-exports[`parseLines respects language 2`] = `
+exports[`parseLines respects language: jsx 1`] = `
 {
-  "code": "/* highlight-next-line */
-aaaaa
-bbbbb",
-  "highlightLines": [],
-}
-`;
-
-exports[`parseLines respects language 3`] = `
-{
-  "code": "// highlight-next-line
-aaaa
-/* highlight-next-line */
+  "code": "aaaa
 bbbbb
-ccccc
 <!-- highlight-next-line -->
 dddd",
   "highlightLines": [
-    4,
+    0,
+    1,
   ],
 }
 `;
 
-exports[`parseLines respects language 4`] = `
+exports[`parseLines respects language: md 1`] = `
+{
+  "code": "---
+aaa: boo
+---
+
+aaaa
+
+<div>
+foo
+</div>
+
+bbbbb
+dddd
+
+\`\`\`js
+// highlight-next-line
+console.log(\\"preserved\\");
+\`\`\`",
+  "highlightLines": [
+    1,
+    7,
+    11,
+  ],
+}
+`;
+
+exports[`parseLines respects language: none 1`] = `
 {
   "code": "aaaa
 bbbbb
@@ -118,6 +147,30 @@ dddd",
     1,
     2,
     3,
+  ],
+}
+`;
+
+exports[`parseLines respects language: py 1`] = `
+{
+  "code": "/* highlight-next-line */
+aaaaa
+bbbbb",
+  "highlightLines": [],
+}
+`;
+
+exports[`parseLines respects language: py 2`] = `
+{
+  "code": "// highlight-next-line
+aaaa
+/* highlight-next-line */
+bbbbb
+ccccc
+<!-- highlight-next-line -->
+dddd",
+  "highlightLines": [
+    4,
   ],
 }
 `;
