@@ -8,6 +8,7 @@
 declare module '@docusaurus/plugin-content-docs' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
   import type {ContentPaths, Tag, FrontMatterTag} from '@docusaurus/utils';
+  import type {TagsListItem, TagModule} from '@docusaurus/types';
   import type {Required} from 'utility-types';
 
   export type Assets = {
@@ -483,25 +484,16 @@ declare module '@docusaurus/plugin-content-docs' {
   export type PropSidebar = import('./sidebars/types').PropSidebar;
   export type PropSidebars = import('./sidebars/types').PropSidebars;
 
-  export type PropTagDocListDoc = {
-    id: string;
-    title: string;
-    description: string;
-    permalink: string;
-  };
+  export type PropTagDocListDoc = Pick<
+    DocMetadata,
+    'id' | 'title' | 'description' | 'permalink'
+  >;
   export type PropTagDocList = {
-    allTagsPath: string;
-    name: string; // normalized name/label of the tag
-    permalink: string; // pathname of the tag
-    docs: PropTagDocListDoc[];
+    tag: TagModule & {items: PropTagDocListDoc[]};
   };
 
   export type PropTagsListPage = {
-    tags: {
-      name: string;
-      permalink: string;
-      count: number;
-    }[];
+    tags: TagsListItem[];
   };
 }
 
@@ -559,9 +551,7 @@ declare module '@theme/DocTagsListPage' {
 declare module '@theme/DocTagDocListPage' {
   import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
-  export interface Props {
-    readonly tag: PropTagDocList;
-  }
+  export interface Props extends PropTagDocList {}
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 

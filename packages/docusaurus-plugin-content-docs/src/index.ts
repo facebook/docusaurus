@@ -19,7 +19,7 @@ import {
   createSlugger,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import type {LoadContext, Plugin} from '@docusaurus/types';
+import type {LoadContext, Plugin, TagsListItem} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -50,7 +50,6 @@ import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
 import type {
-  PropTagsListPage,
   PluginOptions,
   DocMetadataBase,
   VersionMetadata,
@@ -225,16 +224,16 @@ export default async function pluginContentDocs(
 
         // TODO tags should be a sub route of the version route
         async function createTagsListPage() {
-          const tagsProp: PropTagsListPage['tags'] = Object.values(
-            versionTags,
-          ).map((tagValue) => ({
-            name: tagValue.label,
-            permalink: tagValue.permalink,
-            count: tagValue.docIds.length,
-          }));
+          const tagsProp: TagsListItem[] = Object.values(versionTags).map(
+            (tag) => ({
+              label: tag.label,
+              permalink: tag.permalink,
+              count: tag.docIds.length,
+            }),
+          );
 
           // Only create /tags page if there are tags.
-          if (Object.keys(tagsProp).length > 0) {
+          if (tagsProp.length > 0) {
             const tagsPropPath = await createData(
               `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),
@@ -252,14 +251,14 @@ export default async function pluginContentDocs(
 
         // TODO tags should be a sub route of the version route
         async function createTagDocListPage(tag: VersionTag) {
-          const tagProps = toTagDocListProp({
+          const tagItemsProp = toTagDocListProp({
             allTagsPath: version.tagsPath,
             tag,
             docs: version.docs,
           });
           const tagPropPath = await createData(
             `${docuHash(`tag-${tag.permalink}`)}.json`,
-            JSON.stringify(tagProps, null, 2),
+            JSON.stringify(tagItemsProp, null, 2),
           );
           addRoute({
             path: tag.permalink,

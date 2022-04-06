@@ -86,7 +86,6 @@ export {
   translateTagsPageTitle,
   listTagsByLetters,
   type TagLetterEntry,
-  type TagsListItem,
 } from './utils/tagsUtils';
 
 export {useHistoryPopHandler} from './utils/historyUtils';

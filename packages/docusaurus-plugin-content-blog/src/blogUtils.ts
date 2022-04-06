@@ -114,7 +114,7 @@ export function getBlogTags({
   );
 
   return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
-    name: tag.label,
+    label: tag.label,
     items: tagBlogPosts.map((item) => item.id),
     permalink: tag.permalink,
     pages: paginateBlogPosts({
