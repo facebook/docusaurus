@@ -138,7 +138,7 @@ export function toTagDocListProp({
   allTagsPath: string;
   tag: VersionTag;
   docs: DocMetadata[];
-}): PropTagDocList['tag'] {
+}): PropTagDocList {
   function toDocListProp(): PropTagDocListDoc[] {
     const list = _.compact(
       tag.docIds.map((id) => docs.find((doc) => doc.id === id)),

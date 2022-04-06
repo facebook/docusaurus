@@ -19,7 +19,7 @@ import {
   createSlugger,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import type {LoadContext, Plugin, TagsListItem} from '@docusaurus/types';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
 import {
@@ -50,6 +50,7 @@ import logger from '@docusaurus/logger';
 import {getVersionTags} from './tags';
 import {createVersionRoutes} from './routes';
 import type {
+  PropTagsListPage,
   PluginOptions,
   DocMetadataBase,
   VersionMetadata,
@@ -224,13 +225,13 @@ export default async function pluginContentDocs(
 
         // TODO tags should be a sub route of the version route
         async function createTagsListPage() {
-          const tagsProp: TagsListItem[] = Object.values(versionTags).map(
-            (tag) => ({
-              label: tag.label,
-              permalink: tag.permalink,
-              count: tag.docIds.length,
-            }),
-          );
+          const tagsProp: PropTagsListPage['tags'] = Object.values(
+            versionTags,
+          ).map((tagValue) => ({
+            label: tagValue.label,
+            permalink: tagValue.permalink,
+            count: tagValue.docIds.length,
+          }));
 
           // Only create /tags page if there are tags.
           if (tagsProp.length > 0) {
@@ -251,14 +252,14 @@ export default async function pluginContentDocs(
 
         // TODO tags should be a sub route of the version route
         async function createTagDocListPage(tag: VersionTag) {
-          const tagItemsProp = toTagDocListProp({
+          const tagProps = toTagDocListProp({
             allTagsPath: version.tagsPath,
             tag,
             docs: version.docs,
           });
           const tagPropPath = await createData(
             `${docuHash(`tag-${tag.permalink}`)}.json`,
-            JSON.stringify(tagItemsProp, null, 2),
+            JSON.stringify(tagProps, null, 2),
           );
           addRoute({
             path: tag.permalink,

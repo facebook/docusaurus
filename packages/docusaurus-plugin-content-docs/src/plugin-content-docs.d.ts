@@ -488,9 +488,7 @@ declare module '@docusaurus/plugin-content-docs' {
     DocMetadata,
     'id' | 'title' | 'description' | 'permalink'
   >;
-  export type PropTagDocList = {
-    tag: TagModule & {items: PropTagDocListDoc[]};
-  };
+  export type PropTagDocList = TagModule & {items: PropTagDocListDoc[]};
 
   export type PropTagsListPage = {
     tags: TagsListItem[];
@@ -551,7 +549,9 @@ declare module '@theme/DocTagsListPage' {
 declare module '@theme/DocTagDocListPage' {
   import type {PropTagDocList} from '@docusaurus/plugin-content-docs';
 
-  export interface Props extends PropTagDocList {}
+  export interface Props {
+    readonly tag: PropTagDocList;
+  }
   export default function DocTagDocListPage(props: Props): JSX.Element;
 }
 
