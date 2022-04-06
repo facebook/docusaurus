@@ -194,8 +194,8 @@ function Feature({
       <img
         className={styles.featureImage}
         alt={feature.title}
-        width={parseInt(feature.image.width, 10)}
-        height={parseInt(feature.image.height, 10)}
+        width={Math.floor(feature.image.width)}
+        height={Math.floor(feature.image.height)}
         src={withBaseUrl(feature.image.src)}
         loading="lazy"
       />

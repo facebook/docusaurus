@@ -179,7 +179,7 @@ const TWEETS: TweetItem[] = [
     name: 'swyx',
     date: 'Jul 23, 2021',
     avatar:
-      'https://pbs.twimg.com/profile_images/1456506127961640962/iM2Hf8du_400x400.jpg',
+      'https://pbs.twimg.com/profile_images/1510319731466993664/tGoqnzGK_400x400.jpg',
     content: (
       <>
         Happy to share Temporal&apos;s first open source sponsorship — of{' '}
