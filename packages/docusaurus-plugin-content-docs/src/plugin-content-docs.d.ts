@@ -7,8 +7,8 @@
 
 declare module '@docusaurus/plugin-content-docs' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {ContentPaths, Tag, FrontMatterTag} from '@docusaurus/utils';
-  import type {TagsListItem, TagModule} from '@docusaurus/types';
+  import type {ContentPaths, FrontMatterTag} from '@docusaurus/utils';
+  import type {TagsListItem, TagModule, Tag} from '@docusaurus/types';
   import type {Required} from 'utility-types';
 
   export type Assets = {

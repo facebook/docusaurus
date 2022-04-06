@@ -7,8 +7,9 @@
 
 declare module '@docusaurus/plugin-content-blog' {
   import type {MDXOptions} from '@docusaurus/mdx-loader';
-  import type {FrontMatterTag, Tag} from '@docusaurus/utils';
+  import type {FrontMatterTag} from '@docusaurus/utils';
   import type {Overwrite} from 'utility-types';
+  import type {Tag} from '@docusaurus/types';
 
   export type Assets = {
     /**
