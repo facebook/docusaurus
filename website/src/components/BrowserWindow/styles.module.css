@@ -77,5 +77,10 @@
 }
 
 .browserWindowBody {
+  background-color: var(--ifm-background-color);
   padding: 1rem;
+}
+
+.browserWindowBody *:last-child {
+  margin-bottom: 0;
 }

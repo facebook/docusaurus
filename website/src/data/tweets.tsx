@@ -37,7 +37,7 @@ const TWEETS: TweetItem[] = [
     name: 'Maël',
     date: 'Jan 20, 2021',
     avatar:
-      'https://pbs.twimg.com/profile_images/1311259425949261825/7hPZqoJd_400x400.jpg',
+      'https://pbs.twimg.com/profile_images/1497225853931040769/5mXZAHFR_400x400.jpg',
     content: (
       <>
         I&apos;ve used Docusaurus for two websites this year, and I&apos;ve been
