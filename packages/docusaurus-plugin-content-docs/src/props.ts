@@ -157,6 +157,7 @@ export function toTagDocListProp({
     label: tag.label,
     permalink: tag.permalink,
     allTagsPath,
+    count: tag.docIds.length,
     items: toDocListProp(),
   };
 }

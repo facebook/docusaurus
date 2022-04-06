@@ -603,7 +603,7 @@ export type TagsListItem = Tag & {
 };
 
 /** What the tag's own page should know about the tag. */
-export type TagModule = Tag & {
+export type TagModule = TagsListItem & {
   /** The tags list page's permalink. */
   allTagsPath: string;
 };

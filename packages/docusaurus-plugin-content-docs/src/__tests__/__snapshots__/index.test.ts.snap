@@ -717,6 +717,7 @@ exports[`simple website content: data 1`] = `
   \\"label\\": \\"tag 1\\",
   \\"permalink\\": \\"/docs/tags/tag-1\\",
   \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 2,
   \\"items\\": [
     {
       \\"id\\": \\"foo/baz\\",
@@ -736,6 +737,7 @@ exports[`simple website content: data 1`] = `
   \\"label\\": \\"tag 2\\",
   \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\",
   \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 1,
   \\"items\\": [
     {
       \\"id\\": \\"foo/baz\\",
@@ -749,6 +751,7 @@ exports[`simple website content: data 1`] = `
   \\"label\\": \\"tag 3\\",
   \\"permalink\\": \\"/docs/tags/tag-3\\",
   \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 1,
   \\"items\\": [
     {
       \\"id\\": \\"hello\\",
@@ -3175,6 +3178,7 @@ exports[`versioned website content: data 1`] = `
   \\"label\\": \\"barTag 1\\",
   \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\",
   \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
   \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",
@@ -3188,6 +3192,7 @@ exports[`versioned website content: data 1`] = `
   \\"label\\": \\"barTag-2\\",
   \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\",
   \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
   \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",
@@ -3201,6 +3206,7 @@ exports[`versioned website content: data 1`] = `
   \\"label\\": \\"barTag 3\\",
   \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\",
   \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
   \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",

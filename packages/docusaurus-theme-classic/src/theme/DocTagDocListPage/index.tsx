@@ -57,7 +57,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
       description: 'The title of the page for a docs tag',
       message: '{nDocsTagged} with "{tagName}"',
     },
-    {nDocsTagged: nDocsTaggedPlural(tag.items.length), tagName: tag.label},
+    {nDocsTagged: nDocsTaggedPlural(tag.count), tagName: tag.label},
   );
 
   return (

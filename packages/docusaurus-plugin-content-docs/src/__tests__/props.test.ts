@@ -54,6 +54,7 @@ describe('toTagDocListProp', () => {
 
     expect(result).toEqual({
       allTagsPath,
+      count: 2,
       label: tag.label,
       permalink: tag.permalink,
       items: [doc3, doc1], // docs sorted by title, ignore "id5" absence

@@ -343,6 +343,7 @@ export default async function pluginContentBlog(
               label: tag.label,
               permalink: tag.permalink,
               allTagsPath: blogTagsListPath,
+              count: tag.items.length,
             };
             const tagPropPath = await createData(
               `${docuHash(metadata.permalink)}.json`,
