@@ -27,9 +27,15 @@ export type PluginConfig =
   | string
   | [string, PluginOptions]
   | [PluginModule, PluginOptions]
-  | PluginModule;
+  | PluginModule
+  | false
+  | null;
 
-export type PresetConfig = string | [string, {[key: string]: unknown}];
+export type PresetConfig =
+  | string
+  | [string, {[key: string]: unknown}]
+  | false
+  | null;
 
 export type ThemeConfig = {
   [key: string]: unknown;
