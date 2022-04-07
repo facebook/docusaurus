@@ -493,6 +493,12 @@ export type RouteConfig = {
    * `createData`)
    */
   modules?: RouteModules;
+  /**
+   * The route context will wrap the `component`. Use `useRouteContext` to
+   * retrieve what's declared here. Note that all custom route context declared
+   * here will be namespaced under {@link RouteContext.data}.
+   */
+  context?: RouteModules;
   /** Nested routes config. */
   routes?: RouteConfig[];
   /** React router config option: `exact` routes would not match subroutes. */
