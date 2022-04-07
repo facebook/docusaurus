@@ -8,10 +8,7 @@
 import {jest} from '@jest/globals';
 import path from 'path';
 import {cliDocsVersionCommand} from '../cli';
-import type {
-  PathOptions,
-  SidebarOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import fs from 'fs-extra';
 import {
   getVersionedDocsDirPath,
@@ -26,7 +23,8 @@ describe('docsVersion', () => {
   const simpleSiteDir = path.join(fixtureDir, 'simple-site');
   const versionedSiteDir = path.join(fixtureDir, 'versioned-site');
 
-  const DEFAULT_OPTIONS: PathOptions & SidebarOptions = {
+  const DEFAULT_OPTIONS: PluginOptions = {
+    id: 'default',
     path: 'docs',
     sidebarPath: '',
     sidebarCollapsed: true,
@@ -35,32 +33,19 @@ describe('docsVersion', () => {
 
   it('no version tag provided', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        null,
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand(null, DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        undefined,
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand(undefined, DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        '',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('', DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: no version tag specified! Pass the version you wish to create as an argument, for example: 1.0.0."`,
     );
@@ -68,22 +53,16 @@ describe('docsVersion', () => {
 
   it('version tag should not have slash', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        'foo/bar',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('foo/bar', DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowError(
       '[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.',
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        'foo\\bar',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('foo\\bar', DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowError(
       '[docs]: invalid version tag specified! Do not include slash (/) or backslash (\\). Try something like: 1.0.0.',
     );
@@ -91,12 +70,9 @@ describe('docsVersion', () => {
 
   it('version tag should not be too long', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        'a'.repeat(255),
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('a'.repeat(255), DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Length cannot exceed 32 characters. Try something like: 1.0.0."`,
     );
@@ -104,22 +80,12 @@ describe('docsVersion', () => {
 
   it('version tag should not be a dot or two dots', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        '..',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('..', DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        '.',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('.', DEFAULT_OPTIONS, {siteDir: simpleSiteDir}),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Do not name your version \\".\\" or \\"..\\". Try something like: 1.0.0."`,
     );
@@ -127,32 +93,23 @@ describe('docsVersion', () => {
 
   it('version tag should be a valid pathname', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        '<foo|bar>',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('<foo|bar>', DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        'foo\x00bar',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('foo\x00bar', DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
     await expect(() =>
-      cliDocsVersionCommand(
-        'foo:bar',
-        simpleSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('foo:bar', DEFAULT_OPTIONS, {
+        siteDir: simpleSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0."`,
     );
@@ -160,12 +117,9 @@ describe('docsVersion', () => {
 
   it('version tag already exist', async () => {
     await expect(() =>
-      cliDocsVersionCommand(
-        '1.0.0',
-        versionedSiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('1.0.0', DEFAULT_OPTIONS, {
+        siteDir: versionedSiteDir,
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"[docs]: this version already exists! Use a version tag that does not already exist."`,
     );
@@ -174,14 +128,12 @@ describe('docsVersion', () => {
   it('no docs file to version', async () => {
     const emptySiteDir = path.join(fixtureDir, 'empty-site');
     await expect(() =>
-      cliDocsVersionCommand(
-        '1.0.0',
-        emptySiteDir,
-        DEFAULT_PLUGIN_ID,
-        DEFAULT_OPTIONS,
-      ),
+      cliDocsVersionCommand('1.0.0', DEFAULT_OPTIONS, {
+        siteDir: emptySiteDir,
+        i18n: {locales: ['en', 'zh-Hans'], defaultLocale: 'en'},
+      }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"[docs]: no docs found in <PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs."`,
+      `"[docs]: no docs found in [36m[4m\\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/empty-site/docs\\"[24m[39m."`,
     );
   });
 
@@ -205,17 +157,25 @@ describe('docsVersion', () => {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(simpleSiteDir, 'sidebars.json'),
     };
-    await cliDocsVersionCommand(
-      '1.0.0',
-      simpleSiteDir,
-      DEFAULT_PLUGIN_ID,
-      options,
-    );
+    await cliDocsVersionCommand('1.0.0', options, {
+      siteDir: simpleSiteDir,
+      i18n: {locales: ['en', 'zh-Hans'], defaultLocale: 'en'},
+    });
     expect(copyMock).toHaveBeenCalledWith(
       path.join(simpleSiteDir, options.path),
       path.join(
         getVersionedDocsDirPath(simpleSiteDir, DEFAULT_PLUGIN_ID),
         'version-1.0.0',
+      ),
+    );
+    expect(copyMock).toHaveBeenCalledWith(
+      path.join(
+        simpleSiteDir,
+        'i18n/zh-Hans/docusaurus-plugin-content-docs/current',
+      ),
+      path.join(
+        simpleSiteDir,
+        'i18n/zh-Hans/docusaurus-plugin-content-docs/version-1.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
@@ -256,16 +216,15 @@ describe('docsVersion', () => {
       versions = JSON.parse(content as string);
     });
     const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const warnMock = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
       sidebarPath: path.join(versionedSiteDir, 'sidebars.json'),
     };
-    await cliDocsVersionCommand(
-      '2.0.0',
-      versionedSiteDir,
-      DEFAULT_PLUGIN_ID,
-      options,
-    );
+    await cliDocsVersionCommand('2.0.0', options, {
+      siteDir: versionedSiteDir,
+      i18n: {locales: ['en', 'zh-Hans'], defaultLocale: 'en'},
+    });
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
@@ -289,7 +248,11 @@ describe('docsVersion', () => {
         /.*\[SUCCESS\].*\[docs\].*: version .*2\.0\.0.* created!.*/,
       ),
     );
+    expect(warnMock.mock.calls[0][0]).toMatchInlineSnapshot(
+      `"[33m[1m[WARNING][22m [docs]: no docs found in [36m[4m\\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-site/i18n/zh-Hans/docusaurus-plugin-content-docs/current\\"[24m[39m[33m. Skipping.[39m"`,
+    );
 
+    warnMock.mockRestore();
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
@@ -315,15 +278,29 @@ describe('docsVersion', () => {
     const consoleMock = jest.spyOn(console, 'log').mockImplementation(() => {});
     const options = {
       ...DEFAULT_OPTIONS,
+      id: pluginId,
       path: 'community',
       sidebarPath: path.join(versionedSiteDir, 'community_sidebars.json'),
     };
-    await cliDocsVersionCommand('2.0.0', versionedSiteDir, pluginId, options);
+    await cliDocsVersionCommand('2.0.0', options, {
+      siteDir: versionedSiteDir,
+      i18n: {locales: ['en', 'fr'], defaultLocale: 'en'},
+    });
     expect(copyMock).toHaveBeenCalledWith(
       path.join(versionedSiteDir, options.path),
       path.join(
         getVersionedDocsDirPath(versionedSiteDir, pluginId),
         'version-2.0.0',
+      ),
+    );
+    expect(copyMock).toHaveBeenCalledWith(
+      path.join(
+        versionedSiteDir,
+        'i18n/fr/docusaurus-plugin-content-docs-community/current',
+      ),
+      path.join(
+        versionedSiteDir,
+        'i18n/fr/docusaurus-plugin-content-docs-community/version-2.0.0',
       ),
     );
     expect(versionedSidebar).toMatchSnapshot();
