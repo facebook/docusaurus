@@ -20,7 +20,6 @@ exports[`loadRoutes loads flat route config 1`] = `
   "routesChunkNames": {
     "/blog-599": {
       "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
-      "__context": {},
       "items": [
         {
           "content": "content---blog-0-b-4-09e",
@@ -80,7 +79,6 @@ exports[`loadRoutes loads nested route config 1`] = `
     },
     "/docs:route-502": {
       "__comp": "__comp---theme-doc-page-1-be-9be",
-      "__context": {},
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
     "docs/foo/baz-eb2": {
@@ -140,7 +138,6 @@ exports[`loadRoutes loads route config with empty (but valid) path string 1`] = 
   "routesChunkNames": {
     "-b2a": {
       "__comp": "__comp---hello-world-jse-0-f-b6c",
-      "__context": {},
     },
   },
   "routesConfig": "import React from 'react';
