@@ -1746,6 +1746,15 @@ const Users: User[] = [
     tags: ['opensource', 'favorite', 'design', 'large', 'product'],
   },
   {
+    title: 'Synergies',
+    description:
+      'A performant and distributed state library for creating reusable React state logic by synergyzing atomar context pieces',
+    preview: require('./showcase/synergies.png'),
+    website: 'https://synergies.js.org',
+    source: 'https://github.com/lukasbach/synergies/tree/main/packages/docs',
+    tags: ['opensource', 'design'],
+  },
+  {
     title: 'T-Regx',
     description: 'Programmer-oriented Regular Expressions library for PHP',
     preview: require('./showcase/t-regx.png'),
