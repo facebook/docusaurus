@@ -212,6 +212,7 @@ describe('normalizeConfig', () => {
       'should accept [function, object] for theme',
       [[function theme() {}, {it: 'should work'}]],
     ],
+    ['should accept false/null for themes', [false, null, 'classic']],
   ])(`%s for the input of: %p`, (_message, themes) => {
     expect(() => {
       normalizeConfig({
