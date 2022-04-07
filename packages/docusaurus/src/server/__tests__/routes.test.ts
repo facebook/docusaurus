@@ -117,6 +117,9 @@ describe('loadRoutes', () => {
             content: 'docs/hello.md',
             metadata: 'docs-hello-da2.json',
           },
+          context: {
+            plugin: 'pluginRouteContextModule-100.json',
+          },
           sidebar: 'main',
         },
         {
@@ -125,6 +128,9 @@ describe('loadRoutes', () => {
           modules: {
             content: 'docs/foo/baz.md',
             metadata: 'docs-foo-baz-dd9.json',
+          },
+          context: {
+            plugin: 'pluginRouteContextModule-100.json',
           },
           sidebar: 'secondary',
           'key:a': 'containing colon',

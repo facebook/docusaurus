@@ -78,12 +78,13 @@ describe('normalization', () => {
       `"Invalid sidebar items collection [36m\`\\"bar\\"\`[39m in [36m\`items\`[39m of the category [34m[1mCategory[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
     );
 
-    expect(() =>
-      normalizeSidebars({
-        sidebar: 'item',
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(
+    expect(
+      () =>
+        normalizeSidebars({
+          sidebar: 'item',
+        }),
       // cSpell:ignore msidebar
+    ).toThrowErrorMatchingInlineSnapshot(
       `"Invalid sidebar items collection [36m\`\\"item\\"\`[39m in sidebar [34m[1msidebar[22m[39m: it must either be an array of sidebar items or a shorthand notation (which doesn't contain a [36m\`type\`[39m property). See [36m[4mhttps://docusaurus.io/docs/sidebar/items[24m[39m for all valid syntaxes."`,
     );
   });
