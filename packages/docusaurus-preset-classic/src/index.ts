@@ -29,7 +29,7 @@ export default function preset(
   opts: Options = {},
 ): Preset {
   const {siteConfig} = context;
-  const {themeConfig} = siteConfig;
+  const {themeConfig, baseUrl} = siteConfig;
   const {algolia} = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
   const {
@@ -84,7 +84,8 @@ export default function preset(
   }
   if (isProd && sitemap !== false) {
     if (isDebugEnabled) {
-      (sitemap.ignorePatterns ||= []).push(`/${debugPluginRouteBasePath}/**`);
+      sitemap.ignorePatterns ??= [];
+      sitemap.ignorePatterns.push(`${baseUrl}${debugPluginRouteBasePath}/**`);
     }
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
   }
