@@ -15,6 +15,7 @@ import type {
   GlobalData,
   LoadedPlugin,
   InitializedPlugin,
+  PluginRouteContext,
 } from '@docusaurus/types';
 import {initPlugins} from './init';
 import {createBootstrapPlugin, createMDXFallbackPlugin} from './synthetic';
@@ -107,10 +108,14 @@ export async function loadPlugins(context: LoadContext): Promise<{
         dataDir,
         `${docuHash('pluginRouteContextModule')}.json`,
       );
+      const pluginRouteContext: PluginRouteContext['plugin'] = {
+        name: plugin.name,
+        id: pluginId,
+      };
       await generate(
         '/',
         pluginRouteContextModulePath,
-        JSON.stringify({name: plugin.name, id: pluginId}, null, 2),
+        JSON.stringify(pluginRouteContext, null, 2),
       );
       const actions: PluginContentLoadedActions = {
         addRoute(initialRouteConfig) {
