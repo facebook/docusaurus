@@ -19,13 +19,13 @@ export default function HtmlNavbarItem({
   const Comp = isDropdownItem ? 'li' : 'div';
   return (
     <Comp
-      className={
-        clsx(
-          !mobile && !isDropdownItem && 'navbar__item',
-          mobile && 'menu__list-item',
-          className,
-        ) || undefined
-      }
+      className={clsx(
+        {
+          navbar__item: !mobile && !isDropdownItem,
+          'menu__list-item': mobile,
+        },
+        className,
+      )}
       dangerouslySetInnerHTML={{__html: value}}
     />
   );
