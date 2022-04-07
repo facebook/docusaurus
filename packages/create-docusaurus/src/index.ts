@@ -417,6 +417,12 @@ export default async function init(
   code=${`${pkgManager} install`}`;
       process.exit(0);
     }
+  } else {
+    shell.cd(dest);
+    // create .npmrc
+    if (pkgManager === 'npm') {
+      fs.writeFile('.npmrc', 'legacy-peer-deps=true');
+    }
   }
 
   const useNpm = pkgManager === 'npm';
