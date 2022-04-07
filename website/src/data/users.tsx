@@ -20,13 +20,15 @@ import {sortBy} from '@site/src/utils/jsUtils';
  *
  * Instructions:
  * - Add your site in the json array below
+ * - `title` is your project's name (no need for the "Docs" suffix)
+ * - A short (≤120 characters) description of your project
+ * - Use relevant tags to categorize your site (read the tag descriptions below)
  * - Add a local image preview (decent screenshot of your Docusaurus site)
- * - Use relevant tags to qualify your site (read the tag descriptions below)
  * - The image MUST be added to the GitHub repository, and use `require("img")`
  * - The image has to have minimum width 640 and an aspect of no wider than 2:1
- * - Open a PR and check for reported CI errors
  * - If your website is open-source, add your source link. The link should open
  *   to a directory containing the `docusaurus.config.js` file
+ * - Open a PR and check for reported CI errors
  *
  * Example PR: https://github.com/facebook/docusaurus/pull/3976
  *
@@ -38,7 +40,7 @@ import {sortBy} from '@site/src/utils/jsUtils';
  *
  * Please help us maintain this showcase page data:
  * - Update sites with wrong data
- * - Ensure site tags remains correct over time
+ * - Ensure site tags remain correct over time
  * - Remove sites not using Docusaurus anymore
  * - Add missing Docusaurus sites (if the site owner agreed)
  */
@@ -254,9 +256,8 @@ const Users: User[] = [
     tags: ['opensource', 'large'],
   },
   {
-    title: 'Blink Shell Docs',
-    description:
-      'Documentation for Blink Shell a professional, desktop grade terminal for iOS',
+    title: 'Blink Shell',
+    description: 'A professional, desktop grade terminal for iOS',
     preview: require('./showcase/blinkshell.png'),
     website: 'https://docs.blink.sh/',
     source: 'https://github.com/blinksh/docs',
@@ -313,8 +314,8 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Butterfly Documentation',
-    description: 'The documentation of the note taking app Linwood Butterfly',
+    title: 'Butterfly',
+    description: 'The note taking app Linwood Butterfly',
     preview: require('./showcase/docs-butterfly.png'),
     website: 'https://docs.butterfly.linwood.dev',
     source: 'https://github.com/LinwoodCloud/Butterfly/tree/develop/docs',
@@ -540,7 +541,7 @@ const Users: User[] = [
     tags: ['product'],
   },
   {
-    title: 'Eightshift Docs',
+    title: 'Eightshift',
     description:
       'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
     preview: require('./showcase/eightshift-docs.png'),
@@ -745,14 +746,13 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'hCaptcha.com Docs',
+    title: 'hCaptcha',
     description: 'hCaptcha.com anti-bot service docs',
     preview: require('./showcase/hcaptcha.png'),
     website: 'https://docs.hcaptcha.com/',
     source: null,
     tags: ['product'],
   },
-
   {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
@@ -814,7 +814,7 @@ const Users: User[] = [
   {
     title: 'SeaORM - 🐚 An async & dynamic ORM for Rust',
     description:
-      'SeaORM is a relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
+      'A relational ORM to help you build web services in Rust with the familiarity of dynamic languages.',
     preview: require('./showcase/SeaORM.png'),
     website: 'https://www.sea-ql.org/SeaORM/',
     source: 'https://github.com/SeaQL/seaql.github.io',
@@ -823,7 +823,7 @@ const Users: User[] = [
   {
     title: 'Ionic',
     description:
-      'Ionic is an open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
+      'An open source UI toolkit for building performant, high-quality mobile and desktop apps using web technologies.',
     preview: require('./showcase/ionic.png'),
     website: 'https://ionicframework.com/docs',
     source: 'https://github.com/ionic-team/ionic-docs',
@@ -848,7 +848,7 @@ const Users: User[] = [
   {
     title: 'Jest',
     description:
-      'Jest is a delightful JavaScript Testing Framework with a focus on simplicity.',
+      'A delightful JavaScript Testing Framework with a focus on simplicity.',
     preview: require('./showcase/jest.png'),
     website: 'https://jestjs.io/',
     source: 'https://github.com/facebook/jest/tree/master/website',
@@ -1009,7 +1009,7 @@ const Users: User[] = [
   {
     title: 'Molecule',
     description:
-      'Molecule is a lightweight Web IDE UI framework built with React.js and inspired by VS Code.',
+      'A lightweight Web IDE UI framework built with React.js and inspired by VS Code.',
     preview: require('./showcase/molecule-home.png'),
     website: 'https://dtstack.github.io/molecule/',
     source: 'https://github.com/DTStack/molecule/tree/main/website',
@@ -1035,9 +1035,8 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'i18n', 'design'],
   },
   {
-    title: 'nanos world documentation',
-    description:
-      'nanos world is the next-generation multiplayer open world sandbox game.',
+    title: 'nanos world',
+    description: 'The next-generation multiplayer open world sandbox game.',
     preview: require('./showcase/nanos-world.png'),
     website: 'https://docs.nanos.world/',
     source: 'https://github.com/nanos-world/docs',
@@ -1586,8 +1585,7 @@ const Users: User[] = [
   },
   {
     title: 'Sapphire',
-    description:
-      'Sapphire is a next-gen object-oriented Discord.js bot framework.',
+    description: 'A next-gen object-oriented Discord.js bot framework.',
     preview: require('./showcase/sapphire.png'),
     website: 'https://www.sapphirejs.dev',
     source: 'https://github.com/sapphiredev/website',
@@ -1620,7 +1618,7 @@ const Users: User[] = [
     tags: ['opensource', 'large', 'versioning', 'i18n'],
   },
   {
-    title: 'Shabad OS Docs',
+    title: 'Shabad OS',
     description:
       'Browse the latest docs, including tutorial guides, sample code, product articles, and API references',
     preview: require('./showcase/shabados.png'),
@@ -1874,7 +1872,7 @@ const Users: User[] = [
     tags: ['opensource'],
   },
   {
-    title: 'Warrant Docs',
+    title: 'Warrant',
     description:
       'APIs and devtools for implementing authorization and access control.',
     preview: require('./showcase/warrant.png'),
@@ -1919,7 +1917,7 @@ const Users: User[] = [
   },
   {
     title: 'WoodpeckerCI',
-    description: 'Woodpecker is a simple CI engine with great extensibility.',
+    description: 'A simple CI engine with great extensibility.',
     preview: require('./showcase/woodpecker.png'),
     website: 'https://woodpecker-ci.org/',
     source: 'https://github.com/woodpecker-ci/woodpecker/tree/master/docs',
@@ -1928,7 +1926,7 @@ const Users: User[] = [
   {
     title: 'KubeVela',
     description:
-      "KubeVela is a modern application engine that adapts to your application's needs, not the other way around.",
+      "A modern application engine that adapts to your application's needs, not the other way around.",
     preview: require('./showcase/kubevela.png'),
     website: 'https://kubevela.io/',
     source: 'https://github.com/oam-dev/kubevela.io',
