@@ -252,6 +252,7 @@ describe('docsVersion', () => {
       `"[33m[1m[WARNING][22m [docs]: no docs found in [36m[4m\\"<PROJECT_ROOT>/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/versioned-site/i18n/zh-Hans/docusaurus-plugin-content-docs/current\\"[24m[39m[33m. Skipping.[39m"`,
     );
 
+    warnMock.mockRestore();
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
