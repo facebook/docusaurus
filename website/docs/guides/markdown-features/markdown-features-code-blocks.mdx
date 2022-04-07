@@ -32,28 +32,6 @@ function HelloCodeTitle(props) {
 
 </BrowserWindow>
 
-## Code line numbering
-
-You can enable line numbering for your code block by using `showLineNumbers` key within the language meta string (don't forget to add space directly before the key).
-
-````md
-```jsx showLineNumbers
-function PageLayout(props) {
-  return <Layout title="Awesome Docusaurus page" description="Just one more awesome page on my Docusaurus site">;
-}
-```
-````
-
-<BrowserWindow>
-
-```jsx showLineNumbers
-function PageLayout(props) {
-  return <Layout title="Awesome Docusaurus page" description="Just one more awesome page on my Docusaurus site">;
-}
-```
-
-</BrowserWindow>
-
 ## Syntax highlighting {#syntax-highlighting}
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for the specifications of MDX.
@@ -296,6 +274,44 @@ Prefer highlighting with comments where you can. By inlining highlight in the co
 In the future, we may extend the magic comment system and let you define custom directives and their functionalities. The magic comments would only be parsed if a highlight metastring is not present.
 
 :::
+
+## Line numbering {#line-numbering}
+
+You can enable line numbering for your code block by using `showLineNumbers` key within the language meta string (don't forget to add space directly before the key).
+
+````md
+```jsx {1,4-6,11} showLineNumbers
+import React from 'react';
+
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
+
+  return <div>Foo</div>;
+}
+
+export default MyComponent;
+```
+````
+
+<BrowserWindow>
+
+```jsx {1,4-6,11} showLineNumbers
+import React from 'react';
+
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
+
+  return <div>Foo</div>;
+}
+
+export default MyComponent;
+```
+
+</BrowserWindow>
 
 ## Interactive code editor {#interactive-code-editor}
 
