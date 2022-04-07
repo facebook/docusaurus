@@ -54,9 +54,10 @@ describe('toTagDocListProp', () => {
 
     expect(result).toEqual({
       allTagsPath,
-      name: tag.label,
+      count: 2,
+      label: tag.label,
       permalink: tag.permalink,
-      docs: [doc3, doc1], // docs sorted by title, ignore "id5" absence
+      items: [doc3, doc1], // docs sorted by title, ignore "id5" absence
     });
   });
 });

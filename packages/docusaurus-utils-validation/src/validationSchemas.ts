@@ -7,7 +7,7 @@
 
 import Joi from './Joi';
 import {isValidPathname, DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import type {Tag} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
 import {JoiFrontMatter} from './JoiFrontMatter';
 
 export const PluginIdSchema = Joi.string()

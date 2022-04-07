@@ -8,13 +8,14 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 import type {Sidebars} from './sidebars/types';
-import type {BrokenMarkdownLink, Tag} from '@docusaurus/utils';
+import type {BrokenMarkdownLink} from '@docusaurus/utils';
 import type {
   VersionMetadata,
   LastUpdateData,
   DocMetadata,
   CategoryGeneratedIndexMetadata,
 } from '@docusaurus/plugin-content-docs';
+import type {Tag} from '@docusaurus/types';
 
 export type DocFile = {
   contentPath: string; // /!\ may be localized
@@ -33,7 +34,7 @@ export type VersionTag = Tag & {
   docIds: string[];
 };
 export type VersionTags = {
-  [key: string]: VersionTag;
+  [permalink: string]: VersionTag;
 };
 
 export type LoadedVersion = VersionMetadata & {

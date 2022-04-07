@@ -137,7 +137,7 @@ export function toTagDocListProp({
 }: {
   allTagsPath: string;
   tag: VersionTag;
-  docs: Pick<DocMetadata, 'id' | 'title' | 'description' | 'permalink'>[];
+  docs: DocMetadata[];
 }): PropTagDocList {
   function toDocListProp(): PropTagDocListDoc[] {
     const list = _.compact(
@@ -154,9 +154,10 @@ export function toTagDocListProp({
   }
 
   return {
-    name: tag.label,
+    label: tag.label,
     permalink: tag.permalink,
-    docs: toDocListProp(),
     allTagsPath,
+    count: tag.docIds.length,
+    items: toDocListProp(),
   };
 }

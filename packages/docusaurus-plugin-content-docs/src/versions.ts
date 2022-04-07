@@ -133,7 +133,7 @@ export async function readVersionNames(
   return versions;
 }
 
-function getDocsDirPathLocalized({
+export function getDocsDirPathLocalized({
   siteDir,
   locale,
   pluginId,
@@ -143,7 +143,7 @@ function getDocsDirPathLocalized({
   locale: string;
   pluginId: string;
   versionName: string;
-}) {
+}): string {
   return getPluginI18nPath({
     siteDir,
     locale,

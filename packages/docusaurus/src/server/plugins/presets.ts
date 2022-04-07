@@ -33,6 +33,9 @@ export async function loadPresets(
   presets.forEach((presetItem) => {
     let presetModuleImport: string;
     let presetOptions = {};
+    if (!presetItem) {
+      return;
+    }
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
     } else {
@@ -53,10 +56,10 @@ export async function loadPresets(
     );
 
     if (preset.plugins) {
-      plugins.push(...preset.plugins.filter(Boolean));
+      plugins.push(...preset.plugins);
     }
     if (preset.themes) {
-      themes.push(...preset.themes.filter(Boolean));
+      themes.push(...preset.themes);
     }
   });
 

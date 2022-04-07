@@ -66,19 +66,26 @@ exports[`loadRoutes loads nested route config 1`] = `
     "docsMetadata---docs-routef-34-881": "docs-b5f.json",
     "metadata---docs-foo-baz-2-cf-fa7": "docs-foo-baz-dd9.json",
     "metadata---docs-hello-956-741": "docs-hello-da2.json",
+    "plugin---docs-hello-665-3ca": "pluginRouteContextModule-100.json",
   },
   "routesChunkNames": {
-    "/docs/hello-44b": {
+    "/docs/hello-fcc": {
       "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route-52d": {
+    "/docs:route-502": {
       "__comp": "__comp---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz-070": {
+    "docs/foo/baz-eb2": {
       "__comp": "__comp---theme-doc-item-178-a40",
+      "__context": {
+        "plugin": "plugin---docs-hello-665-3ca",
+      },
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
     },
@@ -89,17 +96,17 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   {
     path: '/docs:route',
-    component: ComponentCreator('/docs:route', '52d'),
+    component: ComponentCreator('/docs:route', '502'),
     routes: [
       {
         path: '/docs/hello',
-        component: ComponentCreator('/docs/hello', '44b'),
+        component: ComponentCreator('/docs/hello', 'fcc'),
         exact: true,
         sidebar: \\"main\\"
       },
       {
         path: 'docs/foo/baz',
-        component: ComponentCreator('docs/foo/baz', '070'),
+        component: ComponentCreator('docs/foo/baz', 'eb2'),
         sidebar: \\"secondary\\",
         \\"key:a\\": \\"containing colon\\",
         \\"key'b\\": \\"containing quote\\",
