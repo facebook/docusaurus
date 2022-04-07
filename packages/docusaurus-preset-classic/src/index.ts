@@ -37,7 +37,7 @@ export default function preset(
     docs,
     blog,
     pages,
-    sitemap,
+    sitemap = {},
     theme,
     googleAnalytics,
     gtag,
@@ -84,7 +84,7 @@ export default function preset(
   }
   if (isProd && sitemap !== false) {
     if (isDebugEnabled) {
-      sitemap?.ignorePatterns?.push(`/${debugPluginRouteBasePath}/**`);
+      (sitemap.ignorePatterns ||= []).push(`/${debugPluginRouteBasePath}/**`);
     }
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
   }
