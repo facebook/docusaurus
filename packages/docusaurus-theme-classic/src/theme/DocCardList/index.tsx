@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import clsx from 'clsx';
 
 import DocCard from '@theme/DocCard';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
@@ -29,7 +30,12 @@ export default function DocCardList({
   return (
     <div className="row">
       {filterItems(items).map((item, index) => (
-        <article key={index} className="col col--6 margin-bottom--lg">
+        <article
+          key={index}
+          className={clsx(
+            'col col--6',
+            index !== items.length - 1 && 'margin-bottom--lg',
+          )}>
           <DocCard key={index} item={item} />
         </article>
       ))}
