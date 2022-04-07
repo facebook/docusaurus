@@ -392,6 +392,10 @@ export default async function init(
   );
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
+    // create .npmrc
+    if (pkgManager === 'npm') {
+      fs.writeFile('.npmrc', 'legacy-peer-deps=true');
+    }
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
