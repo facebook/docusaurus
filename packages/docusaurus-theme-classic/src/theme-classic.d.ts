@@ -651,6 +651,7 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
+    readonly html?: string;
     readonly prependBaseUrlToHref?: string;
   }
 
