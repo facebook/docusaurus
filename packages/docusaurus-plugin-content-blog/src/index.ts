@@ -26,22 +26,11 @@ import type {
   BlogTag,
   BlogTags,
   BlogContent,
-  BlogItemsToMetadata,
-  TagsModule,
   BlogPaginated,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
-  MetaData,
-  TagModule,
 } from './types';
-import {PluginOptionSchema} from './pluginOptionSchema';
-import type {
-  LoadContext,
-  Plugin,
-  HtmlTags,
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import type {LoadContext, Plugin, HtmlTags} from '@docusaurus/types';
 import {
   generateBlogPosts,
   getSourceToPermalink,
@@ -52,7 +41,9 @@ import {createBlogFeedFiles} from './feed';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
+  BlogPostMetadata,
   Assets,
+  TagModule,
 } from '@docusaurus/plugin-content-blog';
 
 export default async function pluginContentBlog(
@@ -111,7 +102,7 @@ export default async function pluginContentBlog(
       ) as string[];
     },
 
-    async getTranslationFiles() {
+    getTranslationFiles() {
       return getTranslationFiles(options);
     },
 
@@ -214,14 +205,14 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: BlogItemsToMetadata = {};
+      const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      if (archiveBasePath) {
+      if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -301,19 +292,15 @@ export default async function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) =>
-                // To tell routes.js this is an import and not a nested object
-                // to recurse.
-                ({
-                  content: {
-                    __import: true,
-                    path: blogItemsToMetadata[postID].source,
-                    query: {
-                      truncated: true,
-                    },
+              items: items.map((postID) => ({
+                content: {
+                  __import: true,
+                  path: blogItemsToMetadata[postID]!.source,
+                  query: {
+                    truncated: true,
                   },
-                }),
-              ),
+                },
+              })),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
@@ -325,11 +312,10 @@ export default async function pluginContentBlog(
         return;
       }
 
-      const tagsModule: TagsModule = Object.fromEntries(
-        Object.entries(blogTags).map(([tagKey, tag]) => {
+      const tagsModule: {[tagName: string]: TagModule} = Object.fromEntries(
+        Object.entries(blogTags).map(([, tag]) => {
           const tagModule: TagModule = {
             allTagsPath: blogTagsListPath,
-            slug: tagKey,
             name: tag.name,
             count: tag.items.length,
             permalink: tag.permalink,
@@ -359,7 +345,7 @@ export default async function pluginContentBlog(
               modules: {
                 sidebar: aliasedSource(sidebarProp),
                 items: items.map((postID) => {
-                  const blogPostMetadata = blogItemsToMetadata[postID];
+                  const blogPostMetadata = blogItemsToMetadata[postID]!;
                   return {
                     content: {
                       __import: true,
@@ -479,7 +465,7 @@ export default async function pluginContentBlog(
                       metadata,
                     }: {
                       frontMatter: BlogPostFrontMatter;
-                      metadata: MetaData;
+                      metadata: BlogPostMetadata;
                     }): Assets => ({
                       image: frontMatter.image,
                       authorsImageUrls: metadata.authors.map(
@@ -512,6 +498,7 @@ export default async function pluginContentBlog(
         options,
         outDir,
         siteConfig,
+        locale: currentLocale,
       });
     },
 
@@ -546,13 +533,11 @@ export default async function pluginContentBlog(
       const headTags: HtmlTags = [];
 
       feedTypes.forEach((feedType) => {
-        const feedConfig = feedsConfig[feedType] || {};
-
-        if (!feedsConfig) {
-          return;
-        }
-
-        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
+        const {
+          type,
+          path: feedConfigPath,
+          title: feedConfigTitle,
+        } = feedsConfig[feedType];
 
         headTags.push({
           tagName: 'link',
@@ -576,10 +561,4 @@ export default async function pluginContentBlog(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

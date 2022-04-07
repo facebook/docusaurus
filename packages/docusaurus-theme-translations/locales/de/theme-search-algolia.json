@@ -1,6 +1,6 @@
 {
   "theme.SearchBar.label": "Suche",
-  "theme.SearchBar.seeAll": "See all {count} results",
+  "theme.SearchBar.seeAll": "Alle {count} Ergebnisse anzeigen",
   "theme.SearchPage.algoliaLabel": "Suche von Algolia",
   "theme.SearchPage.documentsFound.plurals": "Ein Dokument gefunden|{count} Dokumente gefunden",
   "theme.SearchPage.emptyResultsTitle": "Suche in der Dokumentation",

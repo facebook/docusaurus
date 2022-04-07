@@ -20,7 +20,7 @@ import {useLinksCollector} from '../LinksCollector';
 import {useBaseUrlUtils} from './useBaseUrl';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
 
-import type {LinkProps} from '@docusaurus/Link';
+import type {Props} from '@docusaurus/Link';
 import type docusaurus from '../docusaurus';
 
 declare global {
@@ -46,7 +46,7 @@ function Link(
     'data-noBrokenLinkCheck': noBrokenLinkCheck,
     autoAddBaseUrl = true,
     ...props
-  }: LinkProps,
+  }: Props,
   forwardedRef: React.ForwardedRef<HTMLAnchorElement>,
 ): JSX.Element {
   const {
@@ -98,42 +98,34 @@ function Link(
   }
 
   const preloaded = useRef(false);
-  const LinkComponent = (
-    isNavLink ? NavLink : RRLink
-  ) as ComponentType<LinkProps>;
+  const LinkComponent = (isNavLink ? NavLink : RRLink) as ComponentType<Props>;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
   const ioRef = useRef<IntersectionObserver>();
-  const handleIntersection = (el: HTMLAnchorElement, cb: () => void) => {
-    ioRef.current = new window.IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (el === entry.target) {
-          // If element is in viewport, stop observing and run callback.
-          // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-          if (entry.isIntersecting || entry.intersectionRatio > 0) {
-            ioRef.current!.unobserve(el);
-            ioRef.current!.disconnect();
-            cb();
-          }
-        }
-      });
-    });
 
-    // Add element to the observer.
-    ioRef.current!.observe(el);
-  };
+  const handleRef = (el: HTMLAnchorElement | null) => {
+    innerRef.current = el;
 
-  const handleRef = (ref: HTMLAnchorElement | null) => {
-    innerRef.current = ref;
-
-    if (IOSupported && ref && isInternal) {
+    if (IOSupported && el && isInternal) {
       // If IO supported and element reference found, set up Observer.
-      handleIntersection(ref, () => {
-        if (targetLink != null) {
-          window.docusaurus.prefetch(targetLink);
-        }
+      ioRef.current = new window.IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (el === entry.target) {
+            // If element is in viewport, stop observing and run callback.
+            // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              ioRef.current!.unobserve(el);
+              ioRef.current!.disconnect();
+              if (targetLink != null) {
+                window.docusaurus.prefetch(targetLink);
+              }
+            }
+          }
+        });
       });
+      // Add element to the observer.
+      ioRef.current.observe(el);
     }
   };
 
@@ -163,8 +155,8 @@ function Link(
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (targetLink && isInternal && !isAnchorLink && !noBrokenLinkCheck) {
-    linksCollector.collectLink(targetLink);
+  if (!isRegularHtmlLink && !noBrokenLinkCheck) {
+    linksCollector.collectLink(targetLink!);
   }
 
   return isRegularHtmlLink ? (
@@ -181,7 +173,7 @@ function Link(
       {...props}
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
-      to={targetLink || ''}
+      to={targetLink}
       // avoid "React does not recognize the `activeClassName` prop on a DOM
       // element"
       {...(isNavLink && {isActive, activeClassName})}

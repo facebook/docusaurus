@@ -54,7 +54,7 @@ function HeroBanner() {
             <Translate>Get Started</Translate>
           </Link>
           <Link className="button button--info" to="https://docusaurus.new">
-            <Translate>Playground</Translate>
+            <Translate>Try a Demo</Translate>
           </Link>
           <span className={styles.indexCtasGitHubButtonWrapper}>
             <iframe
@@ -171,6 +171,7 @@ function VideoContainer() {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              loading="lazy"
             />
           </div>
         </div>
@@ -193,9 +194,10 @@ function Feature({
       <img
         className={styles.featureImage}
         alt={feature.title}
-        width={feature.image.width}
-        height={feature.image.height}
+        width={Math.floor(feature.image.width)}
+        height={Math.floor(feature.image.height)}
         src={withBaseUrl(feature.image.src)}
+        loading="lazy"
       />
       <h3 className={clsx(styles.featureHeading)}>{feature.title}</h3>
       <p className="padding-horiz--md">{feature.text}</p>
@@ -230,7 +232,7 @@ function FeaturesContainer() {
   );
 }
 
-function Home(): JSX.Element {
+export default function Home(): JSX.Element {
   const {
     siteConfig: {customFields, tagline},
   } = useDocusaurusContext();
@@ -238,6 +240,15 @@ function Home(): JSX.Element {
   return (
     <Layout title={tagline} description={description}>
       <main>
+        <div>
+          <div className={styles.banner}>
+            Support Ukraine 🇺🇦{' '}
+            <Link to="https://opensource.facebook.com/support-ukraine">
+              Help Provide Humanitarian Aid to Ukraine
+            </Link>
+            .
+          </div>
+        </div>
         <HeroBanner />
         <MigrationAnnouncement />
         <div className={styles.section}>
@@ -250,5 +261,3 @@ function Home(): JSX.Element {
     </Layout>
   );
 }
-
-export default Home;

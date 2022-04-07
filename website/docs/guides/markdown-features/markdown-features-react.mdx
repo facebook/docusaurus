@@ -110,6 +110,8 @@ The `@site` alias points to your website's directory, usually where the `docusau
 While declaring components within Markdown is very convenient for simple cases, it becomes hard to maintain because of limited editor support, risks of parsing errors, and low reusability. Use a separate `.js` file when your component involves complex JS logic:
 
 ```jsx title="src/components/Highlight.js"
+import React from 'react';
+
 export default function Highlight({children, color}) {
   return (
     <span
@@ -352,7 +354,7 @@ Now you can import code snippets from another file as it is:
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!./myComponent';
 
-<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 ```
 <!-- prettier-ignore-end -->
 
@@ -362,7 +364,7 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 
 <BrowserWindow>
 
-<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 
 </BrowserWindow>
 

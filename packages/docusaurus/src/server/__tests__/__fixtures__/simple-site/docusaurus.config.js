@@ -22,4 +22,7 @@ module.exports = {
     ],
     '@docusaurus/plugin-content-pages',
   ],
+  clientModules: [
+    'foo.js'
+  ]
 };

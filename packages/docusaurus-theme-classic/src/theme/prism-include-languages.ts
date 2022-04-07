@@ -8,7 +8,9 @@
 import siteConfig from '@generated/docusaurus.config';
 import type * as PrismNamespace from 'prismjs';
 
-const prismIncludeLanguages = (PrismObject: typeof PrismNamespace): void => {
+export default function prismIncludeLanguages(
+  PrismObject: typeof PrismNamespace,
+): void {
   const {
     themeConfig: {prism},
   } = siteConfig;
@@ -28,6 +30,4 @@ const prismIncludeLanguages = (PrismObject: typeof PrismNamespace): void => {
   });
 
   delete (globalThis as Global & {Prism?: typeof PrismNamespace}).Prism;
-};
-
-export default prismIncludeLanguages;
+}

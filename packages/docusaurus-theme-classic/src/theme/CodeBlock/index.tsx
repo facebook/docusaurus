@@ -8,8 +8,6 @@
 import React, {isValidElement, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import Highlight, {defaultProps, type Language} from 'prism-react-renderer';
-import copy from 'copy-text-to-clipboard';
-import Translate, {translate} from '@docusaurus/Translate';
 import {
   useThemeConfig,
   parseCodeBlockTitle,
@@ -18,6 +16,7 @@ import {
   ThemeClassNames,
   usePrismTheme,
 } from '@docusaurus/theme-common';
+import CopyButton from '@theme/CodeBlock/CopyButton';
 import type {Props} from '@theme/CodeBlock';
 
 import styles from './styles.module.css';
@@ -31,7 +30,6 @@ export default function CodeBlock({
 }: Props): JSX.Element {
   const {prism} = useThemeConfig();
 
-  const [showCopied, setShowCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
   // The Prism theme on SSR is always the default theme but the site theme
   // can be in a different mode. React hydration doesn't update DOM styles
@@ -90,13 +88,6 @@ export default function CodeBlock({
     languageProp ?? parseLanguage(blockClassName) ?? prism.defaultLanguage;
   const {highlightLines, code} = parseLines(content, metastring, language);
 
-  const handleCopyCode = () => {
-    copy(code);
-    setShowCopied(true);
-
-    setTimeout(() => setShowCopied(false), 2000);
-  };
-
   return (
     <Highlight
       {...defaultProps}
@@ -120,16 +111,15 @@ export default function CodeBlock({
               {codeBlockTitle}
             </div>
           )}
-          <div className={clsx(styles.codeBlockContent, language)}>
+          <div className={styles.codeBlockContent} style={style}>
             <pre
               /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */
               tabIndex={0}
-              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}
-              style={style}>
+              className={clsx(className, styles.codeBlock, 'thin-scrollbar')}>
               <code className={styles.codeBlockLines}>
                 {tokens.map((line, i) => {
-                  if (line.length === 1 && line[0].content === '\n') {
-                    line[0].content = '';
+                  if (line.length === 1 && line[0]!.content === '\n') {
+                    line[0]!.content = '';
                   }
 
                   const lineProps = getLineProps({line, key: i});
@@ -150,29 +140,7 @@ export default function CodeBlock({
               </code>
             </pre>
 
-            <button
-              type="button"
-              aria-label={translate({
-                id: 'theme.CodeBlock.copyButtonAriaLabel',
-                message: 'Copy code to clipboard',
-                description: 'The ARIA label for copy code blocks button',
-              })}
-              className={clsx(styles.copyButton, 'clean-btn')}
-              onClick={handleCopyCode}>
-              {showCopied ? (
-                <Translate
-                  id="theme.CodeBlock.copied"
-                  description="The copied button label on code blocks">
-                  Copied
-                </Translate>
-              ) : (
-                <Translate
-                  id="theme.CodeBlock.copy"
-                  description="The copy button label on code blocks">
-                  Copy
-                </Translate>
-              )}
-            </button>
+            <CopyButton code={code} />
           </div>
         </div>
       )}

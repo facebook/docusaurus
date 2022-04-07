@@ -137,7 +137,7 @@ function getPossibleURLs(url) {
       });
     }
 
-    const type = event.data && event.data.type;
+    const type = event.data?.type;
 
     if (type === 'SKIP_WAITING') {
       self.skipWaiting();

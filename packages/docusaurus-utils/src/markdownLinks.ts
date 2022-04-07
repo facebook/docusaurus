@@ -6,41 +6,79 @@
  */
 
 import path from 'path';
+import {getContentPathList} from './dataFileUtils';
 import {aliasedSitePath} from './pathUtils';
 
+/**
+ * Content plugins have a base path and a localized path to source content from.
+ * We will look into the localized path in priority.
+ */
 export type ContentPaths = {
+  /**
+   * The absolute path to the base content directory, like `"<siteDir>/docs"`.
+   */
   contentPath: string;
+  /**
+   * The absolute path to the localized content directory, like
+   * `"<siteDir>/i18n/zh-Hans/plugin-content-docs"`.
+   */
   contentPathLocalized: string;
 };
 
+/** Data structure representing each broken Markdown link to be reported. */
 export type BrokenMarkdownLink<T extends ContentPaths> = {
+  /** Absolute path to the file containing this link. */
   filePath: string;
+  /**
+   * This is generic because it may contain extra metadata like version name,
+   * which the reporter can provide for context.
+   */
   contentPaths: T;
+  /**
+   * The content of the link, like `"./brokenFile.md"`
+   */
   link: string;
 };
 
-export type ReplaceMarkdownLinksParams<T extends ContentPaths> = {
-  siteDir: string;
-  fileString: string;
-  filePath: string;
-  contentPaths: T;
-  sourceToPermalink: Record<string, string>;
-};
-
-export type ReplaceMarkdownLinksReturn<T extends ContentPaths> = {
-  newContent: string;
-  brokenMarkdownLinks: BrokenMarkdownLink<T>[];
-};
-
+/**
+ * Takes a Markdown file and replaces relative file references with their URL
+ * counterparts, e.g. `[link](./intro.md)` => `[link](/docs/intro)`, preserving
+ * everything else.
+ *
+ * This method uses best effort to find a matching file. The file reference can
+ * be relative to the directory of the current file (most likely) or any of the
+ * content paths (so `/tutorials/intro.md` can be resolved as
+ * `<siteDir>/docs/tutorials/intro.md`). Links that contain the `http(s):` or
+ * `@site/` prefix will always be ignored.
+ */
 export function replaceMarkdownLinks<T extends ContentPaths>({
   siteDir,
   fileString,
   filePath,
   contentPaths,
   sourceToPermalink,
-}: ReplaceMarkdownLinksParams<T>): ReplaceMarkdownLinksReturn<T> {
-  const {contentPath, contentPathLocalized} = contentPaths;
-
+}: {
+  /** Absolute path to the site directory, used to resolve aliased paths. */
+  siteDir: string;
+  /** The Markdown file content to be processed. */
+  fileString: string;
+  /** Absolute path to the current file containing `fileString`. */
+  filePath: string;
+  /** The content paths which the file reference may live in. */
+  contentPaths: T;
+  /**
+   * A map from source paths to their URLs. Source paths are `@site` aliased.
+   */
+  sourceToPermalink: {[aliasedPath: string]: string};
+}): {
+  /**
+   * The content with all Markdown file references replaced with their URLs.
+   * Unresolved links are left as-is.
+   */
+  newContent: string;
+  /** The list of broken links,  */
+  brokenMarkdownLinks: BrokenMarkdownLink<T>[];
+} {
   const brokenMarkdownLinks: BrokenMarkdownLink<T>[] = [];
 
   // Replace internal markdown linking (except in fenced blocks).
@@ -48,12 +86,13 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
   let lastCodeFence = '';
   const lines = fileString.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
+      const codeFence = line.trim().match(/^`+/)![0]!;
       if (!fencedBlock) {
         fencedBlock = true;
-        [lastCodeFence] = line.trim().match(/^`+/)!;
+        lastCodeFence = codeFence;
         // If we are in a ````-fenced block, all ``` would be plain text instead
         // of fences
-      } else if (line.trim().match(/^`+/)![0].length >= lastCodeFence.length) {
+      } else if (codeFence.length >= lastCodeFence.length) {
         fencedBlock = false;
       }
     }
@@ -63,21 +102,19 @@ export function replaceMarkdownLinks<T extends ContentPaths>({
 
     let modifiedLine = line;
     // Replace inline-style links or reference-style links e.g:
-    // This is [Document 1](doc1.md) -> we replace this doc1.md with correct
-    // ink
-    // [doc1]: doc1.md -> we replace this doc1.md with correct link
+    // This is [Document 1](doc1.md)
+    // [doc1]: doc1.md
     const mdRegex =
-      /(?:(?:\]\()|(?:\]:\s*))(?!https?:\/\/|@site\/)(?<filename>[^'")\]\s>]+\.mdx?)/g;
+      /(?:\]\(|\]:\s*)(?!https?:\/\/|@site\/)(?<filename>[^'")\]\s>]+\.mdx?)/g;
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       // Replace it to correct html link.
-      const mdLink = mdMatch.groups!.filename;
+      const mdLink = mdMatch.groups!.filename!;
 
       const sourcesToTry = [
-        path.resolve(path.dirname(filePath), decodeURIComponent(mdLink)),
-        `${contentPathLocalized}/${decodeURIComponent(mdLink)}`,
-        `${contentPath}/${decodeURIComponent(mdLink)}`,
-      ];
+        path.dirname(filePath),
+        ...getContentPathList(contentPaths),
+      ].map((p) => path.join(p, decodeURIComponent(mdLink)));
 
       const aliasedSourceMatch = sourcesToTry
         .map((source) => aliasedSitePath(source, siteDir))

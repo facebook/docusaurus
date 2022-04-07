@@ -34,11 +34,11 @@ Our codebase has been polished over time as well. We have improved test coverage
 
 ## Trends
 
-### NPM
+### npm
 
 Docusaurus v2 continues to grow steadily. V2 installation is now 8 times more than v1. In terms of weekly downloads, we have witnessed another three-fold increase (+209.4%), growing from 28,066 in early January to a peak of 86,846 in mid-December.
 
-[![NPM download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
+[![npm download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 (Ah, the classic Christmas dip...)
 
@@ -116,7 +116,7 @@ With the official release of Docusaurus 2.0, we are confident to see much more n
 
 We'd like to express our gratitude to [all the contributors in 2021](https://github.com/facebook/docusaurus/graphs/contributors?from=2021-01-01&to=2022-01-01&type=c), including:
 
-- The core team: [Alexey Pyltsyn](https://github.com/lex111), [Sébastien Lorber](https://github.com/slorber), [Joshua Chen](https://github.com/Josh-Cena), and [Yangshun Tay](https://github/yangshun) for moderating the community, publicizing Docusaurus, triaging issues, and implementing new features
+- The core team: [Alexey Pyltsyn](https://github.com/lex111), [Sébastien Lorber](https://github.com/slorber), [Joshua Chen](https://github.com/Josh-Cena), and [Yangshun Tay](https://github.com/yangshun) for moderating the community, publicizing Docusaurus, triaging issues, and implementing new features
 - [Joel Marcey](https://github.com/JoelMarcey) for creating Docusaurus and supporting its development all along
 - The Algolia team for helping Docusaurus users [migrate to the new DocSearch](../2021-11-21-algolia-docsearch-migration/index.md) and answering search-related questions
 - All the active community members for making valuable code contributions, improving our documentation, and answering questions on Discord

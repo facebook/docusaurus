@@ -31,7 +31,7 @@ const StableEmptyObject = {};
 // Not using useAllPluginInstancesData() because in blog-only mode, docs hooks
 // are still used by the theme. We need a fail-safe fallback when the docs
 // plugin is not in use
-export const useAllDocsData = (): Record<string, GlobalPluginData> =>
+export const useAllDocsData = (): {[pluginId: string]: GlobalPluginData} =>
   useGlobalData()['docusaurus-plugin-content-docs'] ?? StableEmptyObject;
 
 export const useDocsData = (pluginId: string | undefined): GlobalPluginData =>

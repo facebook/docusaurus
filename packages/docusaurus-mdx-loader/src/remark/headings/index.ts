@@ -8,17 +8,15 @@
 /* Based on remark-slug (https://github.com/remarkjs/remark-slug) and gatsby-remark-autolink-headers (https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-remark-autolink-headers) */
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
-import visit, {type Visitor} from 'unist-util-visit';
-import toString from 'mdast-util-to-string';
+import visit from 'unist-util-visit';
+import mdastToString from 'mdast-util-to-string';
 import type {Transformer} from 'unified';
-import type {Parent} from 'unist';
 import type {Heading, Text} from 'mdast';
 
-function headings(): Transformer {
-  const transformer: Transformer = (ast) => {
+export default function plugin(): Transformer {
+  return (root) => {
     const slugs = createSlugger();
-
-    const visitor: Visitor<Heading> = (headingNode) => {
+    visit(root, 'heading', (headingNode: Heading) => {
       const data = headingNode.data || (headingNode.data = {});
       const properties = (data.hProperties || (data.hProperties = {})) as {
         id: string;
@@ -31,10 +29,8 @@ function headings(): Transformer {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
         );
-        const heading = toString(
-          headingTextNodes.length > 0
-            ? ({children: headingTextNodes} as Parent)
-            : headingNode,
+        const heading = mdastToString(
+          headingTextNodes.length > 0 ? headingTextNodes : headingNode,
         );
 
         // Support explicit heading IDs
@@ -69,12 +65,6 @@ function headings(): Transformer {
 
       data.id = id;
       properties.id = id;
-    };
-
-    visit(ast, 'heading', visitor);
+    });
   };
-
-  return transformer;
 }
-
-export default headings;

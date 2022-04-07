@@ -36,7 +36,7 @@ const {
  *
  * cache data is stored in `~/.config/configstore/update-notifier-@docusaurus`
  */
-function beforeCli() {
+export default async function beforeCli() {
   const notifier = updateNotifier({
     pkg: {
       name,
@@ -61,9 +61,9 @@ function beforeCli() {
       notifier.config.set('lastUpdateCheck', 0);
       notifier.check();
     }
-  } catch (e) {
+  } catch (err) {
     // Do not stop cli if this fails, see https://github.com/facebook/docusaurus/issues/5400
-    logger.error(e);
+    logger.error(err);
   }
 
   /**
@@ -72,8 +72,7 @@ function beforeCli() {
    * @param {import('update-notifier').UpdateInfo} update
    */
   function ignoreUpdate(update) {
-    const isCanaryRelease =
-      update && update.current && update.current.startsWith('0.0.0');
+    const isCanaryRelease = update?.current?.startsWith('0.0.0');
     return isCanaryRelease;
   }
 
@@ -98,7 +97,7 @@ function beforeCli() {
       .filter((p) => p.startsWith('@docusaurus'))
       .map((p) => p.concat('@latest'))
       .join(' ');
-    const isYarnUsed = fs.existsSync(path.resolve(process.cwd(), 'yarn.lock'));
+    const isYarnUsed = await fs.pathExists(path.resolve('yarn.lock'));
     const upgradeCommand = isYarnUsed
       ? `yarn upgrade ${siteDocusaurusPackagesForUpdate}`
       : `npm i ${siteDocusaurusPackagesForUpdate}`;
@@ -132,5 +131,3 @@ function beforeCli() {
     process.exit(1);
   }
 }
-
-export default beforeCli;

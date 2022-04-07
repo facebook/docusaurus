@@ -15,7 +15,7 @@ declare module '@docusaurus/theme-search-algolia' {
       appId: string;
       apiKey: string;
       indexName: string;
-      searchParameters: Record<string, unknown>;
+      searchParameters: {[key: string]: unknown};
       searchPagePath: string | false | null;
     };
   };
@@ -27,11 +27,9 @@ declare module '@docusaurus/theme-search-algolia/client' {
 }
 
 declare module '@theme/SearchPage' {
-  const SearchPage: () => JSX.Element;
-  export default SearchPage;
+  export default function SearchPage(): JSX.Element;
 }
 
 declare module '@theme/SearchBar' {
-  const SearchBar: () => JSX.Element;
-  export default SearchBar;
+  export default function SearchBar(): JSX.Element;
 }

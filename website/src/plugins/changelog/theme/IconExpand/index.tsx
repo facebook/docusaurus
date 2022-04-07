@@ -9,7 +9,7 @@ import React from 'react';
 
 import type {Props} from '@theme/IconExpand';
 
-function IconExpand({expanded, ...props}: Props): JSX.Element {
+export default function IconExpand({expanded, ...props}: Props): JSX.Element {
   if (expanded) {
     return (
       <svg
@@ -33,5 +33,3 @@ function IconExpand({expanded, ...props}: Props): JSX.Element {
     </svg>
   );
 }
-
-export default IconExpand;

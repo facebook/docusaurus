@@ -20,15 +20,13 @@ async function removePath(entry: {path: string; description: string}) {
   try {
     await fs.remove(entry.path);
     logger.success`Removed the ${entry.description} at path=${entry.path}.`;
-  } catch (e) {
-    logger.error`Could not remove the ${entry.description} at path=${
-      entry.path
-    }.
-${e as string}`;
+  } catch (err) {
+    logger.error`Could not remove the ${entry.description} at path=${entry.path}.`;
+    logger.error(err);
   }
 }
 
-export default async function clear(siteDir: string): Promise<unknown> {
+export async function clear(siteDir: string): Promise<unknown> {
   const generatedFolder = {
     path: path.join(siteDir, GENERATED_FILES_DIR_NAME),
     description: 'generated folder',

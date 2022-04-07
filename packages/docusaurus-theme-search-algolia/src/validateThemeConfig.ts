@@ -6,16 +6,15 @@
  */
 
 import {Joi} from '@docusaurus/utils-validation';
-import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+import type {
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
 
 export const DEFAULT_CONFIG = {
   // enabled by default, as it makes sense in most cases
   // see also https://github.com/facebook/docusaurus/issues/5880
   contextualSearch: true,
-
-  // By default, all Docusaurus sites are using the same AppId
-  // This has been designed on purpose with Algolia.
-  appId: 'BH4D9OD16A',
 
   searchParameters: {},
   searchPagePath: 'search',
@@ -27,7 +26,10 @@ export const Schema = Joi.object({
     contextualSearch: Joi.boolean().default(DEFAULT_CONFIG.contextualSearch),
     externalUrlRegex: Joi.string().optional(),
     // Algolia attributes
-    appId: Joi.string().default(DEFAULT_CONFIG.appId),
+    appId: Joi.string().required().messages({
+      'any.required':
+        '"algolia.appId" is required. If you haven\'t migrated to the new DocSearch infra, please refer to the blog post for instructions: https://docusaurus.io/blog/2021/11/21/algolia-docsearch-migration',
+    }),
     apiKey: Joi.string().required(),
     indexName: Joi.string().required(),
     searchParameters: Joi.object()
@@ -46,9 +48,6 @@ export const Schema = Joi.object({
 export function validateThemeConfig({
   validate,
   themeConfig,
-}: {
-  validate: Validate<ThemeConfig>;
-  themeConfig: ThemeConfig;
-}): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(Schema, themeConfig);
 }

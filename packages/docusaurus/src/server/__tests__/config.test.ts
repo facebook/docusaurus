@@ -6,86 +6,79 @@
  */
 
 import path from 'path';
-import loadConfig from '../config';
+import {loadSiteConfig} from '../config';
 
-describe('loadConfig', () => {
-  test('website with valid siteConfig', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'simple-site',
-      'docusaurus.config.js',
-    );
-    const config = await loadConfig(siteDir);
+describe('loadSiteConfig', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'config');
+
+  it('website with valid siteConfig', async () => {
+    const config = await loadSiteConfig({
+      siteDir: path.join(__dirname, '__fixtures__', 'simple-site'),
+    });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
-  test('website with valid config creator function', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'configs',
-      'createConfig.config.js',
-    );
-    const config = await loadConfig(siteDir);
+  it('website with valid config creator function', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'createConfig.config.js',
+    });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
-  test('website with valid async config', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'configs',
-      'configAsync.config.js',
-    );
-    const config = await loadConfig(siteDir);
+  it('website with valid async config', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'configAsync.config.js',
+    });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
-  test('website with valid async config creator function', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'configs',
-      'createConfigAsync.config.js',
-    );
-    const config = await loadConfig(siteDir);
+  it('website with valid async config creator function', async () => {
+    const config = await loadSiteConfig({
+      siteDir,
+      customConfigFilePath: 'createConfigAsync.config.js',
+    });
     expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
-  test('website with incomplete siteConfig', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'bad-site',
-      'docusaurus.config.js',
-    );
-    await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
+  it('website with incomplete siteConfig', async () => {
+    await expect(
+      loadSiteConfig({
+        siteDir,
+        customConfigFilePath: 'incomplete.config.js',
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+            "\\"url\\" is required
+            "
+          `);
   });
 
-  test('website with useless field (wrong field) in siteConfig', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'wrong-site',
-      'docusaurus.config.js',
-    );
-    await expect(loadConfig(siteDir)).rejects.toThrowErrorMatchingSnapshot();
+  it('website with useless field (wrong field) in siteConfig', async () => {
+    await expect(
+      loadSiteConfig({
+        siteDir,
+        customConfigFilePath: 'wrong.config.js',
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+            "These field(s) (\\"useLessField\\",) are not recognized in docusaurus.config.js.
+            If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
+            See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
+          `);
   });
 
-  test('website with no siteConfig', async () => {
-    const siteDir = path.join(
-      __dirname,
-      '__fixtures__',
-      'nonExisting',
-      'docusaurus.config.js',
-    );
-    await expect(loadConfig(siteDir)).rejects.toThrowError(
-      /Config file at ".*?__fixtures__[/\\]nonExisting[/\\]docusaurus.config.js" not found.$/,
+  it('website with no siteConfig', async () => {
+    await expect(
+      loadSiteConfig({
+        siteDir,
+        customConfigFilePath: 'nonExistent.config.js',
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Config file at \\"<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/nonExistent.config.js\\" not found."`,
     );
   });
 });

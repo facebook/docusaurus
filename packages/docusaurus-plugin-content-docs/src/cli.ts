@@ -47,8 +47,7 @@ async function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
+    await fs.outputFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -89,7 +88,7 @@ export async function cliDocsVersionCommand(
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
   // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
+  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
     );
@@ -104,8 +103,8 @@ export async function cliDocsVersionCommand(
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
+  if (await fs.pathExists(versionsJSONFile)) {
+    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
   }
 
   // Check if version already exists.
@@ -118,14 +117,17 @@ export async function cliDocsVersionCommand(
   const {path: docsPath, sidebarPath} = options;
 
   // Copy docs files.
-  const docsDir = path.join(siteDir, docsPath);
+  const docsDir = path.resolve(siteDir, docsPath);
 
-  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
+  if (
+    (await fs.pathExists(docsDir)) &&
+    (await fs.readdir(docsDir)).length > 0
+  ) {
     const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
-    fs.copySync(docsDir, newVersionDir);
+    await fs.copy(docsDir, newVersionDir);
   } else {
-    throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
+    throw new Error(`${pluginIdLogPrefix}: no docs found in ${docsDir}.`);
   }
 
   await createVersionedSidebarFile({
@@ -137,8 +139,10 @@ export async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  fs.ensureDirSync(path.dirname(versionsJSONFile));
-  fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
+  await fs.outputFile(
+    versionsJSONFile,
+    `${JSON.stringify(versions, null, 2)}\n`,
+  );
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

@@ -14,7 +14,7 @@ export default (function gtagModule() {
     return null;
   }
 
-  const {trackingID} = globalData['docusaurus-plugin-google-gtag']
+  const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
     .default as PluginOptions;
 
   return {

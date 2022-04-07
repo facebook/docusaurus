@@ -8,17 +8,19 @@
 import {useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import type {Location} from 'history';
-import {usePrevious} from './usePrevious';
-import {useDynamicCallback} from './reactUtils';
+import {useDynamicCallback, usePrevious} from './reactUtils';
 
-type LocationChangeEvent = {
-  location: Location;
-  previousLocation: Location | undefined;
-};
-
-type OnLocationChange = (locationChangeEvent: LocationChangeEvent) => void;
-
-export function useLocationChange(onLocationChange: OnLocationChange): void {
+/**
+ * Fires an effect when the location changes (which includes hash, query, etc.).
+ * Importantly, doesn't fire when there's no previous location: see
+ * https://github.com/facebook/docusaurus/pull/6696
+ */
+export function useLocationChange(
+  onLocationChange: (locationChangeEvent: {
+    location: Location;
+    previousLocation: Location | undefined;
+  }) => void,
+): void {
   const location = useLocation();
   const previousLocation = usePrevious(location);
 

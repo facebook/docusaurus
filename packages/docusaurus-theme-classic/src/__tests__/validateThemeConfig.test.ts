@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {merge} from 'lodash';
+import _ from 'lodash';
 import {ThemeConfigSchema, DEFAULT_CONFIG} from '../validateThemeConfig';
 
 import {normalizeThemeConfig} from '@docusaurus/utils-validation';
 import theme from 'prism-react-renderer/themes/github';
 import darkTheme from 'prism-react-renderer/themes/dracula';
 
-function testValidateThemeConfig(partialThemeConfig: Record<string, unknown>) {
+function testValidateThemeConfig(partialThemeConfig: {[key: string]: unknown}) {
   return normalizeThemeConfig(ThemeConfigSchema, {
     ...DEFAULT_CONFIG,
     ...partialThemeConfig,
   });
 }
 
-function testOk(partialThemeConfig: Record<string, unknown>) {
+function testOk(partialThemeConfig: {[key: string]: unknown}) {
   expect(
     testValidateThemeConfig({...DEFAULT_CONFIG, ...partialThemeConfig}),
   ).toEqual({
@@ -29,7 +29,7 @@ function testOk(partialThemeConfig: Record<string, unknown>) {
 }
 
 describe('themeConfig', () => {
-  test('should accept valid theme config', () => {
+  it('accepts valid theme config', () => {
     const userConfig = {
       prism: {
         theme,
@@ -38,7 +38,7 @@ describe('themeConfig', () => {
         additionalLanguages: ['kotlin', 'java'],
       },
       announcementBar: {
-        id: 'supportus',
+        id: 'supports',
         content: 'pls support',
         backgroundColor: '#fff',
         textColor: '#000',
@@ -101,7 +101,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should allow possible types of navbar items', () => {
+  it('allows possible types of navbar items', () => {
     const config = {
       navbar: {
         items: [
@@ -145,7 +145,7 @@ describe('themeConfig', () => {
               {
                 type: 'doc',
                 docId: 'npm',
-                label: 'NPM',
+                label: 'npm',
               },
               {
                 to: '/yarn',
@@ -199,14 +199,14 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should reject unknown navbar item type', () => {
+  it('rejects unknown navbar item type', () => {
     const config = {
       navbar: {
         items: [
           {
             type: 'joke',
             position: 'left',
-            label: 'haha',
+            label: 'hahaha',
           },
         ],
       },
@@ -216,7 +216,7 @@ describe('themeConfig', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"Bad navbar item type joke"`);
   });
 
-  test('should reject nested dropdowns', () => {
+  it('rejects nested dropdowns', () => {
     const config = {
       navbar: {
         items: [
@@ -243,7 +243,7 @@ describe('themeConfig', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
   });
 
-  test('should reject nested dropdowns 2', () => {
+  it('rejects nested dropdowns 2', () => {
     const config = {
       navbar: {
         items: [
@@ -260,7 +260,7 @@ describe('themeConfig', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"Nested dropdowns are not allowed"`);
   });
 
-  test('should reject position attribute within dropdown', () => {
+  it('rejects position attribute within dropdown', () => {
     const config = {
       navbar: {
         items: [
@@ -285,7 +285,7 @@ describe('themeConfig', () => {
     );
   });
 
-  test('should give friendly error when href and to coexist', () => {
+  it('gives friendly error when href and to coexist', () => {
     const config = {
       navbar: {
         items: [
@@ -305,7 +305,7 @@ describe('themeConfig', () => {
     );
   });
 
-  test('should allow empty alt tags for the logo image in the header', () => {
+  it('allows empty alt tags for the logo image in the header', () => {
     const altTagConfig = {
       navbar: {
         logo: {
@@ -324,7 +324,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should allow empty alt tags for the logo image in the footer', () => {
+  it('allows empty alt tags for the logo image in the footer', () => {
     const partialConfig = {
       footer: {
         logo: {
@@ -344,7 +344,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should allow simple links in footer', () => {
+  it('allows simple links in footer', () => {
     const partialConfig = {
       footer: {
         links: [
@@ -378,7 +378,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should allow footer column with no title', () => {
+  it('allows footer column with no title', () => {
     const partialConfig = {
       footer: {
         links: [
@@ -414,7 +414,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should reject mix of simple and multi-column links in footer', () => {
+  it('rejects mix of simple and multi-column links in footer', () => {
     const partialConfig = {
       footer: {
         links: [
@@ -442,7 +442,7 @@ describe('themeConfig', () => {
     );
   });
 
-  test('should allow width and height specification for logo', () => {
+  it('allows width and height specification for logo', () => {
     const altTagConfig = {
       navbar: {
         logo: {
@@ -463,7 +463,7 @@ describe('themeConfig', () => {
     });
   });
 
-  test('should accept valid prism config', () => {
+  it('accepts valid prism config', () => {
     const prismConfig = {
       prism: {
         additionalLanguages: ['kotlin', 'java'],
@@ -476,25 +476,25 @@ describe('themeConfig', () => {
   });
 
   describe('customCss config', () => {
-    test('should accept customCss undefined', () => {
+    it('accepts customCss undefined', () => {
       testOk({
         customCss: undefined,
       });
     });
 
-    test('should accept customCss string', () => {
+    it('accepts customCss string', () => {
       testOk({
         customCss: './path/to/cssFile.css',
       });
     });
 
-    test('should accept customCss string array', () => {
+    it('accepts customCss string array', () => {
       testOk({
         customCss: ['./path/to/cssFile.css', './path/to/cssFile2.css'],
       });
     });
 
-    test('should reject customCss number', () => {
+    it('rejects customCss number', () => {
       expect(() =>
         testValidateThemeConfig({
           customCss: 42,
@@ -507,36 +507,26 @@ describe('themeConfig', () => {
 
   describe('color mode config', () => {
     const withDefaultValues = (colorMode) =>
-      merge({}, DEFAULT_CONFIG.colorMode, colorMode);
+      _.merge({}, DEFAULT_CONFIG.colorMode, colorMode);
 
-    test('minimal config', () => {
+    it('switch config', () => {
       const colorMode = {
         switchConfig: {
           darkIcon: '🌙',
         },
       };
-      expect(testValidateThemeConfig({colorMode})).toEqual({
-        ...DEFAULT_CONFIG,
-        colorMode: withDefaultValues(colorMode),
-      });
+      expect(() =>
+        testValidateThemeConfig({colorMode}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead."`,
+      );
     });
 
-    test('max config', () => {
+    it('max config', () => {
       const colorMode = {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: true,
-        switchConfig: {
-          darkIcon: '🌙',
-          darkIconStyle: {
-            marginTop: '1px',
-            marginLeft: '2px',
-          },
-          lightIcon: '☀️',
-          lightIconStyle: {
-            marginLeft: '1px',
-          },
-        },
       };
       expect(testValidateThemeConfig({colorMode})).toEqual({
         ...DEFAULT_CONFIG,
@@ -544,7 +534,7 @@ describe('themeConfig', () => {
       });
     });
 
-    test('undefined config', () => {
+    it('undefined config', () => {
       const colorMode = undefined;
       expect(testValidateThemeConfig({colorMode})).toEqual({
         ...DEFAULT_CONFIG,
@@ -552,7 +542,7 @@ describe('themeConfig', () => {
       });
     });
 
-    test('empty config', () => {
+    it('empty config', () => {
       const colorMode = {};
       expect(testValidateThemeConfig({colorMode})).toEqual({
         ...DEFAULT_CONFIG,
@@ -562,143 +552,133 @@ describe('themeConfig', () => {
         },
       });
     });
+  });
 
-    test('empty switch config', () => {
-      const colorMode = {
-        switchConfig: {},
-      };
-      expect(testValidateThemeConfig({colorMode})).toEqual({
+  describe('tableOfContents', () => {
+    it('accepts undefined', () => {
+      const tableOfContents = undefined;
+      expect(testValidateThemeConfig({tableOfContents})).toEqual({
         ...DEFAULT_CONFIG,
-        colorMode: withDefaultValues(colorMode),
+        tableOfContents: {
+          minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+          maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+        },
       });
     });
-  });
-});
 
-describe('themeConfig tableOfContents', () => {
-  test('toc undefined', () => {
-    const tableOfContents = undefined;
-    expect(testValidateThemeConfig({tableOfContents})).toEqual({
-      ...DEFAULT_CONFIG,
-      tableOfContents: {
-        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
-        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
-      },
+    it('accepts empty', () => {
+      const tableOfContents = {};
+      expect(testValidateThemeConfig({tableOfContents})).toEqual({
+        ...DEFAULT_CONFIG,
+        tableOfContents: {
+          minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+          maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+        },
+      });
     });
-  });
 
-  test('toc empty', () => {
-    const tableOfContents = {};
-    expect(testValidateThemeConfig({tableOfContents})).toEqual({
-      ...DEFAULT_CONFIG,
-      tableOfContents: {
-        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
-        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
-      },
-    });
-  });
-
-  test('toc with min', () => {
-    const tableOfContents = {
-      minHeadingLevel: 3,
-    };
-    expect(testValidateThemeConfig({tableOfContents})).toEqual({
-      ...DEFAULT_CONFIG,
-      tableOfContents: {
+    it('accepts min', () => {
+      const tableOfContents = {
         minHeadingLevel: 3,
-        maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
-      },
+      };
+      expect(testValidateThemeConfig({tableOfContents})).toEqual({
+        ...DEFAULT_CONFIG,
+        tableOfContents: {
+          minHeadingLevel: 3,
+          maxHeadingLevel: DEFAULT_CONFIG.tableOfContents.maxHeadingLevel,
+        },
+      });
     });
-  });
 
-  test('toc with max', () => {
-    const tableOfContents = {
-      maxHeadingLevel: 5,
-    };
-    expect(testValidateThemeConfig({tableOfContents})).toEqual({
-      ...DEFAULT_CONFIG,
-      tableOfContents: {
-        minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+    it('accepts max', () => {
+      const tableOfContents = {
         maxHeadingLevel: 5,
-      },
+      };
+      expect(testValidateThemeConfig({tableOfContents})).toEqual({
+        ...DEFAULT_CONFIG,
+        tableOfContents: {
+          minHeadingLevel: DEFAULT_CONFIG.tableOfContents.minHeadingLevel,
+          maxHeadingLevel: 5,
+        },
+      });
     });
-  });
 
-  test('toc with min 2.5', () => {
-    const tableOfContents = {
-      minHeadingLevel: 2.5,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.minHeadingLevel\\" must be an integer"`,
-    );
-  });
+    it('rejects min 2.5', () => {
+      const tableOfContents = {
+        minHeadingLevel: 2.5,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.minHeadingLevel\\" must be an integer"`,
+      );
+    });
 
-  test('toc with max 2.5', () => {
-    const tableOfContents = {
-      maxHeadingLevel: 2.5,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.maxHeadingLevel\\" must be an integer"`,
-    );
-  });
+    it('rejects max 2.5', () => {
+      const tableOfContents = {
+        maxHeadingLevel: 2.5,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.maxHeadingLevel\\" must be an integer"`,
+      );
+    });
 
-  test('toc with min 1', () => {
-    const tableOfContents = {
-      minHeadingLevel: 1,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.minHeadingLevel\\" must be greater than or equal to 2"`,
-    );
-  });
+    it('rejects min 1', () => {
+      const tableOfContents = {
+        minHeadingLevel: 1,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.minHeadingLevel\\" must be greater than or equal to 2"`,
+      );
+    });
 
-  test('toc with min 7', () => {
-    const tableOfContents = {
-      minHeadingLevel: 7,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
-    );
-  });
+    it('rejects min 7', () => {
+      const tableOfContents = {
+        minHeadingLevel: 7,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+      );
+    });
 
-  test('toc with max 1', () => {
-    const tableOfContents = {
-      maxHeadingLevel: 1,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.maxHeadingLevel\\" must be greater than or equal to 2"`,
-    );
-  });
+    it('rejects max 1', () => {
+      const tableOfContents = {
+        maxHeadingLevel: 1,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.maxHeadingLevel\\" must be greater than or equal to 2"`,
+      );
+    });
 
-  test('toc with max 7', () => {
-    const tableOfContents = {
-      maxHeadingLevel: 7,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.maxHeadingLevel\\" must be less than or equal to 6"`,
-    );
-  });
+    it('rejects max 7', () => {
+      const tableOfContents = {
+        maxHeadingLevel: 7,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.maxHeadingLevel\\" must be less than or equal to 6"`,
+      );
+    });
 
-  test('toc with bad min 5 + max 3', () => {
-    const tableOfContents = {
-      minHeadingLevel: 5,
-      maxHeadingLevel: 3,
-    };
-    expect(() =>
-      testValidateThemeConfig({tableOfContents}),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
-    );
+    it('rejects min 5 + max 3', () => {
+      const tableOfContents = {
+        minHeadingLevel: 5,
+        maxHeadingLevel: 3,
+      };
+      expect(() =>
+        testValidateThemeConfig({tableOfContents}),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"\\"tableOfContents.minHeadingLevel\\" must be less than or equal to ref:maxHeadingLevel"`,
+      );
+    });
   });
 });
