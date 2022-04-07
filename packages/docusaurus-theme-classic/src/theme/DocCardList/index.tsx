@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import DocCard from '@theme/DocCard';
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
 import {findFirstCategoryLink} from '@docusaurus/theme-common';
+import type {Props} from '@theme/DocCardList';
 
 // Filter categories that don't have a link.
 function filterItems(items: PropSidebarItem[]): PropSidebarItem[] {
@@ -22,20 +23,18 @@ function filterItems(items: PropSidebarItem[]): PropSidebarItem[] {
   });
 }
 
-export default function DocCardList({
-  items,
-}: {
-  items: PropSidebarItem[];
-}): JSX.Element {
+export default function DocCardList({items, isGenerated}: Props): JSX.Element {
+  const columnSize = 6;
+  const columnCount = 12 / columnSize;
   return (
     <div className="row">
       {filterItems(items).map((item, index) => (
         <article
           key={index}
-          className={clsx(
-            'col col--6',
-            index !== items.length - 1 && 'margin-bottom--lg',
-          )}>
+          className={clsx(`col col--${columnSize}`, {
+            'margin-bottom--lg': !isGenerated,
+            'margin-top--lg': isGenerated && index + 1 > columnCount,
+          })}>
           <DocCard key={index} item={item} />
         </article>
       ))}

@@ -15,32 +15,32 @@ describe('listTagsByLetters', () => {
 
   it('creates letters list', () => {
     const tag1: Tag = {
-      name: 'tag1',
+      label: 'tag1',
       permalink: '/tag1',
       count: 1,
     };
     const tag2: Tag = {
-      name: 'Tag2',
+      label: 'Tag2',
       permalink: '/tag2',
       count: 11,
     };
     const tagZxy: Tag = {
-      name: 'zxy',
+      label: 'zxy',
       permalink: '/zxy',
       count: 987,
     };
     const tagAbc: Tag = {
-      name: 'Abc',
+      label: 'Abc',
       permalink: '/abc',
       count: 123,
     };
     const tagDef: Tag = {
-      name: 'def',
+      label: 'def',
       permalink: '/def',
       count: 1,
     };
     const tagAaa: Tag = {
-      name: 'aaa',
+      label: 'aaa',
       permalink: '/aaa',
       count: 10,
     };

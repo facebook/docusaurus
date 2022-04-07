@@ -107,6 +107,7 @@ exports[`loadPresets mixed form with themes 1`] = `
       "@docusaurus/plugin-test",
       undefined,
     ],
+    false,
   ],
   "themes": [
     [
@@ -121,6 +122,7 @@ exports[`loadPresets mixed form with themes 1`] = `
       "@docusaurus/theme-classic",
       undefined,
     ],
+    null,
   ],
 }
 `;

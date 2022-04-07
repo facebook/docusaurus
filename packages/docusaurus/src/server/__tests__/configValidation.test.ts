@@ -173,6 +173,7 @@ describe('normalizeConfig', () => {
       'should accept [function, object] for plugin',
       [[() => {}, {it: 'should work'}]],
     ],
+    ['should accept false/null for plugin', [false, null, 'classic']],
   ])(`%s for the input of: %p`, (_message, plugins) => {
     expect(() => {
       normalizeConfig({
@@ -211,6 +212,7 @@ describe('normalizeConfig', () => {
       'should accept [function, object] for theme',
       [[function theme() {}, {it: 'should work'}]],
     ],
+    ['should accept false/null for themes', [false, null, 'classic']],
   ])(`%s for the input of: %p`, (_message, themes) => {
     expect(() => {
       normalizeConfig({
@@ -252,6 +254,14 @@ describe('normalizeConfig', () => {
       - A simple string, like \`\\"classic\\"\`
       "
     `);
+  });
+
+  it('accepts presets as false / null', () => {
+    expect(() => {
+      normalizeConfig({
+        presets: [false, null, 'classic'],
+      });
+    }).not.toThrow();
   });
 
   it("throws error if scripts doesn't have src", () => {
