@@ -390,12 +390,20 @@ export default async function init(
     cliOptions.packageManager,
     cliOptions.skipInstall,
   );
+
+  // rename file npmrc to .npmrc
+  if (
+    !(await fs.pathExists(path.join(dest, '.npmrc'))) &&
+    (await fs.pathExists(path.join(dest, 'npmrc')))
+  ) {
+    await fs.move(path.join(dest, 'npmrc'), path.join(dest, '.npmrc'));
+  }
+  if (await fs.pathExists(path.join(dest, 'npmrc'))) {
+    await fs.remove(path.join(dest, 'npmrc'));
+  }
+
   if (!cliOptions.skipInstall) {
     shell.cd(dest);
-    // create .npmrc
-    if (pkgManager === 'npm') {
-      fs.writeFile('.npmrc', 'legacy-peer-deps=true');
-    }
     logger.info`Installing dependencies with name=${pkgManager}...`;
     if (
       shell.exec(
@@ -416,12 +424,6 @@ export default async function init(
   code=${`cd ${cdpath}`}
   code=${`${pkgManager} install`}`;
       process.exit(0);
-    }
-  } else {
-    shell.cd(dest);
-    // create .npmrc
-    if (pkgManager === 'npm') {
-      fs.writeFile('.npmrc', 'legacy-peer-deps=true');
     }
   }
 
