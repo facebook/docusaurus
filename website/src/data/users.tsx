@@ -585,7 +585,8 @@ const Users: User[] = [
   },
   {
     title: 'Files Gallery',
-    description: 'Single-file PHP app that can be dropped into any folder, instantly creating a gallery of files and folders.',
+    description:
+      'Single-file PHP app that can be dropped into any folder, instantly creating a gallery of files and folders.',
     preview: require('./showcase/files-gallery.png'),
     website: 'https://www.files.gallery/',
     source: null,
