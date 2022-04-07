@@ -35,7 +35,7 @@ module.exports = {
 
 ### Module definition {#module-definition}
 
-You can use a plugin as a module path referencing a separate file or NPM package:
+You can use a plugin as a module path referencing a separate file or npm package:
 
 ```js title="docusaurus.config.js"
 module.exports = {

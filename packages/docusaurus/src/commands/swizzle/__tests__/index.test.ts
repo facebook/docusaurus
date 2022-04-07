@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {ThemePath, createTempSiteDir, Components} from './testUtils';
 import tree from 'tree-node-cli';
-import swizzle from '../index';
+import {swizzle} from '../index';
 import {escapePath, Globby, posixPath} from '@docusaurus/utils';
 
 const FixtureThemeName = 'fixture-theme-name';
@@ -91,7 +91,7 @@ async function createTestSite() {
     const siteThemePathPosix = posixPath(siteThemePath);
     expect(tree(siteThemePathPosix)).toMatchSnapshot('theme dir tree');
 
-    const files = Globby.sync(siteThemePathPosix)
+    const files = (await Globby(siteThemePathPosix))
       .map((file) => path.posix.relative(siteThemePathPosix, file))
       .sort();
 

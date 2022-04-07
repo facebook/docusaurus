@@ -7,6 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
+import type {CodeTranslations} from '@docusaurus/types';
 
 function getDefaultLocalesDirPath(): string {
   return path.join(__dirname, '../locales');
@@ -39,7 +40,7 @@ export async function readDefaultCodeTranslationMessages({
   dirPath?: string;
   locale: string;
   name: string;
-}): Promise<{[msgId: string]: string}> {
+}): Promise<CodeTranslations> {
   const localesToTry = codeTranslationLocalesToTry(locale);
 
   // Return the content of the first file that match

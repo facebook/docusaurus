@@ -6,12 +6,11 @@
  */
 
 import type {DocsMarkdownOption} from '../types';
-import {getDocsDirPaths} from '../versions';
-import {replaceMarkdownLinks} from '@docusaurus/utils';
+import {replaceMarkdownLinks, getContentPathList} from '@docusaurus/utils';
 
 function getVersion(filePath: string, options: DocsMarkdownOption) {
   const versionFound = options.versionsMetadata.find((version) =>
-    getDocsDirPaths(version).some((docsDirPath) =>
+    getContentPathList(version).some((docsDirPath) =>
       filePath.startsWith(docsDirPath),
     ),
   );

@@ -11,7 +11,12 @@ import logger from '../index';
 describe('formatters', () => {
   it('path', () => {
     // cSpell:ignore mhey
-    expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4mhey[24m[39m"`);
+    expect(logger.path('hey')).toMatchInlineSnapshot(`"[36m[4m\\"hey\\"[24m[39m"`);
+  });
+  it('url', () => {
+    expect(logger.url('https://docusaurus.io/')).toMatchInlineSnapshot(
+      `"[36m[4mhttps://docusaurus.io/[24m[39m"`,
+    );
   });
   it('id', () => {
     expect(logger.name('hey')).toMatchInlineSnapshot(`"[34m[1mhey[22m[39m"`);
@@ -40,8 +45,7 @@ describe('interpolate', () => {
     expect(
       logger.interpolate`The package at path=${'packages/docusaurus'} has number=${10} files. name=${'Babel'} is exported here subdue=${'(as a preset)'} that you can with code=${"require.resolve('@docusaurus/core/lib/babel/preset')"}`,
     ).toMatchInlineSnapshot(
-      // cSpell:ignore mpackages
-      `"The package at [36m[4mpackages/docusaurus[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
+      `"The package at [36m[4m\\"packages/docusaurus\\"[24m[39m has [33m10[39m files. [34m[1mBabel[22m[39m is exported here [90m(as a preset)[39m that you can with [36m\`require.resolve('@docusaurus/core/lib/babel/preset')\`[39m"`,
     );
   });
   it('interpolates arrays with flags', () => {

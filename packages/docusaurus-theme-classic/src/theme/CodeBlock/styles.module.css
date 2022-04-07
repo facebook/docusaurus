@@ -8,13 +8,14 @@
 .codeBlockContainer {
   margin-bottom: var(--ifm-leading);
   box-shadow: var(--ifm-global-shadow-lw);
+  border-radius: var(--ifm-code-border-radius);
 }
 
 .codeBlockContent {
   position: relative;
   /* rtl:ignore */
   direction: ltr;
-  border-radius: var(--ifm-global-radius);
+  border-radius: inherit;
 }
 
 .codeBlockTitle {
@@ -22,8 +23,8 @@
   font-size: var(--ifm-code-font-size);
   font-weight: 500;
   padding: 0.75rem var(--ifm-pre-padding);
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .codeBlock {

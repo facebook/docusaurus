@@ -15,7 +15,7 @@ const commentPatterns = {
   js: {start: '\\/\\/', end: ''},
   jsBlock: {start: '\\/\\*', end: '\\*\\/'},
   jsx: {start: '\\{\\s*\\/\\*', end: '\\*\\/\\s*\\}'},
-  python: {start: '#', end: ''},
+  bash: {start: '#', end: ''},
   html: {start: '<!--', end: '-->'},
 };
 
@@ -59,7 +59,13 @@ function getAllMagicCommentDirectiveStyles(lang: string) {
 
     case 'python':
     case 'py':
-      return getCommentPattern(['python']);
+    case 'bash':
+      return getCommentPattern(['bash']);
+
+    case 'markdown':
+    case 'md':
+      // Text uses HTML, front matter uses bash
+      return getCommentPattern(['html', 'jsx', 'bash']);
 
     default:
       // all comment types
@@ -139,29 +145,29 @@ export function parseLines(
   for (let lineNumber = 0; lineNumber < lines.length; ) {
     const line = lines[lineNumber]!;
     const match = line.match(directiveRegex);
-    if (match !== null) {
-      const directive = match.slice(1).find((item) => item !== undefined);
-      switch (directive) {
-        case 'highlight-next-line':
-          highlightRange += `${lineNumber},`;
-          break;
-
-        case 'highlight-start':
-          highlightBlockStart = lineNumber;
-          break;
-
-        case 'highlight-end':
-          highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
-          break;
-
-        default:
-          break;
-      }
-      lines.splice(lineNumber, 1);
-    } else {
+    if (!match) {
       // lines without directives are unchanged
       lineNumber += 1;
+      continue;
     }
+    const directive = match.slice(1).find((item) => item !== undefined);
+    switch (directive) {
+      case 'highlight-next-line':
+        highlightRange += `${lineNumber},`;
+        break;
+
+      case 'highlight-start':
+        highlightBlockStart = lineNumber;
+        break;
+
+      case 'highlight-end':
+        highlightRange += `${highlightBlockStart!}-${lineNumber - 1},`;
+        break;
+
+      default:
+        break;
+    }
+    lines.splice(lineNumber, 1);
   }
   const highlightLines = rangeParser(highlightRange);
   code = lines.join('\n');

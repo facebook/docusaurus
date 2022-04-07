@@ -225,7 +225,7 @@ exports[`simple website content 4`] = `
         },
         {
           "href": "https://github.com",
-          "label": "Github",
+          "label": "GitHub",
           "type": "link",
         },
         {
@@ -850,7 +850,7 @@ exports[`simple website content: data 1`] = `
           },
           {
             \\"type\\": \\"link\\",
-            \\"label\\": \\"Github\\",
+            \\"label\\": \\"GitHub\\",
             \\"href\\": \\"https://github.com\\"
           },
           {

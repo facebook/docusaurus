@@ -31,11 +31,16 @@ type Matcher = (str: string) => boolean;
  * A very thin wrapper around `Micromatch.makeRe`.
  *
  * @see {@link createAbsoluteFilePathMatcher}
- * @param patterns A list of glob patterns.
+ * @param patterns A list of glob patterns. If the list is empty, it defaults to
+ * matching none.
  * @returns A matcher handle that tells if a file path is matched by any of the
  * patterns.
  */
 export function createMatcher(patterns: string[]): Matcher {
+  if (patterns.length === 0) {
+    // `/(?:)/.test("foo")` is `true`
+    return () => false;
+  }
   const regexp = new RegExp(
     patterns.map((pattern) => Micromatch.makeRe(pattern).source).join('|'),
   );

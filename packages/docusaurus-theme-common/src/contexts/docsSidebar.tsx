@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode, useContext} from 'react';
+import React, {useMemo, useContext, type ReactNode} from 'react';
 import type {PropSidebar} from '@docusaurus/plugin-content-docs';
 import {ReactContextError} from '../utils/reactUtils';
 
@@ -13,7 +13,9 @@ import {ReactContextError} from '../utils/reactUtils';
 // Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
 const EmptyContext: unique symbol = Symbol('EmptyContext');
 
-const Context = React.createContext<PropSidebar | null | typeof EmptyContext>(
+type ContextValue = {name: string; items: PropSidebar};
+
+const Context = React.createContext<ContextValue | null | typeof EmptyContext>(
   EmptyContext,
 );
 
@@ -22,21 +24,33 @@ const Context = React.createContext<PropSidebar | null | typeof EmptyContext>(
  */
 export function DocsSidebarProvider({
   children,
-  sidebar,
+  name,
+  items,
 }: {
   children: ReactNode;
-  sidebar: PropSidebar | null;
+  name: string | undefined;
+  items: PropSidebar | undefined;
 }): JSX.Element {
-  return <Context.Provider value={sidebar}>{children}</Context.Provider>;
+  const stableValue: ContextValue | null = useMemo(
+    () =>
+      name && items
+        ? {
+            name,
+            items,
+          }
+        : null,
+    [name, items],
+  );
+  return <Context.Provider value={stableValue}>{children}</Context.Provider>;
 }
 
 /**
  * Gets the sidebar that's currently displayed, or `null` if there isn't one
  */
-export function useDocsSidebar(): PropSidebar | null {
-  const sidebar = useContext(Context);
-  if (sidebar === EmptyContext) {
+export function useDocsSidebar(): ContextValue | null {
+  const value = useContext(Context);
+  if (value === EmptyContext) {
     throw new ReactContextError('DocsSidebarProvider');
   }
-  return sidebar;
+  return value;
 }

@@ -6,7 +6,7 @@
  */
 
 import {validateDocFrontMatter} from '../frontMatter';
-import type {DocFrontMatter} from '../types';
+import type {DocFrontMatter} from '@docusaurus/plugin-content-docs';
 import escapeStringRegexp from 'escape-string-regexp';
 
 function testField(params: {
@@ -265,10 +265,13 @@ describe('validateDocFrontMatter tags', () => {
     validFrontMatters: [{}, {tags: undefined}, {tags: ['tag1', 'tag2']}],
     convertibleFrontMatter: [[{tags: ['tag1', 42]}, {tags: ['tag1', '42']}]],
     invalidFrontMatters: [
-      [{tags: 42}, '"tags" does not look like a valid FrontMatter Yaml array.'],
+      [
+        {tags: 42},
+        '"tags" does not look like a valid front matter Yaml array.',
+      ],
       [
         {tags: 'tag1, tag2'},
-        '"tags" does not look like a valid FrontMatter Yaml array.',
+        '"tags" does not look like a valid front matter Yaml array.',
       ],
       [{tags: [{}]}, '"tags[0]" does not look like a valid tag'],
       [{tags: [true]}, '"tags[0]" does not look like a valid tag'],

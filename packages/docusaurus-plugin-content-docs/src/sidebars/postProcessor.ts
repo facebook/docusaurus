@@ -26,7 +26,7 @@ function normalizeCategoryLink(
     const getDefaultSlug = () =>
       `/category/${params.categoryLabelSlugger.slug(category.label)}`;
     const slug = category.link.slug ?? getDefaultSlug();
-    const permalink = normalizeUrl([params.version.versionPath, slug]);
+    const permalink = normalizeUrl([params.version.path, slug]);
     return {
       ...category.link,
       slug,

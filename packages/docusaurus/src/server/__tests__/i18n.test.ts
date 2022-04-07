@@ -6,9 +6,8 @@
  */
 
 import {jest} from '@jest/globals';
-import {loadI18n, localizePath, getDefaultLocaleConfig} from '../i18n';
+import {loadI18n, getDefaultLocaleConfig} from '../i18n';
 import {DEFAULT_I18N_CONFIG} from '../configValidation';
-import path from 'path';
 import type {I18nConfig} from '@docusaurus/types';
 
 function testLocaleConfigsFor(locales: string[]) {
@@ -164,87 +163,5 @@ describe('loadI18n', () => {
     expect(consoleSpy.mock.calls[0][0]).toMatch(
       /The locale .*it.* was not found in your site configuration/,
     );
-  });
-});
-
-describe('localizePath', () => {
-  it('localizes url path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/fr/');
-  });
-
-  it('localizes fs path with current locale', () => {
-    expect(
-      localizePath({
-        pathType: 'fs',
-        path: '/baseFsPath',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'fr',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe(`${path.sep}baseFsPath${path.sep}fr`);
-  });
-
-  it('localizes path for default locale, if requested', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/en/');
-  });
-
-  it('does not localize path for default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        // options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/');
-  });
-
-  it('localizes path for non-default locale by default', () => {
-    expect(
-      localizePath({
-        pathType: 'url',
-        path: '/baseUrl/',
-        i18n: {
-          defaultLocale: 'en',
-          locales: ['en', 'fr'],
-          currentLocale: 'en',
-          localeConfigs: {},
-        },
-        // options: {localizePath: true},
-      }),
-    ).toBe('/baseUrl/');
   });
 });

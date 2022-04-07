@@ -5,6 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+
+/// <reference types="@docusaurus/module-type-aliases" />
+/// <reference types="@docusaurus/plugin-content-docs" />
+/// <reference types="@docusaurus/plugin-content-blog" />
+/// <reference types="@docusaurus/plugin-content-pages" />
+
 declare module '@docusaurus/theme-classic' {
   export type Options = {
     customCss?: string | string[];
@@ -645,6 +652,7 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
+    readonly html?: string;
     readonly prependBaseUrlToHref?: string;
   }
 
@@ -774,7 +782,14 @@ declare module '@theme/NavbarItem' {
 }
 
 declare module '@theme/NavbarItem/utils' {
-  export function getInfimaActiveClassName(mobile?: boolean): string;
+  /**
+   * On desktop and mobile, we would apply different class names for dropdown
+   * items.
+   * @see https://github.com/facebook/docusaurus/pull/5431
+   */
+  export function getInfimaActiveClassName(
+    mobile?: boolean,
+  ): `${'menu' | 'navbar'}__link--active`;
 }
 
 declare module '@theme/PaginatorNavLink' {

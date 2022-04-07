@@ -15,9 +15,11 @@ import {
 } from '../versions';
 import {DEFAULT_OPTIONS} from '../options';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
-import type {VersionMetadata} from '../types';
 import type {I18n} from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {
+  PluginOptions,
+  VersionMetadata,
+} from '@docusaurus/plugin-content-docs';
 
 const DefaultI18N: I18n = {
   currentLocale: 'en',
@@ -85,12 +87,12 @@ describe('readVersionsMetadata', () => {
         routePriority: -1,
         sidebarFilePath: undefined,
         tagsPath: '/docs/tags',
-        versionLabel: 'Next',
+        label: 'Next',
         versionName: 'current',
-        versionPath: '/docs',
-        versionBanner: null,
-        versionBadge: false,
-        versionClassName: 'docs-version-current',
+        path: '/docs',
+        banner: null,
+        badge: false,
+        className: 'docs-version-current',
       };
       return {simpleSiteDir, defaultOptions, defaultContext, vCurrent};
     }
@@ -120,7 +122,7 @@ describe('readVersionsMetadata', () => {
       expect(versionsMetadata).toEqual([
         {
           ...vCurrent,
-          versionPath: '/myBaseUrl/docs',
+          path: '/myBaseUrl/docs',
           tagsPath: '/myBaseUrl/docs/tags',
         },
       ]);
@@ -148,13 +150,13 @@ describe('readVersionsMetadata', () => {
       expect(versionsMetadata).toEqual([
         {
           ...vCurrent,
-          versionPath: '/myBaseUrl/docs/current-path',
-          versionLabel: 'current-label',
+          path: '/myBaseUrl/docs/current-path',
+          label: 'current-label',
           routePriority: undefined,
           sidebarFilePath: undefined,
           tagsPath: '/myBaseUrl/docs/current-path/tags',
-          versionEditUrl: undefined,
-          versionEditUrlLocalized: undefined,
+          editUrl: undefined,
+          editUrlLocalized: undefined,
         },
       ]);
     });
@@ -245,12 +247,12 @@ describe('readVersionsMetadata', () => {
         routePriority: undefined,
         sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
         tagsPath: '/docs/next/tags',
-        versionLabel: 'Next',
+        label: 'Next',
         versionName: 'current',
-        versionPath: '/docs/next',
-        versionBanner: 'unreleased',
-        versionBadge: true,
-        versionClassName: 'docs-version-current',
+        path: '/docs/next',
+        banner: 'unreleased',
+        badge: true,
+        className: 'docs-version-current',
       };
 
       const v101: VersionMetadata = {
@@ -269,12 +271,12 @@ describe('readVersionsMetadata', () => {
           'versioned_sidebars/version-1.0.1-sidebars.json',
         ),
         tagsPath: '/docs/tags',
-        versionLabel: '1.0.1',
+        label: '1.0.1',
         versionName: '1.0.1',
-        versionPath: '/docs',
-        versionBanner: null,
-        versionBadge: true,
-        versionClassName: 'docs-version-1.0.1',
+        path: '/docs',
+        banner: null,
+        badge: true,
+        className: 'docs-version-1.0.1',
       };
 
       const v100: VersionMetadata = {
@@ -293,12 +295,12 @@ describe('readVersionsMetadata', () => {
           'versioned_sidebars/version-1.0.0-sidebars.json',
         ),
         tagsPath: '/docs/1.0.0/tags',
-        versionLabel: '1.0.0',
+        label: '1.0.0',
         versionName: '1.0.0',
-        versionPath: '/docs/1.0.0',
-        versionBanner: 'unmaintained',
-        versionBadge: true,
-        versionClassName: 'docs-version-1.0.0',
+        path: '/docs/1.0.0',
+        banner: 'unmaintained',
+        badge: true,
+        className: 'docs-version-1.0.0',
       };
 
       const vWithSlugs: VersionMetadata = {
@@ -317,12 +319,12 @@ describe('readVersionsMetadata', () => {
           'versioned_sidebars/version-withSlugs-sidebars.json',
         ),
         tagsPath: '/docs/withSlugs/tags',
-        versionLabel: 'withSlugs',
+        label: 'withSlugs',
         versionName: 'withSlugs',
-        versionPath: '/docs/withSlugs',
-        versionBanner: 'unmaintained',
-        versionBadge: true,
-        versionClassName: 'docs-version-withSlugs',
+        path: '/docs/withSlugs',
+        banner: 'unmaintained',
+        badge: true,
+        className: 'docs-version-withSlugs',
       };
 
       return {
@@ -393,27 +395,27 @@ describe('readVersionsMetadata', () => {
         {
           ...vCurrent,
           tagsPath: '/docs/current-path/tags',
-          versionPath: '/docs/current-path',
-          versionBanner: 'unmaintained',
-          versionBadge: false,
-          versionClassName: 'custom-current-className',
+          path: '/docs/current-path',
+          banner: 'unmaintained',
+          badge: false,
+          className: 'custom-current-className',
         },
         {
           ...v101,
           isLast: false,
           routePriority: undefined,
           tagsPath: '/docs/1.0.1/tags',
-          versionPath: '/docs/1.0.1',
-          versionBanner: 'unreleased',
+          path: '/docs/1.0.1',
+          banner: 'unreleased',
         },
         {
           ...v100,
           isLast: true,
           routePriority: -1,
           tagsPath: '/docs/tags',
-          versionLabel: '1.0.0-label',
-          versionPath: '/docs',
-          versionBanner: 'unreleased',
+          label: '1.0.0-label',
+          path: '/docs',
+          banner: 'unreleased',
         },
         vWithSlugs,
       ]);
@@ -434,30 +436,30 @@ describe('readVersionsMetadata', () => {
       expect(versionsMetadata).toEqual([
         {
           ...vCurrent,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/docs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
         },
         {
           ...v101,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.1',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.1',
         },
         {
           ...v100,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-1.0.0',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-1.0.0',
         },
         {
           ...vWithSlugs,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/versioned_docs/version-withSlugs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/version-withSlugs',
         },
       ]);
@@ -479,30 +481,30 @@ describe('readVersionsMetadata', () => {
       expect(versionsMetadata).toEqual([
         {
           ...vCurrent,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/docs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
         },
         {
           ...v101,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/docs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
         },
         {
           ...v100,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/docs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
         },
         {
           ...vWithSlugs,
-          versionEditUrl:
+          editUrl:
             'https://github.com/facebook/docusaurus/edit/main/website/docs',
-          versionEditUrlLocalized:
+          editUrlLocalized:
             'https://github.com/facebook/docusaurus/edit/main/website/i18n/en/docusaurus-plugin-content-docs/current',
         },
       ]);
@@ -538,9 +540,9 @@ describe('readVersionsMetadata', () => {
           isLast: true,
           routePriority: -1,
           tagsPath: '/docs/tags',
-          versionPath: '/docs',
-          versionBanner: null,
-          versionBadge: false,
+          path: '/docs',
+          banner: null,
+          badge: false,
         },
       ]);
     });
@@ -679,12 +681,12 @@ describe('readVersionsMetadata', () => {
         routePriority: undefined,
         sidebarFilePath: path.join(versionedSiteDir, 'sidebars.json'),
         tagsPath: '/communityBasePath/next/tags',
-        versionLabel: 'Next',
+        label: 'Next',
         versionName: 'current',
-        versionPath: '/communityBasePath/next',
-        versionBanner: 'unreleased',
-        versionBadge: true,
-        versionClassName: 'docs-version-current',
+        path: '/communityBasePath/next',
+        banner: 'unreleased',
+        badge: true,
+        className: 'docs-version-current',
       };
 
       const v100: VersionMetadata = {
@@ -703,12 +705,12 @@ describe('readVersionsMetadata', () => {
           'community_versioned_sidebars/version-1.0.0-sidebars.json',
         ),
         tagsPath: '/communityBasePath/tags',
-        versionLabel: '1.0.0',
+        label: '1.0.0',
         versionName: '1.0.0',
-        versionPath: '/communityBasePath',
-        versionBanner: null,
-        versionBadge: true,
-        versionClassName: 'docs-version-1.0.0',
+        path: '/communityBasePath',
+        banner: null,
+        badge: true,
+        className: 'docs-version-1.0.0',
       };
 
       return {versionedSiteDir, defaultOptions, defaultContext, vCurrent, v100};
@@ -735,7 +737,7 @@ describe('readVersionsMetadata', () => {
 
       expect(versionsMetadata).toEqual([
         // vCurrent removed
-        {...v100, versionBadge: false},
+        {...v100, badge: false},
       ]);
     });
 
@@ -753,9 +755,9 @@ describe('readVersionsMetadata', () => {
           isLast: true,
           routePriority: -1,
           tagsPath: '/communityBasePath/tags',
-          versionPath: '/communityBasePath',
-          versionBanner: null,
-          versionBadge: false,
+          path: '/communityBasePath',
+          banner: null,
+          badge: false,
         },
       ]);
     });

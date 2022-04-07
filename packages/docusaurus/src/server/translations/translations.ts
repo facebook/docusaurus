@@ -8,12 +8,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import _ from 'lodash';
-import type {
-  TranslationFileContent,
-  TranslationFile,
-  TranslationMessage,
-  InitializedPlugin,
-} from '@docusaurus/types';
 import {
   getPluginI18nPath,
   toMessageRelativeFilePath,
@@ -22,6 +16,12 @@ import {
 } from '@docusaurus/utils';
 import {Joi} from '@docusaurus/utils-validation';
 import logger from '@docusaurus/logger';
+import type {
+  TranslationFileContent,
+  TranslationFile,
+  CodeTranslations,
+  InitializedPlugin,
+} from '@docusaurus/types';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -144,13 +144,10 @@ Maybe you should remove them? ${unknownKeys}`;
 }
 
 // should we make this configurable?
-function getTranslationsDirPath(context: TranslationContext): string {
-  return path.resolve(path.join(context.siteDir, I18N_DIR_NAME));
-}
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
 ): string {
-  return path.join(getTranslationsDirPath(context), context.locale);
+  return path.join(context.siteDir, I18N_DIR_NAME, context.locale);
 }
 
 function getCodeTranslationsFilePath(context: TranslationContext): string {
@@ -265,7 +262,7 @@ export async function localizePluginTranslationFile({
 
 export async function getPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
-): Promise<{[msgId: string]: string}> {
+): Promise<CodeTranslations> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
@@ -280,9 +277,9 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations,
   defaultCodeMessages,
 }: {
-  extractedCodeTranslations: {[msgId: string]: TranslationMessage};
-  defaultCodeMessages: {[msgId: string]: string};
-}): {[msgId: string]: TranslationMessage} {
+  extractedCodeTranslations: TranslationFileContent;
+  defaultCodeMessages: CodeTranslations;
+}): TranslationFileContent {
   const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),

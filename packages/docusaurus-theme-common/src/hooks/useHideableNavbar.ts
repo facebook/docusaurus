@@ -28,12 +28,10 @@ export function useHideableNavbar(hideOnScroll: boolean): {
     }
   }, []);
 
-  useScrollPosition((currentPosition, lastPosition) => {
+  useScrollPosition(({scrollY: scrollTop}, lastPosition) => {
     if (!hideOnScroll) {
       return;
     }
-
-    const scrollTop = currentPosition.scrollY;
 
     // Needed mostly for handling rubber band scrolling.
     // See https://github.com/facebook/docusaurus/pull/5721

@@ -7,11 +7,7 @@ sidebar_label: Pages
 
 In this section, we will learn about creating pages in Docusaurus.
 
-This is useful for creating **one-off standalone pages** like a showcase page, playground page, or support page.
-
-The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
-
-You can use React components, or Markdown.
+The `@docusaurus/plugin-content-pages` plugin empowers you to create **one-off standalone pages** like a showcase page, playground page, or support page. You can use React components, or Markdown.
 
 :::note
 
@@ -69,7 +65,7 @@ You can also create TypeScript pages with the `.tsx` extension (`helloReact.tsx`
 
 Create a file `/src/pages/helloMarkdown.md`:
 
-```mdx title="/src/pages/helloMarkdown.md"
+```md title="/src/pages/helloMarkdown.md"
 ---
 title: my hello page title
 description: my hello page description
@@ -115,7 +111,7 @@ This is merely a recommended directory structure, and you will still need to man
 
 :::
 
-By default, any Markdown or Javascript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
+By default, any Markdown or JavaScript file starting with `_` will be ignored and no routes will be created for that file (see the `exclude` option).
 
 ```bash
 my-website

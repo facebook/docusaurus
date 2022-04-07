@@ -7,12 +7,11 @@
 
 import type {PluginContentLoadedActions, RouteConfig} from '@docusaurus/types';
 import {docuHash, createSlugger} from '@docusaurus/utils';
+import type {LoadedVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
-  LoadedVersion,
-} from './types';
-import type {PropCategoryGeneratedIndex} from '@docusaurus/plugin-content-docs';
+} from '@docusaurus/plugin-content-docs';
 import {toVersionMetadataProp} from './props';
 import logger from '@docusaurus/logger';
 
@@ -32,34 +31,11 @@ export async function createCategoryGeneratedIndexRoutes({
   async function createCategoryGeneratedIndexRoute(
     categoryGeneratedIndex: CategoryGeneratedIndexMetadata,
   ): Promise<RouteConfig> {
-    const {
-      sidebar,
-      title,
-      description,
-      slug,
-      permalink,
-      previous,
-      next,
-      image,
-      keywords,
-    } = categoryGeneratedIndex;
+    const {sidebar, ...prop} = categoryGeneratedIndex;
 
     const propFileName = slugs.slug(
-      `${version.versionPath}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
+      `${version.path}-${categoryGeneratedIndex.sidebar}-category-${categoryGeneratedIndex.title}`,
     );
-
-    const prop: PropCategoryGeneratedIndex = {
-      title,
-      description,
-      slug,
-      permalink,
-      image,
-      keywords,
-      navigation: {
-        previous,
-        next,
-      },
-    };
 
     const propData = await actions.createData(
       `${docuHash(`category/${propFileName}`)}.json`,
@@ -67,7 +43,7 @@ export async function createCategoryGeneratedIndexRoutes({
     );
 
     return {
-      path: permalink,
+      path: categoryGeneratedIndex.permalink,
       component: docCategoryGeneratedIndexComponent,
       exact: true,
       modules: {
@@ -162,7 +138,7 @@ export async function createVersionRoutes({
     }
 
     actions.addRoute({
-      path: version.versionPath,
+      path: version.path,
       // allow matching /docs/* as well
       exact: false,
       // main docs component (DocPage)

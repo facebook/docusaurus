@@ -228,7 +228,7 @@ describe('validateSidebars', () => {
           `);
   });
 
-  it('hTML type requires a value', () => {
+  it('html type requires a value', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -248,7 +248,7 @@ describe('validateSidebars', () => {
     `);
   });
 
-  it('hTML type accepts valid values', () => {
+  it('html type accepts valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {

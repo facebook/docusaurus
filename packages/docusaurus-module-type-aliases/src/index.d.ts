@@ -20,31 +20,33 @@ declare module '@generated/docusaurus.config' {
 }
 
 declare module '@generated/site-metadata' {
-  import type {DocusaurusSiteMetadata} from '@docusaurus/types';
+  import type {SiteMetadata} from '@docusaurus/types';
 
-  const siteMetadata: DocusaurusSiteMetadata;
+  const siteMetadata: SiteMetadata;
   export = siteMetadata;
 }
 
 declare module '@generated/registry' {
-  const registry: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    readonly [key: string]: [() => Promise<any>, string, string];
-  };
+  import type {Registry} from '@docusaurus/types';
+
+  const registry: Registry;
   export default registry;
 }
 
 declare module '@generated/routes' {
-  import type {Route} from '@docusaurus/types';
+  import type {RouteConfig as RRRouteConfig} from 'react-router-config';
 
-  const routes: Route[];
+  type RouteConfig = RRRouteConfig & {
+    path: string;
+  };
+  const routes: RouteConfig[];
   export default routes;
 }
 
 declare module '@generated/routesChunkNames' {
-  import type {RouteChunksTree} from '@docusaurus/types';
+  import type {RouteChunkNames} from '@docusaurus/types';
 
-  const routesChunkNames: {[route: string]: RouteChunksTree};
+  const routesChunkNames: RouteChunkNames;
   export = routesChunkNames;
 }
 
@@ -56,23 +58,16 @@ declare module '@generated/globalData' {
 }
 
 declare module '@generated/i18n' {
-  const i18n: {
-    defaultLocale: string;
-    locales: [string, ...string[]];
-    currentLocale: string;
-    localeConfigs: {
-      [localeName: string]: {
-        label: string;
-        direction: string;
-        htmlLang: string;
-      };
-    };
-  };
+  import type {I18n} from '@docusaurus/types';
+
+  const i18n: I18n;
   export = i18n;
 }
 
 declare module '@generated/codeTranslations' {
-  const codeTranslations: {[msgId: string]: string};
+  import type {CodeTranslations} from '@docusaurus/types';
+
+  const codeTranslations: CodeTranslations;
   export = codeTranslations;
 }
 
@@ -145,8 +140,9 @@ declare module '@docusaurus/Head' {
 
 declare module '@docusaurus/Link' {
   import type {CSSProperties, ComponentProps} from 'react';
+  import type {NavLinkProps as RRNavLinkProps} from 'react-router-dom';
 
-  type NavLinkProps = Partial<import('react-router-dom').NavLinkProps>;
+  type NavLinkProps = Partial<RRNavLinkProps>;
   export type Props = NavLinkProps &
     ComponentProps<'a'> & {
       readonly className?: string;

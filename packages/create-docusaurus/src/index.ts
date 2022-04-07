@@ -55,12 +55,12 @@ function findPackageManagerFromUserAgent():
 
 async function askForPackageManagerChoice(): Promise<SupportedPackageManager> {
   const hasYarn = shell.exec('yarn --version', {silent: true}).code === 0;
-  const hasPNPM = shell.exec('pnpm --version', {silent: true}).code === 0;
+  const hasPnpm = shell.exec('pnpm --version', {silent: true}).code === 0;
 
-  if (!hasYarn && !hasPNPM) {
+  if (!hasYarn && !hasPnpm) {
     return 'npm';
   }
-  const choices = ['npm', hasYarn && 'yarn', hasPNPM && 'pnpm']
+  const choices = ['npm', hasYarn && 'yarn', hasPnpm && 'pnpm']
     .filter((p): p is string => Boolean(p))
     .map((p) => ({title: p, value: p}));
 
@@ -165,7 +165,7 @@ async function copyTemplate(
   }
 
   await fs.copy(path.resolve(templatesDir, template), dest, {
-    // Symlinks don't exist in published NPM packages anymore, so this is only
+    // Symlinks don't exist in published npm packages anymore, so this is only
     // to prevent errors during local testing
     filter: async (filePath) => !(await fs.lstat(filePath)).isSymbolicLink(),
   });
@@ -271,7 +271,7 @@ export default async function init(
         return logger.red('Invalid repository URL');
       },
       message: logger.interpolate`Enter a repository URL from GitHub, Bitbucket, GitLab, or any other public repo.
-(e.g: path=${'https://github.com/ownerName/repoName.git'})`,
+(e.g: url=${'https://github.com/ownerName/repoName.git'})`,
     });
     ({gitStrategy} = await prompts({
       type: 'select',
@@ -318,7 +318,7 @@ export default async function init(
   logger.info('Creating new Docusaurus project...');
 
   if (isValidGitRepoUrl(template)) {
-    logger.info`Cloning Git template path=${template}...`;
+    logger.info`Cloning Git template url=${template}...`;
     if (!gitStrategies.includes(gitStrategy)) {
       logger.error`Invalid git strategy: name=${gitStrategy}. Value must be one of ${gitStrategies.join(
         ', ',
@@ -337,7 +337,7 @@ export default async function init(
     // Docusaurus templates.
     if (useTS) {
       if (!(await hasTS(template))) {
-        logger.error`Template name=${template} doesn't provide the Typescript variant.`;
+        logger.error`Template name=${template} doesn't provide the TypeScript variant.`;
         process.exit(1);
       }
       template = `${template}${TypeScriptTemplateSuffix}`;
@@ -416,7 +416,7 @@ export default async function init(
   }
 
   const useNpm = pkgManager === 'npm';
-  logger.success`Created path=${cdpath}.`;
+  logger.success`Created name=${cdpath}.`;
   logger.info`Inside that directory, you can run several commands:
 
   code=${`${pkgManager} start`}

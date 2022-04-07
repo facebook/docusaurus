@@ -101,7 +101,7 @@ function filterTOC({
  * to ensure that weird TOC structures preserve their semantics. For example, an
  * h3-h2-h4 sequence should not be treeified as an "h3 > h4" hierarchy with
  * min=3, max=4, but should rather be "[h3, h4]" (since the h2 heading has split
- * the two headings and they are not parents)
+ * the two headings and they are not parent-children)
  */
 export function useFilteredAndTreeifiedTOC({
   toc,

@@ -23,9 +23,9 @@ declare module '@theme/Playground' {
 }
 
 declare module '@theme/ReactLiveScope' {
-  interface Scope {
+  type Scope = {
     [key: string]: unknown;
-  }
+  };
 
   const ReactLiveScope: Scope;
   export default ReactLiveScope;
