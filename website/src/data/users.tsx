@@ -584,6 +584,15 @@ const Users: User[] = [
     tags: ['opensource', 'personal', 'i18n'],
   },
   {
+    title: 'Files Gallery',
+    description:
+      'Single-file PHP app that can be dropped into any folder, instantly creating a gallery of files and folders.',
+    preview: require('./showcase/files-gallery.png'),
+    website: 'https://www.files.gallery/',
+    source: null,
+    tags: ['product', 'design'],
+  },
+  {
     title: 'KayaFolio',
     description:
       "A Software Engineer's blog, documentation and project portfolio.",
