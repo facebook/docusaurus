@@ -52,7 +52,8 @@
 }
 
 .codeBlockLinesWithNumbering {
-  padding-left: 0;
+  display: table;
+  padding: var(--ifm-pre-padding) 0;
 }
 
 @media print {
@@ -62,11 +63,14 @@
 }
 
 .codeLine {
+  display: table-row;
   counter-increment: line-count;
 }
 
 .codeLineNumber {
-  display: inline-block;
+  display: table-cell;
+  text-align: right;
+  width: 1%;
   position: sticky;
   left: 0;
   padding: 0 var(--ifm-pre-padding);
@@ -80,4 +84,8 @@
 
 :global(.docusaurus-highlight-code-line) .codeLineNumber::before {
   opacity: 0.8;
+}
+
+.codeLineContent {
+  padding-right: var(--ifm-pre-padding);
 }

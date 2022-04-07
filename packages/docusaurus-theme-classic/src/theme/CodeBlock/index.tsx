@@ -140,14 +140,22 @@ export default function CodeBlock({
                     lineProps.className += ' docusaurus-highlight-code-line';
                   }
 
+                  const lineTokens = line.map((token, key) => (
+                    <span key={key} {...getTokenProps({token, key})} />
+                  ));
+
                   return (
                     <span key={i} {...lineProps}>
-                      {shouldShowLineNumbers && (
-                        <span className={styles.codeLineNumber} />
+                      {shouldShowLineNumbers ? (
+                        <>
+                          <span className={styles.codeLineNumber} />
+                          <span className={styles.codeLineContent}>
+                            {lineTokens}
+                          </span>
+                        </>
+                      ) : (
+                        lineTokens
                       )}
-                      {line.map((token, key) => (
-                        <span key={key} {...getTokenProps({token, key})} />
-                      ))}
                       <br />
                     </span>
                   );
