@@ -714,9 +714,11 @@ exports[`simple website content: data 1`] = `
   }
 }",
   "tag-docs-tags-tag-1-b3f.json": "{
-  \\"name\\": \\"tag 1\\",
+  \\"label\\": \\"tag 1\\",
   \\"permalink\\": \\"/docs/tags/tag-1\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 2,
+  \\"items\\": [
     {
       \\"id\\": \\"foo/baz\\",
       \\"title\\": \\"baz\\",
@@ -729,48 +731,49 @@ exports[`simple website content: data 1`] = `
       \\"description\\": \\"Hi, Endilie here :)\\",
       \\"permalink\\": \\"/docs/\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/tags\\"
+  ]
 }",
   "tag-docs-tags-tag-2-custom-permalink-825.json": "{
-  \\"name\\": \\"tag 2\\",
+  \\"label\\": \\"tag 2\\",
   \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 1,
+  \\"items\\": [
     {
       \\"id\\": \\"foo/baz\\",
       \\"title\\": \\"baz\\",
       \\"description\\": \\"Images\\",
       \\"permalink\\": \\"/docs/foo/bazSlug.html\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/tags\\"
+  ]
 }",
   "tag-docs-tags-tag-3-ab5.json": "{
-  \\"name\\": \\"tag 3\\",
+  \\"label\\": \\"tag 3\\",
   \\"permalink\\": \\"/docs/tags/tag-3\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/tags\\",
+  \\"count\\": 1,
+  \\"items\\": [
     {
       \\"id\\": \\"hello\\",
       \\"title\\": \\"Hello, World !\\",
       \\"description\\": \\"Hi, Endilie here :)\\",
       \\"permalink\\": \\"/docs/\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/tags\\"
+  ]
 }",
   "tags-list-current-prop-15a.json": "[
   {
-    \\"name\\": \\"tag 1\\",
+    \\"label\\": \\"tag 1\\",
     \\"permalink\\": \\"/docs/tags/tag-1\\",
     \\"count\\": 2
   },
   {
-    \\"name\\": \\"tag 2\\",
+    \\"label\\": \\"tag 2\\",
     \\"permalink\\": \\"/docs/tags/tag2-custom-permalink\\",
     \\"count\\": 1
   },
   {
-    \\"name\\": \\"tag 3\\",
+    \\"label\\": \\"tag 3\\",
     \\"permalink\\": \\"/docs/tags/tag-3\\",
     \\"count\\": 1
   }
@@ -3172,57 +3175,60 @@ exports[`versioned website content: data 1`] = `
   }
 }",
   "tag-docs-next-tags-bar-tag-1-a8f.json": "{
-  \\"name\\": \\"barTag 1\\",
+  \\"label\\": \\"barTag 1\\",
   \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
+  \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",
       \\"title\\": \\"bar\\",
       \\"description\\": \\"This is next version of bar.\\",
       \\"permalink\\": \\"/docs/next/foo/barSlug\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/next/tags\\"
+  ]
 }",
   "tag-docs-next-tags-bar-tag-2-216.json": "{
-  \\"name\\": \\"barTag-2\\",
+  \\"label\\": \\"barTag-2\\",
   \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
+  \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",
       \\"title\\": \\"bar\\",
       \\"description\\": \\"This is next version of bar.\\",
       \\"permalink\\": \\"/docs/next/foo/barSlug\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/next/tags\\"
+  ]
 }",
   "tag-docs-next-tags-bar-tag-3-permalink-94a.json": "{
-  \\"name\\": \\"barTag 3\\",
+  \\"label\\": \\"barTag 3\\",
   \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\",
-  \\"docs\\": [
+  \\"allTagsPath\\": \\"/docs/next/tags\\",
+  \\"count\\": 1,
+  \\"items\\": [
     {
       \\"id\\": \\"foo/bar\\",
       \\"title\\": \\"bar\\",
       \\"description\\": \\"This is next version of bar.\\",
       \\"permalink\\": \\"/docs/next/foo/barSlug\\"
     }
-  ],
-  \\"allTagsPath\\": \\"/docs/next/tags\\"
+  ]
 }",
   "tags-list-current-prop-15a.json": "[
   {
-    \\"name\\": \\"barTag 1\\",
+    \\"label\\": \\"barTag 1\\",
     \\"permalink\\": \\"/docs/next/tags/bar-tag-1\\",
     \\"count\\": 1
   },
   {
-    \\"name\\": \\"barTag-2\\",
+    \\"label\\": \\"barTag-2\\",
     \\"permalink\\": \\"/docs/next/tags/bar-tag-2\\",
     \\"count\\": 1
   },
   {
-    \\"name\\": \\"barTag 3\\",
+    \\"label\\": \\"barTag 3\\",
     \\"permalink\\": \\"/docs/next/tags/barTag-3-permalink\\",
     \\"count\\": 1
   }

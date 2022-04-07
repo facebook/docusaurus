@@ -228,13 +228,13 @@ export default async function pluginContentDocs(
           const tagsProp: PropTagsListPage['tags'] = Object.values(
             versionTags,
           ).map((tagValue) => ({
-            name: tagValue.label,
+            label: tagValue.label,
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
 
           // Only create /tags page if there are tags.
-          if (Object.keys(tagsProp).length > 0) {
+          if (tagsProp.length > 0) {
             const tagsPropPath = await createData(
               `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),

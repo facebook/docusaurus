@@ -19,8 +19,7 @@ import {
 import SearchMetadata from '../SearchMetadata';
 import clsx from 'clsx';
 
-export default function BlogTagsListPage(props: Props): JSX.Element {
-  const {tags, sidebar} = props;
+export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
     <HtmlClassNameProvider
@@ -32,7 +31,7 @@ export default function BlogTagsListPage(props: Props): JSX.Element {
       <SearchMetadata tag="blog_tags_list" />
       <BlogLayout sidebar={sidebar}>
         <h1>{title}</h1>
-        <TagsListByLetter tags={Object.values(tags)} />
+        <TagsListByLetter tags={tags} />
       </BlogLayout>
     </HtmlClassNameProvider>
   );

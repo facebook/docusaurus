@@ -8,7 +8,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
       "/another/tags",
       "/another/tags2",
     ],
-    "name": "tag1",
+    "label": "tag1",
     "pages": [
       {
         "items": [
@@ -36,7 +36,7 @@ exports[`blog plugin works on blog tags without pagination 1`] = `
       "/another/tags",
       "/another/tags2",
     ],
-    "name": "tag2",
+    "label": "tag2",
     "pages": [
       {
         "items": [
@@ -69,7 +69,7 @@ exports[`blog plugin works with blog tags 1`] = `
       "/another/tags",
       "/another/tags2",
     ],
-    "name": "tag1",
+    "label": "tag1",
     "pages": [
       {
         "items": [
@@ -112,7 +112,7 @@ exports[`blog plugin works with blog tags 1`] = `
       "/another/tags",
       "/another/tags2",
     ],
-    "name": "tag2",
+    "label": "tag2",
     "pages": [
       {
         "items": [

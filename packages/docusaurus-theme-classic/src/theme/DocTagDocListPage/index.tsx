@@ -15,7 +15,6 @@ import {
   ThemeClassNames,
   usePluralForm,
 } from '@docusaurus/theme-common';
-import type {PropTagDocListDoc} from '@docusaurus/plugin-content-docs';
 import Translate, {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/DocTagDocListPage';
 import SearchMetadata from '@theme/SearchMetadata';
@@ -39,7 +38,7 @@ function useNDocsTaggedPlural() {
     );
 }
 
-function DocItem({doc}: {doc: PropTagDocListDoc}): JSX.Element {
+function DocItem({doc}: {doc: Props['tag']['items'][number]}): JSX.Element {
   return (
     <article className="margin-vert--lg">
       <Link to={doc.permalink}>
@@ -58,7 +57,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
       description: 'The title of the page for a docs tag',
       message: '{nDocsTagged} with "{tagName}"',
     },
-    {nDocsTagged: nDocsTaggedPlural(tag.docs.length), tagName: tag.name},
+    {nDocsTagged: nDocsTaggedPlural(tag.count), tagName: tag.label},
   );
 
   return (
@@ -84,7 +83,7 @@ export default function DocTagDocListPage({tag}: Props): JSX.Element {
                 </Link>
               </header>
               <section className="margin-vert--lg">
-                {tag.docs.map((doc) => (
+                {tag.items.map((doc) => (
                   <DocItem key={doc.id} doc={doc} />
                 ))}
               </section>

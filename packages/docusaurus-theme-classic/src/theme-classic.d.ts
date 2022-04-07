@@ -1031,7 +1031,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1040,7 +1040,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/utils';
+  import type {Tag} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1049,7 +1049,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}
