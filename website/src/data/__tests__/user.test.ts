@@ -45,12 +45,17 @@ expect.extend({
 });
 
 describe('users data', () => {
-  it.each(sortedUsers)('$title', async (user) => {
+  it.each(sortedUsers)('$title', (user) => {
     Joi.attempt(
       user,
       Joi.object<User>({
         title: Joi.string().required(),
-        description: Joi.string().required(),
+        description: Joi.string()
+          .required()
+          .max(120)
+          .message(
+            'Please constrain your description text to maximum 120 characters.',
+          ),
         website: Joi.string()
           .pattern(/^https?:\/\//)
           .message('')
