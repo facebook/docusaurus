@@ -27,7 +27,9 @@ export default async function createSitemap(
   const sitemapStream = new SitemapStream({hostname});
 
   routes
-    .filter((route) => !route.path.endsWith('404.html') && !ignoreMatcher(route.path))
+    .filter(
+      (route) => !route.path.endsWith('404.html') && !ignoreMatcher(route.path),
+    )
     .forEach((route) =>
       sitemapStream.write({
         url: applyTrailingSlash(route.path, {
@@ -39,7 +41,7 @@ export default async function createSitemap(
         ...(typeof route.lastmod === 'number' && {
           lastmod: route.lastmod,
         }),
-      })
+      }),
     );
 
   sitemapStream.end();
