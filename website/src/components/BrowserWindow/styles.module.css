@@ -7,8 +7,7 @@
 
 .browserWindow {
   border: 3px solid var(--ifm-color-emphasis-200);
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
+  border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
   margin-bottom: var(--ifm-leading);
 }
@@ -77,5 +76,12 @@
 }
 
 .browserWindowBody {
+  background-color: var(--ifm-background-color);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   padding: 1rem;
+}
+
+.browserWindowBody *:last-child {
+  margin-bottom: 0;
 }

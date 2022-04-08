@@ -19,7 +19,11 @@ const DefaultI18N: I18n = {
   currentLocale: 'en',
   locales: ['en'],
   defaultLocale: 'en',
-  localeConfigs: {},
+  localeConfigs: {
+    en: {
+      calendar: 'gregory',
+    },
+  },
 };
 
 function getBlogContentPaths(siteDir: string): BlogContentPaths {

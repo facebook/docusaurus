@@ -83,18 +83,16 @@ export async function readOutputHTMLFile(
     outDir,
     `${permalink.replace(/\/$/, '')}.html`,
   );
-  if (trailingSlash) {
-    return fs.readFile(withTrailingSlashPath);
-  } else if (trailingSlash === false) {
-    return fs.readFile(withoutTrailingSlashPath);
-  }
   const HTMLPath = await findAsyncSequential(
-    [withTrailingSlashPath, withoutTrailingSlashPath],
+    [
+      trailingSlash !== false && withTrailingSlashPath,
+      trailingSlash !== true && withoutTrailingSlashPath,
+    ].filter((p): p is string => Boolean(p)),
     fs.pathExists,
   );
   if (!HTMLPath) {
     throw new Error(
-      `Expected output HTML file to be found at ${withTrailingSlashPath}`,
+      `Expected output HTML file to be found at ${withTrailingSlashPath}.`,
     );
   }
   return fs.readFile(HTMLPath);

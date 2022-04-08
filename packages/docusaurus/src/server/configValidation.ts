@@ -71,7 +71,7 @@ function createPluginSchema(theme: boolean) {
         Joi.array()
           .ordered(Joi.string().required(), Joi.object().required())
           .length(2),
-        Joi.bool().equal(false), // In case of conditional adding of plugins.
+        Joi.any().valid(false, null),
       )
       // @ts-expect-error: bad lib def, doesn't recognize an array of reports
       .error((errors) => {
@@ -119,6 +119,7 @@ const PresetSchema = Joi.alternatives()
     Joi.array()
       .items(Joi.string().required(), Joi.object().required())
       .length(2),
+    Joi.any().valid(false, null),
   )
   .messages({
     'alternatives.types': `{#label} does not look like a valid preset config. A preset config entry should be one of:
@@ -130,6 +131,7 @@ const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
   htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  calendar: Joi.string(),
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({

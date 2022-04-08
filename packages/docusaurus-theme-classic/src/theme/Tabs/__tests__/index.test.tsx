@@ -24,7 +24,7 @@ describe('Tabs', () => {
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique \\"value\\" prop."`,
+      `"Docusaurus error: Bad <Tabs> child <div>: all children of the <Tabs> component should be <TabItem>, and every <TabItem> should have a unique "value" prop."`,
     );
   });
   it('rejects bad Tabs defaultValue', () => {
@@ -36,7 +36,7 @@ describe('Tabs', () => {
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: The <Tabs> has a defaultValue \\"bad\\" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
+      `"Docusaurus error: The <Tabs> has a defaultValue "bad" but none of its children has the corresponding value. Available values are: v1, v2. If you intend to show no default tab, use defaultValue={null} instead."`,
     );
   });
   it('rejects duplicate values', () => {
@@ -52,7 +52,7 @@ describe('Tabs', () => {
         </Tabs>,
       );
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus error: Duplicate values \\"v1, v2\\" found in <Tabs>. Every value needs to be unique."`,
+      `"Docusaurus error: Duplicate values "v1, v2" found in <Tabs>. Every value needs to be unique."`,
     );
   });
   it('accepts valid Tabs config', () => {

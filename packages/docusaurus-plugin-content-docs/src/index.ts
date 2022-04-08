@@ -67,7 +67,7 @@ export default async function pluginContentDocs(
 
   const versionsMetadata = await readVersionsMetadata({context, options});
 
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
@@ -97,12 +97,7 @@ export default async function pluginContentDocs(
         .arguments('<version>')
         .description(commandDescription)
         .action((version) => {
-          cliDocsVersionCommand(version, siteDir, pluginId, {
-            path: options.path,
-            sidebarPath: options.sidebarPath,
-            sidebarCollapsed: options.sidebarCollapsed,
-            sidebarCollapsible: options.sidebarCollapsible,
-          });
+          cliDocsVersionCommand(version, options, context);
         });
     },
 
@@ -228,13 +223,13 @@ export default async function pluginContentDocs(
           const tagsProp: PropTagsListPage['tags'] = Object.values(
             versionTags,
           ).map((tagValue) => ({
-            name: tagValue.label,
+            label: tagValue.label,
             permalink: tagValue.permalink,
             count: tagValue.docIds.length,
           }));
 
           // Only create /tags page if there are tags.
-          if (Object.keys(tagsProp).length > 0) {
+          if (tagsProp.length > 0) {
             const tagsPropPath = await createData(
               `${docuHash(`tags-list-${version.versionName}-prop`)}.json`,
               JSON.stringify(tagsProp, null, 2),

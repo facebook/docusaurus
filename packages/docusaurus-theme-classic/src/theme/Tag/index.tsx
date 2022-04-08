@@ -12,9 +12,7 @@ import type {Props} from '@theme/Tag';
 
 import styles from './styles.module.css';
 
-export default function Tag(props: Props): JSX.Element {
-  const {permalink, name, count} = props;
-
+export default function Tag({permalink, label, count}: Props): JSX.Element {
   return (
     <Link
       href={permalink}
@@ -22,7 +20,7 @@ export default function Tag(props: Props): JSX.Element {
         styles.tag,
         count ? styles.tagWithCount : styles.tagRegular,
       )}>
-      {name}
+      {label}
       {count && <span>{count}</span>}
     </Link>
   );

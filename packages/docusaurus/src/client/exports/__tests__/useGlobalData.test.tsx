@@ -59,7 +59,7 @@ describe('useAllPluginInstancesData', () => {
   it('throws when plugin data not found', () => {
     expect(
       () =>
-        renderHook(() => useAllPluginInstancesData('bar'), {
+        renderHook(() => useAllPluginInstancesData('bar', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
               // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -69,7 +69,7 @@ describe('useAllPluginInstancesData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for \\"bar\\" plugin."`,
+      `"Docusaurus plugin global data not found for "bar" plugin."`,
     );
   });
 });
@@ -106,7 +106,7 @@ describe('usePluginData', () => {
   it('throws when plugin instance data not found', () => {
     expect(
       () =>
-        renderHook(() => usePluginData('foo', 'baz'), {
+        renderHook(() => usePluginData('foo', 'baz', {failfast: true}), {
           wrapper: ({children}) => (
             <Context.Provider
               // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -116,7 +116,7 @@ describe('usePluginData', () => {
           ),
         }).result.current,
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Docusaurus plugin global data not found for \\"foo\\" plugin with id \\"baz\\"."`,
+      `"Docusaurus plugin global data not found for "foo" plugin with id "baz"."`,
     );
   });
 });

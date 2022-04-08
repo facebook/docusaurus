@@ -47,11 +47,31 @@ declare module '@theme/BlogListPaginator' {
   export default function BlogListPaginator(props: Props): JSX.Element;
 }
 
-declare module '@theme/BlogSidebar' {
+declare module '@theme/BlogSidebar/Desktop' {
   import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
 
   export interface Props {
     readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarDesktop(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar/Mobile' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar: BlogSidebar;
+  }
+
+  export default function BlogSidebarMobile(props: Props): JSX.Element;
+}
+
+declare module '@theme/BlogSidebar' {
+  import type {BlogSidebar} from '@docusaurus/plugin-content-blog';
+
+  export interface Props {
+    readonly sidebar?: BlogSidebar;
   }
 
   export default function BlogSidebar(props: Props): JSX.Element;
@@ -651,6 +671,7 @@ declare module '@theme/NavbarItem/NavbarNavLink' {
     readonly activeBaseRegex?: string;
     readonly exact?: boolean;
     readonly label?: ReactNode;
+    readonly html?: string;
     readonly prependBaseUrlToHref?: string;
   }
 
@@ -1010,7 +1031,7 @@ declare module '@theme/IconExternalLink' {
 }
 
 declare module '@theme/TagsListByLetter' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly TagsListItem[];
@@ -1019,7 +1040,7 @@ declare module '@theme/TagsListByLetter' {
 }
 
 declare module '@theme/TagsListInline' {
-  import type {Tag} from '@docusaurus/utils';
+  import type {Tag} from '@docusaurus/types';
 
   export interface Props {
     readonly tags: readonly Tag[];
@@ -1028,7 +1049,7 @@ declare module '@theme/TagsListInline' {
 }
 
 declare module '@theme/Tag' {
-  import type {TagsListItem} from '@docusaurus/theme-common';
+  import type {TagsListItem} from '@docusaurus/types';
   import type {Optional} from 'utility-types';
 
   export interface Props extends Optional<TagsListItem, 'count'> {}

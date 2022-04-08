@@ -39,6 +39,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
 
 </APITable>
 
@@ -68,6 +69,7 @@ Most Docusaurus users configure this plugin through the preset options.
 const config = {
   changefreq: 'weekly',
   priority: 0.5,
+  ignorePatterns: ['/tags/**'],
 };
 ```
 
