@@ -79,7 +79,7 @@ function isStandaloneDisplayMode() {
 const OfflineModeActivationStrategiesImplementations = {
   always: () => true,
   mobile: () => window.innerWidth <= MAX_MOBILE_WIDTH,
-  saveData: () => !!(navigator.connection && navigator.connection.saveData),
+  saveData: () => !!navigator.connection?.saveData,
   appInstalled: async () => {
     const installedEventFired = await isAppInstalledEventFired();
     const installedRelatedApps = await isAppInstalledRelatedApps();

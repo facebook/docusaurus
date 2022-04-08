@@ -11,25 +11,28 @@ import BlogLayout from '@theme/BlogLayout';
 import TagsListByLetter from '@theme/TagsListByLetter';
 import type {Props} from '@theme/BlogTagsListPage';
 import {
+  PageMetadata,
+  HtmlClassNameProvider,
   ThemeClassNames,
   translateTagsPageTitle,
 } from '@docusaurus/theme-common';
+import SearchMetadata from '../SearchMetadata';
+import clsx from 'clsx';
 
-export default function BlogTagsListPage(props: Props): JSX.Element {
-  const {tags, sidebar} = props;
+export default function BlogTagsListPage({tags, sidebar}: Props): JSX.Element {
   const title = translateTagsPageTitle();
   return (
-    <BlogLayout
-      title={title}
-      wrapperClassName={ThemeClassNames.wrapper.blogPages}
-      pageClassName={ThemeClassNames.page.blogTagsListPage}
-      searchMetadata={{
-        // assign unique search tag to exclude this page from search results!
-        tag: 'blog_tags_list',
-      }}
-      sidebar={sidebar}>
-      <h1>{title}</h1>
-      <TagsListByLetter tags={Object.values(tags)} />
-    </BlogLayout>
+    <HtmlClassNameProvider
+      className={clsx(
+        ThemeClassNames.wrapper.blogPages,
+        ThemeClassNames.page.blogTagsListPage,
+      )}>
+      <PageMetadata title={title} />
+      <SearchMetadata tag="blog_tags_list" />
+      <BlogLayout sidebar={sidebar}>
+        <h1>{title}</h1>
+        <TagsListByLetter tags={tags} />
+      </BlogLayout>
+    </HtmlClassNameProvider>
   );
 }

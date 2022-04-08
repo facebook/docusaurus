@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useRef} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
 export default function LinkTest(): JSX.Element {
-  const anchorRef = React.useRef<HTMLAnchorElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
   return (
     <Layout>
       <main className="container margin-vert--xl">

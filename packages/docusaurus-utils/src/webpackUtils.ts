@@ -31,7 +31,11 @@ type FileLoaderUtils = {
   };
 };
 
-// Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
+/**
+ * Returns unified loader configurations to be used for various file types.
+ *
+ * Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
+ */
 export function getFileLoaderUtils(): FileLoaderUtils {
   // files/images < urlLoaderLimit will be inlined as base64 strings directly in
   // the html
@@ -39,7 +43,11 @@ export function getFileLoaderUtils(): FileLoaderUtils {
 
   // defines the path/pattern of the assets handled by webpack
   const fileLoaderFileName = (folder: AssetFolder) =>
-    `${OUTPUT_STATIC_ASSETS_DIR_NAME}/${folder}/[name]-[contenthash].[ext]`;
+    path.posix.join(
+      OUTPUT_STATIC_ASSETS_DIR_NAME,
+      folder,
+      '[name]-[contenthash].[ext]',
+    );
 
   const loaders: FileLoaderUtils['loaders'] = {
     file: (options: {folder: AssetFolder}) => ({

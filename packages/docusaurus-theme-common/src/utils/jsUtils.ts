@@ -26,7 +26,7 @@ export function duplicates<T>(
 }
 
 /**
- * Remove duplicate array items (similar to _.uniq)
+ * Remove duplicate array items (similar to `_.uniq`)
  * @param arr The array.
  * @returns An array with duplicate elements removed by reference comparison.
  */

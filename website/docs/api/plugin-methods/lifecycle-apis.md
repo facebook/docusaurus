@@ -43,17 +43,17 @@ The data that was loaded in `loadContent` will be consumed in `contentLoaded`. I
 Create a route to add to the website.
 
 ```ts
-interface RouteConfig {
+type RouteConfig = {
   path: string;
   component: string;
-  modules?: RouteModule;
+  modules?: RouteModules;
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
-}
-interface RouteModule {
-  [module: string]: Module | RouteModule | RouteModule[];
-}
+};
+type RouteModules = {
+  [module: string]: Module | RouteModules | RouteModules[];
+};
 type Module =
   | {
       path: string;
@@ -233,6 +233,27 @@ module.exports = function (context, options) {
 
 Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
+### Configuring dev server {#configuring-dev-server}
+
+The dev server can be configured through returning a `devServer` field.
+
+```js title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        // highlight-start
+        devServer: {
+          open: '/docs', // Opens localhost:3000/docs instead of localhost:3000/
+        },
+        // highlight-end
+      };
+    },
+  };
+};
+```
+
 ## `configurePostCss(options)` {#configurePostCss}
 
 Modifies [`postcssOptions` of `postcss-loader`](https://webpack.js.org/loaders/postcss-loader/#postcssoptions) during the generation of the client bundle.
@@ -318,7 +339,7 @@ function injectHtmlTags(): {
 
 type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
-interface HtmlTagObject {
+type HtmlTagObject = {
   /**
    * Attributes of the HTML tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
@@ -334,7 +355,7 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
-}
+};
 ```
 
 Example:

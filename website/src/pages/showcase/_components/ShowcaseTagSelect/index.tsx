@@ -6,12 +6,12 @@
  */
 
 import React, {
-  type ComponentProps,
-  type ReactNode,
-  type ReactElement,
   useCallback,
   useState,
   useEffect,
+  type ComponentProps,
+  type ReactNode,
+  type ReactElement,
 } from 'react';
 import {useHistory, useLocation} from '@docusaurus/router';
 import {toggleListItem} from '@site/src/utils/jsUtils';

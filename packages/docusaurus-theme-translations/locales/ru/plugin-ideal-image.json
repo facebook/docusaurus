@@ -1,7 +1,7 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded"
+  "theme.IdealImageMessage.404error": "404. Изображение не найдено",
+  "theme.IdealImageMessage.error": "Ошибка. Нажмите для перезагрузки",
+  "theme.IdealImageMessage.load": "Нажмите для загрузки {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Загрузка...",
+  "theme.IdealImageMessage.offline": "Ваш браузер находится в автономном режиме. Изображение не загружено"
 }

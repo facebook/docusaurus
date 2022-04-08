@@ -12,12 +12,6 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 const windowSizes = {
   desktop: 'desktop',
   mobile: 'mobile',
-
-  // This "ssr" value is very important to handle hydration FOUC / layout shifts
-  // You have to handle server-rendering explicitly on the call-site
-  // On the server, you may need to render BOTH the mobile/desktop elements (and
-  // hide one of them with mediaquery)
-  // We don't return "undefined" on purpose, to make it more explicit
   ssr: 'ssr',
 } as const;
 
@@ -34,14 +28,22 @@ function getWindowSize() {
     : windowSizes.mobile;
 }
 
-// Simulate the SSR window size in dev, so that potential hydration FOUC/layout
-// shift problems can be seen in dev too!
 const DevSimulateSSR = process.env.NODE_ENV === 'development' && true;
 
-// This hook returns an enum value on purpose!
-// We don't want it to return the actual width value, for resize perf reasons
-// We only want to re-render once a breakpoint is crossed
-export default function useWindowSize(): WindowSize {
+/**
+ * Gets the current window size as an enum value. We don't want it to return the
+ * actual width value, so that it only re-renders once a breakpoint is crossed.
+ *
+ * It may return `"ssr"`, which is very important to handle hydration FOUC or
+ * layout shifts. You have to handle it explicitly upfront. On the server, you
+ * may need to render BOTH the mobile/desktop elements (and hide one of them
+ * with mediaquery). We don't return `undefined` on purpose, to make it more
+ * explicit.
+ *
+ * In development mode, this hook will still return `"ssr"` for one second, to
+ * catch potential layout shifts, similar to strict mode calling effects twice.
+ */
+export function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>(() => {
     if (DevSimulateSSR) {
       return 'ssr';

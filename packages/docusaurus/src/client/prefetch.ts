@@ -5,21 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function support(feature: string) {
-  if (typeof document === 'undefined') {
-    return false;
-  }
-
-  const fakeLink = document.createElement('link');
+function supports(feature: string) {
   try {
-    if (fakeLink.relList && typeof fakeLink.relList.supports === 'function') {
-      return fakeLink.relList.supports(feature);
-    }
+    const fakeLink = document.createElement('link');
+    return fakeLink.relList?.supports?.(feature);
   } catch (err) {
     return false;
   }
-
-  return false;
 }
 
 function linkPrefetchStrategy(url: string) {
@@ -37,9 +29,9 @@ function linkPrefetchStrategy(url: string) {
     link.onerror = reject;
 
     const parentElement =
-      document.getElementsByTagName('head')[0] ||
-      document.getElementsByName('script')[0].parentNode;
-    parentElement.appendChild(link);
+      document.getElementsByTagName('head')[0] ??
+      document.getElementsByName('script')[0]?.parentNode;
+    parentElement?.appendChild(link);
   });
 }
 
@@ -61,11 +53,11 @@ function xhrPrefetchStrategy(url: string): Promise<void> {
   });
 }
 
-const supportedPrefetchStrategy = support('prefetch')
+const supportedPrefetchStrategy = supports('prefetch')
   ? linkPrefetchStrategy
   : xhrPrefetchStrategy;
 
-const preFetched: Record<string, boolean> = {};
+const preFetched: {[url: string]: boolean} = {};
 
 export default function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {

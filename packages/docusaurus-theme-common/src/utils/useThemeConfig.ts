@@ -17,7 +17,7 @@ export type NavbarItem = {
   items?: NavbarItem[];
   label?: string;
   position?: 'left' | 'right';
-} & Record<string, unknown>;
+} & {[key: string]: unknown};
 
 export type NavbarLogo = {
   src: string;
@@ -56,7 +56,7 @@ export type PrismConfig = {
   theme?: PrismTheme;
   darkTheme?: PrismTheme;
   defaultLanguage?: string;
-  additionalLanguages?: string[];
+  additionalLanguages: string[];
 };
 
 export type FooterLinkItem = {
@@ -65,18 +65,20 @@ export type FooterLinkItem = {
   href?: string;
   html?: string;
   prependBaseUrlToHref?: string;
+} & {[key: string]: unknown};
+
+export type FooterLogo = {
+  alt?: string;
+  src: string;
+  srcDark?: string;
+  width?: string | number;
+  height?: string | number;
+  href?: string;
 };
 
 export type FooterBase = {
   style: 'light' | 'dark';
-  logo?: {
-    alt?: string;
-    src?: string;
-    srcDark?: string;
-    width?: string | number;
-    height?: string | number;
-    href?: string;
-  };
+  logo?: FooterLogo;
   copyright?: string;
 };
 
@@ -117,7 +119,7 @@ export type ThemeConfig = {
   hideableSidebar: boolean;
   autoCollapseSidebarCategories: boolean;
   image?: string;
-  metadata: Array<Record<string, string>>;
+  metadata: Array<{[key: string]: string}>;
   sidebarCollapsible: boolean;
   tableOfContents: TableOfContents;
 };
@@ -125,6 +127,9 @@ export type ThemeConfig = {
 // User-provided theme config, unnormalized
 export type UserThemeConfig = DeepPartial<ThemeConfig>;
 
+/**
+ * A convenient/more semantic way to get theme config from context.
+ */
 export function useThemeConfig(): ThemeConfig {
   return useDocusaurusContext().siteConfig.themeConfig as ThemeConfig;
 }

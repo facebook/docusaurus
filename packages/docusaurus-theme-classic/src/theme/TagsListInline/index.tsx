@@ -26,7 +26,7 @@ export default function TagsListInline({tags}: Props): JSX.Element {
       <ul className={clsx(styles.tags, 'padding--none', 'margin-left--sm')}>
         {tags.map(({label, permalink: tagPermalink}) => (
           <li key={tagPermalink} className={styles.tag}>
-            <Tag name={label} permalink={tagPermalink} />
+            <Tag label={label} permalink={tagPermalink} />
           </li>
         ))}
       </ul>

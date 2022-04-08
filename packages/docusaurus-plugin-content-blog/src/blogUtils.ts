@@ -31,7 +31,7 @@ import {
   getContentPathList,
 } from '@docusaurus/utils';
 import type {LoadContext} from '@docusaurus/types';
-import {validateBlogPostFrontMatter} from './blogFrontMatter';
+import {validateBlogPostFrontMatter} from './frontMatter';
 import {type AuthorsMap, getAuthorsMap, getBlogPostAuthors} from './authors';
 import logger from '@docusaurus/logger';
 import type {
@@ -43,9 +43,9 @@ export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
-export function getSourceToPermalink(
-  blogPosts: BlogPost[],
-): Record<string, string> {
+export function getSourceToPermalink(blogPosts: BlogPost[]): {
+  [aliasedPath: string]: string;
+} {
   return Object.fromEntries(
     blogPosts.map(({metadata: {source, permalink}}) => [source, permalink]),
   );
@@ -72,7 +72,9 @@ export function paginateBlogPosts({
   const pages: BlogPaginated[] = [];
 
   function permalink(page: number) {
-    return page > 0 ? `${basePageUrl}/page/${page + 1}` : basePageUrl;
+    return page > 0
+      ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+      : basePageUrl;
   }
 
   for (let page = 0; page < numberOfPages; page += 1) {
@@ -86,8 +88,8 @@ export function paginateBlogPosts({
         postsPerPage,
         totalPages: numberOfPages,
         totalCount,
-        previousPage: page !== 0 ? permalink(page - 1) : null,
-        nextPage: page < numberOfPages - 1 ? permalink(page + 1) : null,
+        previousPage: page !== 0 ? permalink(page - 1) : undefined,
+        nextPage: page < numberOfPages - 1 ? permalink(page + 1) : undefined,
         blogDescription,
         blogTitle,
       },
@@ -112,7 +114,7 @@ export function getBlogTags({
   );
 
   return _.mapValues(groups, ({tag, items: tagBlogPosts}) => ({
-    name: tag.label,
+    label: tag.label,
     items: tagBlogPosts.map((item) => item.id),
     permalink: tag.permalink,
     pages: paginateBlogPosts({
@@ -139,10 +141,10 @@ export function parseBlogFileName(
   if (dateFilenameMatch) {
     const {folder, text, date: dateString} = dateFilenameMatch.groups!;
     // Always treat dates as UTC by adding the `Z`
-    const date = new Date(`${dateString}Z`);
-    const slugDate = dateString.replace(/-/g, '/');
-    const slug = `/${slugDate}/${folder}${text}`;
-    return {date, text, slug};
+    const date = new Date(`${dateString!}Z`);
+    const slugDate = dateString!.replace(/-/g, '/');
+    const slug = `/${slugDate}/${folder!}${text!}`;
+    return {date, text: text!, slug};
   }
   const text = blogSourceRelative.replace(/(?:\/index)?\.mdx?$/, '');
   const slug = `/${text}`;
@@ -245,7 +247,7 @@ async function processBlogSourceFile(
       });
       return result.date;
     } catch (err) {
-      logger.error(err);
+      logger.warn(err);
       return (await fs.stat(blogSourceAbsolute)).birthtime;
     }
   }

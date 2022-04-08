@@ -30,6 +30,7 @@ module.exports = {
     'plugin:jest/recommended',
     'airbnb',
     'plugin:@typescript-eslint/recommended',
+    'plugin:regexp/recommended',
     'prettier',
   ],
   settings: {
@@ -40,7 +41,7 @@ module.exports = {
     },
   },
   reportUnusedDisableDirectives: true,
-  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint'],
+  plugins: ['react-hooks', 'header', 'jest', '@typescript-eslint', 'regexp'],
   rules: {
     'array-callback-return': WARNING,
     camelcase: WARNING,
@@ -48,6 +49,7 @@ module.exports = {
     curly: [WARNING, 'all'],
     'global-require': WARNING,
     'lines-between-class-members': OFF,
+    'max-classes-per-file': OFF,
     'max-len': [
       WARNING,
       {
@@ -61,6 +63,7 @@ module.exports = {
     'no-await-in-loop': OFF,
     'no-case-declarations': WARNING,
     'no-console': OFF,
+    'no-continue': OFF,
     'no-control-regex': WARNING,
     'no-else-return': [WARNING, {allowElseIf: true}],
     'no-empty': [WARNING, {allowEmptyCatch: true}],
@@ -166,7 +169,12 @@ module.exports = {
       //   selector:
       // @   'ExportDefaultDeclaration > Identifier, ExportNamedDeclaration[source=null] > ExportSpecifier',
       //   message: 'Export in one statement'
-      // }
+      // },
+      ...['path', 'fs-extra', 'webpack', 'lodash'].map((m) => ({
+        selector: `ImportDeclaration[importKind=value]:has(Literal[value=${m}]) > ImportSpecifier[importKind=value]`,
+        message:
+          'Default-import this, both for readability and interoperability with ESM',
+      })),
     ],
     'no-template-curly-in-string': WARNING,
     'no-unused-expressions': [WARNING, {allowTaggedTemplates: true}],
@@ -194,15 +202,42 @@ module.exports = {
     'import/no-unresolved': [
       ERROR,
       {
-        ignore: ['^@theme', '^@docusaurus', '^@generated', '^@site'],
+        ignore: [
+          '^@theme',
+          '^@docusaurus',
+          '^@generated',
+          '^@site',
+          '^@testing-utils',
+        ],
       },
     ],
     'import/order': OFF,
     'import/prefer-default-export': OFF,
 
-    'jest/prefer-expect-resolves': WARNING,
+    'jest/consistent-test-it': WARNING,
     'jest/expect-expect': OFF,
-    'jest/valid-title': OFF,
+    'jest/no-large-snapshots': [
+      WARNING,
+      {maxSize: Infinity, inlineMaxSize: 10},
+    ],
+    'jest/no-test-return-statement': ERROR,
+    'jest/prefer-expect-resolves': WARNING,
+    'jest/prefer-lowercase-title': [WARNING, {ignore: ['describe']}],
+    'jest/prefer-spy-on': WARNING,
+    'jest/prefer-to-be': WARNING,
+    'jest/prefer-to-have-length': WARNING,
+    'jest/require-top-level-describe': ERROR,
+    'jest/valid-title': [
+      ERROR,
+      {
+        mustNotMatch: {
+          it: [
+            '^should|\\.$',
+            'Titles should not begin with "should" or end with a full-stop',
+          ],
+        },
+      },
+    ],
 
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
@@ -234,6 +269,10 @@ module.exports = {
       ERROR,
       {'ts-expect-error': 'allow-with-description'},
     ],
+    '@typescript-eslint/consistent-indexed-object-style': [
+      WARNING,
+      'index-signature',
+    ],
     '@typescript-eslint/consistent-type-imports': [
       WARNING,
       {disallowTypeAnnotations: false},
@@ -248,6 +287,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-inferrable-types': OFF,
+    '@typescript-eslint/no-namespace': [WARNING, {allowDeclarations: true}],
     'no-use-before-define': OFF,
     '@typescript-eslint/no-use-before-define': [
       ERROR,
@@ -259,14 +299,11 @@ module.exports = {
     'no-shadow': OFF,
     '@typescript-eslint/no-shadow': ERROR,
     'no-unused-vars': OFF,
-    '@typescript-eslint/no-unused-vars': [
-      ERROR,
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        ignoreRestSiblings: true,
-      },
-    ],
+    // We don't provide any escape hatches for this rule. Rest siblings and
+    // function placeholder params are always ignored, and any other unused
+    // locals must be justified with a disable comment.
+    '@typescript-eslint/no-unused-vars': [ERROR, {ignoreRestSiblings: true}],
+    '@typescript-eslint/prefer-optional-chain': ERROR,
   },
   overrides: [
     {
@@ -310,6 +347,22 @@ module.exports = {
         // Make JS code directly runnable in Node.
         '@typescript-eslint/no-var-requires': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+      },
+    },
+    {
+      // Internal files where extraneous deps don't matter much at long as
+      // they run
+      files: [
+        '*.test.ts',
+        '*.test.tsx',
+        'admin/**',
+        'jest/**',
+        'website/**',
+        'packages/docusaurus-theme-translations/update.mjs',
+        'packages/docusaurus-theme-translations/src/utils.ts',
+      ],
+      rules: {
+        'import/no-extraneous-dependencies': OFF,
       },
     },
   ],

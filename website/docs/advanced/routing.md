@@ -257,14 +257,14 @@ If you put some HTML pages under the `static` folder, they will be copied to the
 
 <BrowserWindow>
 
-- <Link data-noBrokenLinkCheck="true" to="/pure-html">/pure-html</Link>
+- [/pure-html](/pure-html)
 - [pathname:///pure-html](pathname:///pure-html)
 
 </BrowserWindow>
 
 :::tip
 
-The first link will trigger a "broken links detected" check during the production build.
+The first link will **not** trigger a "broken links detected" check during the production build, because the respective file actually exists. Nevertheless, when you click on the link, a "page not found" will be displayed until you refresh.
 
 :::
 

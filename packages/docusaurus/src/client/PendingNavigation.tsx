@@ -10,7 +10,7 @@ import {Route, withRouter, type RouteComponentProps} from 'react-router-dom';
 import type {RouteConfig} from 'react-router-config';
 import nprogress from 'nprogress';
 
-import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
+import clientLifecyclesDispatcher from './clientLifecyclesDispatcher';
 import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 import type {Location} from 'history';
@@ -19,18 +19,18 @@ import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-interface Props extends RouteComponentProps {
+type Props = RouteComponentProps & {
   readonly routes: RouteConfig[];
   readonly delay: number;
   readonly location: Location;
-}
-interface State {
+};
+type State = {
   nextRouteHasLoaded: boolean;
-}
+};
 
 class PendingNavigation extends React.Component<Props, State> {
-  previousLocation: Location | null;
-  progressBarTimeout: NodeJS.Timeout | null;
+  private previousLocation: Location | null;
+  private progressBarTimeout: NodeJS.Timeout | null;
 
   constructor(props: Props) {
     super(props);
@@ -45,7 +45,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  override shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
     const {routes, delay} = this.props;
 
@@ -116,7 +116,7 @@ class PendingNavigation extends React.Component<Props, State> {
     nprogress.done();
   }
 
-  render() {
+  override render() {
     const {children, location} = this.props;
     return (
       <Route location={normalizeLocation(location)} render={() => children} />

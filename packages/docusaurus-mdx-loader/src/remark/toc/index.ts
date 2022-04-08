@@ -27,9 +27,9 @@ const isImport = (child: Node): child is Literal => child.type === 'import';
 const hasImports = (index: number) => index > -1;
 const isExport = (child: Node): child is Literal => child.type === 'export';
 
-interface PluginOptions {
+type PluginOptions = {
   name?: string;
-}
+};
 
 const isTarget = (child: Literal, name: string) => {
   let found = false;
@@ -76,7 +76,7 @@ export default function plugin(options: PluginOptions = {}): Transformer {
   return (root) => {
     const headings: TOCItem[] = [];
 
-    visit(root, 'heading', (child: Heading, _index, parent) => {
+    visit(root, 'heading', (child: Heading, index, parent) => {
       const value = toString(child);
 
       // depth:1 headings are titles and not included in the TOC
@@ -93,8 +93,8 @@ export default function plugin(options: PluginOptions = {}): Transformer {
     const {children} = root as Parent<Literal>;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);
 
-    if (headings && headings.length) {
-      children[targetIndex].value = `export const ${name} = ${stringifyObject(
+    if (headings.length) {
+      children[targetIndex]!.value = `export const ${name} = ${stringifyObject(
         headings,
       )};`;
     }

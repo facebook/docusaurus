@@ -259,6 +259,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `type` | `'default'` | Optional | Sets the type of this item to a link. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
+| `html` | `string` | Optional | Same as `label`, but renders pure HTML instead of text content. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
@@ -288,6 +289,8 @@ module.exports = {
           // Only one of "to" or "href" should be used
           // href: 'https://www.facebook.com',
           label: 'Introduction',
+          // Only one of "label" or "html" should be used
+          // html: '<b>Introduction</b>'
           position: 'left',
           activeBaseRegex: 'docs/(next|v8)',
           target: '_blank',
@@ -901,9 +904,9 @@ import {useColorMode} from '@docusaurus/theme-common';
 
 const Example = () => {
   // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useColorMode();
+  const {colorMode, setColorMode} = useColorMode();
 
-  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
 };
 ```
 

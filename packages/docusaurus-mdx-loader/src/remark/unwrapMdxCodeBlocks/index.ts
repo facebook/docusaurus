@@ -17,7 +17,7 @@ import type {Code, Parent} from 'mdast';
 // See https://github.com/facebook/docusaurus/pull/4278
 export default function plugin(this: Processor): Transformer {
   return (root) => {
-    visit(root, 'code', (node: Code, _index, parent) => {
+    visit(root, 'code', (node: Code, index, parent) => {
       if (node.lang === 'mdx-code-block') {
         const newChildren = (this.parse(node.value) as Parent).children;
 

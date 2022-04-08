@@ -5,13 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
-import type {
-  ThemeConfig,
-  ValidationResult,
-  OptionValidationContext,
-} from '@docusaurus/types';
+import type {OptionValidationContext} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-pwa';
 
 const DEFAULT_OPTIONS = {
@@ -24,11 +19,11 @@ const DEFAULT_OPTIONS = {
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: undefined,
-  swRegister: path.join(__dirname, 'registerSw.js'),
+  swRegister: './registerSw.js',
   reloadPopup: '@theme/PwaReloadPopup',
 };
 
-export const Schema = Joi.object({
+const Schema = Joi.object({
   debug: Joi.bool().default(DEFAULT_OPTIONS.debug),
   offlineModeActivationStrategies: Joi.array()
     .items(
@@ -62,6 +57,6 @@ export const Schema = Joi.object({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<ThemeConfig> {
+}: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
   return validate(Schema, options);
 }

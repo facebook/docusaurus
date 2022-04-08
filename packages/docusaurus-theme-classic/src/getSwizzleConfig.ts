@@ -37,10 +37,61 @@ export default function getSwizzleConfig(): SwizzleConfig {
       },
       Footer: {
         actions: {
-          eject: 'unsafe', // TODO split footer into smaller parts
+          eject: 'safe',
           wrap: 'safe',
         },
         description: "The footer component of you site's layout",
+      },
+      'Footer/Copyright': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer copyright',
+      },
+      'Footer/Layout': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer main layout component',
+      },
+      'Footer/LinkItem': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer link item component',
+      },
+      'Footer/Links': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer component rendering the footer links',
+      },
+      'Footer/Links/MultiColumn': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The footer component rendering the footer links with a multi-column layout',
+      },
+      'Footer/Links/Simple': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The footer component rendering the footer links with a simple layout (single row)',
+      },
+      'Footer/Logo': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The footer logo',
       },
       IconArrow: {
         actions: {
@@ -84,6 +135,76 @@ export default function getSwizzleConfig(): SwizzleConfig {
         },
         description:
           'The MDX components to use for rendering MDX files. Meant to be ejected.',
+      },
+      'MDXComponents/A': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <a> tags and Markdown links in MDX',
+      },
+      'MDXComponents/Code': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <code> tags and Markdown code blocks in MDX',
+      },
+      'MDXComponents/Details': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The component used to render <details> tags in MDX',
+      },
+      'MDXComponents/Head': {
+        actions: {
+          eject: 'forbidden',
+          wrap: 'forbidden',
+        },
+        description:
+          'Technical component used to assign metadata (generally for SEO purpose) to the current MDX document',
+      },
+      'MDXComponents/Heading': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render heading tags (<h1>, <h2>...) and Markdown headings in MDX',
+      },
+      'MDXComponents/Img': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <img> tags and Markdown images in MDX',
+      },
+      'MDXComponents/Pre': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description: 'The component used to render <pre> tags in MDX',
+      },
+      'MDXComponents/Ul': {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'The component used to render <ul> tags and Markdown unordered lists in MDX',
+      },
+      MDXContent: {
+        actions: {
+          eject: 'safe',
+          wrap: 'safe',
+        },
+        description:
+          'A component wrapping all MDX content and providing the MDXComponents to the MDX context',
       },
       // TODO should probably not even appear here
       'NavbarItem/utils': {

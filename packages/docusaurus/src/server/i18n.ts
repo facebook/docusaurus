@@ -5,19 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
-import path from 'path';
-import {normalizeUrl} from '@docusaurus/utils';
 import {getLangDir} from 'rtl-detect';
 import logger from '@docusaurus/logger';
+import type {I18n, DocusaurusConfig, I18nLocaleConfig} from '@docusaurus/types';
+import type {LoadContextOptions} from './index';
 
 function getDefaultLocaleLabel(locale: string) {
   const languageName = new Intl.DisplayNames(locale, {type: 'language'}).of(
     locale,
-  );
-  if (!languageName) {
-    return locale;
-  }
+  )!;
   return (
     languageName.charAt(0).toLocaleUpperCase(locale) + languageName.substring(1)
   );
@@ -34,7 +30,7 @@ export function getDefaultLocaleConfig(locale: string): I18nLocaleConfig {
 
 export async function loadI18n(
   config: DocusaurusConfig,
-  options: {locale?: string} = {},
+  options: Pick<LoadContextOptions, 'locale'>,
 ): Promise<I18n> {
   const {i18n: i18nConfig} = config;
 
@@ -56,9 +52,8 @@ Note: Docusaurus only support running one locale at a time.`;
     };
   }
 
-  const localeConfigs = locales.reduce(
-    (acc, locale) => ({...acc, [locale]: getLocaleConfig(locale)}),
-    {},
+  const localeConfigs = Object.fromEntries(
+    locales.map((locale) => [locale, getLocaleConfig(locale)]),
   );
 
   return {
@@ -67,36 +62,4 @@ Note: Docusaurus only support running one locale at a time.`;
     currentLocale,
     localeConfigs,
   };
-}
-
-export function localizePath({
-  pathType,
-  path: originalPath,
-  i18n,
-  options = {},
-}: {
-  pathType: 'fs' | 'url';
-  path: string;
-  i18n: I18n;
-  options?: {localizePath?: boolean};
-}): string {
-  const shouldLocalizePath: boolean =
-    // By default, we don't localize the path of defaultLocale
-    options.localizePath ??
-    (i18n.currentLocale !== i18n.defaultLocale ||
-      i18n.localeConfigs[i18n.currentLocale].baseUrl !== undefined);
-
-  if (!shouldLocalizePath) {
-    return originalPath;
-  }
-  // FS paths need special care, for Windows support
-  if (pathType === 'fs') {
-    return path.join(originalPath, i18n.currentLocale);
-  }
-  // Url paths; add a trailing slash so it's a valid base URL
-  if (pathType === 'url') {
-    return normalizeUrl([originalPath, i18n.currentLocale, '/']);
-  }
-  // should never happen
-  throw new Error(`Unhandled path type "${pathType}".`);
 }

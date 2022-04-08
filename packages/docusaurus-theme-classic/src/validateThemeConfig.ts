@@ -6,7 +6,10 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+import type {
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -46,8 +49,10 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
+  html: Joi.string(),
   className: Joi.string(),
 })
+  .nand('html', 'label')
   // We allow any unknown attributes on the links (users may need additional
   // attributes like target, aria-role, data-customAttribute...)
   .unknown();
@@ -304,7 +309,7 @@ export const ThemeConfigSchema = Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
       alt: Joi.string().allow(''),
-      src: Joi.string(),
+      src: Joi.string().required(),
       srcDark: Joi.string(),
       // TODO infer this from reading the image
       width: Joi.alternatives().try(Joi.string(), Joi.number()),
@@ -373,9 +378,6 @@ export const ThemeConfigSchema = Joi.object({
 export function validateThemeConfig({
   validate,
   themeConfig,
-}: {
-  validate: Validate<ThemeConfig>;
-  themeConfig: ThemeConfig;
-}): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(ThemeConfigSchema, themeConfig);
 }

@@ -46,6 +46,10 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   testOK([() => {}]);
   testOK([[() => {}, {attr: 'val'}]]);
   testOK([[() => {}, {attr: 'val'}], () => {}, [() => {}, {attr: 'val'}]]);
+  // cSpell:ignore remarkjs
+  // official `remarkjs/remark-frontmatter` plugin accepts string options
+  testOK([[() => {}, 'string-option']]);
+  testOK([[() => {}, true]]);
 
   testFail(null);
   testFail(false);
@@ -55,11 +59,10 @@ function testMarkdownPluginSchemas(schema: Joi.Schema) {
   testFail([3]);
   testFail([[]]);
   testFail([[() => {}, undefined]]);
-  testFail([[() => {}, true]]);
 }
 
 describe('validation schemas', () => {
-  test('PluginIdSchema', () => {
+  it('pluginIdSchema', () => {
     const {testOK, testFail} = createTestHelpers({
       schema: PluginIdSchema,
       defaultValue: 'default',
@@ -81,7 +84,7 @@ describe('validation schemas', () => {
     testFail([]);
   });
 
-  test('AdmonitionsSchema', () => {
+  it('admonitionsSchema', () => {
     const {testOK, testFail} = createTestHelpers({
       schema: AdmonitionsSchema,
       defaultValue: {},
@@ -97,15 +100,15 @@ describe('validation schemas', () => {
     testFail([]);
   });
 
-  test('RemarkPluginsSchema', () => {
+  it('remarkPluginsSchema', () => {
     testMarkdownPluginSchemas(RemarkPluginsSchema);
   });
 
-  test('RehypePluginsSchema', () => {
+  it('rehypePluginsSchema', () => {
     testMarkdownPluginSchemas(RehypePluginsSchema);
   });
 
-  test('URISchema', () => {
+  it('uRISchema', () => {
     const {testFail, testOK} = createTestHelpers({schema: URISchema});
 
     const validURL = 'https://docusaurus.io';
@@ -127,7 +130,7 @@ describe('validation schemas', () => {
     testOK(protocolRelativeUrl2);
   });
 
-  test('PathnameSchema', () => {
+  it('pathnameSchema', () => {
     const {testFail, testOK} = createTestHelpers({schema: PathnameSchema});
 
     testOK('/foo');
