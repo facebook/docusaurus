@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {uniqBy, difference, groupBy} from 'lodash';
+import _ from 'lodash';
 import type {
-  PluginContext,
-  RedirectMetadata,
   PluginOptions,
   RedirectOption,
-} from './types';
+} from '@docusaurus/plugin-client-redirects';
+import type {PluginContext, RedirectMetadata} from './types';
 import {
   createFromExtensionsRedirects,
   createToExtensionsRedirects,
@@ -40,9 +39,12 @@ export default function collectRedirects(
 }
 
 // If users wants to redirect to=/abc and they enable trailingSlash=true then
-// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid path now)
-// => we want to redirect to=/abc/ without the user having to change all its redirect plugin options
-// It should be easy to toggle siteConfig.trailingSlash option without having to change other configs
+// => we don't want to reject the to=/abc (as only /abc/ is an existing/valid
+// path now)
+// => we want to redirect to=/abc/ without the user having to change all its
+// redirect plugin options
+// It should be easy to toggle siteConfig.trailingSlash option without having to
+// change other configs
 function applyRedirectsTrailingSlash(
   redirects: RedirectMetadata[],
   params: ApplyTrailingSlashParams,
@@ -62,8 +64,8 @@ function validateCollectedRedirects(
       try {
         validateRedirect(redirect);
         return undefined;
-      } catch (e) {
-        return (e as Error).message;
+      } catch (err) {
+        return (err as Error).message;
       }
     })
     .filter(Boolean);
@@ -77,7 +79,7 @@ function validateCollectedRedirects(
 
   const allowedToPaths = pluginContext.relativeRoutesPaths;
   const toPaths = redirects.map((redirect) => redirect.to);
-  const illegalToPaths = difference(toPaths, allowedToPaths);
+  const illegalToPaths = _.difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
     throw new Error(
       `You are trying to create client-side redirections to paths that do not exist:
@@ -96,7 +98,7 @@ function filterUnwantedRedirects(
 ): RedirectMetadata[] {
   // we don't want to create twice the same redirect
   // that would lead to writing twice the same html redirection file
-  Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
+  Object.entries(_.groupBy(redirects, (redirect) => redirect.from)).forEach(
     ([from, groupedFromRedirects]) => {
       if (groupedFromRedirects.length > 1) {
         logger.error`name=${'@docusaurus/plugin-client-redirects'}: multiple redirects are created with the same "from" pathname: path=${from}
@@ -106,7 +108,7 @@ It is not possible to redirect the same pathname to multiple destinations: ${gro
       }
     },
   );
-  const collectedRedirects = uniqBy(redirects, (redirect) => redirect.from);
+  const collectedRedirects = _.uniqBy(redirects, (redirect) => redirect.from);
 
   // We don't want to override an already existing route with a redirect file!
   const redirectsOverridingExistingPath = collectedRedirects.filter(
@@ -144,7 +146,7 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
 function createRedirectsOptionRedirects(
   redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
-  // For conveniency, user can use a string or a string[]
+  // For convenience, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];
@@ -164,9 +166,7 @@ function createCreateRedirectsOptionRedirects(
   createRedirects: PluginOptions['createRedirects'],
 ): RedirectMetadata[] {
   function createPathRedirects(path: string): RedirectMetadata[] {
-    const fromsMixed: string | string[] = createRedirects
-      ? createRedirects(path) || []
-      : [];
+    const fromsMixed: string | string[] = createRedirects?.(path) ?? [];
 
     const froms: string[] =
       typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;

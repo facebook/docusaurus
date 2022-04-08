@@ -7,6 +7,10 @@
 
 /// <reference types="@docusaurus/module-type-aliases" />
 
+declare module '@docusaurus/plugin-debug' {
+  export const routeBasePath: string;
+}
+
 declare module '@theme/DebugConfig' {
   export default function DebugMetadata(): JSX.Element;
 }
@@ -33,6 +37,8 @@ declare module '@theme/DebugJsonView' {
 }
 
 declare module '@theme/DebugLayout' {
+  import type {ReactNode} from 'react';
+
   export default function DebugLayout(props: {
     children: ReactNode;
   }): JSX.Element;

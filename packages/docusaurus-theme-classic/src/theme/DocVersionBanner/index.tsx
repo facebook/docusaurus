@@ -13,7 +13,7 @@ import {
   useActivePlugin,
   useDocVersionSuggestions,
   type GlobalVersion,
-} from '@theme/hooks/useDocs';
+} from '@docusaurus/plugin-content-docs/client';
 import {
   ThemeClassNames,
   useDocsPreferredVersion,
@@ -70,10 +70,9 @@ function UnmaintainedVersionLabel({
   );
 }
 
-const BannerLabelComponents: Record<
-  VersionBanner,
-  ComponentType<BannerLabelComponentProps>
-> = {
+const BannerLabelComponents: {
+  [banner in VersionBanner]: ComponentType<BannerLabelComponentProps>;
+} = {
   unreleased: UnreleasedVersionLabel,
   unmaintained: UnmaintainedVersionLabel,
 };

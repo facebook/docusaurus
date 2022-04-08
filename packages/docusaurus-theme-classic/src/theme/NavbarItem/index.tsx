@@ -14,24 +14,24 @@ import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem
 import SearchNavbarItem from '@theme/NavbarItem/SearchNavbarItem';
 import type {Types, Props} from '@theme/NavbarItem';
 
-const NavbarItemComponents: Record<
-  Exclude<Types, undefined>,
-  // TODO: properly type this
+const NavbarItemComponents: {
+  // Not really worth typing, as we pass all props down immediately
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  () => (props: any) => JSX.Element
-> = {
+  [type in Exclude<Types, undefined>]: () => (props: any) => JSX.Element;
+} = {
   default: () => DefaultNavbarItem,
   localeDropdown: () => LocaleDropdownNavbarItem,
   search: () => SearchNavbarItem,
   dropdown: () => DropdownNavbarItem,
 
-  // Need to lazy load these items as we don't know for sure the docs plugin is loaded
-  // See https://github.com/facebook/docusaurus/issues/3360
+  // Need to lazy load these items as we don't know for sure the docs plugin is
+  // loaded. See https://github.com/facebook/docusaurus/issues/3360
   /* eslint-disable @typescript-eslint/no-var-requires, global-require */
   docsVersion: () => require('@theme/NavbarItem/DocsVersionNavbarItem').default,
   docsVersionDropdown: () =>
     require('@theme/NavbarItem/DocsVersionDropdownNavbarItem').default,
   doc: () => require('@theme/NavbarItem/DocNavbarItem').default,
+  docSidebar: () => require('@theme/NavbarItem/DocSidebarNavbarItem').default,
   /* eslint-enable @typescript-eslint/no-var-requires, global-require */
 } as const;
 
@@ -56,9 +56,6 @@ function getComponentType(
   }
   return type as NavbarItemComponentType;
 }
-
-export const getInfimaActiveClassName = (mobile?: boolean): string =>
-  mobile ? 'menu__link--active' : 'navbar__link--active';
 
 export default function NavbarItem({type, ...props}: Props): JSX.Element {
   const componentType = getComponentType(

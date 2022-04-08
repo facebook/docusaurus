@@ -19,24 +19,14 @@ import {
   createAbsoluteFilePathMatcher,
   normalizeUrl,
   DEFAULT_PLUGIN_ID,
+  parseMarkdownString,
 } from '@docusaurus/utils';
-import type {
-  LoadContext,
-  Plugin,
-  OptionValidationContext,
-  ValidationResult,
-  ConfigureWebpackUtils,
-} from '@docusaurus/types';
-import type {Configuration} from 'webpack';
+import type {LoadContext, Plugin} from '@docusaurus/types';
 import admonitions from 'remark-admonitions';
-import {PluginOptionSchema} from './pluginOptionSchema';
+import {validatePageFrontMatter} from './frontMatter';
 
-import type {
-  PluginOptions,
-  LoadedContent,
-  Metadata,
-  PagesContentPaths,
-} from './types';
+import type {LoadedContent, PagesContentPaths} from './types';
+import type {PluginOptions, Metadata} from '@docusaurus/plugin-content-pages';
 
 export function getContentPathList(contentPaths: PagesContentPaths): string[] {
   return [contentPaths.contentPathLocalized, contentPaths.contentPath];
@@ -51,7 +41,7 @@ export default async function pluginContentPages(
 ): Promise<Plugin<LoadedContent | null>> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, options.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
   const {
@@ -81,7 +71,7 @@ export default async function pluginContentPages(
     name: 'docusaurus-plugin-content-pages',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       return getContentPathList(contentPaths).flatMap((contentPath) =>
         include.map((pattern) => `${contentPath}/${pattern}`),
       );
@@ -114,20 +104,28 @@ export default async function pluginContentPages(
           options.routeBasePath,
           encodePath(fileToPath(relativeSource)),
         ]);
-        if (isMarkdownSource(relativeSource)) {
-          // TODO: missing frontmatter validation/normalization here
-          return {
-            type: 'mdx',
-            permalink,
-            source: aliasedSourcePath,
-          };
-        } else {
+        if (!isMarkdownSource(relativeSource)) {
           return {
             type: 'jsx',
             permalink,
             source: aliasedSourcePath,
           };
         }
+        const content = await fs.readFile(source, 'utf-8');
+        const {
+          frontMatter: unsafeFrontMatter,
+          contentTitle,
+          excerpt,
+        } = parseMarkdownString(content);
+        const frontMatter = validatePageFrontMatter(unsafeFrontMatter);
+        return {
+          type: 'mdx',
+          permalink,
+          source: aliasedSourcePath,
+          title: frontMatter.title ?? contentTitle,
+          description: frontMatter.description ?? excerpt,
+          frontMatter,
+        };
       }
 
       return Promise.all(pagesFiles.map(toMetadata));
@@ -172,11 +170,7 @@ export default async function pluginContentPages(
       );
     },
 
-    configureWebpack(
-      _config: Configuration,
-      isServer: boolean,
-      {getJSLoader}: ConfigureWebpackUtils,
-    ) {
+    configureWebpack(config, isServer, {getJSLoader}) {
       const {
         rehypePlugins,
         remarkPlugins,
@@ -193,7 +187,7 @@ export default async function pluginContentPages(
         module: {
           rules: [
             {
-              test: /(\.mdx?)$/,
+              test: /\.mdx?$/i,
               include: contentDirs
                 // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
                 .map(addTrailingPathSeparator),
@@ -241,10 +235,4 @@ export default async function pluginContentPages(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

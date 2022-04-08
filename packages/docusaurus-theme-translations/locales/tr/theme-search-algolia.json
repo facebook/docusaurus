@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Ara",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Algolia ile Ara",
   "theme.SearchPage.documentsFound.plurals": "Bir döküman bulundu|{count} döküman bulundu",
   "theme.SearchPage.emptyResultsTitle": "Dokümanlarda ara",

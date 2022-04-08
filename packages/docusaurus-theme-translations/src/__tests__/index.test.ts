@@ -13,14 +13,27 @@ import {
 } from '../index';
 
 describe('codeTranslationLocalesToTry', () => {
-  test('should return appropriate locale lists', () => {
-    expect(codeTranslationLocalesToTry('fr')).toEqual(['fr', 'fr-FR']);
+  it('returns appropriate locale lists', () => {
+    expect(codeTranslationLocalesToTry('fr')).toEqual([
+      'fr',
+      'fr-FR',
+      'fr-Latn',
+    ]);
     expect(codeTranslationLocalesToTry('fr-FR')).toEqual(['fr-FR', 'fr']);
-    // Note: "pt" is expanded into "pt-BR", not "pt-PT", as "pt-BR" is more widely used!
-    // See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
-    expect(codeTranslationLocalesToTry('pt')).toEqual(['pt', 'pt-BR']);
+    // Note: "pt" is expanded into "pt-BR", not "pt-PT", as "pt-BR" is more
+    // widely used! See https://github.com/facebook/docusaurus/pull/4536#issuecomment-810088783
+    expect(codeTranslationLocalesToTry('pt')).toEqual([
+      'pt',
+      'pt-BR',
+      'pt-Latn',
+    ]);
     expect(codeTranslationLocalesToTry('pt-BR')).toEqual(['pt-BR', 'pt']);
     expect(codeTranslationLocalesToTry('pt-PT')).toEqual(['pt-PT', 'pt']);
+    expect(codeTranslationLocalesToTry('zh')).toEqual([
+      'zh',
+      'zh-CN',
+      'zh-Hans',
+    ]);
   });
 });
 
@@ -43,7 +56,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     );
   }
 
-  test('for empty locale', async () => {
+  it('for empty locale', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: '',
@@ -54,7 +67,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     );
   });
 
-  test('for unexisting locale', async () => {
+  it('for nonexistent locale', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'es',
@@ -64,7 +77,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual({});
   });
 
-  test('for fr but bad folder', async () => {
+  it('for fr but bad folder', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'fr',
@@ -74,7 +87,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual({});
   });
 
-  test('for fr', async () => {
+  it('for fr', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'fr',
@@ -84,7 +97,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual(await readAsJSON('fr'));
   });
 
-  test('for fr-FR', async () => {
+  it('for fr-FR', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'fr-FR',
@@ -94,7 +107,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual(await readAsJSON('fr-FR'));
   });
 
-  test('for en', async () => {
+  it('for en', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'en',
@@ -104,7 +117,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual(await readAsJSON('en'));
   });
 
-  test('for en-US', async () => {
+  it('for en-US', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'en-US',
@@ -114,7 +127,7 @@ describe('readDefaultCodeTranslationMessages', () => {
     ).resolves.toEqual(await readAsJSON('en'));
   });
 
-  test('for en-WHATEVER', async () => {
+  it('for en-WHATEVER', async () => {
     await expect(
       readDefaultCodeTranslationMessages({
         locale: 'en-WHATEVER',
@@ -122,5 +135,18 @@ describe('readDefaultCodeTranslationMessages', () => {
         name,
       }),
     ).resolves.toEqual(await readAsJSON('en'));
+  });
+
+  it('default locale', async () => {
+    await expect(
+      readDefaultCodeTranslationMessages({
+        locale: 'zh',
+        name: 'plugin-pwa',
+      }),
+    ).resolves.toEqual({
+      'theme.PwaReloadPopup.closeButtonAriaLabel': '关闭',
+      'theme.PwaReloadPopup.info': '有可用的新版本',
+      'theme.PwaReloadPopup.refreshButtonText': '刷新',
+    });
   });
 });

@@ -18,6 +18,8 @@ export type Data = {
 export type ClassicPresetEntries = {
   docs: {[key: string]: unknown};
   blog: {[key: string]: unknown};
+  gtag?: {trackingID: string} | undefined;
+  googleAnalytics?: {trackingID: string} | undefined;
   theme: {[key: string]: unknown};
 };
 
@@ -31,11 +33,11 @@ export type SidebarEntry =
 
 export type SidebarEntries = {
   [key: string]:
-    | Record<string, unknown>
-    | Array<Record<string, unknown> | string>;
+    | {[key: string]: unknown}
+    | Array<{[key: string]: unknown} | string>;
 };
 
-export interface VersionTwoConfig {
+export type VersionTwoConfig = {
   baseUrl: string;
   favicon: string;
   tagline?: string;
@@ -51,15 +53,12 @@ export interface VersionTwoConfig {
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
-    gtag?: {
-      trackingID?: string;
-    };
     navbar: {
       title?: string;
       logo?: {
         src?: string;
       };
-      items: Array<Record<string, unknown> | null>;
+      items: Array<{[key: string]: unknown} | null>;
     };
     image?: string;
     footer: {
@@ -75,7 +74,7 @@ export interface VersionTwoConfig {
         src?: string;
       };
     };
-    algolia?: Record<string, unknown>;
+    algolia?: {[key: string]: unknown};
   };
   customFields: {
     [key: string]: unknown;
@@ -94,7 +93,7 @@ export interface VersionTwoConfig {
         [key: string]: unknown;
       }
   )[];
-}
+};
 
 export type VersionOneConfig = {
   title?: string;
@@ -112,15 +111,16 @@ export type VersionOneConfig = {
   copyright?: string;
   editUrl?: string;
   customDocsPath?: string;
-  users?: Array<Record<string, unknown>>;
+  users?: Array<{[key: string]: unknown}>;
   disableHeaderTitle?: string;
   disableTitleTagline?: string;
-  separateCss?: Array<Record<string, unknown>>;
+  separateCss?: Array<{[key: string]: unknown}>;
   footerIcon?: string;
   translationRecruitingLink?: string;
-  algolia?: Record<string, unknown>;
+  algolia?: {[key: string]: unknown};
   gaTrackingId?: string;
-  highlight?: Record<string, unknown>;
+  gaGtag?: boolean;
+  highlight?: {[key: string]: unknown};
   markdownPlugins?: Array<() => void>;
   scripts?: Array<{src: string; [key: string]: unknown} | string>;
   stylesheets?: Array<{href: string; [key: string]: unknown} | string>;
@@ -133,5 +133,5 @@ export type VersionOneConfig = {
   ogImage?: string;
   cleanUrl?: boolean;
   scrollToTop?: boolean;
-  scrollToTopOptions?: Record<string, unknown>;
+  scrollToTopOptions?: {[key: string]: unknown};
 };

@@ -9,7 +9,8 @@ import chalk, {type Chalk} from 'chalk';
 
 type InterpolatableValue = string | number | (string | number)[];
 
-const path = (msg: unknown): string => chalk.cyan(chalk.underline(msg));
+const path = (msg: unknown): string => chalk.cyan(chalk.underline(`"${msg}"`));
+const url = (msg: unknown): string => chalk.cyan(chalk.underline(msg));
 const name = (msg: unknown): string => chalk.blue(chalk.bold(msg));
 const code = (msg: unknown): string => chalk.cyan(`\`${msg}\``);
 const subdue: Chalk = chalk.gray;
@@ -21,15 +22,17 @@ function interpolate(
 ): string {
   let res = '';
   values.forEach((value, idx) => {
-    const flag = msgs[idx].match(/[a-z]+=$/);
-    res += msgs[idx].replace(/[a-z]+=$/, '');
-    const format = (function () {
+    const flag = msgs[idx]!.match(/[a-z]+=$/);
+    res += msgs[idx]!.replace(/[a-z]+=$/, '');
+    const format = (() => {
       if (!flag) {
         return (a: string | number) => a;
       }
       switch (flag[0]) {
         case 'path=':
           return path;
+        case 'url=':
+          return url;
         case 'number=':
           return num;
         case 'name=':
@@ -52,6 +55,13 @@ function interpolate(
   return res;
 }
 
+function stringify(msg: unknown): string {
+  if (String(msg) === '[object Object]') {
+    return JSON.stringify(msg);
+  }
+  return String(msg);
+}
+
 function info(msg: unknown): void;
 function info(
   msg: TemplateStringsArray,
@@ -61,7 +71,7 @@ function info(msg: unknown, ...values: InterpolatableValue[]): void {
   console.info(
     `${chalk.cyan(chalk.bold('[INFO]'))} ${
       values.length === 0
-        ? msg
+        ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
     }`,
   );
@@ -76,7 +86,7 @@ function warn(msg: unknown, ...values: InterpolatableValue[]): void {
     chalk.yellow(
       `${chalk.bold('[WARNING]')} ${
         values.length === 0
-          ? msg
+          ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
       }`,
     ),
@@ -92,7 +102,7 @@ function error(msg: unknown, ...values: InterpolatableValue[]): void {
     chalk.red(
       `${chalk.bold('[ERROR]')} ${
         values.length === 0
-          ? msg
+          ? stringify(msg)
           : interpolate(msg as TemplateStringsArray, ...values)
       }`,
     ),
@@ -107,10 +117,14 @@ function success(msg: unknown, ...values: InterpolatableValue[]): void {
   console.log(
     `${chalk.green(chalk.bold('[SUCCESS]'))} ${
       values.length === 0
-        ? msg
+        ? stringify(msg)
         : interpolate(msg as TemplateStringsArray, ...values)
     }`,
   );
+}
+
+function newLine(): void {
+  console.log();
 }
 
 const logger = {
@@ -120,6 +134,7 @@ const logger = {
   bold: chalk.bold,
   dim: chalk.dim,
   path,
+  url,
   name,
   code,
   subdue,
@@ -129,6 +144,12 @@ const logger = {
   warn,
   error,
   success,
+  newLine,
 };
+
+// TODO remove when migrating to ESM
+// logger can only be default-imported in ESM with this
+module.exports = logger;
+module.exports.default = logger;
 
 export default logger;

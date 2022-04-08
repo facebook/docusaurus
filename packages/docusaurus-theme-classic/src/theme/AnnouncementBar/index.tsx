@@ -13,7 +13,7 @@ import IconClose from '@theme/IconClose';
 
 import styles from './styles.module.css';
 
-function AnnouncementBar(): JSX.Element | null {
+export default function AnnouncementBar(): JSX.Element | null {
   const {isActive, close} = useAnnouncementBar();
   const {announcementBar} = useThemeConfig();
 
@@ -51,5 +51,3 @@ function AnnouncementBar(): JSX.Element | null {
     </div>
   );
 }
-
-export default AnnouncementBar;

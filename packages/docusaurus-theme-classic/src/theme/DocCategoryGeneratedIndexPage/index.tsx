@@ -6,34 +6,56 @@
  */
 
 import React from 'react';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+import {
+  PageMetadata,
+  useCurrentSidebarCategory,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/DocCategoryGeneratedIndexPage';
 import DocCardList from '@theme/DocCardList';
 import DocPaginator from '@theme/DocPaginator';
-import Seo from '@theme/Seo';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
-import {MainHeading} from '@theme/Heading';
+import DocBreadcrumbs from '@theme/DocBreadcrumbs';
+import Heading from '@theme/Heading';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
-export default function DocCategoryGeneratedIndexPage({
+function DocCategoryGeneratedIndexPageMetadata({
+  categoryGeneratedIndex,
+}: Props): JSX.Element {
+  return (
+    <PageMetadata
+      title={categoryGeneratedIndex.title}
+      description={categoryGeneratedIndex.description}
+      keywords={categoryGeneratedIndex.keywords}
+      // TODO `require` this?
+      image={useBaseUrl(categoryGeneratedIndex.image)}
+    />
+  );
+}
+
+function DocCategoryGeneratedIndexPageContent({
   categoryGeneratedIndex,
 }: Props): JSX.Element {
   const category = useCurrentSidebarCategory();
   return (
     <>
-      <Seo
+      <PageMetadata
         title={categoryGeneratedIndex.title}
         description={categoryGeneratedIndex.description}
+        keywords={categoryGeneratedIndex.keywords}
+        // TODO `require` this?
+        image={useBaseUrl(categoryGeneratedIndex.image)}
       />
       <div className={styles.generatedIndexPage}>
         <DocVersionBanner />
+        <DocBreadcrumbs />
         <DocVersionBadge />
         <header>
-          <MainHeading className={styles.title}>
+          <Heading as="h1" className={styles.title}>
             {categoryGeneratedIndex.title}
-          </MainHeading>
+          </Heading>
           {categoryGeneratedIndex.description && (
             <p>{categoryGeneratedIndex.description}</p>
           )}
@@ -48,6 +70,17 @@ export default function DocCategoryGeneratedIndexPage({
           />
         </footer>
       </div>
+    </>
+  );
+}
+
+export default function DocCategoryGeneratedIndexPage(
+  props: Props,
+): JSX.Element {
+  return (
+    <>
+      <DocCategoryGeneratedIndexPageMetadata {...props} />
+      <DocCategoryGeneratedIndexPageContent {...props} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`brokenLinks getBrokenLinksErrorMessage 1`] = `
+exports[`handleBrokenLinks reports all broken links 1`] = `
 "Docusaurus found broken links!
 
 Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
@@ -8,16 +8,33 @@ Note: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus c
 
 Exhaustive list of all broken links found:
 
-- On source page path = /docs/mySourcePage:
-   -> linking to ./myBrokenLink (resolved as: /docs/myBrokenLink)
-   -> linking to ../otherBrokenLink (resolved as: /otherBrokenLink)
+- On source page path = /docs/good doc with space:
+   -> linking to ./some%20other%20non-existent%20doc1 (resolved as: /docs/some%20other%20non-existent%20doc1)
+   -> linking to ./break%2F..%2F..%2Fout2 (resolved as: /docs/break%2F..%2F..%2Fout2)
 
-- On source page path = /otherSourcePage:
-   -> linking to /badLink
+- On source page path = /docs/goodDoc:
+   -> linking to ../anotherGoodDoc#reported-because-of-bad-relative-path1 (resolved as: /anotherGoodDoc)
+   -> linking to ./docThatDoesNotExist2 (resolved as: /docs/docThatDoesNotExist2)
+   -> linking to ./badRelativeLink3 (resolved as: /docs/badRelativeLink3)
+   -> linking to ../badRelativeLink4 (resolved as: /badRelativeLink4)
+
+- On source page path = /community:
+   -> linking to /someNonExistentDoc1
+   -> linking to /badLink2
+   -> linking to ./badLink3 (resolved as: /badLink3)
+
+- On source page path = /page1:
+   -> linking to /link1
+   -> linking to /emptyFolder
+
+- On source page path = /page2:
+   -> linking to /docs/link2
+   -> linking to /emptyFolder/
+   -> linking to /hey/link3
 "
 `;
 
-exports[`brokenLinks getBrokenLinksErrorMessage with potential layout broken links 1`] = `
+exports[`handleBrokenLinks reports frequent broken links 1`] = `
 "Docusaurus found broken links!
 
 Please check the pages of your site in the list below, and make sure you don't reference any path that does not exist.
@@ -27,38 +44,43 @@ It looks like some of the broken links we found appear in many pages of your sit
 Maybe those broken links appear on all pages through your site layout?
 We recommend that you check your theme configuration for such links (particularly, theme navbar and footer).
 Frequent broken links are linking to:
-- ./myBrokenLinkFrequent1
-- ./myBrokenLinkFrequent2
-
+- /frequent
+- ./maybe-not
 
 Exhaustive list of all broken links found:
 
-- On source page path = /docs/page1:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+- On source page path = /docs/good doc with space:
+   -> linking to ./some%20other%20non-existent%20doc1 (resolved as: /docs/some%20other%20non-existent%20doc1)
+   -> linking to ./break%2F..%2F..%2Fout2 (resolved as: /docs/break%2F..%2F..%2Fout2)
+   -> linking to /frequent
+   -> linking to ./maybe-not (resolved as: /docs/maybe-not)
 
-- On source page path = /docs/page2:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
-   -> linking to ./myBrokenLinkInfrequent1 (resolved as: /docs/myBrokenLinkInfrequent1)
-   -> linking to ./myBrokenLinkInfrequent2 (resolved as: /docs/myBrokenLinkInfrequent2)
+- On source page path = /docs/goodDoc:
+   -> linking to ../anotherGoodDoc#reported-because-of-bad-relative-path1 (resolved as: /anotherGoodDoc)
+   -> linking to ./docThatDoesNotExist2 (resolved as: /docs/docThatDoesNotExist2)
+   -> linking to ./badRelativeLink3 (resolved as: /docs/badRelativeLink3)
+   -> linking to ../badRelativeLink4 (resolved as: /badRelativeLink4)
+   -> linking to /frequent
+   -> linking to ./maybe-not (resolved as: /docs/maybe-not)
 
-- On source page path = /docs/page3:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+- On source page path = /community:
+   -> linking to /someNonExistentDoc1
+   -> linking to /badLink2
+   -> linking to ./badLink3 (resolved as: /badLink3)
+   -> linking to /frequent
+   -> linking to ./maybe-not (resolved as: /maybe-not)
 
-- On source page path = /docs/page4:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
-   -> linking to ./myBrokenLinkInfrequent1 (resolved as: /docs/myBrokenLinkInfrequent1)
-   -> linking to ./myBrokenLinkInfrequent2 (resolved as: /docs/myBrokenLinkInfrequent2)
+- On source page path = /page1:
+   -> linking to /link1
+   -> linking to /emptyFolder
+   -> linking to /frequent
+   -> linking to ./maybe-not (resolved as: /maybe-not)
 
-- On source page path = /docs/page5:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
-
-- On source page path = /docs/page6:
-   -> linking to ./myBrokenLinkFrequent1 (resolved as: /docs/myBrokenLinkFrequent1)
-   -> linking to ./myBrokenLinkFrequent2 (resolved as: /docs/myBrokenLinkFrequent2)
+- On source page path = /page2:
+   -> linking to /docs/link2
+   -> linking to /emptyFolder/
+   -> linking to /hey/link3
+   -> linking to /frequent
+   -> linking to ./maybe-not (resolved as: /maybe-not)
 "
 `;

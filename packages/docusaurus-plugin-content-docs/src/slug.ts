@@ -15,20 +15,23 @@ import {
   DefaultNumberPrefixParser,
   stripPathNumberPrefixes,
 } from './numberPrefix';
-import type {DocMetadataBase, NumberPrefixParser} from './types';
-import {isConventionalDocIndex} from './docs';
+import {isCategoryIndex, toCategoryIndexMatcherParam} from './docs';
+import type {
+  NumberPrefixParser,
+  DocMetadataBase,
+} from '@docusaurus/plugin-content-docs';
 
 export default function getSlug({
   baseID,
-  frontmatterSlug,
+  frontMatterSlug,
   source,
   sourceDirName,
   stripDirNumberPrefixes = true,
   numberPrefixParser = DefaultNumberPrefixParser,
 }: {
   baseID: string;
-  frontmatterSlug?: string;
-  source: DocMetadataBase['slug'];
+  frontMatterSlug?: string;
+  source: DocMetadataBase['source'];
   sourceDirName: DocMetadataBase['sourceDirName'];
   stripDirNumberPrefixes?: boolean;
   numberPrefixParser?: NumberPrefixParser;
@@ -45,27 +48,28 @@ export default function getSlug({
   }
 
   function computeSlug(): string {
-    if (frontmatterSlug?.startsWith('/')) {
-      return frontmatterSlug;
-    } else {
-      const dirNameSlug = getDirNameSlug();
-      if (!frontmatterSlug && isConventionalDocIndex({source, sourceDirName})) {
-        return dirNameSlug;
-      }
-      const baseSlug = frontmatterSlug || baseID;
-      return resolvePathname(baseSlug, getDirNameSlug());
+    if (frontMatterSlug?.startsWith('/')) {
+      return frontMatterSlug;
     }
+    const dirNameSlug = getDirNameSlug();
+    if (
+      !frontMatterSlug &&
+      isCategoryIndex(toCategoryIndexMatcherParam({source, sourceDirName}))
+    ) {
+      return dirNameSlug;
+    }
+    const baseSlug = frontMatterSlug || baseID;
+    return resolvePathname(baseSlug, getDirNameSlug());
   }
 
   function ensureValidSlug(slug: string): string {
     if (!isValidPathname(slug)) {
       throw new Error(
-        `We couldn't compute a valid slug for document with id "${baseID}" in "${sourceDirName}" directory.
+        `We couldn't compute a valid slug for document with ID "${baseID}" in "${sourceDirName}" directory.
 The slug we computed looks invalid: ${slug}.
-Maybe your slug frontmatter is incorrect or you use weird chars in the file path?
-By using the slug frontmatter, you should be able to fix this error, by using the slug of your choice:
+Maybe your slug front matter is incorrect or there are special characters in the file path?
+By using front matter to set a custom slug, you should be able to fix this error:
 
-Example =>
 ---
 slug: /my/customDocPath
 ---

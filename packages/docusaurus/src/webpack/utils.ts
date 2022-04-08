@@ -18,27 +18,32 @@ import webpack, {
 } from 'webpack';
 import fs from 'fs-extra';
 import TerserPlugin from 'terser-webpack-plugin';
+import type {CustomOptions, CssNanoOptions} from 'css-minimizer-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import path from 'path';
 import crypto from 'crypto';
 import logger from '@docusaurus/logger';
 import type {TransformOptions} from '@babel/core';
 import type {
-  ConfigureWebpackFn,
-  ConfigurePostCssFn,
+  Plugin,
   PostCssOptions,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
 import {BABEL_CONFIG_FILE_NAME} from '@docusaurus/utils';
-import {memoize} from 'lodash';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
-  cssOptions: {
+  cssOptionsArg: {
     [key: string]: unknown;
   } = {},
 ): RuleSetRule[] {
+  const cssOptions: {[key: string]: unknown} = {
+    // TODO turn esModule on later, see https://github.com/facebook/docusaurus/pull/6424
+    esModule: false,
+    ...cssOptionsArg,
+  };
+
   if (isServer) {
     return cssOptions.modules
       ? [
@@ -94,14 +99,14 @@ export function getStyleLoaders(
   ];
 }
 
-export function getCustomBabelConfigFilePath(
+export async function getCustomBabelConfigFilePath(
   siteDir: string,
-): string | undefined {
+): Promise<string | undefined> {
   const customBabelConfigurationPath = path.join(
     siteDir,
     BABEL_CONFIG_FILE_NAME,
   );
-  return fs.existsSync(customBabelConfigurationPath)
+  return (await fs.pathExists(customBabelConfigurationPath))
     ? customBabelConfigurationPath
     : undefined;
 }
@@ -119,16 +124,13 @@ export function getBabelOptions({
       configFile: babelOptions,
       caller: {name: isServer ? 'server' : 'client'},
     };
-  } else {
-    return Object.assign(
-      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
-      {
-        babelrc: false,
-        configFile: false,
-        caller: {name: isServer ? 'server' : 'client'},
-      },
-    );
   }
+  return {
+    ...(babelOptions ?? {presets: [require.resolve('../babel/preset')]}),
+    babelrc: false,
+    configFile: false,
+    caller: {name: isServer ? 'server' : 'client'},
+  };
 }
 
 // Name is generic on purpose
@@ -159,27 +161,6 @@ export const getCustomizableJSLoader =
       ? getDefaultBabelLoader({isServer, babelOptions})
       : jsLoader(isServer);
 
-// TODO remove this before end of 2021?
-const warnBabelLoaderOnce = memoize(() => {
-  logger.warn`Docusaurus plans to support multiple JS loader strategies (Babel, esbuild...): code=${'getBabelLoader(isServer)'} is now deprecated in favor of code=${'getJSLoader(isServer)'}.`;
-});
-const getBabelLoaderDeprecated = function getBabelLoaderDeprecated(
-  isServer: boolean,
-  babelOptions?: TransformOptions | string,
-) {
-  warnBabelLoaderOnce();
-  return getDefaultBabelLoader({isServer, babelOptions});
-};
-
-// TODO remove this before end of 2021 ?
-const warnCacheLoaderOnce = memoize(() => {
-  logger.warn`Docusaurus uses Webpack 5 and code=${'getCacheLoader()'} usage is now deprecated.`;
-});
-function getCacheLoaderDeprecated() {
-  warnCacheLoaderOnce();
-  return null;
-}
-
 /**
  * Helper function to modify webpack config
  * @param configureWebpack a webpack config or a function to modify config
@@ -190,7 +171,7 @@ function getCacheLoaderDeprecated() {
  * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: ConfigureWebpackFn,
+  configureWebpack: NonNullable<Plugin['configureWebpack']>,
   config: Configuration,
   isServer: boolean,
   jsLoader: 'babel' | ((isServer: boolean) => RuleSetRule) | undefined,
@@ -200,16 +181,10 @@ export function applyConfigureWebpack(
   const utils: ConfigureWebpackUtils = {
     getStyleLoaders,
     getJSLoader: getCustomizableJSLoader(jsLoader),
-    getBabelLoader: getBabelLoaderDeprecated,
-    getCacheLoader: getCacheLoaderDeprecated,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategy, ...res} = configureWebpack(
-      config,
-      isServer,
-      utils,
-      content,
-    );
+    const {mergeStrategy, ...res} =
+      configureWebpack(config, isServer, utils, content) ?? {};
     if (res && typeof res === 'object') {
       const customizeRules = mergeStrategy ?? {};
       return mergeWithCustomize({
@@ -222,14 +197,14 @@ export function applyConfigureWebpack(
 }
 
 export function applyConfigurePostCss(
-  configurePostCss: NonNullable<ConfigurePostCssFn>,
+  configurePostCss: NonNullable<Plugin['configurePostCss']>,
   config: Configuration,
 ): Configuration {
   type LocalPostCSSLoader = unknown & {
     options: {postcssOptions: PostCssOptions};
   };
 
-  // TODO not ideal heuristic but good enough for our usecase?
+  // not ideal heuristic but good enough for our use-case?
   function isPostCssLoader(loader: unknown): loader is LocalPostCSSLoader {
     return !!(loader as LocalPostCSSLoader)?.options?.postcssOptions;
   }
@@ -256,15 +231,20 @@ export function applyConfigurePostCss(
   return config;
 }
 
+declare global {
+  interface Error {
+    /** @see https://webpack.js.org/api/node/#error-handling */
+    details: unknown;
+  }
+}
+
 export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
       if (err) {
         logger.error(err.stack || err);
-        // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
         if (err.details) {
-          // @ts-expect-error: see https://webpack.js.org/api/node/#error-handling
           logger.error(err.details);
         }
         reject(err);
@@ -276,7 +256,7 @@ export function compile(config: Configuration[]): Promise<void> {
       }
       if (errorsWarnings && stats?.hasWarnings()) {
         errorsWarnings.warnings?.forEach((warning) => {
-          logger.warn(`${warning}`);
+          logger.warn(warning);
         });
       }
       // Webpack 5 requires calling close() so that persistent caching works
@@ -329,19 +309,21 @@ ${err}`,
 }
 
 // Read file and throw an error if it doesn't exist
-function readEnvFile(file: string, type: string) {
-  if (!fs.existsSync(file)) {
+async function readEnvFile(file: string, type: string) {
+  if (!(await fs.pathExists(file))) {
     throw new Error(
       `You specified ${type} in your env, but the file "${file}" can't be found.`,
     );
   }
-  return fs.readFileSync(file);
+  return fs.readFile(file);
 }
 
-const appDirectory = fs.realpathSync(process.cwd());
 // Get the https config
 // Return cert files if provided in env, otherwise just true or false
-export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
+export async function getHttpsConfig(): Promise<
+  boolean | {cert: Buffer; key: Buffer}
+> {
+  const appDirectory = await fs.realpath(process.cwd());
   const {SSL_CRT_FILE, SSL_KEY_FILE, HTTPS} = process.env;
   const isHttps = HTTPS === 'true';
 
@@ -349,8 +331,8 @@ export function getHttpsConfig(): boolean | {cert: Buffer; key: Buffer} {
     const crtFile = path.resolve(appDirectory, SSL_CRT_FILE);
     const keyFile = path.resolve(appDirectory, SSL_KEY_FILE);
     const config = {
-      cert: readEnvFile(crtFile, 'SSL_CRT_FILE'),
-      key: readEnvFile(keyFile, 'SSL_KEY_FILE'),
+      cert: await readEnvFile(crtFile, 'SSL_CRT_FILE'),
+      key: await readEnvFile(keyFile, 'SSL_KEY_FILE'),
     };
 
     validateKeyAndCerts({...config, keyFile, crtFile});
@@ -390,7 +372,6 @@ export function getMinimizer(
         },
         compress: {
           ecma: 5,
-          // @ts-expect-error: API change in new version?
           warnings: false,
         },
         mangle: {
@@ -399,8 +380,8 @@ export function getMinimizer(
         output: {
           ecma: 5,
           comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
+          // Turned on because emoji and regex is not minified properly using
+          // default. See https://github.com/facebook/create-react-app/issues/2488
           ascii_only: true,
         },
       },
@@ -412,7 +393,7 @@ export function getMinimizer(
     minimizer.push(
       // Using the array syntax to add 2 minimizers
       // see https://github.com/webpack-contrib/css-minimizer-webpack-plugin#array
-      new CssMinimizerPlugin({
+      new CssMinimizerPlugin<[CssNanoOptions, CustomOptions]>({
         minimizerOptions: [
           // CssNano options
           {
@@ -420,7 +401,6 @@ export function getMinimizer(
           },
           // CleanCss options
           {
-            // @ts-expect-error: API change in new version?
             inline: false,
             level: {
               1: {

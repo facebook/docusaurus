@@ -8,6 +8,18 @@
 const fs = require('fs');
 
 /** @type {import('@docusaurus/types').PluginConfig[]} */
+const dogfoodingThemeInstances = [
+  /** @type {import('@docusaurus/types').PluginModule} */
+  function swizzleThemeTests() {
+    return {
+      name: 'swizzle-theme-tests',
+      getThemePath: () => './_swizzle_theme_tests/src/theme',
+    };
+  },
+];
+exports.dogfoodingThemeInstances = dogfoodingThemeInstances;
+
+/** @type {import('@docusaurus/types').PluginConfig[]} */
 const dogfoodingPluginInstances = [
   [
     'content-docs', // dogfood shorthand
@@ -19,8 +31,23 @@ const dogfoodingPluginInstances = [
 
       // Using a symlinked folder as source, test for use-case https://github.com/facebook/docusaurus/issues/3272
       // The target folder uses a _ prefix to test against an edge case regarding MDX partials: https://github.com/facebook/docusaurus/discussions/5181#discussioncomment-1018079
+      // eslint-disable-next-line no-restricted-properties
       path: fs.realpathSync('_dogfooding/docs-tests-symlink'),
       showLastUpdateTime: true,
+      sidebarItemsGenerator(args) {
+        return args.defaultSidebarItemsGenerator({
+          ...args,
+          isCategoryIndex({fileName, directories}) {
+            const eligibleDocIndexNames = [
+              'index',
+              'readme',
+              directories[0].toLowerCase(),
+              'intro',
+            ];
+            return eligibleDocIndexNames.includes(fileName.toLowerCase());
+          },
+        });
+      },
     }),
   ],
 
@@ -43,6 +70,7 @@ const dogfoodingPluginInstances = [
         frontMatter.hide_reading_time
           ? undefined
           : defaultReadingTime({content, options: {wordsPerMinute: 5}}),
+      sortPosts: 'ascending',
     }),
   ],
 
@@ -59,6 +87,7 @@ const dogfoodingPluginInstances = [
   /** @type {import('@docusaurus/types').Plugin} */
   function clientModuleTestPlugin() {
     return {
+      name: 'client-module-test-plugin',
       getClientModules() {
         return [
           require.resolve('./clientModuleExample.ts'),

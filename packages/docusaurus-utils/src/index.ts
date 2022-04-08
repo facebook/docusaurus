@@ -5,290 +5,97 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
-import path from 'path';
-import {createHash} from 'crypto';
-import {mapValues} from 'lodash';
-import fs from 'fs-extra';
-import {URL} from 'url';
-import type {
-  ReportingSeverity,
-  TranslationFileContent,
-  TranslationFile,
-} from '@docusaurus/types';
-
-import resolvePathnameUnsafe from 'resolve-pathname';
-
-import {simpleHash, docuHash} from './hashUtils';
-import {DEFAULT_PLUGIN_ID} from './constants';
-
-export * from './constants';
-export * from './mdxUtils';
-export * from './urlUtils';
-export * from './tags';
-export * from './markdownParser';
-export * from './markdownLinks';
-export * from './slugger';
-export * from './pathUtils';
-export * from './hashUtils';
-export * from './globUtils';
-export * from './webpackUtils';
-export * from './dataFileUtils';
-
-const fileHash = new Map();
-export async function generate(
-  generatedFilesDir: string,
-  file: string,
-  content: string,
-  skipCache: boolean = process.env.NODE_ENV === 'production',
-): Promise<void> {
-  const filepath = path.join(generatedFilesDir, file);
-
-  if (skipCache) {
-    await fs.ensureDir(path.dirname(filepath));
-    await fs.writeFile(filepath, content);
-    return;
-  }
-
-  let lastHash = fileHash.get(filepath);
-
-  // If file already exists but its not in runtime cache yet,
-  // we try to calculate the content hash and then compare
-  // This is to avoid unnecessary overwriting and we can reuse old file.
-  if (!lastHash && fs.existsSync(filepath)) {
-    const lastContent = await fs.readFile(filepath, 'utf8');
-    lastHash = createHash('md5').update(lastContent).digest('hex');
-    fileHash.set(filepath, lastHash);
-  }
-
-  const currentHash = createHash('md5').update(content).digest('hex');
-
-  if (lastHash !== currentHash) {
-    await fs.ensureDir(path.dirname(filepath));
-    await fs.writeFile(filepath, content);
-    fileHash.set(filepath, currentHash);
-  }
-}
-
-const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
-
-/**
- * Convert filepath to url path.
- * Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
- */
-export function fileToPath(file: string): string {
-  if (indexRE.test(file)) {
-    return file.replace(indexRE, '/$1');
-  }
-  return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
-}
-
-export function encodePath(userpath: string): string {
-  return userpath
-    .split('/')
-    .map((item) => encodeURIComponent(item))
-    .join('/');
-}
-
-const chunkNameCache = new Map();
-/**
- * Generate unique chunk name given a module path.
- */
-export function genChunkName(
-  modulePath: string,
-  prefix?: string,
-  preferredName?: string,
-  shortId: boolean = process.env.NODE_ENV === 'production',
-): string {
-  let chunkName: string | undefined = chunkNameCache.get(modulePath);
-  if (!chunkName) {
-    if (shortId) {
-      chunkName = simpleHash(modulePath, 8);
-    } else {
-      let str = modulePath;
-      if (preferredName) {
-        const shortHash = simpleHash(modulePath, 3);
-        str = `${preferredName}${shortHash}`;
-      }
-      const name = str === '/' ? 'index' : docuHash(str);
-      chunkName = prefix ? `${prefix}---${name}` : name;
-    }
-    chunkNameCache.set(modulePath, chunkName);
-  }
-  return chunkName;
-}
-
-export function isValidPathname(str: string): boolean {
-  if (!str.startsWith('/')) {
-    return false;
-  }
-  try {
-    // weird, but is there a better way?
-    const parsedPathname = new URL(str, 'https://domain.com').pathname;
-    return parsedPathname === str || parsedPathname === encodeURI(str);
-  } catch (e) {
-    return false;
-  }
-}
-
-// resolve pathname and fail fast if resolution fails
-export function resolvePathname(to: string, from?: string): string {
-  return resolvePathnameUnsafe(to, from);
-}
-export function addLeadingSlash(str: string): string {
-  return str.startsWith('/') ? str : `/${str}`;
-}
-
-export function addTrailingPathSeparator(str: string): string {
-  return str.endsWith(path.sep) ? str : `${str}${path.sep}`;
-}
-
-// TODO deduplicate: also present in @docusaurus/utils-common
-export function addTrailingSlash(str: string): string {
-  return str.endsWith('/') ? str : `${str}/`;
-}
-export function removeTrailingSlash(str: string): string {
-  return removeSuffix(str, '/');
-}
-
-export function removeSuffix(str: string, suffix: string): string {
-  if (suffix === '') {
-    return str; // always returns "" otherwise!
-  }
-  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
-}
-
-export function removePrefix(str: string, prefix: string): string {
-  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
-}
-
-export function getElementsAround<T>(
-  array: T[],
-  aroundIndex: number,
-): {
-  next: T | undefined;
-  previous: T | undefined;
-} {
-  const min = 0;
-  const max = array.length - 1;
-  if (aroundIndex < min || aroundIndex > max) {
-    throw new Error(
-      `Valid "aroundIndex" for array (of size ${array.length}) are between ${min} and ${max}, but you provided ${aroundIndex}.`,
-    );
-  }
-  const previous = aroundIndex === min ? undefined : array[aroundIndex - 1];
-  const next = aroundIndex === max ? undefined : array[aroundIndex + 1];
-  return {previous, next};
-}
-
-export function getPluginI18nPath({
-  siteDir,
-  locale,
-  pluginName,
-  pluginId = DEFAULT_PLUGIN_ID,
-  subPaths = [],
-}: {
-  siteDir: string;
-  locale: string;
-  pluginName: string;
-  pluginId?: string | undefined;
-  subPaths?: string[];
-}): string {
-  return path.join(
-    siteDir,
-    'i18n',
-    // namespace first by locale: convenient to work in a single folder for a translator
-    locale,
-    // Make it convenient to use for single-instance
-    // ie: return "docs", not "docs-default" nor "docs/default"
-    `${pluginName}${pluginId === DEFAULT_PLUGIN_ID ? '' : `-${pluginId}`}`,
-    ...subPaths,
-  );
-}
-
-export async function mapAsyncSequential<T, R>(
-  array: T[],
-  action: (t: T) => Promise<R>,
-): Promise<R[]> {
-  const results: R[] = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const t of array) {
-    const result = await action(t);
-    results.push(result);
-  }
-  return results;
-}
-
-export async function findAsyncSequential<T>(
-  array: T[],
-  predicate: (t: T) => Promise<boolean>,
-): Promise<T | undefined> {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const t of array) {
-    if (await predicate(t)) {
-      return t;
-    }
-  }
-  return undefined;
-}
-
-export function reportMessage(
-  message: string,
-  reportingSeverity: ReportingSeverity,
-): void {
-  switch (reportingSeverity) {
-    case 'ignore':
-      break;
-    case 'log':
-      logger.info(message);
-      break;
-    case 'warn':
-      logger.warn(message);
-      break;
-    case 'error':
-      logger.error(message);
-      break;
-    case 'throw':
-      throw new Error(message);
-    default:
-      throw new Error(
-        `Unexpected "reportingSeverity" value: ${reportingSeverity}.`,
-      );
-  }
-}
-
-export function mergeTranslations(
-  contents: TranslationFileContent[],
-): TranslationFileContent {
-  return contents.reduce((acc, content) => ({...acc, ...content}), {});
-}
-
-export function getSwizzledComponent(
-  componentPath: string,
-): string | undefined {
-  const swizzledComponentPath = path.resolve(
-    process.cwd(),
-    'src',
-    componentPath,
-  );
-
-  return fs.existsSync(swizzledComponentPath)
-    ? swizzledComponentPath
-    : undefined;
-}
-
-// Useful to update all the messages of a translation file
-// Used in tests to simulate translations
-export function updateTranslationFileMessages(
-  translationFile: TranslationFile,
-  updateMessage: (message: string) => string,
-): TranslationFile {
-  return {
-    ...translationFile,
-    content: mapValues(translationFile.content, (translation) => ({
-      ...translation,
-      message: updateMessage(translation.message),
-    })),
-  };
-}
+export {
+  NODE_MAJOR_VERSION,
+  NODE_MINOR_VERSION,
+  DEFAULT_BUILD_DIR_NAME,
+  DEFAULT_CONFIG_FILE_NAME,
+  BABEL_CONFIG_FILE_NAME,
+  GENERATED_FILES_DIR_NAME,
+  SRC_DIR_NAME,
+  DEFAULT_STATIC_DIR_NAME,
+  OUTPUT_STATIC_ASSETS_DIR_NAME,
+  THEME_PATH,
+  I18N_DIR_NAME,
+  CODE_TRANSLATIONS_FILE_NAME,
+  DEFAULT_PORT,
+  DEFAULT_PLUGIN_ID,
+  WEBPACK_URL_LOADER_LIMIT,
+} from './constants';
+export {generate, readOutputHTMLFile} from './emitUtils';
+export {
+  getFileCommitDate,
+  FileNotTrackedError,
+  GitNotFoundError,
+} from './gitUtils';
+export {
+  mergeTranslations,
+  updateTranslationFileMessages,
+  getPluginI18nPath,
+  localizePath,
+} from './i18nUtils';
+export {
+  removeSuffix,
+  removePrefix,
+  mapAsyncSequential,
+  findAsyncSequential,
+  reportMessage,
+} from './jsUtils';
+export {
+  normalizeUrl,
+  getEditUrl,
+  fileToPath,
+  encodePath,
+  isValidPathname,
+  resolvePathname,
+  addLeadingSlash,
+  addTrailingSlash,
+  removeTrailingSlash,
+  hasSSHProtocol,
+  buildHttpsUrl,
+  buildSshUrl,
+} from './urlUtils';
+export {
+  type FrontMatterTag,
+  normalizeFrontMatterTags,
+  groupTaggedItems,
+} from './tags';
+export {
+  parseMarkdownHeadingId,
+  createExcerpt,
+  parseFrontMatter,
+  parseMarkdownContentTitle,
+  parseMarkdownString,
+  writeMarkdownHeadingId,
+  type WriteHeadingIDOptions,
+} from './markdownUtils';
+export {
+  type ContentPaths,
+  type BrokenMarkdownLink,
+  replaceMarkdownLinks,
+} from './markdownLinks';
+export {type SluggerOptions, type Slugger, createSlugger} from './slugger';
+export {
+  isNameTooLong,
+  shortName,
+  posixPath,
+  toMessageRelativeFilePath,
+  aliasedSitePath,
+  escapePath,
+  addTrailingPathSeparator,
+} from './pathUtils';
+export {md5Hash, simpleHash, docuHash} from './hashUtils';
+export {
+  Globby,
+  GlobExcludeDefault,
+  createMatcher,
+  createAbsoluteFilePathMatcher,
+} from './globUtils';
+export {getFileLoaderUtils} from './webpackUtils';
+export {
+  getDataFilePath,
+  getDataFileData,
+  getContentPathList,
+  findFolderContainingFile,
+  getFolderContainingFile,
+} from './dataFileUtils';

@@ -14,7 +14,7 @@ import {
 import path from 'path';
 
 describe('getBlogPostAuthors', () => {
-  test('can read no authors', () => {
+  it('can read no authors', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {},
@@ -31,7 +31,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([]);
   });
 
-  test('can read author from legacy frontmatter', () => {
+  it('can read author from legacy front matter', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -79,7 +79,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors string', () => {
+  it('can read authors string', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -90,7 +90,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([{key: 'slorber', name: 'Sébastien Lorber'}]);
   });
 
-  test('can read authors string[]', () => {
+  it('can read authors string[]', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -107,7 +107,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors Author', () => {
+  it('can read authors Author', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -118,7 +118,7 @@ describe('getBlogPostAuthors', () => {
     ).toEqual([{name: 'Sébastien Lorber', title: 'maintainer'}]);
   });
 
-  test('can read authors Author[]', () => {
+  it('can read authors Author[]', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -135,7 +135,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('can read authors complex (string | Author)[] setup with keys and local overrides', () => {
+  it('can read authors complex (string | Author)[] setup with keys and local overrides', () => {
     expect(
       getBlogPostAuthors({
         frontMatter: {
@@ -166,7 +166,7 @@ describe('getBlogPostAuthors', () => {
     ]);
   });
 
-  test('throw when using author key with no authorsMap', () => {
+  it('throw when using author key with no authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -180,7 +180,7 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using author key with empty authorsMap', () => {
+  it('throw when using author key with empty authorsMap', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -194,64 +194,67 @@ describe('getBlogPostAuthors', () => {
     `);
   });
 
-  test('throw when using bad author key in string', () => {
+  it('throw when using bad author key in string', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
           authors: 'slorber',
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
     `);
   });
 
-  test('throw when using bad author key in string[]', () => {
+  it('throw when using bad author key in string[]', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
           authors: ['yangshun', 'jmarcey', 'slorber'],
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
     `);
   });
 
-  test('throw when using bad author key in Author[].key', () => {
+  it('throw when using bad author key in Author[].key', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
           authors: [{key: 'yangshun'}, {key: 'jmarcey'}, {key: 'slorber'}],
         },
+
         authorsMap: {
           yangshun: {name: 'Yangshun Tay'},
           jmarcey: {name: 'Joel Marcey'},
         },
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "Blog author with key \\"slorber\\" not found in the authors map file.
+      "Blog author with key "slorber" not found in the authors map file.
       Valid author keys are:
       - yangshun
       - jmarcey"
     `);
   });
 
-  test('throw when mixing legacy/new authors frontmatter', () => {
+  it('throw when mixing legacy/new authors front matter', () => {
     expect(() =>
       getBlogPostAuthors({
         frontMatter: {
@@ -261,8 +264,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: undefined,
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
 
     expect(() =>
@@ -274,8 +277,8 @@ describe('getBlogPostAuthors', () => {
         authorsMap: {slorber: {name: 'Sébastien Lorber'}},
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-      "To declare blog post authors, use the 'authors' FrontMatter in priority.
-      Don't mix 'authors' with other existing 'author_*' FrontMatter. Choose one or the other, not both at the same time."
+      "To declare blog post authors, use the 'authors' front matter in priority.
+      Don't mix 'authors' with other existing 'author_*' front matter. Choose one or the other, not both at the same time."
     `);
   });
 });
@@ -287,36 +290,36 @@ describe('getAuthorsMap', () => {
     contentPath: fixturesDir,
   };
 
-  test('getAuthorsMap can read yml file', async () => {
-    expect(
-      await getAuthorsMap({
+  it('getAuthorsMap can read yml file', async () => {
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.yml',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
-  test('getAuthorsMap can read json file', async () => {
-    expect(
-      await getAuthorsMap({
+  it('getAuthorsMap can read json file', async () => {
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors.json',
       }),
-    ).toBeDefined();
+    ).resolves.toBeDefined();
   });
 
-  test('getAuthorsMap can return undefined if yaml file not found', async () => {
-    expect(
-      await getAuthorsMap({
+  it('getAuthorsMap can return undefined if yaml file not found', async () => {
+    await expect(
+      getAuthorsMap({
         contentPaths,
         authorsMapPath: 'authors_does_not_exist.yml',
       }),
-    ).toBeUndefined();
+    ).resolves.toBeUndefined();
   });
 });
 
 describe('validateAuthorsMap', () => {
-  test('accept valid authors map', () => {
+  it('accept valid authors map', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         name: 'Sébastien Lorber',
@@ -338,7 +341,7 @@ describe('validateAuthorsMap', () => {
     expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
   });
 
-  test('rename snake case image_url to camelCase imageURL', () => {
+  it('rename snake case image_url to camelCase imageURL', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
         name: 'Sébastien Lorber',
@@ -353,60 +356,72 @@ describe('validateAuthorsMap', () => {
     });
   });
 
-  test('reject author without name', () => {
+  it('accept author with only image', () => {
     const authorsMap: AuthorsMap = {
       slorber: {
-        image_url: 'https://github.com/slorber.png',
+        imageURL: 'https://github.com/slorber.png',
+        url: 'https://github.com/slorber',
+      },
+    };
+    expect(validateAuthorsMap(authorsMap)).toEqual(authorsMap);
+  });
+
+  it('reject author without name or image', () => {
+    const authorsMap: AuthorsMap = {
+      slorber: {
+        title: 'foo',
       },
     };
     expect(() =>
       validateAuthorsMap(authorsMap),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber.name\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""slorber" must contain at least one of [name, imageURL]"`,
+    );
   });
 
-  test('reject undefined author', () => {
+  it('reject undefined author', () => {
     expect(() =>
       validateAuthorsMap({
         slorber: undefined,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`"\\"slorber\\" is required"`);
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""slorber" cannot be undefined. It should be an author object containing properties like name, title, and imageURL."`,
+    );
   });
 
-  test('reject null author', () => {
+  it('reject null author', () => {
     expect(() =>
       validateAuthorsMap({
         slorber: null,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
-  test('reject array author', () => {
+  it('reject array author', () => {
     expect(() =>
       validateAuthorsMap({slorber: []}),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
-  test('reject array content', () => {
+  it('reject array content', () => {
     expect(() => validateAuthorsMap([])).toThrowErrorMatchingInlineSnapshot(
-      // TODO improve this error message
-      `"\\"value\\" must be of type object"`,
+      `"The authors map file should contain an object where each entry contains an author key and the corresponding author's data."`,
     );
   });
 
-  test('reject flat author', () => {
+  it('reject flat author', () => {
     expect(() =>
       validateAuthorsMap({name: 'Sébastien'}),
     ).toThrowErrorMatchingInlineSnapshot(
-      // TODO improve this error message
-      `"\\"name\\" must be of type object"`,
+      `""name" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 
-  test('reject non-map author', () => {
+  it('reject non-map author', () => {
     const authorsMap: AuthorsMap = {
       // @ts-expect-error: for tests
       slorber: [],
@@ -414,7 +429,7 @@ describe('validateAuthorsMap', () => {
     expect(() =>
       validateAuthorsMap(authorsMap),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"slorber\\" must be of type object"`,
+      `""slorber" should be an author object containing properties like name, title, and imageURL."`,
     );
   });
 });

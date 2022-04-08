@@ -12,7 +12,8 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/blog-only/',
   url: 'https://docusaurus.io',
-  onBrokenLinks: 'throw',
+  // We can only warn now, since we have blog pages linking to non-blog pages...
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/docusaurus.ico',
   themes: ['live-codeblock'],
@@ -42,7 +43,8 @@ module.exports = {
   themeConfig: {
     image: 'img/docusaurus-soc.png',
     algolia: {
-      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      appId: 'X1Z85QJPUV',
+      apiKey: 'bf7211c161e8205da2f933a02534105a',
       indexName: 'docusaurus-2',
       contextualSearch: true,
     },

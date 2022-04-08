@@ -16,11 +16,11 @@ import {
   getCustomBabelConfigFilePath,
   getMinimizer,
 } from './utils';
-import {loadPluginsThemeAliases} from '../server/themes';
+import {loadThemeAliases, loadDocusaurusAliases} from './aliases';
 import {md5Hash, getFileLoaderUtils} from '@docusaurus/utils';
 
-const CSS_REGEX = /\.css$/;
-const CSS_MODULE_REGEX = /\.module\.css$/;
+const CSS_REGEX = /\.css$/i;
+const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
 
 const LibrariesToTranspile = [
@@ -39,36 +39,16 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     /node_modules/.test(modulePath) &&
-    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath) &&
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
     !LibrariesToTranspileRegex.test(modulePath)
   );
 }
 
-export function getDocusaurusAliases(): Record<string, string> {
-  const dirPath = path.resolve(__dirname, '../client/exports');
-  const extensions = ['.js', '.ts', '.tsx'];
-
-  const aliases: Record<string, string> = {};
-
-  fs.readdirSync(dirPath)
-    .filter((fileName) => extensions.includes(path.extname(fileName)))
-    .forEach((fileName) => {
-      const fileNameWithoutExtension = path.basename(
-        fileName,
-        path.extname(fileName),
-      );
-      const aliasName = `@docusaurus/${fileNameWithoutExtension}`;
-      aliases[aliasName] = path.resolve(dirPath, fileName);
-    });
-
-  return aliases;
-}
-
-export function createBaseConfig(
+export async function createBaseConfig(
   props: Props,
   isServer: boolean,
   minify: boolean = true,
-): Configuration {
+): Promise<Configuration> {
   const {
     outDir,
     siteDir,
@@ -90,7 +70,7 @@ export function createBaseConfig(
   const name = isServer ? 'server' : 'client';
   const mode = isProd ? 'production' : 'development';
 
-  const themeAliases = loadPluginsThemeAliases({siteDir, plugins});
+  const themeAliases = await loadThemeAliases({siteDir, plugins});
 
   return {
     mode,
@@ -104,16 +84,19 @@ export function createBaseConfig(
       // When version string changes, cache is evicted
       version: [
         siteMetadata.docusaurusVersion,
-        // Webpack does not evict the cache correctly on alias/swizzle change, so we force eviction.
+        // Webpack does not evict the cache correctly on alias/swizzle change,
+        // so we force eviction.
         // See https://github.com/webpack/webpack/issues/13627
         md5Hash(JSON.stringify(themeAliases)),
       ].join('-'),
-      // When one of those modules/dependencies change (including transitive deps), cache is invalidated
+      // When one of those modules/dependencies change (including transitive
+      // deps), cache is invalidated
       buildDependencies: {
         config: [
           __filename,
           path.join(__dirname, isServer ? 'server.js' : 'client.js'),
-          // Docusaurus config changes can affect MDX/JSX compilation, so we'd rather evict the cache.
+          // Docusaurus config changes can affect MDX/JSX compilation, so we'd
+          // rather evict the cache.
           // See https://github.com/questdb/questdb.io/issues/493
           siteConfigPath,
         ],
@@ -151,21 +134,18 @@ export function createBaseConfig(
       alias: {
         '@site': siteDir,
         '@generated': generatedFilesDir,
-
-        // Note: a @docusaurus alias would also catch @docusaurus/theme-common,
-        // so we use fine-grained aliases instead
-        // '@docusaurus': path.resolve(__dirname, '../client/exports'),
-        ...getDocusaurusAliases(),
+        ...(await loadDocusaurusAliases()),
         ...themeAliases,
       },
-      // This allows you to set a fallback for where Webpack should look for modules.
-      // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
-      // Example: if there is core-js@3 in user's own node_modules, but core depends on
-      // core-js@2, we should use core-js@2.
+      // This allows you to set a fallback for where Webpack should look for
+      // modules. We want `@docusaurus/core` own dependencies/`node_modules` to
+      // "win" if there is conflict. Example: if there is core-js@3 in user's
+      // own node_modules, but core depends on core-js@2, we should use
+      // core-js@2.
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
-        path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
+        path.resolve(await fs.realpath(process.cwd()), 'node_modules'),
       ],
     },
     resolveLoader: {
@@ -173,7 +153,8 @@ export function createBaseConfig(
     },
     optimization: {
       removeAvailableModules: false,
-      // Only minimize client bundle in production because server bundle is only used for static site generation
+      // Only minimize client bundle in production because server bundle is only
+      // used for static site generation
       minimize: minimizeEnabled,
       minimizer: minimizeEnabled
         ? getMinimizer(useSimpleCssMinifier)
@@ -181,7 +162,9 @@ export function createBaseConfig(
       splitChunks: isServer
         ? false
         : {
-            // Since the chunk name includes all origin chunk names it's recommended for production builds with long term caching to NOT include [name] in the filenames
+            // Since the chunk name includes all origin chunk names it's
+            // recommended for production builds with long term caching to NOT
+            // include [name] in the filenames
             name: false,
             cacheGroups: {
               // disable the built-in cacheGroups
@@ -213,12 +196,12 @@ export function createBaseConfig(
         fileLoaderUtils.rules.svg(),
         fileLoaderUtils.rules.otherAssets(),
         {
-          test: /\.(j|t)sx?$/,
+          test: /\.[jt]sx?$/i,
           exclude: excludeJS,
           use: [
             getCustomizableJSLoader(siteConfig.webpack?.jsLoader)({
               isServer,
-              babelOptions: getCustomBabelConfigFilePath(siteDir),
+              babelOptions: await getCustomBabelConfigFilePath(siteDir),
             }),
           ],
         },
@@ -255,8 +238,9 @@ export function createBaseConfig(
         chunkFilename: isProd
           ? 'assets/css/[name].[contenthash:8].css'
           : '[name].css',
-        // remove css order warnings if css imports are not sorted alphabetically
-        // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
+        // remove css order warnings if css imports are not sorted
+        // alphabetically. See https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422
+        // for more reasoning
         ignoreOrder: true,
       }),
     ],

@@ -8,13 +8,15 @@
 import React, {
   useState,
   cloneElement,
-  Children,
   isValidElement,
   type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
-import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
-import {useScrollPositionBlocker, duplicates} from '@docusaurus/theme-common';
+import {
+  useScrollPositionBlocker,
+  duplicates,
+  useTabGroupChoice,
+} from '@docusaurus/theme-common';
 import type {Props} from '@theme/Tabs';
 import type {Props as TabItemProps} from '@theme/TabItem';
 
@@ -37,7 +39,7 @@ function TabsComponent(props: Props): JSX.Element {
     groupId,
     className,
   } = props;
-  const children = Children.map(props.children, (child) => {
+  const children = React.Children.map(props.children, (child) => {
     if (isValidElement(child) && isTabItem(child)) {
       return child;
     }
@@ -52,7 +54,7 @@ function TabsComponent(props: Props): JSX.Element {
   });
   const values =
     valuesProp ??
-    // We only pick keys that we recognize. MDX would inject some keys by default
+    // Only pick keys that we recognize. MDX would inject some keys by default
     children.map(({props: {value, label, attributes}}) => ({
       value,
       label,
@@ -83,7 +85,7 @@ function TabsComponent(props: Props): JSX.Element {
     );
   }
 
-  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
   const tabRefs: (HTMLLIElement | null)[] = [];
   const {blockElementScrollPositionUntilNextRender} =
@@ -105,7 +107,7 @@ function TabsComponent(props: Props): JSX.Element {
   ) => {
     const newTab = event.currentTarget;
     const newTabIndex = tabRefs.indexOf(newTab);
-    const newTabValue = values[newTabIndex].value;
+    const newTabValue = values[newTabIndex]!.value;
 
     if (newTabValue !== selectedValue) {
       blockElementScrollPositionUntilNextRender(newTab);
@@ -123,12 +125,12 @@ function TabsComponent(props: Props): JSX.Element {
     switch (event.key) {
       case 'ArrowRight': {
         const nextTab = tabRefs.indexOf(event.currentTarget) + 1;
-        focusElement = tabRefs[nextTab] || tabRefs[0];
+        focusElement = tabRefs[nextTab] || tabRefs[0]!;
         break;
       }
       case 'ArrowLeft': {
         const prevTab = tabRefs.indexOf(event.currentTarget) - 1;
-        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1];
+        focusElement = tabRefs[prevTab] || tabRefs[tabRefs.length - 1]!;
         break;
       }
       default:
@@ -178,7 +180,7 @@ function TabsComponent(props: Props): JSX.Element {
         cloneElement(
           children.filter(
             (tabItem) => tabItem.props.value === selectedValue,
-          )[0],
+          )[0]!,
           {className: 'margin-vert--md'},
         )
       ) : (

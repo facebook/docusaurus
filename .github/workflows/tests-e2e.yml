@@ -21,9 +21,9 @@ jobs:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -31,8 +31,6 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
       - name: Install test-website project with Yarn v1
         run: yarn install
         working-directory: ../test-website
@@ -46,8 +44,6 @@ jobs:
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
-        env:
-          CI: true
 
   yarn-berry:
     name: E2E — Yarn Berry
@@ -56,19 +52,23 @@ jobs:
     strategy:
       matrix:
         nodeLinker: [pnp, node-modules]
+        variant: [-s, -st]
+        exclude:
+          # Running tsc on PnP requires additional installations, which is not
+          # worthwhile for a simple E2E test
+          - variant: -st
+            nodeLinker: pnp
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
       - name: Installation
         run: yarn
-      - name: Generate test-website project against main branch
-        run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
+      - name: Generate test-website project with ${{ matrix.variant }} against main branch
+        run: yarn test:build:website ${{ matrix.variant }}
       - name: Install test-website project with Yarn Berry and nodeLinker = ${{ matrix.nodeLinker }}
         run: |
           yarn set version berry
@@ -82,10 +82,6 @@ jobs:
           # https://yarnpkg.com/features/pnp#fallback-mode
           yarn config set pnpFallbackMode none
 
-          # Patch package so that peer deps are provided. This has been fixed in terser by making acorn a direct dependency
-          # TODO watch out for the next terser release. Commit: https://github.com/terser/terser/commit/05b23eeb682d732484ad51b19bf528258fd5dc2a
-          yarn config set packageExtensions --json '{"terser-webpack-plugin@*": {"dependencies": {"acorn": "^8.6.0"}}, "html-minifier-terser@*": {"dependencies": {"acorn": "^8.6.0"}}}'
-
           yarn install
         working-directory: ../test-website
         env:
@@ -95,20 +91,22 @@ jobs:
         working-directory: ../test-website
         env:
           E2E_TEST: true
+      - name: Type check
+        if: matrix.variant == '-st'
+        run: yarn typecheck
+        working-directory: ../test-website
       - name: Build test-website project
         run: yarn build
         working-directory: ../test-website
-        env:
-          CI: true
 
   npm:
-    name: E2E — NPM
+    name: E2E — npm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
@@ -116,9 +114,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
-      - name: Install test-website project with NPM
+      - name: Install test-website project with npm
         run: npm install
         working-directory: ../test-website
         env:
@@ -131,17 +127,15 @@ jobs:
       - name: Build test-website project
         run: npm run build
         working-directory: ../test-website
-        env:
-          CI: true
 
   pnpm:
-    name: E2E — PNPM
+    name: E2E — pnpm
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
@@ -149,9 +143,7 @@ jobs:
         run: yarn
       - name: Generate test-website project against main branch
         run: yarn test:build:website -s
-        env:
-          KEEP_CONTAINER: true
-      - name: Install test-website project with PNPM
+      - name: Install test-website project with pnpm
         run: |
           curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
           pnpm install
@@ -166,5 +158,3 @@ jobs:
       - name: Build test-website project
         run: pnpm run build
         working-directory: ../test-website
-        env:
-          CI: true

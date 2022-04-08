@@ -5,66 +5,64 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  normalizeFrontMatterTag,
-  normalizeFrontMatterTags,
-  groupTaggedItems,
-  type Tag,
-} from '../tags';
+import {normalizeFrontMatterTags, groupTaggedItems, type Tag} from '../tags';
 
-describe('normalizeFrontMatterTag', () => {
-  type Input = Parameters<typeof normalizeFrontMatterTag>[1];
-  type Output = ReturnType<typeof normalizeFrontMatterTag>;
-
-  test('should normalize simple string tag', () => {
+describe('normalizeFrontMatterTags', () => {
+  it('normalizes simple string tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = 'tag';
-    const expectedOutput: Output = {
+    const input = 'tag';
+    const expectedOutput = {
       label: 'tag',
       permalink: `${tagsPath}/tag`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
-  test('should normalize complex string tag', () => {
+  it('normalizes complex string tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = 'some more Complex_tag';
-    const expectedOutput: Output = {
+    const input = 'some more Complex_tag';
+    const expectedOutput = {
       label: 'some more Complex_tag',
       permalink: `${tagsPath}/some-more-complex-tag`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
-  test('should normalize simple object tag', () => {
+  it('normalizes simple object tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = {label: 'tag', permalink: 'tagPermalink'};
-    const expectedOutput: Output = {
+    const input = {label: 'tag', permalink: 'tagPermalink'};
+    const expectedOutput = {
       label: 'tag',
       permalink: `${tagsPath}/tagPermalink`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
 
-  test('should normalize complex string tag', () => {
+  it('normalizes complex string tag with object tag', () => {
     const tagsPath = '/all/tags';
-    const input: Input = {
+    const input = {
       label: 'tag complex Label',
       permalink: '/MoreComplex/Permalink',
     };
-    const expectedOutput: Output = {
+    const expectedOutput = {
       label: 'tag complex Label',
       permalink: `${tagsPath}/MoreComplex/Permalink`,
     };
-    expect(normalizeFrontMatterTag(tagsPath, input)).toEqual(expectedOutput);
+    expect(normalizeFrontMatterTags(tagsPath, [input])).toEqual([
+      expectedOutput,
+    ]);
   });
-});
 
-describe('normalizeFrontMatterTags', () => {
   type Input = Parameters<typeof normalizeFrontMatterTags>[1];
   type Output = ReturnType<typeof normalizeFrontMatterTags>;
 
-  test('should normalize string list', () => {
+  it('normalizes string list', () => {
     const tagsPath = '/all/tags';
     const input: Input = ['tag 1', 'tag-1', 'tag 3', 'tag1', 'tag-2'];
     // Keep user input order but remove tags that lead to same permalink
@@ -85,7 +83,11 @@ describe('normalizeFrontMatterTags', () => {
     expect(normalizeFrontMatterTags(tagsPath, input)).toEqual(expectedOutput);
   });
 
-  test('should normalize complex mixed list', () => {
+  it('succeeds for empty list', () => {
+    expect(normalizeFrontMatterTags('/foo')).toEqual([]);
+  });
+
+  it('normalizes complex mixed list', () => {
     const tagsPath = '/all/tags';
     const input: Input = [
       'tag 1',
@@ -127,7 +129,7 @@ describe('groupTaggedItems', () => {
   type Input = Parameters<typeof groupItems>[0];
   type Output = ReturnType<typeof groupItems>;
 
-  test('should group items by tag permalink', () => {
+  it('groups items by tag permalink', () => {
     const tagGuide = {label: 'Guide', permalink: '/guide'};
     const tagTutorial = {label: 'Tutorial', permalink: '/tutorial'};
     const tagAPI = {label: 'API', permalink: '/api'};

@@ -15,7 +15,7 @@ import {translate} from '@docusaurus/Translate';
 import type {Props} from '@theme/IdealImage';
 
 // Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/helpers.js#L59-L65
-const bytesToSize = (bytes: number) => {
+function bytesToSize(bytes: number) {
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
   if (bytes === 0) {
     return 'n/a';
@@ -25,10 +25,10 @@ const bytesToSize = (bytes: number) => {
     return `${bytes} ${sizes[scale]}`;
   }
   return `${(bytes / 1024 ** scale).toFixed(1)} ${sizes[scale]}`;
-};
+}
 
 // Adopted from https://github.com/endiliey/react-ideal-image/blob/master/src/components/IdealImage/index.js#L43-L75
-const getMessage = (icon: IconKey, state: State) => {
+function getMessage(icon: IconKey, state: State) {
   switch (icon) {
     case 'noicon':
     case 'loaded':
@@ -68,20 +68,19 @@ const getMessage = (icon: IconKey, state: State) => {
           message: '404. Image not found',
           description: 'When the image is not found',
         });
-      } else {
-        return translate({
-          id: 'theme.IdealImageMessage.error',
-          message: 'Error. Click to reload',
-          description: 'When the image fails to load for unknown error',
-        });
       }
+      return translate({
+        id: 'theme.IdealImageMessage.error',
+        message: 'Error. Click to reload',
+        description: 'When the image fails to load for unknown error',
+      });
     }
     default:
       throw new Error(`Wrong icon: ${icon}`);
   }
-};
+}
 
-function IdealImage(props: Props): JSX.Element {
+export default function IdealImage(props: Props): JSX.Element {
   const {alt, className, img} = props;
 
   // In dev env just use regular img with original file
@@ -113,5 +112,3 @@ function IdealImage(props: Props): JSX.Element {
     />
   );
 }
-
-export default IdealImage;

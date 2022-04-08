@@ -9,6 +9,9 @@ slug: /markdown-features/react
 
 ```mdx-code-block
 import BrowserWindow from '@site/src/components/BrowserWindow';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import styles from './markdown-features-react.module.css';
 ```
 
 ## Using JSX in Markdown {#using-jsx-in-markdown}
@@ -21,15 +24,7 @@ While Docusaurus parses both `.md` and `.mdx` files using MDX, some of the synta
 
 :::
 
-:::caution
-
-MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018).
-
-Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
-
-:::
-
-Try this block here:
+To define any custom component within an MDX file, you have to export it.
 
 ```jsx
 export const Highlight = ({children, color}) => (
@@ -74,15 +69,275 @@ I can write **Markdown** alongside my _JSX_!
 </BrowserWindow>
 ```
 
-<br />
+:::caution MDX is JSX
 
-You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+Since all doc files are parsed using MDX, anything that looks like HTML is actually JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects.
 
-:::caution
+<!-- prettier-ignore -->
+```jsx
+/* Instead of this: */
+<span style="background-color: red">Foo</span>
+/* Use this: */
+<span style={{backgroundColor: 'red'}}>Foo</span>
+```
 
-Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](../../migration/migration-manual.md#convert-style-attributes-to-style-objects-in-mdx).
+
+In addition, MDX is not [100% compatible with CommonMark](https://github.com/facebook/docusaurus/issues/3018). Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
 
 :::
+
+### Importing components {#importing-components}
+
+You can also import your own components defined in other files or third-party components installed via npm.
+
+<!-- prettier-ignore -->
+```md
+<!-- Docusaurus theme component -->
+import TOCInline from '@theme/TOCInline';
+<!-- External component -->
+import Button from '@mui/material/Button';
+<!-- Custom component -->
+import BrowserWindow from '@site/src/components/BrowserWindow';
+```
+
+:::tip
+
+The `@site` alias points to your website's directory, usually where the `docusaurus.config.js` file is. Using an alias instead of relative paths (`'../../src/components/BrowserWindow'`) saves you from updating import paths when moving files around, or when [versioning docs](../docs/versioning.md) and [translating](../../i18n/i18n-tutorial.md).
+
+:::
+
+While declaring components within Markdown is very convenient for simple cases, it becomes hard to maintain because of limited editor support, risks of parsing errors, and low reusability. Use a separate `.js` file when your component involves complex JS logic:
+
+```jsx title="src/components/Highlight.js"
+import React from 'react';
+
+export default function Highlight({children, color}) {
+  return (
+    <span
+      style={{
+        backgroundColor: color,
+        borderRadius: '2px',
+        color: '#fff',
+        padding: '0.2rem',
+      }}>
+      {children}
+    </span>
+  );
+}
+```
+
+```md title="markdown-file.mdx"
+import Highlight from '@site/src/components/Highlight';
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight>
+```
+
+Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
+### Markdown and JSX interoperability {#markdown-and-jsx-interoperability}
+
+Docusaurus v2 is using MDX v1, which has a lot of known cases where the content fails to be correctly parsed as Markdown. Use the **[MDX playground](https://mdx-git-renovate-babel-monorepo-mdx.vercel.app/playground)** to ensure that your syntax is valid MDX.
+
+````mdx-code-block
+<details>
+
+<summary>Samples of parsing failures</summary>
+
+**A paragraph starting with a JSX tag will be seen entirely as a JSX string:**
+
+<Tabs groupId="jsx-and-md">
+<TabItem value="Problem">
+<div className={styles.wrappingBlock}>
+
+```jsx
+<span style={{color: 'red'}}>Highlighted text</span> but afterwards _Markdown_ **doesn't work**
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<span style={{color: 'red'}}>Highlighted text</span> but afterwards _Markdown_ **doesn't work**
+
+</BrowserWindow>
+</div>
+</TabItem>
+<TabItem value="Workaround">
+
+Use JSX for the rest of the line, or prefix the line with some plain text:
+
+<div className={styles.wrappingBlock}>
+
+```jsx
+<span style={{color: 'red'}}>Use JSX for the paragraph</span> to stop <i>worrying about</i> <b>Markdown</b>
+
+&#8203;<span style={{color: 'red'}}>← This is a zero-width space</span> and afterwards <i>Markdown</i> <b>works</b>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<span style={{color: 'red'}}>Use JSX for the paragraph</span> to stop <i>worrying about</i> <b>Markdown</b>
+
+&#8203;<span style={{color: 'red'}}>← This is a zero-width space</span> and afterwards <i>Markdown</i> <b>works</b>
+
+</BrowserWindow>
+</div>
+</TabItem>
+</Tabs>
+
+**Markdown within a JSX tag never works:**
+
+<Tabs groupId="jsx-and-md">
+<TabItem value="Problem">
+<div className={styles.wrappingBlock}>
+
+```jsx
+<span style={{color: 'red'}}>**Bold doesn't work**</span>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<span style={{color: 'red'}}>**Bold doesn't work**</span>
+
+</BrowserWindow>
+</div>
+
+</TabItem>
+<TabItem value="Workaround">
+
+Use JSX within JSX tag, or move the Markdown to the outer layer:
+
+<div className={styles.wrappingBlock}>
+
+```jsx
+<span style={{color: 'red'}}><b>Bold now works</b></span>
+
+**<span style={{color: 'red'}}>Bold now works</span>**
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<span style={{color: 'red'}}><b>Bold now works</b></span>
+
+**<span style={{color: 'red'}}>Bold now works</span>**
+
+</BrowserWindow>
+</div>
+</TabItem>
+</Tabs>
+
+**Text immediately below a JSX tag will be seen as JSX text:**
+
+<Tabs groupId="jsx-and-md">
+<TabItem value="Problem">
+<div className={styles.wrappingBlock}>
+
+```jsx
+<div style={{color: 'red'}}>
+**Bold still doesn't work**
+</div>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<div style={{color: 'red'}}>
+**Bold still doesn't work**
+</div>
+
+</BrowserWindow>
+</div>
+</TabItem>
+<TabItem value="Workaround">
+
+Add an empty new line:
+
+<div className={styles.wrappingBlock}>
+
+```jsx
+<div style={{color: 'red'}}>
+
+**Bold now works**
+
+</div>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+<div style={{color: 'red'}}>
+
+**Bold now works**
+
+</div>
+</BrowserWindow>
+</div>
+</TabItem>
+</Tabs>
+
+**Markdown text indented by four spaces will be seen as a code block:**
+
+<Tabs groupId="jsx-and-md">
+<TabItem value="Problem">
+<div className={styles.wrappingBlock}>
+
+```jsx
+<div style={{color: 'red'}}>
+
+    You may think I'm just some text...
+
+</div>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+
+<div style={{color: 'red'}}>
+
+    You may think I'm just some text...
+
+</div>
+
+</BrowserWindow>
+</div>
+</TabItem>
+<TabItem value="Workaround">
+
+Don't indent:
+
+<div className={styles.wrappingBlock}>
+
+```jsx
+<div style={{color: 'red'}}>
+
+Now I'm actually just text
+
+</div>
+```
+
+</div>
+<div className={styles.wrappingBlock}>
+<BrowserWindow>
+<div style={{color: 'red'}}>
+
+Now I'm actually just text
+
+</div>
+</BrowserWindow>
+</div>
+</TabItem>
+</Tabs>
+</details>
+````
 
 ## Importing code snippets {#importing-code-snippets}
 
@@ -99,7 +354,7 @@ Now you can import code snippets from another file as it is:
 import CodeBlock from '@theme/CodeBlock';
 import MyComponentSource from '!!raw-loader!./myComponent';
 
-<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 ```
 <!-- prettier-ignore-end -->
 
@@ -109,7 +364,7 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/_myComponen
 
 <BrowserWindow>
 
-<CodeBlock className="language-jsx">{MyComponentSource}</CodeBlock>
+<CodeBlock language="jsx">{MyComponentSource}</CodeBlock>
 
 </BrowserWindow>
 
@@ -166,7 +421,7 @@ The table of contents does not currently contain the imported Markdown headings.
 
 :::
 
-## Available exports
+## Available exports {#available-exports}
 
 Within the MDX page, the following variables are available as globals:
 

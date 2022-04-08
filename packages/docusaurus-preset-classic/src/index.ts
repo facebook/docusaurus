@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {routeBasePath as debugPluginRouteBasePath} from '@docusaurus/plugin-debug';
 import type {
   Preset,
   LoadContext,
@@ -28,7 +29,7 @@ export default function preset(
   opts: Options = {},
 ): Preset {
   const {siteConfig} = context;
-  const {themeConfig} = siteConfig;
+  const {themeConfig, baseUrl} = siteConfig;
   const {algolia} = themeConfig as Partial<ThemeConfig>;
   const isProd = process.env.NODE_ENV === 'production';
   const {
@@ -36,17 +37,28 @@ export default function preset(
     docs,
     blog,
     pages,
-    sitemap,
+    sitemap = {},
     theme,
     googleAnalytics,
     gtag,
     ...rest
   } = opts;
+  const isDebugEnabled = debug || (debug === undefined && !isProd);
 
   const themes: PluginConfig[] = [];
   themes.push(makePluginConfig('@docusaurus/theme-classic', theme));
   if (algolia) {
     themes.push(require.resolve('@docusaurus/theme-search-algolia'));
+  }
+  if ('gtag' in themeConfig) {
+    throw new Error(
+      'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. For preset-classic, simply move themeConfig.gtag to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
+  }
+  if ('googleAnalytics' in themeConfig) {
+    throw new Error(
+      'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. For preset-classic, simply move themeConfig.googleAnalytics to preset options. More information at https://github.com/facebook/docusaurus/pull/5832.',
+    );
   }
 
   const plugins: PluginConfig[] = [];
@@ -59,18 +71,22 @@ export default function preset(
   if (pages !== false) {
     plugins.push(makePluginConfig('@docusaurus/plugin-content-pages', pages));
   }
-  if (isProd && googleAnalytics) {
+  if (googleAnalytics) {
     plugins.push(
       makePluginConfig('@docusaurus/plugin-google-analytics', googleAnalytics),
     );
   }
-  if (debug || (debug === undefined && !isProd)) {
+  if (isDebugEnabled) {
     plugins.push(require.resolve('@docusaurus/plugin-debug'));
   }
-  if (isProd && gtag) {
+  if (gtag) {
     plugins.push(makePluginConfig('@docusaurus/plugin-google-gtag', gtag));
   }
   if (isProd && sitemap !== false) {
+    if (isDebugEnabled) {
+      sitemap.ignorePatterns ??= [];
+      sitemap.ignorePatterns.push(`${baseUrl}${debugPluginRouteBasePath}/**`);
+    }
     plugins.push(makePluginConfig('@docusaurus/plugin-sitemap', sitemap));
   }
   if (Object.keys(rest).length > 0) {

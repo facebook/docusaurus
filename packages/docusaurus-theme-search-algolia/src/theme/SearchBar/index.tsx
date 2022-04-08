@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useState, useRef, useCallback, useMemo} from 'react';
 import {createPortal} from 'react-dom';
@@ -13,11 +12,10 @@ import {useHistory} from '@docusaurus/router';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import useSearchQuery from '@theme/hooks/useSearchQuery';
-import {isRegexpStringMatch} from '@docusaurus/theme-common';
+import {isRegexpStringMatch, useSearchPage} from '@docusaurus/theme-common';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
-import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
-import {translate} from '@docusaurus/Translate';
+import {useAlgoliaContextualFacetFilters} from '@docusaurus/theme-search-algolia/client';
+import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 import type {
@@ -36,6 +34,7 @@ type DocSearchProps = Omit<
 > & {
   contextualSearch?: string;
   externalUrlRegex?: string;
+  searchPagePath: boolean | string;
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
@@ -56,13 +55,29 @@ type ResultsFooterProps = {
 };
 
 function ResultsFooter({state, onClose}: ResultsFooterProps) {
-  const {generateSearchPageLink} = useSearchQuery();
+  const {generateSearchPageLink} = useSearchPage();
 
   return (
     <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
-      See all {state.context.nbHits} results
+      <Translate
+        id="theme.SearchBar.seeAll"
+        values={{count: state.context.nbHits}}>
+        {'See all {count} results'}
+      </Translate>
     </Link>
   );
+}
+
+type FacetFilters = Required<
+  Required<DocSearchProps>['searchParameters']
+>['facetFilters'];
+
+function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
+  const normalize = (
+    f: FacetFilters,
+  ): readonly string[] | ReadonlyArray<string | readonly string[]> =>
+    typeof f === 'string' ? [f] : f;
+  return [...normalize(f1), ...normalize(f2)] as FacetFilters;
 }
 
 function DocSearch({
@@ -72,18 +87,20 @@ function DocSearch({
 }: DocSearchProps) {
   const {siteMetadata} = useDocusaurusContext();
 
-  const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters();
+  const contextualSearchFacetFilters =
+    useAlgoliaContextualFacetFilters() as FacetFilters;
 
-  const configFacetFilters = props.searchParameters?.facetFilters ?? [];
+  const configFacetFilters: FacetFilters =
+    props.searchParameters?.facetFilters ?? [];
 
-  const facetFilters = contextualSearch
+  const facetFilters: FacetFilters = contextualSearch
     ? // Merge contextual search filters with config filters
-      [...contextualSearchFacetFilters, ...configFacetFilters]
+      mergeFacetFilters(contextualSearchFacetFilters, configFacetFilters)
     : // ... or use config facetFilters
       configFacetFilters;
 
   // we let user override default searchParameters if he wants to
-  const searchParameters = {
+  const searchParameters: DocSearchProps['searchParameters'] = {
     ...props.searchParameters,
     facetFilters,
   };
@@ -103,9 +120,7 @@ function DocSearch({
     }
 
     return Promise.all([
-      // @ts-ignore
       import('@docsearch/react/modal'),
-      // @ts-ignore
       import('@docsearch/react/style'),
       import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {
@@ -154,7 +169,8 @@ function DocSearch({
   const transformItems = useRef<DocSearchModalProps['transformItems']>(
     (items) =>
       items.map((item) => {
-        // If Algolia contains a external domain, we should navigate without relative URL
+        // If Algolia contains a external domain, we should navigate without
+        // relative URL
         if (isRegexpStringMatch(externalUrlRegex, item.url)) {
           return item;
         }
@@ -168,12 +184,14 @@ function DocSearch({
       }),
   ).current;
 
-  const resultsFooterComponent = useMemo(
-    // eslint-disable-next-line react/no-unstable-nested-components
-    () => (footerProps: ResultsFooterProps) =>
-      <ResultsFooter {...footerProps} onClose={onClose} />,
-    [onClose],
-  );
+  const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
+    useMemo(
+      () =>
+        // eslint-disable-next-line react/no-unstable-nested-components
+        (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
+          <ResultsFooter {...footerProps} onClose={onClose} />,
+      [onClose],
+    );
 
   const transformSearchClient = useCallback(
     (searchClient) => {
@@ -239,8 +257,10 @@ function DocSearch({
             navigator={navigator}
             transformItems={transformItems}
             hitComponent={Hit}
-            resultsFooterComponent={resultsFooterComponent}
             transformSearchClient={transformSearchClient}
+            {...(props.searchPagePath && {
+              resultsFooterComponent,
+            })}
             {...props}
             searchParameters={searchParameters}
           />,
@@ -250,10 +270,7 @@ function DocSearch({
   );
 }
 
-function SearchBar(): JSX.Element {
+export default function SearchBar(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  // @ts-ignore
-  return <DocSearch {...siteConfig.themeConfig.algolia} />;
+  return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }
-
-export default SearchBar;

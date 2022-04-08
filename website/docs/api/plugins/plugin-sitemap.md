@@ -39,8 +39,18 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
 | `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
+| `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
 
 </APITable>
+
+:::info
+
+This plugin also respects some site config:
+
+- [`noIndex`](../docusaurus.config.js.md#noindex): results in no sitemap generated
+- [`trailingSlash`](../docusaurus.config.js.md#trailing-slash): determines if the URLs in the sitemap have trailing slashes
+
+:::
 
 ### Example configuration {#ex-config}
 
@@ -53,11 +63,14 @@ Most Docusaurus users configure this plugin through the preset options.
 :::
 
 ```js config-tabs
-// preset option name: sitemap
-// plugin name: @docusaurus/plugin-sitemap
+// Preset Options: sitemap
+// Plugin Options: @docusaurus/plugin-sitemap
 
 const config = {
   changefreq: 'weekly',
   priority: 0.5,
+  ignorePatterns: ['/tags/**'],
 };
 ```
+
+You can find your sitemap at `/sitemap.xml`.

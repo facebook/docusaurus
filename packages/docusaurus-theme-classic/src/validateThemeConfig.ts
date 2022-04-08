@@ -6,7 +6,10 @@
  */
 
 import {Joi, URISchema} from '@docusaurus/utils-validation';
-import type {ThemeConfig, Validate, ValidationResult} from '@docusaurus/types';
+import type {
+  ThemeConfig,
+  ThemeConfigValidationContext,
+} from '@docusaurus/types';
 
 const DEFAULT_DOCS_CONFIG = {
   versionPersistence: 'localStorage',
@@ -21,15 +24,9 @@ const DEFAULT_COLOR_MODE_CONFIG = {
   defaultMode: 'light',
   disableSwitch: false,
   respectPrefersColorScheme: false,
-  switchConfig: {
-    darkIcon: '🌜',
-    darkIconStyle: {},
-    lightIcon: '🌞',
-    lightIconStyle: {},
-  },
 };
 
-const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG = {
   colorMode: DEFAULT_COLOR_MODE_CONFIG,
   docs: DEFAULT_DOCS_CONFIG,
   metadata: [],
@@ -41,6 +38,7 @@ const DEFAULT_CONFIG = {
     items: [],
   },
   hideableSidebar: false,
+  autoCollapseSidebarCategories: false,
   tableOfContents: {
     minHeadingLevel: 2,
     maxHeadingLevel: 3,
@@ -51,10 +49,12 @@ const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
 const NavbarItemBaseSchema = Joi.object({
   label: Joi.string(),
+  html: Joi.string(),
   className: Joi.string(),
 })
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .nand('html', 'label')
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const DefaultNavbarItemSchema = NavbarItemBaseSchema.append({
@@ -85,6 +85,12 @@ const DocItemSchema = NavbarItemBaseSchema.append({
   docsPluginId: Joi.string(),
 });
 
+const DocSidebarItemSchema = NavbarItemBaseSchema.append({
+  type: Joi.string().equal('docSidebar').required(),
+  sidebarId: Joi.string().required(),
+  docsPluginId: Joi.string(),
+});
+
 const itemWithType = (type: string | undefined) => {
   // because equal(undefined) is not supported :/
   const typeSchema = type
@@ -108,6 +114,10 @@ const DropdownSubitemSchema = Joi.object({
     {
       is: itemWithType('doc'),
       then: DocItemSchema,
+    },
+    {
+      is: itemWithType('docSidebar'),
+      then: DocSidebarItemSchema,
     },
     {
       is: itemWithType(undefined),
@@ -173,6 +183,10 @@ const NavbarItemSchema = Joi.object({
       then: DocItemSchema,
     },
     {
+      is: itemWithType('docSidebar'),
+      then: DocSidebarItemSchema,
+    },
+    {
       is: itemWithType('localeDropdown'),
       then: LocaleDropdownNavbarItemSchema,
     },
@@ -205,20 +219,10 @@ const ColorModeSchema = Joi.object({
   respectPrefersColorScheme: Joi.bool().default(
     DEFAULT_COLOR_MODE_CONFIG.respectPrefersColorScheme,
   ),
-  switchConfig: Joi.object({
-    darkIcon: Joi.string().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIcon,
-    ),
-    darkIconStyle: Joi.object().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.darkIconStyle,
-    ),
-    lightIcon: Joi.string().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIcon,
-    ),
-    lightIconStyle: Joi.object().default(
-      DEFAULT_COLOR_MODE_CONFIG.switchConfig.lightIconStyle,
-    ),
-  }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
+  switchConfig: Joi.any().forbidden().messages({
+    'any.unknown':
+      'colorMode.switchConfig is deprecated. If you want to customize the icons for light and dark mode, swizzle IconLightMode, IconDarkMode, or ColorModeToggle instead.',
+  }),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
 // schema can probably be improved
@@ -240,15 +244,15 @@ const FooterLinkItemSchema = Joi.object({
   .with('to', 'label')
   .with('href', 'label')
   .nand('html', 'label')
-  // We allow any unknown attributes on the links
-  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  // We allow any unknown attributes on the links (users may need additional
+  // attributes like target, aria-role, data-customAttribute...)
   .unknown();
 
 const CustomCssSchema = Joi.alternatives()
   .try(Joi.array().items(Joi.string().required()), Joi.string().required())
   .optional();
 
-const ThemeConfigSchema = Joi.object({
+export const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden().messages({
     'any.unknown':
@@ -266,8 +270,10 @@ const ThemeConfigSchema = Joi.object({
   metadata: Joi.array()
     .items(HtmlMetadataSchema)
     .default(DEFAULT_CONFIG.metadata),
+  // cSpell:ignore metadatas
   metadatas: Joi.any().forbidden().messages({
     'any.unknown':
+      // cSpell:ignore metadatas
       'themeConfig.metadatas has been renamed as themeConfig.metadata. See https://github.com/facebook/docusaurus/pull/5871',
   }),
   announcementBar: Joi.object({
@@ -303,7 +309,7 @@ const ThemeConfigSchema = Joi.object({
     style: Joi.string().equal('dark', 'light').default('light'),
     logo: Joi.object({
       alt: Joi.string().allow(''),
-      src: Joi.string(),
+      src: Joi.string().required(),
       srcDark: Joi.string(),
       // TODO infer this from reading the image
       width: Joi.alternatives().try(Joi.string(), Joi.number()),
@@ -342,6 +348,9 @@ const ThemeConfigSchema = Joi.object({
     .default(DEFAULT_CONFIG.prism)
     .unknown(),
   hideableSidebar: Joi.bool().default(DEFAULT_CONFIG.hideableSidebar),
+  autoCollapseSidebarCategories: Joi.bool().default(
+    DEFAULT_CONFIG.autoCollapseSidebarCategories,
+  ),
   sidebarCollapsible: Joi.forbidden().messages({
     'any.unknown':
       'The themeConfig.sidebarCollapsible has been moved to docs plugin options. See: https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs',
@@ -366,14 +375,9 @@ const ThemeConfigSchema = Joi.object({
   }).default(DEFAULT_CONFIG.tableOfContents),
 });
 
-export {DEFAULT_CONFIG, ThemeConfigSchema};
-
 export function validateThemeConfig({
   validate,
   themeConfig,
-}: {
-  validate: Validate<ThemeConfig>;
-  themeConfig: ThemeConfig;
-}): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   return validate(ThemeConfigSchema, themeConfig);
 }

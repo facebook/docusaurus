@@ -6,59 +6,45 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
-import {addTrailingSlash} from '@docusaurus/utils';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
-import {getAllFinalRoutes} from '@docusaurus/core/lib/server/utils';
+import {createMatcher} from '@docusaurus/utils';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routes: RouteConfig[],
-  options: Options,
+  options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {changefreq, priority} = options;
+  const {changefreq, priority, ignorePatterns} = options;
 
-  const sitemapStream = new SitemapStream({
-    hostname,
-  });
-  const routesPaths = getAllFinalRoutes(routes);
+  const ignoreMatcher = createMatcher(ignorePatterns);
 
-  function applySitemapTrailingSlash(routePath: string): string {
-    // kept for retrocompatibility
-    // TODO remove deprecated trailingSlash option before 2022
-    if (options.trailingSlash) {
-      return addTrailingSlash(routePath);
-    } else {
-      return applyTrailingSlash(routePath, {
-        trailingSlash: siteConfig.trailingSlash,
-        baseUrl: siteConfig.baseUrl,
-      });
-    }
-  }
+  const sitemapStream = new SitemapStream({hostname});
 
-  routesPaths
-    .filter((route) => !route.path.endsWith('404.html'))
-    .map((routePath) => {
+  routes
+    .filter((route) => !route.path.endsWith('404.html') && !ignoreMatcher(route.path))
+    .forEach((route) =>
       sitemapStream.write({
-        url: applySitemapTrailingSlash(routePath.path),
+        url: applyTrailingSlash(route.path, {
+          trailingSlash: siteConfig.trailingSlash,
+          baseUrl: siteConfig.baseUrl,
+        }),
         changefreq,
         priority,
-        ...(typeof routePath.lastmod === 'number' && {
-          lastmod: routePath.lastmod,
+        ...(typeof route.lastmod === 'number' && {
+          lastmod: route.lastmod,
         }),
-      });
-    });
+      })
+    );
 
   sitemapStream.end();
 
-  const generatedSitemap = await streamToPromise(sitemapStream).then((sm) =>
-    sm.toString(),
-  );
+  const generatedSitemap = (await streamToPromise(sitemapStream)).toString();
 
   return generatedSitemap;
 }

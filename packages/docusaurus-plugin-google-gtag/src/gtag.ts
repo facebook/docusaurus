@@ -9,17 +9,18 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import globalData from '@generated/globalData';
 import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
 
-export default (function () {
+export default (function gtagModule() {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
-  const {trackingID} = globalData['docusaurus-plugin-google-gtag']
+  const {trackingID} = globalData['docusaurus-plugin-google-gtag']!
     .default as PluginOptions;
 
   return {
     onRouteUpdate({location}: {location: Location}) {
-      // Always refer to the variable on window in-case it gets overridden elsewhere.
+      // Always refer to the variable on window in case it gets overridden
+      // elsewhere.
       window.gtag('config', trackingID, {
         page_path: location.pathname,
         page_title: document.title,

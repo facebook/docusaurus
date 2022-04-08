@@ -6,7 +6,7 @@
  */
 
 import remark from 'remark';
-// import from the transpiled lib because Babel can't transpile `export =` syntax
+// import from the transpiled lib because Babel can't transpile `export =`
 // TODO change to `../index` after migrating to ESM
 import npm2yarn from '../../lib/index';
 import vfile from 'to-vfile';
@@ -14,42 +14,45 @@ import path from 'path';
 import mdx from 'remark-mdx';
 
 const processFixture = async (name: string, options?: {sync?: boolean}) => {
-  const filePath = path.join(__dirname, 'fixtures', `${name}.md`);
+  const filePath = path.join(__dirname, '__fixtures__', `${name}.md`);
   const file = await vfile.read(filePath);
-  const result = await remark()
-    .use(mdx)
-    .use(npm2yarn, {...options, filePath})
-    .process(file);
+  const result = await remark().use(mdx).use(npm2yarn, options).process(file);
 
   return result.toString();
 };
 
 describe('npm2yarn plugin', () => {
-  test('test: installation file', async () => {
+  it('works on installation file', async () => {
     const result = await processFixture('installation');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: plugin file', async () => {
+  it('works on plugin file', async () => {
     const result = await processFixture('plugin');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: language was not setted', async () => {
+  it('works with sync option', async () => {
+    const result = await processFixture('plugin', {sync: true});
+
+    expect(result).toMatchSnapshot();
+  });
+
+  it('does not work when language is not set', async () => {
     const result = await processFixture('syntax-not-properly-set');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: already imported tabs components above are not re-imported', async () => {
+  it('does not re-import tabs components when already imported above', async () => {
     const result = await processFixture('import-tabs-above');
 
     expect(result).toMatchSnapshot();
   });
 
-  test('test: already imported tabs components below are not re-imported', async () => {
+  it('does not re-import tabs components when already imported below', async () => {
     const result = await processFixture('import-tabs-below');
 
     expect(result).toMatchSnapshot();

@@ -11,14 +11,14 @@ import Translate from '@docusaurus/Translate';
 import {useCollapsible, Collapsible} from '@docusaurus/theme-common';
 import styles from './styles.module.css';
 import TOCItems from '@theme/TOCItems';
-import type {TOCCollapsibleProps} from '@theme/TOCCollapsible';
+import type {Props} from '@theme/TOCCollapsible';
 
 export default function TOCCollapsible({
   toc,
   className,
   minHeadingLevel,
   maxHeadingLevel,
-}: TOCCollapsibleProps): JSX.Element {
+}: Props): JSX.Element {
   const {collapsed, toggleCollapsed} = useCollapsible({
     initialState: true,
   });
@@ -27,9 +27,7 @@ export default function TOCCollapsible({
     <div
       className={clsx(
         styles.tocCollapsible,
-        {
-          [styles.tocCollapsibleExpanded]: !collapsed,
-        },
+        !collapsed && styles.tocCollapsibleExpanded,
         className,
       )}>
       <button

@@ -28,11 +28,6 @@ Accepted fields:
 | `defaultMode` | <code>'light' \| 'dark'</code> | `'light'` | The color mode when user first visits the site. |
 | `disableSwitch` | `boolean` | `false` | Hides the switch in the navbar. Useful if you want to support a single color mode. |
 | `respectPrefersColorScheme` | `boolean` | `false` | Whether to use the `prefers-color-scheme` media-query, using user system preferences, instead of the hardcoded `defaultMode`. |
-| `switchConfig` | _See below_ | _See below_ | Dark/light switch icon options. |
-| `switchConfig.darkIcon` | `string` | `'🌜'` | Icon for the switch while in dark mode. |
-| `switchConfig.darkIconStyle` | JSX style object (see [documentation](https://reactjs.org/docs/dom-elements.html#style)) | `{}` | CSS to apply to dark icon. |
-| `switchConfig.lightIcon` | `string` | `'🌞'` | Icon for the switch while in light mode. |
-| `switchConfig.lightIconStyle` | JSX style object | `{}` | CSS to apply to light icon. |
 
 </APITable>
 
@@ -46,18 +41,6 @@ module.exports = {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: false,
-      switchConfig: {
-        darkIcon: '🌙',
-        darkIconStyle: {
-          marginLeft: '2px',
-        },
-        // Unicode icons such as '\u2600' will work
-        // Unicode with 5 chars require brackets: '\u{1F602}'
-        lightIcon: '\u{1F602}',
-        lightIconStyle: {
-          marginLeft: '1px',
-        },
-      },
     },
     // highlight-end
   },
@@ -124,7 +107,7 @@ module.exports = {
 
 ### Announcement bar {#announcement-bar}
 
-Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissable panel above the navbar. All configuration are in the `announcementBar` object.
+Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and optionally dismissible panel above the navbar. All configuration are in the `announcementBar` object.
 
 Accepted fields:
 
@@ -163,7 +146,7 @@ module.exports = {
 
 Accepted fields:
 
-<APITable name="navbar">
+<APITable name="navbar-overview">
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -276,6 +259,7 @@ Accepted fields:
 | --- | --- | --- | --- |
 | `type` | `'default'` | Optional | Sets the type of this item to a link. |
 | `label` | `string` | **Required** | The name to be shown for this item. |
+| `html` | `string` | Optional | Same as `label`, but renders pure HTML instead of text content. |
 | `to` | `string` | **Required** | Client-side routing, used for navigating within the website. The baseUrl will be automatically prepended to this value. |
 | `href` | `string` | **Required** | A full-page navigation, used for navigating outside of the website. **Only one of `to` or `href` should be used.** |
 | `prependBaseUrlToHref` | `boolean` | `false` | Prepends the baseUrl to `href` values. |
@@ -305,6 +289,8 @@ module.exports = {
           // Only one of "to" or "href" should be used
           // href: 'https://www.facebook.com',
           label: 'Introduction',
+          // Only one of "label" or "html" should be used
+          // html: '<b>Introduction</b>'
           position: 'left',
           activeBaseRegex: 'docs/(next|v8)',
           target: '_blank',
@@ -325,6 +311,7 @@ Navbar dropdown items only accept the following **"link-like" item types**:
 - [Navbar link](#navbar-link)
 - [Navbar doc link](#navbar-doc-link)
 - [Navbar docs version](#navbar-docs-version)
+- [Navbar doc sidebar](#navbar-doc-sidebar)
 
 Note that the dropdown base item is a clickable link as well, so this item can receive any of the props of a [plain navbar link](#navbar-link).
 
@@ -409,6 +396,71 @@ module.exports = {
       ],
     },
   },
+};
+```
+
+#### Navbar linked to a sidebar {#navbar-doc-sidebar}
+
+You can link a navbar item to the first document link (which can be a doc link or a generated category index) of a given sidebar without having to hardcode a doc ID.
+
+Accepted fields:
+
+<APITable name="navbar-doc-sidebar">
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'docSidebar'` | **Required** | Sets the type of this navbar item to a sidebar's first document. |
+| `sidebarId` | `string` | **Required** | The ID of the sidebar that this item is linked to. |
+| `label` | `string` | First document link's sidebar label | The name to be shown for this item. |
+| `position` | <code>'left' \| 'right'</code> | `'left'` | The side of the navbar this item should appear on. |
+| `docsPluginId` | `string` | `'default'` | The ID of the docs plugin that the sidebar belongs to. |
+
+</APITable>
+
+:::tip
+
+Use this navbar item type if your sidebar is updated often and the order is not stable.
+
+:::
+
+Example configuration:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docSidebar',
+          position: 'left',
+          sidebarId: 'api',
+          label: 'API',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+```js title="sidebars.js"
+module.exports = {
+  tutorial: [
+    {
+      type: 'autogenerated',
+      dirName: 'guides',
+    },
+  ],
+  api: [
+    // highlight-next-line
+    'cli', // The navbar item will be linking to this doc
+    'docusaurus-core',
+    {
+      type: 'autogenerated',
+      dirName: 'api',
+    },
+  ],
 };
 ```
 
@@ -763,7 +815,7 @@ module.exports = {
           {
             html: `
                 <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
                 </a>
               `,
           },
@@ -799,7 +851,7 @@ module.exports = {
       {
         html: `
             <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
             </a>
           `,
       },
@@ -839,28 +891,28 @@ module.exports = {
 
 ## Hooks {#hooks}
 
-### `useThemeContext` {#usethemecontext}
+### `useColorMode` {#use-color-mode}
 
-React hook to access theme context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
+A React hook to access the color context. This context contains functions for setting light and dark mode and exposes boolean variable, indicating which mode is currently in use.
 
 Usage example:
 
 ```jsx
 import React from 'react';
 // highlight-next-line
-import useThemeContext from '@theme/hooks/useThemeContext';
+import {useColorMode} from '@docusaurus/theme-common';
 
 const Example = () => {
   // highlight-next-line
-  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+  const {colorMode, setColorMode} = useColorMode();
 
-  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+  return <h1>Dark mode is now {colorMode === 'dark' ? 'on' : 'off'}</h1>;
 };
 ```
 
 :::note
 
-The component calling `useThemeContext` must be a child of the `Layout` component.
+The component calling `useColorMode` must be a child of the `Layout` component.
 
 ```jsx
 function ExamplePage() {

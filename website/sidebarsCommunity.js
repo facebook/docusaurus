@@ -13,6 +13,11 @@ module.exports = {
     },
     {
       type: 'link',
+      href: '/changelog',
+      label: 'Changelog',
+    },
+    {
+      type: 'link',
       href: '/showcase',
       label: 'Showcase',
     },

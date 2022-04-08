@@ -30,25 +30,28 @@ const processFixture = async (name: string, options?) => {
     })
     .process(file);
 
-  return result
-    .toString()
-    .replace(/\\\\/g, '/')
-    .replace(new RegExp(process.cwd().replace(/\\/g, '/'), 'g'), '[CWD]');
+  return result.toString();
 };
 
 describe('transformAsset plugin', () => {
-  test('fail if asset url is absent', async () => {
+  it('fail if asset url is absent', async () => {
     await expect(
       processFixture('noUrl'),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
-  test('transform md links to <a />', async () => {
+  it('fail if asset with site alias does not exist', async () => {
+    await expect(
+      processFixture('nonexistentSiteAlias'),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  it('transform md links to <a />', async () => {
     const result = await processFixture('asset');
     expect(result).toMatchSnapshot();
   });
 
-  test('pathname protocol', async () => {
+  it('pathname protocol', async () => {
     const result = await processFixture('pathname');
     expect(result).toMatchSnapshot();
   });
