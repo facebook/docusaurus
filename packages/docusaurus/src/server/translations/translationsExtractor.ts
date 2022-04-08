@@ -18,7 +18,6 @@ import {
 import type {
   InitializedPlugin,
   TranslationFileContent,
-  TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
@@ -31,7 +30,7 @@ const TranslatableSourceCodeExtension = new Set([
   '.ts',
   '.tsx',
   // TODO support md/mdx too? (may be overkill)
-  // need to compile the MDX to JSX first and remove frontmatter
+  // need to compile the MDX to JSX first and remove front matter
   // '.md',
   // '.mdx',
 ]);
@@ -45,8 +44,9 @@ function getSiteSourceCodeFilePaths(siteDir: string): string[] {
 
 function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
-  // We can use this method as well to know which folders we should try to extract translations from
-  // Hacky/implicit, but do we want to introduce a new lifecycle method just for that???
+  // We can use this method as well to know which folders we should try to
+  // extract translations from. Hacky/implicit, but do we want to introduce a
+  // new lifecycle method just for that???
   const codePaths: string[] = plugin.getPathsToWatch?.() ?? [];
 
   // We also include theme code
@@ -55,7 +55,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
     codePaths.push(themePath);
   }
 
-  return codePaths;
+  return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
 export async function globSourceCodeFilePaths(
@@ -72,8 +72,9 @@ async function getSourceCodeFilePaths(
   const sitePaths = getSiteSourceCodeFilePaths(siteDir);
 
   // The getPathsToWatch() generally returns the js/jsx/ts/tsx/md/mdx file paths
-  // We can use this method as well to know which folders we should try to extract translations from
-  // Hacky/implicit, but do we want to introduce a new lifecycle method for that???
+  // We can use this method as well to know which folders we should try to
+  // extract translations from. Hacky/implicit, but do we want to introduce a
+  // new lifecycle method for that???
   const pluginsPaths = plugins.flatMap(getPluginSourceCodeFilePaths);
 
   const allPaths = [...sitePaths, ...pluginsPaths];
@@ -87,7 +88,8 @@ export async function extractSiteSourceCodeTranslations(
   babelOptions: TransformOptions,
   extraSourceCodeFilePaths: string[] = [],
 ): Promise<TranslationFileContent> {
-  // Should we warn here if the same translation "key" is found in multiple source code files?
+  // Should we warn here if the same translation "key" is found in multiple
+  // source code files?
   function toTranslationFileContent(
     sourceCodeFileTranslations: SourceCodeFileTranslations[],
   ): TranslationFileContent {
@@ -127,7 +129,7 @@ function logSourceCodeFileTranslationsWarnings(
 
 type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
-  translations: Record<string, TranslationMessage>;
+  translations: TranslationFileContent;
   warnings: string[];
 };
 
@@ -152,8 +154,9 @@ export async function extractSourceCodeFileTranslations(
     const ast = parse(code, {
       ...babelOptions,
       ast: true,
-      // filename is important, because babel does not process the same files according to their js/ts extensions
-      // see  see https://twitter.com/NicoloRibaudo/status/1321130735605002243
+      // filename is important, because babel does not process the same files
+      // according to their js/ts extensions.
+      // See https://twitter.com/NicoloRibaudo/status/1321130735605002243
       filename: sourceCodeFilePath,
     }) as Node;
 
@@ -162,11 +165,9 @@ export async function extractSourceCodeFileTranslations(
       sourceCodeFilePath,
     );
     return translations;
-  } catch (e) {
-    if (e instanceof Error) {
-      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
-    }
-    throw e;
+  } catch (err) {
+    logger.error`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`;
+    throw err;
   }
 }
 
@@ -187,7 +188,7 @@ function extractSourceCodeAstTranslations(
 Full code: ${generate(node).code}`;
   }
 
-  const translations: Record<string, TranslationMessage> = {};
+  const translations: TranslationFileContent = {};
   const warnings: string[] = [];
   let translateComponentName: string | undefined;
   let translateFunctionName: string | undefined;
@@ -260,14 +261,13 @@ Full code: ${generate(node).code}`;
               typeof attributeValueEvaluated.value === 'string'
             ) {
               return attributeValueEvaluated.value;
-            } else {
-              warnings.push(
-                `<Translate> prop=${propName} should be a statically evaluable object.
+            }
+            warnings.push(
+              `<Translate> prop=${propName} should be a statically evaluable object.
 Example: <Translate id="optional id" description="optional description">Message</Translate>
 Dynamically constructed values are not allowed, because they prevent translations to be extracted.
 ${sourceWarningPart(path.node)}`,
-              );
-            }
+            );
           }
 
           return undefined;
@@ -275,7 +275,7 @@ ${sourceWarningPart(path.node)}`,
 
         const id = evaluateJSXProp('id');
         const description = evaluateJSXProp('description');
-        let message;
+        let message: string;
         const childrenPath = path.get('children');
 
         // Handle empty content
@@ -286,7 +286,7 @@ Example: <Translate id="my-id" />
 ${sourceWarningPart(path.node)}`);
           } else {
             translations[id] = {
-              message: message ?? id,
+              message: id,
               ...(description && {description}),
             };
           }
@@ -296,8 +296,9 @@ ${sourceWarningPart(path.node)}`);
 
         // Handle single non-empty content
         const singleChildren = childrenPath
-          // Remove empty/useless text nodes that might be around our translation!
-          // Makes the translation system more reliable to JSX formatting issues
+          // Remove empty/useless text nodes that might be around our
+          // translation! Makes the translation system more reliable to JSX
+          // formatting issues
           .filter(
             (children) =>
               !(
@@ -306,10 +307,9 @@ ${sourceWarningPart(path.node)}`);
               ),
           )
           .pop();
-        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXText = singleChildren?.isJSXText();
         const isJSXExpressionContainer =
-          singleChildren &&
-          singleChildren.isJSXExpressionContainer() &&
+          singleChildren?.isJSXExpressionContainer() &&
           (singleChildren.get('expression') as NodePath).evaluate().confident;
 
         if (isJSXText || isJSXExpressionContainer) {
@@ -338,9 +338,9 @@ ${sourceWarningPart(path.node)}`,
 
         const args = path.get('arguments');
         if (args.length === 1 || args.length === 2) {
-          const firstArgPath = args[0];
+          const firstArgPath = args[0]!;
 
-          // evaluation allows translate("x" + "y"); to be considered as translate("xy");
+          // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();
 
           if (

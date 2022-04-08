@@ -6,7 +6,7 @@
  */
 
 import type {BlogContent, BlogPaginated} from './types';
-import type {TranslationFileContent, TranslationFiles} from '@docusaurus/types';
+import type {TranslationFileContent, TranslationFile} from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-content-blog';
 
 function translateListPage(
@@ -19,14 +19,15 @@ function translateListPage(
       items,
       metadata: {
         ...metadata,
-        blogTitle: translations.title.message,
-        blogDescription: translations.description.message,
+        blogTitle: translations.title?.message ?? page.metadata.blogTitle,
+        blogDescription:
+          translations.description?.message ?? page.metadata.blogDescription,
       },
     };
   });
 }
 
-export function getTranslationFiles(options: PluginOptions): TranslationFiles {
+export function getTranslationFiles(options: PluginOptions): TranslationFile[] {
   return [
     {
       path: 'options',
@@ -50,12 +51,13 @@ export function getTranslationFiles(options: PluginOptions): TranslationFiles {
 
 export function translateContent(
   content: BlogContent,
-  translationFiles: TranslationFiles,
+  translationFiles: TranslationFile[],
 ): BlogContent {
-  const [{content: optionsTranslations}] = translationFiles;
+  const {content: optionsTranslations} = translationFiles[0]!;
   return {
     ...content,
-    blogSidebarTitle: optionsTranslations['sidebar.title'].message,
+    blogSidebarTitle:
+      optionsTranslations['sidebar.title']?.message ?? content.blogSidebarTitle,
     blogListPaginated: translateListPage(
       content.blogListPaginated,
       optionsTranslations,

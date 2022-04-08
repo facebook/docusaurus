@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "Søg",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "Søg med Algolia",
   "theme.SearchPage.documentsFound.plurals": "Et dokument fundet|{count} dokumenter fundet",
   "theme.SearchPage.emptyResultsTitle": "Søg i dokumentationen",

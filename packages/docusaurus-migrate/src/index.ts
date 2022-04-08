@@ -8,11 +8,10 @@
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import logger from '@docusaurus/logger';
-import glob from 'glob';
+import {Globby} from '@docusaurus/utils';
 import Color from 'color';
 
 import type {
-  ClassicPresetEntries,
   SidebarEntry,
   SidebarEntries,
   VersionOneConfig,
@@ -26,18 +25,18 @@ import path from 'path';
 const DOCUSAURUS_VERSION = (importFresh('../package.json') as {version: string})
   .version;
 
-export function walk(dir: string): Array<string> {
-  let results: Array<string> = [];
-  const list = fs.readdirSync(dir);
-  list.forEach((file: string) => {
+async function walk(dir: string): Promise<string[]> {
+  const results: string[] = [];
+  const list = await fs.readdir(dir);
+  for (const file of list) {
     const fullPath = `${dir}/${file}`;
-    const stat = fs.statSync(fullPath);
-    if (stat && stat.isDirectory()) {
-      results = results.concat(walk(fullPath));
+    const stat = await fs.stat(fullPath);
+    if (stat.isDirectory()) {
+      results.push(...(await walk(fullPath)));
     } else {
       results.push(fullPath);
     }
-  });
+  }
   return results;
 }
 
@@ -46,25 +45,29 @@ function sanitizedFileContent(
   migrateMDFiles: boolean,
 ): string {
   const extractedData = extractMetadata(content);
-  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, [key, value]) =>
-      `${metaData}\n${key}: ${
-        shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
-      }`,
-    '',
-  );
-  const sanitizedData = `---${extractedMetaData}\n---\n${
-    migrateMDFiles
-      ? sanitizeMD(extractedData.rawContent)
-      : extractedData.rawContent
-  }`;
+  const extractedMetaData = Object.entries(extractedData.metadata)
+    .map(
+      ([key, value]) =>
+        `${key}: ${
+          shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
+        }`,
+    )
+    .join('\n');
+  const sanitizedData = `---
+${extractedMetaData}
+---
+${
+  migrateMDFiles
+    ? sanitizeMD(extractedData.rawContent)
+    : extractedData.rawContent
+}`;
   return sanitizedData;
 }
 
-// TODO refactor this new type should be used everywhere instead  of passing many params to each method
 type MigrationContext = {
   siteDir: string;
   newDir: string;
+  deps: {[key: string]: string};
   shouldMigrateMdFiles: boolean;
   shouldMigratePages: boolean;
   v1Config: VersionOneConfig;
@@ -77,12 +80,20 @@ export async function migrateDocusaurusProject(
   shouldMigrateMdFiles: boolean = false,
   shouldMigratePages: boolean = false,
 ): Promise<void> {
-  function createMigrationContext(): MigrationContext {
+  async function createMigrationContext(): Promise<MigrationContext> {
     const v1Config = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
     logger.info('Starting migration from v1 to v2...');
+    const deps = {
+      '@docusaurus/core': DOCUSAURUS_VERSION,
+      '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
+      clsx: '^1.1.1',
+      react: '^17.0.2',
+      'react-dom': '^17.0.2',
+    };
     const partialMigrationContext = {
       siteDir,
       newDir,
+      deps,
       shouldMigrateMdFiles,
       shouldMigratePages,
       v1Config,
@@ -94,102 +105,88 @@ export async function migrateDocusaurusProject(
     };
   }
 
-  const migrationContext = createMigrationContext();
-
-  // TODO need refactor legacy, we pass migrationContext to all methods
-  const siteConfig = migrationContext.v1Config;
-  const config = migrationContext.v2Config;
-
-  const classicPreset = migrationContext.v2Config.presets[0][1];
-
-  const deps: Record<string, string> = {
-    '@docusaurus/core': DOCUSAURUS_VERSION,
-    '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
-    clsx: '^1.1.1',
-    react: '^17.0.1',
-    'react-dom': '^17.0.1',
-  };
+  const migrationContext = await createMigrationContext();
   let errorCount = 0;
   try {
-    createClientRedirects(siteConfig, deps, config);
+    createClientRedirects(migrationContext);
     logger.success('Created client redirect for non clean URL');
-  } catch (e) {
-    logger.error(`Failed to creating redirects: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to creating redirects: ${err}`);
     errorCount += 1;
   }
   if (shouldMigratePages) {
     try {
-      createPages(newDir, siteDir);
+      await createPages(migrationContext);
       logger.success(
         'Created new doc pages (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create new doc pages: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create new doc pages: ${err}`);
       errorCount += 1;
     }
   } else {
     try {
-      createDefaultLandingPage(newDir);
+      await createDefaultLandingPage(migrationContext);
       logger.success(
         'Created landing page (check migration page for more details)',
       );
-    } catch (e) {
-      logger.error(`Failed to create landing page: ${e}`);
+    } catch (err) {
+      logger.error(`Failed to create landing page: ${err}`);
       errorCount += 1;
     }
   }
 
   try {
-    migrateStaticFiles(siteDir, newDir);
+    await migrateStaticFiles(migrationContext);
     logger.success('Migrated static folder');
-  } catch (e) {
-    logger.error(`Failed to copy static folder: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to copy static folder: ${err}`);
     errorCount += 1;
   }
   try {
-    migrateBlogFiles(siteDir, newDir, classicPreset, shouldMigrateMdFiles);
-  } catch (e) {
-    logger.error(`Failed to migrate blogs: ${e}`);
+    await migrateBlogFiles(migrationContext);
+  } catch (err) {
+    logger.error(`Failed to migrate blogs: ${err}`);
     errorCount += 1;
   }
   try {
-    handleVersioning(siteDir, siteConfig, newDir, config, shouldMigrateMdFiles);
-  } catch (e) {
-    logger.error(`Failed to migrate versioned docs: ${e}`);
-    errorCount += 1;
-  }
-
-  try {
-    migrateLatestDocs(siteDir, newDir, shouldMigrateMdFiles, classicPreset);
-  } catch (e) {
-    logger.error(`Failed to migrate docs: ${e}`);
+    await handleVersioning(migrationContext);
+  } catch (err) {
+    logger.error(`Failed to migrate versioned docs: ${err}`);
     errorCount += 1;
   }
 
   try {
-    migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
-  } catch (e) {
-    logger.error(`Failed to migrate sidebar: ${e}`);
+    await migrateLatestDocs(migrationContext);
+  } catch (err) {
+    logger.error(`Failed to migrate docs: ${err}`);
     errorCount += 1;
   }
 
   try {
-    fs.writeFileSync(
+    await migrateLatestSidebar(migrationContext);
+  } catch (err) {
+    logger.error(`Failed to migrate sidebar: ${err}`);
+    errorCount += 1;
+  }
+
+  try {
+    await fs.outputFile(
       path.join(newDir, 'docusaurus.config.js'),
-      `module.exports=${JSON.stringify(config, null, 2)}`,
+      `module.exports=${JSON.stringify(migrationContext.v2Config, null, 2)}`,
     );
     logger.success(
       `Created a new config file with new navbar and footer config`,
     );
-  } catch (e) {
-    logger.error(`Failed to create config file: ${e}`);
+  } catch (err) {
+    logger.error(`Failed to create config file: ${err}`);
     errorCount += 1;
   }
   try {
-    migratePackageFile(siteDir, deps, newDir);
-  } catch (e) {
+    await migratePackageFile(migrationContext);
+  } catch (err) {
     logger.error(
-      `Error occurred while creating package.json file for project: ${e}`,
+      `Error occurred while creating package.json file for project: ${err}`,
     );
     errorCount += 1;
   }
@@ -209,7 +206,7 @@ export function createConfigFile({
   'v1Config' | 'siteDir' | 'newDir'
 >): VersionTwoConfig {
   const siteConfig = v1Config;
-  const customConfigFields: Record<string, unknown> = {};
+  const customConfigFields: {[key: string]: unknown} = {};
   // add fields that are unknown to v2 to customConfigFields
   Object.keys(siteConfig).forEach((key) => {
     const knownFields = [
@@ -365,46 +362,45 @@ export function createConfigFile({
   };
 }
 
-function createClientRedirects(
-  siteConfig: VersionOneConfig,
-  deps: {[key: string]: string},
-  config: VersionTwoConfig,
-): void {
-  if (!siteConfig.cleanUrl) {
-    deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
-    config.plugins.push([
+function createClientRedirects(context: MigrationContext): void {
+  if (!context.v1Config.cleanUrl) {
+    context.deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
+    context.v2Config.plugins.push([
       '@docusaurus/plugin-client-redirects',
       {fromExtensions: ['html']},
     ]);
   }
 }
 
-function createPages(newDir: string, siteDir: string): void {
-  fs.mkdirpSync(path.join(newDir, 'src', 'pages'));
-  if (fs.existsSync(path.join(siteDir, 'pages', 'en'))) {
+async function createPages(context: MigrationContext) {
+  const {newDir, siteDir} = context;
+  await fs.mkdirp(path.join(newDir, 'src', 'pages'));
+  if (await fs.pathExists(path.join(siteDir, 'pages', 'en'))) {
     try {
-      fs.copySync(
+      await fs.copy(
         path.join(siteDir, 'pages', 'en'),
         path.join(newDir, 'src', 'pages'),
       );
-      const files = glob.sync('**/*.js', {
+      const files = await Globby('**/*.js', {
         cwd: path.join(newDir, 'src', 'pages'),
       });
-      files.forEach((file) => {
-        const filePath = path.join(newDir, 'src', 'pages', file);
-        const content = String(fs.readFileSync(filePath));
-        fs.writeFileSync(filePath, migratePage(content));
-      });
-    } catch (e) {
-      logger.error(`Unable to migrate Pages: ${e}`);
-      createDefaultLandingPage(newDir);
+      await Promise.all(
+        files.map(async (file) => {
+          const filePath = path.join(newDir, 'src', 'pages', file);
+          const content = await fs.readFile(filePath, 'utf-8');
+          await fs.outputFile(filePath, migratePage(content));
+        }),
+      );
+    } catch (err) {
+      logger.error(`Unable to migrate Pages: ${err}`);
+      await createDefaultLandingPage(context);
     }
   } else {
     logger.info('Ignoring Pages');
   }
 }
 
-function createDefaultLandingPage(newDir: string) {
+async function createDefaultLandingPage({newDir}: MigrationContext) {
   const indexPage = `import Layout from "@theme/Layout";
       import React from "react";
 
@@ -412,65 +408,53 @@ function createDefaultLandingPage(newDir: string) {
         return <Layout />;
       };
       `;
-  fs.mkdirpSync(`${newDir}/src/pages/`);
-  fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
+  await fs.outputFile(`${newDir}/src/pages/index.js`, indexPage);
 }
 
-function migrateStaticFiles(siteDir: string, newDir: string): void {
-  if (fs.existsSync(path.join(siteDir, 'static'))) {
-    fs.copySync(path.join(siteDir, 'static'), path.join(newDir, 'static'));
+async function migrateStaticFiles({siteDir, newDir}: MigrationContext) {
+  if (await fs.pathExists(path.join(siteDir, 'static'))) {
+    await fs.copy(path.join(siteDir, 'static'), path.join(newDir, 'static'));
   } else {
-    fs.mkdirSync(path.join(newDir, 'static'));
+    await fs.mkdir(path.join(newDir, 'static'));
   }
 }
 
-function migrateBlogFiles(
-  siteDir: string,
-  newDir: string,
-  classicPreset: ClassicPresetEntries,
-  migrateMDFiles: boolean,
-): void {
-  if (fs.existsSync(path.join(siteDir, 'blog'))) {
-    fs.copySync(path.join(siteDir, 'blog'), path.join(newDir, 'blog'));
-    const files = walk(path.join(newDir, 'blog'));
-    files.forEach((file) => {
-      const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
-    });
-    classicPreset.blog.path = 'blog';
+async function migrateBlogFiles(context: MigrationContext) {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
+  if (await fs.pathExists(path.join(siteDir, 'blog'))) {
+    await fs.copy(path.join(siteDir, 'blog'), path.join(newDir, 'blog'));
+    const files = await walk(path.join(newDir, 'blog'));
+    await Promise.all(
+      files.map(async (file) => {
+        const content = await fs.readFile(file, 'utf-8');
+        await fs.outputFile(
+          file,
+          sanitizedFileContent(content, shouldMigrateMdFiles),
+        );
+      }),
+    );
+    context.v2Config.presets[0][1].blog.path = 'blog';
     logger.success('Migrated blogs to version 2 with change in front matter');
   } else {
     logger.warn('Blog not found. Skipping migration for blog');
   }
 }
 
-function handleVersioning(
-  siteDir: string,
-  siteConfig: VersionOneConfig,
-  newDir: string,
-  config: VersionTwoConfig,
-  migrateMDFiles: boolean,
-): void {
-  if (fs.existsSync(path.join(siteDir, 'versions.json'))) {
-    const loadedVersions: Array<string> = JSON.parse(
-      String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
+async function handleVersioning(context: MigrationContext) {
+  const {siteDir, newDir} = context;
+  if (await fs.pathExists(path.join(siteDir, 'versions.json'))) {
+    const loadedVersions: string[] = JSON.parse(
+      await fs.readFile(path.join(siteDir, 'versions.json'), 'utf-8'),
     );
-    fs.copyFileSync(
+    await fs.copyFile(
       path.join(siteDir, 'versions.json'),
       path.join(newDir, 'versions.json'),
     );
     const versions = loadedVersions.reverse();
-    const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
-    migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
-    fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
-    migrateVersionedDocs(
-      siteConfig,
-      versions,
-      siteDir,
-      newDir,
-      versionRegex,
-      migrateMDFiles,
-    );
+    const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'gim');
+    await migrateVersionedSidebar(context, versions, versionRegex);
+    await fs.mkdirp(path.join(newDir, 'versioned_docs'));
+    await migrateVersionedDocs(context, versions, versionRegex);
     logger.success`Migrated version docs and sidebar. The following doc versions have been created:name=${loadedVersions}`;
   } else {
     logger.warn(
@@ -479,69 +463,78 @@ function handleVersioning(
   }
 }
 
-function migrateVersionedDocs(
-  siteConfig: VersionOneConfig,
+async function migrateVersionedDocs(
+  context: MigrationContext,
   versions: string[],
-  siteDir: string,
-  newDir: string,
   versionRegex: RegExp,
-  migrateMDFiles: boolean,
-): void {
-  versions.reverse().forEach((version, index) => {
-    if (index === 0) {
-      fs.copySync(
-        path.join(siteDir, '..', siteConfig.customDocsPath || 'docs'),
-        path.join(newDir, 'versioned_docs', `version-${version}`),
-      );
-      fs.copySync(
-        path.join(siteDir, 'versioned_docs', `version-${version}`),
-        path.join(newDir, 'versioned_docs', `version-${version}`),
-      );
-      return;
-    }
-    try {
-      fs.mkdirsSync(path.join(newDir, 'versioned_docs', `version-${version}`));
-      fs.copySync(
-        path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
-        path.join(newDir, 'versioned_docs', `version-${version}`),
-      );
-      fs.copySync(
-        path.join(siteDir, 'versioned_docs', `version-${version}`),
-        path.join(newDir, 'versioned_docs', `version-${version}`),
-      );
-    } catch {
-      fs.copySync(
-        path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
-        path.join(newDir, 'versioned_docs', `version-${version}`),
-      );
-    }
-  });
-  const files = walk(path.join(newDir, 'versioned_docs'));
-  files.forEach((pathToFile) => {
-    if (path.extname(pathToFile) === '.md') {
-      const content = fs.readFileSync(pathToFile).toString();
-      fs.writeFileSync(
-        pathToFile,
-        sanitizedFileContent(content.replace(versionRegex, ''), migrateMDFiles),
-      );
-    }
-  });
+) {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
+  await Promise.all(
+    versions.reverse().map(async (version, index) => {
+      if (index === 0) {
+        await fs.copy(
+          path.join(siteDir, '..', context.v1Config.customDocsPath || 'docs'),
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+        await fs.copy(
+          path.join(siteDir, 'versioned_docs', `version-${version}`),
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+        return;
+      }
+      try {
+        await fs.mkdirs(
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+        await fs.copy(
+          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+        await fs.copy(
+          path.join(siteDir, 'versioned_docs', `version-${version}`),
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+      } catch {
+        await fs.copy(
+          path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+          path.join(newDir, 'versioned_docs', `version-${version}`),
+        );
+      }
+    }),
+  );
+  const files = await walk(path.join(newDir, 'versioned_docs'));
+  await Promise.all(
+    files.map(async (pathToFile) => {
+      if (path.extname(pathToFile) === '.md') {
+        const content = await fs.readFile(pathToFile, 'utf-8');
+        await fs.outputFile(
+          pathToFile,
+          sanitizedFileContent(
+            content.replace(versionRegex, ''),
+            shouldMigrateMdFiles,
+          ),
+        );
+      }
+    }),
+  );
 }
 
-function migrateVersionedSidebar(
-  siteDir: string,
-  newDir: string,
+async function migrateVersionedSidebar(
+  context: MigrationContext,
   versions: string[],
   versionRegex: RegExp,
-  config: VersionTwoConfig,
-): void {
-  if (fs.existsSync(path.join(siteDir, 'versioned_sidebars'))) {
-    fs.mkdirpSync(path.join(newDir, 'versioned_sidebars'));
+) {
+  const {siteDir, newDir} = context;
+  if (await fs.pathExists(path.join(siteDir, 'versioned_sidebars'))) {
+    await fs.mkdirp(path.join(newDir, 'versioned_sidebars'));
     const sidebars: {
       entries: SidebarEntries;
       version: string;
     }[] = [];
-    versions.forEach((version, index) => {
+    // Order matters: if a sidebar file doesn't exist, we have to use the
+    // previous version's
+    for (let i = 0; i < versions.length; i += 1) {
+      const version = versions[i]!;
       let sidebarEntries: SidebarEntries;
       const sidebarPath = path.join(
         siteDir,
@@ -549,80 +542,75 @@ function migrateVersionedSidebar(
         `version-${version}-sidebars.json`,
       );
       try {
-        fs.statSync(sidebarPath);
-        sidebarEntries = JSON.parse(String(fs.readFileSync(sidebarPath)));
+        sidebarEntries = JSON.parse(await fs.readFile(sidebarPath, 'utf-8'));
       } catch {
-        sidebars.push({version, entries: sidebars[index - 1].entries});
+        sidebars.push({version, entries: sidebars[i - 1]!.entries});
         return;
       }
       const newSidebar = Object.entries(sidebarEntries).reduce(
         (topLevel: SidebarEntries, value) => {
           const key = value[0].replace(versionRegex, '');
-          topLevel[key] = Object.entries(value[1]).reduce(
-            (
-              acc: {[key: string]: Array<Record<string, unknown> | string>},
-              val,
-            ) => {
-              acc[val[0].replace(versionRegex, '')] = (
-                val[1] as Array<SidebarEntry>
-              ).map((item) => {
-                if (typeof item === 'string') {
-                  return item.replace(versionRegex, '');
-                }
-                return {
-                  type: 'category',
-                  label: item.label,
-                  ids: item.ids.map((id) => id.replace(versionRegex, '')),
-                };
-              });
-              return acc;
-            },
-            {},
-          );
+          topLevel[key] = Object.entries(value[1]).reduce((acc, val) => {
+            acc[val[0].replace(versionRegex, '')] = (
+              val[1] as SidebarEntry[]
+            ).map((item) => {
+              if (typeof item === 'string') {
+                return item.replace(versionRegex, '');
+              }
+              return {
+                type: 'category',
+                label: item.label,
+                ids: item.ids.map((id) => id.replace(versionRegex, '')),
+              };
+            });
+            return acc;
+          }, {} as {[key: string]: Array<string | {[key: string]: unknown}>});
           return topLevel;
         },
         {},
       );
       sidebars.push({version, entries: newSidebar});
-    });
-    sidebars.forEach((sidebar) => {
-      const newSidebar = Object.entries(sidebar.entries).reduce(
-        (acc: SidebarEntries, val) => {
-          const key = `version-${sidebar.version}/${val[0]}`;
-          acc[key] = Object.entries(val[1]).map((value) => ({
-            type: 'category',
-            label: value[0],
-            items: (value[1] as Array<SidebarEntry>).map((sidebarItem) => {
-              if (typeof sidebarItem === 'string') {
+    }
+    await Promise.all(
+      sidebars.map(async (sidebar) => {
+        const newSidebar = Object.entries(sidebar.entries).reduce(
+          (acc, val) => {
+            const key = `version-${sidebar.version}/${val[0]}`;
+            acc[key] = Object.entries(val[1]).map((value) => ({
+              type: 'category',
+              label: value[0],
+              items: (value[1] as SidebarEntry[]).map((sidebarItem) => {
+                if (typeof sidebarItem === 'string') {
+                  return {
+                    type: 'doc',
+                    id: `version-${sidebar.version}/${sidebarItem}`,
+                  };
+                }
                 return {
-                  type: 'doc',
-                  id: `version-${sidebar.version}/${sidebarItem}`,
+                  type: 'category',
+                  label: sidebarItem.label,
+                  items: sidebarItem.ids.map((id) => ({
+                    type: 'doc',
+                    id: `version-${sidebar.version}/${id}`,
+                  })),
                 };
-              }
-              return {
-                type: 'category',
-                label: sidebarItem.label,
-                items: sidebarItem.ids.map((id: string) => ({
-                  type: 'doc',
-                  id: `version-${sidebar.version}/${id}`,
-                })),
-              };
-            }),
-          }));
-          return acc;
-        },
-        {},
-      );
-      fs.writeFileSync(
-        path.join(
-          newDir,
-          'versioned_sidebars',
-          `version-${sidebar.version}-sidebars.json`,
-        ),
-        JSON.stringify(newSidebar, null, 2),
-      );
-    });
-    config.themeConfig.navbar.items.push({
+              }),
+            }));
+            return acc;
+          },
+          {} as SidebarEntries,
+        );
+        await fs.outputFile(
+          path.join(
+            newDir,
+            'versioned_sidebars',
+            `version-${sidebar.version}-sidebars.json`,
+          ),
+          JSON.stringify(newSidebar, null, 2),
+        );
+      }),
+    );
+    context.v2Config.themeConfig.navbar.items.push({
       label: 'Version',
       to: 'docs',
       position: 'right',
@@ -649,80 +637,74 @@ function migrateVersionedSidebar(
   }
 }
 
-function migrateLatestSidebar(
-  siteDir: string,
-  newDir: string,
-  classicPreset: ClassicPresetEntries,
-  siteConfig: VersionOneConfig,
-): void {
+async function migrateLatestSidebar(context: MigrationContext) {
+  const {siteDir, newDir} = context;
   try {
-    fs.copyFileSync(
+    await fs.copyFile(
       path.join(siteDir, 'sidebars.json'),
       path.join(newDir, 'sidebars.json'),
     );
-    classicPreset.docs.sidebarPath = path.join(
+    context.v2Config.presets[0][1].docs.sidebarPath = path.join(
       path.relative(newDir, siteDir),
       'sidebars.json',
     );
   } catch {
     logger.warn('Sidebar not found. Skipping migration for sidebar');
   }
-  if (siteConfig.colors) {
-    const primaryColor = Color(siteConfig.colors.primaryColor);
+  if (context.v1Config.colors) {
+    const primaryColor = Color(context.v1Config.colors.primaryColor);
     const css = `:root{
   --ifm-color-primary-lightest: ${primaryColor.darken(-0.3).hex()};
   --ifm-color-primary-lighter: ${primaryColor.darken(-0.15).hex()};
   --ifm-color-primary-light: ${primaryColor.darken(-0.1).hex()};
-  --ifm-color-primary: ${siteConfig.colors.primaryColor};
+  --ifm-color-primary: ${primaryColor.hex()};
   --ifm-color-primary-dark: ${primaryColor.darken(0.1).hex()};
   --ifm-color-primary-darker: ${primaryColor.darken(0.15).hex()};
   --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
 }
 `;
-    fs.mkdirpSync(path.join(newDir, 'src', 'css'));
-    fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
-    classicPreset.theme.customCss = path.join(
+    await fs.outputFile(
+      path.join(newDir, 'src', 'css', 'customTheme.css'),
+      css,
+    );
+    context.v2Config.presets[0][1].theme.customCss = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
-      'src',
-      'css',
-      'customTheme.css',
+      'src/css/customTheme.css',
     );
   }
 }
 
-function migrateLatestDocs(
-  siteDir: string,
-  newDir: string,
-  migrateMDFiles: boolean,
-  classicPreset: ClassicPresetEntries,
-): void {
-  if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    classicPreset.docs.path = path.join(
+async function migrateLatestDocs(context: MigrationContext) {
+  const {siteDir, newDir, shouldMigrateMdFiles} = context;
+  if (await fs.pathExists(path.join(siteDir, '..', 'docs'))) {
+    context.v2Config.presets[0][1].docs.path = path.join(
       path.relative(newDir, path.join(siteDir, '..')),
       'docs',
     );
-    const files = walk(path.join(siteDir, '..', 'docs'));
-    files.forEach((file) => {
-      if (path.extname(file) === '.md') {
-        const content = fs.readFileSync(file).toString();
-        fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
-      }
-    });
+    const files = await walk(path.join(siteDir, '..', 'docs'));
+    await Promise.all(
+      files.map(async (file) => {
+        if (path.extname(file) === '.md') {
+          const content = await fs.readFile(file, 'utf-8');
+          await fs.outputFile(
+            file,
+            sanitizedFileContent(content, shouldMigrateMdFiles),
+          );
+        }
+      }),
+    );
     logger.success('Migrated docs to version 2');
   } else {
     logger.warn('Docs folder not found. Skipping migration for docs');
   }
 }
 
-function migratePackageFile(
-  siteDir: string,
-  deps: {[key: string]: string},
-  newDir: string,
-): void {
+async function migratePackageFile(context: MigrationContext): Promise<void> {
+  const {deps, siteDir, newDir} = context;
   const packageFile = importFresh(`${siteDir}/package.json`) as {
-    scripts?: Record<string, string>;
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
+    scripts?: {[key: string]: string};
+    dependencies?: {[key: string]: string};
+    devDependencies?: {[key: string]: string};
     [otherKey: string]: unknown;
   };
   packageFile.scripts = {
@@ -744,7 +726,7 @@ function migratePackageFile(
     ...packageFile.dependencies,
     ...deps,
   };
-  fs.writeFileSync(
+  await fs.outputFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
@@ -755,14 +737,16 @@ export async function migrateMDToMDX(
   siteDir: string,
   newDir: string,
 ): Promise<void> {
-  fs.mkdirpSync(newDir);
-  fs.copySync(siteDir, newDir);
-  const files = walk(newDir);
-  files.forEach((filePath) => {
-    if (path.extname(filePath) === '.md') {
-      const content = fs.readFileSync(filePath).toString();
-      fs.writeFileSync(filePath, sanitizedFileContent(content, true));
-    }
-  });
+  await fs.mkdirp(newDir);
+  await fs.copy(siteDir, newDir);
+  const files = await walk(newDir);
+  await Promise.all(
+    files.map(async (filePath) => {
+      if (path.extname(filePath) === '.md') {
+        const content = await fs.readFile(filePath, 'utf-8');
+        await fs.outputFile(filePath, sanitizedFileContent(content, true));
+      }
+    }),
+  );
   logger.success`Successfully migrated path=${siteDir} to path=${newDir}`;
 }

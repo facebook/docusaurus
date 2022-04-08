@@ -6,25 +6,28 @@
  */
 
 import {SitemapStream, streamToPromise} from 'sitemap';
-import type {Options} from '@docusaurus/plugin-sitemap';
+import type {PluginOptions} from '@docusaurus/plugin-sitemap';
 import type {DocusaurusConfig} from '@docusaurus/types';
 import {applyTrailingSlash} from '@docusaurus/utils-common';
+import {createMatcher} from '@docusaurus/utils';
 
 export default async function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
-  options: Options,
+  options: PluginOptions,
 ): Promise<string> {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('URL in docusaurus.config.js cannot be empty/undefined.');
   }
-  const {changefreq, priority} = options;
+  const {changefreq, priority, ignorePatterns} = options;
+
+  const ignoreMatcher = createMatcher(ignorePatterns);
 
   const sitemapStream = new SitemapStream({hostname});
 
   routesPaths
-    .filter((route) => !route.endsWith('404.html'))
+    .filter((route) => !route.endsWith('404.html') && !ignoreMatcher(route))
     .forEach((routePath) =>
       sitemapStream.write({
         url: applyTrailingSlash(routePath, {

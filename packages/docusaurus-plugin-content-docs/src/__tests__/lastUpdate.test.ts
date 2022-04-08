@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
+import {createTempRepo} from '@testing-utils/git';
+import {jest} from '@jest/globals';
+import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
 
 import {getFileLastUpdate} from '../lastUpdate';
 
-describe('lastUpdate', () => {
+describe('getFileLastUpdate', () => {
   const existingFilePath = path.join(
     __dirname,
     '__fixtures__/simple-site/docs/hello.md',
   );
-  test('existing test file in repository with Git timestamp', async () => {
+  it('existing test file in repository with Git timestamp', async () => {
     const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).not.toBeNull();
 
@@ -28,7 +30,7 @@ describe('lastUpdate', () => {
     expect(typeof timestamp).toBe('number');
   });
 
-  test('existing test file with spaces in path', async () => {
+  it('existing test file with spaces in path', async () => {
     const filePathWithSpace = path.join(
       __dirname,
       '__fixtures__/simple-site/docs/doc with space.md',
@@ -44,8 +46,10 @@ describe('lastUpdate', () => {
     expect(typeof timestamp).toBe('number');
   });
 
-  test('non-existing file', async () => {
-    const consoleMock = jest.spyOn(console, 'error').mockImplementation();
+  it('non-existing file', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
     const nonExistingFileName = '.nonExisting';
     const nonExistingFilePath = path.join(
       __dirname,
@@ -55,23 +59,52 @@ describe('lastUpdate', () => {
     await expect(getFileLastUpdate(nonExistingFilePath)).resolves.toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
     expect(consoleMock).toHaveBeenLastCalledWith(
-      expect.stringMatching(/with exit code 128/),
+      expect.stringMatching(/because the file does not exist./),
     );
     await expect(getFileLastUpdate(null)).resolves.toBeNull();
     await expect(getFileLastUpdate(undefined)).resolves.toBeNull();
     consoleMock.mockRestore();
   });
 
-  test('temporary created file that has no git timestamp', async () => {
-    const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
-    fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
+  it('temporary created file that is not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const {repoDir} = createTempRepo();
+    const tempFilePath = path.join(repoDir, 'file.md');
+    await fs.writeFile(tempFilePath, 'Lorem ipsum :)');
     await expect(getFileLastUpdate(tempFilePath)).resolves.toBeNull();
-    fs.unlinkSync(tempFilePath);
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath);
   });
 
-  test('Git does not exist', async () => {
+  it('multiple files not tracked by git', async () => {
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+    const {repoDir} = createTempRepo();
+    const tempFilePath1 = path.join(repoDir, 'file1.md');
+    const tempFilePath2 = path.join(repoDir, 'file2.md');
+    await fs.writeFile(tempFilePath1, 'Lorem ipsum :)');
+    await fs.writeFile(tempFilePath2, 'Lorem ipsum :)');
+    await expect(getFileLastUpdate(tempFilePath1)).resolves.toBeNull();
+    await expect(getFileLastUpdate(tempFilePath2)).resolves.toBeNull();
+    expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenLastCalledWith(
+      expect.stringMatching(/not tracked by git./),
+    );
+    await fs.unlink(tempFilePath1);
+    await fs.unlink(tempFilePath2);
+  });
+
+  it('git does not exist', async () => {
     const mock = jest.spyOn(shell, 'which').mockImplementationOnce(() => null);
-    const consoleMock = jest.spyOn(console, 'warn').mockImplementation();
+    const consoleMock = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
     const lastUpdateData = await getFileLastUpdate(existingFilePath);
     expect(lastUpdateData).toBeNull();
     expect(consoleMock).toHaveBeenLastCalledWith(

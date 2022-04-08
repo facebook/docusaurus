@@ -5,16 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import logger from '@docusaurus/logger';
 import type {DocusaurusConfig, I18nConfig} from '@docusaurus/types';
-import {DEFAULT_CONFIG_FILE_NAME, STATIC_DIR_NAME} from '@docusaurus/utils';
 import {
-  Joi,
-  logValidationBugReportHint,
-  isValidationDisabledEscapeHatch,
-  URISchema,
-  printWarning,
-} from '@docusaurus/utils-validation';
+  DEFAULT_CONFIG_FILE_NAME,
+  DEFAULT_STATIC_DIR_NAME,
+} from '@docusaurus/utils';
+import {Joi, URISchema, printWarning} from '@docusaurus/utils-validation';
 
 const DEFAULT_I18N_LOCALE = 'en';
 
@@ -33,10 +29,14 @@ export const DEFAULT_CONFIG: Pick<
   | 'plugins'
   | 'themes'
   | 'presets'
+  | 'stylesheets'
+  | 'scripts'
+  | 'clientModules'
   | 'customFields'
   | 'themeConfig'
   | 'titleDelimiter'
   | 'noIndex'
+  | 'tagline'
   | 'baseUrlIssueBanner'
   | 'staticDirectories'
 > = {
@@ -47,29 +47,47 @@ export const DEFAULT_CONFIG: Pick<
   plugins: [],
   themes: [],
   presets: [],
+  stylesheets: [],
+  scripts: [],
+  clientModules: [],
   customFields: {},
   themeConfig: {},
   titleDelimiter: '|',
   noIndex: false,
+  tagline: '',
   baseUrlIssueBanner: true,
-  staticDirectories: [STATIC_DIR_NAME],
+  staticDirectories: [DEFAULT_STATIC_DIR_NAME],
 };
 
-const PluginSchema = Joi.alternatives()
-  .try(
-    Joi.function(),
-    Joi.array().ordered(Joi.function().required(), Joi.object().required()),
-    Joi.string(),
-    Joi.array()
-      .ordered(Joi.string().required(), Joi.object().required())
-      .length(2),
-    Joi.bool().equal(false), // In case of conditional adding of plugins.
-  )
-  // @ts-expect-error: bad lib def, doesn't recognize an array of reports
-  .error((errors) => {
-    errors.forEach((error) => {
-      error.message = ` => Bad Docusaurus plugin value as path [${error.path}].
-Example valid plugin config:
+function createPluginSchema(theme: boolean) {
+  return (
+    Joi.alternatives()
+      .try(
+        Joi.function(),
+        Joi.array()
+          .ordered(Joi.function().required(), Joi.object().required())
+          .length(2),
+        Joi.string(),
+        Joi.array()
+          .ordered(Joi.string().required(), Joi.object().required())
+          .length(2),
+        Joi.any().valid(false, null),
+      )
+      // @ts-expect-error: bad lib def, doesn't recognize an array of reports
+      .error((errors) => {
+        errors.forEach((error) => {
+          const validConfigExample = theme
+            ? `Example valid theme config:
+{
+  themes: [
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
+    function myTheme() { },
+    [function myTheme() { },options]
+  ],
+};`
+            : `Example valid plugin config:
 {
   plugins: [
     ["@docusaurus/plugin-content-docs",options],
@@ -78,21 +96,36 @@ Example valid plugin config:
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
-};
+};`;
+
+          error.message = ` => Bad Docusaurus ${
+            theme ? 'theme' : 'plugin'
+          } value as path [${error.path}].
+${validConfigExample}
 `;
-    });
-    return errors;
+        });
+        return errors;
+      })
+  );
+}
+
+const PluginSchema = createPluginSchema(false);
+
+const ThemeSchema = createPluginSchema(true);
+
+const PresetSchema = Joi.alternatives()
+  .try(
+    Joi.string(),
+    Joi.array()
+      .items(Joi.string().required(), Joi.object().required())
+      .length(2),
+    Joi.any().valid(false, null),
+  )
+  .messages({
+    'alternatives.types': `{#label} does not look like a valid preset config. A preset config entry should be one of:
+- A tuple of [presetName, options], like \`["classic", \\{ blog: false \\}]\`, or
+- A simple string, like \`"classic"\``,
   });
-
-const ThemeSchema = Joi.alternatives().try(
-  Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
-);
-
-const PresetSchema = Joi.alternatives().try(
-  Joi.string(),
-  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
-);
 
 const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
@@ -119,7 +152,7 @@ const SiteUrlSchema = URISchema.required().custom((value, helpers) => {
         warningMessage: `the url is not supposed to contain a sub-path like '${pathname}', please use the baseUrl field for sub-paths`,
       });
     }
-  } catch (e) {}
+  } catch {}
   return value;
 }, 'siteUrlCustomValidation');
 
@@ -156,26 +189,40 @@ export const ConfigSchema = Joi.object({
   themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
-  scripts: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      src: Joi.string().required(),
-      async: Joi.bool(),
-      defer: Joi.bool(),
+  scripts: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        src: Joi.string().required(),
+        async: Joi.bool(),
+        defer: Joi.bool(),
+      })
+        // See https://github.com/facebook/docusaurus/issues/3378
+        .unknown(),
+    )
+    .messages({
+      'array.includes':
+        '{#label} is invalid. A script must be a plain string (the src), or an object with at least a "src" property.',
     })
-      // See https://github.com/facebook/docusaurus/issues/3378
-      .unknown(),
-  ),
+    .default(DEFAULT_CONFIG.scripts),
   ssrTemplate: Joi.string(),
-  stylesheets: Joi.array().items(
-    Joi.string(),
-    Joi.object({
-      href: Joi.string().required(),
-      type: Joi.string(),
-    }).unknown(),
-  ),
-  clientModules: Joi.array().items(Joi.string()),
-  tagline: Joi.string().allow(''),
+  stylesheets: Joi.array()
+    .items(
+      Joi.string(),
+      Joi.object({
+        href: Joi.string().required(),
+        type: Joi.string(),
+      }).unknown(),
+    )
+    .messages({
+      'array.includes':
+        '{#label} is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.',
+    })
+    .default(DEFAULT_CONFIG.stylesheets),
+  clientModules: Joi.array()
+    .items(Joi.string())
+    .default(DEFAULT_CONFIG.clientModules),
+  tagline: Joi.string().allow('').default(DEFAULT_CONFIG.tagline),
   titleDelimiter: Joi.string().default('|'),
   noIndex: Joi.bool().default(false),
   webpack: Joi.object({
@@ -199,12 +246,6 @@ export function validateConfig(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error.message);
-      return config as DocusaurusConfig;
-    }
-
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;
@@ -219,7 +260,7 @@ export function validateConfig(
       '',
     );
     formattedError = unknownFields
-      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/docusaurus.config.js/#customfields`
+      ? `${formattedError}These field(s) (${unknownFields}) are not recognized in ${DEFAULT_CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the "customFields" field.\nSee https://docusaurus.io/docs/api/docusaurus-config/#customfields`
       : formattedError;
     throw new Error(formattedError);
   } else {

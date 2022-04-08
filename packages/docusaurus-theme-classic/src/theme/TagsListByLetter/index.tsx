@@ -28,7 +28,7 @@ function TagLetterEntryItem({letterEntry}: {letterEntry: TagLetterEntry}) {
   );
 }
 
-function TagsListByLetter({tags}: Props): JSX.Element {
+export default function TagsListByLetter({tags}: Props): JSX.Element {
   const letterList = listTagsByLetters(tags);
   return (
     <section className="margin-vert--lg">
@@ -41,5 +41,3 @@ function TagsListByLetter({tags}: Props): JSX.Element {
     </section>
   );
 }
-
-export default TagsListByLetter;

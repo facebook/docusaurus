@@ -6,10 +6,10 @@
  */
 
 import React, {
-  type ComponentProps,
-  type ReactElement,
   useRef,
   useState,
+  type ComponentProps,
+  type ReactElement,
 } from 'react';
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import clsx from 'clsx';
@@ -31,21 +31,31 @@ function hasParent(node: HTMLElement | null, parent: HTMLElement): boolean {
 }
 
 export type DetailsProps = {
+  /** Summary is provided as props, including the wrapping `<summary>` tag */
   summary?: ReactElement;
 } & ComponentProps<'details'>;
 
-function Details({summary, children, ...props}: DetailsProps): JSX.Element {
+/**
+ * A mostly un-styled `<details>` element with smooth collapsing. Provides some
+ * very lightweight styles, but you should bring your UI.
+ */
+export function Details({
+  summary,
+  children,
+  ...props
+}: DetailsProps): JSX.Element {
   const isBrowser = useIsBrowser();
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   const {collapsed, setCollapsed} = useCollapsible({
     initialState: !props.open,
   });
-  // We use a separate prop because it must be set only after animation completes
-  // Otherwise close anim won't work
+  // Use a separate state for the actual details prop, because it must be set
+  // only after animation completes, otherwise close animations won't work
   const [open, setOpen] = useState(props.open);
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <details
       {...props}
       ref={detailsRef}
@@ -53,7 +63,7 @@ function Details({summary, children, ...props}: DetailsProps): JSX.Element {
       data-collapsed={collapsed}
       className={clsx(
         styles.details,
-        {[styles.isBrowser]: isBrowser},
+        isBrowser && styles.isBrowser,
         props.className,
       )}
       onMouseDown={(e) => {
@@ -95,5 +105,3 @@ function Details({summary, children, ...props}: DetailsProps): JSX.Element {
     </details>
   );
 }
-
-export default Details;

@@ -7,13 +7,13 @@
 
 declare module '@philpl/buble' {
   import type {TransformOptions as OriginalTransformOptions} from 'buble';
-  // eslint-disable-next-line import/no-extraneous-dependencies
+  // eslint-disable-next-line import/no-extraneous-dependencies, no-restricted-syntax
   export * from 'buble';
   export const features: string[];
-  export interface TransformOptions extends OriginalTransformOptions {
+  export type TransformOptions = OriginalTransformOptions & {
     transforms?: OriginalTransformOptions['transforms'] & {
       asyncAwait?: boolean;
       getterSetter?: boolean;
     };
-  }
+  };
 }

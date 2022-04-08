@@ -28,7 +28,7 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
 
-export default async function build(
+export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   // When running build, we force terminate the process to prevent async
@@ -56,12 +56,13 @@ export default async function build(
         forceTerminate,
         isLastLocale,
       });
-    } catch (e) {
+    } catch (err) {
       logger.error`Unable to build website for locale name=${locale}.`;
-      throw e;
+      throw err;
     }
   }
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale: cliOptions.locale,
@@ -72,25 +73,24 @@ export default async function build(
   });
   if (cliOptions.locale) {
     return tryToBuildLocale({locale: cliOptions.locale, isLastLocale: true});
-  } else {
-    if (i18n.locales.length > 1) {
-      logger.info`Website will be built for all these locales: ${i18n.locales}`;
-    }
-
-    // We need the default locale to always be the 1st in the list
-    // If we build it last, it would "erase" the localized sites built in subfolders
-    const orderedLocales: string[] = [
-      i18n.defaultLocale,
-      ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
-    ];
-
-    const results = await mapAsyncSequential(orderedLocales, (locale) => {
-      const isLastLocale =
-        orderedLocales.indexOf(locale) === orderedLocales.length - 1;
-      return tryToBuildLocale({locale, isLastLocale});
-    });
-    return results[0];
   }
+  if (i18n.locales.length > 1) {
+    logger.info`Website will be built for all these locales: ${i18n.locales}`;
+  }
+
+  // We need the default locale to always be the 1st in the list. If we build it
+  // last, it would "erase" the localized sites built in sub-folders
+  const orderedLocales: [string, ...string[]] = [
+    i18n.defaultLocale,
+    ...i18n.locales.filter((locale) => locale !== i18n.defaultLocale),
+  ];
+
+  const results = await mapAsyncSequential(orderedLocales, (locale) => {
+    const isLastLocale =
+      orderedLocales.indexOf(locale) === orderedLocales.length - 1;
+    return tryToBuildLocale({locale, isLastLocale});
+  });
+  return results[0]!;
 }
 
 async function buildLocale({
@@ -110,7 +110,8 @@ async function buildLocale({
   process.env.NODE_ENV = 'production';
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  const props: Props = await load(siteDir, {
+  const props: Props = await load({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale,
@@ -131,12 +132,13 @@ async function buildLocale({
     'client-manifest.json',
   );
   let clientConfig: Configuration = merge(
-    createClientConfig(props, cliOptions.minify),
+    await createClientConfig(props, cliOptions.minify),
     {
       plugins: [
         // Remove/clean build folders before building bundles.
         new CleanWebpackPlugin({verbose: false}),
-        // Visualize size of webpack output files with an interactive zoomable treemap.
+        // Visualize size of webpack output files with an interactive zoomable
+        // tree map.
         cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
         // Generate client manifests file that will be used for server bundle.
         new ReactLoadableSSRAddon({
@@ -146,37 +148,43 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: Record<string, string[]> = {};
+  const allCollectedLinks: {[location: string]: string[]} = {};
 
-  let serverConfig: Configuration = createServerConfig({
+  let serverConfig: Configuration = await createServerConfig({
     props,
     onLinksCollected: (staticPagePath, links) => {
       allCollectedLinks[staticPagePath] = links;
     },
   });
 
-  serverConfig = merge(serverConfig, {
-    plugins: [
-      new CopyWebpackPlugin({
-        patterns: staticDirectories
-          .map((dir) => path.resolve(siteDir, dir))
-          .filter(fs.existsSync)
-          .map((dir) => ({from: dir, to: outDir})),
-      }),
-    ],
-  });
+  if (staticDirectories.length > 0) {
+    await Promise.all(staticDirectories.map((dir) => fs.ensureDir(dir)));
+
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin({
+          patterns: staticDirectories
+            .map((dir) => path.resolve(siteDir, dir))
+            .map((dir) => ({from: dir, to: outDir})),
+        }),
+      ],
+    });
+  }
 
   // Plugin Lifecycle - configureWebpack and configurePostCss.
   plugins.forEach((plugin) => {
     const {configureWebpack, configurePostCss} = plugin;
 
     if (configurePostCss) {
-      clientConfig = applyConfigurePostCss(configurePostCss, clientConfig);
+      clientConfig = applyConfigurePostCss(
+        configurePostCss.bind(plugin),
+        clientConfig,
+      );
     }
 
     if (configureWebpack) {
       clientConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         clientConfig,
         false,
         props.siteConfig.webpack?.jsLoader,
@@ -184,7 +192,7 @@ async function buildLocale({
       );
 
       serverConfig = applyConfigureWebpack(
-        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`. // TODO remove this implicit api: inject in callback instead
+        configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
         serverConfig,
         true,
         props.siteConfig.webpack?.jsLoader,
@@ -203,11 +211,7 @@ async function buildLocale({
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is not needed.
-  if (
-    serverConfig.output &&
-    serverConfig.output.filename &&
-    typeof serverConfig.output.filename === 'string'
-  ) {
+  if (typeof serverConfig.output?.filename === 'string') {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     if (await fs.pathExists(serverBundle)) {
       await fs.unlink(serverBundle);
@@ -220,7 +224,7 @@ async function buildLocale({
       if (!plugin.postBuild) {
         return;
       }
-      await plugin.postBuild(props);
+      await plugin.postBuild({...props, content: plugin.content});
     }),
   );
 

@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {readFile} from 'fs-extra';
-import mdx from '@mdx-js/mdx';
+import fs from 'fs-extra';
+import {createCompiler} from '@mdx-js/mdx';
 import logger from '@docusaurus/logger';
 import emoji from 'remark-emoji';
 import {
@@ -21,21 +21,30 @@ import toc from './remark/toc';
 import unwrapMdxCodeBlocks from './remark/unwrapMdxCodeBlocks';
 import transformImage from './remark/transformImage';
 import transformLinks from './remark/transformLinks';
-import type {RemarkAndRehypePluginOptions} from '@docusaurus/mdx-loader';
+import type {MDXOptions} from '@docusaurus/mdx-loader';
 import type {LoaderContext} from 'webpack';
+import type {Processor} from 'unified';
 
 const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-const DEFAULT_OPTIONS: RemarkAndRehypePluginOptions = {
+const pragma = `
+/* @jsxRuntime classic */
+/* @jsx mdx */
+/* @jsxFrag mdx.Fragment */
+`;
+
+const DEFAULT_OPTIONS: MDXOptions = {
   rehypePlugins: [],
   remarkPlugins: [unwrapMdxCodeBlocks, emoji, headings, toc],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
 };
 
-type Options = RemarkAndRehypePluginOptions & {
+const compilerCache = new Map<string | Options, [Processor, Options]>();
+
+type Options = MDXOptions & {
   staticDirs: string[];
   siteDir: string;
   isMDXPartial?: (filePath: string) => boolean;
@@ -43,31 +52,36 @@ type Options = RemarkAndRehypePluginOptions & {
   removeContentTitle?: boolean;
   metadataPath?: string | ((filePath: string) => string);
   createAssets?: (metadata: {
-    frontMatter: Record<string, unknown>;
-    metadata: Record<string, unknown>;
-  }) => Record<string, unknown>;
+    frontMatter: {[key: string]: unknown};
+    metadata: {[key: string]: unknown};
+  }) => {[key: string]: unknown};
   filepath: string;
 };
 
-// When this throws, it generally means that there's no metadata file associated with this MDX document
-// It can happen when using MDX partials (usually starting with _)
-// That's why it's important to provide the "isMDXPartial" function in config
+/**
+ * When this throws, it generally means that there's no metadata file associated
+ * with this MDX document. It can happen when using MDX partials (usually
+ * starting with _). That's why it's important to provide the `isMDXPartial`
+ * function in config
+ */
 async function readMetadataPath(metadataPath: string) {
   try {
-    return await readFile(metadataPath, 'utf8');
-  } catch (e) {
-    throw new Error(
-      `MDX loader can't read MDX metadata file for path ${metadataPath}. Maybe the isMDXPartial option function was not provided?`,
-    );
+    return await fs.readFile(metadataPath, 'utf8');
+  } catch (err) {
+    logger.error`MDX loader can't read MDX metadata file path=${metadataPath}. Maybe the isMDXPartial option function was not provided?`;
+    throw err;
   }
 }
 
-// Converts assets an object with Webpack require calls code
-// This is useful for mdx files to reference co-located assets using relative paths
-// Those assets should enter the Webpack assets pipeline and be hashed
-// For now, we only handle that for images and paths starting with ./
-// {image: "./myImage.png"} => {image: require("./myImage.png")}
-function createAssetsExportCode(assets: Record<string, unknown>) {
+/**
+ * Converts assets an object with Webpack require calls code.
+ * This is useful for mdx files to reference co-located assets using relative
+ * paths. Those assets should enter the Webpack assets pipeline and be hashed.
+ * For now, we only handle that for images and paths starting with `./`:
+ *
+ * `{image: "./myImage.png"}` => `{image: require("./myImage.png")}`
+ */
+function createAssetsExportCode(assets: {[key: string]: unknown}) {
   if (Object.keys(assets).length === 0) {
     return 'undefined';
   }
@@ -109,7 +123,7 @@ export default async function mdxLoader(
 ): Promise<void> {
   const callback = this.async();
   const filePath = this.resourcePath;
-  const reqOptions = this.getOptions() || {};
+  const reqOptions = this.getOptions() ?? {};
 
   const {frontMatter, content: contentWithTitle} = parseFrontMatter(fileString);
 
@@ -119,60 +133,66 @@ export default async function mdxLoader(
 
   const hasFrontMatter = Object.keys(frontMatter).length > 0;
 
-  const options: Options = {
-    ...reqOptions,
-    remarkPlugins: [
-      ...(reqOptions.beforeDefaultRemarkPlugins || []),
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      [
-        transformImage,
-        {
-          staticDirs: reqOptions.staticDirs,
-          filePath,
-          siteDir: reqOptions.siteDir,
-        },
+  if (!compilerCache.has(this.query)) {
+    const options: Options = {
+      ...reqOptions,
+      remarkPlugins: [
+        ...(reqOptions.beforeDefaultRemarkPlugins ?? []),
+        ...DEFAULT_OPTIONS.remarkPlugins,
+        [
+          transformImage,
+          {
+            staticDirs: reqOptions.staticDirs,
+            siteDir: reqOptions.siteDir,
+          },
+        ],
+        [
+          transformLinks,
+          {
+            staticDirs: reqOptions.staticDirs,
+            siteDir: reqOptions.siteDir,
+          },
+        ],
+        ...(reqOptions.remarkPlugins ?? []),
       ],
-      [
-        transformLinks,
-        {
-          staticDirs: reqOptions.staticDirs,
-          filePath,
-          siteDir: reqOptions.siteDir,
-        },
+      rehypePlugins: [
+        ...(reqOptions.beforeDefaultRehypePlugins ?? []),
+        ...DEFAULT_OPTIONS.rehypePlugins,
+        ...(reqOptions.rehypePlugins ?? []),
       ],
-      ...(reqOptions.remarkPlugins || []),
-    ],
-    rehypePlugins: [
-      ...(reqOptions.beforeDefaultRehypePlugins || []),
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
-    ],
-    filepath: filePath,
-  };
+    };
+    compilerCache.set(this.query, [createCompiler(options), options]);
+  }
 
-  let result;
+  const [compiler, options] = compilerCache.get(this.query)!;
+
+  let result: string;
   try {
-    result = await mdx(content, options);
+    result = await compiler
+      .process({
+        contents: content,
+        path: this.resourcePath,
+      })
+      .then((res) => res.toString());
   } catch (err) {
     return callback(err as Error);
   }
 
   // MDX partials are MDX files starting with _ or in a folder starting with _
-  // Partial are not expected to have an associated metadata file or frontmatter
-  const isMDXPartial = options.isMDXPartial && options.isMDXPartial(filePath);
+  // Partial are not expected to have associated metadata files or front matter
+  const isMDXPartial = options.isMDXPartial?.(filePath);
   if (isMDXPartial && hasFrontMatter) {
-    const errorMessage = `Docusaurus MDX partial files should not contain FrontMatter.
+    const errorMessage = `Docusaurus MDX partial files should not contain front matter.
 Those partial files use the _ prefix as a convention by default, but this is configurable.
-File at ${filePath} contains FrontMatter that will be ignored:
+File at ${filePath} contains front matter that will be ignored:
 ${JSON.stringify(frontMatter, null, 2)}`;
 
     if (!options.isMDXPartialFrontMatterWarningDisabled) {
       const shouldError = process.env.NODE_ENV === 'test' || process.env.CI;
       if (shouldError) {
         return callback(new Error(errorMessage));
-      } else {
-        logger.warn(errorMessage);
       }
+      logger.warn(errorMessage);
     }
   }
 
@@ -212,6 +232,7 @@ ${assets ? `export const assets = ${createAssetsExportCode(assets)};` : ''}
 `;
 
   const code = `
+${pragma}
 import React from 'react';
 import { mdx } from '@mdx-js/react';
 

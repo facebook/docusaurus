@@ -32,7 +32,7 @@
 
 .checkboxList,
 .showcaseList {
-  padding: 0px;
+  padding: 0;
   list-style: none;
 }
 
@@ -88,7 +88,7 @@
 
 .svgIconFavoriteXs,
 .svgIconFavorite {
-  color: var(--site-color-svgIcon-favorite);
+  color: var(--site-color-svg-icon-favorite);
 }
 
 .svgIconFavoriteXs {

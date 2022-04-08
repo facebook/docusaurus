@@ -5,22 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {jest} from '@jest/globals';
 import path from 'path';
 
-import {
-  excludeJS,
-  clientDir,
-  getDocusaurusAliases,
-  createBaseConfig,
-} from '../base';
-// TODO seems to be a bug with how TS does star exports
+import {excludeJS, clientDir, createBaseConfig} from '../base';
 import * as utils from '@docusaurus/utils/lib/webpackUtils';
 import {posixPath} from '@docusaurus/utils';
-import {mapValues} from 'lodash';
+import _ from 'lodash';
 import type {Props, ThemeAliases} from '@docusaurus/types';
 
 describe('babel transpilation exclude logic', () => {
-  test('always transpile client dir files', () => {
+  it('always transpiles client dir files', () => {
     const clientFiles = [
       'App.js',
       'clientEntry.js',
@@ -28,54 +23,43 @@ describe('babel transpilation exclude logic', () => {
       path.join('exports', 'Link.js'),
     ];
     clientFiles.forEach((file) => {
-      expect(excludeJS(path.join(clientDir, file))).toEqual(false);
+      expect(excludeJS(path.join(clientDir, file))).toBe(false);
     });
   });
 
-  test('always transpile non node_module files', () => {
+  it('always transpiles non node_module files', () => {
     const moduleFiles = [
       '/pages/user/App.jsx',
       '/website/src/components/foo.js',
       '/src/theme/SearchBar/index.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(false);
+      expect(excludeJS(file)).toBe(false);
     });
   });
 
-  test('transpile docusaurus npm packages even in node_modules', () => {
+  it('transpiles docusaurus npm packages even in node_modules', () => {
     const moduleFiles = [
       '/website/node_modules/docusaurus-theme-search/theme/Navbar/index.js',
       'node_modules/@docusaurus/theme-classic/theme/Layout.js',
       '/docusaurus/website/node_modules/@docusaurus/theme-search-algolia/theme/SearchBar.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(false);
+      expect(excludeJS(file)).toBe(false);
     });
   });
 
-  test('does not transpile node_modules', () => {
+  it('does not transpile node_modules', () => {
     const moduleFiles = [
       'node_modules/react-toggle.js',
       '/website/node_modules/react-trend/index.js',
       '/docusaurus/website/node_modules/react-super.js',
       '/docusaurus/website/node_modules/@docusaurus/core/node_modules/core-js/modules/_descriptors.js',
-      'node_modules/docusaurus-theme-classic/node_modules/react-daypicker/index.js',
+      'node_modules/docusaurus-theme-classic/node_modules/react-slick/index.js',
     ];
     moduleFiles.forEach((file) => {
-      expect(excludeJS(file)).toEqual(true);
+      expect(excludeJS(file)).toBe(true);
     });
-  });
-});
-
-describe('getDocusaurusAliases()', () => {
-  test('return appropriate webpack aliases', () => {
-    // using relative paths makes tests work everywhere
-    const relativeDocusaurusAliases = mapValues(
-      getDocusaurusAliases(),
-      (aliasValue) => posixPath(path.relative(__dirname, aliasValue)),
-    );
-    expect(relativeDocusaurusAliases).toMatchSnapshot();
   });
 });
 
@@ -121,25 +105,25 @@ describe('base webpack config', () => {
     jest.restoreAllMocks();
   });
 
-  test('should create webpack aliases', () => {
+  it('creates webpack aliases', async () => {
     // @ts-expect-error: Docusaurus webpack alias is always an object
     const aliases: ThemeAliases =
-      createBaseConfig(props, true).resolve?.alias ?? {};
+      (await createBaseConfig(props, true)).resolve?.alias ?? {};
     // Make aliases relative so that test work on all computers
-    const relativeAliases = mapValues(aliases, (a) =>
+    const relativeAliases = _.mapValues(aliases, (a) =>
       posixPath(path.relative(props.siteDir, a)),
     );
     expect(relativeAliases).toMatchSnapshot();
   });
 
-  test('should use svg rule', () => {
+  it('uses svg rule', async () => {
     const fileLoaderUtils = utils.getFileLoaderUtils();
     const mockSvg = jest.spyOn(fileLoaderUtils.rules, 'svg');
     jest
       .spyOn(utils, 'getFileLoaderUtils')
       .mockImplementation(() => fileLoaderUtils);
 
-    createBaseConfig(props, false, false);
+    await createBaseConfig(props, false, false);
     expect(mockSvg).toBeCalled();
   });
 });

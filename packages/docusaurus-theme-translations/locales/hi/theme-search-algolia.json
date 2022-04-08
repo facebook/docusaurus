@@ -1,5 +1,6 @@
 {
   "theme.SearchBar.label": "खोज करें",
+  "theme.SearchBar.seeAll": "See all {count} results",
   "theme.SearchPage.algoliaLabel": "अल्गोलिया द्वारा खोजें",
   "theme.SearchPage.documentsFound.plurals": "एक डॉक्यूमेंट मिला|{count} डॉक्यूमेंट मिलें",
   "theme.SearchPage.emptyResultsTitle": "डॉक्यूमेंटेशन में खोजें",

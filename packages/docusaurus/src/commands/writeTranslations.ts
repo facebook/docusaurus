@@ -7,8 +7,8 @@
 
 import type {ConfigOptions, InitializedPlugin} from '@docusaurus/types';
 import path from 'path';
-import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
+import {loadContext} from '../server';
+import {initPlugins} from '../server/plugins/init';
 
 import {
   writePluginTranslations,
@@ -23,17 +23,20 @@ import {
 } from '../server/translations/translationsExtractor';
 import {getCustomBabelConfigFilePath, getBabelOptions} from '../webpack/utils';
 
-// This is a hack, so that @docusaurus/theme-common translations are extracted!
-// A theme doesn't have a way to express that one of its dependency (like @docusaurus/theme-common) also has translations to extract
-// Instead of introducing a new lifecycle (like plugin.getThemeTranslationPaths() ?)
-// We just make an exception and assume that Docusaurus user is using an official theme
+/**
+ * This is a hack, so that @docusaurus/theme-common translations are extracted!
+ * A theme doesn't have a way to express that one of its dependency (like
+ * @docusaurus/theme-common) also has translations to extract.
+ * Instead of introducing a new lifecycle (like `getThemeTranslationPaths()`?)
+ * We just make an exception and assume that user is using an official theme
+ */
 async function getExtraSourceCodeFilePaths(): Promise<string[]> {
   try {
     const themeCommonSourceDir = path.dirname(
       require.resolve('@docusaurus/theme-common/lib'),
     );
     return globSourceCodeFilePaths([themeCommonSourceDir]);
-  } catch (e) {
+  } catch {
     return []; // User may not use a Docusaurus official theme? Quite unlikely...
   }
 }
@@ -69,19 +72,16 @@ async function writePluginTranslationFiles({
   }
 }
 
-export default async function writeTranslations(
+export async function writeTranslations(
   siteDir: string,
   options: WriteTranslationsOptions & ConfigOptions & {locale?: string},
 ): Promise<void> {
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customConfigFilePath: options.config,
     locale: options.locale,
   });
-  const pluginConfigs = loadPluginConfigs(context);
-  const plugins = await initPlugins({
-    pluginConfigs,
-    context,
-  });
+  const plugins = await initPlugins(context);
 
   const locale = options.locale ?? context.i18n.defaultLocale;
 
@@ -94,7 +94,7 @@ Available locales are: ${context.i18n.locales.join(',')}.`,
 
   const babelOptions = getBabelOptions({
     isServer: true,
-    babelOptions: getCustomBabelConfigFilePath(siteDir),
+    babelOptions: await getCustomBabelConfigFilePath(siteDir),
   });
   const extractedCodeTranslations = await extractSiteSourceCodeTranslations(
     siteDir,

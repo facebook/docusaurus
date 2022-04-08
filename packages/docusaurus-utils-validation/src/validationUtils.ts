@@ -7,28 +7,10 @@
 
 import type Joi from './Joi';
 import logger from '@docusaurus/logger';
+import Yaml from 'js-yaml';
 import {PluginIdSchema} from './validationSchemas';
 
-// TODO temporary escape hatch for alpha-60: to be removed soon
-// Our validation schemas might be buggy at first
-// will permit users to bypass validation until we fix all validation errors
-// see for example: https://github.com/facebook/docusaurus/pull/3120
-// Undocumented on purpose, as we don't want users to keep using it over time
-// Maybe we'll make this escape hatch official some day, with a better api?
-export const isValidationDisabledEscapeHatch =
-  process.env.DISABLE_DOCUSAURUS_VALIDATION === 'true';
-
-if (isValidationDisabledEscapeHatch) {
-  logger.error`You should avoid using code=${'DISABLE_DOCUSAURUS_VALIDATION'} escape hatch, this will be removed.`;
-}
-
-export const logValidationBugReportHint = (): void => {
-  logger.error('A validation error occurred.');
-  logger.info(`The validation system was added recently to Docusaurus as an attempt to avoid user configuration errors.
-We may have made some mistakes.
-If you think your configuration is valid and should keep working, please open a bug report.`);
-};
-
+/** Print warnings returned from Joi validation. */
 export function printWarning(warning?: Joi.ValidationError): void {
   if (warning) {
     const warningMessages = warning.details
@@ -38,9 +20,15 @@ export function printWarning(warning?: Joi.ValidationError): void {
   }
 }
 
+/**
+ * The callback that should be used to validate plugin options. Handles plugin
+ * IDs on a generic level: no matter what the schema declares, this callback
+ * would require a string ID or default to "default".
+ */
 export function normalizePluginOptions<T extends {id?: string}>(
   schema: Joi.ObjectSchema<T>,
-  options: Partial<T>,
+  // This allows us to automatically normalize undefined to { id: "default" }
+  options: Partial<T> = {},
 ): T {
   // All plugins can be provided an "id" option (multi-instance support)
   // we add schema validation automatically
@@ -54,23 +42,21 @@ export function normalizePluginOptions<T extends {id?: string}>(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error);
-      return options as T;
-    } else {
-      throw error;
-    }
+    throw error;
   }
 
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value;
 }
 
+/**
+ * The callback that should be used to validate theme config. No matter what the
+ * schema declares, this callback would allow unknown attributes.
+ */
 export function normalizeThemeConfig<T>(
   schema: Joi.ObjectSchema<T>,
   themeConfig: Partial<T>,
 ): T {
-  // A theme should only validate his "slice" of the full themeConfig,
+  // A theme should only validate its "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes
   // otherwise one theme would fail validating the data of another theme
   const finalSchema = schema.unknown();
@@ -82,19 +68,16 @@ export function normalizeThemeConfig<T>(
   printWarning(warning);
 
   if (error) {
-    logValidationBugReportHint();
-    if (isValidationDisabledEscapeHatch) {
-      logger.error(error);
-      return themeConfig as T;
-    } else {
-      throw error;
-    }
+    throw error;
   }
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value;
 }
 
+/**
+ * Validate front matter with better error message
+ */
 export function validateFrontMatter<T>(
-  frontMatter: Record<string, unknown>,
+  frontMatter: {[key: string]: unknown},
   schema: Joi.ObjectSchema<T>,
 ): T {
   const {value, error, warning} = schema.validate(frontMatter, {
@@ -106,19 +89,17 @@ export function validateFrontMatter<T>(
   printWarning(warning);
 
   if (error) {
-    const frontMatterString = JSON.stringify(frontMatter, null, 2);
     const errorDetails = error.details;
     const invalidFields = errorDetails.map(({path}) => path).join(', ');
 
-    logValidationBugReportHint();
-
-    logger.error`The following frontmatter:
-${logger.yellow(frontMatterString)}
-contains invalid values for field(s): ${logger.yellow(invalidFields)}.
+    logger.error`The following front matter:
+---
+${Yaml.dump(frontMatter)}---
+contains invalid values for field(s): code=${invalidFields}.
 ${errorDetails.map(({message}) => message)}
 `;
     throw error;
   }
 
-  return value!; // TODO remove ! this in TS 4.6, see https://twitter.com/sebastienlorber/status/1481950042277793793
+  return value;
 }

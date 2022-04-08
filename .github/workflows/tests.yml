@@ -16,9 +16,9 @@ jobs:
       matrix:
         node: ['14', '16', '17']
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -27,4 +27,4 @@ jobs:
       - name: Test
         run: yarn test
       - name: TypeCheck website
-        run: yarn workspace website tsc
+        run: yarn workspace website typecheck

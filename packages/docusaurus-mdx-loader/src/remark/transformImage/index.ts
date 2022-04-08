@@ -19,7 +19,7 @@ import fs from 'fs-extra';
 import escapeHtml from 'escape-html';
 import sizeOf from 'image-size';
 import {promisify} from 'util';
-import type {Plugin, Transformer} from 'unified';
+import type {Transformer} from 'unified';
 import type {Image, Literal} from 'mdast';
 import logger from '@docusaurus/logger';
 
@@ -27,11 +27,14 @@ const {
   loaders: {inlineMarkdownImageFileLoader},
 } = getFileLoaderUtils();
 
-interface PluginOptions {
-  filePath: string;
+type PluginOptions = {
   staticDirs: string[];
   siteDir: string;
-}
+};
+
+type Context = PluginOptions & {
+  filePath: string;
+};
 
 async function toImageRequireNode(
   node: Image,
@@ -63,9 +66,13 @@ async function toImageRequireNode(
     if (size.height) {
       height = ` height="${size.height}"`;
     }
-  } catch (e) {
-    logger.error`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
-${(e as Error).message}`;
+  } catch (err) {
+    // Workaround for https://github.com/yarnpkg/berry/pull/3889#issuecomment-1034469784
+    // TODO remove this check once fixed in Yarn PnP
+    if (!process.versions.pnp) {
+      logger.warn`The image at path=${imagePath} can't be read correctly. Please ensure it's a valid image.
+${(err as Error).message}`;
+    }
   }
 
   Object.keys(jsxNode).forEach(
@@ -89,7 +96,7 @@ async function ensureImageFileExist(imagePath: string, sourceFilePath: string) {
 
 async function getImageAbsolutePath(
   imagePath: string,
-  {siteDir, filePath, staticDirs}: PluginOptions,
+  {siteDir, filePath, staticDirs}: Context,
 ) {
   if (imagePath.startsWith('@site/')) {
     const imageFilePath = path.join(siteDir, imagePath.replace('@site/', ''));
@@ -113,50 +120,48 @@ async function getImageAbsolutePath(
     }
     return imageFilePath;
   }
-  // We try to convert image urls without protocol to images with require calls
-  // going through webpack ensures that image assets exist at build time
-  else {
-    // relative paths are resolved against the source file's folder
-    const imageFilePath = path.join(path.dirname(filePath), imagePath);
-    await ensureImageFileExist(imageFilePath, filePath);
-    return imageFilePath;
-  }
+  // relative paths are resolved against the source file's folder
+  const imageFilePath = path.join(
+    path.dirname(filePath),
+    decodeURIComponent(imagePath),
+  );
+  await ensureImageFileExist(imageFilePath, filePath);
+  return imageFilePath;
 }
 
-async function processImageNode(node: Image, options: PluginOptions) {
+async function processImageNode(node: Image, context: Context) {
   if (!node.url) {
     throw new Error(
       `Markdown image URL is mandatory in "${toMessageRelativeFilePath(
-        options.filePath,
+        context.filePath,
       )}" file`,
     );
   }
 
   const parsedUrl = url.parse(node.url);
   if (parsedUrl.protocol || !parsedUrl.pathname) {
-    // pathname:// is an escape hatch,
-    // in case user does not want his images to be converted to require calls going through webpack loader
-    // we don't have to document this for now,
-    // it's mostly to make next release less risky (2.0.0-alpha.59)
+    // pathname:// is an escape hatch, in case user does not want her images to
+    // be converted to require calls going through webpack loader
     if (parsedUrl.protocol === 'pathname:') {
       node.url = node.url.replace('pathname://', '');
     }
     return;
   }
 
-  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, options);
-  await toImageRequireNode(node, imagePath, options.filePath);
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
+  const imagePath = await getImageAbsolutePath(parsedUrl.pathname, context);
+  await toImageRequireNode(node, imagePath, context.filePath);
 }
 
-const plugin: Plugin<[PluginOptions]> = (options) => {
-  const transformer: Transformer = async (root) => {
+export default function plugin(options: PluginOptions): Transformer {
+  return async (root, vfile) => {
     const promises: Promise<void>[] = [];
     visit(root, 'image', (node: Image) => {
-      promises.push(processImageNode(node, options));
+      promises.push(
+        processImageNode(node, {...options, filePath: vfile.path!}),
+      );
     });
     await Promise.all(promises);
   };
-  return transformer;
-};
-
-export default plugin;
+}

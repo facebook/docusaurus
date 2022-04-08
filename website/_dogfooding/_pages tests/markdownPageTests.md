@@ -102,7 +102,7 @@ import MyComponentSource from '!!raw-loader!@site/src/pages/examples/\_myCompone
 
 ```jsx live
 function Demo() {
-  React.useEffect(() => console.log('mount'), []);
+  useEffect(() => console.log('mount'), []);
   return null;
 }
 ```

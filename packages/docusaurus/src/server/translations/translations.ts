@@ -7,16 +7,21 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {mapValues, difference} from 'lodash';
+import _ from 'lodash';
+import {
+  getPluginI18nPath,
+  toMessageRelativeFilePath,
+  I18N_DIR_NAME,
+  CODE_TRANSLATIONS_FILE_NAME,
+} from '@docusaurus/utils';
+import {Joi} from '@docusaurus/utils-validation';
+import logger from '@docusaurus/logger';
 import type {
   TranslationFileContent,
   TranslationFile,
-  TranslationMessage,
+  CodeTranslations,
   InitializedPlugin,
 } from '@docusaurus/types';
-import {getPluginI18nPath, toMessageRelativeFilePath} from '@docusaurus/utils';
-import {Joi} from '@docusaurus/utils-validation';
-import logger from '@docusaurus/logger';
 
 export type WriteTranslationsOptions = {
   override?: boolean;
@@ -38,7 +43,7 @@ const TranslationFileContentSchema = Joi.object<TranslationFileContent>()
   )
   .required();
 
-export function ensureTranslationFileContent(
+function ensureTranslationFileContent(
   content: unknown,
 ): asserts content is TranslationFileContent {
   Joi.attempt(content, TranslationFileContentSchema, {
@@ -48,7 +53,7 @@ export function ensureTranslationFileContent(
   });
 }
 
-export async function readTranslationFileContent(
+async function readTranslationFileContent(
   filePath: string,
 ): Promise<TranslationFileContent | undefined> {
   if (await fs.pathExists(filePath)) {
@@ -56,10 +61,9 @@ export async function readTranslationFileContent(
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'));
       ensureTranslationFileContent(content);
       return content;
-    } catch (e) {
-      throw new Error(
-        `Invalid translation file at ${filePath}.\n${(e as Error).message}`,
-      );
+    } catch (err) {
+      logger.error`Invalid translation file at path=${filePath}.`;
+      throw err;
     }
   }
   return undefined;
@@ -75,7 +79,7 @@ function mergeTranslationFileContent({
   options: WriteTranslationsOptions;
 }): TranslationFileContent {
   // Apply messagePrefix to all messages
-  const newContentTransformed = mapValues(newContent, (value) => ({
+  const newContentTransformed = _.mapValues(newContent, (value) => ({
     ...value,
     message: `${options.messagePrefix ?? ''}${value.message}`,
   }));
@@ -86,7 +90,7 @@ function mergeTranslationFileContent({
   Object.entries(newContentTransformed).forEach(
     ([key, {message, description}]) => {
       result[key] = {
-        // If the messages already exist, we don't override them (unless requested)
+        // If messages already exist, we don't override them (unless requested)
         message: options.override
           ? message
           : existingContent[key]?.message ?? message,
@@ -98,7 +102,7 @@ function mergeTranslationFileContent({
   return result;
 }
 
-export async function writeTranslationFileContent({
+async function writeTranslationFileContent({
   filePath,
   content: newContent,
   options = {},
@@ -110,7 +114,7 @@ export async function writeTranslationFileContent({
   const existingContent = await readTranslationFileContent(filePath);
 
   // Warn about potential legacy keys
-  const unknownKeys = difference(
+  const unknownKeys = _.difference(
     Object.keys(existingContent ?? {}),
     Object.keys(newContent),
   );
@@ -132,25 +136,25 @@ Maybe you should remove them? ${unknownKeys}`;
     } translations will be written at path=${toMessageRelativeFilePath(
       filePath,
     )}.`;
-    await fs.ensureDir(path.dirname(filePath));
-    await fs.writeFile(filePath, `${JSON.stringify(mergedContent, null, 2)}\n`);
+    await fs.outputFile(
+      filePath,
+      `${JSON.stringify(mergedContent, null, 2)}\n`,
+    );
   }
 }
 
 // should we make this configurable?
-export function getTranslationsDirPath(context: TranslationContext): string {
-  return path.resolve(path.join(context.siteDir, `i18n`));
-}
 export function getTranslationsLocaleDirPath(
   context: TranslationContext,
 ): string {
-  return path.join(getTranslationsDirPath(context), context.locale);
+  return path.join(context.siteDir, I18N_DIR_NAME, context.locale);
 }
 
-export function getCodeTranslationsFilePath(
-  context: TranslationContext,
-): string {
-  return path.join(getTranslationsLocaleDirPath(context), 'code.json');
+function getCodeTranslationsFilePath(context: TranslationContext): string {
+  return path.join(
+    getTranslationsLocaleDirPath(context),
+    CODE_TRANSLATIONS_FILE_NAME,
+  );
 }
 
 export async function readCodeTranslationFileContent(
@@ -252,14 +256,13 @@ export async function localizePluginTranslationFile({
         ...localizedContent,
       },
     };
-  } else {
-    return translationFile;
   }
+  return translationFile;
 }
 
 export async function getPluginsDefaultCodeTranslationMessages(
   plugins: InitializedPlugin[],
-): Promise<Record<string, string>> {
+): Promise<CodeTranslations> {
   const pluginsMessages = await Promise.all(
     plugins.map((plugin) => plugin.getDefaultCodeTranslationMessages?.() ?? {}),
   );
@@ -274,10 +277,10 @@ export function applyDefaultCodeTranslations({
   extractedCodeTranslations,
   defaultCodeMessages,
 }: {
-  extractedCodeTranslations: Record<string, TranslationMessage>;
-  defaultCodeMessages: Record<string, string>;
-}): Record<string, TranslationMessage> {
-  const unusedDefaultCodeMessages = difference(
+  extractedCodeTranslations: TranslationFileContent;
+  defaultCodeMessages: CodeTranslations;
+}): TranslationFileContent {
+  const unusedDefaultCodeMessages = _.difference(
     Object.keys(defaultCodeMessages),
     Object.keys(extractedCodeTranslations),
   );
@@ -286,7 +289,7 @@ export function applyDefaultCodeTranslations({
 Please report this Docusaurus issue. name=${unusedDefaultCodeMessages}`;
   }
 
-  return mapValues(
+  return _.mapValues(
     extractedCodeTranslations,
     (messageTranslation, messageId) => ({
       ...messageTranslation,

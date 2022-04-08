@@ -5,37 +5,44 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import util from 'util';
-import globCb from 'glob';
-import fsCb from 'fs';
-
-const glob = util.promisify(globCb);
-const readFile = util.promisify(fsCb.readFile);
+import {Globby} from '@docusaurus/utils';
+import fs from 'fs-extra';
 
 type PackageJsonFile = {
   file: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any;
+  content: {
+    name?: string;
+    private?: boolean;
+    version?: string;
+    repository?: {
+      type?: string;
+      url?: string;
+      directory?: string;
+    };
+    publishConfig?: {
+      access?: string;
+    };
+  };
 };
 
 async function getPackagesJsonFiles(): Promise<PackageJsonFile[]> {
-  const files = await glob('packages/*/package.json');
+  const files = await Globby('packages/*/package.json');
 
   return Promise.all(
     files.map(async (file) => ({
       file,
-      content: JSON.parse(await readFile(file, 'utf8')),
+      content: JSON.parse(await fs.readFile(file, 'utf8')),
     })),
   );
 }
 
 describe('packages', () => {
-  test('should be found', async () => {
+  it('are found', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
     expect(packageJsonFiles.length).toBeGreaterThan(0);
   });
 
-  test('should contain repository and directory for every package', async () => {
+  it('contain repository and directory', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
@@ -51,20 +58,22 @@ describe('packages', () => {
 
   /*
   If a package starts with @, if won't be published to public npm registry
-  without an additional publishConfig.acces: "public" config
+  without an additional publishConfig.access: "public" config
   This will make you publish an incomplete list of Docusaurus packages
   when trying to release with lerna-publish
    */
-  test('should have publishConfig.access: "public" when name starts with @', async () => {
+  it('have publishConfig.access: "public" when name starts with @', async () => {
     const packageJsonFiles = await getPackagesJsonFiles();
 
     packageJsonFiles
       .filter((packageJsonFile) => packageJsonFile.content.name.startsWith('@'))
       .forEach((packageJsonFile) => {
         if (packageJsonFile) {
-          // Unfortunately jest custom message do not exist in loops, so using an exception instead to show failing package file
+          // Unfortunately jest custom message do not exist in loops,
+          // so using an exception instead to show failing package file
           // (see https://github.com/facebook/jest/issues/3293)
-          // expect(packageJsonFile.content.publishConfig?.access).toEqual('public');
+          // expect(packageJsonFile.content.publishConfig?.access)
+          //  .toEqual('public');
           if (packageJsonFile.content.publishConfig?.access !== 'public') {
             throw new Error(
               `Package ${packageJsonFile.file} does not have publishConfig.access: 'public'`,

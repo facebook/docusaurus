@@ -6,6 +6,8 @@
 /docs/next/docusaurus.config.js                  /docs/next/api/docusaurus-config
 /docs/lifecycle-apis                             /docs/api/plugin-methods/
 /docs/next/lifecycle-apis                        /docs/next/api/plugin-methods/
+/docs/using-themes                               /docs/advanced/swizzling
+/docs/next/using-themes                          /docs/next/advanced/swizzling
 
 
 # v2.docusaurus.io domain redirect after we put v2 on docusaurus.io
