@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-beta.15",
+  "version": "2.0.0-beta.18",
   "description": "Algolia search component for Docusaurus.",
   "main": "lib/index.js",
   "exports": {
@@ -25,24 +25,25 @@
     "build:format": "prettier --config ../../.prettierrc --write \"lib/**/*.js\""
   },
   "dependencies": {
-    "@docsearch/react": "^3.0.0-alpha.39",
-    "@docusaurus/core": "2.0.0-beta.15",
-    "@docusaurus/logger": "2.0.0-beta.15",
-    "@docusaurus/theme-common": "2.0.0-beta.15",
-    "@docusaurus/theme-translations": "2.0.0-beta.15",
-    "@docusaurus/utils": "2.0.0-beta.15",
-    "@docusaurus/utils-validation": "2.0.0-beta.15",
-    "algoliasearch": "^4.10.5",
-    "algoliasearch-helper": "^3.5.5",
+    "@docsearch/react": "^3.0.0",
+    "@docusaurus/core": "2.0.0-beta.18",
+    "@docusaurus/logger": "2.0.0-beta.18",
+    "@docusaurus/plugin-content-docs": "2.0.0-beta.18",
+    "@docusaurus/theme-common": "2.0.0-beta.18",
+    "@docusaurus/theme-translations": "2.0.0-beta.18",
+    "@docusaurus/utils": "2.0.0-beta.18",
+    "@docusaurus/utils-validation": "2.0.0-beta.18",
+    "algoliasearch": "^4.13.0",
+    "algoliasearch-helper": "^3.7.4",
     "clsx": "^1.1.1",
     "eta": "^1.12.3",
-    "lodash": "^4.17.20",
+    "fs-extra": "^10.0.1",
+    "lodash": "^4.17.21",
     "tslib": "^2.3.1",
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.15",
-    "fs-extra": "^10.0.0"
+    "@docusaurus/module-type-aliases": "2.0.0-beta.18"
   },
   "peerDependencies": {
     "react": "^16.8.4 || ^17.0.0",

@@ -7,10 +7,13 @@
 
 import {useEffect} from 'react';
 
-export default function useLockBodyScroll(lock: boolean = true): void {
+/**
+ * Side-effect that locks the document body's scroll throughout the lifetime of
+ * the containing component. e.g. when the mobile sidebar is expanded.
+ */
+export function useLockBodyScroll(lock: boolean = true): void {
   useEffect(() => {
     document.body.style.overflow = lock ? 'hidden' : 'visible';
-
     return () => {
       document.body.style.overflow = 'visible';
     };

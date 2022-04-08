@@ -56,12 +56,12 @@
   background-color: var(--ifm-color-secondary-dark);
 }
 
-html[data-theme='dark'] .showcaseCardSrcBtn {
+[data-theme='dark'] .showcaseCardSrcBtn {
   background-color: var(--ifm-color-emphasis-200) !important;
   color: inherit;
 }
 
-html[data-theme='dark'] .showcaseCardSrcBtn:hover {
+[data-theme='dark'] .showcaseCardSrcBtn:hover {
   background-color: var(--ifm-color-emphasis-300) !important;
 }
 

@@ -8,6 +8,8 @@
 
 ![img from second static folder](./static2/img2.png)
 
+![img with URL encoded chars](./static2/img2%20copy.png)
+
 ![img](./static/img.png 'Title') ![img](/img.png)
 
 ![img with "quotes"](./static/img.png ''Quoted' title')

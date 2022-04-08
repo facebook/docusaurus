@@ -7,7 +7,6 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import type {VersionMetadata} from './types';
 import {
   VERSIONS_JSON_FILE,
   VERSIONED_DOCS_DIR,
@@ -17,8 +16,8 @@ import {
 import type {
   PluginOptions,
   VersionBanner,
-  VersionOptions,
   VersionsOptions,
+  VersionMetadata,
 } from '@docusaurus/plugin-content-docs';
 
 import type {LoadContext} from '@docusaurus/types';
@@ -28,7 +27,7 @@ import {
   posixPath,
   DEFAULT_PLUGIN_ID,
 } from '@docusaurus/utils';
-import {difference} from 'lodash';
+import _ from 'lodash';
 import {resolveSidebarPathOption} from './sidebars';
 
 // retro-compatibility: no prefix for the default plugin id
@@ -74,9 +73,9 @@ function ensureValidVersionString(version: unknown): asserts version is string {
 function ensureValidVersionArray(
   versionArray: unknown,
 ): asserts versionArray is string[] {
-  if (!(versionArray instanceof Array)) {
+  if (!Array.isArray(versionArray)) {
     throw new Error(
-      `The versions file should contain an array of versions! Found content: ${JSON.stringify(
+      `The versions file should contain an array of version names! Found content: ${JSON.stringify(
         versionArray,
       )}`,
     );
@@ -134,7 +133,7 @@ export async function readVersionNames(
   return versions;
 }
 
-function getDocsDirPathLocalized({
+export function getDocsDirPathLocalized({
   siteDir,
   locale,
   pluginId,
@@ -144,7 +143,7 @@ function getDocsDirPathLocalized({
   locale: string;
   pluginId: string;
   versionName: string;
-}) {
+}): string {
   return getPluginI18nPath({
     siteDir,
     locale,
@@ -207,7 +206,12 @@ function getVersionEditUrls({
   contentPath,
   contentPathLocalized,
   context: {siteDir, i18n},
-  options: {id, path: currentVersionPath, editUrl, editCurrentVersion},
+  options: {
+    id,
+    path: currentVersionPath,
+    editUrl: editUrlOption,
+    editCurrentVersion,
+  },
 }: {
   contentPath: string;
   contentPathLocalized: string;
@@ -216,15 +220,11 @@ function getVersionEditUrls({
     PluginOptions,
     'id' | 'path' | 'editUrl' | 'editCurrentVersion'
   >;
-}): {versionEditUrl: string; versionEditUrlLocalized: string} | undefined {
-  if (!editUrl) {
-    return undefined;
-  }
-
-  // if the user is using the functional form of editUrl,
-  // he has total freedom and we can't compute a "version edit url"
-  if (typeof editUrl === 'function') {
-    return undefined;
+}): Pick<VersionMetadata, 'editUrl' | 'editUrlLocalized'> {
+  // If the user is using the functional form of editUrl,
+  // she has total freedom and we can't compute a "version edit url"
+  if (!editUrlOption || typeof editUrlOption === 'function') {
+    return {editUrl: undefined, editUrlLocalized: undefined};
   }
 
   const editDirPath = editCurrentVersion ? currentVersionPath : contentPath;
@@ -244,16 +244,16 @@ function getVersionEditUrls({
     path.relative(siteDir, path.resolve(siteDir, editDirPathLocalized)),
   );
 
-  const versionEditUrl = normalizeUrl([editUrl, versionPathSegment]);
+  const editUrl = normalizeUrl([editUrlOption, versionPathSegment]);
 
-  const versionEditUrlLocalized = normalizeUrl([
-    editUrl,
+  const editUrlLocalized = normalizeUrl([
+    editUrlOption,
     versionPathSegmentLocalized,
   ]);
 
   return {
-    versionEditUrl,
-    versionEditUrlLocalized,
+    editUrl,
+    editUrlLocalized,
   };
 }
 
@@ -370,12 +370,12 @@ function createVersionMetadata({
   }
   const defaultVersionPathPart = getDefaultVersionPathPart();
 
-  const versionOptions: VersionOptions = options.versions[versionName] ?? {};
+  const versionOptions = options.versions[versionName] ?? {};
 
-  const versionLabel = versionOptions.label ?? defaultVersionLabel;
+  const label = versionOptions.label ?? defaultVersionLabel;
   const versionPathPart = versionOptions.path ?? defaultVersionPathPart;
 
-  const versionPath = normalizeUrl([
+  const routePath = normalizeUrl([
     context.baseUrl,
     options.routeBasePath,
     versionPathPart,
@@ -388,28 +388,27 @@ function createVersionMetadata({
     options,
   });
 
-  // Because /docs/:route` should always be after `/docs/versionName/:route`.
   const routePriority = versionPathPart === '' ? -1 : undefined;
 
   // the path that will be used to refer the docs tags
   // example below will be using /docs/tags
-  const tagsPath = normalizeUrl([versionPath, options.tagsBasePath]);
+  const tagsPath = normalizeUrl([routePath, options.tagsBasePath]);
 
   return {
     versionName,
-    versionLabel,
-    versionPath,
+    label,
+    path: routePath,
     tagsPath,
-    versionEditUrl: versionEditUrls?.versionEditUrl,
-    versionEditUrlLocalized: versionEditUrls?.versionEditUrlLocalized,
-    versionBanner: getVersionBanner({
+    editUrl: versionEditUrls.editUrl,
+    editUrlLocalized: versionEditUrls.editUrlLocalized,
+    banner: getVersionBanner({
       versionName,
       versionNames,
       lastVersionName,
       options,
     }),
-    versionBadge: getVersionBadge({versionName, versionNames, options}),
-    versionClassName: getVersionClassName({versionName, options}),
+    badge: getVersionBadge({versionName, versionNames, options}),
+    className: getVersionClassName({versionName, options}),
     isLast,
     routePriority,
     sidebarFilePath,
@@ -418,7 +417,7 @@ function createVersionMetadata({
   };
 }
 
-function checkVersionMetadataPaths({
+async function checkVersionMetadataPaths({
   versionMetadata,
   context,
 }: {
@@ -429,7 +428,7 @@ function checkVersionMetadataPaths({
   const {siteDir} = context;
   const isCurrentVersion = versionName === CURRENT_VERSION_NAME;
 
-  if (!fs.existsSync(contentPath)) {
+  if (!(await fs.pathExists(contentPath))) {
     throw new Error(
       `The docs folder does not exist for version "${versionName}". A docs folder is expected to be found at ${path.relative(
         siteDir,
@@ -446,7 +445,7 @@ function checkVersionMetadataPaths({
   if (
     isCurrentVersion &&
     typeof sidebarFilePath === 'string' &&
-    !fs.existsSync(sidebarFilePath)
+    !(await fs.pathExists(sidebarFilePath))
   ) {
     throw new Error(`The path to the sidebar file does not exist at "${path.relative(
       siteDir,
@@ -464,11 +463,11 @@ Please set the docs "sidebarPath" field in your config file to:
 // "last version" is not a very good concept nor api surface
 function getDefaultLastVersionName(versionNames: string[]) {
   if (versionNames.length === 1) {
-    return versionNames[0];
+    return versionNames[0]!;
   }
   return versionNames.filter(
     (versionName) => versionName !== CURRENT_VERSION_NAME,
-  )[0];
+  )[0]!;
 }
 
 function checkVersionsOptions(
@@ -486,7 +485,7 @@ function checkVersionsOptions(
       `Docs option lastVersion: ${options.lastVersion} is invalid. ${availableVersionNamesMsg}`,
     );
   }
-  const unknownVersionConfigNames = difference(
+  const unknownVersionConfigNames = _.difference(
     Object.keys(options.versions),
     availableVersionNames,
   );
@@ -504,7 +503,7 @@ function checkVersionsOptions(
         `Invalid docs option "onlyIncludeVersions": an empty array is not allowed, at least one version is needed.`,
       );
     }
-    const unknownOnlyIncludeVersionNames = difference(
+    const unknownOnlyIncludeVersionNames = _.difference(
       options.onlyIncludeVersions,
       availableVersionNames,
     );
@@ -537,7 +536,7 @@ export function filterVersions(
 ): string[] {
   if (options.onlyIncludeVersions) {
     return versionNamesUnfiltered.filter((name) =>
-      (options.onlyIncludeVersions || []).includes(name),
+      options.onlyIncludeVersions!.includes(name),
     );
   }
   return versionNamesUnfiltered;
@@ -585,20 +584,10 @@ export async function readVersionsMetadata({
       options,
     }),
   );
-  versionsMetadata.forEach((versionMetadata) =>
-    checkVersionMetadataPaths({versionMetadata, context}),
+  await Promise.all(
+    versionsMetadata.map((versionMetadata) =>
+      checkVersionMetadataPaths({versionMetadata, context}),
+    ),
   );
   return versionsMetadata;
-}
-
-// order matter!
-// Read in priority the localized path, then the unlocalized one
-// We want the localized doc to "override" the unlocalized one
-export function getDocsDirPaths(
-  versionMetadata: Pick<
-    VersionMetadata,
-    'contentPath' | 'contentPathLocalized'
-  >,
-): [string, string] {
-  return [versionMetadata.contentPathLocalized, versionMetadata.contentPath];
 }

@@ -8,7 +8,7 @@
 import flat from '../flat';
 
 describe('flat', () => {
-  test('nested', () => {
+  it('nested', () => {
     expect(
       flat({
         foo: {
@@ -32,7 +32,7 @@ describe('flat', () => {
     });
   });
 
-  test('primitives', () => {
+  it('primitives', () => {
     const primitives = {
       String: 'good morning',
       Number: 1234.99,
@@ -55,7 +55,7 @@ describe('flat', () => {
     });
   });
 
-  test('multiple keys', () => {
+  it('multiple keys', () => {
     expect(
       flat({
         foo: {
@@ -69,7 +69,7 @@ describe('flat', () => {
     });
   });
 
-  test('empty object', () => {
+  it('empty object', () => {
     expect(
       flat({
         foo: {
@@ -81,7 +81,7 @@ describe('flat', () => {
     });
   });
 
-  test('array', () => {
+  it('array', () => {
     expect(
       flat({
         hello: [{world: {again: 'foo'}}, {lorem: 'ipsum'}],

@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`normalization normalizes shorthands 1`] = `
-Object {
-  "sidebar": Array [
-    Object {
-      "items": Array [
-        Object {
+{
+  "sidebar": [
+    {
+      "items": [
+        {
           "id": "doc1",
           "type": "doc",
         },
-        Object {
+        {
           "id": "doc2",
           "type": "doc",
         },
@@ -17,15 +17,15 @@ Object {
       "label": "Category",
       "type": "category",
     },
-    Object {
-      "items": Array [
-        Object {
-          "items": Array [
-            Object {
+    {
+      "items": [
+        {
+          "items": [
+            {
               "id": "doc3",
               "type": "doc",
             },
-            Object {
+            {
               "id": "doc4",
               "type": "doc",
             },
@@ -33,13 +33,13 @@ Object {
           "label": "Subcategory 1",
           "type": "category",
         },
-        Object {
-          "items": Array [
-            Object {
+        {
+          "items": [
+            {
               "id": "doc5",
               "type": "doc",
             },
-            Object {
+            {
               "id": "doc6",
               "type": "doc",
             },
@@ -56,20 +56,20 @@ Object {
 `;
 
 exports[`normalization normalizes shorthands 2`] = `
-Object {
-  "sidebar": Array [
-    Object {
+{
+  "sidebar": [
+    {
       "href": "https://google.com",
       "label": "Google",
       "type": "link",
     },
-    Object {
-      "items": Array [
-        Object {
+    {
+      "items": [
+        {
           "id": "doc1",
           "type": "doc",
         },
-        Object {
+        {
           "id": "doc2",
           "type": "doc",
         },
@@ -77,13 +77,13 @@ Object {
       "label": "Category 1",
       "type": "category",
     },
-    Object {
-      "items": Array [
-        Object {
+    {
+      "items": [
+        {
           "id": "doc3",
           "type": "doc",
         },
-        Object {
+        {
           "id": "doc4",
           "type": "doc",
         },

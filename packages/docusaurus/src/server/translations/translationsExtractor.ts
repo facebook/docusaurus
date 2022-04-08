@@ -18,7 +18,6 @@ import {
 import type {
   InitializedPlugin,
   TranslationFileContent,
-  TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
@@ -56,7 +55,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
     codePaths.push(themePath);
   }
 
-  return codePaths;
+  return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
 export async function globSourceCodeFilePaths(
@@ -130,7 +129,7 @@ function logSourceCodeFileTranslationsWarnings(
 
 type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
-  translations: Record<string, TranslationMessage>;
+  translations: TranslationFileContent;
   warnings: string[];
 };
 
@@ -166,11 +165,9 @@ export async function extractSourceCodeFileTranslations(
       sourceCodeFilePath,
     );
     return translations;
-  } catch (e) {
-    if (e instanceof Error) {
-      e.message = `Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}\n${e.message}`;
-    }
-    throw e;
+  } catch (err) {
+    logger.error`Error while attempting to extract Docusaurus translations from source code file at path=${sourceCodeFilePath}.`;
+    throw err;
   }
 }
 
@@ -191,7 +188,7 @@ function extractSourceCodeAstTranslations(
 Full code: ${generate(node).code}`;
   }
 
-  const translations: Record<string, TranslationMessage> = {};
+  const translations: TranslationFileContent = {};
   const warnings: string[] = [];
   let translateComponentName: string | undefined;
   let translateFunctionName: string | undefined;
@@ -310,10 +307,9 @@ ${sourceWarningPart(path.node)}`);
               ),
           )
           .pop();
-        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXText = singleChildren?.isJSXText();
         const isJSXExpressionContainer =
-          singleChildren &&
-          singleChildren.isJSXExpressionContainer() &&
+          singleChildren?.isJSXExpressionContainer() &&
           (singleChildren.get('expression') as NodePath).evaluate().confident;
 
         if (isJSXText || isJSXExpressionContainer) {
@@ -342,7 +338,7 @@ ${sourceWarningPart(path.node)}`,
 
         const args = path.get('arguments');
         if (args.length === 1 || args.length === 2) {
-          const firstArgPath = args[0];
+          const firstArgPath = args[0]!;
 
           // translate("x" + "y"); => translate("xy");
           const firstArgEvaluated = firstArgPath.evaluate();

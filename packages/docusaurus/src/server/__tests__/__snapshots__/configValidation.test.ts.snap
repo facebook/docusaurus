@@ -1,42 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`normalizeConfig should throw error for baseUrl without trailing \`/\` 1`] = `
-"\\"baseUrl\\" must be a string with a trailing slash.
-"
-`;
-
-exports[`normalizeConfig should throw error for required fields 1`] = `
-"\\"baseUrl\\" is required
-\\"title\\" is required
-\\"url\\" is required
-\\"themes\\" must be an array
-\\"presets\\" must be an array
-\\"scripts\\" must be an array
-\\"stylesheets\\" must be an array
-These field(s) (\\"invalidField\\",) are not recognized in docusaurus.config.js.
-If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
-See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
-`;
-
-exports[`normalizeConfig should throw error for unknown field 1`] = `
-"These field(s) (\\"invalid\\",) are not recognized in docusaurus.config.js.
-If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
-See https://docusaurus.io/docs/docusaurus.config.js/#customfields"
-`;
-
-exports[`normalizeConfig should throw error if css doesn't have href 1`] = `
-"\\"stylesheets[1]\\" does not match any of the allowed types
-"
-`;
-
 exports[`normalizeConfig should throw error if plugins is not a string and it's not an array #1 for the input of: [123] 1`] = `
 " => Bad Docusaurus plugin value as path [plugins,0].
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -50,9 +21,9 @@ exports[`normalizeConfig should throw error if plugins is not an array of [strin
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -66,9 +37,9 @@ exports[`normalizeConfig should throw error if plugins is not an array of [strin
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -82,9 +53,9 @@ exports[`normalizeConfig should throw error if plugins is not an array of [strin
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -94,17 +65,7 @@ Example valid plugin config:
 `;
 
 exports[`normalizeConfig should throw error if plugins is not array for the input of: {} 1`] = `
-"\\"plugins\\" must be an array
-"
-`;
-
-exports[`normalizeConfig should throw error if presets is not array 1`] = `
-"\\"presets\\" must be an array
-"
-`;
-
-exports[`normalizeConfig should throw error if scripts doesn't have src 1`] = `
-"\\"scripts[1]\\" does not match any of the allowed types
+""plugins" must be an array
 "
 `;
 
@@ -113,9 +74,9 @@ exports[`normalizeConfig should throw error if themes is not a string and it's n
 Example valid theme config:
 {
   themes: [
-    [\\"@docusaurus/theme-classic\\",options],
-    \\"./myTheme\\",
-    [\\"./myTheme\\",{someOption: 42}],
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
     function myTheme() { },
     [function myTheme() { },options]
   ],
@@ -129,9 +90,9 @@ exports[`normalizeConfig should throw error if themes is not an array of [string
 Example valid theme config:
 {
   themes: [
-    [\\"@docusaurus/theme-classic\\",options],
-    \\"./myTheme\\",
-    [\\"./myTheme\\",{someOption: 42}],
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
     function myTheme() { },
     [function myTheme() { },options]
   ],
@@ -145,9 +106,9 @@ exports[`normalizeConfig should throw error if themes is not an array of [string
 Example valid theme config:
 {
   themes: [
-    [\\"@docusaurus/theme-classic\\",options],
-    \\"./myTheme\\",
-    [\\"./myTheme\\",{someOption: 42}],
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
     function myTheme() { },
     [function myTheme() { },options]
   ],
@@ -161,9 +122,9 @@ exports[`normalizeConfig should throw error if themes is not an array of [string
 Example valid theme config:
 {
   themes: [
-    [\\"@docusaurus/theme-classic\\",options],
-    \\"./myTheme\\",
-    [\\"./myTheme\\",{someOption: 42}],
+    ["@docusaurus/theme-classic",options],
+    "./myTheme",
+    ["./myTheme",{someOption: 42}],
     function myTheme() { },
     [function myTheme() { },options]
   ],
@@ -172,12 +133,31 @@ Example valid theme config:
 "
 `;
 
-exports[`normalizeConfig should throw error if themes is not array 1`] = `
-"\\"themes\\" must be an array
+exports[`normalizeConfig should throw error if themes is not array for the input of: {} 1`] = `
+""themes" must be an array
 "
 `;
 
-exports[`normalizeConfig should throw error if themes is not array for the input of: {} 1`] = `
-"\\"themes\\" must be an array
+exports[`normalizeConfig throws error for baseUrl without trailing \`/\` 1`] = `
+""baseUrl" must be a string with a trailing slash.
 "
+`;
+
+exports[`normalizeConfig throws error for required fields 1`] = `
+""baseUrl" is required
+"title" is required
+"url" is required
+"themes" must be an array
+"presets" must be an array
+"scripts" must be an array
+"stylesheets" must be an array
+These field(s) ("invalidField",) are not recognized in docusaurus.config.js.
+If you still want these fields to be in your configuration, put them in the "customFields" field.
+See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
+`;
+
+exports[`normalizeConfig throws error for unknown field 1`] = `
+"These field(s) ("invalid",) are not recognized in docusaurus.config.js.
+If you still want these fields to be in your configuration, put them in the "customFields" field.
+See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
 `;

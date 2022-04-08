@@ -32,20 +32,27 @@ export default function Tweet({
     <div className={clsx('card', styles.tweet)}>
       <div className="card__header">
         <div className="avatar">
-          <img alt={name} className="avatar__photo" src={avatar} />
-          <div className="avatar__intro">
-            <div className={styles.tweet}>
-              <div>
-                <strong>{name}</strong>{' '}
-                <span className={styles.tweetMeta}>@{handle}</span>
-              </div>
-            </div>
-            <div className="margin-bottom--sm">{content}</div>
-            <a className={clsx(styles.tweetMeta, styles.tweetDate)} href={url}>
-              {date}
-            </a>
+          <img
+            alt={name}
+            className="avatar__photo"
+            src={avatar}
+            width="48"
+            height="48"
+            loading="lazy"
+          />
+          <div className={clsx('avatar__intro', styles.tweetMeta)}>
+            <strong className="avatar__name">{name}</strong>
+            <span>@{handle}</span>
           </div>
         </div>
+      </div>
+
+      <div className={clsx('card__body', styles.tweet)}>{content}</div>
+
+      <div className="card__footer">
+        <a className={clsx(styles.tweetMeta, styles.tweetDate)} href={url}>
+          {date}
+        </a>
       </div>
     </div>
   );

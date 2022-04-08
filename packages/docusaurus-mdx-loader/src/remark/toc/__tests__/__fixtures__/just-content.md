@@ -13,3 +13,5 @@ Lorem ipsum
 Some content here
 
 ## I ♥ unicode.
+
+export const c = 1;

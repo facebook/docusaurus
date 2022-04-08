@@ -18,7 +18,7 @@ function programmaticFocus(el: HTMLElement) {
   el.removeAttribute('tabindex');
 }
 
-function SkipToContent(): JSX.Element {
+export default function SkipToContent(): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const {action} = useHistory();
   const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -52,5 +52,3 @@ function SkipToContent(): JSX.Element {
     </div>
   );
 }
-
-export default SkipToContent;

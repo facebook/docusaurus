@@ -41,7 +41,7 @@ function DefaultNavbarItemDesktop({
 
 function DefaultNavbarItemMobile({
   className,
-  isDropdownItem: _isDropdownItem,
+  isDropdownItem,
   ...props
 }: DesktopOrMobileNavBarItemProps) {
   return (
@@ -51,9 +51,9 @@ function DefaultNavbarItemMobile({
   );
 }
 
-function DefaultNavbarItem({
+export default function DefaultNavbarItem({
   mobile = false,
-  position: _position, // Need to destructure position from props so that it doesn't get passed on.
+  position, // Need to destructure position from props so that it doesn't get passed on.
   ...props
 }: Props): JSX.Element {
   const Comp = mobile ? DefaultNavbarItemMobile : DefaultNavbarItemDesktop;
@@ -66,5 +66,3 @@ function DefaultNavbarItem({
     />
   );
 }
-
-export default DefaultNavbarItem;

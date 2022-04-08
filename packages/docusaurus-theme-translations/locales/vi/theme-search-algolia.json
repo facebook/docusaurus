@@ -1,6 +1,6 @@
 {
   "theme.SearchBar.label": "Tìm kiếm",
-  "theme.SearchBar.seeAll": "See all {count} results",
+  "theme.SearchBar.seeAll": "Xem {count} kết quả",
   "theme.SearchPage.algoliaLabel": "Tìm kiếm với Algolia",
   "theme.SearchPage.documentsFound.plurals": "Tìm thấy một kết quả|Tìm thấy {count} kết quả",
   "theme.SearchPage.emptyResultsTitle": "Tìm kiếm",

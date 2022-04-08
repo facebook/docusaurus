@@ -4,13 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable import/no-extraneous-dependencies */
 
 const path = require('path');
 const fs = require('fs-extra');
 const pluginContentBlog = require('@docusaurus/plugin-content-blog');
 const {aliasedSitePath, docuHash, normalizeUrl} = require('@docusaurus/utils');
-const syncAvatars = require('./syncAvatars');
 
 /**
  * Multiple versions may be published on the same day, causing the order to be
@@ -38,7 +36,7 @@ function processSection(section) {
     .trim()
     .replace('running_woman', 'running');
 
-  let authors = content.match(/## Committers: \d+.*/ms);
+  let authors = content.match(/## Committers: \d.*/s);
   if (authors) {
     authors = authors[0]
       .match(/- .*/g)
@@ -51,7 +49,7 @@ function processSection(section) {
       .map((author) => ({
         ...author,
         name: author.name ?? author.alias,
-        imageURL: `./img/${author.alias}.png`,
+        imageURL: `https://github.com/${author.alias}.png`,
       }))
       .sort((a, b) => a.url.localeCompare(b.url));
 
@@ -106,7 +104,7 @@ async function ChangelogPlugin(context, options) {
     async loadContent() {
       const fileContent = await fs.readFile(changelogPath, 'utf-8');
       const sections = fileContent
-        .split(/(?=\n## )/ms)
+        .split(/(?=\n## )/)
         .map(processSection)
         .filter(Boolean);
       await Promise.all(
@@ -117,7 +115,8 @@ async function ChangelogPlugin(context, options) {
           ),
         ),
       );
-      await syncAvatars(authorsMap, generateDir);
+      const authorsPath = path.join(generateDir, 'authors.json');
+      await fs.outputFile(authorsPath, JSON.stringify(authorsMap, null, 2));
       const content = await blogPlugin.loadContent();
       content.blogPosts.forEach((post, index) => {
         const pageIndex = Math.floor(index / options.postsPerPage);
@@ -146,7 +145,7 @@ async function ChangelogPlugin(context, options) {
       return config;
     },
     getThemePath() {
-      return path.join(__dirname, './theme');
+      return './theme';
     },
     getPathsToWatch() {
       // Don't watch the generated dir

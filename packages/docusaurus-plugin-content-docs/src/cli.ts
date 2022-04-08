@@ -9,16 +9,16 @@ import {
   getVersionsFilePath,
   getVersionedDocsDirPath,
   getVersionedSidebarsDirPath,
+  getDocsDirPathLocalized,
 } from './versions';
 import fs from 'fs-extra';
 import path from 'path';
-import type {
-  PathOptions,
-  SidebarOptions,
-} from '@docusaurus/plugin-content-docs';
+import type {PluginOptions} from '@docusaurus/plugin-content-docs';
 import {loadSidebarsFileUnsafe, resolveSidebarPathOption} from './sidebars';
+import {CURRENT_VERSION_NAME} from './constants';
 import {DEFAULT_PLUGIN_ID} from '@docusaurus/utils';
 import logger from '@docusaurus/logger';
+import type {LoadContext} from '@docusaurus/types';
 
 async function createVersionedSidebarFile({
   siteDir,
@@ -47,8 +47,7 @@ async function createVersionedSidebarFile({
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
-    fs.ensureDirSync(path.dirname(newSidebarFile));
-    fs.writeFileSync(
+    await fs.outputFile(
       newSidebarFile,
       `${JSON.stringify(sidebars, null, 2)}\n`,
       'utf8',
@@ -59,9 +58,8 @@ async function createVersionedSidebarFile({
 // Tests depend on non-default export for mocking.
 export async function cliDocsVersionCommand(
   version: string | null | undefined,
-  siteDir: string,
-  pluginId: string,
-  options: PathOptions & SidebarOptions,
+  {id: pluginId, path: docsPath, sidebarPath}: PluginOptions,
+  {siteDir, i18n}: LoadContext,
 ): Promise<void> {
   // It wouldn't be very user-friendly to show a [default] log prefix,
   // so we use [docs] instead of [default]
@@ -89,7 +87,7 @@ export async function cliDocsVersionCommand(
   // Since we are going to create `version-${version}` folder, we need to make
   // sure it's a valid pathname.
   // eslint-disable-next-line no-control-regex
-  if (/[<>:"|?*\x00-\x1F]/g.test(version)) {
+  if (/[<>:"|?*\x00-\x1F]/.test(version)) {
     throw new Error(
       `${pluginIdLogPrefix}: invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0.`,
     );
@@ -104,8 +102,8 @@ export async function cliDocsVersionCommand(
   // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsFilePath(siteDir, pluginId);
-  if (fs.existsSync(versionsJSONFile)) {
-    versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
+  if (await fs.pathExists(versionsJSONFile)) {
+    versions = JSON.parse(await fs.readFile(versionsJSONFile, 'utf8'));
   }
 
   // Check if version already exists.
@@ -115,18 +113,52 @@ export async function cliDocsVersionCommand(
     );
   }
 
-  const {path: docsPath, sidebarPath} = options;
-
-  // Copy docs files.
-  const docsDir = path.join(siteDir, docsPath);
-
-  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
-    const versionedDir = getVersionedDocsDirPath(siteDir, pluginId);
-    const newVersionDir = path.join(versionedDir, `version-${version}`);
-    fs.copySync(docsDir, newVersionDir);
-  } else {
-    throw new Error(`${pluginIdLogPrefix}: there is no docs to version!`);
+  if (i18n.locales.length > 1) {
+    logger.info`Versioned docs will be created for the following locales: name=${i18n.locales}`;
   }
+
+  await Promise.all(
+    i18n.locales.map(async (locale) => {
+      // Copy docs files.
+      const docsDir =
+        locale === i18n.defaultLocale
+          ? path.resolve(siteDir, docsPath)
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: CURRENT_VERSION_NAME,
+            });
+
+      if (
+        !(await fs.pathExists(docsDir)) ||
+        (await fs.readdir(docsDir)).length === 0
+      ) {
+        if (locale === i18n.defaultLocale) {
+          throw new Error(
+            logger.interpolate`${pluginIdLogPrefix}: no docs found in path=${docsDir}.`,
+          );
+        } else {
+          logger.warn`${pluginIdLogPrefix}: no docs found in path=${docsDir}. Skipping.`;
+          return;
+        }
+      }
+
+      const newVersionDir =
+        locale === i18n.defaultLocale
+          ? path.join(
+              getVersionedDocsDirPath(siteDir, pluginId),
+              `version-${version}`,
+            )
+          : getDocsDirPathLocalized({
+              siteDir,
+              locale,
+              pluginId,
+              versionName: version,
+            });
+      await fs.copy(docsDir, newVersionDir);
+    }),
+  );
 
   await createVersionedSidebarFile({
     siteDir,
@@ -137,8 +169,10 @@ export async function cliDocsVersionCommand(
 
   // Update versions.json file.
   versions.unshift(version);
-  fs.ensureDirSync(path.dirname(versionsJSONFile));
-  fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
+  await fs.outputFile(
+    versionsJSONFile,
+    `${JSON.stringify(versions, null, 2)}\n`,
+  );
 
   logger.success`name=${pluginIdLogPrefix}: version name=${version} created!`;
 }

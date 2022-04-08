@@ -5,17 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
-  ValidationResult,
   ThemeConfig,
   ThemeConfigValidationContext,
 } from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-google-analytics';
+import type {PluginOptions, Options} from '@docusaurus/plugin-google-analytics';
 
 export default function pluginGoogleAnalytics(
   context: LoadContext,
@@ -28,7 +26,7 @@ export default function pluginGoogleAnalytics(
     name: 'docusaurus-plugin-google-analytics',
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './analytics')] : [];
+      return isProd ? ['./analytics'] : [];
     },
 
     injectHtmlTags() {
@@ -75,13 +73,13 @@ const pluginOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   return validate(pluginOptionsSchema, options);
 }
 
 export function validateThemeConfig({
   themeConfig,
-}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   if ('googleAnalytics' in themeConfig) {
     throw new Error(
       'The "googleAnalytics" field in themeConfig should now be specified as option for plugin-google-analytics. More information at https://github.com/facebook/docusaurus/pull/5832.',

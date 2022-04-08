@@ -14,14 +14,15 @@ import type {Props} from '@theme/ThemedImage';
 
 import styles from './styles.module.css';
 
-function ThemedImage(props: Props): JSX.Element {
+export default function ThemedImage(props: Props): JSX.Element {
   const isBrowser = useIsBrowser();
-  const {isDarkTheme} = useColorMode();
-  const {sources, className, alt = '', ...propsRest} = props;
+  const {colorMode} = useColorMode();
+  const {sources, className, alt, ...propsRest} = props;
 
   type SourceName = keyof Props['sources'];
 
-  const clientThemes: SourceName[] = isDarkTheme ? ['dark'] : ['light'];
+  const clientThemes: SourceName[] =
+    colorMode === 'dark' ? ['dark'] : ['light'];
 
   const renderedSourceNames: SourceName[] = isBrowser
     ? clientThemes
@@ -47,5 +48,3 @@ function ThemedImage(props: Props): JSX.Element {
     </>
   );
 }
-
-export default ThemedImage;

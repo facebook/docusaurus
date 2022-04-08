@@ -41,7 +41,7 @@ export default function applyTrailingSlash(
   }
 
   // The trailing slash should be handled before the ?search#hash !
-  const [pathname] = path.split(/[#?]/);
+  const [pathname] = path.split(/[#?]/) as [string, ...string[]];
 
   // Never transform '/' to ''
   // Never remove the baseUrl trailing slash!

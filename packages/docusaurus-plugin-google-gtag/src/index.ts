@@ -5,17 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {Joi} from '@docusaurus/utils-validation';
 import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
-  ValidationResult,
   ThemeConfig,
   ThemeConfigValidationContext,
 } from '@docusaurus/types';
-import type {PluginOptions} from '@docusaurus/plugin-google-gtag';
+import type {PluginOptions, Options} from '@docusaurus/plugin-google-gtag';
 
 export default function pluginGoogleGtag(
   context: LoadContext,
@@ -32,7 +30,7 @@ export default function pluginGoogleGtag(
     },
 
     getClientModules() {
-      return isProd ? [path.resolve(__dirname, './gtag')] : [];
+      return isProd ? ['./gtag'] : [];
     },
 
     injectHtmlTags() {
@@ -89,13 +87,13 @@ const pluginOptionsSchema = Joi.object<PluginOptions>({
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   return validate(pluginOptionsSchema, options);
 }
 
 export function validateThemeConfig({
   themeConfig,
-}: ThemeConfigValidationContext<ThemeConfig>): ValidationResult<ThemeConfig> {
+}: ThemeConfigValidationContext<ThemeConfig>): ThemeConfig {
   if ('gtag' in themeConfig) {
     throw new Error(
       'The "gtag" field in themeConfig should now be specified as option for plugin-google-gtag. More information at https://github.com/facebook/docusaurus/pull/5832.',

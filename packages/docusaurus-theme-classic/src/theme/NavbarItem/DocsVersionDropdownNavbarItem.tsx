@@ -10,14 +10,15 @@ import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import {
   useVersions,
-  useLatestVersion,
   useActiveDocContext,
 } from '@docusaurus/plugin-content-docs/client';
-import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
-import {useDocsPreferredVersion} from '@docusaurus/theme-common';
+import {
+  useDocsPreferredVersion,
+  useDocsVersionCandidates,
+} from '@docusaurus/theme-common';
 import {translate} from '@docusaurus/Translate';
 import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
-import type {LinkLikeNavbarItemProps} from '@theme/NavbarItem';
+import type {Props} from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 
 const getVersionMainDoc = (version: GlobalVersion) =>
   version.docs.find((doc) => doc.id === version.mainDocId)!;
@@ -32,36 +33,28 @@ export default function DocsVersionDropdownNavbarItem({
 }: Props): JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
   const versions = useVersions(docsPluginId);
-  const latestVersion = useLatestVersion(docsPluginId);
+  const {savePreferredVersionName} = useDocsPreferredVersion(docsPluginId);
+  const versionLinks = versions.map((version) => {
+    // We try to link to the same doc, in another version
+    // When not possible, fallback to the "main doc" of the version
+    const versionDoc =
+      activeDocContext?.alternateDocVersions[version.name] ??
+      getVersionMainDoc(version);
+    return {
+      isNavLink: true,
+      label: version.label,
+      to: versionDoc.path,
+      isActive: () => version === activeDocContext?.activeVersion,
+      onClick: () => savePreferredVersionName(version.name),
+    };
+  });
+  const items = [
+    ...dropdownItemsBefore,
+    ...versionLinks,
+    ...dropdownItemsAfter,
+  ];
 
-  const {preferredVersion, savePreferredVersionName} =
-    useDocsPreferredVersion(docsPluginId);
-
-  function getItems(): LinkLikeNavbarItemProps[] {
-    const versionLinks = versions.map((version) => {
-      // We try to link to the same doc, in another version
-      // When not possible, fallback to the "main doc" of the version
-      const versionDoc =
-        activeDocContext?.alternateDocVersions[version.name] ||
-        getVersionMainDoc(version);
-      return {
-        isNavLink: true,
-        label: version.label,
-        to: versionDoc.path,
-        isActive: () => version === activeDocContext?.activeVersion,
-        onClick: () => {
-          savePreferredVersionName(version.name);
-        },
-      };
-    });
-
-    return [...dropdownItemsBefore, ...versionLinks, ...dropdownItemsAfter];
-  }
-
-  const items = getItems();
-
-  const dropdownVersion =
-    activeDocContext.activeVersion ?? preferredVersion ?? latestVersion;
+  const dropdownVersion = useDocsVersionCandidates(docsPluginId)[0];
 
   // Mobile dropdown is handled a bit differently
   const dropdownLabel =

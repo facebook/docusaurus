@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`initPlugins plugins with bad values throw user-friendly error message 1`] = `
+exports[`initPlugins throws user-friendly error message for plugins with bad values 1`] = `
 " => Bad Docusaurus plugin value as path [plugins,0].
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
@@ -17,113 +17,13 @@ Example valid plugin config:
 Example valid plugin config:
 {
   plugins: [
-    [\\"@docusaurus/plugin-content-docs\\",options],
-    \\"./myPlugin\\",
-    [\\"./myPlugin\\",{someOption: 42}],
+    ["@docusaurus/plugin-content-docs",options],
+    "./myPlugin",
+    ["./myPlugin",{someOption: 42}],
     function myPlugin() { },
     [function myPlugin() { },options]
   ],
 };
 
 "
-`;
-
-exports[`sortConfig should sort route config correctly 1`] = `
-Array [
-  Object {
-    "component": "",
-    "path": "/community",
-  },
-  Object {
-    "component": "",
-    "path": "/some-page",
-  },
-  Object {
-    "component": "",
-    "path": "/docs",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/docs/someDoc",
-      },
-      Object {
-        "component": "",
-        "path": "/docs/someOtherDoc",
-      },
-    ],
-  },
-  Object {
-    "component": "",
-    "path": "/",
-  },
-  Object {
-    "component": "",
-    "path": "/",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/someDoc",
-      },
-      Object {
-        "component": "",
-        "path": "/someOtherDoc",
-      },
-    ],
-  },
-  Object {
-    "component": "",
-    "path": "/",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/subroute",
-      },
-    ],
-  },
-]
-`;
-
-exports[`sortConfig should sort route config given a baseURL 1`] = `
-Array [
-  Object {
-    "component": "",
-    "path": "/latest/community",
-  },
-  Object {
-    "component": "",
-    "path": "/latest/example",
-  },
-  Object {
-    "component": "",
-    "path": "/latest/some-page",
-  },
-  Object {
-    "component": "",
-    "path": "/latest/docs",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/latest/docs/someDoc",
-      },
-      Object {
-        "component": "",
-        "path": "/latest/docs/someOtherDoc",
-      },
-    ],
-  },
-  Object {
-    "component": "",
-    "path": "/latest",
-    "routes": Array [
-      Object {
-        "component": "",
-        "path": "/latest/someDoc",
-      },
-      Object {
-        "component": "",
-        "path": "/latest/someOtherDoc",
-      },
-    ],
-  },
-]
 `;

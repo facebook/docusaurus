@@ -8,14 +8,15 @@
 import {isRegexpStringMatch} from '../regexpUtils';
 
 describe('isRegexpStringMatch', () => {
-  test('behaves correctly', () => {
-    expect(isRegexpStringMatch(undefined, 'foo')).toEqual(false);
-    expect(isRegexpStringMatch('bar', undefined)).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'bar')).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'foo')).toEqual(true);
-    expect(isRegexpStringMatch('fooooooooooo', 'foo')).toEqual(false);
-    expect(isRegexpStringMatch('foo', 'fooooooo')).toEqual(true);
-    expect(isRegexpStringMatch('f.*o', 'fggo')).toEqual(true);
-    expect(isRegexpStringMatch('FOO', 'foo')).toEqual(true);
+  it('works', () => {
+    expect(isRegexpStringMatch(undefined, 'foo')).toBe(false);
+    expect(isRegexpStringMatch('bar', undefined)).toBe(false);
+    expect(isRegexpStringMatch('foo', 'bar')).toBe(false);
+    expect(isRegexpStringMatch('foo', 'foo')).toBe(true);
+    // cSpell:ignore fooooooooooo
+    expect(isRegexpStringMatch('fooooooooooo', 'foo')).toBe(false);
+    expect(isRegexpStringMatch('foo', 'fooooooooooo')).toBe(true);
+    expect(isRegexpStringMatch('f.*o', 'fooooooooooo')).toBe(true);
+    expect(isRegexpStringMatch('FOO', 'foo')).toBe(true);
   });
 });

@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
+import Interpolate from '@docusaurus/Interpolate';
 
 import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
 
@@ -22,6 +23,9 @@ export default function ErrorBoundaryTests(): JSX.Element {
               Crash inside layout
             </ErrorBoundaryTestButton>
           </div>
+          <Interpolate values={{foo: <span>FooFoo</span>, bar: <b>BarBar</b>}}>
+            {'{foo} is {bar}'}
+          </Interpolate>
         </main>
       </Layout>
     </>

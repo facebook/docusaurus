@@ -6,7 +6,7 @@
  */
 
 declare module 'remark-admonitions' {
-  type Options = Record<string, unknown>;
+  type Options = {[key: string]: unknown};
 
   const plugin: (options?: Options) => void;
   export = plugin;
