@@ -612,6 +612,8 @@ declare module '@theme/DocPage/Layout/Main' {
 
 // TODO until TS supports exports field... hope it's in 4.6
 declare module '@docusaurus/plugin-content-docs/client' {
+  import type {UseDataOptions} from '@docusaurus/types';
+
   export type ActivePlugin = {
     pluginId: string;
     pluginData: GlobalPluginData;
@@ -655,15 +657,14 @@ declare module '@docusaurus/plugin-content-docs/client' {
     // suggest the same doc, in latest version (if exist)
     latestDocSuggestion?: GlobalDoc;
   };
-  export type GetActivePluginOptions = {failfast?: boolean}; // use fail-fast option if you know for sure one plugin instance is active
 
   export const useAllDocsData: () => {[pluginId: string]: GlobalPluginData};
   export const useDocsData: (pluginId?: string) => GlobalPluginData;
   export const useActivePlugin: (
-    options?: GetActivePluginOptions,
+    options?: UseDataOptions,
   ) => ActivePlugin | undefined;
   export const useActivePluginAndVersion: (
-    options?: GetActivePluginOptions,
+    options?: UseDataOptions,
   ) =>
     | {activePlugin: ActivePlugin; activeVersion: GlobalVersion | undefined}
     | undefined;

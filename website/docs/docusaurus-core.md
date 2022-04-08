@@ -544,7 +544,11 @@ This is the most convenient hook to access plugin global data and should be used
 `pluginId` is optional if you don't use multi-instance plugins.
 
 ```ts
-function usePluginData(pluginName: string, pluginId?: string);
+function usePluginData(
+  pluginName: string,
+  pluginId?: string,
+  options?: {failfast?: boolean},
+);
 ```
 
 Usage example:
@@ -567,7 +571,10 @@ const MyComponent = () => {
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
 
 ```ts
-useAllPluginInstancesData(pluginName: string)
+function useAllPluginInstancesData(
+  pluginName: string,
+  options?: {failfast?: boolean},
+);
 ```
 
 Usage example:
