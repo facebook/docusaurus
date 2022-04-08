@@ -196,14 +196,14 @@ cli
   });
 
 cli
-  .command('upgrade')
-  .description('Upgrades @docusaurus packages')
+  .command('upgrade [siteDir]')
+  .description('Upgrade @docusaurus packages.')
   .option(
     '-t, --tag <tag>',
     'Tag of npm to look for upgrading. This option accepts any of: <alpha, beta, next, latest>',
   )
-  .action(({tag = undefined}) => {
-    wrapCommand(upgrade)({tag});
+  .action(async (siteDir, {tag = undefined}) => {
+    upgrade(await resolveDir(siteDir), {tag});
   });
 
 cli

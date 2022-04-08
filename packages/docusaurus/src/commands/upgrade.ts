@@ -18,37 +18,42 @@ async function hasYarn() {
 
 type CommonNpmTags = 'alpha' | 'beta' | 'latest' | 'next';
 
-export async function upgrade(opts: {tag: CommonNpmTags}): Promise<void> {
-  const [npmClient, npmCommand] = await hasYarn()
+export async function upgrade(
+  siteDir: string,
+  {tag}: {tag: CommonNpmTags},
+): Promise<void> {
+  const [npmClient, npmCommand] = (await hasYarn())
     ? ['yarn', 'upgrade']
     : ['npm', 'install'];
 
-  const {dependencies = {}, devDependencies = {}} = await fs.readJSON(path.join(process.cwd(), './package.json'), 'utf8');
+  const {dependencies = {}, devDependencies = {}} = await fs.readJSON(
+    path.join(siteDir, 'package.json'),
+  );
 
-  let packageNames = Array.from(
+  const packageNames = Array.from(
     new Set(
       [...Object.keys(dependencies), ...Object.keys(devDependencies)].filter(
         (pkg) => pkg.startsWith('@docusaurus'),
       ),
     ),
-  ).sort();
+  )
+    .sort()
+    .map((name) => (tag ? `${name}@${tag}` : name));
 
   if (!packageNames.length) {
     logger.error(`Found 0 packages with scope @docusaurus`);
     return;
   }
 
-  if (opts.tag) {
-    packageNames = packageNames.map((_) => `${_}@${opts.tag}`);
-  }
-
   logger.info`Found number=${packageNames.length} to update: name=${packageNames}`;
-  logger.info`Executing code=${`${npmClient} ${npmCommand} ${packageNames.join(' ')}`}`;
+  logger.info`Executing code=${`${npmClient} ${npmCommand} ${packageNames.join(
+    ' ',
+  )}`}`;
 
   childProcess.spawnSync(npmClient, [npmCommand, ...packageNames], {
     stdio: 'inherit',
     shell: os.platform() === 'win32',
   });
 
-  await clear(path.resolve('.'));
+  await clear(siteDir);
 }
