@@ -23,11 +23,11 @@ const processFixture = (name) => {
 };
 
 describe('remove-overridden-custom-properties', () => {
-  test('overridden custom properties should be removed', () => {
+  it('overridden custom properties should be removed', () => {
     expect(processFixture('normal')).toMatchSnapshot();
   });
 
-  test('overridden custom properties with `!important` rule should not be removed', () => {
+  it('overridden custom properties with `!important` rule should not be removed', () => {
     expect(processFixture('important_rule')).toMatchSnapshot();
   });
 });

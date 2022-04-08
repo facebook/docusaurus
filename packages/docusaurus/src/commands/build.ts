@@ -28,7 +28,7 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 import {loadI18n} from '../server/i18n';
 import {mapAsyncSequential} from '@docusaurus/utils';
 
-export default async function build(
+export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   // When running build, we force terminate the process to prevent async
@@ -61,7 +61,8 @@ export default async function build(
       throw err;
     }
   }
-  const context = await loadContext(siteDir, {
+  const context = await loadContext({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale: cliOptions.locale,
@@ -109,7 +110,8 @@ async function buildLocale({
   process.env.NODE_ENV = 'production';
   logger.info`name=${`[${locale}]`} Creating an optimized production build...`;
 
-  const props: Props = await load(siteDir, {
+  const props: Props = await load({
+    siteDir,
     customOutDir: cliOptions.outDir,
     customConfigFilePath: cliOptions.config,
     locale,
@@ -146,7 +148,7 @@ async function buildLocale({
     },
   );
 
-  const allCollectedLinks: Record<string, string[]> = {};
+  const allCollectedLinks: {[location: string]: string[]} = {};
 
   let serverConfig: Configuration = await createServerConfig({
     props,

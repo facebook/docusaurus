@@ -7,30 +7,11 @@
 
 import React from 'react';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
-import {
-  useLatestVersion,
-  useActiveDocContext,
-} from '@docusaurus/plugin-content-docs/client';
+import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
 import clsx from 'clsx';
 import {getInfimaActiveClassName} from '@theme/NavbarItem/utils';
 import type {Props} from '@theme/NavbarItem/DocNavbarItem';
-import {useDocsPreferredVersion, uniq} from '@docusaurus/theme-common';
-import type {GlobalVersion} from '@docusaurus/plugin-content-docs/client';
-
-function getDocInVersions(versions: GlobalVersion[], docId: string) {
-  const allDocs = versions.flatMap((version) => version.docs);
-  const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
-  if (!doc) {
-    const docIds = allDocs.map((versionDoc) => versionDoc.id).join('\n- ');
-    throw new Error(
-      `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
-        versions.length ? 's' : ''
-      } ${versions.map((version) => version.name).join(', ')}".
-Available doc ids are:\n- ${docIds}`,
-    );
-  }
-  return doc;
-}
+import {useLayoutDoc} from '@docusaurus/theme-common';
 
 export default function DocNavbarItem({
   docId,
@@ -38,17 +19,8 @@ export default function DocNavbarItem({
   docsPluginId,
   ...props
 }: Props): JSX.Element {
-  const {activeVersion, activeDoc} = useActiveDocContext(docsPluginId);
-  const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
-  const latestVersion = useLatestVersion(docsPluginId);
-
-  // Versions used to look for the doc to link to, ordered + no duplicate
-  const versions = uniq(
-    [activeVersion, preferredVersion, latestVersion].filter(
-      Boolean,
-    ) as GlobalVersion[],
-  );
-  const doc = getDocInVersions(versions, docId);
+  const {activeDoc} = useActiveDocContext(docsPluginId);
+  const doc = useLayoutDoc(docId, docsPluginId);
   const activeDocInfimaClassName = getInfimaActiveClassName(props.mobile);
 
   return (
@@ -57,6 +29,9 @@ export default function DocNavbarItem({
       {...props}
       className={clsx(props.className, {
         [activeDocInfimaClassName]:
+          // Do not make the item active if the active doc doesn't have sidebar.
+          // If `activeDoc === doc` react-router will make it active anyways,
+          // regardless of the existence of a sidebar
           activeDoc?.sidebar && activeDoc.sidebar === doc.sidebar,
       })}
       activeClassName={activeDocInfimaClassName}

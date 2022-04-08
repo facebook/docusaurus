@@ -1,7 +1,7 @@
 {
-  "theme.IdealImageMessage.404error": "404. Image not found",
-  "theme.IdealImageMessage.error": "Error. Click to reload",
-  "theme.IdealImageMessage.load": "Click to load{sizeMessage}",
-  "theme.IdealImageMessage.loading": "Loading...",
-  "theme.IdealImageMessage.offline": "Your browser is offline. Image not loaded"
+  "theme.IdealImageMessage.404error": "404. Không tìm thấy ảnh",
+  "theme.IdealImageMessage.error": "Có lỗi. Nhấn để tải lại",
+  "theme.IdealImageMessage.load": "Nhấn để tải {sizeMessage}",
+  "theme.IdealImageMessage.loading": "Đang tái...",
+  "theme.IdealImageMessage.offline": "Hiện bạn đang ngoại tuyến. Không thể tải ảnh"
 }

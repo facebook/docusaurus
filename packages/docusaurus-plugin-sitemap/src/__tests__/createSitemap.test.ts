@@ -10,7 +10,7 @@ import type {DocusaurusConfig} from '@docusaurus/types';
 import {EnumChangefreq} from 'sitemap';
 
 describe('createSitemap', () => {
-  test('simple site', async () => {
+  it('simple site', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -19,6 +19,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
     expect(sitemap).toContain(
@@ -26,28 +27,51 @@ describe('createSitemap', () => {
     );
   });
 
-  test('empty site', () =>
+  it('empty site', () =>
     expect(async () => {
       await createSitemap({} as DocusaurusConfig, [], {});
     }).rejects.toThrow(
       'URL in docusaurus.config.js cannot be empty/undefined.',
     ));
 
-  test('exclusion of 404 page', async () => {
+  it('exclusion of 404 page', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/404.html', '/mypage'],
+      ['/', '/404.html', '/my-page'],
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
     expect(sitemap).not.toContain('404');
   });
 
-  test('keep trailing slash unchanged', async () => {
+  it('excludes patterns configured to be ignored', async () => {
+    const sitemap = await createSitemap(
+      {
+        url: 'https://example.com',
+      } as DocusaurusConfig,
+      ['/', '/search/', '/tags/', '/search/foo', '/tags/foo/bar'],
+      {
+        changefreq: EnumChangefreq.DAILY,
+        priority: 0.7,
+        ignorePatterns: [
+          // Shallow ignore
+          '/search/',
+          // Deep ignore
+          '/tags/**',
+        ],
+      },
+    );
+    expect(sitemap).not.toContain('/search/</loc>');
+    expect(sitemap).toContain('/search/foo');
+    expect(sitemap).not.toContain('/tags');
+  });
+
+  it('keep trailing slash unchanged', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -57,6 +81,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 
@@ -66,7 +91,7 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 
-  test('add trailing slash', async () => {
+  it('add trailing slash', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -76,6 +101,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 
@@ -85,7 +111,7 @@ describe('createSitemap', () => {
     expect(sitemap).toContain('<loc>https://example.com/nested/test2/</loc>');
   });
 
-  test('remove trailing slash', async () => {
+  it('remove trailing slash', async () => {
     const sitemap = await createSitemap(
       {
         url: 'https://example.com',
@@ -95,6 +121,7 @@ describe('createSitemap', () => {
       {
         changefreq: EnumChangefreq.DAILY,
         priority: 0.7,
+        ignorePatterns: [],
       },
     );
 

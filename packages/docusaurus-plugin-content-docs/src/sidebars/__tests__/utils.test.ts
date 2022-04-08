@@ -16,7 +16,10 @@ import {
   toNavigationLink,
 } from '../utils';
 import type {Sidebar, Sidebars} from '../types';
-import type {DocMetadataBase, DocNavLink} from '../../types';
+import type {
+  DocMetadataBase,
+  PropNavigationLink,
+} from '@docusaurus/plugin-content-docs';
 
 describe('createSidebarsUtils', () => {
   const sidebar1: Sidebar = [
@@ -111,7 +114,7 @@ describe('createSidebarsUtils', () => {
       link: {
         type: 'generated-index',
         slug: '/s4-category-slug',
-        permalink: '/s4-category-permalink',
+        permalink: '/s4-category-slug',
       },
       items: [
         {type: 'doc', id: 'doc8'},
@@ -131,22 +134,22 @@ describe('createSidebarsUtils', () => {
     getFirstLink,
   } = createSidebarsUtils(sidebars);
 
-  test('getFirstDocIdOfFirstSidebar', async () => {
-    expect(getFirstDocIdOfFirstSidebar()).toEqual('doc1');
+  it('getFirstDocIdOfFirstSidebar', async () => {
+    expect(getFirstDocIdOfFirstSidebar()).toBe('doc1');
   });
 
-  test('getSidebarNameByDocId', async () => {
-    expect(getSidebarNameByDocId('doc1')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc2')).toEqual('sidebar1');
-    expect(getSidebarNameByDocId('doc3')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc4')).toEqual('sidebar2');
-    expect(getSidebarNameByDocId('doc5')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('doc6')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('doc7')).toEqual('sidebar3');
-    expect(getSidebarNameByDocId('unknown_id')).toEqual(undefined);
+  it('getSidebarNameByDocId', async () => {
+    expect(getSidebarNameByDocId('doc1')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc2')).toBe('sidebar1');
+    expect(getSidebarNameByDocId('doc3')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc4')).toBe('sidebar2');
+    expect(getSidebarNameByDocId('doc5')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc6')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('doc7')).toBe('sidebar3');
+    expect(getSidebarNameByDocId('unknown_id')).toBeUndefined();
   });
 
-  test('getDocNavigation', async () => {
+  it('getDocNavigation', async () => {
     expect(getDocNavigation('doc1', 'doc1', undefined)).toEqual({
       sidebarName: 'sidebar1',
       previous: undefined,
@@ -226,7 +229,7 @@ describe('createSidebarsUtils', () => {
     });
   });
 
-  test('getCategoryGeneratedIndexNavigation', async () => {
+  it('getCategoryGeneratedIndexNavigation', async () => {
     expect(
       getCategoryGeneratedIndexNavigation('/s3-subcategory-index-permalink'),
     ).toMatchObject({
@@ -256,7 +259,7 @@ describe('createSidebarsUtils', () => {
     });
   });
 
-  test('getCategoryGeneratedIndexList', async () => {
+  it('getCategoryGeneratedIndexList', async () => {
     expect(getCategoryGeneratedIndexList()).toMatchObject([
       {
         type: 'category',
@@ -273,7 +276,7 @@ describe('createSidebarsUtils', () => {
     ]);
   });
 
-  test('getFirstLink', () => {
+  it('getFirstLink', () => {
     expect(getFirstLink('sidebar1')).toEqual({
       id: 'doc1',
       type: 'doc',
@@ -291,14 +294,14 @@ describe('createSidebarsUtils', () => {
     });
     expect(getFirstLink('sidebar4')).toEqual({
       type: 'generated-index',
-      slug: '/s4-category-slug',
+      permalink: '/s4-category-slug',
       label: 'S4 Category',
     });
   });
 });
 
 describe('collectSidebarDocItems', () => {
-  test('can collect docs', async () => {
+  it('can collect docs', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -354,7 +357,7 @@ describe('collectSidebarDocItems', () => {
 });
 
 describe('collectSidebarCategories', () => {
-  test('can collect categories', async () => {
+  it('can collect categories', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -412,7 +415,7 @@ describe('collectSidebarCategories', () => {
 });
 
 describe('collectSidebarLinks', () => {
-  test('can collect links', async () => {
+  it('can collect links', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -450,7 +453,7 @@ describe('collectSidebarLinks', () => {
 });
 
 describe('collectSidebarsDocIds', () => {
-  test('can collect sidebars doc items', async () => {
+  it('can collect sidebars doc items', async () => {
     const sidebar1: Sidebar = [
       {
         type: 'category',
@@ -496,7 +499,7 @@ describe('collectSidebarsDocIds', () => {
 });
 
 describe('transformSidebarItems', () => {
-  test('can transform sidebar items', async () => {
+  it('can transform sidebar items', async () => {
     const sidebar: Sidebar = [
       {
         type: 'category',
@@ -606,7 +609,7 @@ describe('toDocNavigationLink', () => {
     return data as DocMetadataBase;
   }
 
-  test('with no front matter', () => {
+  it('with no front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -618,10 +621,10 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'Doc Title',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
-  test('with pagination_label front matter', () => {
+  it('with pagination_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -635,10 +638,10 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'pagination_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
-  test('with sidebar_label front matter', () => {
+  it('with sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -652,10 +655,10 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'sidebar_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 
-  test('with pagination_label + sidebar_label front matter', () => {
+  it('with pagination_label + sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
         testDoc({
@@ -670,7 +673,7 @@ describe('toDocNavigationLink', () => {
     ).toEqual({
       title: 'pagination_label',
       permalink: '/docPermalink',
-    } as DocNavLink);
+    } as PropNavigationLink);
   });
 });
 
@@ -680,7 +683,7 @@ describe('toNavigationLink', () => {
     return {...data, frontMatter: {}} as DocMetadataBase;
   }
 
-  const docsById: Record<string, DocMetadataBase> = {
+  const docsById: {[docId: string]: DocMetadataBase} = {
     doc1: testDoc({
       title: 'Doc 1',
       permalink: '/doc1',
@@ -691,7 +694,7 @@ describe('toNavigationLink', () => {
     }),
   };
 
-  test('with doc items', () => {
+  it('with doc items', () => {
     expect(toNavigationLink({type: 'doc', id: 'doc1'}, docsById)).toEqual(
       toDocNavigationLink(docsById.doc1),
     );
@@ -705,7 +708,7 @@ describe('toNavigationLink', () => {
     );
   });
 
-  test('with category item and doc link', () => {
+  it('with category item and doc link', () => {
     expect(
       toNavigationLink(
         {
@@ -742,7 +745,7 @@ describe('toNavigationLink', () => {
     );
   });
 
-  test('with category item and generated-index link', () => {
+  it('with category item and generated-index link', () => {
     expect(
       toNavigationLink(
         {

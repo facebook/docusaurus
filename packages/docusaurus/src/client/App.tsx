@@ -9,13 +9,15 @@ import React from 'react';
 
 import routes from '@generated/routes';
 import renderRoutes from './exports/renderRoutes';
-import {BrowserContextProvider} from './exports/browserContext';
-import {DocusaurusContextProvider} from './exports/docusaurusContext';
+import {BrowserContextProvider} from './browserContext';
+import {DocusaurusContextProvider} from './docusaurusContext';
 import PendingNavigation from './PendingNavigation';
-import BaseUrlIssueBanner from './baseUrlIssueBanner/BaseUrlIssueBanner';
+import BaseUrlIssueBanner from './BaseUrlIssueBanner';
+import SiteMetadataDefaults from './SiteMetadataDefaults';
 import Root from '@theme/Root';
+import SiteMetadata from '@theme/SiteMetadata';
 
-import './client-lifecycles-dispatcher';
+import './clientLifecyclesDispatcher';
 
 // TODO, quick fix for CSS insertion order
 import ErrorBoundary from '@docusaurus/ErrorBoundary';
@@ -27,6 +29,8 @@ export default function App(): JSX.Element {
       <DocusaurusContextProvider>
         <BrowserContextProvider>
           <Root>
+            <SiteMetadataDefaults />
+            <SiteMetadata />
             <BaseUrlIssueBanner />
             <PendingNavigation routes={routes} delay={1000}>
               {renderRoutes(routes)}

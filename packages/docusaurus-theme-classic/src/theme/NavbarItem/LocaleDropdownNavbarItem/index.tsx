@@ -27,10 +27,6 @@ export default function LocaleDropdownNavbarItem({
   } = useDocusaurusContext();
   const alternatePageUtils = useAlternatePageUtils();
 
-  function getLocaleLabel(locale: string) {
-    return localeConfigs[locale]!.label;
-  }
-
   const localeItems = locales.map((locale): LinkLikeNavbarItemProps => {
     const to = `pathname://${alternatePageUtils.createUrl({
       locale,
@@ -38,7 +34,7 @@ export default function LocaleDropdownNavbarItem({
     })}`;
     return {
       isNavLink: true,
-      label: getLocaleLabel(locale),
+      label: localeConfigs[locale]!.label,
       to,
       target: '_self',
       autoAddBaseUrl: false,
@@ -55,7 +51,7 @@ export default function LocaleDropdownNavbarItem({
         id: 'theme.navbar.mobileLanguageDropdown.label',
         description: 'The label for the mobile language switcher dropdown',
       })
-    : getLocaleLabel(currentLocale);
+    : localeConfigs[currentLocale]!.label;
 
   return (
     <DropdownNavbarItem

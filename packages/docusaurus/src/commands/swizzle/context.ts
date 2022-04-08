@@ -5,32 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createRequire} from 'module';
-import {loadContext, loadPluginConfigs} from '../../server';
-import initPlugins, {normalizePluginConfigs} from '../../server/plugins/init';
-import type {InitializedPlugin} from '@docusaurus/types';
+import {loadContext} from '../../server';
+import {initPlugins} from '../../server/plugins/init';
+import {loadPluginConfigs} from '../../server/plugins/configs';
 import type {SwizzleContext} from './common';
 
 export async function initSwizzleContext(
   siteDir: string,
 ): Promise<SwizzleContext> {
-  const context = await loadContext(siteDir);
-  const pluginRequire = createRequire(context.siteConfigPath);
-
+  const context = await loadContext({siteDir});
+  const plugins = await initPlugins(context);
   const pluginConfigs = await loadPluginConfigs(context);
-  const plugins: InitializedPlugin[] = await initPlugins({
-    pluginConfigs,
-    context,
-  });
-
-  const pluginsNormalized = await normalizePluginConfigs(
-    pluginConfigs,
-    pluginRequire,
-  );
 
   return {
     plugins: plugins.map((plugin, pluginIndex) => ({
-      plugin: pluginsNormalized[pluginIndex]!,
+      plugin: pluginConfigs[pluginIndex]!,
       instance: plugin,
     })),
   };

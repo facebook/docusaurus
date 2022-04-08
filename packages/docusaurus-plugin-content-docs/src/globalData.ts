@@ -6,21 +6,20 @@
  */
 
 import _ from 'lodash';
-import {normalizeUrl} from '@docusaurus/utils';
 import type {Sidebars} from './sidebars/types';
 import {createSidebarsUtils} from './sidebars/utils';
+import type {LoadedVersion} from './types';
 import type {
   CategoryGeneratedIndexMetadata,
   DocMetadata,
-  LoadedVersion,
-} from './types';
+} from '@docusaurus/plugin-content-docs';
 import type {
   GlobalVersion,
   GlobalSidebar,
   GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 
-export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
+function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   return {
     id: doc.unversionedId,
     path: doc.permalink,
@@ -28,7 +27,7 @@ export function toGlobalDataDoc(doc: DocMetadata): GlobalDoc {
   };
 }
 
-export function toGlobalDataGeneratedIndex(
+function toGlobalDataGeneratedIndex(
   doc: CategoryGeneratedIndexMetadata,
 ): GlobalDoc {
   return {
@@ -38,10 +37,10 @@ export function toGlobalDataGeneratedIndex(
   };
 }
 
-export function toGlobalSidebars(
+function toGlobalSidebars(
   sidebars: Sidebars,
   version: LoadedVersion,
-): Record<string, GlobalSidebar> {
+): {[sidebarId: string]: GlobalSidebar} {
   const {getFirstLink} = createSidebarsUtils(sidebars);
   return _.mapValues(sidebars, (sidebar, sidebarId) => {
     const firstLink = getFirstLink(sidebarId);
@@ -52,7 +51,7 @@ export function toGlobalSidebars(
       link: {
         path:
           firstLink.type === 'generated-index'
-            ? normalizeUrl([version.versionPath, firstLink.slug])
+            ? firstLink.permalink
             : version.docs.find(
                 (doc) =>
                   doc.id === firstLink.id || doc.unversionedId === firstLink.id,
@@ -66,9 +65,9 @@ export function toGlobalSidebars(
 export function toGlobalDataVersion(version: LoadedVersion): GlobalVersion {
   return {
     name: version.versionName,
-    label: version.versionLabel,
+    label: version.label,
     isLast: version.isLast,
-    path: version.versionPath,
+    path: version.path,
     mainDocId: version.mainDocId,
     docs: version.docs
       .map(toGlobalDataDoc)

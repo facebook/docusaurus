@@ -1,177 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`simple site custom pagination 1`] = `
-Object {
-  "pagination": Array [
-    Object {
+{
+  "pagination": [
+    {
       "id": "doc with space",
-      "next": Object {
+      "next": {
         "permalink": "/docs/foo/bar",
         "title": "Bar",
       },
       "prev": undefined,
     },
-    Object {
+    {
       "id": "foo/bar",
       "next": undefined,
       "prev": undefined,
     },
-    Object {
+    {
       "id": "foo/baz",
-      "next": Object {
+      "next": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bar",
         "title": "Bar",
       },
     },
-    Object {
+    {
       "id": "headingAsTitle",
-      "next": Object {
+      "next": {
         "permalink": "/docs/",
         "title": "Hello sidebar_label",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bazSlug.html",
         "title": "baz pagination_label",
       },
     },
-    Object {
+    {
       "id": "hello",
-      "next": Object {
+      "next": {
         "permalink": "/docs/ipsum",
         "title": "ipsum",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
     },
-    Object {
+    {
       "id": "ipsum",
-      "next": Object {
+      "next": {
         "permalink": "/docs/lorem",
         "title": "lorem",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/",
         "title": "Hello sidebar_label",
       },
     },
-    Object {
+    {
       "id": "lorem",
-      "next": Object {
+      "next": {
         "permalink": "/docs/rootAbsoluteSlug",
         "title": "rootAbsoluteSlug",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/ipsum",
         "title": "ipsum",
       },
     },
-    Object {
+    {
       "id": "rootAbsoluteSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bazSlug.html",
         "title": "baz pagination_label",
       },
     },
-    Object {
+    {
       "id": "rootRelativeSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bazSlug.html",
         "title": "baz pagination_label",
       },
     },
-    Object {
+    {
       "id": "rootResolvedSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bazSlug.html",
         "title": "baz pagination_label",
       },
     },
-    Object {
+    {
       "id": "rootTryToEscapeSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/headingAsTitle",
         "title": "My heading as title",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/foo/bazSlug.html",
         "title": "baz pagination_label",
       },
     },
-    Object {
+    {
       "id": "slugs/absoluteSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/slugs/relativeSlug",
         "title": "relativeSlug",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/rootTryToEscapeSlug",
         "title": "rootTryToEscapeSlug",
       },
     },
-    Object {
+    {
       "id": "slugs/relativeSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/slugs/hey/resolvedSlug",
         "title": "resolvedSlug",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/absoluteSlug",
         "title": "absoluteSlug",
       },
     },
-    Object {
+    {
       "id": "slugs/resolvedSlug",
-      "next": Object {
+      "next": {
         "permalink": "/docs/tryToEscapeSlug",
         "title": "tryToEscapeSlug",
       },
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/slugs/relativeSlug",
         "title": "relativeSlug",
       },
     },
-    Object {
+    {
       "id": "slugs/tryToEscapeSlug",
       "next": undefined,
-      "prev": Object {
+      "prev": {
         "permalink": "/docs/slugs/hey/resolvedSlug",
         "title": "resolvedSlug",
       },
     },
   ],
-  "sidebars": Object {
-    "defaultSidebar": Array [
-      Object {
+  "sidebars": {
+    "defaultSidebar": [
+      {
         "id": "doc with space",
         "type": "doc",
       },
-      Object {
+      {
         "collapsed": false,
         "collapsible": true,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "id": "foo/bar",
             "type": "doc",
           },
-          Object {
+          {
             "id": "foo/baz",
             "type": "doc",
           },
@@ -180,56 +180,56 @@ Object {
         "link": undefined,
         "type": "category",
       },
-      Object {
+      {
         "id": "headingAsTitle",
         "type": "doc",
       },
-      Object {
+      {
         "id": "hello",
         "label": "Hello sidebar_label",
         "type": "doc",
       },
-      Object {
+      {
         "id": "ipsum",
         "type": "doc",
       },
-      Object {
+      {
         "id": "lorem",
         "type": "doc",
       },
-      Object {
+      {
         "id": "rootAbsoluteSlug",
         "type": "doc",
       },
-      Object {
+      {
         "id": "rootRelativeSlug",
         "type": "doc",
       },
-      Object {
+      {
         "id": "rootResolvedSlug",
         "type": "doc",
       },
-      Object {
+      {
         "id": "rootTryToEscapeSlug",
         "type": "doc",
       },
-      Object {
+      {
         "collapsed": false,
         "collapsible": true,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "id": "slugs/absoluteSlug",
             "type": "doc",
           },
-          Object {
+          {
             "id": "slugs/relativeSlug",
             "type": "doc",
           },
-          Object {
+          {
             "id": "slugs/resolvedSlug",
             "type": "doc",
           },
-          Object {
+          {
             "id": "slugs/tryToEscapeSlug",
             "type": "doc",
           },

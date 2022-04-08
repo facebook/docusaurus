@@ -10,7 +10,7 @@ Get access from the Docusaurus npm admins (@yangshun/@JoelMarcey).
 
 You need publish access to **the main Docusaurus repository** (not a fork).
 
-## NPM
+## npm
 
 Publishing will only work if you are logged into npm with an account with publishing rights to the package.
 
@@ -78,7 +78,7 @@ The `tag:` label prefix is for PRs only. Other labels are not used by the change
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
 
-Fetch the tags from Github (lerna-changelog looks for commits since last tag by default):
+Fetch the tags from GitHub (lerna-changelog looks for commits since last tag by default):
 
 ```sh
 git fetch --tags
@@ -163,7 +163,7 @@ npm access ls-packages
 </pre>
 </details>
 
-It can happen that some accesses are not granted, as an admin might add you to the @docusaurus NPM organization, but you don't have access to the packages that are not in that organization.
+It can happen that some accesses are not granted, as an admin might add you to the @docusaurus npm organization, but you don't have access to the packages that are not in that organization.
 
 Please **double-check your permissions on these packages**, otherwise you'll publish a half-release and will have to release a new version.
 

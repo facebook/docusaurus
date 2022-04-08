@@ -10,9 +10,9 @@ import fs from 'fs-extra';
 import waitOn from 'wait-on';
 import type {Compiler} from 'webpack';
 
-interface WaitPluginOptions {
+type WaitPluginOptions = {
   filepath: string;
-}
+};
 
 export default class WaitPlugin {
   filepath: string;

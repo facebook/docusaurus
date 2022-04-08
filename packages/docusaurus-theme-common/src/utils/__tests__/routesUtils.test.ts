@@ -5,20 +5,52 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {type Route} from '@generated/routes';
-import {findHomePageRoute} from '../routesUtils';
+import type {RouteConfig} from 'react-router-config';
+import {findHomePageRoute, isSamePath} from '../routesUtils';
 
-describe('routesUtils findHomePageRoute', () => {
-  const homePage: Route = {
+describe('isSamePath', () => {
+  it('returns true for compared path without trailing slash', () => {
+    expect(isSamePath('/docs', '/docs')).toBeTruthy();
+  });
+
+  it('returns true for compared path with trailing slash', () => {
+    expect(isSamePath('/docs', '/docs/')).toBeTruthy();
+  });
+
+  it('returns true for compared path with different case', () => {
+    expect(isSamePath('/doCS', '/DOcs')).toBeTruthy();
+  });
+
+  it('returns true for compared path with different case + trailing slash', () => {
+    expect(isSamePath('/doCS', '/DOcs/')).toBeTruthy();
+  });
+
+  it('returns false for compared path with double trailing slash', () => {
+    expect(isSamePath('/docs', '/docs//')).toBeFalsy();
+  });
+
+  it('returns true for twice undefined/null', () => {
+    expect(isSamePath(undefined, undefined)).toBeTruthy();
+    expect(isSamePath(undefined, undefined)).toBeTruthy();
+  });
+
+  it('returns false when one undefined', () => {
+    expect(isSamePath('/docs', undefined)).toBeFalsy();
+    expect(isSamePath(undefined, '/docs')).toBeFalsy();
+  });
+});
+
+describe('findHomePageRoute', () => {
+  const homePage: RouteConfig = {
     path: '/',
     exact: true,
   };
 
-  test('should return undefined for no routes', () => {
-    expect(findHomePageRoute({baseUrl: '/', routes: []})).toEqual(undefined);
+  it('returns undefined for no routes', () => {
+    expect(findHomePageRoute({baseUrl: '/', routes: []})).toBeUndefined();
   });
 
-  test('should return undefined for no homepage', () => {
+  it('returns undefined for no homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -37,10 +69,10 @@ describe('routesUtils findHomePageRoute', () => {
           },
         ],
       }),
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
-  test('should find top-level homepage', () => {
+  it('finds top-level homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -56,7 +88,7 @@ describe('routesUtils findHomePageRoute', () => {
     ).toEqual(homePage);
   });
 
-  test('should find nested homepage', () => {
+  it('finds nested homepage', () => {
     expect(
       findHomePageRoute({
         baseUrl: '/',
@@ -80,7 +112,7 @@ describe('routesUtils findHomePageRoute', () => {
     ).toEqual(homePage);
   });
 
-  test('should find nested homepage with baseUrl', () => {
+  it('finds nested homepage with baseUrl', () => {
     const baseUrl = '/baseUrl/';
     const baseUrlHomePage = {...homePage, path: baseUrl};
     expect(

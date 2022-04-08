@@ -34,11 +34,11 @@ Our codebase has been polished over time as well. We have improved test coverage
 
 ## Trends
 
-### NPM
+### npm
 
 Docusaurus v2 continues to grow steadily. V2 installation is now 8 times more than v1. In terms of weekly downloads, we have witnessed another three-fold increase (+209.4%), growing from 28,066 in early January to a peak of 86,846 in mid-December.
 
-[![NPM download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
+[![npm download trend](./img/npm-trend.png)](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core)
 
 (Ah, the classic Christmas dip...)
 

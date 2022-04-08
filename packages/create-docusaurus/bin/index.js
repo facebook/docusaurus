@@ -13,7 +13,6 @@ import semver from 'semver';
 import path from 'path';
 import {program} from 'commander';
 import {createRequire} from 'module';
-import init from '../lib/index.js';
 
 const packageJson = createRequire(import.meta.url)('../package.json');
 const requiredVersion = packageJson.engines.node;
@@ -22,14 +21,6 @@ if (!semver.satisfies(process.version, requiredVersion)) {
   logger.error('Minimum Node.js version not met :(');
   logger.info`You are using Node.js number=${process.version}, Requirement: Node.js number=${requiredVersion}.`;
   process.exit(1);
-}
-
-function wrapCommand(fn) {
-  return (...args) =>
-    fn(...args).catch((err) => {
-      logger.error(err.stack);
-      process.exitCode = 1;
-    });
 }
 
 program.version(packageJson.version);
@@ -61,11 +52,14 @@ program
       rootDir = '.',
       {packageManager, skipInstall, typescript, gitStrategy} = {},
     ) => {
-      wrapCommand(init)(path.resolve(rootDir), siteName, template, {
-        packageManager,
-        skipInstall,
-        typescript,
-        gitStrategy,
+      // See https://github.com/facebook/docusaurus/pull/6860
+      import('../lib/index.js').then(({default: init}) => {
+        init(path.resolve(rootDir), siteName, template, {
+          packageManager,
+          skipInstall,
+          typescript,
+          gitStrategy,
+        });
       });
     },
   );
@@ -75,3 +69,8 @@ program.parse(process.argv);
 if (!process.argv.slice(1).length) {
   program.outputHelp();
 }
+
+process.on('unhandledRejection', (err) => {
+  logger.error(err);
+  process.exit(1);
+});

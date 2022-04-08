@@ -9,24 +9,24 @@ import {validateSidebars, validateCategoryMetadataFile} from '../validation';
 import type {SidebarsConfig, CategoryMetadataFile} from '../types';
 
 describe('validateSidebars', () => {
-  test('throw for bad value', async () => {
+  it('throw for bad value', async () => {
     expect(() => validateSidebars({sidebar: [{type: 42}]}))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
-        \\"type\\": 42,
-        [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
+        "type": 42,
+        "undefined" [1]: -- missing --
       }
-      [31m
-      [1] Unknown sidebar item type \\"42\\".[0m"
+
+      [1] Unknown sidebar item type "42"."
     `);
   });
 
-  test('accept empty object', async () => {
+  it('accept empty object', async () => {
     const sidebars: SidebarsConfig = {};
     validateSidebars(sidebars);
   });
 
-  test('accept valid values', async () => {
+  it('accept valid values', async () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {type: 'doc', id: 'doc1'},
@@ -41,34 +41,37 @@ describe('validateSidebars', () => {
     validateSidebars(sidebars);
   });
 
-  test('sidebar category wrong label', () => {
-    expect(() =>
-      validateSidebars({
-        docs: [
-          {
-            type: 'category',
-            label: true,
-            items: [{type: 'doc', id: 'doc1'}],
-          },
-        ],
-      }),
+  it('sidebar category wrong label', () => {
+    expect(
+      () =>
+        validateSidebars({
+          docs: [
+            {
+              type: 'category',
+              label: true,
+              items: [{type: 'doc', id: 'doc1'}],
+            },
+          ],
+        }),
+
+      // eslint-disable-next-line jest/no-large-snapshots
     ).toThrowErrorMatchingInlineSnapshot(`
       "{
-        \\"type\\": \\"category\\",
-        \\"items\\": [
+        "type": "category",
+        "items": [
           {
-            \\"type\\": \\"doc\\",
-            \\"id\\": \\"doc1\\"
+            "type": "doc",
+            "id": "doc1"
           }
         ],
-        \\"label\\" [31m[1][0m: true
+        "label" [1]: true
       }
-      [31m
-      [1] \\"label\\" must be a string[0m"
+
+      [1] "label" must be a string"
     `);
   });
 
-  test('sidebars link wrong label', () => {
+  it('sidebars link wrong label', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -80,17 +83,17 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"link\\",
-              \\"href\\": \\"https://github.com\\",
-              \\"label\\" [31m[1][0m: false
-            }
-            [31m
-            [1] \\"label\\" must be a string[0m"
-          `);
+      "{
+        "type": "link",
+        "href": "https://github.com",
+        "label" [1]: false
+      }
+
+      [1] "label" must be a string"
+    `);
   });
 
-  test('sidebars link wrong href', () => {
+  it('sidebars link wrong href', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -102,19 +105,19 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"link\\",
-              \\"label\\": \\"GitHub\\",
-              \\"href\\" [31m[1][0m: [
-                \\"example.com\\"
-              ]
-            }
-            [31m
-            [1] \\"href\\" contains an invalid value[0m"
-          `);
+      "{
+        "type": "link",
+        "label": "GitHub",
+        "href" [1]: [
+          "example.com"
+        ]
+      }
+
+      [1] "href" contains an invalid value"
+    `);
   });
 
-  test('sidebars with unknown sidebar item type', () => {
+  it('sidebars with unknown sidebar item type', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -124,16 +127,16 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"superman\\",
-              [41m\\"undefined\\"[0m[31m [1]: -- missing --[0m
-            }
-            [31m
-            [1] Unknown sidebar item type \\"superman\\".[0m"
-          `);
+      "{
+        "type": "superman",
+        "undefined" [1]: -- missing --
+      }
+
+      [1] Unknown sidebar item type "superman"."
+    `);
   });
 
-  test('sidebars category missing items', () => {
+  it('sidebars category missing items', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -150,16 +153,16 @@ describe('validateSidebars', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "{
-        \\"type\\": \\"category\\",
-        \\"label\\": \\"category\\",
-        [41m\\"items\\"[0m[31m [1]: -- missing --[0m
+        "type": "category",
+        "label": "category",
+        "items" [1]: -- missing --
       }
-      [31m
-      [1] \\"items\\" is required[0m"
+
+      [1] "items" is required"
     `);
   });
 
-  test('sidebars category wrong field', () => {
+  it('sidebars category wrong field', () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -178,17 +181,17 @@ describe('validateSidebars', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
       "{
-        \\"type\\": \\"category\\",
-        \\"label\\": \\"category\\",
-        \\"items\\": [],
-        \\"href\\" [31m[1][0m: \\"https://google.com\\"
+        "type": "category",
+        "label": "category",
+        "items": [],
+        "href" [1]: "https://google.com"
       }
-      [31m
-      [1] \\"href\\" is not allowed[0m"
+
+      [1] "href" is not allowed"
     `);
   });
 
-  test('sidebar category wrong items', () => {
+  it('sidebar category wrong items', () => {
     expect(() =>
       validateSidebars({
         docs: {
@@ -204,7 +207,7 @@ describe('validateSidebars', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"sidebar.forEach is not a function"`);
   });
 
-  test('sidebars item doc but id is not a string', async () => {
+  it('sidebars item doc but id is not a string', async () => {
     expect(() =>
       validateSidebars({
         docs: [
@@ -215,18 +218,18 @@ describe('validateSidebars', () => {
         ],
       }),
     ).toThrowErrorMatchingInlineSnapshot(`
-            "{
-              \\"type\\": \\"doc\\",
-              \\"id\\" [31m[1][0m: [
-                \\"doc1\\"
-              ]
-            }
-            [31m
-            [1] \\"id\\" must be a string[0m"
-          `);
+      "{
+        "type": "doc",
+        "id" [1]: [
+          "doc1"
+        ]
+      }
+
+      [1] "id" must be a string"
+    `);
   });
 
-  test('HTML type requires a value', () => {
+  it('html type requires a value', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -238,15 +241,15 @@ describe('validateSidebars', () => {
     expect(() => validateSidebars(sidebars))
       .toThrowErrorMatchingInlineSnapshot(`
       "{
-        \\"type\\": \\"html\\",
-        [41m\\"value\\"[0m[31m [1]: -- missing --[0m
+        "type": "html",
+        "value" [1]: -- missing --
       }
-      [31m
-      [1] \\"value\\" is required[0m"
+
+      [1] "value" is required"
     `);
   });
 
-  test('HTML type accepts valid values', () => {
+  it('html type accepts valid values', () => {
     const sidebars: SidebarsConfig = {
       sidebar1: [
         {
@@ -264,20 +267,18 @@ describe('validateSidebars', () => {
 describe('validateCategoryMetadataFile', () => {
   // TODO add more tests
 
-  test('throw for bad value', async () => {
+  it('throw for bad value', async () => {
     expect(() =>
       validateCategoryMetadataFile(42),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"value\\" must be of type object"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""value" must be of type object"`);
   });
 
-  test('accept empty object', async () => {
+  it('accept empty object', async () => {
     const content: CategoryMetadataFile = {};
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  test('accept valid values', async () => {
+  it('accept valid values', async () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
@@ -294,7 +295,7 @@ describe('validateCategoryMetadataFile', () => {
     expect(validateCategoryMetadataFile(content)).toEqual(content);
   });
 
-  test('rejects permalink', async () => {
+  it('rejects permalink', async () => {
     const content: CategoryMetadataFile = {
       className: 'className',
       label: 'Category Label',
@@ -312,8 +313,6 @@ describe('validateCategoryMetadataFile', () => {
     };
     expect(() =>
       validateCategoryMetadataFile(content),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"\\"link.permalink\\" is not allowed"`,
-    );
+    ).toThrowErrorMatchingInlineSnapshot(`""link.permalink" is not allowed"`);
   });
 });

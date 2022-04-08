@@ -26,21 +26,16 @@ import type {
   BlogTag,
   BlogTags,
   BlogContent,
-  BlogItemsToMetadata,
-  TagsModule,
   BlogPaginated,
   BlogContentPaths,
   BlogMarkdownLoaderOptions,
-  MetaData,
-  TagModule,
 } from './types';
-import {PluginOptionSchema} from './pluginOptionSchema';
 import type {
   LoadContext,
   Plugin,
   HtmlTags,
-  OptionValidationContext,
-  ValidationResult,
+  TagsListItem,
+  TagModule,
 } from '@docusaurus/types';
 import {
   generateBlogPosts,
@@ -52,6 +47,7 @@ import {createBlogFeedFiles} from './feed';
 import type {
   PluginOptions,
   BlogPostFrontMatter,
+  BlogPostMetadata,
   Assets,
 } from '@docusaurus/plugin-content-blog';
 
@@ -111,7 +107,7 @@ export default async function pluginContentBlog(
       ) as string[];
     },
 
-    async getTranslationFiles() {
+    getTranslationFiles() {
       return getTranslationFiles(options);
     },
 
@@ -126,6 +122,8 @@ export default async function pluginContentBlog(
         blogSidebarTitle,
       } = options;
 
+      const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
+      const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
       const blogPosts = await generateBlogPosts(contentPaths, context, options);
 
       if (!blogPosts.length) {
@@ -134,7 +132,7 @@ export default async function pluginContentBlog(
           blogPosts: [],
           blogListPaginated: [],
           blogTags: {},
-          blogTagsListPath: null,
+          blogTagsListPath,
           blogTagsPaginated: [],
         };
       }
@@ -159,8 +157,6 @@ export default async function pluginContentBlog(
         }
       });
 
-      const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
-
       const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
         blogPosts,
         blogTitle,
@@ -175,11 +171,6 @@ export default async function pluginContentBlog(
         blogDescription,
         blogTitle,
       });
-
-      const tagsPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
-
-      const blogTagsListPath =
-        Object.keys(blogTags).length > 0 ? tagsPath : null;
 
       return {
         blogSidebarTitle,
@@ -214,14 +205,14 @@ export default async function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToMetadata: BlogItemsToMetadata = {};
+      const blogItemsToMetadata: {[postId: string]: BlogPostMetadata} = {};
 
       const sidebarBlogPosts =
         options.blogSidebarCount === 'ALL'
           ? blogPosts
           : blogPosts.slice(0, options.blogSidebarCount);
 
-      if (archiveBasePath) {
+      if (archiveBasePath && blogPosts.length) {
         const archiveUrl = normalizeUrl([
           baseUrl,
           routeBasePath,
@@ -301,50 +292,62 @@ export default async function pluginContentBlog(
             exact: true,
             modules: {
               sidebar: aliasedSource(sidebarProp),
-              items: items.map((postID) =>
-                // To tell routes.js this is an import and not a nested object
-                // to recurse.
-                ({
-                  content: {
-                    __import: true,
-                    path: blogItemsToMetadata[postID]!.source,
-                    query: {
-                      truncated: true,
-                    },
+              items: items.map((postID) => ({
+                content: {
+                  __import: true,
+                  path: blogItemsToMetadata[postID]!.source,
+                  query: {
+                    truncated: true,
                   },
-                }),
-              ),
+                },
+              })),
               metadata: aliasedSource(pageMetadataPath),
             },
           });
         }),
       );
 
-      // Tags.
-      if (blogTagsListPath === null) {
+      // Tags. This is the last part so we early-return if there are no tags.
+      if (Object.keys(blogTags).length === 0) {
         return;
       }
 
-      const tagsModule: TagsModule = Object.fromEntries(
-        Object.entries(blogTags).map(([tagKey, tag]) => {
-          const tagModule: TagModule = {
-            allTagsPath: blogTagsListPath,
-            slug: tagKey,
-            name: tag.name,
-            count: tag.items.length,
-            permalink: tag.permalink,
-          };
-          return [tag.name, tagModule];
-        }),
-      );
+      async function createTagsListPage() {
+        const tagsProp: TagsListItem[] = Object.values(blogTags).map((tag) => ({
+          label: tag.label,
+          permalink: tag.permalink,
+          count: tag.items.length,
+        }));
 
-      async function createTagRoutes(tag: BlogTag): Promise<void> {
+        const tagsPropPath = await createData(
+          `${docuHash(`${blogTagsListPath}-tags`)}.json`,
+          JSON.stringify(tagsProp, null, 2),
+        );
+
+        addRoute({
+          path: blogTagsListPath,
+          component: blogTagsListComponent,
+          exact: true,
+          modules: {
+            sidebar: aliasedSource(sidebarProp),
+            tags: aliasedSource(tagsPropPath),
+          },
+        });
+      }
+
+      async function createTagPostsListPage(tag: BlogTag): Promise<void> {
         await Promise.all(
           tag.pages.map(async (blogPaginated) => {
             const {metadata, items} = blogPaginated;
-            const tagsMetadataPath = await createData(
+            const tagProp: TagModule = {
+              label: tag.label,
+              permalink: tag.permalink,
+              allTagsPath: blogTagsListPath,
+              count: tag.items.length,
+            };
+            const tagPropPath = await createData(
               `${docuHash(metadata.permalink)}.json`,
-              JSON.stringify(tagsModule[tag.name], null, 2),
+              JSON.stringify(tagProp, null, 2),
             );
 
             const listMetadataPath = await createData(
@@ -370,7 +373,7 @@ export default async function pluginContentBlog(
                     },
                   };
                 }),
-                metadata: aliasedSource(tagsMetadataPath),
+                tag: aliasedSource(tagPropPath),
                 listMetadata: aliasedSource(listMetadataPath),
               },
             });
@@ -378,25 +381,8 @@ export default async function pluginContentBlog(
         );
       }
 
-      await Promise.all(Object.values(blogTags).map(createTagRoutes));
-
-      // Only create /tags page if there are tags.
-      if (Object.keys(blogTags).length > 0) {
-        const tagsListPath = await createData(
-          `${docuHash(`${blogTagsListPath}-tags`)}.json`,
-          JSON.stringify(tagsModule, null, 2),
-        );
-
-        addRoute({
-          path: blogTagsListPath,
-          component: blogTagsListComponent,
-          exact: true,
-          modules: {
-            sidebar: aliasedSource(sidebarProp),
-            tags: aliasedSource(tagsListPath),
-          },
-        });
-      }
+      await createTagsListPage();
+      await Promise.all(Object.values(blogTags).map(createTagPostsListPage));
     },
 
     translateContent({content, translationFiles}) {
@@ -479,7 +465,7 @@ export default async function pluginContentBlog(
                       metadata,
                     }: {
                       frontMatter: BlogPostFrontMatter;
-                      metadata: MetaData;
+                      metadata: BlogPostMetadata;
                     }): Assets => ({
                       image: frontMatter.image,
                       authorsImageUrls: metadata.authors.map(
@@ -512,6 +498,7 @@ export default async function pluginContentBlog(
         options,
         outDir,
         siteConfig,
+        locale: currentLocale,
       });
     },
 
@@ -546,13 +533,11 @@ export default async function pluginContentBlog(
       const headTags: HtmlTags = [];
 
       feedTypes.forEach((feedType) => {
-        const feedConfig = feedsConfig[feedType] || {};
-
-        if (!feedsConfig) {
-          return;
-        }
-
-        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
+        const {
+          type,
+          path: feedConfigPath,
+          title: feedConfigTitle,
+        } = feedsConfig[feedType];
 
         headTags.push({
           tagName: 'link',
@@ -576,10 +561,4 @@ export default async function pluginContentBlog(
   };
 }
 
-export function validateOptions({
-  validate,
-  options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
-  const validatedOptions = validate(PluginOptionSchema, options);
-  return validatedOptions;
-}
+export {validateOptions} from './options';

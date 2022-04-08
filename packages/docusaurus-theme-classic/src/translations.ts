@@ -184,7 +184,7 @@ export function translateThemeConfig({
   themeConfig: ThemeConfig;
   translationFiles: TranslationFile[];
 }): ThemeConfig {
-  const translationFilesMap: Record<string, TranslationFile> = _.keyBy(
+  const translationFilesMap: {[fileName: string]: TranslationFile} = _.keyBy(
     translationFiles,
     (f) => f.path,
   );

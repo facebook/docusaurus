@@ -9,9 +9,8 @@
 
 import {parseMarkdownHeadingId, createSlugger} from '@docusaurus/utils';
 import visit from 'unist-util-visit';
-import toString from 'mdast-util-to-string';
+import mdastToString from 'mdast-util-to-string';
 import type {Transformer} from 'unified';
-import type {Parent} from 'unist';
 import type {Heading, Text} from 'mdast';
 
 export default function plugin(): Transformer {
@@ -30,10 +29,8 @@ export default function plugin(): Transformer {
         const headingTextNodes = headingNode.children.filter(
           ({type}) => !['html', 'jsx'].includes(type),
         );
-        const heading = toString(
-          headingTextNodes.length > 0
-            ? ({children: headingTextNodes} as Parent)
-            : headingNode,
+        const heading = mdastToString(
+          headingTextNodes.length > 0 ? headingTextNodes : headingNode,
         );
 
         // Support explicit heading IDs

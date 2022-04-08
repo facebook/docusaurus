@@ -18,7 +18,6 @@ import {
 import type {
   InitializedPlugin,
   TranslationFileContent,
-  TranslationMessage,
 } from '@docusaurus/types';
 import nodePath from 'path';
 import {SRC_DIR_NAME} from '@docusaurus/utils';
@@ -56,7 +55,7 @@ function getPluginSourceCodeFilePaths(plugin: InitializedPlugin): string[] {
     codePaths.push(themePath);
   }
 
-  return codePaths;
+  return codePaths.map((p) => nodePath.resolve(plugin.path, p));
 }
 
 export async function globSourceCodeFilePaths(
@@ -130,7 +129,7 @@ function logSourceCodeFileTranslationsWarnings(
 
 type SourceCodeFileTranslations = {
   sourceCodeFilePath: string;
-  translations: Record<string, TranslationMessage>;
+  translations: TranslationFileContent;
   warnings: string[];
 };
 
@@ -189,7 +188,7 @@ function extractSourceCodeAstTranslations(
 Full code: ${generate(node).code}`;
   }
 
-  const translations: Record<string, TranslationMessage> = {};
+  const translations: TranslationFileContent = {};
   const warnings: string[] = [];
   let translateComponentName: string | undefined;
   let translateFunctionName: string | undefined;
@@ -308,10 +307,9 @@ ${sourceWarningPart(path.node)}`);
               ),
           )
           .pop();
-        const isJSXText = singleChildren && singleChildren.isJSXText();
+        const isJSXText = singleChildren?.isJSXText();
         const isJSXExpressionContainer =
-          singleChildren &&
-          singleChildren.isJSXExpressionContainer() &&
+          singleChildren?.isJSXExpressionContainer() &&
           (singleChildren.get('expression') as NodePath).evaluate().confident;
 
         if (isJSXText || isJSXExpressionContainer) {

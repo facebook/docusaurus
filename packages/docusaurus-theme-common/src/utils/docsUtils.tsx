@@ -5,57 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {createContext, type ReactNode, useContext} from 'react';
+import {useMemo} from 'react';
 import {
-  useActivePlugin,
   useAllDocsData,
+  useActivePlugin,
+  useActiveDocContext,
+  useLatestVersion,
+  type GlobalVersion,
+  type GlobalSidebar,
+  type GlobalDoc,
 } from '@docusaurus/plugin-content-docs/client';
 import type {
   PropSidebar,
   PropSidebarItem,
   PropSidebarItemCategory,
   PropVersionDoc,
-  PropVersionMetadata,
   PropSidebarBreadcrumbsItem,
 } from '@docusaurus/plugin-content-docs';
-import {isSamePath} from './pathUtils';
-import {ReactContextError} from './reactUtils';
+import {useDocsPreferredVersion} from '../contexts/docsPreferredVersion';
+import {useDocsVersion} from '../contexts/docsVersion';
+import {useDocsSidebar} from '../contexts/docsSidebar';
+import {uniq} from './jsUtils';
+import {isSamePath} from './routesUtils';
 import {useLocation} from '@docusaurus/router';
 
 // TODO not ideal, see also "useDocs"
 export const isDocsPluginEnabled: boolean = !!useAllDocsData;
 
-// Using a Symbol because null is a valid context value (a doc with no sidebar)
-// Inspired by https://github.com/jamiebuilds/unstated-next/blob/master/src/unstated-next.tsx
-const EmptyContextValue: unique symbol = Symbol('EmptyContext');
-
-const DocsVersionContext = createContext<
-  PropVersionMetadata | typeof EmptyContextValue
->(EmptyContextValue);
-
-export function DocsVersionProvider({
-  children,
-  version,
-}: {
-  children: ReactNode;
-  version: PropVersionMetadata | typeof EmptyContextValue;
-}): JSX.Element {
-  return (
-    <DocsVersionContext.Provider value={version}>
-      {children}
-    </DocsVersionContext.Provider>
-  );
-}
-
-export function useDocsVersion(): PropVersionMetadata {
-  const version = useContext(DocsVersionContext);
-  if (version === EmptyContextValue) {
-    throw new ReactContextError('DocsVersionProvider');
-  }
-  return version;
-}
-
+/**
+ * A null-safe way to access a doc's data by ID in the active version.
+ */
 export function useDocById(id: string): PropVersionDoc;
+/**
+ * A null-safe way to access a doc's data by ID in the active version.
+ */
 export function useDocById(id: string | undefined): PropVersionDoc | undefined;
 export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   const version = useDocsVersion();
@@ -69,34 +52,9 @@ export function useDocById(id: string | undefined): PropVersionDoc | undefined {
   return doc;
 }
 
-const DocsSidebarContext = createContext<
-  PropSidebar | null | typeof EmptyContextValue
->(EmptyContextValue);
-
-export function DocsSidebarProvider({
-  children,
-  sidebar,
-}: {
-  children: ReactNode;
-  sidebar: PropSidebar | null;
-}): JSX.Element {
-  return (
-    <DocsSidebarContext.Provider value={sidebar}>
-      {children}
-    </DocsSidebarContext.Provider>
-  );
-}
-
-export function useDocsSidebar(): PropSidebar | null {
-  const sidebar = useContext(DocsSidebarContext);
-  if (sidebar === EmptyContextValue) {
-    throw new ReactContextError('DocsSidebarProvider');
-  }
-  return sidebar;
-}
-
-// Use the components props and the sidebar in context
-// to get back the related sidebar category that we want to render
+/**
+ * Pure function, similar to `Array#find`, but works on the sidebar tree.
+ */
 export function findSidebarCategory(
   sidebar: PropSidebar,
   predicate: (category: PropSidebarItemCategory) => boolean,
@@ -115,7 +73,10 @@ export function findSidebarCategory(
   return undefined;
 }
 
-// If a category card has no link => link to the first subItem having a link
+/**
+ * Best effort to assign a link to a sidebar category. If the category doesn't
+ * have a link itself, we link to the first sub item with a link.
+ */
 export function findFirstCategoryLink(
   item: PropSidebarItemCategory,
 ): string | undefined {
@@ -142,82 +103,59 @@ export function findFirstCategoryLink(
   return undefined;
 }
 
+/**
+ * Gets the category associated with the current location. Should only be used
+ * on category index pages.
+ */
 export function useCurrentSidebarCategory(): PropSidebarItemCategory {
   const {pathname} = useLocation();
   const sidebar = useDocsSidebar();
   if (!sidebar) {
     throw new Error('Unexpected: cant find current sidebar in context');
   }
-  const category = findSidebarCategory(sidebar, (item) =>
+  const category = findSidebarCategory(sidebar.items, (item) =>
     isSamePath(item.href, pathname),
   );
   if (!category) {
     throw new Error(
-      `Unexpected: sidebar category could not be found for pathname='${pathname}'.
-Hook useCurrentSidebarCategory() should only be used on Category pages`,
+      `${pathname} is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.`,
     );
   }
   return category;
 }
 
-function containsActiveSidebarItem(
+const isActive = (testedPath: string | undefined, activePath: string) =>
+  typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
+const containsActiveSidebarItem = (
   items: PropSidebarItem[],
   activePath: string,
-): boolean {
-  return items.some((subItem) => isActiveSidebarItem(subItem, activePath));
-}
+) => items.some((subItem) => isActiveSidebarItem(subItem, activePath));
 
+/**
+ * Checks if a sidebar item should be active, based on the active path.
+ */
 export function isActiveSidebarItem(
   item: PropSidebarItem,
   activePath: string,
 ): boolean {
-  const isActive = (testedPath: string | undefined) =>
-    typeof testedPath !== 'undefined' && isSamePath(testedPath, activePath);
-
   if (item.type === 'link') {
-    return isActive(item.href);
+    return isActive(item.href, activePath);
   }
 
   if (item.type === 'category') {
     return (
-      isActive(item.href) || containsActiveSidebarItem(item.items, activePath)
+      isActive(item.href, activePath) ||
+      containsActiveSidebarItem(item.items, activePath)
     );
   }
 
   return false;
 }
 
-export function getBreadcrumbs({
-  sidebar,
-  pathname,
-}: {
-  sidebar: PropSidebar;
-  pathname: string;
-}): PropSidebarBreadcrumbsItem[] {
-  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
-
-  function extract(items: PropSidebar) {
-    for (const item of items) {
-      if (
-        item.type === 'category' &&
-        (isSamePath(item.href, pathname) || extract(item.items))
-      ) {
-        breadcrumbs.push(item);
-        return true;
-      } else if (item.type === 'link' && isSamePath(item.href, pathname)) {
-        breadcrumbs.push(item);
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  extract(sidebar);
-
-  return breadcrumbs.reverse();
-}
-
+/**
+ * Gets the breadcrumbs of the current doc page, based on its sidebar location.
+ * Returns `null` if there's no sidebar or breadcrumbs are disabled.
+ */
 export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
@@ -227,5 +165,114 @@ export function useSidebarBreadcrumbs(): PropSidebarBreadcrumbsItem[] | null {
     return null;
   }
 
-  return getBreadcrumbs({sidebar, pathname});
+  const breadcrumbs: PropSidebarBreadcrumbsItem[] = [];
+
+  function extract(items: PropSidebar) {
+    for (const item of items) {
+      if (
+        (item.type === 'category' &&
+          (isSamePath(item.href, pathname) || extract(item.items))) ||
+        (item.type === 'link' && isSamePath(item.href, pathname))
+      ) {
+        breadcrumbs.push(item);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  extract(sidebar.items);
+
+  return breadcrumbs.reverse();
+}
+
+/**
+ * "Version candidates" are mostly useful for the layout components, which must
+ * be able to work on all pages. For example, if a user has `{ type: "doc",
+ * docId: "intro" }` as a navbar item, which version does that refer to? We
+ * believe that it could refer to at most three version candidates:
+ *
+ * 1. The **active version**, the one that the user is currently browsing. See
+ * {@link useActiveDocContext}.
+ * 2. The **preferred version**, the one that the user last visited. See
+ * {@link useDocsPreferredVersion}.
+ * 3. The **latest version**, the "default". See {@link useLatestVersion}.
+ *
+ * @param docsPluginId The plugin ID to get versions from.
+ * @returns An array of 1~3 versions with priorities defined above, guaranteed
+ * to be unique and non-sparse. Will be memoized, hence stable for deps array.
+ */
+export function useDocsVersionCandidates(
+  docsPluginId?: string,
+): [GlobalVersion, ...GlobalVersion[]] {
+  const {activeVersion} = useActiveDocContext(docsPluginId);
+  const {preferredVersion} = useDocsPreferredVersion(docsPluginId);
+  const latestVersion = useLatestVersion(docsPluginId);
+  return useMemo(
+    () =>
+      uniq(
+        [activeVersion, preferredVersion, latestVersion].filter(Boolean),
+      ) as [GlobalVersion, ...GlobalVersion[]],
+    [activeVersion, preferredVersion, latestVersion],
+  );
+}
+
+/**
+ * The layout components, like navbar items, must be able to work on all pages,
+ * even on non-doc ones where there's no version context, so a sidebar ID could
+ * be ambiguous. This hook would always return a sidebar to be linked to. See
+ * also {@link useDocsVersionCandidates} for how this selection is done.
+ *
+ * @throws This hook throws if a sidebar with said ID is not found.
+ */
+export function useLayoutDocsSidebar(
+  sidebarId: string,
+  docsPluginId?: string,
+): GlobalSidebar {
+  const versions = useDocsVersionCandidates(docsPluginId);
+  return useMemo(() => {
+    const allSidebars = versions.flatMap((version) =>
+      version.sidebars ? Object.entries(version.sidebars) : [],
+    );
+    const sidebarEntry = allSidebars.find(
+      (sidebar) => sidebar[0] === sidebarId,
+    );
+    if (!sidebarEntry) {
+      throw new Error(
+        `Can't find any sidebar with id "${sidebarId}" in version${
+          versions.length > 1 ? 's' : ''
+        } ${versions.map((version) => version.name).join(', ')}".
+  Available sidebar ids are:
+  - ${Object.keys(allSidebars).join('\n- ')}`,
+      );
+    }
+    return sidebarEntry[1];
+  }, [sidebarId, versions]);
+}
+
+/**
+ * The layout components, like navbar items, must be able to work on all pages,
+ * even on non-doc ones where there's no version context, so a doc ID could be
+ * ambiguous. This hook would always return a doc to be linked to. See also
+ * {@link useDocsVersionCandidates} for how this selection is done.
+ *
+ * @throws This hook throws if a doc with said ID is not found.
+ */
+export function useLayoutDoc(docId: string, docsPluginId?: string): GlobalDoc {
+  const versions = useDocsVersionCandidates(docsPluginId);
+  return useMemo(() => {
+    const allDocs = versions.flatMap((version) => version.docs);
+    const doc = allDocs.find((versionDoc) => versionDoc.id === docId);
+    if (!doc) {
+      throw new Error(
+        `DocNavbarItem: couldn't find any doc with id "${docId}" in version${
+          versions.length > 1 ? 's' : ''
+        } ${versions.map((version) => version.name).join(', ')}".
+Available doc ids are:
+- ${uniq(allDocs.map((versionDoc) => versionDoc.id)).join('\n- ')}`,
+      );
+    }
+    return doc;
+  }, [docId, versions]);
 }

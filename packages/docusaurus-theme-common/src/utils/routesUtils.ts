@@ -5,28 +5,47 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import GeneratedRoutes, {type Route} from '@generated/routes';
 import {useMemo} from 'react';
+import generatedRoutes from '@generated/routes';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import type {RouteConfig} from 'react-router-config';
 
-// Note that all sites don't always have a homepage in practice
-// See https://github.com/facebook/docusaurus/pull/6517#issuecomment-1048709116
+/**
+ * Compare the 2 paths, case insensitive and ignoring trailing slash
+ */
+export function isSamePath(
+  path1: string | undefined,
+  path2: string | undefined,
+): boolean {
+  const normalize = (pathname: string | undefined) =>
+    (!pathname || pathname?.endsWith('/')
+      ? pathname
+      : `${pathname}/`
+    )?.toLowerCase();
+  return normalize(path1) === normalize(path2);
+}
+
+/**
+ * Note that sites don't always have a homepage in practice, so we can't assume
+ * that linking to '/' is always safe.
+ * @see https://github.com/facebook/docusaurus/pull/6517#issuecomment-1048709116
+ */
 export function findHomePageRoute({
   baseUrl,
   routes: initialRoutes,
 }: {
-  routes: Route[];
+  routes: RouteConfig[];
   baseUrl: string;
-}): Route | undefined {
-  function isHomePageRoute(route: Route): boolean {
+}): RouteConfig | undefined {
+  function isHomePageRoute(route: RouteConfig): boolean {
     return route.path === baseUrl && route.exact === true;
   }
 
-  function isHomeParentRoute(route: Route): boolean {
+  function isHomeParentRoute(route: RouteConfig): boolean {
     return route.path === baseUrl && !route.exact;
   }
 
-  function doFindHomePageRoute(routes: Route[]): Route | undefined {
+  function doFindHomePageRoute(routes: RouteConfig[]): RouteConfig | undefined {
     if (routes.length === 0) {
       return undefined;
     }
@@ -43,14 +62,14 @@ export function findHomePageRoute({
   return doFindHomePageRoute(initialRoutes);
 }
 
-export function useHomePageRoute(): Route | undefined {
+/**
+ * Fetches the route that points to "/". Use this instead of the naive "/",
+ * because the homepage may not exist.
+ */
+export function useHomePageRoute(): RouteConfig | undefined {
   const {baseUrl} = useDocusaurusContext().siteConfig;
   return useMemo(
-    () =>
-      findHomePageRoute({
-        routes: GeneratedRoutes,
-        baseUrl,
-      }),
+    () => findHomePageRoute({routes: generatedRoutes, baseUrl}),
     [baseUrl],
   );
 }

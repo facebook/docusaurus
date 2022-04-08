@@ -17,9 +17,9 @@ export default async function loadSetup(name: string): Promise<Props> {
 
   switch (name) {
     case 'custom':
-      return load(customSite);
+      return load({siteDir: customSite});
     case 'simple':
     default:
-      return load(simpleSite);
+      return load({siteDir: simpleSite});
   }
 }

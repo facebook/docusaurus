@@ -9,13 +9,10 @@ import type {
   LoadContext,
   Plugin,
   OptionValidationContext,
-  ValidationResult,
 } from '@docusaurus/types';
 import type {PluginOptions} from '@docusaurus/plugin-ideal-image';
 import {Joi} from '@docusaurus/utils-validation';
 import {readDefaultCodeTranslationMessages} from '@docusaurus/theme-translations';
-
-import path from 'path';
 
 export default function pluginIdealImage(
   context: LoadContext,
@@ -29,11 +26,11 @@ export default function pluginIdealImage(
     name: 'docusaurus-plugin-ideal-image',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
 
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getDefaultCodeTranslationMessages() {
@@ -81,7 +78,7 @@ export default function pluginIdealImage(
 export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<PluginOptions, PluginOptions>): PluginOptions {
   const pluginOptionsSchema = Joi.object({
     disableInDev: Joi.boolean().default(true),
   }).unknown();

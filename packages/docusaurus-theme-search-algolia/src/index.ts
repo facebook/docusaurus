@@ -47,10 +47,10 @@ export default function themeSearchAlgolia(context: LoadContext): Plugin<void> {
     name: 'docusaurus-theme-search-algolia',
 
     getThemePath() {
-      return path.resolve(__dirname, '../lib/theme');
+      return '../lib/theme';
     },
     getTypeScriptThemePath() {
-      return path.resolve(__dirname, '../src/theme');
+      return '../src/theme';
     },
 
     getDefaultCodeTranslationMessages() {

@@ -6,7 +6,7 @@
  */
 
 import {useContext} from 'react';
-import {Context} from './browserContext';
+import {Context} from '../browserContext';
 
 export default function useIsBrowser(): boolean {
   return useContext(Context);

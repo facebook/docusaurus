@@ -31,7 +31,7 @@ function PluginContent({
   pluginContent,
 }: {
   pluginName: string;
-  pluginContent: Record<string, unknown>;
+  pluginContent: {[pluginId: string]: unknown};
 }) {
   return (
     <section style={{marginBottom: 60}}>
@@ -39,9 +39,7 @@ function PluginContent({
       <div>
         {Object.entries(pluginContent)
           // filter plugin instances with no content
-          .filter(
-            ([_pluginId, pluginInstanceContent]) => !!pluginInstanceContent,
-          )
+          .filter(([, pluginInstanceContent]) => !!pluginInstanceContent)
           .map(([pluginId, pluginInstanceContent]) => (
             <PluginInstanceContent
               key={pluginId}
@@ -61,7 +59,7 @@ export default function DebugContent({allContent}: Props): JSX.Element {
       <div>
         {Object.entries(allContent)
           // filter plugins with no content
-          .filter(([_pluginName, pluginContent]) =>
+          .filter(([, pluginContent]) =>
             Object.values(pluginContent).some(
               (instanceContent) => !!instanceContent,
             ),
