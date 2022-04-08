@@ -227,7 +227,7 @@ describe('normalizeConfig', () => {
         themes: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "\\"themes\\" must be an array
+      ""themes" must be an array
       "
     `);
   });
@@ -238,7 +238,7 @@ describe('normalizeConfig', () => {
         presets: {},
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "\\"presets\\" must be an array
+      ""presets" must be an array
       "
     `);
   });
@@ -249,9 +249,9 @@ describe('normalizeConfig', () => {
         presets: [() => {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "\\"presets[0]\\" does not look like a valid preset config. A preset config entry should be one of:
-      - A tuple of [presetName, options], like \`[\\"classic\\", { blog: false }]\`, or
-      - A simple string, like \`\\"classic\\"\`
+      ""presets[0]" does not look like a valid preset config. A preset config entry should be one of:
+      - A tuple of [presetName, options], like \`["classic", { blog: false }]\`, or
+      - A simple string, like \`"classic"\`
       "
     `);
   });
@@ -270,7 +270,7 @@ describe('normalizeConfig', () => {
         scripts: ['https://some.com', {}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "\\"scripts[1]\\" is invalid. A script must be a plain string (the src), or an object with at least a \\"src\\" property.
+      ""scripts[1]" is invalid. A script must be a plain string (the src), or an object with at least a "src" property.
       "
     `);
   });
@@ -281,7 +281,7 @@ describe('normalizeConfig', () => {
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "\\"stylesheets[1]\\" is invalid. A stylesheet must be a plain string (the href), or an object with at least a \\"href\\" property.
+      ""stylesheets[1]" is invalid. A stylesheet must be a plain string (the href), or an object with at least a "href" property.
       "
     `);
   });
@@ -318,7 +318,7 @@ describe('config warnings', () => {
     expect(warning).toBeDefined();
     expect(warning.details).toHaveLength(1);
     expect(warning.details[0].message).toMatchInlineSnapshot(
-      `"Docusaurus config validation warning. Field \\"url\\": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
+      `"Docusaurus config validation warning. Field "url": the url is not supposed to contain a sub-path like '/someSubpath', please use the baseUrl field for sub-paths"`,
     );
   });
 });

@@ -6,14 +6,14 @@ exports[`npm2yarn plugin does not re-import tabs components when already importe
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-<TabItem value=\\"npm\\">
+<TabItem value="npm">
 
 \`\`\`bash
   $ npm install --global docusaurus
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\" label=\\"Yarn\\">
+<TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -26,14 +26,14 @@ import TabItem from '@theme/TabItem';
 
 exports[`npm2yarn plugin does not re-import tabs components when already imported below 1`] = `
 "<Tabs>
-<TabItem value=\\"npm\\">
+<TabItem value="npm">
 
 \`\`\`bash
   $ npm install --global docusaurus
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\" label=\\"Yarn\\">
+<TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -68,14 +68,14 @@ exports[`npm2yarn plugin works on installation file 1`] = `
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-<TabItem value=\\"npm\\">
+<TabItem value="npm">
 
 \`\`\`bash
   $ npm install --global docusaurus
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\" label=\\"Yarn\\">
+<TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
   $ yarn add --global docusaurus
@@ -95,14 +95,14 @@ import TabItem from '@theme/TabItem';
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
 <Tabs>
-<TabItem value=\\"npm\\">
+<TabItem value="npm">
 
 \`\`\`bash
 npm install --save docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\" label=\\"Yarn\\">
+<TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
 yarn add docusaurus-plugin-name
@@ -121,15 +121,15 @@ import TabItem from '@theme/TabItem';
 
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
-<Tabs groupId=\\"npm2yarn\\">
-<TabItem value=\\"npm\\">
+<Tabs groupId="npm2yarn">
+<TabItem value="npm">
 
 \`\`\`bash
 npm install --save docusaurus-plugin-name
 \`\`\`
 
 </TabItem>
-<TabItem value=\\"yarn\\" label=\\"Yarn\\">
+<TabItem value="yarn" label="Yarn">
 
 \`\`\`bash
 yarn add docusaurus-plugin-name

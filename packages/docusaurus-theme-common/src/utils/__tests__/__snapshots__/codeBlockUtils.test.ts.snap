@@ -126,7 +126,7 @@ dddd
 
 \`\`\`js
 // highlight-next-line
-console.log(\\"preserved\\");
+console.log("preserved");
 \`\`\`",
   "highlightLines": [
     1,

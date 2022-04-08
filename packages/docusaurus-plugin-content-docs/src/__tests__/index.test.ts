@@ -143,10 +143,11 @@ describe('sidebar', () => {
           },
         }),
       );
+
       await plugin.loadContent!();
     }).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "The path to the sidebar file does not exist at \\"wrong-path-sidebar.json\\".
-            Please set the docs \\"sidebarPath\\" field in your config file to:
+            "The path to the sidebar file does not exist at "wrong-path-sidebar.json".
+            Please set the docs "sidebarPath" field in your config file to:
             - a sidebars path that exists
             - false: to disable the sidebar
             - undefined: for Docusaurus to generate it automatically"
@@ -203,7 +204,7 @@ describe('empty/no docs website', () => {
     await expect(
       plugin.loadContent!(),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Docs version \\"current\\" has no docs! At least one doc should exist at \\"docs\\"."`,
+      `"Docs version "current" has no docs! At least one doc should exist at "docs"."`,
     );
   });
 
@@ -220,7 +221,7 @@ describe('empty/no docs website', () => {
         }),
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"The docs folder does not exist for version \\"current\\". A docs folder is expected to be found at path/does/not/exist."`,
+      `"The docs folder does not exist for version "current". A docs folder is expected to be found at path/does/not/exist."`,
     );
   });
 });

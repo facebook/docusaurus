@@ -53,7 +53,7 @@ describe('loadSiteConfig', () => {
         customConfigFilePath: 'incomplete.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "\\"url\\" is required
+            ""url" is required
             "
           `);
   });
@@ -65,8 +65,8 @@ describe('loadSiteConfig', () => {
         customConfigFilePath: 'wrong.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "These field(s) (\\"useLessField\\",) are not recognized in docusaurus.config.js.
-            If you still want these fields to be in your configuration, put them in the \\"customFields\\" field.
+            "These field(s) ("useLessField",) are not recognized in docusaurus.config.js.
+            If you still want these fields to be in your configuration, put them in the "customFields" field.
             See https://docusaurus.io/docs/api/docusaurus-config/#customfields"
           `);
   });
@@ -78,7 +78,7 @@ describe('loadSiteConfig', () => {
         customConfigFilePath: 'nonExistent.config.js',
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Config file at \\"<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/nonExistent.config.js\\" not found."`,
+      `"Config file at "<PROJECT_ROOT>/packages/docusaurus/src/server/__tests__/__fixtures__/config/nonExistent.config.js" not found."`,
     );
   });
 });

@@ -108,6 +108,7 @@
     "remark-parse": "^8.0.2",
     "rimraf": "^3.0.2",
     "sharp": "^0.30.3",
+    "strip-ansi": "^6.0.1",
     "stylelint": "^14.6.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^25.0.0",

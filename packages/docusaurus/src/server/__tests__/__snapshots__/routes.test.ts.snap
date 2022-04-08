@@ -102,17 +102,17 @@ export default [
         path: '/docs/hello',
         component: ComponentCreator('/docs/hello', 'fcc'),
         exact: true,
-        sidebar: \\"main\\"
+        sidebar: "main"
       },
       {
         path: 'docs/foo/baz',
         component: ComponentCreator('docs/foo/baz', 'eb2'),
-        sidebar: \\"secondary\\",
-        \\"key:a\\": \\"containing colon\\",
-        \\"key'b\\": \\"containing quote\\",
-        \\"key\\\\\\"c\\": \\"containing double quote\\",
-        \\"key,d\\": \\"containing comma\\",
-        字段: \\"containing unicode\\"
+        sidebar: "secondary",
+        "key:a": "containing colon",
+        "key'b": "containing quote",
+        "key\\"c": "containing double quote",
+        "key,d": "containing comma",
+        字段: "containing unicode"
       }
     ]
   },

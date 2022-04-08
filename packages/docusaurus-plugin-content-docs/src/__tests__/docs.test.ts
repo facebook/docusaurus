@@ -487,7 +487,7 @@ describe('simple site', () => {
         }),
       ),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Document id \\"Hello/world\\" cannot include slash."`,
+      `"Document id "Hello/world" cannot include slash."`,
     );
   });
 

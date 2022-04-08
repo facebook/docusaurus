@@ -66,7 +66,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components\\" is required"`,
+      `"Swizzle config does not match expected schema: "components" is required"`,
     );
   });
 
@@ -87,7 +87,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components.MyComponent.actions.bad\\" is not allowed"`,
+      `"Swizzle config does not match expected schema: "components.MyComponent.actions.bad" is not allowed"`,
     );
   });
 
@@ -107,7 +107,7 @@ describe('normalizeSwizzleConfig', () => {
     expect(() =>
       normalizeSwizzleConfig(config),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Swizzle config does not match expected schema: \\"components.MyComponent.actions.eject\\" must be one of [safe, unsafe, forbidden]"`,
+      `"Swizzle config does not match expected schema: "components.MyComponent.actions.eject" must be one of [safe, unsafe, forbidden]"`,
     );
   });
 });
