@@ -80,6 +80,7 @@ const sidebars = {
         },
       ],
     },
+    'some-draft',
     {
       type: 'category',
       label: 'HTML items tests',
@@ -109,7 +110,6 @@ const sidebars = {
         },
       ],
     },
-    'draft',
   ],
   anotherSidebar: ['dummy'],
 };
