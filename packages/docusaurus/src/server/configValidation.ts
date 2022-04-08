@@ -131,6 +131,7 @@ const LocaleConfigSchema = Joi.object({
   label: Joi.string(),
   htmlLang: Joi.string(),
   direction: Joi.string().equal('ltr', 'rtl').default('ltr'),
+  calendar: Joi.string(),
 });
 
 const I18N_CONFIG_SCHEMA = Joi.object<I18nConfig>({
