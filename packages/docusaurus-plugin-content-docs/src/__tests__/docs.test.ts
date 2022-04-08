@@ -14,6 +14,7 @@ import {
   readDocFile,
   addDocNavigation,
   isCategoryIndex,
+  type DocEnv,
 } from '../docs';
 import {loadSidebars} from '../sidebars';
 import type {Sidebars} from '../sidebars/types';
@@ -60,57 +61,58 @@ ${markdown}
   };
 };
 
+type TestUtilsArg = {
+  siteDir: string;
+  context: LoadContext;
+  versionMetadata: VersionMetadata;
+  options: MetadataOptions;
+  env?: DocEnv;
+};
+
 function createTestUtils({
   siteDir,
   context,
   versionMetadata,
   options,
-}: {
-  siteDir: string;
-  context: LoadContext;
-  versionMetadata: VersionMetadata;
-  options: MetadataOptions;
-}) {
+  env = 'production',
+}: TestUtilsArg) {
   async function readDoc(docFileSource: string) {
     return readDocFile(versionMetadata, docFileSource, options);
   }
-  function processDocFile(docFile: DocFile) {
+  async function processDocFile(docFileArg: DocFile | string) {
+    const docFile: DocFile =
+      typeof docFileArg === 'string' ? await readDoc(docFileArg) : docFileArg;
+
     return processDocMetadata({
       docFile,
       versionMetadata,
       options,
       context,
+      env,
     });
   }
+
   async function testMeta(
     docFileSource: string,
     expectedMetadata: Optional<
       DocMetadataBase,
-      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl'
-    > | null,
+      'source' | 'lastUpdatedBy' | 'lastUpdatedAt' | 'editUrl' | 'draft'
+    >,
   ) {
     const docFile = await readDoc(docFileSource);
-    const metadata = await processDocMetadata({
-      docFile,
-      versionMetadata,
-      context,
-      options,
+    const metadata = await processDocFile(docFile);
+    expect(metadata).toEqual({
+      lastUpdatedBy: undefined,
+      lastUpdatedAt: undefined,
+      editUrl: undefined,
+      draft: false,
+      source: path.posix.join(
+        '@site',
+        posixPath(path.relative(siteDir, versionMetadata.contentPath)),
+        posixPath(docFileSource),
+      ),
+      ...expectedMetadata,
     });
-    if (expectedMetadata === null) {
-      expect(metadata).toBeNull();
-    } else {
-      expect(metadata).toEqual({
-        lastUpdatedBy: undefined,
-        lastUpdatedAt: undefined,
-        editUrl: undefined,
-        source: path.posix.join(
-          '@site',
-          posixPath(path.relative(siteDir, versionMetadata.contentPath)),
-          posixPath(docFileSource),
-        ),
-        ...expectedMetadata,
-      });
-    }
   }
 
   async function testSlug(docFileSource: string, expectedPermalink: string) {
@@ -120,6 +122,7 @@ function createTestUtils({
       versionMetadata,
       context,
       options,
+      env,
     });
     expect(metadata.permalink).toEqual(expectedPermalink);
   }
@@ -132,16 +135,15 @@ function createTestUtils({
     }[];
     sidebars: Sidebars;
   }> {
-    const rawDocs = docFiles
-      .map((docFile) =>
-        processDocMetadata({
-          docFile,
-          versionMetadata,
-          context,
-          options,
-        }),
-      )
-      .filter(Boolean);
+    const rawDocs = docFiles.map((docFile) =>
+      processDocMetadata({
+        docFile,
+        versionMetadata,
+        context,
+        options,
+        env: 'production',
+      }),
+    );
     const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
       sidebarItemsGenerator: ({defaultSidebarItemsGenerator, ...args}) =>
         defaultSidebarItemsGenerator({...args}),
@@ -185,20 +187,27 @@ describe('simple site', () => {
       options,
     });
     expect(versionsMetadata).toHaveLength(1);
-    const [currentVersion] = versionsMetadata;
+    const currentVersion = versionsMetadata[0]!;
 
-    const defaultTestUtils = createTestUtils({
-      siteDir,
-      context,
-      options,
-      versionMetadata: currentVersion,
-    });
+    function createTestUtilsPartial(args: Partial<TestUtilsArg>) {
+      return createTestUtils({
+        siteDir,
+        context,
+        options,
+        versionMetadata: currentVersion,
+        ...args,
+      });
+    }
+
+    const defaultTestUtils = createTestUtilsPartial({});
+
     return {
       siteDir,
       context,
       options,
       versionsMetadata,
       defaultTestUtils,
+      createTestUtilsPartial,
       currentVersion,
     };
   }
@@ -278,13 +287,14 @@ describe('simple site', () => {
   });
 
   it('docs with editUrl', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
-      },
-    });
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website',
+        },
+      });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -352,13 +362,14 @@ describe('simple site', () => {
 
     const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
 
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        editUrl: editUrlFunction,
-      },
-    });
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          editUrl: editUrlFunction,
+        },
+      });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -409,14 +420,15 @@ describe('simple site', () => {
   });
 
   it('docs with last update time and author', async () => {
-    const {siteDir, context, options, currentVersion} = await loadSite({
-      options: {
-        showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-    });
+    const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
+      await loadSite({
+        options: {
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+      });
 
-    const testUtilsLocal = createTestUtils({
+    const testUtilsLocal = createTestUtilsPartial({
       siteDir,
       context,
       options,
@@ -445,11 +457,25 @@ describe('simple site', () => {
   });
 
   it('docs with draft frontmatter', async () => {
-    process.env.NODE_ENV = 'production';
+    const {createTestUtilsPartial} = await loadSite();
 
-    const {defaultTestUtils} = await loadSite();
+    const testUtilsProd = createTestUtilsPartial({
+      env: 'production',
+    });
+    await expect(
+      testUtilsProd.processDocFile('doc-draft.md'),
+    ).resolves.toMatchObject({
+      draft: true,
+    });
 
-    await defaultTestUtils.testMeta('doc-draft.md', null);
+    const testUtilsDev = createTestUtilsPartial({
+      env: 'development',
+    });
+    await expect(
+      testUtilsDev.processDocFile('doc-draft.md'),
+    ).resolves.toMatchObject({
+      draft: false,
+    });
   });
 
   it('docs with slugs', async () => {
@@ -508,7 +534,7 @@ describe('simple site', () => {
 
   it('custom pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
-    const docs = await readVersionDocs(versionsMetadata[0], options);
+    const docs = await readVersionDocs(versionsMetadata[0]!, options);
     await expect(
       defaultTestUtils.generateNavigation(docs),
     ).resolves.toMatchSnapshot();
@@ -516,7 +542,7 @@ describe('simple site', () => {
 
   it('bad pagination', async () => {
     const {defaultTestUtils, options, versionsMetadata} = await loadSite();
-    const docs = await readVersionDocs(versionsMetadata[0], options);
+    const docs = await readVersionDocs(versionsMetadata[0]!, options);
     docs.push(
       createFakeDocFile({
         source: 'bad',
@@ -552,8 +578,11 @@ describe('versioned site', () => {
       options,
     });
     expect(versionsMetadata).toHaveLength(4);
-    const [currentVersion, version101, version100, versionWithSlugs] =
-      versionsMetadata;
+
+    const currentVersion = versionsMetadata[0]!;
+    const version101 = versionsMetadata[1]!;
+    const version100 = versionsMetadata[2]!;
+    const versionWithSlugs = versionsMetadata[3]!;
 
     const currentVersionTestUtils = createTestUtils({
       siteDir,

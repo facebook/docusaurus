@@ -22,11 +22,13 @@ import {
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import {loadSidebars} from './sidebars';
 import {CategoryMetadataFilenamePattern} from './sidebars/generator';
+import type {
+  DocEnv} from './docs';
 import {
   readVersionDocs,
   processDocMetadata,
   addDocNavigation,
-  getMainDocId,
+  getMainDocId
 } from './docs';
 import {readVersionsMetadata} from './versions';
 import type {
@@ -127,7 +129,7 @@ export default async function pluginContentDocs(
     async loadContent() {
       async function loadVersionDocsBase(
         versionMetadata: VersionMetadata,
-      ): Promise<(DocMetadataBase | null)[]> {
+      ): Promise<DocMetadataBase[]> {
         const docFiles = await readVersionDocs(versionMetadata, options);
         if (docFiles.length === 0) {
           throw new Error(
@@ -145,6 +147,7 @@ export default async function pluginContentDocs(
             versionMetadata,
             context,
             options,
+            env: process.env.NODE_ENV as DocEnv,
           });
         }
         return Promise.all(docFiles.map(processVersionDoc));
@@ -153,9 +156,9 @@ export default async function pluginContentDocs(
       async function doLoadVersion(
         versionMetadata: VersionMetadata,
       ): Promise<LoadedVersion> {
-        const docs = (await loadVersionDocsBase(versionMetadata)).filter(
-          Boolean,
-        ) as DocMetadataBase[];
+        const docs: DocMetadataBase[] = await loadVersionDocsBase(
+          versionMetadata,
+        );
 
         const sidebars = await loadSidebars(versionMetadata.sidebarFilePath, {
           sidebarItemsGenerator: options.sidebarItemsGenerator,
