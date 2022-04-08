@@ -10,7 +10,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import PaginatorNavLink from '@theme/PaginatorNavLink';
 import type {Props} from '@theme/BlogPostPaginator';
 
-function BlogPostPaginator(props: Props): JSX.Element {
+export default function BlogPostPaginator(props: Props): JSX.Element {
   const {nextItem, prevItem} = props;
 
   return (
@@ -52,5 +52,3 @@ function BlogPostPaginator(props: Props): JSX.Element {
     </nav>
   );
 }
-
-export default BlogPostPaginator;

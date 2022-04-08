@@ -14,8 +14,8 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,7 +33,7 @@ import type {Compiler, Stats} from 'webpack';
 import path from 'path';
 import {sync as delSync} from 'del';
 
-export interface Options {
+export type Options = {
   /**
    * Write Logs to Console
    * (Always enabled when dry is true)
@@ -65,9 +65,9 @@ export interface Options {
    * default: ['**\/*']
    */
   cleanOnceBeforeBuildPatterns?: string[];
-}
+};
 
-class CleanWebpackPlugin {
+export default class CleanWebpackPlugin {
   private readonly verbose: boolean;
   private readonly cleanStaleWebpackAssets: boolean;
   private readonly protectWebpackAssets: boolean;
@@ -144,7 +144,8 @@ class CleanWebpackPlugin {
    *
    * Only happens once.
    *
-   * Warning: It is recommended to initially clean your build directory outside of webpack to minimize unexpected behavior.
+   * Warning: It is recommended to initially clean your build directory outside
+   * of webpack to minimize unexpected behavior.
    */
   handleInitial(): void {
     if (this.initialClean) {
@@ -175,7 +176,7 @@ class CleanWebpackPlugin {
       stats.toJson({
         all: false,
         assets: true,
-      }).assets || [];
+      }).assets ?? [];
     const assets = statsAssets.map((asset: {name: string}) => asset.name);
 
     /**
@@ -232,10 +233,10 @@ class CleanWebpackPlugin {
           console.warn(`clean-webpack-plugin: removed ${filename}`);
         });
       }
-    } catch (error) {
+    } catch (err) {
       const needsForce =
         /Cannot delete files\/folders outside the current working directory\./.test(
-          (error as Error).message,
+          (err as Error).message,
         );
 
       if (needsForce) {
@@ -245,9 +246,7 @@ class CleanWebpackPlugin {
         throw new Error(message);
       }
 
-      throw error;
+      throw err;
     }
   }
 }
-
-export default CleanWebpackPlugin;

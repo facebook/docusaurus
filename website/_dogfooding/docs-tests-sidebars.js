@@ -42,6 +42,15 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Another category with index',
+      collapsible: false,
+      link: {
+        type: 'generated-index',
+      },
+      items: ['more-test'],
+    },
+    {
+      type: 'category',
       label: 'Huge sidebar category',
       items: [
         ...[
@@ -71,6 +80,35 @@ const sidebars = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'HTML items tests',
+      collapsed: false,
+      collapsible: false,
+      items: [
+        //  title
+        {
+          type: 'html',
+          value: 'Some Text',
+          defaultStyle: true,
+        },
+        // Divider
+        {
+          type: 'html',
+          value:
+            '<span style="border-top: 1px solid var(--ifm-color-gray-500); display: block;margin: 0.5rem 0 0.25rem 1rem;" />',
+        },
+        // Image
+        {
+          type: 'html',
+          defaultStyle: true,
+          value: `
+    <span style="font-size: 0.5rem; color: lightgrey;">Powered by</span>
+    <img style="width: 100px; height: 100px; display: block;" src="/img/docusaurus.png" alt="Docusaurus Logo" />
+  `,
+        },
+      ],
+    },
   ],
   anotherSidebar: ['dummy'],
 };
@@ -82,7 +120,13 @@ function generateHugeSidebarItems() {
 
   function generateRecursive(maxLevel, currentLevel = 0) {
     if (currentLevel === maxLevel) {
-      return [];
+      return [
+        {
+          type: 'link',
+          href: '/',
+          label: `Link (level ${currentLevel + 1})`,
+        },
+      ];
     }
 
     const linkItems = [...Array(linksCount).keys()].map((index) => ({

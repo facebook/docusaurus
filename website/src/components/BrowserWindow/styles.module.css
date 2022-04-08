@@ -7,8 +7,7 @@
 
 .browserWindow {
   border: 3px solid var(--ifm-color-emphasis-200);
-  border-top-left-radius: var(--ifm-global-radius);
-  border-top-right-radius: var(--ifm-global-radius);
+  border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
   margin-bottom: var(--ifm-leading);
 }
@@ -35,7 +34,7 @@
   width: 10%;
 }
 
-html[data-theme='light'] {
+[data-theme='light'] {
   --ifm-background-color: #fff;
 }
 
@@ -50,7 +49,7 @@ html[data-theme='light'] {
   user-select: none;
 }
 
-html[data-theme='dark'] .browserWindowAddressBar {
+[data-theme='dark'] .browserWindowAddressBar {
   color: var(--ifm-color-gray-300);
 }
 
@@ -77,5 +76,12 @@ html[data-theme='dark'] .browserWindowAddressBar {
 }
 
 .browserWindowBody {
+  background-color: var(--ifm-background-color);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   padding: 1rem;
+}
+
+.browserWindowBody *:last-child {
+  margin-bottom: 0;
 }

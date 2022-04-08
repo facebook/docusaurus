@@ -12,20 +12,16 @@ import type {Props} from '@theme/Tag';
 
 import styles from './styles.module.css';
 
-function Tag(props: Props): JSX.Element {
-  const {permalink, name, count} = props;
-
+export default function Tag({permalink, label, count}: Props): JSX.Element {
   return (
     <Link
       href={permalink}
-      className={clsx(styles.tag, {
-        [styles.tagRegular]: !count,
-        [styles.tagWithCount]: count,
-      })}>
-      {name}
+      className={clsx(
+        styles.tag,
+        count ? styles.tagWithCount : styles.tagRegular,
+      )}>
+      {label}
       {count && <span>{count}</span>}
     </Link>
   );
 }
-
-export default Tag;

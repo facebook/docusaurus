@@ -8,7 +8,8 @@
 import visit from 'unist-util-visit';
 
 /**
- * Turns a "```js config-tabs" code block into a "plugin options" and a "preset options" tab
+ * Turns a "```js config-tabs" code block into a "plugin options" and a "preset
+ * options" tab
  */
 export default function plugin() {
   const transformer = (root) => {
@@ -29,7 +30,7 @@ export default function plugin() {
         const {
           groups: {presetOptionName, presetOptionText},
         } = presetMeta.match(
-          /\/\/(?<presetOptionText>.*?): (?<presetOptionName>[A-Za-z]+)/i,
+          /\/\/(?<presetOptionText>.*?): (?<presetOptionName>[A-Z]+)/i,
         ) ?? {
           groups: {
             presetOptionName: '[translation failure]',
@@ -39,7 +40,7 @@ export default function plugin() {
         const {
           groups: {pluginName, pluginText},
         } = pluginMeta.match(
-          /\/\/(?<pluginText>.*?): (?<pluginName>[A-Za-z@/-]+)/i,
+          /\/\/(?<pluginText>.*?): (?<pluginName>[A-Z@/-]+)/i,
         ) ?? {
           groups: {
             pluginName: '[translation failure]',
@@ -71,7 +72,8 @@ export default function plugin() {
               {
                 type: 'link',
                 title: null,
-                // TODO make this version-aware; maybe we need a useVersionedLink() hook
+                // TODO make this version-aware; maybe we need a
+                // useVersionedLink() hook
                 url: '/docs/using-plugins#docusauruspreset-classic',
                 children: [
                   {

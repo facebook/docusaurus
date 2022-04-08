@@ -70,10 +70,9 @@ function UnmaintainedVersionLabel({
   );
 }
 
-const BannerLabelComponents: Record<
-  VersionBanner,
-  ComponentType<BannerLabelComponentProps>
-> = {
+const BannerLabelComponents: {
+  [banner in VersionBanner]: ComponentType<BannerLabelComponentProps>;
+} = {
   unreleased: UnreleasedVersionLabel,
   unmaintained: UnmaintainedVersionLabel,
 };

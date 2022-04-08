@@ -6,7 +6,6 @@
  */
 
 /* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import React, {useEffect, useState, useReducer, useRef} from 'react';
 
@@ -18,6 +17,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import {
+  HtmlClassNameProvider,
   useTitleFormatter,
   usePluralForm,
   isRegexpStringMatch,
@@ -29,6 +29,7 @@ import {useAllDocsData} from '@docusaurus/plugin-content-docs/client';
 import Layout from '@theme/Layout';
 import Translate, {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
+import type {ThemeConfig} from '@docusaurus/theme-search-algolia';
 
 // Very simple pluralization: probably good enough for now
 function useDocumentsFoundPlural() {
@@ -53,15 +54,16 @@ function useDocsSearchVersionsHelpers() {
 
   // State of the version select menus / algolia facet filters
   // docsPluginId -> versionName map
-  const [searchVersions, setSearchVersions] = useState<Record<string, string>>(
-    () =>
-      Object.entries(allDocsData).reduce(
-        (acc, [pluginId, pluginData]) => ({
-          ...acc,
-          [pluginId]: pluginData.versions[0].name,
-        }),
-        {},
-      ),
+  const [searchVersions, setSearchVersions] = useState<{
+    [pluginId: string]: string;
+  }>(() =>
+    Object.entries(allDocsData).reduce(
+      (acc, [pluginId, pluginData]) => ({
+        ...acc,
+        [pluginId]: pluginData.versions[0]!.name,
+      }),
+      {},
+    ),
   );
 
   // Set the value of a single select menu
@@ -149,16 +151,14 @@ type ResultDispatcher =
   | {type: 'update'; value: ResultDispatcherState}
   | {type: 'advance'; value?: undefined};
 
-function SearchPage(): JSX.Element {
+function SearchPageContent(): JSX.Element {
   const {
-    siteConfig: {
-      themeConfig: {
-        // @ts-ignore
-        algolia: {appId, apiKey, indexName, externalUrlRegex},
-      },
-    },
+    siteConfig: {themeConfig},
     i18n: {currentLocale},
   } = useDocusaurusContext();
+  const {
+    algolia: {appId, apiKey, indexName, externalUrlRegex},
+  } = themeConfig as ThemeConfig;
   const documentsFoundPlural = useDocumentsFoundPlural();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
@@ -220,7 +220,7 @@ function SearchPage(): JSX.Element {
   algoliaHelper.on(
     'result',
     ({results: {query, hits, page, nbHits, nbPages}}) => {
-      if (query === '' || !(hits instanceof Array)) {
+      if (query === '' || !Array.isArray(hits)) {
         searchResultStateDispatcher({type: 'reset'});
         return;
       }
@@ -279,7 +279,7 @@ function SearchPage(): JSX.Element {
           const {
             isIntersecting,
             boundingClientRect: {y: currentY},
-          } = entries[0];
+          } = entries[0]!;
 
           if (isIntersecting && prevY.current > currentY) {
             searchResultStateDispatcher({type: 'advance'});
@@ -358,7 +358,7 @@ function SearchPage(): JSX.Element {
   }, [makeSearch, searchResultState.lastPage]);
 
   return (
-    <Layout wrapperClassName="search-page-wrapper">
+    <Layout>
       <Head>
         <title>{useTitleFormatter(getTitle())}</title>
         {/*
@@ -519,4 +519,10 @@ function SearchPage(): JSX.Element {
   );
 }
 
-export default SearchPage;
+export default function SearchPage(): JSX.Element {
+  return (
+    <HtmlClassNameProvider className="search-page-wrapper">
+      <SearchPageContent />
+    </HtmlClassNameProvider>
+  );
+}

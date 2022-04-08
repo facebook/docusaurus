@@ -6,6 +6,7 @@
  */
 
 import React, {type ReactNode} from 'react';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -15,7 +16,7 @@ interface Props {
   url: string;
 }
 
-function BrowserWindow({
+export default function BrowserWindow({
   children,
   minHeight,
   url = 'http://localhost:3000',
@@ -28,7 +29,9 @@ function BrowserWindow({
           <span className={styles.dot} style={{background: '#fbbe3c'}} />
           <span className={styles.dot} style={{background: '#58cb42'}} />
         </div>
-        <div className={styles.browserWindowAddressBar}>{url}</div>
+        <div className={clsx(styles.browserWindowAddressBar, 'text--truncate')}>
+          {url}
+        </div>
         <div className={styles.browserWindowMenuIcon}>
           <div>
             <span className={styles.bar} />
@@ -42,5 +45,3 @@ function BrowserWindow({
     </div>
   );
 }
-
-export default BrowserWindow;

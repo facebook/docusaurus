@@ -8,8 +8,9 @@
 import fs from 'fs-extra';
 import shell from 'shelljs';
 import logger from '@docusaurus/logger';
+import {hasSSHProtocol, buildSshUrl, buildHttpsUrl} from '@docusaurus/utils';
 import {loadContext} from '../server';
-import build from './build';
+import {build} from './build';
 import type {BuildCLIOptions} from '@docusaurus/types';
 import path from 'path';
 import os from 'os';
@@ -27,54 +28,18 @@ function shellExecLog(cmd: string) {
     const result = shell.exec(cmd);
     logger.info`code=${obfuscateGitPass(cmd)} subdue=${`code: ${result.code}`}`;
     return result;
-  } catch (e) {
+  } catch (err) {
     logger.error`code=${obfuscateGitPass(cmd)}`;
-    throw e;
+    throw err;
   }
 }
 
-export function buildSshUrl(
-  githubHost: string,
-  organizationName: string,
-  projectName: string,
-  githubPort?: string,
-): string {
-  if (githubPort) {
-    return `ssh://git@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
-  }
-  return `git@${githubHost}:${organizationName}/${projectName}.git`;
-}
-
-export function buildHttpsUrl(
-  gitCredentials: string,
-  githubHost: string,
-  organizationName: string,
-  projectName: string,
-  githubPort?: string,
-): string {
-  if (githubPort) {
-    return `https://${gitCredentials}@${githubHost}:${githubPort}/${organizationName}/${projectName}.git`;
-  }
-  return `https://${gitCredentials}@${githubHost}/${organizationName}/${projectName}.git`;
-}
-
-export function hasSSHProtocol(sourceRepoUrl: string): boolean {
-  try {
-    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
-      return true;
-    }
-    return false;
-  } catch {
-    // Fails when there isn't a protocol
-    return /^([\w-]+@)?[\w.-]+:[\w./_-]+(\.git)?/.test(sourceRepoUrl); // git@github.com:facebook/docusaurus.git
-  }
-}
-
-export default async function deploy(
+export async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
-  const {outDir, siteConfig, siteConfigPath} = await loadContext(siteDir, {
+  const {outDir, siteConfig, siteConfigPath} = await loadContext({
+    siteDir,
     customConfigFilePath: cliOptions.config,
     customOutDir: cliOptions.outDir,
   });
@@ -148,8 +113,8 @@ This behavior can have SEO impacts and create relative link issues.
     shell.exit(0);
   }
 
-  // github.io indicates organization repos that deploy via default branch. All others use gh-pages.
-  // Organization deploys looks like:
+  // github.io indicates organization repos that deploy via default branch.
+  // All others use gh-pages. Organization deploys looks like:
   // - Git repo: https://github.com/<organization>/<organization>.github.io
   // - Site url: https://<organization>.github.io
   const isGitHubPagesOrganizationDeploy = projectName.includes('.github.io');
@@ -235,10 +200,9 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
 
     try {
       await fs.copy(fromPath, toPath);
-    } catch (error) {
-      throw new Error(
-        `Copying build assets from "${fromPath}" to "${toPath}" failed with error "${error}".`,
-      );
+    } catch (err) {
+      logger.error`Copying build assets from path=${fromPath} to path=${toPath} failed.`;
+      throw err;
     }
     shellExecLog('git add --all');
 
@@ -269,12 +233,12 @@ You can also set the deploymentBranch property in docusaurus.config.js .`);
   };
 
   if (!cliOptions.skipBuild) {
-    // Build static html files, then push to deploymentBranch branch of specified repo.
+    // Build site, then push to deploymentBranch branch of specified repo.
     try {
       await runDeploy(await build(siteDir, cliOptions, false));
-    } catch (buildError) {
-      logger.error((buildError as Error).message);
-      process.exit(1);
+    } catch (err) {
+      logger.error('Deployment of the build output failed.');
+      throw err;
     }
   } else {
     // Push current build to deploymentBranch branch of specified repo.

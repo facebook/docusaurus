@@ -5,102 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {Tag} from '@docusaurus/utils';
-import type {
-  BrokenMarkdownLink,
-  ContentPaths,
-} from '@docusaurus/utils/lib/markdownLinks';
-import type {
-  BlogPostFrontMatter,
-  Author,
-} from '@docusaurus/plugin-content-blog';
+import type {BrokenMarkdownLink, ContentPaths} from '@docusaurus/utils';
+import type {Tag} from '@docusaurus/types';
+import type {BlogPostMetadata} from '@docusaurus/plugin-content-blog';
+import type {Metadata as BlogPaginatedMetadata} from '@theme/BlogListPage';
 
 export type BlogContentPaths = ContentPaths;
 
-export interface BlogContent {
+export type BlogContent = {
   blogSidebarTitle: string;
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
-  blogTagsListPath: string | null;
-}
+  blogTagsListPath: string;
+};
 
-export interface BlogTags {
-  [key: string]: BlogTag;
-}
+export type BlogTags = {
+  [permalink: string]: BlogTag;
+};
 
-export interface BlogTag {
-  name: string;
+export type BlogTag = Tag & {
+  /** Blog post permalinks. */
   items: string[];
-  permalink: string;
-}
+  pages: BlogPaginated[];
+};
 
-export interface BlogPost {
+export type BlogPost = {
   id: string;
-  metadata: MetaData;
+  metadata: BlogPostMetadata;
   content: string;
-}
+};
 
-export interface BlogPaginatedMetadata {
-  permalink: string;
-  page: number;
-  postsPerPage: number;
-  totalPages: number;
-  totalCount: number;
-  previousPage: string | null;
-  nextPage: string | null;
-  blogTitle: string;
-  blogDescription: string;
-}
-
-export interface BlogPaginated {
+export type BlogPaginated = {
   metadata: BlogPaginatedMetadata;
+  /** Blog post permalinks. */
   items: string[];
-}
-
-export interface MetaData {
-  permalink: string;
-  source: string;
-  description: string;
-  date: Date;
-  formattedDate: string;
-  tags: Tag[];
-  title: string;
-  readingTime?: number;
-  prevItem?: Paginator;
-  nextItem?: Paginator;
-  truncated: boolean;
-  editUrl?: string;
-  authors: Author[];
-  frontMatter: BlogPostFrontMatter & Record<string, unknown>;
-}
-
-export interface Paginator {
-  title: string;
-  permalink: string;
-}
-
-export interface BlogItemsToMetadata {
-  [key: string]: MetaData;
-}
-
-export interface TagsModule {
-  [key: string]: TagModule;
-}
-
-export interface TagModule {
-  allTagsPath: string;
-  slug: string;
-  name: string;
-  count: number;
-  permalink: string;
-}
+};
 
 export type BlogBrokenMarkdownLink = BrokenMarkdownLink<BlogContentPaths>;
 export type BlogMarkdownLoaderOptions = {
   siteDir: string;
   contentPaths: BlogContentPaths;
   truncateMarker: RegExp;
-  sourceToPermalink: Record<string, string>;
+  sourceToPermalink: {[aliasedPath: string]: string};
   onBrokenMarkdownLink: (brokenMarkdownLink: BlogBrokenMarkdownLink) => void;
 };

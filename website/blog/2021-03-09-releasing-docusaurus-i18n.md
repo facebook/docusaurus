@@ -87,7 +87,7 @@ This feature has not been an easy one, and we would like to thank everyone that 
 - [Claire](https://github.com/clairefro) for adopting Docusaurus 2 on the new Redwood platform and providing many feedbacks
 - [Massoud](https://github.com/massoudmaboudi) for reviewing my work on LTR and adopting it on Datagit
 - [Crowdin](https://crowdin.com/) for their support and willingness to improve their translation SaaS
-- The Docusaurus community for their patience, and providing many useful feedbacks on Github
+- The Docusaurus community for their patience, and providing many useful feedbacks on GitHub
 
 Thanks for reading.
 

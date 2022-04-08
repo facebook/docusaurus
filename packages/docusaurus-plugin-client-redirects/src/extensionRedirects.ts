@@ -81,19 +81,12 @@ export function createFromExtensionsRedirects(
     if (path === '' || path === '/' || alreadyEndsWithAnExtension(path)) {
       return [];
     }
-
-    // /path => /path.html
-    // /path/ => /path.html/
-    function getFrom(ext: string) {
-      if (path.endsWith('/')) {
-        return addTrailingSlash(`${removeTrailingSlash(path)}.${ext}`);
-      } else {
-        return `${path}.${ext}`;
-      }
-    }
-
     return extensions.map((ext) => ({
-      from: getFrom(ext),
+      // /path => /path.html
+      // /path/ => /path.html/
+      from: path.endsWith('/')
+        ? addTrailingSlash(`${removeTrailingSlash(path)}.${ext}`)
+        : `${path}.${ext}`,
       to: path,
     }));
   };

@@ -9,10 +9,10 @@
   display: none;
 }
 
-html[data-theme='light'] .themedImage--light {
+[data-theme='light'] .themedImage--light {
   display: initial;
 }
 
-html[data-theme='dark'] .themedImage--dark {
+[data-theme='dark'] .themedImage--dark {
   display: initial;
 }

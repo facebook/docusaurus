@@ -13,7 +13,7 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 
 Docusaurus' routing system follows single-page application conventions: one route, one component. In this section, we will begin by talking about routing within the three content plugins (docs, blog, and pages), and then go beyond to talk about the underlying routing system.
 
-## Routing in content plugins
+## Routing in content plugins {#routing-in-content-plugins}
 
 Every content plugin provides a `routeBasePath` option. It defines where the plugins append their routes to. By default, the docs plugin puts its routes under `/docs`; the blog plugin, `/blog`; and the pages plugin, `/`. You can think about the route structure like this:
 
@@ -25,13 +25,13 @@ Changing `routeBasePath` can effectively alter your site's route structure. For 
 
 Next, let's look at how the three plugins structure their own "boxes of subroutes".
 
-### Pages routing
+### Pages routing {#pages-routing}
 
 Pages routing are straightforward: the file paths directly map to URLs, without any other way to customize. See the [pages docs](../guides/creating-pages.md#routing) for more information.
 
 The component used for Markdown pages is `@theme/MDXPage`. React pages are directly used as the route's component.
 
-### Blog routing
+### Blog routing {#blog-routing}
 
 The blog creates the following routes:
 
@@ -52,7 +52,7 @@ The blog creates the following routes:
   - The route is customizable through the `archiveBasePath` option.
   - The component is `@theme/BlogArchivePage`.
 
-### Docs routing
+### Docs routing {#docs-routing}
 
 The docs is the only plugin that creates **nested routes**. At the top, it registers [**version paths**](../guides/docs/versioning.md): `/`, `/next`, `/2.0.0-beta.13`... which provide the version context, including the layout and sidebar. This ensures that when switching between individual docs, the sidebar's state is preserved, and that you can switch between versions through the navbar dropdown while staying on the same doc. The component used is `@theme/DocPage`.
 
@@ -69,12 +69,14 @@ The individual docs are rendered in the remaining space after the navbar, footer
 
 The doc's `slug` front matter customizes the last part of the route, but the base route is always defined by the plugin's `routeBasePath` and the version's `path`.
 
-### File paths and URL paths
+### File paths and URL paths {#file-paths-and-url-paths}
 
 Throughout the documentation, we always try to be unambiguous about whether we are talking about file paths or URL paths. Content plugins usually map file paths directly to URL paths, for example, `./docs/advanced/routing.md` will become `/docs/advanced/routing`. However, with `slug`, you can make URLs totally decoupled from the file structure.
 
 When writing links in Markdown, you could either mean a _file path_, or a _URL path_, which Docusaurus would use several heuristics to determine.
 
+- If the path has a `@site` prefix, it is _always_ an asset file path.
+- If the path has an `http(s)://` prefix, it is _always_ a URL path.
 - If the path doesn't have an extension, it is a URL path. For example, a link `[page](../plugins)` on a page with URL `/docs/advanced/routing` will link to `/docs/plugins`. Docusaurus will only detect broken links when building your site (when it knows the full route structure), but will make no assumptions about the existence of a file. It is exactly equivalent to writing `<a href="../plugins">page</a>` in a JSX file.
 - If the path has an `.md(x)` extension, Docusaurus would try to resolve that Markdown file to a URL, and replace the file path with a URL path.
 - If the path has any other extension, Docusaurus would treat it as [an asset](../guides/markdown-features/markdown-features-assets.mdx) and bundle it.
@@ -126,7 +128,7 @@ The following directory structure may help you visualize this file -> URL mappin
 
 So much about content plugins. Let's take one step back and talk about how routing works in a Docusaurus app in general.
 
-## Routes become HTML files
+## Routes become HTML files {#routes-become-html-files}
 
 Because Docusaurus is a server-side rendering framework, all routes generated will be server-side rendered into static HTML files. If you are familiar with the behavior of HTTP servers like [Apache2](https://httpd.apache.org/docs/trunk/getting-started.html), you will understand how this is done: when the browser sends a request to the route `/docs/advanced/routing`, the server interprets that as request for the HTML file `/docs/advanced/routing/index.html`, and returns that.
 
@@ -200,7 +202,7 @@ For example, the emitted HTML would contain links like `<link rel="preload" href
 
 Localized sites have the locale as part of the base URL as well. For example, `https://docusaurus.io/zh-CN/docs/advanced/routing/` has base URL `/zh-CN/`.
 
-## Generating and accessing routes
+## Generating and accessing routes {#generating-and-accessing-routes}
 
 The `addRoute` lifecycle action is used to generate routes. It registers a piece of route config to the route tree, giving a route, a component, and props that the component needs. The props and the component are both provided as paths for the bundler to `require`, because as explained in the [architecture overview](architecture.md), server and client only communicate through temp files.
 
@@ -242,7 +244,7 @@ export function PageRoute() {
 </BrowserWindow>
 ```
 
-## Escaping from SPA redirects
+## Escaping from SPA redirects {#escaping-from-spa-redirects}
 
 Docusaurus builds a [single-page application](https://developer.mozilla.org/en-US/docs/Glossary/SPA), where route transitions are done through the `history.push()` method of React router. This operation is done on the client side. However, the prerequisite for a route transition to happen this way is that the target URL is known to our router. Otherwise, the router catches this path and displays a 404 page instead.
 
@@ -255,14 +257,14 @@ If you put some HTML pages under the `static` folder, they will be copied to the
 
 <BrowserWindow>
 
-- <Link data-noBrokenLinkCheck="true" to="/pure-html">/pure-html</Link>
+- [/pure-html](/pure-html)
 - [pathname:///pure-html](pathname:///pure-html)
 
 </BrowserWindow>
 
 :::tip
 
-The first link will trigger a "broken links detected" check during the production build.
+The first link will **not** trigger a "broken links detected" check during the production build, because the respective file actually exists. Nevertheless, when you click on the link, a "page not found" will be displayed until you refresh.
 
 :::
 

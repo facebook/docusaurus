@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type {PluginOptions} from '@docusaurus/plugin-content-docs';
+import type {PluginOptions, Options} from '@docusaurus/plugin-content-docs';
 import {
   Joi,
   RemarkPluginsSchema,
@@ -15,10 +15,7 @@ import {
 } from '@docusaurus/utils-validation';
 import {GlobExcludeDefault} from '@docusaurus/utils';
 
-import type {
-  OptionValidationContext,
-  ValidationResult,
-} from '@docusaurus/types';
+import type {OptionValidationContext} from '@docusaurus/types';
 import logger from '@docusaurus/logger';
 import admonitions from 'remark-admonitions';
 import {DefaultSidebarItemsGenerator} from './sidebars/generator';
@@ -55,6 +52,7 @@ export const DEFAULT_OPTIONS: Omit<PluginOptions, 'id' | 'sidebarPath'> = {
   editLocalizedFiles: false,
   sidebarCollapsible: true,
   sidebarCollapsed: true,
+  breadcrumbs: true,
 };
 
 const VersionOptionsSchema = Joi.object({
@@ -69,7 +67,7 @@ const VersionsOptionsSchema = Joi.object()
   .pattern(Joi.string().required(), VersionOptionsSchema)
   .default(DEFAULT_OPTIONS.versions);
 
-export const OptionsSchema = Joi.object({
+const OptionsSchema = Joi.object<PluginOptions>({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.alternatives().try(URISchema, Joi.function()),
   editCurrentVersion: Joi.boolean().default(DEFAULT_OPTIONS.editCurrentVersion),
@@ -79,6 +77,7 @@ export const OptionsSchema = Joi.object({
     // .allow('') ""
     .default(DEFAULT_OPTIONS.routeBasePath),
   tagsBasePath: Joi.string().default(DEFAULT_OPTIONS.tagsBasePath),
+  // @ts-expect-error: deprecated
   homePageId: Joi.any().forbidden().messages({
     'any.unknown':
       'The docs plugin option homePageId is not supported anymore. To make a doc the "home", please add "slug: /" in its front matter. See: https://docusaurus.io/docs/next/docs-introduction#home-page-docs',
@@ -139,17 +138,19 @@ export const OptionsSchema = Joi.object({
   disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
   lastVersion: Joi.string().optional(),
   versions: VersionsOptionsSchema,
+  breadcrumbs: Joi.bool().default(DEFAULT_OPTIONS.breadcrumbs),
 });
 
 export function validateOptions({
   validate,
   options: userOptions,
-}: OptionValidationContext<PluginOptions>): ValidationResult<PluginOptions> {
+}: OptionValidationContext<Options, PluginOptions>): PluginOptions {
   let options = userOptions;
 
   if (options.sidebarCollapsible === false) {
-    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't want to have the inconsistency warning
-    // We let options.sidebarCollapsible become the default value for options.sidebarCollapsed
+    // When sidebarCollapsible=false and sidebarCollapsed=undefined, we don't
+    // want to have the inconsistency warning. We let options.sidebarCollapsible
+    // become the default value for options.sidebarCollapsed
     if (typeof options.sidebarCollapsed === 'undefined') {
       options = {
         ...options,
@@ -165,7 +166,7 @@ export function validateOptions({
     }
   }
 
-  const normalizedOptions = validate(OptionsSchema, options);
+  const normalizedOptions = validate(OptionsSchema, options) as PluginOptions;
 
   if (normalizedOptions.admonitions) {
     normalizedOptions.remarkPlugins = normalizedOptions.remarkPlugins.concat([

@@ -16,25 +16,21 @@ import {findFirstCategoryLink, useDocById} from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import {translate} from '@docusaurus/Translate';
 
 function CardContainer({
   href,
   children,
 }: {
-  href?: string;
+  href: string;
   children: ReactNode;
 }): JSX.Element {
-  const className = clsx(
-    'card margin-bottom--lg padding--lg',
-    styles.cardContainer,
-    href && styles.cardContainerLink,
-  );
-  return href ? (
-    <Link href={href} className={className}>
+  return (
+    <Link
+      href={href}
+      className={clsx('card padding--lg', styles.cardContainer)}>
       {children}
     </Link>
-  ) : (
-    <div className={className}>{children}</div>
   );
 }
 
@@ -44,7 +40,7 @@ function CardLayout({
   title,
   description,
 }: {
-  href?: string;
+  href: string;
   icon: ReactNode;
   title: string;
   description?: string;
@@ -54,23 +50,43 @@ function CardLayout({
       <h2 className={clsx('text--truncate', styles.cardTitle)} title={title}>
         {icon} {title}
       </h2>
-      <div
-        className={clsx('text--truncate', styles.cardDescription)}
-        title={description}>
-        {description}
-      </div>
+      {description && (
+        <p
+          className={clsx('text--truncate', styles.cardDescription)}
+          title={description}>
+          {description}
+        </p>
+      )}
     </CardContainer>
   );
 }
 
-function CardCategory({item}: {item: PropSidebarItemCategory}): JSX.Element {
+function CardCategory({
+  item,
+}: {
+  item: PropSidebarItemCategory;
+}): JSX.Element | null {
   const href = findFirstCategoryLink(item);
+
+  // Unexpected: categories that don't have a link have been filtered upfront
+  if (!href) {
+    return null;
+  }
+
   return (
     <CardLayout
       href={href}
       icon="🗃️"
       title={item.label}
-      description={`${item.items.length} items`}
+      description={translate(
+        {
+          message: '{count} items',
+          id: 'theme.docs.DocCard.categoryDescription',
+          description:
+            'The default description for a category card in the generated index about how many items this category includes',
+        },
+        {count: item.items.length},
+      )}
     />
   );
 }

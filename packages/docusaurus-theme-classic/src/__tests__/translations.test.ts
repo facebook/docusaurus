@@ -79,7 +79,7 @@ function getSampleTranslationFilesTranslated(themeConfig: ThemeConfig) {
 }
 
 describe('getTranslationFiles', () => {
-  test('should return translation files matching snapshot', () => {
+  it('returns translation files matching snapshot', () => {
     expect(getSampleTranslationFiles(ThemeConfigSample)).toMatchSnapshot();
     expect(
       getSampleTranslationFiles(ThemeConfigSampleSimpleFooter),
@@ -88,7 +88,7 @@ describe('getTranslationFiles', () => {
 });
 
 describe('translateThemeConfig', () => {
-  test('should not translate anything if translation files are untranslated', () => {
+  it('does not translate anything if translation files are untranslated', () => {
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
@@ -97,7 +97,7 @@ describe('translateThemeConfig', () => {
     ).toEqual(ThemeConfigSample);
   });
 
-  test('should return translated themeConfig matching snapshot', () => {
+  it('returns translated themeConfig', () => {
     expect(
       translateThemeConfig({
         themeConfig: ThemeConfigSample,
@@ -117,17 +117,17 @@ describe('getTranslationFiles and translateThemeConfig isomorphism', () => {
     expect(translatedThemeConfig).toEqual(themeConfig);
   }
 
-  test('should be verified for sample', () => {
+  it('is verified for sample', () => {
     verifyIsomorphism(ThemeConfigSample);
   });
 
-  test('should be verified for sample with simple footer', () => {
+  it('is verified for sample with simple footer', () => {
     verifyIsomorphism(ThemeConfigSampleSimpleFooter);
   });
 
   // undefined footer should not make the translation code crash
   // See https://github.com/facebook/docusaurus/issues/3936
-  test('should be verified for sample without footer', () => {
+  it('is verified for sample without footer', () => {
     verifyIsomorphism({...ThemeConfigSample, footer: undefined});
   });
 });

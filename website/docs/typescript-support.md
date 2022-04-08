@@ -7,7 +7,7 @@ Docusaurus is written in TypeScript and provides first-class TypeScript support.
 
 ## Initialization {#initialization}
 
-Docusaurus supports writing and using TypeScript theme components. If the init template provides a Typescript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
+Docusaurus supports writing and using TypeScript theme components. If the init template provides a TypeScript variant, you can directly initialize a site with full TypeScript support by using the `--typescript` flag.
 
 ```bash
 npx create-docusaurus@latest my-website classic --typescript
@@ -104,7 +104,7 @@ module.exports = config;
 
 Type annotations are very useful and help your IDE understand the type of config objects!
 
-The best IDEs (VSCode, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
+The best IDEs (VS Code, WebStorm, IntelliJ...) will provide a nice auto-completion experience.
 
 :::
 
@@ -112,11 +112,7 @@ The best IDEs (VSCode, WebStorm, IntelliJ...) will provide a nice auto-completio
 
 By default, the Docusaurus TypeScript config does not type-check JavaScript files.
 
-The `// @ts-check` comment ensures the config file is properly type-checked when running:
-
-```bash npm2yarn
-npm run tsc
-```
+The `// @ts-check` comment ensures the config file is properly type-checked when running `npx tsc`.
 
 :::
 
@@ -128,4 +124,4 @@ For themes that support TypeScript theme components, you can add the `--typescri
 npm run swizzle @docusaurus/theme-classic Footer -- --typescript
 ```
 
-At this moment, the only official Docusaurus theme that supports TypeScript theme components is `@docusaurus/theme-classic`. If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/plugin-methods/extend-infrastructure.md#getTypeScriptThemePath).
+All official Docusaurus themes support TypeScript theme components, including [`theme-classic`](./api/themes/theme-classic.md), [`theme-live-codeblock`](./api/themes/theme-live-codeblock.md), and [`theme-search-algolia`](./api/themes/theme-search-algolia.md). If you are a Docusaurus theme package author who wants to add TypeScript support, see the [Lifecycle APIs docs](./api/plugin-methods/extend-infrastructure.md#getTypeScriptThemePath).

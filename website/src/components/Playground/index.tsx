@@ -49,7 +49,7 @@ const Playgrounds = [
 
 interface Props {
   name: string;
-  image: any;
+  image: string;
   url: string;
   description: JSX.Element;
 }
