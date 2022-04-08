@@ -84,6 +84,12 @@ describe('defaultLocaleConfig', () => {
       htmlLang: 'fa-IR',
       calendar: 'gregory',
     });
+    expect(getDefaultLocaleConfig('en-US-u-ca-buddhist')).toEqual({
+      label: 'American English',
+      direction: 'ltr',
+      htmlLang: 'en-US-u-ca-buddhist',
+      calendar: 'buddhist',
+    });
   });
 });
 
