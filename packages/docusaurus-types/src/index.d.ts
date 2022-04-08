@@ -14,6 +14,7 @@ import type {
   DeepRequired,
   Required as RequireKeys,
   DeepPartial,
+  Optional,
 } from 'utility-types';
 import type {Location} from 'history';
 
@@ -172,7 +173,10 @@ export type TranslationFile = {
   content: TranslationFileContent;
 };
 
-export type I18n = DeepRequired<I18nConfig> & {currentLocale: string};
+export type I18n = Optional<
+  DeepRequired<I18nConfig> & {currentLocale: string},
+  'queryString'
+>;
 
 export type GlobalData = {[pluginName: string]: {[pluginId: string]: unknown}};
 
