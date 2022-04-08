@@ -141,7 +141,7 @@ function TabsComponent(props: Props): JSX.Element {
   };
 
   return (
-    <div className="tabs-container margin-bottom--md">
+    <div className={clsx('tabs-container', styles.tabList)}>
       <ul
         role="tablist"
         aria-orientation="horizontal"

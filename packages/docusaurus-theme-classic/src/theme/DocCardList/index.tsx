@@ -23,18 +23,11 @@ function filterItems(items: PropSidebarItem[]): PropSidebarItem[] {
   });
 }
 
-export default function DocCardList({items, isGenerated}: Props): JSX.Element {
-  const columnSize = 6;
-  const columnCount = 12 / columnSize;
+export default function DocCardList({items, className}: Props): JSX.Element {
   return (
-    <div className="row">
+    <div className={clsx('row', className)}>
       {filterItems(items).map((item, index) => (
-        <article
-          key={index}
-          className={clsx(`col col--${columnSize}`, {
-            'margin-bottom--lg': !isGenerated,
-            'margin-top--lg': isGenerated && index + 1 > columnCount,
-          })}>
+        <article key={index} className="col col--6 margin-bottom--lg">
           <DocCard key={index} item={item} />
         </article>
       ))}
