@@ -46,6 +46,7 @@ describe('processSidebars', () => {
   const params: SidebarProcessorParams = {
     sidebarItemsGenerator: StaticSidebarItemsGenerator,
     docs: [],
+    drafts: [],
     version,
     numberPrefixParser: DefaultNumberPrefixParser,
     categoryLabelSlugger: createSlugger(),

@@ -10,6 +10,7 @@ import path from 'path';
 import {loadSidebars, DisabledSidebars} from '../index';
 import type {SidebarProcessorParams} from '../types';
 import {DefaultSidebarItemsGenerator} from '../generator';
+import type {DocMetadata} from '@docusaurus/plugin-content-docs';
 
 describe('loadSidebars', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__', 'sidebars');
@@ -24,6 +25,7 @@ describe('loadSidebars', () => {
         frontMatter: {},
       },
     ],
+    drafts: [],
     version: {
       contentPath: path.join(fixtureDir, 'docs'),
       contentPathLocalized: path.join(fixtureDir, 'docs'),
@@ -34,6 +36,16 @@ describe('loadSidebars', () => {
   it('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars.json');
     const result = await loadSidebars(sidebarPath, params);
+    expect(result).toMatchSnapshot();
+  });
+
+  it('sidebars with some draft items', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars.json');
+    const paramsWithDrafts: SidebarProcessorParams = {
+      ...params,
+      drafts: [{id: 'foo/baz'} as DocMetadata, {id: 'hello'} as DocMetadata],
+    };
+    const result = await loadSidebars(sidebarPath, paramsWithDrafts);
     expect(result).toMatchSnapshot();
   });
 

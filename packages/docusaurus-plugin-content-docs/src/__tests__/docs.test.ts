@@ -149,6 +149,7 @@ function createTestUtils({
         defaultSidebarItemsGenerator({...args}),
       numberPrefixParser: options.numberPrefixParser,
       docs: rawDocs,
+      drafts: [],
       version: versionMetadata,
       sidebarOptions: {
         sidebarCollapsed: false,
