@@ -88,7 +88,7 @@ async function processSidebar(
       return [
         {
           ...item,
-          items: (await Promise.all(item.items.map(processItem))).flat(),
+          items: await processItems(item.items),
         },
       ];
     }
